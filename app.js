@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.3.0';
+const APP_VERSION = '1.4.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -306,7 +306,7 @@ function notifyUpdateAvailable(newVersion, summary) {
     el.applyUpdateButton.textContent = `${verStr} 지금 적용`;
   }
   if (el.updateStatusText) {
-    el.updateStatusText.textContent = `✨ ${verStr} 업데이트가 준비되었습니다. 지금 적용하세요.`;
+    el.updateStatusText.textContent = `${verStr} 업데이트가 준비되었습니다. 지금 적용하세요.`;
   }
 }
 
@@ -858,10 +858,10 @@ function togglePlayPause(event) {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   if (el.videoPlayer.paused) {
     el.videoPlayer.play().catch(() => {});
-    showPlayerFeedback('▶ 재생');
+    showPlayerFeedback('PLAY');
   } else {
     el.videoPlayer.pause();
-    showPlayerFeedback('⏸ 일시정지');
+    showPlayerFeedback('PAUSE');
   }
   updatePlayPauseUI();
 }
@@ -893,7 +893,7 @@ function seekRelative(deltaSeconds) {
   const duration = el.videoPlayer.duration || Infinity;
   const target = Math.max(0, Math.min(duration, el.videoPlayer.currentTime + deltaSeconds));
   el.videoPlayer.currentTime = target;
-  showPlayerFeedback(deltaSeconds > 0 ? `⏩ +${deltaSeconds}초` : `⏪ ${deltaSeconds}초`);
+  showPlayerFeedback(deltaSeconds > 0 ? `+${deltaSeconds}S` : `${deltaSeconds}S`);
   updateVideoProgress();
   resetControlsTimer();
 }
@@ -901,7 +901,7 @@ function seekRelative(deltaSeconds) {
 function toggleMute() {
   if (!el.videoPlayer) return;
   el.videoPlayer.muted = !el.videoPlayer.muted;
-  showPlayerFeedback(el.videoPlayer.muted ? '🔇 음소거' : `🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+  showPlayerFeedback(el.videoPlayer.muted ? 'MUTE ON' : `VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
   updateVolumeUI();
 }
 
@@ -942,7 +942,7 @@ function setPlaybackSpeed(speed) {
   });
   isSpeedMenuOpen = false;
   if (el.speedDropdown) el.speedDropdown.hidden = true;
-  showPlayerFeedback(`⚡ 재생 속도 ${speed}×`);
+  showPlayerFeedback(`SPEED ${speed}X`);
   resetControlsTimer();
 }
 
@@ -1126,8 +1126,8 @@ function showPlayerFeedback(text) {
   clearTimeout(feedbackTimer);
   feedbackTimer = setTimeout(() => {
     el.playerFeedback.classList.remove('active');
-    setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 220);
-  }, 800);
+    setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 200);
+  }, 850);
 }
 
 function getPlaybackFileList() {
@@ -1135,7 +1135,43 @@ function getPlaybackFileList() {
   return list.length > 0 ? list : state.files;
 }
 
-function playNextFile() {
+function getActiveMediaElement() {
+  if (el.videoPlayer && !el.videoPlayer.hidden) return el.videoPlayer;
+  if (el.imageViewer && !el.imageViewer.hidden) return el.imageViewer;
+  return null;
+}
+
+function animateMediaTransition(direction, callback) {
+  const currentEl = getActiveMediaElement();
+  const stage = el.mediaStage;
+
+  if (!currentEl || !stage) {
+    callback();
+    return;
+  }
+
+  // Clear previous animation classes
+  currentEl.className = currentEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
+
+  const outClass = `anim-slide-out-${direction}`;
+  const inClass = `anim-slide-in-${direction}`;
+
+  currentEl.classList.add(outClass);
+
+  setTimeout(() => {
+    callback();
+    const newEl = getActiveMediaElement();
+    if (newEl) {
+      newEl.className = newEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
+      newEl.classList.add(inClass);
+      setTimeout(() => {
+        if (newEl) newEl.classList.remove(inClass);
+      }, 230);
+    }
+  }, 80);
+}
+
+function playNextFile(direction = 'left') {
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -1144,11 +1180,12 @@ function playNextFile() {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const nextIndex = (currentIndex + 1) % list.length;
-  showPlayerFeedback('다음 영상 ▶ (D)');
-  openMediaSource(list[nextIndex]);
+  showPlayerFeedback('NEXT (D)');
+  state.pendingPlay = true;
+  animateMediaTransition(direction, () => openMediaSource(list[nextIndex]));
 }
 
-function playPrevFile() {
+function playPrevFile(direction = 'right') {
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -1157,11 +1194,12 @@ function playPrevFile() {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const prevIndex = (currentIndex - 1 + list.length) % list.length;
-  showPlayerFeedback('◀ 이전 영상 (A)');
-  openMediaSource(list[prevIndex]);
+  showPlayerFeedback('PREV (A)');
+  state.pendingPlay = true;
+  animateMediaTransition(direction, () => openMediaSource(list[prevIndex]));
 }
 
-function playRandomFile() {
+function playRandomFile(direction = 'up') {
   const list = getPlaybackFileList();
   if (!list.length) return;
   let nextFile;
@@ -1171,48 +1209,95 @@ function playRandomFile() {
     const candidates = list.filter((f) => !state.selected || f.id !== state.selected.id);
     nextFile = candidates[Math.floor(Math.random() * candidates.length)];
   }
-  showPlayerFeedback('🔀 랜덤 쇼츠 (W/S)');
-  openMediaSource(nextFile);
+  showPlayerFeedback('SHORTS (W / S)');
+  state.pendingPlay = true;
+  animateMediaTransition(direction, () => openMediaSource(nextFile));
 }
 
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
-let touchMoved = false;
+let isTouchActive = false;
 
 function setupTouchGestures() {
-  const stage = document.getElementById('mediaStage');
+  const stage = el.mediaStage;
   if (!stage) return;
 
   stage.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) return;
+    const activeEl = getActiveMediaElement();
+    if (activeEl) {
+      activeEl.style.transform = '';
+      activeEl.className = activeEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
+    }
+    stage.classList.remove('is-snapping');
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
-    touchMoved = false;
+    isTouchActive = true;
   }, { passive: true });
 
   stage.addEventListener('touchmove', (e) => {
-    if (e.touches.length !== 1) return;
-    touchMoved = true;
+    if (!isTouchActive || e.touches.length !== 1) return;
+    const rawX = e.touches[0].clientX - touchStartX;
+    const rawY = e.touches[0].clientY - touchStartY;
+    
+    // Non-linear damping for tactile elastic feel
+    const damp = (val) => Math.sign(val) * Math.pow(Math.abs(val), 0.88);
+    const dragX = damp(rawX);
+    const dragY = damp(rawY);
+
+    if (Math.abs(rawX) > 6 || Math.abs(rawY) > 6) {
+      stage.classList.add('is-dragging');
+      const activeEl = getActiveMediaElement();
+      if (activeEl) {
+        activeEl.style.transform = `translate3d(${dragX}px, ${dragY}px, 0)`;
+        const dist = Math.hypot(dragX, dragY);
+        activeEl.style.opacity = `${Math.max(0.35, 1 - dist / 450)}`;
+      }
+    }
   }, { passive: true });
 
   stage.addEventListener('touchend', (e) => {
-    if (!touchMoved || e.changedTouches.length !== 1) return;
-    const diffX = e.changedTouches[0].clientX - touchStartX;
-    const diffY = e.changedTouches[0].clientY - touchStartY;
-    const elapsed = Date.now() - touchStartTime;
-    const absX = Math.abs(diffX);
-    const absY = Math.abs(diffY);
+    if (!isTouchActive || e.changedTouches.length !== 1) return;
+    isTouchActive = false;
+    stage.classList.remove('is-dragging');
 
-    if (elapsed < 800 && (absX > 35 || absY > 35)) {
-      if (absX > absY * 1.15) {
-        // Horizontal Swipe: Left swipe -> Next, Right swipe -> Prev
-        if (diffX < 0) playNextFile();
-        else playPrevFile();
-      } else if (absY > absX * 1.15) {
-        // Vertical Swipe: Up/Down swipe -> Random Shorts
-        playRandomFile();
+    const activeEl = getActiveMediaElement();
+    const rawDiffX = e.changedTouches[0].clientX - touchStartX;
+    const rawDiffY = e.changedTouches[0].clientY - touchStartY;
+    const elapsed = Math.max(1, Date.now() - touchStartTime);
+    const distance = Math.hypot(rawDiffX, rawDiffY);
+    const velocity = distance / elapsed;
+    const absX = Math.abs(rawDiffX);
+    const absY = Math.abs(rawDiffY);
+
+    // Threshold: distance >= 55px OR flick velocity >= 0.18 px/ms
+    if (distance >= 55 || velocity >= 0.18) {
+      if (activeEl) {
+        activeEl.style.transform = '';
+        activeEl.style.opacity = '';
+      }
+      if (absX > absY * 1.1) {
+        // Horizontal swipe
+        if (rawDiffX < 0) playNextFile('left');
+        else playPrevFile('right');
+      } else {
+        // Vertical swipe (Shorts style)
+        if (rawDiffY < 0) playRandomFile('up');
+        else playRandomFile('down');
+      }
+    } else {
+      // Snap-Back Spring
+      if (activeEl) {
+        stage.classList.add('is-snapping');
+        activeEl.style.transform = 'translate3d(0, 0, 0)';
+        activeEl.style.opacity = '1';
+        setTimeout(() => {
+          stage.classList.remove('is-snapping');
+          activeEl.style.transform = '';
+          activeEl.style.opacity = '';
+        }, 230);
       }
     }
   }, { passive: true });
@@ -1227,20 +1312,25 @@ function handlePlayerKeyboard(event) {
   const key = event.key.toLowerCase();
   const code = event.code;
 
-  // WASD Key Navigation (User Spec: Next/Prev/Random Shorts)
+  // WASD Key Navigation with Slide Transitions
   if (key === 'd') {
     event.preventDefault();
-    playNextFile();
+    playNextFile('left');
     return;
   }
   if (key === 'a') {
     event.preventDefault();
-    playPrevFile();
+    playPrevFile('right');
     return;
   }
-  if (key === 'w' || key === 's') {
+  if (key === 'w') {
     event.preventDefault();
-    playRandomFile();
+    playRandomFile('up');
+    return;
+  }
+  if (key === 's') {
+    event.preventDefault();
+    playRandomFile('down');
     return;
   }
 
@@ -1291,7 +1381,7 @@ function handlePlayerKeyboard(event) {
       event.preventDefault();
       el.videoPlayer.muted = false;
       el.videoPlayer.volume = Math.min(1, +(el.videoPlayer.volume + 0.1).toFixed(2));
-      showPlayerFeedback(`🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      showPlayerFeedback(`VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
       updateVolumeUI();
       return;
     }
@@ -1299,7 +1389,7 @@ function handlePlayerKeyboard(event) {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       el.videoPlayer.volume = Math.max(0, +(el.videoPlayer.volume - 0.1).toFixed(2));
-      showPlayerFeedback(`🔉 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      showPlayerFeedback(`VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
       updateVolumeUI();
       return;
     }
@@ -1309,7 +1399,7 @@ function handlePlayerKeyboard(event) {
       if (!isNaN(digit) && el.videoPlayer.duration) {
         event.preventDefault();
         el.videoPlayer.currentTime = (digit / 10) * el.videoPlayer.duration;
-        showPlayerFeedback(`⏱ ${digit * 10}%`);
+        showPlayerFeedback(`SEEK ${digit * 10}%`);
         updateVideoProgress();
       }
     }
@@ -1514,6 +1604,12 @@ function onMediaReady() {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
   updateQualityDisplay();
+  if (state.pendingPlay) {
+    state.pendingPlay = false;
+    if (el.videoPlayer && !el.videoPlayer.hidden) {
+      el.videoPlayer.play().catch(() => {});
+    }
+  }
 }
 
 function setStreamMode(mode, label) {
