@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.4';
+const APP_VERSION = '1.0.5';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -214,6 +214,7 @@ async function setupServiceWorker() {
     state.serviceWorkerRegistration = registration;
     await navigator.serviceWorker.ready;
 
+    // Check if worker is already waiting
     if (registration.waiting) {
       notifyUpdateAvailable();
     }
@@ -240,77 +241,134 @@ async function setupServiceWorker() {
     sendTokenToWorker();
     setInterval(sendTokenToWorker, 20_000);
 
-    setInterval(() => checkForAppUpdate({ manual: false }), 10 * 60 * 1000);
-    setTimeout(() => checkForAppUpdate({ manual: false }), 3000);
+    // Initial check after 2 seconds, then every 5 minutes
+    setTimeout(() => checkForAppUpdate({ manual: false }), 2000);
+    setInterval(() => checkForAppUpdate({ manual: false }), 5 * 60 * 1000);
   } catch (error) {
     console.error('Service worker registration failed', error);
     showToast('스트리밍 모듈을 시작하지 못했습니다. 페이지를 새로고침하세요.');
   }
 }
 
-function notifyUpdateAvailable() {
-  if (el.updateBanner) el.updateBanner.hidden = false;
+function isNewerVersion(remote, local) {
+  if (!remote || !local) return false;
+  if (remote === local) return false;
+  const cleanR = remote.replace(/^[^\d]*/, '').split('.').map(Number);
+  const cleanL = local.replace(/^[^\d]*/, '').split('.').map(Number);
+  for (let i = 0; i < Math.max(cleanR.length, cleanL.length); i++) {
+    const r = cleanR[i] || 0;
+    const l = cleanL[i] || 0;
+    if (r > l) return true;
+    if (r < l) return false;
+  }
+  return false;
+}
+
+function notifyUpdateAvailable(newVersion, summary) {
+  const verStr = newVersion ? `v${newVersion}` : '새 버전';
+  if (el.updateBanner) {
+    el.updateBanner.hidden = false;
+    if (el.updateBannerText) {
+      el.updateBannerText.textContent = summary
+        ? `${verStr}: ${summary}`
+        : `새로운 앱 버전(${verStr})이 준비되었습니다. 최신 기능을 적용하세요.`;
+    }
+  }
   if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = false;
-  if (el.applyUpdateButton) el.applyUpdateButton.hidden = false;
-  if (el.updateStatusText) el.updateStatusText.textContent = '✨ 새로운 앱 버전이 준비되었습니다. 지금 적용하세요.';
+  if (el.applyUpdateButton) {
+    el.applyUpdateButton.hidden = false;
+    el.applyUpdateButton.textContent = `${verStr} 지금 적용`;
+  }
+  if (el.updateStatusText) {
+    el.updateStatusText.textContent = `✨ ${verStr} 업데이트가 준비되었습니다. 지금 적용하세요.`;
+  }
 }
 
 async function checkForAppUpdate({ manual = false } = {}) {
-  if (!('serviceWorker' in navigator) || !state.serviceWorkerRegistration) {
-    if (manual) showToast('Service Worker가 활성화되지 않았습니다.');
-    return;
-  }
   if (manual && el.updateStatusText) {
-    el.updateStatusText.textContent = '최신 업데이트 확인 중…';
+    el.updateStatusText.textContent = '업데이트 서버 확인 중…';
     if (el.checkUpdateButton) el.checkUpdateButton.disabled = true;
   }
+
+  let remoteVersion = null;
+  let releaseInfo = null;
+
   try {
-    const reg = state.serviceWorkerRegistration;
-    await reg.update();
+    // 1. Fetch remote version metadata directly from server (bypassing browser & SW caches)
+    const versionUrl = new URL(`version.json?_t=${Date.now()}`, location.href).href;
+    const res = await fetch(versionUrl, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+    });
 
-    if (reg.waiting) {
-      notifyUpdateAvailable();
-      if (manual) showToast('새로운 업데이트가 준비되었습니다!');
-      return;
-    }
-
-    const res = await fetch(`./sw.js?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
-      const text = await res.text();
-      const match = text.match(/VERSION\s*=\s*['"]([^'"]+)['"]/);
-      const serverVersion = match ? match[1] : '';
-      if (serverVersion && serverVersion !== APP_VERSION) {
-        notifyUpdateAvailable();
-        if (el.updateBannerText) el.updateBannerText.textContent = `새로운 앱 버전(v${serverVersion})이 준비되었습니다.`;
-        if (manual) showToast(`새 버전(v${serverVersion})을 발견했습니다.`);
-        return;
+      releaseInfo = await res.json();
+      remoteVersion = releaseInfo.version;
+    } else {
+      // Fallback: check sw.js
+      const swRes = await fetch(`./sw.js?_t=${Date.now()}`, { cache: 'no-store' });
+      if (swRes.ok) {
+        const swText = await swRes.text();
+        const match = swText.match(/VERSION\s*=\s*['"]([^'"]+)['"]/);
+        if (match) remoteVersion = match[1];
       }
     }
 
+    // 2. Trigger Service Worker registration update
+    if ('serviceWorker' in navigator && state.serviceWorkerRegistration) {
+      await state.serviceWorkerRegistration.update().catch(() => {});
+    }
+
+    const hasNewVersion = Boolean(remoteVersion && isNewerVersion(remoteVersion, APP_VERSION));
+    const hasWaitingWorker = Boolean(state.serviceWorkerRegistration?.waiting);
+
+    if (hasNewVersion || hasWaitingWorker) {
+      const targetVer = remoteVersion || '1.0.5';
+      notifyUpdateAvailable(targetVer, releaseInfo?.changeSummary);
+      if (manual) {
+        showToast(`새로운 버전(v${targetVer})이 준비되었습니다. [지금 업데이트]를 눌러 적용하세요.`);
+      }
+      return { hasUpdate: true, version: targetVer };
+    }
+
     if (manual) {
-      if (el.updateStatusText) el.updateStatusText.textContent = `✅ 현재 최신 버전(v${APP_VERSION})을 사용 중입니다.`;
+      const now = new Date();
+      const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+      if (el.updateStatusText) {
+        el.updateStatusText.textContent = `✅ 현재 최신 버전(v${APP_VERSION})을 사용 중입니다. (${timeStr} 확인)`;
+      }
       if (el.applyUpdateButton) el.applyUpdateButton.hidden = true;
+      if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = true;
+      if (el.updateBanner) el.updateBanner.hidden = true;
       showToast(`현재 최신 버전(v${APP_VERSION})입니다.`);
     }
+    return { hasUpdate: false, version: APP_VERSION };
   } catch (err) {
-    console.error('Update check failed', err);
+    console.error('Update check failed:', err);
     if (manual) {
-      if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다.';
+      if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다. 네트워크를 확인하세요.';
       showToast('업데이트 확인 실패: 네트워크를 확인하세요.');
     }
+    return { hasUpdate: false, error: err };
   } finally {
     if (manual && el.checkUpdateButton) el.checkUpdateButton.disabled = false;
   }
 }
 
-function applyAppUpdate() {
+async function applyAppUpdate() {
   updatePending = true;
-  showToast('최신 버전을 적용하는 중입니다…');
+  showToast('최신 버전을 즉시 적용합니다…');
   const reg = state.serviceWorkerRegistration;
   if (reg && reg.waiting) {
     reg.waiting.postMessage({ type: 'SKIP_WAITING' });
   } else {
-    setTimeout(() => window.location.reload(), 400);
+    try {
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+    } catch (_) {}
+    setTimeout(() => window.location.reload(), 300);
   }
 }
 

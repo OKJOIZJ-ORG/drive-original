@@ -1,4 +1,4 @@
-const VERSION = '1.0.4';
+const VERSION = '1.0.5';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -16,14 +16,19 @@ let accessToken = null;
 let tokenExpiresAt = 0;
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_FILES)));
-  self.skipWaiting();
+  event.waitUntil(
+    caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_FILES))
+  );
+  // Do not call self.skipWaiting() automatically so the app can detect the new waiting worker
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((key) => key.startsWith('drive-original-shell-') && key !== SHELL_CACHE).map((key) => caches.delete(key)));
+    await Promise.all(
+      keys.filter((key) => key.startsWith('drive-original-shell-') && key !== SHELL_CACHE)
+          .map((key) => caches.delete(key))
+    );
     await self.clients.claim();
   })());
 });
@@ -38,11 +43,21 @@ self.addEventListener('message', (event) => {
     accessToken = null;
     tokenExpiresAt = 0;
   }
-  if (data.type === 'SKIP_WAITING') self.skipWaiting();
+  if (data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // 1. Never cache version.json or any cache-busted update queries
+  if (url.origin === self.location.origin && (url.pathname.endsWith('/version.json') || url.searchParams.has('_t'))) {
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
+
+  // 2. Stream proxy
   if (url.origin === self.location.origin && url.pathname.includes(MEDIA_MARKER)) {
     event.respondWith(proxyDriveMedia(event.request, url));
     return;
