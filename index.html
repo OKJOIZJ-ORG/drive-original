@@ -37,7 +37,7 @@
     </div>
     <div class="update-banner-body">
       <strong>새 버전 업데이트 가능</strong>
-      <p id="updateBannerText">새로운 앱 버전(v1.0.3)이 준비되었습니다. 최신 기능을 적용하세요.</p>
+      <p id="updateBannerText">새로운 앱 버전(v1.0.4)이 준비되었습니다. 최신 기능을 적용하세요.</p>
     </div>
     <div class="update-banner-actions">
       <button class="primary-button compact" id="bannerUpdateButton" type="button">지금 업데이트</button>
@@ -150,11 +150,84 @@
           </button>
         </div>
       </div>
-      <div class="media-stage" id="mediaStage">
-        <video id="videoPlayer" controls playsinline webkit-playsinline preload="metadata" tabindex="0" hidden></video>
+      <div class="media-stage" id="mediaStage" tabindex="0">
+        <video id="videoPlayer" playsinline webkit-playsinline preload="metadata" hidden></video>
         <img id="imageViewer" alt="" hidden>
         <iframe id="drivePreview" title="Google Drive 호환 미리보기" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
+
+        <button class="stage-center-btn" id="stageCenterPlayBtn" type="button" aria-label="재생 또는 일시정지" hidden>
+          <svg class="icon-center-play" id="iconCenterPlay" viewBox="0 0 24 24"><polygon points="7 4 19 12 7 20 7 4" fill="currentColor"/></svg>
+          <svg class="icon-center-pause" id="iconCenterPause" viewBox="0 0 24 24" hidden><rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/></svg>
+        </button>
+
+        <div class="custom-video-controls" id="customVideoControls" hidden>
+          <div class="seek-bar-container" id="seekBarContainer" role="slider" aria-label="재생 구간 탐색" tabindex="0">
+            <div class="seek-bar-track">
+              <div class="seek-bar-buffered" id="seekBarBuffered"></div>
+              <div class="seek-bar-played" id="seekBarPlayed"></div>
+            </div>
+            <div class="seek-bar-thumb" id="seekBarThumb"></div>
+            <div class="seek-bar-tooltip" id="seekBarTooltip" hidden>0:00</div>
+          </div>
+          <div class="controls-bottom-bar">
+            <div class="controls-left">
+              <button class="player-ctrl-btn" id="ctrlPlayPause" type="button" aria-label="재생 / 일시정지 (Space)" title="재생/일시정지 (Space)">
+                <svg class="icon-play" id="ctrlIconPlay" viewBox="0 0 24 24"><polygon points="7 4 19 12 7 20 7 4" fill="currentColor"/></svg>
+                <svg class="icon-pause" id="ctrlIconPause" viewBox="0 0 24 24" hidden><rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/></svg>
+              </button>
+              <button class="player-ctrl-btn" id="ctrlRewind" type="button" aria-label="10초 뒤로 (J / ←)" title="10초 뒤로 (J / ←)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                  <text x="12" y="15.5" font-size="7.5" font-weight="900" font-family="system-ui, sans-serif" text-anchor="middle" fill="currentColor" stroke="none">10</text>
+                </svg>
+              </button>
+              <button class="player-ctrl-btn" id="ctrlForward" type="button" aria-label="10초 앞으로 (L / →)" title="10초 앞으로 (L / →)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                  <text x="12" y="15.5" font-size="7.5" font-weight="900" font-family="system-ui, sans-serif" text-anchor="middle" fill="currentColor" stroke="none">10</text>
+                </svg>
+              </button>
+              <div class="volume-control-group" id="volumeControlGroup">
+                <button class="player-ctrl-btn" id="ctrlMute" type="button" aria-label="음소거 (M)" title="음소거 (M)">
+                  <svg class="icon-vol-high" id="ctrlIconVolHigh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <svg class="icon-vol-muted" id="ctrlIconVolMuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                </button>
+                <div class="volume-slider-wrap">
+                  <input type="range" class="volume-slider" id="ctrlVolumeSlider" min="0" max="1" step="0.05" value="1" aria-label="음량 조절">
+                </div>
+              </div>
+              <div class="time-display" id="ctrlTimeDisplay">
+                <span id="ctrlCurrentTime">0:00</span>
+                <span class="time-separator">/</span>
+                <span id="ctrlTotalTime">0:00</span>
+              </div>
+            </div>
+            <div class="controls-right">
+              <div class="speed-menu-wrap" id="speedMenuWrap">
+                <button class="player-ctrl-btn text-btn" id="ctrlSpeedButton" type="button" aria-label="재생 속도" title="재생 속도">
+                  <span id="ctrlSpeedText">1.0×</span>
+                </button>
+                <div class="speed-dropdown" id="speedDropdown" hidden>
+                  <button type="button" data-speed="0.5">0.5×</button>
+                  <button type="button" data-speed="0.75">0.75×</button>
+                  <button type="button" data-speed="1" class="active">1.0× (기본)</button>
+                  <button type="button" data-speed="1.25">1.25×</button>
+                  <button type="button" data-speed="1.5">1.5×</button>
+                  <button type="button" data-speed="2">2.0×</button>
+                </div>
+              </div>
+              <button class="player-ctrl-btn" id="ctrlPip" type="button" aria-label="화면 속 화면(PiP)" title="화면 속 화면 (PiP)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
+              </button>
+              <button class="player-ctrl-btn" id="ctrlFullscreen" type="button" aria-label="전체화면 (F)" title="전체화면 (F)">
+                <svg class="icon-expand" id="ctrlIconExpand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6"/></svg>
+                <svg class="icon-compress" id="ctrlIconCompress" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M9 3v6H3M15 3v6h6M9 21v-6H3M15 21v-6h6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="media-loading" id="mediaLoading"><span></span><p id="mediaLoadingText">원본 스트림 준비 중</p></div>
         <div class="media-error" id="mediaError" hidden>
           <span aria-hidden="true">!</span>
@@ -188,7 +261,7 @@
       <section class="update-section">
         <div class="section-title-row">
           <h3>앱 버전 및 업데이트</h3>
-          <span class="version-tag" id="settingsAppVersion">v1.0.3</span>
+          <span class="version-tag" id="settingsAppVersion">v1.0.4</span>
         </div>
         <p class="dialog-copy" id="updateStatusText">최신 버전 상태를 확인하고 즉시 업데이트할 수 있습니다.</p>
         <div class="update-actions">

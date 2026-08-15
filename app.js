@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.3';
+const APP_VERSION = '1.0.4';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -34,6 +34,9 @@ const el = {};
 let toastTimer = null;
 let feedbackTimer = null;
 let updatePending = false;
+let controlsHideTimer = null;
+let isSeekingPointer = false;
+let isSpeedMenuOpen = false;
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -64,17 +67,25 @@ function bindElements() {
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
     'playerSheet', 'playerBackdrop', 'playerTitle', 'pipButton', 'fullscreenButton',
     'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
-    'imageViewer', 'drivePreview', 'playerFeedback', 'mediaLoading', 'mediaLoadingText',
-    'mediaError', 'mediaErrorMessage', 'retryMediaButton', 'openDriveButton',
-    'streamModeLabel', 'streamModeText', 'qualityBadge', 'playbackQualityText',
-    'mediaResolution', 'streamModeDetail', 'mediaFileSizeType', 'codecNote',
-    'settingsDialog', 'settingsAppVersion', 'updateStatusText', 'checkUpdateButton',
-    'applyUpdateButton', 'forceReloadButton', 'settingsClientId', 'saveSettingsButton',
-    'disconnectButton', 'setupHelpSection', 'currentOrigin', 'copyOriginButton',
-    'appVersion', 'toast'
+    'imageViewer', 'drivePreview', 'playerFeedback', 'stageCenterPlayBtn',
+    'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
+    'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
+    'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlRewind', 'ctrlForward',
+    'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
+    'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
+    'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
+    'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
+    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
+    'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
+    'qualityBadge', 'playbackQualityText', 'mediaResolution', 'streamModeDetail',
+    'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
+    'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
+    'settingsClientId', 'saveSettingsButton', 'disconnectButton', 'setupHelpSection',
+    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast'
   ];
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
+  el.speedButtons = [...document.querySelectorAll('#speedDropdown [data-speed]')];
 }
 
 function bindEvents() {
@@ -112,9 +123,34 @@ function bindEvents() {
   document.addEventListener('fullscreenchange', updateFullscreenUI);
   document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
   el.mediaStage.addEventListener('dblclick', (event) => {
-    if (event.target.tagName !== 'BUTTON') toggleFullscreen();
+    if (event.target.tagName !== 'BUTTON' && !event.target.closest('.custom-video-controls')) {
+      toggleFullscreen();
+    }
   });
+  el.mediaStage.addEventListener('click', onMediaStageClick);
+  el.mediaStage.addEventListener('pointermove', resetControlsTimer);
+  el.mediaStage.addEventListener('pointerdown', resetControlsTimer);
   document.addEventListener('keydown', handlePlayerKeyboard);
+
+  // Custom Video Controls Event Listeners
+  if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.addEventListener('click', togglePlayPause);
+  if (el.ctrlPlayPause) el.ctrlPlayPause.addEventListener('click', togglePlayPause);
+  if (el.ctrlRewind) el.ctrlRewind.addEventListener('click', () => seekRelative(-10));
+  if (el.ctrlForward) el.ctrlForward.addEventListener('click', () => seekRelative(10));
+  if (el.ctrlMute) el.ctrlMute.addEventListener('click', toggleMute);
+  if (el.ctrlVolumeSlider) el.ctrlVolumeSlider.addEventListener('input', onVolumeSliderInput);
+  if (el.ctrlSpeedButton) el.ctrlSpeedButton.addEventListener('click', toggleSpeedMenu);
+  if (el.ctrlPip) el.ctrlPip.addEventListener('click', togglePictureInPicture);
+  if (el.ctrlFullscreen) el.ctrlFullscreen.addEventListener('click', toggleFullscreen);
+  if (el.speedButtons) {
+    el.speedButtons.forEach((btn) => btn.addEventListener('click', () => setPlaybackSpeed(Number(btn.dataset.speed))));
+  }
+  if (el.seekBarContainer) {
+    el.seekBarContainer.addEventListener('pointerdown', onSeekPointerDown);
+    el.seekBarContainer.addEventListener('pointermove', onSeekPointerHover);
+    el.seekBarContainer.addEventListener('pointerleave', onSeekPointerLeave);
+  }
+  document.addEventListener('click', onDocumentClickForSpeedMenu);
 
   el.bannerUpdateButton.addEventListener('click', applyAppUpdate);
   el.closeBannerButton.addEventListener('click', () => { el.updateBanner.hidden = true; });
@@ -136,8 +172,24 @@ function bindEvents() {
     }
   });
 
-  el.videoPlayer.addEventListener('loadedmetadata', onMediaReady);
+  el.videoPlayer.addEventListener('loadedmetadata', () => {
+    updateVideoProgress();
+    updatePlayPauseUI();
+    onMediaReady();
+  });
   el.videoPlayer.addEventListener('canplay', onMediaReady, { once: false });
+  el.videoPlayer.addEventListener('timeupdate', onVideoTimeUpdate);
+  el.videoPlayer.addEventListener('progress', onVideoProgressUpdate);
+  el.videoPlayer.addEventListener('play', () => {
+    updatePlayPauseUI();
+    resetControlsTimer();
+  });
+  el.videoPlayer.addEventListener('pause', () => {
+    updatePlayPauseUI();
+    resetControlsTimer();
+  });
+  el.videoPlayer.addEventListener('volumechange', updateVolumeUI);
+  el.videoPlayer.addEventListener('ratechange', updateSpeedUI);
   el.videoPlayer.addEventListener('resize', updateQualityDisplay);
   el.videoPlayer.addEventListener('error', () => handleMediaElementError('video'));
   el.imageViewer.addEventListener('load', onMediaReady);
@@ -556,10 +608,255 @@ function openPlayer(file) {
   el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
   const isVideo = file.mimeType?.startsWith('video/');
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
+  if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
   updateFullscreenUI();
   updateQualityDisplay();
+  updatePlayPauseUI();
+  updateVolumeUI();
+  updateSpeedUI();
+  resetControlsTimer();
   openMediaSource(file);
   requestAnimationFrame(() => el.closePlayerButton.focus());
+}
+
+function formatPlayerTime(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+  const total = Math.floor(seconds);
+  const hrs = Math.floor(total / 3600);
+  const mins = Math.floor((total % 3600) / 60);
+  const secs = total % 60;
+  const secsStr = secs < 10 ? `0${secs}` : `${secs}`;
+  if (hrs > 0) {
+    const minsStr = mins < 10 ? `0${mins}` : `${mins}`;
+    return `${hrs}:${minsStr}:${secsStr}`;
+  }
+  return `${mins}:${secsStr}`;
+}
+
+function resetControlsTimer() {
+  if (!el.mediaStage) return;
+  el.mediaStage.classList.remove('controls-hidden');
+  clearTimeout(controlsHideTimer);
+  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  if (isVideo && !el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
+    controlsHideTimer = setTimeout(() => {
+      if (!el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
+        el.mediaStage.classList.add('controls-hidden');
+      }
+    }, 2800);
+  }
+}
+
+function togglePlayPause(event) {
+  if (event) event.stopPropagation();
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  if (el.videoPlayer.paused) {
+    el.videoPlayer.play().catch(() => {});
+    showPlayerFeedback('▶ 재생');
+  } else {
+    el.videoPlayer.pause();
+    showPlayerFeedback('⏸ 일시정지');
+  }
+  updatePlayPauseUI();
+}
+
+function updatePlayPauseUI() {
+  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  if (!isVideo) {
+    if (el.customVideoControls) el.customVideoControls.hidden = true;
+    if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.hidden = true;
+    return;
+  }
+  if (el.customVideoControls) el.customVideoControls.hidden = false;
+  const isPaused = el.videoPlayer.paused;
+  if (el.ctrlIconPlay && el.ctrlIconPause) {
+    el.ctrlIconPlay.hidden = !isPaused;
+    el.ctrlIconPause.hidden = isPaused;
+  }
+  if (el.iconCenterPlay && el.iconCenterPause) {
+    el.iconCenterPlay.hidden = !isPaused;
+    el.iconCenterPause.hidden = isPaused;
+  }
+  if (el.stageCenterPlayBtn) {
+    el.stageCenterPlayBtn.hidden = !isPaused;
+  }
+}
+
+function seekRelative(deltaSeconds) {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  const duration = el.videoPlayer.duration || Infinity;
+  const target = Math.max(0, Math.min(duration, el.videoPlayer.currentTime + deltaSeconds));
+  el.videoPlayer.currentTime = target;
+  showPlayerFeedback(deltaSeconds > 0 ? `⏩ +${deltaSeconds}초` : `⏪ ${deltaSeconds}초`);
+  updateVideoProgress();
+  resetControlsTimer();
+}
+
+function toggleMute() {
+  if (!el.videoPlayer) return;
+  el.videoPlayer.muted = !el.videoPlayer.muted;
+  showPlayerFeedback(el.videoPlayer.muted ? '🔇 음소거' : `🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+  updateVolumeUI();
+}
+
+function onVolumeSliderInput(event) {
+  if (!el.videoPlayer) return;
+  const val = Number(event.target.value);
+  el.videoPlayer.volume = val;
+  el.videoPlayer.muted = (val === 0);
+  updateVolumeUI();
+}
+
+function updateVolumeUI() {
+  if (!el.videoPlayer) return;
+  const isMuted = el.videoPlayer.muted || el.videoPlayer.volume === 0;
+  if (el.ctrlIconVolHigh && el.ctrlIconVolMuted) {
+    el.ctrlIconVolHigh.hidden = isMuted;
+    el.ctrlIconVolMuted.hidden = !isMuted;
+  }
+  if (el.ctrlVolumeSlider) {
+    el.ctrlVolumeSlider.value = isMuted ? 0 : el.videoPlayer.volume;
+  }
+}
+
+function toggleSpeedMenu(event) {
+  if (event) event.stopPropagation();
+  isSpeedMenuOpen = !isSpeedMenuOpen;
+  if (el.speedDropdown) el.speedDropdown.hidden = !isSpeedMenuOpen;
+  resetControlsTimer();
+}
+
+function setPlaybackSpeed(speed) {
+  if (!el.videoPlayer) return;
+  el.videoPlayer.playbackRate = speed;
+  if (el.ctrlSpeedText) el.ctrlSpeedText.textContent = `${speed}×`;
+  const buttons = el.speedDropdown?.querySelectorAll('button') || [];
+  buttons.forEach((btn) => {
+    btn.classList.toggle('active', Number(btn.dataset.speed) === speed);
+  });
+  isSpeedMenuOpen = false;
+  if (el.speedDropdown) el.speedDropdown.hidden = true;
+  showPlayerFeedback(`⚡ 재생 속도 ${speed}×`);
+  resetControlsTimer();
+}
+
+function updateSpeedUI() {
+  if (!el.videoPlayer) return;
+  const speed = el.videoPlayer.playbackRate || 1;
+  if (el.ctrlSpeedText) el.ctrlSpeedText.textContent = `${speed}×`;
+}
+
+function onDocumentClickForSpeedMenu(event) {
+  if (isSpeedMenuOpen && !el.speedMenuWrap?.contains(event.target)) {
+    isSpeedMenuOpen = false;
+    if (el.speedDropdown) el.speedDropdown.hidden = true;
+  }
+}
+
+function onVideoTimeUpdate() {
+  if (isSeekingPointer) return;
+  updateVideoProgress();
+}
+
+function onVideoProgressUpdate() {
+  if (!el.videoPlayer || !el.seekBarBuffered) return;
+  const duration = el.videoPlayer.duration;
+  if (!duration || duration <= 0) return;
+  const buffered = el.videoPlayer.buffered;
+  if (buffered.length > 0) {
+    const end = buffered.end(buffered.length - 1);
+    const bufPercent = Math.min(100, (end / duration) * 100);
+    el.seekBarBuffered.style.width = `${bufPercent}%`;
+  }
+}
+
+function updateVideoProgress() {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  const currentTime = el.videoPlayer.currentTime || 0;
+  const duration = el.videoPlayer.duration || 0;
+  const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  if (el.seekBarPlayed) el.seekBarPlayed.style.width = `${percent}%`;
+  if (el.seekBarThumb) el.seekBarThumb.style.left = `${percent}%`;
+  if (el.ctrlCurrentTime) el.ctrlCurrentTime.textContent = formatPlayerTime(currentTime);
+  if (el.ctrlTotalTime) el.ctrlTotalTime.textContent = formatPlayerTime(duration);
+  if (el.seekBarContainer) {
+    el.seekBarContainer.setAttribute('aria-valuenow', Math.round(currentTime));
+    el.seekBarContainer.setAttribute('aria-valuemax', Math.round(duration));
+  }
+  onVideoProgressUpdate();
+}
+
+function getSeekRatio(event) {
+  const rect = el.seekBarContainer.getBoundingClientRect();
+  const clientX = event.clientX ?? (event.touches && event.touches[0]?.clientX) ?? 0;
+  const clampedX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+  return rect.width > 0 ? clampedX / rect.width : 0;
+}
+
+function onSeekPointerDown(event) {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  event.preventDefault();
+  isSeekingPointer = true;
+  el.seekBarContainer.classList.add('seeking');
+  const ratio = getSeekRatio(event);
+  const duration = el.videoPlayer.duration || 0;
+  el.videoPlayer.currentTime = ratio * duration;
+  updateVideoProgress();
+
+  function onPointerMove(e) {
+    if (!isSeekingPointer) return;
+    const r = getSeekRatio(e);
+    el.videoPlayer.currentTime = r * duration;
+    updateVideoProgress();
+    onSeekPointerHover(e);
+  }
+
+  function onPointerUp() {
+    isSeekingPointer = false;
+    el.seekBarContainer?.classList.remove('seeking');
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointercancel', onPointerUp);
+    resetControlsTimer();
+  }
+
+  document.addEventListener('pointermove', onPointerMove);
+  document.addEventListener('pointerup', onPointerUp);
+  document.addEventListener('pointercancel', onPointerUp);
+}
+
+function onSeekPointerHover(event) {
+  if (!el.videoPlayer || !el.seekBarTooltip || el.videoPlayer.hidden) return;
+  const ratio = getSeekRatio(event);
+  const duration = el.videoPlayer.duration || 0;
+  const hoverTime = ratio * duration;
+  el.seekBarTooltip.textContent = formatPlayerTime(hoverTime);
+  el.seekBarTooltip.style.left = `${ratio * 100}%`;
+  el.seekBarTooltip.hidden = false;
+}
+
+function onSeekPointerLeave() {
+  if (isSeekingPointer) return;
+  if (el.seekBarTooltip) el.seekBarTooltip.hidden = true;
+}
+
+function onMediaStageClick(event) {
+  const target = event.target;
+  if (
+    target.closest('.custom-video-controls') ||
+    target.closest('.stage-center-btn') ||
+    target.closest('.media-error') ||
+    target.closest('.media-loading') ||
+    target.tagName === 'BUTTON' ||
+    target.tagName === 'A'
+  ) {
+    return;
+  }
+  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  if (isVideo) {
+    togglePlayPause();
+  }
 }
 
 function toggleFullscreen() {
@@ -588,9 +885,17 @@ function updateFullscreenUI() {
     el.iconExpand.hidden = isFs;
     el.iconCompress.hidden = !isFs;
   }
+  if (el.ctrlIconExpand && el.ctrlIconCompress) {
+    el.ctrlIconExpand.hidden = isFs;
+    el.ctrlIconCompress.hidden = !isFs;
+  }
   if (el.fullscreenButton) {
     el.fullscreenButton.title = isFs ? '전체화면 종료 (ESC / F)' : '전체화면 (F)';
     el.fullscreenButton.setAttribute('aria-label', isFs ? '전체화면 종료' : '전체화면');
+  }
+  if (el.ctrlFullscreen) {
+    el.ctrlFullscreen.title = isFs ? '전체화면 종료 (ESC / F)' : '전체화면 (F)';
+    el.ctrlFullscreen.setAttribute('aria-label', isFs ? '전체화면 종료' : '전체화면');
   }
 }
 
@@ -629,6 +934,11 @@ function handlePlayerKeyboard(event) {
   const code = event.code;
 
   if (key === 'Escape') {
+    if (isSpeedMenuOpen) {
+      isSpeedMenuOpen = false;
+      if (el.speedDropdown) el.speedDropdown.hidden = true;
+      return;
+    }
     if (document.fullscreenElement || document.webkitFullscreenElement) {
       // Browser handles exiting fullscreen
     } else {
@@ -646,36 +956,27 @@ function handlePlayerKeyboard(event) {
   if (isVideo) {
     if (key === ' ' || key === 'k' || key === 'K') {
       event.preventDefault();
-      if (el.videoPlayer.paused) {
-        el.videoPlayer.play();
-        showPlayerFeedback('▶ 재생');
-      } else {
-        el.videoPlayer.pause();
-        showPlayerFeedback('⏸ 일시정지');
-      }
+      togglePlayPause();
       return;
     }
 
     if (key === 'm' || key === 'M') {
       event.preventDefault();
-      el.videoPlayer.muted = !el.videoPlayer.muted;
-      showPlayerFeedback(el.videoPlayer.muted ? '🔇 음소거' : `🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      toggleMute();
       return;
     }
 
     if (key === 'ArrowLeft' || key === 'j' || key === 'J') {
       event.preventDefault();
-      const delta = (key === 'ArrowLeft') ? 5 : 10;
-      el.videoPlayer.currentTime = Math.max(0, el.videoPlayer.currentTime - delta);
-      showPlayerFeedback(`⏪ -${delta}초`);
+      const delta = (key === 'ArrowLeft') ? -5 : -10;
+      seekRelative(delta);
       return;
     }
 
     if (key === 'ArrowRight' || key === 'l' || key === 'L') {
       event.preventDefault();
       const delta = (key === 'ArrowRight') ? 5 : 10;
-      el.videoPlayer.currentTime = Math.min(el.videoPlayer.duration || Infinity, el.videoPlayer.currentTime + delta);
-      showPlayerFeedback(`⏩ +${delta}초`);
+      seekRelative(delta);
       return;
     }
 
@@ -684,6 +985,7 @@ function handlePlayerKeyboard(event) {
       el.videoPlayer.muted = false;
       el.videoPlayer.volume = Math.min(1, +(el.videoPlayer.volume + 0.1).toFixed(2));
       showPlayerFeedback(`🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      updateVolumeUI();
       return;
     }
 
@@ -691,6 +993,7 @@ function handlePlayerKeyboard(event) {
       event.preventDefault();
       el.videoPlayer.volume = Math.max(0, +(el.videoPlayer.volume - 0.1).toFixed(2));
       showPlayerFeedback(`🔉 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      updateVolumeUI();
       return;
     }
 
@@ -700,6 +1003,7 @@ function handlePlayerKeyboard(event) {
         event.preventDefault();
         el.videoPlayer.currentTime = (digit / 10) * el.videoPlayer.duration;
         showPlayerFeedback(`⏱ ${digit * 10}%`);
+        updateVideoProgress();
       }
     }
   }
