@@ -16,9 +16,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.6.0">
+  <link rel="stylesheet" href="./styles.css?v=1.7.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.6.0" defer></script>
+  <script src="./app.js?v=1.7.0" defer></script>
 </head>
 <body style="background-color: #0b0d14; color: #f8fafc; margin: 0; min-height: 100vh;">
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -191,6 +191,11 @@
       <!-- File Grid Cards -->
       <div class="file-grid" id="fileGrid"></div>
 
+      <!-- Infinite Scroll Sentinel -->
+      <div class="infinite-scroll-sentinel" id="infiniteScrollSentinel">
+        <div class="scroll-spinner" id="infiniteScrollSpinner" hidden></div>
+      </div>
+
       <!-- Empty State -->
       <div class="empty-state" id="emptyState" hidden>
         <div class="empty-icon" aria-hidden="true">
@@ -246,12 +251,21 @@
         </div>
       </div>
 
-      <!-- Media Stage -->
+      <!-- Media Stage with Cinematic Ambient Mode & Mobile Shorts Overlay -->
       <div class="media-stage" id="mediaStage" tabindex="0">
+        <div class="ambient-backdrop" id="ambientBackdrop" aria-hidden="true"></div>
         <video id="videoPlayer" playsinline webkit-playsinline preload="auto" hidden></video>
         <img id="imageViewer" alt="" hidden>
         <iframe id="drivePreview" title="Google Drive 호환 미리보기" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
+
+        <!-- Mobile Shorts Bottom Overlay (Filename & Ultra-thin Progress Line) -->
+        <div class="mobile-shorts-overlay" id="mobileShortsOverlay" aria-hidden="true">
+          <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
+          <div class="mobile-shorts-progress-track">
+            <div class="mobile-shorts-progress-bar" id="mobileShortsProgressBar"></div>
+          </div>
+        </div>
 
         <!-- Center Big Play Button -->
         <button class="stage-center-btn" id="stageCenterPlayBtn" type="button" aria-label="재생 또는 일시정지" hidden>
@@ -387,7 +401,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.6.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.7.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -440,7 +454,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.6.0</span>
+          <span id="appVersion">v1.7.0</span>
         </div>
       </div>
     </form>

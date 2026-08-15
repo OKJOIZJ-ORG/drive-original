@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.6.0';
+const APP_VERSION = '1.7.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -59,6 +59,7 @@ async function init() {
   bindElements();
   bindEvents();
   setupTouchGestures();
+  setupInfiniteScroll();
   el.clientIdInput.value = state.clientId;
   el.settingsClientId.value = state.clientId;
   el.currentOrigin.textContent = location.origin;
@@ -94,9 +95,12 @@ function bindElements() {
     'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
+    'infiniteScrollSentinel', 'infiniteScrollSpinner',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
-    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
-    'imageViewer', 'drivePreview', 'playerFeedback', 'stageCenterPlayBtn',
+    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
+    'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'drivePreview', 'playerFeedback',
+    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar',
+    'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
     'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward',
@@ -627,6 +631,100 @@ function waitForGoogleIdentity(timeoutMs = 12_000) {
   });
 }
 
+let infiniteScrollObserver = null;
+const generatedThumbnailCache = new Map();
+
+function setupInfiniteScroll() {
+  if (infiniteScrollObserver) {
+    infiniteScrollObserver.disconnect();
+  }
+  if (!el.infiniteScrollSentinel) return;
+
+  infiniteScrollObserver = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    if (entry && entry.isIntersecting) {
+      if (state.nextPageToken && !state.loadingFiles) {
+        loadFiles({ append: true });
+      }
+    }
+  }, {
+    root: null,
+    rootMargin: '600px 0px',
+    threshold: 0
+  });
+
+  infiniteScrollObserver.observe(el.infiniteScrollSentinel);
+}
+
+function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
+  if (!file || !file.mimeType?.startsWith('video/')) return;
+  const cached = generatedThumbnailCache.get(file.id);
+  if (cached) {
+    imgElement.src = cached;
+    imgElement.classList.add('loaded');
+    visualContainer.classList.add('has-thumbnail');
+    return;
+  }
+
+  const mediaUrl = buildMediaUrl(file);
+  if (!mediaUrl) return;
+
+  visualContainer.classList.add('is-generating');
+  const video = document.createElement('video');
+  video.preload = 'metadata';
+  video.muted = true;
+  video.playsInline = true;
+  video.crossOrigin = 'anonymous';
+  video.src = mediaUrl;
+  video.currentTime = 0.1;
+
+  let isCleaned = false;
+  const cleanup = () => {
+    if (isCleaned) return;
+    isCleaned = true;
+    video.removeAttribute('src');
+    video.load();
+  };
+
+  const capture = () => {
+    try {
+      const w = video.videoWidth || 320;
+      const h = video.videoHeight || 180;
+      if (w > 0 && h > 0) {
+        const canvas = document.createElement('canvas');
+        const scale = Math.min(1, 320 / Math.max(w, h));
+        canvas.width = Math.round(w * scale);
+        canvas.height = Math.round(h * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+        generatedThumbnailCache.set(file.id, dataUrl);
+        imgElement.src = dataUrl;
+        imgElement.classList.add('loaded');
+        visualContainer.classList.add('has-thumbnail');
+      }
+    } catch (err) {
+      console.warn('Frame capture notice:', err);
+    } finally {
+      visualContainer.classList.remove('is-generating');
+      cleanup();
+    }
+  };
+
+  video.addEventListener('loadeddata', capture, { once: true });
+  video.addEventListener('seeked', capture, { once: true });
+  video.addEventListener('error', () => {
+    visualContainer.classList.remove('is-generating');
+    cleanup();
+  }, { once: true });
+
+  // Timeout guard for slow network
+  setTimeout(() => {
+    visualContainer.classList.remove('is-generating');
+    cleanup();
+  }, 4000);
+}
+
 async function loadFiles({ append }) {
   if (state.demo) {
     startDemoMode();
@@ -641,9 +739,9 @@ async function loadFiles({ append }) {
 
   state.loadingFiles = true;
   showLibrary();
-  el.libraryStatus.textContent = append ? '다음 파일을 불러오는 중…' : 'Drive에서 원본 파일 목록을 불러오는 중…';
+  if (!append) el.libraryStatus.textContent = 'Drive에서 원본 파일 목록을 불러오는 중…';
   el.refreshButton.disabled = true;
-  el.loadMoreButton.disabled = true;
+  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = false;
 
   const params = new URLSearchParams({
     pageSize: '100',
@@ -664,6 +762,15 @@ async function loadFiles({ append }) {
     state.nextPageToken = data.nextPageToken || null;
     renderFiles();
     el.libraryStatus.textContent = '';
+
+    // Proactive background prefetch for butter-smooth infinite scroll
+    if (!append && state.nextPageToken) {
+      setTimeout(() => {
+        if (state.nextPageToken && !state.loadingFiles) {
+          loadFiles({ append: true });
+        }
+      }, 1000);
+    }
   } catch (error) {
     console.error(error);
     el.libraryStatus.textContent = `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
@@ -678,8 +785,7 @@ async function loadFiles({ append }) {
   } finally {
     state.loadingFiles = false;
     el.refreshButton.disabled = false;
-    el.loadMoreButton.disabled = false;
-    el.loadMoreButton.hidden = !state.nextPageToken;
+    if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !state.nextPageToken;
     updateLibrarySummary();
     updateConnectionBadge();
   }
@@ -771,21 +877,31 @@ function createFileCard(file, index = 0) {
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
   
+  const thumbnail = document.createElement('img');
+  thumbnail.className = 'file-card-thumb';
+  thumbnail.alt = '';
+  thumbnail.loading = index < 24 ? 'eager' : 'lazy';
+  if (index < 12) thumbnail.fetchPriority = 'high';
+  thumbnail.decoding = 'async';
+  thumbnail.referrerPolicy = 'no-referrer';
+  thumbnail.addEventListener('load', () => {
+    thumbnail.classList.add('loaded');
+    visual.classList.add('has-thumbnail');
+  });
+
   if (file.thumbnailLink) {
-    const thumbnail = document.createElement('img');
-    thumbnail.className = 'file-card-thumb';
-    thumbnail.alt = '';
-    thumbnail.loading = index < 16 ? 'eager' : 'lazy';
-    if (index < 8) thumbnail.fetchPriority = 'high';
-    thumbnail.decoding = 'async';
-    thumbnail.referrerPolicy = 'no-referrer';
-    thumbnail.addEventListener('load', () => {
-      thumbnail.classList.add('loaded');
-      visual.classList.add('has-thumbnail');
-    });
-    thumbnail.addEventListener('error', () => thumbnail.remove());
+    thumbnail.addEventListener('error', () => {
+      if (isVideo) {
+        extractVideoFrameThumbnail(file, thumbnail, visual);
+      } else {
+        thumbnail.remove();
+      }
+    }, { once: true });
     thumbnail.src = file.thumbnailLink;
     visual.appendChild(thumbnail);
+  } else if (isVideo) {
+    visual.appendChild(thumbnail);
+    extractVideoFrameThumbnail(file, thumbnail, visual);
   }
 
   // Format Badge (e.g., 4K, FHD, MP4, PNG)
@@ -1018,6 +1134,7 @@ function updateVideoProgress() {
 
   if (el.seekBarPlayed) el.seekBarPlayed.style.width = `${percent}%`;
   if (el.seekBarThumb) el.seekBarThumb.style.left = `${percent}%`;
+  if (el.mobileShortsProgressBar) el.mobileShortsProgressBar.style.width = `${percent}%`;
   if (el.ctrlCurrentTime) el.ctrlCurrentTime.textContent = formatPlayerTime(currentTime);
   if (el.ctrlTotalTime) el.ctrlTotalTime.textContent = formatPlayerTime(duration);
   if (el.seekBarContainer) {
@@ -1454,12 +1571,22 @@ function openMediaSource(file) {
   if (!file) return;
   state.selected = file;
   if (el.playerTitle) el.playerTitle.textContent = file.name || '미디어 파일';
+  if (el.mobileShortsTitle) el.mobileShortsTitle.textContent = file.name || '미디어 파일';
   if (el.codecNote) el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
   const isVideo = file.mimeType?.startsWith('video/');
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
 
   resetMediaElements();
+
+  if (el.ambientBackdrop) {
+    const thumb = file.thumbnailLink || generatedThumbnailCache.get(file.id);
+    if (thumb) {
+      el.ambientBackdrop.style.backgroundImage = `url("${thumb}")`;
+      el.ambientBackdrop.classList.add('active');
+    }
+  }
+
   const session = state.mediaSession;
   state.mediaAttempt = 'range';
   state.lastProxyError = null;
@@ -1822,6 +1949,13 @@ function resetMediaElements() {
   state.mediaAbortController?.abort();
   state.mediaAbortController = null;
   clearDirectMediaSources();
+  if (el.ambientBackdrop) {
+    el.ambientBackdrop.classList.remove('active');
+    el.ambientBackdrop.style.backgroundImage = '';
+  }
+  if (el.mobileShortsProgressBar) {
+    el.mobileShortsProgressBar.style.width = '0%';
+  }
   el.drivePreview.hidden = true;
   el.drivePreview.src = 'about:blank';
   el.mediaError.hidden = true;
