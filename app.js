@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -43,6 +43,7 @@ let controlsHideTimer = null;
 let isSeekingPointer = false;
 let isSpeedMenuOpen = false;
 let tokenRenewalTimer = null;
+let shuffledOrderMap = new Map();
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -57,6 +58,7 @@ async function init() {
 
   bindElements();
   bindEvents();
+  setupTouchGestures();
   el.clientIdInput.value = state.clientId;
   el.settingsClientId.value = state.clientId;
   el.currentOrigin.textContent = location.origin;
@@ -92,12 +94,12 @@ function bindElements() {
     'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
-    'playerSheet', 'playerBackdrop', 'playerTitle', 'pipButton', 'fullscreenButton',
-    'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
+    'playerSheet', 'playerBackdrop', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
     'imageViewer', 'drivePreview', 'playerFeedback', 'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
-    'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlRewind', 'ctrlForward',
+    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
@@ -128,13 +130,17 @@ function bindEvents() {
     closePlayer();
     if (state.token || state.demo) showLibrary();
   });
-  el.refreshButton.addEventListener('click', () => loadFiles({ append: false }));
+  el.refreshButton.addEventListener('click', () => {
+    if (state.sort === 'random') shuffleCurrentFiles();
+    loadFiles({ append: false });
+  });
   el.searchInput.addEventListener('input', (event) => {
     state.query = event.target.value.trim().toLocaleLowerCase('ko');
     renderFiles();
   });
   el.sortSelect.addEventListener('change', (event) => {
     state.sort = event.target.value;
+    if (state.sort === 'random') shuffleCurrentFiles();
     renderFiles();
   });
   el.filterButtons.forEach((button) => button.addEventListener('click', () => {
@@ -147,6 +153,15 @@ function bindEvents() {
   el.playerBackdrop.addEventListener('click', closePlayer);
   el.fullscreenButton.addEventListener('click', toggleFullscreen);
   el.pipButton.addEventListener('click', togglePictureInPicture);
+
+  // Topbar and Controls Navigation Buttons
+  if (el.topbarPrevBtn) el.topbarPrevBtn.addEventListener('click', playPrevFile);
+  if (el.topbarRandomBtn) el.topbarRandomBtn.addEventListener('click', playRandomFile);
+  if (el.topbarNextBtn) el.topbarNextBtn.addEventListener('click', playNextFile);
+  if (el.ctrlPrevVideo) el.ctrlPrevVideo.addEventListener('click', playPrevFile);
+  if (el.ctrlRandomShorts) el.ctrlRandomShorts.addEventListener('click', playRandomFile);
+  if (el.ctrlNextVideo) el.ctrlNextVideo.addEventListener('click', playNextFile);
+
   document.addEventListener('fullscreenchange', updateFullscreenUI);
   document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
   el.mediaStage.addEventListener('dblclick', (event) => {
@@ -673,6 +688,18 @@ function renderFiles() {
   updateLibrarySummary(files.length);
 }
 
+function shuffleCurrentFiles() {
+  shuffledOrderMap.clear();
+  const shuffled = [...state.files];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  shuffled.forEach((file, index) => {
+    shuffledOrderMap.set(file.id, index);
+  });
+}
+
 function filteredAndSortedFiles() {
   const filtered = state.files.filter((file) => {
     const isVideo = file.mimeType?.startsWith('video/');
@@ -680,6 +707,18 @@ function filteredAndSortedFiles() {
     const queryMatch = !state.query || String(file.name || '').toLocaleLowerCase('ko').includes(state.query);
     return typeMatch && queryMatch;
   });
+
+  if (state.sort === 'random') {
+    if (shuffledOrderMap.size !== state.files.length) {
+      shuffleCurrentFiles();
+    }
+    return filtered.sort((a, b) => {
+      const idxA = shuffledOrderMap.get(a.id) ?? 0;
+      const idxB = shuffledOrderMap.get(b.id) ?? 0;
+      return idxA - idxB;
+    });
+  }
+
   return filtered.sort((a, b) => {
     if (state.sort === 'name') return String(a.name).localeCompare(String(b.name), 'ko', { numeric: true });
     if (state.sort === 'size') return Number(b.size || 0) - Number(a.size || 0);
@@ -1091,63 +1130,164 @@ function showPlayerFeedback(text) {
   }, 800);
 }
 
+function getPlaybackFileList() {
+  const list = filteredAndSortedFiles();
+  return list.length > 0 ? list : state.files;
+}
+
+function playNextFile() {
+  const list = getPlaybackFileList();
+  if (!list.length) return;
+  if (!state.selected) {
+    openMediaSource(list[0]);
+    return;
+  }
+  const currentIndex = list.findIndex((f) => f.id === state.selected.id);
+  const nextIndex = (currentIndex + 1) % list.length;
+  showPlayerFeedback('다음 영상 ▶ (D)');
+  openMediaSource(list[nextIndex]);
+}
+
+function playPrevFile() {
+  const list = getPlaybackFileList();
+  if (!list.length) return;
+  if (!state.selected) {
+    openMediaSource(list[0]);
+    return;
+  }
+  const currentIndex = list.findIndex((f) => f.id === state.selected.id);
+  const prevIndex = (currentIndex - 1 + list.length) % list.length;
+  showPlayerFeedback('◀ 이전 영상 (A)');
+  openMediaSource(list[prevIndex]);
+}
+
+function playRandomFile() {
+  const list = getPlaybackFileList();
+  if (!list.length) return;
+  let nextFile;
+  if (list.length === 1) {
+    nextFile = list[0];
+  } else {
+    const candidates = list.filter((f) => !state.selected || f.id !== state.selected.id);
+    nextFile = candidates[Math.floor(Math.random() * candidates.length)];
+  }
+  showPlayerFeedback('🔀 랜덤 쇼츠 (W/S)');
+  openMediaSource(nextFile);
+}
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchStartTime = 0;
+let touchMoved = false;
+
+function setupTouchGestures() {
+  const stage = document.getElementById('mediaStage');
+  if (!stage) return;
+
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+    touchMoved = false;
+  }, { passive: true });
+
+  stage.addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 1) return;
+    touchMoved = true;
+  }, { passive: true });
+
+  stage.addEventListener('touchend', (e) => {
+    if (!touchMoved || e.changedTouches.length !== 1) return;
+    const diffX = e.changedTouches[0].clientX - touchStartX;
+    const diffY = e.changedTouches[0].clientY - touchStartY;
+    const elapsed = Date.now() - touchStartTime;
+    const absX = Math.abs(diffX);
+    const absY = Math.abs(diffY);
+
+    if (elapsed < 800 && (absX > 35 || absY > 35)) {
+      if (absX > absY * 1.15) {
+        // Horizontal Swipe: Left swipe -> Next, Right swipe -> Prev
+        if (diffX < 0) playNextFile();
+        else playPrevFile();
+      } else if (absY > absX * 1.15) {
+        // Vertical Swipe: Up/Down swipe -> Random Shorts
+        playRandomFile();
+      }
+    }
+  }, { passive: true });
+}
+
 function handlePlayerKeyboard(event) {
   if (el.playerSheet.hidden) return;
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
   const targetTag = event.target.tagName;
   if (targetTag === 'INPUT' || targetTag === 'TEXTAREA' || targetTag === 'SELECT') return;
 
-  const key = event.key;
+  const key = event.key.toLowerCase();
   const code = event.code;
 
-  if (key === 'Escape') {
+  // WASD Key Navigation (User Spec: Next/Prev/Random Shorts)
+  if (key === 'd') {
+    event.preventDefault();
+    playNextFile();
+    return;
+  }
+  if (key === 'a') {
+    event.preventDefault();
+    playPrevFile();
+    return;
+  }
+  if (key === 'w' || key === 's') {
+    event.preventDefault();
+    playRandomFile();
+    return;
+  }
+
+  if (event.key === 'Escape') {
     if (isSpeedMenuOpen) {
       isSpeedMenuOpen = false;
       if (el.speedDropdown) el.speedDropdown.hidden = true;
       return;
     }
-    if (document.fullscreenElement || document.webkitFullscreenElement) {
-      // Browser handles exiting fullscreen
-    } else {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
       closePlayer();
     }
     return;
   }
 
-  if (key === 'f' || key === 'F') {
+  if (key === 'f') {
     event.preventDefault();
     toggleFullscreen();
     return;
   }
 
   if (isVideo) {
-    if (key === ' ' || key === 'k' || key === 'K') {
+    if (event.key === ' ' || key === 'k') {
       event.preventDefault();
       togglePlayPause();
       return;
     }
 
-    if (key === 'm' || key === 'M') {
+    if (key === 'm') {
       event.preventDefault();
       toggleMute();
       return;
     }
 
-    if (key === 'ArrowLeft' || key === 'j' || key === 'J') {
+    if (event.key === 'ArrowLeft' || key === 'j') {
       event.preventDefault();
-      const delta = (key === 'ArrowLeft') ? -5 : -10;
-      seekRelative(delta);
+      seekRelative(-10);
       return;
     }
 
-    if (key === 'ArrowRight' || key === 'l' || key === 'L') {
+    if (event.key === 'ArrowRight' || key === 'l') {
       event.preventDefault();
-      const delta = (key === 'ArrowRight') ? 5 : 10;
-      seekRelative(delta);
+      seekRelative(10);
       return;
     }
 
-    if (key === 'ArrowUp') {
+    if (event.key === 'ArrowUp') {
       event.preventDefault();
       el.videoPlayer.muted = false;
       el.videoPlayer.volume = Math.min(1, +(el.videoPlayer.volume + 0.1).toFixed(2));
@@ -1156,7 +1296,7 @@ function handlePlayerKeyboard(event) {
       return;
     }
 
-    if (key === 'ArrowDown') {
+    if (event.key === 'ArrowDown') {
       event.preventDefault();
       el.videoPlayer.volume = Math.max(0, +(el.videoPlayer.volume - 0.1).toFixed(2));
       showPlayerFeedback(`🔉 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
