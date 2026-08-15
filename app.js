@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.1';
+const APP_VERSION = '1.0.2';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -60,8 +60,9 @@ function bindElements() {
     'fileGrid', 'emptyState', 'loadMoreButton', 'playerSheet', 'playerBackdrop',
     'playerTitle', 'closePlayerButton', 'videoPlayer', 'imageViewer', 'drivePreview',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
-    'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'mediaResolution',
-    'mediaSize', 'mediaType', 'codecNote', 'settingsDialog', 'settingsClientId',
+    'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
+    'qualityBadge', 'playbackQualityText', 'mediaResolution', 'streamModeDetail',
+    'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsClientId',
     'saveSettingsButton', 'disconnectButton', 'setupHelpSection', 'currentOrigin',
     'copyOriginButton', 'appVersion', 'toast'
   ];
@@ -115,9 +116,9 @@ function bindEvents() {
 
   el.videoPlayer.addEventListener('loadedmetadata', onMediaReady);
   el.videoPlayer.addEventListener('canplay', onMediaReady, { once: false });
+  el.videoPlayer.addEventListener('resize', updateQualityDisplay);
   el.videoPlayer.addEventListener('error', () => handleMediaElementError('video'));
   el.imageViewer.addEventListener('load', onMediaReady);
-  el.imageViewer.addEventListener('error', () => handleMediaElementError('image'));
   el.drivePreview.addEventListener('load', () => {
     if (state.mediaAttempt === 'drive-preview') onMediaReady();
   });
@@ -422,10 +423,8 @@ function openPlayer(file) {
   document.body.style.overflow = 'hidden';
   el.playerSheet.hidden = false;
   el.playerTitle.textContent = file.name || '이름 없는 파일';
-  el.mediaResolution.textContent = resolutionText(file) || '정보 없음';
-  el.mediaSize.textContent = formatBytes(file.size) || '정보 없음';
-  el.mediaType.textContent = friendlyMime(file.mimeType);
-  el.codecNote.textContent = '먼저 원본 구간 스트림을 시도하고, 실패하면 메모리 임시 버퍼로 자동 전환합니다.';
+  el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
+  updateQualityDisplay();
   openMediaSource(file);
   requestAnimationFrame(() => el.closePlayerButton.focus());
 }
@@ -435,7 +434,7 @@ function openMediaSource(file) {
   const session = state.mediaSession;
   state.mediaAttempt = 'range';
   state.lastProxyError = null;
-  setStreamMode('range', '원본 스트림');
+  updateQualityDisplay();
   showMediaLoading('원본 구간 스트림 준비 중');
   const isVideo = file.mimeType?.startsWith('video/');
 
@@ -444,7 +443,7 @@ function openMediaSource(file) {
       showMediaError('데모 화면에서는 실제 Drive 영상을 요청하지 않습니다.', { showDrive: false });
     } else {
       state.mediaAttempt = 'blob';
-      setStreamMode('buffer', '원본 임시 버퍼');
+      updateQualityDisplay();
       el.imageViewer.hidden = false;
       el.imageViewer.alt = file.name || '데모 이미지';
       el.imageViewer.src = demoImageDataUrl();
@@ -531,7 +530,7 @@ async function startOriginalBlobFallback(file, kind, session) {
 
   state.mediaAttempt = 'blob-loading';
   state.lastProxyError = null;
-  setStreamMode('buffer', '원본 임시 버퍼');
+  updateQualityDisplay();
   clearDirectMediaSources();
   showMediaLoading('직접 스트림 실패 — 원본을 메모리에 임시로 불러오는 중');
   state.mediaAbortController = new AbortController();
@@ -548,7 +547,8 @@ async function startOriginalBlobFallback(file, kind, session) {
 
     state.mediaBlobUrl = URL.createObjectURL(blob);
     state.mediaAttempt = 'blob';
-    el.codecNote.textContent = '구간 스트림 대신 원본 전체를 메모리에 임시 저장했습니다. 플레이어를 닫으면 즉시 해제됩니다.';
+    updateQualityDisplay();
+    el.codecNote.textContent = '구간 스트림 대신 원본 바이너리 전체를 메모리 버퍼에 임시 저장하여 100% 무손실로 재생 중입니다. 플레이어를 닫으면 즉시 해제됩니다.';
 
     if (kind === 'video') {
       el.videoPlayer.hidden = false;
@@ -604,11 +604,11 @@ async function readResponseIntoBlob(response, file, session) {
 function showDrivePreview(file, reason) {
   clearDirectMediaSources();
   state.mediaAttempt = 'drive-preview';
-  setStreamMode('drive', 'Drive 호환 재생');
+  updateQualityDisplay();
   showMediaLoading('Drive 호환 재생기로 전환 중');
   el.drivePreview.hidden = false;
   el.drivePreview.src = buildDrivePreviewUrl(file);
-  el.codecNote.textContent = `${reason} 이 모드는 Google의 변환본을 사용하므로 화질이 원본보다 낮을 수 있습니다.`;
+  el.codecNote.textContent = `${reason} 이 모드는 Google Drive의 압축 변환본을 재생하므로 원본보다 화질이 낮을 수 있습니다.`;
 }
 
 function buildDrivePreviewUrl(file) {
@@ -626,12 +626,106 @@ function openSelectedInDrive() {
 function onMediaReady() {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
+  updateQualityDisplay();
 }
 
 function setStreamMode(mode, label) {
-  el.streamModeLabel.dataset.mode = mode;
-  const text = el.streamModeLabel.querySelector('span');
-  if (text) text.textContent = label;
+  if (el.streamModeLabel) el.streamModeLabel.dataset.mode = mode;
+  if (el.streamModeText) el.streamModeText.textContent = label;
+}
+
+function getResolutionCategory(width, height) {
+  const w = Number(width) || 0;
+  const h = Number(height) || 0;
+  if (!w || !h) return '';
+  const pixels = w * h;
+  const maxDim = Math.max(w, h);
+  const minDim = Math.min(w, h);
+  if (maxDim >= 3840 || minDim >= 2160 || pixels >= 7_500_000) return '4K UHD';
+  if (maxDim >= 2560 || minDim >= 1440 || pixels >= 3_500_000) return 'QHD 1440p';
+  if (maxDim >= 1920 || minDim >= 1080 || pixels >= 1_900_000) return 'FHD 1080p';
+  if (maxDim >= 1280 || minDim >= 720 || pixels >= 850_000) return 'HD 720p';
+  return 'SD';
+}
+
+function updateQualityDisplay() {
+  const file = state.selected;
+  if (!file) return;
+
+  const mode = state.mediaAttempt;
+  const isVideo = file.mimeType?.startsWith('video/');
+  const meta = file.videoMediaMetadata || file.imageMediaMetadata;
+  const metaW = Number(meta?.width) || 0;
+  const metaH = Number(meta?.height) || 0;
+  const metaCat = getResolutionCategory(metaW, metaH);
+
+  let liveW = 0;
+  let liveH = 0;
+  if (isVideo && el.videoPlayer && !el.videoPlayer.hidden) {
+    liveW = el.videoPlayer.videoWidth || 0;
+    liveH = el.videoPlayer.videoHeight || 0;
+  } else if (!isVideo && el.imageViewer && !el.imageViewer.hidden) {
+    liveW = el.imageViewer.naturalWidth || 0;
+    liveH = el.imageViewer.naturalHeight || 0;
+  }
+
+  const effectiveW = liveW || metaW;
+  const effectiveH = liveH || metaH;
+  const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
+
+  if (mode === 'drive-preview') {
+    setStreamMode('drive', 'Drive 호환 재생');
+    if (el.qualityBadge) {
+      el.qualityBadge.dataset.quality = 'preview';
+      el.qualityBadge.textContent = 'Drive 변환 화질';
+    }
+    if (el.playbackQualityText) el.playbackQualityText.textContent = 'Google 압축 변환본';
+    if (el.streamModeDetail) el.streamModeDetail.textContent = 'Drive 미리보기 (iframe)';
+    if (el.mediaResolution) {
+      el.mediaResolution.textContent = metaW && metaH
+        ? `가변 해상도 (원본: ${metaW}×${metaH} ${metaCat})`
+        : 'Drive 가변 변환 해상도';
+    }
+  } else if (mode === 'blob' || mode === 'blob-loading') {
+    setStreamMode('buffer', '원본 임시 버퍼');
+    if (el.qualityBadge) {
+      el.qualityBadge.dataset.quality = 'buffer';
+      el.qualityBadge.textContent = effectiveCat ? `원본 ${effectiveCat}` : '100% 원본 화질';
+    }
+    if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
+    if (el.streamModeDetail) el.streamModeDetail.textContent = '메모리 버퍼 (Blob)';
+    if (el.mediaResolution) {
+      if (effectiveW && effectiveH) {
+        const matchTag = (metaW && metaH && liveW && liveH && metaW === liveW && metaH === liveH) ? ' · 원본 1:1' : '';
+        el.mediaResolution.textContent = `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat}${matchTag})` : ''}`;
+      } else {
+        el.mediaResolution.textContent = '원본 해상도 분석 중…';
+      }
+    }
+  } else {
+    // 'range' mode (Tier 1)
+    setStreamMode('range', '100% 원본 스트림');
+    if (el.qualityBadge) {
+      el.qualityBadge.dataset.quality = 'original';
+      el.qualityBadge.textContent = effectiveCat ? `원본 ${effectiveCat}` : '100% 원본 화질';
+    }
+    if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
+    if (el.streamModeDetail) el.streamModeDetail.textContent = '구간 스트림 (Range)';
+    if (el.mediaResolution) {
+      if (effectiveW && effectiveH) {
+        const matchTag = (metaW && metaH && liveW && liveH && metaW === liveW && metaH === liveH) ? ' · 원본 1:1' : '';
+        el.mediaResolution.textContent = `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat}${matchTag})` : ''}`;
+      } else {
+        el.mediaResolution.textContent = '원본 해상도 분석 중…';
+      }
+    }
+  }
+
+  if (el.mediaFileSizeType) {
+    const sizeStr = formatBytes(file.size);
+    const mimeStr = friendlyMime(file.mimeType);
+    el.mediaFileSizeType.textContent = [sizeStr, mimeStr].filter(Boolean).join(' · ') || '정보 없음';
+  }
 }
 
 function showMediaLoading(message) {
