@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.7.0';
+const APP_VERSION = '1.7.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -656,6 +656,10 @@ function setupInfiniteScroll() {
   infiniteScrollObserver.observe(el.infiniteScrollSentinel);
 }
 
+const thumbnailExtractionQueue = [];
+let activeThumbnailExtractions = 0;
+const MAX_CONCURRENT_EXTRACTIONS = 2;
+
 function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
   if (!file || !file.mimeType?.startsWith('video/')) return;
   const cached = generatedThumbnailCache.get(file.id);
@@ -666,10 +670,30 @@ function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
     return;
   }
 
-  const mediaUrl = buildMediaUrl(file);
-  if (!mediaUrl) return;
+  thumbnailExtractionQueue.push({ file, imgElement, visualContainer });
+  processThumbnailQueue();
+}
 
+function processThumbnailQueue() {
+  if (activeThumbnailExtractions >= MAX_CONCURRENT_EXTRACTIONS || thumbnailExtractionQueue.length === 0) {
+    return;
+  }
+
+  const { file, imgElement, visualContainer } = thumbnailExtractionQueue.shift();
+  
+  const cached = generatedThumbnailCache.get(file.id);
+  if (cached) {
+    imgElement.src = cached;
+    imgElement.classList.add('loaded');
+    visualContainer.classList.add('has-thumbnail');
+    processThumbnailQueue();
+    return;
+  }
+
+  activeThumbnailExtractions++;
   visualContainer.classList.add('is-generating');
+
+  const mediaUrl = buildMediaUrl(file);
   const video = document.createElement('video');
   video.preload = 'metadata';
   video.muted = true;
@@ -678,12 +702,23 @@ function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
   video.src = mediaUrl;
   video.currentTime = 0.1;
 
-  let isCleaned = false;
-  const cleanup = () => {
-    if (isCleaned) return;
-    isCleaned = true;
-    video.removeAttribute('src');
-    video.load();
+  let isDone = false;
+  const finish = (dataUrl = null) => {
+    if (isDone) return;
+    isDone = true;
+    activeThumbnailExtractions--;
+    visualContainer.classList.remove('is-generating');
+    try {
+      video.removeAttribute('src');
+      video.load();
+    } catch (_) {}
+    if (dataUrl) {
+      generatedThumbnailCache.set(file.id, dataUrl);
+      imgElement.src = dataUrl;
+      imgElement.classList.add('loaded');
+      visualContainer.classList.add('has-thumbnail');
+    }
+    setTimeout(processThumbnailQueue, 40);
   };
 
   const capture = () => {
@@ -692,37 +727,25 @@ function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
       const h = video.videoHeight || 180;
       if (w > 0 && h > 0) {
         const canvas = document.createElement('canvas');
-        const scale = Math.min(1, 320 / Math.max(w, h));
+        const scale = Math.min(1, 360 / Math.max(w, h));
         canvas.width = Math.round(w * scale);
         canvas.height = Math.round(h * scale);
         const ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
-        generatedThumbnailCache.set(file.id, dataUrl);
-        imgElement.src = dataUrl;
-        imgElement.classList.add('loaded');
-        visualContainer.classList.add('has-thumbnail');
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        finish(dataUrl);
+        return;
       }
     } catch (err) {
-      console.warn('Frame capture notice:', err);
-    } finally {
-      visualContainer.classList.remove('is-generating');
-      cleanup();
+      console.warn('Canvas frame capture warning:', err);
     }
+    finish();
   };
 
   video.addEventListener('loadeddata', capture, { once: true });
   video.addEventListener('seeked', capture, { once: true });
-  video.addEventListener('error', () => {
-    visualContainer.classList.remove('is-generating');
-    cleanup();
-  }, { once: true });
-
-  // Timeout guard for slow network
-  setTimeout(() => {
-    visualContainer.classList.remove('is-generating');
-    cleanup();
-  }, 4000);
+  video.addEventListener('error', () => finish(), { once: true });
+  setTimeout(() => finish(), 4000);
 }
 
 async function loadFiles({ append }) {
