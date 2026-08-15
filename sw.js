@@ -1,4 +1,4 @@
-const VERSION = '1.0.6';
+const VERSION = '1.0.7';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -16,10 +16,10 @@ let accessToken = null;
 let tokenExpiresAt = 0;
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_FILES))
   );
-  // Do not call self.skipWaiting() automatically so the app can detect the new waiting worker
 });
 
 self.addEventListener('activate', (event) => {

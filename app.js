@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.6';
+const APP_VERSION = '1.0.7';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -214,21 +214,6 @@ async function setupServiceWorker() {
     state.serviceWorkerRegistration = registration;
     await navigator.serviceWorker.ready;
 
-    // Check if worker is already waiting
-    if (registration.waiting) {
-      notifyUpdateAvailable();
-    }
-
-    registration.addEventListener('updatefound', () => {
-      const newWorker = registration.installing;
-      if (!newWorker) return;
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          notifyUpdateAvailable();
-        }
-      });
-    });
-
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (updatePending) {
         window.location.reload();
@@ -246,7 +231,6 @@ async function setupServiceWorker() {
     setInterval(() => checkForAppUpdate({ manual: false }), 5 * 60 * 1000);
   } catch (error) {
     console.error('Service worker registration failed', error);
-    showToast('스트리밍 모듈을 시작하지 못했습니다. 페이지를 새로고침하세요.');
   }
 }
 
@@ -286,7 +270,7 @@ function notifyUpdateAvailable(newVersion, summary) {
 
 async function checkForAppUpdate({ manual = false } = {}) {
   if (manual && el.updateStatusText) {
-    el.updateStatusText.textContent = '업데이트 서버 확인 중…';
+    el.updateStatusText.textContent = '최신 버전 확인 중…';
     if (el.checkUpdateButton) el.checkUpdateButton.disabled = true;
   }
 
@@ -294,7 +278,7 @@ async function checkForAppUpdate({ manual = false } = {}) {
   let releaseInfo = null;
 
   try {
-    // 1. Fetch remote version metadata directly from server (bypassing browser & SW caches)
+    // Fetch remote version metadata directly from server (bypassing all caches)
     const versionUrl = new URL(`version.json?_t=${Date.now()}`, location.href).href;
     const res = await fetch(versionUrl, {
       cache: 'no-store',
@@ -304,32 +288,26 @@ async function checkForAppUpdate({ manual = false } = {}) {
     if (res.ok) {
       releaseInfo = await res.json();
       remoteVersion = releaseInfo.version;
-    } else {
-      // Fallback: check sw.js
-      const swRes = await fetch(`./sw.js?_t=${Date.now()}`, { cache: 'no-store' });
-      if (swRes.ok) {
-        const swText = await swRes.text();
-        const match = swText.match(/VERSION\s*=\s*['"]([^'"]+)['"]/);
-        if (match) remoteVersion = match[1];
-      }
     }
 
-    // 2. Trigger Service Worker registration update
     if ('serviceWorker' in navigator && state.serviceWorkerRegistration) {
       await state.serviceWorkerRegistration.update().catch(() => {});
     }
 
     const hasNewVersion = Boolean(remoteVersion && isNewerVersion(remoteVersion, APP_VERSION));
-    const hasWaitingWorker = Boolean(state.serviceWorkerRegistration?.waiting);
 
-    if (hasNewVersion || hasWaitingWorker) {
-      const targetVer = remoteVersion || '1.0.5';
-      notifyUpdateAvailable(targetVer, releaseInfo?.changeSummary);
+    if (hasNewVersion) {
+      notifyUpdateAvailable(remoteVersion, releaseInfo?.changeSummary);
       if (manual) {
-        showToast(`새로운 버전(v${targetVer})이 준비되었습니다. [지금 업데이트]를 눌러 적용하세요.`);
+        showToast(`새로운 버전(v${remoteVersion})이 준비되었습니다. [지금 업데이트]를 눌러 적용하세요.`);
       }
-      return { hasUpdate: true, version: targetVer };
+      return { hasUpdate: true, version: remoteVersion };
     }
+
+    // No new update -> strictly hide all update indicators
+    if (el.updateBanner) el.updateBanner.hidden = true;
+    if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = true;
+    if (el.applyUpdateButton) el.applyUpdateButton.hidden = true;
 
     if (manual) {
       const now = new Date();
@@ -337,16 +315,13 @@ async function checkForAppUpdate({ manual = false } = {}) {
       if (el.updateStatusText) {
         el.updateStatusText.textContent = `✅ 현재 최신 버전(v${APP_VERSION})을 사용 중입니다. (${timeStr} 확인)`;
       }
-      if (el.applyUpdateButton) el.applyUpdateButton.hidden = true;
-      if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = true;
-      if (el.updateBanner) el.updateBanner.hidden = true;
       showToast(`현재 최신 버전(v${APP_VERSION})입니다.`);
     }
     return { hasUpdate: false, version: APP_VERSION };
   } catch (err) {
     console.error('Update check failed:', err);
     if (manual) {
-      if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다. 네트워크를 확인하세요.';
+      if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다.';
       showToast('업데이트 확인 실패: 네트워크를 확인하세요.');
     }
     return { hasUpdate: false, error: err };
@@ -1538,11 +1513,13 @@ function setConnectBusy(busy) {
 function updateConnectionBadge(forcedState) {
   const badgeState = forcedState || (!navigator.onLine ? 'offline' : hasUsableToken() || state.demo ? 'online' : 'offline');
   el.connectionBadge.dataset.state = badgeState;
-  const label = el.connectionBadge.querySelector('span');
-  if (badgeState === 'busy') label.textContent = '연결 중';
-  else if (!navigator.onLine) label.textContent = '오프라인';
-  else if (badgeState === 'online') label.textContent = state.demo ? '데모 모드' : 'Drive 연결됨';
-  else label.textContent = '연결 안 됨';
+  const label = el.connectionBadge.querySelector('.badge-text') || el.connectionBadge.querySelector('span:last-child');
+  if (label) {
+    if (badgeState === 'busy') label.textContent = '연결 중…';
+    else if (!navigator.onLine) label.textContent = '오프라인';
+    else if (badgeState === 'online') label.textContent = state.demo ? '데모 모드' : 'Drive 연결됨';
+    else label.textContent = '연결 안 됨';
+  }
 }
 
 function hasUsableToken() {
