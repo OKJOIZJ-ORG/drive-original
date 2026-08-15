@@ -1,4 +1,4 @@
-const VERSION = '1.0.8';
+const VERSION = '1.0.9';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -6,6 +6,7 @@ const SHELL_FILES = [
   './index.html',
   './styles.css',
   './app.js',
+  './version.json',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -57,7 +58,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Stream proxy
+  // 2. Stream proxy for Drive media
   if (url.origin === self.location.origin && url.pathname.includes(MEDIA_MARKER)) {
     event.respondWith(proxyDriveMedia(event.request, url));
     return;
@@ -65,23 +66,26 @@ self.addEventListener('fetch', (event) => {
 
   if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  if (event.request.mode === 'navigate') {
-    event.respondWith(networkFirstNavigation(event.request));
-    return;
-  }
-
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
+  // 3. For all local shell assets (HTML, JS, CSS, icons): Network-First, fallback to Cache!
+  event.respondWith(networkFirstAsset(event.request));
 });
 
-async function networkFirstNavigation(request) {
+async function networkFirstAsset(request) {
   try {
     const response = await fetch(request);
-    const cache = await caches.open(SHELL_CACHE);
-    cache.put(request, response.clone());
+    if (response && response.ok) {
+      const cache = await caches.open(SHELL_CACHE);
+      cache.put(request, response.clone());
+    }
     return response;
   } catch (_) {
     const cached = await caches.match(request);
-    return cached || caches.match('./index.html');
+    if (cached) return cached;
+    if (request.mode === 'navigate') {
+      const fallback = await caches.match('./index.html');
+      if (fallback) return fallback;
+    }
+    return Response.error();
   }
 }
 
@@ -99,131 +103,100 @@ async function proxyDriveMedia(request, url) {
     notifyClients({ type: 'MEDIA_AUTH_REQUIRED' });
     return new Response('Google authorization required', {
       status: 401,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });
   }
 
-  const driveUrl = new URL('https://www.googleapis.com/drive/v3/files/' + encodeURIComponent(fileId));
-  driveUrl.searchParams.set('alt', 'media');
-  driveUrl.searchParams.set('supportsAllDrives', 'true');
-  driveUrl.searchParams.set('acknowledgeAbuse', 'true');
-
+  const driveUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&supportsAllDrives=true`;
   const headers = new Headers();
   headers.set('Authorization', `Bearer ${token}`);
-  headers.set('Accept', request.headers.get('Accept') || '*/*');
-  const range = request.headers.get('Range');
-  if (range) headers.set('Range', range);
 
-  const resourceKey = url.searchParams.get('resourceKey');
-  if (resourceKey) headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
+  const range = request.headers.get('range');
+  if (range) {
+    headers.set('Range', range);
+  }
 
   try {
     const upstream = await fetch(driveUrl, {
       method: request.method,
       headers,
-      mode: 'cors',
-      credentials: 'omit',
-      cache: 'no-store',
-      redirect: 'follow'
+      redirect: 'follow',
+      mode: 'cors'
     });
 
-    if (upstream.status === 401) {
-      accessToken = null;
-      tokenExpiresAt = 0;
-      notifyClients({ type: 'MEDIA_AUTH_REQUIRED' });
-    }
-
-    if (!upstream.ok && upstream.status !== 206) {
-      notifyClients({ type: 'MEDIA_PROXY_ERROR', status: upstream.status });
-      return upstream;
-    }
-
     const responseHeaders = new Headers(upstream.headers);
-    const hintedType = url.searchParams.get('mime');
-    if (hintedType && (!responseHeaders.get('Content-Type') || responseHeaders.get('Content-Type') === 'application/octet-stream')) {
-      responseHeaders.set('Content-Type', hintedType);
-    }
+    responseHeaders.set('Access-Control-Allow-Origin', self.location.origin);
+    responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+    responseHeaders.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+    responseHeaders.set('Access-Control-Allow-Headers', 'Range, Authorization, Accept, Origin, Content-Type');
+    responseHeaders.set('Access-Control-Expose-Headers', 'Content-Range, Accept-Ranges, Content-Length, Content-Type');
     responseHeaders.set('Accept-Ranges', 'bytes');
-    responseHeaders.set('Cache-Control', 'private, no-store, no-cache, max-age=0');
-    responseHeaders.set('Pragma', 'no-cache');
-    responseHeaders.set('Content-Disposition', 'inline');
-    responseHeaders.delete('Set-Cookie');
-    normalizeMediaResponseHeaders(
-      responseHeaders,
-      upstream.status,
-      range,
-      Number(url.searchParams.get('size')) || 0
-    );
+    responseHeaders.set('Cache-Control', 'private, no-transform, max-age=3600');
 
-    return new Response(request.method === 'HEAD' ? null : upstream.body, {
+    return new Response(upstream.body, {
       status: upstream.status,
       statusText: upstream.statusText,
       headers: responseHeaders
     });
   } catch (error) {
-    notifyClients({ type: 'MEDIA_PROXY_ERROR', status: 0, message: String(error) });
-    return new Response('Drive media request failed', {
+    return new Response(`Streaming error: ${error?.message || 'unknown'}`, {
       status: 502,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });
-  }
-}
-
-function normalizeMediaResponseHeaders(headers, status, requestedRange, totalSize) {
-  const contentLength = Number(headers.get('Content-Length')) || 0;
-  if (status === 200 && totalSize && !headers.get('Content-Length')) {
-    headers.set('Content-Length', String(totalSize));
-  }
-  if (status !== 206 || headers.get('Content-Range') || !requestedRange || !totalSize) return;
-
-  const match = /^bytes=(\d+)-(\d*)$/i.exec(requestedRange.trim());
-  if (!match) return;
-  const start = Number(match[1]);
-  const requestedEnd = match[2] ? Number(match[2]) : null;
-  const inferredEnd = contentLength ? start + contentLength - 1 : totalSize - 1;
-  const end = Math.min(requestedEnd ?? inferredEnd, totalSize - 1);
-  if (Number.isFinite(start) && Number.isFinite(end) && start <= end) {
-    headers.set('Content-Range', `bytes ${start}-${end}/${totalSize}`);
-    if (!headers.get('Content-Length')) headers.set('Content-Length', String(end - start + 1));
   }
 }
 
 function extractFileId(pathname) {
-  const markerIndex = pathname.indexOf(MEDIA_MARKER);
-  if (markerIndex < 0) return null;
-  return decodeURIComponent(pathname.slice(markerIndex + MEDIA_MARKER.length).split('/')[0]);
+  const parts = pathname.split(MEDIA_MARKER);
+  if (parts.length < 2) return null;
+  const trailing = parts[1];
+  const slash = trailing.indexOf('/');
+  return slash === -1 ? trailing : trailing.slice(0, slash);
 }
 
 async function getUsableToken() {
-  const clockSkew = 15_000;
-  if (accessToken && (!tokenExpiresAt || Date.now() < tokenExpiresAt - clockSkew)) return accessToken;
-  accessToken = null;
-  tokenExpiresAt = 0;
-  return requestTokenFromClients();
-}
-
-async function requestTokenFromClients() {
-  const windowClients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-  for (const client of windowClients) {
-    const result = await new Promise((resolve) => {
-      const channel = new MessageChannel();
-      const timeout = setTimeout(() => resolve(null), 1200);
-      channel.port1.onmessage = (event) => {
-        clearTimeout(timeout);
-        resolve(event.data || null);
-      };
-      client.postMessage({ type: 'TOKEN_REQUEST' }, [channel.port2]);
-    });
-    if (result && result.token && (!result.expiresAt || Date.now() < result.expiresAt - 15_000)) {
-      accessToken = result.token;
-      tokenExpiresAt = Number(result.expiresAt) || 0;
-      return accessToken;
-    }
+  if (accessToken && tokenExpiresAt && Date.now() < tokenExpiresAt - 30_000) {
+    return accessToken;
+  }
+  const clientToken = await requestTokenFromClient();
+  if (clientToken) {
+    accessToken = clientToken.token;
+    tokenExpiresAt = Number(clientToken.expiresAt) || 0;
+    return accessToken;
   }
   return null;
 }
 
+async function requestTokenFromClient() {
+  const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+  if (!clients.length) return null;
+  return new Promise((resolve) => {
+    let resolved = false;
+    const channel = new MessageChannel();
+    const timeout = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        resolve(null);
+      }
+    }, 1500);
+
+    channel.port1.onmessage = (event) => {
+      if (!resolved) {
+        resolved = true;
+        clearTimeout(timeout);
+        const data = event.data || {};
+        if (data.token) resolve(data);
+        else resolve(null);
+      }
+    };
+
+    clients[0].postMessage({ type: 'REQUEST_TOKEN' }, [channel.port2]);
+  });
+}
+
 async function notifyClients(message) {
-  const windowClients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-  windowClients.forEach((client) => client.postMessage(message));
+  const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+  for (const client of clients) {
+    client.postMessage(message);
+  }
 }

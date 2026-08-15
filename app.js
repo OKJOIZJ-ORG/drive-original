@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.8';
+const APP_VERSION = '1.0.9';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -333,18 +333,17 @@ async function checkForAppUpdate({ manual = false } = {}) {
 async function applyAppUpdate() {
   updatePending = true;
   showToast('최신 버전을 즉시 적용합니다…');
-  const reg = state.serviceWorkerRegistration;
-  if (reg && reg.waiting) {
-    reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-  } else {
-    try {
-      if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map((k) => caches.delete(k)));
-      }
-    } catch (_) {}
-    setTimeout(() => window.location.reload(), 300);
-  }
+  try {
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((r) => r.unregister()));
+    }
+  } catch (_) {}
+  setTimeout(() => window.location.reload(), 250);
 }
 
 async function forceReloadApp() {
