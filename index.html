@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.4.0">
+  <link rel="stylesheet" href="./styles.css?v=1.4.1">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.4.0" defer></script>
+  <script src="./app.js?v=1.4.1" defer></script>
 </head>
 <body style="background-color: #0b0d14; color: #f8fafc; margin: 0; min-height: 100vh;">
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -221,13 +221,13 @@
           <h2 id="playerTitle">미디어 파일 이름</h2>
         </div>
         <div class="player-topbar-actions">
-          <button class="player-ctrl-btn" id="topbarPrevBtn" type="button" aria-label="이전 영상 (A / ←)" title="이전 영상 (A / ←)">
+          <button class="player-ctrl-btn" id="topbarPrevBtn" type="button" aria-label="이전 영상" title="이전 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
           </button>
-          <button class="player-ctrl-btn" id="topbarRandomBtn" type="button" aria-label="쇼츠처럼 랜덤 영상 (W/S / ↑↓)" title="쇼츠처럼 랜덤 영상 (W/S / ↑↓)">
+          <button class="player-ctrl-btn" id="topbarRandomBtn" type="button" aria-label="랜덤 영상 (쇼츠)" title="랜덤 영상 (쇼츠)">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
           </button>
-          <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상 (D / →)" title="다음 영상 (D / →)">
+          <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상" title="다음 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
           </button>
           <button class="icon-button" id="pipButton" type="button" aria-label="화면 속 화면(PiP)" title="화면 속 화면 (PiP)" hidden>
@@ -271,17 +271,17 @@
           <!-- Bottom Controls Row -->
           <div class="controls-bottom-bar">
             <div class="controls-left">
-              <button class="player-ctrl-btn" id="ctrlPrevVideo" type="button" aria-label="이전 영상 (A / ←)" title="이전 영상 (A / ←)">
+              <button class="player-ctrl-btn" id="ctrlPrevVideo" type="button" aria-label="이전 영상" title="이전 영상">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
               </button>
               <button class="player-ctrl-btn" id="ctrlPlayPause" type="button" aria-label="재생/일시정지 (Space / K)" title="재생/일시정지 (Space / K)">
                 <svg class="icon-play" id="ctrlIconPlay" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
                 <svg class="icon-pause" id="ctrlIconPause" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="currentColor" hidden><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
               </button>
-              <button class="player-ctrl-btn" id="ctrlNextVideo" type="button" aria-label="다음 영상 (D / →)" title="다음 영상 (D / →)">
+              <button class="player-ctrl-btn" id="ctrlNextVideo" type="button" aria-label="다음 영상" title="다음 영상">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
               </button>
-              <button class="player-ctrl-btn" id="ctrlRandomShorts" type="button" aria-label="쇼츠처럼 랜덤 영상 (W/S / ↑↓)" title="쇼츠처럼 랜덤 영상 (W/S / ↑↓)">
+              <button class="player-ctrl-btn" id="ctrlRandomShorts" type="button" aria-label="랜덤 영상 (쇼츠)" title="랜덤 영상 (쇼츠)">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
               </button>
               <button class="player-ctrl-btn" id="ctrlRewind" type="button" aria-label="10초 뒤로 (J)" title="10초 뒤로 (J)">
@@ -392,7 +392,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.4.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.4.1</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -445,7 +445,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.4.0</span>
+          <span id="appVersion">v1.4.1</span>
         </div>
       </div>
     </form>

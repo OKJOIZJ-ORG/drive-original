@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.4.0';
+const APP_VERSION = '1.4.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -154,13 +154,46 @@ function bindEvents() {
   el.fullscreenButton.addEventListener('click', toggleFullscreen);
   el.pipButton.addEventListener('click', togglePictureInPicture);
 
-  // Topbar and Controls Navigation Buttons
-  if (el.topbarPrevBtn) el.topbarPrevBtn.addEventListener('click', playPrevFile);
-  if (el.topbarRandomBtn) el.topbarRandomBtn.addEventListener('click', playRandomFile);
-  if (el.topbarNextBtn) el.topbarNextBtn.addEventListener('click', playNextFile);
-  if (el.ctrlPrevVideo) el.ctrlPrevVideo.addEventListener('click', playPrevFile);
-  if (el.ctrlRandomShorts) el.ctrlRandomShorts.addEventListener('click', playRandomFile);
-  if (el.ctrlNextVideo) el.ctrlNextVideo.addEventListener('click', playNextFile);
+  // Topbar and Controls Navigation Buttons (Robust Click Binding & Timer Resets)
+  if (el.topbarPrevBtn) {
+    el.topbarPrevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playPrevFile('right');
+    });
+  }
+  if (el.topbarRandomBtn) {
+    el.topbarRandomBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playRandomFile('up');
+    });
+  }
+  if (el.topbarNextBtn) {
+    el.topbarNextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playNextFile('left');
+    });
+  }
+  if (el.ctrlPrevVideo) {
+    el.ctrlPrevVideo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetControlsTimer();
+      playPrevFile('right');
+    });
+  }
+  if (el.ctrlRandomShorts) {
+    el.ctrlRandomShorts.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetControlsTimer();
+      playRandomFile('up');
+    });
+  }
+  if (el.ctrlNextVideo) {
+    el.ctrlNextVideo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetControlsTimer();
+      playNextFile('left');
+    });
+  }
 
   document.addEventListener('fullscreenchange', updateFullscreenUI);
   document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
@@ -1172,6 +1205,7 @@ function animateMediaTransition(direction, callback) {
 }
 
 function playNextFile(direction = 'left') {
+  const dir = typeof direction === 'string' ? direction : 'left';
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -1180,12 +1214,13 @@ function playNextFile(direction = 'left') {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const nextIndex = (currentIndex + 1) % list.length;
-  showPlayerFeedback('NEXT (D)');
+  showPlayerFeedback('NEXT');
   state.pendingPlay = true;
-  animateMediaTransition(direction, () => openMediaSource(list[nextIndex]));
+  animateMediaTransition(dir, () => openMediaSource(list[nextIndex]));
 }
 
 function playPrevFile(direction = 'right') {
+  const dir = typeof direction === 'string' ? direction : 'right';
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -1194,12 +1229,13 @@ function playPrevFile(direction = 'right') {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const prevIndex = (currentIndex - 1 + list.length) % list.length;
-  showPlayerFeedback('PREV (A)');
+  showPlayerFeedback('PREV');
   state.pendingPlay = true;
-  animateMediaTransition(direction, () => openMediaSource(list[prevIndex]));
+  animateMediaTransition(dir, () => openMediaSource(list[prevIndex]));
 }
 
 function playRandomFile(direction = 'up') {
+  const dir = typeof direction === 'string' ? direction : 'up';
   const list = getPlaybackFileList();
   if (!list.length) return;
   let nextFile;
@@ -1209,9 +1245,9 @@ function playRandomFile(direction = 'up') {
     const candidates = list.filter((f) => !state.selected || f.id !== state.selected.id);
     nextFile = candidates[Math.floor(Math.random() * candidates.length)];
   }
-  showPlayerFeedback('SHORTS (W / S)');
+  showPlayerFeedback('SHORTS');
   state.pendingPlay = true;
-  animateMediaTransition(direction, () => openMediaSource(nextFile));
+  animateMediaTransition(dir, () => openMediaSource(nextFile));
 }
 
 let touchStartX = 0;
@@ -1311,28 +1347,6 @@ function handlePlayerKeyboard(event) {
 
   const key = event.key.toLowerCase();
   const code = event.code;
-
-  // WASD Key Navigation with Slide Transitions
-  if (key === 'd') {
-    event.preventDefault();
-    playNextFile('left');
-    return;
-  }
-  if (key === 'a') {
-    event.preventDefault();
-    playPrevFile('right');
-    return;
-  }
-  if (key === 'w') {
-    event.preventDefault();
-    playRandomFile('up');
-    return;
-  }
-  if (key === 's') {
-    event.preventDefault();
-    playRandomFile('down');
-    return;
-  }
 
   if (event.key === 'Escape') {
     if (isSpeedMenuOpen) {
