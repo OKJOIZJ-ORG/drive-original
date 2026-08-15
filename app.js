@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.5';
+const APP_VERSION = '1.0.6';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -604,11 +604,12 @@ function createFileCard(file) {
   button.disabled = !canDownload;
   button.setAttribute('aria-label', `${file.name}, ${isVideo ? '영상' : '이미지'}, 원본 열기`);
 
-  const visual = document.createElement('span');
-  visual.className = `file-visual ${isVideo ? 'video' : 'image'}`;
+  const visual = document.createElement('div');
+  visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
+  
   if (file.thumbnailLink) {
     const thumbnail = document.createElement('img');
-    thumbnail.className = 'file-thumbnail';
+    thumbnail.className = 'file-card-thumb';
     thumbnail.alt = '';
     thumbnail.loading = 'lazy';
     thumbnail.decoding = 'async';
@@ -621,29 +622,45 @@ function createFileCard(file) {
     thumbnail.src = file.thumbnailLink;
     visual.appendChild(thumbnail);
   }
-  const kind = document.createElement('span');
-  kind.className = 'file-kind';
-  kind.textContent = isVideo ? 'VIDEO' : 'IMAGE';
-  visual.appendChild(kind);
-  if (isVideo && file.videoMediaMetadata?.durationMillis) {
-    const duration = document.createElement('span');
-    duration.className = 'file-duration';
-    duration.textContent = formatDuration(Number(file.videoMediaMetadata.durationMillis) / 1000);
-    visual.appendChild(duration);
+
+  // Format Badge (e.g., 4K, FHD, MP4, PNG)
+  const res = resolutionText(file);
+  let badgeLabel = isVideo ? 'VIDEO' : 'IMAGE';
+  if (res) badgeLabel = res;
+  else if (file.mimeType) badgeLabel = friendlyMime(file.mimeType);
+
+  const badge = document.createElement('span');
+  badge.className = 'file-card-badge';
+  badge.textContent = badgeLabel;
+  visual.appendChild(badge);
+
+  // Play overlay on hover for video
+  if (isVideo) {
+    const overlay = document.createElement('div');
+    overlay.className = 'file-card-play-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    const glyph = document.createElement('div');
+    glyph.className = 'play-glyph-circle';
+    glyph.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>';
+    overlay.appendChild(glyph);
+    visual.appendChild(overlay);
   }
 
-  const body = document.createElement('span');
-  body.className = 'file-body';
+  const body = document.createElement('div');
+  body.className = 'file-card-body';
   const name = document.createElement('span');
-  name.className = 'file-name';
+  name.className = 'file-card-title';
   name.textContent = file.name || '이름 없는 파일';
-  const meta = document.createElement('span');
-  meta.className = 'file-meta';
+  
+  const meta = document.createElement('div');
+  meta.className = 'file-card-meta';
   const details = document.createElement('span');
-  details.textContent = [resolutionText(file), formatBytes(file.size)].filter(Boolean).join(' / ') || friendlyMime(file.mimeType);
-  const status = document.createElement('b');
-  status.textContent = canDownload ? '원본' : '제한됨';
+  details.textContent = formatBytes(file.size);
+  const status = document.createElement('span');
+  status.className = 'file-card-status';
+  status.textContent = canDownload ? '100% 원본' : '다운로드 제한';
   meta.append(details, status);
+
   body.append(name, meta);
   button.append(visual, body);
   if (canDownload) button.addEventListener('click', () => openPlayer(file));
