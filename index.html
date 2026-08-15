@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.8.0">
+  <link rel="stylesheet" href="./styles.css?v=1.9.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.8.0" defer></script>
+  <script src="./app.js?v=1.9.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -189,6 +189,11 @@
           <button type="button" data-filter="image" aria-pressed="false">이미지</button>
         </div>
 
+        <button type="button" class="deep-scan-toggle" id="deepScanToggle" aria-pressed="false" title="현재 폴더의 모든 하위 폴더까지 함께 불러옵니다">
+          <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M8 17h8"/><path d="M10 13h8"/></svg>
+          <span>하위 폴더 포함</span>
+        </button>
+
         <div class="sort-select">
           <select id="sortSelect" aria-label="정렬 기준">
             <option value="modifiedTime">최근 수정순</option>
@@ -275,28 +280,35 @@
         <iframe id="drivePreview" title="Google Drive 호환 미리보기" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
 
-        <!-- Mobile Shorts Bottom Overlay (Filename & Ultra-thin Progress Line) -->
+        <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
         <div class="mobile-shorts-overlay" id="mobileShortsOverlay" aria-hidden="true">
-          <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
+          <div class="shorts-expand-row" id="shortsExpandRow">
+            <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <span>삭제</span>
+            </button>
+            <button class="shorts-chip" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
+              <span>PiP</span>
+            </button>
+            <button class="shorts-chip" id="shortsDriveBtn" type="button" aria-label="Drive에서 열기" title="Drive에서 열기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9"/><path d="M3 14h18l-2.2 4.5a2 2 0 0 1-1.8 1.1H7a2 2 0 0 1-1.8-1.1z"/></svg>
+              <span>Drive</span>
+            </button>
+          </div>
+          <div class="shorts-bottom-row">
+            <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
+            <button class="shorts-chip solid" id="shortsFullscreenBtn" type="button" aria-label="전체화면" title="전체화면">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              <span>전체화면</span>
+            </button>
+            <button class="shorts-chip more" id="shortsMoreBtn" type="button" aria-label="더보기" aria-expanded="false" title="더보기">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+            </button>
+          </div>
           <div class="mobile-shorts-progress-track" id="mobileShortsProgressTrack">
             <div class="mobile-shorts-progress-bar" id="mobileShortsProgressBar"></div>
           </div>
-        </div>
-
-        <!-- Mobile Shorts Right Action Rail (TikTok/Instagram style) -->
-        <div class="shorts-action-rail" id="shortsActionRail" aria-hidden="false">
-          <button class="rail-btn" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
-            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            <span class="rail-label">삭제</span>
-          </button>
-          <button class="rail-btn" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
-            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
-            <span class="rail-label">PiP</span>
-          </button>
-          <button class="rail-btn" id="shortsDriveBtn" type="button" aria-label="Drive에서 열기" title="Drive에서 열기">
-            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9"/><path d="M3 14h18l-2.2 4.5a2 2 0 0 1-1.8 1.1H7a2 2 0 0 1-1.8-1.1z"/></svg>
-            <span class="rail-label">Drive</span>
-          </button>
         </div>
 
         <!-- Double-tap seek ripple hints (mobile shorts pattern) -->
@@ -446,7 +458,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.8.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.9.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -499,7 +511,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.8.0</span>
+          <span id="appVersion">v1.9.0</span>
         </div>
       </div>
     </form>
