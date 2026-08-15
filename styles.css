@@ -124,6 +124,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, dialog:focus-vi
 
 .top-actions { display: flex; align-items: center; gap: 10px; }
 .icon-button {
+  position: relative;
   display: grid;
   width: 44px;
   height: 44px;
@@ -136,6 +137,53 @@ button:focus-visible, input:focus-visible, select:focus-visible, dialog:focus-vi
 .icon-button:hover { background: var(--surface-soft); }
 .icon-button svg { width: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
 .icon-button svg path:first-child:last-child[fill] { fill: currentColor; stroke: none; }
+
+.settings-update-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 8px rgba(245, 158, 11, .8);
+  animation: pulse 1.6s infinite;
+}
+
+.update-banner {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(1120px, calc(100% - 32px));
+  margin: 12px auto 0;
+  padding: 12px 18px;
+  border: 1px solid rgba(109, 178, 255, .32);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(23, 32, 51, .96), rgba(15, 23, 42, .96));
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(10, 18, 33, .2);
+  animation: slideDown .3s cubic-bezier(.16, 1, .3, 1);
+}
+.update-banner-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 9px;
+  background: rgba(109, 178, 255, .16);
+  color: #74b7ff;
+}
+.update-banner-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.update-banner-body { min-width: 0; flex: 1; }
+.update-banner-body strong { display: block; font-size: 13.5px; font-weight: 750; color: #fff; }
+.update-banner-body p { margin: 2px 0 0; color: rgba(255, 255, 255, .72); font-size: 12.5px; }
+.update-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.primary-button.compact { height: 34px; padding: 0 14px; font-size: 12.5px; border-radius: 8px; }
+.icon-button.compact { width: 34px; height: 34px; border-radius: 8px; }
 
 .connection-badge {
   display: inline-flex;
@@ -385,11 +433,58 @@ main { width: min(1120px, 100%); margin: 0 auto; padding: 0 max(24px, var(--safe
 }
 
 .player-topbar h2 { overflow: hidden; margin: 4px 0 0; font-size: clamp(16px, 2.5vw, 22px); text-overflow: ellipsis; white-space: nowrap; }
+.player-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.player-actions .icon-button { width: 40px; height: 40px; }
+.player-actions .icon-button svg { width: 19px; height: 19px; }
 .icon-button.on-dark, .secondary-button.on-dark { border-color: rgba(255, 255, 255, .2); background: rgba(255, 255, 255, .08); color: #fff; }
 .icon-button.on-dark:hover, .secondary-button.on-dark:hover { background: rgba(255, 255, 255, .14); }
 
-.media-stage { position: relative; display: grid; min-height: 0; place-items: center; overflow: hidden; border: 1px solid rgba(255, 255, 255, .12); border-radius: 12px; background: #000; }
-.media-stage video, .media-stage img, .media-stage iframe { display: block; width: 100%; height: 100%; max-height: 100%; border: 0; object-fit: contain; background: #000; }
+.media-stage { position: relative; display: grid; min-height: 0; place-items: center; overflow: hidden; border: 1px solid rgba(255, 255, 255, .12); border-radius: 12px; background: #000; outline: none; }
+.media-stage video, .media-stage img, .media-stage iframe { display: block; width: 100%; height: 100%; max-height: 100%; border: 0; object-fit: contain; background: #000; outline: none; }
+
+.media-stage:fullscreen,
+.media-stage:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+}
+.media-stage:fullscreen video,
+.media-stage:-webkit-full-screen video {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+.player-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(.9);
+  z-index: 5;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(10, 15, 26, .85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: .02em;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .45);
+}
+.player-feedback.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
 .media-loading, .media-error { position: absolute; z-index: 2; display: grid; inset: 0; place-items: center; align-content: center; padding: 24px; background: #06080d; text-align: center; }
 .media-loading span { width: 34px; height: 34px; border: 3px solid rgba(255, 255, 255, .15); border-top-color: #74b7ff; border-radius: 50%; animation: spin .9s linear infinite; }
 .media-loading p { margin: 13px 0 0; color: rgba(255, 255, 255, .68); font-size: 13px; }
@@ -413,6 +508,26 @@ main { width: min(1120px, 100%); margin: 0 auto; padding: 0 max(24px, var(--safe
 .dialog-header h2 { margin: 0; font-size: 28px; }
 .settings-dialog section { padding: 21px 0; border-top: 1px solid var(--line); }
 .settings-dialog h3 { margin: 0 0 12px; font-size: 16px; }
+
+.update-section { padding: 20px 0; }
+.section-title-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.section-title-row h3 { margin: 0 !important; }
+.version-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--surface-blue);
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.update-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+.update-actions .secondary-button { height: 40px; padding: 0 14px; font-size: 13px; gap: 7px; }
+.update-actions .secondary-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.update-actions .primary-button { height: 40px; padding: 0 16px; font-size: 13px; }
+.update-actions .danger-text-button { padding: 8px 10px; font-size: 12.5px; }
 .plain-input { width: 100%; height: 46px; padding: 0 12px; border: 1px solid #cfd6e2; border-radius: 9px; background: var(--canvas); color: var(--ink); }
 .dialog-actions { display: flex; justify-content: space-between; margin-top: 10px; }
 .setup-steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }

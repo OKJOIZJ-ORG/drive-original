@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.2';
+const APP_VERSION = '1.0.3';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -32,6 +32,8 @@ const state = {
 
 const el = {};
 let toastTimer = null;
+let feedbackTimer = null;
+let updatePending = false;
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -42,6 +44,7 @@ async function init() {
   el.settingsClientId.value = state.clientId;
   el.currentOrigin.textContent = location.origin;
   el.appVersion.textContent = `v${APP_VERSION}`;
+  if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
   updateConnectionBadge();
   await setupServiceWorker();
 
@@ -54,17 +57,21 @@ async function init() {
 
 function bindElements() {
   const ids = [
-    'brandButton', 'connectionBadge', 'settingsButton', 'setupView', 'libraryView',
-    'clientIdInput', 'clientIdHint', 'pasteClientId', 'connectButton', 'openSetupHelp',
-    'librarySummary', 'refreshButton', 'searchInput', 'sortSelect', 'libraryStatus',
-    'fileGrid', 'emptyState', 'loadMoreButton', 'playerSheet', 'playerBackdrop',
-    'playerTitle', 'closePlayerButton', 'videoPlayer', 'imageViewer', 'drivePreview',
-    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
-    'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
-    'qualityBadge', 'playbackQualityText', 'mediaResolution', 'streamModeDetail',
-    'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsClientId',
-    'saveSettingsButton', 'disconnectButton', 'setupHelpSection', 'currentOrigin',
-    'copyOriginButton', 'appVersion', 'toast'
+    'brandButton', 'connectionBadge', 'settingsButton', 'settingsUpdateDot',
+    'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
+    'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
+    'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
+    'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
+    'playerSheet', 'playerBackdrop', 'playerTitle', 'pipButton', 'fullscreenButton',
+    'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
+    'imageViewer', 'drivePreview', 'playerFeedback', 'mediaLoading', 'mediaLoadingText',
+    'mediaError', 'mediaErrorMessage', 'retryMediaButton', 'openDriveButton',
+    'streamModeLabel', 'streamModeText', 'qualityBadge', 'playbackQualityText',
+    'mediaResolution', 'streamModeDetail', 'mediaFileSizeType', 'codecNote',
+    'settingsDialog', 'settingsAppVersion', 'updateStatusText', 'checkUpdateButton',
+    'applyUpdateButton', 'forceReloadButton', 'settingsClientId', 'saveSettingsButton',
+    'disconnectButton', 'setupHelpSection', 'currentOrigin', 'copyOriginButton',
+    'appVersion', 'toast'
   ];
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
@@ -100,9 +107,21 @@ function bindEvents() {
   el.loadMoreButton.addEventListener('click', () => loadFiles({ append: true }));
   el.closePlayerButton.addEventListener('click', closePlayer);
   el.playerBackdrop.addEventListener('click', closePlayer);
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !el.playerSheet.hidden) closePlayer();
+  el.fullscreenButton.addEventListener('click', toggleFullscreen);
+  el.pipButton.addEventListener('click', togglePictureInPicture);
+  document.addEventListener('fullscreenchange', updateFullscreenUI);
+  document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
+  el.mediaStage.addEventListener('dblclick', (event) => {
+    if (event.target.tagName !== 'BUTTON') toggleFullscreen();
   });
+  document.addEventListener('keydown', handlePlayerKeyboard);
+
+  el.bannerUpdateButton.addEventListener('click', applyAppUpdate);
+  el.closeBannerButton.addEventListener('click', () => { el.updateBanner.hidden = true; });
+  el.checkUpdateButton.addEventListener('click', () => checkForAppUpdate({ manual: true }));
+  el.applyUpdateButton.addEventListener('click', applyAppUpdate);
+  el.forceReloadButton.addEventListener('click', forceReloadApp);
+
   el.retryMediaButton.addEventListener('click', retryMedia);
   el.openDriveButton.addEventListener('click', openSelectedInDrive);
   el.saveSettingsButton.addEventListener('click', saveSettings);
@@ -111,7 +130,10 @@ function bindEvents() {
   window.addEventListener('online', updateConnectionBadge);
   window.addEventListener('offline', updateConnectionBadge);
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') sendTokenToWorker();
+    if (document.visibilityState === 'visible') {
+      sendTokenToWorker();
+      checkForAppUpdate({ manual: false });
+    }
   });
 
   el.videoPlayer.addEventListener('loadedmetadata', onMediaReady);
@@ -139,14 +161,122 @@ async function setupServiceWorker() {
     const registration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
     state.serviceWorkerRegistration = registration;
     await navigator.serviceWorker.ready;
-    navigator.serviceWorker.addEventListener('controllerchange', sendTokenToWorker);
+
+    if (registration.waiting) {
+      notifyUpdateAvailable();
+    }
+
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+      if (!newWorker) return;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          notifyUpdateAvailable();
+        }
+      });
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (updatePending) {
+        window.location.reload();
+      } else {
+        sendTokenToWorker();
+      }
+    });
+
     navigator.serviceWorker.addEventListener('message', handleWorkerMessage);
     sendTokenToWorker();
     setInterval(sendTokenToWorker, 20_000);
+
+    setInterval(() => checkForAppUpdate({ manual: false }), 10 * 60 * 1000);
+    setTimeout(() => checkForAppUpdate({ manual: false }), 3000);
   } catch (error) {
     console.error('Service worker registration failed', error);
     showToast('스트리밍 모듈을 시작하지 못했습니다. 페이지를 새로고침하세요.');
   }
+}
+
+function notifyUpdateAvailable() {
+  if (el.updateBanner) el.updateBanner.hidden = false;
+  if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = false;
+  if (el.applyUpdateButton) el.applyUpdateButton.hidden = false;
+  if (el.updateStatusText) el.updateStatusText.textContent = '✨ 새로운 앱 버전이 준비되었습니다. 지금 적용하세요.';
+}
+
+async function checkForAppUpdate({ manual = false } = {}) {
+  if (!('serviceWorker' in navigator) || !state.serviceWorkerRegistration) {
+    if (manual) showToast('Service Worker가 활성화되지 않았습니다.');
+    return;
+  }
+  if (manual && el.updateStatusText) {
+    el.updateStatusText.textContent = '최신 업데이트 확인 중…';
+    if (el.checkUpdateButton) el.checkUpdateButton.disabled = true;
+  }
+  try {
+    const reg = state.serviceWorkerRegistration;
+    await reg.update();
+
+    if (reg.waiting) {
+      notifyUpdateAvailable();
+      if (manual) showToast('새로운 업데이트가 준비되었습니다!');
+      return;
+    }
+
+    const res = await fetch(`./sw.js?t=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) {
+      const text = await res.text();
+      const match = text.match(/VERSION\s*=\s*['"]([^'"]+)['"]/);
+      const serverVersion = match ? match[1] : '';
+      if (serverVersion && serverVersion !== APP_VERSION) {
+        notifyUpdateAvailable();
+        if (el.updateBannerText) el.updateBannerText.textContent = `새로운 앱 버전(v${serverVersion})이 준비되었습니다.`;
+        if (manual) showToast(`새 버전(v${serverVersion})을 발견했습니다.`);
+        return;
+      }
+    }
+
+    if (manual) {
+      if (el.updateStatusText) el.updateStatusText.textContent = `✅ 현재 최신 버전(v${APP_VERSION})을 사용 중입니다.`;
+      if (el.applyUpdateButton) el.applyUpdateButton.hidden = true;
+      showToast(`현재 최신 버전(v${APP_VERSION})입니다.`);
+    }
+  } catch (err) {
+    console.error('Update check failed', err);
+    if (manual) {
+      if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다.';
+      showToast('업데이트 확인 실패: 네트워크를 확인하세요.');
+    }
+  } finally {
+    if (manual && el.checkUpdateButton) el.checkUpdateButton.disabled = false;
+  }
+}
+
+function applyAppUpdate() {
+  updatePending = true;
+  showToast('최신 버전을 적용하는 중입니다…');
+  const reg = state.serviceWorkerRegistration;
+  if (reg && reg.waiting) {
+    reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+  } else {
+    setTimeout(() => window.location.reload(), 400);
+  }
+}
+
+async function forceReloadApp() {
+  showToast('캐시를 삭제하고 앱을 새로고침합니다…');
+  try {
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((r) => r.unregister()));
+    }
+  } catch (e) {
+    console.error('Force clear error', e);
+  }
+  window.location.reload(true);
 }
 
 function handleWorkerMessage(event) {
@@ -424,9 +554,155 @@ function openPlayer(file) {
   el.playerSheet.hidden = false;
   el.playerTitle.textContent = file.name || '이름 없는 파일';
   el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
+  const isVideo = file.mimeType?.startsWith('video/');
+  if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
+  updateFullscreenUI();
   updateQualityDisplay();
   openMediaSource(file);
   requestAnimationFrame(() => el.closePlayerButton.focus());
+}
+
+function toggleFullscreen() {
+  const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+  if (isFs) {
+    if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  } else {
+    const target = el.mediaStage || el.videoPlayer;
+    if (target.requestFullscreen) {
+      target.requestFullscreen().catch((err) => {
+        console.warn('requestFullscreen error', err);
+        if (el.videoPlayer.webkitEnterFullscreen) el.videoPlayer.webkitEnterFullscreen();
+      });
+    } else if (target.webkitRequestFullscreen) {
+      target.webkitRequestFullscreen();
+    } else if (el.videoPlayer.webkitEnterFullscreen) {
+      el.videoPlayer.webkitEnterFullscreen();
+    }
+  }
+}
+
+function updateFullscreenUI() {
+  const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+  if (el.iconExpand && el.iconCompress) {
+    el.iconExpand.hidden = isFs;
+    el.iconCompress.hidden = !isFs;
+  }
+  if (el.fullscreenButton) {
+    el.fullscreenButton.title = isFs ? '전체화면 종료 (ESC / F)' : '전체화면 (F)';
+    el.fullscreenButton.setAttribute('aria-label', isFs ? '전체화면 종료' : '전체화면');
+  }
+}
+
+async function togglePictureInPicture() {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  try {
+    if (document.pictureInPictureElement) {
+      await document.exitPictureInPicture();
+    } else if (document.pictureInPictureEnabled) {
+      await el.videoPlayer.requestPictureInPicture();
+    }
+  } catch (err) {
+    console.warn('PiP error', err);
+  }
+}
+
+function showPlayerFeedback(text) {
+  if (!el.playerFeedback) return;
+  el.playerFeedback.textContent = text;
+  el.playerFeedback.hidden = false;
+  requestAnimationFrame(() => el.playerFeedback.classList.add('active'));
+  clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(() => {
+    el.playerFeedback.classList.remove('active');
+    setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 220);
+  }, 800);
+}
+
+function handlePlayerKeyboard(event) {
+  if (el.playerSheet.hidden) return;
+  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  const targetTag = event.target.tagName;
+  if (targetTag === 'INPUT' || targetTag === 'TEXTAREA' || targetTag === 'SELECT') return;
+
+  const key = event.key;
+  const code = event.code;
+
+  if (key === 'Escape') {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      // Browser handles exiting fullscreen
+    } else {
+      closePlayer();
+    }
+    return;
+  }
+
+  if (key === 'f' || key === 'F') {
+    event.preventDefault();
+    toggleFullscreen();
+    return;
+  }
+
+  if (isVideo) {
+    if (key === ' ' || key === 'k' || key === 'K') {
+      event.preventDefault();
+      if (el.videoPlayer.paused) {
+        el.videoPlayer.play();
+        showPlayerFeedback('▶ 재생');
+      } else {
+        el.videoPlayer.pause();
+        showPlayerFeedback('⏸ 일시정지');
+      }
+      return;
+    }
+
+    if (key === 'm' || key === 'M') {
+      event.preventDefault();
+      el.videoPlayer.muted = !el.videoPlayer.muted;
+      showPlayerFeedback(el.videoPlayer.muted ? '🔇 음소거' : `🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      return;
+    }
+
+    if (key === 'ArrowLeft' || key === 'j' || key === 'J') {
+      event.preventDefault();
+      const delta = (key === 'ArrowLeft') ? 5 : 10;
+      el.videoPlayer.currentTime = Math.max(0, el.videoPlayer.currentTime - delta);
+      showPlayerFeedback(`⏪ -${delta}초`);
+      return;
+    }
+
+    if (key === 'ArrowRight' || key === 'l' || key === 'L') {
+      event.preventDefault();
+      const delta = (key === 'ArrowRight') ? 5 : 10;
+      el.videoPlayer.currentTime = Math.min(el.videoPlayer.duration || Infinity, el.videoPlayer.currentTime + delta);
+      showPlayerFeedback(`⏩ +${delta}초`);
+      return;
+    }
+
+    if (key === 'ArrowUp') {
+      event.preventDefault();
+      el.videoPlayer.muted = false;
+      el.videoPlayer.volume = Math.min(1, +(el.videoPlayer.volume + 0.1).toFixed(2));
+      showPlayerFeedback(`🔊 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      return;
+    }
+
+    if (key === 'ArrowDown') {
+      event.preventDefault();
+      el.videoPlayer.volume = Math.max(0, +(el.videoPlayer.volume - 0.1).toFixed(2));
+      showPlayerFeedback(`🔉 볼륨 ${Math.round(el.videoPlayer.volume * 100)}%`);
+      return;
+    }
+
+    if (code && code.startsWith('Digit') && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      const digit = Number(code.replace('Digit', ''));
+      if (!isNaN(digit) && el.videoPlayer.duration) {
+        event.preventDefault();
+        el.videoPlayer.currentTime = (digit / 10) * el.videoPlayer.duration;
+        showPlayerFeedback(`⏱ ${digit * 10}%`);
+      }
+    }
+  }
 }
 
 function openMediaSource(file) {
@@ -753,6 +1029,10 @@ function retryMedia() {
 
 function closePlayer() {
   if (el.playerSheet.hidden) return;
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
   resetMediaElements();
   el.playerSheet.hidden = true;
   document.body.style.overflow = '';
