@@ -1417,9 +1417,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 /* Media Info Bar */
 .media-info-bar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 12px 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 12px 18px;
   background: var(--bg-surface);
   border-top: 1px solid var(--border-subtle);
 }
@@ -1798,24 +1798,41 @@ dialog[open] .dialog-box {
   }
 
   .media-stage {
-    height: 48vh;
-    max-height: 52vh;
-    min-height: 220px;
-    flex-shrink: 0;
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    width: 100%;
   }
 
   .media-info-bar {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    flex: 0 0 auto;
     min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 12px 14px calc(env(safe-area-inset-bottom, 0px) + 20px);
+    overflow: visible;
+    padding: 6px 12px calc(env(safe-area-inset-bottom, 0px) + 8px);
+    background: var(--bg-surface-raised);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .info-item {
     min-width: 0;
+    padding: 6px 8px;
+    gap: 1px;
+  }
+
+  .info-lbl {
+    font-size: 0.62rem;
+  }
+
+  .info-val {
+    font-size: 0.78rem;
+  }
+
+  .info-note-wrap {
+    display: none;
   }
 
   .time-display {

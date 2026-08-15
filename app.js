@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.5.0';
+const APP_VERSION = '1.5.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -388,7 +388,7 @@ async function checkForAppUpdate({ manual = false } = {}) {
       const now = new Date();
       const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
       if (el.updateStatusText) {
-        el.updateStatusText.textContent = `✅ 현재 최신 버전(v${APP_VERSION})을 사용 중입니다. (${timeStr} 확인)`;
+        el.updateStatusText.textContent = `현재 최신 버전(v${APP_VERSION})을 사용 중입니다. (${timeStr} 확인)`;
       }
       showToast(`현재 최신 버전(v${APP_VERSION})입니다.`);
     }
@@ -715,7 +715,7 @@ function renderFiles() {
   const files = filteredAndSortedFiles();
   el.fileGrid.replaceChildren();
   const fragment = document.createDocumentFragment();
-  files.forEach((file) => fragment.appendChild(createFileCard(file)));
+  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index)));
   el.fileGrid.appendChild(fragment);
   el.emptyState.hidden = files.length > 0;
   updateLibrarySummary(files.length);
@@ -759,7 +759,7 @@ function filteredAndSortedFiles() {
   });
 }
 
-function createFileCard(file) {
+function createFileCard(file, index = 0) {
   const isVideo = file.mimeType?.startsWith('video/');
   const canDownload = file.capabilities?.canDownload !== false;
   const button = document.createElement('button');
@@ -775,7 +775,8 @@ function createFileCard(file) {
     const thumbnail = document.createElement('img');
     thumbnail.className = 'file-card-thumb';
     thumbnail.alt = '';
-    thumbnail.loading = 'lazy';
+    thumbnail.loading = index < 12 ? 'eager' : 'lazy';
+    if (index < 6) thumbnail.fetchPriority = 'high';
     thumbnail.decoding = 'async';
     thumbnail.referrerPolicy = 'no-referrer';
     thumbnail.addEventListener('load', () => {

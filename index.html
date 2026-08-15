@@ -9,13 +9,16 @@
   <title>Drive Original</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
+  <link rel="preconnect" href="https://www.googleapis.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googleapis.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.5.0">
+  <link rel="stylesheet" href="./styles.css?v=1.5.1">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.5.0" defer></script>
+  <script src="./app.js?v=1.5.1" defer></script>
 </head>
 <body style="background-color: #0b0d14; color: #f8fafc; margin: 0; min-height: 100vh;">
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -353,19 +356,11 @@
         </div>
       </div>
 
-      <!-- Clean Media Info Row -->
+      <!-- Clean Streamlined Media Info Row -->
       <div class="media-info-bar" id="mediaInfoPanel">
-        <div class="info-item">
-          <span class="info-lbl">재생 화질</span>
-          <strong class="info-val highlight" id="playbackQualityText">100% 무인코딩 원본</strong>
-        </div>
         <div class="info-item">
           <span class="info-lbl">해상도</span>
           <strong class="info-val" id="mediaResolution">—</strong>
-        </div>
-        <div class="info-item">
-          <span class="info-lbl">전송 모드</span>
-          <strong class="info-val" id="streamModeDetail">구간 스트림 (Range)</strong>
         </div>
         <div class="info-item">
           <span class="info-lbl">파일 정보</span>
@@ -392,7 +387,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.5.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.5.1</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -445,7 +440,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.5.0</span>
+          <span id="appVersion">v1.5.1</span>
         </div>
       </div>
     </form>
