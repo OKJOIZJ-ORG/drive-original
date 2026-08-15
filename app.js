@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.4.1';
+const APP_VERSION = '1.4.2';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -1421,13 +1421,20 @@ function handlePlayerKeyboard(event) {
 }
 
 function openMediaSource(file) {
+  if (!file) return;
+  state.selected = file;
+  if (el.playerTitle) el.playerTitle.textContent = file.name || '미디어 파일';
+  if (el.codecNote) el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
+  const isVideo = file.mimeType?.startsWith('video/');
+  if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
+  if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
+
   resetMediaElements();
   const session = state.mediaSession;
   state.mediaAttempt = 'range';
   state.lastProxyError = null;
   updateQualityDisplay();
   showMediaLoading('원본 구간 스트림 준비 중');
-  const isVideo = file.mimeType?.startsWith('video/');
 
   if (state.demo) {
     if (isVideo) {
