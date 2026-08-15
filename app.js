@@ -1,10 +1,12 @@
 'use strict';
 
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.0.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
+const MOBILE_BLOB_LIMIT = 350 * 1024 * 1024;
+const DESKTOP_BLOB_LIMIT = 2 * 1024 * 1024 * 1024;
 
 const state = {
   clientId: localStorage.getItem(CLIENT_ID_KEY) || '',
@@ -20,6 +22,11 @@ const state = {
   serviceWorkerRegistration: null,
   loadingFiles: false,
   retryAfterAuth: false,
+  mediaAttempt: 'idle',
+  mediaBlobUrl: null,
+  mediaAbortController: null,
+  mediaSession: 0,
+  lastProxyError: null,
   demo: new URLSearchParams(location.search).get('demo') === '1'
 };
 
@@ -51,8 +58,9 @@ function bindElements() {
     'clientIdInput', 'clientIdHint', 'pasteClientId', 'connectButton', 'openSetupHelp',
     'librarySummary', 'refreshButton', 'searchInput', 'sortSelect', 'libraryStatus',
     'fileGrid', 'emptyState', 'loadMoreButton', 'playerSheet', 'playerBackdrop',
-    'playerTitle', 'closePlayerButton', 'videoPlayer', 'imageViewer', 'mediaLoading',
-    'mediaError', 'mediaErrorMessage', 'retryMediaButton', 'mediaResolution',
+    'playerTitle', 'closePlayerButton', 'videoPlayer', 'imageViewer', 'drivePreview',
+    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
+    'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'mediaResolution',
     'mediaSize', 'mediaType', 'codecNote', 'settingsDialog', 'settingsClientId',
     'saveSettingsButton', 'disconnectButton', 'setupHelpSection', 'currentOrigin',
     'copyOriginButton', 'appVersion', 'toast'
@@ -95,6 +103,7 @@ function bindEvents() {
     if (event.key === 'Escape' && !el.playerSheet.hidden) closePlayer();
   });
   el.retryMediaButton.addEventListener('click', retryMedia);
+  el.openDriveButton.addEventListener('click', openSelectedInDrive);
   el.saveSettingsButton.addEventListener('click', saveSettings);
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
@@ -106,14 +115,11 @@ function bindEvents() {
 
   el.videoPlayer.addEventListener('loadedmetadata', onMediaReady);
   el.videoPlayer.addEventListener('canplay', onMediaReady, { once: false });
-  el.videoPlayer.addEventListener('error', () => {
-    if (!el.videoPlayer.getAttribute('src')) return;
-    showMediaError(mediaPlaybackErrorMessage(el.videoPlayer.error));
-  });
+  el.videoPlayer.addEventListener('error', () => handleMediaElementError('video'));
   el.imageViewer.addEventListener('load', onMediaReady);
-  el.imageViewer.addEventListener('error', () => {
-    if (!el.imageViewer.getAttribute('src')) return;
-    showMediaError('원본 이미지를 열지 못했습니다. 로그인 만료, 다운로드 제한, 또는 Safari가 지원하지 않는 이미지 형식일 수 있습니다.');
+  el.imageViewer.addEventListener('error', () => handleMediaElementError('image'));
+  el.drivePreview.addEventListener('load', () => {
+    if (state.mediaAttempt === 'drive-preview') onMediaReady();
   });
 }
 
@@ -150,16 +156,17 @@ function handleWorkerMessage(event) {
     return;
   }
   if (data.type === 'MEDIA_AUTH_REQUIRED') {
+    state.lastProxyError = { status: 401 };
     clearToken(false);
     if (state.selected) showMediaError('Google 인증 시간이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
     updateConnectionBadge();
     return;
   }
   if (data.type === 'MEDIA_PROXY_ERROR') {
-    const message = data.status === 403
-      ? 'Drive에서 원본 파일 전송을 거부했습니다. 파일의 다운로드 허용 설정과 계정 권한을 확인하세요.'
-      : 'Drive 원본 스트림에 연결하지 못했습니다. 네트워크 상태를 확인하세요.';
-    if (state.selected) showMediaError(message);
+    state.lastProxyError = data;
+    if (data.status === 403 && state.selected) {
+      showMediaError('Drive에서 원본 파일 전송을 거부했습니다. 파일의 다운로드 허용 설정과 계정 권한을 확인하세요.');
+    }
   }
 }
 
@@ -268,7 +275,7 @@ async function loadFiles({ append }) {
     spaces: 'drive',
     supportsAllDrives: 'true',
     includeItemsFromAllDrives: 'true',
-    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,capabilities(canDownload),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
   });
   if (append && state.nextPageToken) params.set('pageToken', state.nextPageToken);
 
@@ -358,6 +365,21 @@ function createFileCard(file) {
 
   const visual = document.createElement('span');
   visual.className = `file-visual ${isVideo ? 'video' : 'image'}`;
+  if (file.thumbnailLink) {
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'file-thumbnail';
+    thumbnail.alt = '';
+    thumbnail.loading = 'lazy';
+    thumbnail.decoding = 'async';
+    thumbnail.referrerPolicy = 'no-referrer';
+    thumbnail.addEventListener('load', () => {
+      thumbnail.classList.add('loaded');
+      visual.classList.add('has-thumbnail');
+    });
+    thumbnail.addEventListener('error', () => thumbnail.remove());
+    thumbnail.src = file.thumbnailLink;
+    visual.appendChild(thumbnail);
+  }
   const kind = document.createElement('span');
   kind.className = 'file-kind';
   kind.textContent = isVideo ? 'VIDEO' : 'IMAGE';
@@ -403,21 +425,26 @@ function openPlayer(file) {
   el.mediaResolution.textContent = resolutionText(file) || '정보 없음';
   el.mediaSize.textContent = formatBytes(file.size) || '정보 없음';
   el.mediaType.textContent = friendlyMime(file.mimeType);
-  el.codecNote.textContent = '화질 변환 없이 Drive 원본 바이트를 전달합니다.';
+  el.codecNote.textContent = '먼저 원본 구간 스트림을 시도하고, 실패하면 메모리 임시 버퍼로 자동 전환합니다.';
   openMediaSource(file);
   requestAnimationFrame(() => el.closePlayerButton.focus());
 }
 
 function openMediaSource(file) {
   resetMediaElements();
-  el.mediaLoading.hidden = false;
-  el.mediaError.hidden = true;
+  const session = state.mediaSession;
+  state.mediaAttempt = 'range';
+  state.lastProxyError = null;
+  setStreamMode('range', '원본 스트림');
+  showMediaLoading('원본 구간 스트림 준비 중');
   const isVideo = file.mimeType?.startsWith('video/');
 
   if (state.demo) {
     if (isVideo) {
-      showMediaError('데모 화면에서는 영상 네트워크 요청을 실행하지 않습니다. 실제 연결에서는 Drive 원본 스트림이 여기에 표시됩니다.');
+      showMediaError('데모 화면에서는 실제 Drive 영상을 요청하지 않습니다.', { showDrive: false });
     } else {
+      state.mediaAttempt = 'blob';
+      setStreamMode('buffer', '원본 임시 버퍼');
       el.imageViewer.hidden = false;
       el.imageViewer.alt = file.name || '데모 이미지';
       el.imageViewer.src = demoImageDataUrl();
@@ -434,10 +461,6 @@ function openMediaSource(file) {
 
   if (isVideo) {
     el.videoPlayer.hidden = false;
-    const support = el.videoPlayer.canPlayType(file.mimeType || '');
-    if (!support && file.mimeType) {
-      el.codecNote.textContent = '원본은 전달되지만 Safari가 이 영상 형식을 해독하지 못할 수 있습니다.';
-    }
     el.videoPlayer.src = mediaUrl;
     el.videoPlayer.load();
   } else {
@@ -445,14 +468,159 @@ function openMediaSource(file) {
     el.imageViewer.alt = file.name || '원본 이미지';
     el.imageViewer.src = mediaUrl;
   }
+
+  window.setTimeout(() => {
+    if (session === state.mediaSession && state.mediaAttempt === 'range' && !el.mediaLoading.hidden) {
+      el.mediaLoadingText.textContent = '원본 응답을 기다리는 중입니다…';
+    }
+  }, 5000);
 }
 
 function buildMediaUrl(file) {
   const base = new URL('.', location.href);
   const url = new URL(`__drive_media/${encodeURIComponent(file.id)}`, base);
   if (file.mimeType) url.searchParams.set('mime', file.mimeType);
+  if (file.size) url.searchParams.set('size', file.size);
   if (file.resourceKey) url.searchParams.set('resourceKey', file.resourceKey);
   return url.href;
+}
+
+function buildDriveMediaApiUrl(file) {
+  const url = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+  url.searchParams.set('alt', 'media');
+  url.searchParams.set('supportsAllDrives', 'true');
+  url.searchParams.set('acknowledgeAbuse', 'true');
+  return url.href;
+}
+
+async function handleMediaElementError(kind) {
+  const element = kind === 'video' ? el.videoPlayer : el.imageViewer;
+  if (!element.getAttribute('src') || !state.selected) return;
+  if (state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'drive-preview') return;
+
+  if (!navigator.onLine) {
+    showMediaError('네트워크가 오프라인입니다. 연결 후 다시 시도하세요.');
+    return;
+  }
+  if (!hasUsableToken()) {
+    showMediaError('Google 인증 시간이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
+    return;
+  }
+  if (state.lastProxyError?.status === 403) {
+    showMediaError('Drive에서 원본 전송을 거부했습니다. 파일의 다운로드 허용 설정과 계정 권한을 확인하세요.');
+    return;
+  }
+
+  if (state.mediaAttempt === 'range') {
+    await startOriginalBlobFallback(state.selected, kind, state.mediaSession);
+    return;
+  }
+
+  if (state.mediaAttempt === 'blob') {
+    showDrivePreview(state.selected, '원본 전체를 임시 버퍼에 불러왔지만 이 브라우저가 코덱을 해독하지 못했습니다. Drive 호환 재생기로 전환했습니다.');
+  }
+}
+
+async function startOriginalBlobFallback(file, kind, session) {
+  const size = Number(file.size || 0);
+  const limit = isMobileDevice() ? MOBILE_BLOB_LIMIT : DESKTOP_BLOB_LIMIT;
+  if (size && size > limit) {
+    showDrivePreview(file, `원본 구간 스트림이 실패했고 파일 크기 ${formatBytes(size)}가 이 기기의 안전한 임시 버퍼 한도를 넘습니다. Drive 호환 재생기로 전환했습니다.`);
+    return;
+  }
+
+  state.mediaAttempt = 'blob-loading';
+  state.lastProxyError = null;
+  setStreamMode('buffer', '원본 임시 버퍼');
+  clearDirectMediaSources();
+  showMediaLoading('직접 스트림 실패 — 원본을 메모리에 임시로 불러오는 중');
+  state.mediaAbortController = new AbortController();
+
+  try {
+    const headers = {};
+    if (file.resourceKey) headers['X-Goog-Drive-Resource-Keys'] = `${file.id}/${file.resourceKey}`;
+    const response = await driveFetch(buildDriveMediaApiUrl(file), {
+      headers,
+      signal: state.mediaAbortController.signal
+    });
+    const blob = await readResponseIntoBlob(response, file, session);
+    if (session !== state.mediaSession) return;
+
+    state.mediaBlobUrl = URL.createObjectURL(blob);
+    state.mediaAttempt = 'blob';
+    el.codecNote.textContent = '구간 스트림 대신 원본 전체를 메모리에 임시 저장했습니다. 플레이어를 닫으면 즉시 해제됩니다.';
+
+    if (kind === 'video') {
+      el.videoPlayer.hidden = false;
+      el.videoPlayer.src = state.mediaBlobUrl;
+      el.videoPlayer.load();
+    } else {
+      el.imageViewer.hidden = false;
+      el.imageViewer.alt = file.name || '원본 이미지';
+      el.imageViewer.src = state.mediaBlobUrl;
+    }
+  } catch (error) {
+    if (error.name === 'AbortError' || session !== state.mediaSession) return;
+    console.error('Original blob fallback failed', error);
+    if (error.status === 401) {
+      clearToken(false);
+      showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
+    } else if (error.status === 403) {
+      showMediaError('Drive에서 원본 파일 다운로드를 거부했습니다. 파일 권한을 확인하세요.');
+    } else {
+      showDrivePreview(file, '원본 임시 버퍼 전송도 완료하지 못해 Drive 호환 재생기로 전환했습니다.');
+    }
+  }
+}
+
+async function readResponseIntoBlob(response, file, session) {
+  const total = Number(response.headers.get('Content-Length')) || Number(file.size) || 0;
+  if (!response.body?.getReader) return response.blob();
+
+  const reader = response.body.getReader();
+  const chunks = [];
+  let received = 0;
+  let lastUpdate = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (session !== state.mediaSession) {
+      await reader.cancel();
+      throw new DOMException('Media session changed', 'AbortError');
+    }
+    chunks.push(value);
+    received += value.byteLength;
+    const now = performance.now();
+    if (now - lastUpdate > 180) {
+      const progress = total ? ` ${Math.min(100, Math.round((received / total) * 100))}%` : '';
+      el.mediaLoadingText.textContent = `원본 임시 버퍼 ${formatBytes(received)}${progress}`;
+      lastUpdate = now;
+    }
+  }
+  return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
+}
+
+function showDrivePreview(file, reason) {
+  clearDirectMediaSources();
+  state.mediaAttempt = 'drive-preview';
+  setStreamMode('drive', 'Drive 호환 재생');
+  showMediaLoading('Drive 호환 재생기로 전환 중');
+  el.drivePreview.hidden = false;
+  el.drivePreview.src = buildDrivePreviewUrl(file);
+  el.codecNote.textContent = `${reason} 이 모드는 Google의 변환본을 사용하므로 화질이 원본보다 낮을 수 있습니다.`;
+}
+
+function buildDrivePreviewUrl(file) {
+  const url = new URL(`https://drive.google.com/file/d/${encodeURIComponent(file.id)}/preview`);
+  if (file.resourceKey) url.searchParams.set('resourcekey', file.resourceKey);
+  return url.href;
+}
+
+function openSelectedInDrive() {
+  if (!state.selected) return;
+  const fallback = `https://drive.google.com/file/d/${encodeURIComponent(state.selected.id)}/view`;
+  window.open(state.selected.webViewLink || fallback, '_blank', 'noopener,noreferrer');
 }
 
 function onMediaReady() {
@@ -460,10 +628,23 @@ function onMediaReady() {
   el.mediaError.hidden = true;
 }
 
-function showMediaError(message) {
+function setStreamMode(mode, label) {
+  el.streamModeLabel.dataset.mode = mode;
+  const text = el.streamModeLabel.querySelector('span');
+  if (text) text.textContent = label;
+}
+
+function showMediaLoading(message) {
+  el.mediaLoadingText.textContent = message;
+  el.mediaLoading.hidden = false;
+  el.mediaError.hidden = true;
+}
+
+function showMediaError(message, { showDrive = true } = {}) {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = false;
   el.mediaErrorMessage.textContent = message;
+  el.openDriveButton.hidden = !showDrive;
 }
 
 function retryMedia() {
@@ -484,7 +665,7 @@ function closePlayer() {
   state.selected = null;
 }
 
-function resetMediaElements() {
+function clearDirectMediaSources() {
   el.videoPlayer.pause();
   el.videoPlayer.removeAttribute('src');
   el.videoPlayer.load();
@@ -492,17 +673,29 @@ function resetMediaElements() {
   el.imageViewer.removeAttribute('src');
   el.imageViewer.alt = '';
   el.imageViewer.hidden = true;
-  el.mediaError.hidden = true;
-  el.mediaLoading.hidden = false;
+  if (state.mediaBlobUrl) {
+    URL.revokeObjectURL(state.mediaBlobUrl);
+    state.mediaBlobUrl = null;
+  }
 }
 
-function mediaPlaybackErrorMessage(error) {
-  if (!navigator.onLine) return '네트워크가 오프라인입니다. 연결 후 다시 시도하세요.';
-  if (!hasUsableToken()) return 'Google 인증 시간이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.';
-  if (error?.code === MediaError.MEDIA_ERR_DECODE || error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
-    return '원본 파일은 전송됐지만 iPhone Safari가 이 컨테이너 또는 코덱 조합을 지원하지 않습니다. MP4의 H.264, HEVC 영상과 AAC 오디오 조합이 가장 안정적입니다.';
-  }
-  return '원본 스트림을 재생하지 못했습니다. 파일의 다운로드 허용 설정과 네트워크 상태를 확인하세요.';
+function resetMediaElements() {
+  state.mediaSession += 1;
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = null;
+  clearDirectMediaSources();
+  el.drivePreview.hidden = true;
+  el.drivePreview.src = 'about:blank';
+  el.mediaError.hidden = true;
+  el.openDriveButton.hidden = false;
+  el.mediaLoading.hidden = false;
+  el.mediaLoadingText.textContent = '원본 스트림 준비 중';
+  state.mediaAttempt = 'idle';
+  state.lastProxyError = null;
+}
+
+function isMobileDevice() {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || matchMedia('(max-width: 600px)').matches;
 }
 
 function openSettings(scrollToHelp) {
@@ -688,7 +881,7 @@ function startDemoMode() {
     { id: 'demo-video-2', name: '강의 녹화 03.mp4', mimeType: 'video/mp4', size: '2137483648', modifiedTime: '2026-08-13T05:40:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 1920, height: 1080, durationMillis: '3842000' } },
     { id: 'demo-image-2', name: '문서 스캔 원본.png', mimeType: 'image/png', size: '24576000', modifiedTime: '2026-08-11T03:20:00Z', capabilities: { canDownload: true }, imageMediaMetadata: { width: 4032, height: 3024 } },
     { id: 'demo-video-3', name: '여행 클립 — HEVC.mp4', mimeType: 'video/mp4', size: '876523100', modifiedTime: '2026-08-08T16:00:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 3840, height: 2160, durationMillis: '187000' } }
-  ];
+  ].map((file, index) => ({ ...file, thumbnailLink: demoImageDataUrl(index) }));
   state.nextPageToken = null;
   showLibrary();
   renderFiles();
@@ -696,7 +889,16 @@ function startDemoMode() {
   updateConnectionBadge();
 }
 
-function demoImageDataUrl() {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000"><rect width="1600" height="1000" fill="#0d1626"/><circle cx="1180" cy="260" r="180" fill="#2376df" opacity=".7"/><path d="M0 740L430 410l280 230 230-180 660 540H0z" fill="#1c6a69"/><path d="M0 810l500-300 350 270 250-160 500 380H0z" fill="#59a48b" opacity=".75"/><rect x="80" y="80" width="360" height="8" rx="4" fill="#fff" opacity=".75"/><rect x="80" y="110" width="220" height="5" rx="2" fill="#fff" opacity=".35"/></svg>`;
+function demoImageDataUrl(seed = 0) {
+  const palettes = [
+    ['#0d1626', '#2376df', '#1c6a69', '#59a48b'],
+    ['#21172d', '#bf8eda', '#8a4f73', '#df84a8'],
+    ['#1d2024', '#de9255', '#6c7042', '#d0b768'],
+    ['#102329', '#4fb9c9', '#246b78', '#72bc8f'],
+    ['#231b18', '#e97366', '#8a503d', '#de9255']
+  ];
+  const [background, sun, back, front] = palettes[seed % palettes.length];
+  const sunX = 1080 + (seed % 3) * 110;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000"><rect width="1600" height="1000" fill="${background}"/><circle cx="${sunX}" cy="260" r="180" fill="${sun}" opacity=".78"/><path d="M0 740L430 410l280 230 230-180 660 540H0z" fill="${back}"/><path d="M0 810l500-300 350 270 250-160 500 380H0z" fill="${front}" opacity=".82"/><rect x="80" y="80" width="360" height="8" rx="4" fill="#fff" opacity=".7"/><rect x="80" y="110" width="220" height="5" rx="2" fill="#fff" opacity=".3"/></svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }

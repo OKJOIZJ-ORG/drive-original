@@ -1,4 +1,4 @@
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -71,6 +71,9 @@ async function networkFirstNavigation(request) {
 }
 
 async function proxyDriveMedia(request, url) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return new Response('Method not allowed', { status: 405 });
+  }
   const fileId = extractFileId(url.pathname);
   if (!fileId || !/^[A-Za-z0-9_-]+$/.test(fileId)) {
     return new Response('Invalid Drive file ID', { status: 400 });
@@ -88,6 +91,7 @@ async function proxyDriveMedia(request, url) {
   const driveUrl = new URL('https://www.googleapis.com/drive/v3/files/' + encodeURIComponent(fileId));
   driveUrl.searchParams.set('alt', 'media');
   driveUrl.searchParams.set('supportsAllDrives', 'true');
+  driveUrl.searchParams.set('acknowledgeAbuse', 'true');
 
   const headers = new Headers();
   headers.set('Authorization', `Bearer ${token}`);
@@ -100,7 +104,7 @@ async function proxyDriveMedia(request, url) {
 
   try {
     const upstream = await fetch(driveUrl, {
-      method: 'GET',
+      method: request.method,
       headers,
       mode: 'cors',
       credentials: 'omit',
@@ -129,8 +133,14 @@ async function proxyDriveMedia(request, url) {
     responseHeaders.set('Pragma', 'no-cache');
     responseHeaders.set('Content-Disposition', 'inline');
     responseHeaders.delete('Set-Cookie');
+    normalizeMediaResponseHeaders(
+      responseHeaders,
+      upstream.status,
+      range,
+      Number(url.searchParams.get('size')) || 0
+    );
 
-    return new Response(upstream.body, {
+    return new Response(request.method === 'HEAD' ? null : upstream.body, {
       status: upstream.status,
       statusText: upstream.statusText,
       headers: responseHeaders
@@ -141,6 +151,25 @@ async function proxyDriveMedia(request, url) {
       status: 502,
       headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
     });
+  }
+}
+
+function normalizeMediaResponseHeaders(headers, status, requestedRange, totalSize) {
+  const contentLength = Number(headers.get('Content-Length')) || 0;
+  if (status === 200 && totalSize && !headers.get('Content-Length')) {
+    headers.set('Content-Length', String(totalSize));
+  }
+  if (status !== 206 || headers.get('Content-Range') || !requestedRange || !totalSize) return;
+
+  const match = /^bytes=(\d+)-(\d*)$/i.exec(requestedRange.trim());
+  if (!match) return;
+  const start = Number(match[1]);
+  const requestedEnd = match[2] ? Number(match[2]) : null;
+  const inferredEnd = contentLength ? start + contentLength - 1 : totalSize - 1;
+  const end = Math.min(requestedEnd ?? inferredEnd, totalSize - 1);
+  if (Number.isFinite(start) && Number.isFinite(end) && start <= end) {
+    headers.set('Content-Range', `bytes ${start}-${end}/${totalSize}`);
+    if (!headers.get('Content-Length')) headers.set('Content-Length', String(end - start + 1));
   }
 }
 
