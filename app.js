@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.1.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -27,6 +27,10 @@ const state = {
   mediaAbortController: null,
   mediaSession: 0,
   lastProxyError: null,
+  playbackSession: 0,
+  controlsTimeout: null,
+  isSeeking: false,
+  pendingPlay: false,
   demo: new URLSearchParams(location.search).get('demo') === '1'
 };
 
@@ -41,6 +45,14 @@ let isSpeedMenuOpen = false;
 window.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+  if (location.search && location.search.includes('_update=')) {
+    try {
+      const cleanUrl = new URL(location.href);
+      cleanUrl.searchParams.delete('_update');
+      history.replaceState({}, document.title, cleanUrl.pathname + (cleanUrl.search ? cleanUrl.search : '') + cleanUrl.hash);
+    } catch (_) {}
+  }
+
   bindElements();
   bindEvents();
   el.clientIdInput.value = state.clientId;
@@ -343,7 +355,11 @@ async function applyAppUpdate() {
       await Promise.all(regs.map((r) => r.unregister()));
     }
   } catch (_) {}
-  setTimeout(() => window.location.reload(), 250);
+
+  // Force a hard network reload bypassing browser HTTP disk cache
+  const target = new URL(location.href);
+  target.searchParams.set('_update', Date.now().toString());
+  location.replace(target.href);
 }
 
 async function forceReloadApp() {
