@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.5.1';
+const APP_VERSION = '1.6.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -775,8 +775,8 @@ function createFileCard(file, index = 0) {
     const thumbnail = document.createElement('img');
     thumbnail.className = 'file-card-thumb';
     thumbnail.alt = '';
-    thumbnail.loading = index < 12 ? 'eager' : 'lazy';
-    if (index < 6) thumbnail.fetchPriority = 'high';
+    thumbnail.loading = index < 16 ? 'eager' : 'lazy';
+    if (index < 8) thumbnail.fetchPriority = 'high';
     thumbnail.decoding = 'async';
     thumbnail.referrerPolicy = 'no-referrer';
     thumbnail.addEventListener('load', () => {
@@ -1255,6 +1255,7 @@ let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
 let isTouchActive = false;
+let lockedAxis = null;
 
 function setupTouchGestures() {
   const modal = el.playerModal || el.mediaStage;
@@ -1275,6 +1276,7 @@ function setupTouchGestures() {
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
     isTouchActive = true;
+    lockedAxis = null;
   }, { passive: true });
 
   modal.addEventListener('touchmove', (e) => {
@@ -1282,18 +1284,31 @@ function setupTouchGestures() {
     const rawX = e.touches[0].clientX - touchStartX;
     const rawY = e.touches[0].clientY - touchStartY;
     
-    // Non-linear damping for tactile elastic feel
-    const damp = (val) => Math.sign(val) * Math.pow(Math.abs(val), 0.88);
-    const dragX = damp(rawX);
-    const dragY = damp(rawY);
+    // Determine strict orthogonal axis once delta exceeds threshold
+    if (lockedAxis === null) {
+      if (Math.abs(rawX) > 6 || Math.abs(rawY) > 6) {
+        lockedAxis = Math.abs(rawX) >= Math.abs(rawY) ? 'x' : 'y';
+      }
+    }
 
-    if (Math.abs(rawX) > 6 || Math.abs(rawY) > 6) {
+    const damp = (val) => Math.sign(val) * Math.pow(Math.abs(val), 0.88);
+    const activeEl = getActiveMediaElement();
+
+    if (lockedAxis === 'x') {
+      // Pure Horizontal Rail (Y is strictly 0)
+      const dragX = damp(rawX);
       el.mediaStage?.classList.add('is-dragging');
-      const activeEl = getActiveMediaElement();
       if (activeEl) {
-        activeEl.style.transform = `translate3d(${dragX}px, ${dragY}px, 0)`;
-        const dist = Math.hypot(dragX, dragY);
-        activeEl.style.opacity = `${Math.max(0.35, 1 - dist / 450)}`;
+        activeEl.style.transform = `translate3d(${dragX}px, 0, 0)`;
+        activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragX) / 450)}`;
+      }
+    } else if (lockedAxis === 'y') {
+      // Pure Vertical Rail (X is strictly 0)
+      const dragY = damp(rawY);
+      el.mediaStage?.classList.add('is-dragging');
+      if (activeEl) {
+        activeEl.style.transform = `translate3d(0, ${dragY}px, 0)`;
+        activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragY) / 450)}`;
       }
     }
   }, { passive: true });
@@ -1307,40 +1322,51 @@ function setupTouchGestures() {
     const rawDiffX = e.changedTouches[0].clientX - touchStartX;
     const rawDiffY = e.changedTouches[0].clientY - touchStartY;
     const elapsed = Math.max(1, Date.now() - touchStartTime);
-    const distance = Math.hypot(rawDiffX, rawDiffY);
-    const velocity = distance / elapsed;
-    const absX = Math.abs(rawDiffX);
-    const absY = Math.abs(rawDiffY);
 
-    // Threshold: distance >= 45px OR flick velocity >= 0.15 px/ms
-    if (distance >= 45 || velocity >= 0.15) {
-      if (activeEl) {
-        activeEl.style.transform = '';
-        activeEl.style.opacity = '';
-      }
-      if (absX > absY * 1.05) {
-        // Horizontal swipe (Next / Prev)
+    if (lockedAxis === 'x') {
+      const distance = Math.abs(rawDiffX);
+      const velocity = distance / elapsed;
+      if (distance >= 45 || velocity >= 0.15) {
+        if (activeEl) {
+          activeEl.style.transform = '';
+          activeEl.style.opacity = '';
+        }
         if (rawDiffX < 0) playNextFile('left');
         else playPrevFile('right');
       } else {
-        // Vertical swipe (Shorts style)
-        if (rawDiffY < 0) playRandomFile('up');
-        else playRandomFile('down');
+        snapBackSpring(activeEl);
       }
-    } else {
-      // Snap-Back Spring
-      if (activeEl) {
-        el.mediaStage?.classList.add('is-snapping');
-        activeEl.style.transform = 'translate3d(0, 0, 0)';
-        activeEl.style.opacity = '1';
-        setTimeout(() => {
-          el.mediaStage?.classList.remove('is-snapping');
+    } else if (lockedAxis === 'y') {
+      const distance = Math.abs(rawDiffY);
+      const velocity = distance / elapsed;
+      if (distance >= 45 || velocity >= 0.15) {
+        if (activeEl) {
           activeEl.style.transform = '';
           activeEl.style.opacity = '';
-        }, 230);
+        }
+        if (rawDiffY < 0) playRandomFile('up');
+        else playRandomFile('down');
+      } else {
+        snapBackSpring(activeEl);
       }
+    } else {
+      snapBackSpring(activeEl);
     }
+    lockedAxis = null;
   }, { passive: true });
+}
+
+function snapBackSpring(activeEl) {
+  if (activeEl) {
+    el.mediaStage?.classList.add('is-snapping');
+    activeEl.style.transform = 'translate3d(0, 0, 0)';
+    activeEl.style.opacity = '1';
+    setTimeout(() => {
+      el.mediaStage?.classList.remove('is-snapping');
+      activeEl.style.transform = '';
+      activeEl.style.opacity = '';
+    }, 230);
+  }
 }
 
 function handlePlayerKeyboard(event) {
@@ -1691,7 +1717,7 @@ function updateQualityDisplay() {
     setStreamMode('drive', 'Drive 호환 재생');
     if (el.qualityBadge) {
       el.qualityBadge.dataset.quality = 'preview';
-      el.qualityBadge.textContent = 'Drive 변환 화질';
+      el.qualityBadge.textContent = '· 변환본';
     }
     if (el.playbackQualityText) el.playbackQualityText.textContent = 'Google 압축 변환본';
     if (el.streamModeDetail) el.streamModeDetail.textContent = 'Drive 미리보기 (iframe)';
@@ -1704,7 +1730,7 @@ function updateQualityDisplay() {
     setStreamMode('buffer', '원본 임시 버퍼');
     if (el.qualityBadge) {
       el.qualityBadge.dataset.quality = 'buffer';
-      el.qualityBadge.textContent = effectiveCat ? `원본 ${effectiveCat}` : '100% 원본 화질';
+      el.qualityBadge.textContent = effectiveCat ? `· ${effectiveCat} (원본 1:1)` : '· 원본 1:1';
     }
     if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
     if (el.streamModeDetail) el.streamModeDetail.textContent = '메모리 버퍼 (Blob)';
@@ -1721,7 +1747,7 @@ function updateQualityDisplay() {
     setStreamMode('range', '100% 원본 스트림');
     if (el.qualityBadge) {
       el.qualityBadge.dataset.quality = 'original';
-      el.qualityBadge.textContent = effectiveCat ? `원본 ${effectiveCat}` : '100% 원본 화질';
+      el.qualityBadge.textContent = effectiveCat ? `· ${effectiveCat} (원본 1:1)` : '· 원본 1:1';
     }
     if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
     if (el.streamModeDetail) el.streamModeDetail.textContent = '구간 스트림 (Range)';
