@@ -1,7 +1,8 @@
 'use strict';
 
-const APP_VERSION = '1.1.1';
+const APP_VERSION = '1.2.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
+const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
@@ -41,6 +42,7 @@ let updatePending = false;
 let controlsHideTimer = null;
 let isSeekingPointer = false;
 let isSpeedMenuOpen = false;
+let tokenRenewalTimer = null;
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -60,12 +62,25 @@ async function init() {
   el.currentOrigin.textContent = location.origin;
   el.appVersion.textContent = `v${APP_VERSION}`;
   if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
-  updateConnectionBadge();
+  
   await setupServiceWorker();
 
+  // Automatic Login Flow:
   if (state.demo) {
     startDemoMode();
+  } else if (loadSavedToken()) {
+    // 1. Valid saved token exists in storage -> Instant zero-click auto login!
+    sendTokenToWorker();
+    updateConnectionBadge();
+    showLibrary();
+    loadFiles({ append: false });
+  } else if (state.clientId && validateClientId(state.clientId)) {
+    // 2. Client ID is saved -> Attempt silent background token request
+    updateConnectionBadge();
+    attemptSilentAutoLogin();
   } else {
+    // 3. First time user -> Show setup view
+    updateConnectionBadge();
     showSetup();
   }
 }
@@ -409,6 +424,48 @@ function sendTokenToWorker() {
   [registration?.active, registration?.waiting, registration?.installing].forEach((worker) => worker?.postMessage(message));
 }
 
+function saveToken(token, expiresAt) {
+  state.token = token;
+  state.expiresAt = expiresAt;
+  try {
+    localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify({ token, expiresAt }));
+  } catch (_) {}
+  scheduleTokenRenewal();
+}
+
+function loadSavedToken() {
+  try {
+    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (data?.token && typeof data.expiresAt === 'number') {
+      if (Date.now() < data.expiresAt - TOKEN_SKEW_MS) {
+        state.token = data.token;
+        state.expiresAt = data.expiresAt;
+        scheduleTokenRenewal();
+        return true;
+      }
+    }
+  } catch (_) {}
+  return false;
+}
+
+function scheduleTokenRenewal() {
+  if (tokenRenewalTimer) {
+    clearTimeout(tokenRenewalTimer);
+    tokenRenewalTimer = null;
+  }
+  if (!state.token || !state.expiresAt) return;
+  // Proactively renew 5 minutes before token expiration
+  const remainingMs = state.expiresAt - Date.now() - (5 * 60 * 1000);
+  const delayMs = Math.max(10_000, remainingMs);
+  tokenRenewalTimer = setTimeout(() => {
+    if (state.clientId && validateClientId(state.clientId)) {
+      attemptSilentAutoLogin({ background: true });
+    }
+  }, delayMs);
+}
+
 function beginAuthorization() {
   const clientId = el.clientIdInput.value.trim();
   if (!validateClientId(clientId)) {
@@ -448,15 +505,54 @@ async function requestAccessToken() {
   }
 }
 
+async function attemptSilentAutoLogin({ background = false } = {}) {
+  if (!state.clientId || !validateClientId(state.clientId)) {
+    if (!background) showSetup();
+    return;
+  }
+  if (!background) {
+    setConnectBusy(true);
+    updateConnectionBadge('busy');
+  }
+  try {
+    await waitForGoogleIdentity();
+    if (!state.tokenClient) {
+      state.tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: state.clientId,
+        scope: DRIVE_SCOPE,
+        callback: handleTokenResponse,
+        error_callback: (err) => {
+          console.log('Silent auto-login request requires user prompt or was dismissed:', err);
+          if (!background) {
+            setConnectBusy(false);
+            updateConnectionBadge();
+            showSetup();
+          }
+        }
+      });
+    }
+    state.tokenClient.requestAccessToken({ prompt: '' });
+  } catch (err) {
+    console.error('Silent auto-login error:', err);
+    if (!background) {
+      setConnectBusy(false);
+      updateConnectionBadge();
+      showSetup();
+    }
+  }
+}
+
 async function handleTokenResponse(response) {
   setConnectBusy(false);
   if (!response || response.error || !response.access_token) {
     updateConnectionBadge();
-    setClientIdError(response?.error_description || 'Google 인증이 완료되지 않았습니다.');
+    if (response?.error !== 'user_cancelled') {
+      setClientIdError(response?.error_description || 'Google 인증이 완료되지 않았습니다.');
+    }
     return;
   }
-  state.token = response.access_token;
-  state.expiresAt = Date.now() + Math.max(60, Number(response.expires_in) || 3600) * 1000;
+  const expiresIn = Math.max(60, Number(response.expires_in) || 3600);
+  saveToken(response.access_token, Date.now() + expiresIn * 1000);
   clearClientIdError();
   sendTokenToWorker();
   updateConnectionBadge();
@@ -466,7 +562,9 @@ async function handleTokenResponse(response) {
     openMediaSource(state.selected);
     return;
   }
-  await loadFiles({ append: false });
+  if (!state.files.length) {
+    await loadFiles({ append: false });
+  }
 }
 
 function waitForGoogleIdentity(timeoutMs = 12_000) {
@@ -523,7 +621,11 @@ async function loadFiles({ append }) {
     el.libraryStatus.textContent = `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
     if (error.status === 401) {
       clearToken(false);
-      showSetup();
+      if (state.clientId && validateClientId(state.clientId)) {
+        attemptSilentAutoLogin({ background: true });
+      } else {
+        showSetup();
+      }
     }
   } finally {
     state.loadingFiles = false;
@@ -1483,6 +1585,13 @@ function disconnect() {
 function clearToken(notifyWorker) {
   state.token = null;
   state.expiresAt = 0;
+  if (tokenRenewalTimer) {
+    clearTimeout(tokenRenewalTimer);
+    tokenRenewalTimer = null;
+  }
+  try {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+  } catch (_) {}
   if (notifyWorker) {
     navigator.serviceWorker.controller?.postMessage({ type: 'CLEAR_TOKEN' });
     state.serviceWorkerRegistration?.active?.postMessage({ type: 'CLEAR_TOKEN' });
