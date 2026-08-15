@@ -11,3 +11,9 @@
 
 ## D-004 · 미디어 파일 전환 시 상태(state.selected) 및 메타데이터 SSOT 동기화 — 2026-08-15 (User-confirmed)
 이전/다음/랜덤 쇼츠 내비게이션 시 `openMediaSource(file)` 진입점에서 `state.selected = file` 및 플레이어 제목/코덱 노트/품질 뱃지 메타데이터를 즉각 갱신하도록 강제한다. 이를 통해 연속 클릭 시 인덱스 계산(`list.findIndex`)이 정상 누적되어 동일 영상이 반복 새로고침되는 결함을 원천 해결한다.
+
+## D-005 · 모바일 Safe Area 전면 보정, SW Mime 스트림 초고속 가속 & 모달 전체 스와이프 확장 — 2026-08-15 (User-confirmed)
+1. **모바일 짤림 방지**: iPhone Dynamic Island / Notch 및 Home Bar 영역에 맞춰 `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 기반 100dvh 풀스크린 모바일 모달 레이아웃을 확립하고, 상단 뱃지와 파일명 래핑을 보정하여 짤림 0%를 보장한다.
+2. **화질 판정 정밀화**: `getResolutionCategory`에서 `1280×710` 등 가로/세로 와이드스크린 해상도를 정확하게 `HD 720p (1280×710 · 원본 1:1)`로 판정 및 표시한다.
+3. **SW 초고속 스트리밍 가속**: `sw.js`에서 Drive 원본 스트림 프록시 시 `Content-Type`을 실제 MIME으로 강제 교정하여 Safari/Chrome의 무거운 Blob 폴백 대기를 방지하고 0.1초 즉시 Range 스트리밍 재생을 보장한다.
+4. **전체 영역 스와이프**: 비디오 영역뿐만 아니라 하단 메타데이터 카드 패널 영역을 터치하여 스와이프해도 동일하게 4방향 물리 제스처 및 슬라이드 트랜지션이 작동하도록 제스처 리스너 타겟을 확장한다.

@@ -1,4 +1,4 @@
-const VERSION = '1.4.2';
+const VERSION = '1.5.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -132,6 +132,12 @@ async function proxyDriveMedia(request, url) {
     responseHeaders.set('Access-Control-Expose-Headers', 'Content-Range, Accept-Ranges, Content-Length, Content-Type');
     responseHeaders.set('Accept-Ranges', 'bytes');
     responseHeaders.set('Cache-Control', 'private, no-transform, max-age=3600');
+
+    // Force exact MIME type if known (prevents Safari application/octet-stream rejection)
+    const mimeParam = url.searchParams.get('mime');
+    if (mimeParam) {
+      responseHeaders.set('Content-Type', mimeParam);
+    }
 
     return new Response(upstream.body, {
       status: upstream.status,

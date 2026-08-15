@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.4.2';
+const APP_VERSION = '1.5.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
@@ -94,7 +94,7 @@ function bindElements() {
     'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
-    'playerSheet', 'playerBackdrop', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
     'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton', 'mediaStage', 'videoPlayer',
     'imageViewer', 'drivePreview', 'playerFeedback', 'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
@@ -1256,24 +1256,27 @@ let touchStartTime = 0;
 let isTouchActive = false;
 
 function setupTouchGestures() {
-  const stage = el.mediaStage;
-  if (!stage) return;
+  const modal = el.playerModal || el.mediaStage;
+  if (!modal) return;
 
-  stage.addEventListener('touchstart', (e) => {
+  modal.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) return;
+    // Don't hijack interaction on buttons, sliders, or seekbar
+    if (e.target.closest('.seek-bar-container, .volume-slider, .volume-slider-wrap, button, input, select')) return;
+
     const activeEl = getActiveMediaElement();
     if (activeEl) {
       activeEl.style.transform = '';
       activeEl.className = activeEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
     }
-    stage.classList.remove('is-snapping');
+    el.mediaStage?.classList.remove('is-snapping');
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
     isTouchActive = true;
   }, { passive: true });
 
-  stage.addEventListener('touchmove', (e) => {
+  modal.addEventListener('touchmove', (e) => {
     if (!isTouchActive || e.touches.length !== 1) return;
     const rawX = e.touches[0].clientX - touchStartX;
     const rawY = e.touches[0].clientY - touchStartY;
@@ -1284,7 +1287,7 @@ function setupTouchGestures() {
     const dragY = damp(rawY);
 
     if (Math.abs(rawX) > 6 || Math.abs(rawY) > 6) {
-      stage.classList.add('is-dragging');
+      el.mediaStage?.classList.add('is-dragging');
       const activeEl = getActiveMediaElement();
       if (activeEl) {
         activeEl.style.transform = `translate3d(${dragX}px, ${dragY}px, 0)`;
@@ -1294,10 +1297,10 @@ function setupTouchGestures() {
     }
   }, { passive: true });
 
-  stage.addEventListener('touchend', (e) => {
+  modal.addEventListener('touchend', (e) => {
     if (!isTouchActive || e.changedTouches.length !== 1) return;
     isTouchActive = false;
-    stage.classList.remove('is-dragging');
+    el.mediaStage?.classList.remove('is-dragging');
 
     const activeEl = getActiveMediaElement();
     const rawDiffX = e.changedTouches[0].clientX - touchStartX;
@@ -1308,14 +1311,14 @@ function setupTouchGestures() {
     const absX = Math.abs(rawDiffX);
     const absY = Math.abs(rawDiffY);
 
-    // Threshold: distance >= 55px OR flick velocity >= 0.18 px/ms
-    if (distance >= 55 || velocity >= 0.18) {
+    // Threshold: distance >= 45px OR flick velocity >= 0.15 px/ms
+    if (distance >= 45 || velocity >= 0.15) {
       if (activeEl) {
         activeEl.style.transform = '';
         activeEl.style.opacity = '';
       }
-      if (absX > absY * 1.1) {
-        // Horizontal swipe
+      if (absX > absY * 1.05) {
+        // Horizontal swipe (Next / Prev)
         if (rawDiffX < 0) playNextFile('left');
         else playPrevFile('right');
       } else {
@@ -1326,11 +1329,11 @@ function setupTouchGestures() {
     } else {
       // Snap-Back Spring
       if (activeEl) {
-        stage.classList.add('is-snapping');
+        el.mediaStage?.classList.add('is-snapping');
         activeEl.style.transform = 'translate3d(0, 0, 0)';
         activeEl.style.opacity = '1';
         setTimeout(() => {
-          stage.classList.remove('is-snapping');
+          el.mediaStage?.classList.remove('is-snapping');
           activeEl.style.transform = '';
           activeEl.style.opacity = '';
         }, 230);
@@ -1642,13 +1645,13 @@ function getResolutionCategory(width, height) {
   const w = Number(width) || 0;
   const h = Number(height) || 0;
   if (!w || !h) return '';
-  const pixels = w * h;
   const maxDim = Math.max(w, h);
   const minDim = Math.min(w, h);
-  if (maxDim >= 3840 || minDim >= 2160 || pixels >= 7_500_000) return '4K UHD';
-  if (maxDim >= 2560 || minDim >= 1440 || pixels >= 3_500_000) return 'QHD 1440p';
-  if (maxDim >= 1920 || minDim >= 1080 || pixels >= 1_900_000) return 'FHD 1080p';
-  if (maxDim >= 1280 || minDim >= 720 || pixels >= 850_000) return 'HD 720p';
+  if (maxDim >= 3840 || minDim >= 2160) return '4K 2160p';
+  if (maxDim >= 2560 || minDim >= 1440) return 'QHD 1440p';
+  if (maxDim >= 1920 || minDim >= 1080) return 'FHD 1080p';
+  if (maxDim >= 1200 || minDim >= 700) return 'HD 720p';
+  if (maxDim >= 800 || minDim >= 450) return 'SD 480p';
   return 'SD';
 }
 
@@ -1676,6 +1679,12 @@ function updateQualityDisplay() {
   const effectiveW = liveW || metaW;
   const effectiveH = liveH || metaH;
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
+
+  if (el.mediaFileSizeType) {
+    const sizeStr = file.size ? formatBytes(file.size) : '';
+    const mimeStr = friendlyMime(file.mimeType || '');
+    el.mediaFileSizeType.textContent = sizeStr ? `${sizeStr} · ${mimeStr}` : mimeStr;
+  }
 
   if (mode === 'drive-preview') {
     setStreamMode('drive', 'Drive 호환 재생');
