@@ -1386,20 +1386,27 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 /* ==========================================================================
-   SETTINGS DIALOG
+   SETTINGS DIALOG (Centered Desktop Modal & Responsive Sheet)
    ========================================================================== */
 
 .settings-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
   border: none;
   background: transparent;
-  padding: 16px;
-  max-width: 540px;
-  width: 100%;
+  padding: 20px;
+  max-width: 580px;
+  width: calc(100% - 40px);
+  max-height: 88vh;
+  z-index: 110;
+  outline: none;
 }
 
 .settings-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .dialog-box {
@@ -1409,14 +1416,29 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+dialog[open] .dialog-box {
+  animation: dialogIn 180ms var(--ease-out);
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .dialog-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 16px 20px;
   background: var(--bg-surface-raised);
   border-bottom: 1px solid var(--border-subtle);
 }
@@ -1424,15 +1446,35 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .dialog-top h2 {
   font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .dialog-content {
-  padding: 18px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-height: 75vh;
+  max-height: calc(88vh - 70px);
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .settings-group {
