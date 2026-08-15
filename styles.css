@@ -2471,6 +2471,7 @@ dialog[open] .dialog-box {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%);
     border: none;
     pointer-events: none;
+    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
   }
 
   .player-title-box {
@@ -2555,6 +2556,7 @@ dialog[open] .dialog-box {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
     pointer-events: none;
     gap: 10px;
+    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
   }
 
   .mobile-shorts-title {
@@ -2593,6 +2595,28 @@ dialog[open] .dialog-box {
 
   .volume-slider-wrap {
     display: none !important;
+  }
+
+  /* 몰입 모드(에지 탭) — 재생 UI 페이드아웃 + 비영상 영역 순정 블랙.
+     진입은 빠른 이탈(180ms ease-out), 해제는 기본 240ms. ambient는 몰입 시
+     opacity 0로 꺼져 media-stage 배경(#000)만 남는다. */
+  .player-modal.immersive .player-topbar {
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  }
+
+  .player-modal.immersive .mobile-shorts-overlay {
+    opacity: 0;
+    transform: translateY(12px);
+    visibility: hidden;
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  }
+
+  .player-modal.immersive .ambient-backdrop {
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
   }
 }
 

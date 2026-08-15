@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.10.0';
+const APP_VERSION = '1.10.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -1465,6 +1465,7 @@ function openPlayer(file) {
   state.selected = file;
   document.body.style.overflow = 'hidden';
   el.playerSheet.hidden = false;
+  setStageImmersive(false);
   el.playerTitle.textContent = file.name || '이름 없는 파일';
   el.codecNote.textContent = 'Google Drive 원본 파일의 바이트를 1:1 무변환 실시간 스트리밍 중입니다. (손실 없음)';
   const isVideo = file.mimeType?.startsWith('video/');
@@ -1514,10 +1515,8 @@ function togglePlayPause(event) {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   if (el.videoPlayer.paused) {
     el.videoPlayer.play().catch(() => {});
-    showPlayerFeedback('PLAY');
   } else {
     el.videoPlayer.pause();
-    showPlayerFeedback('PAUSE');
   }
   updatePlayPauseUI();
 }
@@ -1965,13 +1964,24 @@ let lastTapTime = 0;
 let lastTapZone = null;
 let singleTapTimer = null;
 
-function getTapZone(clientX) {
+function getTapZone(clientX, clientY) {
   const rect = el.mediaStage.getBoundingClientRect();
-  if (!rect.width) return 'center';
-  const ratio = (clientX - rect.left) / rect.width;
-  if (ratio < 0.3) return 'left';
-  if (ratio > 0.7) return 'right';
-  return 'center';
+  if (!rect.width || !rect.height) return 'center';
+  const nx = (clientX - rect.left) / rect.width;
+  const ny = (clientY - rect.top) / rect.height;
+  if (nx >= 0.3 && nx <= 0.7 && ny >= 0.3 && ny <= 0.7) return 'center';
+  const edgeX = nx < 0.5 ? nx : 1 - nx;
+  const edgeY = ny < 0.5 ? ny : 1 - ny;
+  if (edgeX <= edgeY) return nx < 0.5 ? 'left' : 'right';
+  return ny < 0.5 ? 'top' : 'bottom';
+}
+
+function setStageImmersive(on) {
+  if (!el.playerModal) return;
+  if (el.playerModal.classList.contains('immersive') === on) return;
+  el.playerModal.classList.toggle('immersive', on);
+  if (on) collapseShortsExpand();
+  else resetControlsTimer();
 }
 
 function flashSeekHint(zone) {
@@ -1983,10 +1993,10 @@ function flashSeekHint(zone) {
   setTimeout(() => hint.classList.remove('active'), 550);
 }
 
-function handleStageTap(clientX) {
+function handleStageTap(clientX, clientY) {
   const now = Date.now();
-  const zone = getTapZone(clientX);
-  const isDoubleTap = (now - lastTapTime < 320) && zone === lastTapZone && zone !== 'center';
+  const zone = getTapZone(clientX, clientY);
+  const isDoubleTap = (now - lastTapTime < 320) && zone === lastTapZone && (zone === 'left' || zone === 'right');
   lastTapTime = now;
   lastTapZone = zone;
 
@@ -2000,10 +2010,31 @@ function handleStageTap(clientX) {
     return;
   }
 
+  // 가운데 탭 = 재생/일시정지 전용 (즉시 응답)
+  if (zone === 'center') {
+    if (singleTapTimer) {
+      clearTimeout(singleTapTimer);
+      singleTapTimer = null;
+    }
+    togglePlayPause();
+    return;
+  }
+
+  // 위/아래 에지 = 몰입 토글 (더블탭 제스처가 없어 즉시 실행)
+  if (zone === 'top' || zone === 'bottom') {
+    if (singleTapTimer) {
+      clearTimeout(singleTapTimer);
+      singleTapTimer = null;
+    }
+    setStageImmersive(!el.playerModal.classList.contains('immersive'));
+    return;
+  }
+
+  // 좌/우 에지 = 더블탭 시크(±10초) 판별 창 뒤 몰입 토글
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
-    togglePlayPause();
+    setStageImmersive(!el.playerModal.classList.contains('immersive'));
   }, 280);
 }
 
@@ -2078,7 +2109,7 @@ function setupTouchGestures() {
     // stops the synthetic click so onMediaStageClick never double-fires.
     if (lockedAxis === null && elapsed < 300 && Math.abs(rawDiffX) < 10 && Math.abs(rawDiffY) < 10) {
       e.preventDefault();
-      handleStageTap(e.changedTouches[0].clientX);
+      handleStageTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
       lockedAxis = null;
       return;
     }
@@ -2891,6 +2922,7 @@ function closePlayer() {
   resetMediaElements();
   collapseShortsExpand();
   resetVideoRotation();
+  setStageImmersive(false);
   el.playerSheet.hidden = true;
   document.body.style.overflow = '';
   state.selected = null;
