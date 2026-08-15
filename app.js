@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.0.7';
+const APP_VERSION = '1.0.8';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';

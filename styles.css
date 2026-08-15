@@ -1,26 +1,25 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   DRIVE ORIGINAL — CLEAN MODERN DARK DESIGN SYSTEM (v1.0.7)
-   Restrained, high-utility, balanced typography & responsive architecture
+   DRIVE ORIGINAL — CLEAN WIDE PC & RESPONSIVE MOBILE SYSTEM (v1.0.8)
    ========================================================================== */
 
 :root {
   color-scheme: dark;
   
-  /* Palette */
-  --bg-canvas: #0b0d13;
-  --bg-surface: #12151f;
-  --bg-surface-raised: #181c2a;
-  --bg-surface-hover: #1e2335;
-  --bg-input: #0f121b;
+  /* Backgrounds */
+  --bg-canvas: #0b0d14;
+  --bg-surface: #121520;
+  --bg-surface-raised: #181c2b;
+  --bg-surface-hover: #1e2438;
+  --bg-input: #0e111a;
   
   /* Text */
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-faint: #64748b;
   
-  /* Brand & Accents */
+  /* Accents */
   --accent-blue: #3b82f6;
   --accent-blue-hover: #60a5fa;
   --accent-blue-active: #2563eb;
@@ -30,7 +29,6 @@
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.14);
-  --border-focus: #3b82f6;
   
   /* Typography */
   --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -71,6 +69,12 @@ body {
   background-color: var(--bg-canvas);
   color: var(--text-main);
   overflow-x: hidden;
+}
+
+svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 button, input, select {
@@ -124,7 +128,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   top: 0;
   z-index: 50;
   width: 100%;
-  background: rgba(11, 13, 19, 0.9);
+  background: rgba(11, 13, 20, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
@@ -165,11 +169,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   place-items: center;
 }
 
-.brand-icon svg {
-  width: 16px;
-  height: 16px;
-}
-
 .top-actions {
   display: flex;
   align-items: center;
@@ -194,6 +193,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   height: 6px;
   border-radius: 50%;
   background: var(--text-faint);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .connection-badge[data-state="online"] {
@@ -221,11 +222,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transition: all 140ms ease;
 }
 
-.icon-button svg {
-  width: 17px;
-  height: 17px;
-}
-
 .icon-button:hover {
   background: var(--bg-surface-raised);
   border-color: var(--border-medium);
@@ -240,11 +236,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   width: 28px;
   height: 28px;
   border-radius: 6px;
-}
-
-.icon-button.compact svg {
-  width: 14px;
-  height: 14px;
 }
 
 .settings-update-dot {
@@ -350,11 +341,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transition: all 140ms ease;
 }
 
-.secondary-button svg {
-  width: 15px;
-  height: 15px;
-}
-
 .secondary-button:hover {
   background: var(--bg-surface-raised);
   border-color: var(--border-medium);
@@ -416,7 +402,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 /* ==========================================================================
-   SETUP VIEW (Centered Clean Connection Card)
+   SETUP VIEW: WIDE PC 2-COLUMN LANDSCAPE & MOBILE RESPONSIVE
    ========================================================================== */
 
 .setup-view {
@@ -424,57 +410,113 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px 60px;
+  padding: 40px 24px 60px;
 }
 
-.setup-card {
-  max-width: 500px;
+.setup-layout {
+  max-width: 1100px;
   width: 100%;
-  padding: 32px 28px;
-  border-radius: 16px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Left Column: Hero */
+.hero-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-blue);
+  background: rgba(59, 130, 246, 0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.setup-hero h1 {
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin-bottom: 14px;
+}
+
+.hero-desc {
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 52ch;
+  margin-bottom: 28px;
+}
+
+.hero-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
-.setup-header h1 {
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-}
-
-.setup-sub {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.feature-pills {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pill-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+.feature-icon-box {
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-subtle);
-  font-size: 0.83rem;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-blue);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.feature-content strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--text-main);
 }
 
-.pill-item svg {
-  width: 16px;
-  height: 16px;
-  color: var(--accent-blue);
-  flex-shrink: 0;
+.feature-content span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Right Column: Console Card */
+.setup-console-card {
+  padding: 32px 28px;
+  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.console-card-header h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.console-card-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
 }
 
 .field-block {
@@ -526,14 +568,14 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   color: #f87171;
 }
 
-.setup-footer {
+.console-footer {
   display: flex;
   justify-content: center;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 /* ==========================================================================
-   LIBRARY VIEW (Vault Header, Toolbar & Responsive File Grid)
+   LIBRARY VIEW (Header, Toolbar & File Grid)
    ========================================================================== */
 
 .library-view {
@@ -593,12 +635,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   color: var(--text-main);
 }
 
-.search-box svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-}
-
 .search-box input {
   flex: 1;
   min-width: 0;
@@ -648,7 +684,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   min-height: 18px;
 }
 
-/* Responsive File Grid */
+/* File Grid */
 .file-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -697,7 +733,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   left: 8px;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(11, 13, 19, 0.85);
+  background: rgba(11, 13, 20, 0.85);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 600;
@@ -725,7 +761,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   height: 38px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
-  color: #0b0d13;
+  color: #0b0d14;
   display: grid;
   place-items: center;
 }
@@ -781,11 +817,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: grid;
   place-items: center;
   margin-bottom: 4px;
-}
-
-.empty-icon svg {
-  width: 24px;
-  height: 24px;
 }
 
 .empty-state h2 {
@@ -937,16 +968,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   height: 58px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
-  color: #0b0d13;
+  color: #0b0d14;
   display: grid;
   place-items: center;
   transition: transform 140ms ease;
-}
-
-.stage-center-btn svg {
-  width: 26px;
-  height: 26px;
-  margin-left: 2px;
 }
 
 .stage-center-btn:hover {
@@ -1049,7 +1074,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transform: translateX(-50%);
   padding: 3px 6px;
   border-radius: 4px;
-  background: rgba(11, 13, 19, 0.9);
+  background: rgba(11, 13, 20, 0.9);
   color: #fff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -1079,11 +1104,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   place-items: center;
   color: rgba(255, 255, 255, 0.85);
   transition: color 120ms ease, background 120ms ease;
-}
-
-.player-ctrl-btn svg {
-  width: 18px;
-  height: 18px;
 }
 
 .player-ctrl-btn:hover {
@@ -1226,7 +1246,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .media-error {
   position: absolute;
   inset: 0;
-  background: rgba(11, 13, 19, 0.95);
+  background: rgba(11, 13, 20, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1261,7 +1281,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transform: translateX(-50%);
   padding: 6px 14px;
   border-radius: 9999px;
-  background: rgba(11, 13, 19, 0.85);
+  background: rgba(11, 13, 20, 0.85);
   color: #fff;
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -1524,7 +1544,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
    RESPONSIVE BREAKPOINTS (Mobile Optimization)
    ========================================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
+  .setup-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .setup-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .setup-console-card {
+    padding: 24px 20px;
+  }
+
   .media-info-bar {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1544,7 +1577,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   }
 
   .file-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 10px;
   }
 
@@ -1556,7 +1589,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
     font-size: 0.82rem;
   }
 
-  .setup-card {
+  .setup-view {
+    padding: 24px 14px 40px;
+  }
+
+  .setup-console-card {
     padding: 20px 16px;
   }
 
