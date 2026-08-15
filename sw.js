@@ -1,4 +1,4 @@
-const VERSION = '1.7.1';
+const VERSION = '1.8.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -111,6 +111,11 @@ async function proxyDriveMedia(request, url) {
   const headers = new Headers();
   headers.set('Authorization', `Bearer ${token}`);
 
+  const resourceKey = url.searchParams.get('resourceKey');
+  if (resourceKey) {
+    headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${encodeURIComponent(resourceKey)}`);
+  }
+
   const range = request.headers.get('range');
   if (range) {
     headers.set('Range', range);
@@ -196,7 +201,7 @@ async function requestTokenFromClient() {
       }
     };
 
-    clients[0].postMessage({ type: 'REQUEST_TOKEN' }, [channel.port2]);
+    clients[0].postMessage({ type: 'TOKEN_REQUEST' }, [channel.port2]);
   });
 }
 

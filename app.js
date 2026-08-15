@@ -1,21 +1,27 @@
 'use strict';
 
-const APP_VERSION = '1.7.1';
+const APP_VERSION = '1.8.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
-const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
+const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
 const MOBILE_BLOB_LIMIT = 350 * 1024 * 1024;
 const DESKTOP_BLOB_LIMIT = 2 * 1024 * 1024 * 1024;
+const FOLDER_MIME = 'application/vnd.google-apps.folder';
+const DRIVE_PAGE_SIZE = 1000;
 
 const state = {
   clientId: localStorage.getItem(CLIENT_ID_KEY) || '',
   token: null,
   expiresAt: 0,
   tokenClient: null,
+  folders: [],
   files: [],
   nextPageToken: null,
+  currentFolderId: 'root',
+  currentFolderName: '내 드라이브',
+  folderStack: [],
   filter: 'all',
   query: '',
   sort: 'modifiedTime',
@@ -32,6 +38,7 @@ const state = {
   controlsTimeout: null,
   isSeeking: false,
   pendingPlay: false,
+  deleting: false,
   demo: new URLSearchParams(location.search).get('demo') === '1'
 };
 
@@ -96,25 +103,30 @@ function bindElements() {
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
-    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle',
+    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn', 'topbarDeleteBtn',
     'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'drivePreview', 'playerFeedback',
-    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar',
+    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
-    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward',
+    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward', 'ctrlDelete',
+    'shortsActionRail', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
     'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
     'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
-    'qualityBadge', 'playbackQualityText', 'mediaResolution', 'streamModeDetail',
+    'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
     'settingsClientId', 'saveSettingsButton', 'disconnectButton', 'setupHelpSection',
-    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast'
+    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast',
+    'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
+    'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
+    'seekHintLeft', 'seekHintRight'
   ];
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
@@ -152,7 +164,9 @@ function bindEvents() {
     el.filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
     renderFiles();
   }));
-  el.loadMoreButton.addEventListener('click', () => loadFiles({ append: true }));
+  el.loadMoreButton.addEventListener('click', () => {
+    if (state.nextPageToken) loadFiles({ append: true });
+  });
   el.closePlayerButton.addEventListener('click', closePlayer);
   el.playerBackdrop.addEventListener('click', closePlayer);
   el.fullscreenButton.addEventListener('click', toggleFullscreen);
@@ -229,6 +243,9 @@ function bindEvents() {
     el.seekBarContainer.addEventListener('pointermove', onSeekPointerHover);
     el.seekBarContainer.addEventListener('pointerleave', onSeekPointerLeave);
   }
+  if (el.mobileShortsProgressTrack) {
+    el.mobileShortsProgressTrack.addEventListener('pointerdown', onShortsProgressPointerDown);
+  }
   document.addEventListener('click', onDocumentClickForSpeedMenu);
 
   el.bannerUpdateButton.addEventListener('click', applyAppUpdate);
@@ -242,6 +259,41 @@ function bindEvents() {
   el.saveSettingsButton.addEventListener('click', saveSettings);
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
+
+  // Folder navigation
+  if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);
+
+  // Delete flow (desktop topbar, desktop controls, mobile shorts rail)
+  [el.topbarDeleteBtn, el.ctrlDelete, el.shortsDeleteBtn].forEach((btn) => {
+    if (btn) btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      requestDeleteFile();
+    });
+  });
+  if (el.shortsDriveBtn) el.shortsDriveBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openSelectedInDrive();
+  });
+  if (el.shortsPipBtn) el.shortsPipBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    togglePictureInPicture();
+  });
+
+  // Delete confirm dialog
+  if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => el.deleteDialog.close());
+  if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
+  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (e) => e.preventDefault());
+
+  // Permission guide dialog
+  if (el.permissionCloseButton) el.permissionCloseButton.addEventListener('click', () => el.permissionDialog.close());
+  if (el.permissionReconnectButton) el.permissionReconnectButton.addEventListener('click', () => {
+    el.permissionDialog.close();
+    state.retryAfterAuth = false;
+    clearToken(false);
+    state.tokenClient = null;
+    requestAccessToken();
+  });
+  if (el.permissionDialog) el.permissionDialog.addEventListener('cancel', (e) => e.preventDefault());
   window.addEventListener('online', updateConnectionBadge);
   window.addEventListener('offline', updateConnectionBadge);
   document.addEventListener('visibilitychange', () => {
@@ -659,6 +711,16 @@ function setupInfiniteScroll() {
 const thumbnailExtractionQueue = [];
 let activeThumbnailExtractions = 0;
 const MAX_CONCURRENT_EXTRACTIONS = 2;
+const THUMBNAIL_CACHE_LIMIT = 240;
+
+function cacheGeneratedThumbnail(fileId, dataUrl) {
+  generatedThumbnailCache.delete(fileId);
+  generatedThumbnailCache.set(fileId, dataUrl);
+  if (generatedThumbnailCache.size > THUMBNAIL_CACHE_LIMIT) {
+    const oldest = generatedThumbnailCache.keys().next().value;
+    generatedThumbnailCache.delete(oldest);
+  }
+}
 
 function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
   if (!file || !file.mimeType?.startsWith('video/')) return;
@@ -680,13 +742,19 @@ function processThumbnailQueue() {
   }
 
   const { file, imgElement, visualContainer } = thumbnailExtractionQueue.shift();
-  
+
   const cached = generatedThumbnailCache.get(file.id);
   if (cached) {
     imgElement.src = cached;
     imgElement.classList.add('loaded');
     visualContainer.classList.add('has-thumbnail');
     processThumbnailQueue();
+    return;
+  }
+
+  // The card may have been re-rendered away while waiting in the queue; skip the fetch.
+  if (!imgElement.isConnected) {
+    setTimeout(processThumbnailQueue, 0);
     return;
   }
 
@@ -713,7 +781,7 @@ function processThumbnailQueue() {
       video.load();
     } catch (_) {}
     if (dataUrl) {
-      generatedThumbnailCache.set(file.id, dataUrl);
+      cacheGeneratedThumbnail(file.id, dataUrl);
       imgElement.src = dataUrl;
       imgElement.classList.add('loaded');
       visualContainer.classList.add('has-thumbnail');
@@ -721,7 +789,9 @@ function processThumbnailQueue() {
     setTimeout(processThumbnailQueue, 40);
   };
 
+  // Capture only after the 0.1s seek has landed; a loadeddata frame at position 0 is often black.
   const capture = () => {
+    if (video.currentTime < 0.05) return;
     try {
       const w = video.videoWidth || 320;
       const h = video.videoHeight || 180;
@@ -742,8 +812,8 @@ function processThumbnailQueue() {
     finish();
   };
 
-  video.addEventListener('loadeddata', capture, { once: true });
-  video.addEventListener('seeked', capture, { once: true });
+  video.addEventListener('loadeddata', capture);
+  video.addEventListener('seeked', capture);
   video.addEventListener('error', () => finish(), { once: true });
   setTimeout(() => finish(), 4000);
 }
@@ -762,18 +832,21 @@ async function loadFiles({ append }) {
 
   state.loadingFiles = true;
   showLibrary();
-  if (!append) el.libraryStatus.textContent = 'Drive에서 원본 파일 목록을 불러오는 중…';
+  if (!append) el.libraryStatus.textContent = 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…';
   el.refreshButton.disabled = true;
   if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = false;
 
+  const parentClause = state.currentFolderId === 'root'
+    ? `'root' in parents`
+    : `'${state.currentFolderId}' in parents`;
   const params = new URLSearchParams({
-    pageSize: '100',
-    orderBy: 'modifiedTime desc',
-    q: "trashed = false and (mimeType contains 'video/' or mimeType contains 'image/')",
+    pageSize: String(DRIVE_PAGE_SIZE),
+    orderBy: 'folder,modifiedTime desc',
+    q: `trashed = false and ${parentClause} and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
     spaces: 'drive',
     supportsAllDrives: 'true',
     includeItemsFromAllDrives: 'true',
-    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload,canDelete),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
   });
   if (append && state.nextPageToken) params.set('pageToken', state.nextPageToken);
 
@@ -781,7 +854,16 @@ async function loadFiles({ append }) {
     const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
     const data = await response.json();
     const incoming = Array.isArray(data.files) ? data.files : [];
-    state.files = append ? dedupeFiles([...state.files, ...incoming]) : incoming;
+    const incomingFolders = incoming.filter((f) => f.mimeType === FOLDER_MIME);
+    const incomingMedia = incoming.filter((f) => f.mimeType?.startsWith('video/') || f.mimeType?.startsWith('image/'));
+
+    if (append) {
+      state.files = dedupeFiles([...state.files, ...incomingMedia]);
+      state.folders = dedupeFiles([...state.folders, ...incomingFolders]);
+    } else {
+      state.files = incomingMedia;
+      state.folders = incomingFolders;
+    }
     state.nextPageToken = data.nextPageToken || null;
     renderFiles();
     el.libraryStatus.textContent = '';
@@ -814,6 +896,93 @@ async function loadFiles({ append }) {
   }
 }
 
+function navigateToFolder(folderId, folderName) {
+  if (!folderId) return;
+  if (folderId === state.currentFolderId) return;
+  // The breadcrumb always renders root as the first crumb; keep it out of the stack.
+  if (state.currentFolderId !== 'root') {
+    state.folderStack.push({ id: state.currentFolderId, name: state.currentFolderName });
+  }
+  state.currentFolderId = folderId;
+  state.currentFolderName = folderName || '폴더';
+  state.files = [];
+  state.folders = [];
+  state.nextPageToken = null;
+  shuffledOrderMap.clear();
+  scrollToLibraryTop();
+  animateFolderTransition('forward');
+  loadFiles({ append: false });
+}
+
+function navigateToFolderIndex(index) {
+  const crumbs = [{ id: 'root', name: '내 드라이브' }, ...state.folderStack, { id: state.currentFolderId, name: state.currentFolderName }];
+  const target = crumbs[index];
+  if (!target || target.id === state.currentFolderId) return;
+  state.folderStack = crumbs.slice(1, index);
+  state.currentFolderId = target.id;
+  state.currentFolderName = target.name;
+  state.files = [];
+  state.folders = [];
+  state.nextPageToken = null;
+  shuffledOrderMap.clear();
+  scrollToLibraryTop();
+  animateFolderTransition('back');
+  loadFiles({ append: false });
+}
+
+function navigateToParentFolder() {
+  if (!state.folderStack.length) return;
+  const parent = state.folderStack.pop();
+  state.currentFolderId = parent.id;
+  state.currentFolderName = parent.name;
+  state.files = [];
+  state.folders = [];
+  state.nextPageToken = null;
+  shuffledOrderMap.clear();
+  scrollToLibraryTop();
+  animateFolderTransition('back');
+  loadFiles({ append: false });
+}
+
+function scrollToLibraryTop() {
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function animateFolderTransition(direction) {
+  const grid = el.fileGrid;
+  if (!grid) return;
+  grid.classList.remove('folder-enter-forward', 'folder-enter-back');
+  void grid.offsetWidth;
+  grid.classList.add(direction === 'forward' ? 'folder-enter-forward' : 'folder-enter-back');
+}
+
+function renderBreadcrumb() {
+  if (!el.breadcrumbTrail || !el.libraryTitle) return;
+  el.libraryTitle.textContent = state.currentFolderName;
+  const crumbs = [{ id: 'root', name: '내 드라이브' }, ...state.folderStack, { id: state.currentFolderId, name: state.currentFolderName }];
+  el.breadcrumbTrail.replaceChildren();
+  crumbs.forEach((crumb, index) => {
+    const isLast = index === crumbs.length - 1;
+    const chip = document.createElement(isLast ? 'span' : 'button');
+    chip.className = `crumb ${isLast ? 'current' : ''}`.trim();
+    chip.textContent = crumb.name;
+    if (!isLast) {
+      chip.type = 'button';
+      chip.setAttribute('aria-label', `${crumb.name}(으)로 이동`);
+      chip.addEventListener('click', () => navigateToFolderIndex(index));
+    }
+    el.breadcrumbTrail.appendChild(chip);
+    if (!isLast) {
+      const sep = document.createElement('span');
+      sep.className = 'crumb-sep';
+      sep.setAttribute('aria-hidden', 'true');
+      sep.textContent = '/';
+      el.breadcrumbTrail.appendChild(sep);
+    }
+  });
+  if (el.folderUpButton) el.folderUpButton.hidden = state.folderStack.length === 0;
+}
+
 async function driveFetch(url, options = {}) {
   if (!hasUsableToken()) {
     const error = new Error('Google 인증이 만료되었습니다.');
@@ -842,12 +1011,49 @@ async function driveFetch(url, options = {}) {
 
 function renderFiles() {
   const files = filteredAndSortedFiles();
+  const visibleFolders = state.filter === 'all'
+    ? state.folders.filter((f) => !state.query || String(f.name || '').toLocaleLowerCase('ko').includes(state.query))
+    : [];
   el.fileGrid.replaceChildren();
   const fragment = document.createDocumentFragment();
-  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index)));
+  visibleFolders.forEach((folder, index) => fragment.appendChild(createFolderCard(folder, index)));
+  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index + visibleFolders.length)));
   el.fileGrid.appendChild(fragment);
-  el.emptyState.hidden = files.length > 0;
-  updateLibrarySummary(files.length);
+  el.emptyState.hidden = files.length + visibleFolders.length > 0;
+  renderBreadcrumb();
+  updateLibrarySummary(files.length, visibleFolders.length);
+}
+
+function createFolderCard(folder, index = 0) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'folder-card';
+  button.style.setProperty('--stagger', `${Math.min(index, 12) * 30}ms`);
+  button.setAttribute('aria-label', `폴더 ${folder.name} 열기`);
+
+  const glyph = document.createElement('span');
+  glyph.className = 'folder-glyph';
+  glyph.setAttribute('aria-hidden', 'true');
+  glyph.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>';
+
+  const body = document.createElement('span');
+  body.className = 'folder-body';
+  const name = document.createElement('span');
+  name.className = 'folder-name';
+  name.textContent = folder.name || '이름 없는 폴더';
+  const meta = document.createElement('span');
+  meta.className = 'folder-meta';
+  meta.textContent = '폴더';
+  body.append(name, meta);
+
+  const chevron = document.createElement('span');
+  chevron.className = 'folder-chevron';
+  chevron.setAttribute('aria-hidden', 'true');
+  chevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
+  button.append(glyph, body, chevron);
+  button.addEventListener('click', () => navigateToFolder(folder.id, folder.name));
+  return button;
 }
 
 function shuffleCurrentFiles() {
@@ -971,12 +1177,14 @@ function createFileCard(file, index = 0) {
   return button;
 }
 
-function updateLibrarySummary(visibleCount) {
-  const count = Number.isFinite(visibleCount) ? visibleCount : state.files.length;
-  const totalText = `${state.files.length.toLocaleString('ko-KR')}개 불러옴`;
-  el.librarySummary.textContent = count === state.files.length
-    ? `${totalText} — 재생 시 원본 바이트 구간을 요청합니다.`
-    : `${totalText} — 현재 ${count.toLocaleString('ko-KR')}개 표시`;
+function updateLibrarySummary(visibleCount, visibleFolderCount) {
+  const mediaCount = Number.isFinite(visibleCount) ? visibleCount : state.files.length;
+  const folderCount = Number.isFinite(visibleFolderCount) ? visibleFolderCount : state.folders.length;
+  const parts = [];
+  if (folderCount > 0) parts.push(`폴더 ${folderCount.toLocaleString('ko-KR')}개`);
+  parts.push(`미디어 ${mediaCount.toLocaleString('ko-KR')}개 표시`);
+  if (state.nextPageToken) parts.push('더 불러오는 중…');
+  el.librarySummary.textContent = parts.join(' · ');
 }
 
 function openPlayer(file) {
@@ -1221,6 +1429,36 @@ function onSeekPointerLeave() {
   if (el.seekBarTooltip) el.seekBarTooltip.hidden = true;
 }
 
+function onShortsProgressPointerDown(event) {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  const track = el.mobileShortsProgressTrack;
+  const duration = el.videoPlayer.duration || 0;
+  if (!duration) return;
+  event.preventDefault();
+  isSeekingPointer = true;
+
+  const seekToPointer = (e) => {
+    const rect = track.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
+    const ratio = rect.width > 0 ? Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) : 0;
+    el.videoPlayer.currentTime = ratio * duration;
+    updateVideoProgress();
+  };
+
+  const onPointerUp = () => {
+    isSeekingPointer = false;
+    document.removeEventListener('pointermove', seekToPointer);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointercancel', onPointerUp);
+    resetControlsTimer();
+  };
+
+  seekToPointer(event);
+  document.addEventListener('pointermove', seekToPointer);
+  document.addEventListener('pointerup', onPointerUp);
+  document.addEventListener('pointercancel', onPointerUp);
+}
+
 function onMediaStageClick(event) {
   const target = event.target;
   if (
@@ -1396,6 +1634,51 @@ let touchStartY = 0;
 let touchStartTime = 0;
 let isTouchActive = false;
 let lockedAxis = null;
+let lastTapTime = 0;
+let lastTapZone = null;
+let singleTapTimer = null;
+
+function getTapZone(clientX) {
+  const rect = el.mediaStage.getBoundingClientRect();
+  if (!rect.width) return 'center';
+  const ratio = (clientX - rect.left) / rect.width;
+  if (ratio < 0.3) return 'left';
+  if (ratio > 0.7) return 'right';
+  return 'center';
+}
+
+function flashSeekHint(zone) {
+  const hint = zone === 'left' ? el.seekHintLeft : zone === 'right' ? el.seekHintRight : null;
+  if (!hint) return;
+  hint.classList.remove('active');
+  void hint.offsetWidth;
+  hint.classList.add('active');
+  setTimeout(() => hint.classList.remove('active'), 550);
+}
+
+function handleStageTap(clientX) {
+  const now = Date.now();
+  const zone = getTapZone(clientX);
+  const isDoubleTap = (now - lastTapTime < 320) && zone === lastTapZone && zone !== 'center';
+  lastTapTime = now;
+  lastTapZone = zone;
+
+  if (isDoubleTap) {
+    if (singleTapTimer) {
+      clearTimeout(singleTapTimer);
+      singleTapTimer = null;
+    }
+    seekRelative(zone === 'left' ? -10 : 10);
+    flashSeekHint(zone);
+    return;
+  }
+
+  if (singleTapTimer) clearTimeout(singleTapTimer);
+  singleTapTimer = setTimeout(() => {
+    singleTapTimer = null;
+    togglePlayPause();
+  }, 280);
+}
 
 function setupTouchGestures() {
   const modal = el.playerModal || el.mediaStage;
@@ -1463,6 +1746,16 @@ function setupTouchGestures() {
     const rawDiffY = e.changedTouches[0].clientY - touchStartY;
     const elapsed = Math.max(1, Date.now() - touchStartTime);
 
+    // Tap (no axis locked, short duration, minimal movement) — shorts-style
+    // double-tap seek on edges, single tap toggles playback. preventDefault
+    // stops the synthetic click so onMediaStageClick never double-fires.
+    if (lockedAxis === null && elapsed < 300 && Math.abs(rawDiffX) < 10 && Math.abs(rawDiffY) < 10) {
+      e.preventDefault();
+      handleStageTap(e.changedTouches[0].clientX);
+      lockedAxis = null;
+      return;
+    }
+
     if (lockedAxis === 'x') {
       const distance = Math.abs(rawDiffX);
       const velocity = distance / elapsed;
@@ -1493,7 +1786,7 @@ function setupTouchGestures() {
       snapBackSpring(activeEl);
     }
     lockedAxis = null;
-  }, { passive: true });
+  }, { passive: false });
 }
 
 function snapBackSpring(activeEl) {
@@ -1599,6 +1892,7 @@ function openMediaSource(file) {
   const isVideo = file.mimeType?.startsWith('video/');
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
+  if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !isVideo;
 
   resetMediaElements();
 
@@ -1801,6 +2095,54 @@ function openSelectedInDrive() {
   window.open(state.selected.webViewLink || fallback, '_blank', 'noopener,noreferrer');
 }
 
+function requestDeleteFile() {
+  if (!state.selected || state.deleting) return;
+  if (el.deleteDialog && el.deleteFileName) {
+    el.deleteFileName.textContent = state.selected.name || '이름 없는 파일';
+    if (!el.deleteDialog.open) el.deleteDialog.showModal();
+  }
+}
+
+async function performDeleteFile() {
+  const file = state.selected;
+  if (!file || state.deleting) return;
+  state.deleting = true;
+  if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = true;
+  try {
+    const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?supportsAllDrives=true`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ trashed: true })
+    });
+    await response.json().catch(() => ({}));
+    state.files = state.files.filter((f) => f.id !== file.id);
+    shuffledOrderMap.delete(file.id);
+    generatedThumbnailCache.delete(file.id);
+    if (el.deleteDialog?.open) el.deleteDialog.close();
+    closePlayer();
+    renderFiles();
+    showToast('휴지통으로 이동했습니다. Drive 휴지통에서 30일 내 복구할 수 있습니다.');
+  } catch (error) {
+    console.error('Delete failed', error);
+    if (el.deleteDialog?.open) el.deleteDialog.close();
+    if (error.status === 401) {
+      clearToken(false);
+      showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
+    } else if (error.status === 403) {
+      openPermissionGuide();
+    } else {
+      showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
+    }
+  } finally {
+    state.deleting = false;
+    if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = false;
+  }
+}
+
+function openPermissionGuide() {
+  if (el.permissionDialog && !el.permissionDialog.open) el.permissionDialog.showModal();
+}
+
 function onMediaReady() {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
@@ -1857,20 +2199,12 @@ function updateQualityDisplay() {
   const effectiveH = liveH || metaH;
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
 
-  if (el.mediaFileSizeType) {
-    const sizeStr = file.size ? formatBytes(file.size) : '';
-    const mimeStr = friendlyMime(file.mimeType || '');
-    el.mediaFileSizeType.textContent = sizeStr ? `${sizeStr} · ${mimeStr}` : mimeStr;
-  }
-
   if (mode === 'drive-preview') {
     setStreamMode('drive', 'Drive 호환 재생');
     if (el.qualityBadge) {
       el.qualityBadge.dataset.quality = 'preview';
       el.qualityBadge.textContent = '· 변환본';
     }
-    if (el.playbackQualityText) el.playbackQualityText.textContent = 'Google 압축 변환본';
-    if (el.streamModeDetail) el.streamModeDetail.textContent = 'Drive 미리보기 (iframe)';
     if (el.mediaResolution) {
       el.mediaResolution.textContent = metaW && metaH
         ? `가변 해상도 (원본: ${metaW}×${metaH} ${metaCat})`
@@ -1882,8 +2216,6 @@ function updateQualityDisplay() {
       el.qualityBadge.dataset.quality = 'buffer';
       el.qualityBadge.textContent = effectiveCat ? `· ${effectiveCat} (원본 1:1)` : '· 원본 1:1';
     }
-    if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
-    if (el.streamModeDetail) el.streamModeDetail.textContent = '메모리 버퍼 (Blob)';
     if (el.mediaResolution) {
       if (effectiveW && effectiveH) {
         const matchTag = (metaW && metaH && liveW && liveH && metaW === liveW && metaH === liveH) ? ' · 원본 1:1' : '';
@@ -1899,8 +2231,6 @@ function updateQualityDisplay() {
       el.qualityBadge.dataset.quality = 'original';
       el.qualityBadge.textContent = effectiveCat ? `· ${effectiveCat} (원본 1:1)` : '· 원본 1:1';
     }
-    if (el.playbackQualityText) el.playbackQualityText.textContent = '100% 무인코딩 원본';
-    if (el.streamModeDetail) el.streamModeDetail.textContent = '구간 스트림 (Range)';
     if (el.mediaResolution) {
       if (effectiveW && effectiveH) {
         const matchTag = (metaW && metaH && liveW && liveH && metaW === liveW && metaH === liveH) ? ' · 원본 1:1' : '';
@@ -2179,13 +2509,34 @@ function friendlyMime(mime) {
 }
 
 function startDemoMode() {
-  state.files = [
-    { id: 'demo-video-1', name: '서울 야간 산책 — 4K.mov', mimeType: 'video/quicktime', size: '4873258598', modifiedTime: '2026-08-15T08:30:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 3840, height: 2160, durationMillis: '437000' } },
-    { id: 'demo-image-1', name: '한강 원본 사진.heic', mimeType: 'image/heic', size: '12845032', modifiedTime: '2026-08-14T12:10:00Z', capabilities: { canDownload: true }, imageMediaMetadata: { width: 5712, height: 4284 } },
-    { id: 'demo-video-2', name: '강의 녹화 03.mp4', mimeType: 'video/mp4', size: '2137483648', modifiedTime: '2026-08-13T05:40:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 1920, height: 1080, durationMillis: '3842000' } },
-    { id: 'demo-image-2', name: '문서 스캔 원본.png', mimeType: 'image/png', size: '24576000', modifiedTime: '2026-08-11T03:20:00Z', capabilities: { canDownload: true }, imageMediaMetadata: { width: 4032, height: 3024 } },
-    { id: 'demo-video-3', name: '여행 클립 — HEVC.mp4', mimeType: 'video/mp4', size: '876523100', modifiedTime: '2026-08-08T16:00:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 3840, height: 2160, durationMillis: '187000' } }
-  ].map((file, index) => ({ ...file, thumbnailLink: demoImageDataUrl(index) }));
+  const demoTree = {
+    root: {
+      folders: [
+        { id: 'demo-folder-1', name: '여행 원본 클립', mimeType: FOLDER_MIME },
+        { id: 'demo-folder-2', name: '가족 사진 아카이브', mimeType: FOLDER_MIME }
+      ],
+      files: [
+        { id: 'demo-video-1', name: '서울 야간 산책 — 4K.mov', mimeType: 'video/quicktime', size: '4873258598', modifiedTime: '2026-08-15T08:30:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 3840, height: 2160, durationMillis: '437000' } },
+        { id: 'demo-image-1', name: '한강 원본 사진.heic', mimeType: 'image/heic', size: '12845032', modifiedTime: '2026-08-14T12:10:00Z', capabilities: { canDownload: true }, imageMediaMetadata: { width: 5712, height: 4284 } }
+      ]
+    },
+    'demo-folder-1': {
+      folders: [],
+      files: [
+        { id: 'demo-video-2', name: '강의 녹화 03.mp4', mimeType: 'video/mp4', size: '2137483648', modifiedTime: '2026-08-13T05:40:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 1920, height: 1080, durationMillis: '3842000' } },
+        { id: 'demo-video-3', name: '여행 클립 — HEVC.mp4', mimeType: 'video/mp4', size: '876523100', modifiedTime: '2026-08-08T16:00:00Z', capabilities: { canDownload: true }, videoMediaMetadata: { width: 3840, height: 2160, durationMillis: '187000' } }
+      ]
+    },
+    'demo-folder-2': {
+      folders: [],
+      files: [
+        { id: 'demo-image-2', name: '문서 스캔 원본.png', mimeType: 'image/png', size: '24576000', modifiedTime: '2026-08-11T03:20:00Z', capabilities: { canDownload: true }, imageMediaMetadata: { width: 4032, height: 3024 } }
+      ]
+    }
+  };
+  const node = demoTree[state.currentFolderId] || demoTree.root;
+  state.folders = node.folders;
+  state.files = node.files.map((file, index) => ({ ...file, thumbnailLink: demoImageDataUrl(index) }));
   state.nextPageToken = null;
   showLibrary();
   renderFiles();

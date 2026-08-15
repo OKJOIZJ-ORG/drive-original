@@ -9,6 +9,11 @@
   <title>Drive Original</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Drive Original">
   <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
   <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://www.googleapis.com" crossorigin>
@@ -16,11 +21,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.7.1">
+  <link rel="stylesheet" href="./styles.css?v=1.8.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.7.1" defer></script>
+  <script src="./app.js?v=1.8.0" defer></script>
 </head>
-<body style="background-color: #0b0d14; color: #f8fafc; margin: 0; min-height: 100vh;">
+<body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
   <!-- Top Navigation Bar -->
@@ -158,10 +163,18 @@
           <p class="library-summary" id="librarySummary">파일 목록을 불러오는 중…</p>
         </div>
         <button class="secondary-button" id="refreshButton" type="button">
-          <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"/><path d="M21.34 15.57a10 10 0 1 1-.57-8.38"/></svg>
           <span>새로고침</span>
         </button>
       </div>
+
+      <!-- Folder Breadcrumb Navigation -->
+      <nav class="folder-nav" id="folderNav" aria-label="폴더 위치">
+        <button class="crumb-back icon-button compact" id="folderUpButton" type="button" aria-label="상위 폴더로 이동" title="상위 폴더" hidden>
+          <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="breadcrumb-trail" id="breadcrumbTrail"></div>
+      </nav>
 
       <!-- Controls Toolbar -->
       <div class="toolbar">
@@ -238,6 +251,9 @@
           <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상" title="다음 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
           </button>
+          <button class="player-ctrl-btn topbar-delete" id="topbarDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
+            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
           <button class="icon-button" id="pipButton" type="button" aria-label="화면 속 화면(PiP)" title="화면 속 화면 (PiP)" hidden>
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
           </button>
@@ -262,9 +278,35 @@
         <!-- Mobile Shorts Bottom Overlay (Filename & Ultra-thin Progress Line) -->
         <div class="mobile-shorts-overlay" id="mobileShortsOverlay" aria-hidden="true">
           <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
-          <div class="mobile-shorts-progress-track">
+          <div class="mobile-shorts-progress-track" id="mobileShortsProgressTrack">
             <div class="mobile-shorts-progress-bar" id="mobileShortsProgressBar"></div>
           </div>
+        </div>
+
+        <!-- Mobile Shorts Right Action Rail (TikTok/Instagram style) -->
+        <div class="shorts-action-rail" id="shortsActionRail" aria-hidden="false">
+          <button class="rail-btn" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
+            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="rail-label">삭제</span>
+          </button>
+          <button class="rail-btn" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
+            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
+            <span class="rail-label">PiP</span>
+          </button>
+          <button class="rail-btn" id="shortsDriveBtn" type="button" aria-label="Drive에서 열기" title="Drive에서 열기">
+            <svg width="21" height="21" style="width:21px;height:21px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9"/><path d="M3 14h18l-2.2 4.5a2 2 0 0 1-1.8 1.1H7a2 2 0 0 1-1.8-1.1z"/></svg>
+            <span class="rail-label">Drive</span>
+          </button>
+        </div>
+
+        <!-- Double-tap seek ripple hints (mobile shorts pattern) -->
+        <div class="seek-hint seek-hint-left" id="seekHintLeft" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/></svg>
+          <span>10초</span>
+        </div>
+        <div class="seek-hint seek-hint-right" id="seekHintRight" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/></svg>
+          <span>10초</span>
         </div>
 
         <!-- Center Big Play Button -->
@@ -350,6 +392,9 @@
                 <svg class="icon-expand" id="ctrlIconExpand" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                 <svg class="icon-compress" id="ctrlIconCompress" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
               </button>
+              <button class="player-ctrl-btn topbar-delete" id="ctrlDelete" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
+                <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
             </div>
           </div>
         </div>
@@ -401,7 +446,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.7.1</span>
+            <span class="version-badge" id="settingsAppVersion">v1.8.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -454,7 +499,51 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.7.1</span>
+          <span id="appVersion">v1.8.0</span>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Delete Confirm Dialog -->
+  <dialog class="app-dialog" id="deleteDialog">
+    <form method="dialog" class="dialog-box">
+      <div class="dialog-top">
+        <h2>휴지통으로 이동</h2>
+      </div>
+      <div class="dialog-content">
+        <p class="dialog-text">다음 파일을 Google Drive 휴지통으로 이동합니다.</p>
+        <p class="delete-file-name" id="deleteFileName">—</p>
+        <p class="dialog-text subtle">이동 후 Drive 휴지통에서 30일 내 복구할 수 있습니다.</p>
+        <div class="button-row">
+          <button class="secondary-button" id="deleteCancelButton" type="button">취소</button>
+          <button class="danger-button" id="deleteConfirmButton" type="button">휴지통으로 이동</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- OAuth Permission Upgrade Guide -->
+  <dialog class="app-dialog permission-dialog" id="permissionDialog">
+    <form method="dialog" class="dialog-box">
+      <div class="dialog-top">
+        <h2>삭제 권한이 필요합니다</h2>
+        <button class="icon-button" value="cancel" aria-label="닫기" type="submit">
+          <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="dialog-content">
+        <p class="dialog-text">이 앱의 OAuth 동의 화면에 파일 수정 범위가 없어 삭제가 거부되었습니다. 아래 순서로 권한을 추가한 뒤 다시 연결하세요.</p>
+        <ol class="steps-list permission-steps">
+          <li><span>1</span><p><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>에서 이 앱이 사용하는 프로젝트를 엽니다.</p></li>
+          <li><span>2</span><p><strong>API 및 서비스 → OAuth 동의 화면</strong>으로 이동합니다.</p></li>
+          <li><span>3</span><p><strong>데이터 액세스 / 범위(Scopes)</strong>에서 <code>https://www.googleapis.com/auth/drive</code>(모든 Drive 파일 보기·수정)를 추가하고 저장합니다.</p></li>
+          <li><span>4</span><p>앱이 <strong>테스트 모드</strong>라면 본인 Google 계정이 테스트 사용자로 등록되어 있는지 확인합니다.</p></li>
+          <li><span>5</span><p>아래 <strong>다시 연결</strong>을 눌러 새 동의 화면에서 수정 권한을 승인합니다.</p></li>
+        </ol>
+        <div class="button-row">
+          <button class="secondary-button" id="permissionCloseButton" type="button">나중에 하기</button>
+          <button class="primary-button" id="permissionReconnectButton" type="button">다시 연결</button>
         </div>
       </div>
     </form>
