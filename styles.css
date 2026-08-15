@@ -720,25 +720,39 @@ button.crumb:active {
   flex-shrink: 0;
 }
 
-/* Folder Cards */
-.folder-card {
+/* Folder Strip — compact navigation rows, clearly separated from media thumbnails */
+.folder-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.folder-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 15px 16px;
+  gap: 11px;
+  padding: 8px 12px;
+  min-height: 48px;
   border-radius: var(--radius-md);
-  background: linear-gradient(180deg, var(--bg-surface-raised) 0%, var(--bg-surface) 100%);
+  background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   text-align: left;
-  position: relative;
   content-visibility: auto;
-  contain-intrinsic-size: auto 74px;
+  contain-intrinsic-size: auto 48px;
+  animation: folderRowIn 240ms var(--ease-out) both;
+  animation-delay: var(--stagger, 0ms);
+}
+
+@keyframes folderRowIn {
+  from { opacity: 0; transform: translate3d(10px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 .folder-glyph {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: rgba(59, 130, 246, 0.13);
   color: #7db0ff;
   display: grid;
@@ -747,21 +761,15 @@ button.crumb:active {
 }
 
 .folder-glyph svg {
-  width: 21px;
-  height: 21px;
-}
-
-.folder-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
+  width: 16px;
+  height: 16px;
 }
 
 .folder-name {
-  font-size: 0.92rem;
-  font-weight: 700;
+  flex: 1;
+  min-width: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--text-main);
   white-space: nowrap;
   overflow: hidden;
@@ -770,11 +778,12 @@ button.crumb:active {
 }
 
 .folder-meta {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-faint);
   font-family: var(--font-mono);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .folder-chevron {
@@ -784,31 +793,34 @@ button.crumb:active {
 }
 
 .folder-chevron svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .folder-card:hover {
+  .folder-row:hover {
     border-color: rgba(59, 130, 246, 0.4);
+    background: var(--bg-surface-raised);
   }
 
-  .folder-card:hover .folder-chevron {
+  .folder-row:hover .folder-chevron {
     transform: translateX(3px);
     color: #7db0ff;
   }
 }
 
-.folder-card:active {
-  transform: scale(0.98);
+.folder-row:active {
+  transform: scale(0.985);
 }
 
-/* Folder navigation grid transitions */
-.file-grid.folder-enter-forward {
+/* Folder navigation transitions */
+.file-grid.folder-enter-forward,
+.folder-strip.folder-enter-forward {
   animation: folderSlideForward 240ms var(--ease-out);
 }
 
-.file-grid.folder-enter-back {
+.file-grid.folder-enter-back,
+.folder-strip.folder-enter-back {
   animation: folderSlideBack 240ms var(--ease-out);
 }
 
@@ -941,6 +953,80 @@ button.crumb:active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Move-to-folder dialog */
+.move-search {
+  width: 100%;
+  margin: 2px 0 10px;
+}
+
+.move-folder-list {
+  display: flex;
+  flex-direction: column;
+  max-height: min(320px, 42vh);
+  overflow-y: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-input);
+  margin-bottom: 14px;
+}
+
+.move-folder-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  padding-left: calc(12px + var(--depth, 0) * 14px);
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  color: var(--text-main);
+  transition: background-color var(--duration-fast) ease;
+}
+
+.move-folder-row:last-child {
+  border-bottom: none;
+}
+
+.move-folder-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.move-folder-row.selected {
+  background: rgba(37, 99, 235, 0.16);
+  box-shadow: inset 2px 0 0 var(--accent-blue);
+}
+
+.move-folder-row.current {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.move-folder-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.move-folder-path {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  max-width: 55%;
+}
+
+.move-folder-empty {
+  padding: 22px 14px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.82rem;
 }
 
 .library-status {
@@ -2160,6 +2246,12 @@ dialog[open] .dialog-box {
     gap: 10px;
   }
 
+  .folder-strip {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
   .file-card-body {
     padding: 8px 10px;
   }
@@ -2231,6 +2323,15 @@ dialog[open] .dialog-box {
     background: #000000;
   }
 
+  /* 영상 90도 회전 — UI는 고정, 영상만 회전.
+     회전 후 박스는 (세로 한도=화면 폭, 가로 한도=화면 높이)로 뒤바뀐다.
+     개별 rotate 속성이라 드래그/전환 transform과 충돌하지 않는다. */
+  .media-stage video.is-rotated {
+    rotate: 90deg;
+    max-width: 100dvh;
+    max-height: 100vw;
+  }
+
   /* 앰비언트 배경 강화 — 레터박스 공간을 콘텐츠 블러로 채워 화면이 꽉 차 보이게 */
   .ambient-backdrop {
     inset: -40px;
@@ -2279,6 +2380,17 @@ dialog[open] .dialog-box {
   .shorts-chip.more {
     width: 34px;
     padding: 0;
+  }
+
+  .shorts-chip.icon {
+    width: 34px;
+    padding: 0;
+  }
+
+  .shorts-chip.icon[aria-pressed="true"] {
+    background: rgba(96, 165, 250, 0.28);
+    border-color: rgba(96, 165, 250, 0.5);
+    color: #bfdbfe;
   }
 
   .shorts-chip.danger {
@@ -2426,7 +2538,7 @@ dialog[open] .dialog-box {
   }
 
   /* Hide desktop topbar navigation buttons on mobile */
-  #topbarPrevBtn, #topbarRandomBtn, #topbarNextBtn, #pipButton, #fullscreenButton, #topbarDeleteBtn {
+  #topbarPrevBtn, #topbarRandomBtn, #topbarNextBtn, #pipButton, #fullscreenButton, #topbarDeleteBtn, #topbarMoveBtn {
     display: none !important;
   }
 

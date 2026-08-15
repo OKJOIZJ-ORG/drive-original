@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.9.0';
+const APP_VERSION = '1.10.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -26,6 +26,11 @@ const state = {
   treeCache: null,
   loadingTree: false,
   rootFolderId: null,
+  videoRotated: false,
+  folderIndex: null,
+  loadingFolderIndex: false,
+  moveTargetFolderId: null,
+  moving: false,
   filter: 'all',
   query: '',
   sort: 'modifiedTime',
@@ -71,6 +76,7 @@ async function init() {
   bindEvents();
   setupTouchGestures();
   setupInfiniteScroll();
+  setupMediaPrefetch();
   el.clientIdInput.value = state.clientId;
   el.settingsClientId.value = state.clientId;
   el.currentOrigin.textContent = location.origin;
@@ -107,17 +113,18 @@ function bindElements() {
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
-    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle',
+    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn', 'topbarDeleteBtn',
-    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
+    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton', 'topbarMoveBtn',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'drivePreview', 'playerFeedback',
     'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
-    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward', 'ctrlDelete',
-    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn',
-    'shortsFullscreenBtn', 'shortsMoreBtn', 'deepScanToggle',
+    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
+    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn',
+    'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'deepScanToggle',
+    'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
@@ -269,12 +276,23 @@ function bindEvents() {
   // Folder navigation
   if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);
 
-  // Delete flow (desktop topbar, desktop controls, mobile shorts rail)
+  // Delete flow (desktop topbar, desktop controls, mobile shorts chips)
   [el.topbarDeleteBtn, el.ctrlDelete, el.shortsDeleteBtn].forEach((btn) => {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
       requestDeleteFile();
     });
+  });
+  // Move flow (desktop topbar, desktop controls, mobile shorts chips)
+  [el.topbarMoveBtn, el.ctrlMove, el.shortsMoveBtn].forEach((btn) => {
+    if (btn) btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      requestMoveFile();
+    });
+  });
+  if (el.shortsRotateBtn) el.shortsRotateBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleVideoRotation();
   });
   if (el.shortsDriveBtn) el.shortsDriveBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -298,6 +316,14 @@ function bindEvents() {
   if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => el.deleteDialog.close());
   if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
   if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (e) => e.preventDefault());
+
+  // Move dialog
+  if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => el.moveDialog.close());
+  if (el.moveConfirmButton) el.moveConfirmButton.addEventListener('click', performMoveFile);
+  if (el.moveDialog) el.moveDialog.addEventListener('cancel', (e) => e.preventDefault());
+  if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => {
+    renderMoveFolderList(event.target.value);
+  });
 
   // Permission guide dialog
   if (el.permissionCloseButton) el.permissionCloseButton.addEventListener('click', () => el.permissionDialog.close());
@@ -733,6 +759,57 @@ function setupInfiniteScroll() {
   infiniteScrollObserver.observe(el.infiniteScrollSentinel);
 }
 
+/* 로딩 단축 — 뷰포트에 가까워진 영상 카드의 첫 세그먼트(512KB)를 선제 프리페치한다.
+   SW 프록시의 max-age 응답이 브라우저 HTTP 캐시에 남아 재생 시작이 즉시 이어지고,
+   최소한 TCP/TLS+Drive 인증 경로가 예열된다. 데이터 절약 모드에서는 동작하지 않는다. */
+let mediaPrefetchObserver = null;
+const mediaPrefetchQueue = [];
+let activeMediaPrefetches = 0;
+const MAX_MEDIA_PREFETCHES = 2;
+const MEDIA_PREFETCH_BYTES = 512 * 1024;
+
+function setupMediaPrefetch() {
+  if (state.demo || location.protocol === 'file:') return;
+  if (!('IntersectionObserver' in window) || !window.isSecureContext) return;
+  if (navigator.connection?.saveData) return;
+  mediaPrefetchObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      mediaPrefetchObserver.unobserve(entry.target);
+      queueMediaPrefetch(entry.target.__file);
+    });
+  }, {
+    root: null,
+    rootMargin: '150% 0px',
+    threshold: 0
+  });
+}
+
+function queueMediaPrefetch(file) {
+  if (!file || file.__prefetched) return;
+  if (!file.mimeType?.startsWith('video/')) return;
+  if (file.capabilities?.canDownload === false) return;
+  if (!hasUsableToken()) return;
+  file.__prefetched = true;
+  mediaPrefetchQueue.push(file);
+  pumpMediaPrefetch();
+}
+
+function pumpMediaPrefetch() {
+  while (activeMediaPrefetches < MAX_MEDIA_PREFETCHES && mediaPrefetchQueue.length) {
+    const file = mediaPrefetchQueue.shift();
+    activeMediaPrefetches++;
+    fetch(buildMediaUrl(file), {
+      headers: { Range: `bytes=0-${MEDIA_PREFETCH_BYTES - 1}` }
+    }).catch(() => {
+      file.__prefetched = false; // 실패 시 재시도 여지를 남긴다
+    }).finally(() => {
+      activeMediaPrefetches--;
+      pumpMediaPrefetch();
+    });
+  }
+}
+
 const thumbnailExtractionQueue = [];
 let activeThumbnailExtractions = 0;
 const MAX_CONCURRENT_EXTRACTIONS = 2;
@@ -1122,11 +1199,13 @@ function scrollToLibraryTop() {
 }
 
 function animateFolderTransition(direction) {
-  const grid = el.fileGrid;
-  if (!grid) return;
-  grid.classList.remove('folder-enter-forward', 'folder-enter-back');
-  void grid.offsetWidth;
-  grid.classList.add(direction === 'forward' ? 'folder-enter-forward' : 'folder-enter-back');
+  const targets = [el.fileGrid, el.folderStrip].filter(Boolean);
+  if (!targets.length) return;
+  targets.forEach((node) => {
+    node.classList.remove('folder-enter-forward', 'folder-enter-back');
+    void node.offsetWidth;
+    node.classList.add(direction === 'forward' ? 'folder-enter-forward' : 'folder-enter-back');
+  });
 }
 
 function renderBreadcrumb() {
@@ -1187,21 +1266,32 @@ function renderFiles() {
   const visibleFolders = state.filter === 'all'
     ? state.folders.filter((f) => !state.query || String(f.name || '').toLocaleLowerCase('ko').includes(state.query))
     : [];
+  // Folders live in a compact navigation strip, clearly separated from media thumbnails.
+  if (el.folderStrip) {
+    el.folderStrip.replaceChildren();
+    if (visibleFolders.length) {
+      const folderFragment = document.createDocumentFragment();
+      visibleFolders.forEach((folder, index) => folderFragment.appendChild(createFolderRow(folder, index)));
+      el.folderStrip.appendChild(folderFragment);
+      el.folderStrip.hidden = false;
+    } else {
+      el.folderStrip.hidden = true;
+    }
+  }
   el.fileGrid.replaceChildren();
   const fragment = document.createDocumentFragment();
-  visibleFolders.forEach((folder, index) => fragment.appendChild(createFolderCard(folder, index)));
-  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index + visibleFolders.length)));
+  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index)));
   el.fileGrid.appendChild(fragment);
   el.emptyState.hidden = files.length + visibleFolders.length > 0;
   renderBreadcrumb();
   updateLibrarySummary(files.length, visibleFolders.length);
 }
 
-function createFolderCard(folder, index = 0) {
+function createFolderRow(folder, index = 0) {
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = 'folder-card';
-  button.style.setProperty('--stagger', `${Math.min(index, 12) * 30}ms`);
+  button.className = 'folder-row';
+  button.style.setProperty('--stagger', `${Math.min(index, 12) * 25}ms`);
   button.setAttribute('aria-label', `폴더 ${folder.name} 열기`);
 
   const glyph = document.createElement('span');
@@ -1209,22 +1299,20 @@ function createFolderCard(folder, index = 0) {
   glyph.setAttribute('aria-hidden', 'true');
   glyph.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>';
 
-  const body = document.createElement('span');
-  body.className = 'folder-body';
   const name = document.createElement('span');
   name.className = 'folder-name';
   name.textContent = folder.name || '이름 없는 폴더';
+
   const meta = document.createElement('span');
   meta.className = 'folder-meta';
   meta.textContent = '폴더';
-  body.append(name, meta);
 
   const chevron = document.createElement('span');
   chevron.className = 'folder-chevron';
   chevron.setAttribute('aria-hidden', 'true');
   chevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 
-  button.append(glyph, body, chevron);
+  button.append(glyph, name, meta, chevron);
   button.addEventListener('click', () => navigateToFolder(folder.id, folder.name));
   return button;
 }
@@ -1352,7 +1440,13 @@ function createFileCard(file, index = 0) {
 
   body.append(name, meta);
   button.append(visual, body);
-  if (canDownload) button.addEventListener('click', () => openPlayer(file));
+  if (canDownload) {
+    button.addEventListener('click', () => openPlayer(file));
+    if (mediaPrefetchObserver) {
+      button.__file = file;
+      mediaPrefetchObserver.observe(button);
+    }
+  }
   return button;
 }
 
@@ -1711,7 +1805,7 @@ async function togglePictureInPicture() {
   }
 }
 
-/* Mobile shorts bottom action chips — ⋯ 버튼으로 삭제/PiP/Drive 노출 */
+/* Mobile shorts bottom action chips — ⋯ 버튼으로 삭제/이동/PiP/Drive 노출 */
 let shortsExpandTimer = null;
 
 function toggleShortsExpand() {
@@ -1730,6 +1824,21 @@ function collapseShortsExpand() {
   shortsExpandTimer = null;
   if (el.mobileShortsOverlay) el.mobileShortsOverlay.classList.remove('expanded');
   if (el.shortsMoreBtn) el.shortsMoreBtn.setAttribute('aria-expanded', 'false');
+}
+
+/* 영상 90도 회전 (시계 방향) — UI는 그대로 두고 영상만 회전.
+   개별 transform 속성 rotate를 쓰면 드래그/스냅백 애니메이션(transform)과 자연스럽게 합성된다. */
+function toggleVideoRotation() {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  state.videoRotated = !state.videoRotated;
+  el.videoPlayer.classList.toggle('is-rotated', state.videoRotated);
+  if (el.shortsRotateBtn) el.shortsRotateBtn.setAttribute('aria-pressed', String(state.videoRotated));
+}
+
+function resetVideoRotation() {
+  state.videoRotated = false;
+  el.videoPlayer?.classList.remove('is-rotated');
+  if (el.shortsRotateBtn) el.shortsRotateBtn.setAttribute('aria-pressed', 'false');
 }
 
 /* 비디오 첫 프레임을 캡처해 앰비언트 배경으로 채움 (레터박스 공간 제거) */
@@ -2111,9 +2220,11 @@ function openMediaSource(file) {
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !isVideo;
+  if (el.shortsRotateBtn) el.shortsRotateBtn.hidden = !isVideo;
 
   resetMediaElements();
   collapseShortsExpand();
+  resetVideoRotation();
 
   if (el.ambientBackdrop) {
     const thumb = file.thumbnailLink || generatedThumbnailCache.get(file.id);
@@ -2333,6 +2444,20 @@ async function performDeleteFile() {
   state.deleting = true;
   if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = true;
   try {
+    // 삭제 후에도 플레이어를 유지하고 다음 영상으로 자연스럽게 넘어가기 위해
+    // 제거 전 재생 순서를 먼저 capturing 한다.
+    const order = getPlaybackFileList();
+    const removedIndex = order.findIndex((f) => f.id === file.id);
+    if (state.demo) {
+      state.files = state.files.filter((f) => f.id !== file.id);
+      if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items.filter((f) => f.id !== file.id));
+      if (el.deleteDialog?.open) el.deleteDialog.close();
+      collapseShortsExpand();
+      computeAndRenderSubtree();
+      showToast('휴지통으로 이동했습니다. (데모 시뮬레이션)');
+      playNextAfterRemoval(order, removedIndex, file.id);
+      return;
+    }
     const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?supportsAllDrives=true`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -2346,9 +2471,11 @@ async function performDeleteFile() {
       state.treeCache = buildTreeIndexes(state.treeCache.items.filter((f) => f.id !== file.id));
     }
     if (el.deleteDialog?.open) el.deleteDialog.close();
-    closePlayer();
-    renderFiles();
+    collapseShortsExpand();
+    if (state.deepScan && state.treeCache) computeAndRenderSubtree();
+    else renderFiles();
     showToast('휴지통으로 이동했습니다. Drive 휴지통에서 30일 내 복구할 수 있습니다.');
+    playNextAfterRemoval(order, removedIndex, file.id);
   } catch (error) {
     console.error('Delete failed', error);
     if (el.deleteDialog?.open) el.deleteDialog.close();
@@ -2366,6 +2493,259 @@ async function performDeleteFile() {
   }
 }
 
+/* 삭제/이동으로 현재 파일이 목록에서 사라져도 플레이어를 유지하고
+   다음 영상을 자동 재생한다. 남은 파일이 없을 때만 플레이어를 닫는다. */
+function playNextAfterRemoval(order, removedIndex, removedId) {
+  if (el.playerSheet.hidden) return;
+  let next = null;
+  for (let i = removedIndex + 1; i < order.length; i++) {
+    if (order[i].id !== removedId) { next = order[i]; break; }
+  }
+  if (!next) {
+    const remaining = order.filter((f) => f.id !== removedId);
+    next = remaining[0] || null;
+  }
+  if (!next) {
+    closePlayer();
+    return;
+  }
+  state.pendingPlay = true;
+  animateMediaTransition('left', () => openMediaSource(next));
+}
+
+/* 폴더 이동 — 전체 폴더 목록을 1회 수집해 경로와 함께 선택 UI 제공 */
+async function requestMoveFile() {
+  if (!state.selected || state.moving) return;
+  state.moveTargetFolderId = null;
+  if (el.moveFileName) el.moveFileName.textContent = state.selected.name || '이름 없는 파일';
+  if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
+  if (el.moveSearchInput) el.moveSearchInput.value = '';
+  if (el.moveDialog && !el.moveDialog.open) el.moveDialog.showModal();
+  renderMoveFolderList('');
+  try {
+    await ensureSelectedFileParents();
+    await ensureFolderIndex();
+    if (el.moveDialog?.open) renderMoveFolderList(el.moveSearchInput?.value || '');
+  } catch (error) {
+    console.error('Move dialog failed', error);
+    if (el.moveDialog?.open) el.moveDialog.close();
+    if (error.status === 401) {
+      clearToken(false);
+      showToast('Google 인증이 만료됐습니다. 다시 시도해 주세요.');
+    } else {
+      showToast(`폴더 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
+    }
+  }
+}
+
+async function ensureSelectedFileParents() {
+  const file = state.selected;
+  if (!file || Array.isArray(file.parents) && file.parents.length) return;
+  if (state.demo) {
+    file.parents = ['root'];
+    return;
+  }
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?fields=parents&supportsAllDrives=true`);
+  const data = await response.json();
+  file.parents = Array.isArray(data.parents) && data.parents.length ? data.parents : [state.rootFolderId || 'root'];
+}
+
+async function ensureFolderIndex() {
+  if (state.folderIndex) return state.folderIndex;
+  if (state.loadingFolderIndex) {
+    await new Promise((resolve) => {
+      const tick = () => state.folderIndex || !state.loadingFolderIndex ? resolve() : setTimeout(tick, 80);
+      tick();
+    });
+    return state.folderIndex;
+  }
+  if (state.demo || state.treeCache) {
+    // 데모/딥스캔 트리 캐시가 이미 전체 폴더 구조를 알고 있다.
+    await ensureTreeCache();
+    state.folderIndex = state.treeCache;
+    return state.folderIndex;
+  }
+  state.loadingFolderIndex = true;
+  try {
+    if (!state.rootFolderId) {
+      try {
+        const about = await driveFetch(`${DRIVE_API}/about?fields=rootFolderId`);
+        const info = await about.json();
+        state.rootFolderId = info.rootFolderId || 'root';
+      } catch (_) {
+        state.rootFolderId = 'root';
+      }
+    }
+    const folders = [];
+    let pageToken = null;
+    do {
+      const params = new URLSearchParams({
+        pageSize: String(DRIVE_PAGE_SIZE),
+        q: `trashed = false and mimeType = '${FOLDER_MIME}'`,
+        spaces: 'drive',
+        supportsAllDrives: 'true',
+        includeItemsFromAllDrives: 'true',
+        fields: 'nextPageToken,files(id,name,parents)'
+      });
+      if (pageToken) params.set('pageToken', pageToken);
+      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
+      const data = await response.json();
+      folders.push(...(Array.isArray(data.files) ? data.files : []));
+      pageToken = data.nextPageToken || null;
+    } while (pageToken);
+    state.folderIndex = buildTreeIndexes(folders);
+    return state.folderIndex;
+  } finally {
+    state.loadingFolderIndex = false;
+  }
+}
+
+function renderMoveFolderList(filterRaw) {
+  if (!el.moveFolderList) return;
+  el.moveFolderList.replaceChildren();
+  const index = state.folderIndex;
+  if (!index) {
+    const loading = document.createElement('div');
+    loading.className = 'move-folder-empty';
+    loading.textContent = '폴더 목록을 불러오는 중…';
+    el.moveFolderList.appendChild(loading);
+    return;
+  }
+  const filter = String(filterRaw || '').trim().toLocaleLowerCase('ko');
+  const rootId = state.rootFolderId || 'root';
+  const currentParents = state.selected?.parents || [];
+  const rows = [{ id: 'root', name: '내 드라이브', path: '', depth: 0 }];
+  const seen = new Set(['root']);
+  const { foldersByParent } = index;
+  const queue = [];
+  [...(foldersByParent.get(rootId) || []), ...(foldersByParent.get('root') || [])].forEach((folder) => {
+    if (!seen.has(folder.id)) {
+      seen.add(folder.id);
+      queue.push({ folder, path: folder.name || '폴더', depth: 1 });
+    }
+  });
+  while (queue.length) {
+    const { folder, path, depth } = queue.shift();
+    rows.push({ id: folder.id, name: folder.name || '이름 없는 폴더', path, depth });
+    (foldersByParent.get(folder.id) || []).forEach((child) => {
+      if (!seen.has(child.id)) {
+        seen.add(child.id);
+        queue.push({ folder: child, path: `${path} / ${child.name || '폴더'}`, depth: depth + 1 });
+      }
+    });
+  }
+  const filtered = filter
+    ? rows.filter((row) => row.name.toLocaleLowerCase('ko').includes(filter) || row.path.toLocaleLowerCase('ko').includes(filter))
+    : rows;
+  if (!filtered.length) {
+    const empty = document.createElement('div');
+    empty.className = 'move-folder-empty';
+    empty.textContent = '일치하는 폴더가 없습니다.';
+    el.moveFolderList.appendChild(empty);
+    return;
+  }
+  const fragment = document.createDocumentFragment();
+  filtered.slice(0, 300).forEach((row) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'move-folder-row';
+    button.setAttribute('role', 'option');
+    const resolvedId = row.id === 'root' ? rootId : row.id;
+    const isCurrent = currentParents.includes(resolvedId);
+    if (isCurrent) {
+      button.classList.add('current');
+      button.disabled = true;
+    }
+    if (state.moveTargetFolderId === row.id) button.classList.add('selected');
+    button.style.setProperty('--depth', String(row.depth));
+
+    const name = document.createElement('span');
+    name.className = 'move-folder-name';
+    name.textContent = row.name;
+    const path = document.createElement('span');
+    path.className = 'move-folder-path';
+    path.textContent = isCurrent ? '현재 위치' : (row.path || '최상위');
+    button.append(name, path);
+    button.addEventListener('click', () => {
+      state.moveTargetFolderId = row.id;
+      el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => item.classList.remove('selected'));
+      button.classList.add('selected');
+      if (el.moveConfirmButton) el.moveConfirmButton.disabled = false;
+    });
+    fragment.appendChild(button);
+  });
+  el.moveFolderList.appendChild(fragment);
+}
+
+async function performMoveFile() {
+  const file = state.selected;
+  const targetRowId = state.moveTargetFolderId;
+  if (!file || !targetRowId || state.moving) return;
+  const target = targetRowId === 'root' ? (state.rootFolderId || 'root') : targetRowId;
+  const currentParents = Array.isArray(file.parents) && file.parents.length
+    ? file.parents
+    : [state.rootFolderId || 'root'];
+  if (currentParents.includes(target)) {
+    showToast('이 파일은 이미 해당 폴더에 있습니다.');
+    if (el.moveDialog?.open) el.moveDialog.close();
+    return;
+  }
+  state.moving = true;
+  if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
+  try {
+    const order = getPlaybackFileList();
+    const removedIndex = order.findIndex((f) => f.id === file.id);
+    if (state.demo) {
+      file.parents = [target];
+      state.files = state.files.filter((f) => f.id !== file.id);
+      if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
+      if (el.moveDialog?.open) el.moveDialog.close();
+      collapseShortsExpand();
+      computeAndRenderSubtree();
+      showToast('폴더로 이동했습니다. (데모 시뮬레이션)');
+      playNextAfterRemoval(order, removedIndex, file.id);
+      return;
+    }
+    const params = new URLSearchParams({
+      addParents: target,
+      removeParents: currentParents.join(','),
+      supportsAllDrives: 'true',
+      fields: 'id,parents'
+    });
+    await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    });
+    file.parents = [target];
+    state.files = state.files.filter((f) => f.id !== file.id);
+    shuffledOrderMap.delete(file.id);
+    if (state.treeCache) {
+      state.treeCache = buildTreeIndexes(state.treeCache.items);
+    }
+    if (el.moveDialog?.open) el.moveDialog.close();
+    collapseShortsExpand();
+    if (state.deepScan && state.treeCache) computeAndRenderSubtree();
+    else renderFiles();
+    showToast('폴더로 이동했습니다.');
+    playNextAfterRemoval(order, removedIndex, file.id);
+  } catch (error) {
+    console.error('Move failed', error);
+    if (el.moveDialog?.open) el.moveDialog.close();
+    if (error.status === 401) {
+      clearToken(false);
+      showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
+    } else if (error.status === 403) {
+      openPermissionGuide();
+    } else {
+      showToast(`이동하지 못했습니다: ${humanizeDriveError(error)}`);
+    }
+  } finally {
+    state.moving = false;
+    if (el.moveConfirmButton && state.moveTargetFolderId) el.moveConfirmButton.disabled = false;
+  }
+}
+
 function openPermissionGuide() {
   if (el.permissionDialog && !el.permissionDialog.open) el.permissionDialog.showModal();
 }
@@ -2377,7 +2757,11 @@ function onMediaReady() {
   if (state.pendingPlay) {
     state.pendingPlay = false;
     if (el.videoPlayer && !el.videoPlayer.hidden) {
-      el.videoPlayer.play().catch(() => {});
+      // 쇼츠 패턴: 미리보기를 열면 항상 재생 상태로 시작한다.
+      // 제스처 활성 창을 벗어난 첫 시도가 거부되면 한 번 더 시도한다.
+      el.videoPlayer.play().catch(() => {
+        setTimeout(() => el.videoPlayer.play().catch(() => {}), 350);
+      });
     }
   }
 }
@@ -2506,6 +2890,7 @@ function closePlayer() {
   }
   resetMediaElements();
   collapseShortsExpand();
+  resetVideoRotation();
   el.playerSheet.hidden = true;
   document.body.style.overflow = '';
   state.selected = null;

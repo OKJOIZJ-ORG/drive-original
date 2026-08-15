@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.9.0">
+  <link rel="stylesheet" href="./styles.css?v=1.10.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.9.0" defer></script>
+  <script src="./app.js?v=1.10.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -206,6 +206,9 @@
 
       <div class="library-status" id="libraryStatus" role="status" aria-live="polite"></div>
 
+      <!-- Folder Strip (compact navigation rows, separated from media grid) -->
+      <div class="folder-strip" id="folderStrip" hidden aria-label="하위 폴더"></div>
+
       <!-- File Grid Cards -->
       <div class="file-grid" id="fileGrid"></div>
 
@@ -256,6 +259,9 @@
           <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상" title="다음 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
           </button>
+          <button class="player-ctrl-btn" id="topbarMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+          </button>
           <button class="player-ctrl-btn topbar-delete" id="topbarDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
@@ -287,6 +293,10 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               <span>삭제</span>
             </button>
+            <button class="shorts-chip" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+              <span>이동</span>
+            </button>
             <button class="shorts-chip" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
               <span>PiP</span>
@@ -298,9 +308,11 @@
           </div>
           <div class="shorts-bottom-row">
             <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
-            <button class="shorts-chip solid" id="shortsFullscreenBtn" type="button" aria-label="전체화면" title="전체화면">
+            <button class="shorts-chip icon" id="shortsRotateBtn" type="button" aria-label="영상 90도 회전" aria-pressed="false" title="영상 90도 회전 (시계 방향)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M21 8a10 10 0 1 0 .5 4"/></svg>
+            </button>
+            <button class="shorts-chip icon solid" id="shortsFullscreenBtn" type="button" aria-label="전체화면" title="전체화면">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-              <span>전체화면</span>
             </button>
             <button class="shorts-chip more" id="shortsMoreBtn" type="button" aria-label="더보기" aria-expanded="false" title="더보기">
               <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
@@ -404,6 +416,9 @@
                 <svg class="icon-expand" id="ctrlIconExpand" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                 <svg class="icon-compress" id="ctrlIconCompress" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
               </button>
+              <button class="player-ctrl-btn" id="ctrlMove" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+                <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+              </button>
               <button class="player-ctrl-btn topbar-delete" id="ctrlDelete" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               </button>
@@ -458,7 +473,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.9.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.10.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -511,7 +526,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.9.0</span>
+          <span id="appVersion">v1.10.0</span>
         </div>
       </div>
     </form>
@@ -530,6 +545,28 @@
         <div class="button-row">
           <button class="secondary-button" id="deleteCancelButton" type="button">취소</button>
           <button class="danger-button" id="deleteConfirmButton" type="button">휴지통으로 이동</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Move-to-folder Dialog -->
+  <dialog class="app-dialog move-dialog" id="moveDialog">
+    <form method="dialog" class="dialog-box">
+      <div class="dialog-top">
+        <h2>폴더로 이동</h2>
+        <button class="icon-button" value="cancel" aria-label="닫기" type="submit">
+          <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="dialog-content">
+        <p class="dialog-text">다음 파일을 이동할 폴더를 선택하세요.</p>
+        <p class="delete-file-name" id="moveFileName">—</p>
+        <input class="plain-input move-search" id="moveSearchInput" type="search" placeholder="폴더 이름으로 검색…" autocomplete="off">
+        <div class="move-folder-list" id="moveFolderList" role="listbox" aria-label="이동할 폴더 선택"></div>
+        <div class="button-row">
+          <button class="secondary-button" id="moveCancelButton" type="button">취소</button>
+          <button class="primary-button" id="moveConfirmButton" type="button" disabled>이동</button>
         </div>
       </div>
     </form>
