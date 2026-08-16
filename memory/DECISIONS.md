@@ -97,7 +97,7 @@
 2. **OAuth 토큰 자동 갱신 안정성 근본 강화**: (a) `driveFetch()`에 401 응답 시 `tryQuietTokenRefresh()`로 자동 1회 토큰 갱신 후 재시도. (b) `visibilitychange`에서 포그라운드 복귀 시 토큰 잔여 시간 즉시 검사하여 만료/임박 시 자동 갱신. (c) `scheduleTokenRenewal()`을 10분 전 1차 갱신 + 3분 전 2차 재시도로 공격적 보강. (d) `MEDIA_AUTH_REQUIRED` 수신 시 즉시 `clearToken()` 대신 백그라운드 갱신 우선 시도.
 3. **토큰 교체 시 folderIndex 캐시 무효화**: `handleTokenResponse()` 성공 시 `state.folderIndex = null`로 무효화하여, 다른 계정의 토큰이 교부된 경우에도 올바른 폴더 트리를 재구축한다.
 
-## D-018 · v1.13.0 Apple iOS 리퀴드 글래스(Liquid Glass) & 글래스모피즘 UI 전면 개편 — 2026-08-16 (User-confirmed)
-1. **Apple Liquid Glass 머티리얼 & 루미너스 앰비언트 메시**: 불투명하고 단조로운 기존 표면을 폐기하고, 다층 굴절 글래스 필터(ackdrop-filter: blur(28px) saturate(210%) contrast(104%))와 상단 림 반사광(inset 0 1px 1px 0 rgba(255, 255, 255, 0.25)), 0.5px~1px 초미세 반투명 보더(gba(255, 255, 255, 0.12))를 전면 도입했다. 배경에 미세한 다크 메시 글로우(adial-gradient)를 배치하여 유리 뒤에서 은은하게 빛이 투과되는 물리적 공간감을 부여했다.
+## D-018 · v1.13.0 Apple iOS 리퀴드 글라스(Liquid Glass) & 글라스모피즘 UI 전면 개편 — 2026-08-16 (User-confirmed)
+1. **Apple Liquid Glass 머티리얼 & 루미너스 앰비언트 메시**: 불투명하고 단조로운 기존 표면을 폐기하고, 다층 굴절 글라스 필터(`backdrop-filter: blur(28px) saturate(210%) contrast(104%)`)와 상단 림 반사광(`inset 0 1px 1px 0 rgba(255, 255, 255, 0.25)`), 0.5px~1px 초미세 반투명 보더(`rgba(255, 255, 255, 0.12)`)를 전면 도입했다. 배경에 미세한 다크 메시 글로우(`radial-gradient`)를 배치하여 유리 뒤에서 은은하게 빛이 투과되는 물리적 공간감을 부여했다.
 2. **이중 베젤 (Doppelrand) 동심원 아키텍처**: 셋업 콘솔 카드, 미디어 카드, 모달 다이얼로그에 외곽 글래스 트레이 + 내부 코어 컨테이너의 동심원(Concentric) 곡률 구조를 적용하여 견고하고 정밀한 하드웨어적인 감각을 완성했다.
-3. **플로팅 아일랜드 UI & 유체 물리 햅틱 인터랙션**: 상단바(Topbar), 검색 및 필터 툴바, 브레드크럼, 모바일 하단 액션 칩을 플로팅 글래스 아일랜드로 전면 리모델링했다. 모든 인터랙티브 요소에 Apple 식 감속 커브(cubic-bezier(0.2, 0, 0, 1)) 및 햅틱 프레스 스케일(:active { transform: scale(0.965); })을 적용했다.
+3. **플로팅 아일랜드 UI & 유체 물리 햅틱 인터랙션**: 상단바(Topbar), 검색 및 필터 툴바, 브레드크럼, 모바일 하단 액션 칩을 플로팅 글래스 아일랜드로 전면 리모델링했다. 모든 인터랙티브 요소에 Apple 식 감속 커브(`cubic-bezier(0.32, 0.72, 0, 1)`) 및 햅틱 프레스 스케일(`:active { transform: scale(0.96); }`)을 적용했다.
