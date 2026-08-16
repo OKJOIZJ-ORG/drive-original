@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.7';
+const APP_VERSION = '1.13.8';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -504,7 +504,7 @@ function notifyUpdateAvailable(newVersion, summary) {
   if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = false;
   if (el.applyUpdateButton) {
     el.applyUpdateButton.hidden = false;
-    el.applyUpdateButton.textContent = `${verStr} 지금 적용`;
+    el.applyUpdateButton.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>${verStr} 지금 업데이트 적용</span>`;
   }
   if (el.updateStatusText) {
     el.updateStatusText.textContent = `${verStr} 업데이트가 준비되었습니다. 지금 적용하세요.`;

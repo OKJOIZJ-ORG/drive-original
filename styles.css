@@ -951,18 +951,28 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 .sort-select select {
   height: 100%;
-  padding: 0 28px 0 12px;
+  padding: 0 30px 0 12px;
   border-radius: var(--radius-sm);
   background: var(--system-bg-tertiary);
   border: none;
-  color: var(--label-secondary);
-  font-size: 13px;
+  font-family: var(--font-system) !important;
+  color: var(--label-primary) !important;
+  font-size: 13px !important;
   font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 36px;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='rgba(235,235,245,0.6)' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.7)' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
+  transition: background var(--duration-touch) ease, color var(--duration-touch) ease;
+}
+
+.sort-select select:hover {
+  background-color: var(--system-fill-secondary);
 }
 
 .sort-select select option {
@@ -1905,6 +1915,38 @@ dialog::backdrop {
   word-break: break-all;
 }
 
+/* Update Apply Hero Button (Prominent Apple Style Full-Width Action) */
+.update-apply-btn {
+  width: 100%;
+  height: 38px;
+  margin-top: 4px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  background: var(--system-blue);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 8px rgba(10, 132, 255, 0.35);
+  transition: transform var(--duration-touch) var(--ease-spring), opacity var(--duration-touch) ease, background var(--duration-touch) ease;
+}
+
+.update-apply-btn:hover {
+  background: var(--system-blue-hover);
+}
+
+.update-apply-btn:active {
+  transform: scale(0.98);
+}
+
+.update-apply-btn[hidden] {
+  display: none !important;
+}
+
 .button-row {
   display: flex;
   align-items: center;
@@ -1913,14 +1955,20 @@ dialog::backdrop {
   margin-top: 6px;
 }
 
+.button-row > * {
+  white-space: nowrap !important;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 .button-row .primary-button,
 .button-row .secondary-button,
 .button-row .danger-button,
 .button-row .danger-text-button {
   height: 36px;
-  padding: 0 14px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 0 12px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
   letter-spacing: -0.01em;
   border-radius: var(--radius-sm);
   display: inline-flex;
@@ -1928,6 +1976,10 @@ dialog::backdrop {
   justify-content: center;
   gap: 6px;
   line-height: 1;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Settings Group Inset Box */

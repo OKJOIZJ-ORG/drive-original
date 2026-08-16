@@ -146,3 +146,7 @@
 ## D-027 · v1.13.7 컨트롤 바 수직 슬라이드 정상화·툴바/다이얼로그 버튼·타이포 위계 일관성 완성 — 2026-08-16 (User-confirmed)
 1. **PC 영상 재생창 하단 바 상하 수직 슬라이드 정상화**: `.custom-video-controls`의 수평 중심축(`translateX(-50%)`)이 `translateY(8px)`로 인해 덮어씌워져 우측으로 튕겨나가던 현상을 확인하고, `transform: translateX(-50%) translateY(14px);`로 중심축을 고정했다. 이제 컨트롤 바가 우측으로 치우치지 않고 순수하게 아래로 슬라이드 다운/업하며 페이드 인/아웃된다.
 2. **툴바 및 다이얼로그 전역 타이포그래피·버튼 일관성 정밀화**: PC 툴바 내 검색창, 세그먼트 버튼, 하위폴더 토글, 정렬 셀렉트의 높이를 36px, 폰트 크기를 13px(-0.01em 자간)로 완벽히 통일했다. 설정창의 Primary, Secondary, Danger, Danger-text 버튼 역시 높이 36px, 폰트 13px(font-weight: 600)로 통일하여 들쭉날쭉하던 서식 위계를 전면 정돈했다.
+
+## D-028 · v1.13.8 설정창 업데이트 버튼 Hero 분리·정렬 셀렉트 폰트 서식 일치화 — 2026-08-16 (User-confirmed)
+1. **설정창 업데이트 버튼 레이아웃 구조 개편 및 텍스트 2줄 쪼개짐 원천 차단**: 새 업데이트 감지 시 `applyUpdateButton`이 좁은 1개 행에 억지로 들어가며 글자가 2줄로 깨지던 문제를 해결하기 위해, 핵심 액션인 '지금 업데이트 적용' 버튼을 상단에 단독 Full-width Primary Hero 버튼(`width: 100%; height: 38px;`)으로 분리 배치했다. 하단의 '업데이트 확인'과 '강제 캐시 새로고침' 버튼은 2열 균등 분할 배치(`flex: 1`)하고, 모든 버튼에 `white-space: nowrap !important;`를 적용하여 텍스트 줄바꿈을 완벽히 방지했다.
+2. **툴바 정렬 드롭다운(`select`) 폰트 서식 100% 일치화**: 브라우저 기본 사양상 시스템 폰트를 상속하지 않던 `<select>` 태그에 `font-family: var(--font-system) !important; color: var(--label-primary) !important; font-size: 13px !important; font-weight: 500; letter-spacing: -0.01em;`를 명시하여, 바로 옆의 세그먼트 버튼 및 토글 버튼과 동일한 SF Pro 시스템 폰트, 자간, 선명도를 갖도록 서식을 완벽히 일치시켰다.
