@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.10.1';
+const APP_VERSION = '1.10.2';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -169,8 +169,20 @@ function bindEvents() {
   });
   el.sortSelect.addEventListener('change', (event) => {
     state.sort = event.target.value;
-    if (state.sort === 'random') shuffleCurrentFiles();
-    renderFiles();
+    if (state.sort === 'random') {
+      // 랜덤 배열은 '대상 폴더의 전체 파일'을 기준으로 한다 —
+      // 아직 로드되지 않은 페이지가 있으면 모두 불러온 뒤 전체 세트로 셔플한다.
+      shuffleCurrentFiles();
+      renderFiles();
+      if (state.nextPageToken && !state.demo && !state.deepScan) {
+        ensureAllPagesLoaded().then(() => {
+          shuffleCurrentFiles();
+          renderFiles();
+        });
+      }
+    } else {
+      renderFiles();
+    }
   });
   el.filterButtons.forEach((button) => button.addEventListener('click', () => {
     state.filter = button.dataset.filter;
@@ -1329,6 +1341,22 @@ function shuffleCurrentFiles() {
   });
 }
 
+/* 무한 스크롤로 아직 불러오지 않은 페이지가 있을 때 전부 로드한다.
+   랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
+   대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
+async function ensureAllPagesLoaded() {
+  if (state.demo || state.deepScan) return;
+  let guard = 0;
+  while (state.nextPageToken && guard < 100) {
+    guard++;
+    if (state.loadingFiles) {
+      await new Promise((resolve) => setTimeout(resolve, 120));
+      continue;
+    }
+    await loadFiles({ append: true });
+  }
+}
+
 function filteredAndSortedFiles() {
   const filtered = state.files.filter((file) => {
     const isVideo = file.mimeType?.startsWith('video/');
@@ -1939,8 +1967,12 @@ function playPrevFile(direction = 'right') {
   animateMediaTransition(dir, () => openMediaSource(list[prevIndex]));
 }
 
-function playRandomFile(direction = 'up') {
+async function playRandomFile(direction = 'up') {
   const dir = typeof direction === 'string' ? direction : 'up';
+  // 랜덤 쇼츠도 대상 폴더의 전체 파일에서 뽑는다 — 남은 페이지를 먼저 모두 로드.
+  if (!state.demo && !state.deepScan && state.nextPageToken) {
+    await ensureAllPagesLoaded();
+  }
   const list = getPlaybackFileList();
   if (!list.length) return;
   let nextFile;
@@ -2544,7 +2576,7 @@ function playNextAfterRemoval(order, removedIndex, removedId) {
   animateMediaTransition('left', () => openMediaSource(next));
 }
 
-/* 폴더 이동 — 전체 폴더 목록을 1회 수집해 경로와 함께 선택 UI 제공 */
+/* 폴더 이동 — 전체 폴더 목록을 1회 수집해 순수 폴더명 목록으로 선택 UI 제공 */
 async function requestMoveFile() {
   if (!state.selected || state.moving) return;
   state.moveTargetFolderId = null;
@@ -2645,28 +2677,30 @@ function renderMoveFolderList(filterRaw) {
   const filter = String(filterRaw || '').trim().toLocaleLowerCase('ko');
   const rootId = state.rootFolderId || 'root';
   const currentParents = state.selected?.parents || [];
-  const rows = [{ id: 'root', name: '내 드라이브', path: '', depth: 0 }];
+  // 순수하게 폴더명만 표시한다 — 경로 문자열·중복 텍스트 없이,
+  // 계층은 들여쓰기(깊이)로만 전달하고 현재 위치는 작은 배지로 표시한다.
+  const rows = [{ id: 'root', name: '내 드라이브', depth: 0 }];
   const seen = new Set(['root']);
   const { foldersByParent } = index;
   const queue = [];
   [...(foldersByParent.get(rootId) || []), ...(foldersByParent.get('root') || [])].forEach((folder) => {
     if (!seen.has(folder.id)) {
       seen.add(folder.id);
-      queue.push({ folder, path: folder.name || '폴더', depth: 1 });
+      queue.push({ folder, depth: 1 });
     }
   });
   while (queue.length) {
-    const { folder, path, depth } = queue.shift();
-    rows.push({ id: folder.id, name: folder.name || '이름 없는 폴더', path, depth });
+    const { folder, depth } = queue.shift();
+    rows.push({ id: folder.id, name: folder.name || '이름 없는 폴더', depth });
     (foldersByParent.get(folder.id) || []).forEach((child) => {
       if (!seen.has(child.id)) {
         seen.add(child.id);
-        queue.push({ folder: child, path: `${path} / ${child.name || '폴더'}`, depth: depth + 1 });
+        queue.push({ folder: child, depth: depth + 1 });
       }
     });
   }
   const filtered = filter
-    ? rows.filter((row) => row.name.toLocaleLowerCase('ko').includes(filter) || row.path.toLocaleLowerCase('ko').includes(filter))
+    ? rows.filter((row) => row.name.toLocaleLowerCase('ko').includes(filter))
     : rows;
   if (!filtered.length) {
     const empty = document.createElement('div');
@@ -2693,10 +2727,13 @@ function renderMoveFolderList(filterRaw) {
     const name = document.createElement('span');
     name.className = 'move-folder-name';
     name.textContent = row.name;
-    const path = document.createElement('span');
-    path.className = 'move-folder-path';
-    path.textContent = isCurrent ? '현재 위치' : (row.path || '최상위');
-    button.append(name, path);
+    button.appendChild(name);
+    if (isCurrent) {
+      const badge = document.createElement('span');
+      badge.className = 'move-folder-current';
+      badge.textContent = '현재 위치';
+      button.appendChild(badge);
+    }
     button.addEventListener('click', () => {
       state.moveTargetFolderId = row.id;
       el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => item.classList.remove('selected'));
