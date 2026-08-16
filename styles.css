@@ -1011,7 +1011,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .folder-row::after {
   content: '';
   position: absolute;
-  left: 52px;
+  left: 48px;
   right: 0;
   bottom: 0;
   height: 1px;
@@ -1309,22 +1309,36 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   overflow: hidden;
 }
 
-/* Immersive Clean Tap & Mouse Idle Auto-hide */
+/* Immersive Clean Tap & Mouse Idle Auto-hide (Pure Black Cinema Mode) */
 .player-modal.immersive .player-topbar,
 .player-modal.immersive .custom-video-controls,
 .player-modal.immersive .media-info-bar,
+.player-modal.immersive .stage-center-play-btn,
+.player-modal.immersive .player-ctrl-btn,
 .player-modal.controls-idle .player-topbar,
 .player-modal.controls-idle .custom-video-controls,
-.player-modal.controls-idle .media-info-bar {
+.player-modal.controls-idle .media-info-bar,
+.player-modal.controls-idle .stage-center-play-btn,
+.player-modal.controls-idle .player-ctrl-btn {
   opacity: 0 !important;
   pointer-events: none !important;
-  transition: opacity 250ms var(--ease-out);
+  transform: translateY(8px);
+  transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out);
 }
 
-.player-modal.immersive .ambient-backdrop {
-  opacity: 0;
+.player-modal.immersive .player-topbar,
+.player-modal.controls-idle .player-topbar {
+  transform: translateY(-8px);
 }
 
+.player-modal.immersive .ambient-backdrop,
+.player-modal.controls-idle .ambient-backdrop {
+  opacity: 0 !important;
+  transition: opacity 300ms var(--ease-out);
+}
+
+.player-modal.controls-idle,
+.player-modal.controls-idle *,
 .player-modal.controls-idle .media-stage {
   cursor: none !important;
 }
@@ -1704,6 +1718,52 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: inline-flex !important;
   opacity: 1;
   transform: translateY(-50%) scale(1);
+}
+
+/* Apple Centered Glass Media Loading Card */
+.media-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 26px;
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.media-loading[hidden] {
+  display: none !important;
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--system-blue);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+#mediaLoadingText {
+  font-size: 13px;
+  font-weight: 500;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  margin: 0;
+  text-align: center;
 }
 
 /* ==========================================================================
@@ -2156,21 +2216,25 @@ dialog::backdrop {
   .player-title-box {
     pointer-events: auto;
     min-width: 0;
-    flex: 1;
+    flex: 0 1 auto;
+    display: inline-flex;
+    align-items: center;
+    width: auto;
   }
 
   .stream-badge-row {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 10px;
+    padding: 3px 9px;
     border-radius: var(--radius-pill);
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 0.5px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-    max-width: calc(100vw - 72px);
+    width: fit-content;
+    max-width: none;
   }
 
   .stream-status {

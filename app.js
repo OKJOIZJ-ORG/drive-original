@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.4';
+const APP_VERSION = '1.13.5';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -1662,14 +1662,13 @@ function resetControlsTimer() {
   if (el.playerModal) el.playerModal.classList.remove('controls-idle');
   if (el.mediaStage) el.mediaStage.classList.remove('controls-hidden');
   clearTimeout(controlsHideTimer);
-  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
-  if (isVideo && !el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
+  if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !isSpeedMenuOpen) {
     controlsHideTimer = setTimeout(() => {
-      if (!el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
+      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !isSpeedMenuOpen) {
         if (el.playerModal) el.playerModal.classList.add('controls-idle');
         if (el.mediaStage) el.mediaStage.classList.add('controls-hidden');
       }
-    }, 2500);
+    }, 1800);
   }
 }
 

@@ -1,4 +1,4 @@
-const VERSION = '1.13.4';
+const VERSION = '1.13.5';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
