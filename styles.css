@@ -828,35 +828,37 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   flex-wrap: wrap;
 }
 
-/* Fixed Precision Search Box (No flex-basis column distortion) */
+/* Fixed Precision Search Box (36px Uniform Height & 13px Typography) */
 .search-box {
   position: relative;
   flex: 1 1 200px;
   min-width: 180px;
-  height: 38px;
+  height: 36px;
   display: flex;
   align-items: center;
 }
 
 .search-box svg {
   position: absolute;
-  left: 12px;
+  left: 11px;
   top: 50%;
   transform: translateY(-50%);
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   color: var(--label-tertiary);
   pointer-events: none;
 }
 
 .search-box input {
   width: 100%;
-  height: 100%;
-  padding: 8px 14px 8px 36px;
+  height: 36px;
+  padding: 0 14px 0 32px;
   border-radius: var(--radius-sm);
   background: var(--system-bg-tertiary);
   border: none;
-  font-size: 14px;
+  font-size: 13px !important;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   color: var(--label-primary);
 }
 
@@ -1311,24 +1313,42 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 /* Immersive Clean Tap & Mouse Idle Auto-hide (Pure Black Cinema Mode) */
 .player-modal.immersive .player-topbar,
+.player-modal.controls-idle .player-topbar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-14px) !important;
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
 .player-modal.immersive .custom-video-controls,
+.player-modal.controls-idle .custom-video-controls {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(14px) !important;
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
 .player-modal.immersive .media-info-bar,
+.player-modal.controls-idle .media-info-bar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(14px) !important;
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
 .player-modal.immersive .stage-center-play-btn,
+.player-modal.controls-idle .stage-center-play-btn {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -50%) scale(0.88) !important;
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
 .player-modal.immersive .player-ctrl-btn,
-.player-modal.controls-idle .player-topbar,
-.player-modal.controls-idle .custom-video-controls,
-.player-modal.controls-idle .media-info-bar,
-.player-modal.controls-idle .stage-center-play-btn,
 .player-modal.controls-idle .player-ctrl-btn {
   opacity: 0 !important;
   pointer-events: none !important;
-  transform: translateY(8px);
-  transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out);
-}
-
-.player-modal.immersive .player-topbar,
-.player-modal.controls-idle .player-topbar {
-  transform: translateY(-8px);
+  transition: opacity 240ms var(--ease-out);
 }
 
 .player-modal.immersive .ambient-backdrop,
@@ -1527,7 +1547,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   position: absolute;
   bottom: 24px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(0);
   width: min(840px, calc(100% - 40px));
   z-index: 20;
   display: flex;
@@ -1540,6 +1560,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   -webkit-backdrop-filter: var(--blur-thin);
   border: var(--hairline-border);
   box-shadow: var(--shadow-popover);
+  transition: opacity 240ms var(--ease-spring), transform 240ms var(--ease-spring);
 }
 
 .seek-bar-container {
@@ -1887,9 +1908,26 @@ dialog::backdrop {
 .button-row {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 4px;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.button-row .primary-button,
+.button-row .secondary-button,
+.button-row .danger-button,
+.button-row .danger-text-button {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1;
 }
 
 /* Settings Group Inset Box */
@@ -1906,6 +1944,7 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .settings-group h3 {
@@ -1913,14 +1952,16 @@ dialog::backdrop {
   font-weight: 600;
   line-height: 20px;
   color: var(--label-primary);
+  letter-spacing: -0.015em;
 }
 
 .version-badge {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
-  background: var(--system-fill-quaternary);
-  font-size: 12px;
+  background: var(--system-fill-tertiary);
+  font-size: 11px;
   font-family: var(--font-mono);
+  font-weight: 600;
   color: var(--label-secondary);
 }
 

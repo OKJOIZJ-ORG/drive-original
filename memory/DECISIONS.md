@@ -142,3 +142,7 @@
 ## D-026 · v1.13.6 스와이프 피드백 오버랩 제거·HUD 하단 재배치·전역 타이포그래피 계층 정밀화 — 2026-08-16 (User-confirmed)
 1. **스와이프 전환 피드백 텍스트 오버랩 제거 & HUD 하단 격리**: 영상 전환 시 중앙 로딩 카드 주변에 중복으로 뜨던 unstyled `SHORTS`, `NEXT`, `PREV` 텍스트를 제거했다. 볼륨·배속·시크 피드백(`VOL 80%`, `SPEED 1.5X`, `+10S`)은 화면 하단 중앙(`bottom: calc(var(--safe-bottom) + 72px)`)의 세련된 Apple 모노 글래스 캡슐 HUD(`rgba(9, 11, 16, 0.78)`, `backdrop-filter: blur(20px)`)로 격리 재배치하여 중앙 로딩 카드와의 시각적 충돌을 100% 해소했다.
 2. **Apple SF Pro 시스템 폰트 스케일 기준 전역 타이포그래피 일관성 완성**: Large Title(34px/28px, -0.025em), Header(20px, -0.018em), Section(15px, -0.015em), Body(15px, -0.01em), Subheadline(13px, -0.005em), Action Chip(12px, 0.01em), Status Badge(11px, 0.01em) 및 시간·해상도 전용 모노스페이스(`tabular-nums`)로 전역 스타일을 일관되게 정밀화했다.
+
+## D-027 · v1.13.7 컨트롤 바 수직 슬라이드 정상화·툴바/다이얼로그 버튼·타이포 위계 일관성 완성 — 2026-08-16 (User-confirmed)
+1. **PC 영상 재생창 하단 바 상하 수직 슬라이드 정상화**: `.custom-video-controls`의 수평 중심축(`translateX(-50%)`)이 `translateY(8px)`로 인해 덮어씌워져 우측으로 튕겨나가던 현상을 확인하고, `transform: translateX(-50%) translateY(14px);`로 중심축을 고정했다. 이제 컨트롤 바가 우측으로 치우치지 않고 순수하게 아래로 슬라이드 다운/업하며 페이드 인/아웃된다.
+2. **툴바 및 다이얼로그 전역 타이포그래피·버튼 일관성 정밀화**: PC 툴바 내 검색창, 세그먼트 버튼, 하위폴더 토글, 정렬 셀렉트의 높이를 36px, 폰트 크기를 13px(-0.01em 자간)로 완벽히 통일했다. 설정창의 Primary, Secondary, Danger, Danger-text 버튼 역시 높이 36px, 폰트 13px(font-weight: 600)로 통일하여 들쭉날쭉하던 서식 위계를 전면 정돈했다.
