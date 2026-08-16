@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.2';
+const APP_VERSION = '1.13.3';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -193,10 +193,10 @@ function bindEvents() {
   el.loadMoreButton.addEventListener('click', () => {
     if (state.nextPageToken) loadFiles({ append: true });
   });
-  el.closePlayerButton.addEventListener('click', closePlayer);
-  el.playerBackdrop.addEventListener('click', closePlayer);
-  el.fullscreenButton.addEventListener('click', toggleFullscreen);
-  el.pipButton.addEventListener('click', togglePictureInPicture);
+  if (el.closePlayerButton) el.closePlayerButton.addEventListener('click', closePlayer);
+  if (el.playerBackdrop) el.playerBackdrop.addEventListener('click', closePlayer);
+  if (el.fullscreenButton) el.fullscreenButton.addEventListener('click', toggleFullscreen);
+  if (el.pipButton) el.pipButton.addEventListener('click', togglePictureInPicture);
 
   // Topbar and Controls Navigation Buttons (Robust Click Binding & Timer Resets)
   if (el.topbarPrevBtn) {
