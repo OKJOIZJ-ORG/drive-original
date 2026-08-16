@@ -105,3 +105,9 @@
 ## D-019 · v1.12.1 디자인 패치 롤백 (사용자 확인 — v1.12.0 UI 복원) — 2026-08-16 (User-confirmed)
 1. **디자인 패치 롤백 및 기존 UI 복원**: 사용자의 "디자인 패치 롤백 해. 저번이 났다." 지시에 따라 v1.13.0 리퀴드 글래스 변경사항을 롤백하고 v1.12.0의 검증된 UI 스타일시트(`styles.css`)로 즉시 복원했다.
 2. **핵심 기능성 패치 유지**: v1.12.0에서 완결된 폴더 이동 root ID API 정상화(`GET /files/root?fields=id`), OAuth 토큰 401 자동 갱신 재시도, 모바일 포그라운드 복귀 즉시 토큰 보정(`visibilitychange`), 10분 전 선제 갱신 스케줄러 기능은 100% 온전하게 유지된다.
+
+## D-020 · v1.13.0 Apple 순정 앱(Files / Photos 수준) 전면 리디자인 — 2026-08-16 (User-confirmed)
+1. **Apple iOS 18 시스템 디자인 토큰 전면 도입**: AI 생성물 특유의 슬롭(엉성한 그라디언트, 이모지 버튼 등)을 완전히 배제하고, Apple iOS 18 Dark 모드 순정 시스템 팔레트(`systemBackground: #000`, `secondarySystemBackground: #1c1c1e`, `tertiarySystemBackground: #2c2c2e`, `label: #fff`, `secondaryLabel: rgba(235,235,245,0.6)`, `separator: 0.5px hairline`, `systemBlue: #0a84ff`)와 SF Pro 타이포그래피 스케일(Large Title 34px, Title, Headline, Body 17px, Caption)을 적용했다.
+2. **Navigation Bar Large Title 스크롤 트랜지션**: 라이브러리 상단의 34px Bold 대형 타이틀이 스크롤 다운 시 상단바로 부드럽게 축소 축약되는 iOS 네이티브 내비게이션 동작을 구현했다.
+3. **Apple Files Inset Grouped 폴더 리스트 & Photos 1:1 Squircle 미디어 그리드**: 폴더 브라우징을 Inset Grouped 리스트(16px 라운딩, 0.5px 헤어라인, SF chevron)로 개편하고, 미디어 타일을 1:1 정방형 스퀴클 비율로 리뉴얼하며 비디오 재생 시간(mm:ss) 및 원본 포맷 배지(4K UHD/FHD/HEVC)를 탑재했다.
+4. **Apple Native 세그먼트 컨트롤 & 햅틱 모션**: 물리 스프링 커브(`cubic-bezier(0.32, 0.72, 0, 1)`) 기반 슬라이딩 세그먼트 컨트롤과 모든 인터랙티브 요소에 `:active { transform: scale(0.97); }` 프레스 모션을 적용했다.

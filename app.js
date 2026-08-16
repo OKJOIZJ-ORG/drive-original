@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.12.1';
+const APP_VERSION = '1.13.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -362,6 +362,12 @@ function bindEvents() {
   if (el.permissionDialog) el.permissionDialog.addEventListener('cancel', (e) => e.preventDefault());
   window.addEventListener('online', updateConnectionBadge);
   window.addEventListener('offline', updateConnectionBadge);
+  window.addEventListener('scroll', () => {
+    const topbar = document.querySelector('.topbar');
+    if (topbar) {
+      topbar.classList.toggle('nav-scrolled', window.scrollY > 20);
+    }
+  }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       sendTokenToWorker();
@@ -1520,16 +1526,34 @@ function createFileCard(file, index = 0) {
     extractVideoFrameThumbnail(file, thumbnail, visual);
   }
 
-  // Format Badge (e.g., 4K, FHD, MP4, PNG)
+  // Format Badge (e.g., 4K UHD, FHD, HEVC, PNG)
   const res = resolutionText(file);
   let badgeLabel = isVideo ? 'VIDEO' : 'IMAGE';
-  if (res) badgeLabel = res;
-  else if (file.mimeType) badgeLabel = friendlyMime(file.mimeType);
+  if (res) {
+    badgeLabel = res;
+  } else if (file.videoMediaMetadata?.width >= 3840) {
+    badgeLabel = '4K UHD';
+  } else if (file.videoMediaMetadata?.width >= 1920) {
+    badgeLabel = 'FHD';
+  } else if (file.mimeType) {
+    badgeLabel = friendlyMime(file.mimeType);
+  }
 
   const badge = document.createElement('span');
   badge.className = 'file-card-badge';
   badge.textContent = badgeLabel;
   visual.appendChild(badge);
+
+  // Video Duration Badge (e.g., 03:42)
+  if (isVideo && file.videoMediaMetadata?.durationMillis) {
+    const durationSec = Number(file.videoMediaMetadata.durationMillis) / 1000;
+    if (durationSec > 0) {
+      const durBadge = document.createElement('span');
+      durBadge.className = 'file-card-duration-badge';
+      durBadge.textContent = formatPlayerTime(durationSec);
+      visual.appendChild(durBadge);
+    }
+  }
 
   // Play overlay on hover for video
   if (isVideo) {
