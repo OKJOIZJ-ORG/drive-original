@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.10.2';
+const APP_VERSION = '1.11.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -27,6 +27,7 @@ const state = {
   loadingTree: false,
   rootFolderId: null,
   videoRotated: false,
+  treeAbort: null,
   folderIndex: null,
   loadingFolderIndex: false,
   moveTargetFolderId: null,
@@ -123,7 +124,7 @@ function bindElements() {
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
     'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
     'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn',
-    'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'deepScanToggle',
+    'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'deepScanToggle', 'deepScanStopBtn',
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
@@ -292,6 +293,7 @@ function bindEvents() {
   [el.topbarDeleteBtn, el.ctrlDelete, el.shortsDeleteBtn].forEach((btn) => {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      flashPressed(btn);
       requestDeleteFile();
     });
   });
@@ -299,6 +301,7 @@ function bindEvents() {
   [el.topbarMoveBtn, el.ctrlMove, el.shortsMoveBtn].forEach((btn) => {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      flashPressed(btn);
       requestMoveFile();
     });
   });
@@ -323,14 +326,24 @@ function bindEvents() {
     toggleShortsExpand();
   });
   if (el.deepScanToggle) el.deepScanToggle.addEventListener('click', toggleDeepScan);
+  if (el.deepScanStopBtn) el.deepScanStopBtn.addEventListener('click', () => {
+    flashPressed(el.deepScanStopBtn);
+    if (state.treeAbort) state.treeAbort.abort();
+  });
 
   // Delete confirm dialog
-  if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => el.deleteDialog.close());
+  if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => {
+    flashPressed(el.deleteCancelButton);
+    el.deleteDialog.close();
+  });
   if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
   if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (e) => e.preventDefault());
 
   // Move dialog
-  if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => el.moveDialog.close());
+  if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => {
+    flashPressed(el.moveCancelButton);
+    el.moveDialog.close();
+  });
   if (el.moveConfirmButton) el.moveConfirmButton.addEventListener('click', performMoveFile);
   if (el.moveDialog) el.moveDialog.addEventListener('cancel', (e) => e.preventDefault());
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => {
@@ -1081,7 +1094,10 @@ async function ensureTreeCache() {
     return;
   }
   state.loadingTree = true;
+  const controller = new AbortController();
+  state.treeAbort = controller;
   if (el.deepScanToggle) el.deepScanToggle.disabled = true;
+  if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = false;
   el.libraryStatus.textContent = '드라이브 전체 폴더 트리를 수집하는 중…';
   try {
     if (!state.rootFolderId) {
@@ -1106,7 +1122,7 @@ async function ensureTreeCache() {
         fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload,canDelete),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
       });
       if (pageToken) params.set('pageToken', pageToken);
-      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
+      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
       const data = await response.json();
       items.push(...(Array.isArray(data.files) ? data.files : []));
       pageToken = data.nextPageToken || null;
@@ -1115,6 +1131,14 @@ async function ensureTreeCache() {
     state.treeCache = buildTreeIndexes(items);
     el.libraryStatus.textContent = '';
   } catch (error) {
+    if (controller.signal.aborted || error?.name === 'AbortError') {
+      // 사용자가 중지 버튼으로 취소 — 부분 데이터는 폐기하고 일반 모드로 복귀한다.
+      el.libraryStatus.textContent = '폴더 트리 수집을 중단했습니다.';
+      state.deepScan = false;
+      syncDeepScanToggle();
+      applyFolderView();
+      return;
+    }
     console.error(error);
     el.libraryStatus.textContent = `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`;
     if (error.status === 401) {
@@ -1126,7 +1150,9 @@ async function ensureTreeCache() {
     syncDeepScanToggle();
   } finally {
     state.loadingTree = false;
+    state.treeAbort = null;
     if (el.deepScanToggle) el.deepScanToggle.disabled = false;
+    if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = true;
   }
 }
 
@@ -2112,7 +2138,11 @@ function setupTouchGestures() {
       const dragX = damp(rawX);
       el.mediaStage?.classList.add('is-dragging');
       if (activeEl) {
-        activeEl.style.transform = `translate3d(${dragX}px, 0, 0)`;
+        // 90도 회전 상태에선 요소 좌표계가 화면과 어긋난다(요소 X→화면 아래, 요소 Y→화면 왼쪽).
+        // 화면 방향 그대로 따라오게 드래그 변위를 요소 공간으로 치환해 적용한다.
+        const tx = state.videoRotated ? 0 : dragX;
+        const ty = state.videoRotated ? -dragX : 0;
+        activeEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragX) / 450)}`;
       }
     } else if (lockedAxis === 'y') {
@@ -2120,7 +2150,9 @@ function setupTouchGestures() {
       const dragY = damp(rawY);
       el.mediaStage?.classList.add('is-dragging');
       if (activeEl) {
-        activeEl.style.transform = `translate3d(0, ${dragY}px, 0)`;
+        const tx = state.videoRotated ? dragY : 0;
+        const ty = state.videoRotated ? 0 : dragY;
+        activeEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragY) / 450)}`;
       }
     }
@@ -2493,6 +2525,32 @@ function openSelectedInDrive() {
   window.open(state.selected.webViewLink || fallback, '_blank', 'noopener,noreferrer');
 }
 
+/* 터치 확인 피드백 — 버튼을 눌렀다는 짧은 시각적 반응.
+   :active는 손가락을 떼는 순간 사라져 전달력이 약하므로 별도 플래시를 얹는다. */
+function flashPressed(node) {
+  if (!node) return;
+  node.classList.remove('flash-pressed');
+  void node.offsetWidth;
+  node.classList.add('flash-pressed');
+  setTimeout(() => node.classList.remove('flash-pressed'), 280);
+}
+
+/* 진행 중 로딩 표시 — 작업 완료까지의 공백을 스피너+라벨로 채운다. */
+function setButtonLoading(button, loading, label) {
+  if (!button) return;
+  if (loading) {
+    if (!button.dataset.originalLabel) button.dataset.originalLabel = button.textContent;
+    button.textContent = label;
+    button.classList.add('is-loading');
+  } else {
+    button.classList.remove('is-loading');
+    if (button.dataset.originalLabel) {
+      button.textContent = button.dataset.originalLabel;
+      delete button.dataset.originalLabel;
+    }
+  }
+}
+
 function requestDeleteFile() {
   if (!state.selected || state.deleting) return;
   if (el.deleteDialog && el.deleteFileName) {
@@ -2506,12 +2564,15 @@ async function performDeleteFile() {
   if (!file || state.deleting) return;
   state.deleting = true;
   if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = true;
+  setButtonLoading(el.deleteConfirmButton, true, '삭제 중…');
   try {
     // 삭제 후에도 플레이어를 유지하고 다음 영상으로 자연스럽게 넘어가기 위해
     // 제거 전 재생 순서를 먼저 capturing 한다.
     const order = getPlaybackFileList();
     const removedIndex = order.findIndex((f) => f.id === file.id);
     if (state.demo) {
+      // 실제 환경의 네트워크 지연을 반영해 로딩 상태가 보이도록 한다.
+      await new Promise((resolve) => setTimeout(resolve, 700));
       state.files = state.files.filter((f) => f.id !== file.id);
       if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items.filter((f) => f.id !== file.id));
       if (el.deleteDialog?.open) el.deleteDialog.close();
@@ -2553,6 +2614,7 @@ async function performDeleteFile() {
   } finally {
     state.deleting = false;
     if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = false;
+    setButtonLoading(el.deleteConfirmButton, false);
   }
 }
 
@@ -2630,14 +2692,14 @@ async function ensureFolderIndex() {
   }
   state.loadingFolderIndex = true;
   try {
-    if (!state.rootFolderId) {
+    // 루트 별칭이 폴백('root')으로 남아 있으면 실제 루트 ID를 다시 해소한다.
+    // 실패해도 고아 시딩(renderMoveFolderList)이 불일치를 흡수한다.
+    if (!state.rootFolderId || state.rootFolderId === 'root') {
       try {
         const about = await driveFetch(`${DRIVE_API}/about?fields=rootFolderId`);
         const info = await about.json();
-        state.rootFolderId = info.rootFolderId || 'root';
-      } catch (_) {
-        state.rootFolderId = 'root';
-      }
+        if (info.rootFolderId) state.rootFolderId = info.rootFolderId;
+      } catch (_) { /* 폴백 유지 */ }
     }
     const folders = [];
     let pageToken = null;
@@ -2681,22 +2743,30 @@ function renderMoveFolderList(filterRaw) {
   // 계층은 들여쓰기(깊이)로만 전달하고 현재 위치는 작은 배지로 표시한다.
   const rows = [{ id: 'root', name: '내 드라이브', depth: 0 }];
   const seen = new Set(['root']);
-  const { foldersByParent } = index;
+  const { foldersByParent, foldersById } = index;
   const queue = [];
+  const pushIfNew = (folder, depth) => {
+    if (seen.has(folder.id)) return;
+    seen.add(folder.id);
+    queue.push({ folder, depth });
+  };
   [...(foldersByParent.get(rootId) || []), ...(foldersByParent.get('root') || [])].forEach((folder) => {
-    if (!seen.has(folder.id)) {
-      seen.add(folder.id);
-      queue.push({ folder, depth: 1 });
+    pushIfNew(folder, 1);
+  });
+  // 루트 별칭 불일치·공유 드라이브 등 어떤 이유로 루트 직계 매칭이 빠져도
+  // 부모가 폴더 인덱스에 없는 최상위 폴더를 전부 루트 직계로 승격해
+  // 전체 트리가 항상 나타나도록 보장한다.
+  foldersById.forEach((folder) => {
+    const parent = folder.parents?.[0] || 'root';
+    if (!foldersById.has(parent) && parent !== rootId && parent !== 'root') {
+      pushIfNew(folder, 1);
     }
   });
   while (queue.length) {
     const { folder, depth } = queue.shift();
     rows.push({ id: folder.id, name: folder.name || '이름 없는 폴더', depth });
     (foldersByParent.get(folder.id) || []).forEach((child) => {
-      if (!seen.has(child.id)) {
-        seen.add(child.id);
-        queue.push({ folder: child, depth: depth + 1 });
-      }
+      pushIfNew(child, depth + 1);
     });
   }
   const filtered = filter
@@ -2760,10 +2830,13 @@ async function performMoveFile() {
   }
   state.moving = true;
   if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
+  setButtonLoading(el.moveConfirmButton, true, '이동 중…');
   try {
     const order = getPlaybackFileList();
     const removedIndex = order.findIndex((f) => f.id === file.id);
     if (state.demo) {
+      // 실제 환경의 네트워크 지연을 반영해 로딩 상태가 보이도록 한다.
+      await new Promise((resolve) => setTimeout(resolve, 700));
       file.parents = [target];
       state.files = state.files.filter((f) => f.id !== file.id);
       if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
@@ -2811,6 +2884,7 @@ async function performMoveFile() {
   } finally {
     state.moving = false;
     if (el.moveConfirmButton && state.moveTargetFolderId) el.moveConfirmButton.disabled = false;
+    setButtonLoading(el.moveConfirmButton, false);
   }
 }
 

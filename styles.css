@@ -357,6 +357,40 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transform: scale(0.97);
 }
 
+/* 버튼 눌림 플래시 — :active는 손가락을 떼는 순간 사라지므로 별도 1회성 반응을 얹는다 */
+@keyframes pressFlash {
+  0% { transform: scale(0.9); filter: brightness(1.5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.flash-pressed {
+  animation: pressFlash 240ms var(--ease-out);
+}
+
+/* 작업 진행 중 로딩 — 확정 버튼이 스피너 + 진행 라벨로 전환된다 */
+.primary-button.is-loading,
+.danger-button.is-loading {
+  pointer-events: none;
+  opacity: 0.85;
+  gap: 8px;
+}
+
+.primary-button.is-loading::before,
+.danger-button.is-loading::before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: buttonSpin 700ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes buttonSpin {
+  to { transform: rotate(360deg); }
+}
+
 .primary-button.compact {
   padding: 6px 12px;
   font-size: 0.82rem;
@@ -939,6 +973,34 @@ button.crumb:active {
   cursor: wait;
 }
 
+/* 딥스캔(하위 폴더 포함) 수집 중에만 나타나는 중지 버튼 */
+.deep-scan-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #f87171;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+
+.deep-scan-stop:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.deep-scan-stop:active {
+  transform: scale(0.95);
+}
+
+.deep-scan-stop[hidden] {
+  display: none;
+}
+
 /* Origin folder chip (deep scan 카드 출처 표시) */
 .file-card-origin {
   display: inline-flex;
@@ -1475,6 +1537,17 @@ button.crumb:active {
 .media-stage video.anim-slide-in-left, .media-stage img.anim-slide-in-left { animation: slideInLeft 220ms var(--ease-out) forwards !important; }
 .media-stage video.anim-slide-out-right, .media-stage img.anim-slide-out-right { animation: slideOutRight 180ms var(--ease-out) forwards !important; }
 .media-stage video.anim-slide-in-right, .media-stage img.anim-slide-in-right { animation: slideInRight 220ms var(--ease-out) forwards !important; }
+
+/* 90도 회전 상태에선 요소 공간의 X/Y가 화면과 뒤바뀐다(요소 X→화면 아래, 요소 Y→화면 왼쪽).
+   전환 슬라이드도 화면 기준 방향 그대로 보이도록 키프레임을 재매핑한다. */
+.media-stage video.is-rotated.anim-slide-out-left { animation-name: slideOutDown !important; }
+.media-stage video.is-rotated.anim-slide-in-left { animation-name: slideInDown !important; }
+.media-stage video.is-rotated.anim-slide-out-right { animation-name: slideOutUp !important; }
+.media-stage video.is-rotated.anim-slide-in-right { animation-name: slideInUp !important; }
+.media-stage video.is-rotated.anim-slide-out-up { animation-name: slideOutRight !important; }
+.media-stage video.is-rotated.anim-slide-in-up { animation-name: slideInRight !important; }
+.media-stage video.is-rotated.anim-slide-out-down { animation-name: slideOutLeft !important; }
+.media-stage video.is-rotated.anim-slide-in-down { animation-name: slideInLeft !important; }
 
 /* Stage Center Big Play Button */
 .stage-center-btn {
