@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.5';
+const APP_VERSION = '1.13.6';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -2081,7 +2081,6 @@ function playNextFile(direction = 'left') {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const nextIndex = (currentIndex + 1) % list.length;
-  showPlayerFeedback('NEXT');
   state.pendingPlay = true;
   animateMediaTransition(dir, () => openMediaSource(list[nextIndex]));
 }
@@ -2096,7 +2095,6 @@ function playPrevFile(direction = 'right') {
   }
   const currentIndex = list.findIndex((f) => f.id === state.selected.id);
   const prevIndex = (currentIndex - 1 + list.length) % list.length;
-  showPlayerFeedback('PREV');
   state.pendingPlay = true;
   animateMediaTransition(dir, () => openMediaSource(list[prevIndex]));
 }
@@ -2116,7 +2114,6 @@ async function playRandomFile(direction = 'up') {
     const candidates = list.filter((f) => !state.selected || f.id !== state.selected.id);
     nextFile = candidates[Math.floor(Math.random() * candidates.length)];
   }
-  showPlayerFeedback('SHORTS');
   state.pendingPlay = true;
   animateMediaTransition(dir, () => openMediaSource(nextFile));
 }

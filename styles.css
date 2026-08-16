@@ -1766,6 +1766,43 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   text-align: center;
 }
 
+/* Player Feedback HUD (Volume, Speed, Seek) — Bottom Frosted Glass Capsule */
+.player-feedback {
+  position: absolute;
+  bottom: calc(var(--safe-bottom) + 72px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.92);
+  z-index: 32;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(9, 11, 16, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-spring);
+}
+
+.player-feedback.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.player-feedback[hidden] {
+  display: none !important;
+}
+
 /* ==========================================================================
    APP DIALOGS & ACTION SHEETS — APPLE iOS 18 SPEC
    ========================================================================== */
