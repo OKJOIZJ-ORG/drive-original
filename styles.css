@@ -1302,17 +1302,24 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   overflow: hidden;
 }
 
-/* Immersive Clean Tap */
+/* Immersive Clean Tap & Mouse Idle Auto-hide */
 .player-modal.immersive .player-topbar,
 .player-modal.immersive .custom-video-controls,
-.player-modal.immersive .media-info-bar {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--duration-touch) var(--ease-spring);
+.player-modal.immersive .media-info-bar,
+.player-modal.controls-idle .player-topbar,
+.player-modal.controls-idle .custom-video-controls,
+.player-modal.controls-idle .media-info-bar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 250ms var(--ease-out);
 }
 
 .player-modal.immersive .ambient-backdrop {
   opacity: 0;
+}
+
+.player-modal.controls-idle .media-stage {
+  cursor: none !important;
 }
 
 /* PC Player Top Bar — Clean Floating Frosted Header */
@@ -1440,7 +1447,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   opacity: 0.5;
   pointer-events: none;
   transform: scale(1.1);
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 
 .media-stage video, .media-stage img {
@@ -1449,7 +1456,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  will-change: transform;
+  opacity: 0;
+  transition: opacity 160ms var(--ease-out);
+  will-change: transform, opacity;
+}
+
+.media-stage video.is-ready, .media-stage img.is-ready {
+  opacity: 1;
 }
 
 .media-stage video.is-rotated {
@@ -2014,18 +2027,74 @@ dialog::backdrop {
     font-size: 12px;
   }
 
-  /* ------------------------------------------------------------------------
-     RESTORE v1.12.1 MOBILE SHORTS UI (100% Exact & Tested)
-     ------------------------------------------------------------------------ */
+  /* ========================================================================
+     EXACT v1.12.1 FULL-BLEED 100dvh SHORTS MOBILE PLAYER UI
+     ======================================================================== */
 
-  /* Hide Desktop specific controls completely */
-  .custom-video-controls,
-  .media-info-bar,
-  .player-topbar-actions .player-ctrl-btn {
-    display: none !important;
+  .player-sheet {
+    padding: 0;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #000000;
   }
 
-  /* Mobile Minimalist Topbar */
+  .player-modal {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    background: #000000;
+    display: block;
+    overflow: hidden;
+  }
+
+  .media-stage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    z-index: 1;
+    background: #000000;
+  }
+
+  .media-stage video,
+  .media-stage img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .media-stage iframe {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background: #000000;
+  }
+
+  .media-stage video.is-rotated {
+    rotate: 90deg;
+    max-width: 100dvh;
+    max-height: 100vw;
+  }
+
+  .ambient-backdrop {
+    inset: -40px;
+    filter: blur(64px) brightness(0.42) saturate(1.45);
+  }
+
+  /* Floating Glass Overlay Top Bar */
   .player-topbar {
     position: absolute;
     top: 0;
@@ -2036,114 +2105,177 @@ dialog::backdrop {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    padding: calc(var(--safe-top) + 12px) 16px 14px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    padding: calc(var(--safe-top) + 12px) 14px 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%);
     border: none;
+    pointer-events: none;
+    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+  }
+
+  .player-title-box {
+    pointer-events: auto;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .stream-badge-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.52);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    max-width: calc(100vw - 80px);
+  }
+
+  .stream-status {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #60a5fa;
+  }
+
+  .quality-badge {
+    font-size: 0.7rem;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    color: var(--system-green);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .player-title-box h2 {
-    display: none; /* Hide top title on mobile; title is on bottom shorts bar */
+    display: none; /* Hide cluttered top title on mobile */
   }
 
-  /* Double-tap seek hints (mobile only) */
-  .seek-hint {
-    display: flex !important;
+  .player-topbar-actions {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
 
-  /* Mobile Shorts Bottom Floating Overlay */
-  .mobile-shorts-overlay {
-    display: flex !important;
-    flex-direction: column;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 25;
-    padding: 0 16px calc(var(--safe-bottom) + 14px);
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
+  .player-topbar-actions .player-ctrl-btn:not(#closePlayerButton) {
+    display: none !important;
+  }
+
+  .player-topbar-actions .player-ctrl-btn#closePlayerButton {
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    background: rgba(9, 11, 16, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f1f5f9;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Mobile Shorts Bottom Action Chips */
+  .shorts-bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     pointer-events: none;
-    gap: 10px;
-    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+  }
+
+  .shorts-chip {
+    pointer-events: auto;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 13px;
+    border-radius: 9999px;
+    background: rgba(9, 11, 16, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f1f5f9;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform var(--duration-touch) var(--ease-out), background-color var(--duration-touch) ease;
+  }
+
+  .shorts-chip:active {
+    transform: scale(0.93);
+  }
+
+  .shorts-chip svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .shorts-chip.more {
+    width: 34px;
+    padding: 0;
+  }
+
+  .shorts-chip.icon {
+    width: 34px;
+    padding: 0;
+  }
+
+  .shorts-chip.icon[aria-pressed="true"] {
+    background: rgba(96, 165, 250, 0.28);
+    border-color: rgba(96, 165, 250, 0.5);
+    color: #bfdbfe;
+  }
+
+  .shorts-chip.danger {
+    color: #fca5a5;
+    border-color: rgba(252, 165, 165, 0.24);
+  }
+
+  .shorts-chip.solid {
+    background: rgba(255, 255, 255, 0.92);
+    color: #090b10;
+    border-color: transparent;
   }
 
   .shorts-expand-row {
     display: flex;
-    align-items: center;
     gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
     max-height: 0;
     opacity: 0;
+    overflow: hidden;
     transform: translateY(8px);
     visibility: hidden;
     transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
   }
 
   .mobile-shorts-overlay.expanded .shorts-expand-row {
-    max-height: 50px;
+    max-height: 60px;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
     transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
   }
 
-  .shorts-bottom-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  /* Double-tap seek hints (mobile only) */
+  .seek-hint {
+    display: inline-flex !important;
   }
 
-  .mobile-shorts-title {
-    flex: 1;
-    min-width: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    pointer-events: auto;
-  }
-
-  .shorts-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 7px 12px;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.14);
-    backdrop-filter: var(--blur-ultra-thin);
-    -webkit-backdrop-filter: var(--blur-ultra-thin);
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 600;
-    pointer-events: auto;
-    transition: transform var(--duration-touch) var(--ease-spring);
-  }
-
-  .shorts-chip:active { transform: scale(0.92); }
-
-  .shorts-chip.icon {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: grid;
-    place-items: center;
-  }
-
-  .shorts-chip.danger {
-    background: rgba(255, 69, 58, 0.2);
-    color: var(--system-red);
-  }
-
-  /* 3.5px White Precision Progress Bar with generous touch hitbox */
+  /* Wider invisible touch target for the shorts progress seek */
   .mobile-shorts-progress-track {
     width: 100%;
     height: 18px;
     background: transparent;
     display: flex;
     align-items: flex-end;
+    padding-bottom: 0;
     position: relative;
     pointer-events: auto;
   }
@@ -2153,31 +2285,77 @@ dialog::backdrop {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
     height: 3.5px;
     background: rgba(255, 255, 255, 0.26);
     border-radius: 9999px;
   }
 
   .mobile-shorts-progress-bar {
+    position: relative;
+    height: 3.5px;
+    border-radius: 9999px;
+    background: #ffffff;
+  }
+
+  /* Mobile Shorts Bottom Overlay (Filename & 3px Progress Line) */
+  .mobile-shorts-overlay {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 25;
+    padding: 0 16px calc(var(--safe-bottom) + 14px);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
+    pointer-events: none;
+    gap: 10px;
+    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+  }
+
+  .mobile-shorts-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: auto;
+  }
+
+  .mobile-shorts-progress-bar {
     width: 0%;
     max-width: 100%;
-    height: 3.5px;
     background: #ffffff;
-    border-radius: 9999px;
     transition: width 0.1s linear;
   }
 
-  .player-modal.immersive .mobile-shorts-overlay {
-    opacity: 0;
-    transform: translateY(12px);
-    visibility: hidden;
-    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  /* Hide desktop custom video controls completely on mobile */
+  .custom-video-controls {
+    display: none !important;
+  }
+
+  .media-info-bar {
+    display: none !important;
+  }
+
+  .time-display {
+    display: none !important;
   }
 
   .player-modal.immersive .player-topbar {
     opacity: 0;
     transform: translateY(-10px);
+    visibility: hidden;
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  }
+
+  .player-modal.immersive .mobile-shorts-overlay {
+    opacity: 0;
+    transform: translateY(12px);
     visibility: hidden;
     transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
   }

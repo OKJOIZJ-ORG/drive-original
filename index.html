@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.13.1">
+  <link rel="stylesheet" href="./styles.css?v=1.13.2">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.13.1" defer></script>
+  <script src="./app.js?v=1.13.2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -264,20 +264,11 @@
           <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상" title="다음 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
           </button>
-          <button class="player-ctrl-btn" id="topbarMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
-            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
-          </button>
-          <button class="player-ctrl-btn topbar-delete" id="topbarDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
-            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          </button>
-          <button class="icon-button" id="pipButton" type="button" aria-label="화면 속 화면(PiP)" title="화면 속 화면 (PiP)" hidden>
-            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
-          </button>
-          <button class="icon-button" id="fullscreenButton" type="button" aria-label="전체화면" title="전체화면 (F)">
+          <button class="player-ctrl-btn" id="fullscreenButton" type="button" aria-label="전체화면" title="전체화면 (F)">
             <svg class="icon-expand" id="iconExpand" width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
             <svg class="icon-compress" id="iconCompress" width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
           </button>
-          <button class="icon-button" id="closePlayerButton" type="button" aria-label="플레이어 닫기" title="닫기 (ESC)">
+          <button class="player-ctrl-btn" id="closePlayerButton" type="button" aria-label="플레이어 닫기" title="닫기 (ESC)">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
@@ -478,7 +469,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.13.1</span>
+            <span class="version-badge" id="settingsAppVersion">v1.13.2</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <div class="button-row">
@@ -531,7 +522,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.13.1</span>
+          <span id="appVersion">v1.13.2</span>
         </div>
       </div>
     </form>

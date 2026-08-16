@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.1';
+const APP_VERSION = '1.13.2';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -367,6 +367,18 @@ function bindEvents() {
     if (topbar) {
       topbar.classList.toggle('nav-scrolled', window.scrollY > 20);
     }
+  }, { passive: true });
+  const onPlayerUserActivity = () => {
+    if (!el.playerSheet || el.playerSheet.hidden) return;
+    if (el.playerModal) el.playerModal.classList.remove('controls-idle');
+    resetControlsTimer();
+  };
+  window.addEventListener('mousemove', onPlayerUserActivity, { passive: true });
+  window.addEventListener('pointermove', onPlayerUserActivity, { passive: true });
+  window.addEventListener('keydown', (e) => {
+    if (!el.playerSheet || el.playerSheet.hidden) return;
+    if (el.playerModal) el.playerModal.classList.remove('controls-idle');
+    resetControlsTimer();
   }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
@@ -1647,16 +1659,17 @@ function formatPlayerTime(seconds) {
 }
 
 function resetControlsTimer() {
-  if (!el.mediaStage) return;
-  el.mediaStage.classList.remove('controls-hidden');
+  if (el.playerModal) el.playerModal.classList.remove('controls-idle');
+  if (el.mediaStage) el.mediaStage.classList.remove('controls-hidden');
   clearTimeout(controlsHideTimer);
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
   if (isVideo && !el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
     controlsHideTimer = setTimeout(() => {
       if (!el.videoPlayer.paused && !isSeekingPointer && !isSpeedMenuOpen) {
-        el.mediaStage.classList.add('controls-hidden');
+        if (el.playerModal) el.playerModal.classList.add('controls-idle');
+        if (el.mediaStage) el.mediaStage.classList.add('controls-hidden');
       }
-    }, 2800);
+    }, 2500);
   }
 }
 
@@ -3013,6 +3026,12 @@ function openPermissionGuide() {
 function onMediaReady() {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
+  if (el.videoPlayer && !el.videoPlayer.hidden) {
+    requestAnimationFrame(() => el.videoPlayer.classList.add('is-ready'));
+  }
+  if (el.imageViewer && !el.imageViewer.hidden) {
+    requestAnimationFrame(() => el.imageViewer.classList.add('is-ready'));
+  }
   updateQualityDisplay();
   if (state.pendingPlay) {
     state.pendingPlay = false;
@@ -3158,13 +3177,20 @@ function closePlayer() {
 }
 
 function clearDirectMediaSources() {
-  el.videoPlayer.pause();
-  el.videoPlayer.removeAttribute('src');
-  el.videoPlayer.load();
-  el.videoPlayer.hidden = true;
-  el.imageViewer.removeAttribute('src');
-  el.imageViewer.alt = '';
-  el.imageViewer.hidden = true;
+  if (el.videoPlayer) {
+    el.videoPlayer.pause();
+    el.videoPlayer.removeAttribute('src');
+    el.videoPlayer.removeAttribute('poster');
+    el.videoPlayer.classList.remove('is-ready');
+    el.videoPlayer.load();
+    el.videoPlayer.hidden = true;
+  }
+  if (el.imageViewer) {
+    el.imageViewer.removeAttribute('src');
+    el.imageViewer.alt = '';
+    el.imageViewer.classList.remove('is-ready');
+    el.imageViewer.hidden = true;
+  }
   if (state.mediaBlobUrl) {
     URL.revokeObjectURL(state.mediaBlobUrl);
     state.mediaBlobUrl = null;
