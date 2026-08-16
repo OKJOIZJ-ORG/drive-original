@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   DRIVE ORIGINAL — APPLE iOS 18 & iPadOS DESIGN SYSTEM (v1.13.0)
-   Strictly engineered with Apple Human Interface Guidelines (HIG),
+   DRIVE ORIGINAL — APPLE iOS 18 & iPadOS DESIGN SYSTEM (v1.13.1)
+   Engineered strictly with Apple Human Interface Guidelines (HIG),
    Emil Kowalski Design Engineering, and Taste-Skill Anti-Slop Specs.
    ========================================================================== */
 
@@ -750,8 +750,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 16px;
-  padding-top: 8px;
+  margin-bottom: 14px;
+  padding-top: 4px;
 }
 
 .header-left h1 {
@@ -810,23 +810,27 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   font-size: 12px;
 }
 
-/* Controls Toolbar (Apple Clean Capsule Layout) */
+/* Controls Toolbar (Desktop & Mobile Unified Precision Layout) */
 .toolbar {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px;
+  padding: 8px 10px;
   border-radius: var(--radius-lg);
   background: var(--system-bg-secondary);
   border: var(--hairline-border);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
+/* Fixed Precision Search Box (No flex-basis column distortion) */
 .search-box {
   position: relative;
-  flex: 1 1 180px;
-  min-width: 160px;
+  flex: 1 1 200px;
+  min-width: 180px;
+  height: 38px;
+  display: flex;
+  align-items: center;
 }
 
 .search-box svg {
@@ -834,18 +838,21 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
   color: var(--label-tertiary);
   pointer-events: none;
 }
 
 .search-box input {
-  padding-left: 34px;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  width: 100%;
+  height: 100%;
+  padding: 8px 14px 8px 36px;
   border-radius: var(--radius-sm);
   background: var(--system-bg-tertiary);
   border: none;
   font-size: 14px;
+  color: var(--label-primary);
 }
 
 /* Apple Native Sliding Segmented Control */
@@ -856,6 +863,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   background: var(--system-bg-tertiary);
   position: relative;
   user-select: none;
+  height: 36px;
+  align-items: center;
 }
 
 .segmented button {
@@ -889,8 +898,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .deep-scan-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 6px 12px;
+  height: 36px;
+  padding: 0 14px;
   border-radius: var(--radius-sm);
   background: var(--system-fill-quaternary);
   color: var(--label-secondary);
@@ -910,8 +921,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .deep-scan-stop {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  padding: 6px 12px;
+  height: 36px;
+  padding: 0 12px;
   border-radius: var(--radius-sm);
   background: rgba(255, 69, 58, 0.15);
   color: var(--system-red);
@@ -923,8 +936,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .deep-scan-stop:active { transform: scale(0.96); }
 
 /* Sort Select Glass Pill */
+.sort-select {
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+
 .sort-select select {
-  padding: 6px 26px 6px 12px;
+  height: 100%;
+  padding: 0 28px 0 12px;
   border-radius: var(--radius-sm);
   background: var(--system-bg-tertiary);
   border: none;
@@ -935,7 +955,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='rgba(235,235,245,0.6)' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
+  background-position: right 10px center;
 }
 
 .sort-select select option {
@@ -956,12 +976,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .folder-strip {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
   background: var(--system-bg-secondary);
   border-radius: var(--radius-lg);
   border: var(--hairline-border);
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .folder-chip,
@@ -1012,8 +1032,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   color: var(--system-blue);
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   margin-right: 12px;
   flex-shrink: 0;
 }
@@ -1057,7 +1077,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   align-items: center;
   gap: 8px;
   color: var(--label-tertiary);
-  font-size: 14px;
 }
 
 /* ==========================================================================
@@ -1123,10 +1142,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .play-glyph-circle {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: var(--blur-ultra-thin);
   -webkit-backdrop-filter: var(--blur-ultra-thin);
   border: var(--hairline-border);
@@ -1145,8 +1164,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   top: 6px;
   left: 6px;
   padding: 2px 6px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: var(--blur-ultra-thin);
   -webkit-backdrop-filter: var(--blur-ultra-thin);
   font-size: 10px;
@@ -1160,8 +1179,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   bottom: 6px;
   right: 6px;
   padding: 2px 6px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: var(--blur-ultra-thin);
   -webkit-backdrop-filter: var(--blur-ultra-thin);
   font-size: 11px;
@@ -1171,7 +1190,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .file-card-body {
-  padding: 10px 12px;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -1250,7 +1269,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 /* ==========================================================================
-   VIDEO PLAYER MODAL & MOBILE SHORTS STAGE
+   PC VIDEO PLAYER MODAL (CLEAN FLOATING CONTROLS, ZERO DUPLICATION)
    ========================================================================== */
 
 .player-sheet {
@@ -1285,7 +1304,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 /* Immersive Clean Tap */
 .player-modal.immersive .player-topbar,
-.player-modal.immersive .mobile-shorts-overlay,
 .player-modal.immersive .custom-video-controls,
 .player-modal.immersive .media-info-bar {
   opacity: 0;
@@ -1297,7 +1315,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   opacity: 0;
 }
 
-/* Player Top Bar — Apple Clean Blur Header */
+/* PC Player Top Bar — Clean Floating Frosted Header */
 .player-topbar {
   position: absolute;
   top: 0;
@@ -1307,8 +1325,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: calc(12px + var(--safe-top)) max(18px, var(--safe-right)) 12px max(18px, var(--safe-left));
+  gap: 16px;
+  padding: calc(12px + var(--safe-top)) max(20px, var(--safe-right)) 12px max(20px, var(--safe-left));
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
   transition: opacity var(--duration-normal) var(--ease-spring);
 }
@@ -1316,7 +1334,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .player-title-box {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 
@@ -1470,155 +1488,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transform: translate(-50%, -50%) scale(0.92);
 }
 
-/* Seek Hints */
-.seek-hint {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: var(--blur-ultra-thin);
-  -webkit-backdrop-filter: var(--blur-ultra-thin);
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--duration-touch) ease, transform var(--duration-touch) var(--ease-spring);
-}
-
-.seek-hint.seek-hint-left { left: 10%; }
-.seek-hint.seek-hint-right { right: 10%; }
-
-.seek-hint.is-active {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.05);
-}
-
-/* Mobile Shorts Bottom Bar */
-.mobile-shorts-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 25;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px max(16px, var(--safe-right)) calc(14px + var(--safe-bottom)) max(16px, var(--safe-left));
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
-  pointer-events: none;
-  transition: opacity var(--duration-normal) var(--ease-spring);
-}
-
-.mobile-shorts-overlay * {
-  pointer-events: auto;
-}
-
-.shorts-expand-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  opacity: 0;
-  max-height: 0;
-  transform: translateY(8px);
-  transition: opacity var(--duration-touch) var(--ease-spring), max-height var(--duration-normal) var(--ease-spring), transform var(--duration-touch) var(--ease-spring);
-}
-
-.shorts-expand-row.is-expanded,
-.mobile-shorts-overlay.expanded .shorts-expand-row {
-  opacity: 1;
-  max-height: 50px;
-  transform: translateY(0);
-}
-
-.shorts-bottom-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mobile-shorts-title {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 18px;
-  color: #ffffff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.shorts-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 7px 12px;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: var(--blur-ultra-thin);
-  -webkit-backdrop-filter: var(--blur-ultra-thin);
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
-  transition: transform var(--duration-touch) var(--ease-spring);
-}
-
-.shorts-chip:active { transform: scale(0.92); }
-
-.shorts-chip.icon {
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-}
-
-.shorts-chip.danger {
-  background: rgba(255, 69, 58, 0.2);
-  color: var(--system-red);
-}
-
-/* 2px Precision Progress Bar */
-.mobile-shorts-progress-track {
-  width: 100%;
-  height: 10px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.mobile-shorts-progress-bar {
-  width: 0%;
-  height: 2.5px;
-  border-radius: var(--radius-pill);
-  background: var(--system-blue);
-}
-
-/* Custom Video Controls (Desktop) */
+/* Desktop Custom Video Controls (Bottom Bar) */
 .custom-video-controls {
   position: absolute;
-  bottom: 20px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(800px, calc(100% - 40px));
+  width: min(840px, calc(100% - 40px));
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 16px;
+  gap: 8px;
+  padding: 12px 18px;
   border-radius: var(--radius-lg);
-  background: rgba(28, 28, 30, 0.85);
+  background: rgba(28, 28, 30, 0.88);
   backdrop-filter: var(--blur-thin);
   -webkit-backdrop-filter: var(--blur-thin);
   border: var(--hairline-border);
@@ -1636,7 +1519,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 .seek-bar-track {
   width: 100%;
-  height: 3.5px;
+  height: 4px;
   border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.2);
   position: relative;
@@ -1679,7 +1562,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
 .controls-left, .controls-right {
@@ -1694,12 +1577,58 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   color: var(--label-secondary);
 }
 
+/* Volume Slider */
+.volume-control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volume-slider {
+  width: 65px;
+  accent-color: var(--system-blue);
+  cursor: pointer;
+}
+
+/* Speed Dropdown */
+.speed-menu-wrap {
+  position: relative;
+}
+
+.speed-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--system-bg-secondary);
+  border: var(--hairline-border);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  box-shadow: var(--shadow-popover);
+  z-index: 30;
+}
+
+.speed-dropdown button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--label-primary);
+  text-align: left;
+}
+
+.speed-dropdown button.active {
+  background: var(--system-blue);
+  color: #ffffff;
+}
+
+/* Media Info Bar (Floating Info Overlay on PC) */
 .media-info-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background: #000000;
+  background: rgba(0, 0, 0, 0.85);
   border-top: var(--hairline-border-subtle);
   font-size: 13px;
   color: var(--label-secondary);
@@ -1713,6 +1642,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 .info-lbl { color: var(--label-tertiary); }
 .info-val { color: var(--label-primary); font-family: var(--font-mono); }
+
+/* EXPLICITLY HIDE MOBILE OVERLAYS ON PC DESKTOP */
+.mobile-shorts-overlay {
+  display: none !important;
+}
+
+.seek-hint {
+  display: none !important;
+}
 
 /* ==========================================================================
    APP DIALOGS & ACTION SHEETS — APPLE iOS 18 SPEC
@@ -2010,7 +1948,8 @@ dialog::backdrop {
 .media-stage video.is-rotated.anim-slide-in-up { animation-name: slideInRight; }
 
 /* ==========================================================================
-   MOBILE RESPONSIVENESS & TOUCH OPTIMIZATIONS (<= 768px)
+   MOBILE ENVIRONMENT SPECIFIC OVERRIDES (<= 768px)
+   Restoring v1.12.1 Mobile Shorts UI + Fixing Toolbar flexbox
    ========================================================================== */
 
 @media (max-width: 768px) {
@@ -2023,30 +1962,43 @@ dialog::backdrop {
     font-size: 26px;
   }
 
+  .library-view {
+    padding: 16px max(16px, var(--safe-right)) 80px max(16px, var(--safe-left));
+  }
+
   .header-left h1 {
     font-size: 28px;
     line-height: 34px;
   }
 
+  /* Fixed Symmetric Mobile Toolbar */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding: 8px;
+    gap: 10px;
+    padding: 12px;
   }
 
   .search-box {
-    width: 100%;
+    flex: none !important;
+    width: 100% !important;
+    height: 38px !important;
+  }
+
+  .search-box input {
+    font-size: 16px !important; /* Block iOS Safari auto-zoom */
   }
 
   .segmented {
     width: 100%;
     display: flex;
+    height: 36px;
   }
 
   .segmented button {
     flex: 1;
     text-align: center;
+    padding: 5px 0;
   }
 
   .file-grid {
@@ -2062,14 +2014,172 @@ dialog::backdrop {
     font-size: 12px;
   }
 
+  /* ------------------------------------------------------------------------
+     RESTORE v1.12.1 MOBILE SHORTS UI (100% Exact & Tested)
+     ------------------------------------------------------------------------ */
+
+  /* Hide Desktop specific controls completely */
   .custom-video-controls,
   .media-info-bar,
   .player-topbar-actions .player-ctrl-btn {
     display: none !important;
   }
 
-  input[type="text"], input[type="search"] {
-    font-size: 16px !important;
+  /* Mobile Minimalist Topbar */
+  .player-topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: calc(var(--safe-top) + 12px) 16px 14px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    border: none;
+  }
+
+  .player-title-box h2 {
+    display: none; /* Hide top title on mobile; title is on bottom shorts bar */
+  }
+
+  /* Double-tap seek hints (mobile only) */
+  .seek-hint {
+    display: flex !important;
+  }
+
+  /* Mobile Shorts Bottom Floating Overlay */
+  .mobile-shorts-overlay {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 25;
+    padding: 0 16px calc(var(--safe-bottom) + 14px);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
+    pointer-events: none;
+    gap: 10px;
+    transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+  }
+
+  .shorts-expand-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    visibility: hidden;
+    transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
+  }
+
+  .mobile-shorts-overlay.expanded .shorts-expand-row {
+    max-height: 50px;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
+  }
+
+  .shorts-bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-shorts-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: auto;
+  }
+
+  .shorts-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: var(--blur-ultra-thin);
+    -webkit-backdrop-filter: var(--blur-ultra-thin);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    pointer-events: auto;
+    transition: transform var(--duration-touch) var(--ease-spring);
+  }
+
+  .shorts-chip:active { transform: scale(0.92); }
+
+  .shorts-chip.icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .shorts-chip.danger {
+    background: rgba(255, 69, 58, 0.2);
+    color: var(--system-red);
+  }
+
+  /* 3.5px White Precision Progress Bar with generous touch hitbox */
+  .mobile-shorts-progress-track {
+    width: 100%;
+    height: 18px;
+    background: transparent;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    pointer-events: auto;
+  }
+
+  .mobile-shorts-progress-track::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3.5px;
+    background: rgba(255, 255, 255, 0.26);
+    border-radius: 9999px;
+  }
+
+  .mobile-shorts-progress-bar {
+    width: 0%;
+    max-width: 100%;
+    height: 3.5px;
+    background: #ffffff;
+    border-radius: 9999px;
+    transition: width 0.1s linear;
+  }
+
+  .player-modal.immersive .mobile-shorts-overlay {
+    opacity: 0;
+    transform: translateY(12px);
+    visibility: hidden;
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  }
+
+  .player-modal.immersive .player-topbar {
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
   }
 }
 
