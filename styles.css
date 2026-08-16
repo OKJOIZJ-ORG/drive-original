@@ -149,15 +149,20 @@ html::-webkit-scrollbar-thumb {
   border-radius: var(--radius-pill);
 }
 
+html, body {
+  touch-action: pan-x pan-y;
+}
+
 svg {
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
 }
 
-button, input, select {
+button, input, select, textarea {
   font: inherit;
   color: inherit;
+  font-size: 16px;
 }
 
 button {
@@ -555,15 +560,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 /* Inset Apple Form Inputs */
-.plain-input, input[type="text"], input[type="search"] {
+.plain-input, input[type="text"], input[type="search"], input, select, textarea {
   width: 100%;
   padding: 10px 14px;
   border-radius: var(--radius-sm);
   background: var(--system-bg-tertiary);
   border: var(--hairline-border);
   color: var(--label-primary);
-  font-size: 15px;
-  font-family: var(--font-system);
+  font-size: 16px !important; /* Block iOS Safari focus auto-zoom */
+  font-family: inherit;
   transition: border-color var(--duration-touch) ease, background var(--duration-touch) ease;
 }
 
@@ -998,13 +1003,25 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   position: relative;
   width: 100%;
   text-align: left;
-  border-bottom: 1px solid rgba(84, 84, 88, 0.35);
+  border-bottom: none;
   transition: background var(--duration-touch) ease, transform var(--duration-touch) var(--ease-spring);
 }
 
-.folder-chip:last-child,
-.folder-row:last-child {
-  border-bottom: none;
+.folder-chip::after,
+.folder-row::after {
+  content: '';
+  position: absolute;
+  left: 52px;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(84, 84, 88, 0.35);
+  pointer-events: none;
+}
+
+.folder-chip:last-child::after,
+.folder-row:last-child::after {
+  display: none;
 }
 
 .folder-chip:hover,
@@ -1654,23 +1671,24 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .seek-hint {
   position: absolute;
   top: 50%;
-  z-index: 30;
+  z-index: 35;
   display: none;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  gap: 6px;
+  padding: 8px 14px;
   border-radius: var(--radius-pill);
-  background: rgba(9, 11, 16, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 600;
   pointer-events: none;
   opacity: 0;
   transform: translateY(-50%) scale(0.85);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-spring);
 }
 
 .seek-hint.seek-hint-left {
@@ -1681,7 +1699,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   right: 24px;
 }
 
+.seek-hint.active,
 .seek-hint.show {
+  display: inline-flex !important;
   opacity: 1;
   transform: translateY(-50%) scale(1);
 }
@@ -2126,8 +2146,8 @@ dialog::backdrop {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    padding: calc(var(--safe-top) + 12px) 14px 16px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%);
+    padding: calc(var(--safe-top) + 8px) 14px 8px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
     border: none;
     pointer-events: none;
     transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
@@ -2142,25 +2162,25 @@ dialog::backdrop {
   .stream-badge-row {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    border-radius: 9999px;
-    background: rgba(0, 0, 0, 0.52);
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-    max-width: calc(100vw - 80px);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    max-width: calc(100vw - 72px);
   }
 
   .stream-status {
-    font-size: 0.72rem;
+    font-size: 11px;
     font-weight: 600;
     color: #60a5fa;
   }
 
   .quality-badge {
-    font-size: 0.7rem;
+    font-size: 11px;
     padding: 0;
     background: transparent;
     border-radius: 0;
@@ -2187,13 +2207,13 @@ dialog::backdrop {
   }
 
   .player-topbar-actions .player-ctrl-btn#closePlayerButton {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 9999px;
     background: rgba(9, 11, 16, 0.55);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
     color: #f1f5f9;
     display: grid;
     place-items: center;
@@ -2213,16 +2233,16 @@ dialog::backdrop {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    height: 34px;
-    padding: 0 13px;
-    border-radius: 9999px;
+    gap: 5px;
+    height: 32px;
+    padding: 0 11px;
+    border-radius: var(--radius-pill);
     background: rgba(9, 11, 16, 0.55);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
     color: #f1f5f9;
-    font-size: 0.74rem;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.01em;
     transition: transform var(--duration-touch) var(--ease-out), background-color var(--duration-touch) ease;
@@ -2233,18 +2253,15 @@ dialog::backdrop {
   }
 
   .shorts-chip svg {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
   }
 
-  .shorts-chip.more {
-    width: 34px;
-    padding: 0;
-  }
-
+  .shorts-chip.more,
   .shorts-chip.icon {
-    width: 34px;
+    width: 32px;
+    height: 32px;
     padding: 0;
   }
 
@@ -2277,7 +2294,7 @@ dialog::backdrop {
   }
 
   .mobile-shorts-overlay.expanded .shorts-expand-row {
-    max-height: 60px;
+    max-height: 52px;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
@@ -2292,7 +2309,7 @@ dialog::backdrop {
   /* Wider invisible touch target for the shorts progress seek */
   .mobile-shorts-progress-track {
     width: 100%;
-    height: 18px;
+    height: 16px;
     background: transparent;
     display: flex;
     align-items: flex-end;
@@ -2306,16 +2323,19 @@ dialog::backdrop {
     position: absolute;
     left: 0;
     right: 0;
-    height: 3.5px;
+    height: 3px;
     background: rgba(255, 255, 255, 0.26);
     border-radius: 9999px;
   }
 
   .mobile-shorts-progress-bar {
     position: relative;
-    height: 3.5px;
+    height: 3px;
     border-radius: 9999px;
     background: #ffffff;
+    width: 0%;
+    max-width: 100%;
+    transition: width 0.1s linear;
   }
 
   /* Mobile Shorts Bottom Overlay (Filename & 3px Progress Line) */
@@ -2327,31 +2347,24 @@ dialog::backdrop {
     left: 0;
     right: 0;
     z-index: 25;
-    padding: 0 16px calc(var(--safe-bottom) + 14px);
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
+    padding: 0 16px calc(var(--safe-bottom) + 12px);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 65%, transparent 100%);
     pointer-events: none;
-    gap: 10px;
+    gap: 8px;
     transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
   }
 
   .mobile-shorts-title {
     flex: 1;
     min-width: 0;
-    font-size: 0.94rem;
+    font-size: 14px;
     font-weight: 600;
     color: #ffffff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     pointer-events: auto;
-  }
-
-  .mobile-shorts-progress-bar {
-    width: 0%;
-    max-width: 100%;
-    background: #ffffff;
-    transition: width 0.1s linear;
   }
 
   /* Hide desktop custom video controls completely on mobile */

@@ -127,3 +127,8 @@
 1. **JS 이벤트 리스너 null 참조 에러 해결 (재생/자동로그인 복구)**: 상단바 버튼 정리 과정에서 제거된 `pipButton`의 리스너 호출부(`el.pipButton.addEventListener`)에서 발생하던 TypeError 런타임 크래시를 전수 null 가드로 방어하여, `init()`의 자동 로그인(`loadSavedToken()`) 및 미디어 스트리밍이 즉각 정상 작동하도록 복구했다.
 2. **PC 폴더 구분선 서브픽셀 헤어라인 정상화**: `height: 0.5px`의 서브픽셀 반올림 누락으로 PC에서 격행으로 나타나던 구분선을 `.folder-row`의 직접 `border-bottom: 1px solid rgba(84, 84, 88, 0.35);`로 대체하여, 모든 행마다 100% 균일하고 선명한 헤어라인을 보장했다.
 3. **모바일 숏폼 뷰포트 밀착 & 10초 리플 힌트 격리**: `.seek-hint`에 기본 절대 위치(`position: absolute; opacity: 0; pointer-events: none;`)를 부여하여 로딩 텍스트와의 겹침 현상(`10초10초원본...`)을 완전히 차단하고, 100dvh 풀스크린 모달 맞춤을 정밀화했다.
+
+## D-024 · v1.13.4 모바일 숏폼 정밀 최적화·Apple Inset 구분선 롤백·모바일 줌 완전 잠금 — 2026-08-16 (User-confirmed)
+1. **모바일 숏폼 정밀 최적화 & 10초 리플 힌트 정상화**: `.seek-hint`의 `.active` 클래스 스타일을 연동하여 더블 탭 시에만 부드럽게 나타나도록 교정했다. 상단 화질 배지는 11px 초슬림 글래스 캡슐로 축소하고 불필요한 패딩을 줄였으며, 하단 파일명(14px Bold)과 액션 칩(32px)의 여백을 밀착 정돈했다.
+2. **Apple Inset Grouped 정통 파일 구분선 롤백**: 폴더 아이콘 뒤쪽(텍스트 시작점 `left: 52px`)부터 우측 끝(`right: 0`)까지 이어지는 정통 인셋 구분선(`height: 1px; background: rgba(84, 84, 88, 0.35);`)을 복원하여, 매 행마다 100% 균일하고 선명한 1px 인덴트 헤어라인을 보장했다.
+3. **모바일 웹앱 줌/확대 기능 완전 잠금**: Viewport 메타태그에 `maximum-scale=1.0, user-scalable=no`를 선언하고, 모든 인풋 필드(`input, select, textarea, #moveSearchInput, #searchInput`)에 `font-size: 16px !important;`를 적용하여 이동 검색창 및 폼 포커스 시의 iOS 자동 화면 확대를 원천 차단했다.
