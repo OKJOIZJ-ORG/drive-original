@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.13.8">
+  <link rel="stylesheet" href="./styles.css?v=1.14.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.13.8" defer></script>
+  <script src="./app.js?v=1.14.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -118,7 +118,7 @@
               </div>
               <div class="feature-content">
                 <strong>0-Server 기기 내 안전한 인증</strong>
-                <span>토큰은 브라우저 메모리에만 보관되며 외부 서버를 거치지 않음</span>
+                <span>토큰은 이 브라우저에 보관되며 앱 자체 서버를 거치지 않음</span>
               </div>
             </div>
           </div>
@@ -469,7 +469,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.13.8</span>
+            <span class="version-badge" id="settingsAppVersion">v1.14.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -523,7 +523,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.13.8</span>
+          <span id="appVersion">v1.14.0</span>
         </div>
       </div>
     </form>
@@ -579,7 +579,7 @@
         </button>
       </div>
       <div class="dialog-content">
-        <p class="dialog-text">이 앱의 OAuth 동의 화면에 파일 수정 범위가 없어 삭제가 거부되었습니다. 아래 순서로 권한을 추가한 뒤 다시 연결하세요.</p>
+        <p class="dialog-text">파일 수정 요청이 OAuth 범위 또는 계정 권한 때문에 거부되었습니다. 아래 설정을 확인한 뒤 다시 연결하세요.</p>
         <ol class="steps-list permission-steps">
           <li><span>1</span><p><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>에서 이 앱이 사용하는 프로젝트를 엽니다.</p></li>
           <li><span>2</span><p><strong>API 및 서비스 → OAuth 동의 화면</strong>으로 이동합니다.</p></li>

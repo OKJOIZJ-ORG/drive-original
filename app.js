@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.13.8';
+const APP_VERSION = '1.14.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -239,8 +239,8 @@ function bindElements() {
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
     'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip',
-    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn', 'topbarDeleteBtn',
-    'pipButton', 'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton', 'topbarMoveBtn',
+    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'drivePreview', 'playerFeedback',
     'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
