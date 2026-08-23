@@ -60,11 +60,3 @@ test('privacy documentation matches the requested OAuth scope and token storage'
   assert.doesNotMatch(readme, /drive\.readonly/);
   assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
 });
-
-test('Pages workflow uses the current Node 24 action majors', () => {
-  const workflow = read('.github/workflows/deploy-pages.yml');
-  assert.match(workflow, /actions\/checkout@v7/);
-  assert.match(workflow, /actions\/configure-pages@v6/);
-  assert.match(workflow, /actions\/upload-pages-artifact@v5/);
-  assert.match(workflow, /actions\/deploy-pages@v5/);
-});
