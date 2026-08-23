@@ -113,7 +113,7 @@ async function proxyDriveMedia(request, url) {
 
   const resourceKey = url.searchParams.get('resourceKey');
   if (resourceKey) {
-    headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${encodeURIComponent(resourceKey)}`);
+    headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
   }
 
   const range = request.headers.get('range');

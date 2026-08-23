@@ -10,6 +10,115 @@ const MOBILE_BLOB_LIMIT = 350 * 1024 * 1024;
 const DESKTOP_BLOB_LIMIT = 2 * 1024 * 1024 * 1024;
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 const DRIVE_PAGE_SIZE = 1000;
+const RENDER_WINDOW_MAX = 240;
+const RENDER_WINDOW_STEP_RATIO = 0.5;
+const MOVE_RESULT_BATCH = 200;
+
+function isGifFile(file) {
+  if (!file) return false;
+  if (String(file.mimeType || '').toLowerCase() === 'image/gif') return true;
+  return /\.gif$/i.test(String(file.name || ''));
+}
+
+async function collectAllPages(fetchPage, { signal, onPage } = {}) {
+  const items = [];
+  const seenTokens = new Set();
+  let nextPageToken = null;
+  let incompleteSearch = false;
+
+  do {
+    if (signal?.aborted) throw new DOMException('Collection aborted', 'AbortError');
+    const page = await fetchPage(nextPageToken);
+    const pageItems = Array.isArray(page?.items)
+      ? page.items
+      : Array.isArray(page?.files)
+        ? page.files
+        : [];
+    items.push(...pageItems);
+    incompleteSearch = incompleteSearch || Boolean(page?.incompleteSearch);
+    onPage?.({ count: items.length, pageCount: pageItems.length });
+
+    const next = page?.nextPageToken || null;
+    if (next && seenTokens.has(next)) {
+      throw new Error(`Repeated page token: ${next}`);
+    }
+    if (next) seenTokens.add(next);
+    nextPageToken = next;
+  } while (nextPageToken);
+
+  return { items, incompleteSearch };
+}
+
+function computeRenderWindow(totalCount, requestedStart, columnCount) {
+  const total = Math.max(0, Number(totalCount) || 0);
+  const columns = Math.max(1, Math.floor(Number(columnCount) || 1));
+  const windowSize = Math.max(columns, Math.floor(RENDER_WINDOW_MAX / columns) * columns);
+  if (!total) return { start: 0, end: 0 };
+
+  const clamped = Math.max(0, Math.min(Number(requestedStart) || 0, total - 1));
+  const start = Math.floor(clamped / columns) * columns;
+  return { start, end: Math.min(total, start + windowSize) };
+}
+
+function buildMoveFolderRows(catalog) {
+  const roots = Array.isArray(catalog?.roots) ? catalog.roots : [];
+  const folders = Array.isArray(catalog?.folders) ? catalog.folders : [];
+  const childrenByParent = new Map();
+  const seen = new Set();
+  const rows = [];
+
+  folders.forEach((folder) => {
+    const parentId = folder.parents?.[0] || null;
+    if (!childrenByParent.has(parentId)) childrenByParent.set(parentId, []);
+    childrenByParent.get(parentId).push(folder);
+  });
+  childrenByParent.forEach((children) => {
+    children.sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko', { numeric: true }));
+  });
+
+  const appendTree = (rootFolder, rootDepth, orphaned = false) => {
+    const queue = [{ folder: rootFolder, depth: rootDepth, orphaned }];
+    while (queue.length) {
+      const { folder, depth, orphaned: rowOrphaned } = queue.shift();
+      if (!folder?.id || seen.has(folder.id)) continue;
+      seen.add(folder.id);
+      rows.push({ ...folder, depth, orphaned: rowOrphaned });
+      (childrenByParent.get(folder.id) || []).forEach((child) => {
+        queue.push({ folder: child, depth: depth + 1, orphaned: rowOrphaned });
+      });
+    }
+  };
+
+  roots.forEach((root) => appendTree({ ...root, isRoot: true }, 0));
+
+  folders
+    .filter((folder) => !seen.has(folder.id))
+    .sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko', { numeric: true }))
+    .forEach((folder) => appendTree(folder, 1, true));
+
+  return rows;
+}
+
+function pickRandomFile(files, selectedId, random = Math.random) {
+  const population = Array.isArray(files) ? files : [];
+  if (!population.length) return null;
+  if (population.length === 1) return population[0];
+  const candidates = selectedId ? population.filter((file) => file.id !== selectedId) : population;
+  if (!candidates.length) return population[0];
+  const index = Math.min(candidates.length - 1, Math.max(0, Math.floor(random() * candidates.length)));
+  return candidates[index];
+}
+
+function buildResourceKeysHeader(items) {
+  const pairs = [];
+  const seen = new Set();
+  (Array.isArray(items) ? items : []).forEach((item) => {
+    if (!item?.id || !item.resourceKey || seen.has(item.id)) return;
+    seen.add(item.id);
+    pairs.push(`${item.id}/${item.resourceKey}`);
+  });
+  return pairs.join(',');
+}
 
 const state = {
   clientId: localStorage.getItem(CLIENT_ID_KEY) || '',
@@ -38,6 +147,15 @@ const state = {
   selected: null,
   serviceWorkerRegistration: null,
   loadingFiles: false,
+  listGeneration: 0,
+  listAbortController: null,
+  listRequestPromise: null,
+  populationLoadPromise: null,
+  populationComplete: false,
+  renderWindowStart: 0,
+  renderRowHeight: 250,
+  renderColumnCount: 1,
+  renderScrollDirection: 'down',
   retryAfterAuth: false,
   mediaAttempt: 'idle',
   mediaBlobUrl: null,
@@ -49,6 +167,12 @@ const state = {
   isSeeking: false,
   pendingPlay: false,
   deleting: false,
+  folderIndexPromise: null,
+  folderIndexAbortController: null,
+  moveFolderRows: [],
+  moveResultLimit: MOVE_RESULT_BATCH,
+  randomRequestGeneration: 0,
+  treeCachePromise: null,
   demo: new URLSearchParams(location.search).get('demo') === '1'
 };
 
@@ -160,35 +284,39 @@ function bindEvents() {
     if (state.token || state.demo) showLibrary();
   });
   el.refreshButton.addEventListener('click', () => {
-    if (state.sort === 'random') shuffleCurrentFiles();
     state.treeCache = null;
+    state.folderIndex = null;
+    state.moveFolderRows = [];
     applyFolderView();
   });
   el.searchInput.addEventListener('input', (event) => {
     state.query = event.target.value.trim().toLocaleLowerCase('ko');
-    renderFiles();
+    renderFiles({ resetWindow: true });
   });
-  el.sortSelect.addEventListener('change', (event) => {
+  el.sortSelect.addEventListener('change', async (event) => {
     state.sort = event.target.value;
     if (state.sort === 'random') {
-      // 랜덤 배열은 '대상 폴더의 전체 파일'을 기준으로 한다 —
-      // 아직 로드되지 않은 페이지가 있으면 모두 불러온 뒤 전체 세트로 셔플한다.
-      shuffleCurrentFiles();
-      renderFiles();
-      if (state.nextPageToken && !state.demo && !state.deepScan) {
-        ensureAllPagesLoaded().then(() => {
-          shuffleCurrentFiles();
-          renderFiles();
-        });
+      const generation = state.listGeneration;
+      el.libraryStatus.textContent = '대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…';
+      try {
+        await ensureAllPagesLoaded();
+        if (generation !== state.listGeneration || state.sort !== 'random') return;
+        shuffleCurrentFiles();
+        renderFiles({ resetWindow: true });
+        el.libraryStatus.textContent = '';
+      } catch (error) {
+        if (error?.name !== 'AbortError') {
+          el.libraryStatus.textContent = `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+        }
       }
     } else {
-      renderFiles();
+      renderFiles({ resetWindow: true });
     }
   });
   el.filterButtons.forEach((button) => button.addEventListener('click', () => {
     state.filter = button.dataset.filter;
     el.filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-    renderFiles();
+    renderFiles({ resetWindow: true });
   }));
   el.loadMoreButton.addEventListener('click', () => {
     if (state.nextPageToken) loadFiles({ append: true });
@@ -347,6 +475,7 @@ function bindEvents() {
   if (el.moveConfirmButton) el.moveConfirmButton.addEventListener('click', performMoveFile);
   if (el.moveDialog) el.moveDialog.addEventListener('cancel', (e) => e.preventDefault());
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => {
+    state.moveResultLimit = MOVE_RESULT_BATCH;
     renderMoveFolderList(event.target.value);
   });
 
@@ -367,7 +496,9 @@ function bindEvents() {
     if (topbar) {
       topbar.classList.toggle('nav-scrolled', window.scrollY > 20);
     }
+    scheduleRenderWindowUpdate();
   }, { passive: true });
+  window.addEventListener('resize', scheduleRenderWindowUpdate, { passive: true });
   const onPlayerUserActivity = () => {
     if (!el.playerSheet || el.playerSheet.hidden) return;
     if (el.playerModal) el.playerModal.classList.remove('controls-idle');
@@ -788,7 +919,12 @@ async function handleTokenResponse(response) {
   sendTokenToWorker();
   // 토큰이 교체되면 이전 rootFolderId로 구축된 폴더 인덱스가
   // 다른 계정일 수 있으므로 캐시를 무효화한다.
+  state.folderIndexAbortController?.abort();
   state.folderIndex = null;
+  state.folderIndexPromise = null;
+  state.moveFolderRows = [];
+  state.rootFolderId = null;
+  state.treeCache = null;
   updateConnectionBadge();
 
   if (state.retryAfterAuth && state.selected) {
@@ -1002,15 +1138,18 @@ function processThumbnailQueue() {
 async function loadFiles({ append }) {
   if (state.demo) {
     startDemoMode();
-    return;
+    return true;
   }
-  if (state.loadingFiles) return;
+  if (append && state.listRequestPromise) return state.listRequestPromise;
   if (!hasUsableToken()) {
     showSetup();
     showToast('Google Drive 연결을 갱신해 주세요.');
-    return;
+    return false;
   }
 
+  if (!append) resetListingSession();
+  const generation = state.listGeneration;
+  const controller = state.listAbortController;
   state.loadingFiles = true;
   showLibrary();
   if (!append) el.libraryStatus.textContent = 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…';
@@ -1027,13 +1166,15 @@ async function loadFiles({ append }) {
     spaces: 'drive',
     supportsAllDrives: 'true',
     includeItemsFromAllDrives: 'true',
-    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload,canDelete),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,parents,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
   });
   if (append && state.nextPageToken) params.set('pageToken', state.nextPageToken);
 
-  try {
-    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
+  const request = (async () => {
+   try {
+    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
     const data = await response.json();
+    if (generation !== state.listGeneration || controller.signal.aborted) return false;
     const incoming = Array.isArray(data.files) ? data.files : [];
     const incomingFolders = incoming.filter((f) => f.mimeType === FOLDER_MIME);
     const incomingMedia = incoming.filter((f) => f.mimeType?.startsWith('video/') || f.mimeType?.startsWith('image/'));
@@ -1046,18 +1187,14 @@ async function loadFiles({ append }) {
       state.folders = incomingFolders;
     }
     state.nextPageToken = data.nextPageToken || null;
-    renderFiles();
+    state.populationComplete = !state.nextPageToken;
+    renderFiles({ resetWindow: !append });
     el.libraryStatus.textContent = '';
-
-    // Proactive background prefetch for butter-smooth infinite scroll
-    if (!append && state.nextPageToken) {
-      setTimeout(() => {
-        if (state.nextPageToken && !state.loadingFiles) {
-          loadFiles({ append: true });
-        }
-      }, 1000);
-    }
+    return true;
   } catch (error) {
+    if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.listGeneration) {
+      return false;
+    }
     console.error(error);
     el.libraryStatus.textContent = `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
     if (error.status === 401) {
@@ -1068,13 +1205,42 @@ async function loadFiles({ append }) {
         showSetup();
       }
     }
+    return false;
   } finally {
-    state.loadingFiles = false;
-    el.refreshButton.disabled = false;
-    if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !state.nextPageToken;
-    updateLibrarySummary();
-    updateConnectionBadge();
+    if (generation === state.listGeneration) {
+      state.loadingFiles = false;
+      el.refreshButton.disabled = false;
+      if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !state.nextPageToken;
+      updateLibrarySummary();
+      updateConnectionBadge();
+    }
   }
+  })();
+  state.listRequestPromise = request;
+  try {
+    return await request;
+  } finally {
+    if (state.listRequestPromise === request) state.listRequestPromise = null;
+  }
+}
+
+function resetListingSession() {
+  state.listAbortController?.abort();
+  state.listGeneration++;
+  state.listAbortController = new AbortController();
+  state.listRequestPromise = null;
+  state.populationLoadPromise = null;
+  state.populationComplete = false;
+  state.loadingFiles = false;
+  state.files = [];
+  state.folders = [];
+  state.nextPageToken = null;
+  state.renderWindowStart = 0;
+  state.renderRowHeight = 250;
+  state.randomRequestGeneration++;
+  shuffledOrderMap.clear();
+  mediaPrefetchQueue.splice(0);
+  thumbnailExtractionQueue.splice(0);
 }
 
 function navigateToFolder(folderId, folderName) {
@@ -1086,10 +1252,7 @@ function navigateToFolder(folderId, folderName) {
   }
   state.currentFolderId = folderId;
   state.currentFolderName = folderName || '폴더';
-  state.files = [];
-  state.folders = [];
-  state.nextPageToken = null;
-  shuffledOrderMap.clear();
+  resetListingSession();
   scrollToLibraryTop();
   animateFolderTransition('forward');
   applyFolderView();
@@ -1102,10 +1265,7 @@ function navigateToFolderIndex(index) {
   state.folderStack = crumbs.slice(1, index);
   state.currentFolderId = target.id;
   state.currentFolderName = target.name;
-  state.files = [];
-  state.folders = [];
-  state.nextPageToken = null;
-  shuffledOrderMap.clear();
+  resetListingSession();
   scrollToLibraryTop();
   animateFolderTransition('back');
   applyFolderView();
@@ -1116,17 +1276,14 @@ function navigateToParentFolder() {
   const parent = state.folderStack.pop();
   state.currentFolderId = parent.id;
   state.currentFolderName = parent.name;
-  state.files = [];
-  state.folders = [];
-  state.nextPageToken = null;
-  shuffledOrderMap.clear();
+  resetListingSession();
   scrollToLibraryTop();
   animateFolderTransition('back');
   applyFolderView();
 }
 
 /* Deep Scan — 현재 폴더 + 모든 하위 폴더의 미디어를 한 번에 로딩 */
-function applyFolderView() {
+async function applyFolderView() {
   if (state.demo) {
     startDemoMode();
     return;
@@ -1137,11 +1294,36 @@ function applyFolderView() {
     });
     return;
   }
-  loadFiles({ append: false });
+  const generation = state.listGeneration + 1;
+  const loaded = await loadFiles({ append: false });
+  if (!loaded || generation !== state.listGeneration || state.sort !== 'random') return;
+  try {
+    el.libraryStatus.textContent = '대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…';
+    await ensureAllPagesLoaded();
+    if (generation !== state.listGeneration || state.sort !== 'random') return;
+    shuffleCurrentFiles();
+    renderFiles({ resetWindow: true });
+    el.libraryStatus.textContent = '';
+  } catch (error) {
+    if (error?.name !== 'AbortError') {
+      el.libraryStatus.textContent = `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+    }
+  }
 }
 
 async function ensureTreeCache() {
-  if (state.treeCache || state.loadingTree) return;
+  if (state.treeCache) return state.treeCache;
+  if (state.treeCachePromise) return state.treeCachePromise;
+  const promise = collectTreeCache();
+  state.treeCachePromise = promise;
+  try {
+    return await promise;
+  } finally {
+    if (state.treeCachePromise === promise) state.treeCachePromise = null;
+  }
+}
+
+async function collectTreeCache() {
   if (!hasUsableToken()) {
     showSetup();
     showToast('Google Drive 연결을 갱신해 주세요.');
@@ -1157,6 +1339,7 @@ async function ensureTreeCache() {
     await resolveRootFolderId();
     const items = [];
     let pageToken = null;
+    const seenPageTokens = new Set();
     do {
       const params = new URLSearchParams({
         pageSize: String(DRIVE_PAGE_SIZE),
@@ -1165,17 +1348,25 @@ async function ensureTreeCache() {
         spaces: 'drive',
         supportsAllDrives: 'true',
         includeItemsFromAllDrives: 'true',
-        fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,capabilities(canDownload,canDelete),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+        corpora: 'user',
+        fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
       });
       if (pageToken) params.set('pageToken', pageToken);
       const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
       const data = await response.json();
       items.push(...(Array.isArray(data.files) ? data.files : []));
-      pageToken = data.nextPageToken || null;
+      if (data.incompleteSearch) {
+        throw new Error('Google Drive가 전체 폴더 트리를 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
+      }
+      const next = data.nextPageToken || null;
+      if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
+      if (next) seenPageTokens.add(next);
+      pageToken = next;
       el.libraryStatus.textContent = `드라이브 전체 폴더 트리 수집 중… ${items.length.toLocaleString('ko-KR')}개 항목`;
     } while (pageToken);
     state.treeCache = buildTreeIndexes(items);
     el.libraryStatus.textContent = '';
+    return state.treeCache;
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError') {
       // 사용자가 중지 버튼으로 취소 — 부분 데이터는 폐기하고 일반 모드로 복귀한다.
@@ -1253,8 +1444,9 @@ function computeAndRenderSubtree() {
   state.folders = dedupeFiles([...rootIds].flatMap((id) => cache.foldersByParent.get(id) || []));
   state.files = dedupeFiles(media);
   state.nextPageToken = null;
+  state.populationComplete = true;
   shuffledOrderMap.clear();
-  renderFiles();
+  renderFiles({ resetWindow: true });
   el.libraryStatus.textContent = '';
   updateLibrarySummary();
 }
@@ -1263,7 +1455,7 @@ function toggleDeepScan() {
   if (state.loadingTree) return;
   state.deepScan = !state.deepScan;
   syncDeepScanToggle();
-  shuffledOrderMap.clear();
+  resetListingSession();
   scrollToLibraryTop();
   animateFolderTransition(state.deepScan ? 'forward' : 'back');
   if (state.deepScan) {
@@ -1319,12 +1511,26 @@ function renderBreadcrumb() {
   if (el.folderUpButton) el.folderUpButton.hidden = state.folderStack.length === 0;
 }
 
-async function driveFetch(url, options = {}, _retried = false) {
+function waitForRetry(delayMs, signal) {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException('Request aborted', 'AbortError'));
+      return;
+    }
+    const timer = setTimeout(resolve, delayMs);
+    signal?.addEventListener('abort', () => {
+      clearTimeout(timer);
+      reject(new DOMException('Request aborted', 'AbortError'));
+    }, { once: true });
+  });
+}
+
+async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0) {
   if (!hasUsableToken()) {
     // 토큰이 만료된 경우, 1회 자동 갱신을 시도한 뒤 재실행한다.
     if (!_retried && state.clientId && validateClientId(state.clientId)) {
       await tryQuietTokenRefresh();
-      if (hasUsableToken()) return driveFetch(url, options, true);
+      if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
     }
     const error = new Error('Google 인증이 만료되었습니다.');
     error.status = 401;
@@ -1336,21 +1542,31 @@ async function driveFetch(url, options = {}, _retried = false) {
     headers: { ...(options.headers || {}), Authorization: `Bearer ${state.token}` }
   });
   if (!response.ok) {
+    let body = null;
+    try {
+      body = await response.json();
+    } catch (_) {}
     // 서버가 401을 반환한 경우, 토큰을 갱신하고 1회 재시도한다.
     if (response.status === 401 && !_retried && state.clientId && validateClientId(state.clientId)) {
       clearToken(false);
       await tryQuietTokenRefresh();
-      if (hasUsableToken()) return driveFetch(url, options, true);
+      if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
     }
-    let detail = '';
-    try {
-      const body = await response.json();
-      detail = body?.error?.message || '';
-    } catch (_) {
-      detail = response.statusText;
+    const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
+    const rateLimited = response.status === 429
+      || (response.status === 403 && reasons.some((reason) => /rateLimitExceeded/i.test(reason)));
+    if (rateLimited && _rateAttempt < 3) {
+      const retryAfterSeconds = Number(response.headers.get('Retry-After'));
+      const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+        ? Math.min(10_000, retryAfterSeconds * 1000)
+        : 500 * (2 ** _rateAttempt) + Math.floor(Math.random() * 250);
+      await waitForRetry(delayMs, options.signal);
+      return driveFetch(url, options, _retried, _rateAttempt + 1);
     }
+    const detail = body?.error?.message || response.statusText || '';
     const error = new Error(detail || `Drive API ${response.status}`);
     error.status = response.status;
+    error.reasons = reasons;
     throw error;
   }
   return response;
@@ -1389,8 +1605,63 @@ function tryQuietTokenRefresh() {
   });
 }
 
-function renderFiles() {
+let renderWindowRaf = 0;
+
+function getGridColumnCount() {
+  if (!el.fileGrid) return 1;
+  const width = el.fileGrid.clientWidth || Math.min(window.innerWidth || 360, 1140);
+  const gap = 12;
+  return Math.max(1, Math.floor((width + gap) / (160 + gap)));
+}
+
+function scheduleRenderWindowUpdate() {
+  if (renderWindowRaf || !el.fileGrid || el.fileGrid.hidden) return;
+  renderWindowRaf = requestAnimationFrame(() => {
+    renderWindowRaf = 0;
+    const files = filteredAndSortedFiles();
+    if (files.length <= RENDER_WINDOW_MAX) return;
+    const gridTop = el.fileGrid.getBoundingClientRect().top + window.scrollY;
+    const relativeY = Math.max(0, window.scrollY + window.innerHeight / 2 - gridTop);
+    const columns = getGridColumnCount();
+    const focusRow = Math.floor(relativeY / Math.max(1, state.renderRowHeight));
+    const requestedStart = Math.max(0, (focusRow - 4) * columns);
+    const nextWindow = computeRenderWindow(files.length, requestedStart, columns);
+    const currentWindow = computeRenderWindow(files.length, state.renderWindowStart, columns);
+    const threshold = Math.max(columns, Math.floor((currentWindow.end - currentWindow.start) * RENDER_WINDOW_STEP_RATIO / columns) * columns);
+    if (columns !== state.renderColumnCount || Math.abs(nextWindow.start - state.renderWindowStart) >= threshold) {
+      state.renderScrollDirection = nextWindow.start > state.renderWindowStart ? 'down' : 'up';
+      state.renderWindowStart = nextWindow.start;
+      renderMediaGrid(files);
+    }
+  });
+}
+
+function renderMediaGrid(files) {
+  if (!el.fileGrid) return;
+  const columns = getGridColumnCount();
+  state.renderColumnCount = columns;
+  const windowRange = computeRenderWindow(files.length, state.renderWindowStart, columns);
+  state.renderWindowStart = windowRange.start;
+  const topRows = Math.floor(windowRange.start / columns);
+  const bottomRows = Math.ceil(Math.max(0, files.length - windowRange.end) / columns);
+  const fragment = document.createDocumentFragment();
+  files.slice(windowRange.start, windowRange.end).forEach((file, index) => {
+    fragment.appendChild(createFileCard(file, index));
+  });
+  el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
+  el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
+  el.fileGrid.replaceChildren(fragment);
+  const firstCard = el.fileGrid.querySelector('.file-card');
+  if (firstCard?.offsetHeight) {
+    state.renderRowHeight = firstCard.offsetHeight + 12;
+    el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
+    el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
+  }
+}
+
+function renderFiles({ resetWindow = false } = {}) {
   const files = filteredAndSortedFiles();
+  if (resetWindow) state.renderWindowStart = 0;
   const visibleFolders = state.filter === 'all'
     ? state.folders.filter((f) => !state.query || String(f.name || '').toLocaleLowerCase('ko').includes(state.query))
     : [];
@@ -1406,10 +1677,7 @@ function renderFiles() {
       el.folderStrip.hidden = true;
     }
   }
-  el.fileGrid.replaceChildren();
-  const fragment = document.createDocumentFragment();
-  files.forEach((file, index) => fragment.appendChild(createFileCard(file, index)));
-  el.fileGrid.appendChild(fragment);
+  renderMediaGrid(files);
   el.emptyState.hidden = files.length + visibleFolders.length > 0;
   renderBreadcrumb();
   updateLibrarySummary(files.length, visibleFolders.length);
@@ -1461,38 +1729,62 @@ function shuffleCurrentFiles() {
    랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
    대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
 async function ensureAllPagesLoaded() {
-  if (state.demo || state.deepScan) return;
-  let guard = 0;
-  while (state.nextPageToken && guard < 100) {
-    guard++;
-    if (state.loadingFiles) {
-      await new Promise((resolve) => setTimeout(resolve, 120));
-      continue;
+  if (state.demo || state.deepScan || state.populationComplete) return;
+  if (state.populationLoadPromise) return state.populationLoadPromise;
+  const generation = state.listGeneration;
+  const seenTokens = new Set();
+  const promise = (async () => {
+    if (state.listRequestPromise) {
+      const loaded = await state.listRequestPromise;
+      if (!loaded && generation === state.listGeneration) {
+        throw new Error('Drive 파일의 첫 페이지를 불러오지 못했습니다.');
+      }
     }
-    await loadFiles({ append: true });
+    while (state.nextPageToken) {
+      if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
+      const token = state.nextPageToken;
+      if (seenTokens.has(token)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
+      seenTokens.add(token);
+      const loaded = await loadFiles({ append: true });
+      if (!loaded) {
+        if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
+        throw new Error('Drive 파일 페이지를 끝까지 불러오지 못했습니다.');
+      }
+      el.libraryStatus.textContent = `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`;
+    }
+    state.populationComplete = true;
+  })();
+  state.populationLoadPromise = promise;
+  try {
+    return await promise;
+  } finally {
+    if (state.populationLoadPromise === promise) state.populationLoadPromise = null;
   }
 }
 
 function filteredAndSortedFiles() {
-  const filtered = state.files.filter((file) => {
+  return sortedPopulationFiles().filter((file) => {
     const isVideo = file.mimeType?.startsWith('video/');
     const typeMatch = state.filter === 'all' || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
     const queryMatch = !state.query || String(file.name || '').toLocaleLowerCase('ko').includes(state.query);
     return typeMatch && queryMatch;
   });
+}
 
+function sortedPopulationFiles() {
+  const files = [...state.files];
   if (state.sort === 'random') {
     if (shuffledOrderMap.size !== state.files.length) {
       shuffleCurrentFiles();
     }
-    return filtered.sort((a, b) => {
+    return files.sort((a, b) => {
       const idxA = shuffledOrderMap.get(a.id) ?? 0;
       const idxB = shuffledOrderMap.get(b.id) ?? 0;
       return idxA - idxB;
     });
   }
 
-  return filtered.sort((a, b) => {
+  return files.sort((a, b) => {
     if (state.sort === 'name') return String(a.name).localeCompare(String(b.name), 'ko', { numeric: true });
     if (state.sort === 'size') return Number(b.size || 0) - Number(a.size || 0);
     return new Date(b.modifiedTime || 0) - new Date(a.modifiedTime || 0);
@@ -1501,6 +1793,7 @@ function filteredAndSortedFiles() {
 
 function createFileCard(file, index = 0) {
   const isVideo = file.mimeType?.startsWith('video/');
+  const isGif = isGifFile(file);
   const canDownload = file.capabilities?.canDownload !== false;
   const button = document.createElement('button');
   button.type = 'button';
@@ -1511,31 +1804,36 @@ function createFileCard(file, index = 0) {
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
   
-  const thumbnail = document.createElement('img');
-  thumbnail.className = 'file-card-thumb';
-  thumbnail.alt = '';
-  thumbnail.loading = index < 24 ? 'eager' : 'lazy';
-  if (index < 12) thumbnail.fetchPriority = 'high';
-  thumbnail.decoding = 'async';
-  thumbnail.referrerPolicy = 'no-referrer';
-  thumbnail.addEventListener('load', () => {
-    thumbnail.classList.add('loaded');
-    visual.classList.add('has-thumbnail');
-  });
+  if (isGif) {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'file-card-gif-placeholder';
+    placeholder.setAttribute('aria-hidden', 'true');
+    placeholder.innerHTML = '<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="14" width="40" height="36" rx="8" stroke="currentColor" stroke-width="2"/><path d="m18 43 10-10 7 7 6-6 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="25" r="4" fill="currentColor"/></svg><span>GIF</span>';
+    visual.appendChild(placeholder);
+  } else {
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'file-card-thumb';
+    thumbnail.alt = '';
+    thumbnail.loading = index < 24 ? 'eager' : 'lazy';
+    if (index < 12) thumbnail.fetchPriority = 'high';
+    thumbnail.decoding = 'async';
+    thumbnail.referrerPolicy = 'no-referrer';
+    thumbnail.addEventListener('load', () => {
+      thumbnail.classList.add('loaded');
+      visual.classList.add('has-thumbnail');
+    });
 
-  if (file.thumbnailLink) {
-    thumbnail.addEventListener('error', () => {
-      if (isVideo) {
-        extractVideoFrameThumbnail(file, thumbnail, visual);
-      } else {
-        thumbnail.remove();
-      }
-    }, { once: true });
-    thumbnail.src = file.thumbnailLink;
-    visual.appendChild(thumbnail);
-  } else if (isVideo) {
-    visual.appendChild(thumbnail);
-    extractVideoFrameThumbnail(file, thumbnail, visual);
+    if (file.thumbnailLink) {
+      thumbnail.addEventListener('error', () => {
+        if (isVideo) extractVideoFrameThumbnail(file, thumbnail, visual);
+        else thumbnail.remove();
+      }, { once: true });
+      thumbnail.src = file.thumbnailLink;
+      visual.appendChild(thumbnail);
+    } else if (isVideo) {
+      visual.appendChild(thumbnail);
+      extractVideoFrameThumbnail(file, thumbnail, visual);
+    }
   }
 
   // Format Badge (e.g., 4K UHD, FHD, HEVC, PNG)
@@ -2031,8 +2329,7 @@ function showPlayerFeedback(text) {
 }
 
 function getPlaybackFileList() {
-  const list = filteredAndSortedFiles();
-  return list.length > 0 ? list : state.files;
+  return sortedPopulationFiles();
 }
 
 function getActiveMediaElement() {
@@ -2071,8 +2368,23 @@ function animateMediaTransition(direction, callback) {
   }, 80);
 }
 
-function playNextFile(direction = 'left') {
+async function prepareFullPlaybackPopulation() {
+  const generation = state.listGeneration;
+  if (!state.populationComplete && !state.demo && !state.deepScan) {
+    showPlayerFeedback('전체 미디어를 확인하는 중');
+  }
+  await ensureAllPagesLoaded();
+  if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
+}
+
+async function playNextFile(direction = 'left') {
   const dir = typeof direction === 'string' ? direction : 'left';
+  try {
+    await prepareFullPlaybackPopulation();
+  } catch (error) {
+    if (error?.name !== 'AbortError') showToast(`전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
+    return;
+  }
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -2085,8 +2397,14 @@ function playNextFile(direction = 'left') {
   animateMediaTransition(dir, () => openMediaSource(list[nextIndex]));
 }
 
-function playPrevFile(direction = 'right') {
+async function playPrevFile(direction = 'right') {
   const dir = typeof direction === 'string' ? direction : 'right';
+  try {
+    await prepareFullPlaybackPopulation();
+  } catch (error) {
+    if (error?.name !== 'AbortError') showToast(`전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
+    return;
+  }
   const list = getPlaybackFileList();
   if (!list.length) return;
   if (!state.selected) {
@@ -2101,19 +2419,18 @@ function playPrevFile(direction = 'right') {
 
 async function playRandomFile(direction = 'up') {
   const dir = typeof direction === 'string' ? direction : 'up';
-  // 랜덤 쇼츠도 대상 폴더의 전체 파일에서 뽑는다 — 남은 페이지를 먼저 모두 로드.
-  if (!state.demo && !state.deepScan && state.nextPageToken) {
+  const listGeneration = state.listGeneration;
+  const requestGeneration = ++state.randomRequestGeneration;
+  showPlayerFeedback('전체 미디어를 확인하는 중');
+  try {
     await ensureAllPagesLoaded();
+  } catch (error) {
+    if (error?.name !== 'AbortError') showToast(`랜덤 재생 준비 실패: ${humanizeDriveError(error)}`);
+    return;
   }
-  const list = getPlaybackFileList();
-  if (!list.length) return;
-  let nextFile;
-  if (list.length === 1) {
-    nextFile = list[0];
-  } else {
-    const candidates = list.filter((f) => !state.selected || f.id !== state.selected.id);
-    nextFile = candidates[Math.floor(Math.random() * candidates.length)];
-  }
+  if (listGeneration !== state.listGeneration || requestGeneration !== state.randomRequestGeneration) return;
+  const nextFile = pickRandomFile(state.files, state.selected?.id);
+  if (!nextFile) return;
   state.pendingPlay = true;
   animateMediaTransition(dir, () => openMediaSource(nextFile));
 }
@@ -2427,7 +2744,7 @@ function openMediaSource(file) {
   resetVideoRotation();
 
   if (el.ambientBackdrop) {
-    const thumb = file.thumbnailLink || generatedThumbnailCache.get(file.id);
+    const thumb = isGifFile(file) ? '' : (file.thumbnailLink || generatedThumbnailCache.get(file.id));
     if (thumb) {
       el.ambientBackdrop.style.backgroundImage = `url("${thumb}")`;
       el.ambientBackdrop.classList.add('active');
@@ -2722,7 +3039,7 @@ async function performDeleteFile() {
       clearToken(false);
       showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
     } else if (error.status === 403) {
-      openPermissionGuide();
+      showToast(`이동 권한이 없거나 공유 드라이브 정책이 이동을 허용하지 않습니다: ${error.message || '권한을 확인해 주세요.'}`);
     } else {
       showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
     }
@@ -2757,6 +3074,7 @@ function playNextAfterRemoval(order, removedIndex, removedId) {
 async function requestMoveFile() {
   if (!state.selected || state.moving) return;
   state.moveTargetFolderId = null;
+  state.moveResultLimit = MOVE_RESULT_BATCH;
   if (el.moveFileName) el.moveFileName.textContent = state.selected.name || '이름 없는 파일';
   if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
   if (el.moveSearchInput) el.moveSearchInput.value = '';
@@ -2780,57 +3098,150 @@ async function requestMoveFile() {
 
 async function ensureSelectedFileParents() {
   const file = state.selected;
-  if (!file || Array.isArray(file.parents) && file.parents.length) return;
+  if (!file) return;
+  if (Array.isArray(file.parents) && file.parents.length && file.capabilities) return;
   if (state.demo) {
     file.parents = ['root'];
     return;
   }
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?fields=parents&supportsAllDrives=true`);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?fields=parents,driveId,resourceKey,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)&supportsAllDrives=true`);
   const data = await response.json();
   file.parents = Array.isArray(data.parents) && data.parents.length ? data.parents : [state.rootFolderId || 'root'];
+  file.driveId = data.driveId || null;
+  file.resourceKey = data.resourceKey || file.resourceKey || null;
+  file.capabilities = { ...(file.capabilities || {}), ...(data.capabilities || {}) };
 }
 
 async function ensureFolderIndex() {
   if (state.folderIndex) return state.folderIndex;
-  if (state.loadingFolderIndex) {
-    await new Promise((resolve) => {
-      const tick = () => state.folderIndex || !state.loadingFolderIndex ? resolve() : setTimeout(tick, 80);
-      tick();
-    });
-    return state.folderIndex;
-  }
-  if (state.demo || state.treeCache) {
-    // 데모/딥스캔 트리 캐시가 이미 전체 폴더 구조를 알고 있다.
-    await ensureTreeCache();
-    state.folderIndex = state.treeCache;
-    return state.folderIndex;
-  }
+  if (state.folderIndexPromise) return state.folderIndexPromise;
   state.loadingFolderIndex = true;
-  try {
-    // 실제 루트 폴더 ID를 올바르게 해소한다.
-    await resolveRootFolderId();
-    const folders = [];
-    let pageToken = null;
-    do {
+  const controller = new AbortController();
+  state.folderIndexAbortController = controller;
+  const promise = (async () => {
+   try {
+    const rootId = await resolveRootFolderId();
+    if (state.demo) {
+      await ensureTreeCache();
+      const folders = [...(state.treeCache?.foldersById?.values() || [])];
+      const roots = [{ id: rootId, name: '내 드라이브', driveId: null, capabilities: { canAddChildren: true } }];
+      state.folderIndex = { roots, folders };
+      state.moveFolderRows = buildMoveFolderRows(state.folderIndex);
+      return state.folderIndex;
+    }
+
+    const [rootResponse, sharedDrives] = await Promise.all([
+      driveFetch(`${DRIVE_API}/files/root?fields=id,name,driveId,resourceKey,capabilities(canAddChildren)&supportsAllDrives=true`, { signal: controller.signal }),
+      collectSharedDriveRoots(controller.signal)
+    ]);
+    const rootData = await rootResponse.json();
+    const root = {
+      id: rootData.id || rootId,
+      name: '내 드라이브',
+      driveId: rootData.driveId || null,
+      resourceKey: rootData.resourceKey || null,
+      capabilities: rootData.capabilities || { canAddChildren: true }
+    };
+    const collected = await collectAllPages(async (pageToken) => {
       const params = new URLSearchParams({
         pageSize: String(DRIVE_PAGE_SIZE),
         q: `trashed = false and mimeType = '${FOLDER_MIME}'`,
         spaces: 'drive',
+        corpora: 'user',
         supportsAllDrives: 'true',
         includeItemsFromAllDrives: 'true',
-        fields: 'nextPageToken,files(id,name,parents)'
+        fields: 'nextPageToken,incompleteSearch,files(id,name,parents,driveId,resourceKey,capabilities(canAddChildren))'
       });
       if (pageToken) params.set('pageToken', pageToken);
-      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
-      const data = await response.json();
-      folders.push(...(Array.isArray(data.files) ? data.files : []));
-      pageToken = data.nextPageToken || null;
-    } while (pageToken);
-    state.folderIndex = buildTreeIndexes(folders);
+      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
+      return response.json();
+    }, {
+      signal: controller.signal,
+      onPage: ({ count }) => {
+        if (el.moveFolderList) {
+          el.moveFolderList.textContent = `폴더 목록을 불러오는 중… ${count.toLocaleString('ko-KR')}개`;
+        }
+      }
+    });
+    if (collected.incompleteSearch) {
+      throw new Error('Google Drive가 폴더 검색 결과를 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
+    }
+    const sharedDriveFolders = await collectSharedDriveFolders(sharedDrives, controller.signal);
+    const roots = [root, ...sharedDrives];
+    state.folderIndex = { roots, folders: dedupeFiles([...collected.items, ...sharedDriveFolders]) };
+    state.moveFolderRows = buildMoveFolderRows(state.folderIndex);
     return state.folderIndex;
   } finally {
     state.loadingFolderIndex = false;
+    if (state.folderIndexAbortController === controller) state.folderIndexAbortController = null;
   }
+  })();
+  state.folderIndexPromise = promise;
+  try {
+    return await promise;
+  } finally {
+    if (state.folderIndexPromise === promise) state.folderIndexPromise = null;
+  }
+}
+
+async function collectSharedDriveRoots(signal) {
+  const collected = await collectAllPages(async (pageToken) => {
+    const params = new URLSearchParams({
+      pageSize: '100',
+      fields: 'nextPageToken,drives(id,name,capabilities(canAddChildren,canListChildren))'
+    });
+    if (pageToken) params.set('pageToken', pageToken);
+    const response = await driveFetch(`${DRIVE_API}/drives?${params.toString()}`, { signal });
+    const data = await response.json();
+    return { items: data.drives || [], nextPageToken: data.nextPageToken };
+  }, { signal });
+  return collected.items.map((drive) => ({
+    id: drive.id,
+    name: drive.name || '이름 없는 공유 드라이브',
+    driveId: drive.id,
+    capabilities: drive.capabilities || {},
+    isSharedDrive: true
+  }));
+}
+
+async function collectSharedDriveFolders(sharedDrives, signal) {
+  const drives = (Array.isArray(sharedDrives) ? sharedDrives : [])
+    .filter((drive) => drive?.id && drive.capabilities?.canListChildren !== false);
+  if (!drives.length) return [];
+  const results = new Array(drives.length);
+  let cursor = 0;
+  let collectedCount = 0;
+  const worker = async () => {
+    while (cursor < drives.length) {
+      const index = cursor++;
+      const drive = drives[index];
+      const collected = await collectAllPages(async (pageToken) => {
+        const params = new URLSearchParams({
+          pageSize: String(DRIVE_PAGE_SIZE),
+          q: `trashed = false and mimeType = '${FOLDER_MIME}'`,
+          spaces: 'drive',
+          corpora: 'drive',
+          driveId: drive.id,
+          supportsAllDrives: 'true',
+          includeItemsFromAllDrives: 'true',
+          fields: 'nextPageToken,incompleteSearch,files(id,name,parents,driveId,resourceKey,capabilities(canAddChildren))'
+        });
+        if (pageToken) params.set('pageToken', pageToken);
+        const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal });
+        return response.json();
+      }, { signal });
+      if (collected.incompleteSearch) {
+        throw new Error(`공유 드라이브 "${drive.name}"의 폴더 검색 결과가 완전하지 않습니다.`);
+      }
+      results[index] = collected.items;
+      collectedCount += collected.items.length;
+      if (el.moveFolderList) {
+        el.moveFolderList.textContent = `공유 드라이브 폴더 확인 중… ${collectedCount.toLocaleString('ko-KR')}개`;
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(2, drives.length) }, () => worker()));
+  return results.flat();
 }
 
 /* 실제 루트 폴더 ID 해소 — Drive API v3에서 'root' 별칭을 실제 ID로 변환한다.
@@ -2846,6 +3257,7 @@ async function resolveRootFolderId() {
       return data.id;
     }
   } catch (err) {
+    if (err?.name === 'AbortError' || err?.status === 401) throw err;
     console.warn('resolveRootFolderId failed, falling back to root alias:', err);
   }
   if (!state.rootFolderId) state.rootFolderId = 'root';
@@ -2855,8 +3267,7 @@ async function resolveRootFolderId() {
 function renderMoveFolderList(filterRaw) {
   if (!el.moveFolderList) return;
   el.moveFolderList.replaceChildren();
-  const index = state.folderIndex;
-  if (!index) {
+  if (!state.folderIndex) {
     const loading = document.createElement('div');
     loading.className = 'move-folder-empty';
     loading.textContent = '폴더 목록을 불러오는 중…';
@@ -2864,41 +3275,10 @@ function renderMoveFolderList(filterRaw) {
     return;
   }
   const filter = String(filterRaw || '').trim().toLocaleLowerCase('ko');
-  const rootId = state.rootFolderId || 'root';
   const currentParents = state.selected?.parents || [];
-  // 순수하게 폴더명만 표시한다 — 경로 문자열·중복 텍스트 없이,
-  // 계층은 들여쓰기(깊이)로만 전달하고 현재 위치는 작은 배지로 표시한다.
-  const rows = [{ id: 'root', name: '내 드라이브', depth: 0 }];
-  const seen = new Set(['root']);
-  const { foldersByParent, foldersById } = index;
-  const queue = [];
-  const pushIfNew = (folder, depth) => {
-    if (seen.has(folder.id)) return;
-    seen.add(folder.id);
-    queue.push({ folder, depth });
-  };
-  [...(foldersByParent.get(rootId) || []), ...(foldersByParent.get('root') || [])].forEach((folder) => {
-    pushIfNew(folder, 1);
-  });
-  // 루트 별칭 불일치·공유 드라이브 등 어떤 이유로 루트 직계 매칭이 빠져도
-  // 부모가 폴더 인덱스에 없는 최상위 폴더를 전부 루트 직계로 승격해
-  // 전체 트리가 항상 나타나도록 보장한다.
-  foldersById.forEach((folder) => {
-    const parent = folder.parents?.[0] || 'root';
-    if (!foldersById.has(parent) && parent !== rootId && parent !== 'root') {
-      pushIfNew(folder, 1);
-    }
-  });
-  while (queue.length) {
-    const { folder, depth } = queue.shift();
-    rows.push({ id: folder.id, name: folder.name || '이름 없는 폴더', depth });
-    (foldersByParent.get(folder.id) || []).forEach((child) => {
-      pushIfNew(child, depth + 1);
-    });
-  }
   const filtered = filter
-    ? rows.filter((row) => row.name.toLocaleLowerCase('ko').includes(filter))
-    : rows;
+    ? state.moveFolderRows.filter((row) => String(row.name || '').toLocaleLowerCase('ko').includes(filter))
+    : state.moveFolderRows;
   if (!filtered.length) {
     const empty = document.createElement('div');
     empty.className = 'move-folder-empty';
@@ -2907,17 +3287,15 @@ function renderMoveFolderList(filterRaw) {
     return;
   }
   const fragment = document.createDocumentFragment();
-  filtered.slice(0, 300).forEach((row) => {
+  filtered.slice(0, state.moveResultLimit).forEach((row) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'move-folder-row';
     button.setAttribute('role', 'option');
-    const resolvedId = row.id === 'root' ? rootId : row.id;
-    const isCurrent = currentParents.includes(resolvedId);
-    if (isCurrent) {
-      button.classList.add('current');
-      button.disabled = true;
-    }
+    const blockReason = getMoveBlockReason(state.selected, row, currentParents);
+    const isCurrent = blockReason === '현재 위치';
+    if (isCurrent) button.classList.add('current');
+    if (blockReason) button.disabled = true;
     if (state.moveTargetFolderId === row.id) button.classList.add('selected');
     button.style.setProperty('--depth', String(row.depth));
 
@@ -2925,10 +3303,10 @@ function renderMoveFolderList(filterRaw) {
     name.className = 'move-folder-name';
     name.textContent = row.name;
     button.appendChild(name);
-    if (isCurrent) {
+    if (blockReason) {
       const badge = document.createElement('span');
       badge.className = 'move-folder-current';
-      badge.textContent = '현재 위치';
+      badge.textContent = blockReason;
       button.appendChild(badge);
     }
     button.addEventListener('click', () => {
@@ -2940,19 +3318,50 @@ function renderMoveFolderList(filterRaw) {
     fragment.appendChild(button);
   });
   el.moveFolderList.appendChild(fragment);
+  if (filtered.length > state.moveResultLimit) {
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'move-folder-more';
+    more.textContent = `폴더 ${Math.min(MOVE_RESULT_BATCH, filtered.length - state.moveResultLimit).toLocaleString('ko-KR')}개 더 보기`;
+    more.addEventListener('click', () => {
+      state.moveResultLimit += MOVE_RESULT_BATCH;
+      renderMoveFolderList(filterRaw);
+    });
+    el.moveFolderList.appendChild(more);
+  }
+}
+
+function normalizedDriveId(item) {
+  return item?.driveId || 'my-drive';
+}
+
+function getMoveBlockReason(file, targetRow, currentParents = []) {
+  if (!targetRow?.id) return '선택 불가';
+  if (currentParents.includes(targetRow.id)) return '현재 위치';
+  if (targetRow.capabilities?.canAddChildren === false) return '읽기 전용';
+  if (!file) return null;
+  const crossesDrive = normalizedDriveId(file) !== normalizedDriveId(targetRow);
+  if (crossesDrive && file.driveId && file.capabilities?.canMoveItemOutOfDrive === false) return '드라이브 간 이동 불가';
+  if (!crossesDrive && file.capabilities?.canMoveItemWithinDrive === false) return '이동 권한 없음';
+  return null;
 }
 
 async function performMoveFile() {
   const file = state.selected;
   const targetRowId = state.moveTargetFolderId;
   if (!file || !targetRowId || state.moving) return;
-  const target = targetRowId === 'root' ? (state.rootFolderId || 'root') : targetRowId;
+  const targetRow = state.moveFolderRows.find((row) => row.id === targetRowId);
+  const target = targetRow?.id;
+  if (!target) {
+    showToast('이동할 폴더를 다시 선택해 주세요.');
+    return;
+  }
   const currentParents = Array.isArray(file.parents) && file.parents.length
     ? file.parents
     : [state.rootFolderId || 'root'];
-  if (currentParents.includes(target)) {
-    showToast('이 파일은 이미 해당 폴더에 있습니다.');
-    if (el.moveDialog?.open) el.moveDialog.close();
+  const blockReason = getMoveBlockReason(file, targetRow, currentParents);
+  if (blockReason) {
+    showToast(`이 폴더로 이동할 수 없습니다: ${blockReason}`);
     return;
   }
   state.moving = true;
@@ -2965,11 +3374,12 @@ async function performMoveFile() {
       // 실제 환경의 네트워크 지연을 반영해 로딩 상태가 보이도록 한다.
       await new Promise((resolve) => setTimeout(resolve, 700));
       file.parents = [target];
-      state.files = state.files.filter((f) => f.id !== file.id);
+      if (!state.deepScan) state.files = state.files.filter((f) => f.id !== file.id);
       if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
       if (el.moveDialog?.open) el.moveDialog.close();
       collapseShortsExpand();
-      computeAndRenderSubtree();
+      if (state.deepScan && state.treeCache) computeAndRenderSubtree();
+      else renderFiles();
       showToast('폴더로 이동했습니다. (데모 시뮬레이션)');
       playNextAfterRemoval(order, removedIndex, file.id);
       return;
@@ -2978,15 +3388,24 @@ async function performMoveFile() {
       addParents: target,
       removeParents: currentParents.join(','),
       supportsAllDrives: 'true',
-      fields: 'id,parents'
+      fields: 'id,parents,driveId,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)'
     });
-    await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
+    const referencedFolders = currentParents
+      .map((parentId) => state.moveFolderRows.find((row) => row.id === parentId))
+      .filter(Boolean);
+    const resourceKeys = buildResourceKeysHeader([file, targetRow, ...referencedFolders]);
+    const headers = { 'Content-Type': 'application/json' };
+    if (resourceKeys) headers['X-Goog-Drive-Resource-Keys'] = resourceKeys;
+    const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: '{}'
     });
-    file.parents = [target];
-    state.files = state.files.filter((f) => f.id !== file.id);
+    const moved = await response.json();
+    file.parents = Array.isArray(moved.parents) && moved.parents.length ? moved.parents : [target];
+    file.driveId = moved.driveId || targetRow.driveId || null;
+    file.capabilities = { ...(file.capabilities || {}), ...(moved.capabilities || {}) };
+    if (!state.deepScan) state.files = state.files.filter((f) => f.id !== file.id);
     shuffledOrderMap.delete(file.id);
     if (state.treeCache) {
       state.treeCache = buildTreeIndexes(state.treeCache.items);
@@ -3239,6 +3658,7 @@ function saveSettings() {
   if (changed) {
     state.tokenClient = null;
     clearToken(false);
+    invalidateDriveSessionData();
   }
   showToast('이 기기의 연결 설정을 저장했습니다.');
 }
@@ -3246,8 +3666,7 @@ function saveSettings() {
 function disconnect() {
   const token = state.token;
   clearToken(true);
-  state.files = [];
-  state.nextPageToken = null;
+  invalidateDriveSessionData();
   state.selected = null;
   closePlayer();
   if (token && window.google?.accounts?.oauth2) {
@@ -3272,6 +3691,18 @@ function clearToken(notifyWorker) {
     navigator.serviceWorker.controller?.postMessage({ type: 'CLEAR_TOKEN' });
     state.serviceWorkerRegistration?.active?.postMessage({ type: 'CLEAR_TOKEN' });
   }
+}
+
+function invalidateDriveSessionData() {
+  state.folderIndexAbortController?.abort();
+  state.treeAbort?.abort();
+  resetListingSession();
+  state.folderIndex = null;
+  state.folderIndexPromise = null;
+  state.moveFolderRows = [];
+  state.rootFolderId = null;
+  state.treeCache = null;
+  state.treeCachePromise = null;
 }
 
 async function pasteClientId() {
