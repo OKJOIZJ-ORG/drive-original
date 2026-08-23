@@ -67,7 +67,15 @@ Single next leaf: 1.1 — write a failing generation/cancellation behavior test.
 
 ## Done-check
 
-- Pending. Record each check as pass / fail / unavailable / blocked with its command or artifact.
+- `pass`: `node --check app.js` and `node --check sw.js`.
+- `pass`: `node --test tests/*.test.js` — 14/14.
+- `pass`: 9,788-item / 501-GIF fixture — 240 cards mounted, zero GIF `img` nodes.
+- `pass`: browser demo desktop interaction and 390×844 mobile layout — no console warnings/errors or horizontal overflow.
+- `pass`: local and remote `main` matched; GitHub Pages Actions completed successfully.
+- `pass`: live Pages `version.json` returned HTTP 200 and v1.14.0.
+- `pass`: release and alias ZIPs matched at SHA-256 `2392AC0DECCA44211E579282D9ECB771D775EC7C788E2E9B5498C22851A59DA1`.
+- `unavailable`: an authenticated destructive cross-drive move was not used as a smoke test; permission/API errors remain explicit.
+- `delivery gate`: update Notion with the final HEAD and this verification record after the checkpoint commit.
 
 ## Superseded cuts
 
