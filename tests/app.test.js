@@ -73,6 +73,7 @@ function installMiniDom(context) {
       this.tagName = tagName;
       this.children = [];
       this.className = '';
+      this.dataset = {};
       this.style = { setProperty() {} };
       this.classList = {
         add: (...names) => {
@@ -84,6 +85,14 @@ function installMiniDom(context) {
           const set = new Set(this.className.split(/\s+/).filter(Boolean));
           names.forEach((name) => set.delete(name));
           this.className = [...set].join(' ');
+        },
+        toggle: (name, force) => {
+          const set = new Set(this.className.split(/\s+/).filter(Boolean));
+          const enabled = force === undefined ? !set.has(name) : Boolean(force);
+          if (enabled) set.add(name);
+          else set.delete(name);
+          this.className = [...set].join(' ');
+          return enabled;
         },
         contains: (name) => this.className.split(/\s+/).filter(Boolean).includes(name)
       };
@@ -354,6 +363,209 @@ test('random selection uses the complete population and avoids the current item'
   ], 'loaded-first', () => 0.99))`));
   assert.equal(selected.id, 'not-rendered');
   assert.equal(run(context, "pickRandomFile([{ id: 'only' }], 'only', () => 0.5).id"), 'only');
+});
+
+test('account media state merges viewed history and honors the newest favorite toggle', () => {
+  const context = loadAppContext();
+  const merged = JSON.parse(run(context, `JSON.stringify(mergeAccountMediaStates(
+    {
+      updatedAt: 20,
+      viewed: { a: 10, shared: 15 },
+      favorites: { x: { liked: true, updatedAt: 10 }, y: { liked: true, updatedAt: 20 } }
+    },
+    {
+      updatedAt: 30,
+      viewed: { b: 30, shared: 25 },
+      favorites: { x: { liked: false, updatedAt: 30 }, y: { liked: false, updatedAt: 5 } }
+    }
+  ))`));
+  assert.deepEqual(merged.viewed, { a: 10, shared: 25, b: 30 });
+  assert.deepEqual(merged.favorites.x, { liked: false, updatedAt: 30 });
+  assert.deepEqual(merged.favorites.y, { liked: true, updatedAt: 20 });
+});
+
+test('shorts deck exhausts unseen account media before watched candidates', () => {
+  const context = loadAppContext();
+  const deck = JSON.parse(run(context, `JSON.stringify(buildVerticalPlaybackDeck(
+    ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => ({ id })),
+    'a',
+    () => 0.999,
+    2,
+    new Set(['b', 'c'])
+  ))`));
+  assert.deepEqual([...deck.above, deck.below[0]], ['d', 'e', 'f']);
+  assert.equal(deck.below[1], 'b');
+});
+
+test('double-tap reserves only narrow video edges for seek and likes everywhere else', () => {
+  const context = loadAppContext();
+  assert.equal(run(context, 'resolveMediaDoubleTapAction(10, 0, 400, true)'), 'seek-backward');
+  assert.equal(run(context, 'resolveMediaDoubleTapAction(390, 0, 400, true)'), 'seek-forward');
+  assert.equal(run(context, 'resolveMediaDoubleTapAction(120, 0, 400, true)'), 'favorite');
+  assert.equal(run(context, 'resolveMediaDoubleTapAction(10, 0, 400, false)'), 'favorite');
+});
+
+test('mobile tap pairs toggle favorites once per pair and consume the gesture', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    let clock = 1000;
+    let toggles = 0;
+    let feedback = false;
+    Date.now = () => clock;
+    navigator.vibrate = () => {};
+    el.mediaStage = { getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 800 }) };
+    el.videoPlayer = { hidden: true };
+    toggleFavoriteForSelected = (options) => {
+      toggles += 1;
+      feedback = feedback || Boolean(options?.showFeedback);
+      return toggles % 2 === 1;
+    };
+    handleStageTap(200, 400);
+    clock += 100;
+    handleStageTap(200, 400);
+    clock += 400;
+    handleStageTap(200, 400);
+    clock += 100;
+    handleStageTap(200, 400);
+    return JSON.stringify({ toggles, feedback, pendingSingleTap: Boolean(singleTapTimer), lastTapTime });
+  })()`));
+  assert.deepEqual(result, { toggles: 2, feedback: true, pendingSingleTap: false, lastTapTime: 0 });
+});
+
+test('mobile library edge swipe tracks from the left edge and commits one back navigation', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const listeners = {};
+    let navigations = 0;
+    let prevented = 0;
+    document.addEventListener = (type, listener) => { listeners[type] = listener; };
+    document.querySelector = () => null;
+    isMobileDevice = () => true;
+    navigateToParentFolder = () => { navigations += 1; };
+    el.playerSheet = { hidden: true };
+    el.libraryView = { hidden: false, style: {}, clientWidth: 390 };
+    el.edgeBackIndicator = { hidden: true, style: {} };
+    state.currentFolderId = 'folder-a';
+    state.folderStack = [{ id: 'root', name: '내 드라이브' }];
+    state.filter = 'all';
+    setupLibraryEdgeBackGesture();
+    const target = { closest: () => null };
+    listeners.touchstart({ touches: [{ clientX: 4, clientY: 420 }], target });
+    listeners.touchmove({
+      touches: [{ clientX: 122, clientY: 424 }],
+      preventDefault() { prevented += 1; }
+    });
+    listeners.touchend({ changedTouches: [{ clientX: 168, clientY: 425 }] });
+    return JSON.stringify({
+      navigations,
+      prevented,
+      indicatorHidden: el.edgeBackIndicator.hidden,
+      transform: el.libraryView.style.transform || ''
+    });
+  })()`));
+  assert.deepEqual(result, { navigations: 1, prevented: 1, indicatorHidden: true, transform: '' });
+});
+
+test('account state upload creates a private appDataFolder JSON file', async () => {
+  const context = loadAppContext();
+  const result = JSON.parse(await run(context, `(async () => {
+    let captured = null;
+    driveFetch = async (url, options) => {
+      captured = { url, options };
+      return { json: async () => ({ id: 'state-file' }) };
+    };
+    const created = await createAccountStateFile({
+      viewed: { watched: 12 },
+      favorites: { liked: { liked: true, updatedAt: 20 } },
+      updatedAt: 20
+    });
+    return JSON.stringify({
+      created,
+      url: captured.url,
+      method: captured.options.method,
+      contentType: captured.options.headers['Content-Type'],
+      hasAppDataParent: captured.options.body.includes('"parents":["appDataFolder"]'),
+      hasFavorite: captured.options.body.includes('"liked":true')
+    });
+  })()`));
+  assert.match(result.contentType, /^multipart\/related; boundary=drive_original_/);
+  assert.deepEqual({ ...result, contentType: 'multipart' }, {
+    created: { id: 'state-file' },
+    url: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime',
+    method: 'POST',
+    contentType: 'multipart',
+    hasAppDataParent: true,
+    hasFavorite: true
+  });
+});
+
+test('account initialization merges a newer offline cache and schedules it back to Drive', async () => {
+  const cached = JSON.stringify({
+    schemaVersion: 1,
+    updatedAt: 30,
+    viewed: { localWatch: 25 },
+    favorites: { shared: { liked: true, updatedAt: 30 } }
+  });
+  const context = loadAppContext({ 'drive-original.account-state.account-a': cached });
+  const result = JSON.parse(await run(context, `(async () => {
+    state.token = 'token';
+    state.expiresAt = Date.now() + 60_000;
+    let queued = 0;
+    resolveDriveAccountId = async () => 'account-a';
+    findAccountStateFile = async () => ({ id: 'remote-state' });
+    readAccountStateFile = async () => ({
+      schemaVersion: 1,
+      updatedAt: 20,
+      viewed: { remoteWatch: 20 },
+      favorites: { shared: { liked: false, updatedAt: 10 } }
+    });
+    queueAccountStateSync = () => { queued += 1; };
+    await initializeAccountMediaState();
+    return JSON.stringify({
+      queued,
+      viewed: state.accountMediaState.viewed,
+      favorite: state.accountMediaState.favorites.shared
+    });
+  })()`));
+  assert.deepEqual(result, {
+    queued: 1,
+    viewed: { remoteWatch: 20, localWatch: 25 },
+    favorite: { liked: true, updatedAt: 30 }
+  });
+});
+
+test('favorite catalog view spans folders and excludes folders and non-media records', () => {
+  const context = loadAppContext();
+  const ids = JSON.parse(run(context, `(() => {
+    const catalog = buildTreeIndexes([
+      { id: 'folder-a', name: 'A', mimeType: FOLDER_MIME, parents: ['root'] },
+      { id: 'video-a', name: 'A.mp4', mimeType: 'video/mp4', parents: ['folder-a'] },
+      { id: 'image-root', name: 'root.jpg', mimeType: 'image/jpeg', parents: ['root'] },
+      { id: 'doc', name: 'doc.pdf', mimeType: 'application/pdf', parents: ['root'] }
+    ]);
+    return JSON.stringify(collectFavoriteMediaFromCatalog(catalog, new Set(['folder-a', 'video-a', 'image-root', 'doc']))
+      .map((file) => ({ id: file.id, origin: file.__origin })));
+  })()`));
+  assert.deepEqual(ids, [
+    { id: 'video-a', origin: 'A' },
+    { id: 'image-root', origin: '내 드라이브' }
+  ]);
+});
+
+test('non-video media immediately hides stale video playback controls', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    el.videoPlayer = { hidden: true };
+    el.customVideoControls = { hidden: false };
+    el.stageCenterPlayBtn = { hidden: false };
+    el.ctrlFramePrev = { hidden: false };
+    el.ctrlFrameNext = { hidden: false };
+    el.shortsFramePrev = { hidden: false };
+    el.shortsFrameNext = { hidden: false };
+    updatePlayPauseUI();
+    return JSON.stringify({ controls: el.customVideoControls.hidden, center: el.stageCenterPlayBtn.hidden });
+  })()`));
+  assert.deepEqual(result, { controls: true, center: true });
 });
 
 test('vertical shorts deck preassigns two items above and below and reverses spatially', () => {

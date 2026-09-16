@@ -128,6 +128,7 @@ body {
   background-color: var(--system-bg);
   color: var(--label-primary);
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   position: relative;
 }
 
@@ -891,6 +892,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transition: color var(--duration-touch) ease, transform var(--duration-touch) var(--ease-spring);
 }
 
+.segmented button[data-filter="favorites"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-heart-icon {
+  transition: fill var(--duration-touch) ease;
+}
+
+.segmented button[data-filter="favorites"][aria-pressed="true"] .filter-heart-icon {
+  fill: currentColor;
+}
+
 .segmented button:hover {
   color: var(--label-primary);
 }
@@ -1125,13 +1140,78 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transition: transform var(--duration-touch) var(--ease-spring), opacity var(--duration-touch) ease;
 }
 
+.file-card-open {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .file-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.file-card:active {
+.file-card:has(.file-card-open:active) {
   transform: scale(0.97);
   opacity: 0.85;
+}
+
+.file-card:has(.file-card-open:focus-visible),
+.file-card:has(.file-card-favorite:focus-visible) {
+  outline: 2px solid var(--system-blue);
+  outline-offset: 2px;
+}
+
+.file-card-favorite {
+  position: absolute;
+  z-index: 9;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(12, 12, 14, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+  transition: transform var(--duration-touch) var(--ease-out), background-color var(--duration-touch) ease, color var(--duration-touch) ease;
+}
+
+.file-card-favorite:active {
+  transform: scale(0.92);
+}
+
+.file-card-favorite svg {
+  width: 17px;
+  height: 17px;
+  transition: fill var(--duration-touch) ease;
+}
+
+.file-card-favorite.is-favorite,
+.favorite-toggle.is-favorite,
+.favorite-toggle[aria-pressed="true"] {
+  color: #ff6b81;
+  background: rgba(120, 20, 42, 0.66);
+  border-color: rgba(255, 107, 129, 0.42);
+}
+
+.file-card-favorite.is-favorite svg,
+.favorite-toggle.is-favorite svg,
+.favorite-toggle[aria-pressed="true"] svg {
+  fill: currentColor;
 }
 
 .file-card-visual {
@@ -1962,6 +2042,84 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: none !important;
 }
 
+.favorite-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 42;
+  min-width: 104px;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 18px 20px 15px;
+  border-radius: 22px;
+  background: rgba(9, 11, 16, 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.46);
+  color: #ff6b81;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  transition: opacity 180ms var(--ease-out), transform 200ms var(--ease-spring);
+}
+
+.favorite-feedback svg {
+  width: 46px;
+  height: 46px;
+}
+
+.favorite-feedback span {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.favorite-feedback.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.favorite-feedback.is-removing {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.favorite-feedback[hidden] {
+  display: none !important;
+}
+
+.edge-back-indicator {
+  position: fixed;
+  z-index: 90;
+  top: 50%;
+  left: max(6px, env(safe-area-inset-left));
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(9, 11, 16, 0.76);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+  transform: translate3d(0, -50%, 0) scale(0.9);
+  opacity: 0;
+}
+
+.edge-back-indicator svg {
+  width: 20px;
+  height: 20px;
+}
+
+.edge-back-indicator[hidden] {
+  display: none !important;
+}
+
 /* ==========================================================================
    APP DIALOGS & ACTION SHEETS — APPLE iOS 18 SPEC
    ========================================================================== */
@@ -2464,6 +2622,11 @@ dialog::backdrop {
 .file-grid.selection-mode .file-card-select-check {
   opacity: 1;
   transform: scale(1);
+}
+
+.file-grid.selection-mode .file-card-favorite {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .file-card.selected {
@@ -3075,6 +3238,12 @@ dialog {
     color: #bfdbfe;
   }
 
+  .shorts-chip.favorite-toggle[aria-pressed="true"] {
+    background: rgba(120, 20, 42, 0.66);
+    border-color: rgba(255, 107, 129, 0.42);
+    color: #ff8fa3;
+  }
+
   .shorts-chip.danger {
     color: #fca5a5;
     border-color: rgba(252, 165, 165, 0.24);
@@ -3391,7 +3560,8 @@ dialog {
 .media-stage.drive-preview-active .stage-center-btn,
 .media-stage.drive-preview-active .mobile-shorts-overlay,
 .media-stage.drive-preview-active .seek-hint,
-.media-stage.drive-preview-active .player-feedback {
+.media-stage.drive-preview-active .player-feedback,
+.media-stage.drive-preview-active .favorite-feedback {
   display: none !important;
 }
 

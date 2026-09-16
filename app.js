@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.18.1';
+const APP_VERSION = '1.19.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
@@ -29,6 +29,10 @@ const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
 const MAX_ORIGINAL_RETRY_AFTER_MS = 10_000;
 const GIF_THUMBNAIL_SIZE = 320;
+const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state.json';
+const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
+const ACCOUNT_STATE_SCHEMA_VERSION = 1;
+const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
   SEQUENTIAL: 'original-sequential',
@@ -143,6 +147,87 @@ function isGifFile(file) {
   return /\.gif$/i.test(String(file.name || ''));
 }
 
+function resolveMediaDoubleTapAction(clientX, stageLeft, stageWidth, isVideo) {
+  const width = Math.max(1, Number(stageWidth) || 1);
+  const normalizedX = (Number(clientX) - (Number(stageLeft) || 0)) / width;
+  if (isVideo && normalizedX <= 0.18) return 'seek-backward';
+  if (isVideo && normalizedX >= 0.82) return 'seek-forward';
+  return 'favorite';
+}
+
+function createEmptyAccountMediaState() {
+  return {
+    schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
+    updatedAt: 0,
+    viewed: {},
+    favorites: {}
+  };
+}
+
+function normalizeAccountMediaState(value) {
+  const source = value && typeof value === 'object' ? value : {};
+  const viewed = {};
+  const favorites = {};
+  Object.entries(source.viewed && typeof source.viewed === 'object' ? source.viewed : {}).forEach(([id, timestamp]) => {
+    const normalized = Math.max(0, Number(timestamp) || 0);
+    if (id && normalized) viewed[id] = normalized;
+  });
+  Object.entries(source.favorites && typeof source.favorites === 'object' ? source.favorites : {}).forEach(([id, entry]) => {
+    if (!id) return;
+    const normalized = entry && typeof entry === 'object'
+      ? { liked: Boolean(entry.liked), updatedAt: Math.max(0, Number(entry.updatedAt) || 0) }
+      : { liked: Boolean(entry), updatedAt: 0 };
+    favorites[id] = normalized;
+  });
+  return {
+    schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
+    updatedAt: Math.max(0, Number(source.updatedAt) || 0),
+    viewed,
+    favorites
+  };
+}
+
+function mergeAccountMediaStates(first, second) {
+  const left = normalizeAccountMediaState(first);
+  const right = normalizeAccountMediaState(second);
+  const merged = createEmptyAccountMediaState();
+  const viewedIds = new Set([...Object.keys(left.viewed), ...Object.keys(right.viewed)]);
+  viewedIds.forEach((id) => {
+    merged.viewed[id] = Math.max(left.viewed[id] || 0, right.viewed[id] || 0);
+  });
+  const favoriteIds = new Set([...Object.keys(left.favorites), ...Object.keys(right.favorites)]);
+  favoriteIds.forEach((id) => {
+    const a = left.favorites[id];
+    const b = right.favorites[id];
+    if (!a) merged.favorites[id] = b;
+    else if (!b) merged.favorites[id] = a;
+    else merged.favorites[id] = (b.updatedAt || 0) >= (a.updatedAt || 0) ? b : a;
+  });
+  merged.updatedAt = Math.max(left.updatedAt, right.updatedAt);
+  return merged;
+}
+
+function accountFavoriteIds(accountState) {
+  const normalized = normalizeAccountMediaState(accountState);
+  return new Set(Object.entries(normalized.favorites)
+    .filter(([, entry]) => entry.liked)
+    .map(([id]) => id));
+}
+
+function accountViewedIds(accountState) {
+  return new Set(Object.keys(normalizeAccountMediaState(accountState).viewed));
+}
+
+function prioritizeUnseenFiles(files, viewedIds, selectedId = null) {
+  const viewed = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+  const candidates = (Array.isArray(files) ? files : [])
+    .filter((file) => file?.id && file.id !== selectedId);
+  return [
+    ...candidates.filter((file) => !viewed.has(file.id)),
+    ...candidates.filter((file) => viewed.has(file.id))
+  ];
+}
+
 async function collectAllPages(fetchPage, { signal, onPage } = {}) {
   const items = [];
   const seenTokens = new Set();
@@ -232,18 +317,29 @@ function pickRandomFile(files, selectedId, random = Math.random) {
   return candidates[index];
 }
 
-function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, depth = VERTICAL_DECK_DEPTH) {
-  const unique = [];
-  const seen = new Set(selectedId ? [selectedId] : []);
+function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, depth = VERTICAL_DECK_DEPTH, viewedIds = null) {
+  const watched = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+  const uniqueFiles = [];
+  const uniqueIds = new Set(selectedId ? [selectedId] : []);
   (Array.isArray(files) ? files : []).forEach((file) => {
-    if (!file?.id || seen.has(file.id)) return;
-    seen.add(file.id);
-    unique.push(file.id);
+    if (!file?.id || uniqueIds.has(file.id)) return;
+    uniqueIds.add(file.id);
+    uniqueFiles.push(file);
   });
-  for (let index = unique.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.min(index, Math.max(0, Math.floor(random() * (index + 1))));
-    [unique[index], unique[swapIndex]] = [unique[swapIndex], unique[index]];
-  }
+  const shuffleIds = (items) => {
+    const ids = items.map((file) => file.id);
+    for (let index = ids.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.min(index, Math.max(0, Math.floor(random() * (index + 1))));
+      [ids[index], ids[swapIndex]] = [ids[swapIndex], ids[index]];
+    }
+    return ids;
+  };
+  // Shuffle within each group, never across the boundary: unseen media stays
+  // ahead of watched media until the account has exhausted the population.
+  const unique = [
+    ...shuffleIds(uniqueFiles.filter((file) => !watched.has(file.id))),
+    ...shuffleIds(uniqueFiles.filter((file) => watched.has(file.id)))
+  ];
   const targetDepth = Math.max(0, Math.floor(Number(depth) || 0));
   const above = unique.slice(0, targetDepth);
   const below = unique.slice(targetDepth, targetDepth * 2);
@@ -255,7 +351,7 @@ function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, dept
   return { anchorId: selectedId || null, above, below };
 }
 
-function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = Math.random) {
+function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = Math.random, viewedIds = null) {
   const current = deck?.anchorId || null;
   const next = {
     anchorId: targetId || current,
@@ -281,7 +377,8 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
     population.filter((file) => !excluded.has(file.id)),
     next.anchorId,
     random,
-    VERTICAL_DECK_DEPTH
+    VERTICAL_DECK_DEPTH,
+    viewedIds
   );
   const fill = [...shuffled.above, ...shuffled.below];
   while (next.above.length < VERTICAL_DECK_DEPTH && fill.length) next.above.push(fill.shift());
@@ -289,7 +386,7 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
   // Small libraries cannot keep four distinct neighbours, but the spatial
   // window must still stay fully assigned after every move. Reuse only after
   // all distinct candidates have already been consumed.
-  const reusable = population.map((file) => file.id).filter((id) => id !== next.anchorId);
+  const reusable = prioritizeUnseenFiles(population, viewedIds, next.anchorId).map((file) => file.id);
   let reuseCursor = 0;
   while (reusable.length && next.above.length < VERTICAL_DECK_DEPTH) {
     next.above.push(reusable[reuseCursor++ % reusable.length]);
@@ -376,6 +473,17 @@ const state = {
   treeAbort: null,
   folderIndex: null,
   loadingFolderIndex: false,
+  accountId: null,
+  accountMediaState: createEmptyAccountMediaState(),
+  accountStateFileId: null,
+  accountStateLoaded: false,
+  accountStateLoadingPromise: null,
+  accountStateSyncPromise: null,
+  accountStateSyncTimer: null,
+  accountStateRevision: 0,
+  accountStateLastSyncAt: 0,
+  favoriteFiles: [],
+  loadingFavorites: false,
   moveTargetFolderId: null,
   moving: false,
   filter: 'all',
@@ -478,6 +586,7 @@ let swipeStageWidth = 0;
 let swipeStageHeight = 0;
 let playbackPopulationWarmPromise = null;
 let writableOpfsSupportPromise = null;
+let edgeBackGesture = null;
 const warmedThumbnails = new Map();
 let playerMediaPriorityActive = false;
 
@@ -495,6 +604,7 @@ async function init() {
   bindElements();
   bindEvents();
   setupTouchGestures();
+  setupLibraryEdgeBackGesture();
   setupInfiniteScroll();
   cleanupStaleOriginalBuffers().catch(() => {});
   el.settingsClientId.value = state.clientIdOverride;
@@ -510,6 +620,9 @@ async function init() {
     sendTokenToWorker();
     updateConnectionBadge();
     showLibrary();
+    await initializeAccountMediaState().catch((error) => {
+      console.warn('Account media state sync was unavailable:', error);
+    });
     loadFiles({ append: false });
   } else {
     // GIS token requests require a user gesture. Never open an OAuth dialog
@@ -529,12 +642,13 @@ function bindElements() {
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
-    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton',
+    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton', 'edgeBackIndicator',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'topbarFavoriteBtn',
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
-    'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerFeedback',
+    'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerFeedback', 'favoriteFeedback',
     'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
@@ -542,12 +656,12 @@ function bindElements() {
     'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts',
     'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
     'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsFramePrev', 'shortsFrameNext',
-    'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'deepScanToggle', 'deepScanStopBtn',
+    'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'shortsFavoriteBtn', 'deepScanToggle', 'deepScanStopBtn',
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown', 'playerMoreMenu',
-    'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
+    'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
@@ -590,7 +704,8 @@ function bindEvents() {
     state.treeCache = null;
     state.folderIndex = null;
     state.moveFolderRows = [];
-    applyFolderView();
+    if (state.filter === 'favorites') loadFavoriteFiles();
+    else applyFolderView();
   });
   el.searchInput.addEventListener('input', (event) => {
     state.query = event.target.value.trim().toLocaleLowerCase('ko');
@@ -600,6 +715,11 @@ function bindEvents() {
   el.sortSelect.addEventListener('change', async (event) => {
     state.sort = event.target.value;
     if (state.sort === 'random') {
+      if (state.filter === 'favorites') {
+        shuffleCurrentFiles();
+        renderFiles({ resetWindow: true });
+        return;
+      }
       const generation = state.listGeneration;
       el.libraryStatus.textContent = '대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…';
       try {
@@ -618,9 +738,7 @@ function bindEvents() {
     }
   });
   el.filterButtons.forEach((button) => button.addEventListener('click', () => {
-    state.filter = button.dataset.filter;
-    el.filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-    renderFiles({ resetWindow: true });
+    setLibraryFilter(button.dataset.filter);
   }));
   el.loadMoreButton.addEventListener('click', () => {
     if (state.nextPageToken) loadFiles({ append: true });
@@ -706,6 +824,13 @@ function bindEvents() {
   if (el.ctrlSpeedButton) el.ctrlSpeedButton.addEventListener('click', toggleSpeedMenu);
   if (el.ctrlPip) el.ctrlPip.addEventListener('click', togglePictureInPicture);
   if (el.ctrlFullscreen) el.ctrlFullscreen.addEventListener('click', toggleFullscreen);
+  [el.topbarFavoriteBtn, el.ctrlFavorite, el.shortsFavoriteBtn].forEach((button) => {
+    if (!button) return;
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleFavoriteForSelected({ showFeedback: true });
+    });
+  });
   if (el.playerMoreMenu) el.playerMoreMenu.addEventListener('toggle', () => {
     isPlayerMoreOpen = el.playerMoreMenu.open;
     resetControlsTimer();
@@ -861,6 +986,11 @@ function bindEvents() {
     if (document.visibilityState === 'visible') {
       sendTokenToWorker();
       checkForAppUpdate({ manual: false });
+      if (hasUsableToken()) {
+        initializeAccountMediaState({ refresh: true }).then(() => {
+          if (state.filter === 'favorites') loadFavoriteFiles({ refreshState: false });
+        }).catch((error) => console.warn('Account media state refresh was unavailable:', error));
+      }
       // 모바일 백그라운드 복귀 시 setTimeout 타이머가 정지되어
       // 토큰 갱신이 누락될 수 있으므로 즉시 검사·보정한다.
       if (state.token && state.expiresAt) {
@@ -1372,8 +1502,13 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
   sendTokenToWorker();
   if (invalidateSession) invalidateDriveSessionData();
   updateConnectionBadge();
-  setTimeout(() => {
+  setTimeout(async () => {
     if (generation !== state.authGeneration) return;
+    if (!state.accountStateLoaded) {
+      await initializeAccountMediaState().catch((error) => {
+        console.warn('Account media state sync was unavailable:', error);
+      });
+    }
     const retryContext = state.authRetryContext;
     if (
       state.retryAfterAuth && retryContext && state.selected?.id === retryContext.fileId
@@ -1810,14 +1945,132 @@ function navigateToFolderIndex(index) {
 }
 
 function navigateToParentFolder() {
-  if (!state.folderStack.length) return;
-  const parent = state.folderStack.pop();
+  if (!state.folderStack.length && state.currentFolderId === 'root') return;
+  const parent = state.folderStack.length
+    ? state.folderStack.pop()
+    : { id: 'root', name: '내 드라이브' };
   state.currentFolderId = parent.id;
   state.currentFolderName = parent.name;
   resetListingSession();
   scrollToLibraryTop();
   animateFolderTransition('back');
   applyFolderView();
+}
+
+function canNavigateLibraryBack() {
+  return state.filter === 'favorites' || state.currentFolderId !== 'root' || state.folderStack.length > 0;
+}
+
+function clearLibraryEdgeBackVisuals() {
+  if (el.libraryView) {
+    el.libraryView.style.transform = '';
+    el.libraryView.style.opacity = '';
+    el.libraryView.style.willChange = '';
+  }
+  if (el.edgeBackIndicator) {
+    el.edgeBackIndicator.hidden = true;
+    el.edgeBackIndicator.style.transform = '';
+    el.edgeBackIndicator.style.opacity = '';
+  }
+}
+
+function completeLibraryBackNavigation() {
+  clearLibraryEdgeBackVisuals();
+  if (state.filter === 'favorites') setLibraryFilter('all');
+  else navigateToParentFolder();
+}
+
+function settleLibraryEdgeBack(commit) {
+  const view = el.libraryView;
+  const indicator = el.edgeBackIndicator;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!commit || reduced || typeof view?.animate !== 'function') {
+    if (commit) completeLibraryBackNavigation();
+    else clearLibraryEdgeBackVisuals();
+    return;
+  }
+  const width = Math.max(320, window.innerWidth || view.clientWidth || 400);
+  const viewAnimation = view.animate([
+    { transform: view.style.transform || 'translate3d(0,0,0)', opacity: Number(view.style.opacity || 1) },
+    { transform: `translate3d(${Math.min(96, width * 0.22)}px,0,0)`, opacity: 0.82 }
+  ], { duration: 150, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
+  if (indicator && typeof indicator.animate === 'function') {
+    indicator.animate([
+      { transform: indicator.style.transform || 'translate3d(0, -50%, 0) scale(1)', opacity: 1 },
+      { transform: 'translate3d(18px, -50%, 0) scale(1.04)', opacity: 0 }
+    ], { duration: 150, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
+  }
+  viewAnimation.finished.catch(() => {}).finally(() => {
+    viewAnimation.cancel?.();
+    completeLibraryBackNavigation();
+  });
+}
+
+function setupLibraryEdgeBackGesture() {
+  document.addEventListener('touchstart', (event) => {
+    if (!isMobileDevice() || !el.playerSheet?.hidden || !el.libraryView || el.libraryView.hidden) return;
+    if (!canNavigateLibraryBack() || document.querySelector('dialog[open]')) return;
+    if (event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    if (touch.clientX > 26) return;
+    if (event.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+    edgeBackGesture = {
+      startX: touch.clientX,
+      startY: touch.clientY,
+      startTime: Date.now(),
+      locked: false,
+      cancelled: false
+    };
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (event) => {
+    if (!edgeBackGesture || edgeBackGesture.cancelled || event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    const dx = touch.clientX - edgeBackGesture.startX;
+    const dy = touch.clientY - edgeBackGesture.startY;
+    if (!edgeBackGesture.locked) {
+      if (Math.hypot(dx, dy) < 10) return;
+      if (dx <= 0 || Math.abs(dy) > Math.max(1, dx) * 0.9) {
+        edgeBackGesture.cancelled = true;
+        clearLibraryEdgeBackVisuals();
+        return;
+      }
+      edgeBackGesture.locked = true;
+      if (el.edgeBackIndicator) el.edgeBackIndicator.hidden = false;
+      el.libraryView.style.willChange = 'transform, opacity';
+    }
+    event.preventDefault();
+    const width = Math.max(320, window.innerWidth || el.libraryView.clientWidth || 400);
+    const progress = Math.min(1, Math.max(0, dx / Math.min(132, width * 0.32)));
+    const offset = Math.min(72, dx * 0.34);
+    el.libraryView.style.transform = `translate3d(${offset}px, 0, 0)`;
+    el.libraryView.style.opacity = String(1 - progress * 0.08);
+    if (el.edgeBackIndicator) {
+      el.edgeBackIndicator.style.transform = `translate3d(${Math.min(20, dx * 0.16)}px, -50%, 0) scale(${0.9 + progress * 0.1})`;
+      el.edgeBackIndicator.style.opacity = String(0.45 + progress * 0.55);
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', (event) => {
+    if (!edgeBackGesture) return;
+    const gesture = edgeBackGesture;
+    edgeBackGesture = null;
+    if (gesture.cancelled || !gesture.locked || event.changedTouches.length !== 1) {
+      settleLibraryEdgeBack(false);
+      return;
+    }
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - gesture.startX;
+    const dy = touch.clientY - gesture.startY;
+    const elapsed = Math.max(1, Date.now() - gesture.startTime);
+    settleLibraryEdgeBack(shouldCommitSwipe(dx, dy, elapsed, window.innerWidth || 400));
+  }, { passive: true });
+
+  document.addEventListener('touchcancel', () => {
+    if (!edgeBackGesture) return;
+    edgeBackGesture = null;
+    settleLibraryEdgeBack(false);
+  }, { passive: true });
 }
 
 /* Deep Scan — 현재 폴더 + 모든 하위 폴더의 미디어를 한 번에 로딩 */
@@ -1949,6 +2202,20 @@ function buildTreeIndexes(items) {
   return { items, foldersById, foldersByParent, mediaByParent };
 }
 
+function collectFavoriteMediaFromCatalog(catalog, favoriteIds, rootFolderId = null) {
+  const favorites = favoriteIds instanceof Set ? favoriteIds : new Set(favoriteIds || []);
+  const items = Array.isArray(catalog?.items) ? catalog.items : [];
+  return dedupeFiles(items.filter((file) => (
+    file?.id && file.mimeType !== FOLDER_MIME
+    && (file.mimeType?.startsWith('video/') || file.mimeType?.startsWith('image/'))
+    && favorites.has(file.id)
+  ))).map((file) => {
+    const parent = file.parents?.[0] || 'root';
+    file.__origin = catalog?.foldersById?.get(parent)?.name || (parent === rootFolderId || parent === 'root' ? '내 드라이브' : '');
+    return file;
+  });
+}
+
 function effectiveRootId() {
   if (state.currentFolderId !== 'root') return state.currentFolderId;
   return state.rootFolderId || 'root';
@@ -1989,6 +2256,44 @@ function computeAndRenderSubtree() {
   updateLibrarySummary();
 }
 
+async function setLibraryFilter(filter) {
+  const next = ['all', 'video', 'image', 'favorites'].includes(filter) ? filter : 'all';
+  state.filter = next;
+  el.filterButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.filter === next));
+  });
+  if (next === 'favorites') {
+    await loadFavoriteFiles();
+  } else {
+    renderFiles({ resetWindow: true });
+  }
+}
+
+async function loadFavoriteFiles({ refreshState = true } = {}) {
+  if (state.loadingFavorites) return;
+  state.loadingFavorites = true;
+  el.libraryStatus.textContent = '계정의 좋아요 항목을 모든 폴더에서 모으는 중…';
+  try {
+    await initializeAccountMediaState({ refresh: refreshState });
+    const catalog = state.demo ? state.treeCache : await ensureTreeCache();
+    if (state.filter !== 'favorites') return;
+    const favoriteIds = accountFavoriteIds(state.accountMediaState);
+    const resolvedCatalog = Array.isArray(catalog?.items)
+      ? catalog
+      : buildTreeIndexes(state.files);
+    state.favoriteFiles = collectFavoriteMediaFromCatalog(resolvedCatalog, favoriteIds, state.rootFolderId);
+    renderFiles({ resetWindow: true });
+    el.libraryStatus.textContent = '';
+  } catch (error) {
+    console.error('Favorite files could not be loaded:', error);
+    state.favoriteFiles = [];
+    if (state.filter === 'favorites') renderFiles({ resetWindow: true });
+    el.libraryStatus.textContent = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+  } finally {
+    state.loadingFavorites = false;
+  }
+}
+
 function toggleDeepScan() {
   if (state.loadingTree) return;
   state.deepScan = !state.deepScan;
@@ -2024,6 +2329,17 @@ function animateFolderTransition(direction) {
 
 function renderBreadcrumb() {
   if (!el.breadcrumbTrail || !el.libraryTitle) return;
+  if (el.deepScanToggle) el.deepScanToggle.hidden = state.filter === 'favorites';
+  if (state.filter === 'favorites') {
+    el.libraryTitle.textContent = '좋아요';
+    el.breadcrumbTrail.replaceChildren();
+    const crumb = document.createElement('span');
+    crumb.className = 'crumb current';
+    crumb.textContent = '모든 폴더';
+    el.breadcrumbTrail.appendChild(crumb);
+    if (el.folderUpButton) el.folderUpButton.hidden = true;
+    return;
+  }
   el.libraryTitle.textContent = state.currentFolderName;
   const crumbs = [{ id: 'root', name: '내 드라이브' }, ...state.folderStack, { id: state.currentFolderId, name: state.currentFolderName }];
   el.breadcrumbTrail.replaceChildren();
@@ -2046,7 +2362,7 @@ function renderBreadcrumb() {
       el.breadcrumbTrail.appendChild(sep);
     }
   });
-  if (el.folderUpButton) el.folderUpButton.hidden = state.folderStack.length === 0;
+  if (el.folderUpButton) el.folderUpButton.hidden = state.currentFolderId === 'root' && state.folderStack.length === 0;
 }
 
 function parseRetryAfterMs(value, now = Date.now()) {
@@ -2124,6 +2440,290 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
     throw error;
   }
   return response;
+}
+
+function escapeDriveQueryLiteral(value) {
+  return String(value || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+function accountStateCacheKey(accountId = state.accountId) {
+  return accountId ? `${ACCOUNT_STATE_CACHE_PREFIX}${accountId}` : '';
+}
+
+function readCachedAccountMediaState(accountId) {
+  const key = accountStateCacheKey(accountId);
+  if (!key) return createEmptyAccountMediaState();
+  try {
+    return normalizeAccountMediaState(JSON.parse(localStorage.getItem(key) || '{}'));
+  } catch (_) {
+    return createEmptyAccountMediaState();
+  }
+}
+
+function persistAccountMediaState() {
+  const key = accountStateCacheKey();
+  if (!key) return;
+  try {
+    localStorage.setItem(key, JSON.stringify(normalizeAccountMediaState(state.accountMediaState)));
+  } catch (_) {}
+}
+
+async function resolveDriveAccountId() {
+  const response = await driveFetch(`${DRIVE_API}/about?fields=user(permissionId)`);
+  const data = await response.json();
+  return String(data?.user?.permissionId || '');
+}
+
+async function findAccountStateFile() {
+  const params = new URLSearchParams({
+    spaces: 'appDataFolder',
+    pageSize: '10',
+    orderBy: 'modifiedTime desc',
+    q: `name = '${escapeDriveQueryLiteral(ACCOUNT_STATE_FILE_NAME)}' and trashed = false`,
+    fields: 'files(id,name,modifiedTime)'
+  });
+  const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
+  const data = await response.json();
+  return Array.isArray(data.files) ? (data.files[0] || null) : null;
+}
+
+async function readAccountStateFile(fileId) {
+  if (!fileId) return createEmptyAccountMediaState();
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`);
+  return normalizeAccountMediaState(await response.json());
+}
+
+async function createAccountStateFile(accountState) {
+  const boundary = `drive_original_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const metadata = JSON.stringify({
+    name: ACCOUNT_STATE_FILE_NAME,
+    mimeType: 'application/json',
+    parents: ['appDataFolder']
+  });
+  const payload = JSON.stringify(normalizeAccountMediaState(accountState));
+  const body = [
+    `--${boundary}`,
+    'Content-Type: application/json; charset=UTF-8',
+    '',
+    metadata,
+    `--${boundary}`,
+    'Content-Type: application/json',
+    '',
+    payload,
+    `--${boundary}--`,
+    ''
+  ].join('\r\n');
+  const response = await driveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime', {
+    method: 'POST',
+    headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
+    body
+  });
+  return response.json();
+}
+
+async function updateAccountStateFile(fileId, accountState) {
+  const response = await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(fileId)}?uploadType=media&fields=id,modifiedTime`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(normalizeAccountMediaState(accountState))
+  });
+  return response.json();
+}
+
+async function initializeAccountMediaState({ refresh = false } = {}) {
+  if (state.demo) {
+    state.accountId = 'demo';
+    state.accountStateLoaded = true;
+    return state.accountMediaState;
+  }
+  if (!hasUsableToken()) return state.accountMediaState;
+  if (state.accountStateLoaded && !refresh) return state.accountMediaState;
+  if (state.accountStateLoadingPromise) return state.accountStateLoadingPromise;
+
+  const operation = (async () => {
+    const accountId = await resolveDriveAccountId();
+    if (!accountId) throw new Error('Google Drive 계정 식별 정보를 확인하지 못했습니다.');
+    if (state.accountId !== accountId) {
+      state.accountId = accountId;
+      state.accountStateFileId = null;
+      state.accountMediaState = readCachedAccountMediaState(accountId);
+    }
+    const file = await findAccountStateFile();
+    state.accountStateFileId = file?.id || null;
+    const remote = file?.id ? await readAccountStateFile(file.id) : createEmptyAccountMediaState();
+    const merged = mergeAccountMediaStates(remote, state.accountMediaState);
+    const remoteNeedsMerge = JSON.stringify(merged) !== JSON.stringify(remote);
+    state.accountMediaState = merged;
+    state.accountStateLoaded = true;
+    state.accountStateLastSyncAt = Date.now();
+    persistAccountMediaState();
+    refreshFavoritePresentation();
+    // A device may reconnect with newer offline cache entries. Push that
+    // merged result so the next device sees those changes without requiring
+    // another like or playback action first.
+    if (remoteNeedsMerge) queueAccountStateSync();
+    return state.accountMediaState;
+  })();
+  state.accountStateLoadingPromise = operation;
+  try {
+    return await operation;
+  } finally {
+    if (state.accountStateLoadingPromise === operation) state.accountStateLoadingPromise = null;
+  }
+}
+
+async function flushAccountMediaState() {
+  if (state.demo || !hasUsableToken() || !state.accountId) return;
+  if (state.accountStateSyncPromise) return state.accountStateSyncPromise;
+  const revisionAtStart = state.accountStateRevision;
+  const operation = (async () => {
+    let fileId = state.accountStateFileId;
+    if (!fileId) {
+      const existing = await findAccountStateFile();
+      fileId = existing?.id || null;
+      state.accountStateFileId = fileId;
+    }
+    const remote = fileId ? await readAccountStateFile(fileId) : createEmptyAccountMediaState();
+    const merged = mergeAccountMediaStates(remote, state.accountMediaState);
+    merged.updatedAt = Math.max(Date.now(), merged.updatedAt);
+    state.accountMediaState = merged;
+    persistAccountMediaState();
+    if (fileId) {
+      await updateAccountStateFile(fileId, merged);
+    } else {
+      const created = await createAccountStateFile(merged);
+      state.accountStateFileId = created?.id || null;
+    }
+    state.accountStateLastSyncAt = Date.now();
+  })();
+  state.accountStateSyncPromise = operation;
+  try {
+    await operation;
+  } catch (error) {
+    console.warn('Account media state could not be synced:', error);
+  } finally {
+    if (state.accountStateSyncPromise === operation) state.accountStateSyncPromise = null;
+    if (state.accountStateRevision !== revisionAtStart) queueAccountStateSync();
+  }
+}
+
+function queueAccountStateSync() {
+  persistAccountMediaState();
+  if (state.demo || !state.accountId) return;
+  clearTimeout(state.accountStateSyncTimer);
+  state.accountStateSyncTimer = setTimeout(() => {
+    state.accountStateSyncTimer = null;
+    flushAccountMediaState();
+  }, ACCOUNT_STATE_SYNC_DELAY_MS);
+}
+
+function getViewedIdSet() {
+  return accountViewedIds(state.accountMediaState);
+}
+
+function buildAccountPlaybackDeck(files, selectedId, random = Math.random, depth = VERTICAL_DECK_DEPTH) {
+  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewedIdSet());
+}
+
+function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = Math.random) {
+  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewedIdSet());
+}
+
+function isFavoriteFileId(fileId) {
+  return Boolean(fileId && state.accountMediaState?.favorites?.[fileId]?.liked);
+}
+
+function markFileViewed(fileId) {
+  if (!fileId) return;
+  const now = Date.now();
+  const current = Number(state.accountMediaState.viewed?.[fileId]) || 0;
+  if (current >= now) return;
+  state.accountMediaState.viewed[fileId] = now;
+  state.accountMediaState.updatedAt = now;
+  state.accountStateRevision += 1;
+  queueAccountStateSync();
+}
+
+function setFavoriteFile(fileId, liked) {
+  if (!fileId) return false;
+  const nextLiked = Boolean(liked);
+  const current = state.accountMediaState.favorites?.[fileId];
+  if (current?.liked === nextLiked) return nextLiked;
+  const now = Date.now();
+  state.accountMediaState.favorites[fileId] = { liked: nextLiked, updatedAt: now };
+  state.accountMediaState.updatedAt = now;
+  state.accountStateRevision += 1;
+  if (!nextLiked) state.favoriteFiles = state.favoriteFiles.filter((file) => file.id !== fileId);
+  else {
+    const known = state.treeCache?.items?.find((file) => file.id === fileId)
+      || state.files.find((file) => file.id === fileId)
+      || (state.selected?.id === fileId ? state.selected : null);
+    if (known && !state.favoriteFiles.some((file) => file.id === fileId)) state.favoriteFiles.push(known);
+  }
+  queueAccountStateSync();
+  refreshFavoritePresentation();
+  if (state.filter === 'favorites') renderFiles({ resetWindow: true });
+  return nextLiked;
+}
+
+function markFilesRemovedFromAccountState(fileIds) {
+  const ids = fileIds instanceof Set ? fileIds : new Set(fileIds || []);
+  if (!ids.size) return;
+  const now = Date.now();
+  ids.forEach((id) => {
+    delete state.accountMediaState.viewed[id];
+    state.accountMediaState.favorites[id] = { liked: false, updatedAt: now };
+  });
+  state.accountMediaState.updatedAt = now;
+  state.favoriteFiles = state.favoriteFiles.filter((file) => !ids.has(file.id));
+  state.accountStateRevision += 1;
+  queueAccountStateSync();
+  refreshFavoritePresentation();
+}
+
+function toggleFavoriteForSelected({ showFeedback = false } = {}) {
+  if (!state.selected?.id) return false;
+  const liked = setFavoriteFile(state.selected.id, !isFavoriteFileId(state.selected.id));
+  if (showFeedback) showFavoriteFeedback(liked);
+  return liked;
+}
+
+function refreshFavoritePresentation() {
+  const selectedLiked = isFavoriteFileId(state.selected?.id);
+  [el.topbarFavoriteBtn, el.ctrlFavorite, el.shortsFavoriteBtn].forEach((button) => {
+    if (!button) return;
+    button.setAttribute('aria-pressed', String(selectedLiked));
+    button.setAttribute('aria-label', selectedLiked ? '좋아요 취소' : '좋아요 추가');
+    button.title = selectedLiked ? '좋아요 취소' : '좋아요';
+    button.classList.toggle('is-favorite', selectedLiked);
+  });
+  document.querySelectorAll?.('.file-card-favorite').forEach((button) => {
+    const liked = isFavoriteFileId(button.dataset.fileId);
+    button.setAttribute('aria-pressed', String(liked));
+    button.setAttribute('aria-label', liked ? '좋아요 취소' : '좋아요 추가');
+    button.title = liked ? '좋아요 취소' : '좋아요';
+    button.classList.toggle('is-favorite', liked);
+  });
+}
+
+function showFavoriteFeedback(liked) {
+  const feedback = el.favoriteFeedback;
+  if (!feedback) return;
+  const label = liked ? '좋아요' : '좋아요 취소';
+  const text = feedback.querySelector('span');
+  if (text) text.textContent = label;
+  feedback.classList.toggle('is-removing', !liked);
+  feedback.hidden = false;
+  feedback.classList.remove('active');
+  void feedback.offsetWidth;
+  feedback.classList.add('active');
+  clearTimeout(feedback._hideTimer);
+  feedback._hideTimer = setTimeout(() => {
+    feedback.classList.remove('active');
+    setTimeout(() => {
+      if (!feedback.classList.contains('active')) feedback.hidden = true;
+    }, 180);
+  }, 620);
 }
 
 async function fetchOriginalFileResponse(file, options = {}) {
@@ -2220,7 +2820,10 @@ function renderFiles({ resetWindow = false } = {}) {
   renderMediaGrid(files);
   el.emptyState.hidden = files.length + visibleFolders.length > 0;
   if (!el.emptyState.hidden && el.emptyStateTitle && el.emptyStateText) {
-    if (state.query) {
+    if (state.filter === 'favorites' && !state.query) {
+      el.emptyStateTitle.textContent = '좋아요가 아직 없습니다';
+      el.emptyStateText.textContent = '미디어를 두 번 탭하거나 하트 버튼을 눌러 이곳에 모아보세요.';
+    } else if (state.query) {
       el.emptyStateTitle.textContent = '검색 결과가 없습니다';
       el.emptyStateText.textContent = `“${state.query}”와 일치하는 미디어나 폴더를 찾지 못했습니다.`;
     } else if (state.filter !== 'all') {
@@ -2268,7 +2871,7 @@ function createFolderRow(folder, index = 0) {
 
 function shuffleCurrentFiles() {
   shuffledOrderMap.clear();
-  const shuffled = [...state.files];
+  const shuffled = [...currentPopulationFiles()];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -2318,16 +2921,22 @@ async function ensureAllPagesLoaded() {
 function filteredAndSortedFiles() {
   return sortedPopulationFiles().filter((file) => {
     const isVideo = file.mimeType?.startsWith('video/');
-    const typeMatch = state.filter === 'all' || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
+    const typeMatch = state.filter === 'all' || state.filter === 'favorites'
+      || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
     const queryMatch = !state.query || String(file.name || '').toLocaleLowerCase('ko').includes(state.query);
     return typeMatch && queryMatch;
   });
 }
 
+function currentPopulationFiles() {
+  return state.filter === 'favorites' ? state.favoriteFiles : state.files;
+}
+
 function sortedPopulationFiles() {
-  const files = [...state.files];
+  const population = currentPopulationFiles();
+  const files = [...population];
   if (state.sort === 'random') {
-    if (shuffledOrderMap.size !== state.files.length) {
+    if (shuffledOrderMap.size !== population.length) {
       shuffleCurrentFiles();
     }
     return files.sort((a, b) => {
@@ -2404,13 +3013,14 @@ function updateSelectionUI() {
   el.fileGrid?.querySelectorAll?.('.file-card').forEach((card) => {
     const selected = state.selectedFileIds.has(card.dataset.fileId);
     card.classList.toggle('selected', selected);
-    card.setAttribute('aria-pressed', String(selected));
+    card.querySelector('.file-card-open')?.setAttribute('aria-pressed', String(selected));
     const check = card.querySelector('.file-card-select-check');
     if (check) check.setAttribute('aria-hidden', String(!state.selectionMode));
   });
 }
 
 function installCardSelectionGestures(button, file) {
+  const card = button.closest?.('.file-card') || button;
   let timer = null;
   let startX = 0;
   let startY = 0;
@@ -2420,14 +3030,14 @@ function installCardSelectionGestures(button, file) {
     if (timer) clearTimeout(timer);
     timer = null;
     pointerId = null;
-    button.classList.remove('long-press-pending');
+    card.classList.remove('long-press-pending');
   };
   button.addEventListener('pointerdown', (event) => {
     if (event.pointerType === 'mouse' || event.button !== 0 || state.bulkAction) return;
     startX = event.clientX;
     startY = event.clientY;
     pointerId = event.pointerId;
-    button.classList.add('long-press-pending');
+    card.classList.add('long-press-pending');
     timer = setTimeout(() => {
       timer = null;
       suppressClick = true;
@@ -2461,14 +3071,16 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   const isVideo = file.mimeType?.startsWith('video/');
   const isGif = isGifFile(file);
   const canDownload = file.capabilities?.canDownload !== false;
+  const card = document.createElement('article');
+  card.className = 'file-card';
+  card.setAttribute('data-file-id', file.id);
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = 'file-card';
-  button.setAttribute('data-file-id', file.id);
+  button.className = 'file-card-open';
   const isSelected = state.selectedFileIds.has(file.id);
   button.setAttribute('aria-pressed', String(isSelected));
-  if (isSelected) button.classList.add('selected');
-  if (index >= (isMobileDevice() ? 16 : 24)) button.classList.add('defer-render');
+  if (isSelected) card.classList.add('selected');
+  if (index >= (isMobileDevice() ? 16 : 24)) card.classList.add('defer-render');
   button.title = canDownload
     ? `${isVideo ? '영상' : '이미지'} 원본 열기`
     : `${isVideo ? '영상' : '이미지'} Google 호환 재생기로 열기`;
@@ -2591,16 +3203,36 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
 
   body.append(name, meta);
   button.append(visual, body);
+  const favoriteButton = document.createElement('button');
+  favoriteButton.type = 'button';
+  favoriteButton.className = 'file-card-favorite';
+  favoriteButton.dataset.fileId = file.id;
+  favoriteButton.setAttribute('aria-pressed', String(isFavoriteFileId(file.id)));
+  favoriteButton.setAttribute('aria-label', isFavoriteFileId(file.id) ? '좋아요 취소' : '좋아요 추가');
+  favoriteButton.title = isFavoriteFileId(file.id) ? '좋아요 취소' : '좋아요';
+  favoriteButton.classList.toggle('is-favorite', isFavoriteFileId(file.id));
+  favoriteButton.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+  favoriteButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const liked = setFavoriteFile(file.id, !isFavoriteFileId(file.id));
+    flashPressed(favoriteButton);
+    showToast(liked ? '좋아요에 추가했습니다.' : '좋아요를 취소했습니다.');
+  });
+  card.append(button, favoriteButton);
   installCardSelectionGestures(button, file);
   button.addEventListener('click', () => {
     if (state.selectionMode) return;
     openPlayer(file);
   });
-  return button;
+  return card;
 }
 
 function updateLibrarySummary(visibleCount, visibleFolderCount) {
   const mediaCount = Number.isFinite(visibleCount) ? visibleCount : state.files.length;
+  if (state.filter === 'favorites') {
+    el.librarySummary.textContent = `좋아요 미디어 ${mediaCount.toLocaleString('ko-KR')}개 · 모든 폴더`;
+    return;
+  }
   const folderCount = Number.isFinite(visibleFolderCount) ? visibleFolderCount : state.folders.length;
   const parts = [];
   if (folderCount > 0) parts.push(`폴더 ${folderCount.toLocaleString('ko-KR')}개`);
@@ -2619,7 +3251,7 @@ function openPlayer(file) {
   state.selected = file;
   state.playbackOrderIds = getPlaybackFileList().map((item) => item.id);
   if (!state.playbackOrderIds.includes(file.id)) state.playbackOrderIds.push(file.id);
-  state.playbackDeck = buildVerticalPlaybackDeck(getPlaybackFileList(), file.id);
+  state.playbackDeck = buildAccountPlaybackDeck(getPlaybackFileList(), file.id);
   state.playbackDeckComplete = hasCompletePlaybackPopulation();
   document.body.style.overflow = 'hidden';
   setPlayerBackgroundInert(true);
@@ -3163,7 +3795,7 @@ function ensureVerticalPlaybackDeck(file = state.selected, list = getPlaybackFil
     || [...(deck.above || []), ...(deck.below || [])].some((id) => !knownIds.has(id))
     || (hasCompletePlaybackPopulation() && !state.playbackDeckComplete);
   if (invalid || !(deck.above?.length || deck.below?.length)) {
-    state.playbackDeck = buildVerticalPlaybackDeck(list, file.id);
+    state.playbackDeck = buildAccountPlaybackDeck(list, file.id);
     state.playbackDeckComplete = hasCompletePlaybackPopulation();
   }
   return state.playbackDeck;
@@ -3236,7 +3868,7 @@ function warmPlaybackNeighborhood(file = state.selected, { loadPopulation = fals
         // Vertical random playback is contractually sampled from the complete
         // folder population. Replace the provisional first-page neighbours as
         // soon as metadata collection finishes, before the first commit.
-        state.playbackDeck = buildVerticalPlaybackDeck(fullList, state.selected.id);
+        state.playbackDeck = buildAccountPlaybackDeck(fullList, state.selected.id);
         state.playbackDeckComplete = true;
         warmPlaybackNeighborhood(state.selected);
       })
@@ -3435,7 +4067,7 @@ async function prepareFullPlaybackPopulation() {
   const fullList = getPlaybackFileList();
   extendPlaybackOrder(fullList);
   if (state.selected) {
-    state.playbackDeck = buildVerticalPlaybackDeck(fullList, state.selected.id);
+    state.playbackDeck = buildAccountPlaybackDeck(fullList, state.selected.id);
     state.playbackDeckComplete = true;
   }
 }
@@ -3485,7 +4117,7 @@ function playNextFile(direction = 'left') {
     undefined,
     false,
     (target, list) => {
-      state.playbackDeck = buildVerticalPlaybackDeck(list, target.id);
+      state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
       state.playbackDeckComplete = hasCompletePlaybackPopulation();
     }
   );
@@ -3499,7 +4131,7 @@ function playPrevFile(direction = 'right') {
     undefined,
     false,
     (target, list) => {
-      state.playbackDeck = buildVerticalPlaybackDeck(list, target.id);
+      state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
       state.playbackDeckComplete = hasCompletePlaybackPopulation();
     }
   );
@@ -3514,7 +4146,7 @@ function playRandomFile(direction = 'up') {
     '랜덤 재생 준비 실패',
     needsCompletePopulation,
     (target, list) => {
-      state.playbackDeck = advanceVerticalPlaybackDeck(state.playbackDeck, dir, target.id, list);
+      state.playbackDeck = advanceAccountPlaybackDeck(state.playbackDeck, dir, target.id, list);
       if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
     }
   );
@@ -3529,10 +4161,10 @@ function playFrozenSwipeTarget(targetId, direction) {
     false,
     (target, list) => {
       if (vertical) {
-        state.playbackDeck = advanceVerticalPlaybackDeck(state.playbackDeck, direction, target.id, list);
+        state.playbackDeck = advanceAccountPlaybackDeck(state.playbackDeck, direction, target.id, list);
         if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
       } else {
-        state.playbackDeck = buildVerticalPlaybackDeck(list, target.id);
+        state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
         state.playbackDeckComplete = hasCompletePlaybackPopulation();
       }
     }
@@ -3545,7 +4177,8 @@ let touchStartTime = 0;
 let isTouchActive = false;
 let lockedAxis = null;
 let lastTapTime = 0;
-let lastTapZone = null;
+let lastTapX = 0;
+let lastTapY = 0;
 let singleTapTimer = null;
 
 function trackSwipeCommit(navigationPromise) {
@@ -3590,45 +4223,45 @@ function flashSeekHint(zone) {
 function handleStageTap(clientX, clientY) {
   const now = Date.now();
   const zone = getTapZone(clientX, clientY);
-  const isDoubleTap = (now - lastTapTime < 320) && zone === lastTapZone && (zone === 'left' || zone === 'right');
+  const isDoubleTap = (now - lastTapTime < 320)
+    && Math.hypot(clientX - lastTapX, clientY - lastTapY) <= 48;
   lastTapTime = now;
-  lastTapZone = zone;
+  lastTapX = clientX;
+  lastTapY = clientY;
 
   if (isDoubleTap) {
     if (singleTapTimer) {
       clearTimeout(singleTapTimer);
       singleTapTimer = null;
     }
-    seekRelative(zone === 'left' ? -10 : 10);
-    flashSeekHint(zone);
-    return;
-  }
-
-  // 가운데 탭 = 재생/일시정지 전용 (즉시 응답)
-  if (zone === 'center') {
-    if (singleTapTimer) {
-      clearTimeout(singleTapTimer);
-      singleTapTimer = null;
+    // Consume the pair. A third rapid tap starts a new gesture instead of
+    // chaining against the second tap and toggling the favorite repeatedly.
+    lastTapTime = 0;
+    lastTapX = 0;
+    lastTapY = 0;
+    const rect = el.mediaStage.getBoundingClientRect();
+    const doubleTapAction = resolveMediaDoubleTapAction(clientX, rect.left, rect.width, !el.videoPlayer?.hidden);
+    // Preserve the established ±10s shortcut only in the narrow outer edges;
+    // the rest of the media surface follows the familiar double-tap-to-like pattern.
+    if (doubleTapAction === 'seek-backward' || doubleTapAction === 'seek-forward') {
+      const seekZone = doubleTapAction === 'seek-backward' ? 'left' : 'right';
+      seekRelative(seekZone === 'left' ? -10 : 10);
+      flashSeekHint(seekZone);
+    } else {
+      toggleFavoriteForSelected({ showFeedback: true });
+      navigator.vibrate?.(10);
     }
-    togglePlayPause();
     return;
   }
 
-  // 위/아래 에지 = 몰입 토글 (더블탭 제스처가 없어 즉시 실행)
-  if (zone === 'top' || zone === 'bottom') {
-    if (singleTapTimer) {
-      clearTimeout(singleTapTimer);
-      singleTapTimer = null;
-    }
-    setStageImmersive(!el.playerModal.classList.contains('immersive'));
-    return;
-  }
-
-  // 좌/우 에지 = 더블탭 시크(±10초) 판별 창 뒤 몰입 토글
+  // Any non-control surface can receive the second tap, so defer the single
+  // tap action by only the recognition window. Center toggles playback;
+  // the surrounding surface toggles the immersive chrome.
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
-    setStageImmersive(!el.playerModal.classList.contains('immersive'));
+    if (zone === 'center') togglePlayPause();
+    else setStageImmersive(!el.playerModal.classList.contains('immersive'));
   }, 280);
 }
 
@@ -3685,10 +4318,16 @@ function setupTouchGestures() {
       const absY = Math.abs(rawY);
       if (Math.hypot(absX, absY) >= 12) {
         if (absX >= Math.max(1, absY) * 1.25) {
+          clearTimeout(singleTapTimer);
+          singleTapTimer = null;
+          lastTapTime = 0;
           lockedAxis = 'x';
           swipeGestureDirection = rawX < 0 ? 'left' : 'right';
           swipeGestureTargetId = resolveSwipeTarget(swipeGestureDirection)?.id || null;
         } else if (absY >= Math.max(1, absX) * 1.25) {
+          clearTimeout(singleTapTimer);
+          singleTapTimer = null;
+          lastTapTime = 0;
           lockedAxis = 'y';
           swipeGestureDirection = rawY < 0 ? 'up' : 'down';
           swipeGestureAwaitingPopulation = !hasCompletePlaybackPopulation();
@@ -4021,9 +4660,11 @@ function openMediaSource(file) {
   state.selected = file;
   if (!state.playbackOrderIds.includes(file.id)) state.playbackOrderIds.push(file.id);
   if (state.playbackDeck?.anchorId !== file.id) {
-    state.playbackDeck = buildVerticalPlaybackDeck(getPlaybackFileList(), file.id);
+    state.playbackDeck = buildAccountPlaybackDeck(getPlaybackFileList(), file.id);
     state.playbackDeckComplete = hasCompletePlaybackPopulation();
   }
+  markFileViewed(file.id);
+  refreshFavoritePresentation();
   Promise.resolve().then(() => {
     if (state.selected?.id === file.id && !el.playerSheet?.hidden) warmPlaybackNeighborhood(file);
   });
@@ -5070,6 +5711,7 @@ async function performDeleteFile() {
     const removedIds = new Set(succeeded.map((file) => file.id));
 
     state.files = state.files.filter((file) => !removedIds.has(file.id));
+    markFilesRemovedFromAccountState(removedIds);
     succeeded.forEach((file) => {
       shuffledOrderMap.delete(file.id);
       generatedThumbnailCache.delete(file.id);
@@ -5788,6 +6430,9 @@ function closePlayer() {
   mediaTransitionCommitting = false;
   swipeCommitPending = false;
   playbackNavigationChain = Promise.resolve();
+  clearTimeout(singleTapTimer);
+  singleTapTimer = null;
+  lastTapTime = 0;
   clearMediaTransition();
   if (document.fullscreenElement || document.webkitFullscreenElement) {
     if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
@@ -5851,6 +6496,9 @@ function resetMediaElements() {
   state.lastPresentedMediaTime = null;
   state.frameDuration = DEFAULT_FRAME_DURATION;
   clearDirectMediaSources();
+  // A paused video can leave the center play control visible while the next
+  // item is an image/GIF. Recompute immediately after hiding the video.
+  updatePlayPauseUI();
   clearDrivePreview();
   if (el.ambientBackdrop) {
     el.ambientBackdrop.classList.remove('active');
@@ -5858,6 +6506,11 @@ function resetMediaElements() {
   }
   if (el.mobileShortsProgressBar) {
     el.mobileShortsProgressBar.style.transform = 'scaleX(0)';
+  }
+  if (el.favoriteFeedback) {
+    clearTimeout(el.favoriteFeedback._hideTimer);
+    el.favoriteFeedback.classList.remove('active', 'is-removing');
+    el.favoriteFeedback.hidden = true;
   }
   if (el.seekBarPlayed) el.seekBarPlayed.style.transform = 'scaleX(0)';
   if (el.seekBarBuffered) el.seekBarBuffered.style.transform = 'scaleX(0)';
@@ -5982,6 +6635,16 @@ function invalidateDriveSessionData() {
   state.rootFolderId = null;
   state.treeCache = null;
   state.treeCachePromise = null;
+  clearTimeout(state.accountStateSyncTimer);
+  state.accountStateSyncTimer = null;
+  state.accountId = null;
+  state.accountMediaState = createEmptyAccountMediaState();
+  state.accountStateFileId = null;
+  state.accountStateLoaded = false;
+  state.accountStateLoadingPromise = null;
+  state.accountStateSyncPromise = null;
+  state.accountStateLastSyncAt = 0;
+  state.favoriteFiles = [];
 }
 
 async function copyOrigin() {

@@ -66,3 +66,13 @@
 - Reauthenticated the v1.18.1 deployment, loaded 778 supported media rows with the authorized validation folder/deep scan, and played actual 207MB and 1.01GB videos through `Drive 원본 파일 · Range 무변환 전송`. The 1.01GB sample produced `status=206`, `contentRangeInferred=true`, `rangeSatisfied=true`, `readyState=4`, no error, and advanced beyond 13 seconds without OPFS confirmation or compatibility preview; v1.18.1 console warnings/errors were zero.
 - Generated `C:\Users\jbs\Downloads\Drive-Original-v1.18.1.zip` and `Drive-Original.zip`; both are 102,418 bytes, contain 16 entries/15 files, match every packaged Git blob, and share SHA-256 `B5FF1DB7CC7BEF25C497DED75BEAE497EC1E246C6B898DA917BA906151B9DB53`.
 - Updated and re-fetched the Notion maintenance page; v1.18.1, release commit/run, D-040, authenticated 1.01GB Range evidence, package hash/size, history row, and both new attachments were present.
+
+## 2026-09-17
+
+- Combined the paused 01:00 scheduled scope with the user's new favorite requirements and began the work immediately on `codex/likes-and-navigation`; the scheduled duplicate was kept paused to prevent concurrent edits.
+- Recorded D-041 and implemented one personal-app account state document in Drive `appDataFolder`, keyed local cache, read/merge/write conflict handling, foreground refresh, offline-cache replay, viewed tracking, and unseen-first vertical shorts ordering.
+- Added card, desktop player, top-bar, and mobile shorts favorite controls; central mobile double-tap toggles a favorite while narrow video edges preserve ±10-second seek. Added a folder-independent favorites view with path context and immediate removal on unlike.
+- Added a direct-manipulation mobile left-edge back gesture outside the player, fixed first-level folder back navigation, and removed the irrelevant deep-scan control from the all-folder favorites view.
+- Fixed stale video controls so an image or GIF cannot inherit the previous video's central play button.
+- Verified desktop and 390×844 demo layouts, cross-folder favorite collection, player/card favorite toggles, immediate unlike removal, v1.19.0 cache-busted assets, and zero browser warnings/errors. The browser backend could not inject raw touch events, so double-tap and edge-swipe commits were verified deterministically rather than claimed as physical-device evidence.
+- Verified JavaScript syntax, diff whitespace, and the complete 78/78 Node suite covering app, static shell, and service worker behavior.

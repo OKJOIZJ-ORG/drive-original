@@ -111,6 +111,26 @@ test('player controls, in-app preview, and selection toolbar remain bound in the
   assert.doesNotMatch(app, /function showDriveHandoff\(/);
 });
 
+test('account-synced favorites and viewed history are wired into the existing library and player surfaces', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  const styles = read('styles.css');
+  assert.match(app, /const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state\.json'/);
+  assert.match(app, /spaces: 'appDataFolder'/);
+  assert.match(app, /parents: \['appDataFolder'\]/);
+  assert.match(app, /function mergeAccountMediaStates\(/);
+  assert.match(app, /function prioritizeUnseenFiles\(/);
+  assert.match(app, /function setupLibraryEdgeBackGesture\(/);
+  assert.match(app, /resetMediaElements\(\)[\s\S]*?clearDirectMediaSources\(\);[\s\S]*?updatePlayPauseUI\(\)/);
+  for (const id of ['topbarFavoriteBtn', 'ctrlFavorite', 'shortsFavoriteBtn', 'favoriteFeedback', 'edgeBackIndicator']) {
+    assert.match(html, new RegExp(`\\bid="${id}"`));
+  }
+  assert.match(html, /data-filter="favorites"/);
+  assert.match(app, /el\.deepScanToggle\.hidden = state\.filter === 'favorites'/);
+  assert.match(styles, /\.file-card-favorite\.is-favorite/);
+  assert.match(styles, /\.favorite-feedback\.active/);
+});
+
 test('video adaptively chooses exact-original transport and exhausts original paths before compatibility playback', () => {
   const app = read('app.js');
   const html = read('index.html');
