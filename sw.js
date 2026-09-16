@@ -112,9 +112,18 @@ async function proxyDriveMedia(request, url, clientId) {
     requestId: `media-${++requestSequence}`,
     clientId: clientId || '',
     fileId,
-    mediaSession: url.searchParams.get('session')
+    sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
+    requestedRange: request.headers.get('range')
   };
-  const driveUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&supportsAllDrives=true`;
+  // `mediaSession` is retained until all controlled clients have moved to the
+  // clearer `sessionId` field.
+  context.mediaSession = context.sessionId;
+  const driveUrl = new URL(`https://www.googleapis.com/drive/v3/files/${fileId}`);
+  driveUrl.searchParams.set('alt', 'media');
+  driveUrl.searchParams.set('supportsAllDrives', 'true');
+  if (url.searchParams.get('acknowledgeAbuse') === '1') {
+    driveUrl.searchParams.set('acknowledgeAbuse', 'true');
+  }
   const headers = new Headers();
 
   const resourceKey = url.searchParams.get('resourceKey');
@@ -122,7 +131,7 @@ async function proxyDriveMedia(request, url, clientId) {
     headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
   }
 
-  const range = request.headers.get('range');
+  const range = context.requestedRange;
   if (range) {
     headers.set('Range', range);
   }
@@ -138,7 +147,7 @@ async function proxyDriveMedia(request, url, clientId) {
     const fetchMedia = () => {
       request.signal.throwIfAborted();
       headers.set('Authorization', `Bearer ${token}`);
-      return fetch(driveUrl, {
+      return fetch(driveUrl.toString(), {
         method: request.method,
         headers,
         redirect: 'follow',
@@ -175,7 +184,13 @@ async function proxyDriveMedia(request, url, clientId) {
         reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
       } catch (_) {}
       const retryAfterMs = parseRetryAfterMs(upstream.headers.get('Retry-After'));
-      await notifyMediaError(context, upstream.status, reasons, retryAfterMs);
+      const contentRange = upstream.headers.get('Content-Range');
+      await notifyMediaError(context, upstream.status, reasons, retryAfterMs, {
+        category: upstream.status === 416 ? 'range-unsatisfiable' : undefined,
+        contentRange,
+        rangeSatisfied: false,
+        driveReason: reasons[0] || (upstream.status === 416 ? 'rangeNotSatisfiable' : null)
+      });
       const errorHeaders = new Headers(upstream.headers);
       errorHeaders.set('Cache-Control', 'no-store');
       return new Response(request.method === 'HEAD' ? null : upstream.body, {
@@ -185,19 +200,41 @@ async function proxyDriveMedia(request, url, clientId) {
       });
     }
 
+    const contentRange = upstream.headers.get('Content-Range');
+    const rangeSatisfied = upstream.status === 206
+      && doesContentRangeSatisfy(range, contentRange);
+    if (upstream.status === 206 && !rangeSatisfied) {
+      await upstream.body?.cancel();
+      await notifyMediaError(context, upstream.status, ['rangeInvalid'], 0, {
+        category: 'range-invalid',
+        contentRange,
+        rangeSatisfied: false,
+        driveReason: 'rangeInvalid'
+      });
+      return mediaErrorResponse('Drive returned an invalid byte range', 502);
+    }
+
     const responseHeaders = new Headers(upstream.headers);
     responseHeaders.set('Access-Control-Allow-Origin', self.location.origin);
     responseHeaders.set('Access-Control-Allow-Credentials', 'true');
     responseHeaders.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
     responseHeaders.set('Access-Control-Allow-Headers', 'Range, Authorization, Accept, Origin, Content-Type');
     responseHeaders.set('Access-Control-Expose-Headers', 'Content-Range, Accept-Ranges, Content-Length, Content-Type');
-    responseHeaders.set('Accept-Ranges', 'bytes');
     responseHeaders.set('Cache-Control', 'private, no-store, no-transform');
 
     // Force exact MIME type if known (prevents Safari application/octet-stream rejection)
     const mimeParam = url.searchParams.get('mime');
     if (mimeParam) {
       responseHeaders.set('Content-Type', mimeParam);
+    }
+
+    if (upstream.status === 200 || upstream.status === 206) {
+      await notifyMediaStatus(context, {
+        status: upstream.status,
+        contentRange,
+        rangeSatisfied,
+        playbackMode: rangeSatisfied ? 'original-range' : 'original-sequential'
+      });
     }
 
     return new Response(request.method === 'HEAD' ? null : upstream.body, {
@@ -289,18 +326,91 @@ function parseRetryAfterMs(value, now = Date.now()) {
   return Number.isFinite(retryAt) ? Math.max(0, retryAt - Number(now || 0)) : 0;
 }
 
-async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0) {
+function parseRequestedByteRange(value) {
+  const match = /^bytes=(\d*)-(\d*)$/i.exec(String(value || '').trim());
+  if (!match || (!match[1] && !match[2])) return null;
+  const start = match[1] ? Number(match[1]) : null;
+  const end = match[2] ? Number(match[2]) : null;
+  if ((start != null && !Number.isSafeInteger(start))
+    || (end != null && !Number.isSafeInteger(end))
+    || (start != null && end != null && start > end)) return null;
+  return start == null ? { suffixLength: end } : { start, end };
+}
+
+function parseSatisfiedContentRange(value) {
+  const match = /^bytes\s+(\d+)-(\d+)\/(\d+|\*)$/i.exec(String(value || '').trim());
+  if (!match) return null;
+  const start = Number(match[1]);
+  const end = Number(match[2]);
+  const total = match[3] === '*' ? null : Number(match[3]);
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end
+    || (total != null && (!Number.isSafeInteger(total) || total <= end))) return null;
+  return { start, end, total };
+}
+
+function doesContentRangeSatisfy(requestedValue, contentValue) {
+  const requested = parseRequestedByteRange(requestedValue);
+  const content = parseSatisfiedContentRange(contentValue);
+  if (!requested || !content) return false;
+  if (requested.suffixLength != null) {
+    if (!requested.suffixLength || content.total == null) return false;
+    const earliestStart = Math.max(0, content.total - requested.suffixLength);
+    return content.start >= earliestStart && content.end === content.total - 1;
+  }
+  if (content.start !== requested.start) return false;
+  if (requested.end != null) {
+    const latestEnd = content.total == null
+      ? requested.end
+      : Math.min(requested.end, content.total - 1);
+    return content.end <= latestEnd;
+  }
+  return true;
+}
+
+async function notifyMediaStatus(context, details) {
+  if (!context.clientId) return;
+  try {
+    const client = await self.clients.get(context.clientId);
+    client?.postMessage({
+      type: 'MEDIA_PROXY_STATUS',
+      fileId: context.fileId,
+      sessionId: context.sessionId,
+      mediaSession: context.mediaSession,
+      status: details.status,
+      requestedRange: context.requestedRange || null,
+      contentRange: details.contentRange || null,
+      rangeSatisfied: Boolean(details.rangeSatisfied),
+      playbackMode: details.playbackMode
+    });
+  } catch (_) {
+    // Closing a client must not turn its media response into another error.
+  }
+}
+
+async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0, details = {}) {
   if (!context.clientId) return;
   const rateLimited = status === 429
     || (status === 403 && reasons.some((reason) => /rateLimitExceeded/i.test(reason)));
-  const category = status === 401 ? 'auth'
+  const category = details.category || (status === 401 ? 'auth'
     : rateLimited ? 'rate-limit'
     : status === 403 ? 'permission'
     : status === 404 ? 'not-found'
-    : status >= 500 ? 'server' : 'http';
+    : status >= 500 ? 'server' : 'http');
   try {
     const client = await self.clients.get(context.clientId);
-    client?.postMessage({ type: 'MEDIA_PROXY_ERROR', ...context, status, category, reasons, retryAfterMs });
+    client?.postMessage({
+      type: 'MEDIA_PROXY_ERROR',
+      ...context,
+      status,
+      category,
+      reasons,
+      driveReason: details.driveReason || reasons[0] || null,
+      requestedRange: context.requestedRange || null,
+      contentRange: details.contentRange || null,
+      rangeSatisfied: Boolean(details.rangeSatisfied),
+      retryAfterMs,
+      sessionId: context.sessionId
+    });
   } catch (_) {
     // Closing a client must not turn its media response into another error.
   }
