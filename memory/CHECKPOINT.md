@@ -1,15 +1,15 @@
-# Checkpoint — v1.17.0 pre-release verification — 2026-09-16 21:17
+# Checkpoint — v1.17.0 released — 2026-09-16 21:36
 
 ## The story so far
 
-The original-quality-first Service Worker and app playback state machine are implemented on `codex/original-quality-first-hardening` through `88a5d69`, with final review fixes and the `v1.17.0` version bump still uncommitted. The last full run passed 51/51 before the newest 403-refresh and demo-label tests; a complete rerun, round-two rehearsal, final diff review, release packaging, Pages byte verification, and Notion readback remain.
+Drive Original v1.17.0 is released from code commit `f53cde63d4da0524658a0633e10c325a02e566d9`. GitHub Pages run `35095971626` succeeded and the live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` were HTTP 200 and byte-identical to that commit. Both 119,318-byte release ZIPs contain the expected 16 entries, every packaged file matches its Git blob, and share SHA-256 `1150740B3A5954F35C5788FCA5055D263ECF3CA8307C9D3A147F5913E8F0E19F`. The Notion maintenance page was updated with both packages and re-fetched successfully.
 
 ## Decided
 
 - D-035 keeps all in-app original-byte paths ahead of automatic Google compatibility playback; external Drive remains a manual escape hatch only.
 - Full-original recovery now shares a three-request budget across OPFS and memory, and a generic first 403 performs one quiet token refresh before showing in-app reconnection.
-- Demo media is explicitly labeled as non-original, and the checking state hides the redundant quality badge.
-- Physical iOS Safari and authenticated Google-account behavior remain explicit verification boundaries unless this release obtains fresh direct evidence.
+- Demo media is explicitly labeled as non-original, checking/compatibility labels are non-duplicative, and the checking state never claims proven original quality.
+- Authenticated real-Drive playback and physical iOS Safari remain explicit verification boundaries; local demo, deterministic fault tests, and emulated mobile evidence do not replace them.
 
 ## Waiting on the user
 
@@ -17,10 +17,10 @@ The original-quality-first Service Worker and app playback state machine are imp
 
 ## Next first action
 
-Run the complete Node suite and static checks, finish independent review plus round-two zero-context rehearsal, then commit, merge, push, verify Pages bytes, package ZIPs, and update the maintenance page with readback.
+No release work remains. A future authenticated Drive/device matrix can extend evidence without reopening the completed v1.17.0 release.
 
 ## Tried
 
 - Gemini advisory consultation failed before content review because the local PowerShell/runtime integration failed; do not retry this turn and rely on Codex plus independent subagent review.
 - The isolated Chrome DevTools profile has no saved OAuth client ID or Drive token, so authenticated real-account playback cannot be claimed from that profile.
-- Round-one rehearsal found duplicate checking text and misleading demo resolution; both are patched and awaiting round-two readback.
+- Round-one rehearsal found duplicate checking text and misleading demo resolution; both were fixed, and the fresh round-two rehearsal passed without material findings.
