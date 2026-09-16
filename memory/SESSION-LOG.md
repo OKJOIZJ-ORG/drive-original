@@ -76,3 +76,6 @@
 - Fixed stale video controls so an image or GIF cannot inherit the previous video's central play button.
 - Verified desktop and 390×844 demo layouts, cross-folder favorite collection, player/card favorite toggles, immediate unlike removal, v1.19.0 cache-busted assets, and zero browser warnings/errors. The browser backend could not inject raw touch events, so double-tap and edge-swipe commits were verified deterministically rather than claimed as physical-device evidence.
 - Verified JavaScript syntax, diff whitespace, and the complete 78/78 Node suite covering app, static shell, and service worker behavior.
+- Fast-forwarded release commit `51e5a28509aee062e71c1cac2774f5304ce44770` into `main`, pushed it, observed GitHub Pages run `35116311314` succeed, and verified five live core files were byte-identical to the release Git blobs.
+- Generated `C:\Users\jbs\Downloads\Drive-Original-v1.19.0.zip` and `Drive-Original.zip` with `core.autocrlf=false`; both contain 16 entries/15 files, are 110,591 bytes, match every packaged Git blob, and share SHA-256 `7D07BA7679734B2D0D8E4C755FF81E9AF4471993FAD40EB007237FB5B44EA9E9`.
+- Updated and re-fetched the Notion maintenance page; v1.19.0, release commit/run, D-041, account-state architecture, verification boundary, package hash/size, version-history row, and both attached packages were present.
