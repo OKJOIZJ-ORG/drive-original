@@ -78,3 +78,36 @@ test('privacy documentation matches the requested OAuth scope and token storage'
   assert.doesNotMatch(readme, /drive\.readonly/);
   assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
 });
+
+test('player controls and selection toolbar remain bound in the shell', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  for (const id of ['ctrlFramePrev', 'ctrlFrameNext', 'selectionToolbar']) {
+    assert.match(html, new RegExp(`\\bid="${id}"`));
+    assert.match(app, new RegExp(`'${id}'`));
+  }
+});
+
+test('video range path does not regress to the full-file blob fallback', () => {
+  const app = read('app.js');
+  assert.doesNotMatch(
+    app,
+    /state\.mediaAttempt === 'range'\s*\)\s*\{\s*await startOriginalBlobFallback/
+  );
+  assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('session'/);
+  assert.doesNotMatch(app, /MEDIA_PREFETCH_BYTES|queueMediaPrefetch|__prefetched/);
+});
+
+test('mobile shell preserves zoom and high-contrast metadata labels', () => {
+  const html = read('index.html');
+  const styles = read('styles.css');
+  const viewport = html.match(/<meta name="viewport" content="([^"]+)">/)?.[1] || '';
+  const folderMeta = styles.match(/\.folder-meta \{[\s\S]*?\n\}/)?.[0] || '';
+  const fileMeta = styles.match(/\.file-card-meta \{[\s\S]*?\n\}/)?.[0] || '';
+
+  assert.doesNotMatch(viewport, /user-scalable\s*=\s*no/i);
+  assert.doesNotMatch(viewport, /maximum-scale\s*=\s*1(?:\.0)?/i);
+  assert.match(folderMeta, /color:\s*var\(--label-secondary\)/);
+  assert.match(fileMeta, /color:\s*var\(--label-secondary\)/);
+  assert.doesNotMatch(html, /id="brandButton"[^>]*aria-label=/);
+});

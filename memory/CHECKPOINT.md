@@ -1,14 +1,15 @@
-# Checkpoint — Rounded navy icon release — 2026-09-16 16:12
+# Checkpoint — v1.15.0 commercial-grade stabilization, pre-release — 2026-09-16 17:58
 
 ## The story so far
 
-Drive Original v1.14.1 is implemented, committed as `9580da6254e9f2b73d15a3947e43a534d3ffc9d3`, pushed to `main`, and live on GitHub Pages. PWA, Apple Touch, Maskable, favicon, and in-app header surfaces now use the rounded navy logo without the old blue dot or blue camera badge. Windows desktop and Start menu shortcuts point to a verified seven-resolution ICO. The v1.14.1 ZIP and Notion maintenance record are synchronized.
+Drive Original v1.15.0 is implemented on `codex/commercial-grade-stability`. Deliberate axis-locked swipes, cancellable transitions, compact desktop controls, frame stepping, long-press/right-click multi-select, partial-failure-safe bulk move/delete, bounded thumbnail work, request-scoped Google token recovery, and Range-preserving service-worker retries are in place. Video no longer falls back to full-file Blob buffering, and Drive recovery opens a top-level view URL with its resource key. Non-reusable 512KB speculative media downloads were removed; connection preconnects remain. Automated tests pass 35/35; mobile demo Lighthouse scores 100 in every reported category, with LCP 318ms and CLS 0.00 in the local unthrottled trace.
 
 ## Decided
 
-- D-030 fixes the rounded navy Drive Original mark as the single app-identity icon system.
-- Blue accent details are excluded from the app logo; functional blue controls elsewhere remain unchanged.
-- Deterministic SVG masters own raster icon generation, while the app header consumes the same `icon-192.png` used by PWA identity surfaces.
+- D-031 remains the governing product decision.
+- The service worker owns per-client token scope and preserves the exact Range/resource-key request across one 401 refresh retry.
+- A failed video Range path stops safely and offers a top-level Drive handoff; only images may use the bounded full-file memory fallback.
+- UI verification distinguishes Chrome mobile emulation from physical iOS Safari, and local demo mode from an authenticated Google account.
 
 ## Waiting on the user
 
@@ -16,10 +17,10 @@ Drive Original v1.14.1 is implemented, committed as `9580da6254e9f2b73d15a3947e4
 
 ## Next first action
 
-Run `git status --short --branch` before any new Drive Original work; no v1.14.1 release work remains.
+Complete the independent final diff review, commit the verified unit, fast-forward `main`, push, verify GitHub Pages bytes against the release commit, package the ZIPs, and update the maintenance record.
 
 ## Tried
 
-- Direct 192px and 180px headless-Chrome screenshots were cropped by Chrome's minimum viewport width; the correct 512px render was downscaled with high-quality alpha-preserving interpolation instead.
-- The first automated-test invocation paused at the Gemini checkpoint; retrying the identical scoped command passed 15/15.
-- Saving the browser screenshot to a new `artifacts/` path was denied by the browser tool; an inline screenshot completed the same visual check.
+- Chrome mobile emulation found three genuine accessibility issues: zoom was disabled, metadata contrast was 2.48:1, and custom accessible names omitted visible labels. After correction, Lighthouse accessibility improved from 91 to 100.
+- An authentication regression test exposed a same-tick `clearToken()` race; clearing the old single-flight reference fixed it and the new test passes.
+- Browser screenshot file export to a new local artifacts path was denied by the browser tool; inline screenshots and DOM/computed-style readback completed the visual check.

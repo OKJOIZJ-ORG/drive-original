@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b0d14">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Google Drive 원본 무손실 실시간 스트리밍 PWA">
@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.14.1">
+  <link rel="stylesheet" href="./styles.css?v=1.15.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.14.1" defer></script>
+  <script src="./app.js?v=1.15.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -31,7 +31,7 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="topbar-inner">
-      <button class="brand" id="brandButton" type="button" aria-label="라이브러리로 이동">
+      <button class="brand" id="brandButton" type="button" title="라이브러리로 이동">
         <span class="brand-icon" aria-hidden="true">
           <img src="./icons/icon-192.png" alt="" width="32" height="32">
         </span>
@@ -204,12 +204,30 @@
             <option value="random">랜덤 셔플 (무작위)</option>
           </select>
         </div>
+
+        <button type="button" class="selection-mode-button" id="selectionModeButton" aria-pressed="false">
+          <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>선택</span>
+        </button>
+      </div>
+
+      <div class="selection-toolbar" id="selectionToolbar" role="toolbar" aria-label="선택한 파일 작업" hidden>
+        <div class="selection-summary" aria-live="polite"><strong id="selectionCountText">0개</strong><span> 선택</span></div>
+        <div class="selection-actions">
+          <button class="secondary-button compact" id="selectionSelectAllBtn" type="button">표시 항목 전체</button>
+          <button class="secondary-button compact" id="selectionMoveBtn" type="button" disabled>이동</button>
+          <button class="danger-text-button compact" id="selectionDeleteBtn" type="button" disabled>휴지통</button>
+          <button class="icon-button compact" id="selectionCancelBtn" type="button" aria-label="선택 취소" title="선택 취소">
+            <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
       </div>
 
       <div class="library-status" id="libraryStatus" role="status" aria-live="polite"></div>
 
       <!-- Folder Strip (compact navigation rows, separated from media grid) -->
       <div class="folder-strip" id="folderStrip" hidden aria-label="하위 폴더"></div>
+      <button class="secondary-button folder-more" id="folderMoreButton" type="button" hidden>폴더 더 보기</button>
 
       <!-- File Grid Cards -->
       <div class="file-grid" id="fileGrid"></div>
@@ -224,8 +242,8 @@
         <div class="empty-icon" aria-hidden="true">
           <svg width="24" height="24" style="width:24px;height:24px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
         </div>
-        <h2>표시할 미디어가 없습니다</h2>
-        <p>검색어나 필터를 변경하거나 우측 상단 새로고침을 실행해 보세요.</p>
+        <h2 id="emptyStateTitle">표시할 미디어가 없습니다</h2>
+        <p id="emptyStateText">이 폴더에는 표시할 수 있는 영상이나 이미지가 없습니다.</p>
       </div>
 
       <button class="secondary-button load-more" id="loadMoreButton" type="button" hidden>
@@ -274,13 +292,12 @@
       <!-- Media Stage with Cinematic Ambient Mode & Mobile Shorts Overlay -->
       <div class="media-stage" id="mediaStage" tabindex="0">
         <div class="ambient-backdrop" id="ambientBackdrop" aria-hidden="true"></div>
-        <video id="videoPlayer" playsinline webkit-playsinline preload="auto" hidden></video>
+        <video id="videoPlayer" playsinline webkit-playsinline preload="metadata" hidden></video>
         <img id="imageViewer" alt="" hidden>
-        <iframe id="drivePreview" title="Google Drive 호환 미리보기" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
 
         <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
-        <div class="mobile-shorts-overlay" id="mobileShortsOverlay" aria-hidden="true">
+        <div class="mobile-shorts-overlay" id="mobileShortsOverlay">
           <div class="shorts-expand-row" id="shortsExpandRow">
             <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -289,6 +306,12 @@
             <button class="shorts-chip" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
               <span>이동</span>
+            </button>
+            <button class="shorts-chip icon" id="shortsFramePrev" type="button" aria-label="1프레임 뒤로" title="1프레임 뒤로" hidden>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg>
+            </button>
+            <button class="shorts-chip icon" id="shortsFrameNext" type="button" aria-label="1프레임 앞으로" title="1프레임 앞으로" hidden>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
             </button>
             <button class="shorts-chip" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
@@ -335,7 +358,7 @@
         <!-- Custom Video Controls Bar -->
         <div class="custom-video-controls" id="customVideoControls" hidden>
           <!-- Seek Bar -->
-          <div class="seek-bar-container" id="seekBarContainer" role="slider" aria-label="재생 구간 탐색" tabindex="0">
+          <div class="seek-bar-container" id="seekBarContainer" role="slider" aria-label="재생 구간 탐색" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00 / 0:00" tabindex="0">
             <div class="seek-bar-track">
               <div class="seek-bar-buffered" id="seekBarBuffered"></div>
               <div class="seek-bar-played" id="seekBarPlayed"></div>
@@ -366,6 +389,12 @@
                   <text x="12" y="15.2" font-size="7" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle" fill="currentColor" stroke="none">10</text>
                 </svg>
               </button>
+              <button class="player-ctrl-btn frame-step-btn" id="ctrlFramePrev" type="button" aria-label="1프레임 뒤로 (,)" title="1프레임 뒤로 (,)" hidden>
+                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg>
+              </button>
+              <button class="player-ctrl-btn frame-step-btn" id="ctrlFrameNext" type="button" aria-label="1프레임 앞으로 (.)" title="1프레임 앞으로 (.)" hidden>
+                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
+              </button>
               <button class="player-ctrl-btn" id="ctrlForward" type="button" aria-label="10초 앞으로 (L)" title="10초 앞으로 (L)">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
@@ -390,16 +419,16 @@
 
             <div class="controls-right">
               <div class="speed-menu-wrap" id="speedMenuWrap">
-                <button class="player-ctrl-btn text-btn" id="ctrlSpeedButton" type="button" aria-label="재생 속도" title="재생 속도">
+                <button class="player-ctrl-btn text-btn" id="ctrlSpeedButton" type="button" aria-label="재생 속도" aria-haspopup="menu" aria-expanded="false" aria-controls="speedDropdown" title="재생 속도">
                   <span id="ctrlSpeedText">1.0×</span>
                 </button>
-                <div class="speed-dropdown" id="speedDropdown" hidden>
-                  <button type="button" data-speed="0.5">0.5×</button>
-                  <button type="button" data-speed="0.75">0.75×</button>
-                  <button type="button" data-speed="1" class="active">1.0× (기본)</button>
-                  <button type="button" data-speed="1.25">1.25×</button>
-                  <button type="button" data-speed="1.5">1.5×</button>
-                  <button type="button" data-speed="2">2.0×</button>
+                <div class="speed-dropdown" id="speedDropdown" role="menu" aria-label="재생 속도" hidden>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-speed="0.5">0.5×</button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-speed="0.75">0.75×</button>
+                  <button type="button" role="menuitemradio" aria-checked="true" data-speed="1" class="active">1.0× (기본)</button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-speed="1.25">1.25×</button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-speed="1.5">1.5×</button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-speed="2">2.0×</button>
                 </div>
               </div>
               <button class="player-ctrl-btn" id="ctrlPip" type="button" aria-label="화면 속 화면(PiP)" title="화면 속 화면 (PiP)">
@@ -419,14 +448,14 @@
           </div>
         </div>
 
-        <div class="media-loading" id="mediaLoading">
+        <div class="media-loading" id="mediaLoading" role="status" aria-live="polite">
           <div class="loading-spinner"></div>
           <p id="mediaLoadingText">원본 스트림 준비 중</p>
         </div>
 
-        <div class="media-error" id="mediaError" hidden>
-          <div class="error-badge">!</div>
-          <h3>이 파일을 재생할 수 없습니다</h3>
+        <div class="media-error" id="mediaError" role="alert" aria-live="assertive" hidden>
+          <div class="error-badge" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 2.9 1.8 17a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 2.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+          <h3 id="mediaErrorTitle">이 파일을 재생할 수 없습니다</h3>
           <p id="mediaErrorMessage">원본 스트림을 준비하지 못했습니다.</p>
           <div class="error-actions">
             <button class="secondary-button" id="retryMediaButton" type="button">다시 시도</button>
@@ -466,7 +495,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.14.1</span>
+            <span class="version-badge" id="settingsAppVersion">v1.15.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -520,20 +549,20 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.14.1</span>
+          <span id="appVersion">v1.15.0</span>
         </div>
       </div>
     </form>
   </dialog>
 
   <!-- Delete Confirm Dialog -->
-  <dialog class="app-dialog" id="deleteDialog">
+  <dialog class="app-dialog" id="deleteDialog" aria-labelledby="deleteDialogTitle" aria-describedby="deleteFileName">
     <form method="dialog" class="dialog-box">
       <div class="dialog-top">
-        <h2>휴지통으로 이동</h2>
+        <h2 id="deleteDialogTitle">휴지통으로 이동</h2>
       </div>
       <div class="dialog-content">
-        <p class="dialog-text">다음 파일을 Google Drive 휴지통으로 이동합니다.</p>
+        <p class="dialog-text">선택한 파일을 Google Drive 휴지통으로 이동합니다.</p>
         <p class="delete-file-name" id="deleteFileName">—</p>
         <p class="dialog-text subtle">이동 후 Drive 휴지통에서 30일 내 복구할 수 있습니다.</p>
         <div class="button-row">
@@ -545,16 +574,16 @@
   </dialog>
 
   <!-- Move-to-folder Dialog -->
-  <dialog class="app-dialog move-dialog" id="moveDialog">
+  <dialog class="app-dialog move-dialog" id="moveDialog" aria-labelledby="moveDialogTitle" aria-describedby="moveFileName">
     <form method="dialog" class="dialog-box">
       <div class="dialog-top">
-        <h2>폴더로 이동</h2>
+        <h2 id="moveDialogTitle">폴더로 이동</h2>
         <button class="icon-button" value="cancel" aria-label="닫기" type="submit">
           <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       <div class="dialog-content">
-        <p class="dialog-text">다음 파일을 이동할 폴더를 선택하세요.</p>
+        <p class="dialog-text">선택한 파일을 이동할 폴더를 선택하세요.</p>
         <p class="delete-file-name" id="moveFileName">—</p>
         <input class="plain-input move-search" id="moveSearchInput" type="search" placeholder="폴더 이름으로 검색…" autocomplete="off">
         <div class="move-folder-list" id="moveFolderList" role="listbox" aria-label="이동할 폴더 선택"></div>

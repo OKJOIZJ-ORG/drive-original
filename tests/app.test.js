@@ -76,7 +76,7 @@ function installMiniDom(context) {
       this.style = { setProperty() {} };
       this.classList = {
         add: (...names) => {
-          const set = new Set(this.className.split(/\\s+/).filter(Boolean));
+          const set = new Set(this.className.split(/\s+/).filter(Boolean));
           names.forEach((name) => set.add(name));
           this.className = [...set].join(' ');
         }
@@ -108,7 +108,7 @@ function installMiniDom(context) {
     const found = [];
     const visit = (node) => {
       if (!node || node.removed) return;
-      const classes = String(node.className || '').split(/\\s+/);
+      const classes = String(node.className || '').split(/\s+/);
       if ((className && classes.includes(className)) || (tagName && String(node.tagName).toLowerCase() === tagName)) {
         found.push(node);
       }
@@ -271,4 +271,156 @@ test('G-drive-scale render mounts at most 240 cards and never mounts GIF image s
   assert.equal(findNodes(grid, '.file-card').length, 240);
   assert.equal(findNodes(grid, '.file-card-gif-placeholder').length, 240);
   assert.equal(findNodes(grid, 'img').length, 0);
+});
+
+test('swipe commits require a dominant deliberate movement or a qualifying flick', () => {
+  const context = loadAppContext();
+  const check = (primary, cross, elapsed, axis) => run(
+    context,
+    `shouldCommitSwipe(${primary}, ${cross}, ${elapsed}, ${axis})`
+  );
+
+  assert.equal(check(44, 2, 100, 400), false, 'short drag must not commit');
+  assert.equal(check(160, 130, 100, 400), false, 'diagonal drag must not commit');
+  assert.equal(check(70, 0, 500, 400), false, 'slow short drag must not commit');
+  assert.equal(check(100, 10, 500, 400), true, 'deliberate dominant drag must commit');
+  assert.equal(check(35, 2, 50, 400), false, 'sub-threshold flick must not commit');
+  assert.equal(check(48, 2, 70, 400), true, 'qualifying dominant flick must commit');
+});
+
+test('task pool caps concurrency and returns aligned all-settled results', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    let active = 0;
+    let peak = 0;
+    const delays = [30, 5, 20, 1, 10, 15];
+    const items = ['a', 'b', 'c', 'd', 'e', 'f'];
+    const settled = await runTaskPool(items, async (item, index) => {
+      active++;
+      peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, delays[index]));
+      active--;
+      if (item === 'd') throw new Error('expected failure');
+      return item.toUpperCase();
+    }, 4);
+    return { peak, settled: settled.map((entry) => ({
+      item: entry.item,
+      status: entry.status,
+      value: entry.value,
+      reason: entry.reason && entry.reason.message
+    })) };
+  })()`);
+  const normalized = JSON.parse(JSON.stringify(result));
+
+  assert.ok(normalized.peak <= 4);
+  assert.deepEqual(normalized.settled, [
+    { item: 'a', status: 'fulfilled', value: 'A' },
+    { item: 'b', status: 'fulfilled', value: 'B' },
+    { item: 'c', status: 'fulfilled', value: 'C' },
+    { item: 'd', status: 'rejected', reason: 'expected failure' },
+    { item: 'e', status: 'fulfilled', value: 'E' },
+    { item: 'f', status: 'fulfilled', value: 'F' }
+  ]);
+});
+
+test('Drive view and media URLs preserve required context', () => {
+  const context = loadAppContext();
+  const viewUrl = run(context, `buildDriveViewUrl({ id: 'file-id', resourceKey: 'raw-key_1' })`);
+  assert.equal(new URL(viewUrl).searchParams.get('resourcekey'), 'raw-key_1');
+
+  const mediaUrl = run(context, `(() => {
+    state.mediaSession = 19;
+    return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4' });
+  })()`);
+  assert.equal(new URL(mediaUrl).searchParams.get('session'), '19');
+});
+
+test('folder strip rendering obeys its hard cap', () => {
+  const context = loadAppContext();
+  installMiniDom(context);
+  const grid = context.document.createElement('div');
+  const strip = context.document.createElement('div');
+  context.testGrid = grid;
+  context.testStrip = strip;
+  const count = JSON.parse(run(context, `(() => {
+    el.fileGrid = testGrid;
+    el.folderStrip = testStrip;
+    el.emptyState = {};
+    el.librarySummary = {};
+    renderBreadcrumb = () => {};
+    updateLibrarySummary = () => {};
+    state.files = [];
+    state.folders = Array.from({ length: FOLDER_RENDER_MAX + 100 }, (_, index) => ({ id: 'folder-' + index, name: 'Folder ' + index }));
+    state.filter = 'all';
+    state.query = '';
+    renderFiles({ resetWindow: true });
+    return JSON.stringify({ rendered: testStrip.children.length, max: FOLDER_RENDER_MAX });
+  })()`));
+  assert.equal(count.rendered, count.max);
+});
+
+test('bulk move eligibility skips current items but blocks any non-current permission failure', () => {
+  const context = loadAppContext();
+  const target = { id: 'target', driveId: null, capabilities: { canAddChildren: true } };
+
+  assert.equal(run(context, `getBulkMoveBlockReason([
+    { id: 'already-there', parents: ['target'], capabilities: {} },
+    { id: 'movable', parents: ['source'], capabilities: {} }
+  ], ${JSON.stringify(target)})`), null, 'one actionable item keeps the bulk move available');
+
+  assert.equal(run(context, `getBulkMoveBlockReason([
+    { id: 'first', parents: ['target'], capabilities: {} },
+    { id: 'second', parents: ['target'], capabilities: {} }
+  ], ${JSON.stringify(target)})`), '현재 위치');
+
+  assert.equal(run(context, `getBulkMoveBlockReason([
+    { id: 'already-there', parents: ['target'], capabilities: {} },
+    { id: 'blocked', parents: ['source'], capabilities: { canMoveItemWithinDrive: false } }
+  ], ${JSON.stringify(target)})`), '이동 권한 없음');
+
+  assert.equal(run(context, `getBulkMoveBlockReason([
+    { id: 'shared-file', parents: ['source'], driveId: 'shared-a', capabilities: { canMoveItemOutOfDrive: false } }
+  ], ${JSON.stringify(target)})`), '드라이브 간 이동 불가');
+});
+
+test('bulk action target text is stable for empty, single, and multi-file selections', () => {
+  const context = loadAppContext();
+  assert.equal(run(context, 'formatActionTarget([])'), '이름 없는 파일');
+  assert.equal(run(context, "formatActionTarget([{ id: 'one', name: 'one.mp4' }])"), 'one.mp4');
+  assert.equal(run(context, "formatActionTarget([{ id: 'one', name: 'one.mp4' }, { id: 'two', name: 'two.jpg' }, { id: 'three', name: 'three.png' }])"), '3개 파일 · one.mp4 외 2개');
+});
+
+test('clearing a pending background token request lets the next generation start a fresh GIS request', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    let starts = 0;
+    const callbacks = [];
+    const oauth2 = {
+      initTokenClient({ callback }) {
+        callbacks.push(callback);
+        return { requestAccessToken() { starts++; } };
+      }
+    };
+    window.google = { accounts: { oauth2 } };
+    google = window.google;
+    state.clientId = '123-test.apps.googleusercontent.com';
+    el.connectionBadge = { dataset: {}, querySelector() { return null; } };
+
+    const first = attemptSilentAutoLogin({ background: true });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const beforeClear = starts;
+    clearToken(false);
+    const second = attemptSilentAutoLogin({ background: true });
+    for (let index = 0; index < 4 && starts < 2; index++) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+    const afterSecondStart = starts;
+    callbacks[1]?.({ error: 'access_denied' });
+    await Promise.all([first, second]);
+    return { beforeClear, afterSecondStart };
+  })()`);
+  const normalized = JSON.parse(JSON.stringify(result));
+
+  assert.equal(normalized.beforeClear, 1);
+  assert.equal(normalized.afterSecondStart, 2);
 });

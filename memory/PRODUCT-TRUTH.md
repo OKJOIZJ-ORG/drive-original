@@ -13,11 +13,16 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 - `verified locally 2026-09-16`: Favicon/PWA/Apple touch/maskable assets and the in-app header use the rounded navy Drive Original logo system with no legacy blue accent. Evidence: 15/15 Node tests, rendered asset inspection, and Chrome demo DOM/computed-style readback.
 - `operational 2026-09-16`: GitHub Pages serves v1.14.1 and the live `version.json` plus four PNG icon assets are byte-identical to Git blobs at release commit `9580da6254e9f2b73d15a3947e43a534d3ffc9d3`. Evidence: Actions run 35066797555, HTTP 200, and Node `Buffer.equals` readback.
 - `observed 2026-09-16`: Windows desktop and Start menu shortcuts reference `C:\Users\jbs\AppData\Local\CustomAppIcons\drive_original_rounded_navy.ico`; the ICO contains 16, 24, 32, 48, 64, 128, and 256px entries and rendered successfully at 64px.
+- `verified locally 2026-09-16`: v1.15.0 uses deliberate dominant-axis swipe thresholds with cancellation recovery, compact desktop playback controls, `,`/`.` and UI frame stepping, and a focus-contained responsive player. Evidence: source review, focused gesture tests, desktop/mobile demo interaction, and 35/35 Node tests.
+- `verified locally 2026-09-16`: Long press on touch or right-click/Select on desktop enters multi-select; bulk trash and folder move use a four-worker task pool and retain only failed items after partial failure. Evidence: source review, deterministic task-pool/capability tests, and demo bulk-action flows.
+- `verified locally 2026-09-16`: The media proxy scopes tokens/errors to the requesting client, preserves Range and resource-key headers over one correlated 401 refresh retry, and aborts stale upstream work. Video failures do not trigger a full-file Blob fallback; Drive recovery opens a top-level view URL. Evidence: 10 service-worker contract tests plus app/static regression tests.
+- `verified locally 2026-09-16`: Mobile demo navigation scores 100 for Lighthouse accessibility, best practices, SEO, and agentic browsing; an unthrottled local trace measured LCP 318ms and CLS 0.00. These are local demo measurements, not field data.
 
 ## Not implemented
 
 - A content-derived static first-frame preview for GIF cards is not implemented; the deliberate safe fallback is a generic static placeholder.
 - A live cross-drive move was not executed during verification because no authenticated, non-destructive test topology was available.
+- Authenticated Google token renewal, real Drive Range playback, and physical iOS Safari gestures were not exercised in this local demo verification.
 
 ## Permanently excluded
 

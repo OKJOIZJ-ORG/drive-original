@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.14.1';
+const APP_VERSION = '1.15.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -13,6 +13,40 @@ const DRIVE_PAGE_SIZE = 1000;
 const RENDER_WINDOW_MAX = 240;
 const RENDER_WINDOW_STEP_RATIO = 0.5;
 const MOVE_RESULT_BATCH = 200;
+const FOLDER_RENDER_MAX = 200;
+const BULK_ACTION_CONCURRENCY = 4;
+const DEFAULT_FRAME_DURATION = 1 / 30;
+
+function shouldCommitSwipe(primaryDelta, crossDelta, elapsedMs, axisSize = 400) {
+  const primary = Math.abs(Number(primaryDelta) || 0);
+  const cross = Math.abs(Number(crossDelta) || 0);
+  const elapsed = Math.max(1, Number(elapsedMs) || 1);
+  const distanceThreshold = Math.min(132, Math.max(72, (Number(axisSize) || 400) * 0.18));
+  const dominant = primary >= Math.max(1, cross) * 1.35;
+  if (!dominant) return false;
+  if (primary >= distanceThreshold) return true;
+  return primary >= 48 && primary / elapsed >= 0.55;
+}
+
+async function runTaskPool(items, worker, concurrency = BULK_ACTION_CONCURRENCY) {
+  const source = Array.isArray(items) ? items : [];
+  const results = new Array(source.length);
+  let cursor = 0;
+  const runner = async () => {
+    while (cursor < source.length) {
+      const index = cursor++;
+      const item = source[index];
+      try {
+        results[index] = { item, status: 'fulfilled', value: await worker(item, index) };
+      } catch (reason) {
+        results[index] = { item, status: 'rejected', reason };
+      }
+    }
+  };
+  const count = Math.min(source.length, Math.max(1, Math.floor(Number(concurrency) || 1)));
+  await Promise.all(Array.from({ length: count }, () => runner()));
+  return results;
+}
 
 function isGifFile(file) {
   if (!file) return false;
@@ -145,6 +179,10 @@ const state = {
   query: '',
   sort: 'modifiedTime',
   selected: null,
+  selectionMode: false,
+  selectedFileIds: new Set(),
+  pendingActionFiles: [],
+  bulkAction: false,
   serviceWorkerRegistration: null,
   loadingFiles: false,
   listGeneration: 0,
@@ -166,13 +204,19 @@ const state = {
   controlsTimeout: null,
   isSeeking: false,
   pendingPlay: false,
+  resumePosition: null,
   deleting: false,
   folderIndexPromise: null,
   folderIndexAbortController: null,
   moveFolderRows: [],
   moveResultLimit: MOVE_RESULT_BATCH,
+  folderRenderLimit: FOLDER_RENDER_MAX,
   randomRequestGeneration: 0,
   treeCachePromise: null,
+  authGeneration: 0,
+  frameDuration: DEFAULT_FRAME_DURATION,
+  lastPresentedMediaTime: null,
+  frameCallbackId: null,
   demo: new URLSearchParams(location.search).get('demo') === '1'
 };
 
@@ -185,6 +229,19 @@ let isSeekingPointer = false;
 let isSpeedMenuOpen = false;
 let tokenRenewalTimer = null;
 let shuffledOrderMap = new Map();
+let tokenRequestPromise = null;
+let tokenRequestGeneration = -1;
+let tokenRequestBackground = true;
+let pendingTokenRequest = null;
+let playerReturnFocus = null;
+let playbackNavigationChain = Promise.resolve();
+let mediaTransitionTimers = [];
+let mediaTransitionAnimations = [];
+let snapBackTimer = null;
+let mediaTransitionCommitting = false;
+let swipeCommitPending = false;
+let moveRequestGeneration = 0;
+let moveParentsAbortController = null;
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -201,7 +258,6 @@ async function init() {
   bindEvents();
   setupTouchGestures();
   setupInfiniteScroll();
-  setupMediaPrefetch();
   el.clientIdInput.value = state.clientId;
   el.settingsClientId.value = state.clientId;
   el.currentOrigin.textContent = location.origin;
@@ -236,25 +292,28 @@ function bindElements() {
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
     'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
-    'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'loadMoreButton',
+    'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
+    'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
+    'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
-    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip',
+    'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
-    'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'drivePreview', 'playerFeedback',
+    'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer', 'playerFeedback',
     'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
-    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts', 'ctrlRewind', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
-    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn',
+    'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts',
+    'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
+    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsFramePrev', 'shortsFrameNext',
     'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'deepScanToggle', 'deepScanStopBtn',
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
     'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
-    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorMessage',
+    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
@@ -268,6 +327,20 @@ function bindElements() {
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
   el.speedButtons = [...document.querySelectorAll('#speedDropdown [data-speed]')];
+}
+
+function bindDialogLightDismiss(dialog) {
+  if (!dialog) return;
+  let startedOnBackdrop = false;
+  dialog.addEventListener('pointerdown', (event) => {
+    startedOnBackdrop = event.target === dialog;
+  });
+  dialog.addEventListener('click', (event) => {
+    if (!startedOnBackdrop || event.target !== dialog || state.deleting || state.moving || state.bulkAction) return;
+    startedOnBackdrop = false;
+    dialog.close();
+  });
+  dialog.addEventListener('pointercancel', () => { startedOnBackdrop = false; });
 }
 
 function bindEvents() {
@@ -291,6 +364,7 @@ function bindEvents() {
   });
   el.searchInput.addEventListener('input', (event) => {
     state.query = event.target.value.trim().toLocaleLowerCase('ko');
+    state.folderRenderLimit = FOLDER_RENDER_MAX;
     renderFiles({ resetWindow: true });
   });
   el.sortSelect.addEventListener('change', async (event) => {
@@ -320,6 +394,15 @@ function bindEvents() {
   }));
   el.loadMoreButton.addEventListener('click', () => {
     if (state.nextPageToken) loadFiles({ append: true });
+  });
+  if (el.selectionModeButton) el.selectionModeButton.addEventListener('click', () => enterSelectionMode());
+  if (el.selectionCancelBtn) el.selectionCancelBtn.addEventListener('click', exitSelectionMode);
+  if (el.selectionSelectAllBtn) el.selectionSelectAllBtn.addEventListener('click', selectAllVisibleFiles);
+  if (el.selectionDeleteBtn) el.selectionDeleteBtn.addEventListener('click', requestDeleteFile);
+  if (el.selectionMoveBtn) el.selectionMoveBtn.addEventListener('click', requestMoveFile);
+  if (el.folderMoreButton) el.folderMoreButton.addEventListener('click', () => {
+    state.folderRenderLimit += FOLDER_RENDER_MAX;
+    renderFiles();
   });
   if (el.closePlayerButton) el.closePlayerButton.addEventListener('click', closePlayer);
   if (el.playerBackdrop) el.playerBackdrop.addEventListener('click', closePlayer);
@@ -383,6 +466,10 @@ function bindEvents() {
   if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.addEventListener('click', togglePlayPause);
   if (el.ctrlPlayPause) el.ctrlPlayPause.addEventListener('click', togglePlayPause);
   if (el.ctrlRewind) el.ctrlRewind.addEventListener('click', () => seekRelative(-10));
+  if (el.ctrlFramePrev) el.ctrlFramePrev.addEventListener('click', () => stepVideoFrame(-1));
+  if (el.ctrlFrameNext) el.ctrlFrameNext.addEventListener('click', () => stepVideoFrame(1));
+  if (el.shortsFramePrev) el.shortsFramePrev.addEventListener('click', () => stepVideoFrame(-1));
+  if (el.shortsFrameNext) el.shortsFrameNext.addEventListener('click', () => stepVideoFrame(1));
   if (el.ctrlForward) el.ctrlForward.addEventListener('click', () => seekRelative(10));
   if (el.ctrlMute) el.ctrlMute.addEventListener('click', toggleMute);
   if (el.ctrlVolumeSlider) el.ctrlVolumeSlider.addEventListener('input', onVolumeSliderInput);
@@ -390,12 +477,16 @@ function bindEvents() {
   if (el.ctrlPip) el.ctrlPip.addEventListener('click', togglePictureInPicture);
   if (el.ctrlFullscreen) el.ctrlFullscreen.addEventListener('click', toggleFullscreen);
   if (el.speedButtons) {
-    el.speedButtons.forEach((btn) => btn.addEventListener('click', () => setPlaybackSpeed(Number(btn.dataset.speed))));
+    el.speedButtons.forEach((btn) => {
+      btn.addEventListener('click', () => setPlaybackSpeed(Number(btn.dataset.speed)));
+      btn.addEventListener('keydown', onSpeedMenuKeyDown);
+    });
   }
   if (el.seekBarContainer) {
     el.seekBarContainer.addEventListener('pointerdown', onSeekPointerDown);
     el.seekBarContainer.addEventListener('pointermove', onSeekPointerHover);
     el.seekBarContainer.addEventListener('pointerleave', onSeekPointerLeave);
+    el.seekBarContainer.addEventListener('keydown', onSeekKeyDown);
   }
   if (el.mobileShortsProgressTrack) {
     el.mobileShortsProgressTrack.addEventListener('pointerdown', onShortsProgressPointerDown);
@@ -462,18 +553,29 @@ function bindEvents() {
   // Delete confirm dialog
   if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => {
     flashPressed(el.deleteCancelButton);
+    state.pendingActionFiles = [];
     el.deleteDialog.close();
   });
   if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
-  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (e) => e.preventDefault());
+  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (event) => {
+    if (state.deleting || state.bulkAction) event.preventDefault();
+    else state.pendingActionFiles = [];
+  });
 
   // Move dialog
   if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => {
     flashPressed(el.moveCancelButton);
+    cancelMoveFolderLoading();
     el.moveDialog.close();
   });
   if (el.moveConfirmButton) el.moveConfirmButton.addEventListener('click', performMoveFile);
-  if (el.moveDialog) el.moveDialog.addEventListener('cancel', (e) => e.preventDefault());
+  if (el.moveDialog) el.moveDialog.addEventListener('cancel', (event) => {
+    if (state.moving || state.bulkAction) event.preventDefault();
+    else cancelMoveFolderLoading();
+  });
+  if (el.moveDialog) el.moveDialog.addEventListener('close', () => {
+    if (!state.moving && !state.bulkAction) cancelMoveFolderLoading();
+  });
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => {
     state.moveResultLimit = MOVE_RESULT_BATCH;
     renderMoveFolderList(event.target.value);
@@ -488,7 +590,7 @@ function bindEvents() {
     state.tokenClient = null;
     requestAccessToken();
   });
-  if (el.permissionDialog) el.permissionDialog.addEventListener('cancel', (e) => e.preventDefault());
+  [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', updateConnectionBadge);
   window.addEventListener('offline', updateConnectionBadge);
   window.addEventListener('scroll', () => {
@@ -539,13 +641,15 @@ function bindEvents() {
   el.videoPlayer.addEventListener('loadedmetadata', () => {
     updateVideoProgress();
     updatePlayPauseUI();
-    onMediaReady();
+    beginVideoFrameSampling();
   });
   el.videoPlayer.addEventListener('canplay', onMediaReady, { once: false });
+  el.videoPlayer.addEventListener('playing', onMediaReady);
   el.videoPlayer.addEventListener('timeupdate', onVideoTimeUpdate);
   el.videoPlayer.addEventListener('progress', onVideoProgressUpdate);
   el.videoPlayer.addEventListener('play', () => {
     updatePlayPauseUI();
+    beginVideoFrameSampling();
     resetControlsTimer();
   });
   el.videoPlayer.addEventListener('pause', () => {
@@ -566,9 +670,6 @@ function bindEvents() {
       el.ambientBackdrop.classList.add('active');
     }
     onMediaReady();
-  });
-  el.drivePreview.addEventListener('load', () => {
-    if (state.mediaAttempt === 'drive-preview') onMediaReady();
   });
 }
 
@@ -741,29 +842,61 @@ async function forceReloadApp() {
   window.location.reload(true);
 }
 
-function handleWorkerMessage(event) {
+async function handleWorkerMessage(event) {
   const data = event.data || {};
   if (data.type === 'TOKEN_REQUEST' && event.ports && event.ports[0]) {
-    const valid = hasUsableToken();
-    event.ports[0].postMessage(valid ? { token: state.token, expiresAt: state.expiresAt } : null);
-    return;
-  }
-  if (data.type === 'MEDIA_AUTH_REQUIRED') {
-    state.lastProxyError = { status: 401 };
-    // 즉시 로그아웃 대신, 백그라운드 갱신을 먼저 시도한다.
-    if (state.clientId && validateClientId(state.clientId)) {
-      attemptSilentAutoLogin({ background: true });
-    } else {
-      clearToken(false);
+    const port = event.ports[0];
+    let available = hasUsableToken();
+    if (data.forceRefresh && state.clientId && validateClientId(state.clientId)) {
+      available = await requestGoogleToken({ background: true, force: true });
     }
-    if (state.selected) showMediaError('Google 인증 시간이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
-    updateConnectionBadge();
+    port.postMessage({
+      type: 'TOKEN_RESPONSE',
+      requestId: data.requestId,
+      token: available && hasUsableToken() ? state.token : null,
+      expiresAt: available && hasUsableToken() ? state.expiresAt : 0
+    });
+    port.close?.();
     return;
   }
   if (data.type === 'MEDIA_PROXY_ERROR') {
+    if (data.fileId && data.fileId !== state.selected?.id) return;
+    if (data.mediaSession != null && Number(data.mediaSession) !== state.mediaSession) return;
     state.lastProxyError = data;
-    if (data.status === 403 && state.selected) {
-      showMediaError('Drive에서 원본 파일 전송을 거부했습니다. 파일의 다운로드 허용 설정과 계정 권한을 확인하세요.');
+    if (!state.selected) return;
+    if (data.category === 'auth' || data.status === 401) {
+      const retryFile = state.selected;
+      const retrySession = state.mediaSession;
+      if (!el.videoPlayer.hidden && Number.isFinite(el.videoPlayer.currentTime)) {
+        state.resumePosition = { fileId: retryFile.id, time: el.videoPlayer.currentTime };
+      }
+      state.retryAfterAuth = true;
+      showMediaLoading('Google 연결을 안전하게 갱신하는 중');
+      const refreshed = state.clientId && validateClientId(state.clientId)
+        ? await requestGoogleToken({ background: true, force: true })
+        : false;
+      if (refreshed && state.selected?.id === retryFile.id && state.mediaSession === retrySession) {
+        state.retryAfterAuth = false;
+        state.pendingPlay = true;
+        openMediaSource(retryFile);
+      } else if (state.selected?.id === retryFile.id) {
+        showMediaError('Google 연결을 다시 확인해야 합니다. 아래 다시 시도를 눌러 계정 연결을 갱신하세요.', {
+          title: 'Google Drive 재연결 필요'
+        });
+      }
+      updateConnectionBadge();
+    } else if (data.category === 'permission' || data.status === 403) {
+      showMediaError('Drive에서 원본 파일 전송을 거부했습니다. 다운로드 허용 설정과 계정 권한을 확인하세요.', {
+        title: '원본 접근 권한이 없습니다'
+      });
+    } else if (data.category === 'not-found' || data.status === 404) {
+      showMediaError('파일이 이동 또는 삭제되었거나 현재 계정에서 더 이상 볼 수 없습니다.', {
+        title: '파일을 찾을 수 없습니다'
+      });
+    } else if (data.category === 'rate-limit' || data.status === 429) {
+      showMediaError('Google Drive 요청이 잠시 많습니다. 잠시 후 다시 시도하면 현재 위치에서 이어집니다.', {
+        title: '잠시 후 다시 시도해 주세요'
+      });
     }
   }
 }
@@ -808,23 +941,19 @@ function scheduleTokenRenewal() {
     tokenRenewalTimer = null;
   }
   if (!state.token || !state.expiresAt) return;
-  // 1차: 만료 10분 전에 공격적 갱신 시도
+  // 1차: 만료 10분 전에 갱신하고, 실패하면 만료 3분 전에 한 번 더 시도한다.
   const remainingMs = state.expiresAt - Date.now();
   const firstTryMs = Math.max(10_000, remainingMs - (10 * 60 * 1000));
-  tokenRenewalTimer = setTimeout(() => {
-    if (state.clientId && validateClientId(state.clientId)) {
-      attemptSilentAutoLogin({ background: true });
-    }
-    // 2차: 1차 갱신 후에도 토큰이 교체되지 않았으면 3분 전 재시도
-    const secondRemaining = state.expiresAt - Date.now();
-    if (secondRemaining > 0 && secondRemaining < 5 * 60 * 1000) {
-      const retryMs = Math.max(5_000, secondRemaining - (3 * 60 * 1000));
-      setTimeout(() => {
-        if (!hasUsableToken() && state.clientId && validateClientId(state.clientId)) {
-          attemptSilentAutoLogin({ background: true });
-        }
-      }, retryMs);
-    }
+  tokenRenewalTimer = setTimeout(async () => {
+    if (!state.clientId || !validateClientId(state.clientId)) return;
+    const expiresAtBeforeAttempt = state.expiresAt;
+    const refreshed = await requestGoogleToken({ background: true, force: true });
+    if (refreshed || state.expiresAt !== expiresAtBeforeAttempt) return;
+    const secondRemaining = expiresAtBeforeAttempt - Date.now();
+    if (secondRemaining <= 0) return;
+    tokenRenewalTimer = setTimeout(() => {
+      requestGoogleToken({ background: true, force: true });
+    }, Math.max(5_000, secondRemaining - (3 * 60 * 1000)));
   }, firstTryMs);
 }
 
@@ -841,30 +970,7 @@ function beginAuthorization() {
 }
 
 async function requestAccessToken() {
-  setConnectBusy(true);
-  updateConnectionBadge('busy');
-  try {
-    await waitForGoogleIdentity();
-    if (!state.tokenClient) {
-      state.tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: state.clientId,
-        scope: DRIVE_SCOPE,
-        callback: handleTokenResponse,
-        error_callback: (error) => {
-          console.error('Google OAuth popup error', error);
-          setConnectBusy(false);
-          updateConnectionBadge();
-          showToast('Google 로그인 창을 완료하지 못했습니다. Safari 팝업 차단 설정을 확인하세요.');
-        }
-      });
-    }
-    state.tokenClient.requestAccessToken({ prompt: '' });
-  } catch (error) {
-    console.error(error);
-    setConnectBusy(false);
-    updateConnectionBadge();
-    setClientIdError('Google 인증 라이브러리를 불러오지 못했습니다. 네트워크 연결을 확인하세요.');
-  }
+  return requestGoogleToken({ background: false, force: true, invalidateSession: true });
 }
 
 async function attemptSilentAutoLogin({ background = false } = {}) {
@@ -872,69 +978,115 @@ async function attemptSilentAutoLogin({ background = false } = {}) {
     if (!background) showSetup();
     return;
   }
-  if (!background) {
-    setConnectBusy(true);
-    updateConnectionBadge('busy');
-  }
-  try {
-    await waitForGoogleIdentity();
-    if (!state.tokenClient) {
-      state.tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: state.clientId,
-        scope: DRIVE_SCOPE,
-        callback: handleTokenResponse,
-        error_callback: (err) => {
-          console.log('Silent auto-login request requires user prompt or was dismissed:', err);
-          if (!background) {
-            setConnectBusy(false);
-            updateConnectionBadge();
-            showSetup();
-          }
-        }
-      });
-    }
-    state.tokenClient.requestAccessToken({ prompt: '' });
-  } catch (err) {
-    console.error('Silent auto-login error:', err);
-    if (!background) {
-      setConnectBusy(false);
-      updateConnectionBadge();
-      showSetup();
-    }
-  }
+  const connected = await requestGoogleToken({ background, force: true, invalidateSession: !background });
+  if (!connected && !background) showSetup();
+  return connected;
 }
 
-async function handleTokenResponse(response) {
-  setConnectBusy(false);
+async function applyTokenResponse(response, { background, invalidateSession, generation }) {
+  if (generation !== state.authGeneration) return false;
   if (!response || response.error || !response.access_token) {
     updateConnectionBadge();
-    if (response?.error !== 'user_cancelled') {
+    if (!background && response?.error !== 'user_cancelled') {
       setClientIdError(response?.error_description || 'Google 인증이 완료되지 않았습니다.');
     }
-    return;
+    return false;
   }
   const expiresIn = Math.max(60, Number(response.expires_in) || 3600);
   saveToken(response.access_token, Date.now() + expiresIn * 1000);
   clearClientIdError();
   sendTokenToWorker();
-  // 토큰이 교체되면 이전 rootFolderId로 구축된 폴더 인덱스가
-  // 다른 계정일 수 있으므로 캐시를 무효화한다.
-  state.folderIndexAbortController?.abort();
-  state.folderIndex = null;
-  state.folderIndexPromise = null;
-  state.moveFolderRows = [];
-  state.rootFolderId = null;
-  state.treeCache = null;
+  if (invalidateSession) invalidateDriveSessionData();
   updateConnectionBadge();
+  setTimeout(() => {
+    if (generation !== state.authGeneration) return;
+    if (state.retryAfterAuth && state.selected) {
+      const retryFile = state.selected;
+      state.retryAfterAuth = false;
+      state.pendingPlay = true;
+      openMediaSource(retryFile);
+    } else if (!state.files.length) {
+      loadFiles({ append: false });
+    }
+  }, 0);
+  return true;
+}
 
-  if (state.retryAfterAuth && state.selected) {
-    state.retryAfterAuth = false;
-    openMediaSource(state.selected);
-    return;
+function requestGoogleToken({ background = false, force = false, invalidateSession = false } = {}) {
+  if (!force && hasUsableToken()) return Promise.resolve(true);
+  const generation = state.authGeneration;
+  if (tokenRequestPromise) {
+    const sameGeneration = tokenRequestGeneration === generation;
+    const existingRequestCoversThisOne = !tokenRequestBackground || background;
+    if (sameGeneration && existingRequestCoversThisOne) return tokenRequestPromise;
+    const priorRequest = tokenRequestPromise;
+    return priorRequest.catch(() => false).then((connected) => {
+      if (generation !== state.authGeneration) return false;
+      if (connected && hasUsableToken()) return true;
+      return requestGoogleToken({ background, force, invalidateSession });
+    });
   }
-  if (!state.files.length) {
-    await loadFiles({ append: false });
+  if (!background) {
+    setConnectBusy(true);
+    updateConnectionBadge('busy');
   }
+
+  const operation = (async () => {
+    try {
+      await waitForGoogleIdentity(background ? 5_000 : 12_000);
+      if (generation !== state.authGeneration) return false;
+      return await new Promise((resolve) => {
+        let settled = false;
+        const finish = (result) => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timeout);
+          if (pendingTokenRequest?.generation === generation) pendingTokenRequest = null;
+          resolve(Boolean(result));
+        };
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: state.clientId,
+          scope: DRIVE_SCOPE,
+          callback: async (response) => finish(await applyTokenResponse(response, {
+            background, invalidateSession, generation
+          })),
+          error_callback: (error) => {
+            console.warn('Google OAuth request did not complete:', error);
+            if (!background) {
+              const message = error?.type === 'popup_failed_to_open'
+                ? 'Google 로그인 창이 차단되었습니다. 브라우저의 팝업 허용 설정을 확인하세요.'
+                : 'Google 로그인을 완료하지 못했습니다. 다시 연결해 주세요.';
+              showToast(message);
+            }
+            finish(false);
+          }
+        });
+        state.tokenClient = client;
+        const timeout = setTimeout(() => finish(false), background ? 10_500 : 20_000);
+        pendingTokenRequest = { generation, finish };
+        client.requestAccessToken({ prompt: '' });
+      });
+    } catch (error) {
+      console.error('Google Identity request failed:', error);
+      if (!background) setClientIdError('Google 인증 라이브러리를 불러오지 못했습니다. 네트워크 연결을 확인하세요.');
+      return false;
+    } finally {
+      if (!background) setConnectBusy(false);
+      updateConnectionBadge();
+    }
+  })();
+
+  tokenRequestPromise = operation;
+  tokenRequestGeneration = generation;
+  tokenRequestBackground = background;
+  operation.finally(() => {
+    if (tokenRequestPromise === operation) {
+      tokenRequestPromise = null;
+      tokenRequestGeneration = -1;
+      tokenRequestBackground = true;
+    }
+  });
+  return operation;
 }
 
 function waitForGoogleIdentity(timeoutMs = 12_000) {
@@ -974,61 +1126,13 @@ function setupInfiniteScroll() {
   infiniteScrollObserver.observe(el.infiniteScrollSentinel);
 }
 
-/* 로딩 단축 — 뷰포트에 가까워진 영상 카드의 첫 세그먼트(512KB)를 선제 프리페치한다.
-   SW 프록시의 max-age 응답이 브라우저 HTTP 캐시에 남아 재생 시작이 즉시 이어지고,
-   최소한 TCP/TLS+Drive 인증 경로가 예열된다. 데이터 절약 모드에서는 동작하지 않는다. */
-let mediaPrefetchObserver = null;
-const mediaPrefetchQueue = [];
-let activeMediaPrefetches = 0;
-const MAX_MEDIA_PREFETCHES = 2;
-const MEDIA_PREFETCH_BYTES = 512 * 1024;
-
-function setupMediaPrefetch() {
-  if (state.demo || location.protocol === 'file:') return;
-  if (!('IntersectionObserver' in window) || !window.isSecureContext) return;
-  if (navigator.connection?.saveData) return;
-  mediaPrefetchObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      mediaPrefetchObserver.unobserve(entry.target);
-      queueMediaPrefetch(entry.target.__file);
-    });
-  }, {
-    root: null,
-    rootMargin: '150% 0px',
-    threshold: 0
-  });
-}
-
-function queueMediaPrefetch(file) {
-  if (!file || file.__prefetched) return;
-  if (!file.mimeType?.startsWith('video/')) return;
-  if (file.capabilities?.canDownload === false) return;
-  if (!hasUsableToken()) return;
-  file.__prefetched = true;
-  mediaPrefetchQueue.push(file);
-  pumpMediaPrefetch();
-}
-
-function pumpMediaPrefetch() {
-  while (activeMediaPrefetches < MAX_MEDIA_PREFETCHES && mediaPrefetchQueue.length) {
-    const file = mediaPrefetchQueue.shift();
-    activeMediaPrefetches++;
-    fetch(buildMediaUrl(file), {
-      headers: { Range: `bytes=0-${MEDIA_PREFETCH_BYTES - 1}` }
-    }).catch(() => {
-      file.__prefetched = false; // 실패 시 재시도 여지를 남긴다
-    }).finally(() => {
-      activeMediaPrefetches--;
-      pumpMediaPrefetch();
-    });
-  }
-}
-
 const thumbnailExtractionQueue = [];
 let activeThumbnailExtractions = 0;
 const MAX_CONCURRENT_EXTRACTIONS = 2;
 const THUMBNAIL_CACHE_LIMIT = 240;
+let thumbnailGeneration = 0;
+const thumbnailWaitersByFile = new Map();
+const activeThumbnailJobs = new Set();
 
 function cacheGeneratedThumbnail(fileId, dataUrl) {
   generatedThumbnailCache.delete(fileId);
@@ -1049,7 +1153,14 @@ function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
     return;
   }
 
-  thumbnailExtractionQueue.push({ file, imgElement, visualContainer });
+  const waiter = { imgElement, visualContainer, generation: thumbnailGeneration };
+  const existing = thumbnailWaitersByFile.get(file.id);
+  if (existing) {
+    existing.push(waiter);
+    return;
+  }
+  thumbnailWaitersByFile.set(file.id, [waiter]);
+  thumbnailExtractionQueue.push({ file, generation: thumbnailGeneration });
   processThumbnailQueue();
 }
 
@@ -1058,25 +1169,36 @@ function processThumbnailQueue() {
     return;
   }
 
-  const { file, imgElement, visualContainer } = thumbnailExtractionQueue.shift();
+  const { file, generation } = thumbnailExtractionQueue.shift();
+  const waiters = thumbnailWaitersByFile.get(file.id) || [];
+
+  if (generation !== thumbnailGeneration) {
+    thumbnailWaitersByFile.delete(file.id);
+    setTimeout(processThumbnailQueue, 0);
+    return;
+  }
 
   const cached = generatedThumbnailCache.get(file.id);
   if (cached) {
-    imgElement.src = cached;
-    imgElement.classList.add('loaded');
-    visualContainer.classList.add('has-thumbnail');
+    waiters.forEach(({ imgElement, visualContainer }) => {
+      if (!imgElement.isConnected) return;
+      imgElement.src = cached;
+      imgElement.classList.add('loaded');
+      visualContainer.classList.add('has-thumbnail');
+    });
+    thumbnailWaitersByFile.delete(file.id);
     processThumbnailQueue();
     return;
   }
 
-  // The card may have been re-rendered away while waiting in the queue; skip the fetch.
-  if (!imgElement.isConnected) {
+  if (!waiters.some(({ imgElement }) => imgElement.isConnected)) {
+    thumbnailWaitersByFile.delete(file.id);
     setTimeout(processThumbnailQueue, 0);
     return;
   }
 
   activeThumbnailExtractions++;
-  visualContainer.classList.add('is-generating');
+  waiters.forEach(({ visualContainer }) => visualContainer.classList.add('is-generating'));
 
   const mediaUrl = buildMediaUrl(file);
   const video = document.createElement('video');
@@ -1088,20 +1210,30 @@ function processThumbnailQueue() {
   video.currentTime = 0.1;
 
   let isDone = false;
+  let timeout = null;
+  const job = { video, cancel: () => finish() };
+  activeThumbnailJobs.add(job);
   const finish = (dataUrl = null) => {
     if (isDone) return;
     isDone = true;
+    clearTimeout(timeout);
+    activeThumbnailJobs.delete(job);
     activeThumbnailExtractions--;
-    visualContainer.classList.remove('is-generating');
+    const subscribers = thumbnailWaitersByFile.get(file.id) || [];
+    thumbnailWaitersByFile.delete(file.id);
+    subscribers.forEach(({ visualContainer }) => visualContainer.classList.remove('is-generating'));
     try {
       video.removeAttribute('src');
       video.load();
     } catch (_) {}
-    if (dataUrl) {
+    if (dataUrl && generation === thumbnailGeneration) {
       cacheGeneratedThumbnail(file.id, dataUrl);
-      imgElement.src = dataUrl;
-      imgElement.classList.add('loaded');
-      visualContainer.classList.add('has-thumbnail');
+      subscribers.forEach(({ imgElement, visualContainer, generation: subscriberGeneration }) => {
+        if (subscriberGeneration !== thumbnailGeneration || !imgElement.isConnected) return;
+        imgElement.src = dataUrl;
+        imgElement.classList.add('loaded');
+        visualContainer.classList.add('has-thumbnail');
+      });
     }
     setTimeout(processThumbnailQueue, 40);
   };
@@ -1132,7 +1264,7 @@ function processThumbnailQueue() {
   video.addEventListener('loadeddata', capture);
   video.addEventListener('seeked', capture);
   video.addEventListener('error', () => finish(), { once: true });
-  setTimeout(() => finish(), 4000);
+  timeout = setTimeout(() => finish(), 4000);
 }
 
 async function loadFiles({ append }) {
@@ -1237,10 +1369,14 @@ function resetListingSession() {
   state.nextPageToken = null;
   state.renderWindowStart = 0;
   state.renderRowHeight = 250;
+  state.folderRenderLimit = FOLDER_RENDER_MAX;
   state.randomRequestGeneration++;
   shuffledOrderMap.clear();
-  mediaPrefetchQueue.splice(0);
+  thumbnailGeneration++;
+  [...activeThumbnailJobs].forEach((job) => job.cancel());
+  thumbnailWaitersByFile.clear();
   thumbnailExtractionQueue.splice(0);
+  if (state.selectionMode || state.selectedFileIds.size) exitSelectionMode();
 }
 
 function navigateToFolder(folderId, folderName) {
@@ -1527,15 +1663,15 @@ function waitForRetry(delayMs, signal) {
 
 async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0) {
   if (!hasUsableToken()) {
-    // 토큰이 만료된 경우, 1회 자동 갱신을 시도한 뒤 재실행한다.
     if (!_retried && state.clientId && validateClientId(state.clientId)) {
-      await tryQuietTokenRefresh();
+      await requestGoogleToken({ background: true, force: true });
       if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
     }
     const error = new Error('Google 인증이 만료되었습니다.');
     error.status = 401;
     throw error;
   }
+  const requestToken = state.token;
   const response = await fetch(url, {
     ...options,
     cache: 'no-store',
@@ -1546,11 +1682,14 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
     try {
       body = await response.json();
     } catch (_) {}
-    // 서버가 401을 반환한 경우, 토큰을 갱신하고 1회 재시도한다.
     if (response.status === 401 && !_retried && state.clientId && validateClientId(state.clientId)) {
-      clearToken(false);
-      await tryQuietTokenRefresh();
-      if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
+      // A concurrent request may already have replaced the rejected token.
+      if (state.token !== requestToken && hasUsableToken()) {
+        return driveFetch(url, options, true, _rateAttempt);
+      }
+      const refreshed = await requestGoogleToken({ background: true, force: true });
+      if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
+      if (state.token === requestToken) clearToken(false);
     }
     const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
     const rateLimited = response.status === 429
@@ -1572,37 +1711,8 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
   return response;
 }
 
-/* GIS prompt:'' 방식으로 토큰 갱신을 시도하고 결과를 최대 6초 대기한다.
-   팝업이 필요한 환경에서는 타임아웃으로 조용히 실패한다.
-   tokenClient가 이미 존재하면 callback이 handleTokenResponse로 고정되어 있으므로,
-   requestAccessToken + hasUsableToken 폴링으로 완료를 감지한다. */
 function tryQuietTokenRefresh() {
-  return new Promise(async (resolve) => {
-    const deadline = Date.now() + 6000;
-    try {
-      await waitForGoogleIdentity(5000);
-      if (!state.tokenClient) {
-        state.tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: state.clientId,
-          scope: DRIVE_SCOPE,
-          callback: handleTokenResponse,
-          error_callback: (err) => {
-            console.log('Quiet token refresh requires user prompt or was dismissed:', err);
-          }
-        });
-      }
-      state.tokenClient.requestAccessToken({ prompt: '' });
-      // handleTokenResponse가 state.token을 갱신하면 즉시 완료.
-      // 팝업이 필요하면 타임아웃까지 대기 후 조용히 포기.
-      const poll = () => {
-        if (hasUsableToken() || Date.now() >= deadline) return resolve();
-        setTimeout(poll, 200);
-      };
-      poll();
-    } catch {
-      resolve();
-    }
-  });
+  return requestGoogleToken({ background: true, force: true });
 }
 
 let renderWindowRaf = 0;
@@ -1646,13 +1756,13 @@ function renderMediaGrid(files) {
   const bottomRows = Math.ceil(Math.max(0, files.length - windowRange.end) / columns);
   const fragment = document.createDocumentFragment();
   files.slice(windowRange.start, windowRange.end).forEach((file, index) => {
-    fragment.appendChild(createFileCard(file, index));
+    fragment.appendChild(createFileCard(file, index, windowRange.start + index));
   });
   el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
   el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
   el.fileGrid.replaceChildren(fragment);
   const firstCard = el.fileGrid.querySelector('.file-card');
-  if (firstCard?.offsetHeight) {
+  if (firstCard?.offsetHeight && Math.abs((firstCard.offsetHeight + 12) - state.renderRowHeight) >= 5) {
     state.renderRowHeight = firstCard.offsetHeight + 12;
     el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
     el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
@@ -1670,15 +1780,35 @@ function renderFiles({ resetWindow = false } = {}) {
     el.folderStrip.replaceChildren();
     if (visibleFolders.length) {
       const folderFragment = document.createDocumentFragment();
-      visibleFolders.forEach((folder, index) => folderFragment.appendChild(createFolderRow(folder, index)));
+      visibleFolders.slice(0, state.folderRenderLimit).forEach((folder, index) => folderFragment.appendChild(createFolderRow(folder, index)));
       el.folderStrip.appendChild(folderFragment);
       el.folderStrip.hidden = false;
     } else {
       el.folderStrip.hidden = true;
     }
   }
+  if (el.folderMoreButton) {
+    const remaining = Math.max(0, visibleFolders.length - state.folderRenderLimit);
+    el.folderMoreButton.hidden = remaining === 0;
+    el.folderMoreButton.textContent = remaining
+      ? `폴더 ${Math.min(FOLDER_RENDER_MAX, remaining).toLocaleString('ko-KR')}개 더 보기`
+      : '폴더 더 보기';
+  }
   renderMediaGrid(files);
   el.emptyState.hidden = files.length + visibleFolders.length > 0;
+  if (!el.emptyState.hidden && el.emptyStateTitle && el.emptyStateText) {
+    if (state.query) {
+      el.emptyStateTitle.textContent = '검색 결과가 없습니다';
+      el.emptyStateText.textContent = `“${state.query}”와 일치하는 미디어나 폴더를 찾지 못했습니다.`;
+    } else if (state.filter !== 'all') {
+      const label = state.filter === 'video' ? '영상' : '이미지';
+      el.emptyStateTitle.textContent = `${label}이 없습니다`;
+      el.emptyStateText.textContent = `이 폴더에는 표시할 ${label}이 없습니다. 전체 필터에서 다른 항목을 확인해 보세요.`;
+    } else {
+      el.emptyStateTitle.textContent = '이 폴더가 비어 있습니다';
+      el.emptyStateText.textContent = '이 폴더에는 표시할 수 있는 영상이나 이미지가 없습니다.';
+    }
+  }
   renderBreadcrumb();
   updateLibrarySummary(files.length, visibleFolders.length);
 }
@@ -1688,7 +1818,7 @@ function createFolderRow(folder, index = 0) {
   button.type = 'button';
   button.className = 'folder-row';
   button.style.setProperty('--stagger', `${Math.min(index, 12) * 25}ms`);
-  button.setAttribute('aria-label', `폴더 ${folder.name} 열기`);
+  button.title = '폴더 열기';
 
   const glyph = document.createElement('span');
   glyph.className = 'folder-glyph';
@@ -1791,15 +1921,132 @@ function sortedPopulationFiles() {
   });
 }
 
-function createFileCard(file, index = 0) {
+function getSelectedFiles() {
+  return state.files.filter((file) => state.selectedFileIds.has(file.id));
+}
+
+function getActionFiles() {
+  const selectedFiles = getSelectedFiles();
+  if (state.selectionMode && selectedFiles.length) return selectedFiles;
+  return state.selected ? [state.selected] : [];
+}
+
+function enterSelectionMode(initialFile = null) {
+  state.selectionMode = true;
+  if (initialFile?.id) state.selectedFileIds.add(initialFile.id);
+  updateSelectionUI();
+}
+
+function exitSelectionMode() {
+  state.selectionMode = false;
+  state.selectedFileIds.clear();
+  state.pendingActionFiles = [];
+  updateSelectionUI();
+}
+
+function toggleFileSelection(file) {
+  if (!file?.id) return;
+  if (!state.selectionMode) state.selectionMode = true;
+  if (state.selectedFileIds.has(file.id)) state.selectedFileIds.delete(file.id);
+  else state.selectedFileIds.add(file.id);
+  updateSelectionUI();
+}
+
+async function selectAllVisibleFiles() {
+  if (!state.selectionMode || state.bulkAction) return;
+  setButtonLoading(el.selectionSelectAllBtn, true, '전체 확인 중…');
+  try {
+    await ensureAllPagesLoaded();
+    filteredAndSortedFiles().forEach((file) => state.selectedFileIds.add(file.id));
+    updateSelectionUI();
+  } catch (error) {
+    if (error?.name !== 'AbortError') showToast(`전체 항목을 선택하지 못했습니다: ${humanizeDriveError(error)}`);
+  } finally {
+    setButtonLoading(el.selectionSelectAllBtn, false);
+  }
+}
+
+function updateSelectionUI() {
+  const count = state.selectedFileIds.size;
+  if (el.selectionToolbar) el.selectionToolbar.hidden = !state.selectionMode;
+  if (el.selectionModeButton) {
+    el.selectionModeButton.setAttribute('aria-pressed', String(state.selectionMode));
+    el.selectionModeButton.classList.toggle('active', state.selectionMode);
+  }
+  if (el.selectionCountText) el.selectionCountText.textContent = `${count.toLocaleString('ko-KR')}개`;
+  if (el.selectionDeleteBtn) el.selectionDeleteBtn.disabled = count === 0 || state.bulkAction;
+  if (el.selectionMoveBtn) el.selectionMoveBtn.disabled = count === 0 || state.bulkAction;
+  if (el.selectionSelectAllBtn) el.selectionSelectAllBtn.disabled = state.bulkAction;
+  el.fileGrid?.classList.toggle('selection-mode', state.selectionMode);
+  el.fileGrid?.querySelectorAll?.('.file-card').forEach((card) => {
+    const selected = state.selectedFileIds.has(card.dataset.fileId);
+    card.classList.toggle('selected', selected);
+    card.setAttribute('aria-pressed', String(selected));
+    const check = card.querySelector('.file-card-select-check');
+    if (check) check.setAttribute('aria-hidden', String(!state.selectionMode));
+  });
+}
+
+function installCardSelectionGestures(button, file) {
+  let timer = null;
+  let startX = 0;
+  let startY = 0;
+  let pointerId = null;
+  let suppressClick = false;
+  const clear = () => {
+    if (timer) clearTimeout(timer);
+    timer = null;
+    pointerId = null;
+    button.classList.remove('long-press-pending');
+  };
+  button.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' || event.button !== 0 || state.bulkAction) return;
+    startX = event.clientX;
+    startY = event.clientY;
+    pointerId = event.pointerId;
+    button.classList.add('long-press-pending');
+    timer = setTimeout(() => {
+      timer = null;
+      suppressClick = true;
+      enterSelectionMode(file);
+      navigator.vibrate?.(12);
+    }, 520);
+  });
+  button.addEventListener('pointermove', (event) => {
+    if (event.pointerId !== pointerId) return;
+    if (Math.hypot(event.clientX - startX, event.clientY - startY) > 10) clear();
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => button.addEventListener(type, clear));
+  button.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    if (!state.selectionMode && !state.bulkAction) enterSelectionMode(file);
+  });
+  button.addEventListener('click', (event) => {
+    if (suppressClick) {
+      suppressClick = false;
+      event.preventDefault();
+      return;
+    }
+    if (state.selectionMode) {
+      event.preventDefault();
+      toggleFileSelection(file);
+    }
+  });
+}
+
+function createFileCard(file, index = 0, absoluteIndex = index) {
   const isVideo = file.mimeType?.startsWith('video/');
   const isGif = isGifFile(file);
   const canDownload = file.capabilities?.canDownload !== false;
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'file-card';
-  button.disabled = !canDownload;
-  button.setAttribute('aria-label', `${file.name}, ${isVideo ? '영상' : '이미지'}, 원본 열기`);
+  button.setAttribute('data-file-id', file.id);
+  const isSelected = state.selectedFileIds.has(file.id);
+  button.setAttribute('aria-pressed', String(isSelected));
+  if (isSelected) button.classList.add('selected');
+  if (index >= (isMobileDevice() ? 16 : 24)) button.classList.add('defer-render');
+  button.title = `${isVideo ? '영상' : '이미지'} 원본 열기`;
 
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
@@ -1814,8 +2061,10 @@ function createFileCard(file, index = 0) {
     const thumbnail = document.createElement('img');
     thumbnail.className = 'file-card-thumb';
     thumbnail.alt = '';
-    thumbnail.loading = index < 24 ? 'eager' : 'lazy';
-    if (index < 12) thumbnail.fetchPriority = 'high';
+    const eagerLimit = isMobileDevice() ? 16 : 24;
+    const priorityLimit = isMobileDevice() ? 8 : 12;
+    thumbnail.loading = index < eagerLimit ? 'eager' : 'lazy';
+    if (index < priorityLimit) thumbnail.fetchPriority = 'high';
     thumbnail.decoding = 'async';
     thumbnail.referrerPolicy = 'no-referrer';
     thumbnail.addEventListener('load', () => {
@@ -1853,6 +2102,12 @@ function createFileCard(file, index = 0) {
   badge.className = 'file-card-badge';
   badge.textContent = badgeLabel;
   visual.appendChild(badge);
+
+  const selectionCheck = document.createElement('span');
+  selectionCheck.className = 'file-card-select-check';
+  selectionCheck.setAttribute('aria-hidden', String(!state.selectionMode));
+  selectionCheck.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>';
+  visual.appendChild(selectionCheck);
 
   // Video Duration Badge (e.g., 03:42)
   if (isVideo && file.videoMediaMetadata?.durationMillis) {
@@ -1900,13 +2155,12 @@ function createFileCard(file, index = 0) {
 
   body.append(name, meta);
   button.append(visual, body);
-  if (canDownload) {
-    button.addEventListener('click', () => openPlayer(file));
-    if (mediaPrefetchObserver) {
-      button.__file = file;
-      mediaPrefetchObserver.observe(button);
-    }
-  }
+  installCardSelectionGestures(button, file);
+  button.addEventListener('click', () => {
+    if (state.selectionMode) return;
+    if (canDownload) openPlayer(file);
+    else showToast('이 파일은 현재 계정에서 원본 다운로드가 제한되어 있습니다.');
+  });
   return button;
 }
 
@@ -1922,8 +2176,14 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
 }
 
 function openPlayer(file) {
+  playerReturnFocus = typeof document.activeElement?.focus === 'function' ? document.activeElement : null;
+  state.playbackSession += 1;
+  mediaTransitionCommitting = false;
+  swipeCommitPending = false;
+  playbackNavigationChain = Promise.resolve();
   state.selected = file;
   document.body.style.overflow = 'hidden';
+  setPlayerBackgroundInert(true);
   el.playerSheet.hidden = false;
   setStageImmersive(false);
   el.playerTitle.textContent = file.name || '이름 없는 파일';
@@ -1931,6 +2191,10 @@ function openPlayer(file) {
   const isVideo = file.mimeType?.startsWith('video/');
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
+  if (el.ctrlFramePrev) el.ctrlFramePrev.hidden = !isVideo;
+  if (el.ctrlFrameNext) el.ctrlFrameNext.hidden = !isVideo;
+  if (el.shortsFramePrev) el.shortsFramePrev.hidden = !isVideo;
+  if (el.shortsFrameNext) el.shortsFrameNext.hidden = !isVideo;
   updateFullscreenUI();
   updateQualityDisplay();
   updatePlayPauseUI();
@@ -1940,6 +2204,16 @@ function openPlayer(file) {
   state.pendingPlay = true;
   openMediaSource(file);
   requestAnimationFrame(() => el.closePlayerButton.focus());
+}
+
+function setPlayerBackgroundInert(inert) {
+  const main = document.querySelector('main');
+  const topbar = document.querySelector('.topbar');
+  const skipLink = document.querySelector('.skip-link');
+  const updateBanner = document.querySelector('.update-banner');
+  [main, topbar, skipLink, updateBanner].forEach((node) => {
+    if (node) node.inert = Boolean(inert);
+  });
 }
 
 function formatPlayerTime(seconds) {
@@ -1974,7 +2248,9 @@ function togglePlayPause(event) {
   if (event) event.stopPropagation();
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   if (el.videoPlayer.paused) {
-    el.videoPlayer.play().catch(() => {});
+    el.videoPlayer.play().catch((error) => {
+      if (error?.name !== 'AbortError') showPlayerFeedback('재생을 시작하지 못함');
+    });
   } else {
     el.videoPlayer.pause();
   }
@@ -2013,6 +2289,36 @@ function seekRelative(deltaSeconds) {
   resetControlsTimer();
 }
 
+function beginVideoFrameSampling() {
+  const video = el.videoPlayer;
+  if (!video?.requestVideoFrameCallback || video.hidden || state.frameCallbackId != null) return;
+  state.frameCallbackId = video.requestVideoFrameCallback((_now, metadata) => {
+    state.frameCallbackId = null;
+    const mediaTime = Number(metadata?.mediaTime);
+    const previous = state.lastPresentedMediaTime;
+    if (Number.isFinite(mediaTime) && Number.isFinite(previous)) {
+      const delta = mediaTime - previous;
+      if (delta >= 1 / 240 && delta <= 1 / 10) {
+        state.frameDuration = state.frameDuration * 0.65 + delta * 0.35;
+      }
+    }
+    if (Number.isFinite(mediaTime)) state.lastPresentedMediaTime = mediaTime;
+    if (!video.hidden) beginVideoFrameSampling();
+  });
+}
+
+function stepVideoFrame(direction) {
+  const video = el.videoPlayer;
+  if (!video || video.hidden || !Number.isFinite(video.currentTime)) return;
+  video.pause();
+  state.pendingPlay = false;
+  const duration = Number.isFinite(video.duration) ? video.duration : Infinity;
+  const frameDuration = Math.min(1 / 10, Math.max(1 / 240, state.frameDuration || DEFAULT_FRAME_DURATION));
+  video.currentTime = Math.max(0, Math.min(duration, video.currentTime + Math.sign(direction || 1) * frameDuration));
+  updateVideoProgress();
+  showPlayerFeedback(direction < 0 ? '−1 FRAME' : '+1 FRAME');
+}
+
 function toggleMute() {
   if (!el.videoPlayer) return;
   el.videoPlayer.muted = !el.videoPlayer.muted;
@@ -2044,6 +2350,8 @@ function toggleSpeedMenu(event) {
   if (event) event.stopPropagation();
   isSpeedMenuOpen = !isSpeedMenuOpen;
   if (el.speedDropdown) el.speedDropdown.hidden = !isSpeedMenuOpen;
+  el.ctrlSpeedButton?.setAttribute('aria-expanded', String(isSpeedMenuOpen));
+  if (isSpeedMenuOpen) requestAnimationFrame(() => el.speedDropdown?.querySelector('.active')?.focus());
   resetControlsTimer();
 }
 
@@ -2053,10 +2361,13 @@ function setPlaybackSpeed(speed) {
   if (el.ctrlSpeedText) el.ctrlSpeedText.textContent = `${speed}×`;
   const buttons = el.speedDropdown?.querySelectorAll('button') || [];
   buttons.forEach((btn) => {
-    btn.classList.toggle('active', Number(btn.dataset.speed) === speed);
+    const active = Number(btn.dataset.speed) === speed;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-checked', String(active));
   });
   isSpeedMenuOpen = false;
   if (el.speedDropdown) el.speedDropdown.hidden = true;
+  el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
   showPlayerFeedback(`SPEED ${speed}X`);
   resetControlsTimer();
 }
@@ -2071,7 +2382,27 @@ function onDocumentClickForSpeedMenu(event) {
   if (isSpeedMenuOpen && !el.speedMenuWrap?.contains(event.target)) {
     isSpeedMenuOpen = false;
     if (el.speedDropdown) el.speedDropdown.hidden = true;
+    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
   }
+}
+
+function onSpeedMenuKeyDown(event) {
+  const buttons = el.speedButtons || [];
+  const index = buttons.indexOf(event.currentTarget);
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    isSpeedMenuOpen = false;
+    el.speedDropdown.hidden = true;
+    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    el.ctrlSpeedButton?.focus();
+    return;
+  }
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  event.preventDefault();
+  const next = event.key === 'ArrowDown'
+    ? (index + 1) % buttons.length
+    : (index - 1 + buttons.length) % buttons.length;
+  buttons[next]?.focus();
 }
 
 function onVideoTimeUpdate() {
@@ -2105,6 +2436,7 @@ function updateVideoProgress() {
   if (el.seekBarContainer) {
     el.seekBarContainer.setAttribute('aria-valuenow', Math.round(currentTime));
     el.seekBarContainer.setAttribute('aria-valuemax', Math.round(duration));
+    el.seekBarContainer.setAttribute('aria-valuetext', `${formatPlayerTime(currentTime)} / ${formatPlayerTime(duration)}`);
   }
   onVideoProgressUpdate();
 }
@@ -2338,34 +2670,88 @@ function getActiveMediaElement() {
   return null;
 }
 
-function animateMediaTransition(direction, callback) {
+function clearMediaTransition() {
+  mediaTransitionTimers.forEach(clearTimeout);
+  mediaTransitionTimers = [];
+  mediaTransitionAnimations.forEach((animation) => animation.cancel?.());
+  mediaTransitionAnimations = [];
+  [el.videoPlayer, el.imageViewer].forEach((node) => {
+    if (!node) return;
+    node.className = node.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
+    node.style.transform = '';
+    node.style.opacity = '';
+  });
+  el.mediaStage?.classList.remove('is-dragging', 'is-snapping');
+  if (snapBackTimer) clearTimeout(snapBackTimer);
+  snapBackTimer = null;
+}
+
+function getTransitionTransform(direction, distance) {
+  const dx = direction === 'left' ? -distance : direction === 'right' ? distance : 0;
+  const dy = direction === 'up' ? -distance : direction === 'down' ? distance : 0;
+  if (!state.videoRotated) return `translate3d(${dx}px, ${dy}px, 0)`;
+  return `translate3d(${dy}px, ${-dx}px, 0)`;
+}
+
+async function animateMediaTransition(direction, callback) {
   const currentEl = getActiveMediaElement();
   const stage = el.mediaStage;
+  const session = state.playbackSession;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const startTransform = currentEl?.style.transform || 'translate3d(0, 0, 0)';
+  const startOpacity = Number(currentEl?.style.opacity || 1);
+  clearMediaTransition();
+  mediaTransitionCommitting = true;
 
-  if (!currentEl || !stage) {
-    callback();
+  if (!currentEl || !stage || reducedMotion || typeof currentEl.animate !== 'function') {
+    try {
+      if (session === state.playbackSession && !el.playerSheet.hidden) callback();
+    } finally {
+      mediaTransitionCommitting = false;
+    }
     return;
   }
 
-  // Clear previous animation classes
-  currentEl.className = currentEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
-
-  const outClass = `anim-slide-out-${direction}`;
-  const inClass = `anim-slide-in-${direction}`;
-
-  currentEl.classList.add(outClass);
-
-  setTimeout(() => {
+  const distance = Math.max(72, Math.min(180, (direction === 'left' || direction === 'right' ? stage.clientWidth : stage.clientHeight) * 0.24));
+  const outAnimation = currentEl.animate([
+    { transform: startTransform, opacity: startOpacity },
+    { transform: getTransitionTransform(direction, distance), opacity: 0 }
+  ], { duration: 160, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
+  mediaTransitionAnimations.push(outAnimation);
+  try {
+    await outAnimation.finished;
+  } catch (_) {
+    mediaTransitionCommitting = false;
+    return;
+  }
+  if (session !== state.playbackSession || el.playerSheet.hidden) {
+    mediaTransitionCommitting = false;
+    return;
+  }
+  currentEl.style.transform = '';
+  currentEl.style.opacity = '';
+  try {
     callback();
-    const newEl = getActiveMediaElement();
-    if (newEl) {
-      newEl.className = newEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
-      newEl.classList.add(inClass);
-      setTimeout(() => {
-        if (newEl) newEl.classList.remove(inClass);
-      }, 230);
-    }
-  }, 80);
+  } finally {
+    mediaTransitionCommitting = false;
+  }
+  const incoming = getActiveMediaElement();
+  if (!incoming || typeof incoming.animate !== 'function') return;
+  const opposite = direction === 'left' ? 'right' : direction === 'right' ? 'left' : direction === 'up' ? 'down' : 'up';
+  const inAnimation = incoming.animate([
+    { transform: getTransitionTransform(opposite, Math.min(54, distance * 0.45)), opacity: 0 },
+    { transform: 'translate3d(0, 0, 0)', opacity: 1 }
+  ], { duration: 210, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+  mediaTransitionAnimations.push(inAnimation);
+  try { await inAnimation.finished; } catch (_) {}
+  mediaTransitionAnimations = mediaTransitionAnimations.filter((animation) => animation !== outAnimation && animation !== inAnimation);
+}
+
+function restoreDraggedMediaPosition() {
+  el.mediaStage?.classList.remove('is-dragging');
+  const active = getActiveMediaElement();
+  if (!active) return;
+  if (active.style.transform || active.style.opacity) snapBackSpring(active);
 }
 
 async function prepareFullPlaybackPopulation() {
@@ -2377,62 +2763,61 @@ async function prepareFullPlaybackPopulation() {
   if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
 }
 
-async function playNextFile(direction = 'left') {
+function enqueuePlaybackNavigation(resolveTarget, direction, errorPrefix = '전체 파일을 불러오지 못했습니다', requireFullPopulation = false) {
+  const playerSession = state.playbackSession;
+  const task = async () => {
+    try {
+      if (requireFullPopulation) {
+        restoreDraggedMediaPosition();
+        await prepareFullPlaybackPopulation();
+      }
+    } catch (error) {
+      restoreDraggedMediaPosition();
+      if (error?.name !== 'AbortError') showToast(`${errorPrefix}: ${humanizeDriveError(error)}`);
+      return;
+    }
+    if (playerSession !== state.playbackSession || el.playerSheet.hidden) return;
+    const target = resolveTarget(getPlaybackFileList());
+    if (!target) {
+      restoreDraggedMediaPosition();
+      return;
+    }
+    state.pendingPlay = true;
+    await animateMediaTransition(direction, () => {
+      if (playerSession === state.playbackSession && !el.playerSheet.hidden) openMediaSource(target);
+    });
+  };
+  playbackNavigationChain = playbackNavigationChain.then(task, task);
+  return playbackNavigationChain;
+}
+
+function playNextFile(direction = 'left') {
   const dir = typeof direction === 'string' ? direction : 'left';
-  try {
-    await prepareFullPlaybackPopulation();
-  } catch (error) {
-    if (error?.name !== 'AbortError') showToast(`전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
-    return;
-  }
-  const list = getPlaybackFileList();
-  if (!list.length) return;
-  if (!state.selected) {
-    openMediaSource(list[0]);
-    return;
-  }
-  const currentIndex = list.findIndex((f) => f.id === state.selected.id);
-  const nextIndex = (currentIndex + 1) % list.length;
-  state.pendingPlay = true;
-  animateMediaTransition(dir, () => openMediaSource(list[nextIndex]));
+  return enqueuePlaybackNavigation((list) => {
+    if (!list.length) return null;
+    const index = state.selected ? list.findIndex((file) => file.id === state.selected.id) : -1;
+    return list[(Math.max(-1, index) + 1) % list.length];
+  }, dir);
 }
 
-async function playPrevFile(direction = 'right') {
+function playPrevFile(direction = 'right') {
   const dir = typeof direction === 'string' ? direction : 'right';
-  try {
-    await prepareFullPlaybackPopulation();
-  } catch (error) {
-    if (error?.name !== 'AbortError') showToast(`전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
-    return;
-  }
-  const list = getPlaybackFileList();
-  if (!list.length) return;
-  if (!state.selected) {
-    openMediaSource(list[0]);
-    return;
-  }
-  const currentIndex = list.findIndex((f) => f.id === state.selected.id);
-  const prevIndex = (currentIndex - 1 + list.length) % list.length;
-  state.pendingPlay = true;
-  animateMediaTransition(dir, () => openMediaSource(list[prevIndex]));
+  return enqueuePlaybackNavigation((list) => {
+    if (!list.length) return null;
+    const index = state.selected ? list.findIndex((file) => file.id === state.selected.id) : 0;
+    return list[(Math.max(0, index) - 1 + list.length) % list.length];
+  }, dir);
 }
 
-async function playRandomFile(direction = 'up') {
+function playRandomFile(direction = 'up') {
   const dir = typeof direction === 'string' ? direction : 'up';
-  const listGeneration = state.listGeneration;
-  const requestGeneration = ++state.randomRequestGeneration;
   showPlayerFeedback('전체 미디어를 확인하는 중');
-  try {
-    await ensureAllPagesLoaded();
-  } catch (error) {
-    if (error?.name !== 'AbortError') showToast(`랜덤 재생 준비 실패: ${humanizeDriveError(error)}`);
-    return;
-  }
-  if (listGeneration !== state.listGeneration || requestGeneration !== state.randomRequestGeneration) return;
-  const nextFile = pickRandomFile(state.files, state.selected?.id);
-  if (!nextFile) return;
-  state.pendingPlay = true;
-  animateMediaTransition(dir, () => openMediaSource(nextFile));
+  return enqueuePlaybackNavigation(
+    (list) => pickRandomFile(list, state.selected?.id),
+    dir,
+    '랜덤 재생 준비 실패',
+    true
+  );
 }
 
 let touchStartX = 0;
@@ -2443,6 +2828,16 @@ let lockedAxis = null;
 let lastTapTime = 0;
 let lastTapZone = null;
 let singleTapTimer = null;
+
+function trackSwipeCommit(navigationPromise) {
+  swipeCommitPending = true;
+  Promise.resolve(navigationPromise)
+    .catch((error) => console.warn('Swipe navigation failed:', error))
+    .finally(() => {
+      swipeCommitPending = false;
+      if (!el.playerSheet?.hidden) restoreDraggedMediaPosition();
+    });
+}
 
 function getTapZone(clientX, clientY) {
   const rect = el.mediaStage.getBoundingClientRect();
@@ -2523,32 +2918,49 @@ function setupTouchGestures() {
   if (!modal) return;
 
   modal.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 1) return;
+    if (mediaTransitionCommitting || swipeCommitPending) {
+      e.preventDefault();
+      return;
+    }
+    if (e.touches.length !== 1) {
+      cancelActiveTouchGesture();
+      return;
+    }
     // Don't hijack interaction on buttons, sliders, or seekbar
-    if (e.target.closest('.seek-bar-container, .volume-slider, .volume-slider-wrap, button, input, select')) return;
+    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select')) return;
 
+    clearMediaTransition();
     const activeEl = getActiveMediaElement();
     if (activeEl) {
       activeEl.style.transform = '';
       activeEl.className = activeEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
     }
     el.mediaStage?.classList.remove('is-snapping');
+    if (snapBackTimer) clearTimeout(snapBackTimer);
+    snapBackTimer = null;
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
     isTouchActive = true;
     lockedAxis = null;
-  }, { passive: true });
+  }, { passive: false });
 
   modal.addEventListener('touchmove', (e) => {
-    if (!isTouchActive || e.touches.length !== 1) return;
+    if (!isTouchActive) return;
+    if (e.touches.length !== 1) {
+      cancelActiveTouchGesture();
+      return;
+    }
     const rawX = e.touches[0].clientX - touchStartX;
     const rawY = e.touches[0].clientY - touchStartY;
     
-    // Determine strict orthogonal axis once delta exceeds threshold
+    // Lock only after a deliberate, clearly dominant direction emerges.
     if (lockedAxis === null) {
-      if (Math.abs(rawX) > 6 || Math.abs(rawY) > 6) {
-        lockedAxis = Math.abs(rawX) >= Math.abs(rawY) ? 'x' : 'y';
+      const absX = Math.abs(rawX);
+      const absY = Math.abs(rawY);
+      if (Math.hypot(absX, absY) >= 12) {
+        if (absX >= Math.max(1, absY) * 1.25) lockedAxis = 'x';
+        else if (absY >= Math.max(1, absX) * 1.25) lockedAxis = 'y';
       }
     }
 
@@ -2556,6 +2968,7 @@ function setupTouchGestures() {
     const activeEl = getActiveMediaElement();
 
     if (lockedAxis === 'x') {
+      e.preventDefault();
       // Pure Horizontal Rail (Y is strictly 0)
       const dragX = damp(rawX);
       el.mediaStage?.classList.add('is-dragging');
@@ -2568,6 +2981,7 @@ function setupTouchGestures() {
         activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragX) / 450)}`;
       }
     } else if (lockedAxis === 'y') {
+      e.preventDefault();
       // Pure Vertical Rail (X is strictly 0)
       const dragY = damp(rawY);
       el.mediaStage?.classList.add('is-dragging');
@@ -2578,7 +2992,7 @@ function setupTouchGestures() {
         activeEl.style.opacity = `${Math.max(0.35, 1 - Math.abs(dragY) / 450)}`;
       }
     }
-  }, { passive: true });
+  }, { passive: false });
 
   modal.addEventListener('touchend', (e) => {
     if (!isTouchActive || e.changedTouches.length !== 1) return;
@@ -2601,28 +3015,16 @@ function setupTouchGestures() {
     }
 
     if (lockedAxis === 'x') {
-      const distance = Math.abs(rawDiffX);
-      const velocity = distance / elapsed;
-      if (distance >= 45 || velocity >= 0.15) {
-        if (activeEl) {
-          activeEl.style.transform = '';
-          activeEl.style.opacity = '';
-        }
-        if (rawDiffX < 0) playNextFile('left');
-        else playPrevFile('right');
+      const axisSize = el.mediaStage?.clientWidth || window.innerWidth || 400;
+      if (shouldCommitSwipe(rawDiffX, rawDiffY, elapsed, axisSize)) {
+        trackSwipeCommit(rawDiffX < 0 ? playNextFile('left') : playPrevFile('right'));
       } else {
         snapBackSpring(activeEl);
       }
     } else if (lockedAxis === 'y') {
-      const distance = Math.abs(rawDiffY);
-      const velocity = distance / elapsed;
-      if (distance >= 45 || velocity >= 0.15) {
-        if (activeEl) {
-          activeEl.style.transform = '';
-          activeEl.style.opacity = '';
-        }
-        if (rawDiffY < 0) playRandomFile('up');
-        else playRandomFile('down');
+      const axisSize = el.mediaStage?.clientHeight || window.innerHeight || 600;
+      if (shouldCommitSwipe(rawDiffY, rawDiffX, elapsed, axisSize)) {
+        trackSwipeCommit(rawDiffY < 0 ? playRandomFile('up') : playRandomFile('down'));
       } else {
         snapBackSpring(activeEl);
       }
@@ -2631,23 +3033,42 @@ function setupTouchGestures() {
     }
     lockedAxis = null;
   }, { passive: false });
+
+  modal.addEventListener('touchcancel', cancelActiveTouchGesture, { passive: true });
+}
+
+function cancelActiveTouchGesture() {
+  if (!isTouchActive) return;
+  isTouchActive = false;
+  lockedAxis = null;
+  el.mediaStage?.classList.remove('is-dragging');
+  snapBackSpring(getActiveMediaElement());
 }
 
 function snapBackSpring(activeEl) {
-  if (activeEl) {
-    el.mediaStage?.classList.add('is-snapping');
-    activeEl.style.transform = 'translate3d(0, 0, 0)';
-    activeEl.style.opacity = '1';
-    setTimeout(() => {
-      el.mediaStage?.classList.remove('is-snapping');
-      activeEl.style.transform = '';
-      activeEl.style.opacity = '';
-    }, 230);
+  if (!activeEl) return;
+  if (snapBackTimer) clearTimeout(snapBackTimer);
+  const startTransform = activeEl.style.transform || 'translate3d(0, 0, 0)';
+  const startOpacity = Number(activeEl.style.opacity || 1);
+  el.mediaStage?.classList.add('is-snapping');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && typeof activeEl.animate === 'function') {
+    const animation = activeEl.animate([
+      { transform: startTransform, opacity: startOpacity },
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 }
+    ], { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    mediaTransitionAnimations.push(animation);
   }
+  activeEl.style.transform = '';
+  activeEl.style.opacity = '';
+  snapBackTimer = setTimeout(() => {
+    el.mediaStage?.classList.remove('is-snapping');
+    snapBackTimer = null;
+  }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 220);
 }
 
 function handlePlayerKeyboard(event) {
   if (el.playerSheet.hidden) return;
+  if (document.querySelector('dialog[open]')) return;
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
   const targetTag = event.target.tagName;
   if (targetTag === 'INPUT' || targetTag === 'TEXTAREA' || targetTag === 'SELECT') return;
@@ -2659,6 +3080,7 @@ function handlePlayerKeyboard(event) {
     if (isSpeedMenuOpen) {
       isSpeedMenuOpen = false;
       if (el.speedDropdown) el.speedDropdown.hidden = true;
+      el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
       return;
     }
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -2695,6 +3117,18 @@ function handlePlayerKeyboard(event) {
     if (event.key === 'ArrowRight' || key === 'l') {
       event.preventDefault();
       seekRelative(10);
+      return;
+    }
+
+    if (event.key === ',') {
+      event.preventDefault();
+      stepVideoFrame(-1);
+      return;
+    }
+
+    if (event.key === '.') {
+      event.preventDefault();
+      stepVideoFrame(1);
       return;
     }
 
@@ -2785,7 +3219,16 @@ function openMediaSource(file) {
   if (isVideo) {
     el.videoPlayer.hidden = false;
     el.videoPlayer.src = mediaUrl;
+    const resume = state.resumePosition?.fileId === file.id ? state.resumePosition.time : null;
+    if (Number.isFinite(resume) && resume > 0) {
+      el.videoPlayer.addEventListener('loadedmetadata', () => {
+        if (session !== state.mediaSession) return;
+        el.videoPlayer.currentTime = Math.min(el.videoPlayer.duration || resume, resume);
+        state.resumePosition = null;
+      }, { once: true });
+    }
     el.videoPlayer.load();
+    if (state.pendingPlay) attemptCurrentPlayback(session);
   } else {
     el.imageViewer.hidden = false;
     el.imageViewer.alt = file.name || '원본 이미지';
@@ -2799,13 +3242,45 @@ function openMediaSource(file) {
   }, 5000);
 }
 
+async function attemptCurrentPlayback(session) {
+  try {
+    await el.videoPlayer.play();
+    if (session === state.mediaSession) state.pendingPlay = false;
+  } catch (error) {
+    if (session !== state.mediaSession) return;
+    state.pendingPlay = false;
+    if (error?.name === 'NotAllowedError') {
+      showPlayerFeedback('화면을 눌러 재생');
+      updatePlayPauseUI();
+      return;
+    }
+    if (error?.name !== 'AbortError') console.warn('Immediate playback was not available:', error);
+  }
+}
+
 function buildMediaUrl(file) {
   const base = new URL('.', location.href);
   const url = new URL(`__drive_media/${encodeURIComponent(file.id)}`, base);
   if (file.mimeType) url.searchParams.set('mime', file.mimeType);
   if (file.size) url.searchParams.set('size', file.size);
   if (file.resourceKey) url.searchParams.set('resourceKey', file.resourceKey);
+  url.searchParams.set('session', String(state.mediaSession));
   return url.href;
+}
+
+function onSeekKeyDown(event) {
+  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  const duration = el.videoPlayer.duration || 0;
+  if (!duration) return;
+  let target = null;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') target = el.videoPlayer.currentTime - 5;
+  if (event.key === 'ArrowRight' || event.key === 'ArrowUp') target = el.videoPlayer.currentTime + 5;
+  if (event.key === 'Home') target = 0;
+  if (event.key === 'End') target = duration;
+  if (target == null) return;
+  event.preventDefault();
+  el.videoPlayer.currentTime = Math.max(0, Math.min(duration, target));
+  updateVideoProgress();
 }
 
 function buildDriveMediaApiUrl(file) {
@@ -2819,7 +3294,7 @@ function buildDriveMediaApiUrl(file) {
 async function handleMediaElementError(kind) {
   const element = kind === 'video' ? el.videoPlayer : el.imageViewer;
   if (!element.getAttribute('src') || !state.selected) return;
-  if (state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'drive-preview') return;
+  if (state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'drive-handoff') return;
 
   if (!navigator.onLine) {
     showMediaError('네트워크가 오프라인입니다. 연결 후 다시 시도하세요.');
@@ -2835,12 +3310,16 @@ async function handleMediaElementError(kind) {
   }
 
   if (state.mediaAttempt === 'range') {
-    await startOriginalBlobFallback(state.selected, kind, state.mediaSession);
+    if (kind === 'image') {
+      await startOriginalBlobFallback(state.selected, kind, state.mediaSession);
+    } else {
+      showDriveHandoff(state.selected, '이 브라우저가 이 영상의 원본 코덱 또는 스트림 응답을 재생하지 못했습니다. 전체 파일을 메모리에 내려받지 않고 안전하게 중단했습니다.');
+    }
     return;
   }
 
   if (state.mediaAttempt === 'blob') {
-    showDrivePreview(state.selected, '원본 전체를 임시 버퍼에 불러왔지만 이 브라우저가 코덱을 해독하지 못했습니다. Drive 호환 재생기로 전환했습니다.');
+    showDriveHandoff(state.selected, '원본 이미지를 불러왔지만 이 브라우저가 파일 형식을 표시하지 못했습니다.');
   }
 }
 
@@ -2848,7 +3327,7 @@ async function startOriginalBlobFallback(file, kind, session) {
   const size = Number(file.size || 0);
   const limit = isMobileDevice() ? MOBILE_BLOB_LIMIT : DESKTOP_BLOB_LIMIT;
   if (size && size > limit) {
-    showDrivePreview(file, `원본 구간 스트림이 실패했고 파일 크기 ${formatBytes(size)}가 이 기기의 안전한 임시 버퍼 한도를 넘습니다. Drive 호환 재생기로 전환했습니다.`);
+    showDriveHandoff(file, `원본 이미지 크기 ${formatBytes(size)}가 이 기기의 안전한 임시 버퍼 한도를 넘습니다.`);
     return;
   }
 
@@ -2892,7 +3371,7 @@ async function startOriginalBlobFallback(file, kind, session) {
     } else if (error.status === 403) {
       showMediaError('Drive에서 원본 파일 다운로드를 거부했습니다. 파일 권한을 확인하세요.');
     } else {
-      showDrivePreview(file, '원본 임시 버퍼 전송도 완료하지 못해 Drive 호환 재생기로 전환했습니다.');
+      showDriveHandoff(file, '원본 이미지 전송을 완료하지 못했습니다.');
     }
   }
 }
@@ -2925,36 +3404,31 @@ async function readResponseIntoBlob(response, file, session) {
   return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
 }
 
-function showDrivePreview(file, reason) {
+function showDriveHandoff(file, reason) {
   clearDirectMediaSources();
-  state.mediaAttempt = 'drive-preview';
+  state.mediaAttempt = 'drive-handoff';
   updateQualityDisplay();
-  showMediaLoading('Drive 호환 재생기로 전환 중');
-  el.drivePreview.hidden = false;
-  el.drivePreview.src = buildDrivePreviewUrl(file);
-  el.codecNote.textContent = `${reason} 이 모드는 Google Drive의 압축 변환본을 재생하므로 원본보다 화질이 낮을 수 있습니다.`;
-  // iframe 로드 후 Google 로그인 페이지 리다이렉트를 감지한다.
-  // cross-origin iframe이므로 contentDocument는 접근 불가하지만
-  // load 이벤트 + 타이밍 휴리스틱으로 에러를 추정한다.
-  const loadHandler = () => {
-    el.drivePreview.removeEventListener('load', loadHandler);
-    // iframe이 정상 미디어를 로드하면 약간의 딜레이가 있지만,
-    // 로그인 리다이렉트는 보통 100ms 이내에 load가 재발화한다.
-    // 안전 장치: 30초 후에도 MEDIA_AUTH_REQUIRED가 안 왔으면 정상 간주
-  };
-  el.drivePreview.addEventListener('load', loadHandler);
+  showMediaError(`${reason} Google 로그인 쿠키가 격리되는 내장 창 대신, 아래 버튼으로 Drive를 새 탭에서 직접 여세요.`, {
+    title: 'Google Drive에서 이어서 열기',
+    showDrive: true,
+    showRetry: false
+  });
+  el.codecNote.textContent = 'Drive 열기는 사용자 동작으로 최상위 Google 페이지를 열어, 내장 프리뷰의 타사 쿠키·로그인 문제를 피합니다.';
 }
 
-function buildDrivePreviewUrl(file) {
-  const url = new URL(`https://drive.google.com/file/d/${encodeURIComponent(file.id)}/preview`);
-  if (file.resourceKey) url.searchParams.set('resourcekey', file.resourceKey);
+function buildDriveViewUrl(file) {
+  const url = file?.webViewLink
+    ? new URL(file.webViewLink)
+    : new URL(`https://drive.google.com/file/d/${encodeURIComponent(file?.id || '')}/view`);
+  if (file?.resourceKey && !url.searchParams.has('resourcekey')) {
+    url.searchParams.set('resourcekey', file.resourceKey);
+  }
   return url.href;
 }
 
 function openSelectedInDrive() {
   if (!state.selected) return;
-  const fallback = `https://drive.google.com/file/d/${encodeURIComponent(state.selected.id)}/view`;
-  window.open(state.selected.webViewLink || fallback, '_blank', 'noopener,noreferrer');
+  window.open(buildDriveViewUrl(state.selected), '_blank', 'noopener,noreferrer');
 }
 
 /* 터치 확인 피드백 — 버튼을 눌렀다는 짧은 시각적 반응.
@@ -2983,83 +3457,121 @@ function setButtonLoading(button, loading, label) {
   }
 }
 
+function formatActionTarget(files) {
+  const items = Array.isArray(files) ? files : [];
+  if (items.length <= 1) return items[0]?.name || '이름 없는 파일';
+  const firstName = items[0]?.name || '이름 없는 파일';
+  return `${items.length.toLocaleString('ko-KR')}개 파일 · ${firstName} 외 ${items.length - 1}개`;
+}
+
+function actionFilesSnapshot() {
+  return state.pendingActionFiles.length ? [...state.pendingActionFiles] : getActionFiles();
+}
+
+function settleSelectionAfterBulk(failedFiles) {
+  state.pendingActionFiles = [];
+  if (!state.selectionMode) return;
+  const failedIds = new Set((failedFiles || []).map((file) => file.id));
+  if (!failedIds.size) {
+    exitSelectionMode();
+    return;
+  }
+  state.selectedFileIds = failedIds;
+  updateSelectionUI();
+}
+
 function requestDeleteFile() {
-  if (!state.selected || state.deleting) return;
+  const files = getActionFiles();
+  if (!files.length || state.deleting || state.bulkAction) return;
+  state.pendingActionFiles = [...files];
   if (el.deleteDialog && el.deleteFileName) {
-    el.deleteFileName.textContent = state.selected.name || '이름 없는 파일';
+    el.deleteFileName.textContent = formatActionTarget(files);
     if (!el.deleteDialog.open) el.deleteDialog.showModal();
   }
 }
 
+async function trashDriveFile(file) {
+  if (state.demo) {
+    await new Promise((resolve) => setTimeout(resolve, 180));
+    return;
+  }
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?supportsAllDrives=true`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ trashed: true })
+  });
+  await response.json().catch(() => ({}));
+}
+
 async function performDeleteFile() {
-  const file = state.selected;
-  if (!file || state.deleting) return;
+  const files = actionFilesSnapshot();
+  if (!files.length || state.deleting || state.bulkAction) return;
   state.deleting = true;
+  state.bulkAction = true;
+  updateSelectionUI();
   if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = true;
-  setButtonLoading(el.deleteConfirmButton, true, '삭제 중…');
+  setButtonLoading(el.deleteConfirmButton, true, files.length > 1 ? `${files.length}개 삭제 중…` : '삭제 중…');
   try {
-    // 삭제 후에도 플레이어를 유지하고 다음 영상으로 자연스럽게 넘어가기 위해
-    // 제거 전 재생 순서를 먼저 capturing 한다.
     const order = getPlaybackFileList();
-    const removedIndex = order.findIndex((f) => f.id === file.id);
-    if (state.demo) {
-      // 실제 환경의 네트워크 지연을 반영해 로딩 상태가 보이도록 한다.
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      state.files = state.files.filter((f) => f.id !== file.id);
-      if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items.filter((f) => f.id !== file.id));
-      if (el.deleteDialog?.open) el.deleteDialog.close();
-      collapseShortsExpand();
-      computeAndRenderSubtree();
-      showToast('휴지통으로 이동했습니다. (데모 시뮬레이션)');
-      playNextAfterRemoval(order, removedIndex, file.id);
-      return;
-    }
-    const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?supportsAllDrives=true`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ trashed: true })
+    const currentId = state.selected?.id || null;
+    const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
+    const results = await runTaskPool(files, trashDriveFile);
+    const succeeded = results.filter((result) => result.status === 'fulfilled').map((result) => result.item);
+    const failed = results.filter((result) => result.status === 'rejected');
+    const removedIds = new Set(succeeded.map((file) => file.id));
+
+    state.files = state.files.filter((file) => !removedIds.has(file.id));
+    succeeded.forEach((file) => {
+      shuffledOrderMap.delete(file.id);
+      generatedThumbnailCache.delete(file.id);
     });
-    await response.json().catch(() => ({}));
-    state.files = state.files.filter((f) => f.id !== file.id);
-    shuffledOrderMap.delete(file.id);
-    generatedThumbnailCache.delete(file.id);
     if (state.treeCache) {
-      state.treeCache = buildTreeIndexes(state.treeCache.items.filter((f) => f.id !== file.id));
+      state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)));
     }
     if (el.deleteDialog?.open) el.deleteDialog.close();
     collapseShortsExpand();
     if (state.deepScan && state.treeCache) computeAndRenderSubtree();
     else renderFiles();
-    showToast('휴지통으로 이동했습니다. Drive 휴지통에서 30일 내 복구할 수 있습니다.');
-    playNextAfterRemoval(order, removedIndex, file.id);
-  } catch (error) {
-    console.error('Delete failed', error);
-    if (el.deleteDialog?.open) el.deleteDialog.close();
-    if (error.status === 401) {
-      clearToken(false);
-      showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
-    } else if (error.status === 403) {
-      showToast(`이동 권한이 없거나 공유 드라이브 정책이 이동을 허용하지 않습니다: ${error.message || '권한을 확인해 주세요.'}`);
+
+    settleSelectionAfterBulk(failed.map((result) => result.item));
+    if (currentId && removedIds.has(currentId)) playNextAfterRemoval(order, removedIndex, removedIds);
+
+    if (!failed.length) {
+      const suffix = state.demo ? ' (데모 시뮬레이션)' : ' Drive 휴지통에서 복구할 수 있습니다.';
+      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 파일을 휴지통으로 이동했습니다.${suffix}`);
     } else {
-      showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
+      const firstError = failed[0]?.reason;
+      if (failed.some((result) => result.reason?.status === 401)) clearToken(false);
+      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 삭제, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(firstError)}`);
     }
+  } catch (error) {
+    console.error('Bulk delete failed', error);
+    if (el.deleteDialog?.open) el.deleteDialog.close();
+    settleSelectionAfterBulk(files);
+    if (error?.status === 401) {
+      clearToken(false);
+    }
+    showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
   } finally {
     state.deleting = false;
+    state.bulkAction = false;
     if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = false;
     setButtonLoading(el.deleteConfirmButton, false);
+    updateSelectionUI();
   }
 }
 
 /* 삭제/이동으로 현재 파일이 목록에서 사라져도 플레이어를 유지하고
    다음 영상을 자동 재생한다. 남은 파일이 없을 때만 플레이어를 닫는다. */
-function playNextAfterRemoval(order, removedIndex, removedId) {
+function playNextAfterRemoval(order, removedIndex, removedIdOrIds) {
   if (el.playerSheet.hidden) return;
+  const removedIds = removedIdOrIds instanceof Set ? removedIdOrIds : new Set([removedIdOrIds]);
   let next = null;
   for (let i = removedIndex + 1; i < order.length; i++) {
-    if (order[i].id !== removedId) { next = order[i]; break; }
+    if (!removedIds.has(order[i].id)) { next = order[i]; break; }
   }
   if (!next) {
-    const remaining = order.filter((f) => f.id !== removedId);
+    const remaining = order.filter((file) => !removedIds.has(file.id));
     next = remaining[0] || null;
   }
   if (!next) {
@@ -3072,44 +3584,75 @@ function playNextAfterRemoval(order, removedIndex, removedId) {
 
 /* 폴더 이동 — 전체 폴더 목록을 1회 수집해 순수 폴더명 목록으로 선택 UI 제공 */
 async function requestMoveFile() {
-  if (!state.selected || state.moving) return;
+  const files = getActionFiles();
+  if (!files.length || state.moving || state.bulkAction) return;
+  const generation = ++moveRequestGeneration;
+  moveParentsAbortController?.abort();
+  const parentsController = new AbortController();
+  moveParentsAbortController = parentsController;
+  state.pendingActionFiles = [...files];
   state.moveTargetFolderId = null;
   state.moveResultLimit = MOVE_RESULT_BATCH;
-  if (el.moveFileName) el.moveFileName.textContent = state.selected.name || '이름 없는 파일';
+  if (el.moveFileName) el.moveFileName.textContent = formatActionTarget(files);
   if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
   if (el.moveSearchInput) el.moveSearchInput.value = '';
   if (el.moveDialog && !el.moveDialog.open) el.moveDialog.showModal();
   renderMoveFolderList('');
   try {
-    await ensureSelectedFileParents();
+    const parentResults = await runTaskPool(files, (file) => ensureFileParents(file, parentsController.signal));
+    if (generation !== moveRequestGeneration || parentsController.signal.aborted) {
+      throw new DOMException('Move request superseded', 'AbortError');
+    }
+    const parentFailure = parentResults.find((result) => result.status === 'rejected');
+    if (parentFailure) throw parentFailure.reason;
     await ensureFolderIndex();
+    if (generation !== moveRequestGeneration || parentsController.signal.aborted) {
+      throw new DOMException('Move request superseded', 'AbortError');
+    }
     if (el.moveDialog?.open) renderMoveFolderList(el.moveSearchInput?.value || '');
   } catch (error) {
+    if (generation !== moveRequestGeneration || parentsController.signal.aborted || error?.name === 'AbortError') return;
     console.error('Move dialog failed', error);
     if (el.moveDialog?.open) el.moveDialog.close();
-    if (error.status === 401) {
+    state.pendingActionFiles = [];
+    if (error?.status === 401) {
       clearToken(false);
       showToast('Google 인증이 만료됐습니다. 다시 시도해 주세요.');
     } else {
       showToast(`폴더 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     }
+  } finally {
+    if (moveParentsAbortController === parentsController) moveParentsAbortController = null;
   }
 }
 
-async function ensureSelectedFileParents() {
-  const file = state.selected;
+async function ensureFileParents(file, signal) {
   if (!file) return;
+  if (signal?.aborted) throw new DOMException('Move request cancelled', 'AbortError');
   if (Array.isArray(file.parents) && file.parents.length && file.capabilities) return;
   if (state.demo) {
     file.parents = ['root'];
     return;
   }
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?fields=parents,driveId,resourceKey,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)&supportsAllDrives=true`);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?fields=parents,driveId,resourceKey,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)&supportsAllDrives=true`, { signal });
   const data = await response.json();
+  if (signal?.aborted) throw new DOMException('Move request cancelled', 'AbortError');
   file.parents = Array.isArray(data.parents) && data.parents.length ? data.parents : [state.rootFolderId || 'root'];
   file.driveId = data.driveId || null;
   file.resourceKey = data.resourceKey || file.resourceKey || null;
   file.capabilities = { ...(file.capabilities || {}), ...(data.capabilities || {}) };
+}
+
+function cancelMoveFolderLoading() {
+  moveRequestGeneration += 1;
+  moveParentsAbortController?.abort();
+  moveParentsAbortController = null;
+  state.folderIndexAbortController?.abort();
+  state.folderIndexAbortController = null;
+  state.folderIndexPromise = null;
+  state.loadingFolderIndex = false;
+  state.moveTargetFolderId = null;
+  state.pendingActionFiles = [];
 }
 
 async function ensureFolderIndex() {
@@ -3172,8 +3715,10 @@ async function ensureFolderIndex() {
     state.moveFolderRows = buildMoveFolderRows(state.folderIndex);
     return state.folderIndex;
   } finally {
-    state.loadingFolderIndex = false;
-    if (state.folderIndexAbortController === controller) state.folderIndexAbortController = null;
+    if (state.folderIndexAbortController === controller) {
+      state.loadingFolderIndex = false;
+      state.folderIndexAbortController = null;
+    }
   }
   })();
   state.folderIndexPromise = promise;
@@ -3248,6 +3793,10 @@ async function collectSharedDriveFolders(sharedDrives, signal) {
    about?fields=rootFolderId는 v3에 존재하지 않으므로
    GET /files/root?fields=id 엔드포인트를 사용한다. */
 async function resolveRootFolderId() {
+  if (state.demo) {
+    state.rootFolderId = state.rootFolderId || 'root';
+    return state.rootFolderId;
+  }
   if (state.rootFolderId && state.rootFolderId !== 'root') return state.rootFolderId;
   try {
     const response = await driveFetch(`${DRIVE_API}/files/root?fields=id`);
@@ -3275,7 +3824,7 @@ function renderMoveFolderList(filterRaw) {
     return;
   }
   const filter = String(filterRaw || '').trim().toLocaleLowerCase('ko');
-  const currentParents = state.selected?.parents || [];
+  const files = actionFilesSnapshot();
   const filtered = filter
     ? state.moveFolderRows.filter((row) => String(row.name || '').toLocaleLowerCase('ko').includes(filter))
     : state.moveFolderRows;
@@ -3292,7 +3841,7 @@ function renderMoveFolderList(filterRaw) {
     button.type = 'button';
     button.className = 'move-folder-row';
     button.setAttribute('role', 'option');
-    const blockReason = getMoveBlockReason(state.selected, row, currentParents);
+    const blockReason = getBulkMoveBlockReason(files, row);
     const isCurrent = blockReason === '현재 위치';
     if (isCurrent) button.classList.add('current');
     if (blockReason) button.disabled = true;
@@ -3346,91 +3895,130 @@ function getMoveBlockReason(file, targetRow, currentParents = []) {
   return null;
 }
 
+function getBulkMoveBlockReason(files, targetRow) {
+  const items = Array.isArray(files) ? files : [];
+  let actionableCount = 0;
+  for (const file of items) {
+    const parents = Array.isArray(file.parents) && file.parents.length
+      ? file.parents
+      : [state.rootFolderId || 'root'];
+    const reason = getMoveBlockReason(file, targetRow, parents);
+    if (reason === '현재 위치') continue;
+    if (reason) return reason;
+    actionableCount++;
+  }
+  return actionableCount ? null : '현재 위치';
+}
+
+async function moveDriveFile(file, targetRow) {
+  const target = targetRow.id;
+  const currentParents = Array.isArray(file.parents) && file.parents.length
+    ? file.parents
+    : [state.rootFolderId || 'root'];
+  if (currentParents.includes(target)) return { skipped: true };
+  const blockReason = getMoveBlockReason(file, targetRow, currentParents);
+  if (blockReason) {
+    const error = new Error(blockReason);
+    error.status = 403;
+    throw error;
+  }
+  if (state.demo) {
+    await new Promise((resolve) => setTimeout(resolve, 180));
+    file.parents = [target];
+    return { skipped: false };
+  }
+  const params = new URLSearchParams({
+    addParents: target,
+    removeParents: currentParents.join(','),
+    supportsAllDrives: 'true',
+    fields: 'id,parents,driveId,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)'
+  });
+  const referencedFolders = currentParents
+    .map((parentId) => state.moveFolderRows.find((row) => row.id === parentId))
+    .filter(Boolean);
+  const resourceKeys = buildResourceKeysHeader([file, targetRow, ...referencedFolders]);
+  const headers = { 'Content-Type': 'application/json' };
+  if (resourceKeys) headers['X-Goog-Drive-Resource-Keys'] = resourceKeys;
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
+    method: 'PATCH',
+    headers,
+    body: '{}'
+  });
+  const moved = await response.json();
+  file.parents = Array.isArray(moved.parents) && moved.parents.length ? moved.parents : [target];
+  file.driveId = moved.driveId || targetRow.driveId || null;
+  file.capabilities = { ...(file.capabilities || {}), ...(moved.capabilities || {}) };
+  return { skipped: false };
+}
+
 async function performMoveFile() {
-  const file = state.selected;
+  const files = actionFilesSnapshot();
   const targetRowId = state.moveTargetFolderId;
-  if (!file || !targetRowId || state.moving) return;
+  if (!files.length || !targetRowId || state.moving || state.bulkAction) return;
   const targetRow = state.moveFolderRows.find((row) => row.id === targetRowId);
   const target = targetRow?.id;
   if (!target) {
     showToast('이동할 폴더를 다시 선택해 주세요.');
     return;
   }
-  const currentParents = Array.isArray(file.parents) && file.parents.length
-    ? file.parents
-    : [state.rootFolderId || 'root'];
-  const blockReason = getMoveBlockReason(file, targetRow, currentParents);
+  const blockReason = getBulkMoveBlockReason(files, targetRow);
   if (blockReason) {
     showToast(`이 폴더로 이동할 수 없습니다: ${blockReason}`);
     return;
   }
   state.moving = true;
+  state.bulkAction = true;
+  updateSelectionUI();
   if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
-  setButtonLoading(el.moveConfirmButton, true, '이동 중…');
+  setButtonLoading(el.moveConfirmButton, true, files.length > 1 ? `${files.length}개 이동 중…` : '이동 중…');
   try {
     const order = getPlaybackFileList();
-    const removedIndex = order.findIndex((f) => f.id === file.id);
-    if (state.demo) {
-      // 실제 환경의 네트워크 지연을 반영해 로딩 상태가 보이도록 한다.
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      file.parents = [target];
-      if (!state.deepScan) state.files = state.files.filter((f) => f.id !== file.id);
-      if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
-      if (el.moveDialog?.open) el.moveDialog.close();
-      collapseShortsExpand();
-      if (state.deepScan && state.treeCache) computeAndRenderSubtree();
-      else renderFiles();
-      showToast('폴더로 이동했습니다. (데모 시뮬레이션)');
-      playNextAfterRemoval(order, removedIndex, file.id);
-      return;
-    }
-    const params = new URLSearchParams({
-      addParents: target,
-      removeParents: currentParents.join(','),
-      supportsAllDrives: 'true',
-      fields: 'id,parents,driveId,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)'
-    });
-    const referencedFolders = currentParents
-      .map((parentId) => state.moveFolderRows.find((row) => row.id === parentId))
-      .filter(Boolean);
-    const resourceKeys = buildResourceKeysHeader([file, targetRow, ...referencedFolders]);
-    const headers = { 'Content-Type': 'application/json' };
-    if (resourceKeys) headers['X-Goog-Drive-Resource-Keys'] = resourceKeys;
-    const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
-      method: 'PATCH',
-      headers,
-      body: '{}'
-    });
-    const moved = await response.json();
-    file.parents = Array.isArray(moved.parents) && moved.parents.length ? moved.parents : [target];
-    file.driveId = moved.driveId || targetRow.driveId || null;
-    file.capabilities = { ...(file.capabilities || {}), ...(moved.capabilities || {}) };
-    if (!state.deepScan) state.files = state.files.filter((f) => f.id !== file.id);
-    shuffledOrderMap.delete(file.id);
-    if (state.treeCache) {
-      state.treeCache = buildTreeIndexes(state.treeCache.items);
-    }
+    const currentId = state.selected?.id || null;
+    const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
+    const results = await runTaskPool(files, (file) => moveDriveFile(file, targetRow));
+    const moved = results.filter((result) => result.status === 'fulfilled' && !result.value?.skipped).map((result) => result.item);
+    const skipped = results.filter((result) => result.status === 'fulfilled' && result.value?.skipped).map((result) => result.item);
+    const failed = results.filter((result) => result.status === 'rejected');
+    const movedIds = new Set(moved.map((file) => file.id));
+
+    if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
+    moved.forEach((file) => shuffledOrderMap.delete(file.id));
+    if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
     if (el.moveDialog?.open) el.moveDialog.close();
     collapseShortsExpand();
     if (state.deepScan && state.treeCache) computeAndRenderSubtree();
     else renderFiles();
-    showToast('폴더로 이동했습니다.');
-    playNextAfterRemoval(order, removedIndex, file.id);
+
+    settleSelectionAfterBulk(failed.map((result) => result.item));
+    if (currentId && movedIds.has(currentId)) playNextAfterRemoval(order, removedIndex, movedIds);
+
+    if (!failed.length) {
+      const skippedText = skipped.length ? ` · ${skipped.length.toLocaleString('ko-KR')}개는 이미 해당 위치` : '';
+      const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
+      showToast(`${moved.length.toLocaleString('ko-KR')}개 파일을 이동했습니다${skippedText}.${demoText}`);
+    } else {
+      if (failed.some((result) => result.reason?.status === 401)) clearToken(false);
+      showToast(`${moved.length.toLocaleString('ko-KR')}개 이동, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(failed[0]?.reason)}`);
+      if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
+    }
   } catch (error) {
-    console.error('Move failed', error);
+    console.error('Bulk move failed', error);
     if (el.moveDialog?.open) el.moveDialog.close();
-    if (error.status === 401) {
+    settleSelectionAfterBulk(files);
+    if (error?.status === 401) {
       clearToken(false);
-      showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
-    } else if (error.status === 403) {
+      showToast('Google 인증이 만료됐습니다. 다시 연결해 주세요.');
+    } else if (error?.status === 403) {
       openPermissionGuide();
     } else {
       showToast(`이동하지 못했습니다: ${humanizeDriveError(error)}`);
     }
   } finally {
     state.moving = false;
-    if (el.moveConfirmButton && state.moveTargetFolderId) el.moveConfirmButton.disabled = false;
+    state.bulkAction = false;
+    if (el.moveConfirmButton) el.moveConfirmButton.disabled = !state.moveTargetFolderId;
     setButtonLoading(el.moveConfirmButton, false);
+    updateSelectionUI();
   }
 }
 
@@ -3448,16 +4036,6 @@ function onMediaReady() {
     requestAnimationFrame(() => el.imageViewer.classList.add('is-ready'));
   }
   updateQualityDisplay();
-  if (state.pendingPlay) {
-    state.pendingPlay = false;
-    if (el.videoPlayer && !el.videoPlayer.hidden) {
-      // 쇼츠 패턴: 미리보기를 열면 항상 재생 상태로 시작한다.
-      // 제스처 활성 창을 벗어난 첫 시도가 거부되면 한 번 더 시도한다.
-      el.videoPlayer.play().catch(() => {
-        setTimeout(() => el.videoPlayer.play().catch(() => {}), 350);
-      });
-    }
-  }
 }
 
 function setStreamMode(mode, label) {
@@ -3504,16 +4082,16 @@ function updateQualityDisplay() {
   const effectiveH = liveH || metaH;
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
 
-  if (mode === 'drive-preview') {
-    setStreamMode('drive', 'Drive 호환 재생');
+  if (mode === 'drive-handoff') {
+    setStreamMode('drive', 'Drive에서 열기');
     if (el.qualityBadge) {
       el.qualityBadge.dataset.quality = 'preview';
-      el.qualityBadge.textContent = '· 변환본';
+      el.qualityBadge.textContent = '· 외부 열기';
     }
     if (el.mediaResolution) {
       el.mediaResolution.textContent = metaW && metaH
-        ? `가변 해상도 (원본: ${metaW}×${metaH} ${metaCat})`
-        : 'Drive 가변 변환 해상도';
+        ? `원본: ${metaW}×${metaH} ${metaCat}`
+        : 'Drive 원본 파일';
     }
   } else if (mode === 'blob' || mode === 'blob-loading') {
     setStreamMode('buffer', '원본 임시 버퍼');
@@ -3559,18 +4137,20 @@ function showMediaLoading(message) {
   el.mediaError.hidden = true;
 }
 
-function showMediaError(message, { showDrive = true } = {}) {
+function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = true, showRetry = true } = {}) {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = false;
+  if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = title;
   el.mediaErrorMessage.textContent = message;
   el.openDriveButton.hidden = !showDrive;
+  el.retryMediaButton.hidden = !showRetry;
 }
 
 function retryMedia() {
   if (!state.selected) return;
   if (!hasUsableToken() && !state.demo) {
     state.retryAfterAuth = true;
-    requestAccessToken();
+    requestGoogleToken({ background: false, force: true });
     return;
   }
   openMediaSource(state.selected);
@@ -3578,6 +4158,13 @@ function retryMedia() {
 
 function closePlayer() {
   if (el.playerSheet.hidden) return;
+  const returnFocus = playerReturnFocus;
+  playerReturnFocus = null;
+  state.playbackSession += 1;
+  mediaTransitionCommitting = false;
+  swipeCommitPending = false;
+  playbackNavigationChain = Promise.resolve();
+  clearMediaTransition();
   if (document.fullscreenElement || document.webkitFullscreenElement) {
     if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
@@ -3588,7 +4175,12 @@ function closePlayer() {
   setStageImmersive(false);
   el.playerSheet.hidden = true;
   document.body.style.overflow = '';
+  setPlayerBackgroundInert(false);
   state.selected = null;
+  state.resumePosition = null;
+  requestAnimationFrame(() => {
+    if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
+  });
 }
 
 function clearDirectMediaSources() {
@@ -3616,6 +4208,12 @@ function resetMediaElements() {
   state.mediaSession += 1;
   state.mediaAbortController?.abort();
   state.mediaAbortController = null;
+  if (state.frameCallbackId != null && el.videoPlayer?.cancelVideoFrameCallback) {
+    el.videoPlayer.cancelVideoFrameCallback(state.frameCallbackId);
+  }
+  state.frameCallbackId = null;
+  state.lastPresentedMediaTime = null;
+  state.frameDuration = DEFAULT_FRAME_DURATION;
   clearDirectMediaSources();
   if (el.ambientBackdrop) {
     el.ambientBackdrop.classList.remove('active');
@@ -3624,10 +4222,10 @@ function resetMediaElements() {
   if (el.mobileShortsProgressBar) {
     el.mobileShortsProgressBar.style.width = '0%';
   }
-  el.drivePreview.hidden = true;
-  el.drivePreview.src = 'about:blank';
   el.mediaError.hidden = true;
   el.openDriveButton.hidden = false;
+  el.retryMediaButton.hidden = false;
+  if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = '이 파일을 재생할 수 없습니다';
   el.mediaLoading.hidden = false;
   el.mediaLoadingText.textContent = '원본 스트림 준비 중';
   state.mediaAttempt = 'idle';
@@ -3678,6 +4276,14 @@ function disconnect() {
 }
 
 function clearToken(notifyWorker) {
+  state.authGeneration += 1;
+  pendingTokenRequest?.finish(false);
+  pendingTokenRequest = null;
+  // A settled request from the old generation must not single-flight a new
+  // authorization attempt after credentials are explicitly cleared.
+  tokenRequestPromise = null;
+  tokenRequestGeneration = -1;
+  tokenRequestBackground = true;
   state.token = null;
   state.expiresAt = 0;
   if (tokenRenewalTimer) {
@@ -3688,8 +4294,10 @@ function clearToken(notifyWorker) {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
   } catch (_) {}
   if (notifyWorker) {
-    navigator.serviceWorker.controller?.postMessage({ type: 'CLEAR_TOKEN' });
-    state.serviceWorkerRegistration?.active?.postMessage({ type: 'CLEAR_TOKEN' });
+    const message = { type: 'CLEAR_TOKEN' };
+    navigator.serviceWorker.controller?.postMessage(message);
+    const registration = state.serviceWorkerRegistration;
+    [registration?.active, registration?.waiting, registration?.installing].forEach((worker) => worker?.postMessage(message));
   }
 }
 
