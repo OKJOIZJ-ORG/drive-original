@@ -55,7 +55,15 @@ python3 -m http.server 8080
 
 브라우저에서 `http://localhost:8080`을 엽니다. 실제 iPhone 사용은 HTTPS 배포 주소가 필요합니다.
 
-## 2. Google Cloud 최초 설정
+## 2. Google Drive 연결
+
+공식 배포 주소에서는 앱에 포함된 기본 웹 OAuth 클라이언트 ID를 사용합니다. 첫 화면에서 ID를 입력할 필요 없이 **Google Drive 연결하기**를 누르고 Google 로그인 창에서 계정과 Drive 권한을 확인하면 됩니다. 토큰 요청은 페이지 로드 중 자동으로 팝업을 열지 않고 사용자의 연결 버튼 클릭으로만 시작합니다.
+
+기본 클라이언트 ID는 `376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com`입니다. 클라이언트 ID는 웹앱에서 사용하는 공개 식별자이며 클라이언트 보안 비밀이 아닙니다.
+
+### 자체 배포 또는 다른 Google Cloud 프로젝트 사용
+
+공식 배포가 아닌 다른 origin에서 호스팅하거나 별도 Google Cloud 프로젝트를 사용하려면 다음 설정이 필요합니다.
 
 1. [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트를 만듭니다.
 2. **API 및 서비스 → 라이브러리**에서 **Google Drive API**를 사용 설정합니다.
@@ -66,9 +74,9 @@ python3 -m http.server 8080
    - 예: `https://example.com`
    - GitHub Pages 예: `https://조직명.github.io`
    - 경로와 마지막 슬래시는 넣지 않습니다.
-7. 생성된 `…apps.googleusercontent.com` 형식의 클라이언트 ID를 앱 첫 화면에 붙여넣습니다.
+7. 앱 설정의 **자체 배포 · 고급 OAuth 설정**에 생성된 `…apps.googleusercontent.com` 형식의 클라이언트 ID를 선택적으로 저장합니다.
 
-클라이언트 ID는 공개 식별자이며 비밀번호가 아닙니다. 그래도 승인된 JavaScript 원본을 정확히 제한해야 다른 사이트에서 무단 사용하기 어렵습니다.
+입력란을 비우거나 앱 기본 ID를 저장하면 custom override가 제거되고 기본 연결 설정으로 돌아갑니다. 승인된 JavaScript 원본은 정확히 제한해야 다른 사이트에서 해당 OAuth 프로젝트를 무단 사용하기 어렵습니다.
 
 ## 3. iPhone에 설치
 
@@ -87,7 +95,7 @@ python3 -m http.server 8080
 - 미디어 경로: 브라우저 ↔ Google Drive API
 - 자체 서버 업로드: 없음
 - 미디어 Cache Storage 저장: 없음
-- 로컬 저장소에 남는 값: OAuth 클라이언트 ID, 단기 액세스 토큰, 토큰 만료 시각
+- 로컬 저장소에 남는 값: 선택적으로 재정의한 OAuth 클라이언트 ID, 단기 액세스 토큰, 토큰 만료 시각
 - 연결 해제 시 저장된 액세스 토큰을 삭제하고 Google에 토큰 폐기를 요청
 
 ## 파일 구조

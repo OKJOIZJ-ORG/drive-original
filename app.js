@@ -2,6 +2,7 @@
 
 const APP_VERSION = '1.17.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
+const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -321,8 +322,27 @@ function buildResourceKeysHeader(items) {
   return pairs.join(',');
 }
 
+function normalizeClientIdOverride(value) {
+  const clientId = String(value || '').trim();
+  if (!clientId || clientId === DEFAULT_OAUTH_CLIENT_ID || !validateClientId(clientId)) return '';
+  return clientId;
+}
+
+function loadClientIdOverride() {
+  try {
+    const stored = localStorage.getItem(CLIENT_ID_KEY) || '';
+    const override = normalizeClientIdOverride(stored);
+    if (stored && !override) localStorage.removeItem(CLIENT_ID_KEY);
+    return override;
+  } catch (_) {
+    return '';
+  }
+}
+
+const initialClientIdOverride = loadClientIdOverride();
 const state = {
-  clientId: localStorage.getItem(CLIENT_ID_KEY) || '',
+  clientIdOverride: initialClientIdOverride,
+  clientId: initialClientIdOverride || DEFAULT_OAUTH_CLIENT_ID,
   token: null,
   expiresAt: 0,
   tokenClient: null,
@@ -456,29 +476,23 @@ async function init() {
   setupTouchGestures();
   setupInfiniteScroll();
   cleanupStaleOriginalBuffers().catch(() => {});
-  el.clientIdInput.value = state.clientId;
-  el.settingsClientId.value = state.clientId;
+  el.settingsClientId.value = state.clientIdOverride;
   el.currentOrigin.textContent = location.origin;
   el.appVersion.textContent = `v${APP_VERSION}`;
   if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
   
   await setupServiceWorker();
 
-  // Automatic Login Flow:
   if (state.demo) {
     startDemoMode();
   } else if (loadSavedToken()) {
-    // 1. Valid saved token exists in storage -> Instant zero-click auto login!
     sendTokenToWorker();
     updateConnectionBadge();
     showLibrary();
     loadFiles({ append: false });
-  } else if (state.clientId && validateClientId(state.clientId)) {
-    // 2. Client ID is saved -> Attempt silent background token request
-    updateConnectionBadge();
-    attemptSilentAutoLogin();
   } else {
-    // 3. First time user -> Show setup view
+    // GIS token requests require a user gesture. Never open an OAuth dialog
+    // automatically on first load, even when the built-in client ID is ready.
     updateConnectionBadge();
     showSetup();
   }
@@ -488,7 +502,7 @@ function bindElements() {
   const ids = [
     'brandButton', 'connectionBadge', 'settingsButton', 'settingsUpdateDot',
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
-    'setupView', 'libraryView', 'clientIdInput', 'clientIdHint', 'pasteClientId',
+    'setupView', 'libraryView', 'clientIdHint',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
@@ -518,7 +532,7 @@ function bindElements() {
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
-    'settingsClientId', 'saveSettingsButton', 'disconnectButton', 'setupHelpSection',
+    'settingsClientId', 'settingsClientIdHint', 'saveSettingsButton', 'disconnectButton', 'setupHelpSection',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
@@ -545,11 +559,6 @@ function bindDialogLightDismiss(dialog) {
 
 function bindEvents() {
   el.connectButton.addEventListener('click', beginAuthorization);
-  el.clientIdInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') beginAuthorization();
-  });
-  el.clientIdInput.addEventListener('input', () => clearClientIdError());
-  el.pasteClientId.addEventListener('click', pasteClientId);
   el.openSetupHelp.addEventListener('click', () => openSettings(true));
   el.settingsButton.addEventListener('click', () => openSettings(false));
   el.brandButton.addEventListener('click', () => {
@@ -708,6 +717,7 @@ function bindEvents() {
   el.drivePreviewRetryButton.addEventListener('click', retryMedia);
   el.drivePreviewOpenButton.addEventListener('click', openSelectedInDrive);
   el.saveSettingsButton.addEventListener('click', saveSettings);
+  el.settingsClientId.addEventListener('input', clearSettingsClientIdError);
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
 
@@ -1299,14 +1309,11 @@ function scheduleTokenRenewal() {
 }
 
 function beginAuthorization() {
-  const clientId = el.clientIdInput.value.trim();
-  if (!validateClientId(clientId)) {
-    setClientIdError('웹 OAuth 클라이언트 ID 전체를 입력하세요. 끝이 apps.googleusercontent.com이어야 합니다.');
+  if (!validateClientId(state.clientId)) {
+    setClientIdError('OAuth 연결 설정을 확인해 주세요. 자체 배포 중이라면 고급 설정에서 클라이언트 ID를 저장하세요.');
     return;
   }
-  state.clientId = clientId;
-  localStorage.setItem(CLIENT_ID_KEY, clientId);
-  el.settingsClientId.value = clientId;
+  clearClientIdError();
   requestAccessToken();
 }
 
@@ -5644,28 +5651,40 @@ function isMobileDevice() {
 }
 
 function openSettings(scrollToHelp) {
-  el.settingsClientId.value = state.clientId;
+  el.settingsClientId.value = state.clientIdOverride;
+  clearSettingsClientIdError();
   if (!el.settingsDialog.open) el.settingsDialog.showModal();
   if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 }
 
 function saveSettings() {
-  const value = el.settingsClientId.value.trim();
-  if (value && !validateClientId(value)) {
+  const enteredValue = el.settingsClientId.value.trim();
+  if (enteredValue && !validateClientId(enteredValue)) {
+    el.settingsClientId.setAttribute('aria-invalid', 'true');
+    el.settingsClientIdHint.textContent = '…apps.googleusercontent.com 형식의 웹 OAuth 클라이언트 ID를 입력하세요.';
+    el.settingsClientIdHint.classList.add('error');
+    el.settingsClientId.focus({ preventScroll: true });
     showToast('올바른 웹 OAuth 클라이언트 ID가 아닙니다.');
     return;
   }
-  const changed = value !== state.clientId;
-  state.clientId = value;
-  el.clientIdInput.value = value;
-  if (value) localStorage.setItem(CLIENT_ID_KEY, value);
+  const override = normalizeClientIdOverride(enteredValue);
+  const nextClientId = override || DEFAULT_OAUTH_CLIENT_ID;
+  const changed = nextClientId !== state.clientId;
+  state.clientIdOverride = override;
+  state.clientId = nextClientId;
+  el.settingsClientId.value = override;
+  if (override) localStorage.setItem(CLIENT_ID_KEY, override);
   else localStorage.removeItem(CLIENT_ID_KEY);
   if (changed) {
     state.tokenClient = null;
     clearToken(false);
     invalidateDriveSessionData();
   }
-  showToast('이 기기의 연결 설정을 저장했습니다.');
+  clearClientIdError();
+  clearSettingsClientIdError();
+  showToast(override
+    ? '이 기기에서 자체 OAuth 클라이언트 ID를 사용합니다.'
+    : '기본 OAuth 연결 설정을 사용합니다.');
 }
 
 function disconnect() {
@@ -5720,16 +5739,6 @@ function invalidateDriveSessionData() {
   state.treeCachePromise = null;
 }
 
-async function pasteClientId() {
-  try {
-    const text = await navigator.clipboard.readText();
-    el.clientIdInput.value = text.trim();
-    clearClientIdError();
-  } catch (_) {
-    showToast('클립보드 권한이 없습니다. 입력란을 길게 눌러 붙여넣으세요.');
-  }
-}
-
 async function copyOrigin() {
   try {
     await navigator.clipboard.writeText(location.origin);
@@ -5779,13 +5788,17 @@ function validateClientId(value) {
 function setClientIdError(message) {
   el.clientIdHint.textContent = message;
   el.clientIdHint.classList.add('error');
-  el.clientIdInput.setAttribute('aria-invalid', 'true');
 }
 
 function clearClientIdError() {
-  el.clientIdHint.textContent = 'Drive API와 승인된 JavaScript 원본 설정이 필요합니다.';
+  el.clientIdHint.textContent = 'Google 로그인 창에서 계정과 Drive 권한을 확인합니다.';
   el.clientIdHint.classList.remove('error');
-  el.clientIdInput.removeAttribute('aria-invalid');
+}
+
+function clearSettingsClientIdError() {
+  el.settingsClientId.removeAttribute('aria-invalid');
+  el.settingsClientIdHint.textContent = '비워 두면 앱에 포함된 기본 OAuth 연결 설정을 사용합니다.';
+  el.settingsClientIdHint.classList.remove('error');
 }
 
 function showToast(message) {

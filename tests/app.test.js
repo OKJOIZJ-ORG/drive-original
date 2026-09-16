@@ -6,8 +6,8 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-function loadAppContext() {
-  const storage = new Map();
+function loadAppContext(initialStorage = {}) {
+  const storage = new Map(Object.entries(initialStorage));
   const context = {
     AbortController,
     Blob,
@@ -128,6 +128,161 @@ test('GIF detection covers MIME and case-insensitive filename fallback', () => {
   assert.equal(run(context, "isGifFile({ mimeType: 'image/gif', name: 'still.bin' })"), true);
   assert.equal(run(context, "isGifFile({ mimeType: 'application/octet-stream', name: 'CLIP.GIF' })"), true);
   assert.equal(run(context, "isGifFile({ mimeType: 'image/jpeg', name: 'photo.jpg' })"), false);
+});
+
+test('OAuth uses the shipped client ID by default and preserves a valid custom override', () => {
+  const defaultContext = loadAppContext();
+  const defaultState = JSON.parse(run(defaultContext, `JSON.stringify({
+    defaultId: DEFAULT_OAUTH_CLIENT_ID,
+    clientId: state.clientId,
+    override: state.clientIdOverride,
+    stored: localStorage.getItem(CLIENT_ID_KEY)
+  })`));
+  assert.deepEqual(defaultState, {
+    defaultId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+    override: '',
+    stored: null
+  });
+
+  const customContext = loadAppContext({
+    'drive-original.oauth-client-id': '123-custom.apps.googleusercontent.com'
+  });
+  const customState = JSON.parse(run(customContext, `JSON.stringify({
+    clientId: state.clientId,
+    override: state.clientIdOverride,
+    stored: localStorage.getItem(CLIENT_ID_KEY)
+  })`));
+  assert.deepEqual(customState, {
+    clientId: '123-custom.apps.googleusercontent.com',
+    override: '123-custom.apps.googleusercontent.com',
+    stored: '123-custom.apps.googleusercontent.com'
+  });
+
+  for (const redundantValue of [
+    '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+    'not-a-valid-client-id'
+  ]) {
+    const migratedContext = loadAppContext({ 'drive-original.oauth-client-id': redundantValue });
+    const migratedState = JSON.parse(run(migratedContext, `JSON.stringify({
+      clientId: state.clientId,
+      override: state.clientIdOverride,
+      stored: localStorage.getItem(CLIENT_ID_KEY)
+    })`));
+    assert.deepEqual(migratedState, {
+      clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+      override: '',
+      stored: null
+    });
+  }
+});
+
+test('blank or default OAuth settings remove the override and only effective-ID changes reset the session', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    let tokenClears = 0;
+    let sessionInvalidations = 0;
+    const messages = [];
+    el.settingsClientId = {
+      value: '',
+      removeAttribute() {},
+      setAttribute() {},
+      focus() {}
+    };
+    el.settingsClientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
+    el.clientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
+    clearToken = () => { tokenClears += 1; };
+    invalidateDriveSessionData = () => { sessionInvalidations += 1; };
+    showToast = (message) => { messages.push(message); };
+
+    saveSettings();
+    const afterBlank = {
+      clientId: state.clientId,
+      override: state.clientIdOverride,
+      stored: localStorage.getItem(CLIENT_ID_KEY),
+      tokenClears,
+      sessionInvalidations
+    };
+
+    el.settingsClientId.value = '123-custom.apps.googleusercontent.com';
+    saveSettings();
+    const afterCustom = {
+      clientId: state.clientId,
+      override: state.clientIdOverride,
+      stored: localStorage.getItem(CLIENT_ID_KEY),
+      tokenClears,
+      sessionInvalidations
+    };
+
+    el.settingsClientId.value = DEFAULT_OAUTH_CLIENT_ID;
+    saveSettings();
+    const afterDefault = {
+      clientId: state.clientId,
+      override: state.clientIdOverride,
+      stored: localStorage.getItem(CLIENT_ID_KEY),
+      tokenClears,
+      sessionInvalidations
+    };
+    return JSON.stringify({ afterBlank, afterCustom, afterDefault, messages });
+  })()`));
+
+  assert.deepEqual(result.afterBlank, {
+    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+    override: '',
+    stored: null,
+    tokenClears: 0,
+    sessionInvalidations: 0
+  });
+  assert.deepEqual(result.afterCustom, {
+    clientId: '123-custom.apps.googleusercontent.com',
+    override: '123-custom.apps.googleusercontent.com',
+    stored: '123-custom.apps.googleusercontent.com',
+    tokenClears: 1,
+    sessionInvalidations: 1
+  });
+  assert.deepEqual(result.afterDefault, {
+    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
+    override: '',
+    stored: null,
+    tokenClears: 2,
+    sessionInvalidations: 2
+  });
+});
+
+test('first load waits for a user gesture and the primary connect button uses the default client ID', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    let automaticRequests = 0;
+    let interactiveRequests = 0;
+    let setupShown = 0;
+    bindElements = () => {};
+    bindEvents = () => {};
+    setupTouchGestures = () => {};
+    setupInfiniteScroll = () => {};
+    cleanupStaleOriginalBuffers = async () => {};
+    setupServiceWorker = async () => {};
+    loadSavedToken = () => false;
+    updateConnectionBadge = () => {};
+    showSetup = () => { setupShown += 1; };
+    attemptSilentAutoLogin = async () => { automaticRequests += 1; };
+    requestAccessToken = async () => { interactiveRequests += 1; };
+    el.settingsClientId = { value: '' };
+    el.currentOrigin = { textContent: '' };
+    el.appVersion = { textContent: '' };
+    el.settingsAppVersion = { textContent: '' };
+    el.clientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
+
+    await init();
+    beginAuthorization();
+    return JSON.stringify({ automaticRequests, interactiveRequests, setupShown, clientId: state.clientId });
+  })()`);
+
+  assert.deepEqual(JSON.parse(result), {
+    automaticRequests: 0,
+    interactiveRequests: 1,
+    setupShown: 1,
+    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com'
+  });
 });
 
 test('pagination exhausts tokens and rejects a repeated cursor', async () => {

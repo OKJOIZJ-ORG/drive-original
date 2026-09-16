@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
@@ -47,7 +48,7 @@ test('manifest icons and service-worker shell assets exist', () => {
   });
 });
 
-test('brand surfaces use the rounded navy app icon without the legacy blue mark', () => {
+test('brand surfaces use the canonical rounded navy icon with the restored blue dot', () => {
   const html = read('index.html');
   const styles = read('styles.css');
   const icon = read('icons/app-icon.svg');
@@ -60,9 +61,19 @@ test('brand surfaces use the rounded navy app icon without the legacy blue mark'
   assert.match(brandStyles, /border-radius:\s*22%/);
   assert.match(brandStyles, /overflow:\s*hidden/);
   assert.match(icon, /rx="116"/);
-  assert.match(icon, /fill="#192235"/);
-  assert.match(icon, /stroke="#F7F8FC"/);
-  assert.doesNotMatch(`${icon}\n${maskable}`, /#0a84ff|#0066cc|#5aa2f2/i);
+  assert.match(icon, /href="icon-512\.png"/);
+  assert.match(maskable, /href="maskable-512\.png"/);
+
+  const expectedHashes = {
+    'icons/icon-192.png': '4B50C9E83CBDA9FD46E4756B04F1C1DF46E6BB6E52F6EBED6F88ADB447D6FA99',
+    'icons/icon-512.png': 'C5A7C3F4533935F608904533C2A88B61E78D6960AB2D528FA029F6EAF37FDA9F',
+    'icons/apple-touch-icon.png': '9DEDA4D464FE25D066D952DE58C42054F5797FBBD5D0057576B405B86D4B5061',
+    'icons/maskable-512.png': '02EFEC2B1C34F99ECE7AFB129AE414396F884D8E53EF2292AE2ECC318C437DE7'
+  };
+  Object.entries(expectedHashes).forEach(([name, expected]) => {
+    const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, name))).digest('hex').toUpperCase();
+    assert.equal(actual, expected, name);
+  });
 });
 
 test('resource keys remain raw in the service-worker header', () => {
@@ -72,11 +83,18 @@ test('resource keys remain raw in the service-worker header', () => {
 });
 
 test('privacy documentation matches the requested OAuth scope and token storage', () => {
+  const app = read('app.js');
+  const html = read('index.html');
   const readme = read('README.md');
   assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive/);
   assert.match(readme, /로컬 저장소/);
   assert.doesNotMatch(readme, /drive\.readonly/);
   assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
+  assert.match(app, /const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l\.apps\.googleusercontent\.com'/);
+  assert.doesNotMatch(html, /id="clientIdInput"|id="pasteClientId"/);
+  assert.match(html, /OAuth 클라이언트 ID 재정의 \(선택\)/);
+  assert.match(readme, /첫 화면에서 ID를 입력할 필요 없이/);
+  assert.match(readme, /입력란을 비우거나 앱 기본 ID를 저장하면 custom override가 제거/);
 });
 
 test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {

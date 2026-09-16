@@ -127,26 +127,18 @@
         <div class="setup-console-card">
           <div class="console-card-header">
             <h2>Google Drive 연결</h2>
-            <p>Google Cloud Console에서 발급한 웹 OAuth 클라이언트 ID를 입력하세요.</p>
-          </div>
-
-          <div class="field-block">
-            <label class="field-label" for="clientIdInput">OAuth 클라이언트 ID</label>
-            <div class="input-row">
-              <input id="clientIdInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="123456789-xxxx.apps.googleusercontent.com">
-              <button class="secondary-button compact" id="pasteClientId" type="button">붙여넣기</button>
-            </div>
-            <p class="field-hint" id="clientIdHint">Google Cloud의 웹 애플리케이션 클라이언트 ID를 입력하세요.</p>
+            <p>앱에 포함된 기본 OAuth 연결 설정으로 바로 시작합니다.</p>
           </div>
 
           <button class="primary-button full" id="connectButton" type="button">
             <span>Google Drive 연결하기</span>
           </button>
+          <p class="field-hint" id="clientIdHint">Google 로그인 창에서 계정과 Drive 권한을 확인합니다.</p>
 
           <div class="console-footer">
             <button class="text-button" id="openSetupHelp" type="button">
               <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>초기 1회 설정 가이드 보기</span>
+              <span>자체 배포 · 고급 OAuth 설정</span>
             </button>
           </div>
         </div>
@@ -529,10 +521,12 @@
         </section>
 
         <section class="settings-group">
-          <h3>Google Drive 연결</h3>
+          <h3>자체 배포 · 고급 OAuth 설정</h3>
+          <p class="dialog-text">공식 배포에서는 기본 OAuth 클라이언트 ID를 사용합니다. 다른 도메인이나 Google Cloud 프로젝트로 자체 배포할 때만 아래 값을 입력하세요. 비워 두거나 기본 ID를 입력하면 기본 설정으로 복원됩니다.</p>
           <div class="field-block">
-            <label class="field-label" for="settingsClientId">OAuth 클라이언트 ID</label>
-            <input class="plain-input" id="settingsClientId" type="text" autocapitalize="off" spellcheck="false" placeholder="OAuth 클라이언트 ID">
+            <label class="field-label" for="settingsClientId">OAuth 클라이언트 ID 재정의 (선택)</label>
+            <p class="field-hint" id="settingsClientIdHint">비워 두면 앱에 포함된 기본 OAuth 연결 설정을 사용합니다.</p>
+            <input class="plain-input" id="settingsClientId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="비워 두면 앱 기본값 사용" aria-describedby="settingsClientIdHint">
           </div>
           <div class="button-row">
             <button class="secondary-button" id="saveSettingsButton" type="button">설정 저장</button>
@@ -541,12 +535,12 @@
         </section>
 
         <section class="settings-group" id="setupHelpSection">
-          <h3>초기 1회 설정 안내</h3>
+          <h3>자체 배포 설정 안내</h3>
           <ol class="steps-list">
             <li><span>1</span><p><strong>Google Cloud Console</strong>에서 프로젝트 생성 후 <b>Google Drive API</b>를 사용 설정합니다.</p></li>
             <li><span>2</span><p><strong>OAuth 동의 화면</strong>에 본인 Google 계정을 테스트 사용자로 등록합니다.</p></li>
             <li><span>3</span><p><strong>웹 애플리케이션</strong> OAuth 클라이언트를 만들고 아래 원본 주소를 승인된 JavaScript 원본에 등록합니다.</p></li>
-            <li><span>4</span><p>발급된 <strong>클라이언트 ID</strong>를 위 입력란에 저장하고 연결합니다.</p></li>
+            <li><span>4</span><p>발급된 <strong>클라이언트 ID</strong>를 위 선택 입력란에 저장한 뒤 연결합니다.</p></li>
           </ol>
           <div class="origin-box">
             <div>
