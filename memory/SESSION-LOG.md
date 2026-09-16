@@ -14,3 +14,11 @@
 - Packaged `Drive-Original-v1.14.0.zip` and `Drive-Original.zip` with matching SHA-256 `2392AC0DECCA44211E579282D9ECB771D775EC7C788E2E9B5498C22851A59DA1`.
 - Pushed v1.14.0 to `main`; GitHub Pages served the live `version.json` with HTTP 200.
 - Sanitized the local Git remote after a credential-bearing URL appeared in tool output. The exposed credential value was not recorded; revocation/reissue remains the safe follow-up.
+
+## 2026-09-16
+
+- Recorded the user-confirmed icon unification decision as D-030.
+- Rebuilt the app identity assets from deterministic SVG masters: rounded navy background, continuous white outline, and no blue accent dot.
+- Replaced the header's separate blue camera badge with `icons/icon-192.png`; favicon, PWA, Apple touch, maskable, and in-app brand surfaces now share the same navy logo system.
+- Bumped the release metadata and cache version to v1.14.1 and added a static contract test for the brand-icon source, rounding, palette, and legacy-blue exclusion.
+- Verified 15/15 Node tests and a local Chrome demo. The live DOM loaded a complete 192×192 brand image with `border-radius: 22%`, no background gradient, and no page console errors attributable to this change.

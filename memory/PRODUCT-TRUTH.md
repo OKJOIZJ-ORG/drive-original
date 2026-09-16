@@ -10,6 +10,7 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 - `verified 2026-08-23`: Shorts previous/next/random and random sort wait for the complete target-folder supported-media population and ignore display search/filter subsets. Evidence: population/order tests and browser interaction smoke.
 - `verified 2026-08-23`: The app requests `https://www.googleapis.com/auth/drive`; it stores the OAuth client ID, short-lived access token, and expiry in local storage for automatic login, and sends the token to service-worker memory during execution. Evidence: `app.js`, README contract test.
 - `operational 2026-08-23`: GitHub Pages serves v1.14.0 at HTTP 200. Evidence: Actions runs 32646709841 and 32646842133 plus live `version.json`.
+- `verified locally 2026-09-16`: Favicon/PWA/Apple touch/maskable assets and the in-app header use the rounded navy Drive Original logo system with no legacy blue accent. Evidence: 15/15 Node tests, rendered asset inspection, and Chrome demo DOM/computed-style readback.
 
 ## Not implemented
 

@@ -250,12 +250,17 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .brand-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, #0a84ff 0%, #0066cc 100%);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 2px 8px rgba(10, 132, 255, 0.35);
+  border-radius: 22%;
+  overflow: hidden;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .brand-name {

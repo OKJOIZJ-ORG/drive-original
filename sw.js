@@ -1,4 +1,4 @@
-const VERSION = '1.14.0';
+const VERSION = '1.14.1';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -8,8 +8,10 @@ const SHELL_FILES = [
   './app.js',
   './version.json',
   './manifest.webmanifest',
+  './icons/app-icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/maskable-512.png',
   './icons/apple-touch-icon.png'
 ];
 

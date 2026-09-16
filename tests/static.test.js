@@ -47,6 +47,24 @@ test('manifest icons and service-worker shell assets exist', () => {
   });
 });
 
+test('brand surfaces use the rounded navy app icon without the legacy blue mark', () => {
+  const html = read('index.html');
+  const styles = read('styles.css');
+  const icon = read('icons/app-icon.svg');
+  const maskable = read('icons/app-icon-maskable.svg');
+  const brandMarkup = html.match(/<span class="brand-icon"[\s\S]*?<\/span>/)?.[0] || '';
+  const brandStyles = styles.match(/\.brand-icon \{[\s\S]*?\n\}/)?.[0] || '';
+
+  assert.match(brandMarkup, /<img src="\.\/icons\/icon-192\.png" alt="" width="32" height="32">/);
+  assert.doesNotMatch(brandMarkup, /<svg|#0a84ff|#0066cc/);
+  assert.match(brandStyles, /border-radius:\s*22%/);
+  assert.match(brandStyles, /overflow:\s*hidden/);
+  assert.match(icon, /rx="116"/);
+  assert.match(icon, /fill="#192235"/);
+  assert.match(icon, /stroke="#F7F8FC"/);
+  assert.doesNotMatch(`${icon}\n${maskable}`, /#0a84ff|#0066cc|#5aa2f2/i);
+});
+
 test('resource keys remain raw in the service-worker header', () => {
   const worker = read('sw.js');
   assert.match(worker, /X-Goog-Drive-Resource-Keys/);
