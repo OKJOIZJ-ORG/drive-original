@@ -1,26 +1,25 @@
-# Checkpoint — Drive-scale stability — 2026-08-23 23:59
+# Checkpoint — Rounded navy icon release — 2026-09-16 16:12
 
 ## The story so far
 
-Drive Original v1.14.0 is implemented, locally verified, pushed to `main`, and live on GitHub Pages. The app now keeps at most 240 media cards in the DOM, never attaches GIF thumbnail URLs to cards, enumerates My Drive plus shared-drive destination folders across all pages, and makes shorts/random operations await the complete target-folder media population.
+Drive Original v1.14.1 is implemented, committed as `9580da6254e9f2b73d15a3947e43a534d3ffc9d3`, pushed to `main`, and live on GitHub Pages. PWA, Apple Touch, Maskable, favicon, and in-app header surfaces now use the rounded navy logo without the old blue dot or blue camera badge. Windows desktop and Start menu shortcuts point to a verified seven-resolution ICO. The v1.14.1 ZIP and Notion maintenance record are synchronized.
 
 ## Decided
 
-- D-029 is implemented without changing its scope.
-- GIF cards use a static SVG placeholder; original GIF playback remains available only after opening the file.
-- Shared-drive folders are collected both through the user corpus and bounded-concurrency per-drive scans; incomplete searches and repeated page tokens fail visibly.
-- Display search/filter affects only the library projection, not shorts or random population.
+- D-030 fixes the rounded navy Drive Original mark as the single app-identity icon system.
+- Blue accent details are excluded from the app logo; functional blue controls elsewhere remain unchanged.
+- Deterministic SVG masters own raster icon generation, while the app header consumes the same `icon-192.png` used by PWA identity surfaces.
 
 ## Waiting on the user
 
-- None. Live-account cross-drive permission topology was not available for a destructive move smoke test, so API-specific failures remain surfaced rather than hidden.
+- None.
 
 ## Next first action
 
-Verify the Notion maintenance page contains the final remote HEAD, ZIP SHA-256, deployment status, and v1.14.0 history entry. No source work remains.
+Run `git status --short --branch` before any new Drive Original work; no v1.14.1 release work remains.
 
 ## Tried
 
-- 14 automated checks and desktop/mobile browser smoke checks passed; the live Pages `version.json` returned HTTP 200 and v1.14.0.
-- Gemini's deprecated `enforceSingleParent` suggestion was rejected after checking the current Google `files.update` reference.
-- A Node 24 Actions-major update was attempted but the current GitHub credential lacks `workflow` scope; the optional workflow change was reverted, and the original workflow still deploys successfully with a deprecation annotation.
+- Direct 192px and 180px headless-Chrome screenshots were cropped by Chrome's minimum viewport width; the correct 512px render was downscaled with high-quality alpha-preserving interpolation instead.
+- The first automated-test invocation paused at the Gemini checkpoint; retrying the identical scoped command passed 15/15.
+- Saving the browser screenshot to a new `artifacts/` path was denied by the browser tool; an inline screenshot completed the same visual check.

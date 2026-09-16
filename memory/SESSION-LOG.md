@@ -22,3 +22,8 @@
 - Replaced the header's separate blue camera badge with `icons/icon-192.png`; favicon, PWA, Apple touch, maskable, and in-app brand surfaces now share the same navy logo system.
 - Bumped the release metadata and cache version to v1.14.1 and added a static contract test for the brand-icon source, rounding, palette, and legacy-blue exclusion.
 - Verified 15/15 Node tests and a local Chrome demo. The live DOM loaded a complete 192×192 brand image with `border-radius: 22%`, no background gradient, and no page console errors attributable to this change.
+- Fast-forwarded the verified branch into `main`, pushed release commit `9580da6254e9f2b73d15a3947e43a534d3ffc9d3`, and observed GitHub Pages Actions run 35066797555 complete successfully.
+- Verified live `version.json` and all four PNG icon assets returned HTTP 200 and matched the corresponding Git blobs byte-for-byte; live version read back as 1.14.1.
+- Generated `C:\Users\jbs\Downloads\Drive-Original-v1.14.1.zip` and `Drive-Original.zip` with matching SHA-256 `3CB1B3715BE7675417B247142237C360B85FD9BEF6370FEF989BBF05E45EC092`.
+- Generated the seven-resolution Windows ICO, updated the desktop and Start menu shortcuts, refreshed the shell icon cache, and verified a 64px extracted frame.
+- Updated and re-fetched the Notion maintenance page; v1.14.1 version, release commit, Actions run, ZIP hash, D-030, and history row all matched the intended values.
