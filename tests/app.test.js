@@ -192,6 +192,29 @@ test('OAuth uses the shipped client ID by default and preserves a valid custom o
   }
 });
 
+test('OAuth token cache rejects the legacy scope contract and accepts the current one', () => {
+  const expiresAt = Date.now() + 60_000;
+  const legacyContext = loadAppContext({
+    'drive-original.oauth-token': JSON.stringify({ token: 'legacy-token', expiresAt })
+  });
+  const legacy = JSON.parse(run(legacyContext, `(() => {
+    scheduleTokenRenewal = () => {};
+    const loaded = loadSavedToken();
+    return JSON.stringify({ loaded, stored: localStorage.getItem(TOKEN_STORAGE_KEY), token: state.token });
+  })()`));
+  assert.deepEqual(legacy, { loaded: false, stored: null, token: null });
+
+  const currentContext = loadAppContext({
+    'drive-original.oauth-token': JSON.stringify({ token: 'current-token', expiresAt, scopeVersion: 2 })
+  });
+  const current = JSON.parse(run(currentContext, `(() => {
+    scheduleTokenRenewal = () => {};
+    const loaded = loadSavedToken();
+    return JSON.stringify({ loaded, token: state.token, expiresAt: state.expiresAt, scopeVersion: OAUTH_SCOPE_VERSION });
+  })()`));
+  assert.deepEqual(current, { loaded: true, token: 'current-token', expiresAt, scopeVersion: 2 });
+});
+
 test('blank or default OAuth settings remove the override and only effective-ID changes reset the session', () => {
   const context = loadAppContext();
   const result = JSON.parse(run(context, `(() => {
@@ -352,6 +375,25 @@ test('move rows include roots, descendants, orphans, and cycles exactly once', (
   assert.equal(new Set(ids).size, ids.length);
   assert.deepEqual(new Set(ids), new Set(['my-root', 'shared-root', 'a', 'b', 'orphan', 'cycle-1', 'cycle-2', 'team-child']));
   assert.ok(rows.find((row) => row.id === 'b').depth > rows.find((row) => row.id === 'a').depth);
+});
+
+test('breadcrumb items show the Drive root exactly once and remove stale duplicate entries', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `JSON.stringify({
+    root: buildBreadcrumbItems([], 'root', '내 드라이브'),
+    nested: buildBreadcrumbItems([
+      { id: 'root', name: '내 드라이브' },
+      { id: 'folder-a', name: 'A' },
+      { id: 'folder-a', name: 'A duplicate' },
+      { id: 'folder-b', name: 'B stale current' }
+    ], 'folder-b', 'B')
+  })`));
+  assert.deepEqual(result.root, [{ id: 'root', name: '내 드라이브' }]);
+  assert.deepEqual(result.nested, [
+    { id: 'root', name: '내 드라이브' },
+    { id: 'folder-a', name: 'A' },
+    { id: 'folder-b', name: 'B' }
+  ]);
 });
 
 test('random selection uses the complete population and avoids the current item', () => {
@@ -550,6 +592,111 @@ test('favorite catalog view spans folders and excludes folders and non-media rec
     { id: 'video-a', origin: 'A' },
     { id: 'image-root', origin: '내 드라이브' }
   ]);
+});
+
+test('favorite resolution reuses known media and identifies only unresolved file IDs', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const catalog = buildTreeIndexes([
+      { id: 'folder-a', name: 'A', mimeType: FOLDER_MIME, parents: ['root'] },
+      { id: 'known-tree', name: 'tree.mp4', mimeType: 'video/mp4', parents: ['folder-a'] }
+    ]);
+    const resolved = collectKnownFavoriteMedia([
+      catalog.items,
+      [{ id: 'known-current', name: 'current.jpg', mimeType: 'image/jpeg', parents: ['root'] }],
+      [{ id: 'ignored-document', name: 'notes.pdf', mimeType: 'application/pdf', parents: ['root'] }]
+    ], new Set(['known-tree', 'known-current', 'missing', 'ignored-document']), catalog, 'root');
+    return JSON.stringify({
+      files: resolved.files.map((file) => ({ id: file.id, origin: file.__origin })),
+      missingIds: resolved.missingIds
+    });
+  })()`));
+  assert.deepEqual(result, {
+    files: [
+      { id: 'known-tree', origin: 'A' },
+      { id: 'known-current', origin: '내 드라이브' }
+    ],
+    missingIds: ['missing', 'ignored-document']
+  });
+});
+
+test('favorite view keeps cached matches and fetches missing liked files when account refresh fails', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, log() {}, warn() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const requested = [];
+    let renders = 0;
+    renderFiles = () => { renders += 1; };
+    el.libraryStatus = { textContent: '' };
+    initializeAccountMediaState = async () => {
+      const error = new Error('missing app data permission');
+      error.status = 403;
+      error.reasons = ['insufficientPermissions'];
+      throw error;
+    };
+    driveFetch = async (url, options) => {
+      requested.push({ url, aborted: options.signal.aborted });
+      return {
+        json: async () => ({
+          id: 'remote-liked', name: 'remote.mp4', mimeType: 'video/mp4', parents: ['remote-folder']
+        })
+      };
+    };
+    state.filter = 'favorites';
+    state.rootFolderId = 'root';
+    state.treeCache = buildTreeIndexes([
+      { id: 'remote-folder', name: '원격', mimeType: FOLDER_MIME, parents: ['root'] }
+    ]);
+    state.accountMediaState = {
+      schemaVersion: 1,
+      updatedAt: 20,
+      viewed: {},
+      favorites: {
+        'cached-liked': { liked: true, updatedAt: 10 },
+        'remote-liked': { liked: true, updatedAt: 20 }
+      }
+    };
+    state.files = [
+      { id: 'cached-liked', name: 'cached.jpg', mimeType: 'image/jpeg', parents: ['root'] }
+    ];
+    await loadFavoriteFiles();
+    return JSON.stringify({
+      ids: state.favoriteFiles.map((file) => file.id),
+      origins: state.favoriteFiles.map((file) => file.__origin),
+      requested,
+      status: el.libraryStatus.textContent,
+      loading: state.loadingFavorites,
+      renders
+    });
+  })()`));
+  assert.deepEqual(result.ids, ['cached-liked', 'remote-liked']);
+  assert.deepEqual(result.origins, ['내 드라이브', '원격']);
+  assert.equal(result.requested.length, 1);
+  assert.match(result.requested[0].url, /\/files\/remote-liked\?/);
+  assert.equal(result.requested[0].aborted, false);
+  assert.match(result.status, /이 기기에 저장된 좋아요/);
+  assert.equal(result.loading, false);
+  assert.equal(result.renders, 2);
+});
+
+test('library status ownership prevents a late request from reviving stale text', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    el.libraryStatus = { textContent: '' };
+    const oldRequest = beginLibraryStatus('오래된 요청');
+    const currentRequest = beginLibraryStatus('현재 요청');
+    const oldAccepted = updateLibraryStatus(oldRequest, '뒤늦은 오류');
+    const afterLateUpdate = el.libraryStatus.textContent;
+    clearLibraryStatus();
+    const currentAcceptedAfterClear = updateLibraryStatus(currentRequest, '다시 나타난 오류');
+    return JSON.stringify({ oldAccepted, afterLateUpdate, currentAcceptedAfterClear, finalText: el.libraryStatus.textContent });
+  })()`));
+  assert.deepEqual(result, {
+    oldAccepted: false,
+    afterLateUpdate: '현재 요청',
+    currentAcceptedAfterClear: false,
+    finalText: ''
+  });
 });
 
 test('non-video media immediately hides stale video playback controls', () => {
@@ -775,7 +922,9 @@ test('GIF thumbnail loader draws one static cover frame and then releases the de
       visual,
       placeholder
     );
-    await new Promise((resolve) => setTimeout(resolve, 20));
+    for (let attempt = 0; attempt < 40 && !(drawCalls === 1 && activeGifThumbnailLoads === 0); attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 5));
+    }
     return JSON.stringify({
       drawCalls,
       released,

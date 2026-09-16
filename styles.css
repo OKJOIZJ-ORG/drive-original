@@ -883,6 +883,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .segmented button {
   position: relative;
   z-index: 2;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 5px 14px;
   border-radius: 7px;
   font-size: 13px;
@@ -890,20 +894,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   letter-spacing: -0.01em;
   color: var(--label-secondary);
   transition: color var(--duration-touch) ease, transform var(--duration-touch) var(--ease-spring);
-}
-
-.segmented button[data-filter="favorites"] {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.filter-heart-icon {
-  transition: fill var(--duration-touch) ease;
-}
-
-.segmented button[data-filter="favorites"][aria-pressed="true"] .filter-heart-icon {
-  fill: currentColor;
 }
 
 .segmented button:hover {
@@ -2047,34 +2037,37 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   top: 50%;
   left: 50%;
   z-index: 42;
-  min-width: 104px;
+  width: 64px;
+  height: 64px;
   display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 18px 20px 15px;
-  border-radius: 22px;
-  background: rgba(9, 11, 16, 0.72);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 0.5px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.46);
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
   color: #ff6b81;
   pointer-events: none;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.92);
+  transform: translate(-50%, -50%) scale(0.9);
   transition: opacity 180ms var(--ease-out), transform 200ms var(--ease-spring);
 }
 
 .favorite-feedback svg {
-  width: 46px;
-  height: 46px;
+  width: 56px;
+  height: 56px;
+  fill: currentColor;
+  filter: drop-shadow(0 5px 18px rgba(0, 0, 0, 0.6));
 }
 
-.favorite-feedback span {
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
+.favorite-feedback-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .favorite-feedback.active {
@@ -2083,7 +2076,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .favorite-feedback.is-removing {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.favorite-feedback.is-removing svg {
+  fill: none;
 }
 
 .favorite-feedback[hidden] {
@@ -3014,6 +3011,7 @@ dialog {
     flex: 1;
     text-align: center;
     padding: 5px 0;
+    white-space: nowrap;
   }
 
   .file-grid {
@@ -3257,13 +3255,16 @@ dialog {
 
   .shorts-expand-row {
     position: absolute;
-    left: 16px;
+    left: auto;
     right: 16px;
-    bottom: calc(var(--safe-bottom) + 62px);
+    bottom: calc(var(--safe-bottom) + 84px);
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
     opacity: 0;
     transform: translateY(8px);
+    transform-origin: bottom right;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
@@ -3279,9 +3280,6 @@ dialog {
     transform: translateY(0);
     visibility: visible;
     pointer-events: auto;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
     transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
   }
 

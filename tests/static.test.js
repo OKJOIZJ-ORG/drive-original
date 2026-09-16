@@ -87,6 +87,7 @@ test('privacy documentation matches the requested OAuth scope and token storage'
   const html = read('index.html');
   const readme = read('README.md');
   assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive/);
+  assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive\.appdata/);
   assert.match(readme, /로컬 저장소/);
   assert.doesNotMatch(readme, /drive\.readonly/);
   assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
@@ -95,6 +96,9 @@ test('privacy documentation matches the requested OAuth scope and token storage'
   assert.match(html, /OAuth 클라이언트 ID 재정의 \(선택\)/);
   assert.match(readme, /첫 화면에서 ID를 입력할 필요 없이/);
   assert.match(readme, /입력란을 비우거나 앱 기본 ID를 저장하면 custom override가 제거/);
+  assert.match(app, /const DRIVE_SCOPES = `\$\{DRIVE_SCOPE\} \$\{DRIVE_APPDATA_SCOPE\}`/);
+  assert.match(app, /scope:\s*DRIVE_SCOPES/);
+  assert.match(app, /scopeVersion:\s*OAUTH_SCOPE_VERSION/);
 });
 
 test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {
@@ -126,9 +130,26 @@ test('account-synced favorites and viewed history are wired into the existing li
     assert.match(html, new RegExp(`\\bid="${id}"`));
   }
   assert.match(html, /data-filter="favorites"/);
+  assert.match(html, /<button type="button" data-filter="favorites" aria-pressed="false">좋아요<\/button>/);
   assert.match(app, /el\.deepScanToggle\.hidden = state\.filter === 'favorites'/);
+  assert.match(app, /\/files\/\$\{encodeURIComponent\(fileId\)\}\?\$\{params\.toString\(\)\}/);
+  assert.match(app, /function beginLibraryStatus\(/);
+  assert.match(app, /token !== state\.libraryStatusToken/);
   assert.match(styles, /\.file-card-favorite\.is-favorite/);
   assert.match(styles, /\.favorite-feedback\.active/);
+});
+
+test('mobile overflow actions stack above the trigger and favorite feedback is visually icon-only', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  const styles = read('styles.css');
+  assert.match(styles, /\.shorts-expand-row\s*\{[\s\S]*?left:\s*auto;[\s\S]*?right:\s*16px;[\s\S]*?bottom:\s*calc\(var\(--safe-bottom\) \+ 84px\);[\s\S]*?flex-direction:\s*column;[\s\S]*?align-items:\s*flex-end;/);
+  assert.match(styles, /\.shorts-expand-row\s*\{[\s\S]*?transform-origin:\s*bottom right;/);
+  assert.match(html, /class="favorite-feedback-label">좋아요<\/span>/);
+  assert.match(styles, /\.favorite-feedback\s*\{[\s\S]*?background:\s*transparent;/);
+  assert.match(styles, /\.favorite-feedback-label\s*\{[\s\S]*?clip-path:\s*inset\(50%\);/);
+  assert.match(styles, /\.favorite-feedback\.is-removing svg\s*\{[\s\S]*?fill:\s*none;/);
+  assert.match(app, /feedback\.querySelector\('\.favorite-feedback-label'\)/);
 });
 
 test('video adaptively chooses exact-original transport and exhausts original paths before compatibility playback', () => {

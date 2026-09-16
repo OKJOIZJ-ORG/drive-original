@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.19.0">
+  <link rel="stylesheet" href="./styles.css?v=1.19.1">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.19.0" defer></script>
+  <script src="./app.js?v=1.19.1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -178,10 +178,7 @@
           <button type="button" data-filter="all" aria-pressed="true">전체</button>
           <button type="button" data-filter="video" aria-pressed="false">영상</button>
           <button type="button" data-filter="image" aria-pressed="false">이미지</button>
-          <button type="button" data-filter="favorites" aria-pressed="false">
-            <svg class="filter-heart-icon" width="14" height="14" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            <span>좋아요</span>
-          </button>
+          <button type="button" data-filter="favorites" aria-pressed="false">좋아요</button>
         </div>
 
         <button type="button" class="deep-scan-toggle" id="deepScanToggle" aria-pressed="false" title="현재 폴더의 모든 하위 폴더까지 함께 불러옵니다">
@@ -312,8 +309,8 @@
         </div>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
         <div class="favorite-feedback" id="favoriteFeedback" role="status" aria-live="polite" hidden>
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          <span>좋아요</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="favorite-feedback-label">좋아요</span>
         </div>
 
         <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
@@ -523,7 +520,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.19.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.19.1</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -579,7 +576,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.19.0</span>
+          <span id="appVersion">v1.19.1</span>
         </div>
       </div>
     </form>
@@ -639,7 +636,7 @@
         <ol class="steps-list permission-steps">
           <li><span>1</span><p><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>에서 이 앱이 사용하는 프로젝트를 엽니다.</p></li>
           <li><span>2</span><p><strong>API 및 서비스 → OAuth 동의 화면</strong>으로 이동합니다.</p></li>
-          <li><span>3</span><p><strong>데이터 액세스 / 범위(Scopes)</strong>에서 <code>https://www.googleapis.com/auth/drive</code>(모든 Drive 파일 보기·수정)를 추가하고 저장합니다.</p></li>
+          <li><span>3</span><p><strong>데이터 액세스 / 범위(Scopes)</strong>에서 <code>https://www.googleapis.com/auth/drive</code>(모든 Drive 파일 보기·수정)와 <code>https://www.googleapis.com/auth/drive.appdata</code>(앱 전용 상태 동기화)를 추가하고 저장합니다.</p></li>
           <li><span>4</span><p>앱이 <strong>테스트 모드</strong>라면 본인 Google 계정이 테스트 사용자로 등록되어 있는지 확인합니다.</p></li>
           <li><span>5</span><p>아래 <strong>다시 연결</strong>을 눌러 새 동의 화면에서 수정 권한을 승인합니다.</p></li>
         </ol>

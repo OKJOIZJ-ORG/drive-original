@@ -1,26 +1,28 @@
-# Checkpoint — v1.19.0 released — 2026-09-17 00:40
+# Checkpoint — v1.19.1 ready for release — 2026-09-17 01:19
 
 ## The story so far
 
-Drive Original v1.19.0 is released from `51e5a28509aee062e71c1cac2774f5304ce44770`. GitHub Pages run `35116311314` succeeded, and live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 with bytes identical to the release Git blobs. `Drive-Original-v1.19.0.zip` and `Drive-Original.zip` are each 110,591 bytes, contain 16 entries/15 files, match every packaged Git blob, and share SHA-256 `7D07BA7679734B2D0D8E4C755FF81E9AF4471993FAD40EB007237FB5B44EA9E9`. The Notion maintenance page records v1.19.0, D-041, the release commit/run, verification boundary, hash/size, and both attached packages; targeted re-fetch checks passed.
+Drive Original v1.19.1 is implemented on `codex/mobile-action-stack`. Mobile overflow actions stack vertically above `⋯`, double-tap feedback is an icon-only heart, the filter row is four equal text tabs, and the duplicate root breadcrumb found during QA is fixed. Favorites now requests the explicit Drive app-data scope, forces a one-time reconnect for legacy tokens, retries transient state writes, resolves known items locally, directly fetches only missing liked IDs, preserves partial results, cancels stale loads, and uses request-owned library status messages. The 84-test suite passed three consecutive runs; app/worker syntax and diff checks pass. Mobile 390×844 and desktop 1280×800 demo QA verified favorites, view changes, geometry, and zero browser warning/error logs. Commit, main publication, Pages byte proof, packaging, and maintenance-record readback remain.
 
 ## Decided
 
-- D-041 records the released account-sync, unseen-first, favorite, and mobile navigation behavior.
-- D-011's narrow outer-edge ±10-second video seek remains; the rest of the media surface uses double-tap favorite toggle.
-- Account state contains only file IDs, timestamps, and favorite tombstones in private Drive app data plus an account-keyed local cache; no server or database was added.
+- D-041 still governs account sync, unseen-first randomization, favorites, and mobile navigation.
+- D-042 records the user-confirmed UI/favorites hardening and the expanded PC/mobile audit boundary.
+- The filter row uses four centered text labels (`전체`, `영상`, `이미지`, `좋아요`); the heart remains the state/action symbol in cards and players rather than duplicating it in the filter label.
+- Private account state now requires both `drive` and `drive.appdata`; a one-time reconnect is intentional for legacy tokens.
+- Root breadcrumb data is normalized before rendering and navigation so `내 드라이브` appears exactly once.
 
 ## Waiting on the user
 
-- None.
+- None. Actual two-device propagation and physical iPhone Safari gestures remain device/account-specific evidence boundaries, not blockers for the patch.
 
 ## Next first action
 
-No release work remains. Actual two-device Drive propagation and physical iPhone Safari touch gestures remain the only material device/account-specific verification boundary.
+Review and stage the task-owned diff, commit v1.19.1, fast-forward `main`, push, and verify the Pages artifacts byte-for-byte before packaging and maintenance-record update.
 
 ## Tried
 
-- Chrome DevTools browser connection was unavailable because its persistent profile was locked; the in-app browser verified desktop/mobile demo surfaces instead.
-- The in-app browser cannot inject raw touch events, so double-tap and edge-swipe commits are covered by deterministic event-level tests rather than claimed as physical iPhone evidence.
-- `node --check app.js`, `node --check sw.js`, `git diff --check`, and all 78 Node tests pass; v1.19.0 desktop/mobile demo loaded cache-busted assets with no warnings/errors.
-- The first package attempt inherited CRLF text conversion and failed Git-blob comparison; regenerating with `core.autocrlf=false` produced the verified 110,591-byte packages.
+- The earlier mobile action stack used `bottom: 62px`; live geometry showed overlap with `⋯`, so it was raised to `calc(var(--safe-bottom) + 84px)` and rechecked at 390×844.
+- The in-app browser cannot inject physical iPhone touch hardware events; deterministic event tests remain required for double-tap and edge-swipe behavior.
+- Playwright could see but not activate the transient mobile heart button before its deadline; coordinate activation plus live computed state proved the transparent icon-only feedback. This was a test-driver interaction failure, not a product failure.
+- A fixed 20ms GIF test wait flaked under the expanded suite; replacing it with completion-based waiting produced three consecutive 84/84 runs.

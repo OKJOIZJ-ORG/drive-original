@@ -1,10 +1,13 @@
 'use strict';
 
-const APP_VERSION = '1.19.0';
+const APP_VERSION = '1.19.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
+const DRIVE_APPDATA_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+const DRIVE_SCOPES = `${DRIVE_SCOPE} ${DRIVE_APPDATA_SCOPE}`;
+const OAUTH_SCOPE_VERSION = 2;
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
 const MOBILE_MEMORY_BUFFER_AUTO_LIMIT = 24 * 1024 * 1024;
@@ -33,6 +36,7 @@ const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state.json';
 const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
+const FAVORITE_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
   SEQUENTIAL: 'original-sequential',
@@ -480,10 +484,16 @@ const state = {
   accountStateLoadingPromise: null,
   accountStateSyncPromise: null,
   accountStateSyncTimer: null,
+  accountStateSyncRetryTimer: null,
+  accountStateSyncRetryCount: 0,
+  accountStateSyncError: null,
   accountStateRevision: 0,
   accountStateLastSyncAt: 0,
   favoriteFiles: [],
   loadingFavorites: false,
+  favoriteLoadGeneration: 0,
+  favoriteAbortController: null,
+  libraryStatusToken: 0,
   moveTargetFolderId: null,
   moving: false,
   filter: 'all',
@@ -721,16 +731,17 @@ function bindEvents() {
         return;
       }
       const generation = state.listGeneration;
-      el.libraryStatus.textContent = '대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…';
+      const filterAtStart = state.filter;
+      const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…');
       try {
-        await ensureAllPagesLoaded();
-        if (generation !== state.listGeneration || state.sort !== 'random') return;
+        await ensureAllPagesLoaded({ statusToken });
+        if (generation !== state.listGeneration || state.sort !== 'random' || state.filter !== filterAtStart) return;
         shuffleCurrentFiles();
         renderFiles({ resetWindow: true });
-        el.libraryStatus.textContent = '';
+        updateLibraryStatus(statusToken, '');
       } catch (error) {
         if (error?.name !== 'AbortError') {
-          el.libraryStatus.textContent = `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+          updateLibraryStatus(statusToken, `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
         }
       }
     } else {
@@ -960,7 +971,10 @@ function bindEvents() {
     requestAccessToken();
   });
   [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
-  window.addEventListener('online', updateConnectionBadge);
+  window.addEventListener('online', () => {
+    updateConnectionBadge();
+    if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
+  });
   window.addEventListener('offline', updateConnectionBadge);
   window.addEventListener('scroll', () => {
     const topbar = document.querySelector('.topbar');
@@ -1420,7 +1434,7 @@ function saveToken(token, expiresAt) {
   state.token = token;
   state.expiresAt = expiresAt;
   try {
-    localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify({ token, expiresAt }));
+    localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify({ token, expiresAt, scopeVersion: OAUTH_SCOPE_VERSION }));
   } catch (_) {}
   scheduleTokenRenewal();
 }
@@ -1430,6 +1444,10 @@ function loadSavedToken() {
     const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
     if (!raw) return false;
     const data = JSON.parse(raw);
+    if (data?.scopeVersion !== OAUTH_SCOPE_VERSION) {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      return false;
+    }
     if (data?.token && typeof data.expiresAt === 'number') {
       if (Date.now() < data.expiresAt - TOKEN_SKEW_MS) {
         state.token = data.token;
@@ -1565,7 +1583,7 @@ function requestGoogleToken({ background = false, force = false, invalidateSessi
         };
         const client = google.accounts.oauth2.initTokenClient({
           client_id: state.clientId,
-          scope: DRIVE_SCOPE,
+          scope: DRIVE_SCOPES,
           callback: async (response) => finish(await applyTokenResponse(response, {
             background, invalidateSession, generation
           })),
@@ -1798,7 +1816,7 @@ function processThumbnailQueue() {
   timeout = setTimeout(() => finish(), 4000);
 }
 
-async function loadFiles({ append }) {
+async function loadFiles({ append, statusToken = null }) {
   if (state.demo) {
     startDemoMode();
     return true;
@@ -1815,7 +1833,9 @@ async function loadFiles({ append }) {
   const controller = state.listAbortController;
   state.loadingFiles = true;
   showLibrary();
-  if (!append) el.libraryStatus.textContent = 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…';
+  const requestStatusToken = statusToken ?? beginLibraryStatus(
+    append ? '' : 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…'
+  );
   el.refreshButton.disabled = true;
   if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = false;
 
@@ -1852,14 +1872,14 @@ async function loadFiles({ append }) {
     state.nextPageToken = data.nextPageToken || null;
     state.populationComplete = !state.nextPageToken;
     renderFiles({ resetWindow: !append });
-    el.libraryStatus.textContent = '';
+    updateLibraryStatus(requestStatusToken, '');
     return true;
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.listGeneration) {
       return false;
     }
     console.error(error);
-    el.libraryStatus.textContent = `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+    updateLibraryStatus(requestStatusToken, `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearToken(false);
       if (state.clientId && validateClientId(state.clientId)) {
@@ -1888,6 +1908,7 @@ async function loadFiles({ append }) {
 }
 
 function resetListingSession() {
+  clearLibraryStatus();
   state.listAbortController?.abort();
   state.listGeneration++;
   state.listAbortController = new AbortController();
@@ -1931,8 +1952,22 @@ function navigateToFolder(folderId, folderName) {
   applyFolderView();
 }
 
+function buildBreadcrumbItems(folderStack, currentFolderId, currentFolderName) {
+  const root = { id: 'root', name: '내 드라이브' };
+  const currentId = currentFolderId || 'root';
+  const seen = new Set([root.id, currentId]);
+  const trail = [];
+  (Array.isArray(folderStack) ? folderStack : []).forEach((crumb) => {
+    if (!crumb?.id || seen.has(crumb.id)) return;
+    seen.add(crumb.id);
+    trail.push({ id: crumb.id, name: crumb.name || '폴더' });
+  });
+  if (currentId === 'root') return [root];
+  return [root, ...trail, { id: currentId, name: currentFolderName || '폴더' }];
+}
+
 function navigateToFolderIndex(index) {
-  const crumbs = [{ id: 'root', name: '내 드라이브' }, ...state.folderStack, { id: state.currentFolderId, name: state.currentFolderName }];
+  const crumbs = buildBreadcrumbItems(state.folderStack, state.currentFolderId, state.currentFolderName);
   const target = crumbs[index];
   if (!target || target.id === state.currentFolderId) return;
   state.folderStack = crumbs.slice(1, index);
@@ -2088,16 +2123,17 @@ async function applyFolderView() {
   const generation = state.listGeneration + 1;
   const loaded = await loadFiles({ append: false });
   if (!loaded || generation !== state.listGeneration || state.sort !== 'random') return;
+  const filterAtStart = state.filter;
+  const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…');
   try {
-    el.libraryStatus.textContent = '대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…';
-    await ensureAllPagesLoaded();
-    if (generation !== state.listGeneration || state.sort !== 'random') return;
+    await ensureAllPagesLoaded({ statusToken });
+    if (generation !== state.listGeneration || state.sort !== 'random' || state.filter !== filterAtStart) return;
     shuffleCurrentFiles();
     renderFiles({ resetWindow: true });
-    el.libraryStatus.textContent = '';
+    updateLibraryStatus(statusToken, '');
   } catch (error) {
     if (error?.name !== 'AbortError') {
-      el.libraryStatus.textContent = `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+      updateLibraryStatus(statusToken, `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     }
   }
 }
@@ -2125,7 +2161,7 @@ async function collectTreeCache() {
   state.treeAbort = controller;
   if (el.deepScanToggle) el.deepScanToggle.disabled = true;
   if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = false;
-  el.libraryStatus.textContent = '드라이브 전체 폴더 트리를 수집하는 중…';
+  const statusToken = beginLibraryStatus('드라이브 전체 폴더 트리를 수집하는 중…');
   try {
     await resolveRootFolderId();
     const items = [];
@@ -2153,22 +2189,22 @@ async function collectTreeCache() {
       if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
       if (next) seenPageTokens.add(next);
       pageToken = next;
-      el.libraryStatus.textContent = `드라이브 전체 폴더 트리 수집 중… ${items.length.toLocaleString('ko-KR')}개 항목`;
+      updateLibraryStatus(statusToken, `드라이브 전체 폴더 트리 수집 중… ${items.length.toLocaleString('ko-KR')}개 항목`);
     } while (pageToken);
     state.treeCache = buildTreeIndexes(items);
-    el.libraryStatus.textContent = '';
+    updateLibraryStatus(statusToken, '');
     return state.treeCache;
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError') {
       // 사용자가 중지 버튼으로 취소 — 부분 데이터는 폐기하고 일반 모드로 복귀한다.
-      el.libraryStatus.textContent = '폴더 트리 수집을 중단했습니다.';
+      updateLibraryStatus(statusToken, '폴더 트리 수집을 중단했습니다.');
       state.deepScan = false;
       syncDeepScanToggle();
       applyFolderView();
       return;
     }
     console.error(error);
-    el.libraryStatus.textContent = `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+    updateLibraryStatus(statusToken, `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearToken(false);
       if (state.clientId && validateClientId(state.clientId)) attemptSilentAutoLogin({ background: true });
@@ -2202,18 +2238,44 @@ function buildTreeIndexes(items) {
   return { items, foldersById, foldersByParent, mediaByParent };
 }
 
+function isSupportedMediaFile(file) {
+  return Boolean(file?.id && file.mimeType !== FOLDER_MIME
+    && (file.mimeType?.startsWith('video/') || file.mimeType?.startsWith('image/')));
+}
+
+function decorateFavoriteMediaFile(file, catalog, rootFolderId = null) {
+  if (!file) return file;
+  const parent = file.parents?.[0] || 'root';
+  file.__origin = catalog?.foldersById?.get(parent)?.name
+    || (parent === rootFolderId || parent === 'root' ? '내 드라이브' : file.__origin || '');
+  return file;
+}
+
 function collectFavoriteMediaFromCatalog(catalog, favoriteIds, rootFolderId = null) {
   const favorites = favoriteIds instanceof Set ? favoriteIds : new Set(favoriteIds || []);
   const items = Array.isArray(catalog?.items) ? catalog.items : [];
-  return dedupeFiles(items.filter((file) => (
-    file?.id && file.mimeType !== FOLDER_MIME
-    && (file.mimeType?.startsWith('video/') || file.mimeType?.startsWith('image/'))
-    && favorites.has(file.id)
-  ))).map((file) => {
-    const parent = file.parents?.[0] || 'root';
-    file.__origin = catalog?.foldersById?.get(parent)?.name || (parent === rootFolderId || parent === 'root' ? '내 드라이브' : '');
-    return file;
+  return dedupeFiles(items.filter((file) => isSupportedMediaFile(file) && favorites.has(file.id)))
+    .map((file) => decorateFavoriteMediaFile(file, catalog, rootFolderId));
+}
+
+function collectKnownFavoriteMedia(sources, favoriteIds, catalog = null, rootFolderId = null) {
+  const favorites = favoriteIds instanceof Set ? favoriteIds : new Set(favoriteIds || []);
+  const knownById = new Map();
+  (Array.isArray(sources) ? sources : []).forEach((source) => {
+    (Array.isArray(source) ? source : []).forEach((file) => {
+      if (isSupportedMediaFile(file) && favorites.has(file.id) && !knownById.has(file.id)) {
+        knownById.set(file.id, file);
+      }
+    });
   });
+  const files = [];
+  const missingIds = [];
+  favorites.forEach((fileId) => {
+    const file = knownById.get(fileId);
+    if (file) files.push(decorateFavoriteMediaFile(file, catalog, rootFolderId));
+    else missingIds.push(fileId);
+  });
+  return { files, missingIds };
 }
 
 function effectiveRootId() {
@@ -2252,13 +2314,15 @@ function computeAndRenderSubtree() {
   state.populationComplete = true;
   shuffledOrderMap.clear();
   renderFiles({ resetWindow: true });
-  el.libraryStatus.textContent = '';
+  clearLibraryStatus();
   updateLibrarySummary();
 }
 
 async function setLibraryFilter(filter) {
   const next = ['all', 'video', 'image', 'favorites'].includes(filter) ? filter : 'all';
+  if (next !== 'favorites') cancelFavoriteLoad();
   state.filter = next;
+  clearLibraryStatus();
   el.filterButtons.forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.filter === next));
   });
@@ -2269,28 +2333,76 @@ async function setLibraryFilter(filter) {
   }
 }
 
+function cancelFavoriteLoad() {
+  state.favoriteLoadGeneration += 1;
+  state.favoriteAbortController?.abort();
+  state.favoriteAbortController = null;
+  state.loadingFavorites = false;
+}
+
 async function loadFavoriteFiles({ refreshState = true } = {}) {
-  if (state.loadingFavorites) return;
+  state.favoriteAbortController?.abort();
+  const controller = new AbortController();
+  const generation = state.favoriteLoadGeneration + 1;
+  state.favoriteLoadGeneration = generation;
+  state.favoriteAbortController = controller;
   state.loadingFavorites = true;
-  el.libraryStatus.textContent = '계정의 좋아요 항목을 모든 폴더에서 모으는 중…';
+  renderFiles({ resetWindow: true });
+  const statusToken = beginLibraryStatus('계정의 좋아요 항목을 모든 폴더에서 모으는 중…');
+  let nextFiles = [];
+  let nextStatus = '';
   try {
-    await initializeAccountMediaState({ refresh: refreshState });
-    const catalog = state.demo ? state.treeCache : await ensureTreeCache();
-    if (state.filter !== 'favorites') return;
+    let syncError = null;
+    try {
+      await initializeAccountMediaState({ refresh: refreshState });
+    } catch (error) {
+      syncError = error;
+      state.accountStateSyncError = error;
+      console.warn('Account media state refresh was unavailable; using the device cache:', error);
+    }
+    if (controller.signal.aborted || generation !== state.favoriteLoadGeneration || state.filter !== 'favorites') return;
     const favoriteIds = accountFavoriteIds(state.accountMediaState);
-    const resolvedCatalog = Array.isArray(catalog?.items)
-      ? catalog
-      : buildTreeIndexes(state.files);
-    state.favoriteFiles = collectFavoriteMediaFromCatalog(resolvedCatalog, favoriteIds, state.rootFolderId);
-    renderFiles({ resetWindow: true });
-    el.libraryStatus.textContent = '';
+    const catalog = state.treeCache;
+    const known = collectKnownFavoriteMedia([
+      catalog?.items,
+      state.favoriteFiles,
+      state.files,
+      state.selected ? [state.selected] : []
+    ], favoriteIds, catalog, state.rootFolderId);
+    const results = await runTaskPool(known.missingIds, async (fileId) => {
+      const params = new URLSearchParams({
+        supportsAllDrives: 'true',
+        fields: FAVORITE_FILE_FIELDS
+      });
+      const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params.toString()}`, {
+        signal: controller.signal,
+        driveMaxRateAttempts: 2
+      });
+      return response.json();
+    }, BULK_ACTION_CONCURRENCY);
+    if (controller.signal.aborted || generation !== state.favoriteLoadGeneration || state.filter !== 'favorites') return;
+    const fetched = results
+      .filter((result) => result.status === 'fulfilled' && isSupportedMediaFile(result.value))
+      .map((result) => decorateFavoriteMediaFile(result.value, catalog, state.rootFolderId));
+    nextFiles = dedupeFiles([...known.files, ...fetched]);
+    const failedCount = results.filter((result) => result.status === 'rejected').length;
+    if (failedCount) {
+      nextStatus = `좋아요 ${favoriteIds.size.toLocaleString('ko-KR')}개 중 ${failedCount.toLocaleString('ko-KR')}개를 불러오지 못했습니다. 연결 상태와 파일 권한을 확인하세요.`;
+    } else if (syncError) {
+      nextStatus = '이 기기에 저장된 좋아요를 표시했습니다. 다른 기기와 동기화하려면 Google Drive를 다시 연결하세요.';
+    }
   } catch (error) {
+    if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.favoriteLoadGeneration) return;
     console.error('Favorite files could not be loaded:', error);
-    state.favoriteFiles = [];
-    if (state.filter === 'favorites') renderFiles({ resetWindow: true });
-    el.libraryStatus.textContent = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+    nextStatus = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
   } finally {
-    state.loadingFavorites = false;
+    if (generation === state.favoriteLoadGeneration && state.filter === 'favorites') {
+      state.favoriteFiles = nextFiles;
+      state.loadingFavorites = false;
+      state.favoriteAbortController = null;
+      renderFiles({ resetWindow: true });
+      updateLibraryStatus(statusToken, nextStatus);
+    }
   }
 }
 
@@ -2341,7 +2453,7 @@ function renderBreadcrumb() {
     return;
   }
   el.libraryTitle.textContent = state.currentFolderName;
-  const crumbs = [{ id: 'root', name: '내 드라이브' }, ...state.folderStack, { id: state.currentFolderId, name: state.currentFolderName }];
+  const crumbs = buildBreadcrumbItems(state.folderStack, state.currentFolderId, state.currentFolderName);
   el.breadcrumbTrail.replaceChildren();
   crumbs.forEach((crumb, index) => {
     const isLast = index === crumbs.length - 1;
@@ -2556,6 +2668,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
     state.accountMediaState = merged;
     state.accountStateLoaded = true;
     state.accountStateLastSyncAt = Date.now();
+    state.accountStateSyncError = null;
     persistAccountMediaState();
     refreshFavoritePresentation();
     // A device may reconnect with newer offline cache entries. Push that
@@ -2595,21 +2708,42 @@ async function flushAccountMediaState() {
       state.accountStateFileId = created?.id || null;
     }
     state.accountStateLastSyncAt = Date.now();
+    state.accountStateSyncError = null;
+    state.accountStateSyncRetryCount = 0;
+    clearTimeout(state.accountStateSyncRetryTimer);
+    state.accountStateSyncRetryTimer = null;
   })();
   state.accountStateSyncPromise = operation;
   try {
     await operation;
   } catch (error) {
+    state.accountStateSyncError = error;
     console.warn('Account media state could not be synced:', error);
+    scheduleAccountStateSyncRetry(error);
   } finally {
     if (state.accountStateSyncPromise === operation) state.accountStateSyncPromise = null;
     if (state.accountStateRevision !== revisionAtStart) queueAccountStateSync();
   }
 }
 
+function scheduleAccountStateSyncRetry(error) {
+  const status = Number(error?.status) || 0;
+  const retryable = !navigator.onLine || status === 0 || status === 408 || status === 429 || status >= 500;
+  if (!retryable || state.accountStateSyncRetryCount >= 3 || !state.accountId) return;
+  state.accountStateSyncRetryCount += 1;
+  const delay = 1_000 * (2 ** (state.accountStateSyncRetryCount - 1));
+  clearTimeout(state.accountStateSyncRetryTimer);
+  state.accountStateSyncRetryTimer = setTimeout(() => {
+    state.accountStateSyncRetryTimer = null;
+    flushAccountMediaState();
+  }, delay);
+}
+
 function queueAccountStateSync() {
   persistAccountMediaState();
   if (state.demo || !state.accountId) return;
+  clearTimeout(state.accountStateSyncRetryTimer);
+  state.accountStateSyncRetryTimer = null;
   clearTimeout(state.accountStateSyncTimer);
   state.accountStateSyncTimer = setTimeout(() => {
     state.accountStateSyncTimer = null;
@@ -2710,7 +2844,7 @@ function showFavoriteFeedback(liked) {
   const feedback = el.favoriteFeedback;
   if (!feedback) return;
   const label = liked ? '좋아요' : '좋아요 취소';
-  const text = feedback.querySelector('span');
+  const text = feedback.querySelector('.favorite-feedback-label');
   if (text) text.textContent = label;
   feedback.classList.toggle('is-removing', !liked);
   feedback.hidden = false;
@@ -2794,6 +2928,7 @@ function renderMediaGrid(files) {
 
 function renderFiles({ resetWindow = false } = {}) {
   const files = filteredAndSortedFiles();
+  const loadingFavoriteView = state.filter === 'favorites' && state.loadingFavorites;
   if (resetWindow) state.renderWindowStart = 0;
   const visibleFolders = state.filter === 'all'
     ? state.folders.filter((f) => !state.query || String(f.name || '').toLocaleLowerCase('ko').includes(state.query))
@@ -2818,7 +2953,8 @@ function renderFiles({ resetWindow = false } = {}) {
       : '폴더 더 보기';
   }
   renderMediaGrid(files);
-  el.emptyState.hidden = files.length + visibleFolders.length > 0;
+  if (el.fileGrid) el.fileGrid.setAttribute('aria-busy', String(loadingFavoriteView));
+  el.emptyState.hidden = loadingFavoriteView || files.length + visibleFolders.length > 0;
   if (!el.emptyState.hidden && el.emptyStateTitle && el.emptyStateText) {
     if (state.filter === 'favorites' && !state.query) {
       el.emptyStateTitle.textContent = '좋아요가 아직 없습니다';
@@ -2884,7 +3020,7 @@ function shuffleCurrentFiles() {
 /* 무한 스크롤로 아직 불러오지 않은 페이지가 있을 때 전부 로드한다.
    랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
    대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
-async function ensureAllPagesLoaded() {
+async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } = {}) {
   if (state.demo || state.deepScan || state.populationComplete) return;
   if (state.populationLoadPromise) return state.populationLoadPromise;
   const generation = state.listGeneration;
@@ -2901,12 +3037,12 @@ async function ensureAllPagesLoaded() {
       const token = state.nextPageToken;
       if (seenTokens.has(token)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
       seenTokens.add(token);
-      const loaded = await loadFiles({ append: true });
+      const loaded = await loadFiles({ append: true, statusToken });
       if (!loaded) {
         if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
         throw new Error('Drive 파일 페이지를 끝까지 불러오지 못했습니다.');
       }
-      el.libraryStatus.textContent = `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`;
+      updateLibraryStatus(statusToken, `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`);
     }
     state.populationComplete = true;
   })();
@@ -3700,7 +3836,7 @@ async function togglePictureInPicture() {
   }
 }
 
-/* Mobile shorts bottom action chips — ⋯ 버튼으로 삭제/이동/PiP/Drive 노출 */
+/* Mobile shorts bottom action chips — ⋯ 버튼 위 세로 스택으로 삭제/이동/PiP/Drive 노출 */
 let shortsExpandTimer = null;
 
 function toggleShortsExpand() {
@@ -6637,6 +6773,8 @@ function invalidateDriveSessionData() {
   state.treeCachePromise = null;
   clearTimeout(state.accountStateSyncTimer);
   state.accountStateSyncTimer = null;
+  clearTimeout(state.accountStateSyncRetryTimer);
+  state.accountStateSyncRetryTimer = null;
   state.accountId = null;
   state.accountMediaState = createEmptyAccountMediaState();
   state.accountStateFileId = null;
@@ -6644,6 +6782,9 @@ function invalidateDriveSessionData() {
   state.accountStateLoadingPromise = null;
   state.accountStateSyncPromise = null;
   state.accountStateLastSyncAt = 0;
+  state.accountStateSyncRetryCount = 0;
+  state.accountStateSyncError = null;
+  cancelFavoriteLoad();
   state.favoriteFiles = [];
 }
 
@@ -6917,9 +7058,36 @@ function showToast(message) {
   toastTimer = setTimeout(() => { el.toast.hidden = true; }, 3600);
 }
 
+function beginLibraryStatus(message) {
+  const token = state.libraryStatusToken + 1;
+  state.libraryStatusToken = token;
+  if (el.libraryStatus) el.libraryStatus.textContent = message || '';
+  return token;
+}
+
+function updateLibraryStatus(token, message) {
+  if (token !== state.libraryStatusToken) return false;
+  if (el.libraryStatus) el.libraryStatus.textContent = message || '';
+  return true;
+}
+
+function clearLibraryStatus() {
+  return beginLibraryStatus('');
+}
+
 function humanizeDriveError(error) {
   if (error.status === 401) return '인증이 만료됐습니다.';
-  if (error.status === 403) return 'Drive API 사용 설정, OAuth 범위, 또는 계정 권한을 확인하세요.';
+  if (error.status === 403) {
+    const reasons = Array.isArray(error.reasons) ? error.reasons : [];
+    if (reasons.some((reason) => /accessNotConfigured|serviceDisabled/i.test(reason))) {
+      return 'Google Cloud 프로젝트에서 Drive API를 사용 설정해 주세요.';
+    }
+    if (reasons.some((reason) => /insufficientPermissions|forbidden|authError/i.test(reason))) {
+      return '필요한 Drive 및 앱 상태 동기화 권한이 없습니다. 다시 연결해 주세요.';
+    }
+    return '현재 계정에서 이 Drive 항목에 접근할 권한이 없습니다.';
+  }
+  if (error.status === 404) return '파일이 삭제되었거나 현재 계정에서 더 이상 볼 수 없습니다.';
   return error.message || '알 수 없는 오류';
 }
 
@@ -6987,7 +7155,7 @@ function startDemoMode() {
   state.treeCache = buildTreeIndexes(demoItems);
   computeAndRenderSubtree();
   showLibrary();
-  el.libraryStatus.textContent = '데모 모드 — 실제 Google Drive 요청은 실행하지 않습니다.';
+  beginLibraryStatus('데모 모드 — 실제 Google Drive 요청은 실행하지 않습니다.');
   updateConnectionBadge();
 }
 
