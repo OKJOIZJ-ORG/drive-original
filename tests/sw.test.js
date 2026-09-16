@@ -180,6 +180,26 @@ test('failed refresh does not retry the rejected token', async () => {
   }
 });
 
+test('403 rate limits are classified separately and preserve Retry-After timing', async () => {
+  const worker = createWorker(() => new Response(JSON.stringify({
+    error: { errors: [{ reason: 'rateLimitExceeded' }] }
+  }), {
+    status: 403,
+    headers: { 'Content-Type': 'application/json', 'Retry-After': '3' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  assert.equal((await worker.request('A').response).status, 403);
+  const failure = messages.find((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failure.category, 'rate-limit');
+  assert.equal(failure.retryAfterMs, 3000);
+  assert.equal(vm.runInContext("parseRetryAfterMs('120', 0)", worker.context), 120000);
+  assert.equal(
+    vm.runInContext("parseRetryAfterMs('Wed, 21 Oct 2015 07:28:00 GMT', Date.parse('Wed, 21 Oct 2015 07:27:55 GMT'))", worker.context),
+    5000
+  );
+});
+
 test('aborting a media request aborts upstream and emits no false server/auth failure', async () => {
   let upstreamStarted;
   const started = new Promise((resolve) => { upstreamStarted = resolve; });

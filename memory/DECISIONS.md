@@ -169,3 +169,16 @@ Drive Original의 바탕화면/PWA 아이콘은 모서리를 둥글게 깎고, �
 ## D-032 · 모바일 사용자 확대 허용 및 폼 자동 확대는 입력 크기로 방지 — 2026-09-16 (Implementation decision under D-031; supersedes D-024 item 3)
 
 WCAG 접근성과 저시력 사용자의 확대 기능을 보존하기 위해 viewport의 `maximum-scale=1.0, user-scalable=no` 잠금을 제거한다. iOS 폼 포커스 자동 확대는 기존 16px 입력 글자 크기 규칙으로 계속 방지한다. 이 결정은 D-024의 1·2항과 3항의 입력 글자 크기 부분을 유지하고, 3항 중 사용자 확대 잠금만 대체한다. 근거는 모바일 Lighthouse의 `meta-viewport` 실패와 수정 후 접근성 91→100 실측이다.
+
+## D-033 · 원본 화질 최우선의 3단계 앱 내부 재생 복구 — 2026-09-16 (User-confirmed, current follow-up)
+
+영상 재생은 Google 호환 재생기의 편의보다 원본 화질을 우선한다. 첫 경로는 Google Drive `alt=media`의 원본 바이트를 Range 요청으로 즉시 점진 재생하고, 구간 전달 경로가 반복 실패할 때는 원본 전체를 앱 전용 임시 디스크(OPFS)에 저장해 동일 바이트를 재생한다. OPFS를 쓸 수 없을 때만 작은 파일에 한정한 메모리 버퍼를 사용한다. Google 호환 재생기는 브라우저 코덱 비호환·Drive 다운로드 제한·안전 저장 한도 초과 때의 마지막 앱 내부 수단이며, 원본 화질을 보장하지 않는다는 사실을 항상 표시한다. 임시 원본은 파일 전환·닫기·세션 변경 때 정리한다.
+
+sweep: README, product truth, active goal, runtime labels, and regression tests aligned with the three-stage original-quality recovery policy (2026-09-16)
+
+## D-034 · 단일 디코더 4방향 연속 덱과 상하 2개씩 선할당 — 2026-09-16 (User-confirmed, current follow-up)
+
+좌우 이동은 플레이어 진입 시의 기존 정렬 순서를 세션 동안 보존하고 뒤늦게 적재된 페이지는 그 순서의 꼬리에만 추가한다. 상하 이동은 랜덤 쇼츠 공간 덱으로 운용하여 현재 항목 기준 위 2개·아래 2개를 미리 할당하고 썸네일을 예열하며, 반대 방향 스와이프는 직전 항목으로 공간적으로 복귀한다. 메모리·디코더 경쟁을 피하기 위해 실제 `<video>`는 하나만 유지하고, 드래그 중 이웃은 재사용 포스터 레이어가 손가락을 1:1로 따라온 뒤 커밋 시에만 원본 스트림을 교체한다.
+
+population: vertical random targets remain sampled from the complete target-folder or deep-scan population under D-029; an early gesture waits for metadata completion before commit (2026-09-16)
+sweep: active goal, product truth, runtime deck state, and deterministic regression tests aligned with the spatial-deck contract (2026-09-16)

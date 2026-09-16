@@ -1,4 +1,4 @@
-const VERSION = '1.15.0';
+const VERSION = '1.16.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -174,7 +174,8 @@ async function proxyDriveMedia(request, url, clientId) {
         const body = await upstream.clone().json();
         reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
       } catch (_) {}
-      await notifyMediaError(context, upstream.status, reasons);
+      const retryAfterMs = parseRetryAfterMs(upstream.headers.get('Retry-After'));
+      await notifyMediaError(context, upstream.status, reasons, retryAfterMs);
       const errorHeaders = new Headers(upstream.headers);
       errorHeaders.set('Cache-Control', 'no-store');
       return new Response(request.method === 'HEAD' ? null : upstream.body, {
@@ -280,16 +281,26 @@ async function requestTokenFromClient(context, { forceRefresh, signal }) {
   });
 }
 
-async function notifyMediaError(context, status, reasons = []) {
+function parseRetryAfterMs(value, now = Date.now()) {
+  const raw = String(value || '').trim();
+  if (!raw) return 0;
+  if (/^\d+$/.test(raw)) return Math.max(0, Number(raw) * 1000);
+  const retryAt = Date.parse(raw);
+  return Number.isFinite(retryAt) ? Math.max(0, retryAt - Number(now || 0)) : 0;
+}
+
+async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0) {
   if (!context.clientId) return;
+  const rateLimited = status === 429
+    || (status === 403 && reasons.some((reason) => /rateLimitExceeded/i.test(reason)));
   const category = status === 401 ? 'auth'
+    : rateLimited ? 'rate-limit'
     : status === 403 ? 'permission'
     : status === 404 ? 'not-found'
-    : status === 429 ? 'rate-limit'
     : status >= 500 ? 'server' : 'http';
   try {
     const client = await self.clients.get(context.clientId);
-    client?.postMessage({ type: 'MEDIA_PROXY_ERROR', ...context, status, category, reasons });
+    client?.postMessage({ type: 'MEDIA_PROXY_ERROR', ...context, status, category, reasons, retryAfterMs });
   } catch (_) {
     // Closing a client must not turn its media response into another error.
   }

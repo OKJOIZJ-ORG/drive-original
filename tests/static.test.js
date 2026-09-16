@@ -79,23 +79,46 @@ test('privacy documentation matches the requested OAuth scope and token storage'
   assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
 });
 
-test('player controls and selection toolbar remain bound in the shell', () => {
+test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {
   const app = read('app.js');
   const html = read('index.html');
-  for (const id of ['ctrlFramePrev', 'ctrlFrameNext', 'selectionToolbar']) {
+  for (const id of ['ctrlFramePrev', 'ctrlFrameNext', 'drivePreview', 'selectionToolbar']) {
     assert.match(html, new RegExp(`\\bid="${id}"`));
     assert.match(app, new RegExp(`'${id}'`));
   }
+  assert.match(html, /id="drivePreview"[^>]*allow="[^"]*autoplay[^"]*fullscreen[^"]*"[^>]*allowfullscreen/);
+  assert.match(app, /function buildDrivePreviewUrl\(file\)[\s\S]*?\/preview/);
+  assert.match(app, /function showDrivePreview\(file, reason\)/);
+  assert.match(app, /state\.mediaAttempt = 'drive-preview-page'/);
+  assert.doesNotMatch(app, /function showDriveHandoff\(/);
 });
 
-test('video range path does not regress to the full-file blob fallback', () => {
+test('video keeps Range primary and uses bounded original buffering before compatibility playback', () => {
   const app = read('app.js');
+  const html = read('index.html');
+  const readme = read('README.md');
+  const productTruth = read('memory/PRODUCT-TRUTH.md');
   assert.doesNotMatch(
     app,
     /state\.mediaAttempt === 'range'\s*\)\s*\{\s*await startOriginalBlobFallback/
   );
   assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('session'/);
+  assert.match(app, /mediaErrorCode === 2[\s\S]*?offerOriginalBufferFallback/);
+  assert.match(app, /navigator\.storage\.getDirectory\(\)/);
+  assert.match(app, /typeof handle\.createWritable === 'function'/);
+  assert.match(app, /received > hardLimit[\s\S]*?reader\.cancel/);
+  assert.match(app, /showDrivePreview\(file, describeVideoPlaybackFailure/);
+  assert.match(
+    app,
+    /function playRandomFile\([\s\S]*?needsCompletePopulation[\s\S]*?enqueuePlaybackNavigation\([\s\S]*?needsCompletePopulation/
+  );
+  assert.equal((html.match(/<video\b/g) || []).length, 1);
+  assert.match(html, /id="mediaSwipeNeighbor"/);
   assert.doesNotMatch(app, /MEDIA_PREFETCH_BYTES|queueMediaPrefetch|__prefetched/);
+  assert.match(readme, /원본 전체 임시 디스크/);
+  assert.match(readme, /Google 호환 재생[\s\S]*?원본 화질 미보장/);
+  assert.doesNotMatch(readme, /영상에는 이 전체 파일 보조 경로를 사용하지 않습니다/);
+  assert.match(productTruth, /v1\.16\.0 keeps original-byte Range playback first/);
 });
 
 test('mobile shell preserves zoom and high-contrast metadata labels', () => {

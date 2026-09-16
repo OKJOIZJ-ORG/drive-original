@@ -195,6 +195,53 @@ test('random selection uses the complete population and avoids the current item'
   assert.equal(run(context, "pickRandomFile([{ id: 'only' }], 'only', () => 0.5).id"), 'only');
 });
 
+test('vertical shorts deck preassigns two items above and below and reverses spatially', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const files = ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => ({ id }));
+    const initial = buildVerticalPlaybackDeck(files, 'a', () => 0.999);
+    const movedUp = advanceVerticalPlaybackDeck(initial, 'up', initial.below[0], files, () => 0.999);
+    const returned = advanceVerticalPlaybackDeck(movedUp, 'down', movedUp.above[0], files, () => 0.999);
+    const tinyFiles = [{ id: 'a' }, { id: 'b' }];
+    const tinyInitial = buildVerticalPlaybackDeck(tinyFiles, 'a', () => 0.999);
+    const tinyMoved = advanceVerticalPlaybackDeck(tinyInitial, 'up', tinyInitial.below[0], tinyFiles, () => 0.999);
+    return JSON.stringify({ initial, movedUp, returned, tinyMoved });
+  })()`));
+  assert.equal(result.initial.above.length, 2);
+  assert.equal(result.initial.below.length, 2);
+  assert.equal(new Set(['a', ...result.initial.above, ...result.initial.below]).size, 5);
+  assert.equal(result.movedUp.above[0], 'a');
+  assert.equal(result.returned.anchorId, 'a');
+  assert.equal(result.returned.below[0], result.movedUp.anchorId);
+  assert.equal(result.tinyMoved.above.length, 2);
+  assert.equal(result.tinyMoved.below.length, 2);
+  assert.deepEqual(new Set([...result.tinyMoved.above, ...result.tinyMoved.below]), new Set(['a']));
+});
+
+test('later metadata pages extend the frozen horizontal order without reshuffling it', () => {
+  const context = loadAppContext();
+  const order = JSON.parse(run(context, `(() => {
+    state.playbackOrderIds = ['a', 'b'];
+    extendPlaybackOrder([{ id: 'b' }, { id: 'c' }, { id: 'd' }]);
+    return JSON.stringify(state.playbackOrderIds);
+  })()`));
+  assert.deepEqual(order, ['a', 'b', 'c', 'd']);
+});
+
+test('original buffer policy prefers bounded OPFS and denies unsafe memory downloads', () => {
+  const context = loadAppContext();
+  const policies = JSON.parse(run(context, `JSON.stringify({
+    diskAuto: getOriginalBufferPolicy({ size: 32 * 1024 * 1024, mobile: true, opfsAvailable: true, storageAvailable: 1024 * 1024 * 1024 }),
+    diskConfirm: getOriginalBufferPolicy({ size: 256 * 1024 * 1024, mobile: true, opfsAvailable: true, storageAvailable: 1024 * 1024 * 1024 }),
+    memoryAuto: getOriginalBufferPolicy({ size: 16 * 1024 * 1024, mobile: true, opfsAvailable: false }),
+    memoryDenied: getOriginalBufferPolicy({ size: 128 * 1024 * 1024, mobile: true, opfsAvailable: false })
+  })`));
+  assert.deepEqual([policies.diskAuto.mode, policies.diskAuto.decision], ['disk', 'auto']);
+  assert.deepEqual([policies.diskConfirm.mode, policies.diskConfirm.decision], ['disk', 'confirm']);
+  assert.deepEqual([policies.memoryAuto.mode, policies.memoryAuto.decision], ['memory', 'auto']);
+  assert.equal(policies.memoryDenied.decision, 'denied');
+});
+
 test('shorts playback order ignores search and media filter subsets', () => {
   const context = loadAppContext();
   const ids = JSON.parse(run(context, `(() => {
@@ -323,16 +370,27 @@ test('task pool caps concurrency and returns aligned all-settled results', async
   ]);
 });
 
-test('Drive view and media URLs preserve required context', () => {
+test('Drive view, preview, and media URLs preserve required context', () => {
   const context = loadAppContext();
   const viewUrl = run(context, `buildDriveViewUrl({ id: 'file-id', resourceKey: 'raw-key_1' })`);
   assert.equal(new URL(viewUrl).searchParams.get('resourcekey'), 'raw-key_1');
+
+  const previewUrl = run(context, `buildDrivePreviewUrl({ id: 'file-id', resourceKey: 'raw-key_1' })`);
+  assert.equal(new URL(previewUrl).pathname, '/file/d/file-id/preview');
+  assert.equal(new URL(previewUrl).searchParams.get('resourcekey'), 'raw-key_1');
 
   const mediaUrl = run(context, `(() => {
     state.mediaSession = 19;
     return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4' });
   })()`);
   assert.equal(new URL(mediaUrl).searchParams.get('session'), '19');
+});
+
+test('video playback failures distinguish retryable network errors from codec failures', () => {
+  const context = loadAppContext();
+  assert.match(run(context, 'describeVideoPlaybackFailure(2)'), /스트림 연결/);
+  assert.match(run(context, 'describeVideoPlaybackFailure(3)'), /해독/);
+  assert.match(run(context, 'describeVideoPlaybackFailure(4)'), /코덱|컨테이너/);
 });
 
 test('folder strip rendering obeys its hard cap', () => {

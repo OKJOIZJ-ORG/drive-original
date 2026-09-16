@@ -8,7 +8,8 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 
 - Clear, axis-locked mobile gestures commit only after deliberate movement and recover cleanly from cancellation, multi-touch, rapid repetition, and reduced-motion mode.
 - Desktop playback controls are compact, coherent, keyboard-accessible, frame-steppable, and unobtrusive during viewing.
-- Media uses Range-based progressive playback, preserves byte ranges across authentication recovery, cancels stale work, and never downloads an entire video as an automatic fallback.
+- Media uses Range-based progressive playback first, preserves byte ranges across authentication recovery, cancels stale work, and only uses whole-file original recovery through writable OPFS or tightly bounded memory after transport retry fails.
+- Vertical random playback has a complete-population spatial deck with two assigned neighbours above and below; horizontal playback preserves its session order; one decoder is reused across transitions.
 - Google authentication has one request coordinator, stale-response protection, a user-action recovery path, and request-scoped service-worker token/error handling.
 - Long press enters multi-select on touch; desktop has an explicit selection affordance; bulk delete and folder move are safe, count-aware, and reconcile partial failures.
 - Thumbnail work is bounded, cancellable, deduplicated, viewport-aware, and measured against the existing 240-card virtual window; media startup must not spend bytes on speculative bodies that cannot be reused.
@@ -17,13 +18,13 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 
 ## Mobilization
 
-- **confirmed:** D-001 through D-031 define the standing product contracts; D-031 makes the user's list a minimum, not a ceiling.
-- **confirmed:** v1.14.1 on `main` is the clean baseline; work is isolated on `codex/commercial-grade-stability`.
+- **confirmed:** D-001 through D-034 define the standing product contracts; D-033 and D-034 add the original-quality recovery ladder and spatial shorts deck.
+- **confirmed:** v1.15.0 on `main` is the clean baseline; follow-up work is isolated on `codex/in-app-playback-recovery`.
 - **observed:** baseline `node --test tests/app.test.js tests/static.test.js` passes 15/15.
 - **observed:** the service worker does not classify upstream media errors, while the app listens for a message that is never sent.
 - **observed:** media prefetch concurrency is released at response headers and does not bound active response bodies.
 - **observed:** OAuth refresh has three competing entry paths and no shared in-flight promise.
-- **observed:** video playback failure can trigger full-file Blob buffering.
+- **historical baseline:** video playback failure could trigger uncontrolled full-file Blob buffering. The current implementation replaces that with writable-OPFS detection and bounded-memory policy.
 - **observed:** mobile swipe commits at 45px or 0.15px/ms without a dominance ratio or touch-cancel path.
 - **unknown:** real-account Google playback behavior, mobile Safari behavior, and multi-thousand-item performance after the new changes require browser/device verification.
 
@@ -37,7 +38,7 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 
 ## Build order
 
-1. Authentication, request generations, service-worker Range/error recovery, cancellation, and removal of video Blob fallback.
+1. Authentication, request generations, service-worker Range/error recovery, cancellation, and a policy-controlled OPFS/memory original fallback.
 2. Gesture state machine, transition cancellation, playback readiness, frame stepping, PC control consolidation.
 3. Multi-select state, long-press/pointer interactions, bulk delete/move with partial-failure reporting.
 4. Thumbnail/prefetch scheduler, rendering priority, dialog/default-UI polish, accessibility.

@@ -18,12 +18,14 @@
   <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://www.googleapis.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googleapis.com">
+  <link rel="preconnect" href="https://drive.google.com">
+  <link rel="dns-prefetch" href="https://drive.google.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.15.0">
+  <link rel="stylesheet" href="./styles.css?v=1.16.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.15.0" defer></script>
+  <script src="./app.js?v=1.16.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -294,6 +296,17 @@
         <div class="ambient-backdrop" id="ambientBackdrop" aria-hidden="true"></div>
         <video id="videoPlayer" playsinline webkit-playsinline preload="metadata" hidden></video>
         <img id="imageViewer" alt="" hidden>
+        <div class="media-swipe-neighbor" id="mediaSwipeNeighbor" aria-hidden="true" hidden>
+          <div class="media-swipe-neighbor-backdrop" id="mediaSwipeNeighborBackdrop"></div>
+          <div class="media-swipe-neighbor-image" id="mediaSwipeNeighborImage"></div>
+          <span class="media-swipe-neighbor-title" id="mediaSwipeNeighborTitle"></span>
+        </div>
+        <iframe class="drive-preview" id="drivePreview" title="Google Drive 호환 재생기" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="eager" hidden></iframe>
+        <div class="drive-preview-actions" id="drivePreviewActions" hidden>
+          <span>Google 호환 재생 · 원본 화질 미보장</span>
+          <button type="button" id="drivePreviewRetryButton">원본 다시 시도</button>
+          <button type="button" id="drivePreviewOpenButton">Drive 직접 열기</button>
+        </div>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
 
         <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
@@ -455,10 +468,12 @@
 
         <div class="media-error" id="mediaError" role="alert" aria-live="assertive" hidden>
           <div class="error-badge" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 2.9 1.8 17a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 2.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
-          <h3 id="mediaErrorTitle">이 파일을 재생할 수 없습니다</h3>
+          <h3 id="mediaErrorTitle" tabindex="-1">이 파일을 재생할 수 없습니다</h3>
           <p id="mediaErrorMessage">원본 스트림을 준비하지 못했습니다.</p>
           <div class="error-actions">
             <button class="secondary-button" id="retryMediaButton" type="button">다시 시도</button>
+            <button class="secondary-button" id="bufferOriginalButton" type="button" hidden>원본 전체 임시 저장</button>
+            <button class="secondary-button" id="compatPlayerButton" type="button" hidden>Google 호환 재생</button>
             <button class="secondary-button" id="openDriveButton" type="button">Drive에서 열기</button>
           </div>
         </div>
@@ -495,7 +510,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.15.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.16.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -549,7 +564,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.15.0</span>
+          <span id="appVersion">v1.16.0</span>
         </div>
       </div>
     </form>
