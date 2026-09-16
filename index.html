@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.16.0">
+  <link rel="stylesheet" href="./styles.css?v=1.17.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.16.0" defer></script>
+  <script src="./app.js?v=1.17.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -267,7 +267,7 @@
               <span class="stream-dot" aria-hidden="true"></span>
               <span id="streamModeText">원본 확인 중</span>
             </span>
-            <span class="quality-badge" id="qualityBadge" data-quality="checking">원본 확인 중</span>
+            <span class="quality-badge" id="qualityBadge" data-quality="checking" hidden>원본 확인 중</span>
           </div>
           <h2 id="playerTitle">미디어 파일 이름</h2>
         </div>
@@ -301,7 +301,7 @@
           <div class="media-swipe-neighbor-image" id="mediaSwipeNeighborImage"></div>
           <span class="media-swipe-neighbor-title" id="mediaSwipeNeighborTitle"></span>
         </div>
-        <iframe class="drive-preview" id="drivePreview" title="Google Drive 호환 재생기" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="eager" hidden></iframe>
+        <iframe class="drive-preview" id="drivePreview" title="Google Drive 호환 재생기" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="eager" hidden></iframe>
         <div class="drive-preview-actions" id="drivePreviewActions" hidden>
           <span>Google 호환 재생 · 원본 화질 미확인</span>
           <button type="button" id="drivePreviewRetryButton">원본 다시 시도</button>
@@ -510,7 +510,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.16.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.17.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -564,7 +564,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.16.0</span>
+          <span id="appVersion">v1.17.0</span>
         </div>
       </div>
     </form>

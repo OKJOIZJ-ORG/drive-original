@@ -58,3 +58,7 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 ## Historical done check — v1.16.0
 
 Satisfied. Evidence: 40/40 Node tests; `node --check` for app and worker; `git diff --check`; desktop and 390×844 mobile demo interaction; deliberate/sub-threshold and committed synthetic four-direction touch scenarios; prior local Lighthouse 100/100/100/100 and LCP 318ms/CLS 0.00 baseline; successful Pages run `35085992727`; five live core assets byte-equal to release commit `6a669fb`; matching 114,471-byte release ZIPs; and re-fetched Notion maintenance data with both packages attached. Real-account Google behavior and physical iOS Safari remain explicit verification boundaries, not locally proven facts.
+
+## Pre-release verification — v1.17.0
+
+Implementation and local verification are satisfied: 52/52 Node tests; `node --check` for app and worker; `git diff --check`; independent main-diff review with no P1/P2/P3 findings; two-round zero-context rehearsal with the first round's label findings fixed and the second round clean; desktop and 390×844 mobile demo readback with no console warnings/errors or horizontal overflow; and mobile local LCP 414ms, CLS 0.00, plus Lighthouse 100/100/100/100. Release merge/push, Pages byte equality, ZIP identity, and Notion readback remain before the v1.17.0 done check. Authenticated Drive playback and physical iOS Safari remain explicit verification boundaries.

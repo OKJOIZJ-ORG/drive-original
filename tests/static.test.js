@@ -86,7 +86,7 @@ test('player controls, in-app preview, and selection toolbar remain bound in the
     assert.match(html, new RegExp(`\\bid="${id}"`));
     assert.match(app, new RegExp(`'${id}'`));
   }
-  assert.match(html, /id="drivePreview"[^>]*allow="[^"]*autoplay[^"]*fullscreen[^"]*"[^>]*allowfullscreen/);
+  assert.match(html, /id="drivePreview"[^>]*allow="[^"]*autoplay[^"]*fullscreen[^"]*"/);
   assert.match(app, /function buildDrivePreviewUrl\(file\)[\s\S]*?\/preview/);
   assert.match(app, /function showDrivePreview\(file, reason\)/);
   assert.match(app, /state\.mediaAttempt = 'drive-preview-page'/);
@@ -129,11 +129,14 @@ test('playback quality starts unverified and documents only evidence-backed orig
   const readme = read('README.md');
 
   assert.match(html, /id="streamModeLabel" data-mode="checking"[\s\S]*?id="streamModeText">원본 확인 중/);
-  assert.match(html, /id="qualityBadge" data-quality="checking">원본 확인 중/);
+  assert.match(html, /id="qualityBadge" data-quality="checking"[^>]*>원본 확인 중/);
   assert.match(html, /Google 호환 재생 · 원본 화질 미확인/);
   assert.doesNotMatch(html, /id="qualityBadge"[^>]*>100% 원본 화질/);
   assert.doesNotMatch(html, /100% 무인코딩 무손실 화질|1:1 원본 그대로 스트리밍/);
   assert.doesNotMatch(app, /100% 원본|100% 무손실|1:1 무변환/);
+  assert.match(app, /state\.demo[\s\S]*?데모 미리보기[\s\S]*?원본 재생 아님[\s\S]*?저장 파일 정보/);
+  assert.match(app, /데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다\./);
+  assert.match(app, /setStreamMode\('drive', 'Google 호환 재생'\)[\s\S]*?qualityBadge\.textContent = '· 원본 화질 미확인'/);
   for (const label of [
     'Drive 원본 파일 · Range 무변환 전송',
     'Drive 원본 파일 · 연속 전송',

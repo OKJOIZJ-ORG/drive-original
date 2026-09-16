@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.16.0';
+const APP_VERSION = '1.17.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
@@ -2572,7 +2572,9 @@ function openPlayer(file) {
   el.playerSheet.hidden = false;
   setStageImmersive(false);
   el.playerTitle.textContent = file.name || '이름 없는 파일';
-  el.codecNote.textContent = 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
+  el.codecNote.textContent = state.demo
+    ? '데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다.'
+    : 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
   const isVideo = file.mimeType?.startsWith('video/');
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
@@ -3885,7 +3887,11 @@ function openMediaSource(file) {
   });
   if (el.playerTitle) el.playerTitle.textContent = file.name || '미디어 파일';
   if (el.mobileShortsTitle) el.mobileShortsTitle.textContent = file.name || '미디어 파일';
-  if (el.codecNote) el.codecNote.textContent = 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
+  if (el.codecNote) {
+    el.codecNote.textContent = state.demo
+      ? '데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다.'
+      : 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
+  }
   const isVideo = file.mimeType?.startsWith('video/');
 
   resetMediaElements();
@@ -4362,7 +4368,11 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
     return;
   }
 
-  const playbackSnapshot = kind === 'video' ? capturePlaybackSnapshot() : null;
+  const playbackSnapshot = kind === 'video'
+    ? (state.resumePosition?.fileId === file.id && state.resumePosition.snapshot
+        ? state.resumePosition.snapshot
+        : capturePlaybackSnapshot())
+    : null;
   state.mediaAttempt = 'blob-loading';
   state.mediaBufferStorageMode = resolvedPolicy.mode;
   state.mediaPlaybackMode = resolvedPolicy.mode === 'disk' ? PLAYBACK_MODE.OPFS : PLAYBACK_MODE.MEMORY;
@@ -4466,11 +4476,33 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
       clearToken(true);
       showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
     } else if (classifyMediaProxyFailure(error) === 'permission') {
+      if (state.mediaPermissionRetryCount < 1) {
+        state.mediaPermissionRetryCount += 1;
+        if (playbackSnapshot) {
+          state.resumePosition = { fileId: file.id, time: playbackSnapshot.time, snapshot: playbackSnapshot };
+        }
+        state.mediaAttempt = 'auth-refresh';
+        showMediaLoading('Drive 원본 권한을 다시 확인하는 중');
+        const refreshed = state.clientId && validateClientId(state.clientId)
+          ? await requestGoogleToken({ background: true, force: true })
+          : false;
+        if (session !== state.mediaSession || state.selected?.id !== file.id) return;
+        if (refreshed) {
+          state.mediaAttempt = 'buffer-evaluating';
+          await startOriginalBlobFallback(file, kind, session, {
+            confirmed: true,
+            policy: resolvedPolicy
+          });
+          return;
+        }
+      }
       clearToken(true);
+      state.mediaAttempt = 'failed';
       showMediaError(
         '현재 Google 계정 또는 OAuth 권한으로는 원본 파일을 읽을 수 없습니다. 다시 시도를 눌러 계정 권한을 직접 확인해 주세요.',
         { title: 'Google Drive 권한 확인 필요' }
       );
+      updateConnectionBadge();
     } else if (classifyMediaProxyFailure(error) === 'download-restricted') {
       showDrivePreview(file, '원본 다운로드가 제한되어');
     } else if (error instanceof RangeError || /byte count mismatch/i.test(error.message || '')) {
@@ -5394,11 +5426,33 @@ function updateQualityDisplay() {
   const effectiveH = liveH || metaH;
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
 
-  if (playbackMode === PLAYBACK_MODE.COMPATIBILITY || attempt.startsWith('drive-preview')) {
-    setStreamMode('drive', qualityLabel);
+  if (el.mediaFileSizeType) {
+    const sizeStr = formatBytes(file.size);
+    const mimeStr = friendlyMime(file.mimeType);
+    el.mediaFileSizeType.textContent = [sizeStr, mimeStr].filter(Boolean).join(' · ') || '정보 없음';
+  }
+
+  if (state.demo) {
+    setStreamMode('demo', '데모 미리보기');
     if (el.qualityBadge) {
+      el.qualityBadge.hidden = false;
       el.qualityBadge.dataset.quality = 'preview';
-      el.qualityBadge.textContent = `· ${qualityLabel}`;
+      el.qualityBadge.textContent = '· 원본 재생 아님';
+    }
+    if (el.mediaResolution) {
+      el.mediaResolution.textContent = metaW && metaH
+        ? `저장 파일 정보 ${metaW} × ${metaH}${metaCat ? ` (${metaCat})` : ''}`
+        : '데모 미리보기';
+    }
+    return;
+  }
+
+  if (playbackMode === PLAYBACK_MODE.COMPATIBILITY || attempt.startsWith('drive-preview')) {
+    setStreamMode('drive', 'Google 호환 재생');
+    if (el.qualityBadge) {
+      el.qualityBadge.hidden = false;
+      el.qualityBadge.dataset.quality = 'preview';
+      el.qualityBadge.textContent = '· 원본 화질 미확인';
     }
     if (el.mediaResolution) {
       el.mediaResolution.textContent = metaW && metaH
@@ -5406,8 +5460,9 @@ function updateQualityDisplay() {
         : 'Drive 호환 변환 해상도';
     }
   } else if (playbackMode === PLAYBACK_MODE.OPFS || playbackMode === PLAYBACK_MODE.MEMORY) {
-    setStreamMode('buffer', qualityLabel);
+    setStreamMode('buffer', playbackMode === PLAYBACK_MODE.OPFS ? '임시 디스크' : '메모리 원본');
     if (el.qualityBadge) {
+      el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = state.mediaTransportVerified ? 'buffer' : 'pending';
       el.qualityBadge.textContent = `· ${qualityLabel}`;
     }
@@ -5419,8 +5474,14 @@ function updateQualityDisplay() {
       }
     }
   } else {
-    setStreamMode(playbackMode === PLAYBACK_MODE.SEQUENTIAL ? 'sequential' : 'range', qualityLabel);
+    setStreamMode(
+      playbackMode === PLAYBACK_MODE.SEQUENTIAL ? 'sequential' : 'range',
+      state.mediaTransportVerified
+        ? (playbackMode === PLAYBACK_MODE.SEQUENTIAL ? '연속 전송' : 'Range 전송')
+        : '원본 확인 중'
+    );
     if (el.qualityBadge) {
+      el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = state.mediaTransportVerified ? 'original' : 'pending';
       el.qualityBadge.textContent = `· ${qualityLabel}`;
     }
@@ -5433,11 +5494,6 @@ function updateQualityDisplay() {
     }
   }
 
-  if (el.mediaFileSizeType) {
-    const sizeStr = formatBytes(file.size);
-    const mimeStr = friendlyMime(file.mimeType);
-    el.mediaFileSizeType.textContent = [sizeStr, mimeStr].filter(Boolean).join(' · ') || '정보 없음';
-  }
 }
 
 function showMediaLoading(message) {

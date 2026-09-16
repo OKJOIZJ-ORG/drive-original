@@ -587,6 +587,62 @@ test('full-original recovery retries complete transfer at most three times and r
   assert.deepEqual(sharedBudget, { requests: 3, count: 3 });
 });
 
+test('full-original permission failure refreshes once in-app before requiring reconnection', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const file = { id: 'permission-file', name: 'permission.jpg', mimeType: 'image/jpeg', size: '3' };
+    state.selected = file;
+    state.mediaSession = 12;
+    state.clientId = 'test.apps.googleusercontent.com';
+    state.mediaPermissionRetryCount = 0;
+    let downloads = 0;
+    let refreshes = 0;
+    let cleared = 0;
+    validateClientId = () => true;
+    requestGoogleToken = async () => { refreshes += 1; return true; };
+    clearToken = () => { cleared += 1; };
+    updateQualityDisplay = () => {};
+    clearDirectMediaSources = () => {};
+    showMediaLoading = () => {};
+    cleanupOriginalTempStorage = () => {};
+    URL.createObjectURL = () => 'blob:test-original';
+    el.codecNote = { textContent: '' };
+    el.imageViewer = { hidden: true, dataset: {}, alt: '', src: '' };
+    downloadOriginalFile = async () => {
+      downloads += 1;
+      if (downloads === 1) {
+        const error = new Error('permission');
+        error.status = 403;
+        error.reasons = ['insufficientPermissions'];
+        error.driveReason = 'insufficientPermissions';
+        throw error;
+      }
+      return new Blob(['abc'], { type: 'image/jpeg' });
+    };
+    await startOriginalBlobFallback(file, 'image', 12, {
+      confirmed: true,
+      policy: { decision: 'auto', mode: 'memory', hardLimit: 10 }
+    });
+    return JSON.stringify({
+      downloads,
+      refreshes,
+      cleared,
+      permissionRetries: state.mediaPermissionRetryCount,
+      attempt: state.mediaAttempt,
+      src: el.imageViewer.src
+    });
+  })()`));
+  assert.deepEqual(result, {
+    downloads: 2,
+    refreshes: 1,
+    cleared: 0,
+    permissionRetries: 1,
+    attempt: 'blob',
+    src: 'blob:test-original'
+  });
+});
+
 test('folder strip rendering obeys its hard cap', () => {
   const context = loadAppContext();
   installMiniDom(context);
