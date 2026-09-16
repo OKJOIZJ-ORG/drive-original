@@ -22,8 +22,8 @@
 
   /* Apple Dynamic Labels */
   --label-primary: #ffffff;
-  --label-secondary: rgba(235, 235, 245, 0.60);
-  --label-tertiary: rgba(235, 235, 245, 0.30);
+  --label-secondary: rgba(235, 235, 245, 0.72);
+  --label-tertiary: rgba(235, 235, 245, 0.60);
   --label-quaternary: rgba(235, 235, 245, 0.18);
 
   /* Apple System Fills */
@@ -40,6 +40,11 @@
   --system-blue: #0a84ff;
   --system-blue-hover: #409cff;
   --system-blue-active: #006ee6;
+  --action-blue: #0068d6;
+  --action-blue-hover: #0060c8;
+  --action-blue-text: #76b6ff;
+  --action-red: #c92e25;
+  --action-red-text: #ff9c94;
   --system-green: #30d158;
   --system-red: #ff453a;
   --system-orange: #ff9f0a;
@@ -151,7 +156,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 html, body {
-  touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 svg {
@@ -269,6 +274,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 22px;
+  white-space: nowrap;
 }
 
 /* Nav Actions & Apple SF Symbol Circular Buttons */
@@ -290,6 +296,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--label-secondary);
+  white-space: nowrap;
 }
 
 .badge-dot {
@@ -419,7 +426,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   gap: 6px;
   padding: 10px 20px;
   border-radius: var(--radius-md);
-  background: var(--system-blue);
+  background: var(--action-blue);
   color: #ffffff;
   font-weight: 600;
   font-size: 15px;
@@ -429,7 +436,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .primary-button:hover {
-  background: var(--system-blue-hover);
+  background: var(--action-blue-hover);
 }
 
 .primary-button:active {
@@ -451,7 +458,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   padding: 9px 16px;
   border-radius: var(--radius-md);
   background: var(--system-fill-tertiary);
-  color: var(--system-blue);
+  color: var(--action-blue-text);
   font-weight: 600;
   font-size: 15px;
   line-height: 20px;
@@ -481,7 +488,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   gap: 6px;
   padding: 10px 18px;
   border-radius: var(--radius-md);
-  background: var(--system-red);
+  background: var(--action-red);
   color: #ffffff;
   font-weight: 600;
   font-size: 15px;
@@ -505,7 +512,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   gap: 6px;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  color: var(--system-red);
+  color: var(--action-red-text);
   font-size: 13px;
   font-weight: 500;
   background: rgba(255, 69, 58, 0.1);
@@ -1341,7 +1348,17 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   font-size: 11px;
   color: var(--label-secondary);
   font-family: var(--font-mono);
+  min-width: 0;
+  gap: 6px;
+  white-space: nowrap;
 }
+
+.file-card-meta > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.file-card-meta > span:not([class]) { flex-shrink: 0; }
+.file-card-meta .file-card-origin { flex: 1 1 0; }
+.file-card-meta .file-card-status { font-family: var(--font-system); text-align: right; }
+.account-sync-status { margin: -4px 2px 12px; color: var(--label-secondary); font-size: 11px; }
+.account-sync-status[data-state="pending"] { color: #ffd087; }
 
 /* Infinite Scroll Sentinel */
 .infinite-scroll-sentinel {
@@ -1925,7 +1942,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   -webkit-backdrop-filter: blur(20px);
   border: 0.5px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
-  font-family: var(--font-text);
+  font-family: var(--font-system);
   font-size: 12px;
   font-weight: 600;
   pointer-events: none;
@@ -2949,11 +2966,24 @@ dialog {
 
   /* Fixed Symmetric Mobile Toolbar */
   .toolbar {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr) minmax(56px, .62fr);
     align-items: stretch;
-    gap: 10px;
-    padding: 12px;
+    gap: 8px;
+    padding: 10px;
   }
+
+  .toolbar .search-box,
+  .toolbar .segmented { grid-column: 1 / -1; min-width: 0; }
+  .toolbar .deep-scan-toggle,
+  .toolbar .sort-select,
+  .toolbar .selection-mode-button { min-width: 0; height: 44px; }
+  .toolbar .deep-scan-toggle { padding-inline: 5px; gap: 3px; font-size: 11px; white-space: nowrap; }
+  .toolbar .deep-scan-toggle svg { width: 13px !important; height: 13px !important; }
+  .toolbar .sort-select select { width: 100%; min-width: 0; height: 44px; padding-left: 7px; font-size: 13px; }
+  .toolbar .selection-mode-button { padding-inline: 5px; gap: 4px; white-space: nowrap; }
+  .toolbar .deep-scan-stop { grid-column: 1 / -1; min-height: 40px; }
+  .toolbar:has(#deepScanToggle[hidden]) .sort-select { grid-column: span 2; }
 
   .selection-mode-button {
     width: 100%;
@@ -2966,10 +2996,12 @@ dialog {
     padding: 9px 10px 9px 12px;
     border-radius: var(--radius-md);
     gap: 8px;
+    flex-wrap: wrap;
   }
 
   .selection-actions {
     gap: 4px;
+    flex-wrap: wrap;
   }
 
   .selection-actions .compact {
@@ -2994,17 +3026,18 @@ dialog {
   .search-box {
     flex: none !important;
     width: 100% !important;
-    height: 38px !important;
+    height: 44px !important;
   }
 
   .search-box input {
     font-size: 16px !important; /* Block iOS Safari auto-zoom */
+    height: 44px;
   }
 
   .segmented {
     width: 100%;
     display: flex;
-    height: 36px;
+    height: 44px;
   }
 
   .segmented button {
@@ -3012,6 +3045,7 @@ dialog {
     text-align: center;
     padding: 5px 0;
     white-space: nowrap;
+    min-height: 40px;
   }
 
   .file-grid {
@@ -3200,6 +3234,8 @@ dialog {
     justify-content: center;
     gap: 5px;
     height: 32px;
+    min-width: 44px;
+    min-height: 44px;
     padding: 0 11px;
     border-radius: var(--radius-pill);
     background: rgba(9, 11, 16, 0.55);
@@ -3265,6 +3301,11 @@ dialog {
     opacity: 0;
     transform: translateY(8px);
     transform-origin: bottom right;
+    max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 156px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding: 4px;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
@@ -3521,7 +3562,7 @@ dialog {
   background: rgba(20, 20, 22, 0.84);
   backdrop-filter: var(--blur-thin);
   -webkit-backdrop-filter: var(--blur-thin);
-  box-shadow: var(--shadow-elevated);
+  box-shadow: var(--shadow-popover);
 }
 
 .drive-preview-actions[hidden] {
@@ -3603,6 +3644,23 @@ dialog {
    REDUCED MOTION
    ========================================================================== */
 
+@media (max-width: 380px) {
+  .topbar { padding-inline: max(12px, var(--safe-left)); }
+  .topbar-inner { gap: 8px; }
+  .brand { gap: 8px; }
+  .brand-name { font-size: 15px; }
+  .brand-icon { width: 28px; height: 28px; }
+  .connection-badge { font-size: 11px; padding-inline: 7px; gap: 4px; }
+  .toolbar { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) 48px; }
+  .toolbar .selection-mode-button svg { display: none; }
+  .toolbar .sort-select select { font-size: 12px; }
+  .shorts-bottom-row { gap: 5px; }
+}
+
+@media (pointer: coarse) {
+  .icon-button, .player-ctrl-btn { min-width: 44px; min-height: 44px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -3610,3 +3668,28 @@ dialog {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Interactive back transitions retain only visible, inert library fragments.
+   The actual library remains the sole interactive/data-owning surface. */
+.library-edge-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 58;
+  overflow: hidden;
+  background: var(--system-bg);
+  pointer-events: none;
+  contain: strict;
+}
+.library-edge-snapshot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--system-bg);
+  pointer-events: none;
+  contain: strict;
+  will-change: transform;
+}
+.library-edge-snapshot.edge-over { box-shadow: -12px 0 40px rgba(0,0,0,.38); }
+.library-edge-snapshot .file-card { content-visibility: visible; }
+.library-edge-snapshot .edge-shade { position: absolute; inset: 0; background: #000; pointer-events: none; }
+.library-edge-snapshot .folder-row { background: var(--system-bg-secondary); }

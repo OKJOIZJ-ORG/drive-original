@@ -111,3 +111,7 @@ Satisfied. Evidence: 78/78 Node tests; `node --check` for app and worker; `git d
 ## Done check — v1.19.1
 
 Satisfied. Evidence: 84/84 Node tests passing three consecutive full runs; `node --check` for app and worker; `git diff --check`; 390×844 mobile and 1280×800 desktop demo geometry/interaction with zero console warnings/errors; deterministic OAuth scope migration, direct favorite lookup, partial-result preservation, stale-status ownership, breadcrumb, GIF, double-tap, and edge-swipe coverage; successful Pages run `35121272050`; five live core assets byte-equal to release commit `c43b218`; matching 112,769-byte release ZIPs with all 15 files equal to Git blobs; and re-fetched Notion maintenance data with both packages attached. Actual two-device propagation, production-account OAuth reconsent/direct lookup, and physical iPhone Safari remain explicit verification boundaries.
+
+## v1.20.0 audit cut — 2026-09-17
+
+D-043/D-044/D-045 extend the original acceptance criteria rather than relaxing them. Source, unit, browser fixture, cross-browser visual and new edge navigation evidence are recorded in ../AUDIT-20260917.md. Runtime design remains static and original-byte-first; tests and operational source are excluded from the public Pages artifact. Final production and package verification is recorded in ../RELEASE-1.20.0.md. Physical iPhone OS gestures and live multi-device propagation remain distinct evidence boundaries.

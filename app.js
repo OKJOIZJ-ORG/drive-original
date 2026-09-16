@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.19.1';
+const APP_VERSION = '1.20.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
@@ -20,6 +20,7 @@ const ORIGINAL_BUFFER_DIRECTORY = 'drive-original-temp';
 const VERTICAL_DECK_DEPTH = 2;
 const THUMBNAIL_WARM_LIMIT = 12;
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
+const FILE_NAME_COLLATOR = new Intl.Collator('ko', { numeric: true });
 const DRIVE_PAGE_SIZE = 1000;
 const RENDER_WINDOW_MAX = 240;
 const RENDER_WINDOW_STEP_RATIO = 0.5;
@@ -30,9 +31,11 @@ const DEFAULT_FRAME_DURATION = 1 / 30;
 const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
 const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
-const MAX_ORIGINAL_RETRY_AFTER_MS = 10_000;
+const MAX_ORIGINAL_RETRY_AFTER_MS = 2_147_483_647;
 const GIF_THUMBNAIL_SIZE = 320;
 const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state.json';
+const ACCOUNT_STATE_WRITER_PREFIX = 'drive-original-account-state-v2-';
+const ACCOUNT_WRITER_STORAGE_KEY = 'drive-original.account-writer';
 const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
@@ -54,7 +57,7 @@ function classifyMediaProxyFailure(data = {}) {
   if (category === 'rate-limit' || status === 429 || /rateLimitExceeded/i.test(driveReason)) return 'rate-limit';
   if (category === 'not-found' || status === 404) return 'not-found';
   if (status === 416 || category === 'range-not-satisfiable') return 'range-416';
-  if (category === 'range-invalid' || data.rangeSatisfied === false) return 'range-invalid';
+  if (category === 'range-invalid' || (status === 206 && data.rangeSatisfied === false)) return 'range-invalid';
   if (status === 403 && isDriveDownloadRestriction(data)) return 'download-restricted';
   if (category === 'permission' || status === 403) return 'permission';
   if (category === 'server' || status >= 500) return 'server';
@@ -163,29 +166,34 @@ function createEmptyAccountMediaState() {
   return {
     schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
     updatedAt: 0,
-    viewed: {},
-    favorites: {}
+    viewed: Object.create(null),
+    favorites: Object.create(null)
   };
+}
+
+function normalizeStateTimestamp(value) {
+  const timestamp = Number(value);
+  return Number.isSafeInteger(timestamp) && timestamp > 0 ? timestamp : 0;
 }
 
 function normalizeAccountMediaState(value) {
   const source = value && typeof value === 'object' ? value : {};
-  const viewed = {};
-  const favorites = {};
+  const viewed = Object.create(null);
+  const favorites = Object.create(null);
   Object.entries(source.viewed && typeof source.viewed === 'object' ? source.viewed : {}).forEach(([id, timestamp]) => {
-    const normalized = Math.max(0, Number(timestamp) || 0);
+    const normalized = normalizeStateTimestamp(timestamp);
     if (id && normalized) viewed[id] = normalized;
   });
   Object.entries(source.favorites && typeof source.favorites === 'object' ? source.favorites : {}).forEach(([id, entry]) => {
     if (!id) return;
     const normalized = entry && typeof entry === 'object'
-      ? { liked: Boolean(entry.liked), updatedAt: Math.max(0, Number(entry.updatedAt) || 0) }
+      ? { liked: Boolean(entry.liked), updatedAt: normalizeStateTimestamp(entry.updatedAt) }
       : { liked: Boolean(entry), updatedAt: 0 };
     favorites[id] = normalized;
   });
   return {
     schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
-    updatedAt: Math.max(0, Number(source.updatedAt) || 0),
+    updatedAt: normalizeStateTimestamp(source.updatedAt),
     viewed,
     favorites
   };
@@ -205,7 +213,11 @@ function mergeAccountMediaStates(first, second) {
     const b = right.favorites[id];
     if (!a) merged.favorites[id] = b;
     else if (!b) merged.favorites[id] = a;
-    else merged.favorites[id] = (b.updatedAt || 0) >= (a.updatedAt || 0) ? b : a;
+    else if (a.updatedAt === b.updatedAt) {
+      // Concurrent equal-clock edits converge regardless of merge order.
+      // Preserve an unlike tombstone rather than resurrecting a removed like.
+      merged.favorites[id] = { liked: a.liked && b.liked, updatedAt: a.updatedAt };
+    } else merged.favorites[id] = b.updatedAt > a.updatedAt ? b : a;
   });
   merged.updatedAt = Math.max(left.updatedAt, right.updatedAt);
   return merged;
@@ -241,6 +253,7 @@ async function collectAllPages(fetchPage, { signal, onPage } = {}) {
   do {
     if (signal?.aborted) throw new DOMException('Collection aborted', 'AbortError');
     const page = await fetchPage(nextPageToken);
+    if (signal?.aborted) throw new DOMException('Collection aborted', 'AbortError');
     const pageItems = Array.isArray(page?.items)
       ? page.items
       : Array.isArray(page?.files)
@@ -345,8 +358,13 @@ function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, dept
     ...shuffleIds(uniqueFiles.filter((file) => watched.has(file.id)))
   ];
   const targetDepth = Math.max(0, Math.floor(Number(depth) || 0));
-  const above = unique.slice(0, targetDepth);
-  const below = unique.slice(targetDepth, targetDepth * 2);
+  const above = [];
+  const below = [];
+  // The ordinary forward gesture (swipe up) must get the nearest unseen item,
+  // not the third candidate after both backward slots have consumed it.
+  unique.slice(0, targetDepth * 2).forEach((id, index) => {
+    (index % 2 === 0 ? below : above).push(id);
+  });
   // Tiny libraries cannot provide four distinct neighbours. Reuse only after
   // exhausting every distinct candidate so navigation always remains possible.
   let cursor = 0;
@@ -398,6 +416,11 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
   while (reusable.length && next.below.length < VERTICAL_DECK_DEPTH) {
     next.below.push(reusable[reuseCursor++ % reusable.length]);
   }
+  // Reorder only the continuing side. The reverse side must retain the exact
+  // previous item while newly available unseen neighbors precede watched ones.
+  const watched = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+  const continuation = direction === 'up' ? next.below : next.above;
+  continuation.sort((a, b) => Number(watched.has(a)) - Number(watched.has(b)));
   return next;
 }
 
@@ -478,8 +501,14 @@ const state = {
   folderIndex: null,
   loadingFolderIndex: false,
   accountId: null,
+  previousAccountId: null,
+  accountIdentityPending: false,
+  accountLocalStorageError: false,
   accountMediaState: createEmptyAccountMediaState(),
   accountStateFileId: null,
+  accountStateWriterId: null,
+  accountStateReadCache: new Map(),
+  accountStateAbortController: null,
   accountStateLoaded: false,
   accountStateLoadingPromise: null,
   accountStateSyncPromise: null,
@@ -492,6 +521,7 @@ const state = {
   favoriteFiles: [],
   loadingFavorites: false,
   favoriteLoadGeneration: 0,
+  favoriteLoadPromise: null,
   favoriteAbortController: null,
   libraryStatusToken: 0,
   moveTargetFolderId: null,
@@ -501,6 +531,7 @@ const state = {
   sort: 'modifiedTime',
   selected: null,
   selectionMode: false,
+  selectionGeneration: 0,
   selectedFileIds: new Set(),
   pendingActionFiles: [],
   bulkAction: false,
@@ -551,6 +582,7 @@ const state = {
   randomRequestGeneration: 0,
   treeCachePromise: null,
   authGeneration: 0,
+  driveSessionGeneration: 0,
   frameDuration: DEFAULT_FRAME_DURATION,
   lastPresentedMediaTime: null,
   frameCallbackId: null,
@@ -566,10 +598,13 @@ let feedbackTimer = null;
 let updatePending = false;
 let controlsHideTimer = null;
 let isSeekingPointer = false;
+let activeSeekCleanup = null;
 let isSpeedMenuOpen = false;
 let isPlayerMoreOpen = false;
 let tokenRenewalTimer = null;
 let shuffledOrderMap = new Map();
+let sortedPopulationCache = null;
+let filteredPopulationCache = null;
 let tokenRequestPromise = null;
 let tokenRequestGeneration = -1;
 let tokenRequestBackground = true;
@@ -648,7 +683,7 @@ function bindElements() {
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
     'setupView', 'libraryView', 'clientIdHint',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
-    'sortSelect', 'libraryStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
+    'sortSelect', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
@@ -860,6 +895,7 @@ function bindEvents() {
   }
   if (el.mobileShortsProgressTrack) {
     el.mobileShortsProgressTrack.addEventListener('pointerdown', onShortsProgressPointerDown);
+    el.mobileShortsProgressTrack.addEventListener('keydown', onSeekKeyDown);
   }
   document.addEventListener('click', onDocumentClickForSpeedMenu);
 
@@ -973,9 +1009,20 @@ function bindEvents() {
   [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
     updateConnectionBadge();
+    updateAccountSyncStatus();
     if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
   });
-  window.addEventListener('offline', updateConnectionBadge);
+  window.addEventListener('offline', () => { updateConnectionBadge(); updateAccountSyncStatus(); });
+  window.addEventListener('storage', (event) => {
+    if (!state.accountId || state.accountIdentityPending || event.key !== accountStateCacheKey()) return;
+    const cached = readCachedAccountMediaState(state.accountId);
+    const merged = mergeAccountMediaStates(cached, state.accountMediaState);
+    if (accountMediaStatesEqual(merged, state.accountMediaState)) return;
+    state.accountMediaState = merged;
+    state.favoriteFiles = state.favoriteFiles.filter((file) => merged.favorites[file.id]?.liked);
+    refreshFavoritePresentation();
+    if (state.filter === 'favorites') loadFavoriteFiles({ refreshState: false });
+  });
   window.addEventListener('scroll', () => {
     const topbar = document.querySelector('.topbar');
     if (topbar) {
@@ -989,6 +1036,10 @@ function bindEvents() {
     if (el.playerModal) el.playerModal.classList.remove('controls-idle');
     resetControlsTimer();
   };
+  el.playerModal?.addEventListener('focusin', () => {
+    if (document.activeElement?.matches?.(':focus-visible')) setStageImmersive(false);
+    onPlayerUserActivity();
+  });
   window.addEventListener('mousemove', onPlayerUserActivity, { passive: true });
   window.addEventListener('pointermove', onPlayerUserActivity, { passive: true });
   window.addEventListener('keydown', (e) => {
@@ -1099,9 +1150,9 @@ async function setupServiceWorker() {
     return;
   }
   try {
-    const registration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+    const registration = await withDeadline(navigator.serviceWorker.register('./sw.js', { scope: './' }), 12_000);
     state.serviceWorkerRegistration = registration;
-    await navigator.serviceWorker.ready;
+    await withDeadline(navigator.serviceWorker.ready, 12_000);
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (updatePending) {
@@ -1119,8 +1170,16 @@ async function setupServiceWorker() {
     setTimeout(() => checkForAppUpdate({ manual: false }), 2000);
     setInterval(() => checkForAppUpdate({ manual: false }), 5 * 60 * 1000);
   } catch (error) {
-    console.error('Service worker registration failed', error);
+    console.warn('Service worker registration failed', error);
+    if (!state.demo) showToast('원본 스트리밍 준비가 지연됩니다. 연결 상태를 확인한 뒤 새로고침하세요.');
   }
+}
+
+function withDeadline(operation, timeoutMs) {
+  let timeout;
+  return Promise.race([operation, new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error('작업 응답 시간이 초과되었습니다.')), timeoutMs);
+  })]).finally(() => clearTimeout(timeout));
 }
 
 function isNewerVersion(remote, local) {
@@ -1178,6 +1237,9 @@ async function checkForAppUpdate({ manual = false } = {}) {
       releaseInfo = await res.json();
       remoteVersion = releaseInfo.version;
     }
+    if (!res.ok || !/^\d+\.\d+\.\d+$/.test(String(remoteVersion || ''))) {
+      throw new Error('유효한 최신 버전 정보를 받지 못했습니다.');
+    }
 
     if ('serviceWorker' in navigator && state.serviceWorkerRegistration) {
       await state.serviceWorkerRegistration.update().catch(() => {});
@@ -1219,18 +1281,27 @@ async function checkForAppUpdate({ manual = false } = {}) {
   }
 }
 
+async function clearAppShellStorage() {
+  // GitHub Pages hosts sibling applications on this origin. Only our shell
+  // cache and exact worker scope belong to this reset action.
+  const scope = new URL('./', location.href).href;
+  if ('caches' in window) {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((key) => key.startsWith('drive-original-shell-'))
+      .map((key) => caches.delete(key)));
+  }
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.filter((registration) => registration.scope === scope)
+      .map((registration) => registration.unregister()));
+  }
+}
+
 async function applyAppUpdate() {
   updatePending = true;
   showToast('최신 버전을 즉시 적용합니다…');
   try {
-    if ('caches' in window) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map((k) => caches.delete(k)));
-    }
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map((r) => r.unregister()));
-    }
+    await clearAppShellStorage();
   } catch (_) {}
 
   // Force a hard network reload bypassing browser HTTP disk cache
@@ -1242,14 +1313,7 @@ async function applyAppUpdate() {
 async function forceReloadApp() {
   showToast('캐시를 삭제하고 앱을 새로고침합니다…');
   try {
-    if ('caches' in window) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map((k) => caches.delete(k)));
-    }
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map((r) => r.unregister()));
-    }
+    await clearAppShellStorage();
   } catch (e) {
     console.error('Force clear error', e);
   }
@@ -1423,7 +1487,7 @@ async function recoverFromMediaProxyError(data) {
 }
 
 function sendTokenToWorker() {
-  if (!hasUsableToken()) return;
+  if (!hasUsableToken() || !navigator.serviceWorker) return;
   const message = { type: 'SET_TOKEN', token: state.token, expiresAt: state.expiresAt };
   if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(message);
   const registration = state.serviceWorkerRegistration;
@@ -1505,8 +1569,25 @@ async function attemptSilentAutoLogin({ background = false } = {}) {
   return connected;
 }
 
-async function applyTokenResponse(response, { background, invalidateSession, generation }) {
-  if (generation !== state.authGeneration) return false;
+async function refreshedTokenMatchesAccount(token, expectedAccountId, generation) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+  try {
+    // Validate the candidate token without publishing it to shared state or the
+    // service worker. A changed Google default account must not inherit a live
+    // media session, queued mutations, or another account's app-data file IDs.
+    const response = await fetch(`${DRIVE_API}/about?fields=user(permissionId)`, {
+      headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', signal: controller.signal
+    });
+    if (!response.ok) return false;
+    const data = await response.json();
+    return generation === state.authGeneration && String(data?.user?.permissionId || '') === expectedAccountId;
+  } catch (_) { return false; }
+  finally { clearTimeout(timeout); }
+}
+
+async function applyTokenResponse(response, { background, invalidateSession, generation, isCurrent = () => true }) {
+  if (generation !== state.authGeneration || !isCurrent()) return false;
   if (!response || response.error || !response.access_token) {
     updateConnectionBadge();
     if (!background && response?.error !== 'user_cancelled') {
@@ -1514,6 +1595,11 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
     }
     return false;
   }
+  const expectedAccountId = state.accountId || state.previousAccountId;
+  if (background && expectedAccountId && !invalidateSession) {
+    if (!await refreshedTokenMatchesAccount(response.access_token, expectedAccountId, generation)) return false;
+  }
+  if (generation !== state.authGeneration || !isCurrent()) return false;
   const expiresIn = Math.max(60, Number(response.expires_in) || 3600);
   saveToken(response.access_token, Date.now() + expiresIn * 1000);
   clearClientIdError();
@@ -1527,6 +1613,7 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
         console.warn('Account media state sync was unavailable:', error);
       });
     }
+    if (generation !== state.authGeneration || state.accountIdentityPending) return;
     const retryContext = state.authRetryContext;
     if (
       state.retryAfterAuth && retryContext && state.selected?.id === retryContext.fileId
@@ -1581,13 +1668,20 @@ function requestGoogleToken({ background = false, force = false, invalidateSessi
           if (pendingTokenRequest?.generation === generation) pendingTokenRequest = null;
           resolve(Boolean(result));
         };
-        const client = google.accounts.oauth2.initTokenClient({
+        const client = window.google.accounts.oauth2.initTokenClient({
           client_id: state.clientId,
           scope: DRIVE_SCOPES,
-          callback: async (response) => finish(await applyTokenResponse(response, {
-            background, invalidateSession, generation
-          })),
+          callback: async (response) => {
+            if (settled || generation !== state.authGeneration) return;
+            try {
+              finish(await applyTokenResponse(response, { background, invalidateSession, generation, isCurrent: () => !settled }));
+            } catch (error) {
+              console.warn('Google token response could not be applied:', error);
+              finish(false);
+            }
+          },
           error_callback: (error) => {
+            if (settled || generation !== state.authGeneration) return;
             console.warn('Google OAuth request did not complete:', error);
             if (!background) {
               const message = error?.type === 'popup_failed_to_open'
@@ -1599,7 +1693,7 @@ function requestGoogleToken({ background = false, force = false, invalidateSessi
           }
         });
         state.tokenClient = client;
-        const timeout = setTimeout(() => finish(false), background ? 10_500 : 20_000);
+        const timeout = setTimeout(() => finish(false), background ? 10_500 : 120_000);
         pendingTokenRequest = { generation, finish };
         client.requestAccessToken({ prompt: '' });
       });
@@ -1938,8 +2032,9 @@ function resetListingSession() {
 }
 
 function navigateToFolder(folderId, folderName) {
-  if (!folderId) return;
+  if (!folderId || state.bulkAction) return;
   if (folderId === state.currentFolderId) return;
+  beginLibraryNavigation();
   // The breadcrumb always renders root as the first crumb; keep it out of the stack.
   if (state.currentFolderId !== 'root') {
     state.folderStack.push({ id: state.currentFolderId, name: state.currentFolderName });
@@ -1948,6 +2043,7 @@ function navigateToFolder(folderId, folderName) {
   state.currentFolderName = folderName || '폴더';
   resetListingSession();
   scrollToLibraryTop();
+  commitLibraryNavigation();
   animateFolderTransition('forward');
   applyFolderView();
 }
@@ -1970,17 +2066,31 @@ function navigateToFolderIndex(index) {
   const crumbs = buildBreadcrumbItems(state.folderStack, state.currentFolderId, state.currentFolderName);
   const target = crumbs[index];
   if (!target || target.id === state.currentFolderId) return;
+  if (state.bulkAction) return;
+  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1]);
+  if (hasOwnedLibraryBackEntry() && previous?.view.currentFolderId === target.id) {
+    completeLibraryBackNavigation(); return;
+  }
+  beginLibraryNavigation();
   state.folderStack = crumbs.slice(1, index);
   state.currentFolderId = target.id;
   state.currentFolderName = target.name;
   resetListingSession();
   scrollToLibraryTop();
+  commitLibraryNavigation();
   animateFolderTransition('back');
   applyFolderView();
 }
 
 function navigateToParentFolder() {
+  if (state.bulkAction) return;
   if (!state.folderStack.length && state.currentFolderId === 'root') return;
+  const parentId = state.folderStack.at(-1)?.id || 'root';
+  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1]);
+  if (hasOwnedLibraryBackEntry() && previous?.view.currentFolderId === parentId) {
+    completeLibraryBackNavigation(); return;
+  }
+  beginLibraryNavigation();
   const parent = state.folderStack.length
     ? state.folderStack.pop()
     : { id: 'root', name: '내 드라이브' };
@@ -1988,124 +2098,361 @@ function navigateToParentFolder() {
   state.currentFolderName = parent.name;
   resetListingSession();
   scrollToLibraryTop();
+  commitLibraryNavigation();
   animateFolderTransition('back');
   applyFolderView();
 }
 
+const libraryNavigation = {
+  epoch: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+  entries: new Map(), order: [], cursor: -1, sequence: 0, generation: 0,
+  restoring: false, pending: false, edge: null, animations: [], timer: null, suppressClickUntil: 0
+};
+
+function libraryNavigationOwner() { return state.demo ? 'demo' : state.accountId; }
+
+function libraryViewConfig() {
+  return {
+    currentFolderId: state.currentFolderId, currentFolderName: state.currentFolderName,
+    folderStack: state.folderStack.map((item) => ({ ...item })), filter: state.filter,
+    query: state.query, sort: state.sort, deepScan: state.deepScan,
+    scrollY: Math.max(0, window.scrollY || 0), renderWindowStart: state.renderWindowStart,
+    renderRowHeight: state.renderRowHeight, folderRenderLimit: state.folderRenderLimit
+  };
+}
+
+function captureLibraryVisual() {
+  if (!el.libraryView || typeof document.createElement !== 'function' || !isMobileDevice()) return null;
+  const snapshot = document.createElement('div');
+  snapshot.className = 'library-edge-snapshot';
+  snapshot.inert = true;
+  snapshot.setAttribute('aria-hidden', 'true');
+  const height = window.innerHeight;
+  const selectors = '.library-header, .folder-nav, .toolbar, .selection-toolbar, .library-status, .account-sync-status, .folder-row, .folder-more, .file-card, .empty-state';
+  el.libraryView.querySelectorAll(selectors).forEach((source) => {
+    const rect = source.getBoundingClientRect();
+    if (!rect.width || !rect.height || rect.bottom <= 0 || rect.top >= height || source.closest('[hidden]')) return;
+    const copy = source.cloneNode(true);
+    copy.removeAttribute('id');
+    copy.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+    copy.querySelectorAll('button,input,select,a,[tabindex]').forEach((node) => { node.tabIndex = -1; });
+    copy.style.cssText = `position:absolute;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;margin:0;animation:none;transition:none;transform:none;`;
+    if (source.matches('.file-card')) copy.classList.remove('defer-render');
+    const images = source.querySelectorAll('img');
+    copy.querySelectorAll('img').forEach((image, index) => {
+      if (!images[index]?.complete || !images[index]?.naturalWidth) image.removeAttribute('src');
+      image.loading = 'eager';
+    });
+    const canvases = source.querySelectorAll('canvas');
+    copy.querySelectorAll('canvas').forEach((canvas, index) => {
+      const original = canvases[index];
+      canvas.width = original.width; canvas.height = original.height;
+      try { canvas.getContext('2d')?.drawImage(original, 0, 0); } catch (_) {}
+    });
+    snapshot.appendChild(copy);
+  });
+  return { node: snapshot, width: window.innerWidth, height };
+}
+
+function rememberLibraryView() {
+  const entry = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor]);
+  if (!entry) return;
+  entry.view = libraryViewConfig();
+  entry.data = {
+    files: state.files, folders: state.folders, favoriteFiles: state.favoriteFiles,
+    nextPageToken: state.nextPageToken, populationComplete: state.populationComplete,
+    order: new Map(shuffledOrderMap), revision: libraryNavigation.dataRevision || 0,
+    complete: !state.loadingFiles && !state.loadingFavorites && !state.loadingTree
+  };
+  entry.visual = captureLibraryVisual();
+  try {
+    history.replaceState({ ...history.state, driveOriginalNavigation: {
+      epoch: libraryNavigation.epoch, id: entry.id, owner: libraryNavigationOwner(), view: entry.view
+    } }, '', location.href);
+  } catch (_) {}
+}
+
+function beginLibraryNavigation() {
+  if (libraryNavigation.restoring || typeof history === 'undefined' || typeof history.pushState !== 'function' || !libraryNavigationOwner()) return;
+  cancelLibraryEdgeBack();
+  if (libraryNavigation.cursor < 0) {
+    const entry = { id: ++libraryNavigation.sequence };
+    libraryNavigation.entries.set(entry.id, entry);
+    libraryNavigation.order = [entry.id]; libraryNavigation.cursor = 0;
+  }
+  rememberLibraryView();
+}
+
+function commitLibraryNavigation() {
+  libraryNavigation.generation += 1;
+  if (libraryNavigation.restoring || libraryNavigation.cursor < 0) return;
+  const entry = { id: ++libraryNavigation.sequence, view: libraryViewConfig() };
+  libraryNavigation.order.splice(libraryNavigation.cursor + 1).forEach((id) => libraryNavigation.entries.delete(id));
+  libraryNavigation.order.push(entry.id); libraryNavigation.cursor += 1;
+  libraryNavigation.entries.set(entry.id, entry);
+  // Only six recently rendered pages retain metadata/visuals; older browser
+  // entries keep their lightweight route and can reload it when revisited.
+  for (const [id, cached] of libraryNavigation.entries) {
+    if (id < entry.id - 6) { cached.data = null; cached.visual = null; }
+  }
+  try {
+    history.pushState({ ...history.state, driveOriginalNavigation: {
+      epoch: libraryNavigation.epoch, id: entry.id, owner: libraryNavigationOwner(), view: entry.view
+    } }, '', location.href);
+  } catch (_) { /* Folder navigation still works when history storage is unavailable. */ }
+}
+
+function resetLibraryNavigation() {
+  cancelLibraryEdgeBack();
+  libraryNavigation.generation += 1;
+  libraryNavigation.entries.clear(); libraryNavigation.order = []; libraryNavigation.cursor = -1;
+  libraryNavigation.pending = false;
+}
+
+async function restoreLibraryNavigation(target) {
+  if (!target || target.owner !== libraryNavigationOwner() || state.accountIdentityPending) return;
+  const entry = target.epoch === libraryNavigation.epoch ? libraryNavigation.entries.get(target.id) : null;
+  const view = entry?.view || target.view;
+  if (!view || !['all','video','image','favorites'].includes(view.filter) || !view.currentFolderId) return;
+  cancelLibraryEdgeBack();
+  libraryNavigation.pending = false;
+  libraryNavigation.generation += 1;
+  const navigationGeneration = libraryNavigation.generation;
+  libraryNavigation.restoring = true;
+  try {
+    if (!el.playerSheet?.hidden) closePlayer();
+    cancelFavoriteLoad(); resetListingSession();
+    if (el.refreshButton) el.refreshButton.disabled = false;
+    state.currentFolderId = view.currentFolderId; state.currentFolderName = view.currentFolderName;
+    state.folderStack = (view.folderStack || []).map((item) => ({ ...item }));
+    state.filter = view.filter; state.query = view.query || ''; state.sort = view.sort || 'modifiedTime'; state.deepScan = Boolean(view.deepScan);
+    state.folderRenderLimit = view.folderRenderLimit || FOLDER_RENDER_MAX;
+    if (el.searchInput) el.searchInput.value = state.query;
+    if (el.sortSelect) el.sortSelect.value = state.sort;
+    el.filterButtons?.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === state.filter)));
+    syncDeepScanToggle();
+    const data = entry?.data;
+    const cached = data?.complete && data.revision === (libraryNavigation.dataRevision || 0);
+    if (cached) {
+      state.files = data.files; state.folders = data.folders;
+      state.favoriteFiles = data.favoriteFiles.filter((file) => isFavoriteFileId(file.id));
+      state.nextPageToken = data.nextPageToken; state.populationComplete = data.populationComplete;
+      shuffledOrderMap = new Map(data.order);
+      state.renderWindowStart = view.renderWindowStart || 0; state.renderRowHeight = view.renderRowHeight || 250;
+      renderFiles();
+    } else {
+      renderFiles({ resetWindow: true });
+      if (state.filter === 'favorites') await loadFavoriteFiles();
+      else await applyFolderView();
+    }
+    if (navigationGeneration !== libraryNavigation.generation) return;
+    const index = libraryNavigation.order.indexOf(target.id);
+    if (entry && index >= 0) libraryNavigation.cursor = index;
+    else { libraryNavigation.cursor = -1; libraryNavigation.order = []; libraryNavigation.entries.clear(); }
+    window.scrollTo({ top: Math.max(0, view.scrollY || 0), behavior: 'instant' });
+    requestAnimationFrame(() => {
+      if (navigationGeneration === libraryNavigation.generation) {
+        window.scrollTo({ top: Math.max(0, view.scrollY || 0), behavior: 'instant' });
+        scheduleRenderWindowUpdate();
+      }
+    });
+  } finally { libraryNavigation.restoring = false; }
+}
+
+function hasOwnedLibraryBackEntry() {
+  const mark = typeof history !== 'undefined' ? history.state?.driveOriginalNavigation : null;
+  return libraryNavigation.cursor > 0 && mark?.epoch === libraryNavigation.epoch
+    && mark.id === libraryNavigation.order[libraryNavigation.cursor] && mark.owner === libraryNavigationOwner();
+}
+
 function canNavigateLibraryBack() {
-  return state.filter === 'favorites' || state.currentFolderId !== 'root' || state.folderStack.length > 0;
+  return hasOwnedLibraryBackEntry() || state.filter === 'favorites' || state.currentFolderId !== 'root' || state.folderStack.length > 0;
+}
+
+function prefersNativeLibraryBack() {
+  const ios = /iP(?:hone|ad|od)/.test(navigator.userAgent || '')
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  return Boolean(ios && !standalone && hasOwnedLibraryBackEntry());
+}
+
+function libraryEdgeReleaseDecision(distance, velocity, width) {
+  const dx = Math.max(0, Number(distance) || 0);
+  const v = Number(velocity) || 0;
+  // A deliberate reversal is a cancellation even after a long outward drag.
+  if (v < -0.18) return false;
+  return dx >= Math.max(88, width * 0.36) || (dx >= 48 && v >= 0.48 && dx + v * 180 >= width * 0.34);
 }
 
 function clearLibraryEdgeBackVisuals() {
+  libraryNavigation.animations.splice(0).forEach((animation) => animation.cancel?.());
+  clearTimeout(libraryNavigation.timer); libraryNavigation.timer = null;
+  libraryNavigation.edge?.remove?.(); libraryNavigation.edge = null;
+  if (el.edgeBackIndicator) el.edgeBackIndicator.hidden = true;
   if (el.libraryView) {
-    el.libraryView.style.transform = '';
-    el.libraryView.style.opacity = '';
-    el.libraryView.style.willChange = '';
+    el.libraryView.style.transform = ''; el.libraryView.style.opacity = ''; el.libraryView.style.willChange = '';
   }
-  if (el.edgeBackIndicator) {
-    el.edgeBackIndicator.hidden = true;
-    el.edgeBackIndicator.style.transform = '';
-    el.edgeBackIndicator.style.opacity = '';
-  }
+}
+
+function cancelLibraryEdgeBack() {
+  edgeBackGesture = null;
+  clearLibraryEdgeBackVisuals();
+}
+
+function invalidateLibraryNavigationData() {
+  libraryNavigation.dataRevision = (libraryNavigation.dataRevision || 0) + 1;
+  libraryNavigation.entries.forEach((entry) => { entry.data = null; entry.visual = null; });
 }
 
 function completeLibraryBackNavigation() {
   clearLibraryEdgeBackVisuals();
-  if (state.filter === 'favorites') setLibraryFilter('all');
+  if (libraryNavigation.pending || state.bulkAction) return;
+  if (hasOwnedLibraryBackEntry()) {
+    rememberLibraryView();
+    libraryNavigation.pending = true;
+    history.back();
+    // Do not invent a second navigation when a browser is slow. The timeout
+    // only releases the interaction guard; popstate is the sole commit owner.
+    setTimeout(() => { libraryNavigation.pending = false; }, 800);
+  } else if (state.filter === 'favorites') setLibraryFilter('all');
   else navigateToParentFolder();
 }
 
-function settleLibraryEdgeBack(commit) {
-  const view = el.libraryView;
-  const indicator = el.edgeBackIndicator;
+function prepareLibraryEdgeVisual(gesture) {
+  const current = captureLibraryVisual();
+  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1])?.visual;
+  if (!current || !previous || previous.width !== window.innerWidth || previous.height !== window.innerHeight) return;
+  const layer = document.createElement('div'); layer.className = 'library-edge-transition'; layer.inert = true; layer.setAttribute('aria-hidden','true');
+  const top = document.querySelector('.topbar')?.getBoundingClientRect().bottom || 0;
+  layer.style.clipPath = `inset(${Math.max(0, top)}px 0 0 0)`;
+  const under = previous.node.cloneNode(true); under.classList.add('edge-under');
+  const cover = current.node; cover.classList.add('edge-over');
+  const shade = document.createElement('div'); shade.className = 'edge-shade'; under.appendChild(shade);
+  layer.append(under, cover); document.body.appendChild(layer);
+  libraryNavigation.edge = layer; gesture.cover = cover; gesture.under = under; gesture.shade = shade;
+}
+
+function drawLibraryEdgeVisual(gesture) {
+  const offset = Math.max(0, Math.min(gesture.width, gesture.distance));
+  const progress = offset / gesture.width;
+  if (gesture.cover) {
+    gesture.cover.style.transform = `translate3d(${offset}px,0,0)`;
+    gesture.under.style.transform = `translate3d(${-gesture.width * .25 * (1-progress)}px,0,0)`;
+    gesture.shade.style.opacity = String(.22 * (1-progress));
+  } else if (el.libraryView) {
+    // An evicted or orientation-mismatched prior view is never fabricated.
+    // Use the same direct tracking with a neutral back affordance instead.
+    el.libraryView.style.transform = `translate3d(${offset}px,0,0)`;
+    if (el.edgeBackIndicator) {
+      el.edgeBackIndicator.hidden = false;
+      el.edgeBackIndicator.style.opacity = String(Math.min(1, progress * 4));
+    }
+  }
+}
+
+function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
+  if (!gesture) { clearLibraryEdgeBackVisuals(); return; }
+  edgeBackGesture = null;
+  const generation = libraryNavigation.generation;
+  const finish = () => {
+    if (generation !== libraryNavigation.generation) return;
+    clearLibraryEdgeBackVisuals();
+    if (commit && !state.bulkAction && el.playerSheet?.hidden && !document.querySelector('dialog[open]')) completeLibraryBackNavigation();
+  };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!commit || reduced || typeof view?.animate !== 'function') {
-    if (commit) completeLibraryBackNavigation();
-    else clearLibraryEdgeBackVisuals();
-    return;
-  }
-  const width = Math.max(320, window.innerWidth || view.clientWidth || 400);
-  const viewAnimation = view.animate([
-    { transform: view.style.transform || 'translate3d(0,0,0)', opacity: Number(view.style.opacity || 1) },
-    { transform: `translate3d(${Math.min(96, width * 0.22)}px,0,0)`, opacity: 0.82 }
-  ], { duration: 150, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
-  if (indicator && typeof indicator.animate === 'function') {
-    indicator.animate([
-      { transform: indicator.style.transform || 'translate3d(0, -50%, 0) scale(1)', opacity: 1 },
-      { transform: 'translate3d(18px, -50%, 0) scale(1.04)', opacity: 0 }
-    ], { duration: 150, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
-  }
-  viewAnimation.finished.catch(() => {}).finally(() => {
-    viewAnimation.cancel?.();
-    completeLibraryBackNavigation();
-  });
+  const cover = gesture.cover || el.libraryView;
+  if (reduced || typeof cover?.animate !== 'function') { finish(); return; }
+  const distance = Math.max(0, Math.min(gesture.width, gesture.distance));
+  const duration = commit ? Math.max(120, Math.min(260, (gesture.width-distance)/Math.max(.8, gesture.velocity))) : 220;
+  const options = {duration,easing:'cubic-bezier(0.22,0.8,0.2,1)',fill:'forwards'};
+  const animation = cover.animate([{transform:`translate3d(${distance}px,0,0)`},{transform:`translate3d(${commit?gesture.width:0}px,0,0)`}],options);
+  libraryNavigation.animations.push(animation);
+  if (gesture.under) libraryNavigation.animations.push(gesture.under.animate([
+    {transform:gesture.under.style.transform},{transform:`translate3d(${commit?0:-gesture.width*.25}px,0,0)`}
+  ],options));
+  if (gesture.shade) libraryNavigation.animations.push(gesture.shade.animate([
+    {opacity:gesture.shade.style.opacity},{opacity:commit?0:.22}
+  ],options));
+  // Cancelled animations never navigate. A deadline handles suspended WAAPI
+  // promises; identity and generation guards still own the final transition.
+  animation.finished.then(finish, () => {});
+  libraryNavigation.timer = setTimeout(finish, duration + 80);
 }
 
 function setupLibraryEdgeBackGesture() {
+  const valid = (gesture) => gesture && gesture.generation === libraryNavigation.generation
+    && gesture.listGeneration === state.listGeneration && gesture.folder === state.currentFolderId
+    && gesture.filter === state.filter && !state.bulkAction && el.playerSheet?.hidden
+    && !el.libraryView?.hidden && !document.querySelector('dialog[open]');
+  const findTouch = (touches, id) => Array.from(touches || []).find((touch) => (touch.identifier ?? 0) === id);
+  const sample = (gesture, touch) => {
+    const now = performance.now(); gesture.distance = touch.clientX - gesture.startX;
+    gesture.samples.push({x:touch.clientX,t:now});
+    gesture.samples = gesture.samples.filter((point) => now-point.t <= 100);
+    const first = gesture.samples[0];
+    gesture.velocity = first && now>first.t ? (touch.clientX-first.x)/(now-first.t) : 0;
+  };
   document.addEventListener('touchstart', (event) => {
-    if (!isMobileDevice() || !el.playerSheet?.hidden || !el.libraryView || el.libraryView.hidden) return;
+    if (!edgeBackGesture && !libraryNavigation.animations.length) libraryNavigation.suppressClickUntil = 0;
+    if (event.touches.length !== 1) { if(edgeBackGesture) settleLibraryEdgeBack(false); return; }
+    if (edgeBackGesture || libraryNavigation.animations.length || libraryNavigation.pending || libraryNavigation.restoring) return;
+    if (!isMobileDevice() || !el.playerSheet?.hidden || !el.libraryView || el.libraryView.hidden || state.bulkAction) return;
     if (!canNavigateLibraryBack() || document.querySelector('dialog[open]')) return;
-    if (event.touches.length !== 1) return;
     const touch = event.touches[0];
-    if (touch.clientX > 26) return;
-    if (event.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
-    edgeBackGesture = {
-      startX: touch.clientX,
-      startY: touch.clientY,
-      startTime: Date.now(),
-      locked: false,
-      cancelled: false
-    };
-  }, { passive: true });
-
+    if (touch.clientX < 0 || touch.clientX > 32 || (window.visualViewport?.scale || 1) > 1.05) return;
+    // Safari owns its physical-edge interactive back gesture. Same-document
+    // history restores the identical app view without a competing custom pop.
+    if (prefersNativeLibraryBack() && touch.clientX <= 20) return;
+    if (event.target.closest?.('input,textarea,select,button,a,[role="slider"],[contenteditable="true"]')) return;
+    edgeBackGesture = { id:touch.identifier??0,startX:touch.clientX,startY:touch.clientY,
+      width:window.innerWidth||el.libraryView.clientWidth||400,generation:libraryNavigation.generation,
+      listGeneration:state.listGeneration,folder:state.currentFolderId,filter:state.filter,
+      locked:false,distance:0,velocity:0,samples:[{x:touch.clientX,t:performance.now()}] };
+  },{passive:true});
   document.addEventListener('touchmove', (event) => {
-    if (!edgeBackGesture || edgeBackGesture.cancelled || event.touches.length !== 1) return;
-    const touch = event.touches[0];
-    const dx = touch.clientX - edgeBackGesture.startX;
-    const dy = touch.clientY - edgeBackGesture.startY;
-    if (!edgeBackGesture.locked) {
-      if (Math.hypot(dx, dy) < 10) return;
-      if (dx <= 0 || Math.abs(dy) > Math.max(1, dx) * 0.9) {
-        edgeBackGesture.cancelled = true;
-        clearLibraryEdgeBackVisuals();
-        return;
-      }
-      edgeBackGesture.locked = true;
-      if (el.edgeBackIndicator) el.edgeBackIndicator.hidden = false;
-      el.libraryView.style.willChange = 'transform, opacity';
+    const gesture=edgeBackGesture;
+    if (!gesture) return;
+    if (!valid(gesture) || event.touches.length!==1) { settleLibraryEdgeBack(false,gesture); return; }
+    const touch=findTouch(event.touches,gesture.id);
+    if (!touch) { settleLibraryEdgeBack(false,gesture); return; }
+    const dx=touch.clientX-gesture.startX,dy=touch.clientY-gesture.startY;
+    if (!gesture.locked) {
+      if(Math.hypot(dx,dy)<12)return;
+      if(dx<=0 || Math.abs(dy)>dx*.65){cancelLibraryEdgeBack();return;}
+      if(event.cancelable===false){cancelLibraryEdgeBack();return;}
+      gesture.locked=true;prepareLibraryEdgeVisual(gesture);
     }
-    event.preventDefault();
-    const width = Math.max(320, window.innerWidth || el.libraryView.clientWidth || 400);
-    const progress = Math.min(1, Math.max(0, dx / Math.min(132, width * 0.32)));
-    const offset = Math.min(72, dx * 0.34);
-    el.libraryView.style.transform = `translate3d(${offset}px, 0, 0)`;
-    el.libraryView.style.opacity = String(1 - progress * 0.08);
-    if (el.edgeBackIndicator) {
-      el.edgeBackIndicator.style.transform = `translate3d(${Math.min(20, dx * 0.16)}px, -50%, 0) scale(${0.9 + progress * 0.1})`;
-      el.edgeBackIndicator.style.opacity = String(0.45 + progress * 0.55);
-    }
-  }, { passive: false });
-
-  document.addEventListener('touchend', (event) => {
-    if (!edgeBackGesture) return;
-    const gesture = edgeBackGesture;
-    edgeBackGesture = null;
-    if (gesture.cancelled || !gesture.locked || event.changedTouches.length !== 1) {
-      settleLibraryEdgeBack(false);
-      return;
-    }
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - gesture.startX;
-    const dy = touch.clientY - gesture.startY;
-    const elapsed = Math.max(1, Date.now() - gesture.startTime);
-    settleLibraryEdgeBack(shouldCommitSwipe(dx, dy, elapsed, window.innerWidth || 400));
+    if(event.cancelable===false){settleLibraryEdgeBack(false,gesture);return;}
+    event.preventDefault();sample(gesture,touch);drawLibraryEdgeVisual(gesture);
+  },{passive:false});
+  document.addEventListener('touchend',(event)=>{
+    const gesture=edgeBackGesture;if(!gesture)return;
+    const touch=findTouch(event.changedTouches,gesture.id);
+    if(!touch)return;
+    if(!valid(gesture)||!gesture.locked||event.touches?.length){settleLibraryEdgeBack(false,gesture);return;}
+    sample(gesture,touch);
+    libraryNavigation.suppressClickUntil=performance.now()+400;
+    settleLibraryEdgeBack(libraryEdgeReleaseDecision(gesture.distance,gesture.velocity,gesture.width),gesture);
+  },{passive:true});
+  document.addEventListener('touchcancel',()=>{if(edgeBackGesture)settleLibraryEdgeBack(false);},{passive:true});
+  document.addEventListener('click',(event)=>{
+    if (event.sourceCapabilities?.firesTouchEvents === false) return;
+    if(event.detail!==0 && performance.now()<libraryNavigation.suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();}
+  },true);
+  document.addEventListener('pointerdown', () => {
+    if (!edgeBackGesture && !libraryNavigation.animations.length) libraryNavigation.suppressClickUntil = 0;
   }, { passive: true });
-
-  document.addEventListener('touchcancel', () => {
-    if (!edgeBackGesture) return;
-    edgeBackGesture = null;
-    settleLibraryEdgeBack(false);
-  }, { passive: true });
+  window.addEventListener('popstate',(event)=>{
+    const target=event.state?.driveOriginalNavigation;
+    cancelLibraryEdgeBack();
+    if(target)restoreLibraryNavigation(target).catch((error)=>{
+      libraryNavigation.pending=false;
+      if(error?.name!=='AbortError')showToast('이전 화면을 복원하지 못했습니다. 새로고침으로 다시 불러오세요.');
+    });
+  });
+  window.addEventListener('resize',cancelLibraryEdgeBack,{passive:true});
+  window.addEventListener('blur',cancelLibraryEdgeBack);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cancelLibraryEdgeBack();});
 }
 
 /* Deep Scan — 현재 폴더 + 모든 하위 폴더의 미디어를 한 번에 로딩 */
@@ -2239,7 +2586,7 @@ function buildTreeIndexes(items) {
 }
 
 function isSupportedMediaFile(file) {
-  return Boolean(file?.id && file.mimeType !== FOLDER_MIME
+  return Boolean(file?.id && !file.trashed && file.mimeType !== FOLDER_MIME
     && (file.mimeType?.startsWith('video/') || file.mimeType?.startsWith('image/')));
 }
 
@@ -2319,9 +2666,17 @@ function computeAndRenderSubtree() {
 }
 
 async function setLibraryFilter(filter) {
+  if (state.bulkAction) return;
   const next = ['all', 'video', 'image', 'favorites'].includes(filter) ? filter : 'all';
+  if (next !== state.filter) {
+    beginLibraryNavigation();
+    exitSelectionMode();
+    shuffledOrderMap.clear();
+  }
   if (next !== 'favorites') cancelFavoriteLoad();
+  const changed = state.filter !== next;
   state.filter = next;
+  if (changed) commitLibraryNavigation();
   clearLibraryStatus();
   el.filterButtons.forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.filter === next));
@@ -2338,9 +2693,20 @@ function cancelFavoriteLoad() {
   state.favoriteAbortController?.abort();
   state.favoriteAbortController = null;
   state.loadingFavorites = false;
+  state.favoriteLoadPromise = null;
 }
 
-async function loadFavoriteFiles({ refreshState = true } = {}) {
+function loadFavoriteFiles(options = {}) {
+  if (state.favoriteLoadPromise) return state.favoriteLoadPromise;
+  const operation = performFavoriteLoad(options);
+  state.favoriteLoadPromise = operation;
+  operation.finally(() => {
+    if (state.favoriteLoadPromise === operation) state.favoriteLoadPromise = null;
+  }).catch(() => {});
+  return operation;
+}
+
+async function performFavoriteLoad({ refreshState = true } = {}) {
   state.favoriteAbortController?.abort();
   const controller = new AbortController();
   const generation = state.favoriteLoadGeneration + 1;
@@ -2356,6 +2722,7 @@ async function loadFavoriteFiles({ refreshState = true } = {}) {
     try {
       await initializeAccountMediaState({ refresh: refreshState });
     } catch (error) {
+      if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.favoriteLoadGeneration) return;
       syncError = error;
       state.accountStateSyncError = error;
       console.warn('Account media state refresh was unavailable; using the device cache:', error);
@@ -2480,11 +2847,13 @@ function renderBreadcrumb() {
 function parseRetryAfterMs(value, now = Date.now()) {
   const raw = String(value || '').trim();
   if (!raw) return 0;
-  const seconds = Number(raw);
-  if (Number.isFinite(seconds) && seconds >= 0) return Math.min(MAX_ORIGINAL_RETRY_AFTER_MS, seconds * 1000);
+  if (/^\d+$/.test(raw)) {
+    const milliseconds = Number(raw) * 1000;
+    return Number.isSafeInteger(milliseconds) ? milliseconds : Number.MAX_SAFE_INTEGER;
+  }
   const timestamp = Date.parse(raw);
   if (!Number.isFinite(timestamp)) return 0;
-  return Math.min(MAX_ORIGINAL_RETRY_AFTER_MS, Math.max(0, timestamp - now));
+  return Math.max(0, timestamp - now);
 }
 
 function waitForRetry(delayMs, signal) {
@@ -2493,22 +2862,41 @@ function waitForRetry(delayMs, signal) {
       reject(new DOMException('Request aborted', 'AbortError'));
       return;
     }
-    const timer = setTimeout(resolve, delayMs);
-    signal?.addEventListener('abort', () => {
+    const deadline = Date.now() + Math.max(0, Number(delayMs) || 0);
+    let timer;
+    const cleanup = () => signal?.removeEventListener('abort', abort);
+    const abort = () => {
       clearTimeout(timer);
+      cleanup();
       reject(new DOMException('Request aborted', 'AbortError'));
-    }, { once: true });
+    };
+    const tick = () => {
+      const remaining = deadline - Date.now();
+      if (remaining > 0) timer = setTimeout(tick, Math.min(remaining, MAX_ORIGINAL_RETRY_AFTER_MS));
+      else { cleanup(); resolve(); }
+    };
+    signal?.addEventListener('abort', abort, { once: true });
+    tick();
   });
 }
 
-async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0) {
+function assertDriveRequestOwner(generation, signal, dataGeneration = state.driveSessionGeneration) {
+  if (signal?.aborted || generation !== state.authGeneration || dataGeneration !== state.driveSessionGeneration) {
+    throw new DOMException('Drive request belongs to a closed account session', 'AbortError');
+  }
+}
+
+async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0, generation = state.authGeneration, dataGeneration = state.driveSessionGeneration) {
+  const assertOwner = () => assertDriveRequestOwner(generation, options.signal, dataGeneration);
+  assertOwner();
   const maxRateAttempts = Math.max(1, Math.min(3, Number(options.driveMaxRateAttempts) || 3));
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
   if (!hasUsableToken()) {
     if (!_retried && state.clientId && validateClientId(state.clientId)) {
       await requestGoogleToken({ background: true, force: true });
-      if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
+      assertOwner();
+      if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
     }
     const error = new Error('Google 인증이 만료되었습니다.');
     error.status = 401;
@@ -2520,18 +2908,24 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
     cache: 'no-store',
     headers: { ...(requestOptions.headers || {}), Authorization: `Bearer ${state.token}` }
   });
+  try { assertOwner(); } catch (error) {
+    response.body?.cancel().catch(() => {});
+    throw error;
+  }
   if (!response.ok) {
     let body = null;
     try {
       body = await response.json();
     } catch (_) {}
+    assertOwner();
     if (response.status === 401 && !_retried && state.clientId && validateClientId(state.clientId)) {
       // A concurrent request may already have replaced the rejected token.
       if (state.token !== requestToken && hasUsableToken()) {
-        return driveFetch(url, options, true, _rateAttempt);
+        return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       }
       const refreshed = await requestGoogleToken({ background: true, force: true });
-      if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt);
+      assertOwner();
+      if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       if (state.token === requestToken) clearToken(false);
     }
     const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
@@ -2541,7 +2935,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
       const retryAfterMs = parseRetryAfterMs(response.headers.get('Retry-After'));
       const delayMs = retryAfterMs || 500 * (2 ** _rateAttempt) + Math.floor(Math.random() * 250);
       await waitForRetry(delayMs, options.signal);
-      return driveFetch(url, options, _retried, _rateAttempt + 1);
+      return driveFetch(url, options, _retried, _rateAttempt + 1, generation, dataGeneration);
     }
     const detail = body?.error?.message || response.statusText || '';
     const error = new Error(detail || `Drive API ${response.status}`);
@@ -2551,6 +2945,15 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0)
     error.retryAfterMs = parseRetryAfterMs(response.headers.get('Retry-After'));
     throw error;
   }
+  // Metadata consumers may still be awaiting JSON after headers arrive. Guard
+  // that final async boundary as well, without buffering any media stream.
+  const readJson = response.json.bind(response);
+  response.json = async () => {
+    assertOwner();
+    const data = await readJson();
+    assertOwner();
+    return data;
+  };
   return response;
 }
 
@@ -2576,67 +2979,131 @@ function persistAccountMediaState() {
   const key = accountStateCacheKey();
   if (!key) return;
   try {
+    state.accountMediaState = mergeAccountMediaStates(readCachedAccountMediaState(state.accountId), state.accountMediaState);
     localStorage.setItem(key, JSON.stringify(normalizeAccountMediaState(state.accountMediaState)));
-  } catch (_) {}
+    state.accountLocalStorageError = false;
+  } catch (_) { state.accountLocalStorageError = true; }
 }
 
-async function resolveDriveAccountId() {
-  const response = await driveFetch(`${DRIVE_API}/about?fields=user(permissionId)`);
+function getAccountStateWriterId() {
+  if (state.accountStateWriterId) return state.accountStateWriterId;
+  const unique = () => globalThis.crypto?.randomUUID?.()
+    || `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+  // A browser installation shares one writer only when its tabs can acquire
+  // the same lock. Otherwise each running context owns a separate file.
+  if (navigator.locks?.request) {
+    try {
+      let id = localStorage.getItem(ACCOUNT_WRITER_STORAGE_KEY);
+      if (!/^[A-Za-z0-9_-]{8,100}$/.test(id || '')) {
+        id = unique();
+        localStorage.setItem(ACCOUNT_WRITER_STORAGE_KEY, id);
+      }
+      state.accountStateWriterId = id;
+    } catch (_) {}
+  }
+  state.accountStateWriterId ||= unique();
+  return state.accountStateWriterId;
+}
+
+function accountStateWriterFileName() {
+  return `${ACCOUNT_STATE_WRITER_PREFIX}${getAccountStateWriterId()}.json`;
+}
+
+function captureAccountStateRequest() {
+  const generation = state.authGeneration;
+  const dataGeneration = state.driveSessionGeneration;
+  if (!state.accountStateAbortController || state.accountStateAbortController.signal.aborted) {
+    state.accountStateAbortController = new AbortController();
+  }
+  const signal = state.accountStateAbortController.signal;
+  return {
+    options: { signal },
+    assert() { assertDriveRequestOwner(generation, signal, dataGeneration); },
+    current() { return !signal.aborted && generation === state.authGeneration && dataGeneration === state.driveSessionGeneration; }
+  };
+}
+
+function accountMediaStatesEqual(first, second) {
+  const a = normalizeAccountMediaState(first);
+  const b = normalizeAccountMediaState(second);
+  return a.updatedAt === b.updatedAt
+    && Object.keys(a.viewed).length === Object.keys(b.viewed).length
+    && Object.keys(a.favorites).length === Object.keys(b.favorites).length
+    && Object.keys(a.viewed).every((id) => a.viewed[id] === b.viewed[id])
+    && Object.keys(a.favorites).every((id) => a.favorites[id].liked === b.favorites[id]?.liked
+      && a.favorites[id].updatedAt === b.favorites[id]?.updatedAt);
+}
+
+async function resolveDriveAccountId(options = {}) {
+  const response = await driveFetch(`${DRIVE_API}/about?fields=user(permissionId)`, options);
   const data = await response.json();
   return String(data?.user?.permissionId || '');
 }
 
-async function findAccountStateFile() {
-  const params = new URLSearchParams({
-    spaces: 'appDataFolder',
-    pageSize: '10',
-    orderBy: 'modifiedTime desc',
-    q: `name = '${escapeDriveQueryLiteral(ACCOUNT_STATE_FILE_NAME)}' and trashed = false`,
-    fields: 'files(id,name,modifiedTime)'
-  });
-  const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
-  const data = await response.json();
-  return Array.isArray(data.files) ? (data.files[0] || null) : null;
+async function findAccountStateFile(options = {}) {
+  const result = await collectAllPages(async (pageToken) => {
+    const params = new URLSearchParams({
+      spaces: 'appDataFolder',
+      pageSize: '1000',
+      orderBy: 'modifiedTime desc',
+      q: `(name = '${ACCOUNT_STATE_FILE_NAME}' or name contains '${ACCOUNT_STATE_WRITER_PREFIX}') and trashed = false`,
+      fields: 'nextPageToken,files(id,name,modifiedTime)'
+    });
+    if (pageToken) params.set('pageToken', pageToken);
+    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, options);
+    return response.json();
+  }, options);
+  const files = result.items.filter((file) => file?.id && (file.name === ACCOUNT_STATE_FILE_NAME
+    || /^drive-original-account-state-v2-[A-Za-z0-9_-]+\.json$/.test(file.name)));
+  const ownFile = files.find((file) => file.name === accountStateWriterFileName());
+  return { id: ownFile?.id || null, files };
 }
 
-async function readAccountStateFile(fileId) {
+async function readAccountStateFile(fileId, options = {}) {
   if (!fileId) return createEmptyAccountMediaState();
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, options);
   return normalizeAccountMediaState(await response.json());
 }
 
-async function createAccountStateFile(accountState) {
+async function readRemoteAccountMediaState(catalog, options = {}) {
+  const files = Array.isArray(catalog?.files) ? catalog.files : (catalog?.id ? [catalog] : []);
+  const cache = state.accountStateReadCache;
+  const results = await runTaskPool(files, async (file) => {
+    if (options.signal?.aborted) throw new DOMException('Account request aborted', 'AbortError');
+    const cached = cache.get(file.id);
+    if (file.modifiedTime && cached?.modifiedTime === file.modifiedTime) return cached.data;
+    try {
+      const data = await readAccountStateFile(file.id, options);
+      if (options.signal?.aborted) throw new DOMException('Account request aborted', 'AbortError');
+      cache.set(file.id, { modifiedTime: file.modifiedTime, data });
+      return data;
+    } catch (error) {
+      if (error?.status === 404) { cache.delete(file.id); return createEmptyAccountMediaState(); }
+      throw error;
+    }
+  }, 4);
+  const failure = results.find((entry) => entry.status === 'rejected');
+  if (failure) throw failure.reason;
+  return results.reduce((merged, entry) => mergeAccountMediaStates(merged, entry.value), createEmptyAccountMediaState());
+}
+
+async function createAccountStateFile(accountState, options = {}) {
   const boundary = `drive_original_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-  const metadata = JSON.stringify({
-    name: ACCOUNT_STATE_FILE_NAME,
-    mimeType: 'application/json',
-    parents: ['appDataFolder']
-  });
+  const metadata = JSON.stringify({ name: accountStateWriterFileName(), mimeType: 'application/json', parents: ['appDataFolder'] });
   const payload = JSON.stringify(normalizeAccountMediaState(accountState));
   const body = [
-    `--${boundary}`,
-    'Content-Type: application/json; charset=UTF-8',
-    '',
-    metadata,
-    `--${boundary}`,
-    'Content-Type: application/json',
-    '',
-    payload,
-    `--${boundary}--`,
-    ''
+    `--${boundary}`, 'Content-Type: application/json; charset=UTF-8', '', metadata,
+    `--${boundary}`, 'Content-Type: application/json', '', payload, `--${boundary}--`, ''
   ].join('\r\n');
   const response = await driveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime', {
-    method: 'POST',
-    headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
-    body
+    ...options, method: 'POST', headers: { 'Content-Type': `multipart/related; boundary=${boundary}` }, body
   });
   return response.json();
 }
 
-async function updateAccountStateFile(fileId, accountState) {
+async function updateAccountStateFile(fileId, accountState, options = {}) {
   const response = await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(fileId)}?uploadType=media&fields=id,modifiedTime`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
+    ...options, method: 'PATCH', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(normalizeAccountMediaState(accountState))
   });
   return response.json();
@@ -2651,35 +3118,59 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
   if (!hasUsableToken()) return state.accountMediaState;
   if (state.accountStateLoaded && !refresh) return state.accountMediaState;
   if (state.accountStateLoadingPromise) return state.accountStateLoadingPromise;
-
+  const owner = captureAccountStateRequest();
   const operation = (async () => {
-    const accountId = await resolveDriveAccountId();
+    const accountId = await resolveDriveAccountId(owner.options);
+    owner.assert();
     if (!accountId) throw new Error('Google Drive 계정 식별 정보를 확인하지 못했습니다.');
+    const previousId = state.previousAccountId || state.accountId;
+    if (previousId && previousId !== accountId) {
+      // Preserve an expired-session resume only after identity matches. A real
+      // account change must not reuse another account's file IDs or navigation.
+      if (el.playerSheet && !el.playerSheet.hidden) closePlayer();
+      state.selected = null;
+      state.authRetryContext = null;
+      state.retryAfterAuth = false;
+      state.files = [];
+      state.folders = [];
+      state.folderStack = [];
+      state.currentFolderId = 'root';
+      state.currentFolderName = '내 드라이브';
+      state.deepScan = false;
+      state.treeCache = null;
+      state.rootFolderId = null;
+      state.favoriteFiles = [];
+    }
+    state.previousAccountId = null;
+    state.accountIdentityPending = false;
     if (state.accountId !== accountId) {
       state.accountId = accountId;
       state.accountStateFileId = null;
+      state.accountStateReadCache.clear();
       state.accountMediaState = readCachedAccountMediaState(accountId);
     }
-    const file = await findAccountStateFile();
-    state.accountStateFileId = file?.id || null;
-    const remote = file?.id ? await readAccountStateFile(file.id) : createEmptyAccountMediaState();
+    const catalog = await findAccountStateFile(owner.options);
+    owner.assert();
+    state.accountStateFileId = catalog?.id || null;
+    const remote = await readRemoteAccountMediaState(catalog, owner.options);
+    owner.assert();
     const merged = mergeAccountMediaStates(remote, state.accountMediaState);
-    const remoteNeedsMerge = JSON.stringify(merged) !== JSON.stringify(remote);
+    const remoteNeedsMerge = !accountMediaStatesEqual(merged, remote);
     state.accountMediaState = merged;
     state.accountStateLoaded = true;
     state.accountStateLastSyncAt = Date.now();
     state.accountStateSyncError = null;
     persistAccountMediaState();
     refreshFavoritePresentation();
-    // A device may reconnect with newer offline cache entries. Push that
-    // merged result so the next device sees those changes without requiring
-    // another like or playback action first.
+    updateAccountSyncStatus();
     if (remoteNeedsMerge) queueAccountStateSync();
     return state.accountMediaState;
   })();
   state.accountStateLoadingPromise = operation;
-  try {
-    return await operation;
+  try { return await operation; }
+  catch (error) {
+    if (owner.current() && error?.name !== 'AbortError') { state.accountStateSyncError = error; updateAccountSyncStatus(); }
+    throw error;
   } finally {
     if (state.accountStateLoadingPromise === operation) state.accountStateLoadingPromise = null;
   }
@@ -2689,40 +3180,62 @@ async function flushAccountMediaState() {
   if (state.demo || !hasUsableToken() || !state.accountId) return;
   if (state.accountStateSyncPromise) return state.accountStateSyncPromise;
   const revisionAtStart = state.accountStateRevision;
-  const operation = (async () => {
-    let fileId = state.accountStateFileId;
-    if (!fileId) {
-      const existing = await findAccountStateFile();
-      fileId = existing?.id || null;
-      state.accountStateFileId = fileId;
-    }
-    const remote = fileId ? await readAccountStateFile(fileId) : createEmptyAccountMediaState();
+  const accountId = state.accountId;
+  const owner = captureAccountStateRequest();
+  const synchronize = async () => {
+    owner.assert();
+    const catalog = await findAccountStateFile(owner.options);
+    owner.assert();
+    const fileId = catalog?.id || null;
+    state.accountStateFileId = fileId;
+    const remote = await readRemoteAccountMediaState(catalog, owner.options);
+    owner.assert();
+    // Read local changes inside the writer lock. Devices never PATCH each
+    // other's files; the legacy document is a read-only migration input.
+    persistAccountMediaState();
     const merged = mergeAccountMediaStates(remote, state.accountMediaState);
-    merged.updatedAt = Math.max(Date.now(), merged.updatedAt);
     state.accountMediaState = merged;
     persistAccountMediaState();
     if (fileId) {
-      await updateAccountStateFile(fileId, merged);
+      try { await updateAccountStateFile(fileId, merged, owner.options); }
+      catch (error) {
+        if (error?.status !== 404) throw error;
+        owner.assert();
+        const created = await createAccountStateFile(merged, owner.options);
+        owner.assert();
+        state.accountStateFileId = created?.id || null;
+      }
+      state.accountStateReadCache.delete(fileId);
     } else {
-      const created = await createAccountStateFile(merged);
+      const created = await createAccountStateFile(merged, owner.options);
+      owner.assert();
       state.accountStateFileId = created?.id || null;
     }
+    owner.assert();
     state.accountStateLastSyncAt = Date.now();
     state.accountStateSyncError = null;
     state.accountStateSyncRetryCount = 0;
     clearTimeout(state.accountStateSyncRetryTimer);
     state.accountStateSyncRetryTimer = null;
-  })();
+    refreshFavoritePresentation();
+  };
+  const operation = navigator.locks?.request
+    ? navigator.locks.request(`drive-original:account:${accountId}:${getAccountStateWriterId()}`, owner.options, synchronize)
+    : synchronize();
   state.accountStateSyncPromise = operation;
-  try {
-    await operation;
-  } catch (error) {
+  updateAccountSyncStatus();
+  try { await operation; }
+  catch (error) {
+    if (!owner.current() || error?.name === 'AbortError') return;
     state.accountStateSyncError = error;
     console.warn('Account media state could not be synced:', error);
     scheduleAccountStateSyncRetry(error);
   } finally {
     if (state.accountStateSyncPromise === operation) state.accountStateSyncPromise = null;
-    if (state.accountStateRevision !== revisionAtStart) queueAccountStateSync();
+    if (owner.current()) {
+      if (state.accountStateRevision !== revisionAtStart) queueAccountStateSync();
+      updateAccountSyncStatus();
+    }
   }
 }
 
@@ -2731,12 +3244,12 @@ function scheduleAccountStateSyncRetry(error) {
   const retryable = !navigator.onLine || status === 0 || status === 408 || status === 429 || status >= 500;
   if (!retryable || state.accountStateSyncRetryCount >= 3 || !state.accountId) return;
   state.accountStateSyncRetryCount += 1;
-  const delay = 1_000 * (2 ** (state.accountStateSyncRetryCount - 1));
+  const delay = Math.max(Number(error?.retryAfterMs) || 0, 1_000 * (2 ** (state.accountStateSyncRetryCount - 1)));
   clearTimeout(state.accountStateSyncRetryTimer);
   state.accountStateSyncRetryTimer = setTimeout(() => {
     state.accountStateSyncRetryTimer = null;
     flushAccountMediaState();
-  }, delay);
+  }, Math.min(delay, MAX_ORIGINAL_RETRY_AFTER_MS));
 }
 
 function queueAccountStateSync() {
@@ -2749,6 +3262,18 @@ function queueAccountStateSync() {
     state.accountStateSyncTimer = null;
     flushAccountMediaState();
   }, ACCOUNT_STATE_SYNC_DELAY_MS);
+  updateAccountSyncStatus();
+}
+
+function updateAccountSyncStatus() {
+  if (!el.accountSyncStatus) return;
+  el.accountSyncStatus.hidden = state.demo || !state.accountId;
+  const pending = state.accountStateSyncPromise || state.accountStateSyncTimer;
+  const waiting = state.accountStateSyncError || !navigator.onLine;
+  el.accountSyncStatus.dataset.state = waiting ? 'pending' : pending ? 'syncing' : 'synced';
+  el.accountSyncStatus.textContent = waiting ? (state.accountLocalStorageError
+    ? '기록 저장 대기 · 연결 상태와 저장 공간을 확인하세요' : '기록은 이 기기에 저장됨 · 계정 동기화 대기')
+    : pending ? '좋아요·시청 기록 동기화 중…' : '좋아요·시청 기록 동기화됨';
 }
 
 function getViewedIdSet() {
@@ -2768,7 +3293,7 @@ function isFavoriteFileId(fileId) {
 }
 
 function markFileViewed(fileId) {
-  if (!fileId) return;
+  if (!fileId || (state.accountIdentityPending && !state.demo)) return;
   const now = Date.now();
   const current = Number(state.accountMediaState.viewed?.[fileId]) || 0;
   if (current >= now) return;
@@ -2779,13 +3304,13 @@ function markFileViewed(fileId) {
 }
 
 function setFavoriteFile(fileId, liked) {
-  if (!fileId) return false;
+  if (!fileId || (state.accountIdentityPending && !state.demo)) return false;
   const nextLiked = Boolean(liked);
   const current = state.accountMediaState.favorites?.[fileId];
   if (current?.liked === nextLiked) return nextLiked;
-  const now = Date.now();
+  const now = Math.max(Date.now(), normalizeStateTimestamp(current?.updatedAt) + 1);
   state.accountMediaState.favorites[fileId] = { liked: nextLiked, updatedAt: now };
-  state.accountMediaState.updatedAt = now;
+  state.accountMediaState.updatedAt = Math.max(state.accountMediaState.updatedAt, now);
   state.accountStateRevision += 1;
   if (!nextLiked) state.favoriteFiles = state.favoriteFiles.filter((file) => file.id !== fileId);
   else {
@@ -2805,10 +3330,12 @@ function markFilesRemovedFromAccountState(fileIds) {
   if (!ids.size) return;
   const now = Date.now();
   ids.forEach((id) => {
-    delete state.accountMediaState.viewed[id];
-    state.accountMediaState.favorites[id] = { liked: false, updatedAt: now };
+    // Viewing history is monotonic. Keeping it makes a restored/trash item
+    // remain watched instead of resurrecting contradictory records on merge.
+    const timestamp = Math.max(now, normalizeStateTimestamp(state.accountMediaState.favorites[id]?.updatedAt) + 1);
+    state.accountMediaState.favorites[id] = { liked: false, updatedAt: timestamp };
+    state.accountMediaState.updatedAt = Math.max(state.accountMediaState.updatedAt, timestamp);
   });
-  state.accountMediaState.updatedAt = now;
   state.favoriteFiles = state.favoriteFiles.filter((file) => !ids.has(file.id));
   state.accountStateRevision += 1;
   queueAccountStateSync();
@@ -2875,6 +3402,10 @@ let renderWindowRaf = 0;
 
 function getGridColumnCount() {
   if (!el.fileGrid) return 1;
+  if (typeof getComputedStyle === 'function') {
+    const tracks = getComputedStyle(el.fileGrid).gridTemplateColumns.split(/\s+/).filter((track) => /px$/.test(track));
+    if (tracks.length) return tracks.length;
+  }
   const width = el.fileGrid.clientWidth || Math.min(window.innerWidth || 360, 1140);
   const gap = 12;
   return Math.max(1, Math.floor((width + gap) / (160 + gap)));
@@ -2919,8 +3450,10 @@ function renderMediaGrid(files) {
   el.fileGrid.replaceChildren(fragment);
   pruneStaticGifThumbnailEntries();
   const firstCard = el.fileGrid.querySelector('.file-card');
-  if (firstCard?.offsetHeight && Math.abs((firstCard.offsetHeight + 12) - state.renderRowHeight) >= 5) {
-    state.renderRowHeight = firstCard.offsetHeight + 12;
+  const gap = typeof getComputedStyle === 'function' ? parseFloat(getComputedStyle(el.fileGrid).rowGap) || 0 : 12;
+  const measuredHeight = firstCard?.getBoundingClientRect?.().height || firstCard?.offsetHeight || 0;
+  if (measuredHeight && Math.abs((measuredHeight + gap) - state.renderRowHeight) >= .1) {
+    state.renderRowHeight = measuredHeight + gap;
     el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
     el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
   }
@@ -3006,7 +3539,7 @@ function createFolderRow(folder, index = 0) {
 }
 
 function shuffleCurrentFiles() {
-  shuffledOrderMap.clear();
+  shuffledOrderMap = new Map();
   const shuffled = [...currentPopulationFiles()];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -3021,6 +3554,10 @@ function shuffleCurrentFiles() {
    랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
    대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
 async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } = {}) {
+  if (state.filter === 'favorites') {
+    if (state.loadingFavorites && state.favoriteLoadPromise) await state.favoriteLoadPromise;
+    return;
+  }
   if (state.demo || state.deepScan || state.populationComplete) return;
   if (state.populationLoadPromise) return state.populationLoadPromise;
   const generation = state.listGeneration;
@@ -3044,6 +3581,7 @@ async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } =
       }
       updateLibraryStatus(statusToken, `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`);
     }
+    if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
     state.populationComplete = true;
   })();
   state.populationLoadPromise = promise;
@@ -3055,13 +3593,18 @@ async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } =
 }
 
 function filteredAndSortedFiles() {
-  return sortedPopulationFiles().filter((file) => {
+  const source = sortedPopulationFiles();
+  if (filteredPopulationCache?.source === source && filteredPopulationCache.query === state.query
+    && filteredPopulationCache.filter === state.filter) return filteredPopulationCache.files;
+  const files = source.filter((file) => {
     const isVideo = file.mimeType?.startsWith('video/');
     const typeMatch = state.filter === 'all' || state.filter === 'favorites'
       || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
     const queryMatch = !state.query || String(file.name || '').toLocaleLowerCase('ko').includes(state.query);
     return typeMatch && queryMatch;
   });
+  filteredPopulationCache = { source, query: state.query, filter: state.filter, files };
+  return files;
 }
 
 function currentPopulationFiles() {
@@ -3070,42 +3613,56 @@ function currentPopulationFiles() {
 
 function sortedPopulationFiles() {
   const population = currentPopulationFiles();
+  // Scroll-window renders reuse unchanged ordering instead of sorting the
+  // complete library again. Replacements, growth and explicit shuffles reset it.
+  if (sortedPopulationCache?.source === population && sortedPopulationCache.length === population.length
+    && sortedPopulationCache.sort === state.sort
+    && (state.sort !== 'random' || (sortedPopulationCache.order === shuffledOrderMap
+      && sortedPopulationCache.orderSize === shuffledOrderMap.size))) return sortedPopulationCache.files;
+  const remember = (files) => {
+    sortedPopulationCache = { source: population, length: population.length, sort: state.sort,
+      order: shuffledOrderMap, orderSize: shuffledOrderMap.size, files };
+    return files;
+  };
   const files = [...population];
   if (state.sort === 'random') {
-    if (shuffledOrderMap.size !== population.length) {
+    if (shuffledOrderMap.size !== population.length || population.some((file) => !shuffledOrderMap.has(file.id))) {
       shuffleCurrentFiles();
     }
-    return files.sort((a, b) => {
+    return remember(files.sort((a, b) => {
       const idxA = shuffledOrderMap.get(a.id) ?? 0;
       const idxB = shuffledOrderMap.get(b.id) ?? 0;
       return idxA - idxB;
-    });
+    }));
   }
 
-  return files.sort((a, b) => {
-    if (state.sort === 'name') return String(a.name).localeCompare(String(b.name), 'ko', { numeric: true });
+  return remember(files.sort((a, b) => {
+    if (state.sort === 'name') return FILE_NAME_COLLATOR.compare(String(a.name), String(b.name));
     if (state.sort === 'size') return Number(b.size || 0) - Number(a.size || 0);
     return new Date(b.modifiedTime || 0) - new Date(a.modifiedTime || 0);
-  });
+  }));
 }
 
 function getSelectedFiles() {
-  return state.files.filter((file) => state.selectedFileIds.has(file.id));
+  return currentPopulationFiles().filter((file) => state.selectedFileIds.has(file.id));
 }
 
 function getActionFiles() {
+  if (state.accountIdentityPending && !state.demo) return [];
   const selectedFiles = getSelectedFiles();
-  if (state.selectionMode && selectedFiles.length) return selectedFiles;
+  if (state.selectionMode) return selectedFiles;
   return state.selected ? [state.selected] : [];
 }
 
 function enterSelectionMode(initialFile = null) {
+  if (!state.selectionMode) state.selectionGeneration += 1;
   state.selectionMode = true;
   if (initialFile?.id) state.selectedFileIds.add(initialFile.id);
   updateSelectionUI();
 }
 
 function exitSelectionMode() {
+  state.selectionGeneration += 1;
   state.selectionMode = false;
   state.selectedFileIds.clear();
   state.pendingActionFiles = [];
@@ -3122,9 +3679,13 @@ function toggleFileSelection(file) {
 
 async function selectAllVisibleFiles() {
   if (!state.selectionMode || state.bulkAction) return;
+  const context = [state.selectionGeneration, state.listGeneration, state.filter, state.query];
+  const stillCurrent = () => state.selectionMode && context.every((value, index) =>
+    value === [state.selectionGeneration, state.listGeneration, state.filter, state.query][index]);
   setButtonLoading(el.selectionSelectAllBtn, true, '전체 확인 중…');
   try {
     await ensureAllPagesLoaded();
+    if (!stillCurrent()) return;
     filteredAndSortedFiles().forEach((file) => state.selectedFileIds.add(file.id));
     updateSelectionUI();
   } catch (error) {
@@ -3379,6 +3940,7 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
 }
 
 function openPlayer(file) {
+  cancelLibraryEdgeBack();
   playerReturnFocus = typeof document.activeElement?.focus === 'function' ? document.activeElement : null;
   state.playbackSession += 1;
   mediaTransitionCommitting = false;
@@ -3441,13 +4003,18 @@ function formatPlayerTime(seconds) {
   return `${mins}:${secsStr}`;
 }
 
+function playerHasKeyboardFocus() {
+  return Boolean(document.activeElement?.matches?.(':focus-visible')
+    && el.playerModal?.contains?.(document.activeElement));
+}
+
 function resetControlsTimer() {
   if (el.playerModal) el.playerModal.classList.remove('controls-idle');
   clearTimeout(controlsHideTimer);
-  if (state.mediaAttempt.startsWith('drive-preview')) return;
+  if (state.mediaAttempt.startsWith('drive-preview') || playerHasKeyboardFocus()) return;
   if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu()) {
     controlsHideTimer = setTimeout(() => {
-      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu()) {
+      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu() && !playerHasKeyboardFocus()) {
         if (el.playerModal) el.playerModal.classList.add('controls-idle');
       }
     }, 1800);
@@ -3618,9 +4185,19 @@ function onDocumentClickForSpeedMenu(event) {
 }
 
 function onSpeedMenuKeyDown(event) {
+  if (['Escape', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
   const buttons = el.speedButtons || [];
   const index = buttons.indexOf(event.currentTarget);
   if (event.key === 'Escape') {
+    if (el.mobileShortsOverlay?.classList.contains('expanded')) {
+      event.preventDefault();
+      collapseShortsExpand();
+      el.shortsMoreBtn?.focus();
+      return;
+    }
     if (isPlayerMoreOpen) {
       if (el.playerMoreMenu) el.playerMoreMenu.open = false;
       isPlayerMoreOpen = false;
@@ -3662,7 +4239,7 @@ function onVideoProgressUpdate() {
 function updateVideoProgress() {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   const currentTime = el.videoPlayer.currentTime || 0;
-  const duration = el.videoPlayer.duration || 0;
+  const duration = Number.isFinite(el.videoPlayer.duration) ? el.videoPlayer.duration : 0;
   const ratio = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
 
   if (el.seekBarPlayed) el.seekBarPlayed.style.transform = `scaleX(${ratio})`;
@@ -3672,11 +4249,11 @@ function updateVideoProgress() {
   if (el.mobileShortsProgressBar) el.mobileShortsProgressBar.style.transform = `scaleX(${ratio})`;
   if (el.ctrlCurrentTime) el.ctrlCurrentTime.textContent = formatPlayerTime(currentTime);
   if (el.ctrlTotalTime) el.ctrlTotalTime.textContent = formatPlayerTime(duration);
-  if (el.seekBarContainer) {
-    el.seekBarContainer.setAttribute('aria-valuenow', Math.round(currentTime));
-    el.seekBarContainer.setAttribute('aria-valuemax', Math.round(duration));
-    el.seekBarContainer.setAttribute('aria-valuetext', `${formatPlayerTime(currentTime)} / ${formatPlayerTime(duration)}`);
-  }
+  [el.seekBarContainer, el.mobileShortsProgressTrack].filter(Boolean).forEach((track) => {
+    track.setAttribute('aria-valuenow', Math.round(Math.min(currentTime, duration)));
+    track.setAttribute('aria-valuemax', Math.round(duration));
+    track.setAttribute('aria-valuetext', `${formatPlayerTime(currentTime)} / ${formatPlayerTime(duration)}`);
+  });
   onVideoProgressUpdate();
 }
 
@@ -3688,35 +4265,47 @@ function getSeekRatio(event) {
 }
 
 function onSeekPointerDown(event) {
-  if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  beginPointerSeek(event, el.seekBarContainer, true);
+}
+
+function beginPointerSeek(event, track, showTooltip = false) {
+  const video = el.videoPlayer;
+  const duration = video?.duration;
+  if (!track || !video || video.hidden || !Number.isFinite(duration) || duration <= 0
+    || event.isPrimary === false || (event.button != null && event.button !== 0)) return;
+  activeSeekCleanup?.();
+  const session = state.mediaSession;
+  const pointerId = event.pointerId;
   event.preventDefault();
   isSeekingPointer = true;
-  el.seekBarContainer.classList.add('seeking');
-  const ratio = getSeekRatio(event);
-  const duration = el.videoPlayer.duration || 0;
-  el.videoPlayer.currentTime = ratio * duration;
-  updateVideoProgress();
-
+  track.classList.add('seeking');
+  const ownsPointer = (e) => pointerId == null || e?.pointerId == null || e.pointerId === pointerId;
   function onPointerMove(e) {
-    if (!isSeekingPointer) return;
-    const r = getSeekRatio(e);
-    el.videoPlayer.currentTime = r * duration;
+    if (!ownsPointer(e)) return;
+    if (session !== state.mediaSession || video.hidden) { cleanup(); return; }
+    const rect = track.getBoundingClientRect();
+    if (rect.width <= 0) return;
+    video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration;
     updateVideoProgress();
-    onSeekPointerHover(e);
+    if (showTooltip) onSeekPointerHover(e);
   }
-
-  function onPointerUp() {
+  function cleanup() {
     isSeekingPointer = false;
-    el.seekBarContainer?.classList.remove('seeking');
+    track.classList.remove('seeking');
     document.removeEventListener('pointermove', onPointerMove);
     document.removeEventListener('pointerup', onPointerUp);
     document.removeEventListener('pointercancel', onPointerUp);
+    window.removeEventListener('blur', cleanup);
+    if (activeSeekCleanup === cleanup) activeSeekCleanup = null;
     resetControlsTimer();
   }
-
+  function onPointerUp(e) { if (ownsPointer(e)) cleanup(); }
+  activeSeekCleanup = cleanup;
+  onPointerMove(event);
   document.addEventListener('pointermove', onPointerMove);
   document.addEventListener('pointerup', onPointerUp);
   document.addEventListener('pointercancel', onPointerUp);
+  window.addEventListener('blur', cleanup);
 }
 
 function onSeekPointerHover(event) {
@@ -3735,33 +4324,7 @@ function onSeekPointerLeave() {
 }
 
 function onShortsProgressPointerDown(event) {
-  if (!el.videoPlayer || el.videoPlayer.hidden) return;
-  const track = el.mobileShortsProgressTrack;
-  const duration = el.videoPlayer.duration || 0;
-  if (!duration) return;
-  event.preventDefault();
-  isSeekingPointer = true;
-
-  const seekToPointer = (e) => {
-    const rect = track.getBoundingClientRect();
-    const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
-    const ratio = rect.width > 0 ? Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) : 0;
-    el.videoPlayer.currentTime = ratio * duration;
-    updateVideoProgress();
-  };
-
-  const onPointerUp = () => {
-    isSeekingPointer = false;
-    document.removeEventListener('pointermove', seekToPointer);
-    document.removeEventListener('pointerup', onPointerUp);
-    document.removeEventListener('pointercancel', onPointerUp);
-    resetControlsTimer();
-  };
-
-  seekToPointer(event);
-  document.addEventListener('pointermove', seekToPointer);
-  document.addEventListener('pointerup', onPointerUp);
-  document.addEventListener('pointercancel', onPointerUp);
+  beginPointerSeek(event, el.mobileShortsProgressTrack);
 }
 
 function onMediaStageClick(event) {
@@ -3771,8 +4334,7 @@ function onMediaStageClick(event) {
     target.closest('.stage-center-btn') ||
     target.closest('.media-error') ||
     target.closest('.media-loading') ||
-    target.tagName === 'BUTTON' ||
-    target.tagName === 'A'
+    target.closest('button, a, summary, [role="slider"], .mobile-shorts-overlay')
   ) {
     return;
   }
@@ -3845,9 +4407,8 @@ function toggleShortsExpand() {
   if (el.shortsMoreBtn) el.shortsMoreBtn.setAttribute('aria-expanded', String(expanded));
   clearTimeout(shortsExpandTimer);
   shortsExpandTimer = null;
-  if (expanded) {
-    shortsExpandTimer = setTimeout(collapseShortsExpand, 5000);
-  }
+  // Keep menus available until an explicit dismissal or action. A timer must
+  // not make an action disappear while it is being read or keyboard-focused.
   resetControlsTimer();
 }
 
@@ -3911,6 +4472,7 @@ function getPlaybackFileById(fileId, list = getPlaybackFileList()) {
 }
 
 function hasCompletePlaybackPopulation() {
+  if (state.filter === 'favorites') return !state.loadingFavorites;
   return Boolean(state.demo || state.deepScan || state.populationComplete);
 }
 
@@ -4357,6 +4919,7 @@ function flashSeekHint(zone) {
 }
 
 function handleStageTap(clientX, clientY) {
+  const session = state.mediaSession;
   const now = Date.now();
   const zone = getTapZone(clientX, clientY);
   const isDoubleTap = (now - lastTapTime < 320)
@@ -4396,9 +4959,10 @@ function handleStageTap(clientX, clientY) {
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
+    if (session !== state.mediaSession || el.playerSheet?.hidden) return;
     if (zone === 'center') togglePlayPause();
     else setStageImmersive(!el.playerModal.classList.contains('immersive'));
-  }, 280);
+  }, 320);
 }
 
 function setupTouchGestures() {
@@ -4416,7 +4980,7 @@ function setupTouchGestures() {
       return;
     }
     // Don't hijack interaction on buttons, sliders, or seekbar
-    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select')) return;
+    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select')) return;
 
     clearMediaTransition();
     const activeEl = getActiveMediaElement();
@@ -4616,16 +5180,26 @@ function snapBackSpring(activeEl) {
 }
 
 function handlePlayerKeyboard(event) {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
   if (el.playerSheet.hidden) return;
   if (document.querySelector('dialog[open]')) return;
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
   const targetTag = event.target.tagName;
-  if (targetTag === 'INPUT' || targetTag === 'TEXTAREA' || targetTag === 'SELECT') return;
+  if (targetTag === 'INPUT' || targetTag === 'TEXTAREA' || targetTag === 'SELECT' || event.target.isContentEditable) return;
+  if ((event.key === ' ' || event.key === 'Enter')
+    && (targetTag === 'BUTTON' || targetTag === 'A' || targetTag === 'SUMMARY'
+      || event.target.closest?.('button, a, summary, [role="button"]'))) return;
 
   const key = event.key.toLowerCase();
   const code = event.code;
 
   if (event.key === 'Escape') {
+    if (el.mobileShortsOverlay?.classList.contains('expanded')) {
+      event.preventDefault();
+      collapseShortsExpand();
+      el.shortsMoreBtn?.focus();
+      return;
+    }
     if (isPlayerMoreOpen) {
       event.preventDefault();
       if (el.playerMoreMenu) el.playerMoreMenu.open = false;
@@ -4719,6 +5293,7 @@ function handlePlayerKeyboard(event) {
 
 function setNativeVideoActionsAvailable(available) {
   const enabled = Boolean(available);
+  if (el.mobileShortsProgressTrack) el.mobileShortsProgressTrack.hidden = !enabled;
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !enabled;
@@ -4973,9 +5548,10 @@ function buildMediaUrl(file) {
 }
 
 function onSeekKeyDown(event) {
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   const duration = el.videoPlayer.duration || 0;
-  if (!duration) return;
+  if (!Number.isFinite(duration) || duration <= 0) return;
   let target = null;
   if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') target = el.videoPlayer.currentTime - 5;
   if (event.key === 'ArrowRight' || event.key === 'ArrowUp') target = el.videoPlayer.currentTime + 5;
@@ -4983,6 +5559,7 @@ function onSeekKeyDown(event) {
   if (event.key === 'End') target = duration;
   if (target == null) return;
   event.preventDefault();
+  event.stopPropagation();
   el.videoPlayer.currentTime = Math.max(0, Math.min(duration, target));
   updateVideoProgress();
 }
@@ -5266,44 +5843,55 @@ async function downloadOriginalFile(file, session, policy, signal) {
   let lastError = null;
 
   while (state.mediaFullRequestCount < 3) {
-    const attempt = state.mediaFullRequestCount;
-    state.mediaFullRequestCount += 1;
     if (signal?.aborted || session !== state.mediaSession || state.selected?.id !== file.id) {
       throw new DOMException('Media session changed', 'AbortError');
     }
+    const attempt = state.mediaFullRequestCount;
+    state.mediaFullRequestCount += 1;
+    let response = null;
     try {
-      const response = await fetchOriginalFileResponse(file, { headers, signal });
+      response = await fetchOriginalFileResponse(file, { headers, signal });
+      if (signal?.aborted || session !== state.mediaSession || state.selected?.id !== file.id) {
+        await response.body?.cancel();
+        response = null;
+        throw new DOMException('Media session changed', 'AbortError');
+      }
       const contentLength = Number(response.headers.get('Content-Length')) || 0;
       const metadataSize = Number(file.size) || 0;
       if (response.status !== 200) {
+        const status = response.status;
         await response.body?.cancel();
-        throw new Error(`Unexpected full-original status ${response.status}`);
+        response = null;
+        throw new Error(`Unexpected full-original status ${status}`);
       }
       if (metadataSize && contentLength && metadataSize !== contentLength) {
         await response.body?.cancel();
+        response = null;
         throw new Error(`Original Content-Length mismatch (${contentLength}/${metadataSize})`);
       }
       if (contentLength && contentLength > policy.hardLimit) {
         await response.body?.cancel();
+        response = null;
         throw new RangeError('Original file exceeds the temporary buffer limit');
       }
       const originalFile = policy.mode === 'disk'
         ? await writeResponseIntoOpfs(response, file, session, policy.hardLimit)
         : await readResponseIntoBlob(response, file, session, policy.hardLimit);
       if (session !== state.mediaSession || state.selected?.id !== file.id) {
-        cleanupOriginalTempStorage();
+        cleanupOriginalTempStorage(session);
         throw new DOMException('Media session changed', 'AbortError');
       }
       const expectedSize = metadataSize || contentLength;
       if (expectedSize && originalFile.size !== expectedSize) {
-        cleanupOriginalTempStorage();
+        cleanupOriginalTempStorage(session);
         throw new Error(`Original byte count mismatch (${originalFile.size}/${expectedSize})`);
       }
-      if (!metadataSize && contentLength) file.size = String(contentLength);
+      if (!metadataSize && contentLength) { file.size = String(contentLength); sortedPopulationCache = null; }
       return originalFile;
     } catch (error) {
       lastError = error;
-      cleanupOriginalTempStorage();
+      try { if (!response?.body?.locked) await response?.body?.cancel(); } catch (_) {}
+      cleanupOriginalTempStorage(session);
       const rateLimited = isOriginalTransferRateLimit(error);
       const nonRetryable = error?.name === 'AbortError'
         || session !== state.mediaSession
@@ -5378,7 +5966,7 @@ async function startOriginalBlobFallback(
       bufferController.signal
     );
     if (session !== state.mediaSession || state.selected?.id !== file.id) {
-      cleanupOriginalTempStorage();
+      cleanupOriginalTempStorage(session);
       return;
     }
 
@@ -5407,7 +5995,7 @@ async function startOriginalBlobFallback(
   } catch (error) {
     if (error.name === 'AbortError' || session !== state.mediaSession) return;
     console.error('Original buffer fallback failed', error);
-    cleanupOriginalTempStorage();
+    cleanupOriginalTempStorage(session);
     if (rangeFallbackOnFailure && resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
       state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
       startOriginalRangePlayback(file, kind, session, '임시 디스크를 사용할 수 없어 Drive 원본 스트림으로 연결 중');
@@ -5529,22 +6117,39 @@ async function readResponseIntoBlob(response, file, session, hardLimit) {
   const reader = response.body.getReader();
   const chunks = [];
   let received = 0;
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    if (session !== state.mediaSession) {
-      await reader.cancel();
-      throw new DOMException('Media session changed', 'AbortError');
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (session !== state.mediaSession || state.selected?.id !== file.id) {
+        throw new DOMException('Media session changed', 'AbortError');
+      }
+      if (done) break;
+      received += value.byteLength;
+      if (received > hardLimit) {
+        throw new RangeError('Original file exceeds the memory buffer limit');
+      }
+      chunks.push(value);
+      updateOriginalBufferProgress(received, total, 'memory');
     }
-    received += value.byteLength;
-    if (received > hardLimit) {
-      await reader.cancel();
-      throw new RangeError('Original file exceeds the memory buffer limit');
-    }
-    chunks.push(value);
-    updateOriginalBufferProgress(received, total, 'memory');
+    return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
+  } catch (error) {
+    try { await reader.cancel(error); } catch (_) {}
+    throw error;
+  } finally {
+    reader.releaseLock?.();
   }
-  return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
+}
+
+async function acquireOriginalBufferLease(name) {
+  if (!navigator.locks?.request) return () => {};
+  let release;
+  const lifetime = new Promise((resolve) => { release = resolve; });
+  return new Promise((resolve, reject) => {
+    navigator.locks.request(`drive-original:media:${name}`, async () => {
+      resolve(release);
+      await lifetime;
+    }).catch(reject);
+  });
 }
 
 async function writeResponseIntoOpfs(response, file, session, hardLimit) {
@@ -5564,27 +6169,32 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit) {
     'image/heif': 'heif'
   }[String(file.mimeType || '').toLowerCase()];
   const extension = String(sourceExtension || mimeExtension || 'bin').toLowerCase();
-  const name = `media-${session}-${randomPart}.${extension}`;
-  const handle = await directory.getFileHandle(name, { create: true });
-  if (typeof handle.createWritable !== 'function') {
-    await directory.removeEntry(name).catch(() => {});
-    throw new DOMException('Writable OPFS is unavailable', 'NotSupportedError');
-  }
-  const writable = await handle.createWritable();
-  const reader = response.body?.getReader();
+  const name = `media-v2-${session}-${randomPart}.${extension}`;
+  const releaseLease = await acquireOriginalBufferLease(name);
+  let writable;
+  let reader;
   const total = Number(response.headers.get('Content-Length')) || Number(file.size) || 0;
   let received = 0;
   try {
+    if (session !== state.mediaSession || state.selected?.id !== file.id) {
+      throw new DOMException('Media session changed', 'AbortError');
+    }
+    const handle = await directory.getFileHandle(name, { create: true });
+    if (typeof handle.createWritable !== 'function') {
+      throw new DOMException('Writable OPFS is unavailable', 'NotSupportedError');
+    }
+    writable = await handle.createWritable();
+    reader = response.body?.getReader();
     if (!reader) {
       throw new DOMException('Streaming response reader is unavailable', 'NotSupportedError');
     } else {
       while (true) {
         const { done, value } = await reader.read();
-        if (done) break;
-        if (session !== state.mediaSession) {
+        if (session !== state.mediaSession || state.selected?.id !== file.id) {
           await reader.cancel();
           throw new DOMException('Media session changed', 'AbortError');
         }
+        if (done) break;
         received += value.byteLength;
         if (received > hardLimit) {
           await reader.cancel();
@@ -5604,31 +6214,44 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit) {
       await directory.removeEntry(name).catch(() => {});
       throw new DOMException('Media session changed', 'AbortError');
     }
-    state.mediaTempStorage = { directory, name };
+    state.mediaTempStorage = { directory, name, session, releaseLease };
     return storedFile;
   } catch (error) {
-    try { await reader?.cancel(error); } catch (_) {}
-    try { await writable.abort(error); } catch (_) {}
+    try {
+      if (reader) await reader.cancel(error);
+      else await response.body?.cancel(error);
+    } catch (_) {}
+    try { await writable?.abort(error); } catch (_) {}
     try { await directory.removeEntry(name); } catch (_) {}
+    releaseLease();
     throw error;
+  } finally {
+    reader?.releaseLock?.();
   }
 }
 
-function cleanupOriginalTempStorage() {
+function cleanupOriginalTempStorage(session = null) {
   const temporary = state.mediaTempStorage;
+  if (session != null && temporary?.session !== session) return;
   state.mediaTempStorage = null;
   if (temporary?.directory && temporary.name) {
-    temporary.directory.removeEntry(temporary.name).catch(() => {});
+    temporary.directory.removeEntry(temporary.name).catch(() => {})
+      .finally(() => temporary.releaseLease?.());
   }
 }
 
 async function cleanupStaleOriginalBuffers() {
-  if (!navigator.storage?.getDirectory) return;
+  // Only v2 files participate in the lease protocol. Do not sweep unknown
+  // legacy files or another tab's active playback based only on a filename.
+  if (!navigator.storage?.getDirectory || !navigator.locks?.request) return;
   try {
     const root = await navigator.storage.getDirectory();
     const directory = await root.getDirectoryHandle(ORIGINAL_BUFFER_DIRECTORY);
     for await (const name of directory.keys()) {
-      if (String(name).startsWith('media-')) await directory.removeEntry(name).catch(() => {});
+      if (!String(name).startsWith('media-v2-')) continue;
+      await navigator.locks.request(`drive-original:media:${name}`, { ifAvailable: true }, async (lock) => {
+        if (lock) await directory.removeEntry(name).catch(() => {});
+      });
     }
   } catch (_) {
     // The app-owned temporary directory does not exist yet or storage is unavailable.
@@ -5791,6 +6414,7 @@ function formatActionTarget(files) {
 }
 
 function actionFilesSnapshot() {
+  if (state.accountIdentityPending && !state.demo) return [];
   return state.pendingActionFiles.length ? [...state.pendingActionFiles] : getActionFiles();
 }
 
@@ -5832,6 +6456,7 @@ async function trashDriveFile(file) {
 async function performDeleteFile() {
   const files = actionFilesSnapshot();
   if (!files.length || state.deleting || state.bulkAction) return;
+  const owner = captureAccountStateRequest();
   state.deleting = true;
   state.bulkAction = true;
   updateSelectionUI();
@@ -5841,10 +6466,15 @@ async function performDeleteFile() {
     const order = getPlaybackFileList();
     const currentId = state.selected?.id || null;
     const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
-    const results = await runTaskPool(files, trashDriveFile);
+    const results = await runTaskPool(files, async (file) => {
+      owner.assert();
+      return trashDriveFile(file);
+    });
+    owner.assert();
     const succeeded = results.filter((result) => result.status === 'fulfilled').map((result) => result.item);
     const failed = results.filter((result) => result.status === 'rejected');
     const removedIds = new Set(succeeded.map((file) => file.id));
+    if (removedIds.size) invalidateLibraryNavigationData();
 
     state.files = state.files.filter((file) => !removedIds.has(file.id));
     markFilesRemovedFromAccountState(removedIds);
@@ -5872,6 +6502,7 @@ async function performDeleteFile() {
       showToast(`${succeeded.length.toLocaleString('ko-KR')}개 삭제, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(firstError)}`);
     }
   } catch (error) {
+    if (!owner.current() || error?.name === 'AbortError') return;
     console.error('Bulk delete failed', error);
     if (el.deleteDialog?.open) el.deleteDialog.close();
     settleSelectionAfterBulk(files);
@@ -6282,6 +6913,7 @@ async function performMoveFile() {
   const files = actionFilesSnapshot();
   const targetRowId = state.moveTargetFolderId;
   if (!files.length || !targetRowId || state.moving || state.bulkAction) return;
+  const owner = captureAccountStateRequest();
   const targetRow = state.moveFolderRows.find((row) => row.id === targetRowId);
   const target = targetRow?.id;
   if (!target) {
@@ -6302,11 +6934,16 @@ async function performMoveFile() {
     const order = getPlaybackFileList();
     const currentId = state.selected?.id || null;
     const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
-    const results = await runTaskPool(files, (file) => moveDriveFile(file, targetRow));
+    const results = await runTaskPool(files, async (file) => {
+      owner.assert();
+      return moveDriveFile(file, targetRow);
+    });
+    owner.assert();
     const moved = results.filter((result) => result.status === 'fulfilled' && !result.value?.skipped).map((result) => result.item);
     const skipped = results.filter((result) => result.status === 'fulfilled' && result.value?.skipped).map((result) => result.item);
     const failed = results.filter((result) => result.status === 'rejected');
     const movedIds = new Set(moved.map((file) => file.id));
+    if (movedIds.size) invalidateLibraryNavigationData();
 
     if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
     moved.forEach((file) => shuffledOrderMap.delete(file.id));
@@ -6329,6 +6966,7 @@ async function performMoveFile() {
       if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
     }
   } catch (error) {
+    if (!owner.current() || error?.name === 'AbortError') return;
     console.error('Bulk move failed', error);
     if (el.moveDialog?.open) el.moveDialog.close();
     settleSelectionAfterBulk(files);
@@ -6621,6 +7259,12 @@ function clearDirectMediaSources() {
 
 function resetMediaElements() {
   state.mediaSession += 1;
+  activeSeekCleanup?.();
+  clearTimeout(singleTapTimer);
+  singleTapTimer = null;
+  lastTapTime = 0;
+  lastTapX = 0;
+  lastTapY = 0;
   clearTimeout(mediaRecoveryTimer);
   mediaRecoveryTimer = null;
   state.mediaAbortController?.abort();
@@ -6681,7 +7325,9 @@ function resetMediaElements() {
 }
 
 function isMobileDevice() {
-  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || matchMedia('(max-width: 600px)').matches;
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    || (navigator.maxTouchPoints > 0 && matchMedia('(pointer: coarse)').matches)
+    || matchMedia('(max-width: 600px)').matches;
 }
 
 function openSettings(scrollToHelp) {
@@ -6728,7 +7374,7 @@ function disconnect() {
   state.selected = null;
   closePlayer();
   if (token && window.google?.accounts?.oauth2) {
-    google.accounts.oauth2.revoke(token, () => {});
+    window.google.accounts.oauth2.revoke(token, () => {});
   }
   if (el.settingsDialog.open) el.settingsDialog.close();
   showSetup();
@@ -6737,6 +7383,8 @@ function disconnect() {
 
 function clearToken(notifyWorker) {
   state.authGeneration += 1;
+  state.accountStateAbortController?.abort();
+  state.accountStateAbortController = null;
   pendingTokenRequest?.finish(false);
   pendingTokenRequest = null;
   // A settled request from the old generation must not single-flight a new
@@ -6753,7 +7401,7 @@ function clearToken(notifyWorker) {
   try {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
   } catch (_) {}
-  if (notifyWorker) {
+  if (notifyWorker && navigator.serviceWorker) {
     const message = { type: 'CLEAR_TOKEN' };
     navigator.serviceWorker.controller?.postMessage(message);
     const registration = state.serviceWorkerRegistration;
@@ -6762,6 +7410,13 @@ function clearToken(notifyWorker) {
 }
 
 function invalidateDriveSessionData() {
+  resetLibraryNavigation();
+  state.previousAccountId = state.accountId || state.previousAccountId;
+  state.accountIdentityPending = true;
+  state.driveSessionGeneration += 1;
+  state.accountStateAbortController?.abort();
+  state.accountStateAbortController = null;
+  state.accountStateReadCache.clear();
   state.folderIndexAbortController?.abort();
   state.treeAbort?.abort();
   resetListingSession();
@@ -6784,6 +7439,7 @@ function invalidateDriveSessionData() {
   state.accountStateLastSyncAt = 0;
   state.accountStateSyncRetryCount = 0;
   state.accountStateSyncError = null;
+  state.accountLocalStorageError = false;
   cancelFavoriteLoad();
   state.favoriteFiles = [];
 }

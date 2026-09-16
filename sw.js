@@ -1,4 +1,4 @@
-const VERSION = '1.19.1';
+const VERSION = '1.20.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -63,41 +63,68 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // 1. Never cache version.json or any cache-busted update queries
-  if (url.origin === self.location.origin && (url.pathname.endsWith('/version.json') || url.searchParams.has('_t'))) {
+  const scope = workerScopeUrl();
+  if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
+
+  // Version discovery is never satisfied from an old offline shell.
+  if (url.pathname === new URL('version.json', scope).pathname) {
     event.respondWith(fetch(event.request, { cache: 'no-store' }));
     return;
   }
 
   // 2. Stream proxy for Drive media
-  if (url.origin === self.location.origin && url.pathname.includes(MEDIA_MARKER)) {
+  if (url.pathname.startsWith(`${scope.pathname}__drive_media/`)) {
     event.respondWith(proxyDriveMedia(event.request, url, event.clientId));
     return;
   }
 
-  if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (event.request.method !== 'GET' || !shellAssetCacheKey(event.request)) return;
 
   // 3. For all local shell assets (HTML, JS, CSS, icons): Network-First, fallback to Cache!
   event.respondWith(networkFirstAsset(event.request));
 });
 
+function workerScopeUrl() {
+  return new URL(self.registration?.scope || './', self.location.href || `${self.location.origin}/`);
+}
+
+function shellAssetCacheKey(request) {
+  const url = new URL(request.url);
+  const scope = workerScopeUrl();
+  if (url.origin !== scope.origin) return null;
+  const known = SHELL_FILES.some((name) => new URL(name, scope).pathname === url.pathname);
+  if (!known || url.pathname === new URL('version.json', scope).pathname) return null;
+  // Static deployment query strings do not change file bytes. Canonical keys
+  // make ?v= releases and the first offline launch use the installed shell.
+  url.search = '';
+  url.hash = '';
+  return url.href;
+}
+
 async function networkFirstAsset(request) {
+  const cacheKey = shellAssetCacheKey(request);
+  if (!cacheKey) return fetch(request);
+  let response;
   try {
-    const response = await fetch(request);
+    response = await fetch(request);
     if (response && response.ok) {
-      const cache = await caches.open(SHELL_CACHE);
-      cache.put(request, response.clone());
+      try {
+        const cache = await caches.open(SHELL_CACHE);
+        await cache.put(cacheKey, response.clone());
+      } catch (_) { /* Cache quota/private mode must not break a good network response. */ }
+      return response;
     }
-    return response;
-  } catch (_) {
-    const cached = await caches.match(request);
+  } catch (_) { /* Recover network failures from this application's shell only. */ }
+  try {
+    const cache = await caches.open(SHELL_CACHE);
+    const cached = await cache.match(cacheKey);
     if (cached) return cached;
     if (request.mode === 'navigate') {
-      const fallback = await caches.match('./index.html');
+      const fallback = await cache.match(new URL('index.html', workerScopeUrl()).href);
       if (fallback) return fallback;
     }
-    return Response.error();
-  }
+  } catch (_) { /* The original HTTP error remains more useful than a cache error. */ }
+  return response || Response.error();
 }
 
 async function proxyDriveMedia(request, url, clientId) {
@@ -210,8 +237,13 @@ async function proxyDriveMedia(request, url, clientId) {
       : null;
     const contentRange = exposedContentRange || inferredContentRange;
     const contentRangeInferred = Boolean(inferredContentRange);
+    const declaredLength = upstream.headers.get('Content-Length');
+    const interval = /^bytes\s+(\d+)-(\d+)\//i.exec(String(contentRange || ''));
+    const lengthConsistent = !declaredLength || (interval && /^\d+$/.test(declaredLength)
+      && Number.isSafeInteger(Number(declaredLength))
+      && Number(declaredLength) === Number(interval[2]) - Number(interval[1]) + 1);
     const rangeSatisfied = upstream.status === 206
-      && doesContentRangeSatisfy(range, contentRange);
+      && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent);
     if (upstream.status === 206 && !rangeSatisfied) {
       await upstream.body?.cancel();
       await notifyMediaError(context, upstream.status, ['rangeInvalid'], 0, {

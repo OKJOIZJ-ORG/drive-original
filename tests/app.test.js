@@ -435,8 +435,8 @@ test('shorts deck exhausts unseen account media before watched candidates', () =
     2,
     new Set(['b', 'c'])
   ))`));
-  assert.deepEqual([...deck.above, deck.below[0]], ['d', 'e', 'f']);
-  assert.equal(deck.below[1], 'b');
+  assert.deepEqual([deck.below[0], deck.above[0], deck.below[1]], ['d', 'e', 'f']);
+  assert.equal(deck.above[1], 'b');
 });
 
 test('double-tap reserves only narrow video edges for seek and likes everywhere else', () => {
@@ -1240,7 +1240,7 @@ test('proxy classification preserves structured range and Drive failure causes',
   assert.equal(run(context, "classifyMediaProxyFailure({ status: 403, driveReason: 'insufficientPermissions' })"), 'permission');
   assert.equal(run(context, "classifyMediaProxyFailure({ status: 403, driveReason: 'fileNotDownloadable' })"), 'download-restricted');
   assert.equal(run(context, "classifyMediaProxyFailure({ status: 502 })"), 'server');
-  assert.equal(run(context, "parseRetryAfterMs('25')"), 10_000);
+  assert.equal(run(context, "parseRetryAfterMs('25')"), 25_000);
   assert.equal(run(context, "parseRetryAfterMs('invalid')"), 0);
   assert.equal(run(context, "getUnsatisfiedRangeSize('bytes */987654')"), 987654);
   assert.equal(run(context, "getUnsatisfiedRangeSize('bytes 0-9/10')"), null);
