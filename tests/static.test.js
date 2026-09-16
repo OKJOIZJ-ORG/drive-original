@@ -102,7 +102,7 @@ test('video keeps Range primary and uses bounded original buffering before compa
     app,
     /state\.mediaAttempt === 'range'\s*\)\s*\{\s*await startOriginalBlobFallback/
   );
-  assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('session'/);
+  assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('mediaSession'/);
   assert.match(app, /mediaErrorCode === 2[\s\S]*?offerOriginalBufferFallback/);
   assert.match(app, /navigator\.storage\.getDirectory\(\)/);
   assert.match(app, /typeof handle\.createWritable === 'function'/);
@@ -115,10 +115,36 @@ test('video keeps Range primary and uses bounded original buffering before compa
   assert.equal((html.match(/<video\b/g) || []).length, 1);
   assert.match(html, /id="mediaSwipeNeighbor"/);
   assert.doesNotMatch(app, /MEDIA_PREFETCH_BYTES|queueMediaPrefetch|__prefetched/);
-  assert.match(readme, /원본 전체 임시 디스크/);
-  assert.match(readme, /Google 호환 재생[\s\S]*?원본 화질 미보장/);
+  assert.match(app, /function suspendBackgroundThumbnailImages\(\)[\s\S]*?removeAttribute\('src'\)/);
+  assert.match(app, /playerMediaPriorityActive[\s\S]*?thumbnail\.dataset\.playerDeferredSrc/);
+  assert.match(readme, /Drive 원본 파일 · 임시 디스크/);
+  assert.match(readme, /Google 호환 재생 · 원본 화질 미확인/);
   assert.doesNotMatch(readme, /영상에는 이 전체 파일 보조 경로를 사용하지 않습니다/);
   assert.match(productTruth, /v1\.16\.0 keeps original-byte Range playback first/);
+});
+
+test('playback quality starts unverified and documents only evidence-backed original labels', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  const readme = read('README.md');
+
+  assert.match(html, /id="streamModeLabel" data-mode="checking"[\s\S]*?id="streamModeText">원본 확인 중/);
+  assert.match(html, /id="qualityBadge" data-quality="checking">원본 확인 중/);
+  assert.match(html, /Google 호환 재생 · 원본 화질 미확인/);
+  assert.doesNotMatch(html, /id="qualityBadge"[^>]*>100% 원본 화질/);
+  assert.doesNotMatch(html, /100% 무인코딩 무손실 화질|1:1 원본 그대로 스트리밍/);
+  assert.doesNotMatch(app, /100% 원본|100% 무손실|1:1 무변환/);
+  for (const label of [
+    'Drive 원본 파일 · Range 무변환 전송',
+    'Drive 원본 파일 · 연속 전송',
+    'Drive 원본 파일 · 임시 디스크',
+    'Drive 원본 파일 · 메모리',
+    'Google 호환 재생 · 원본 화질 미확인',
+  ]) {
+    assert.match(readme, new RegExp(label));
+  }
+  assert.match(readme, /외부 Drive 페이지는 자동으로 열지 않습니다/);
+  assert.match(readme, /원본 확인 중/);
 });
 
 test('mobile shell preserves zoom and high-contrast metadata labels', () => {

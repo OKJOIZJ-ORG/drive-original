@@ -386,5 +386,7 @@ test('HEAD remains bodyless and network failures are not exposed or cached', asy
   assert.equal(failed.status, 502);
   assert.equal(failed.headers.get('Cache-Control'), 'no-store');
   assert.doesNotMatch(await failed.text(), /private-network-detail/);
-  assert.equal(messages[0].category, 'server');
+  assert.equal(messages[0].status, 0);
+  assert.equal(messages[0].category, 'network');
+  assert.equal(messages[0].driveReason, 'networkFailure');
 });

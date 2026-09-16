@@ -244,7 +244,11 @@ async function proxyDriveMedia(request, url, clientId) {
     });
   } catch (error) {
     if (request.signal.aborted || error?.name === 'AbortError') throw error;
-    await notifyMediaError(context, 502);
+    await notifyMediaError(context, 0, [], 0, {
+      category: 'network',
+      driveReason: 'networkFailure',
+      rangeSatisfied: false
+    });
     return mediaErrorResponse('Drive streaming request failed', 502);
   }
 }

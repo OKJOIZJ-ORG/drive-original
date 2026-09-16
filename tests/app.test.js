@@ -383,7 +383,103 @@ test('Drive view, preview, and media URLs preserve required context', () => {
     state.mediaSession = 19;
     return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4' });
   })()`);
-  assert.equal(new URL(mediaUrl).searchParams.get('session'), '19');
+  assert.equal(new URL(mediaUrl).searchParams.get('mediaSession'), '19');
+});
+
+test('original-first recovery router never downgrades transient failures before retry and buffer recovery', () => {
+  const context = loadAppContext();
+  const decisions = JSON.parse(run(context, `JSON.stringify({
+    auth: decideMediaRecovery({ cause: 'auth' }),
+    serverFirst: decideMediaRecovery({ cause: 'server', rangeRetryCount: 0 }),
+    serverAfterRetry: decideMediaRecovery({ cause: 'server', rangeRetryCount: 1 }),
+    range416First: decideMediaRecovery({ cause: 'range-416', rangeRetryCount: 0, rangeRebuildCount: 0 }),
+    range416AfterRebuild: decideMediaRecovery({ cause: 'range-416', rangeRetryCount: 1, rangeRebuildCount: 1 }),
+    permissionFirst: decideMediaRecovery({ cause: 'permission', permissionRetryCount: 0 }),
+    permissionExhausted: decideMediaRecovery({ cause: 'permission', permissionRetryCount: 1 }),
+    explicitDownloadRestriction: decideMediaRecovery({ cause: 'download-restricted', permissionRetryCount: 1 }),
+    unsupported: decideMediaRecovery({ cause: 'unsupported' }),
+    restricted: decideMediaRecovery({ cause: 'server', downloadAllowed: false })
+  })`));
+
+  assert.equal(decisions.auth, 'refresh-auth');
+  assert.equal(decisions.serverFirst, 'retry-range');
+  assert.equal(decisions.serverAfterRetry, 'buffer-original');
+  assert.equal(decisions.range416First, 'rebuild-range');
+  assert.equal(decisions.range416AfterRebuild, 'buffer-original');
+  assert.equal(decisions.permissionFirst, 'refresh-permission');
+  assert.equal(decisions.permissionExhausted, 'fail-permission');
+  assert.equal(decisions.explicitDownloadRestriction, 'compatibility');
+  assert.equal(decisions.unsupported, 'compatibility');
+  assert.equal(decisions.restricted, 'compatibility');
+});
+
+test('proxy classification preserves structured range and Drive failure causes', () => {
+  const context = loadAppContext();
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 416 })"), 'range-416');
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 206, rangeSatisfied: false })"), 'range-invalid');
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 403, driveReason: 'rateLimitExceeded' })"), 'rate-limit');
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 403, driveReason: 'insufficientPermissions' })"), 'permission');
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 403, driveReason: 'fileNotDownloadable' })"), 'download-restricted');
+  assert.equal(run(context, "classifyMediaProxyFailure({ status: 502 })"), 'server');
+  assert.equal(run(context, "parseRetryAfterMs('25')"), 10_000);
+  assert.equal(run(context, "parseRetryAfterMs('invalid')"), 0);
+  assert.equal(run(context, "getUnsatisfiedRangeSize('bytes */987654')"), 987654);
+  assert.equal(run(context, "getUnsatisfiedRangeSize('bytes 0-9/10')"), null);
+  assert.equal(run(context, "isLocalOriginalStorageError({ name: 'QuotaExceededError' })"), true);
+  assert.equal(run(context, "isLocalOriginalStorageError({ message: 'Original file exceeds temporary storage' })"), true);
+  assert.equal(run(context, "isLocalOriginalStorageError({ status: 503, message: 'backend unavailable' })"), false);
+});
+
+test('quality labels remain neutral until original byte delivery is verified', () => {
+  const context = loadAppContext();
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.RANGE, false)"), '원본 확인 중');
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.RANGE, true)"), 'Drive 원본 파일 · Range 무변환 전송');
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.SEQUENTIAL, true)"), 'Drive 원본 파일 · 연속 전송');
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.OPFS, true)"), 'Drive 원본 파일 · 임시 디스크');
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.MEMORY, true)"), 'Drive 원본 파일 · 메모리');
+  assert.equal(run(context, "getPlaybackQualityLabel(PLAYBACK_MODE.COMPATIBILITY, false)"), 'Google 호환 재생 · 원본 화질 미확인');
+});
+
+test('abuse acknowledgement is opt-in and scoped to the selected file', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const file = { id: 'flagged', mimeType: 'video/mp4' };
+    state.selected = file;
+    const beforeProxy = new URL(buildMediaUrl(file)).searchParams.get('acknowledgeAbuse');
+    const beforeApi = new URL(buildDriveMediaApiUrl(file)).searchParams.get('acknowledgeAbuse');
+    state.mediaAbuseAcknowledged = true;
+    const afterProxy = new URL(buildMediaUrl(file)).searchParams.get('acknowledgeAbuse');
+    const afterApi = new URL(buildDriveMediaApiUrl(file)).searchParams.get('acknowledgeAbuse');
+    const other = new URL(buildDriveMediaApiUrl({ id: 'other' })).searchParams.get('acknowledgeAbuse');
+    return JSON.stringify({ beforeProxy, beforeApi, afterProxy, afterApi, other });
+  })()`));
+  assert.deepEqual(result, {
+    beforeProxy: null,
+    beforeApi: null,
+    afterProxy: '1',
+    afterApi: 'true',
+    other: null
+  });
+  assert.equal(run(context, "isDriveSecurityRestriction({ driveReason: 'cannotDownloadAbusiveFile' })"), true);
+  assert.equal(run(context, "isDriveSecurityRestriction({ reasons: ['virusDetected'] })"), true);
+  assert.equal(run(context, "isDriveSecurityRestriction({ driveReason: 'insufficientPermissions' })"), false);
+
+  const resumedStage = JSON.parse(run(context, `(() => {
+    const file = { id: 'flagged', mimeType: 'video/mp4' };
+    state.selected = file;
+    state.mediaSession = 22;
+    state.mediaRetryCount = 1;
+    state.pendingSecurityConfirmation = { fileId: file.id, session: 22, stage: 'range' };
+    el.bufferOriginalButton = { textContent: '' };
+    let consumeRetry = null;
+    retryOriginalStream = (_file, _session, _message, options) => {
+      consumeRetry = options.consumeRetry;
+      return true;
+    };
+    confirmPendingMediaAction();
+    return JSON.stringify({ consumeRetry, retryCount: state.mediaRetryCount, acknowledged: state.mediaAbuseAcknowledged });
+  })()`));
+  assert.deepEqual(resumedStage, { consumeRetry: false, retryCount: 1, acknowledged: true });
 });
 
 test('video playback failures distinguish retryable network errors from codec failures', () => {
@@ -391,6 +487,104 @@ test('video playback failures distinguish retryable network errors from codec fa
   assert.match(run(context, 'describeVideoPlaybackFailure(2)'), /스트림 연결/);
   assert.match(run(context, 'describeVideoPlaybackFailure(3)'), /해독/);
   assert.match(run(context, 'describeVideoPlaybackFailure(4)'), /코덱|컨테이너/);
+  assert.equal(run(context, `(() => {
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = false;
+    return hasVerifiedOriginalTransport();
+  })()`), false);
+  assert.equal(run(context, `(() => {
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    return hasVerifiedOriginalTransport();
+  })()`), true);
+  assert.equal(run(context, `(() => {
+    state.mediaPlaybackMode = PLAYBACK_MODE.COMPATIBILITY;
+    state.mediaTransportVerified = true;
+    return hasVerifiedOriginalTransport();
+  })()`), false);
+  assert.equal(run(context, "decideUnsupportedFormatRecovery({ retryCount: 0, transportVerified: true, playbackMode: PLAYBACK_MODE.RANGE })"), 'retry-range');
+  assert.equal(run(context, "decideUnsupportedFormatRecovery({ retryCount: 1, transportVerified: true, playbackMode: PLAYBACK_MODE.RANGE, decodeVerified: false })"), 'compatibility');
+  assert.equal(run(context, "decideUnsupportedFormatRecovery({ retryCount: 1, transportVerified: true, playbackMode: PLAYBACK_MODE.RANGE, decodeVerified: true })"), 'buffer-original');
+  assert.equal(run(context, "decideUnsupportedFormatRecovery({ retryCount: 1, transportVerified: false, playbackMode: PLAYBACK_MODE.RANGE, decodeVerified: false })"), 'buffer-original');
+});
+
+test('full-original recovery retries complete transfer at most three times and rejects partial bodies', async () => {
+  const context = loadAppContext();
+  const recovered = JSON.parse(await run(context, `(async () => {
+    const file = { id: 'full-file', name: 'full.mp4', mimeType: 'video/mp4', size: '3' };
+    state.selected = file;
+    state.mediaSession = 7;
+    let attempts = 0;
+    fetchOriginalFileResponse = async () => {
+      attempts += 1;
+      return { status: 200, headers: new Headers({ 'Content-Length': '3' }), body: { cancel: async () => {} } };
+    };
+    readResponseIntoBlob = async () => {
+      if (attempts < 3) throw new TypeError('stream interrupted');
+      return new Blob(['abc'], { type: 'video/mp4' });
+    };
+    waitForRetry = async () => {};
+    const result = await downloadOriginalFile(file, 7, { mode: 'memory', hardLimit: 10 }, new AbortController().signal);
+    return JSON.stringify({ attempts, size: result.size, metadataSize: file.size });
+  })()`));
+  assert.deepEqual(recovered, { attempts: 3, size: 3, metadataSize: '3' });
+
+  const rejected = JSON.parse(await run(context, `(async () => {
+    const file = { id: 'partial-file', name: 'partial.mp4', mimeType: 'video/mp4', size: '3' };
+    state.selected = file;
+    state.mediaSession = 8;
+    state.mediaFullRequestCount = 0;
+    let attempts = 0;
+    let reads = 0;
+    let cancels = 0;
+    fetchOriginalFileResponse = async () => {
+      attempts += 1;
+      return {
+        status: 200,
+        headers: new Headers({ 'Content-Length': '2' }),
+        body: { cancel: async () => { cancels += 1; } }
+      };
+    };
+    readResponseIntoBlob = async () => { reads += 1; return new Blob(['ab']); };
+    waitForRetry = async () => {};
+    let message = '';
+    try {
+      await downloadOriginalFile(file, 8, { mode: 'memory', hardLimit: 10 }, new AbortController().signal);
+    } catch (error) {
+      message = error.message;
+    }
+    return JSON.stringify({ attempts, reads, cancels, metadataSize: file.size, message });
+  })()`));
+  assert.deepEqual(rejected, {
+    attempts: 3,
+    reads: 0,
+    cancels: 3,
+    metadataSize: '3',
+    message: 'Original Content-Length mismatch (2/3)'
+  });
+
+  const sharedBudget = JSON.parse(await run(context, `(async () => {
+    const file = { id: 'shared-budget', name: 'shared.mp4', mimeType: 'video/mp4', size: '3' };
+    state.selected = file;
+    state.mediaSession = 9;
+    state.mediaFullRequestCount = 0;
+    let requests = 0;
+    fetchOriginalFileResponse = async () => {
+      requests += 1;
+      return { status: 200, headers: new Headers({ 'Content-Length': '3' }), body: { cancel: async () => {} } };
+    };
+    writeResponseIntoOpfs = async () => { throw new DOMException('quota full', 'QuotaExceededError'); };
+    readResponseIntoBlob = async () => { throw new TypeError('stream interrupted'); };
+    waitForRetry = async () => {};
+    try {
+      await downloadOriginalFile(file, 9, { mode: 'disk', hardLimit: 10 }, new AbortController().signal);
+    } catch (_) {}
+    try {
+      await downloadOriginalFile(file, 9, { mode: 'memory', hardLimit: 10 }, new AbortController().signal);
+    } catch (_) {}
+    return JSON.stringify({ requests, count: state.mediaFullRequestCount });
+  })()`));
+  assert.deepEqual(sharedBudget, { requests: 3, count: 3 });
 });
 
 test('folder strip rendering obeys its hard cap', () => {

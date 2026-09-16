@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b0d14">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Google Drive 원본 무손실 실시간 스트리밍 PWA">
+  <meta name="description" content="Google Drive 원본 파일 바이트를 우선 재생하는 PWA">
   <title>Drive Original</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
@@ -79,9 +79,9 @@
         
         <!-- Left Column: Hero & Value Proposition -->
         <div class="setup-hero">
-          <div class="hero-tag">LOSSLESS RANGE STREAM</div>
-          <h1 id="setupTitle">Google Drive 고화질 미디어를<br>1:1 원본 그대로 스트리밍.</h1>
-          <p class="hero-desc">Google Drive의 720p/1080p 저화질 압축 프리뷰를 우회하여, 촬영 원본 바이트를 구간 스트리밍(Range)으로 즉시 재생합니다. 기기 용량을 차지하지 않습니다.</p>
+          <div class="hero-tag">ORIGINAL-FIRST STREAM</div>
+          <h1 id="setupTitle">Google Drive 미디어를<br>원본 우선으로 스트리밍.</h1>
+          <p class="hero-desc">가능한 경우 Google Drive의 원본 파일 바이트를 구간 스트리밍(Range)으로 재생합니다. 원본 경로를 확인할 수 없을 때만 호환 재생기로 전환하며, 임시 데이터는 플레이어 종료 시 정리합니다.</p>
 
           <div class="hero-features">
             <div class="hero-feature-item">
@@ -92,8 +92,8 @@
                 </svg>
               </div>
               <div class="feature-content">
-                <strong>100% 무인코딩 무손실 화질</strong>
-                <span>인코딩 압축 손실 없이 4K UHD / FHD 촬영 원본 그대로</span>
+                <strong>원본 파일 바이트 우선</strong>
+                <span>무변환 원본 전달이 확인된 경우에만 원본 상태를 표시</span>
               </div>
             </div>
 
@@ -263,11 +263,11 @@
       <div class="player-topbar">
         <div class="player-title-box">
           <div class="stream-badge-row">
-            <span class="stream-status" id="streamModeLabel" data-mode="range">
+            <span class="stream-status" id="streamModeLabel" data-mode="checking">
               <span class="stream-dot" aria-hidden="true"></span>
-              <span id="streamModeText">원본 스트림</span>
+              <span id="streamModeText">원본 확인 중</span>
             </span>
-            <span class="quality-badge" id="qualityBadge" data-quality="original">100% 원본 화질</span>
+            <span class="quality-badge" id="qualityBadge" data-quality="checking">원본 확인 중</span>
           </div>
           <h2 id="playerTitle">미디어 파일 이름</h2>
         </div>
@@ -303,7 +303,7 @@
         </div>
         <iframe class="drive-preview" id="drivePreview" title="Google Drive 호환 재생기" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="eager" hidden></iframe>
         <div class="drive-preview-actions" id="drivePreviewActions" hidden>
-          <span>Google 호환 재생 · 원본 화질 미보장</span>
+          <span>Google 호환 재생 · 원본 화질 미확인</span>
           <button type="button" id="drivePreviewRetryButton">원본 다시 시도</button>
           <button type="button" id="drivePreviewOpenButton">Drive 직접 열기</button>
         </div>
@@ -490,7 +490,7 @@
           <strong class="info-val" id="mediaFileSizeType">—</strong>
         </div>
         <div class="info-note-wrap">
-          <p id="codecNote">Google Drive 원본 바이트를 1:1 무변환 스트리밍하여 100% 원본 화질로 재생 중입니다.</p>
+          <p id="codecNote">Drive 원본 파일 전송 여부를 확인하는 중입니다.</p>
         </div>
       </div>
     </div>
