@@ -37,3 +37,10 @@
 - Verified live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 and were byte-identical to the release commit.
 - Generated `C:\Users\jbs\Downloads\Drive-Original-v1.15.0.zip` and `Drive-Original.zip`; both are 103,841 bytes with SHA-256 `8D87B29890DF0284CF95E003955D74E9E369BC906A96A298D39144EBED621059` and contain the expected 16 distribution entries.
 - Updated and re-fetched the Notion maintenance page; v1.15.0, release commit, Pages run, ZIP hash/size, architecture, D-031/D-032, verification evidence, and version-history row matched the intended values.
+- Implemented and independently audited v1.16.0's original-quality recovery ladder: Range first, one scoped retry, writable OPFS or bounded memory for the same original bytes, and an explicitly non-original in-app Google compatibility preview only for codec, policy, or hard-limit failures.
+- Added a single-decoder four-way spatial deck with stable horizontal order, complete-population vertical random selection, two assigned neighbours above and below, cancellable 1:1 poster tracking, and thumbnail-only neighbour warming.
+- Verified 40/40 Node tests, JavaScript syntax, diff whitespace, 390×844 responsive browser QA, and synthetic horizontal/vertical touch transforms; authenticated Google playback and physical iOS Safari remain explicit verification boundaries.
+- Fast-forwarded release commit `6a669fba4441e53b478dc272989c49155ac6803b` into `main`, pushed it, and observed GitHub Pages run `35085992727` finish successfully.
+- Verified live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 and were byte-identical to the release commit.
+- Generated `C:\Users\jbs\Downloads\Drive-Original-v1.16.0.zip` and `Drive-Original.zip`; both are 114,471 bytes with SHA-256 `2BB6D213BEB1C10B4517B527104FF69CED77E8C2F5E8E57BB08CA428DD47EC96` and contain the expected 16 distribution entries.
+- Updated and re-fetched the Notion maintenance page; v1.16.0, release commit, Pages run, ZIP attachments/hash/size, architecture, D-033/D-034, verification evidence, and version-history row matched the intended values.

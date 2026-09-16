@@ -19,13 +19,13 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 ## Mobilization
 
 - **confirmed:** D-001 through D-034 define the standing product contracts; D-033 and D-034 add the original-quality recovery ladder and spatial shorts deck.
-- **confirmed:** v1.15.0 on `main` is the clean baseline; follow-up work is isolated on `codex/in-app-playback-recovery`.
-- **observed:** baseline `node --test tests/app.test.js tests/static.test.js` passes 15/15.
-- **observed:** the service worker does not classify upstream media errors, while the app listens for a message that is never sent.
-- **observed:** media prefetch concurrency is released at response headers and does not bound active response bodies.
-- **observed:** OAuth refresh has three competing entry paths and no shared in-flight promise.
+- **historical baseline:** v1.15.0 was the clean starting point; v1.16.0 is now released from `6a669fba4441e53b478dc272989c49155ac6803b`.
+- **historical baseline:** `node --test tests/app.test.js tests/static.test.js` passed 15/15 before the stabilization work; the released suite now passes 40/40.
+- **historical gap, resolved:** the service worker did not classify upstream media errors while the app listened for a message that was never sent.
+- **historical gap, resolved:** media prefetch concurrency was released at response headers and did not bound active response bodies; the non-reusable body prefetch was removed.
+- **historical gap, resolved:** OAuth refresh had three competing entry paths and no shared in-flight promise.
 - **historical baseline:** video playback failure could trigger uncontrolled full-file Blob buffering. The current implementation replaces that with writable-OPFS detection and bounded-memory policy.
-- **observed:** mobile swipe commits at 45px or 0.15px/ms without a dominance ratio or touch-cancel path.
+- **historical gap, resolved:** mobile swipe committed at 45px or 0.15px/ms without a dominance ratio or touch-cancel path.
 - **unknown:** real-account Google playback behavior, mobile Safari behavior, and multi-thousand-item performance after the new changes require browser/device verification.
 
 ## Terrain
@@ -47,4 +47,4 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 
 ## Done check
 
-Satisfied. Evidence: 35/35 Node tests; `node --check` for app and worker; `git diff --check`; desktop and 390×844 mobile demo interaction; deliberate/sub-threshold synthetic touch scenarios; no browser console warnings or errors; mobile Lighthouse 100/100/100/100; local unthrottled LCP 318ms and CLS 0.00; successful Pages run `35077604373`; five live core assets byte-equal to release commit `b813a15`; matching release ZIPs; and re-fetched Notion maintenance data. Real-account Google behavior and physical iOS Safari remain explicit verification boundaries, not locally proven facts.
+Satisfied. Evidence: 40/40 Node tests; `node --check` for app and worker; `git diff --check`; desktop and 390×844 mobile demo interaction; deliberate/sub-threshold and committed synthetic four-direction touch scenarios; prior local Lighthouse 100/100/100/100 and LCP 318ms/CLS 0.00 baseline; successful Pages run `35085992727`; five live core assets byte-equal to release commit `6a669fb`; matching 114,471-byte release ZIPs; and re-fetched Notion maintenance data with both packages attached. Real-account Google behavior and physical iOS Safari remain explicit verification boundaries, not locally proven facts.
