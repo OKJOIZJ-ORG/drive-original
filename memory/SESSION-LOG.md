@@ -33,3 +33,7 @@
 - Fixed final-review races in swipe commit interruption, random-navigation rollback, folder-move generation cancellation, same-tick authentication reconnection, and modal background focus isolation.
 - Removed the speculative 512KB media-body prefetch after final review proved its `no-store` response could not be reused; retained connection preconnects so startup warming does not consume discarded media bytes.
 - Verified 35/35 Node tests, JavaScript syntax, diff whitespace, desktop/mobile demo workflows, no console warnings/errors, sub-threshold and committed synthetic touch paths, Lighthouse category scores of 100, and a local unthrottled LCP of 318ms with CLS 0.00. Authenticated Google and physical Safari remain unexercised boundaries.
+- Fast-forwarded release commit `b813a15d29b97915b01b553dd758218e5451de86` into `main`, pushed it, and observed GitHub Pages run `35077604373` finish successfully.
+- Verified live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 and were byte-identical to the release commit.
+- Generated `C:\Users\jbs\Downloads\Drive-Original-v1.15.0.zip` and `Drive-Original.zip`; both are 103,841 bytes with SHA-256 `8D87B29890DF0284CF95E003955D74E9E369BC906A96A298D39144EBED621059` and contain the expected 16 distribution entries.
+- Updated and re-fetched the Notion maintenance page; v1.15.0, release commit, Pages run, ZIP hash/size, architecture, D-031/D-032, verification evidence, and version-history row matched the intended values.

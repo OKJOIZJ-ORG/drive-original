@@ -17,6 +17,7 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 - `verified locally 2026-09-16`: Long press on touch or right-click/Select on desktop enters multi-select; bulk trash and folder move use a four-worker task pool and retain only failed items after partial failure. Evidence: source review, deterministic task-pool/capability tests, and demo bulk-action flows.
 - `verified locally 2026-09-16`: The media proxy scopes tokens/errors to the requesting client, preserves Range and resource-key headers over one correlated 401 refresh retry, and aborts stale upstream work. Video failures do not trigger a full-file Blob fallback; Drive recovery opens a top-level view URL. Evidence: 10 service-worker contract tests plus app/static regression tests.
 - `verified locally 2026-09-16`: Mobile demo navigation scores 100 for Lighthouse accessibility, best practices, SEO, and agentic browsing; an unthrottled local trace measured LCP 318ms and CLS 0.00. These are local demo measurements, not field data.
+- `operational 2026-09-16`: GitHub Pages serves v1.15.0 from release commit `b813a15d29b97915b01b553dd758218e5451de86`. Actions run `35077604373` succeeded; live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 and matched Git blobs byte-for-byte. Both 103,841-byte ZIPs have SHA-256 `8D87B29890DF0284CF95E003955D74E9E369BC906A96A298D39144EBED621059`; the Notion maintenance page was updated and re-fetched with matching release data.
 
 ## Not implemented
 

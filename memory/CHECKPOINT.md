@@ -1,15 +1,14 @@
-# Checkpoint — v1.15.0 commercial-grade stabilization, pre-release — 2026-09-16 17:58
+# Checkpoint — v1.15.0 commercial-grade stabilization released — 2026-09-16 18:12
 
 ## The story so far
 
-Drive Original v1.15.0 is implemented on `codex/commercial-grade-stability`. Deliberate axis-locked swipes, cancellable transitions, compact desktop controls, frame stepping, long-press/right-click multi-select, partial-failure-safe bulk move/delete, bounded thumbnail work, request-scoped Google token recovery, and Range-preserving service-worker retries are in place. Video no longer falls back to full-file Blob buffering, and Drive recovery opens a top-level view URL with its resource key. Non-reusable 512KB speculative media downloads were removed; connection preconnects remain. Automated tests pass 35/35; mobile demo Lighthouse scores 100 in every reported category, with LCP 318ms and CLS 0.00 in the local unthrottled trace.
+Drive Original v1.15.0 is released from commit `b813a15d29b97915b01b553dd758218e5451de86`. GitHub Pages run `35077604373` completed successfully, and live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 with bytes equal to that commit. Both release ZIPs are 103,841 bytes with SHA-256 `8D87B29890DF0284CF95E003955D74E9E369BC906A96A298D39144EBED621059`. The Notion maintenance page was updated and re-fetched with the same version, commit, run, package, architecture, and verification boundaries.
 
 ## Decided
 
-- D-031 remains the governing product decision.
-- The service worker owns per-client token scope and preserves the exact Range/resource-key request across one 401 refresh retry.
-- A failed video Range path stops safely and offers a top-level Drive handoff; only images may use the bounded full-file memory fallback.
-- UI verification distinguishes Chrome mobile emulation from physical iOS Safari, and local demo mode from an authenticated Google account.
+- D-031 and D-032 are the current governing decisions.
+- Request-scoped token recovery and no-store Range streaming remain the security/performance contract; non-reusable speculative media bodies stay disabled.
+- Physical iOS Safari and authenticated Google-account behavior remain explicit verification boundaries, not inferred successes.
 
 ## Waiting on the user
 
@@ -17,10 +16,11 @@ Drive Original v1.15.0 is implemented on `codex/commercial-grade-stability`. Del
 
 ## Next first action
 
-Complete the independent final diff review, commit the verified unit, fast-forward `main`, push, verify GitHub Pages bytes against the release commit, package the ZIPs, and update the maintenance record.
+No required release work remains. If a real-account or physical-iPhone regression is reported, reproduce it against v1.15.0 without weakening token isolation or reintroducing full-file video buffering.
 
 ## Tried
 
 - Chrome mobile emulation found three genuine accessibility issues: zoom was disabled, metadata contrast was 2.48:1, and custom accessible names omitted visible labels. After correction, Lighthouse accessibility improved from 91 to 100.
 - An authentication regression test exposed a same-tick `clearToken()` race; clearing the old single-flight reference fixed it and the new test passes.
 - Browser screenshot file export to a new local artifacts path was denied by the browser tool; inline screenshots and DOM/computed-style readback completed the visual check.
+- The final independent audit found a 512KB body prefetch whose `no-store` response could not be reused. It was removed before the release commit, and a static regression assertion now forbids its return.
