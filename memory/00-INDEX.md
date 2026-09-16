@@ -22,3 +22,9 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 3. Claims carry `confirmed`, `observed`, `assumed`, `hearsay`, or `unknown` labels.
 4. External product claims require current evidence in `PRODUCT-TRUTH.md`.
 5. Register unresolved items instead of remembering them informally.
+
+## Current audit and release records
+
+- `AUDIT-20260917.md`: comprehensive defect inventory, scope, proof and explicit limitations.
+- `RELEASE-1.20.0.md`: production deployment verification once complete.
+- `../qa/`: reproducible local-only browser fixture drivers.

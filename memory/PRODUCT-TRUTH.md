@@ -53,3 +53,12 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 ## Permanently excluded
 
 <!-- Link the decision ledger entry for every exclusion. -->
+
+## v1.20.0 current audit evidence — 2026-09-17
+
+- verified locally: 120 Node tests passed in three consecutive runs; app/worker syntax and recommended static correctness lint passed. `tests/audit.test.js` and `tests/shell.test.js` add regression evidence for prior reproduced failures.
+- verified browser fixtures: OPFS exact-byte hash equality with one decoder, Range delivery, same-range 401 recovery, malformed-range to identical memory-original recovery, partial bulk failure, cross-folder favorites, mobile controls, offline shell, sibling app isolation, and 7,384-item virtualization.
+- verified edge navigation: direct 176px tracking, cached 120px parent scroll restoration, reverse/short drag cancellation, multi-touch cancellation, vertical scroll handoff, interrupted animation safety, reduced motion and actual previous-filter history restoration. WebKit iOS policy leaves native physical-edge input alone.
+- supersedes the v1.19.0 single-file storage implementation: account records now use writer-owned documents and merge the legacy document read-only. The synchronized two-device lost-update reproduction passes without either device overwriting the legacy file.
+- verified source: public Pages branch is an explicit shell allowlist with Node validation in the publish command before deployment; source packages and internal audit records are not public website routes.
+- boundary: browser fixture and Windows WebKit evidence do not prove physical iOS gestures or authenticated production two-device propagation. See AUDIT-20260917.md and the final release evidence record.

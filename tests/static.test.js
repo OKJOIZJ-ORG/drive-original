@@ -224,7 +224,9 @@ test('player chrome hides as one mobile layer and high-frequency motion stays tr
   assert.match(app, /mobileShortsProgressBar\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
   assert.doesNotMatch(app, /seekBarPlayed\.style\.width|seekBarThumb\.style\.left|mobileShortsProgressBar\.style\.width/);
   const shortsExpand = styles.match(/\.shorts-expand-row \{[\s\S]*?\n  \}/)?.[0] || '';
-  assert.doesNotMatch(shortsExpand, /max-height|transition:[^;]*max-height/);
+  assert.doesNotMatch(shortsExpand, /transition:[^;]*(?:max-height|height)/);
+  assert.match(shortsExpand, /max-height:\s*calc\(100dvh/);
+  assert.match(shortsExpand, /overflow-y:\s*auto/);
   assert.match(app, /requestVideoFrameCallback[\s\S]*?hideSwipeNeighbor/);
   assert.match(app, /function playFrozenSwipeTarget\(targetId, direction\)/);
   assert.match(app, /function hasOpenPlayerControlsMenu\([\s\S]*?mobileShortsOverlay\?\.classList\.contains\('expanded'\)/);

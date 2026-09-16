@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.19.1">
+  <link rel="stylesheet" href="./styles.css?v=1.20.0">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./app.js?v=1.19.1" defer></script>
+  <script src="./app.js?v=1.20.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -171,7 +171,7 @@
       <div class="toolbar">
         <div class="search-box">
           <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input id="searchInput" type="search" placeholder="파일명으로 검색…" autocomplete="off">
+          <input id="searchInput" type="search" aria-label="파일명 검색" placeholder="파일명으로 검색…" autocomplete="off">
         </div>
 
         <div class="segmented" role="group" aria-label="파일 유형">
@@ -219,6 +219,7 @@
       </div>
 
       <div class="library-status" id="libraryStatus" role="status" aria-live="polite"></div>
+      <p class="account-sync-status" id="accountSyncStatus" role="status" aria-live="polite" hidden></p>
 
       <!-- Folder Strip (compact navigation rows, separated from media grid) -->
       <div class="folder-strip" id="folderStrip" hidden aria-label="하위 폴더"></div>
@@ -354,7 +355,7 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
             </button>
           </div>
-          <div class="mobile-shorts-progress-track" id="mobileShortsProgressTrack">
+          <div class="mobile-shorts-progress-track" id="mobileShortsProgressTrack" role="slider" tabindex="0" aria-label="재생 위치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0:00">
             <div class="mobile-shorts-progress-bar" id="mobileShortsProgressBar"></div>
           </div>
         </div>
@@ -507,7 +508,7 @@
   </section>
 
   <!-- Settings Dialog -->
-  <dialog class="settings-dialog" id="settingsDialog">
+  <dialog class="settings-dialog" id="settingsDialog" aria-label="설정">
     <form method="dialog" class="dialog-box">
       <div class="dialog-top">
         <h2>설정</h2>
@@ -520,7 +521,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.19.1</span>
+            <span class="version-badge" id="settingsAppVersion">v1.20.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -576,7 +577,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.19.1</span>
+          <span id="appVersion">v1.20.0</span>
         </div>
       </div>
     </form>
@@ -612,7 +613,7 @@
       <div class="dialog-content">
         <p class="dialog-text">선택한 파일을 이동할 폴더를 선택하세요.</p>
         <p class="delete-file-name" id="moveFileName">—</p>
-        <input class="plain-input move-search" id="moveSearchInput" type="search" placeholder="폴더 이름으로 검색…" autocomplete="off">
+        <input class="plain-input move-search" id="moveSearchInput" type="search" aria-label="이동할 폴더 검색" placeholder="폴더 이름으로 검색…" autocomplete="off">
         <div class="move-folder-list" id="moveFolderList" role="listbox" aria-label="이동할 폴더 선택"></div>
         <div class="button-row">
           <button class="secondary-button" id="moveCancelButton" type="button">취소</button>
@@ -623,7 +624,7 @@
   </dialog>
 
   <!-- OAuth Permission Upgrade Guide -->
-  <dialog class="app-dialog permission-dialog" id="permissionDialog">
+  <dialog class="app-dialog permission-dialog" id="permissionDialog" aria-label="Google Drive 권한 안내">
     <form method="dialog" class="dialog-box">
       <div class="dialog-top">
         <h2>Drive 수정 권한이 필요합니다</h2>
