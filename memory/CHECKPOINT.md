@@ -1,8 +1,8 @@
-# Checkpoint — v1.18.1 Range recovery ready for release — 2026-09-16 23:44
+# Checkpoint — v1.18.1 released and authenticated — 2026-09-16 23:52
 
 ## The story so far
 
-v1.18.0 is released and its prior completion state is archived at `memory/checkpoints/20260916-2326-v1.18.0-released.md`. Authenticated validation then restored the saved Google session, loaded the real Drive corpus, and proved that a small video uses OPFS original playback successfully. Two larger videos exposed a Range-path defect: Drive returned `206`, but its cross-origin response did not expose `Content-Range`; the service worker therefore classified both valid responses as `range-invalid`, returned 502, and unnecessarily offered full-file OPFS recovery. v1.18.1 now reconstructs that hidden header only from an exact known-size/`Content-Length` match and otherwise fails closed.
+Drive Original v1.18.1 is released from `cac0d0604d1d2d6fd30d863c6bc8c4e77143403b`. GitHub Pages run `35110287933` succeeded, and live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` matched the release Git blobs byte-for-byte. Authenticated Chrome validation loaded the real Drive corpus and proved both the small OPFS path and the repaired large-file Range path; a 1.01GB file returned verified original `206` evidence and played past 13 seconds without an OPFS confirmation or compatibility downgrade.
 
 ## Decided
 
@@ -18,12 +18,12 @@ v1.18.0 is released and its prior completion state is archived at `memory/checkp
 
 ## Next first action
 
-Commit and deploy v1.18.1, then replay an actual large Drive video and prove Range playback advances without whole-file fallback.
+No release work remains. Physical iPhone Safari remains the only material device-specific verification boundary.
 
 ## Tried
 
-- `node --check app.js`, `node --check sw.js`, the complete Node suite (68/68), and `git diff --check` pass with guarded bounded/open/suffix/EOF/HEAD reconstruction, invalid-evidence rejection, and the app-to-worker size contract covered.
-- Desktop and 390 x 844 mobile browser QA passed without console warnings or horizontal overflow. Mobile top and bottom chrome hid together, the expanded action tray blocked idle hiding until it closed, a real local MP4 retained its poster until the first frame, and a representative 1.78 MiB GIF from `G:\내 드라이브\ㅇㅎㅎ` allocated a 320 x 320 static canvas only near the viewport and returned to 1 x 1 after exit.
-- Independent final review found no P1, P2, or P3 regression in `main..cf31107`; the versioned local browser showed v1.18.0 with matching cache-busted assets at desktop and 390 x 844 widths.
-- Physical iPhone gestures remain unverified; desktop Chrome authenticated Drive evidence is tracked separately below.
-- Authenticated browser evidence after release closed two prior unknowns: saved-session OAuth restoration works, and a 978 KiB MOV completed original OPFS playback. The remaining live failure is specifically a `206` CORS header-visibility mismatch, not a Drive refusal to return original bytes.
+- `node --check app.js`, `node --check sw.js`, the complete Node suite (68/68), and `git diff --check` passed. Independent Sol review found no P1/P2 and its two P3 test/checkpoint gaps were fixed before release.
+- Live 390 x 844 Chrome replayed a 207MB file and a 1.01GB file through `Drive 원본 파일 · Range 무변환 전송`. The 1.01GB sample reported `status=206`, `contentRangeInferred=true`, `rangeSatisfied=true`, `readyState=4`, no media error, and currentTime advancing beyond 13 seconds; no original-buffer prompt or compatibility preview appeared.
+- v1.18.1 produced no new console warning/error. The diagnostic listeners and temporary viewport override were removed, and the player was closed after verification.
+- `Drive-Original-v1.18.1.zip` and `Drive-Original.zip` are each 102,418 bytes, contain 16 entries/15 files, match every packaged Git blob, and share SHA-256 `B5FF1DB7CC7BEF25C497DED75BEAE497EC1E246C6B898DA917BA906151B9DB53`.
+- The Notion maintenance page records v1.18.1, run `35110287933`, the authenticated 1.01GB proof, D-040, hash/size, and both attached packages; targeted re-fetch checks passed.
