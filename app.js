@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.18.0';
+const APP_VERSION = '1.18.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';

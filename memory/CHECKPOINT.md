@@ -1,8 +1,8 @@
-# Checkpoint — v1.18.0 released — 2026-09-16 23:26
+# Checkpoint — v1.18.1 Range recovery ready for release — 2026-09-16 23:44
 
 ## The story so far
 
-Drive Original v1.18.0 is released from code commit `cf31107e290ad4b7540ed443691930f1c74a1f68`. GitHub Pages run `35107815036` succeeded and live `version.json`, `app.js`, `styles.css`, `sw.js`, and `index.html` returned HTTP 200 with bytes identical to the release Git blobs. `Drive-Original-v1.18.0.zip` and `Drive-Original.zip` each contain the expected 16 entries; all 15 files match their Git blobs, both are 101,876 bytes, and both have SHA-256 `C26A82B9522F77BB8229B93D10BED69789260D978B917392246B09FEC4D845FD`. The Notion maintenance page now records v1.18.0 and contains both packages; targeted re-fetch checks all passed.
+v1.18.0 is released and its prior completion state is archived at `memory/checkpoints/20260916-2326-v1.18.0-released.md`. Authenticated validation then restored the saved Google session, loaded the real Drive corpus, and proved that a small video uses OPFS original playback successfully. Two larger videos exposed a Range-path defect: Drive returned `206`, but its cross-origin response did not expose `Content-Range`; the service worker therefore classified both valid responses as `range-invalid`, returned 502, and unnecessarily offered full-file OPFS recovery. v1.18.1 now reconstructs that hidden header only from an exact known-size/`Content-Length` match and otherwise fails closed.
 
 ## Decided
 
@@ -10,6 +10,7 @@ Drive Original v1.18.0 is released from code commit `cf31107e290ad4b7540ed443691
 - `G:\내 드라이브\ㅇㅎㅎ` is the user-authorized validation corpus for this work; destructive verification remains out of scope unless separately authorized.
 - The new icon request supersedes D-030's blue-dot removal, and the new GIF request supersedes D-029's placeholder-only presentation while retaining a static/non-animating library card.
 - Adaptive routing is transport-only and never a quality choice: every automatic route uses exact Drive original bytes. Small known-size videos use OPFS first only when writable storage and the 80% quota guard prove it safe; large, unknown-size, or unsupported cases use Range first. Failure crosses to the other original-byte route before bounded memory and Google compatibility preview. No duplicate full-file and Range transfer runs in parallel.
+- A `206` whose `Content-Range` is hidden may be accepted only when the same-origin media URL carries the known Drive file size and the CORS-safelisted `Content-Length` proves an exact response interval compatible with the requested Range. A visible but invalid `Content-Range`, missing size, missing/invalid length, or out-of-bounds interval must still fail closed.
 
 ## Waiting on the user
 
@@ -17,11 +18,12 @@ Drive Original v1.18.0 is released from code commit `cf31107e290ad4b7540ed443691
 
 ## Next first action
 
-No release work remains. A future authenticated Drive/device matrix can extend evidence without reopening the completed v1.18.0 release.
+Commit and deploy v1.18.1, then replay an actual large Drive video and prove Range playback advances without whole-file fallback.
 
 ## Tried
 
-- `node --check app.js`, `node --check sw.js`, the complete Node suite (64/64), and `git diff --check` pass after the reviewer-found OPFS retry, GIF backing-store retention, and GIF draw-exception paths were fixed.
+- `node --check app.js`, `node --check sw.js`, the complete Node suite (68/68), and `git diff --check` pass with guarded bounded/open/suffix/EOF/HEAD reconstruction, invalid-evidence rejection, and the app-to-worker size contract covered.
 - Desktop and 390 x 844 mobile browser QA passed without console warnings or horizontal overflow. Mobile top and bottom chrome hid together, the expanded action tray blocked idle hiding until it closed, a real local MP4 retained its poster until the first frame, and a representative 1.78 MiB GIF from `G:\내 드라이브\ㅇㅎㅎ` allocated a 320 x 320 static canvas only near the viewport and returned to 1 x 1 after exit.
 - Independent final review found no P1, P2, or P3 regression in `main..cf31107`; the versioned local browser showed v1.18.0 with matching cache-busted assets at desktop and 390 x 844 widths.
-- Real Drive OAuth, authenticated Range/OPFS behavior, and physical iPhone gestures remain unverified until live/manual validation. The local demo and automated contracts cannot prove those boundaries.
+- Physical iPhone gestures remain unverified; desktop Chrome authenticated Drive evidence is tracked separately below.
+- Authenticated browser evidence after release closed two prior unknowns: saved-session OAuth restoration works, and a 978 KiB MOV completed original OPFS playback. The remaining live failure is specifically a `206` CORS header-visibility mismatch, not a Drive refusal to return original bytes.

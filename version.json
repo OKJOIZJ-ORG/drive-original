@@ -1,6 +1,6 @@
 {
-  "version": "1.18.0",
+  "version": "1.18.1",
   "name": "Drive Original",
-  "releasedAt": "2026-09-16T21:09:02+09:00",
-  "changeSummary": "원본 Range 응답 무결성을 검증하고 연속 전송·OPFS·제한 메모리 복구를 하나의 상태 머신으로 통합했습니다. 모든 원본 경로가 소진된 뒤에만 원본 화질 미확인 Google 호환 재생으로 전환합니다."
+  "releasedAt": "2026-09-16T23:38:37+09:00",
+  "changeSummary": "Drive가 정상 206 응답의 Content-Range를 CORS에서 숨기는 경우에도, 알려진 원본 크기와 정확히 일치하는 Content-Length로 범위를 검증·복원해 대용량 원본 Range 재생을 유지합니다."
 }

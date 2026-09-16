@@ -1,4 +1,4 @@
-const VERSION = '1.18.0';
+const VERSION = '1.18.1';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const SHELL_FILES = [
@@ -200,7 +200,16 @@ async function proxyDriveMedia(request, url, clientId) {
       });
     }
 
-    const contentRange = upstream.headers.get('Content-Range');
+    const exposedContentRange = upstream.headers.get('Content-Range');
+    const inferredContentRange = upstream.status === 206 && !exposedContentRange
+      ? inferContentRangeFromLength(
+          range,
+          url.searchParams.get('size'),
+          upstream.headers.get('Content-Length')
+        )
+      : null;
+    const contentRange = exposedContentRange || inferredContentRange;
+    const contentRangeInferred = Boolean(inferredContentRange);
     const rangeSatisfied = upstream.status === 206
       && doesContentRangeSatisfy(range, contentRange);
     if (upstream.status === 206 && !rangeSatisfied) {
@@ -208,6 +217,7 @@ async function proxyDriveMedia(request, url, clientId) {
       await notifyMediaError(context, upstream.status, ['rangeInvalid'], 0, {
         category: 'range-invalid',
         contentRange,
+        contentRangeInferred,
         rangeSatisfied: false,
         driveReason: 'rangeInvalid'
       });
@@ -221,6 +231,10 @@ async function proxyDriveMedia(request, url, clientId) {
     responseHeaders.set('Access-Control-Allow-Headers', 'Range, Authorization, Accept, Origin, Content-Type');
     responseHeaders.set('Access-Control-Expose-Headers', 'Content-Range, Accept-Ranges, Content-Length, Content-Type');
     responseHeaders.set('Cache-Control', 'private, no-store, no-transform');
+    if (rangeSatisfied) {
+      responseHeaders.set('Content-Range', contentRange);
+      responseHeaders.set('Accept-Ranges', 'bytes');
+    }
 
     // Force exact MIME type if known (prevents Safari application/octet-stream rejection)
     const mimeParam = url.searchParams.get('mime');
@@ -232,6 +246,7 @@ async function proxyDriveMedia(request, url, clientId) {
       await notifyMediaStatus(context, {
         status: upstream.status,
         contentRange,
+        contentRangeInferred,
         rangeSatisfied,
         playbackMode: rangeSatisfied ? 'original-range' : 'original-sequential'
       });
@@ -352,6 +367,44 @@ function parseSatisfiedContentRange(value) {
   return { start, end, total };
 }
 
+function parsePositiveSafeInteger(value) {
+  const raw = String(value ?? '').trim();
+  if (!/^\d+$/.test(raw)) return null;
+  const parsed = Number(raw);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+function inferContentRangeFromLength(requestedValue, totalValue, lengthValue) {
+  const requested = parseRequestedByteRange(requestedValue);
+  const total = parsePositiveSafeInteger(totalValue);
+  const length = parsePositiveSafeInteger(lengthValue);
+  if (!requested || !total || !length) return null;
+
+  let start;
+  let end;
+  let expectedLength;
+  if (requested.suffixLength != null) {
+    expectedLength = Math.min(requested.suffixLength, total);
+    if (!expectedLength) return null;
+    start = total - expectedLength;
+    end = total - 1;
+  } else {
+    start = requested.start;
+    if (start >= total) return null;
+    end = requested.end == null
+      ? total - 1
+      : Math.min(requested.end, total - 1);
+    expectedLength = end - start + 1;
+  }
+
+  // Without an exposed Content-Range, only an exact full-span length proves
+  // both response endpoints. A shorter 206 may still be valid HTTP, but its
+  // omitted interval cannot be reconstructed safely from length alone.
+  if (length !== expectedLength) return null;
+
+  return `bytes ${start}-${end}/${total}`;
+}
+
 function doesContentRangeSatisfy(requestedValue, contentValue) {
   const requested = parseRequestedByteRange(requestedValue);
   const content = parseSatisfiedContentRange(contentValue);
@@ -383,6 +436,7 @@ async function notifyMediaStatus(context, details) {
       status: details.status,
       requestedRange: context.requestedRange || null,
       contentRange: details.contentRange || null,
+      contentRangeInferred: Boolean(details.contentRangeInferred),
       rangeSatisfied: Boolean(details.rangeSatisfied),
       playbackMode: details.playbackMode
     });
@@ -411,6 +465,7 @@ async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0,
       driveReason: details.driveReason || reasons[0] || null,
       requestedRange: context.requestedRange || null,
       contentRange: details.contentRange || null,
+      contentRangeInferred: Boolean(details.contentRangeInferred),
       rangeSatisfied: Boolean(details.rangeSatisfied),
       retryAfterMs,
       sessionId: context.sessionId

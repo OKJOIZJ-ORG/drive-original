@@ -838,9 +838,10 @@ test('Drive view, preview, and media URLs preserve required context', () => {
 
   const mediaUrl = run(context, `(() => {
     state.mediaSession = 19;
-    return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4' });
+    return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4', size: '1000' });
   })()`);
   assert.equal(new URL(mediaUrl).searchParams.get('mediaSession'), '19');
+  assert.equal(new URL(mediaUrl).searchParams.get('size'), '1000');
 });
 
 test('original-first recovery router never downgrades transient failures before retry and buffer recovery', () => {

@@ -59,10 +59,11 @@ function createWorker(fetchImpl) {
     setToken(id, token) { worker.message(id, { type: 'SET_TOKEN', token, expiresAt: expiresAt() }); },
     request(clientId, {
       fileId = 'fileA', range = 'bytes=100-199', signal, method = 'GET',
-      sessionParam = 'mediaSession', acknowledgeAbuse = false
+      sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000'
     } = {}) {
       const abuseQuery = acknowledgeAbuse ? '&acknowledgeAbuse=1' : '';
-      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${abuseQuery}`, {
+      const sizeQuery = size == null ? '' : `&size=${encodeURIComponent(size)}`;
+      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${sizeQuery}${abuseQuery}`, {
         method, headers: { Range: range }, signal
       });
       let response;
@@ -125,6 +126,7 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
     status: 206,
     requestedRange: 'bytes=100-199',
     contentRange: 'bytes 100-199/1000',
+    contentRangeInferred: false,
     rangeSatisfied: true,
     playbackMode: 'original-range'
   });
@@ -202,19 +204,106 @@ test('a Range request answered with 200 is reported as original sequential playb
     status: 200,
     requestedRange: 'bytes=100-199',
     contentRange: null,
+    contentRangeInferred: false,
     rangeSatisfied: false,
     playbackMode: 'original-sequential'
   });
 });
 
-test('a missing or mismatched Content-Range on 206 is rejected as range-invalid', async () => {
-  for (const contentRange of [null, 'bytes 200-299/1000']) {
-    const worker = createWorker(() => contentRange
-      ? partialResponse('wrong bytes', contentRange)
-      : new Response('unproven bytes', { status: 206 }));
+test('a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length', async () => {
+  const worker = createWorker(() => new Response('x'.repeat(100), {
+    status: 206,
+    headers: { 'Content-Length': '100' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A').response;
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), 'bytes 100-199/1000');
+  assert.equal(response.headers.get('Accept-Ranges'), 'bytes');
+  assert.equal(await response.text(), 'x'.repeat(100));
+  const status = messages.find((message) => message.type === 'MEDIA_PROXY_STATUS');
+  assert.equal(status.contentRange, 'bytes 100-199/1000');
+  assert.equal(status.contentRangeInferred, true);
+  assert.equal(status.rangeSatisfied, true);
+  assert.equal(status.playbackMode, 'original-range');
+});
+
+test('hidden Content-Range reconstruction supports open-ended and suffix ranges', async () => {
+  for (const [range, length, expected] of [
+    ['bytes=0-', 1000, 'bytes 0-999/1000'],
+    ['bytes=-100', 100, 'bytes 900-999/1000']
+  ]) {
+    const worker = createWorker(() => new Response('x'.repeat(length), {
+      status: 206,
+      headers: { 'Content-Length': String(length) }
+    }));
     const messages = worker.addClient('A');
     worker.setToken('A', 'valid');
-    const response = await worker.request('A').response;
+    const response = await worker.request('A', { range }).response;
+    assert.equal(response.status, 206);
+    assert.equal(response.headers.get('Content-Range'), expected);
+    assert.equal(messages.find((message) => message.type === 'MEDIA_PROXY_STATUS').contentRangeInferred, true);
+  }
+});
+
+test('hidden range reconstruction handles file edges and rejects unsafe numeric evidence', () => {
+  const worker = createWorker(() => new Response('unused'));
+  const infer = (range, size, length) => vm.runInContext(
+    `inferContentRangeFromLength(${JSON.stringify(range)}, ${JSON.stringify(size)}, ${JSON.stringify(length)})`,
+    worker.context
+  );
+  assert.equal(infer('bytes=950-1050', '1000', '50'), 'bytes 950-999/1000');
+  assert.equal(infer('bytes=-2000', '1000', '1000'), 'bytes 0-999/1000');
+  assert.equal(infer('bytes=1000-', '1000', '1'), null);
+  assert.equal(infer('bytes=-0', '1000', '1'), null);
+  assert.equal(infer('bytes=0-', '9007199254740992', '1000'), null);
+  assert.equal(infer('bytes=0-', '1000', '1e3'), null);
+});
+
+test('a hidden valid 206 HEAD range is reconstructed without adding a body', async () => {
+  const worker = createWorker(() => new Response(null, {
+    status: 206,
+    headers: { 'Content-Length': '100' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { method: 'HEAD' }).response;
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), 'bytes 100-199/1000');
+  assert.equal(await response.text(), '');
+  assert.equal(messages.find((message) => message.type === 'MEDIA_PROXY_STATUS').contentRangeInferred, true);
+});
+
+test('a visible mismatched or unprovable hidden Content-Range on 206 fails closed', async () => {
+  const cases = [
+    {
+      response: () => partialResponse('x'.repeat(100), 'bytes 200-299/1000', { 'Content-Length': '100' }),
+      expectedContentRange: 'bytes 200-299/1000'
+    },
+    {
+      response: () => new Response('unproven bytes', { status: 206 }),
+      expectedContentRange: null
+    },
+    {
+      response: () => new Response('x'.repeat(100), { status: 206, headers: { 'Content-Length': '100' } }),
+      size: null,
+      expectedContentRange: null
+    },
+    {
+      response: () => new Response('x'.repeat(101), { status: 206, headers: { 'Content-Length': '101' } }),
+      expectedContentRange: null
+    },
+    {
+      response: () => new Response('x'.repeat(99), { status: 206, headers: { 'Content-Length': '99' } }),
+      expectedContentRange: null
+    }
+  ];
+  for (const testCase of cases) {
+    const worker = createWorker(testCase.response);
+    const messages = worker.addClient('A');
+    worker.setToken('A', 'valid');
+    const response = await worker.request('A', { size: testCase.size }).response;
     assert.equal(response.status, 502);
     assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_STATUS'), false);
@@ -223,7 +312,8 @@ test('a missing or mismatched Content-Range on 206 is rejected as range-invalid'
     assert.equal(failure.category, 'range-invalid');
     assert.equal(failure.driveReason, 'rangeInvalid');
     assert.equal(failure.requestedRange, 'bytes=100-199');
-    assert.equal(failure.contentRange, contentRange);
+    assert.equal(failure.contentRange, testCase.expectedContentRange);
+    assert.equal(failure.contentRangeInferred, false);
     assert.equal(failure.rangeSatisfied, false);
     assert.equal(failure.sessionId, '7');
   }
@@ -237,7 +327,7 @@ test('open-ended and suffix byte ranges accept valid contained 206 responses', a
     const worker = createWorker(() => partialResponse('range bytes', contentRange));
     const messages = worker.addClient('A');
     worker.setToken('A', 'valid');
-    assert.equal((await worker.request('A', { range }).response).status, 206);
+    assert.equal((await worker.request('A', { range, size: null }).response).status, 206);
     const status = messages.find((message) => message.type === 'MEDIA_PROXY_STATUS');
     assert.equal(status.rangeSatisfied, true);
     assert.equal(status.requestedRange, range);
