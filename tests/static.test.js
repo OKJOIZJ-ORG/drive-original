@@ -111,15 +111,15 @@ test('player controls, in-app preview, and selection toolbar remain bound in the
   assert.doesNotMatch(app, /function showDriveHandoff\(/);
 });
 
-test('video keeps Range primary and uses bounded original buffering before compatibility playback', () => {
+test('video adaptively chooses exact-original transport and exhausts original paths before compatibility playback', () => {
   const app = read('app.js');
   const html = read('index.html');
   const readme = read('README.md');
   const productTruth = read('memory/PRODUCT-TRUTH.md');
-  assert.doesNotMatch(
-    app,
-    /state\.mediaAttempt === 'range'\s*\)\s*\{\s*await startOriginalBlobFallback/
-  );
+  assert.match(app, /function chooseInitialOriginalPlaybackRoute\([\s\S]*?policy\?\.mode === 'disk'[\s\S]*?PLAYBACK_MODE\.OPFS[\s\S]*?PLAYBACK_MODE\.RANGE/);
+  assert.match(app, /function startInitialOriginalPlayback\([\s\S]*?resolveOriginalBufferPolicy\(file\)[\s\S]*?chooseInitialOriginalPlaybackRoute[\s\S]*?rangeFallbackOnFailure: true/);
+  assert.match(app, /rangeFallbackOnFailure[\s\S]*?startOriginalRangePlayback\(file, kind, session/);
+  assert.match(app, /mediaExhaustedOriginalModes\.add\(PLAYBACK_MODE\.OPFS\)[\s\S]*?startOriginalRangePlayback/);
   assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('mediaSession'/);
   assert.match(app, /mediaErrorCode === 2[\s\S]*?offerOriginalBufferFallback/);
   assert.match(app, /navigator\.storage\.getDirectory\(\)/);
@@ -138,7 +138,9 @@ test('video keeps Range primary and uses bounded original buffering before compa
   assert.match(readme, /Drive 원본 파일 · 임시 디스크/);
   assert.match(readme, /Google 호환 재생 · 원본 화질 미확인/);
   assert.doesNotMatch(readme, /영상에는 이 전체 파일 보조 경로를 사용하지 않습니다/);
-  assert.match(productTruth, /v1\.16\.0 keeps original-byte Range playback first/);
+  assert.match(readme, /적응형 판단은 \*\*전송 방식만\*\* 선택/);
+  assert.match(readme, /같은 파일의 전체 다운로드와 Range 요청을 동시에 중복 실행하지 않습니다/);
+  assert.match(productTruth, /v1\.17\.0 keeps every viable original-byte path ahead of Google compatibility playback/);
 });
 
 test('playback quality starts unverified and documents only evidence-backed original labels', () => {
@@ -154,7 +156,7 @@ test('playback quality starts unverified and documents only evidence-backed orig
   assert.doesNotMatch(app, /100% 원본|100% 무손실|1:1 무변환/);
   assert.match(app, /state\.demo[\s\S]*?데모 미리보기[\s\S]*?원본 재생 아님[\s\S]*?저장 파일 정보/);
   assert.match(app, /데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다\./);
-  assert.match(app, /setStreamMode\('drive', 'Google 호환 재생'\)[\s\S]*?qualityBadge\.textContent = '· 원본 화질 미확인'/);
+  assert.match(app, /setStreamMode\('drive', qualityLabel\)[\s\S]*?qualityBadge\.textContent = '· 원본 화질 미확인'/);
   for (const label of [
     'Drive 원본 파일 · Range 무변환 전송',
     'Drive 원본 파일 · 연속 전송',
@@ -166,6 +168,25 @@ test('playback quality starts unverified and documents only evidence-backed orig
   }
   assert.match(readme, /외부 Drive 페이지는 자동으로 열지 않습니다/);
   assert.match(readme, /원본 확인 중/);
+});
+
+test('player chrome hides as one mobile layer and high-frequency motion stays transform based', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  const styles = read('styles.css');
+
+  assert.match(html, /<details class="player-more-menu" id="playerMoreMenu">[\s\S]*?id="ctrlMove"[\s\S]*?id="ctrlDelete"/);
+  assert.doesNotMatch(html, /class="media-info-bar"/);
+  assert.match(styles, /\.quality-badge\s*\{[\s\S]*?display:\s*none/);
+  assert.match(styles, /\.player-modal\.controls-idle \.mobile-shorts-overlay[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);
+  assert.match(app, /seekBarPlayed\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
+  assert.match(app, /mobileShortsProgressBar\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
+  assert.doesNotMatch(app, /seekBarPlayed\.style\.width|seekBarThumb\.style\.left|mobileShortsProgressBar\.style\.width/);
+  const shortsExpand = styles.match(/\.shorts-expand-row \{[\s\S]*?\n  \}/)?.[0] || '';
+  assert.doesNotMatch(shortsExpand, /max-height|transition:[^;]*max-height/);
+  assert.match(app, /requestVideoFrameCallback[\s\S]*?hideSwipeNeighbor/);
+  assert.match(app, /function playFrozenSwipeTarget\(targetId, direction\)/);
+  assert.match(app, /function hasOpenPlayerControlsMenu\([\s\S]*?mobileShortsOverlay\?\.classList\.contains\('expanded'\)/);
 });
 
 test('mobile shell preserves zoom and high-contrast metadata labels', () => {

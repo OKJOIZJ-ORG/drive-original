@@ -1161,6 +1161,17 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   background: linear-gradient(145deg, rgba(44, 44, 46, 0.86), rgba(18, 18, 20, 0.96));
 }
 
+.file-card-gif-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out), transform 300ms var(--ease-spring);
+}
+
+.file-card-gif-canvas.loaded {
+  opacity: 1;
+}
+
 .file-card-gif-placeholder svg {
   width: 48px;
   height: 48px;
@@ -1442,6 +1453,14 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   font-size: 11px;
   font-weight: 600;
   color: #ffffff;
+  max-width: min(70vw, 360px);
+}
+
+#streamModeText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .stream-dot {
@@ -1452,7 +1471,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .quality-badge {
-  display: inline-flex;
+  display: none !important;
   align-items: center;
   padding: 2px 7px;
   border-radius: var(--radius-pill);
@@ -1544,6 +1563,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   opacity: 1;
 }
 
+.media-stage video.has-poster {
+  opacity: 1;
+}
+
 .media-stage video.is-rotated {
   transform: rotate(90deg);
 }
@@ -1586,14 +1609,14 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  width: min(840px, calc(100% - 40px));
+  width: min(760px, calc(100% - 40px));
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px 18px;
-  border-radius: var(--radius-lg);
-  background: rgba(28, 28, 30, 0.88);
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(20, 20, 22, 0.8);
   backdrop-filter: var(--blur-thin);
   -webkit-backdrop-filter: var(--blur-thin);
   border: var(--hairline-border);
@@ -1624,7 +1647,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   left: 0;
   top: 0;
   bottom: 0;
+  width: 100%;
   background: rgba(255, 255, 255, 0.3);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 .seek-bar-played {
@@ -1632,13 +1658,17 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   left: 0;
   top: 0;
   bottom: 0;
+  width: 100%;
   background: var(--system-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 .seek-bar-thumb {
   position: absolute;
+  left: 0;
   top: 50%;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate3d(calc(var(--seek-x, 0px) - 50%), -50%, 0) scale(0);
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -1648,7 +1678,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 .seek-bar-container:hover .seek-bar-thumb {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate3d(calc(var(--seek-x, 0px) - 50%), -50%, 0) scale(1);
 }
 
 .controls-bottom-bar {
@@ -1686,6 +1716,76 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 /* Speed Dropdown */
 .speed-menu-wrap {
   position: relative;
+}
+
+.player-more-menu {
+  position: relative;
+}
+
+.player-more-menu > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.player-more-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.player-more-menu[open] > summary {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.player-more-popover {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: min(300px, calc(100vw - 40px));
+  padding: 8px;
+  border: var(--hairline-border);
+  border-radius: var(--radius-md);
+  background: rgba(28, 28, 30, 0.96);
+  backdrop-filter: var(--blur-thin);
+  -webkit-backdrop-filter: var(--blur-thin);
+  box-shadow: var(--shadow-popover);
+}
+
+.player-more-details {
+  display: grid;
+  gap: 4px;
+  padding: 7px 9px 10px;
+  color: var(--label-secondary);
+  font: 11px/1.4 var(--font-mono);
+  border-bottom: var(--hairline-border-subtle);
+}
+
+.player-more-details span {
+  color: var(--label-primary);
+}
+
+.player-more-details p {
+  color: var(--label-tertiary);
+  overflow-wrap: anywhere;
+}
+
+.player-more-action {
+  width: 100%;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  color: var(--label-primary);
+  font-size: 13px;
+  text-align: left;
+}
+
+.player-more-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.player-more-action.danger {
+  color: #ff8a84;
 }
 
 .speed-dropdown {
@@ -2397,11 +2497,11 @@ dialog::backdrop {
 
 .custom-video-controls {
   bottom: max(16px, calc(var(--safe-bottom) + 12px));
-  width: min(900px, calc(100% - 36px));
-  gap: 7px;
-  padding: 10px 12px;
-  background: rgba(20, 20, 22, 0.82);
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.46);
+  width: min(760px, calc(100% - 36px));
+  gap: 6px;
+  padding: 9px 12px;
+  background: rgba(20, 20, 22, 0.78);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.42);
 }
 
 .controls-left,
@@ -2419,8 +2519,11 @@ dialog::backdrop {
 
 #ctrlPrevVideo,
 #ctrlNextVideo,
-#ctrlRandomShorts,
-#ctrlFullscreen {
+#ctrlRandomShorts {
+  display: none;
+}
+
+#fullscreenButton {
   display: none;
 }
 
@@ -2474,7 +2577,7 @@ dialog::backdrop {
 }
 
 .seek-bar-container:focus-visible .seek-bar-thumb {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate3d(calc(var(--seek-x, 0px) - 50%), -50%, 0) scale(1);
 }
 
 .seek-bar-tooltip {
@@ -2984,14 +3087,17 @@ dialog {
   }
 
   .shorts-expand-row {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: calc(var(--safe-bottom) + 62px);
     display: flex;
     gap: 8px;
-    max-height: 0;
     opacity: 0;
-    overflow: hidden;
     transform: translateY(8px);
     visibility: hidden;
-    transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
+    pointer-events: none;
+    transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
     scrollbar-width: none;
   }
 
@@ -3000,14 +3106,14 @@ dialog {
   }
 
   .mobile-shorts-overlay.expanded .shorts-expand-row {
-    max-height: 52px;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
+    pointer-events: auto;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
-    transition: max-height 240ms var(--ease-out), opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
+    transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
   }
 
   /* Double-tap seek hints (mobile only) */
@@ -3042,9 +3148,11 @@ dialog {
     height: 3px;
     border-radius: 9999px;
     background: #ffffff;
-    width: 0%;
+    width: 100%;
     max-width: 100%;
-    transition: width 0.1s linear;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.1s linear;
   }
 
   /* Mobile Shorts Bottom Overlay (Filename & 3px Progress Line) */
@@ -3096,10 +3204,12 @@ dialog {
     transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
   }
 
-  .player-modal.immersive .mobile-shorts-overlay {
+  .player-modal.immersive .mobile-shorts-overlay,
+  .player-modal.controls-idle .mobile-shorts-overlay {
     opacity: 0;
     transform: translateY(12px);
     visibility: hidden;
+    pointer-events: none;
     transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
   }
 
@@ -3226,19 +3336,7 @@ dialog {
 }
 
 .media-swipe-neighbor-title {
-  position: absolute;
-  right: 20px;
-  bottom: max(26px, calc(var(--safe-bottom) + 18px));
-  left: 20px;
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 18px;
-  text-align: center;
-  text-overflow: ellipsis;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
-  white-space: nowrap;
+  display: none;
 }
 
 .drive-preview-actions {

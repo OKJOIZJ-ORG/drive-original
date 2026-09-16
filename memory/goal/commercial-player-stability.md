@@ -8,7 +8,7 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 
 - Clear, axis-locked mobile gestures commit only after deliberate movement and recover cleanly from cancellation, multi-touch, rapid repetition, and reduced-motion mode.
 - Desktop playback controls are compact, coherent, keyboard-accessible, frame-steppable, and unobtrusive during viewing.
-- Media uses Range-based progressive playback first, preserves byte ranges across authentication recovery, cancels stale work, and only uses whole-file original recovery through writable OPFS or tightly bounded memory after transport retry fails.
+- Media selects one original-byte route without duplicate transfer: safely bounded videos use writable OPFS first, while large/unknown/unsupported cases use Range-based progressive playback; authentication recovery preserves the active route and stale work is cancelled.
 - Vertical random playback has a complete-population spatial deck with two assigned neighbours above and below; horizontal playback preserves its session order; one decoder is reused across transitions.
 - Google authentication has one request coordinator, stale-response protection, a user-action recovery path, and request-scoped service-worker token/error handling.
 - Long press enters multi-select on touch; desktop has an explicit selection affordance; bulk delete and folder move are safe, count-aware, and reconcile partial failures.
@@ -54,6 +54,15 @@ Bring Drive Original's mobile and desktop media-library experience to a commerci
 3. `named-unfilled`: stream complete originals to writable OPFS, enforce bounded-memory limits, and clean every stale artifact.
 4. `named-unfilled`: make quality labels evidence-based and give active playback priority over background media work.
 5. `named-unfilled`: add deterministic fault coverage, authenticated browser evidence where available, independent diff review, and the standing release/Pages/Notion proof.
+
+## Current extension — v1.18.0 authentication, thumbnails, and player polish
+
+1. `in-progress`: ship the user-supplied OAuth client ID as the effective default while preserving a self-host override and never opening a login popup without a user gesture.
+2. `in-progress`: render bounded-concurrency, non-animating GIF card frames with a static placeholder only on failure; restore the user-confirmed historical blue-dot icon asset across every icon surface.
+3. `in-progress`: implement D-039's size- and capability-gated OPFS-first video route with a non-parallel Range fallback, exact cleanup, and evidence-backed quality labels.
+4. `in-progress`: freeze swipe targets at axis lock, align commit thresholds, retain the outgoing/neighbor visual until the first new frame is presented, and hide both mobile overlay edges on idle.
+5. `in-progress`: reduce desktop playback chrome to one status hierarchy and one compact control rail, move destructive/detail actions behind disclosure, and keep frame stepping visible only while paused.
+6. `in-progress`: extend automated, desktop/mobile browser, authenticated-Drive-where-available, packaging, Pages byte, and maintenance-record verification before release.
 
 ## Historical done check — v1.16.0
 

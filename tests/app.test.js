@@ -79,7 +79,13 @@ function installMiniDom(context) {
           const set = new Set(this.className.split(/\s+/).filter(Boolean));
           names.forEach((name) => set.add(name));
           this.className = [...set].join(' ');
-        }
+        },
+        remove: (...names) => {
+          const set = new Set(this.className.split(/\s+/).filter(Boolean));
+          names.forEach((name) => set.delete(name));
+          this.className = [...set].join(' ');
+        },
+        contains: (name) => this.className.split(/\s+/).filter(Boolean).includes(name)
       };
       this.offsetHeight = tagName === 'button' ? 240 : 0;
     }
@@ -397,6 +403,52 @@ test('original buffer policy prefers bounded OPFS and denies unsafe memory downl
   assert.equal(policies.memoryDenied.decision, 'denied');
 });
 
+test('initial video playback uses temporary disk only when the safe automatic OPFS policy is proven', () => {
+  const context = loadAppContext();
+  const routes = JSON.parse(run(context, `JSON.stringify({
+    safeVideo: chooseInitialOriginalPlaybackRoute({
+      isVideo: true,
+      policy: { decision: 'auto', mode: 'disk' }
+    }),
+    largeVideo: chooseInitialOriginalPlaybackRoute({
+      isVideo: true,
+      policy: { decision: 'confirm', mode: 'disk' }
+    }),
+    memoryOnlyVideo: chooseInitialOriginalPlaybackRoute({
+      isVideo: true,
+      policy: { decision: 'auto', mode: 'memory' }
+    }),
+    image: chooseInitialOriginalPlaybackRoute({
+      isVideo: false,
+      policy: { decision: 'auto', mode: 'disk' }
+    })
+  })`));
+  assert.deepEqual(routes, {
+    safeVideo: 'original-opfs',
+    largeVideo: 'original-range',
+    memoryOnlyVideo: 'original-range',
+    image: 'original-range'
+  });
+});
+
+test('an exhausted temporary-disk route is not selected again after Range fallback', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    navigator.storage = {
+      getDirectory: async () => ({}),
+      estimate: async () => ({ quota: 1024 * 1024 * 1024, usage: 0 })
+    };
+    supportsWritableOpfs = async () => true;
+    state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
+    return JSON.stringify(await resolveOriginalBufferPolicy({ size: String(32 * 1024 * 1024) }));
+  })()`);
+  assert.deepEqual(JSON.parse(result), {
+    decision: 'auto',
+    mode: 'memory',
+    hardLimit: 256 * 1024 * 1024
+  });
+});
+
 test('shorts playback order ignores search and media filter subsets', () => {
   const context = loadAppContext();
   const ids = JSON.parse(run(context, `(() => {
@@ -450,7 +502,7 @@ test('resource-key headers keep raw keys and include each referenced item once',
   );
 });
 
-test('G-drive-scale render mounts at most 240 cards and never mounts GIF image sources', () => {
+test('G-drive-scale render mounts at most 240 cards and uses static GIF canvases instead of animated images', () => {
   const context = loadAppContext();
   const { findNodes } = installMiniDom(context);
   const grid = context.document.createElement('div');
@@ -472,7 +524,176 @@ test('G-drive-scale render mounts at most 240 cards and never mounts GIF image s
   })()`);
   assert.equal(findNodes(grid, '.file-card').length, 240);
   assert.equal(findNodes(grid, '.file-card-gif-placeholder').length, 240);
+  assert.equal(findNodes(grid, '.file-card-gif-canvas').length, 240);
   assert.equal(findNodes(grid, 'img').length, 0);
+  assert.equal(
+    findNodes(grid, '.file-card-gif-canvas').reduce((pixels, canvas) => pixels + canvas.width * canvas.height, 0),
+    240,
+    'offscreen GIF canvases must keep only their 1x1 placeholder backing store'
+  );
+});
+
+test('GIF thumbnail loader draws one static cover frame and then releases the detached image', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    const classes = new Set();
+    let drawCalls = 0;
+    let released = 0;
+    class TestImage {
+      constructor() {
+        this.naturalWidth = 640;
+        this.naturalHeight = 360;
+      }
+      set src(_value) { setTimeout(() => this.onload?.(), 0); }
+      removeAttribute(name) { if (name === 'src') released += 1; }
+    }
+    Image = TestImage;
+    const canvas = {
+      isConnected: true,
+      width: 1,
+      height: 1,
+      classList: { add(name) { classes.add(name); } },
+      getContext() { return { drawImage() { drawCalls += 1; } }; }
+    };
+    const visual = { classList: { add(name) { classes.add(name); } } };
+    const placeholder = { hidden: false };
+    queueStaticGifThumbnail(
+      { id: 'gif-1', thumbnailLink: 'https://example.test/static-gif-thumb' },
+      canvas,
+      visual,
+      placeholder
+    );
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    return JSON.stringify({
+      drawCalls,
+      released,
+      width: canvas.width,
+      height: canvas.height,
+      placeholderHidden: placeholder.hidden,
+      loaded: classes.has('loaded'),
+      hasThumbnail: classes.has('has-thumbnail'),
+      active: activeGifThumbnailLoads
+    });
+  })()`);
+  assert.deepEqual(JSON.parse(result), {
+    drawCalls: 1,
+    released: 1,
+    width: 320,
+    height: 320,
+    placeholderHidden: true,
+    loaded: true,
+    hasThumbnail: true,
+    active: 0
+  });
+});
+
+test('GIF thumbnail backing pixels exist only near the viewport and are released after exit', async () => {
+  const context = loadAppContext();
+  installMiniDom(context);
+  const result = await run(context, `(async () => {
+    let observerCallback = null;
+    const observed = [];
+    const images = [];
+    let drawCalls = 0;
+    IntersectionObserver = class {
+      constructor(callback) { observerCallback = callback; }
+      observe(target) { observed.push(target); }
+      unobserve() {}
+      disconnect() {}
+    };
+    Image = class {
+      constructor() {
+        this.naturalWidth = 640;
+        this.naturalHeight = 360;
+        images.push(this);
+      }
+      set src(_value) {}
+      removeAttribute() {}
+    };
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    canvas.isConnected = true;
+    canvas.getContext = () => ({ drawImage() { drawCalls += 1; } });
+    const visual = document.createElement('div');
+    const placeholder = document.createElement('div');
+    placeholder.hidden = false;
+    registerStaticGifThumbnail(
+      { id: 'gif-visible', thumbnailLink: 'https://example.test/gif-thumb' },
+      canvas,
+      visual,
+      placeholder,
+      false
+    );
+    const beforeEnter = { observed: observed.length, images: images.length, pixels: canvas.width * canvas.height };
+    observerCallback([{ target: canvas, isIntersecting: true }]);
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    images[0].onload();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    const near = {
+      pixels: canvas.width * canvas.height,
+      loaded: canvas.classList.contains('loaded'),
+      placeholderHidden: placeholder.hidden,
+      drawCalls
+    };
+    observerCallback([{ target: canvas, isIntersecting: false }]);
+    const far = {
+      pixels: canvas.width * canvas.height,
+      loaded: canvas.classList.contains('loaded'),
+      placeholderHidden: placeholder.hidden,
+      active: activeGifThumbnailLoads
+    };
+    return JSON.stringify({ beforeEnter, near, far });
+  })()`);
+  assert.deepEqual(JSON.parse(result), {
+    beforeEnter: { observed: 1, images: 0, pixels: 1 },
+    near: { pixels: 320 * 320, loaded: true, placeholderHidden: true, drawCalls: 1 },
+    far: { pixels: 1, loaded: false, placeholderHidden: false, active: 0 }
+  });
+});
+
+test('GIF draw failures immediately release the expanded canvas backing store', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    const warnings = [];
+    console.warn = (...args) => warnings.push(args);
+    class TestImage {
+      constructor() {
+        this.naturalWidth = 640;
+        this.naturalHeight = 360;
+      }
+      set src(_value) { setTimeout(() => this.onload?.(), 0); }
+      removeAttribute() {}
+    }
+    Image = TestImage;
+    const canvas = {
+      isConnected: true,
+      width: 1,
+      height: 1,
+      classList: { add() {} },
+      getContext() { return { drawImage() { throw new Error('context lost'); } }; }
+    };
+    const placeholder = { hidden: false };
+    queueStaticGifThumbnail(
+      { id: 'gif-failure', thumbnailLink: 'https://example.test/gif-failure' },
+      canvas,
+      { classList: { add() {} } },
+      placeholder
+    );
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    return JSON.stringify({
+      pixels: canvas.width * canvas.height,
+      placeholderHidden: placeholder.hidden,
+      active: activeGifThumbnailLoads,
+      warnings: warnings.length
+    });
+  })()`);
+  assert.deepEqual(JSON.parse(result), {
+    pixels: 1,
+    placeholderHidden: false,
+    active: 0,
+    warnings: 1
+  });
 });
 
 test('swipe commits require a dominant deliberate movement or a qualifying flick', () => {
@@ -488,6 +709,87 @@ test('swipe commits require a dominant deliberate movement or a qualifying flick
   assert.equal(check(100, 10, 500, 400), true, 'deliberate dominant drag must commit');
   assert.equal(check(35, 2, 50, 400), false, 'sub-threshold flick must not commit');
   assert.equal(check(48, 2, 70, 400), true, 'qualifying dominant flick must commit');
+});
+
+test('an axis-locked swipe commits from signed distance and velocity without a second dominance test', () => {
+  const context = loadAppContext();
+  const check = (distance, elapsed, axis) => run(
+    context,
+    `shouldCommitLockedSwipe(${distance}, ${elapsed}, ${axis})`
+  );
+  assert.equal(check(100, 500, 400), true, 'locked deliberate drag commits');
+  assert.equal(check(48, 70, 400), true, 'locked qualifying flick commits');
+  assert.equal(check(44, 40, 400), false, 'sub-threshold flick stays put');
+  assert.equal(check(-160, 100, 400), false, 'reversing behind the lock origin never commits');
+});
+
+test('frozen swipe navigation commits the previewed file ID even if the surrounding order changes', async () => {
+  const context = loadAppContext();
+  const result = await run(context, `(async () => {
+    const files = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+    state.playbackSession = 9;
+    state.selected = files[0];
+    state.playbackOrderIds = ['a', 'b', 'c'];
+    state.playbackDeck = { anchorId: 'a', above: ['c'], below: ['b'] };
+    state.populationComplete = true;
+    el.playerSheet = { hidden: false };
+    getPlaybackFileList = () => files;
+    let animatedTarget = '';
+    let openedTarget = '';
+    animateMediaTransition = async (_direction, callback, target) => {
+      animatedTarget = target.id;
+      state.playbackOrderIds = ['a', 'c', 'b'];
+      callback();
+    };
+    openMediaSource = (target) => { openedTarget = target.id; state.selected = target; };
+    warmPlaybackNeighborhood = () => {};
+    await playFrozenSwipeTarget('b', 'left');
+    return JSON.stringify({ animatedTarget, openedTarget, selected: state.selected.id });
+  })()`);
+  assert.deepEqual(JSON.parse(result), {
+    animatedTarget: 'b',
+    openedTarget: 'b',
+    selected: 'b'
+  });
+});
+
+test('video transition keeps the neighbour poster until a frame is actually presented', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const classes = new Set();
+    let frameCallback = null;
+    let hiddenNeighbours = 0;
+    const video = {
+      hidden: false,
+      dataset: { mediaSession: '4' },
+      classList: {
+        add(name) { classes.add(name); },
+        remove(name) { classes.delete(name); }
+      },
+      removeAttribute() {},
+      requestVideoFrameCallback(callback) { frameCallback = callback; }
+    };
+    state.mediaSession = 4;
+    state.selected = { id: 'video' };
+    el.videoPlayer = video;
+    el.imageViewer = { hidden: true };
+    el.mediaLoading = { hidden: false };
+    el.mediaError = { hidden: false };
+    updateQualityDisplay = () => {};
+    tryCaptureAmbientFrame = () => {};
+    hideSwipeNeighbor = () => { hiddenNeighbours += 1; };
+    onMediaReady();
+    const beforeFrame = { hiddenNeighbours, ready: classes.has('is-ready') };
+    frameCallback?.(0, { mediaTime: 0 });
+    return JSON.stringify({
+      beforeFrame,
+      afterFrame: { hiddenNeighbours, ready: classes.has('is-ready') }
+    });
+  })()`));
+  assert.deepEqual(result, {
+    beforeFrame: { hiddenNeighbours: 0, ready: false },
+    afterFrame: { hiddenNeighbours: 1, ready: true }
+  });
 });
 
 test('task pool caps concurrency and returns aligned all-settled results', async () => {

@@ -443,12 +443,26 @@
                 <svg class="icon-expand" id="ctrlIconExpand" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                 <svg class="icon-compress" id="ctrlIconCompress" width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
               </button>
-              <button class="player-ctrl-btn" id="ctrlMove" type="button" aria-label="폴더로 이동" title="폴더로 이동">
-                <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
-              </button>
-              <button class="player-ctrl-btn topbar-delete" id="ctrlDelete" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
-                <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              </button>
+              <details class="player-more-menu" id="playerMoreMenu">
+                <summary class="player-ctrl-btn" aria-label="재생기 더보기" title="더보기">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+                </summary>
+                <div class="player-more-popover">
+                  <div class="player-more-details">
+                    <span id="mediaResolution">—</span>
+                    <span id="mediaFileSizeType">—</span>
+                    <p id="codecNote">Drive 원본 파일 전송 여부를 확인하는 중입니다.</p>
+                  </div>
+                  <button class="player-more-action" id="ctrlMove" type="button">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+                    <span>폴더로 이동</span>
+                  </button>
+                  <button class="player-more-action danger" id="ctrlDelete" type="button">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>휴지통으로 이동</span>
+                  </button>
+                </div>
+              </details>
             </div>
           </div>
         </div>
@@ -471,20 +485,6 @@
         </div>
       </div>
 
-      <!-- Clean Streamlined Media Info Row -->
-      <div class="media-info-bar" id="mediaInfoPanel">
-        <div class="info-item">
-          <span class="info-lbl">해상도</span>
-          <strong class="info-val" id="mediaResolution">—</strong>
-        </div>
-        <div class="info-item">
-          <span class="info-lbl">파일 정보</span>
-          <strong class="info-val" id="mediaFileSizeType">—</strong>
-        </div>
-        <div class="info-note-wrap">
-          <p id="codecNote">Drive 원본 파일 전송 여부를 확인하는 중입니다.</p>
-        </div>
-      </div>
     </div>
   </section>
 

@@ -28,6 +28,7 @@ const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
 const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
 const MAX_ORIGINAL_RETRY_AFTER_MS = 10_000;
+const GIF_THUMBNAIL_SIZE = 320;
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
   SEQUENTIAL: 'original-sequential',
@@ -104,6 +105,14 @@ function shouldCommitSwipe(primaryDelta, crossDelta, elapsedMs, axisSize = 400) 
   const distanceThreshold = Math.min(132, Math.max(72, (Number(axisSize) || 400) * 0.18));
   const dominant = primary >= Math.max(1, cross) * 1.35;
   if (!dominant) return false;
+  if (primary >= distanceThreshold) return true;
+  return primary >= 48 && primary / elapsed >= 0.55;
+}
+
+function shouldCommitLockedSwipe(directionalDelta, elapsedMs, axisSize = 400) {
+  const primary = Math.max(0, Number(directionalDelta) || 0);
+  const elapsed = Math.max(1, Number(elapsedMs) || 1);
+  const distanceThreshold = Math.min(132, Math.max(72, (Number(axisSize) || 400) * 0.18));
   if (primary >= distanceThreshold) return true;
   return primary >= 48 && primary / elapsed >= 0.55;
 }
@@ -311,6 +320,13 @@ function getOriginalBufferPolicy({
   return { decision: 'denied', mode: 'memory', hardLimit: memoryHard };
 }
 
+function chooseInitialOriginalPlaybackRoute({ isVideo = false, policy = null } = {}) {
+  if (isVideo && policy?.mode === 'disk' && policy?.decision === 'auto') {
+    return PLAYBACK_MODE.OPFS;
+  }
+  return PLAYBACK_MODE.RANGE;
+}
+
 function buildResourceKeysHeader(items) {
   const pairs = [];
   const seen = new Set();
@@ -395,6 +411,7 @@ const state = {
   mediaRangeRebuildCount: 0,
   mediaPermissionRetryCount: 0,
   mediaFullRequestCount: 0,
+  mediaExhaustedOriginalModes: new Set(),
   mediaAbuseAcknowledged: false,
   pendingSecurityConfirmation: null,
   mediaBufferStorageMode: '',
@@ -432,6 +449,7 @@ let updatePending = false;
 let controlsHideTimer = null;
 let isSeekingPointer = false;
 let isSpeedMenuOpen = false;
+let isPlayerMoreOpen = false;
 let tokenRenewalTimer = null;
 let shuffledOrderMap = new Map();
 let tokenRequestPromise = null;
@@ -452,6 +470,9 @@ let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
 let swipePreviewDirection = null;
 let swipePreviewTargetId = null;
+let swipeGestureDirection = null;
+let swipeGestureTargetId = null;
+let swipeGestureAwaitingPopulation = false;
 let swipeNeighborGeneration = 0;
 let swipeStageWidth = 0;
 let swipeStageHeight = 0;
@@ -525,7 +546,7 @@ function bindElements() {
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
-    'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown',
+    'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown', 'playerMoreMenu',
     'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
@@ -685,6 +706,10 @@ function bindEvents() {
   if (el.ctrlSpeedButton) el.ctrlSpeedButton.addEventListener('click', toggleSpeedMenu);
   if (el.ctrlPip) el.ctrlPip.addEventListener('click', togglePictureInPicture);
   if (el.ctrlFullscreen) el.ctrlFullscreen.addEventListener('click', toggleFullscreen);
+  if (el.playerMoreMenu) el.playerMoreMenu.addEventListener('toggle', () => {
+    isPlayerMoreOpen = el.playerMoreMenu.open;
+    resetControlsTimer();
+  });
   if (el.speedButtons) {
     el.speedButtons.forEach((btn) => {
       btn.addEventListener('click', () => setPlaybackSpeed(Number(btn.dataset.speed)));
@@ -729,6 +754,7 @@ function bindEvents() {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
       flashPressed(btn);
+      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
       requestDeleteFile();
     });
   });
@@ -737,6 +763,7 @@ function bindEvents() {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
       flashPressed(btn);
+      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
       requestMoveFile();
     });
   });
@@ -899,8 +926,7 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('loadeddata', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
-    el.videoPlayer.removeAttribute('poster');
-    tryCaptureAmbientFrame();
+    scheduleVideoFramePresentation(event.currentTarget, state.mediaSession);
   });
   el.imageViewer.addEventListener('load', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
@@ -1491,6 +1517,11 @@ const THUMBNAIL_CACHE_LIMIT = 240;
 let thumbnailGeneration = 0;
 const thumbnailWaitersByFile = new Map();
 const activeThumbnailJobs = new Set();
+const gifThumbnailQueue = [];
+const activeGifThumbnailJobs = new Set();
+let activeGifThumbnailLoads = 0;
+let gifThumbnailObserver = null;
+const gifThumbnailEntries = new Map();
 
 function cacheGeneratedThumbnail(fileId, dataUrl) {
   generatedThumbnailCache.delete(fileId);
@@ -1738,9 +1769,15 @@ function resetListingSession() {
   state.randomRequestGeneration++;
   shuffledOrderMap.clear();
   thumbnailGeneration++;
+  gifThumbnailObserver?.disconnect();
+  gifThumbnailObserver = null;
+  gifThumbnailEntries.forEach((entry) => releaseStaticGifThumbnail(entry, { dispose: true }));
+  gifThumbnailEntries.clear();
   [...activeThumbnailJobs].forEach((job) => job.cancel());
+  [...activeGifThumbnailJobs].forEach((job) => job.cancel());
   thumbnailWaitersByFile.clear();
   thumbnailExtractionQueue.splice(0);
+  gifThumbnailQueue.splice(0);
   if (state.selectionMode || state.selectedFileIds.size) exitSelectionMode();
 }
 
@@ -2146,6 +2183,7 @@ function renderMediaGrid(files) {
   el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
   el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
   el.fileGrid.replaceChildren(fragment);
+  pruneStaticGifThumbnailEntries();
   const firstCard = el.fileGrid.querySelector('.file-card');
   if (firstCard?.offsetHeight && Math.abs((firstCard.offsetHeight + 12) - state.renderRowHeight) >= 5) {
     state.renderRowHeight = firstCard.offsetHeight + 12;
@@ -2444,6 +2482,16 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
     placeholder.setAttribute('aria-hidden', 'true');
     placeholder.innerHTML = '<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="14" width="40" height="36" rx="8" stroke="currentColor" stroke-width="2"/><path d="m18 43 10-10 7 7 6-6 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="25" r="4" fill="currentColor"/></svg><span>GIF</span>';
     visual.appendChild(placeholder);
+    if (file.thumbnailLink) {
+      const canvas = document.createElement('canvas');
+      canvas.className = 'file-card-thumb file-card-gif-canvas';
+      canvas.width = 1;
+      canvas.height = 1;
+      canvas.setAttribute('aria-hidden', 'true');
+      visual.appendChild(canvas);
+      const eagerLimit = isMobileDevice() ? 16 : 24;
+      registerStaticGifThumbnail(file, canvas, visual, placeholder, index < eagerLimit);
+    }
   } else {
     const thumbnail = document.createElement('img');
     thumbnail.className = 'file-card-thumb';
@@ -2627,17 +2675,22 @@ function formatPlayerTime(seconds) {
 
 function resetControlsTimer() {
   if (el.playerModal) el.playerModal.classList.remove('controls-idle');
-  if (el.mediaStage) el.mediaStage.classList.remove('controls-hidden');
   clearTimeout(controlsHideTimer);
   if (state.mediaAttempt.startsWith('drive-preview')) return;
-  if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !isSpeedMenuOpen) {
+  if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu()) {
     controlsHideTimer = setTimeout(() => {
-      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !isSpeedMenuOpen) {
+      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu()) {
         if (el.playerModal) el.playerModal.classList.add('controls-idle');
-        if (el.mediaStage) el.mediaStage.classList.add('controls-hidden');
       }
     }, 1800);
   }
+}
+
+function hasOpenPlayerControlsMenu() {
+  return Boolean(
+    isSpeedMenuOpen || isPlayerMoreOpen
+    || el.mobileShortsOverlay?.classList.contains('expanded')
+  );
 }
 
 function togglePlayPause(event) {
@@ -2658,6 +2711,7 @@ function updatePlayPauseUI() {
   if (!isVideo) {
     if (el.customVideoControls) el.customVideoControls.hidden = true;
     if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.hidden = true;
+    updateFrameStepVisibility(false);
     return;
   }
   if (el.customVideoControls) el.customVideoControls.hidden = false;
@@ -2673,6 +2727,14 @@ function updatePlayPauseUI() {
   if (el.stageCenterPlayBtn) {
     el.stageCenterPlayBtn.hidden = !isPaused;
   }
+  updateFrameStepVisibility(isPaused);
+}
+
+function updateFrameStepVisibility(show = Boolean(el.videoPlayer && !el.videoPlayer.hidden && el.videoPlayer.paused)) {
+  const visible = Boolean(show && el.videoPlayer && !el.videoPlayer.hidden);
+  [el.ctrlFramePrev, el.ctrlFrameNext, el.shortsFramePrev, el.shortsFrameNext].forEach((button) => {
+    if (button) button.hidden = !visible;
+  });
 }
 
 function seekRelative(deltaSeconds) {
@@ -2780,12 +2842,23 @@ function onDocumentClickForSpeedMenu(event) {
     if (el.speedDropdown) el.speedDropdown.hidden = true;
     el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
   }
+  if (isPlayerMoreOpen && !el.playerMoreMenu?.contains(event.target)) {
+    el.playerMoreMenu.open = false;
+    isPlayerMoreOpen = false;
+    resetControlsTimer();
+  }
 }
 
 function onSpeedMenuKeyDown(event) {
   const buttons = el.speedButtons || [];
   const index = buttons.indexOf(event.currentTarget);
   if (event.key === 'Escape') {
+    if (isPlayerMoreOpen) {
+      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+      isPlayerMoreOpen = false;
+      resetControlsTimer();
+      return;
+    }
     event.preventDefault();
     isSpeedMenuOpen = false;
     el.speedDropdown.hidden = true;
@@ -2813,8 +2886,8 @@ function onVideoProgressUpdate() {
   const buffered = el.videoPlayer.buffered;
   if (buffered.length > 0) {
     const end = buffered.end(buffered.length - 1);
-    const bufPercent = Math.min(100, (end / duration) * 100);
-    el.seekBarBuffered.style.width = `${bufPercent}%`;
+    const bufferedRatio = Math.min(1, Math.max(0, end / duration));
+    el.seekBarBuffered.style.transform = `scaleX(${bufferedRatio})`;
   }
 }
 
@@ -2822,11 +2895,13 @@ function updateVideoProgress() {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   const currentTime = el.videoPlayer.currentTime || 0;
   const duration = el.videoPlayer.duration || 0;
-  const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const ratio = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
 
-  if (el.seekBarPlayed) el.seekBarPlayed.style.width = `${percent}%`;
-  if (el.seekBarThumb) el.seekBarThumb.style.left = `${percent}%`;
-  if (el.mobileShortsProgressBar) el.mobileShortsProgressBar.style.width = `${percent}%`;
+  if (el.seekBarPlayed) el.seekBarPlayed.style.transform = `scaleX(${ratio})`;
+  if (el.seekBarThumb && el.seekBarContainer) {
+    el.seekBarThumb.style.setProperty('--seek-x', `${ratio * el.seekBarContainer.clientWidth}px`);
+  }
+  if (el.mobileShortsProgressBar) el.mobileShortsProgressBar.style.transform = `scaleX(${ratio})`;
   if (el.ctrlCurrentTime) el.ctrlCurrentTime.textContent = formatPlayerTime(currentTime);
   if (el.ctrlTotalTime) el.ctrlTotalTime.textContent = formatPlayerTime(duration);
   if (el.seekBarContainer) {
@@ -3005,6 +3080,7 @@ function toggleShortsExpand() {
   if (expanded) {
     shortsExpandTimer = setTimeout(collapseShortsExpand, 5000);
   }
+  resetControlsTimer();
 }
 
 function collapseShortsExpand() {
@@ -3012,6 +3088,7 @@ function collapseShortsExpand() {
   shortsExpandTimer = null;
   if (el.mobileShortsOverlay) el.mobileShortsOverlay.classList.remove('expanded');
   if (el.shortsMoreBtn) el.shortsMoreBtn.setAttribute('aria-expanded', 'false');
+  if (el.playerSheet && !el.playerSheet.hidden) resetControlsTimer();
 }
 
 /* 영상 90도 회전 (시계 방향) — UI는 그대로 두고 영상만 회전.
@@ -3443,6 +3520,25 @@ function playRandomFile(direction = 'up') {
   );
 }
 
+function playFrozenSwipeTarget(targetId, direction) {
+  const vertical = direction === 'up' || direction === 'down';
+  return enqueuePlaybackNavigation(
+    (list) => getPlaybackFileById(targetId, list),
+    direction,
+    vertical ? '랜덤 재생 준비 실패' : undefined,
+    false,
+    (target, list) => {
+      if (vertical) {
+        state.playbackDeck = advanceVerticalPlaybackDeck(state.playbackDeck, direction, target.id, list);
+        if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
+      } else {
+        state.playbackDeck = buildVerticalPlaybackDeck(list, target.id);
+        state.playbackDeckComplete = hasCompletePlaybackPopulation();
+      }
+    }
+  );
+}
+
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
@@ -3569,6 +3665,9 @@ function setupTouchGestures() {
     swipeStageHeight = el.mediaStage?.clientHeight || window.innerHeight || 600;
     isTouchActive = true;
     lockedAxis = null;
+    swipeGestureDirection = null;
+    swipeGestureTargetId = null;
+    swipeGestureAwaitingPopulation = false;
   }, { passive: false });
 
   modal.addEventListener('touchmove', (e) => {
@@ -3585,8 +3684,18 @@ function setupTouchGestures() {
       const absX = Math.abs(rawX);
       const absY = Math.abs(rawY);
       if (Math.hypot(absX, absY) >= 12) {
-        if (absX >= Math.max(1, absY) * 1.25) lockedAxis = 'x';
-        else if (absY >= Math.max(1, absX) * 1.25) lockedAxis = 'y';
+        if (absX >= Math.max(1, absY) * 1.25) {
+          lockedAxis = 'x';
+          swipeGestureDirection = rawX < 0 ? 'left' : 'right';
+          swipeGestureTargetId = resolveSwipeTarget(swipeGestureDirection)?.id || null;
+        } else if (absY >= Math.max(1, absX) * 1.25) {
+          lockedAxis = 'y';
+          swipeGestureDirection = rawY < 0 ? 'up' : 'down';
+          swipeGestureAwaitingPopulation = !hasCompletePlaybackPopulation();
+          if (!swipeGestureAwaitingPopulation) {
+            swipeGestureTargetId = resolveSwipeTarget(swipeGestureDirection)?.id || null;
+          }
+        }
       }
     }
 
@@ -3596,9 +3705,10 @@ function setupTouchGestures() {
       e.preventDefault();
       // Direct manipulation: the current and adjacent item stay attached to
       // the finger on one strict horizontal rail.
-      const dragX = Math.max(-swipeStageWidth, Math.min(swipeStageWidth, rawX));
-      const direction = dragX < 0 ? 'left' : 'right';
-      const target = resolveSwipeTarget(direction);
+      const direction = swipeGestureDirection;
+      const directionalX = direction === 'left' ? Math.min(0, rawX) : Math.max(0, rawX);
+      const dragX = Math.max(-swipeStageWidth, Math.min(swipeStageWidth, directionalX));
+      const target = getPlaybackFileById(swipeGestureTargetId);
       el.mediaStage?.classList.add('is-dragging');
       if (target) renderSwipeNeighbor(direction, target, dragX, 0);
       if (activeEl) {
@@ -3612,9 +3722,14 @@ function setupTouchGestures() {
     } else if (lockedAxis === 'y') {
       e.preventDefault();
       // The preassigned random deck uses the same 1:1 vertical rail.
-      const dragY = Math.max(-swipeStageHeight, Math.min(swipeStageHeight, rawY));
-      const direction = dragY < 0 ? 'up' : 'down';
-      const target = resolveSwipeTarget(direction);
+      const direction = swipeGestureDirection;
+      if (swipeGestureAwaitingPopulation && hasCompletePlaybackPopulation()) {
+        swipeGestureAwaitingPopulation = false;
+        swipeGestureTargetId = resolveSwipeTarget(direction)?.id || null;
+      }
+      const directionalY = direction === 'up' ? Math.min(0, rawY) : Math.max(0, rawY);
+      const dragY = Math.max(-swipeStageHeight, Math.min(swipeStageHeight, directionalY));
+      const target = getPlaybackFileById(swipeGestureTargetId);
       el.mediaStage?.classList.add('is-dragging');
       if (target) renderSwipeNeighbor(direction, target, 0, dragY);
       if (activeEl) {
@@ -3643,20 +3758,28 @@ function setupTouchGestures() {
       e.preventDefault();
       handleStageTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
       lockedAxis = null;
+      swipeGestureDirection = null;
+      swipeGestureTargetId = null;
+      swipeGestureAwaitingPopulation = false;
       return;
     }
 
     if (lockedAxis === 'x') {
       const axisSize = el.mediaStage?.clientWidth || window.innerWidth || 400;
-      if (shouldCommitSwipe(rawDiffX, rawDiffY, elapsed, axisSize)) {
-        trackSwipeCommit(rawDiffX < 0 ? playNextFile('left') : playPrevFile('right'));
+      const directionalDelta = swipeGestureDirection === 'left' ? -rawDiffX : rawDiffX;
+      if (shouldCommitLockedSwipe(directionalDelta, elapsed, axisSize) && swipeGestureTargetId) {
+        trackSwipeCommit(playFrozenSwipeTarget(swipeGestureTargetId, swipeGestureDirection));
       } else {
         snapBackSpring(activeEl);
       }
     } else if (lockedAxis === 'y') {
       const axisSize = el.mediaStage?.clientHeight || window.innerHeight || 600;
-      if (shouldCommitSwipe(rawDiffY, rawDiffX, elapsed, axisSize)) {
-        trackSwipeCommit(rawDiffY < 0 ? playRandomFile('up') : playRandomFile('down'));
+      const directionalDelta = swipeGestureDirection === 'up' ? -rawDiffY : rawDiffY;
+      if (shouldCommitLockedSwipe(directionalDelta, elapsed, axisSize)) {
+        const navigation = swipeGestureTargetId
+          ? playFrozenSwipeTarget(swipeGestureTargetId, swipeGestureDirection)
+          : playRandomFile(swipeGestureDirection);
+        trackSwipeCommit(navigation);
       } else {
         snapBackSpring(activeEl);
       }
@@ -3664,6 +3787,9 @@ function setupTouchGestures() {
       snapBackSpring(activeEl);
     }
     lockedAxis = null;
+    swipeGestureDirection = null;
+    swipeGestureTargetId = null;
+    swipeGestureAwaitingPopulation = false;
   }, { passive: false });
 
   modal.addEventListener('touchcancel', cancelActiveTouchGesture, { passive: true });
@@ -3673,6 +3799,9 @@ function cancelActiveTouchGesture() {
   if (!isTouchActive) return;
   isTouchActive = false;
   lockedAxis = null;
+  swipeGestureDirection = null;
+  swipeGestureTargetId = null;
+  swipeGestureAwaitingPopulation = false;
   el.mediaStage?.classList.remove('is-dragging');
   snapBackSpring(getActiveMediaElement());
 }
@@ -3689,7 +3818,7 @@ function snapBackSpring(activeEl) {
     const animation = activeEl.animate([
       { transform: startTransform, opacity: startOpacity },
       { transform: 'translate3d(0, 0, 0)', opacity: 1 }
-    ], { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    ], { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
     mediaTransitionAnimations.push(animation);
   }
   if (neighbor && swipePreviewDirection && !reducedMotion && typeof neighbor.animate === 'function') {
@@ -3697,14 +3826,14 @@ function snapBackSpring(activeEl) {
     const animation = neighbor.animate([
       { transform: neighbor.style.transform || 'translate3d(0, 0, 0)', opacity: 1 },
       { transform: `translate3d(${start.x}px, ${start.y}px, 0)`, opacity: 1 }
-    ], { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    ], { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
     mediaTransitionAnimations.push(animation);
   }
-  if (activeEl) {
-    activeEl.style.transform = '';
-    activeEl.style.opacity = '';
-  }
   snapBackTimer = setTimeout(() => {
+    if (activeEl) {
+      activeEl.style.transform = '';
+      activeEl.style.opacity = '1';
+    }
     el.mediaStage?.classList.remove('is-snapping');
     hideSwipeNeighbor();
     snapBackTimer = null;
@@ -3722,6 +3851,13 @@ function handlePlayerKeyboard(event) {
   const code = event.code;
 
   if (event.key === 'Escape') {
+    if (isPlayerMoreOpen) {
+      event.preventDefault();
+      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+      isPlayerMoreOpen = false;
+      resetControlsTimer();
+      return;
+    }
     if (isSpeedMenuOpen) {
       isSpeedMenuOpen = false;
       if (el.speedDropdown) el.speedDropdown.hidden = true;
@@ -3811,10 +3947,7 @@ function setNativeVideoActionsAvailable(available) {
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !enabled;
-  if (el.ctrlFramePrev) el.ctrlFramePrev.hidden = !enabled;
-  if (el.ctrlFrameNext) el.ctrlFrameNext.hidden = !enabled;
-  if (el.shortsFramePrev) el.shortsFramePrev.hidden = !enabled;
-  if (el.shortsFrameNext) el.shortsFrameNext.hidden = !enabled;
+  updateFrameStepVisibility(enabled && Boolean(el.videoPlayer?.paused));
   if (el.shortsRotateBtn) el.shortsRotateBtn.hidden = !enabled;
 }
 
@@ -3841,10 +3974,12 @@ function setPlayerMediaPriorityActive(active) {
   if (playerMediaPriorityActive) {
     suspendBackgroundThumbnailImages();
     activeThumbnailJobs.forEach((job) => job.cancel?.(true));
+    activeGifThumbnailJobs.forEach((job) => job.cancel?.(true));
     return;
   }
   resumeBackgroundThumbnailImages();
   processThumbnailQueue();
+  processGifThumbnailQueue();
 }
 
 function capturePlaybackSnapshot() {
@@ -3916,17 +4051,20 @@ function openMediaSource(file) {
 
   if (isVideo) {
     const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
-    if (poster) el.videoPlayer.poster = poster;
+    if (poster) {
+      el.videoPlayer.poster = poster;
+      el.videoPlayer.classList.add('has-poster');
+    }
   }
 
   const session = state.mediaSession;
-  state.mediaAttempt = 'range';
-  state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+  state.mediaAttempt = 'route-selecting';
+  state.mediaPlaybackMode = '';
   state.mediaTransportVerified = false;
   state.mediaRangeIntegrity = 'unknown';
   state.lastProxyError = null;
   updateQualityDisplay();
-  showMediaLoading('원본 구간 스트림 준비 중');
+  showMediaLoading('원본 재생 경로 확인 중');
 
   if (state.demo) {
     if (isVideo) {
@@ -3953,10 +4091,50 @@ function openMediaSource(file) {
     showMediaError('Google 인증 시간이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
     return;
   }
+  startInitialOriginalPlayback(file, isVideo ? 'video' : 'image', session);
+}
+
+async function startInitialOriginalPlayback(file, kind, session) {
+  if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return;
+  if (kind !== 'video') {
+    startOriginalRangePlayback(file, kind, session);
+    return;
+  }
+
+  state.mediaAttempt = 'buffer-evaluating';
+  showMediaLoading('원본 임시 디스크 사용 가능 여부 확인 중');
+  const policy = await resolveOriginalBufferPolicy(file);
+  if (state.selected?.id !== file.id || state.mediaSession !== session) return;
+  const route = chooseInitialOriginalPlaybackRoute({ isVideo: true, policy });
+  if (route === PLAYBACK_MODE.OPFS) {
+    await startOriginalBlobFallback(file, kind, session, {
+      confirmed: true,
+      policy,
+      rangeFallbackOnFailure: true
+    });
+    return;
+  }
+  startOriginalRangePlayback(file, kind, session);
+}
+
+function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
+  if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
+  state.mediaAttempt = 'range';
+  state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+  state.mediaTransportVerified = false;
+  state.mediaRangeIntegrity = 'unknown';
+  state.lastProxyError = null;
+  updateQualityDisplay();
+  showMediaLoading(message);
   sendTokenToWorker();
   const mediaUrl = buildMediaUrl(file);
 
-  if (isVideo) {
+  if (kind === 'video') {
+    const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
+    if (poster) {
+      el.videoPlayer.poster = poster;
+      el.videoPlayer.classList.add('has-poster');
+    }
     el.videoPlayer.hidden = false;
     el.videoPlayer.dataset.mediaSession = String(session);
     el.videoPlayer.src = mediaUrl;
@@ -3984,6 +4162,7 @@ function openMediaSource(file) {
       el.mediaLoadingText.textContent = '원본 응답을 기다리는 중입니다…';
     }
   }, 5000);
+  return true;
 }
 
 async function attemptCurrentPlayback(session) {
@@ -4178,7 +4357,10 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
   clearDirectMediaSources();
   setNativeVideoActionsAvailable(true);
   const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
-  if (poster) el.videoPlayer.poster = poster;
+  if (poster) {
+    el.videoPlayer.poster = poster;
+    el.videoPlayer.classList.add('has-poster');
+  }
   updateQualityDisplay();
   showMediaLoading(message);
   sendTokenToWorker();
@@ -4219,7 +4401,8 @@ async function supportsWritableOpfs() {
 
 async function resolveOriginalBufferPolicy(file) {
   let storageAvailable = 0;
-  const opfsAvailable = await supportsWritableOpfs();
+  const opfsAvailable = !state.mediaExhaustedOriginalModes.has(PLAYBACK_MODE.OPFS)
+    && await supportsWritableOpfs();
   if (opfsAvailable && navigator.storage?.estimate) {
     try {
       const estimate = await navigator.storage.estimate();
@@ -4278,7 +4461,8 @@ function confirmPendingMediaAction() {
       state.mediaAttempt = 'buffer-evaluating';
       startOriginalBlobFallback(state.selected, pendingSecurity.kind, pendingSecurity.session, {
         confirmed: true,
-        policy: pendingSecurity.policy
+        policy: pendingSecurity.policy,
+        rangeFallbackOnFailure: pendingSecurity.rangeFallbackOnFailure === true
       });
     } else {
       retryOriginalStream(
@@ -4363,7 +4547,12 @@ async function downloadOriginalFile(file, session, policy, signal) {
   throw lastError || new Error('Original file transfer retry budget exhausted');
 }
 
-async function startOriginalBlobFallback(file, kind, session, { confirmed = false, policy = null } = {}) {
+async function startOriginalBlobFallback(
+  file,
+  kind,
+  session,
+  { confirmed = false, policy = null, rangeFallbackOnFailure = false } = {}
+) {
   const resolvedPolicy = policy || await resolveOriginalBufferPolicy(file);
   if (session !== state.mediaSession || state.selected?.id !== file.id) return;
   if (resolvedPolicy.decision === 'denied') {
@@ -4388,8 +4577,19 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
   state.lastProxyError = null;
   updateQualityDisplay();
   clearDirectMediaSources();
+  if (kind === 'video') {
+    const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
+    if (poster) {
+      el.videoPlayer.poster = poster;
+      el.videoPlayer.classList.add('has-poster');
+    }
+    el.videoPlayer.hidden = false;
+    el.videoPlayer.dataset.mediaSession = String(session);
+  }
   const locationLabel = resolvedPolicy.mode === 'disk' ? '앱 전용 임시 디스크' : '메모리';
-  showMediaLoading(`직접 스트림 복구 중 — 원본을 ${locationLabel}에 임시 저장하는 중`);
+  showMediaLoading(rangeFallbackOnFailure
+    ? `Drive 원본 파일을 ${locationLabel}에 준비하는 중`
+    : `직접 스트림 복구 중 — 원본을 ${locationLabel}에 임시 저장하는 중`);
   const bufferController = new AbortController();
   state.mediaAbortController = bufferController;
 
@@ -4431,7 +4631,13 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
     if (error.name === 'AbortError' || session !== state.mediaSession) return;
     console.error('Original buffer fallback failed', error);
     cleanupOriginalTempStorage();
+    if (rangeFallbackOnFailure && resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
+      state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
+      startOriginalRangePlayback(file, kind, session, '임시 디스크를 사용할 수 없어 Drive 원본 스트림으로 연결 중');
+      return;
+    }
     if (resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
+      state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
       const memoryPolicy = getOriginalBufferPolicy({
         size: file.size,
         mobile: isMobileDevice(),
@@ -4471,7 +4677,8 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
         session,
         stage: 'full',
         kind,
-        policy: resolvedPolicy
+        policy: resolvedPolicy,
+        rangeFallbackOnFailure
       };
       showMediaError(
         'Google Drive가 이 파일을 악성코드·바이러스 또는 악용 가능성이 있는 파일로 표시했습니다. 위험을 이해하고 직접 선택한 경우에만 원본 다운로드를 다시 시도합니다.',
@@ -4498,7 +4705,8 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
           state.mediaAttempt = 'buffer-evaluating';
           await startOriginalBlobFallback(file, kind, session, {
             confirmed: true,
-            policy: resolvedPolicy
+            policy: resolvedPolicy,
+            rangeFallbackOnFailure
           });
           return;
         }
@@ -4512,6 +4720,9 @@ async function startOriginalBlobFallback(file, kind, session, { confirmed = fals
       updateConnectionBadge();
     } else if (classifyMediaProxyFailure(error) === 'download-restricted') {
       showDrivePreview(file, '원본 다운로드가 제한되어');
+    } else if (rangeFallbackOnFailure) {
+      if (resolvedPolicy.mode === 'disk') state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
+      startOriginalRangePlayback(file, kind, session, '임시 디스크 전송을 완료하지 못해 Drive 원본 스트림으로 연결 중');
     } else if (error instanceof RangeError || /byte count mismatch/i.test(error.message || '')) {
       showDrivePreview(file, '원본 전체 임시 저장을 안전하게 완료하지 못해');
     } else {
@@ -4691,7 +4902,6 @@ function showDrivePreview(file, reason) {
   updatePlayPauseUI();
   clearTimeout(controlsHideTimer);
   el.playerModal?.classList.remove('controls-idle', 'immersive', 'media-recovery-mode');
-  el.mediaStage?.classList.remove('controls-hidden');
   el.mediaStage?.classList.add('drive-preview-active');
   el.playerModal?.classList.add('drive-preview-mode');
   if (el.drivePreviewActions) el.drivePreviewActions.hidden = false;
@@ -5365,17 +5575,48 @@ function openPermissionGuide() {
   if (el.permissionDialog && !el.permissionDialog.open) el.permissionDialog.showModal();
 }
 
+function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.mediaSession) {
+  if (!video || video.hidden || !isCurrentMediaEvent(video)) return;
+  const presentationKey = String(session);
+  if (video.dataset.presentationSession === presentationKey) return;
+  video.dataset.presentationSession = presentationKey;
+  let presented = false;
+  const reveal = () => {
+    if (presented) return;
+    presented = true;
+    if (
+      state.mediaSession !== session || !isCurrentMediaEvent(video)
+      || video.dataset.presentationSession !== presentationKey
+    ) return;
+    delete video.dataset.presentationSession;
+    video.classList.add('is-ready');
+    video.classList.remove('has-poster');
+    video.removeAttribute('poster');
+    tryCaptureAmbientFrame();
+    el.mediaLoading.hidden = true;
+    el.mediaError.hidden = true;
+    updateQualityDisplay();
+    hideSwipeNeighbor({ immediate: false });
+  };
+
+  if (typeof video.requestVideoFrameCallback === 'function') {
+    video.requestVideoFrameCallback(() => reveal());
+  } else {
+    requestAnimationFrame(() => requestAnimationFrame(reveal));
+  }
+}
+
 function onMediaReady() {
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
   if (el.videoPlayer && !el.videoPlayer.hidden) {
-    requestAnimationFrame(() => el.videoPlayer.classList.add('is-ready'));
+    scheduleVideoFramePresentation(el.videoPlayer, state.mediaSession);
   }
   if (el.imageViewer && !el.imageViewer.hidden) {
-    requestAnimationFrame(() => el.imageViewer.classList.add('is-ready'));
+    el.imageViewer.classList.add('is-ready');
+    requestAnimationFrame(() => hideSwipeNeighbor({ immediate: false }));
   }
   updateQualityDisplay();
-  hideSwipeNeighbor({ immediate: false });
 }
 
 function setStreamMode(mode, label) {
@@ -5440,7 +5681,7 @@ function updateQualityDisplay() {
   }
 
   if (state.demo) {
-    setStreamMode('demo', '데모 미리보기');
+    setStreamMode('demo', '데모 미리보기 · 원본 재생 아님');
     if (el.qualityBadge) {
       el.qualityBadge.hidden = false;
       el.qualityBadge.dataset.quality = 'preview';
@@ -5455,7 +5696,7 @@ function updateQualityDisplay() {
   }
 
   if (playbackMode === PLAYBACK_MODE.COMPATIBILITY || attempt.startsWith('drive-preview')) {
-    setStreamMode('drive', 'Google 호환 재생');
+    setStreamMode('drive', qualityLabel);
     if (el.qualityBadge) {
       el.qualityBadge.hidden = false;
       el.qualityBadge.dataset.quality = 'preview';
@@ -5467,7 +5708,7 @@ function updateQualityDisplay() {
         : 'Drive 호환 변환 해상도';
     }
   } else if (playbackMode === PLAYBACK_MODE.OPFS || playbackMode === PLAYBACK_MODE.MEMORY) {
-    setStreamMode('buffer', playbackMode === PLAYBACK_MODE.OPFS ? '임시 디스크' : '메모리 원본');
+    setStreamMode('buffer', qualityLabel);
     if (el.qualityBadge) {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = state.mediaTransportVerified ? 'buffer' : 'pending';
@@ -5483,9 +5724,7 @@ function updateQualityDisplay() {
   } else {
     setStreamMode(
       playbackMode === PLAYBACK_MODE.SEQUENTIAL ? 'sequential' : 'range',
-      state.mediaTransportVerified
-        ? (playbackMode === PLAYBACK_MODE.SEQUENTIAL ? '연속 전송' : 'Range 전송')
-        : '원본 확인 중'
+      qualityLabel
     );
     if (el.qualityBadge) {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
@@ -5513,7 +5752,6 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
   clearTimeout(controlsHideTimer);
   el.playerModal?.classList.remove('controls-idle', 'immersive');
   el.playerModal?.classList.add('media-recovery-mode');
-  el.mediaStage?.classList.remove('controls-hidden');
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = false;
   if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = title;
@@ -5557,6 +5795,8 @@ function closePlayer() {
   }
   resetMediaElements();
   setPlayerMediaPriorityActive(false);
+  if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+  isPlayerMoreOpen = false;
   collapseShortsExpand();
   resetVideoRotation();
   setStageImmersive(false);
@@ -5576,10 +5816,11 @@ function closePlayer() {
 function clearDirectMediaSources() {
   if (el.videoPlayer) {
     delete el.videoPlayer.dataset.mediaSession;
+    delete el.videoPlayer.dataset.presentationSession;
     el.videoPlayer.pause();
     el.videoPlayer.removeAttribute('src');
     el.videoPlayer.removeAttribute('poster');
-    el.videoPlayer.classList.remove('is-ready');
+    el.videoPlayer.classList.remove('is-ready', 'has-poster');
     el.videoPlayer.load();
     el.videoPlayer.hidden = true;
   }
@@ -5616,8 +5857,11 @@ function resetMediaElements() {
     el.ambientBackdrop.style.backgroundImage = '';
   }
   if (el.mobileShortsProgressBar) {
-    el.mobileShortsProgressBar.style.width = '0%';
+    el.mobileShortsProgressBar.style.transform = 'scaleX(0)';
   }
+  if (el.seekBarPlayed) el.seekBarPlayed.style.transform = 'scaleX(0)';
+  if (el.seekBarBuffered) el.seekBarBuffered.style.transform = 'scaleX(0)';
+  if (el.seekBarThumb) el.seekBarThumb.style.setProperty('--seek-x', '0px');
   el.mediaError.hidden = true;
   el.playerModal?.classList.remove('media-recovery-mode');
   el.openDriveButton.hidden = false;
@@ -5636,6 +5880,7 @@ function resetMediaElements() {
   state.mediaRangeRebuildCount = 0;
   state.mediaPermissionRetryCount = 0;
   state.mediaFullRequestCount = 0;
+  state.mediaExhaustedOriginalModes.clear();
   state.mediaAbuseAcknowledged = false;
   state.pendingSecurityConfirmation = null;
   state.mediaBufferStorageMode = '';
@@ -5788,6 +6033,207 @@ function validateClientId(value) {
 function setClientIdError(message) {
   el.clientIdHint.textContent = message;
   el.clientIdHint.classList.add('error');
+}
+
+function getStaticGifThumbnailObserver() {
+  if (typeof IntersectionObserver !== 'function') return null;
+  if (gifThumbnailObserver) return gifThumbnailObserver;
+  gifThumbnailObserver = new IntersectionObserver((observations) => {
+    observations.forEach((observation) => {
+      const entry = gifThumbnailEntries.get(observation.target);
+      if (!entry || entry.disposed) return;
+      entry.nearby = observation.isIntersecting;
+      if (entry.nearby) queueStaticGifThumbnailEntry(entry);
+      else releaseStaticGifThumbnail(entry);
+    });
+  }, {
+    root: null,
+    rootMargin: '600px 0px',
+    threshold: 0
+  });
+  return gifThumbnailObserver;
+}
+
+function registerStaticGifThumbnail(file, canvas, visualContainer, placeholder, eager = false) {
+  if (!file?.thumbnailLink || !canvas) return;
+  const entry = {
+    file,
+    canvas,
+    visualContainer,
+    placeholder,
+    generation: thumbnailGeneration,
+    nearby: false,
+    queued: false,
+    loading: false,
+    loaded: false,
+    disposed: false
+  };
+  gifThumbnailEntries.set(canvas, entry);
+  const observer = getStaticGifThumbnailObserver();
+  if (observer) {
+    observer.observe(canvas);
+  } else if (eager) {
+    entry.nearby = true;
+    queueStaticGifThumbnailEntry(entry);
+  }
+}
+
+function queueStaticGifThumbnail(file, canvas, visualContainer, placeholder) {
+  if (!file?.thumbnailLink || !canvas) return;
+  let entry = gifThumbnailEntries.get(canvas);
+  if (!entry) {
+    entry = {
+      file,
+      canvas,
+      visualContainer,
+      placeholder,
+      generation: thumbnailGeneration,
+      nearby: true,
+      queued: false,
+      loading: false,
+      loaded: false,
+      disposed: false
+    };
+    gifThumbnailEntries.set(canvas, entry);
+  } else {
+    entry.nearby = true;
+  }
+  queueStaticGifThumbnailEntry(entry);
+}
+
+function queueStaticGifThumbnailEntry(entry) {
+  if (
+    typeof Image !== 'function' || !entry || entry.disposed || entry.loaded
+    || entry.loading || entry.queued || !entry.nearby
+    || entry.generation !== thumbnailGeneration
+    || entry.canvas?.isConnected === false || !entry.file?.thumbnailLink
+  ) return;
+  entry.queued = true;
+  gifThumbnailQueue.push(entry);
+  setTimeout(processGifThumbnailQueue, 0);
+}
+
+function releaseStaticGifThumbnail(entry, { dispose = false } = {}) {
+  if (!entry || entry.disposed) return;
+  entry.nearby = false;
+  entry.queued = false;
+  if (entry.loading) {
+    [...activeGifThumbnailJobs]
+      .filter((job) => job.entry === entry)
+      .forEach((job) => job.cancel(false));
+  }
+  if (entry.loaded || dispose) {
+    entry.canvas.width = 1;
+    entry.canvas.height = 1;
+    entry.canvas.classList?.remove?.('loaded');
+    entry.visualContainer?.classList?.remove?.('has-thumbnail');
+    if (entry.placeholder) entry.placeholder.hidden = false;
+    entry.loaded = false;
+  }
+  if (dispose) {
+    entry.disposed = true;
+    gifThumbnailObserver?.unobserve(entry.canvas);
+  }
+}
+
+function pruneStaticGifThumbnailEntries() {
+  gifThumbnailEntries.forEach((entry, canvas) => {
+    if (canvas?.isConnected !== false) return;
+    releaseStaticGifThumbnail(entry, { dispose: true });
+    gifThumbnailEntries.delete(canvas);
+  });
+}
+
+function processGifThumbnailQueue() {
+  if (playerMediaPriorityActive) return;
+  while (activeGifThumbnailLoads < MAX_CONCURRENT_EXTRACTIONS && gifThumbnailQueue.length) {
+    const entry = gifThumbnailQueue.shift();
+    entry.queued = false;
+    if (
+      entry.disposed || !entry.nearby || entry.loaded || entry.loading
+      || entry.generation !== thumbnailGeneration
+      || entry.canvas?.isConnected === false || !entry.file?.thumbnailLink
+    ) continue;
+
+    const image = new Image();
+    let settled = false;
+    let job = null;
+    entry.loading = true;
+    activeGifThumbnailLoads += 1;
+
+    const finish = (loaded, defer = false) => {
+      if (settled) return;
+      settled = true;
+      image.onload = null;
+      image.onerror = null;
+      image.removeAttribute?.('src');
+      entry.loading = false;
+      activeGifThumbnailJobs.delete(job);
+      activeGifThumbnailLoads = Math.max(0, activeGifThumbnailLoads - 1);
+      if (
+        defer && !entry.disposed && entry.nearby
+        && entry.generation === thumbnailGeneration
+        && entry.canvas?.isConnected !== false
+      ) {
+        entry.queued = true;
+        gifThumbnailQueue.unshift(entry);
+      } else if (
+        loaded && !entry.disposed && entry.nearby
+        && entry.generation === thumbnailGeneration
+        && entry.canvas?.isConnected !== false
+      ) {
+        entry.loaded = true;
+        entry.canvas.classList.add('loaded');
+        entry.visualContainer?.classList.add('has-thumbnail');
+        if (entry.placeholder) entry.placeholder.hidden = true;
+      }
+      setTimeout(processGifThumbnailQueue, 0);
+    };
+
+    job = { entry, cancel: (defer = false) => finish(false, defer) };
+    activeGifThumbnailJobs.add(job);
+    image.decoding = 'async';
+    image.referrerPolicy = 'no-referrer';
+    image.onload = () => {
+      try {
+        if (!entry.nearby || entry.disposed || entry.canvas?.isConnected === false) {
+          finish(false);
+          return;
+        }
+        const sourceWidth = Number(image.naturalWidth) || 0;
+        const sourceHeight = Number(image.naturalHeight) || 0;
+        const context = entry.canvas.getContext?.('2d', { alpha: false });
+        if (!context || !sourceWidth || !sourceHeight) {
+          finish(false);
+          return;
+        }
+        entry.canvas.width = GIF_THUMBNAIL_SIZE;
+        entry.canvas.height = GIF_THUMBNAIL_SIZE;
+        const cropSize = Math.min(sourceWidth, sourceHeight);
+        const sourceX = Math.max(0, (sourceWidth - cropSize) / 2);
+        const sourceY = Math.max(0, (sourceHeight - cropSize) / 2);
+        context.drawImage(
+          image,
+          sourceX,
+          sourceY,
+          cropSize,
+          cropSize,
+          0,
+          0,
+          GIF_THUMBNAIL_SIZE,
+          GIF_THUMBNAIL_SIZE
+        );
+        finish(true);
+      } catch (error) {
+        console.warn('GIF static thumbnail capture failed:', error);
+        entry.canvas.width = 1;
+        entry.canvas.height = 1;
+        finish(false);
+      }
+    };
+    image.onerror = () => finish(false);
+    image.src = entry.file.thumbnailLink;
+  }
 }
 
 function clearClientIdError() {
