@@ -182,3 +182,7 @@ sweep: README, product truth, active goal, runtime labels, and regression tests 
 
 population: vertical random targets remain sampled from the complete target-folder or deep-scan population under D-029; an early gesture waits for metadata completion before commit (2026-09-16)
 sweep: active goal, product truth, runtime deck state, and deterministic regression tests aligned with the spatial-deck contract (2026-09-16)
+
+## D-035 · 원본 재생 계층 소진 후 앱 내부 호환 재생 자동 전환 — 2026-09-16 (AI-proposed, user-confirmed)
+
+D-033의 원본 화질 최우선 원칙과 `원본 Range → OPFS 전체 원본 → 제한된 메모리 원본` 순서를 유지한다. 다운로드 제한, 검증된 브라우저 포맷 비호환, 안전 저장 한도 초과, 또는 Range와 전체 원본 전송이 모두 복구 불가능한 경우에는 Google 호환 재생기로 앱 안에서 자동 전환한다. 이때 호환 재생이 원본 화질을 보장하지 않는다는 상태를 항상 표시하고 `원본 다시 시도`를 제공하며, 외부 Google Drive 페이지는 자동으로 열지 않고 호환 재생까지 실패한 경우에만 수동 탈출구로 남긴다. 인증 오류는 화질·코덱 실패로 취급하지 않고 앱 내부 재인증을 우선한다.
