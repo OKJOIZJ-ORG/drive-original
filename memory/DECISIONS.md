@@ -244,3 +244,7 @@ sweep: 계정 상태 병합·업로드, 미시청 우선 공간 덱, 카드/PC/�
 ## D-046 · 공개 셸 전용 Pages 브랜치 배포 — 2026-09-17 (Implementation under D-043)
 
 기존 OAuth 인증에는 repo 권한과 저장소 관리자 권한이 있지만 workflow 파일 쓰기 범위가 없어 신규 게이트 워크플로 push가 거절됐다. SSH 키도 없으며 추가 권한 승인을 자동 완료하지 않았다. 권한을 우회하거나 이전 기록을 삭제하지 않고 공식 GitHub Pages 브랜치 배포를 사용한다. 소스·기록은 main에, 검증된 공개 파일 12개만 gh-pages에 둔다. 기존 전체 저장소 업로드 워크플로는 원문 그대로 보존하되 자동 실행을 비활성화한다. publish-pages.cjs는 깨끗한 소스 커밋, 문법, 전체 테스트를 검사한 뒤 Git blob 바이트로 공개 트리를 만들고 일반 fast-forward push를 수행한다. 앱과 배포 결과는 동일하며, 향후 소스 변경 후에는 게시 명령을 명시적으로 실행해야 하는 운영 차이가 있다.
+
+## D-047 - scoped acceptance follow-up (2026-09-17)
+
+Confirmed by baseline counterexamples: server-side writer union alone does not ensure continuously visible clients converge. The v1.20.1 candidate adds visible/online 15-second reads with request ownership, cooldown and permission guards, keeping D-044 writer ownership and migration intact. A consumed transition identity closes cancelled/duplicate WAAPI completion paths without changing D-045 Safari native-edge ownership. Physical iPhone and real two-device Google acceptance remain OPEN in ACCEPTANCE-20260917.md. No production deployment or new runtime dependency is part of this follow-up branch.

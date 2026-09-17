@@ -1,0 +1,173 @@
+{
+  "recordedAt": "2026-09-17T07:26:17.005Z",
+  "baseCommit": "70ff332ac6ff5fd3b65cf2d101a33d86645269ae",
+  "candidateVersion": "1.20.1",
+  "candidateGitBlobs": {
+    "app.js": "3a16e905031a6b3ee9d0cd8920c5ceb1d6a55953",
+    "sw.js": "d42c48cdd72ae9eab5ae65352e38db35afe38137",
+    "index.html": "42f19608c5ded79131f5939fa2f0254ed9670024",
+    "version.json": "5f3ea22dc6de4f65cffdb9cb0125558d72eef26b",
+    "tests/acceptance.test.js": "2ea06c1e4d98cfda8d3add0f43910449508c757c"
+  },
+  "baseline": {
+    "originalNode": {
+      "passed": 120,
+      "failed": 0
+    },
+    "newReproductions": {
+      "passed": 0,
+      "failed": 3
+    },
+    "browser": {
+      "status": "failed as expected",
+      "deadlineMs": 22000,
+      "clients": [
+        {
+          "favorites": [
+            "photo-A"
+          ],
+          "viewed": [
+            "photo-A"
+          ],
+          "visible": "visible"
+        },
+        {
+          "favorites": [
+            "photo-B"
+          ],
+          "viewed": [
+            "photo-B"
+          ],
+          "visible": "visible"
+        }
+      ],
+      "savedWriterDocuments": 2
+    }
+  },
+  "candidate": {
+    "node": {
+      "passed": 131,
+      "failed": 0
+    },
+    "browser": {
+      "evidenceClass": "synthetic OAuth/Drive; two isolated browser contexts on one Windows host; not real devices",
+      "confirmed": [
+        {
+          "name": "independent simultaneous writes converge in both continuously visible clients",
+          "status": "passed",
+          "elapsedMs": 15066
+        },
+        {
+          "name": "remote unlike removes the visible favorites card without refocus or manual refresh",
+          "status": "passed",
+          "elapsedMs": 15046
+        },
+        {
+          "name": "reload retains account tombstones and the same writer identity",
+          "status": "passed"
+        }
+      ],
+      "offlineReplay": {
+        "status": "UNVERIFIED",
+        "reason": "Earlier route.fulfill-based offline result invalidated during review: intercepted responses could bypass simulated offline. Driver now explicitly aborts offline API requests and asserts unchanged server state; the strict rerun was blocked by the execution tool. Do not count the earlier result as offline proof."
+      }
+    },
+    "edge": {
+      "passed": 8,
+      "physicalDevice": false,
+      "note": "Passed after edge identity fix; only unrelated auth/rate-limit follow-ups and version metadata changed afterward."
+    },
+    "functional": {
+      "passed": 8,
+      "results": [
+        {
+          "name": "original OPFS, playback, keyboard, active-tab lease and scoped cleanup",
+          "status": "passed",
+          "mode": "original-opfs",
+          "sha256": "2d1cbe423f686ff50b8bb05099f5090e4094aed15ea8da1c6a00af9755fa5b9b",
+          "requests": 1
+        },
+        {
+          "name": "Range transport valid",
+          "status": "passed",
+          "mode": "original-range",
+          "mediaRequests": 1
+        },
+        {
+          "name": "Range transport 401-once",
+          "status": "passed",
+          "mode": "original-range",
+          "mediaRequests": 2
+        },
+        {
+          "name": "Range transport invalid",
+          "status": "passed",
+          "mode": "original-memory",
+          "mediaRequests": 3
+        },
+        {
+          "name": "favorite cross-folder selection and partial bulk failure",
+          "status": "passed"
+        },
+        {
+          "name": "mobile video, overflow actions, seek and double-tap",
+          "status": "passed",
+          "axeViolations": 0,
+          "menuActions": 6
+        },
+        {
+          "name": "7384-item desktop/mobile virtualization and stable sort reuse",
+          "status": "passed",
+          "measurements": [
+            {
+              "width": 1280,
+              "count": 34,
+              "columns": 6,
+              "height": 236.28125,
+              "last": "scale-07383",
+              "overflow": false,
+              "cached1000ReadsMs": 0.39999999990686774
+            },
+            {
+              "width": 390,
+              "count": 12,
+              "columns": 2,
+              "height": 228.9375,
+              "last": "scale-07383",
+              "overflow": false,
+              "cached1000ReadsMs": 0.09999999986030161
+            },
+            {
+              "width": 320,
+              "count": 10,
+              "columns": 2,
+              "height": 193.9375,
+              "last": "scale-07383",
+              "overflow": false,
+              "cached1000ReadsMs": 0.10000000009313226
+            },
+            {
+              "width": 844,
+              "count": 20,
+              "columns": 4,
+              "height": 254.9375,
+              "last": "scale-07383",
+              "overflow": false,
+              "cached1000ReadsMs": 0.30000000004656613
+            }
+          ]
+        },
+        {
+          "name": "offline first reload uses versioned shell; cache reset preserves sibling app",
+          "status": "passed"
+        }
+      ]
+    },
+    "syntax": "passed"
+  },
+  "physicalGates": {
+    "iphoneEdgeSwipe": "OPEN - no physical iPhone session",
+    "twoGoogleDevices": "OPEN - no two independently authenticated physical devices"
+  },
+  "deployment": "candidate only; main and gh-pages not changed"
+}

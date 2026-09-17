@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.20.0';
+const APP_VERSION = '1.20.1';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
@@ -39,6 +39,7 @@ const ACCOUNT_WRITER_STORAGE_KEY = 'drive-original.account-writer';
 const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
+const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
 const FAVORITE_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
@@ -518,6 +519,10 @@ const state = {
   accountStateSyncError: null,
   accountStateRevision: 0,
   accountStateLastSyncAt: 0,
+  accountStateRefreshTimer: null,
+  accountStateRefreshFailures: 0,
+  accountStateRefreshNotBefore: 0,
+  accountStateRefreshBlocked: false,
   favoriteFiles: [],
   loadingFavorites: false,
   favoriteLoadGeneration: 0,
@@ -1011,14 +1016,17 @@ function bindEvents() {
     updateConnectionBadge();
     updateAccountSyncStatus();
     if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
+    scheduleAccountStateRefresh(0);
   });
-  window.addEventListener('offline', () => { updateConnectionBadge(); updateAccountSyncStatus(); });
+  window.addEventListener('offline', () => { stopAccountStateRefresh(); updateConnectionBadge(); updateAccountSyncStatus(); });
+  window.addEventListener('pagehide', stopAccountStateRefresh);
+  window.addEventListener('pageshow', () => scheduleAccountStateRefresh(0));
   window.addEventListener('storage', (event) => {
     if (!state.accountId || state.accountIdentityPending || event.key !== accountStateCacheKey()) return;
     const cached = readCachedAccountMediaState(state.accountId);
     const merged = mergeAccountMediaStates(cached, state.accountMediaState);
     if (accountMediaStatesEqual(merged, state.accountMediaState)) return;
-    state.accountMediaState = merged;
+    applyMergedAccountMediaState(merged);
     state.favoriteFiles = state.favoriteFiles.filter((file) => merged.favorites[file.id]?.liked);
     refreshFavoritePresentation();
     if (state.filter === 'favorites') loadFavoriteFiles({ refreshState: false });
@@ -1051,11 +1059,7 @@ function bindEvents() {
     if (document.visibilityState === 'visible') {
       sendTokenToWorker();
       checkForAppUpdate({ manual: false });
-      if (hasUsableToken()) {
-        initializeAccountMediaState({ refresh: true }).then(() => {
-          if (state.filter === 'favorites') loadFavoriteFiles({ refreshState: false });
-        }).catch((error) => console.warn('Account media state refresh was unavailable:', error));
-      }
+      scheduleAccountStateRefresh(0);
       // 모바일 백그라운드 복귀 시 setTimeout 타이머가 정지되어
       // 토큰 갱신이 누락될 수 있으므로 즉시 검사·보정한다.
       if (state.token && state.expiresAt) {
@@ -1074,7 +1078,7 @@ function bindEvents() {
           scheduleTokenRenewal();
         }
       }
-    }
+    } else stopAccountStateRefresh();
   });
 
   el.videoPlayer.addEventListener('loadedmetadata', (event) => {
@@ -1614,6 +1618,10 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
       });
     }
     if (generation !== state.authGeneration || state.accountIdentityPending) return;
+    // Token clearance stops polling. A verified renewal must restart it even
+    // when the account was already loaded and initialization was skipped.
+    state.accountStateRefreshBlocked = false;
+    scheduleAccountStateRefresh(0);
     const retryContext = state.authRetryContext;
     if (
       state.retryAfterAuth && retryContext && state.selected?.id === retryContext.fileId
@@ -2106,7 +2114,7 @@ function navigateToParentFolder() {
 const libraryNavigation = {
   epoch: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
   entries: new Map(), order: [], cursor: -1, sequence: 0, generation: 0,
-  restoring: false, pending: false, edge: null, animations: [], timer: null, suppressClickUntil: 0
+  restoring: false, pending: false, edge: null, animations: [], timer: null, edgeTransition: null, suppressClickUntil: 0
 };
 
 function libraryNavigationOwner() { return state.demo ? 'demo' : state.accountId; }
@@ -2285,6 +2293,9 @@ function libraryEdgeReleaseDecision(distance, velocity, width) {
 }
 
 function clearLibraryEdgeBackVisuals() {
+  // Invalidate even an already-fulfilled animation's queued callback before
+  // cancelling its animation/timer. Promise fulfillment cannot be cancelled.
+  libraryNavigation.edgeTransition = null;
   libraryNavigation.animations.splice(0).forEach((animation) => animation.cancel?.());
   clearTimeout(libraryNavigation.timer); libraryNavigation.timer = null;
   libraryNavigation.edge?.remove?.(); libraryNavigation.edge = null;
@@ -2354,8 +2365,10 @@ function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
   if (!gesture) { clearLibraryEdgeBackVisuals(); return; }
   edgeBackGesture = null;
   const generation = libraryNavigation.generation;
+  const transition = {};
+  libraryNavigation.edgeTransition = transition;
   const finish = () => {
-    if (generation !== libraryNavigation.generation) return;
+    if (generation !== libraryNavigation.generation || libraryNavigation.edgeTransition !== transition) return;
     clearLibraryEdgeBackVisuals();
     if (commit && !state.bulkAction && el.playerSheet?.hidden && !document.querySelector('dialog[open]')) completeLibraryBackNavigation();
   };
@@ -2706,14 +2719,14 @@ function loadFavoriteFiles(options = {}) {
   return operation;
 }
 
-async function performFavoriteLoad({ refreshState = true } = {}) {
+async function performFavoriteLoad({ refreshState = true, preserveWindow = false } = {}) {
   state.favoriteAbortController?.abort();
   const controller = new AbortController();
   const generation = state.favoriteLoadGeneration + 1;
   state.favoriteLoadGeneration = generation;
   state.favoriteAbortController = controller;
   state.loadingFavorites = true;
-  renderFiles({ resetWindow: true });
+  renderFiles({ resetWindow: !preserveWindow });
   const statusToken = beginLibraryStatus('계정의 좋아요 항목을 모든 폴더에서 모으는 중…');
   let nextFiles = [];
   let nextStatus = '';
@@ -2764,10 +2777,11 @@ async function performFavoriteLoad({ refreshState = true } = {}) {
     nextStatus = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
   } finally {
     if (generation === state.favoriteLoadGeneration && state.filter === 'favorites') {
-      state.favoriteFiles = nextFiles;
+      // A remote/local unlike may arrive while metadata is in flight.
+      state.favoriteFiles = nextFiles.filter((file) => isFavoriteFileId(file.id));
       state.loadingFavorites = false;
       state.favoriteAbortController = null;
-      renderFiles({ resetWindow: true });
+      renderFiles({ resetWindow: !preserveWindow });
       updateLibraryStatus(statusToken, nextStatus);
     }
   }
@@ -2979,7 +2993,7 @@ function persistAccountMediaState() {
   const key = accountStateCacheKey();
   if (!key) return;
   try {
-    state.accountMediaState = mergeAccountMediaStates(readCachedAccountMediaState(state.accountId), state.accountMediaState);
+    applyMergedAccountMediaState(mergeAccountMediaStates(readCachedAccountMediaState(state.accountId), state.accountMediaState));
     localStorage.setItem(key, JSON.stringify(normalizeAccountMediaState(state.accountMediaState)));
     state.accountLocalStorageError = false;
   } catch (_) { state.accountLocalStorageError = true; }
@@ -3032,6 +3046,60 @@ function accountMediaStatesEqual(first, second) {
     && Object.keys(a.viewed).every((id) => a.viewed[id] === b.viewed[id])
     && Object.keys(a.favorites).every((id) => a.favorites[id].liked === b.favorites[id]?.liked
       && a.favorites[id].updatedAt === b.favorites[id]?.updatedAt);
+}
+
+function applyMergedAccountMediaState(merged) {
+  const before = accountFavoriteIds(state.accountMediaState);
+  const after = accountFavoriteIds(merged);
+  state.accountMediaState = merged;
+  if (before.size !== after.size || [...before].some((id) => !after.has(id))) {
+    // A back snapshot must not revive obsolete favorite membership.
+    invalidateLibraryNavigationData();
+  }
+}
+
+function canRefreshAccountState() {
+  return !state.demo && Boolean(state.accountId) && !state.accountIdentityPending
+    && hasUsableToken() && navigator.onLine !== false && document.visibilityState === 'visible';
+}
+
+function stopAccountStateRefresh() {
+  clearTimeout(state.accountStateRefreshTimer);
+  state.accountStateRefreshTimer = null;
+}
+
+function scheduleAccountStateRefresh(delay = ACCOUNT_STATE_REFRESH_INTERVAL_MS) {
+  stopAccountStateRefresh();
+  if (!canRefreshAccountState() || state.accountStateRefreshBlocked) return;
+  const owner = captureAccountStateRequest();
+  const wait = Math.max(delay, state.accountStateRefreshNotBefore - Date.now(), 0);
+  const timer = setTimeout(async () => {
+    if (state.accountStateRefreshTimer !== timer) return;
+    state.accountStateRefreshTimer = null;
+    if (!owner.current() || !canRefreshAccountState()) return;
+    if (state.accountStateLoadingPromise || state.accountStateSyncPromise) {
+      scheduleAccountStateRefresh();
+      return;
+    }
+    try {
+      await initializeAccountMediaState({ refresh: true });
+      if (owner.current() && canRefreshAccountState()) await refreshSyncedFavoriteFiles();
+    } catch (_) {
+      // Initialization owns the error/status and server-directed backoff.
+    } finally {
+      if (owner.current()) scheduleAccountStateRefresh();
+    }
+  }, Math.min(wait, 2_147_483_647));
+  state.accountStateRefreshTimer = timer;
+  timer?.unref?.();
+}
+
+function refreshSyncedFavoriteFiles() {
+  if (state.filter !== 'favorites' || state.loadingFavorites || state.bulkAction
+    || libraryNavigation.restoring || edgeBackGesture || libraryNavigation.animations.length) return;
+  const desired = accountFavoriteIds(state.accountMediaState);
+  if (desired.size === state.favoriteFiles.length && state.favoriteFiles.every((file) => desired.has(file.id))) return;
+  return loadFavoriteFiles({ refreshState: false, preserveWindow: true });
 }
 
 async function resolveDriveAccountId(options = {}) {
@@ -3156,10 +3224,13 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
     owner.assert();
     const merged = mergeAccountMediaStates(remote, state.accountMediaState);
     const remoteNeedsMerge = !accountMediaStatesEqual(merged, remote);
-    state.accountMediaState = merged;
+    applyMergedAccountMediaState(merged);
     state.accountStateLoaded = true;
     state.accountStateLastSyncAt = Date.now();
     state.accountStateSyncError = null;
+    state.accountStateRefreshFailures = 0;
+    state.accountStateRefreshNotBefore = 0;
+    state.accountStateRefreshBlocked = false;
     persistAccountMediaState();
     refreshFavoritePresentation();
     updateAccountSyncStatus();
@@ -3169,10 +3240,21 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
   state.accountStateLoadingPromise = operation;
   try { return await operation; }
   catch (error) {
-    if (owner.current() && error?.name !== 'AbortError') { state.accountStateSyncError = error; updateAccountSyncStatus(); }
+    if (owner.current() && error?.name !== 'AbortError') {
+      state.accountStateSyncError = error;
+      const status = Number(error?.status) || 0;
+      const rateLimited = status === 429 || [error?.driveReason, ...(Array.isArray(error?.reasons) ? error.reasons : [])]
+        .some((reason) => /rateLimitExceeded/i.test(String(reason || '')));
+      state.accountStateRefreshBlocked = status >= 400 && status < 500 && status !== 408 && !rateLimited;
+      state.accountStateRefreshFailures = Math.min(4, state.accountStateRefreshFailures + 1);
+      state.accountStateRefreshNotBefore = Date.now() + Math.max(Number(error?.retryAfterMs) || 0,
+        ACCOUNT_STATE_REFRESH_INTERVAL_MS * (2 ** (state.accountStateRefreshFailures - 1)));
+      updateAccountSyncStatus();
+    }
     throw error;
   } finally {
     if (state.accountStateLoadingPromise === operation) state.accountStateLoadingPromise = null;
+    if (owner.current()) scheduleAccountStateRefresh();
   }
 }
 
@@ -3194,7 +3276,7 @@ async function flushAccountMediaState() {
     // other's files; the legacy document is a read-only migration input.
     persistAccountMediaState();
     const merged = mergeAccountMediaStates(remote, state.accountMediaState);
-    state.accountMediaState = merged;
+    applyMergedAccountMediaState(merged);
     persistAccountMediaState();
     if (fileId) {
       try { await updateAccountStateFile(fileId, merged, owner.options); }
@@ -7382,6 +7464,7 @@ function disconnect() {
 }
 
 function clearToken(notifyWorker) {
+  stopAccountStateRefresh();
   state.authGeneration += 1;
   state.accountStateAbortController?.abort();
   state.accountStateAbortController = null;
@@ -7410,6 +7493,10 @@ function clearToken(notifyWorker) {
 }
 
 function invalidateDriveSessionData() {
+  stopAccountStateRefresh();
+  state.accountStateRefreshFailures = 0;
+  state.accountStateRefreshNotBefore = 0;
+  state.accountStateRefreshBlocked = false;
   resetLibraryNavigation();
   state.previousAccountId = state.accountId || state.previousAccountId;
   state.accountIdentityPending = true;

@@ -28,3 +28,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `AUDIT-20260917.md`: comprehensive defect inventory, scope, proof and explicit limitations.
 - `RELEASE-1.20.0.md`: production deployment verification once complete.
 - `../qa/`: reproducible local-only browser fixture drivers.
+
+- [ACCEPTANCE-20260917.md](ACCEPTANCE-20260917.md): v1.20.0 follow-up, reproduced foreground/edge defects, v1.20.1 candidate evidence and open physical-device gates.
