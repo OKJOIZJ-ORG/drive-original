@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { AuthError } from '../auth/session-owner.mjs';
 import { base64urlEncode, createAuthCrypto, sha256Base64url } from '../worker/crypto.mjs';
 import {
@@ -21,6 +22,15 @@ const env = {
   ASSETS: { fetch: async () => new Response('asset') },
   AUTH_OBJECTS: { idFromName() {}, get() {} },
 };
+
+test('checked-in candidate binds the exact public origin while auth and Drive writes remain disabled', () => {
+  const config = JSON.parse(fs.readFileSync(new URL('../worker/wrangler.jsonc', import.meta.url), 'utf8'));
+  assert.equal(config.vars.AUTH_ENABLED, 'false');
+  assert.equal(config.vars.CANDIDATE_DRIVE_WRITES_ENABLED, 'false');
+  assert.equal(config.vars.PUBLIC_ORIGIN, 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev');
+  assert.match(config.vars.GOOGLE_CLIENT_ID, /^\d+-[a-z0-9]+\.apps\.googleusercontent\.com$/u);
+  assert.equal(config.preview_urls, false);
+});
 
 test('AES-GCM refresh envelope is versioned, account-bound and tamper-evident', async () => {
   const crypt = createAuthCrypto(env);
