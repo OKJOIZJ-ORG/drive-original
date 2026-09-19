@@ -44,13 +44,19 @@ class TestMessageChannel {
   }
 }
 
-function createWorker(fetchImpl) {
+function createWorker(fetchImpl, {
+  setTimeoutImpl = setTimeout,
+  clearTimeoutImpl = clearTimeout
+} = {}) {
   const listeners = new Map();
   const clients = new Map();
   const calls = [];
   const context = {
     URL, Headers, Request, Response, ReadableStream, Date, Map, Number, Boolean,
-    setTimeout, clearTimeout, MessageChannel: TestMessageChannel,
+    AbortController,
+    setTimeout: setTimeoutImpl,
+    clearTimeout: clearTimeoutImpl,
+    MessageChannel: TestMessageChannel,
     self: {
       location: { origin: 'https://app.test' },
       addEventListener(type, callback) { listeners.set(type, callback); },
@@ -158,8 +164,10 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
   for (const call of worker.calls) {
     assert.equal(call.headers.get('Range'), 'bytes=100-199');
     assert.equal(call.headers.get('X-Goog-Drive-Resource-Keys'), 'fileA/raw-key');
-    assert.equal(call.signal, request.signal);
+    assert.notEqual(call.signal, request.signal);
+    assert.equal(call.signal.aborted, false);
   }
+  assert.equal(request.signal.aborted, false);
   const tokenRequests = messages.filter((message) => message.type === 'TOKEN_REQUEST');
   assert.equal(tokenRequests.length, 1);
   assert.equal(tokenRequests[0].forceRefresh, true);
@@ -570,6 +578,85 @@ test('aborting a media request aborts upstream and emits no false server/auth fa
   await assert.rejects(response, { name: 'AbortError' });
   assert.equal(worker.calls[0].signal.aborted, true);
   assert.equal(messages.length, 0);
+});
+
+test('upstream headers timeout is finite and distinct from caller cancellation', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  let upstreamStarted;
+  const started = new Promise((resolve) => { upstreamStarted = resolve; });
+  const worker = createWorker((url, { signal }) => new Promise((resolve, reject) => {
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+    upstreamStarted();
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const { request, response } = worker.request('A', { traceId: 'trace-headers-timeout' });
+  await started;
+
+  assert.equal(scheduled.size, 1);
+  const [headersTimer] = [...scheduled.values()];
+  assert.equal(headersTimer.delay, 10_000);
+  headersTimer.callback();
+
+  const result = await response;
+  assert.equal(result.status, 504);
+  assert.equal(result.headers.get('Cache-Control'), 'no-store');
+  assert.equal(worker.calls.length, 1);
+  assert.notEqual(worker.calls[0].signal, request.signal);
+  assert.equal(worker.calls[0].signal.aborted, true);
+  assert.equal(request.signal.aborted, false);
+  assert.equal(scheduled.size, 0);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].status, 504);
+  assert.equal(failures[0].category, 'timeout');
+  assert.equal(failures[0].driveReason, 'headersTimeout');
+  await new Promise((resolve) => setImmediate(resolve));
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.deepEqual(trace.map((message) => message.stage), [
+    'credential-requested', 'credential-ready', 'request-start', 'http-error'
+  ]);
+  assert.equal(trace.at(-1).reason, 'headers-timeout');
+  assert.equal(trace.at(-1).status, 504);
+  assert.equal(trace.some((message) => message.stage === 'request-cancelled'), false);
+});
+
+test('caller cancellation remains linked to the upstream body after headers arrive', async () => {
+  let upstreamSignal;
+  const worker = createWorker((url, { signal }) => {
+    upstreamSignal = signal;
+    return new Response(new ReadableStream({
+      start(controller) {
+        signal.addEventListener('abort', () => controller.error(signal.reason), { once: true });
+      }
+    }), {
+      status: 206,
+      headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+    });
+  });
+  worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const controller = new AbortController();
+  const result = await worker.request('A', {
+    signal: controller.signal,
+    traceId: 'trace-body-request-cancel'
+  }).response;
+  const pendingRead = result.body.getReader().read();
+
+  controller.abort();
+
+  assert.equal(upstreamSignal.aborted, true);
+  await assert.rejects(pendingRead, { name: 'AbortError' });
 });
 
 test('abort while waiting for a token closes the request without an auth notification', async () => {

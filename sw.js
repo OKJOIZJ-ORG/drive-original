@@ -3,6 +3,7 @@ const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
+const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
 const SHELL_FILES = [
   './',
   './index.html',
@@ -209,14 +210,13 @@ async function proxyDriveMedia(request, url, clientId) {
       headers.set('Authorization', `Bearer ${credential.token}`);
       upstreamAttempt += 1;
       notifyMediaTrace(context, 'request-start', { attempt: upstreamAttempt });
-      const response = await fetch(driveUrl.toString(), {
+      const response = await fetchMediaWithHeadersDeadline(driveUrl.toString(), {
         method: request.method,
         headers,
         redirect: 'follow',
         mode: 'cors',
-        cache: 'no-store',
-        signal: request.signal
-      });
+        cache: 'no-store'
+      }, request.signal);
       notifyMediaTrace(context, 'headers', {
         attempt: upstreamAttempt,
         status: response.status,
@@ -364,6 +364,19 @@ async function proxyDriveMedia(request, url, clientId) {
       headers: responseHeaders
     });
   } catch (error) {
+    if (error?.name === 'MediaHeadersTimeoutError') {
+      notifyMediaTrace(context, 'http-error', {
+        status: 504,
+        reason: 'headers-timeout',
+        terminal: true
+      });
+      await notifyMediaError(context, 504, [], 0, {
+        category: 'timeout',
+        driveReason: 'headersTimeout',
+        rangeSatisfied: false
+      });
+      return mediaErrorResponse('Drive response headers timed out', 504);
+    }
     if (request.signal.aborted || error?.name === 'AbortError') {
       notifyMediaTrace(context, 'request-cancelled', {
         reason: 'request-aborted', terminal: true
@@ -381,6 +394,38 @@ async function proxyDriveMedia(request, url, clientId) {
       rangeSatisfied: false
     });
     return mediaErrorResponse('Drive streaming request failed', 502);
+  }
+}
+
+async function fetchMediaWithHeadersDeadline(url, options, requestSignal) {
+  requestSignal?.throwIfAborted();
+  const controller = new AbortController();
+  let timedOut = false;
+  let headersReceived = false;
+  const abortForCaller = () => controller.abort(requestSignal?.reason);
+  requestSignal?.addEventListener('abort', abortForCaller, { once: true });
+  const timeout = setTimeout(() => {
+    if (controller.signal.aborted || requestSignal?.aborted) return;
+    timedOut = true;
+    controller.abort();
+  }, MEDIA_HEADERS_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    headersReceived = true;
+    return response;
+  } catch (error) {
+    if (timedOut && !requestSignal?.aborted) {
+      const timeoutError = new Error('Media response headers timeout');
+      timeoutError.name = 'MediaHeadersTimeoutError';
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+    // A successful fetch resolves at headers, while its body is still live.
+    // Keep caller cancellation linked through that body lifetime; the once
+    // listener and request-scoped signal are collectable with the fetch.
+    if (!headersReceived) requestSignal?.removeEventListener('abort', abortForCaller);
   }
 }
 
