@@ -1,4 +1,4 @@
-# Checkpoint — V2-04B candidate PC path verified; physical iPhone/PWA boundary retained — 2026-09-20 02:02 KST
+# Checkpoint — V2-04B false reconnect loop fixed and verified on candidate PC Chrome — 2026-09-20 01:59 KST
 
 ## The story so far
 
@@ -9,8 +9,6 @@ A fresh real consent in the controlled Chrome candidate returned by 303, install
 Commit `213211f381d2181479501fb22183d700f9984713` ships version `1.22.0-rc.3`, which renders the initial connection state as busy, disables the connect action before JavaScript runs, and keeps it inert until the existing-session probe settles. It is deployed to the same candidate as Cloudflare Worker version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. All 12 public files were fetched from the live candidate and matched the commit byte-for-byte; three internal routes returned 404. Version readback keeps auth/diagnostics enabled, Drive writes false, the exact public origin/client ID, four secret binding names only, and the SQLite Durable Object.
 
 The deployed candidate was reloaded with `/api/session/credential` deliberately paused. While pending, the live DOM showed `연결 중…` and only a disabled `기존 Drive 연결 확인 중…` button. The request carried the existing session cookie, returned 200, and the same page settled to `Drive 연결됨`, visible My Drive data, and `v1.22.0-rc.3` without another OAuth navigation. This closes the confirmed PC Chrome false-reconnect loop. Focused tests pass 79/79, the full nine-file suite passes 212/212, syntax/diff checks and Worker dry-run pass, and independent review found no blocking defect.
-
-A new same-profile Chrome tab independently sent its session cookie, received one credential 200 and showed the library without consent. Three concurrent client refresh calls with the same rejected revision produced exactly one network credential request, advanced the live revision from 1 to 2, kept the same account, and left the library connected. The active service worker is the candidate's same-origin `sw.js` in `activated` state and controls the page. This supplies live PC evidence for session restart and single-flight refresh, without claiming a physical iPhone result.
 
 The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
@@ -29,20 +27,19 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 
 ## Current execution state
 
-- Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
-- Active READY unit: `V2-06A` / WP-06, direct original reader/watchdog integration under TR-01~10 and QA-TR-01~11.
+- Active task: `V2-04B` / WP-04 `IN_PROGRESS`; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03/05 remain the governing auth/session acceptance set.
 - Branch/HEAD: `codex/v2-kickoff-diagnostics` at `213211f381d2181479501fb22183d700f9984713`; working tree clean; `main...HEAD = 0/20`.
-- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, and public-byte equality.
+- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, credential 200, Drive listing, candidate identity/config, and public-byte equality.
 - Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
 
 ## Waiting on the user
 
-- Empty. Physical iPhone/standalone status remains explicitly unverified; do not stop other approved READY work or weaken cookie/Fetch Metadata policy without that surface's evidence.
+- Empty. Continue safe V2-04B lifecycle checks and keep physical-device status explicit; do not repeat consent or deployment without new evidence/change.
 
 ## Next first action
 
-Start `V2-06A` by reading the current original-source router, service-worker Range contract and V2-03A/B evidence, then reproduce the first missing Q0 progress/deadline behavior with one deterministic fixture before changing the reader/watchdog owner.
+Open a second same-profile candidate tab and exercise reload/service-worker restart style recovery without consent, proving one cookie/session yields one credential 200 per page and no duplicate auth owner; then record the remaining physical iPhone tab/PWA boundary before selecting the next READY product unit.
 
 ## Tried
 
