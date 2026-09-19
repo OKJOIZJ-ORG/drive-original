@@ -1,31 +1,31 @@
-# Checkpoint — V2-03B closed / paused before V2-03C — 2026-09-19 22:04 KST
+# Checkpoint — V2-03C closed / V2-04A auth contract next — 2026-09-19 22:32 KST
 
 ## The story so far
 
-The v3.0 integrated spec remains the single execution authority on branch `codex/v2-kickoff-diagnostics`; V2-03A is committed at `44be198`. V2-03B is now closed on the exact read-only sample. FFmpeg mapped its sole H.264 High L3.0 video and AAC-LC stereo audio streams to MP4 with both marked `(copy)` and a fast-start `moov`; the codec, dimensions, frame rate, pixel/color fields, sample rate, channels and packet counts remained aligned. Early, middle and near-end decoded video-frame sequences and PCM windows matched. The maintained `browser-probe-server.mjs` v2-03b.2 served only the ignored derivative through a random per-run capability path with loopback Host/port, Origin and same-origin referrer enforcement; its 9/9 deterministic tests passed. The secured exact rerun in Chrome 152 returned six valid 206 Range responses, presented frames after all three seeks with `readyState` 4, exposed one captured audio track and increased decoded-audio bytes. The exact current app still fails the original TS-under-`.mp4` bytes, so this sample's first failure is container/packaging and Q1 fixes it on the tested Windows Chrome without video or audio re-encoding. This is not yet an iPhone/PWA or general-format result. The source fingerprint stayed unchanged; the temporary derivative, tabs and servers were removed. Drive data, production, `main`, remotes and paused automation remain unchanged.
+The v3.0 integrated spec remains the single execution authority on branch `codex/v2-kickoff-diagnostics`. V2-03C is closed by D-051 and `memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md`: a separate Cloudflare candidate will serve the PWA shell and the smallest OAuth/session API from one HTTPS origin, while the browser and its client-scoped service worker continue to read original bytes directly from the official Drive API. A short-lived transaction object owns and atomically consumes pre-auth state/PKCE/OIDC nonce before the Google account is known; after signed subject verification, a SQLite-backed account Durable Object owns encrypted refresh credentials, session state, monotonic credential revision and a persisted refresh lease. Worker Secrets hold static secrets. Missing refresh-token fields never erase prior credentials; one-device logout, explicit disconnect/revoke and bounded final-session retention are separate. There is no media/Drive API relay, Drive byte cache, FFmpeg, remux/transcode or mutation path in the Worker. Existing Pages v1.21.0 remains unchanged as rollback. Read-only Console evidence found External/Testing, one Web client, zero redirect URIs, and a `drive.readonly` listing that conflicts with current code requesting `drive` plus `drive.appdata`. Cloudflare reached sign-in only, so no-card account activation, hostname and Durable Object binding are not yet proven. No external configuration or data changed.
 
 ## Decided
 
-- D-050 and the v3.0 spec remain in force; browser/PWA and direct original transfer remain the product path.
-- V2-03A and V2-03B are `IMPLEMENTED_LOCAL`; their same-file evidence does not justify a media relay or native product deployment.
-- Q1 is confirmed only for the exact MPEG-TS/H.264/AAC sample on Windows Chrome; physical iPhone/PWA and the wider format matrix remain unverified.
-- V2-03C is the sole READY unit; it must choose the minimum browser/PWA data/auth responsibility split before product implementation.
+- D-050 and D-051 are in force. Browser/PWA remains the product and direct Drive API access remains the data plane.
+- Cloudflare Worker Static Assets plus a minimal same-origin auth API and per-account SQLite-backed Durable Object is the candidate control plane. Access credentials live only in browser/SW memory; refresh credentials and client secrets never enter the browser.
+- Media relay/conversion, a cross-origin auth cookie service, KV-only coordination, a new OAuth project/client, native deployment and always-on personal infrastructure are rejected or deferred as recorded in the architecture decision.
+- Existing project/client and appData identity are reused first. Candidate writes remain disabled until same-account snapshot/read/compare succeeds and the new origin receives a distinct writer ID.
+- V2-04A is the sole READY unit. Cloudflare/Google live configuration is not required for its local provider-contract fixtures.
 
 ## Waiting on the user
 
-- Work is paused at the user's request before V2-03C. Resume only when the user returns.
-- Physical iPhone Chrome/PWA checks remain deferred until a runnable product candidate exists, when the exact URL/version and two or three checks will be supplied.
+- Nothing blocks local V2-04A.
+- At the later live gate, the user must complete ordinary Cloudflare login/signup/terms if needed; stop if a card, paid plan or automatic billing is required.
+- Google Console origin/redirect/scope/publishing changes wait for a literal candidate URL and action-time readback. Physical iPhone Chrome/PWA checks wait for a runnable candidate with an exact URL/version and two or three checks.
 
 ## Next first action
 
-Complete the V2-03C adoption matrix from the V2-03A/B evidence, recording direct Drive data ownership, minimal free serverless authentication ownership, costs, migration and rollback while explicitly rejecting a media relay and native deployment unless later evidence changes the gate.
+Implement V2-04A locally: define the credential-provider boundary for same-origin serverless auth, keep access state in memory, and exercise deterministic account/revision fencing, concurrent refresh single-flight, expiry, late 401, offline failure, logout and service-worker restart. Do not deploy or mutate OAuth/Cloudflare configuration in this unit.
 
 ## Tried
 
-- Managed automated Chrome login was rejected; ordinary Chrome succeeded, so that was not an app/account failure.
-- The exact current app waits for the entire OPFS body on this 198 MiB desktop sample before first frame; the cold run took 370 seconds and still failed only after full transfer.
-- Raw Drive `files.version` changed with server/view state while content revision/checksum/size stayed fixed, so content comparisons use the private content fingerprint rather than `files.version` alone.
-- The first exact-module comparator attempt passed a `Headers` instance into `driveFetch`; its object-spread merge dropped `Range`, Drive returned 200, and the comparator correctly marked all three intervals inconclusive. The final recorded rerun used the documented plain header record and returned bounded 206 responses.
-- Front/middle/tail SW and direct API sampled bytes were identical; this does not prove unsampled whole-body fidelity, but it supplies no evidence that a server media relay would distinguish this failure.
-- Whole-file and raw demuxed packet hashes differ across MPEG-TS and MP4 because container/bitstream wrapping changes; they are not re-encoding evidence. Explicit copy mappings, equal stream parameters/counts and equal decoded windows supplied the Q1 proof.
-- A single precise middle-frame input seek selected a different indexed frame across containers; bounded decoded sequences around early/middle/near-end positions matched and avoided treating seek-index behavior as content loss.
+- Current GIS timers and 401 retries improve a live tab but do not prove unattended long-lived PWA login; two simultaneous token owners must not survive the migration.
+- GitHub Pages plus a cross-origin cookie auth host was rejected because it restores an iOS/PWA third-party-cookie and CORS boundary.
+- KV was rejected as auth state/lock because eventual consistency cannot provide the adopted single-flight/revision contract; an external `fetch()` inside a Durable Object can interleave, so the lease/revision is persisted rather than assumed from in-memory execution.
+- Official Cloudflare documentation proves published Free capabilities/limits, not this account's no-card eligibility. The actual UI gate remains A-008.
+- The current OAuth configuration is internally inconsistent with product code and has no server callback. Cached consent is not acceptance evidence; A-009 owns the exact client/scope/publishing/appData readback.

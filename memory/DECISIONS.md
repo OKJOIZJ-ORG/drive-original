@@ -276,3 +276,13 @@ D-045의 탐색 복원·중단 안전성은 유지하면서 플레이어에 독�
 작업 브랜치의 제품 코드·문서, 개발 도구, 테스트와 커밋, 이번 작업이 만든 일회용 Drive 테스트 데이터의 생성·이동·휴지통·복구·원격 확인, 앱 범위의 비파괴 OAuth/HTTPS 후보 설정과 기존 데이터 이관, 비용 없는 검증 배포를 승인한다. 실제 원본 변경·공개 공유·영구 삭제, 결제·카드·자동 과금, `main` 병합·원격 push·기존 운영 서비스 교체, 중지 자동화 재개는 승인하지 않는다. 본인 로그인·2단계 인증·약관·경로 승인과 운영 전환은 해당 경계에서 별도로 요청한다.
 
 sweep: active goal, open questions, checkpoint authority, specification index and session record aligned to the integrated v3.0 source and current authorization (2026-09-19)
+
+## D-051 · same-origin B-auth와 직접 Drive 데이터 경로 채택 — 2026-09-19 (Implementation decision under D-050; user-delegated)
+
+V2-01C~V2-03B의 같은 표본 증거에 따라 미디어 중계가 아니라 인증 책임만 서버리스로 분리한다. 검증 후보는 Cloudflare Worker Static Assets가 PWA 셸과 최소 `/auth/*`, `/api/session/*`를 같은 HTTPS origin에서 소유하고, 짧은 transaction Durable Object가 계정 확인 전 일회용 state/PKCE/OIDC nonce를 원자적으로 소비하며, Google OIDC 서명·`iss/aud/exp/iat/nonce/sub` 검증 후 선택한 계정별 SQLite-backed Durable Object가 암호화 refresh credential·세션·단조 증가 revision·지속 lease를 소유하는 구조다. Google client secret과 애플리케이션 암호화 키는 Worker Secrets에 둔다. 브라우저에는 짧은 access token·만료·계정·revision만 메모리로 전달하며 refresh token과 client secret은 전달하지 않는다.
+
+Drive 파일·Range 바이트는 앱/클라이언트 범위 서비스 워커가 공식 Drive API에서 직접 읽는다. Worker에 미디어/Drive API 중계, 바이트 캐시, FFmpeg, remux/transcode, Drive mutation 경로를 두지 않는다. 기존 브라우저 operation controller와 Drive `appDataFolder` writer merge가 각각 mutation과 likes/viewed 상태의 소유자로 남는다. GitHub Pages v1.21.0은 후보 검증 중 변경하지 않는 rollback runtime이다.
+
+기존 Google project/Web client를 우선 재사용하고, 실제 후보 hostname을 얻은 뒤 정확한 HTTPS origin/callback만 추가한다. 현재 실제 Console의 External Testing, redirect 0개, `drive.readonly` 표시와 코드의 `drive`+`drive.appdata` 요청 불일치는 라이브 수락 전에 `openid` identity fence, 최소 Drive scope, 게시 상태, 7일 만료, 개인용 unverified 경로, 기존 grant의 offline refresh credential 발급/명시적 재동의와 함께 재검증한다. 누락된 refresh-token 응답으로 기존 credential을 덮어쓰지 않는다. 1기기 logout은 해당 session만 종료하고, 명시적 disconnect는 전체 앱 session과 서버 credential을 삭제하며 Google revoke 결과가 불확실하면 그대로 알린다. 마지막 session 종료/만료 뒤 7일 grace가 지나면 DO alarm이 credential을 삭제한다. Cloudflare Free/무카드 활성화, 실제 hostname/DO binding, 기존 client secret 재사용과 동일 appData 가시성은 아직 미검증이다. 결제·카드·자동 과금은 금지하며 요구되면 중단한다.
+
+후보 쓰기 전 계정/appData writer·카운트·tombstone snapshot을 만들고, 같은 계정의 읽기/비교가 일치한 뒤 새 origin writer ID로 기존 writer 전체를 merge한다. 빈 상태나 계정 불일치는 쓰기를 차단한다. rollback은 후보 로그인/쓰기 중지, 앱 세션 종료, 기존 Pages로 복귀, legacy readback 후에만 후보 credential을 폐기하는 순서이며 원본·appData·Google 전체 grant를 자동 삭제/취소하지 않는다. 상세 비용·한도·인터페이스·이관·기각안은 `memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md`가 소유한다.
