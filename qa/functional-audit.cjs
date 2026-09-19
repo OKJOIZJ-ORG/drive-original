@@ -42,6 +42,9 @@ function installQaSlowTailFixture() {
       waitingForRelease: stream.waitingForRelease,
       intersectsIndex: stream.intersectsIndex,
       isTailIndexRequest: stream.isTailIndexRequest,
+      isFaststartInitialChunk: stream.isFaststartInitialChunk,
+      isFaststartWarmupChunk: stream.isFaststartWarmupChunk,
+      openedAt: stream.openedAt,
       terminal: stream.terminal
     }))
   });
@@ -124,7 +127,9 @@ function installQaSlowTailFixture() {
     const requestedMode = String(data.mode || '');
     const mode = requestedMode === 'tail-index'
       ? 'tail-index'
-      : requestedMode === 'sparse-offset' ? 'sparse-offset' : 'slow-tail';
+      : requestedMode === 'sparse-offset'
+        ? 'sparse-offset'
+        : requestedMode === 'faststart-chunked' ? 'faststart-chunked' : 'slow-tail';
     const logicalTotalBytes = mode === 'sparse-offset'
       ? Number(data.logicalTotalBytes)
       : bytes.byteLength;
@@ -135,6 +140,8 @@ function installQaSlowTailFixture() {
       mode,
       mimeType: String(data.mimeType || 'video/webm'),
       prefixBytes: Math.max(1, Number(data.prefixBytes) || 1),
+      initialChunkBytes: Math.max(8, Number(data.initialChunkBytes) || 24 * 1024),
+      warmupChunkBytes: Math.max(8, Number(data.warmupChunkBytes) || 64 * 1024),
       indexStart: Math.max(0, Number(data.indexStart) || 0),
       indexEnd: Math.max(0, Number(data.indexEnd) || 0),
       logicalTotalBytes,
@@ -174,13 +181,22 @@ function installQaSlowTailFixture() {
     const requestedEnd = suffixLength == null && match[2]
       ? Number(match[2])
       : totalBytes - 1;
-    const end = Math.min(requestedEnd, totalBytes - 1);
+    let end = Math.min(requestedEnd, totalBytes - 1);
     if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end)
       || (suffixLength != null && (!Number.isSafeInteger(suffixLength) || suffixLength <= 0))
       || start < 0 || start > end) {
       return nativeFetch(input, init);
     }
 
+    const isFaststartInitialChunk = active.mode === 'faststart-chunked'
+      && active.streams.size === 0 && start === 0;
+    const isFaststartWarmupChunk = active.mode === 'faststart-chunked'
+      && !isFaststartInitialChunk && start < active.warmupChunkBytes;
+    if (isFaststartInitialChunk) {
+      end = Math.min(end, active.initialChunkBytes - 1);
+    } else if (isFaststartWarmupChunk) {
+      end = Math.min(end, active.warmupChunkBytes - 1);
+    }
     const responseLength = end - start + 1;
     if (!Number.isSafeInteger(responseLength) || responseLength <= 0
       || (active.mode === 'sparse-offset'
@@ -191,7 +207,8 @@ function installQaSlowTailFixture() {
       && start > 0
       && start >= Math.max(1, active.indexStart - active.prefixBytes * 2)
       && end >= active.indexEnd;
-    const holdAfterPrefix = active.mode !== 'sparse-offset'
+    const holdAfterPrefix = !isFaststartInitialChunk && !isFaststartWarmupChunk
+      && active.mode !== 'sparse-offset'
       && (active.mode === 'slow-tail' || !isTailIndexRequest);
     const prefixLength = active.mode === 'sparse-offset'
       ? 1
@@ -213,6 +230,9 @@ function installQaSlowTailFixture() {
         && active.indexEnd >= active.indexStart
         && start <= active.indexEnd && end >= active.indexStart,
       isTailIndexRequest,
+      isFaststartInitialChunk,
+      isFaststartWarmupChunk,
+      openedAt: Date.now(),
       terminal: null,
       released: false,
       controller: null,
@@ -327,7 +347,24 @@ function expandTailIndexFixture(seed, freeBoxBytes=4*1024*1024) {
   assert.equal(expandedMoov.offset,moov.offset+freeBoxBytes);
   return {bytes,indexStart:expandedMoov.offset,indexEnd:expandedMoov.end-1,boxes:expanded};
 }
-let base, browser, video, tailIndexSeed, tailIndexVideo;
+function appendFaststartTrailingFreeBox(seed, freeBoxBytes=4*1024*1024) {
+  const boxes=parseIsoBmffTopLevelBoxes(seed);
+  const mdat=boxes.find(box=>box.type==='mdat');const moov=boxes.find(box=>box.type==='moov');
+  assert(mdat&&moov&&moov.end<=mdat.offset,'faststart seed must keep moov ahead of mdat');
+  assert.equal(boxes.some(box=>box.type==='moof'),false,'faststart seed must not be fragmented');
+  assert(Number.isSafeInteger(freeBoxBytes)&&freeBoxBytes>=8&&freeBoxBytes<=0xffffffff);
+  assert.equal(boxes.at(-1)?.end,seed.length,'faststart seed must end on a box boundary');
+  const free=Buffer.alloc(freeBoxBytes);free.writeUInt32BE(freeBoxBytes,0);free.write('free',4,4,'ascii');
+  const bytes=Buffer.concat([seed,free]);
+  assert(bytes.subarray(0,seed.length).equals(seed),'the immutable faststart seed must remain an exact prefix');
+  assert.equal(bytes.length,seed.length+freeBoxBytes);
+  const expanded=parseIsoBmffTopLevelBoxes(bytes);
+  const expandedMdat=expanded.find(box=>box.type==='mdat');const trailingFree=expanded.at(-1);
+  assert.deepEqual(expandedMdat,mdat,'appending the slow tail must not move or rewrite mdat');
+  assert.equal(trailingFree.type,'free');assert.equal(trailingFree.offset,seed.length);assert.equal(trailingFree.size,freeBoxBytes);
+  return {bytes,boxes:expanded,trailingFreeStart:trailingFree.offset,trailingFreeEnd:trailingFree.end-1};
+}
+let base, browser, video, tailIndexSeed, tailIndexVideo, faststartSeed, faststartVideo;
 const poster = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="#182c43"/><circle cx="320" cy="170" r="90" fill="#4c94d2"/><text x="320" y="190" text-anchor="middle" fill="white" font-size="32">Original fixture</text></svg>');
 function record(name, details = {}) { const r = { name, status:'passed', ...details }; results.push(r); console.log(JSON.stringify(r)); }
 async function check(name, callback) {
@@ -432,9 +469,9 @@ async function openVideo(page,id='video-A') {
 async function exactBufferedBytes(page) {
   return hash(Buffer.from(await page.evaluate(async()=>[...new Uint8Array(await (await fetch(el.videoPlayer.src)).arrayBuffer())])));
 }
-async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0, logicalTotalBytes=null }={}) {
+async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, initialChunkBytes=24*1024, warmupChunkBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0, logicalTotalBytes=null }={}) {
   const fixtureId = `${mode}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes }) => {
+  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes }) => {
     if (mode !== 'sparse-offset'
       && typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
       return { supported: false, fixtureId };
@@ -485,6 +522,8 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
       fixtureId,
       fileId,
       prefixBytes,
+      initialChunkBytes,
+      warmupChunkBytes,
       mode,
       mimeType,
       indexStart,
@@ -495,13 +534,15 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
     }, [bytes.buffer, channel.port2]);
     await configured;
     return { supported: true, fixtureId };
-  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes });
+  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes });
 }
 (async()=>{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}/drive-original/`;
   browser=await chromium.launch({channel:'chrome',headless:true});
   tailIndexSeed=fs.readFileSync(path.join(root,'qa','tail-index-h264-aac.mp4'));
   tailIndexVideo=expandTailIndexFixture(tailIndexSeed);
+  faststartSeed=fs.readFileSync(path.join(root,'qa','faststart-h264-aac.mp4'));
+  faststartVideo=appendFaststartTrailingFreeBox(faststartSeed);
   await generateVideo();
   try {
     await check('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',async()=>{
@@ -869,6 +910,350 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
           try { await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE')); } catch (_) {}
         }
         await context.close();
+      }
+    });
+    await check('non-faststart MP4 stays undecodable while its tail index is withheld',async()=>{
+      const {page,context,calls,errors}=await environment({
+        disableOpfs:true,
+        mediaBytes:tailIndexVideo.bytes,
+        mediaMimeType:'video/mp4',
+        mediaName:'non-faststart H.264 AAC control.mp4',
+        mediaMetadata:{width:320,height:180,durationMillis:'3000'}
+      });
+      let configured=false;
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:tailIndexVideo.bytes,
+          mode:'faststart-chunked',
+          mimeType:'video/mp4',
+          initialChunkBytes:24*1024,
+          warmupChunkBytes:tailIndexSeed.length,
+          prefixBytes:96*1024,
+          indexStart:tailIndexVideo.indexStart,
+          indexEnd:tailIndexVideo.indexEnd
+        });
+        assert.equal(setup.supported,true,'QA-TR-01 control requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>{
+          const video=el.videoPlayer;
+          video.muted=true;
+          globalThis.__driveOriginalQaPresentedFrames=[];
+          globalThis.__driveOriginalQaFrameCaptureActive=true;
+          const capture=()=>video.requestVideoFrameCallback((_now,metadata)=>{
+            globalThis.__driveOriginalQaPresentedFrames.push({
+              at:Date.now(),mediaTime:Number(metadata?.mediaTime)||0
+            });
+            if(globalThis.__driveOriginalQaFrameCaptureActive
+              &&globalThis.__driveOriginalQaPresentedFrames.length<120)capture();
+          });
+          capture();
+          openPlayer(state.files.find(file=>file.id==='video-A'));
+          void video.play().catch(()=>{});
+        });
+        await page.waitForFunction(async()=>{
+          const reply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          return reply.state.streams.some(stream=>stream.waitingForRelease&&!stream.terminal);
+        },null,{timeout:3000});
+        await page.waitForTimeout(2500);
+        const proof=await page.evaluate(async()=>({
+          fixture:(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state,
+          frames:(globalThis.__driveOriginalQaPresentedFrames||[]).slice(),
+          stages:(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+            stage:event.stage,traceId:event.traceId,route:event.route,requestId:event.requestId,
+            requestedRange:event.requestedRange,rangeSatisfied:event.rangeSatisfied,
+            playbackMode:event.playbackMode,bytes:event.bytes,totalBytes:event.totalBytes
+          })),
+          currentTime:el.videoPlayer.currentTime,
+          readyState:el.videoPlayer.readyState,
+          mode:state.mediaPlaybackMode,
+          attempt:state.mediaAttempt,
+          retryCount:state.mediaRetryCount,
+          fullRequestCount:state.mediaFullRequestCount,
+          bufferStorageMode:state.mediaBufferStorageMode,
+          hasTempStorage:Boolean(state.mediaTempStorage),
+          transportVerified:state.mediaTransportVerified,
+          rangeIntegrity:state.mediaRangeIntegrity,
+          previewHidden:el.drivePreview.hidden
+        }));
+        const held=proof.fixture.streams.find(stream=>stream.waitingForRelease&&!stream.terminal);
+        assert(held,'the control must keep the Range that leads toward the tail index open');
+        assert.equal(held.bodyComplete,false);
+        assert(held.start<=proof.fixture.indexStart&&held.start+held.deliveredBytes<=proof.fixture.indexEnd,
+          'at least the final tail-index byte must remain withheld from the non-faststart control');
+        const heldFirstBytes=proof.stages.filter(event=>event.stage==='first-byte'
+          &&event.route==='range'&&event.requestedRange===held.range);
+        assert.equal(heldFirstBytes.length,1,'the held control Range must have unique production-worker first-byte evidence');
+        const heldFirstByte=heldFirstBytes[0];
+        assert(heldFirstByte.requestId);
+        assert.equal(heldFirstByte.rangeSatisfied,true);
+        assert.equal(heldFirstByte.playbackMode,'original-range');
+        assert.equal(heldFirstByte.bytes,held.deliveredBytes);
+        assert.equal(heldFirstByte.totalBytes,held.responseLength);
+        assert.equal(proof.stages.some(event=>event.stage==='body-complete'
+          &&event.requestId===heldFirstByte.requestId),false);
+        assert.equal(proof.stages.some(event=>event.stage==='first-decoded-frame'),false);
+        assert.equal(proof.frames.some(frame=>frame.mediaTime>=2),false);
+        assert(proof.currentTime<2);
+        assert(proof.readyState<2);
+        assert.equal(proof.mode,'original-range');
+        assert.equal(proof.attempt,'range');
+        assert.equal(proof.retryCount,0);
+        assert.equal(proof.fullRequestCount,0);
+        assert.equal(proof.bufferStorageMode,'');
+        assert.equal(proof.hasTempStorage,false);
+        assert.equal(proof.transportVerified,true);
+        assert.equal(proof.rangeIntegrity,'valid');
+        assert.equal(proof.previewHidden,true);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,
+          'Playwright fulfillment must not bypass the production worker control fixture');
+
+        await page.evaluate(()=>{globalThis.__driveOriginalQaFrameCaptureActive=false;closePlayer();});
+        await page.waitForFunction(async()=>{
+          const reply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          return reply.state.streams.every(stream=>Boolean(stream.terminal));
+        },null,{timeout:2000});
+        const closed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE'));
+        const closedHeld=closed.state.streams.find(stream=>stream.streamId===held.streamId);
+        assert(closedHeld&&!closedHeld.bodyComplete&&['cancelled','aborted'].includes(closedHeld.terminal));
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        configured=false;
+        assert.deepEqual(errors,[]);
+        record('non-faststart MP4 stays undecodable while its tail index is withheld',{
+          range:held.range,deliveredBytes:held.deliveredBytes,moovStart:proof.fixture.indexStart,
+          currentTime:proof.currentTime,readyState:proof.readyState
+        });
+      } finally {
+        try {
+          if(configured){
+            await page.evaluate(()=>{globalThis.__driveOriginalQaFrameCaptureActive=false;if(!el.playerSheet.hidden)closePlayer();});
+            const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+            assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+            assert.equal(disposed.state.configured,false);
+          }
+        } finally { await context.close(); }
+      }
+    });
+    await check('faststart MP4 presents two seconds before whole-file Range completion',async()=>{
+      const {page,context,calls,errors}=await environment({
+        disableOpfs:true,
+        mediaBytes:faststartVideo.bytes,
+        mediaMimeType:'video/mp4',
+        mediaName:'faststart H.264 AAC.mp4',
+        mediaMetadata:{width:320,height:180,durationMillis:'10000'}
+      });
+      let configured=false;
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:faststartVideo.bytes,
+          mode:'faststart-chunked',
+          mimeType:'video/mp4',
+          initialChunkBytes:24*1024,
+          warmupChunkBytes:faststartSeed.length,
+          prefixBytes:96*1024
+        });
+        assert.equal(setup.supported,true,'QA-TR-01 requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>{
+          const video=el.videoPlayer;
+          video.muted=true;
+          globalThis.__driveOriginalQaPlayResult='pending';
+          globalThis.__driveOriginalQaPresentedFrames=[];
+          globalThis.__driveOriginalQaFrameCaptureActive=true;
+          const capture=()=>video.requestVideoFrameCallback((_now,metadata)=>{
+            globalThis.__driveOriginalQaPresentedFrames.push({
+              at:Date.now(),
+              mediaTime:Number(metadata?.mediaTime)||0,
+              presentedFrames:Number(metadata?.presentedFrames)||0
+            });
+            if(globalThis.__driveOriginalQaFrameCaptureActive
+              &&globalThis.__driveOriginalQaPresentedFrames.length<600)capture();
+          });
+          capture();
+          openPlayer(state.files.find(file=>file.id==='video-A'));
+          void video.play().then(
+            ()=>{globalThis.__driveOriginalQaPlayResult='resolved';},
+            error=>{globalThis.__driveOriginalQaPlayResult=`rejected:${error?.name||'Error'}`;}
+          );
+        });
+        try {
+          await page.waitForFunction(()=>{
+            const frames=globalThis.__driveOriginalQaPresentedFrames||[];
+            const stages=globalThis.__driveOriginalQaMediaStages||[];
+            return frames.some(frame=>frame.mediaTime>=2)
+              &&el.videoPlayer.currentTime>=2
+              &&stages.some(event=>event.stage==='first-decoded-frame'&&event.confidence==='decoded-frame');
+          },null,{timeout:10000});
+        } catch (error) {
+          const diagnostic=await page.evaluate(async()=>({
+            playResult:globalThis.__driveOriginalQaPlayResult,
+            frames:(globalThis.__driveOriginalQaPresentedFrames||[]).slice(-8),
+            stages:(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+              stage:event.stage,route:event.route,traceId:event.traceId,requestId:event.requestId,
+              requestedRange:event.requestedRange,bytes:event.bytes,totalBytes:event.totalBytes
+            })),
+            fixture:(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state,
+            currentTime:el.videoPlayer.currentTime,readyState:el.videoPlayer.readyState,
+            networkState:el.videoPlayer.networkState,
+            mediaError:el.videoPlayer.error?{code:el.videoPlayer.error.code,message:el.videoPlayer.error.message}:null,
+            attempt:state.mediaAttempt,mode:state.mediaPlaybackMode
+          }));
+          throw new Error(`Faststart progress timed out: ${error.message}\n${JSON.stringify(diagnostic)}`,{cause:error});
+        }
+        const proof=await page.evaluate(async()=>{
+          const fixture=(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state;
+          const stages=(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+            stage:event.stage,sequence:event.sequence,at:event.at,traceId:event.traceId,
+            route:event.route,requestId:event.requestId,
+            requestedRange:event.requestedRange,rangeSatisfied:event.rangeSatisfied,
+            playbackMode:event.playbackMode,bytes:event.bytes,totalBytes:event.totalBytes,
+            confidence:event.confidence,terminal:event.terminal
+          }));
+          const frames=(globalThis.__driveOriginalQaPresentedFrames||[]).slice();
+          return {
+            fixture,stages,frames,
+            maxPresentedMediaTime:Math.max(0,...frames.map(frame=>frame.mediaTime)),
+            currentTime:el.videoPlayer.currentTime,
+            readyState:el.videoPlayer.readyState,
+            playResult:globalThis.__driveOriginalQaPlayResult,
+            mode:state.mediaPlaybackMode,
+            attempt:state.mediaAttempt,
+            retryCount:state.mediaRetryCount,
+            fullRequestCount:state.mediaFullRequestCount,
+            bufferStorageMode:state.mediaBufferStorageMode,
+            hasTempStorage:Boolean(state.mediaTempStorage),
+            transportVerified:state.mediaTransportVerified,
+            rangeIntegrity:state.mediaRangeIntegrity,
+            previewHidden:el.drivePreview.hidden
+          };
+        });
+        const initial=proof.fixture.streams.find(stream=>stream.isFaststartInitialChunk);
+        assert(initial,'the cold open-ended request must complete only the bounded metadata chunk');
+        assert.equal(initial.start,0);
+        assert.equal(initial.end,24*1024-1);
+        assert.equal(initial.responseLength,24*1024);
+        assert.equal(initial.bodyComplete,true);
+        assert.equal(initial.terminal,'complete');
+        const warmup=proof.fixture.streams.find(stream=>stream.isFaststartWarmupChunk);
+        assert(warmup,'a bounded media warmup Range must complete before the held continuation');
+        assert.equal(warmup.start,initial.end+1);
+        assert.equal(warmup.end,faststartSeed.length-1);
+        assert.equal(warmup.responseLength,faststartSeed.length-24*1024);
+        assert.equal(initial.responseLength+warmup.responseLength,faststartSeed.length);
+        assert.equal(warmup.bodyComplete,true);
+        assert.equal(warmup.terminal,'complete');
+        const heldStreams=proof.fixture.streams.filter(stream=>stream.waitingForRelease&&!stream.terminal);
+        assert.equal(heldStreams.length,1,'exactly one continuation Range must remain held');
+        assert.equal(proof.fixture.streams.length,3,'the cold path must use two bounded seed Ranges and one held tail Range');
+        const front=heldStreams[0];
+        assert.equal(front.isFaststartInitialChunk,false);
+        assert.equal(front.isFaststartWarmupChunk,false);
+        assert.equal(front.start,warmup.end+1);
+        assert(front.deliveredBytes>0&&front.deliveredBytes<front.responseLength);
+        assert.equal(front.start,faststartVideo.trailingFreeStart,
+          'the held response must begin exactly after the immutable MP4 seed in trailing free bytes');
+        assert.equal(front.responseLength,4*1024*1024);
+        assert.equal(front.bodyComplete,false);
+        assert.equal(front.waitingForRelease,true);
+        assert.equal(front.terminal,null);
+        assert(proof.fixture.streams.every(stream=>stream.range));
+        assert.equal(new Set(proof.fixture.streams.map(stream=>stream.range)).size,proof.fixture.streams.length,
+          'each fixture stream must have a unique Range for request correlation');
+        const traceIds=[...new Set(proof.stages.map(event=>event.traceId).filter(Boolean))];
+        assert.equal(traceIds.length,1,'the cold playback must emit exactly one diagnostic trace');
+        const traceId=traceIds[0];
+        const matchingFirstBytes=proof.stages.filter(event=>event.stage==='first-byte'
+          &&event.route==='range'&&event.traceId===traceId&&event.requestedRange===front.range);
+        assert.equal(matchingFirstBytes.length,1,'held Range first-byte evidence must be unique');
+        const firstByte=matchingFirstBytes[0];
+        assert(firstByte,'the production worker must own the held Range first byte');
+        assert.equal(firstByte.rangeSatisfied,true);
+        assert.equal(firstByte.playbackMode,'original-range');
+        assert.equal(firstByte.bytes,front.deliveredBytes);
+        assert.equal(firstByte.totalBytes,front.responseLength);
+        assert(firstByte.at>=front.openedAt);
+        const decoded=proof.stages.find(event=>event.stage==='first-decoded-frame'
+          &&event.confidence==='decoded-frame'&&event.traceId===traceId);
+        assert(decoded,'the product must observe a browser-decoded frame');
+        assert(firstByte.sequence<decoded.sequence,'the decoded frame must follow the held Range first byte');
+        const completedStages=proof.stages.filter(event=>event.stage==='body-complete');
+        const initialFirstByte=proof.stages.find(event=>event.stage==='first-byte'
+          &&event.traceId===traceId&&event.requestedRange===initial.range);
+        const warmupFirstByte=proof.stages.find(event=>event.stage==='first-byte'
+          &&event.traceId===traceId&&event.requestedRange===warmup.range);
+        assert(initialFirstByte,'the bounded metadata Range must have first-byte evidence');
+        assert(warmupFirstByte,'the bounded media warmup Range must have first-byte evidence');
+        assert.equal(completedStages.length,2,'only the two bounded prefix Ranges may complete before proof');
+        assert.deepEqual(new Set(completedStages.map(event=>event.requestId)),
+          new Set([initialFirstByte.requestId,warmupFirstByte.requestId]));
+        assert.equal(proof.stages.some(event=>event.stage==='body-complete'
+          &&event.requestId===firstByte.requestId),false);
+        assert.equal(proof.stages.some(event=>['first-byte-timeout','body-no-progress'].includes(event.stage)),false);
+        assert(proof.frames.length>=2);
+        for(let index=1;index<proof.frames.length;index++){
+          assert(proof.frames[index].mediaTime>=proof.frames[index-1].mediaTime,'presented media time must be monotonic');
+        }
+        assert(new Set(proof.frames.map(frame=>frame.mediaTime)).size>=2,'presentation must advance across distinct frames');
+        const twoSecondFrame=proof.frames.find(frame=>frame.mediaTime>=2);
+        assert(twoSecondFrame&&twoSecondFrame.at>=firstByte.at,'two-second presentation must follow the held Range first byte');
+        assert(proof.maxPresentedMediaTime>=2);
+        assert(proof.currentTime>=2);
+        assert(proof.readyState>=2);
+        assert.equal(proof.playResult,'resolved');
+        assert.equal(proof.mode,'original-range');
+        assert.equal(proof.attempt,'range');
+        assert.equal(proof.retryCount,0);
+        assert.equal(proof.fullRequestCount,0);
+        assert.equal(proof.bufferStorageMode,'');
+        assert.equal(proof.hasTempStorage,false);
+        assert.equal(proof.transportVerified,true);
+        assert.equal(proof.rangeIntegrity,'valid');
+        assert.equal(proof.previewHidden,true);
+        assert.equal(proof.stages.some(event=>event.route==='full-original'),false);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,
+          'Playwright fulfillment must not bypass the production worker slow-tail fixture');
+
+        await page.evaluate(()=>{globalThis.__driveOriginalQaFrameCaptureActive=false;closePlayer();});
+        await page.waitForFunction(async()=>{
+          const reply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          return reply.state.streams.every(stream=>Boolean(stream.terminal));
+        },null,{timeout:2000});
+        const closed=await page.evaluate(async()=>({
+          fixture:(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state,
+          selected:state.selected,
+          attempt:state.mediaAttempt
+        }));
+        const closedFront=closed.fixture.streams.find(stream=>stream.streamId===front.streamId);
+        assert(closedFront,'the held continuation Range must remain identifiable during cleanup');
+        assert.equal(closedFront.bodyComplete,false);
+        assert(['cancelled','aborted'].includes(closedFront.terminal));
+        assert.equal(closed.selected,null);
+        assert.equal(closed.attempt,'idle');
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        configured=false;
+        assert.deepEqual(errors,[]);
+        record('faststart MP4 presents two seconds before whole-file Range completion',{
+          initialRange:initial.range,
+          warmupRange:warmup.range,
+          range:front.range,
+          deliveredBytes:front.deliveredBytes,
+          responseLength:front.responseLength,
+          maxPresentedMediaTime:proof.maxPresentedMediaTime,
+          currentTime:proof.currentTime,
+          readyState:proof.readyState
+        });
+      } finally {
+        try {
+          if(configured){
+            await page.evaluate(()=>{globalThis.__driveOriginalQaFrameCaptureActive=false;if(!el.playerSheet.hidden)closePlayer();});
+            const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+            assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+            assert.equal(disposed.state.configured,false);
+          }
+        } finally { await context.close(); }
       }
     });
     await check('2/4 GiB sparse Range crosses the production service worker without allocation',async()=>{

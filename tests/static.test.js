@@ -171,6 +171,27 @@ test('tail-index MP4 QA seed is small, immutable and keeps moov behind mdat', ()
   ]);
 });
 
+test('faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat', () => {
+  const fixture = fs.readFileSync(path.join(root, 'qa', 'faststart-h264-aac.mp4'));
+  assert.equal(fixture.length, 202253, 'faststart seed size must remain fixed and below 512 KiB');
+  assert(fixture.length < 512 * 1024);
+  assert.equal(crypto.createHash('sha256').update(fixture).digest('hex'), '178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079');
+  const boxes = parseIsoBmffTopLevelBoxes(fixture);
+  const mdat = boxes.find((box) => box.type === 'mdat');
+  const moov = boxes.find((box) => box.type === 'moov');
+  assert.equal(boxes[0]?.type, 'ftyp');
+  assert(mdat);
+  assert(moov);
+  assert(moov.end <= mdat.offset, 'faststart fixture must place moov before mdat');
+  assert.equal(boxes.some((box) => box.type === 'moof'), false, 'fixture must not be fragmented MP4');
+  assert.deepEqual(boxes.map(({ type, offset, size }) => ({ type, offset, size })), [
+    { type: 'ftyp', offset: 0, size: 32 },
+    { type: 'moov', offset: 32, size: 5542 },
+    { type: 'free', offset: 5574, size: 8 },
+    { type: 'mdat', offset: 5582, size: 196671 }
+  ]);
+});
+
 test('candidate runtime config is loaded before app code and fails closed for Drive writes', () => {
   const app = read('app.js');
   const html = read('index.html');

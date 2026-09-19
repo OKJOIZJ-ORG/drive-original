@@ -46,6 +46,46 @@ without allocating a multi-gigabyte file. It is synthetic browser-path evidence,
 not proof of real Drive/CORS behavior, multi-gigabyte transfer performance, or a
 physical iPhone/PWA.
 
+`faststart-h264-aac.mp4` is a separate 10-second H.264 Constrained
+Baseline/AAC fixture for QA-TR-01. It is non-fragmented, keeps `moov` ahead of
+`mdat`, and has its size, SHA-256 and top-level box order fixed by
+`tests/static.test.js`. The functional audit appends a valid 4 MiB top-level
+`free` box after the complete seed in memory. A cold Chrome context receives
+the immutable faststart seed over two bounded original Range responses, then
+the audit holds the Range for the trailing `free` box after 96 KiB. Chrome must
+present at least two seconds of increasing decoded media time while that third
+production-service-worker response and the represented file remain incomplete;
+closing the player must cancel or abort the held stream. The trailing box does
+not move or rewrite `mdat` or its sample offsets.
+
+The paired negative control inserts the same 4 MiB `free` box before the
+non-faststart seed's tail `moov`. It withholds the last index byte under the
+same cold browser path and must not produce a decoded frame or two seconds of
+presentation. This distinguishes the faststart result from stale diagnostics,
+poster readiness, or a test-only media bypass.
+
+This is synthetic Chrome-to-production-service-worker evidence that a normal
+faststart MP4 reaches Q0 and continues before the whole represented file is
+downloaded, without OPFS, memory-buffer, preview, retry, or Playwright media
+fulfillment. The complete small MP4 seed has arrived before the held synthetic
+tail, so this does not claim decode from a partial `mdat`. It is also not proof
+of real Drive or CORS behavior, native large-transfer throughput, or a physical
+iPhone/PWA.
+
+The faststart seed was generated with FFmpeg 9.0.1:
+
+```powershell
+ffmpeg.exe -hide_banner -nostdin -n `
+  -f lavfi -i "testsrc2=size=320x180:rate=15:duration=10" `
+  -f lavfi -i "sine=frequency=660:sample_rate=48000:duration=10" `
+  -map 0:v:0 -map 1:a:0 `
+  -c:v libx264 -profile:v baseline -level:v 3.0 -pix_fmt yuv420p `
+  -g 15 -keyint_min 15 -sc_threshold 0 -crf 32 -threads 1 `
+  -c:a aac -b:a 48k -shortest -map_metadata -1 `
+  -movflags +faststart `
+  qa/faststart-h264-aac.mp4
+```
+
 The seed was generated with FFmpeg 9.0.1 without `faststart`:
 
 ```powershell
