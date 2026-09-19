@@ -117,3 +117,30 @@ selector was corrected only in QA; its failed output remains local evidence.
 Production runtime did not change after e08989a. Archived the old checkpoint and
 updated release/implementation/product-truth records. No real Drive media or
 external Notion maintenance was changed. See RELEASE-1.21.0.md.
+
+## 2026-09-19 — v2.0 kickoff and first failure-boundary experiment
+
+The user adopted Worker Spec v2.0 as the full product contract and Execution
+Protocol v1.0 as the implementation/recovery method. Verified their actual
+Downloads paths, headers and SHA-256 values; read the canonical repository and
+parent instructions, index, decisions, open questions, active goal, checkpoint,
+QA guide and Git state. Created `codex/v2-kickoff-diagnostics` from clean `main`
+at `ed1f90a20fb25df0e5de6bb6149d02e603466bf4`. Product source remains unchanged.
+
+Re-ran `node --check app.js`, `node --check sw.js` and
+`node --test tests/*.test.js`: 144/144 passed. Then ran the focused current-code
+experiment for the existing app/worker fixtures: HTTP/auth errors are classified
+and kept requester/session scoped; invalid or unprovable 206 responses fail
+closed; after verified original transport, browser `MediaError` code 4 remains a
+combined `codec or container` signal. The three targeted tests passed 3/3. The
+five-second Range timer only changes text and supplies no credential/header/
+first-byte/body/frame timeline. Therefore the attached Google compatibility
+screen does not prove which original stage failed, and no A/B/C architecture was
+selected.
+
+Recorded D-049, added A-005~A-007, and extended the existing commercial-player
+goal with one dependency-ordered WP-00~WP-10 backlog retaining every v2.0
+acceptance family. `V2-01B` is the sole READY task: a local-only, removable,
+session-correlated stage-timeline fixture. No real Drive write/share, OAuth
+change, paid or always-on infrastructure, origin/native deployment, merge, push,
+production deployment or automation resume occurred.

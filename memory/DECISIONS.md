@@ -256,3 +256,11 @@ Confirmed by baseline counterexamples: server-side writer union alone does not e
 D-045의 탐색 복원·중단 안전성은 유지하면서 플레이어에 독립된 history entry를 추가한다. 커스텀 뒤로가기는 18 CSS px에서 시작하며 미디어 제스처는 해당 영역을 제외한다. iOS는 미디어 시작 제외 영역을 32 CSS px로 두고, 소유한 이력이 있는 Safari와 standalone 모두 기본 모서리를 중복 애니메이션 없이 예약한다. 기존 standalone 예외 가정은 폐기하되, 실제 OS 행동은 여전히 실기기로 검증해야 한다.
 
 파일 권한 오류와 계정 만료를 분리하고, 같은 계정의 갱신에서는 목록·재생 상태를 보존한다. 다른 계정은 공개 전 식별·격리하며 미확인 식별 결과로 기존 세션을 버리지 않는다. 숫자 토큰/계정 세대로 늦은 인증 오류를 차단한다. 무기한 무조작 로그인이나 실제 iPhone/Google 검증 완료를 주장하지 않는다. D-047 후보를 검토·통합하고 D-046의 공개 파일 전용 게시 경로를 유지한다. 근거와 회귀 계약은 IMMERSIVE-20260919.md에 있다.
+
+## D-049 · v2.0 전체 제품 요구와 판별 우선 장기 실행 규약 — 2026-09-19 (User-confirmed; scoped supersession)
+
+`Drive-Original_Worker-Spec_v2.0_2026-09-19.md`를 Drive Original의 전체 제품 요구로, `Drive-Original_Codex-Execution-Protocol_v1.0_2026-09-19.md`를 장기 구현·컨텍스트 복구 작업 방식으로 사용한다. 기존 WP-00~WP-10과 QA-TR/FM/AU/ST/MU/UI/LF/SE/SW 인수 항목을 없애거나 낮추지 않고, 전체 목표는 `memory/goal/commercial-player-stability.md` 한 곳에서 소유한다. 한 번에 하나의 관찰 가능한 재현→수정→검증 단위만 활성화하고 현재 체크포인트에 실제 코드·검증·승인 경계를 기록한다.
+
+현행 v1.21.0과 과거 자동화·배포 보고는 기준선이지 v2.0 완료 증거가 아니다. 같은 실패 파일의 인증·전송·컨테이너·디코더 경계를 먼저 판별한 뒤 구조 A/B/C를 선택하며, B는 우선 검증 후보일 뿐 채택 완료가 아니다. 이 결정은 D-039의 `OPFS 전체 저장 우선`을 기본 첫 프레임 경로로 고정한 순서와 D-035의 Google iframe 자동 호환 종료 경로를 각각 v2.0 TR-01 및 UI-04/Q-01~03 범위에서 대체한다. 원본 품질 우선, 사용자 데이터 보존, 수동 외부 열기, 기존 계정 appData의 임시 SSOT는 유지한다.
+
+현재 착수 단계는 읽기, 작업 브랜치의 최소 진단·재현 fixture, 로컬 테스트와 증거 기록으로 제한한다. 실제 Drive 쓰기·공유, OAuth 설정, 유료/상시 인프라, 새 origin·네이티브 배포, `main` 병합·push·운영 배포, 중지 자동화 재개는 별도 승인 전에는 실행하지 않는다.
