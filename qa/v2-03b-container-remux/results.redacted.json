@@ -1,0 +1,160 @@
+{
+  "schema": "drive-original.v2-03b-container-remux-redacted/1",
+  "appCandidate": "fe9c359",
+  "qaBaseCommit": "44be198",
+  "probeProducer": "browser-probe-server.mjs@v2-03b.2",
+  "recordedAt": "2026-09-19T13:03:00Z",
+  "environment": {
+    "os": "Windows 11 Pro 10.0.26200 x64",
+    "browser": "Chrome 152.0.0.0",
+    "ffmpeg": "9.0.1-full_build-www.gyan.dev"
+  },
+  "source": {
+    "classification": "exact read-only local mirror of the Drive failure sample",
+    "container": "mpegts",
+    "durationSeconds": 1609.344,
+    "streamCount": 2,
+    "video": {
+      "codec": "h264",
+      "profile": "High",
+      "level": 30,
+      "width": 360,
+      "height": 640,
+      "pixelFormat": "yuv420p",
+      "frameRate": "30/1",
+      "colorRange": "tv",
+      "colorSpace": "bt709",
+      "colorTransfer": "bt709",
+      "colorPrimaries": "bt709"
+    },
+    "audio": {
+      "codec": "aac",
+      "profile": "LC",
+      "sampleRate": 48000,
+      "channels": 2,
+      "channelLayout": "stereo"
+    },
+    "fingerprintUnchangedAfterRemux": true,
+    "privateIdentityValues": "omitted"
+  },
+  "derivative": {
+    "container": "mov,mp4,m4a,3gp,3g2,mj2",
+    "durationSeconds": 1609.408,
+    "sizeBytes": 197174423,
+    "streamCount": 2,
+    "explicitMappings": [
+      "0:v:0 -> 0:0 (copy)",
+      "0:a:0 -> 0:1 (copy)"
+    ],
+    "videoParametersMatch": true,
+    "audioParametersMatch": true,
+    "inputAndOutputPacketCounts": {
+      "video": 48277,
+      "audio": 75441,
+      "equal": true
+    },
+    "fastStartMoovBeforeMediaData": true,
+    "wholeFileHashExpectedToDiffer": true,
+    "packagingDifferenceObserved": true,
+    "defaultDispositionDifference": "the sole video and audio streams became MP4 defaults; no stream was added or dropped",
+    "removedAfterValidation": true,
+    "reproducibleFromReadOnlySource": true
+  },
+  "decodedWindowComparisons": [
+    {
+      "label": "first",
+      "relativeStartSeconds": 3,
+      "durationSeconds": 3,
+      "inputFrames": 89,
+      "outputFrames": 89,
+      "videoFrameSequenceEqual": true,
+      "audioPcmEqual": true
+    },
+    {
+      "label": "middle",
+      "relativeStartSeconds": 795,
+      "durationSeconds": 20,
+      "inputFrames": 599,
+      "outputFrames": 599,
+      "videoFrameSequenceEqual": true,
+      "audioPcmEqual": true
+    },
+    {
+      "label": "near-end",
+      "relativeStartSeconds": 1598,
+      "durationSeconds": 5,
+      "inputFrames": 149,
+      "outputFrames": 149,
+      "videoFrameSequenceEqual": true,
+      "audioPcmEqual": true
+    }
+  ],
+  "chromePlayback": {
+    "canPlayType": "probably",
+    "durationSeconds": 1609.408,
+    "width": 360,
+    "height": 640,
+    "captureAudioTracks": 1,
+    "audioDecodedBytesIncreased": true,
+    "audioDecodedByteDelta": 72768,
+    "rangeRequestCount": 6,
+    "rangeResponseStatuses": [206],
+    "rangeValidity": {
+      "none": 0,
+      "valid": 6,
+      "invalid": 0
+    },
+    "points": [
+      {
+        "label": "first",
+        "targetSeconds": 0.25,
+        "presentedMediaTime": 0.254667,
+        "seekErrorSeconds": 0.004667,
+        "presentedFrameCallback": true,
+        "readyState": 4,
+        "decodedFramesCumulative": 11
+      },
+      {
+        "label": "middle",
+        "targetSeconds": 804.704,
+        "presentedMediaTime": 804.721333,
+        "seekErrorSeconds": 0.017333,
+        "presentedFrameCallback": true,
+        "readyState": 4,
+        "decodedFramesCumulative": 52
+      },
+      {
+        "label": "near-end",
+        "targetSeconds": 1607.408,
+        "presentedMediaTime": 1608.121333,
+        "seekErrorSeconds": 0.713333,
+        "presentedFrameCallback": true,
+        "readyState": 4,
+        "decodedFramesCumulative": 106
+      }
+    ]
+  },
+  "localProbeSecurity": {
+    "perRunCapability": true,
+    "loopbackHostAndActualPortRequired": true,
+    "sameOriginProbePageRefererRequired": true,
+    "foreignOriginRejected": true
+  },
+  "result": {
+    "q1ContainerOnlyRemuxSolvedWindowsChromeForExactSample": true,
+    "videoOrAudioReencoded": false,
+    "driveOriginalMutated": false,
+    "driveUploadOrDeploymentPerformed": false,
+    "physicalIphoneOrPwaVerified": false,
+    "allFormatsGeneralized": false,
+    "productPipelineImplemented": false
+  },
+  "redaction": {
+    "account": "omitted",
+    "fileIdAndRevision": "omitted",
+    "sourceAndDerivativePaths": "omitted",
+    "sourceAndDerivativeHashes": "omitted",
+    "mediaBytesAndFrames": "omitted",
+    "absoluteRangeOffsets": "omitted"
+  }
+}
