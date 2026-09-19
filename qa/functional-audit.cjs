@@ -24,6 +24,7 @@ function installQaSlowTailFixture() {
     mode: active.mode,
     mimeType: active.mimeType,
     byteLength: active.bytes.byteLength,
+    logicalTotalBytes: active.logicalTotalBytes,
     indexStart: active.indexStart,
     indexEnd: active.indexEnd,
     configured: fixture === active,
@@ -120,14 +121,23 @@ function installQaSlowTailFixture() {
     const port = event.ports?.[0];
     const bytes = data.bytes instanceof ArrayBuffer ? new Uint8Array(data.bytes) : null;
     if (!port || !bytes?.byteLength || !data.fixtureId || !data.fileId) return;
+    const requestedMode = String(data.mode || '');
+    const mode = requestedMode === 'tail-index'
+      ? 'tail-index'
+      : requestedMode === 'sparse-offset' ? 'sparse-offset' : 'slow-tail';
+    const logicalTotalBytes = mode === 'sparse-offset'
+      ? Number(data.logicalTotalBytes)
+      : bytes.byteLength;
+    if (!Number.isSafeInteger(logicalTotalBytes) || logicalTotalBytes <= 0) return;
     const active = {
       fixtureId: String(data.fixtureId),
       fileId: String(data.fileId),
-      mode: data.mode === 'tail-index' ? 'tail-index' : 'slow-tail',
+      mode,
       mimeType: String(data.mimeType || 'video/webm'),
       prefixBytes: Math.max(1, Number(data.prefixBytes) || 1),
       indexStart: Math.max(0, Number(data.indexStart) || 0),
       indexEnd: Math.max(0, Number(data.indexEnd) || 0),
+      logicalTotalBytes,
       bytes,
       port,
       streamSequence: 0,
@@ -156,14 +166,15 @@ function installQaSlowTailFixture() {
     const range = headers.get('Range') || '';
     const match = /^bytes=(\d*)-(\d*)$/i.exec(range);
     if (!match || (!match[1] && !match[2])) return nativeFetch(input, init);
+    const totalBytes = active.logicalTotalBytes;
     const suffixLength = !match[1] ? Number(match[2]) : null;
     const start = suffixLength == null
       ? Number(match[1])
-      : Math.max(0, active.bytes.byteLength - suffixLength);
+      : Math.max(0, totalBytes - suffixLength);
     const requestedEnd = suffixLength == null && match[2]
       ? Number(match[2])
-      : active.bytes.byteLength - 1;
-    const end = Math.min(requestedEnd, active.bytes.byteLength - 1);
+      : totalBytes - 1;
+    const end = Math.min(requestedEnd, totalBytes - 1);
     if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end)
       || (suffixLength != null && (!Number.isSafeInteger(suffixLength) || suffixLength <= 0))
       || start < 0 || start > end) {
@@ -171,12 +182,20 @@ function installQaSlowTailFixture() {
     }
 
     const responseLength = end - start + 1;
+    if (!Number.isSafeInteger(responseLength) || responseLength <= 0
+      || (active.mode === 'sparse-offset'
+        && (responseLength !== 1 || active.bytes.byteLength !== 1))) {
+      return nativeFetch(input, init);
+    }
     const isTailIndexRequest = active.mode === 'tail-index'
       && start > 0
       && start >= Math.max(1, active.indexStart - active.prefixBytes * 2)
       && end >= active.indexEnd;
-    const holdAfterPrefix = active.mode === 'slow-tail' || !isTailIndexRequest;
-    const prefixLength = holdAfterPrefix
+    const holdAfterPrefix = active.mode !== 'sparse-offset'
+      && (active.mode === 'slow-tail' || !isTailIndexRequest);
+    const prefixLength = active.mode === 'sparse-offset'
+      ? 1
+      : holdAfterPrefix
       ? Math.min(active.prefixBytes, Math.max(1, responseLength - 1))
       : responseLength;
     const stream = {
@@ -184,13 +203,14 @@ function installQaSlowTailFixture() {
       range,
       start,
       end,
-      contentRange: `bytes ${start}-${end}/${active.bytes.byteLength}`,
+      contentRange: `bytes ${start}-${end}/${totalBytes}`,
       responseLength,
       deliveredBytes: 0,
       bodyComplete: false,
       waitingForRelease: false,
       holdAfterPrefix,
-      intersectsIndex: active.indexEnd >= active.indexStart
+      intersectsIndex: active.mode !== 'sparse-offset'
+        && active.indexEnd >= active.indexStart
         && start <= active.indexEnd && end >= active.indexStart,
       isTailIndexRequest,
       terminal: null,
@@ -220,7 +240,9 @@ function installQaSlowTailFixture() {
       pull(controller) {
         if (stream.terminal) return;
         if (stream.deliveredBytes === 0) {
-          const prefix = active.bytes.slice(start, start + prefixLength);
+          const prefix = active.mode === 'sparse-offset'
+            ? active.bytes.slice(0, 1)
+            : active.bytes.slice(start, start + prefixLength);
           controller.enqueue(prefix);
           stream.deliveredBytes = prefix.byteLength;
           if (!stream.holdAfterPrefix || stream.deliveredBytes >= stream.responseLength) {
@@ -410,10 +432,11 @@ async function openVideo(page,id='video-A') {
 async function exactBufferedBytes(page) {
   return hash(Buffer.from(await page.evaluate(async()=>[...new Uint8Array(await (await fetch(el.videoPlayer.src)).arrayBuffer())])));
 }
-async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0 }={}) {
+async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0, logicalTotalBytes=null }={}) {
   const fixtureId = `${mode}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd }) => {
-    if (typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
+  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes }) => {
+    if (mode !== 'sparse-offset'
+      && typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
       return { supported: false, fixtureId };
     }
     const binary = atob(encoded);
@@ -466,12 +489,13 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
       mimeType,
       indexStart,
       indexEnd,
+      logicalTotalBytes,
       requestId,
       bytes: bytes.buffer
     }, [bytes.buffer, channel.port2]);
     await configured;
     return { supported: true, fixtureId };
-  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd });
+  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes });
 }
 (async()=>{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}/drive-original/`;
@@ -843,6 +867,186 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
         if(configured) {
           try { await page.evaluate(()=>{ if(!el.playerSheet.hidden) closePlayer(); }); } catch (_) {}
           try { await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE')); } catch (_) {}
+        }
+        await context.close();
+      }
+    });
+    await check('2/4 GiB sparse Range crosses the production service worker without allocation',async()=>{
+      const {page,context,calls,errors}=await environment();
+      let configured=false;
+      const logicalTotalBytes=4294967297;
+      const cases=[
+        {name:'2 GiB',range:'bytes=2147483648-2147483648'},
+        {name:'4 GiB',range:'bytes=4294967296-4294967296'}
+      ];
+      const invalidRange='bytes=4294967296-4294967295';
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:Buffer.from([0x5a]),
+          mode:'sparse-offset',
+          mimeType:'application/octet-stream',
+          prefixBytes:1,
+          logicalTotalBytes
+        });
+        assert.equal(setup.supported,true);
+        configured=true;
+        const proof=await page.evaluate(async ({ logicalTotalBytes, cases, invalidRange })=>{
+          const workerMessages=[];
+          const onWorkerMessage=(event)=>{
+            const data=event.data||{};
+            if(!['MEDIA_PROXY_STATUS','MEDIA_PROXY_ERROR','MEDIA_TRACE_EVENT'].includes(data.type))return;
+            workerMessages.push({
+              type:data.type,
+              traceId:data.traceId||null,
+              requestId:data.requestId||null,
+              status:Number(data.status)||0,
+              category:data.category||null,
+              driveReason:data.driveReason||null,
+              requestedRange:data.requestedRange||null,
+              contentRange:data.contentRange||null,
+              contentRangeInferred:data.contentRangeInferred===true,
+              rangeSatisfied:data.rangeSatisfied===true,
+              playbackMode:data.playbackMode||null,
+              stage:data.stage||null,
+              reason:data.reason||null,
+              bytes:Number(data.bytes)||0,
+              totalBytes:Number(data.totalBytes)||0,
+              terminal:data.terminal===true
+            });
+          };
+          navigator.serviceWorker.addEventListener('message',onWorkerMessage);
+          const file={
+            id:'video-A',mimeType:'video/mp4',size:String(logicalTotalBytes),resourceKey:'fixture-key'
+          };
+          const request=async(testCase,index)=>{
+            const traceId=`qa-sparse-${index+1}`;
+            const url=new URL(buildMediaUrl(file));
+            url.searchParams.set('_trace',traceId);
+            const response=await fetch(url,{headers:{Range:testCase.range},cache:'no-store'});
+            const body=[...new Uint8Array(await response.arrayBuffer())];
+            return {
+              ...testCase,traceId,status:response.status,body,
+              contentRange:response.headers.get('Content-Range'),
+              contentLength:response.headers.get('Content-Length'),
+              acceptRanges:response.headers.get('Accept-Ranges')
+            };
+          };
+          try {
+            const responses=[];
+            for(let index=0;index<cases.length;index++)responses.push(await request(cases[index],index));
+            const invalidUrl=new URL(buildMediaUrl(file));
+            invalidUrl.searchParams.set('_trace','qa-sparse-invalid');
+            const invalidResponse=await fetch(invalidUrl,{headers:{Range:invalidRange},cache:'no-store'});
+            const invalidBody=await invalidResponse.text();
+            const deadline=Date.now()+2000;
+            while(Date.now()<deadline){
+              const statuses=workerMessages.filter(message=>message.type==='MEDIA_PROXY_STATUS'
+                &&cases.some(item=>item.range===message.requestedRange));
+              const completions=workerMessages.filter(message=>message.type==='MEDIA_TRACE_EVENT'
+                &&message.stage==='body-complete'&&/^qa-sparse-[12]$/.test(message.traceId||''));
+              const invalidError=workerMessages.some(message=>message.type==='MEDIA_PROXY_ERROR'
+                &&message.requestedRange===invalidRange&&message.status===400);
+              const invalidTrace=workerMessages.some(message=>message.type==='MEDIA_TRACE_EVENT'
+                &&message.traceId==='qa-sparse-invalid'&&message.stage==='range-error');
+              if(statuses.length===cases.length&&completions.length===cases.length&&invalidError&&invalidTrace)break;
+              await new Promise(resolve=>setTimeout(resolve,10));
+            }
+            const fixture=(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state;
+            return {
+              responses,
+              invalid:{status:invalidResponse.status,body:invalidBody},
+              fixture,
+              workerMessages,
+              appState:{
+                fullRequestCount:state.mediaFullRequestCount,
+                bufferStorageMode:state.mediaBufferStorageMode,
+                hasTempStorage:Boolean(state.mediaTempStorage),
+                selectedId:state.selected?.id||null
+              }
+            };
+          } finally {
+            navigator.serviceWorker.removeEventListener('message',onWorkerMessage);
+          }
+        },{logicalTotalBytes,cases,invalidRange});
+
+        assert.equal(proof.responses.length,cases.length);
+        for(const response of proof.responses){
+          assert.equal(response.status,206,response.name);
+          const match=response.range.match(/^bytes=(\d+)-(\d+)$/);
+          assert(match,response.name);
+          const offset=Number(match[1]);
+          assert.equal(response.contentRange,`bytes ${offset}-${offset}/${logicalTotalBytes}`,response.name);
+          assert.equal(response.contentLength,'1',response.name);
+          assert.equal(response.acceptRanges,'bytes',response.name);
+          assert.deepEqual(response.body,[0x5a],response.name);
+          const stream=proof.fixture.streams.find(item=>item.range===response.range);
+          assert(stream,response.name);
+          assert.equal(stream.start,offset,response.name);
+          assert.equal(stream.end,offset,response.name);
+          assert.equal(stream.responseLength,1,response.name);
+          assert.equal(stream.deliveredBytes,1,response.name);
+          assert.equal(stream.bodyComplete,true,response.name);
+          assert.equal(stream.terminal,'complete',response.name);
+          const status=proof.workerMessages.find(message=>message.type==='MEDIA_PROXY_STATUS'
+            &&message.requestedRange===response.range);
+          assert(status,response.name);
+          assert.equal(status.status,206,response.name);
+          assert.equal(status.contentRange,response.contentRange,response.name);
+          assert.equal(status.contentRangeInferred,false,response.name);
+          assert.equal(status.rangeSatisfied,true,response.name);
+          assert.equal(status.playbackMode,'original-range',response.name);
+          const firstByte=proof.workerMessages.find(message=>message.type==='MEDIA_TRACE_EVENT'
+            &&message.traceId===response.traceId&&message.stage==='first-byte');
+          const complete=proof.workerMessages.find(message=>message.type==='MEDIA_TRACE_EVENT'
+            &&message.traceId===response.traceId&&message.stage==='body-complete');
+          assert(firstByte&&complete,response.name);
+          assert.equal(firstByte.requestedRange,response.range,response.name);
+          assert.equal(firstByte.rangeSatisfied,true,response.name);
+          assert.equal(firstByte.bytes,1,response.name);
+          assert.equal(firstByte.totalBytes,1,response.name);
+          assert.equal(complete.requestId,firstByte.requestId,response.name);
+          assert.equal(complete.bytes,1,response.name);
+          assert.equal(complete.totalBytes,1,response.name);
+        }
+        assert.equal(proof.fixture.mode,'sparse-offset');
+        assert.equal(proof.fixture.byteLength,1);
+        assert.equal(proof.fixture.logicalTotalBytes,logicalTotalBytes);
+        assert.equal(proof.invalid.status,400);
+        assert.equal(proof.fixture.streams.length,cases.length,'invalid Range must not reach the fixture');
+        const invalidError=proof.workerMessages.find(message=>message.type==='MEDIA_PROXY_ERROR'
+          &&message.requestedRange===invalidRange);
+        assert(invalidError);
+        assert.equal(invalidError.status,400);
+        assert.equal(invalidError.category,'range-invalid');
+        assert.equal(invalidError.driveReason,'rangeInvalid');
+        const invalidTrace=proof.workerMessages.filter(message=>message.type==='MEDIA_TRACE_EVENT'
+          &&message.traceId==='qa-sparse-invalid');
+        assert.deepEqual(invalidTrace.map(message=>message.stage),['range-error']);
+        assert.equal(invalidTrace[0].status,400);
+        assert.equal(invalidTrace[0].reason,'range-invalid');
+        assert.equal(invalidTrace[0].terminal,true);
+        assert.equal(proof.appState.fullRequestCount,0);
+        assert.equal(proof.appState.bufferStorageMode,'');
+        assert.equal(proof.appState.hasTempStorage,false);
+        assert.equal(proof.appState.selectedId,null);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,
+          'Playwright fulfillment must not bypass the production worker sparse fixture');
+        assert.deepEqual(errors,[]);
+
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        assert(disposed.state.streams.every(stream=>stream.terminal==='complete'));
+        configured=false;
+        record('2/4 GiB sparse Range crosses the production service worker without allocation',{
+          logicalTotalBytes,
+          ranges:proof.responses.map(response=>({range:response.range,contentRange:response.contentRange,bytes:response.body.length})),
+          invalidStatus:proof.invalid.status,
+          fixtureBytes:proof.fixture.byteLength
+        });
+      } finally {
+        if(configured){
+          try{await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));}catch(_){}
         }
         await context.close();
       }

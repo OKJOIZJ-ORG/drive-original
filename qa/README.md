@@ -37,6 +37,15 @@ by `tests/static.test.js`. The browser audit inserts a valid 4 MiB top-level
 the earlier `mdat` or the sample offsets that point into it, and keeps the
 checked-in binary small while forcing a discriminating tail access.
 
+QA-TR-07 uses a separate one-byte `sparse-offset` fixture to exercise exact
+2 GiB and 4 GiB offsets through Chrome and the production service worker. The
+fixture keeps its physical payload at one byte while exposing a validated
+logical total, so the audit proves Range forwarding, response arithmetic,
+worker status/trace correlation, fail-closed malformed input, and cleanup
+without allocating a multi-gigabyte file. It is synthetic browser-path evidence,
+not proof of real Drive/CORS behavior, multi-gigabyte transfer performance, or a
+physical iPhone/PWA.
+
 The seed was generated with FFmpeg 9.0.1 without `faststart`:
 
 ```powershell
