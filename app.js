@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.2';
+const APP_VERSION = '1.22.0-rc.3';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -949,14 +949,18 @@ async function init() {
   el.currentOrigin.textContent = location.origin;
   el.appVersion.textContent = `v${APP_VERSION}`;
   if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
-  
+
+  setBootstrapAuthPending(true);
   await setupServiceWorker();
 
   if (state.demo) {
+    setBootstrapAuthPending(false);
     startDemoMode();
   } else if (await requestSessionCredential({ background: true, force: true })) {
+    setBootstrapAuthPending(false);
     showLibrary();
   } else {
+    setBootstrapAuthPending(false);
     updateConnectionBadge();
     showSetup();
     showAuthCallbackError(authCallbackError);
@@ -8216,12 +8220,19 @@ function showLibrary() {
   el.libraryView.hidden = false;
 }
 
-function setConnectBusy(busy) {
+function setConnectBusy(busy, busyLabel = 'Google 연결 대기 중…') {
   el.connectButton.disabled = busy;
   const reconnect = document.getElementById?.('reconnectButton');
   if (reconnect) reconnect.disabled = busy;
   const label = el.connectButton.querySelector('span');
-  if (label) label.textContent = busy ? 'Google 연결 대기 중…' : 'Google Drive에 연결';
+  if (label) label.textContent = busy ? busyLabel : 'Google Drive에 연결';
+}
+
+function setBootstrapAuthPending(pending) {
+  const active = Boolean(pending);
+  setConnectBusy(active, '기존 Drive 연결 확인 중…');
+  el.setupView?.setAttribute?.('aria-busy', String(active));
+  updateConnectionBadge(active ? 'busy' : undefined);
 }
 
 function updateConnectionBadge(forcedState) {

@@ -303,6 +303,49 @@ test('same-origin credential requests are single-flight and send the account fen
   assert.equal(run(context, 'state.tokenRevision'), 4);
 });
 
+test('initial session recovery keeps the reconnect action inert until the credential probe settles', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const buttonLabel = { textContent: '' };
+    const badgeLabel = { textContent: '' };
+    const attributes = {};
+    el.connectButton = { disabled: false, querySelector() { return buttonLabel; } };
+    el.connectionBadge = { dataset: {}, querySelector() { return badgeLabel; } };
+    el.setupView = { setAttribute(name, value) { attributes[name] = value; } };
+    document.getElementById = () => null;
+    setBootstrapAuthPending(true);
+    const pending = {
+      disabled: el.connectButton.disabled,
+      buttonLabel: buttonLabel.textContent,
+      badgeState: el.connectionBadge.dataset.state,
+      badgeLabel: badgeLabel.textContent,
+      ariaBusy: attributes['aria-busy']
+    };
+    setBootstrapAuthPending(false);
+    return JSON.stringify({ pending, settled: {
+      disabled: el.connectButton.disabled,
+      buttonLabel: buttonLabel.textContent,
+      badgeState: el.connectionBadge.dataset.state,
+      badgeLabel: badgeLabel.textContent,
+      ariaBusy: attributes['aria-busy']
+    } });
+  })()`));
+  assert.deepEqual(result.pending, {
+    disabled: true,
+    buttonLabel: '기존 Drive 연결 확인 중…',
+    badgeState: 'busy',
+    badgeLabel: '연결 중…',
+    ariaBusy: 'true'
+  });
+  assert.deepEqual(result.settled, {
+    disabled: false,
+    buttonLabel: 'Google Drive에 연결',
+    badgeState: 'offline',
+    badgeLabel: '연결 안 됨',
+    ariaBusy: 'false'
+  });
+});
+
 test('offline and non-JSON credential failures are bounded and preserve the current memory credential', async () => {
   const context = loadAppContext(); let calls = 0;
   context.fetch = async () => {

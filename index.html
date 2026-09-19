@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.22.0-rc.2">
-  <script src="./runtime-config.js?v=1.22.0-rc.2"></script>
-  <script src="./app.js?v=1.22.0-rc.2" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=1.22.0-rc.3">
+  <script src="./runtime-config.js?v=1.22.0-rc.3"></script>
+  <script src="./app.js?v=1.22.0-rc.3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -41,9 +41,9 @@
       </button>
 
       <div class="top-actions">
-        <div class="connection-badge" id="connectionBadge" data-state="offline">
+        <div class="connection-badge" id="connectionBadge" data-state="busy">
           <span class="badge-dot" aria-hidden="true"></span>
-          <span class="badge-text" id="connectionBadgeText">연결 안 됨</span>
+          <span class="badge-text" id="connectionBadgeText">연결 확인 중…</span>
         </div>
         <button class="icon-button" id="settingsButton" type="button" aria-label="설정 열기" title="설정">
           <span class="settings-update-dot" id="settingsUpdateDot" hidden title="새로운 앱 업데이트 가능"></span>
@@ -74,7 +74,7 @@
 
   <main id="main">
     <!-- Setup View: Wide Horizontal 2-Column on PC, Responsive Single Column on Mobile -->
-    <section class="setup-view" id="setupView" aria-labelledby="setupTitle">
+    <section class="setup-view" id="setupView" aria-labelledby="setupTitle" aria-busy="true">
       <div class="setup-layout">
         
         <!-- Left Column: Hero & Value Proposition -->
@@ -130,8 +130,8 @@
             <p>같은 출처의 보안 세션을 통해 Google 계정을 연결합니다.</p>
           </div>
 
-          <button class="primary-button full" id="connectButton" type="button">
-            <span>Google Drive 연결하기</span>
+          <button class="primary-button full" id="connectButton" type="button" disabled>
+            <span>기존 Drive 연결 확인 중…</span>
           </button>
           <p class="field-hint" id="authHint" aria-live="polite" aria-atomic="true">Google 로그인에서 계정과 Drive 권한을 확인합니다.</p>
 
@@ -522,7 +522,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.22.0-rc.2</span>
+            <span class="version-badge" id="settingsAppVersion">v1.22.0-rc.3</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -573,7 +573,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.22.0-rc.2</span>
+          <span id="appVersion">v1.22.0-rc.3</span>
         </div>
       </div>
     </form>

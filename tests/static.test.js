@@ -16,7 +16,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.2');
+  assert.equal(metadata.version, '1.22.0-rc.3');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -30,6 +30,17 @@ test('authentication setup feedback is a polite atomic live region', () => {
   const hint = html.match(/<p class="field-hint" id="authHint"[^>]*>/)?.[0] || '';
   assert.match(hint, /aria-live="polite"/);
   assert.match(hint, /aria-atomic="true"/);
+});
+
+test('first paint cannot restart OAuth while the existing session is still being recovered', () => {
+  const html = read('index.html');
+  const badge = html.match(/<div class="connection-badge" id="connectionBadge"[^>]*>/)?.[0] || '';
+  const setup = html.match(/<section class="setup-view" id="setupView"[^>]*>/)?.[0] || '';
+  const connect = html.match(/<button class="primary-button full" id="connectButton"[^>]*>/)?.[0] || '';
+  assert.match(badge, /data-state="busy"/);
+  assert.match(setup, /aria-busy="true"/);
+  assert.match(connect, /\bdisabled\b/);
+  assert.match(html, /기존 Drive 연결 확인 중…/);
 });
 
 test('every bound element ID exists once in index.html', () => {

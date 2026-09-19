@@ -1,12 +1,10 @@
-# Checkpoint — V2-04B false reconnect loop fixed locally at first-paint boundary — 2026-09-20 01:54 KST
+# Checkpoint — V2-04B OAuth callback recovered; client session-return loop under diagnosis — 2026-09-20 01:45 KST
 
 ## The story so far
 
 Commits `c4d2ab0` and `7ebaabf` were deployed to the candidate as Cloudflare Worker version `6007c078-46fa-4505-a47e-e02e2e254757`. The fixed-stage diagnostic first proved `google_token_fetch_failed`; local Miniflare/workerd then reproduced that `redirect: 'error'` is rejected before a network request. All four Google server fetches now use `redirect: 'manual'` and explicitly reject every 3xx before parsing or using the response. A clean no-consent probe changed from `google_token_fetch_failed` to Google `invalid_grant`, proving the configured client pair reaches Google without claiming a successful real login.
 
-A fresh real consent in the controlled Chrome candidate returned by 303, installed the session, and made `/api/session/credential` return 200. The app displayed `Drive 연결됨` and listed real My Drive folders/media. On a controlled reload, the exact visible loop mechanism was then reproduced: at `DOMContentLoaded` the static shell exposed `연결 안 됨` and an actionable `Google Drive 연결하기` screen, while the cookie-bearing credential POST was still in flight. That request returned 200 and the same page became `Drive 연결됨` about 1.2 seconds later. Pressing the exposed button inside that window starts a redundant OAuth flow even though the session is valid.
-
-Version `1.22.0-rc.3` now renders the initial connection state as busy, disables the connect action before JavaScript runs, and keeps it inert until the existing-session probe settles. The app then reveals either the authenticated library or one enabled connection entry point. Focused tests pass 79/79, the full nine-file suite passes 212/212, JavaScript syntax and `git diff --check` pass, and the Worker dry-run succeeds. The fix is implemented locally but is not yet committed or deployed.
+A fresh real consent in the controlled Chrome candidate returned by 303, installed the session, and made `/api/session/credential` return 200. The app displayed `Drive 연결됨` and listed real My Drive folders/media. This closes the server token-fetch blocker for that controlled browser session. The user's latest report says repeated connection attempts still return to the main screen in a loop; its device/surface and exact cookie/session request identity are not yet discriminated, so the loop is an active client/session-return defect rather than being counted as closed.
 
 The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
@@ -20,20 +18,18 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 - Callback recovery never masks missing or malformed Worker crypto configuration, and query parsing accepts only own, string-valued allowlist entries.
 - Diagnostic output remains limited to an allowlist of fixed stage labels. `invalid_grant` is only the no-consent discriminator; the separate real callback/session 200 is the successful-login evidence.
 - Do not treat a return to `/` as connected. The app must prove the same browser context can obtain a server credential and complete a Drive API request without starting another consent loop.
-- Do not weaken the hardened session cookie or Fetch Metadata gate without failure evidence from the affected execution context. Missing Fetch Metadata and a separate iPhone PWA cookie jar remain distinct hypotheses, not the reproduced first failed boundary.
 - Candidate remains read-only: `CANDIDATE_DRIVE_WRITES_ENABLED=false` and public `driveMutationsEnabled:false` are unchanged.
 
 ## Waiting on the user
 
-- Empty. Commit, deploy and verify the confirmed browser race before requesting any device action.
+- Empty. Diagnose the currently available browser/session evidence first; request a physical-device action only if the failing surface cannot be discriminated otherwise.
 
 ## Next first action
 
-Review and commit the owned `1.22.0-rc.3` shell/app/test/checkpoint diff, deploy the clean commit to the existing no-cost candidate, then reload the same authenticated Chrome tab and prove the first paint is inert while `/api/session/credential` returns 200 and the library appears without another OAuth navigation.
+Reproduce one full login-to-root cycle while correlating the callback response, `Set-Cookie`, subsequent cookie-bearing `/api/session/credential`, app auth-state transition, and service-worker/navigation behavior. Fix the earliest failed ownership boundary, add a realistic regression test, run full integration checks, review the diff, deploy a new free candidate version, and re-run the same cycle before resuming V2-03B product remux integration.
 
 ## Tried
 
 - The earlier delayed consent exceeded the 10-minute transaction lifetime; safe recovery remains deployed and verified.
 - `redirect: 'error'` was incompatible with Cloudflare workerd. `manual` plus explicit 3xx rejection preserves the no-follow security contract and passes the focused 17/17 and full 210/210 suites.
 - The controlled Chrome browser completed consent and loaded Drive, while another cookie-less request returned 401. That contrast makes session/context continuity the next discriminator; it does not prove the user's reported loop is a Google consent failure.
-- The confirmed current-client defect is not a lost cookie: reload sent a session cookie and received credential 200. It is the static unauthenticated shell becoming actionable before asynchronous session recovery finishes.
