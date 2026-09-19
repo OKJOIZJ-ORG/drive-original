@@ -54,7 +54,7 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 
 <!-- Link the decision ledger entry for every exclusion. -->
 
-## v1.20.0 current audit evidence — 2026-09-17
+## v1.20.0 audit evidence — 2026-09-17
 
 - verified locally: 120 Node tests passed in three consecutive runs; app/worker syntax and recommended static correctness lint passed. `tests/audit.test.js` and `tests/shell.test.js` add regression evidence for prior reproduced failures.
 - verified browser fixtures: OPFS exact-byte hash equality with one decoder, Range delivery, same-range 401 recovery, malformed-range to identical memory-original recovery, partial bulk failure, cross-folder favorites, mobile controls, offline shell, sibling app isolation, and 7,384-item virtualization.
@@ -68,3 +68,21 @@ Evidence class: local source code plus dated automated/browser verification. Ext
 ## 2026-09-17 acceptance follow-up candidate (not deployed)
 
 Observed: original 120 tests passed, but added foreground propagation and two edge completion regressions failed on 70ff332. The v1.20.1 candidate passes 131 Node tests; independent-context foreground convergence and visible unlike removal were observed at approximately 15 seconds, with synthetic Google endpoints. Existing eight edge and eight functional groups passed. See qa/acceptance-results.json for exact provenance and exceptions. The stricter offline replay fixture is implemented but its rerun was blocked; the earlier permissive offline result is explicitly withdrawn as proof. Physical iPhone and actual Google-account propagation across two devices are still OPEN. Candidate fixes are not evidence that production changed. Canonical follow-up: ACCEPTANCE-20260917.md.
+
+## v1.21.0 implementation evidence — 2026-09-19
+
+Observed locally: 144 Node tests, 12 functional browser groups, 8 edge groups,
+and 50 Chrome/Windows WebKit layout/accessibility states passed. Controls are a
+single inert-when-hidden bottom layer, independent of pause. Real browser input
+verifies pointer-click then Space, explicit keyboard controls, long-press click
+suppression, player-only edge back and a separate interior media swipe. Same-account
+synthetic renewal preserves list/object/session identities and paused position;
+file 403 and stale credential revisions do not erase a newer token.
+
+Observed fixture propagation: both continuously visible contexts converge in
+15,051ms; visible remote unlike removal in 15,034ms. The hardened offline test now
+passes with actual interception-level upstream blocking, unchanged remote store
+while offline and reconnection/reload preservation. A-003 is closed; physical
+iPhone A-001, actual two-device Google A-002 and actual long-duration A-004 remain
+open. No destructive real Drive operation was performed. See IMMERSIVE-20260919.md
+and qa/immersive-results.json. Deployment is a separate evidence claim.

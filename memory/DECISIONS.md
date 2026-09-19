@@ -248,3 +248,11 @@ sweep: 계정 상태 병합·업로드, 미시청 우선 공간 덱, 카드/PC/�
 ## D-047 - scoped acceptance follow-up (2026-09-17)
 
 Confirmed by baseline counterexamples: server-side writer union alone does not ensure continuously visible clients converge. The v1.20.1 candidate adds visible/online 15-second reads with request ownership, cooldown and permission guards, keeping D-044 writer ownership and migration intact. A consumed transition identity closes cancelled/duplicate WAAPI completion paths without changing D-045 Safari native-edge ownership. Physical iPhone and real two-device Google acceptance remain OPEN in ACCEPTANCE-20260917.md. No production deployment or new runtime dependency is part of this follow-up branch.
+
+## D-048 · 하단 전용 몰입형 제어·독립 플레이어 뒤로가기·재인증 보존 — 2026-09-19 (User-confirmed; scoped supersession)
+
+사용자가 보고한 아홉 항목에 따라 PC/모바일 모두 일시정지·일반 마우스 이동만으로 제어 UI를 표시하지 않는다. 기존 분리 재생바와 상단 제어를 하단 투명 wrapper로 통합하고, 하단 포인터/터치 또는 명시적인 키보드 접근으로만 표시한다. 숨긴 제어는 inert이며 Tab 접근성, 실제 조작 중인 시크·메뉴, 기존 기능은 유지한다. 이 규칙은 과거 pause/중앙 탭/일반 이동에 따른 강제 표시 및 위치 지시 중 충돌하는 부분만 대체한다.
+
+D-045의 탐색 복원·중단 안전성은 유지하면서 플레이어에 독립된 history entry를 추가한다. 커스텀 뒤로가기는 18 CSS px에서 시작하며 미디어 제스처는 해당 영역을 제외한다. iOS는 미디어 시작 제외 영역을 32 CSS px로 두고, 소유한 이력이 있는 Safari와 standalone 모두 기본 모서리를 중복 애니메이션 없이 예약한다. 기존 standalone 예외 가정은 폐기하되, 실제 OS 행동은 여전히 실기기로 검증해야 한다.
+
+파일 권한 오류와 계정 만료를 분리하고, 같은 계정의 갱신에서는 목록·재생 상태를 보존한다. 다른 계정은 공개 전 식별·격리하며 미확인 식별 결과로 기존 세션을 버리지 않는다. 숫자 토큰/계정 세대로 늦은 인증 오류를 차단한다. 무기한 무조작 로그인이나 실제 iPhone/Google 검증 완료를 주장하지 않는다. D-047 후보를 검토·통합하고 D-046의 공개 파일 전용 게시 경로를 유지한다. 근거와 회귀 계약은 IMMERSIVE-20260919.md에 있다.

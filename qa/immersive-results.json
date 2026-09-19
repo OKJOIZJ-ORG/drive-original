@@ -1,0 +1,58 @@
+{
+  "version": "1.21.0",
+  "date": "2026-09-19",
+  "baseline": "70ff332ac6ff5fd3b65cf2d101a33d86645269ae",
+  "reviewedCandidate": "9a13076ad0fa0599dffcf845f1a9f0720665b96a",
+  "evidenceClass": "Windows host, real browser input/rendering, synthetic OAuth and Drive endpoints; not physical iPhone or actual multi-device Google acceptance",
+  "node": {
+    "total": 144,
+    "passed": 144,
+    "failed": 0,
+    "log": "release-1.21.0-evidence/node-tests.txt"
+  },
+  "functional": {
+    "groups": 12,
+    "passed": 12,
+    "result": "release-1.21.0-functional-confirm/results.json",
+    "previousConfirmation": "release-1.21.0-functional/results.json"
+  },
+  "edge": {
+    "groups": 8,
+    "passed": 8,
+    "result": "edge-final/results.json"
+  },
+  "layout": {
+    "chromeStates": 25,
+    "webkitStates": 25,
+    "accessibilityFindings": 0,
+    "pageConsoleErrors": 0,
+    "controlOverflow": 0,
+    "results": ["release-1.21.0-chrome/summary.json", "release-1.21.0-webkit/summary.json"]
+  },
+  "propagation": {
+    "groups": 4,
+    "passed": 4,
+    "bothClientsConvergedMs": 15051,
+    "remoteUnlikeVisibleMs": 15034,
+    "offlineUpstreamExplicitlyBlocked": true,
+    "remoteStoreUnchangedDuringOffline": true,
+    "peerUnchangedDuringOffline": true,
+    "reconnectionAndReloadPassed": true,
+    "result": "release-1.21.0-acceptance/results.json"
+  },
+  "openAcceptance": [
+    "A-001: actual iPhone Safari and installed PWA edge/swipe/safe-area/long-press behavior",
+    "A-002: two independently authenticated physical devices through actual Google Drive",
+    "A-004: actual long-duration token expiry, sleep/wake and interactive renewal"
+  ],
+  "upgrade": {
+    "from": "1.20.0",
+    "to": "1.21.0",
+    "status": "passed",
+    "oldShellRemoved": true,
+    "unrelatedCacheAndSettingPreserved": true,
+    "offlineReload": true,
+    "result": "release-1.21.0-upgrade/results.json"
+  },
+  "productionEvidenceOwner": "../memory/RELEASE-1.21.0.md"
+}

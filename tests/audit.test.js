@@ -273,11 +273,13 @@ test('owned view history records one synchronous entry per navigation with accou
   c.run(`state.accountId='other';`);assert.equal(c.run('hasOwnedLibraryBackEntry()'),false);
 });
 
-test('Safari browser reserves native edge while standalone PWA retains custom gestures', () => {
+test('Safari and standalone WebKit reserve the native edge when app history is owned', () => {
   const c=app();
   c.run(`hasOwnedLibraryBackEntry=()=>true;navigator.userAgent='iPhone AppleWebKit Safari';`);
   assert.equal(c.run('prefersNativeLibraryBack()'),true);
-  c.navigator.standalone=true;assert.equal(c.run('prefersNativeLibraryBack()'),false);
+  c.navigator.standalone=true;assert.equal(c.run('prefersNativeLibraryBack()'),true);
+  c.run('hasOwnedLibraryBackEntry=()=>false');
+  assert.equal(c.run('prefersNativeLibraryBack()'),false);
 });
 
 test('navigation snapshots are invalidated after mutations instead of reviving removed files', () => {

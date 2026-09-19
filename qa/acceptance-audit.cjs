@@ -108,6 +108,9 @@ function record(name, details={}) { results.push({name,status:'passed',...detail
     await page.locator(`.file-card-favorite[data-file-id="${id}"]`).click();
     await page.locator(`.file-card[data-file-id="${id}"]`).click();
     await page.waitForFunction(id=>Boolean(state.accountMediaState.viewed[id]),id);
+    // The player chrome is intentionally hidden until bottom activation.
+    if(index) await page.touchscreen.tap(195,838);
+    else await page.mouse.move(640,797);
     await page.locator('#closePlayerButton').click();
   }));
   await Promise.all([a,b].map(({page})=>page.waitForFunction(()=>

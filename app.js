@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.20.1';
+const APP_VERSION = '1.21.0';
 const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
 const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
 const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
@@ -653,6 +653,7 @@ async function init() {
 
   bindElements();
   bindEvents();
+  setupPlayerChrome();
   setupTouchGestures();
   setupLibraryEdgeBackGesture();
   setupInfiniteScroll();
@@ -743,6 +744,7 @@ function bindDialogLightDismiss(dialog) {
 }
 
 function bindEvents() {
+  document.getElementById?.('reconnectButton')?.addEventListener('click', beginAuthorization);
   el.connectButton.addEventListener('click', beginAuthorization);
   el.openSetupHelp.addEventListener('click', () => openSettings(true));
   el.settingsButton.addEventListener('click', () => openSettings(false));
@@ -803,8 +805,8 @@ function bindEvents() {
     state.folderRenderLimit += FOLDER_RENDER_MAX;
     renderFiles();
   });
-  if (el.closePlayerButton) el.closePlayerButton.addEventListener('click', closePlayer);
-  if (el.playerBackdrop) el.playerBackdrop.addEventListener('click', closePlayer);
+  if (el.closePlayerButton) el.closePlayerButton.addEventListener('click', requestClosePlayer);
+  if (el.playerBackdrop) el.playerBackdrop.addEventListener('click', requestClosePlayer);
   if (el.fullscreenButton) el.fullscreenButton.addEventListener('click', toggleFullscreen);
   if (el.pipButton) el.pipButton.addEventListener('click', togglePictureInPicture);
 
@@ -857,8 +859,6 @@ function bindEvents() {
     }
   });
   el.mediaStage.addEventListener('click', onMediaStageClick);
-  el.mediaStage.addEventListener('pointermove', resetControlsTimer);
-  el.mediaStage.addEventListener('pointerdown', resetControlsTimer);
   document.addEventListener('keydown', handlePlayerKeyboard);
 
   // Custom Video Controls Event Listeners
@@ -1039,22 +1039,8 @@ function bindEvents() {
     scheduleRenderWindowUpdate();
   }, { passive: true });
   window.addEventListener('resize', scheduleRenderWindowUpdate, { passive: true });
-  const onPlayerUserActivity = () => {
-    if (!el.playerSheet || el.playerSheet.hidden) return;
-    if (el.playerModal) el.playerModal.classList.remove('controls-idle');
-    resetControlsTimer();
-  };
-  el.playerModal?.addEventListener('focusin', () => {
-    if (document.activeElement?.matches?.(':focus-visible')) setStageImmersive(false);
-    onPlayerUserActivity();
-  });
-  window.addEventListener('mousemove', onPlayerUserActivity, { passive: true });
-  window.addEventListener('pointermove', onPlayerUserActivity, { passive: true });
-  window.addEventListener('keydown', (e) => {
-    if (!el.playerSheet || el.playerSheet.hidden) return;
-    if (el.playerModal) el.playerModal.classList.remove('controls-idle');
-    resetControlsTimer();
-  }, { passive: true });
+  // Pointer/keyboard visibility is owned by setupPlayerChrome. Playback
+  // events and general document activity never reveal controls.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       sendTokenToWorker();
@@ -1445,7 +1431,7 @@ async function recoverFromMediaProxyError(data) {
   }
 
   if (action === 'fail-permission') {
-    clearToken(true);
+    // A forbidden file does not invalidate the Google account session.
     state.mediaAttempt = 'failed';
     showMediaError(
       '현재 Google 계정 또는 OAuth 권한으로는 원본 파일을 읽을 수 없습니다. 다시 시도를 눌러 계정 권한을 직접 확인해 주세요.',
@@ -1499,6 +1485,7 @@ function sendTokenToWorker() {
 }
 
 function saveToken(token, expiresAt) {
+  state.tokenRevision = (state.tokenRevision || 0) + 1;
   state.token = token;
   state.expiresAt = expiresAt;
   try {
@@ -1583,10 +1570,11 @@ async function refreshedTokenMatchesAccount(token, expectedAccountId, generation
     const response = await fetch(`${DRIVE_API}/about?fields=user(permissionId)`, {
       headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', signal: controller.signal
     });
-    if (!response.ok) return false;
+    if (!response.ok) return null;
     const data = await response.json();
-    return generation === state.authGeneration && String(data?.user?.permissionId || '') === expectedAccountId;
-  } catch (_) { return false; }
+    if (!data?.user?.permissionId || generation !== state.authGeneration) return null;
+    return String(data.user.permissionId) === expectedAccountId;
+  } catch (_) { return null; }
   finally { clearTimeout(timeout); }
 }
 
@@ -1600,15 +1588,22 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
     return false;
   }
   const expectedAccountId = state.accountId || state.previousAccountId;
-  if (background && expectedAccountId && !invalidateSession) {
-    if (!await refreshedTokenMatchesAccount(response.access_token, expectedAccountId, generation)) return false;
+  if (expectedAccountId) {
+    const matches = await refreshedTokenMatchesAccount(response.access_token, expectedAccountId, generation);
+    // Only a verified different account requires discarding the current view.
+    // A timeout is unknown identity, not a different account.
+    if (matches == null || (background && !matches)) return false;
+    invalidateSession = !matches;
   }
   if (generation !== state.authGeneration || !isCurrent()) return false;
   const expiresIn = Math.max(60, Number(response.expires_in) || 3600);
+  if (invalidateSession) {
+    if (el.playerSheet && !el.playerSheet.hidden) closePlayer();
+    invalidateDriveSessionData();
+  }
   saveToken(response.access_token, Date.now() + expiresIn * 1000);
   clearClientIdError();
   sendTokenToWorker();
-  if (invalidateSession) invalidateDriveSessionData();
   updateConnectionBadge();
   setTimeout(async () => {
     if (generation !== state.authGeneration) return;
@@ -1925,7 +1920,7 @@ async function loadFiles({ append, statusToken = null }) {
   }
   if (append && state.listRequestPromise) return state.listRequestPromise;
   if (!hasUsableToken()) {
-    showSetup();
+    showReconnectState();
     showToast('Google Drive 연결을 갱신해 주세요.');
     return false;
   }
@@ -1983,12 +1978,8 @@ async function loadFiles({ append, statusToken = null }) {
     console.error(error);
     updateLibraryStatus(requestStatusToken, `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
-      clearToken(false);
-      if (state.clientId && validateClientId(state.clientId)) {
-        attemptSilentAutoLogin({ background: true });
-      } else {
-        showSetup();
-      }
+      clearRejectedToken(error);
+      showReconnectState();
     }
     return false;
   } finally {
@@ -2278,10 +2269,48 @@ function canNavigateLibraryBack() {
 }
 
 function prefersNativeLibraryBack() {
-  const ios = /iP(?:hone|ad|od)/.test(navigator.userAgent || '')
+  // Home-screen WebKit can also own the OS edge gesture. Never run a second
+  // page animation in the reserved strip merely because display-mode changed.
+  return Boolean(isIOSWebKitDevice() && (hasOwnedLibraryBackEntry() || hasOwnedPlayerEntry()));
+}
+
+function isIOSWebKitDevice() {
+  return /iP(?:hone|ad|od)/.test(navigator.userAgent || '')
     || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
-  return Boolean(ios && !standalone && hasOwnedLibraryBackEntry());
+}
+
+function isReservedBackStart(x) {
+  return x >= 0 && x <= (isIOSWebKitDevice() ? 32 : 18);
+}
+
+let playerHistoryPending = false;
+let playerHistoryGeneration = 0;
+
+function hasOwnedPlayerEntry() {
+  const mark = typeof history !== 'undefined' ? history.state?.driveOriginalPlayer : null;
+  return Boolean(mark && mark.epoch === libraryNavigation.epoch && mark.owner === libraryNavigationOwner());
+}
+
+function pushPlayerHistory(file) {
+  if (typeof history === 'undefined' || typeof history.pushState !== 'function' || hasOwnedPlayerEntry()) return;
+  beginLibraryNavigation();
+  try {
+    history.pushState({ ...history.state, driveOriginalPlayer: {
+      epoch: libraryNavigation.epoch, owner: libraryNavigationOwner(), fileId: file.id
+    } }, '', location.href);
+  } catch (_) { /* Closing remains available if history storage is denied. */ }
+}
+
+function requestClosePlayer() {
+  if (playerHistoryPending || el.playerSheet?.hidden) return;
+  if (hasOwnedPlayerEntry()) {
+    const generation = ++playerHistoryGeneration;
+    playerHistoryPending = true;
+    closePlayer({ preserveHistory: true });
+    history.back();
+    // A slow popstate must not produce a second back.
+    setTimeout(() => { if (generation === playerHistoryGeneration) playerHistoryPending = false; }, 800);
+  } else closePlayer();
 }
 
 function libraryEdgeReleaseDecision(distance, velocity, width) {
@@ -2303,6 +2332,7 @@ function clearLibraryEdgeBackVisuals() {
   if (el.libraryView) {
     el.libraryView.style.transform = ''; el.libraryView.style.opacity = ''; el.libraryView.style.willChange = '';
   }
+  if (el.playerSheet?.style) el.playerSheet.style.transform = '';
 }
 
 function cancelLibraryEdgeBack() {
@@ -2330,6 +2360,7 @@ function completeLibraryBackNavigation() {
 }
 
 function prepareLibraryEdgeVisual(gesture) {
+  if (gesture.player) { gesture.cover = el.playerSheet; return; }
   const current = captureLibraryVisual();
   const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1])?.visual;
   if (!current || !previous || previous.width !== window.innerWidth || previous.height !== window.innerHeight) return;
@@ -2348,8 +2379,8 @@ function drawLibraryEdgeVisual(gesture) {
   const progress = offset / gesture.width;
   if (gesture.cover) {
     gesture.cover.style.transform = `translate3d(${offset}px,0,0)`;
-    gesture.under.style.transform = `translate3d(${-gesture.width * .25 * (1-progress)}px,0,0)`;
-    gesture.shade.style.opacity = String(.22 * (1-progress));
+    if (gesture.under) gesture.under.style.transform = `translate3d(${-gesture.width * .25 * (1-progress)}px,0,0)`;
+    if (gesture.shade) gesture.shade.style.opacity = String(.22 * (1-progress));
   } else if (el.libraryView) {
     // An evicted or orientation-mismatched prior view is never fabricated.
     // Use the same direct tracking with a neutral back affordance instead.
@@ -2370,7 +2401,10 @@ function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
   const finish = () => {
     if (generation !== libraryNavigation.generation || libraryNavigation.edgeTransition !== transition) return;
     clearLibraryEdgeBackVisuals();
-    if (commit && !state.bulkAction && el.playerSheet?.hidden && !document.querySelector('dialog[open]')) completeLibraryBackNavigation();
+    if (commit && !state.bulkAction && !document.querySelector('dialog[open]')) {
+      if (gesture.player && !el.playerSheet?.hidden && gesture.playbackSession === state.playbackSession) requestClosePlayer();
+      else if (!gesture.player && el.playerSheet?.hidden) completeLibraryBackNavigation();
+    }
   };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cover = gesture.cover || el.libraryView;
@@ -2395,7 +2429,8 @@ function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
 function setupLibraryEdgeBackGesture() {
   const valid = (gesture) => gesture && gesture.generation === libraryNavigation.generation
     && gesture.listGeneration === state.listGeneration && gesture.folder === state.currentFolderId
-    && gesture.filter === state.filter && !state.bulkAction && el.playerSheet?.hidden
+    && gesture.filter === state.filter && !state.bulkAction
+    && (gesture.player ? !el.playerSheet?.hidden && gesture.playbackSession === state.playbackSession : el.playerSheet?.hidden)
     && !el.libraryView?.hidden && !document.querySelector('dialog[open]');
   const findTouch = (touches, id) => Array.from(touches || []).find((touch) => (touch.identifier ?? 0) === id);
   const sample = (gesture, touch) => {
@@ -2409,15 +2444,17 @@ function setupLibraryEdgeBackGesture() {
     if (!edgeBackGesture && !libraryNavigation.animations.length) libraryNavigation.suppressClickUntil = 0;
     if (event.touches.length !== 1) { if(edgeBackGesture) settleLibraryEdgeBack(false); return; }
     if (edgeBackGesture || libraryNavigation.animations.length || libraryNavigation.pending || libraryNavigation.restoring) return;
-    if (!isMobileDevice() || !el.playerSheet?.hidden || !el.libraryView || el.libraryView.hidden || state.bulkAction) return;
-    if (!canNavigateLibraryBack() || document.querySelector('dialog[open]')) return;
+    if (!isMobileDevice() || !el.libraryView || el.libraryView.hidden || state.bulkAction || playerHistoryPending) return;
+    const player = !el.playerSheet?.hidden;
+    if ((!player && !canNavigateLibraryBack()) || document.querySelector('dialog[open]')) return;
     const touch = event.touches[0];
-    if (touch.clientX < 0 || touch.clientX > 32 || (window.visualViewport?.scale || 1) > 1.05) return;
+    if (touch.clientX < 0 || touch.clientX > 18 || (window.visualViewport?.scale || 1) > 1.05) return;
     // Safari owns its physical-edge interactive back gesture. Same-document
     // history restores the identical app view without a competing custom pop.
-    if (prefersNativeLibraryBack() && touch.clientX <= 20) return;
+    if (prefersNativeLibraryBack()) return;
     if (event.target.closest?.('input,textarea,select,button,a,[role="slider"],[contenteditable="true"]')) return;
     edgeBackGesture = { id:touch.identifier??0,startX:touch.clientX,startY:touch.clientY,
+      player, playbackSession:state.playbackSession,
       width:window.innerWidth||el.libraryView.clientWidth||400,generation:libraryNavigation.generation,
       listGeneration:state.listGeneration,folder:state.currentFolderId,filter:state.filter,
       locked:false,distance:0,velocity:0,samples:[{x:touch.clientX,t:performance.now()}] };
@@ -2458,6 +2495,16 @@ function setupLibraryEdgeBackGesture() {
   window.addEventListener('popstate',(event)=>{
     const target=event.state?.driveOriginalNavigation;
     cancelLibraryEdgeBack();
+    playerHistoryGeneration += 1;
+    playerHistoryPending = false;
+    if (event.state?.driveOriginalPlayer && hasOwnedPlayerEntry()) {
+      const file = getPlaybackFileById(event.state.driveOriginalPlayer.fileId);
+      if (file && el.playerSheet?.hidden) openPlayer(file);
+      return;
+    }
+    if (!el.playerSheet?.hidden) closePlayer({ preserveHistory: true });
+    if (target?.epoch === libraryNavigation.epoch && target.id === libraryNavigation.order[libraryNavigation.cursor]
+      && target.owner === libraryNavigationOwner()) return;
     if(target)restoreLibraryNavigation(target).catch((error)=>{
       libraryNavigation.pending=false;
       if(error?.name!=='AbortError')showToast('이전 화면을 복원하지 못했습니다. 새로고침으로 다시 불러오세요.');
@@ -2512,7 +2559,7 @@ async function ensureTreeCache() {
 
 async function collectTreeCache() {
   if (!hasUsableToken()) {
-    showSetup();
+    showReconnectState();
     showToast('Google Drive 연결을 갱신해 주세요.');
     return;
   }
@@ -2566,9 +2613,8 @@ async function collectTreeCache() {
     console.error(error);
     updateLibraryStatus(statusToken, `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
-      clearToken(false);
-      if (state.clientId && validateClientId(state.clientId)) attemptSilentAutoLogin({ background: true });
-      else showSetup();
+      clearRejectedToken(error);
+      showReconnectState();
     }
     state.deepScan = false;
     syncDeepScanToggle();
@@ -2917,6 +2963,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     throw error;
   }
   const requestToken = state.token;
+  const requestTokenRevision = state.tokenRevision || 0;
   const response = await fetch(url, {
     ...requestOptions,
     cache: 'no-store',
@@ -2934,13 +2981,13 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     assertOwner();
     if (response.status === 401 && !_retried && state.clientId && validateClientId(state.clientId)) {
       // A concurrent request may already have replaced the rejected token.
-      if (state.token !== requestToken && hasUsableToken()) {
+      if (((state.tokenRevision || 0) !== requestTokenRevision || state.token !== requestToken) && hasUsableToken()) {
         return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       }
       const refreshed = await requestGoogleToken({ background: true, force: true });
       assertOwner();
       if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
-      if (state.token === requestToken) clearToken(false);
+      if ((state.tokenRevision || 0) === requestTokenRevision && state.token === requestToken) clearToken(false);
     }
     const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
     const rateLimited = response.status === 429
@@ -2954,6 +3001,8 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     const detail = body?.error?.message || response.statusText || '';
     const error = new Error(detail || `Drive API ${response.status}`);
     error.status = response.status;
+    error.rejectedTokenRevision = requestTokenRevision;
+    error.rejectedAccountGeneration = dataGeneration;
     error.reasons = reasons;
     error.driveReason = reasons[0] || '';
     error.retryAfterMs = parseRetryAfterMs(response.headers.get('Retry-After'));
@@ -3798,6 +3847,8 @@ function updateSelectionUI() {
   });
 }
 
+let cancelPendingCardPress = null;
+
 function installCardSelectionGestures(button, file) {
   const card = button.closest?.('.file-card') || button;
   let timer = null;
@@ -3805,20 +3856,41 @@ function installCardSelectionGestures(button, file) {
   let startY = 0;
   let pointerId = null;
   let suppressClick = false;
+  let cleanupGlobal = () => {};
   const clear = () => {
     if (timer) clearTimeout(timer);
     timer = null;
     pointerId = null;
     card.classList.remove('long-press-pending');
+    cleanupGlobal();
+    cleanupGlobal = () => {};
+    if (cancelPendingCardPress === clear) cancelPendingCardPress = null;
   };
   button.addEventListener('pointerdown', (event) => {
-    if (event.pointerType === 'mouse' || event.button !== 0 || state.bulkAction) return;
+    cancelPendingCardPress?.();
+    if (event.isPrimary === false || event.button !== 0 || state.bulkAction || isReservedBackStart(event.clientX)) return;
+    suppressClick = false;
     startX = event.clientX;
     startY = event.clientY;
     pointerId = event.pointerId;
     card.classList.add('long-press-pending');
+    cancelPendingCardPress = clear;
+    const secondPointer = other => { if (other.pointerId !== pointerId) clear(); };
+    const hidden = () => { if (document.visibilityState === 'hidden') clear(); };
+    document.addEventListener('pointerdown', secondPointer, true);
+    document.addEventListener('scroll', clear, true);
+    document.addEventListener('visibilitychange', hidden);
+    window.addEventListener('blur', clear);
+    cleanupGlobal = () => {
+      document.removeEventListener('pointerdown', secondPointer, true);
+      document.removeEventListener('scroll', clear, true);
+      document.removeEventListener('visibilitychange', hidden);
+      window.removeEventListener('blur', clear);
+    };
     timer = setTimeout(() => {
-      timer = null;
+      const connected = button.isConnected !== false;
+      clear();
+      if (!connected || state.bulkAction || (el.playerSheet && !el.playerSheet.hidden)) return;
       suppressClick = true;
       enterSelectionMode(file);
       navigator.vibrate?.(12);
@@ -3828,15 +3900,20 @@ function installCardSelectionGestures(button, file) {
     if (event.pointerId !== pointerId) return;
     if (Math.hypot(event.clientX - startX, event.clientY - startY) > 10) clear();
   });
-  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => button.addEventListener(type, clear));
+  ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture'].forEach((type) => button.addEventListener(type, clear));
+  button.addEventListener('dragstart', event => { event.preventDefault(); clear(); });
+  button.addEventListener('selectstart', event => event.preventDefault());
   button.addEventListener('contextmenu', (event) => {
     event.preventDefault();
+    clear();
+    suppressClick = true;
     if (!state.selectionMode && !state.bulkAction) enterSelectionMode(file);
   });
   button.addEventListener('click', (event) => {
     if (suppressClick) {
       suppressClick = false;
       event.preventDefault();
+      event.stopImmediatePropagation();
       return;
     }
     if (state.selectionMode) {
@@ -4022,9 +4099,12 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
 }
 
 function openPlayer(file) {
+  if (playerHistoryPending) return;
   cancelLibraryEdgeBack();
+  pushPlayerHistory(file);
   playerReturnFocus = typeof document.activeElement?.focus === 'function' ? document.activeElement : null;
   state.playbackSession += 1;
+  const openingSession = state.playbackSession;
   mediaTransitionCommitting = false;
   swipeCommitPending = false;
   playbackNavigationChain = Promise.resolve();
@@ -4037,7 +4117,9 @@ function openPlayer(file) {
   setPlayerBackgroundInert(true);
   setPlayerMediaPriorityActive(true);
   el.playerSheet.hidden = false;
-  setStageImmersive(false);
+  playerChromePointer = false;
+  playerChromeTouch = false;
+  setPlayerChromeVisible(false);
   el.playerTitle.textContent = file.name || '이름 없는 파일';
   el.codecNote.textContent = state.demo
     ? '데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다.'
@@ -4058,7 +4140,9 @@ function openPlayer(file) {
   state.pendingPlay = true;
   openMediaSource(file);
   warmPlaybackNeighborhood(file, { loadPopulation: true });
-  requestAnimationFrame(() => el.closePlayerButton.focus());
+  requestAnimationFrame(() => {
+    if (openingSession === state.playbackSession && !el.playerSheet.hidden) el.mediaStage.focus({ preventScroll: true });
+  });
 }
 
 function setPlayerBackgroundInert(inert) {
@@ -4085,22 +4169,124 @@ function formatPlayerTime(seconds) {
   return `${mins}:${secsStr}`;
 }
 
+let playerChrome = null;
+let playerChromePointer = false;
+let playerChromeTouch = false;
+let playerInputModality = 'pointer';
+
 function playerHasKeyboardFocus() {
-  return Boolean(document.activeElement?.matches?.(':focus-visible')
-    && el.playerModal?.contains?.(document.activeElement));
+  return playerInputModality === 'keyboard' && Boolean(playerChrome?.contains(document.activeElement));
 }
 
-function resetControlsTimer() {
-  if (el.playerModal) el.playerModal.classList.remove('controls-idle');
-  clearTimeout(controlsHideTimer);
-  if (state.mediaAttempt.startsWith('drive-preview') || playerHasKeyboardFocus()) return;
-  if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu()) {
-    controlsHideTimer = setTimeout(() => {
-      if (el.playerSheet && !el.playerSheet.hidden && !isSeekingPointer && !hasOpenPlayerControlsMenu() && !playerHasKeyboardFocus()) {
-        if (el.playerModal) el.playerModal.classList.add('controls-idle');
-      }
-    }, 1800);
+function isPlayerBottomActivation(x, y) {
+  const r = (document.fullscreenElement && document.fullscreenElement === el.mediaStage ? el.mediaStage : el.playerModal)?.getBoundingClientRect();
+  if (!r) return false;
+  const inset = Number.parseFloat(getComputedSafeBottom()) || 0;
+  return x >= r.left && x <= r.right && y <= r.bottom && y >= r.bottom - Math.max(24, inset + 16);
+}
+
+function getComputedSafeBottom() {
+  return typeof getComputedStyle === 'function' && el.playerModal
+    ? getComputedStyle(el.playerModal).getPropertyValue('--safe-bottom') : '0';
+}
+
+function setPlayerChromeVisible(visible) {
+  if (!el.playerModal) return;
+  el.playerModal.classList.toggle('controls-idle', !visible);
+  el.playerModal.classList.remove('immersive');
+  if (playerChrome) {
+    playerChrome.inert = !visible;
+    playerChrome.setAttribute('aria-hidden', String(!visible));
   }
+  if (!visible) {
+    clearTimeout(controlsHideTimer);
+    controlsHideTimer = null;
+    if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+    isPlayerMoreOpen = false;
+    isSpeedMenuOpen = false;
+    if (el.speedDropdown) el.speedDropdown.hidden = true;
+    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    el.mobileShortsOverlay?.classList.remove('expanded');
+    el.shortsMoreBtn?.setAttribute('aria-expanded', 'false');
+  }
+}
+
+function resetControlsTimer(delay = playerChromeTouch ? 3000 : 320) {
+  clearTimeout(controlsHideTimer);
+  controlsHideTimer = null;
+  // This function only maintains an explicitly revealed layer; never opens it.
+  if (!el.playerModal || el.playerSheet?.hidden || el.playerModal.classList.contains('controls-idle')) return;
+  if (isSeekingPointer || playerChromePointer || playerHasKeyboardFocus()
+    || (playerChromeTouch && hasOpenPlayerControlsMenu())) return;
+  controlsHideTimer = setTimeout(() => {
+    controlsHideTimer = null;
+    if (!isSeekingPointer && !playerChromePointer && !playerHasKeyboardFocus()) setPlayerChromeVisible(false);
+  }, typeof delay === 'number' ? delay : 320);
+}
+
+function revealPlayerChrome({ touch = false } = {}) {
+  playerChromeTouch = touch;
+  setPlayerChromeVisible(true);
+  resetControlsTimer();
+}
+
+function setupPlayerChrome() {
+  if (!el.playerModal || !el.mediaStage || playerChrome) return;
+  playerChrome = document.createElement('div');
+  playerChrome.className = 'player-chrome';
+  [el.playerModal.querySelector('.player-topbar'), el.customVideoControls,
+    el.mobileShortsOverlay, el.playerModal.querySelector('.media-info-bar')]
+    .forEach(node => { if (node) playerChrome.appendChild(node); });
+  el.mediaStage.appendChild(playerChrome);
+  // A stable focus destination avoids Space activating the last pointer-clicked button.
+  el.mediaStage.tabIndex = -1;
+  el.mediaStage.setAttribute('aria-label', '미디어 화면. Tab: 재생 제어, Space: 재생 또는 일시정지, Escape: 닫기');
+  el.playerModal.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch' || el.playerSheet.hidden) return;
+    const visible = !el.playerModal.classList.contains('controls-idle');
+    playerChromePointer = isPlayerBottomActivation(event.clientX, event.clientY)
+      || (visible && playerChrome.contains(event.target));
+    if (playerChromePointer) revealPlayerChrome();
+    else if (!controlsHideTimer) resetControlsTimer();
+  }, { passive: true });
+  el.playerModal.addEventListener('pointerleave', () => { playerChromePointer = false; resetControlsTimer(); });
+  el.playerModal.addEventListener('pointerdown', event => {
+    playerInputModality = 'pointer';
+    if (isPlayerBottomActivation(event.clientX, event.clientY)) revealPlayerChrome({touch:event.pointerType !== 'mouse'});
+  }, { capture: true, passive: true });
+  el.playerModal.addEventListener('click', event => {
+    if (!event.detail || !event.target.closest?.('button,summary')) return;
+    // Run after handlers, including ones that stop propagation. Keyboard
+    // activation (detail=0), input/select/range controls keep their focus.
+    queueMicrotask(() => {
+      if (playerInputModality === 'pointer' && !el.playerSheet.hidden
+        && !document.querySelector('dialog[open]') && playerChrome.contains(document.activeElement)) {
+        el.mediaStage.focus({preventScroll:true});
+      }
+    });
+  }, true);
+  el.playerModal.addEventListener('focusin', () => {
+    if (playerHasKeyboardFocus()) revealPlayerChrome();
+  });
+  el.playerModal.addEventListener('focusout', () => resetControlsTimer());
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Tab' || el.playerSheet.hidden || document.querySelector('dialog[open]')) return;
+    playerInputModality = 'keyboard';
+    revealPlayerChrome();
+    const controls = [...playerChrome.querySelectorAll('button,a,summary,input,select,[tabindex="0"]')]
+      .filter(node => !node.disabled && node.getClientRects().length && !node.closest('[hidden]'));
+    if (!controls.length) return;
+    const index = controls.indexOf(document.activeElement);
+    if (index < 0 || (!event.shiftKey && index === controls.length-1) || (event.shiftKey && index === 0)) {
+      event.preventDefault();
+      controls[event.shiftKey ? controls.length-1 : 0].focus({preventScroll:true});
+    }
+  }, true);
+  window.addEventListener('blur', () => { playerChromePointer=false; cancelActiveTouchGesture(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') { playerChromePointer=false; cancelActiveTouchGesture(); setPlayerChromeVisible(false); }
+  });
+  setPlayerChromeVisible(false);
 }
 
 function hasOpenPlayerControlsMenu() {
@@ -4142,7 +4328,7 @@ function updatePlayPauseUI() {
     el.iconCenterPause.hidden = isPaused;
   }
   if (el.stageCenterPlayBtn) {
-    el.stageCenterPlayBtn.hidden = !isPaused;
+    el.stageCenterPlayBtn.hidden = true;
   }
   updateFrameStepVisibility(isPaused);
 }
@@ -4420,6 +4606,9 @@ function onMediaStageClick(event) {
   ) {
     return;
   }
+  if (isPlayerBottomActivation(event.clientX, event.clientY)) return;
+  if (isMobileDevice() && event.sourceCapabilities?.firesTouchEvents !== false
+    && isReservedBackStart(event.clientX)) return;
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
   if (isVideo) {
     togglePlayPause();
@@ -4984,10 +5173,7 @@ function getTapZone(clientX, clientY) {
 }
 
 function setStageImmersive(on) {
-  if (!el.playerModal) return;
-  if (el.playerModal.classList.contains('immersive') === on) return;
-  el.playerModal.classList.toggle('immersive', on);
-  if (on) collapseShortsExpand();
+  if (on) setPlayerChromeVisible(false);
   else resetControlsTimer();
 }
 
@@ -5042,8 +5228,7 @@ function handleStageTap(clientX, clientY) {
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
     if (session !== state.mediaSession || el.playerSheet?.hidden) return;
-    if (zone === 'center') togglePlayPause();
-    else setStageImmersive(!el.playerModal.classList.contains('immersive'));
+    togglePlayPause();
   }, 320);
 }
 
@@ -5052,6 +5237,17 @@ function setupTouchGestures() {
   if (!modal) return;
 
   modal.addEventListener('touchstart', (e) => {
+    // Reservation happens before either recognizer locks intent. Even a
+    // cancelled OS/back gesture cannot be reinterpreted as previous video.
+    if (e.touches.length === 1 && isReservedBackStart(e.touches[0].clientX)) {
+      cancelActiveTouchGesture();
+      return;
+    }
+    if (e.touches.length === 1 && isPlayerBottomActivation(e.touches[0].clientX, e.touches[0].clientY)) {
+      cancelActiveTouchGesture();
+      revealPlayerChrome({touch:true});
+      return;
+    }
     if (state.mediaAttempt.startsWith('drive-preview')) return;
     if (mediaTransitionCommitting || swipeCommitPending) {
       e.preventDefault();
@@ -5061,6 +5257,7 @@ function setupTouchGestures() {
       cancelActiveTouchGesture();
       return;
     }
+    if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
     // Don't hijack interaction on buttons, sliders, or seekbar
     if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select')) return;
 
@@ -5087,6 +5284,7 @@ function setupTouchGestures() {
 
   modal.addEventListener('touchmove', (e) => {
     if (!isTouchActive) return;
+    if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
     if (e.touches.length !== 1) {
       cancelActiveTouchGesture();
       return;
@@ -5296,7 +5494,7 @@ function handlePlayerKeyboard(event) {
       return;
     }
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-      closePlayer();
+      requestClosePlayer();
     }
     return;
   }
@@ -6134,7 +6332,7 @@ async function startOriginalBlobFallback(
       el.bufferOriginalButton.textContent = '위험을 이해하고 원본 재시도';
       el.bufferOriginalButton.hidden = false;
     } else if (error.status === 401) {
-      clearToken(true);
+      clearRejectedToken(error);
       showMediaError('Google 인증이 만료됐습니다. 다시 시도를 누르면 연결을 갱신합니다.');
     } else if (classifyMediaProxyFailure(error) === 'permission') {
       if (state.mediaPermissionRetryCount < 1) {
@@ -6158,7 +6356,7 @@ async function startOriginalBlobFallback(
           return;
         }
       }
-      clearToken(true);
+      // Keep the session: this is a file permission error, not invalid credentials.
       state.mediaAttempt = 'failed';
       showMediaError(
         '현재 Google 계정 또는 OAuth 권한으로는 원본 파일을 읽을 수 없습니다. 다시 시도를 눌러 계정 권한을 직접 확인해 주세요.',
@@ -6383,7 +6581,8 @@ function showDrivePreview(file, reason) {
   setNativeVideoActionsAvailable(false);
   updatePlayPauseUI();
   clearTimeout(controlsHideTimer);
-  el.playerModal?.classList.remove('controls-idle', 'immersive', 'media-recovery-mode');
+  setPlayerChromeVisible(false);
+  el.playerModal?.classList.remove('media-recovery-mode');
   el.mediaStage?.classList.add('drive-preview-active');
   el.playerModal?.classList.add('drive-preview-mode');
   if (el.drivePreviewActions) el.drivePreviewActions.hidden = false;
@@ -6580,7 +6779,7 @@ async function performDeleteFile() {
       showToast(`${succeeded.length.toLocaleString('ko-KR')}개 파일을 휴지통으로 이동했습니다.${suffix}`);
     } else {
       const firstError = failed[0]?.reason;
-      if (failed.some((result) => result.reason?.status === 401)) clearToken(false);
+      failed.forEach(result => clearRejectedToken(result.reason));
       showToast(`${succeeded.length.toLocaleString('ko-KR')}개 삭제, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(firstError)}`);
     }
   } catch (error) {
@@ -6589,7 +6788,7 @@ async function performDeleteFile() {
     if (el.deleteDialog?.open) el.deleteDialog.close();
     settleSelectionAfterBulk(files);
     if (error?.status === 401) {
-      clearToken(false);
+      clearRejectedToken(error);
     }
     showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
   } finally {
@@ -6656,7 +6855,7 @@ async function requestMoveFile() {
     if (el.moveDialog?.open) el.moveDialog.close();
     state.pendingActionFiles = [];
     if (error?.status === 401) {
-      clearToken(false);
+      clearRejectedToken(error);
       showToast('Google 인증이 만료됐습니다. 다시 시도해 주세요.');
     } else {
       showToast(`폴더 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
@@ -7043,7 +7242,7 @@ async function performMoveFile() {
       const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
       showToast(`${moved.length.toLocaleString('ko-KR')}개 파일을 이동했습니다${skippedText}.${demoText}`);
     } else {
-      if (failed.some((result) => result.reason?.status === 401)) clearToken(false);
+      failed.forEach(result => clearRejectedToken(result.reason));
       showToast(`${moved.length.toLocaleString('ko-KR')}개 이동, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(failed[0]?.reason)}`);
       if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
     }
@@ -7053,7 +7252,7 @@ async function performMoveFile() {
     if (el.moveDialog?.open) el.moveDialog.close();
     settleSelectionAfterBulk(files);
     if (error?.status === 401) {
-      clearToken(false);
+      clearRejectedToken(error);
       showToast('Google 인증이 만료됐습니다. 다시 연결해 주세요.');
     } else if (error?.status === 403) {
       openPermissionGuide();
@@ -7248,7 +7447,7 @@ function showMediaLoading(message) {
 
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
   clearTimeout(controlsHideTimer);
-  el.playerModal?.classList.remove('controls-idle', 'immersive');
+  // The explicit recovery panel is independent of playback chrome.
   el.playerModal?.classList.add('media-recovery-mode');
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = false;
@@ -7278,8 +7477,14 @@ function retryMedia() {
   openMediaSource(state.selected);
 }
 
-function closePlayer() {
+function closePlayer({ preserveHistory = false } = {}) {
   if (el.playerSheet.hidden) return;
+  cancelLibraryEdgeBack();
+  if (!preserveHistory && hasOwnedPlayerEntry()) {
+    const next = { ...history.state };
+    delete next.driveOriginalPlayer;
+    try { history.replaceState(next, '', location.href); } catch (_) {}
+  }
   const returnFocus = playerReturnFocus;
   playerReturnFocus = null;
   state.playbackSession += 1;
@@ -7464,6 +7669,7 @@ function disconnect() {
 }
 
 function clearToken(notifyWorker) {
+  state.tokenRevision = (state.tokenRevision || 0) + 1;
   stopAccountStateRefresh();
   state.authGeneration += 1;
   state.accountStateAbortController?.abort();
@@ -7540,10 +7746,24 @@ async function copyOrigin() {
   }
 }
 
+function clearRejectedToken(error) {
+  if (error?.status !== 401 || error.rejectedTokenRevision == null) return;
+  if (error.rejectedTokenRevision === (state.tokenRevision || 0)
+    && error.rejectedAccountGeneration === state.driveSessionGeneration) clearToken(true);
+}
+
 function showSetup() {
   el.setupView.hidden = false;
   el.libraryView.hidden = true;
   updateConnectionBadge();
+}
+
+function showReconnectState() {
+  if (!state.accountId || state.accountIdentityPending) { showSetup(); return; }
+  updateConnectionBadge();
+  if (hasUsableToken()) return;
+  const button = document.getElementById?.('reconnectButton');
+  if (button) button.hidden = false;
 }
 
 function showLibrary() {
@@ -7553,11 +7773,15 @@ function showLibrary() {
 
 function setConnectBusy(busy) {
   el.connectButton.disabled = busy;
+  const reconnect = document.getElementById?.('reconnectButton');
+  if (reconnect) reconnect.disabled = busy;
   const label = el.connectButton.querySelector('span');
   if (label) label.textContent = busy ? 'Google 연결 대기 중…' : 'Google Drive에 연결';
 }
 
 function updateConnectionBadge(forcedState) {
+  const reconnect = document.getElementById?.('reconnectButton');
+  if (reconnect) reconnect.hidden = Boolean(state.demo || hasUsableToken() || !state.accountId);
   const badgeState = forcedState || (!navigator.onLine ? 'offline' : hasUsableToken() || state.demo ? 'online' : 'offline');
   el.connectionBadge.dataset.state = badgeState;
   const label = el.connectionBadge.querySelector('.badge-text') || el.connectionBadge.querySelector('span:last-child');

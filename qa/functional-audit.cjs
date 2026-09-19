@@ -109,6 +109,125 @@ async function exactBufferedBytes(page) {
   browser=await chromium.launch({channel:'chrome',headless:true});
   await generateVideo();
   try {
+    await check('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',async()=>{
+      const {page,context,errors}=await environment();
+      try {
+        await openVideo(page);
+        await page.waitForTimeout(400);
+        assert.equal(await page.evaluate(()=>el.playerModal.classList.contains('controls-idle')),true);
+        assert.equal(await page.locator('#stageCenterPlayBtn').isVisible(),false);
+        await page.mouse.move(620,390);await page.waitForTimeout(400);
+        assert.equal(await page.evaluate(()=>playerChrome.inert),true,'central mouse movement must not reveal');
+        await page.mouse.move(620,797);await page.waitForTimeout(200);
+        assert.equal(await page.evaluate(()=>playerChrome.inert),false);
+        const bounds=await page.locator('.custom-video-controls').evaluate(e=>({width:e.getBoundingClientRect().width,bg:getComputedStyle(e).backgroundColor,border:getComputedStyle(e).borderTopWidth}));
+        assert(bounds.width>1150);assert.equal(bounds.bg,'rgba(0, 0, 0, 0)');assert.equal(bounds.border,'0px');
+        await page.locator('#ctrlMute').click();
+        assert.equal(await page.evaluate(()=>document.activeElement.id),'mediaStage');
+        const muted=await page.evaluate(()=>el.videoPlayer.muted);
+        await page.mouse.move(630,380);await page.waitForTimeout(550);
+        assert.equal(await page.evaluate(()=>playerChrome.inert),true);
+        await page.keyboard.press('Space');await page.waitForTimeout(80);
+        assert.equal(await page.evaluate(()=>el.videoPlayer.paused),false);
+        assert.equal(await page.evaluate(()=>el.videoPlayer.muted),muted,'Space must not reactivate mute');
+        await page.keyboard.press('Space');
+        assert.equal(await page.evaluate(()=>el.videoPlayer.paused),true);
+        assert.equal(await page.evaluate(()=>playerChrome.inert),true,'pause does not reveal chrome');
+        await page.screenshot({path:path.join(out,'desktop-paused-immersive.png')});
+        await page.keyboard.press('Tab');await page.locator('#ctrlMute').focus();
+        assert.equal(await page.evaluate(()=>document.activeElement.id),'ctrlMute','Tab must synchronously expose keyboard focus');
+        await page.keyboard.press('Space');
+        assert.equal(await page.evaluate(()=>el.videoPlayer.muted),!muted,'intentional keyboard button activation stays native');
+        assert.equal(await page.evaluate(()=>el.videoPlayer.paused),true);
+        const clipped=await page.locator('.player-chrome button:visible').evaluateAll(nodes=>nodes.filter(n=>{
+          const r=n.getBoundingClientRect();return r.left<0||r.right>innerWidth||r.top<0||r.bottom>innerHeight;
+        }).map(n=>n.id));assert.deepEqual(clipped,[],'controls must not slide outside the viewport when revealed');
+        await page.screenshot({path:path.join(out,'desktop-bottom-chrome.png')});
+        await page.locator('#ctrlMute').click();await page.mouse.move(640,300);await page.waitForTimeout(550);
+        assert.equal(await page.evaluate(()=>playerChrome.inert),true,'pointer takeover after keyboard use still hides on exit');
+        await page.keyboard.press('f');await page.waitForFunction(()=>Boolean(document.fullscreenElement));
+        assert.equal(await page.evaluate(()=>document.fullscreenElement.contains(playerChrome)),true);
+        await page.keyboard.press('f');await page.waitForFunction(()=>!document.fullscreenElement);
+        assert.deepEqual(errors,[]);record('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',{bounds});
+      }finally{await context.close();}
+    });
+    await check('player edge closes exactly one history entry; interior swipe keeps player open',async()=>{
+      const {page,context,errors}=await environment({mobile:true});
+      try {
+        await openVideo(page);
+        const folder=await page.evaluate(()=>state.currentFolderId);
+        const cdp=await context.newCDPSession(page);
+        const send=(type,points)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points.map(([x,y,id=0])=>({x,y,id,radiusX:1,radiusY:1,force:1}))});
+        const drag=async xs=>{await send('touchStart',[[xs[0],350]]);for(const x of xs.slice(1)){await page.waitForTimeout(45);await send('touchMove',[[x,350]]);}await send('touchEnd',[]);};
+        const before=await page.evaluate(()=>state.selected.id);
+        await drag([4,65,210,85]);await page.waitForTimeout(400);
+        assert.equal(await page.evaluate(()=>el.playerSheet.hidden),false);
+        assert.equal(await page.evaluate(()=>state.selected.id),before,'reverse edge must not change video');
+        await drag([4,65,160,245]);
+        await page.waitForFunction(()=>el.playerSheet.hidden&&!playerHistoryPending);
+        assert.equal(await page.evaluate(()=>state.currentFolderId),folder);
+        assert.equal(await page.evaluate(()=>el.playerSheet.style.transform),'');
+        assert.equal(await page.locator('.library-edge-transition').count(),0);
+        await openVideo(page,'video-B');
+        await drag([100,155,230,290]);
+        await page.waitForFunction(()=>state.selected?.id!=='video-B'&&!swipeCommitPending);
+        assert.equal(await page.evaluate(()=>el.playerSheet.hidden),false);
+        await page.goBack();await page.waitForFunction(()=>el.playerSheet.hidden);
+        assert.equal(await page.evaluate(()=>state.currentFolderId),folder);
+        assert.deepEqual(errors,[]);record('player edge closes exactly one history entry; interior swipe keeps player open',{physicalDevice:false});
+      }finally{await context.close();}
+    });
+    await check('real pointer long press cancels native selection and consumes release click',async()=>{
+      const {page,context,errors}=await environment();
+      try {
+        const button=page.locator('.file-card-open').first();const r=await button.boundingBox();
+        await page.mouse.move(r.x+r.width/2,r.y+40);await page.mouse.down();await page.waitForTimeout(620);
+        assert.equal(await page.evaluate(()=>state.selectionMode),true);
+        await page.mouse.up();await page.waitForTimeout(100);
+        assert.equal(await page.evaluate(()=>el.playerSheet.hidden),true);
+        assert.equal(await page.evaluate(()=>String(window.getSelection())), '');
+        assert.equal(await button.evaluate(n=>getComputedStyle(n).userSelect),'none');
+        await page.locator('#selectionCancelBtn').click();
+        await page.mouse.move(r.x+r.width/2,r.y+40);await page.mouse.down();
+        await page.mouse.move(r.x+r.width/2+50,r.y+80);await page.waitForTimeout(620);await page.mouse.up();
+        assert.equal(await page.evaluate(()=>state.selectionMode),false,'movement cancels pending selection');
+        if(!await page.evaluate(()=>el.playerSheet.hidden)) await page.keyboard.press('Escape');
+        await page.locator('#searchInput').fill('selection remains available');
+        await page.locator('#searchInput').focus();await page.keyboard.press('Control+a');
+        assert.equal(await page.locator('#searchInput').evaluate(n=>n.selectionEnd-n.selectionStart),27);
+        assert.deepEqual(errors,[]);record('real pointer long press cancels native selection and consumes release click');
+      }finally{await context.close();}
+    });
+    await check('same-account fixture renewal preserves playback and the expired library',async()=>{
+      const {page,context,errors}=await environment();
+      try {
+        await openVideo(page);
+        const proof=await page.evaluate(async()=>{
+          const files=state.files, selected=state.selected, session=state.mediaSession;
+          const generation=state.driveSessionGeneration, revision=state.tokenRevision;
+          const ok=await requestGoogleToken({background:false,force:true,invalidateSession:true});
+          clearRejectedToken({status:401,rejectedTokenRevision:revision,rejectedAccountGeneration:generation});
+          return {ok,sameFiles:state.files===files,sameSelected:state.selected===selected,
+            sameMedia:state.mediaSession===session,sameAccountGeneration:state.driveSessionGeneration===generation,
+            renewed:state.tokenRevision>revision,usable:hasUsableToken(),paused:el.videoPlayer.paused,time:el.videoPlayer.currentTime};
+        });
+        assert(proof.ok&&proof.sameFiles&&proof.sameSelected&&proof.sameMedia&&proof.sameAccountGeneration&&proof.renewed&&proof.usable&&proof.paused);
+        assert(Math.abs(proof.time-.4)<.15);
+        await page.keyboard.press('Escape');await page.waitForFunction(()=>el.playerSheet.hidden&&!playerHistoryPending);
+        await page.setViewportSize({width:320,height:568});
+        const preserved=await page.evaluate(async()=>{
+          const files=state.files;state.expiresAt=Date.now()-1;await loadFiles({append:false});
+          return state.files===files&&!el.libraryView.hidden;
+        });assert.equal(preserved,true);
+        assert.equal(await page.locator('#reconnectButton').isVisible(),true);
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+        await page.screenshot({path:path.join(out,'320-reconnect-preserves-library.png')});
+        await page.locator('#reconnectButton').click();
+        await page.waitForFunction(()=>hasUsableToken()&&!document.getElementById('reconnectButton').disabled);
+        assert.equal(await page.locator('#reconnectButton').isVisible(),false);
+        assert.deepEqual(errors,[]);record('same-account fixture renewal preserves playback and the expired library',{proof});
+      }finally{await context.close();}
+    });
     await check('original OPFS, playback, keyboard, active-tab lease and scoped cleanup',async()=>{
       const {page,context,calls,errors}=await environment();
       try {
@@ -116,8 +235,15 @@ async function exactBufferedBytes(page) {
         const mode=await page.evaluate(()=>state.mediaPlaybackMode);assert.equal(mode,'original-opfs');
         assert.equal(await exactBufferedBytes(page),hash(video));
         assert.equal(await page.locator('video').count(),1);
-        await page.locator('#seekBarContainer').focus();await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');
-        const seek=await page.evaluate(()=>({time:el.videoPlayer.currentTime,duration:el.videoPlayer.duration}));assert(Math.abs(seek.time-Math.min(5,seek.duration))<.15);
+        // Controls are deliberately inert while hidden. Enter them through
+        // the real keyboard reveal path rather than focusing invisible DOM.
+        await page.keyboard.press('Tab');
+        await page.locator('#seekBarContainer').focus();
+        assert.equal(await page.evaluate(()=>document.activeElement.id),'seekBarContainer','explicit keyboard reveal must make the seekbar focusable');
+        await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');
+        const seek=await page.evaluate(()=>({time:el.videoPlayer.currentTime,duration:el.videoPlayer.duration,
+          active:document.activeElement.id,idle:el.playerModal.classList.contains('controls-idle'),inert:playerChrome.inert,paused:el.videoPlayer.paused}));
+        assert(Math.abs(seek.time-Math.min(5,seek.duration))<.15,JSON.stringify(seek));
         await page.evaluate(()=>{el.videoPlayer.currentTime=.5;});
         await page.locator('#ctrlPlayPause').focus();const paused=await page.evaluate(()=>el.videoPlayer.paused);await page.keyboard.press('Space');await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>el.videoPlayer.paused),!paused);await page.evaluate(()=>el.videoPlayer.pause());
         await page.keyboard.press('Control+f');assert.equal(await page.evaluate(()=>Boolean(document.fullscreenElement)),false);
@@ -160,7 +286,7 @@ async function exactBufferedBytes(page) {
     await check('mobile video, overflow actions, seek and double-tap',async()=>{
       const {page,context,errors}=await environment({mobile:true});
       try{
-        await openVideo(page);await page.evaluate(()=>el.closePlayerButton.blur());
+        await openVideo(page);await page.touchscreen.tap(195,838);
         await page.locator('#shortsMoreBtn').click();await page.waitForTimeout(250);
         await page.screenshot({path:path.join(out,'mobile-video-menu.png')});
         const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();

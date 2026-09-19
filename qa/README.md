@@ -2,6 +2,21 @@
 
 Runtime dependencies: none. These are development-only fixtures.
 
+For v1.21.0, the functional driver also exercises bottom-only chrome, immediate
+Tab focus, pointer-to-keyboard switching, independent player history, native
+selection suppression and same-account renewal. The layout driver includes both
+hidden and explicitly revealed controls (25 states per engine). Enter controls
+through bottom input or Tab: hidden controls are intentionally inert.
+
+The hardened acceptance driver blocks intercepted upstream requests while
+offline; it asserts the remote store and peer did not change before reconnection.
+Latest summarized evidence: `immersive-results.json`. Older candidate evidence
+in `acceptance-results.json` remains historical and is not silently overwritten.
+
+`node qa/upgrade-audit.cjs` verifies the actual v1.20.0 Git shell can update to
+the current source using the real app update action, while preserving unrelated
+storage and loading the new shell offline. Its profile/origin are isolated.
+
 ```sh
 npm --prefix qa install
 npx --prefix qa playwright install chromium webkit

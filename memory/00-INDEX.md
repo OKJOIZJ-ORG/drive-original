@@ -25,6 +25,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `IMMERSIVE-20260919.md`: v1.21.0 implementation, nine requested fixes, observed tests and physical-device boundaries. Production publication is recorded separately in the current checkpoint/release record.
+
 - `AUDIT-20260917.md`: comprehensive defect inventory, scope, proof and explicit limitations.
 - `RELEASE-1.20.0.md`: production deployment verification once complete.
 - `../qa/`: reproducible local-only browser fixture drivers.

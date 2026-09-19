@@ -57,12 +57,18 @@ async function snapshot(page, name, errors) {
       await page.waitForFunction(() => typeof startDemoMode === 'function');
       await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), { timeout: 20000 });
       all.push(await snapshot(page, `${width}x${height}-setup`, errors));
-      await page.goto(base + '?demo=1', { waitUntil: 'networkidle' });
+      // Exercise the library in the already initialized document. Unloading
+      // the setup document during its update probe can create a WebKit
+      // cancelled-request diagnostic unrelated to these layout assertions.
+      // Cold production/demo navigation is covered separately at release.
+      await page.evaluate(() => startDemoMode());
       await page.waitForFunction(() => !el.libraryView.hidden && state.files.length > 0);
       all.push(await snapshot(page, `${width}x${height}-library`, errors));
       await page.evaluate(() => openMediaSource); // fail early if the runtime is unavailable
       await page.evaluate(() => { const f = state.files.find(f => f.mimeType.startsWith('image/')); openPlayer(f); });
       all.push(await snapshot(page, `${width}x${height}-player`, errors));
+      await page.keyboard.press('Tab');
+      all.push(await snapshot(page, `${width}x${height}-controls-player`, errors));
       await page.evaluate(() => closePlayer());
       await page.locator('#settingsButton').click();
       all.push(await snapshot(page, `${width}x${height}-settings`, errors));

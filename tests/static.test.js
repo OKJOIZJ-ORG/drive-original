@@ -219,7 +219,9 @@ test('player chrome hides as one mobile layer and high-frequency motion stays tr
   assert.match(html, /<details class="player-more-menu" id="playerMoreMenu">[\s\S]*?id="ctrlMove"[\s\S]*?id="ctrlDelete"/);
   assert.doesNotMatch(html, /class="media-info-bar"/);
   assert.match(styles, /\.quality-badge\s*\{[\s\S]*?display:\s*none/);
-  assert.match(styles, /\.player-modal\.controls-idle \.mobile-shorts-overlay[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);
+  assert.match(styles, /\.player-modal\.controls-idle \.player-chrome[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);
+  assert.match(app, /playerChrome\.inert = !visible/);
+  assert.match(app, /playerChrome\.appendChild\(node\)/);
   assert.match(app, /seekBarPlayed\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
   assert.match(app, /mobileShortsProgressBar\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
   assert.doesNotMatch(app, /seekBarPlayed\.style\.width|seekBarThumb\.style\.left|mobileShortsProgressBar\.style\.width/);
