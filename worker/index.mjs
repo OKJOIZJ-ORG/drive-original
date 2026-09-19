@@ -8,6 +8,7 @@ export { AuthObject };
 
 const CALLBACK_PATH = '/auth/google/callback';
 const START_PATH = '/auth/google/start';
+const CALLBACK_RECOVERY_ERRORS = new Set(['transaction_invalid', 'auth_unavailable']);
 const SESSION_MAX_AGE = Math.floor(SESSION_ABSOLUTE_MS / 1000);
 const cookie = (name, value, maxAge) => `${name}=${value}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
 const expire = name => cookie(name, '', 0);
@@ -187,10 +188,13 @@ export function createWorkerHandler(env, {
     const url = new URL(request.url);
     if (![START_PATH, CALLBACK_PATH].includes(url.pathname) && !url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
     const callbackRequest = url.pathname === CALLBACK_PATH;
+    let callbackRecoveryOrigin = null;
     try {
       const settings = config(env);
       if (url.origin !== settings.origin) throw new AuthError('forbidden');
       const crypt = createAuthCrypto(env);
+      await crypt.ready();
+      if (callbackRequest) callbackRecoveryOrigin = settings.origin;
       if (url.pathname === START_PATH) {
         if (request.method !== 'GET') throw new AuthError('bad_request');
         return await start(request, settings, crypt);
@@ -202,7 +206,13 @@ export function createWorkerHandler(env, {
       if (!['/api/session/credential', '/api/session/logout', '/api/account/disconnect'].includes(url.pathname)) throw new AuthError('not_found');
       return await sessionHandler(request, settings, crypt);
     } catch (error) {
-      return errorResponse(error instanceof AuthError ? error.code : 'auth_unavailable', callbackRequest ? [expire(PREAUTH_COOKIE)] : []);
+      const code = error instanceof AuthError ? error.code : 'auth_unavailable';
+      if (callbackRequest && callbackRecoveryOrigin && CALLBACK_RECOVERY_ERRORS.has(code)) {
+        const target = new URL('/', callbackRecoveryOrigin);
+        target.searchParams.set('authError', code);
+        return redirect(target.href, [expire(PREAUTH_COOKIE)]);
+      }
+      return errorResponse(code, callbackRequest ? [expire(PREAUTH_COOKIE)] : []);
     }
   };
 }

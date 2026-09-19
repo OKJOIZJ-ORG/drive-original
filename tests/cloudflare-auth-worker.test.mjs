@@ -214,7 +214,7 @@ function responseCookies(response) {
   return typeof response.headers.getSetCookie === 'function' ? response.headers.getSetCookie() : [response.headers.get('Set-Cookie')];
 }
 
-async function workerFlowFixture({ failLocator = false } = {}) {
+async function workerFlowFixture({ failLocator = false, consumeError = null } = {}) {
   const jwt = await signingFixture();
   const state = '1'.repeat(64);
   const preauth = '2'.repeat(64);
@@ -230,6 +230,7 @@ async function workerFlowFixture({ failLocator = false } = {}) {
       return transaction;
     }
     if (payload.kind === 'transaction' && payload.operation === 'consume') {
+      if (consumeError) throw new AuthError(consumeError);
       assert.equal(payload.args.state, transaction.state);
       assert.equal(payload.args.cookieDigest, transaction.cookieDigest);
       return transaction;
@@ -304,13 +305,28 @@ test('exact GET start/callback flow sets hardened cookies and locator routing ig
   assert.equal(fixtureRoute.status, 404);
 });
 
+test('recoverable callback failures expire pre-auth and redirect to one allowlisted root query without callback data', async () => {
+  const fixture = await workerFlowFixture({ consumeError: 'transaction_invalid' });
+  await fixture.handler(new Request(`${origin}/auth/google/start`, { headers: { 'Sec-Fetch-Site': 'same-origin' } }));
+  const callback = await fixture.handler(new Request(
+    `${origin}/auth/google/callback?code=secret-code&state=${fixture.state}&scope=secret-scope`,
+    { headers: { Cookie: `__Host-drive_original_oauth=${fixture.preauth}` } },
+  ));
+  assert.equal(callback.status, 303);
+  assert.equal(callback.headers.get('Location'), `${origin}/?authError=transaction_invalid`);
+  assert.match(responseCookies(callback).join('\n'), /__Host-drive_original_oauth=;.*Max-Age=0/);
+  assert.doesNotMatch(callback.headers.get('Location'), /secret-code|secret-scope|state=/);
+});
+
 test('failed session-locator creation rolls account establishment back before any session cookie escapes', async () => {
   const fixture = await workerFlowFixture({ failLocator: true });
   await fixture.handler(new Request(`${origin}/auth/google/start`, { headers: { 'Sec-Fetch-Site': 'same-origin' } }));
   const callback = await fixture.handler(new Request(`${origin}/auth/google/callback?code=code&state=${fixture.state}`, {
     headers: { Cookie: `__Host-drive_original_oauth=${fixture.preauth}` },
   }));
-  assert.equal(callback.status, 503);
+  assert.equal(callback.status, 303);
+  assert.equal(callback.headers.get('Location'), `${origin}/?authError=auth_unavailable`);
+  assert.match(responseCookies(callback).join('\n'), /__Host-drive_original_oauth=;.*Max-Age=0/);
   assert.doesNotMatch(responseCookies(callback).join('\n'), /__Host-drive_original_session=[^;]/);
   assert.ok(fixture.calls.some(call => call.payload.kind === 'account' && call.payload.operation === 'logout'));
 });
@@ -332,4 +348,32 @@ test('checked-in auth kill switch fails closed without blocking same-origin stat
   assert.equal(auth.headers.get('Cache-Control'), 'no-store');
   const asset = await disabled(new Request(`${origin}/index.html`));
   assert.equal(await asset.text(), 'asset');
+});
+
+test('callback config and origin failures stay JSON failures instead of redirecting', async () => {
+  const disabled = createWorkerHandler({ ...env, AUTH_ENABLED: 'false' });
+  const configFailure = await disabled(new Request(`${origin}/auth/google/callback?code=code&state=${'s'.repeat(64)}`));
+  assert.equal(configFailure.status, 503);
+  assert.equal(configFailure.headers.get('Location'), null);
+  assert.equal((await configFailure.json()).error.code, 'auth_unavailable');
+
+  const missingCrypto = createWorkerHandler({ ...env, AUTH_HMAC_KEY: undefined });
+  const cryptoFailure = await missingCrypto(new Request(`${origin}/auth/google/callback?code=code&state=${'s'.repeat(64)}`));
+  assert.equal(cryptoFailure.status, 503);
+  assert.equal(cryptoFailure.headers.get('Location'), null);
+  assert.equal((await cryptoFailure.json()).error.code, 'auth_unavailable');
+
+  for (const binding of ['AUTH_HMAC_KEY', 'ACCOUNT_KEY', 'CREDENTIAL_ENCRYPTION_KEY_V1']) {
+    const invalidCrypto = createWorkerHandler({ ...env, [binding]: 'invalid' });
+    const invalidFailure = await invalidCrypto(new Request(`${origin}/auth/google/callback?code=code&state=${'s'.repeat(64)}`));
+    assert.equal(invalidFailure.status, 503);
+    assert.equal(invalidFailure.headers.get('Location'), null);
+    assert.equal((await invalidFailure.json()).error.code, 'auth_unavailable');
+  }
+
+  const wrongOrigin = createWorkerHandler(env);
+  const originFailure = await wrongOrigin(new Request(`https://wrong.example/auth/google/callback?code=code&state=${'s'.repeat(64)}`));
+  assert.equal(originFailure.status, 403);
+  assert.equal(originFailure.headers.get('Location'), null);
+  assert.equal((await originFailure.json()).error.code, 'forbidden');
 });

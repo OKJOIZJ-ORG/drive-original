@@ -50,6 +50,9 @@ export function createAuthCrypto(env) {
   const encryptionKey = importAes(env.CREDENTIAL_ENCRYPTION_KEY_V1);
 
   return Object.freeze({
+    async ready() {
+      await Promise.all([authKey, accountKey, encryptionKey]);
+    },
     async digestCookie(value) {
       if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{32,256}$/u.test(value)) throw new TypeError('Invalid pre-auth cookie');
       return hmac(await authKey, 'drive-original/preauth-cookie/v1', value);

@@ -16,12 +16,20 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
+  assert.equal(metadata.version, '1.22.0-rc.2');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.match(html, new RegExp(`app\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.match(html, new RegExp(`runtime-config\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.equal((html.match(new RegExp(`v${metadata.version.replaceAll('.', '\\.')}`, 'g')) || []).length, 2);
+});
+
+test('authentication setup feedback is a polite atomic live region', () => {
+  const html = read('index.html');
+  const hint = html.match(/<p class="field-hint" id="authHint"[^>]*>/)?.[0] || '';
+  assert.match(hint, /aria-live="polite"/);
+  assert.match(hint, /aria-atomic="true"/);
 });
 
 test('every bound element ID exists once in index.html', () => {

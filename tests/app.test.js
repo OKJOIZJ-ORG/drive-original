@@ -101,6 +101,54 @@ test('candidate prerelease versions remain valid and compare in SemVer order', (
   assert.equal(run(context, `isNewerVersion('not-a-version', '1.22.0-rc.1')`), false);
 });
 
+test('callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely', () => {
+  const context = loadAppContext();
+  const replacements = [];
+  context.document.title = 'Drive Original';
+  context.history.state = { owner: 'fixture' };
+  context.history.replaceState = (stateValue, title, next) => {
+    replacements.push({ stateValue, title, next });
+    const nextUrl = new URL(next, context.location.origin);
+    context.location.href = nextUrl.href;
+    context.location.pathname = nextUrl.pathname;
+    context.location.search = nextUrl.search;
+    context.location.hash = nextUrl.hash;
+  };
+  const setLocation = (value) => {
+    const url = new URL(value);
+    context.location.href = url.href;
+    context.location.pathname = url.pathname;
+    context.location.search = url.search;
+    context.location.hash = url.hash;
+  };
+
+  setLocation('https://example.test/drive-original/?keep=1&authError=transaction_invalid#folder');
+  assert.equal(run(context, 'consumeAuthCallbackError()'), 'Google 로그인 요청이 만료되었거나 확인되지 않았습니다. 다시 연결해 주세요.');
+  assert.equal(replacements[0].next, '/drive-original/?keep=1#folder');
+  assert.equal(replacements[0].stateValue.owner, 'fixture');
+  assert.equal(run(context, 'consumeAuthCallbackError()'), null);
+  assert.equal(replacements.length, 1);
+
+  run(context, `el.authHint={textContent:'unchanged',classList:{add(){this.added=true},remove(){}}};state.token=null;state.expiresAt=0;`);
+  assert.equal(run(context, `showAuthCallbackError('Google 로그인 요청이 만료되었거나 확인되지 않았습니다. 다시 연결해 주세요.')`), true);
+  assert.equal(run(context, 'el.authHint.textContent'), 'Google 로그인 요청이 만료되었거나 확인되지 않았습니다. 다시 연결해 주세요.');
+  run(context, `el.authHint.textContent='authenticated';state.token='usable';state.expiresAt=Date.now()+60000;`);
+  assert.equal(run(context, `showAuthCallbackError('표시되면 안 됨')`), false);
+  assert.equal(run(context, 'el.authHint.textContent'), 'authenticated');
+
+  setLocation('https://example.test/drive-original/?authError=unknown&keep=2#safe');
+  assert.equal(run(context, 'consumeAuthCallbackError()'), null);
+  assert.equal(replacements.at(-1).next, '/drive-original/?keep=2#safe');
+  for (const inheritedName of ['toString', '__proto__']) {
+    setLocation(`https://example.test/drive-original/?authError=${inheritedName}&keep=own-only`);
+    assert.equal(run(context, 'consumeAuthCallbackError()'), null);
+    assert.equal(replacements.at(-1).next, '/drive-original/?keep=own-only');
+  }
+  setLocation('https://example.test/drive-original/?authError=transaction_invalid&authError=auth_unavailable&keep=3');
+  assert.equal(run(context, 'consumeAuthCallbackError()'), null);
+  assert.equal(replacements.at(-1).next, '/drive-original/?keep=3');
+});
+
 function run(context, source) {
   return vm.runInContext(source, context);
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.1';
+const APP_VERSION = '1.22.0-rc.2';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -16,6 +16,10 @@ const AUTH_ERROR_CODES = new Set([
   'account_mismatch', 'stale_revision', 'reconnect_required', 'auth_unavailable',
   'unauthorized', 'forbidden', 'bad_request'
 ]);
+const AUTH_CALLBACK_ERROR_MESSAGES = Object.freeze({
+  transaction_invalid: 'Google 로그인 요청이 만료되었거나 확인되지 않았습니다. 다시 연결해 주세요.',
+  auth_unavailable: 'Google 인증을 완료하지 못했습니다. 잠시 후 다시 연결해 주세요.'
+});
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
 const MOBILE_MEMORY_BUFFER_AUTO_LIMIT = 24 * 1024 * 1024;
@@ -901,7 +905,31 @@ function recordMediaDiagnosticSeekEnd(video) {
 
 window.addEventListener('DOMContentLoaded', init);
 
+function consumeAuthCallbackError() {
+  let url;
+  try { url = new URL(location.href); }
+  catch (_) { return null; }
+  const values = url.searchParams.getAll('authError');
+  if (!values.length) return null;
+  url.searchParams.delete('authError');
+  try {
+    history.replaceState(history.state, document.title, `${url.pathname}${url.search}${url.hash}`);
+  } catch (_) {}
+  if (values.length !== 1) return null;
+  const code = values[0];
+  if (!Object.hasOwn(AUTH_CALLBACK_ERROR_MESSAGES, code)) return null;
+  const message = AUTH_CALLBACK_ERROR_MESSAGES[code];
+  return typeof message === 'string' ? message : null;
+}
+
+function showAuthCallbackError(message) {
+  if (!message || hasUsableToken()) return false;
+  setAuthError(message);
+  return true;
+}
+
 async function init() {
+  const authCallbackError = consumeAuthCallbackError();
   if (location.search && location.search.includes('_update=')) {
     try {
       const cleanUrl = new URL(location.href);
@@ -931,6 +959,7 @@ async function init() {
   } else {
     updateConnectionBadge();
     showSetup();
+    showAuthCallbackError(authCallbackError);
   }
 }
 
