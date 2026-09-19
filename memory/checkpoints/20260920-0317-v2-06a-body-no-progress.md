@@ -1,4 +1,4 @@
-# Checkpoint — V2-06A body no-progress closed; slow-tail frame proof next — 2026-09-20 03:17 KST
+# Checkpoint — V2-06A first-byte watchdog closed; body no-progress next — 2026-09-20 03:02 KST
 
 ## The story so far
 
@@ -24,10 +24,6 @@ The first-byte body-boundary unit is committed at `171eecf384f154fa99bcc65b110dc
 
 The final focused app/worker run passes 106/106, the nine-file suite passes 226/226, JavaScript syntax and diff checks pass, and the functional browser audit passes 13/13. Independent review is clean after fixing notification lifetime and custom abort-reason classification. This is deterministic local evidence only; `171eecf` is not deployed and does not yet prove body no-progress, decoded-frame progress, seek completion, or the physical priority sample.
 
-The next body-boundary unit is committed at `ee2c3b1cc2f3cf5a950e665f043ac6adf51f175b`. After the first positive byte, each actual downstream pull gets its own 15-second body no-progress clock. A positive chunk clears it; zero-byte chunks do not; no pull means no timer. Timeout atomically owns one `body-no-progress` trace and one status-504/category-`timeout`/`bodyNoProgress` app error, waits for that classified notification lifetime, aborts only the exact upstream attempt, and reuses the existing one-Range-retry recovery owner.
-
-The inverse race matrix proves caller abort, consumer cancel, exact EOF, short EOF, generic reader error and overrun all beat a captured stale body timer when they occur first. Protection remains active with diagnostics off. The final focused app/worker run passes 112/112, the nine-file suite passes 232/232, JavaScript syntax and diff checks pass, the functional browser audit passes 13/13, and independent review found no P1/P2/P3 defect. A service-worker pull is still only a proxy for foreground playback demand: an already pending pull may cross pause/hidden, so physical/browser lifecycle evidence remains open rather than being claimed by this unit.
-
 The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
 ## Decided
@@ -46,12 +42,12 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 ## Current execution state
 
 - Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
-- Active READY unit: `V2-06A` / WP-06, with headers watchdog `IMPLEMENTED_LOCAL` at `7e06c9a`, Range-first router at `38b4404`, first-byte/body-length guard at `171eecf`, and demand-bound body no-progress watchdog at `ee2c3b1`; first-frame/seek clocks and the remaining QA-TR matrix still govern completion under TR-01~10 and QA-TR-01~11.
-- Product commit: `ee2c3b1cc2f3cf5a950e665f043ac6adf51f175b` on `codex/v2-kickoff-diagnostics`. Only this checkpoint/goal/product-truth record follows it locally.
+- Active READY unit: `V2-06A` / WP-06, with headers watchdog `IMPLEMENTED_LOCAL` at `7e06c9a`, Range-first router at `38b4404`, and first-byte watchdog/body-length guard at `171eecf`; body/frame/seek clocks and the remaining QA-TR matrix still govern completion under TR-01~10 and QA-TR-01~11.
+- Product commit: `171eecf384f154fa99bcc65b110dcef867231b5f` on `codex/v2-kickoff-diagnostics`. Only this checkpoint/goal/product-truth record follows it locally.
 - Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, and public-byte equality.
-- Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, and any Drive/appData write or migration.
+- Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
-- The four V2-06A local units are not deployed. Production/main/remotes and the existing candidate remain unchanged.
+- The three V2-06A local units are not deployed. Production/main/remotes and the existing candidate remain unchanged.
 
 ## Waiting on the user
 
@@ -59,7 +55,7 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 
 ## Next first action
 
-Turn QA-TR-01 into a discriminating slow-tail browser fixture: stream a playable Range prefix while deliberately withholding the remaining response body, then prove `requestVideoFrameCallback` fires and the Range route remains active before body completion. Record delivered bytes and completion state at the frame boundary; do not count metadata/canplay, Google iframe entry or an immediately fulfilled fixture as first-frame evidence.
+Add the body no-progress watchdog at the service-worker body boundary. Start or refresh its approximately 15-second foreground-demand clock only around pending downstream reads after the first positive byte; do not let normal pause/no-pull, cancellation, EOF or a completed span become a timeout. Make one atomic terminal owner emit one redacted `body-no-progress` plus one classified app error, abort the exact upstream attempt, and preserve the existing single recovery budget.
 
 ## Tried
 
@@ -72,4 +68,3 @@ Turn QA-TR-01 into a discriminating slow-tail browser fixture: stream a playable
 - The old initial-router regression required safe videos to use OPFS first. Inverting it produced 0/2 before the code change; after the change the focused tests pass 2/2, app/static pass 79/79, the full suite passes 214/214 and the browser audit passes 13/13.
 - The current Range fixture proves request ordering and absence of a simultaneous full transfer, but not first-frame-before-body-complete. Do not mark QA-TR-01 passed until the slow-tail frame/byte comparison exists.
 - The first-byte fixture initially had no finite timer. Later reviews exposed three false-confidence gaps—zero-byte chunks, 206 under/overrun, and app retry ownership—and two real races: timeout notification could outlive the stream, and a caller abort with a custom reason could be mislabeled. The final fixtures close each case and keep timeout as the only terminal winner under late competing events.
-- The first body-stall tests failed 0/3 because no post-first-byte timer or app diagnostic stage existed. The final matrix also invokes captured cleared callbacks after every competing terminal and delays `clients.get()` to prove the stream cannot outlive its classified error. A transient test-harness hang came from delaying both trace and error lookups with one release handle; removing the trace ID isolated the intended error-lifetime boundary, and the stale process was terminated without touching product services.
