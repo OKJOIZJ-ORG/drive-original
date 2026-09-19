@@ -1,4 +1,4 @@
-# Checkpoint — V2-06A headers watchdog closed; Range-first next — 2026-09-20 02:12 KST
+# Checkpoint — V2-04B candidate PC path verified; physical iPhone/PWA boundary retained — 2026-09-20 02:02 KST
 
 ## The story so far
 
@@ -11,10 +11,6 @@ Commit `213211f381d2181479501fb22183d700f9984713` ships version `1.22.0-rc.3`, w
 The deployed candidate was reloaded with `/api/session/credential` deliberately paused. While pending, the live DOM showed `연결 중…` and only a disabled `기존 Drive 연결 확인 중…` button. The request carried the existing session cookie, returned 200, and the same page settled to `Drive 연결됨`, visible My Drive data, and `v1.22.0-rc.3` without another OAuth navigation. This closes the confirmed PC Chrome false-reconnect loop. Focused tests pass 79/79, the full nine-file suite passes 212/212, syntax/diff checks and Worker dry-run pass, and independent review found no blocking defect.
 
 A new same-profile Chrome tab independently sent its session cookie, received one credential 200 and showed the library without consent. Three concurrent client refresh calls with the same rejected revision produced exactly one network credential request, advanced the live revision from 1 to 2, kept the same account, and left the library connected. The active service worker is the candidate's same-origin `sw.js` in `activated` state and controls the page. This supplies live PC evidence for session restart and single-flight refresh, without claiming a physical iPhone result.
-
-The first bounded `V2-06A` unit is committed at `7e06c9af44d24c063b8a51b25120db89596f1009`. A deterministic never-resolving upstream fixture first failed 0/1 because no headers timer existed. The service worker now gives each Drive media attempt a separate 10-second headers deadline, aborts only that upstream attempt, reports one redacted `headers-timeout` trace plus one `MEDIA_PROXY_ERROR` with status 504/category `timeout`, and leaves retry ownership with the existing app playback intent. Caller cancellation remains distinct.
-
-Independent review caught that the first implementation detached caller cancellation as soon as headers arrived. A second fixture reproduced `upstreamAborted:false`; the helper now clears only the headers timer on success and keeps its one-shot caller-abort link through the live response body. The focused four cancellation/timeout cases pass 4/4, the worker suite passes 31/31, the full nine-file suite passes 214/214, JavaScript syntax and diff checks pass, and the repeated independent review is clean. This closes only the headers-wait clock; first-byte, body, frame and seek clocks and the direct-first router remain open.
 
 The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
@@ -34,12 +30,11 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 ## Current execution state
 
 - Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
-- Active READY unit: `V2-06A` / WP-06, with the headers-watchdog subunit `IMPLEMENTED_LOCAL` at `7e06c9a`; direct-first routing and remaining watchdog clocks still govern completion under TR-01~10 and QA-TR-01~11.
-- Product commit: `7e06c9af44d24c063b8a51b25120db89596f1009` on `codex/v2-kickoff-diagnostics`; `main...7e06c9a = 0/22`. Only this checkpoint/goal record follows it locally.
+- Active READY unit: `V2-06A` / WP-06, direct original reader/watchdog integration under TR-01~10 and QA-TR-01~11.
+- Branch/HEAD: `codex/v2-kickoff-diagnostics` at `213211f381d2181479501fb22183d700f9984713`; working tree clean; `main...HEAD = 0/20`.
 - Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, and public-byte equality.
 - Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
-- The headers-watchdog unit is not deployed. Production/main/remotes and the existing candidate remain unchanged.
 
 ## Waiting on the user
 
@@ -47,7 +42,7 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 
 ## Next first action
 
-Make the Q0 video router Range-first: prove that even with ample OPFS capacity it assigns the direct Range source without awaiting storage policy or full download, while retaining OPFS/memory only as bounded recovery.
+Start `V2-06A` by reading the current original-source router, service-worker Range contract and V2-03A/B evidence, then reproduce the first missing Q0 progress/deadline behavior with one deterministic fixture before changing the reader/watchdog owner.
 
 ## Tried
 
@@ -55,5 +50,3 @@ Make the Q0 video router Range-first: prove that even with ample OPFS capacity i
 - `redirect: 'error'` was incompatible with Cloudflare workerd. `manual` plus explicit 3xx rejection preserves the no-follow security contract and passes the focused 17/17 and full 210/210 suites.
 - The controlled Chrome browser completed consent and loaded Drive, while another cookie-less request returned 401. That contrast makes session/context continuity the next discriminator; it does not prove the user's reported loop is a Google consent failure.
 - The confirmed current-client defect is not a lost cookie: reload sent a session cookie and received credential 200. It is the static unauthenticated shell becoming actionable before asynchronous session recovery finishes.
-- The headers-stall fixture failed 0/1 before the implementation because no timer was scheduled, then passed with a finite 504 after the 10-second fake clock fired.
-- The first derived-signal implementation passed the timeout case but failed a post-headers caller-abort fixture. Keeping the one-shot abort link for the response-body lifetime restored close/seek cancellation without adding another retry owner.
