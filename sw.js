@@ -184,6 +184,25 @@ async function proxyDriveMedia(request, url, clientId) {
   // `mediaSession` is retained until all controlled clients have moved to the
   // clearer `sessionId` field.
   context.mediaSession = context.sessionId;
+  const range = context.requestedRange;
+  const sizeValue = url.searchParams.get('size');
+  if ((range != null && !parseRequestedByteRange(range))
+    || (sizeValue != null && parsePositiveSafeInteger(sizeValue) == null)) {
+    notifyMediaTrace(context, 'range-error', {
+      status: 400,
+      reason: 'range-invalid',
+      rangeSatisfied: false,
+      terminal: true
+    });
+    await notifyMediaError(context, 400, ['rangeInvalid'], 0, {
+      category: 'range-invalid',
+      contentRange: null,
+      contentRangeInferred: false,
+      rangeSatisfied: false,
+      driveReason: 'rangeInvalid'
+    });
+    return mediaErrorResponse('Invalid media byte range', 400);
+  }
   const driveUrl = new URL(`https://www.googleapis.com/drive/v3/files/${fileId}`);
   driveUrl.searchParams.set('alt', 'media');
   driveUrl.searchParams.set('supportsAllDrives', 'true');
@@ -197,7 +216,6 @@ async function proxyDriveMedia(request, url, clientId) {
     headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
   }
 
-  const range = context.requestedRange;
   if (range) {
     headers.set('Range', range);
   }
@@ -899,7 +917,9 @@ function parseRequestedByteRange(value) {
   const end = match[2] ? Number(match[2]) : null;
   if ((start != null && !Number.isSafeInteger(start))
     || (end != null && !Number.isSafeInteger(end))
-    || (start != null && end != null && start > end)) return null;
+    || (start == null && end === 0)
+    || (start != null && end != null && (start > end
+      || !Number.isSafeInteger(end - start + 1)))) return null;
   return start == null ? { suffixLength: end } : { start, end };
 }
 

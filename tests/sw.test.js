@@ -107,8 +107,10 @@ function createWorker(fetchImpl, {
       const sourceGenerationQuery = sourceGeneration == null
         ? ''
         : `&sourceGeneration=${encodeURIComponent(sourceGeneration)}`;
+      const headers = new Headers();
+      if (range != null) headers.set('Range', range);
       const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sourceGenerationQuery}${sizeQuery}${abuseQuery}${traceQuery}`, {
-        method, headers: { Range: range }, signal
+        method, headers, signal
       });
       let response;
       listeners.get('fetch')({ clientId, request, respondWith(value) { response = value; } });
@@ -311,6 +313,274 @@ test('media fixtures carry account generation and reject malformed source genera
     assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(worker.calls.length, 0);
   }
+});
+
+test('unsafe or malformed media ranges are rejected before credential and Drive access', async () => {
+  for (const testCase of [
+    { name: 'unsafe range start', range: 'bytes=9007199254740992-', size: '4294967297' },
+    { name: 'unsafe inclusive span', range: 'bytes=0-9007199254740991', size: '4294967297' },
+    { name: 'empty suffix', range: 'bytes=-0', size: '4294967297' },
+    { name: 'empty Range header', range: '', size: '4294967297' },
+    { name: 'multiple ranges', range: 'bytes=0-1,3-4', size: '4294967297' },
+    { name: 'unsafe declared size', range: 'bytes=0-0', size: '9007199254740992' }
+  ]) {
+    let tokenRequests = 0;
+    const worker = createWorker(() => new Response('must not reach Drive', {
+      status: 416,
+      headers: { 'Content-Range': 'bytes */4294967297' }
+    }));
+    const messages = worker.addClient('A', (message, port) => {
+      tokenRequests += 1;
+      tokenReply(message, port);
+    });
+
+    const response = await worker.request('A', {
+      range: testCase.range,
+      size: testCase.size,
+      traceId: `trace-invalid-${testCase.name.replaceAll(' ', '-')}`
+    }).response;
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.equal(response.status, 400, testCase.name);
+    assert.equal(response.headers.get('Cache-Control'), 'no-store', testCase.name);
+    assert.equal(tokenRequests, 0, testCase.name);
+    assert.equal(worker.calls.length, 0, testCase.name);
+    assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_STATUS'), false, testCase.name);
+    const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+    assert.equal(failures.length, 1, testCase.name);
+    assert.equal(failures[0].status, 400, testCase.name);
+    assert.equal(failures[0].category, 'range-invalid', testCase.name);
+    assert.equal(failures[0].driveReason, 'rangeInvalid', testCase.name);
+    assert.equal(failures[0].requestedRange, testCase.range || null, testCase.name);
+    assert.equal(failures[0].contentRange, null, testCase.name);
+    assert.equal(failures[0].rangeSatisfied, false, testCase.name);
+    const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+    assert.deepEqual(trace.map((message) => message.stage), ['range-error'], testCase.name);
+    assert.equal(trace[0].status, 400, testCase.name);
+    assert.equal(trace[0].reason, 'range-invalid', testCase.name);
+    assert.equal(trace[0].terminal, true, testCase.name);
+  }
+});
+
+test('media requests without Range remain valid and never synthesize an upstream Range header', async () => {
+  const worker = createWorker((url, options) => options.method === 'HEAD'
+    ? new Response(null, { status: 200 })
+    : new Response('whole original', { status: 200 }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+
+  const getResponse = await worker.request('A', { range: null, size: null }).response;
+  assert.equal(getResponse.status, 200);
+  assert.equal(await getResponse.text(), 'whole original');
+  const headResponse = await worker.request('A', {
+    method: 'HEAD',
+    range: null,
+    size: '4294967297'
+  }).response;
+  assert.equal(headResponse.status, 200);
+  assert.equal(headResponse.body, null);
+
+  assert.equal(worker.calls.length, 2);
+  assert.ok(worker.calls.every((call) => call.headers.get('Range') == null));
+  const statuses = messages.filter((message) => message.type === 'MEDIA_PROXY_STATUS');
+  assert.equal(statuses.length, 2);
+  assert.ok(statuses.every((status) => status.requestedRange == null));
+  assert.ok(statuses.every((status) => status.rangeSatisfied === false));
+  assert.ok(statuses.every((status) => status.playbackMode === 'original-sequential'));
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+});
+
+test('2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies', async () => {
+  const cases = [
+    {
+      name: '2 GiB exact byte',
+      range: 'bytes=2147483648-2147483648',
+      size: '2147483649',
+      contentRange: 'bytes 2147483648-2147483648/2147483649',
+      bytes: [21],
+      hidden: false
+    },
+    {
+      name: '2 GiB crossing interval',
+      range: 'bytes=2147483647-2147483649',
+      size: '2147483650',
+      contentRange: 'bytes 2147483647-2147483649/2147483650',
+      bytes: [22, 23, 24],
+      hidden: true
+    },
+    {
+      name: '4 GiB exact byte',
+      range: 'bytes=4294967296-4294967296',
+      size: '4294967297',
+      contentRange: 'bytes 4294967296-4294967296/4294967297',
+      bytes: [41],
+      hidden: false
+    },
+    {
+      name: '4 GiB open range',
+      range: 'bytes=4294967296-',
+      size: '4294967298',
+      contentRange: 'bytes 4294967296-4294967297/4294967298',
+      bytes: [42, 43],
+      hidden: true
+    },
+    {
+      name: '4 GiB suffix range',
+      range: 'bytes=-2',
+      size: '4294967297',
+      contentRange: 'bytes 4294967295-4294967296/4294967297',
+      bytes: [44, 45],
+      hidden: true
+    },
+    {
+      name: 'maximum safe final byte',
+      range: 'bytes=9007199254740990-9007199254740990',
+      size: '9007199254740991',
+      contentRange: 'bytes 9007199254740990-9007199254740990/9007199254740991',
+      bytes: [90],
+      hidden: false
+    }
+  ];
+
+  for (const testCase of cases) {
+    const body = new Uint8Array(testCase.bytes);
+    const worker = createWorker(() => new Response(body, {
+      status: 206,
+      headers: {
+        ...(testCase.hidden ? {} : { 'Content-Range': testCase.contentRange }),
+        'Content-Length': String(body.byteLength)
+      }
+    }));
+    const messages = worker.addClient('A');
+    worker.setToken('A', 'valid');
+
+    const response = await worker.request('A', {
+      range: testCase.range,
+      size: testCase.size,
+      traceId: `trace-boundary-${testCase.name.replaceAll(' ', '-')}`
+    }).response;
+    assert.equal(response.status, 206, testCase.name);
+    assert.equal(response.headers.get('Content-Range'), testCase.contentRange, testCase.name);
+    assert.equal(response.headers.get('Accept-Ranges'), 'bytes', testCase.name);
+    assert.deepEqual(Array.from(new Uint8Array(await response.arrayBuffer())), testCase.bytes, testCase.name);
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.equal(worker.calls.length, 1, testCase.name);
+    assert.equal(worker.calls[0].headers.get('Range'), testCase.range, testCase.name);
+    const statuses = messages.filter((message) => message.type === 'MEDIA_PROXY_STATUS');
+    assert.equal(statuses.length, 1, testCase.name);
+    assert.equal(statuses[0].contentRange, testCase.contentRange, testCase.name);
+    assert.equal(statuses[0].contentRangeInferred, testCase.hidden, testCase.name);
+    assert.equal(statuses[0].rangeSatisfied, true, testCase.name);
+    assert.equal(statuses[0].playbackMode, 'original-range', testCase.name);
+    assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false, testCase.name);
+    const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+    const firstByte = trace.find((message) => message.stage === 'first-byte');
+    const completion = trace.find((message) => message.stage === 'body-complete');
+    assert.equal(firstByte.bytes, body.byteLength, testCase.name);
+    assert.equal(firstByte.totalBytes, body.byteLength, testCase.name);
+    assert.equal(completion.bytes, body.byteLength, testCase.name);
+    assert.equal(completion.totalBytes, body.byteLength, testCase.name);
+  }
+});
+
+test('large hidden full-span HEAD ranges are proven without allocating their bodies', async () => {
+  for (const size of [
+    '2147483647', '2147483648', '2147483649',
+    '4294967295', '4294967296', '4294967297'
+  ]) {
+    const worker = createWorker(() => new Response(null, {
+      status: 206,
+      headers: { 'Content-Length': size }
+    }));
+    const messages = worker.addClient('A');
+    worker.setToken('A', 'valid');
+
+    const response = await worker.request('A', {
+      method: 'HEAD',
+      range: 'bytes=0-',
+      size
+    }).response;
+
+    assert.equal(response.status, 206, size);
+    assert.equal(response.body, null, size);
+    assert.equal(response.headers.get('Content-Range'), `bytes 0-${Number(size) - 1}/${size}`, size);
+    assert.equal(worker.calls[0].headers.get('Range'), 'bytes=0-', size);
+    const status = messages.find((message) => message.type === 'MEDIA_PROXY_STATUS');
+    assert.equal(status.contentRangeInferred, true, size);
+    assert.equal(status.rangeSatisfied, true, size);
+    assert.equal(status.playbackMode, 'original-range', size);
+    assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false, size);
+  }
+});
+
+test('a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation', async () => {
+  const worker = createWorker(() => new Response(new Uint8Array([47]), {
+    status: 206,
+    headers: { 'Content-Length': '4294967297' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+
+  const response = await worker.request('A', {
+    range: 'bytes=0-',
+    size: '4294967297',
+    traceId: 'trace-large-truncated-body'
+  }).response;
+
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), 'bytes 0-4294967296/4294967297');
+  await assert.rejects(response.arrayBuffer(), { name: 'MediaBodyLengthError' });
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(worker.calls.length, 1);
+  const statuses = messages.filter((message) => message.type === 'MEDIA_PROXY_STATUS');
+  assert.equal(statuses.length, 1);
+  assert.equal(statuses[0].rangeSatisfied, true);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].category, 'network');
+  assert.equal(failures[0].driveReason, 'bodyLengthMismatch');
+  assert.equal(failures[0].rangeSatisfied, false);
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  const firstByte = trace.find((message) => message.stage === 'first-byte');
+  assert.equal(firstByte.bytes, 1);
+  assert.equal(firstByte.totalBytes, 4294967297);
+  const bodyError = trace.find((message) => message.stage === 'body-error');
+  assert.equal(bodyError.bytes, 1);
+  assert.equal(bodyError.totalBytes, 4294967297);
+  assert.equal(bodyError.reason, 'body-length-mismatch');
+  assert.equal(bodyError.terminal, true);
+});
+
+test('a 4 GiB EOF request preserves one structured 416 without a success status', async () => {
+  const worker = createWorker(() => new Response(null, {
+    status: 416,
+    headers: { 'Content-Range': 'bytes */4294967297' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+
+  const response = await worker.request('A', {
+    method: 'HEAD',
+    range: 'bytes=4294967297-',
+    size: '4294967297'
+  }).response;
+
+  assert.equal(response.status, 416);
+  assert.equal(response.body, null);
+  assert.equal(response.headers.get('Content-Range'), 'bytes */4294967297');
+  assert.equal(worker.calls.length, 1);
+  assert.equal(worker.calls[0].headers.get('Range'), 'bytes=4294967297-');
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_STATUS'), false);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].status, 416);
+  assert.equal(failures[0].category, 'range-unsatisfiable');
+  assert.equal(failures[0].driveReason, 'rangeNotSatisfiable');
+  assert.equal(failures[0].requestedRange, 'bytes=4294967297-');
+  assert.equal(failures[0].contentRange, 'bytes */4294967297');
+  assert.equal(failures[0].rangeSatisfied, false);
 });
 
 test('a Range request answered with 200 is reported as original sequential playback without synthetic range support', async () => {
