@@ -1,6 +1,7 @@
 'use strict';
 
-const APP_VERSION = '1.21.0';
+const APP_VERSION = '1.22.0-rc.1';
+const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
 const AUTH_LOGOUT_PATH = '/api/session/logout';
@@ -1443,16 +1444,35 @@ function withDeadline(operation, timeoutMs) {
   })]).finally(() => clearTimeout(timeout));
 }
 
+function parseAppVersion(value) {
+  const match = String(value || '').match(/^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/);
+  if (!match) return null;
+  return {
+    core: match.slice(1, 4).map(Number),
+    prerelease: match[4] ? match[4].split('.') : []
+  };
+}
+
 function isNewerVersion(remote, local) {
-  if (!remote || !local) return false;
-  if (remote === local) return false;
-  const cleanR = remote.replace(/^[^\d]*/, '').split('.').map(Number);
-  const cleanL = local.replace(/^[^\d]*/, '').split('.').map(Number);
-  for (let i = 0; i < Math.max(cleanR.length, cleanL.length); i++) {
-    const r = cleanR[i] || 0;
-    const l = cleanL[i] || 0;
-    if (r > l) return true;
-    if (r < l) return false;
+  const parsedRemote = parseAppVersion(remote);
+  const parsedLocal = parseAppVersion(local);
+  if (!parsedRemote || !parsedLocal) return false;
+  for (let i = 0; i < 3; i++) {
+    if (parsedRemote.core[i] > parsedLocal.core[i]) return true;
+    if (parsedRemote.core[i] < parsedLocal.core[i]) return false;
+  }
+  const remotePre = parsedRemote.prerelease;
+  const localPre = parsedLocal.prerelease;
+  if (!remotePre.length || !localPre.length) return localPre.length > remotePre.length;
+  for (let i = 0; i < Math.max(remotePre.length, localPre.length); i++) {
+    if (remotePre[i] === undefined) return false;
+    if (localPre[i] === undefined) return true;
+    if (remotePre[i] === localPre[i]) continue;
+    const remoteNumeric = /^\d+$/.test(remotePre[i]);
+    const localNumeric = /^\d+$/.test(localPre[i]);
+    if (remoteNumeric && localNumeric) return Number(remotePre[i]) > Number(localPre[i]);
+    if (remoteNumeric !== localNumeric) return !remoteNumeric;
+    return remotePre[i] > localPre[i];
   }
   return false;
 }
@@ -1498,7 +1518,7 @@ async function checkForAppUpdate({ manual = false } = {}) {
       releaseInfo = await res.json();
       remoteVersion = releaseInfo.version;
     }
-    if (!res.ok || !/^\d+\.\d+\.\d+$/.test(String(remoteVersion || ''))) {
+    if (!res.ok || !parseAppVersion(remoteVersion)) {
       throw new Error('유효한 최신 버전 정보를 받지 못했습니다.');
     }
 
@@ -3219,6 +3239,13 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const maxRateAttempts = Math.max(1, Math.min(3, Number(options.driveMaxRateAttempts) || 3));
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
+  const requestMethod = String(requestOptions.method || 'GET').toUpperCase();
+  if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod)) {
+    const error = new Error('Candidate Drive mutations are disabled until state verification completes.');
+    error.code = 'candidate_read_only';
+    error.status = 423;
+    throw error;
+  }
   if (!hasUsableToken()) {
     if (!_retried) {
       await requestSessionCredential({ background: true, force: true });
@@ -8424,6 +8451,7 @@ function clearLibraryStatus() {
 }
 
 function humanizeDriveError(error) {
+  if (error?.code === 'candidate_read_only') return '현재 검증 후보는 계정 상태 비교가 끝날 때까지 Drive 변경을 잠시 막습니다.';
   if (error.status === 401) return '인증이 만료됐습니다.';
   if (error.status === 403) {
     const reasons = Array.isArray(error.reasons) ? error.reasons : [];

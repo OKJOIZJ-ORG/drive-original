@@ -42,7 +42,7 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   const copies=[];
   const mock={existsSync:()=>false,mkdirSync(){},copyFileSync:(source,dest)=>copies.push(path.relative(root,source)),writeFileSync(){}};
   vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
-  assert.equal(copies.length,11);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));
+  assert.equal(copies.length,12);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');
   assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);

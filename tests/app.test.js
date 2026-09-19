@@ -6,7 +6,7 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-function loadAppContext(initialStorage = {}) {
+function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEnabled: true }) {
   const storage = new Map(Object.entries(initialStorage));
   const context = {
     AbortController,
@@ -20,6 +20,7 @@ function loadAppContext(initialStorage = {}) {
     Set,
     URL,
     URLSearchParams,
+    __DRIVE_ORIGINAL_RUNTIME__: runtimeConfig,
     clearInterval,
     clearTimeout,
     console,
@@ -62,6 +63,43 @@ function loadAppContext(initialStorage = {}) {
   vm.runInContext(fs.readFileSync(appPath, 'utf8'), context, { filename: appPath });
   return context;
 }
+
+test('candidate runtime blocks Drive mutations before fetch until the state gate opens', async () => {
+  const context = loadAppContext({}, { candidate: true, driveMutationsEnabled: false });
+  let calls = 0;
+  context.fetch = async () => { calls++; return new Response('{}', { status: 200 }); };
+  run(context, `state.token='fixture-token';state.expiresAt=Date.now()+3600000;`);
+  for (const method of ['POST', 'PATCH', 'PUT', 'DELETE']) {
+    await assert.rejects(
+      run(context, `driveFetch('https://www.googleapis.com/drive/v3/files', {method:'${method}'})`),
+      error => error?.code === 'candidate_read_only' && error?.status === 423
+    );
+  }
+  assert.equal(calls, 0);
+  for (const method of ['GET', 'HEAD']) {
+    const response = await run(context, `driveFetch('https://www.googleapis.com/drive/v3/files', {method:'${method}'})`);
+    assert.equal(response.status, 200);
+  }
+  assert.equal(calls, 2);
+
+  const missingConfig = loadAppContext({}, null);
+  missingConfig.fetch = async () => { throw new Error('must not reach the network'); };
+  run(missingConfig, `state.token='fixture-token';state.expiresAt=Date.now()+3600000;`);
+  await assert.rejects(
+    run(missingConfig, `driveFetch('https://www.googleapis.com/upload/drive/v3/files', {method:'POST'})`),
+    error => error?.code === 'candidate_read_only'
+  );
+});
+
+test('candidate prerelease versions remain valid and compare in SemVer order', () => {
+  const context = loadAppContext();
+  assert.deepEqual(Array.from(run(context, `parseAppVersion('1.22.0-rc.1')`).core), [1, 22, 0]);
+  assert.equal(run(context, `isNewerVersion('1.22.0-rc.2', '1.22.0-rc.1')`), true);
+  assert.equal(run(context, `isNewerVersion('1.22.0-rc.1', '1.22.0-rc')`), true);
+  assert.equal(run(context, `isNewerVersion('1.22.0', '1.22.0-rc.2')`), true);
+  assert.equal(run(context, `isNewerVersion('1.22.0-rc.1', '1.22.0')`), false);
+  assert.equal(run(context, `isNewerVersion('not-a-version', '1.22.0-rc.1')`), false);
+});
 
 function run(context, source) {
   return vm.runInContext(source, context);

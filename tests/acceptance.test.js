@@ -9,6 +9,7 @@ const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 function client() {
   const timers = new Map(); const storage = new Map(); let sequence = 0;
   const c = { AbortController, Blob, DOMException, Headers, Map, Math, Promise, Response, Set, URL, URLSearchParams,
+    __DRIVE_ORIGINAL_RUNTIME__: { driveMutationsEnabled: true },
     console, fetch, performance, clearInterval, setInterval,
     setTimeout(fn, delay) { const id = ++sequence; timers.set(id, { fn, delay }); return id; },
     clearTimeout(id) { timers.delete(id); },

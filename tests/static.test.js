@@ -20,6 +20,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.match(html, new RegExp(`app\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
+  assert.match(html, new RegExp(`runtime-config\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.equal((html.match(new RegExp(`v${metadata.version.replaceAll('.', '\\.')}`, 'g')) || []).length, 2);
 });
 
@@ -103,6 +104,18 @@ test('privacy documentation and shell use the same-origin memory-only credential
   assert.match(routes, /X-Drive-Original-CSRF/);
   assert.match(routes, /Sec-Fetch-Site/);
   assert.match(routes, /Cache-Control': 'no-store'/);
+});
+
+test('candidate runtime config is loaded before app code and fails closed for Drive writes', () => {
+  const app = read('app.js');
+  const html = read('index.html');
+  const runtime = read('runtime-config.js');
+  const worker = read('sw.js');
+  assert.ok(html.indexOf('runtime-config.js') < html.indexOf('app.js'));
+  assert.match(runtime, /driveMutationsEnabled:\s*false/);
+  assert.match(app, /DRIVE_MUTATIONS_ENABLED/);
+  assert.match(app, /candidate_read_only/);
+  assert.match(worker, /'\.\/runtime-config\.js'/);
 });
 
 test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {

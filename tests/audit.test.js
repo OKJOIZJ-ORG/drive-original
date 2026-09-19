@@ -9,6 +9,7 @@ const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 function app() {
   const storage = new Map();
   const c = { AbortController, Blob, DOMException, Headers, Map, Math, Promise, Response, Set, URL, URLSearchParams,
+    __DRIVE_ORIGINAL_RUNTIME__: { driveMutationsEnabled: true },
     clearTimeout, setTimeout, clearInterval, setInterval, console, fetch, performance,
     location: { href: 'https://app.test/drive-original/', origin: 'https://app.test', pathname: '/drive-original/', search: '', protocol: 'https:' },
     localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => storage.set(k, v), removeItem: k => storage.delete(k) },

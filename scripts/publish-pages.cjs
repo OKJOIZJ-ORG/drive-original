@@ -13,7 +13,7 @@ runNode(['--check', 'sw.js']);
 runNode(['--test', ...fs.readdirSync(path.join(root, 'tests')).filter(name => name.endsWith('.test.js')).map(name => `tests/${name}`)]);
 const source = git(['rev-parse', 'HEAD']);
 const version = JSON.parse(git(['show', `${source}:version.json`])).version;
-const publicFiles = ['index.html', 'app.js', 'styles.css', 'sw.js', 'version.json', 'manifest.webmanifest',
+const publicFiles = ['index.html', 'runtime-config.js', 'app.js', 'styles.css', 'sw.js', 'version.json', 'manifest.webmanifest',
   'icons/app-icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
   'icons/maskable-512.png', 'icons/apple-touch-icon.png'];
 const rootEntries = [], iconEntries = [];
@@ -33,7 +33,7 @@ if (/^[a-f0-9]{40}$/.test(existing)) {
   parent = git(['rev-parse', 'FETCH_HEAD']);
 }
 const commit = git(['commit-tree', tree, ...(parent ? ['-p', parent] : [])], {
-  input: `deploy: Drive Original v${version}\n\nSource: ${source}\nVerified public shell only; 12 files; syntax and regression gate passed.\n`
+  input: `deploy: Drive Original v${version}\n\nSource: ${source}\nVerified public shell only; 13 files; syntax and regression gate passed.\n`
 });
 // Normal fast-forward push: never overwrite unrelated deployment history.
 git(['push', 'origin', `${commit}:refs/heads/gh-pages`]);

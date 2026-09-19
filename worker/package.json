@@ -1,0 +1,14 @@
+{
+  "name": "drive-original-cloudflare-candidate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:assets": "node ../scripts/build-pages.cjs",
+    "check": "wrangler deploy --dry-run --config wrangler.jsonc --outdir .wrangler/dry-run",
+    "dev": "npm run build:assets && wrangler dev --config wrangler.jsonc",
+    "test": "node --test ../tests/cloudflare-auth-worker.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.135.0"
+  }
+}

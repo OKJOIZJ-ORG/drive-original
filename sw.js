@@ -1,4 +1,4 @@
-const VERSION = '1.21.0';
+const VERSION = '1.22.0-rc.1';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -7,6 +7,7 @@ const SHELL_FILES = [
   './',
   './index.html',
   './styles.css',
+  './runtime-config.js',
   './app.js',
   './version.json',
   './manifest.webmanifest',

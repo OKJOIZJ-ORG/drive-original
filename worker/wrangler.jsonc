@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "drive-original-v2-candidate",
+  "main": "index.mjs",
+  "compatibility_date": "2026-09-19",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "AUTH_ENABLED": "false",
+    "CANDIDATE_DRIVE_WRITES_ENABLED": "false"
+  },
+  "assets": {
+    "directory": "../_site",
+    "binding": "ASSETS",
+    "run_worker_first": ["/auth/*", "/api/*"],
+    "not_found_handling": "none"
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "AUTH_OBJECTS", "class_name": "AuthObject" }
+    ]
+  },
+  "exports": {
+    "AuthObject": { "type": "durable-object", "storage": "sqlite" }
+  },
+  "observability": { "enabled": false }
+}
