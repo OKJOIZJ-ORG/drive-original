@@ -18,6 +18,7 @@ const report = (diagnostic, stage) => {
   if (typeof diagnostic !== 'function') return;
   try { diagnostic(stage); } catch {}
 };
+const isRedirectResponse = response => response.status >= 300 && response.status < 400;
 
 function tokenRejectionStage(body) {
   if (body?.error === 'invalid_grant') return 'google_token_invalid_grant';
@@ -68,9 +69,11 @@ function safeTextEqual(left, right) {
 
 async function loadJwks(fetchImpl, signal) {
   let response;
-  try { response = await fetchImpl(GOOGLE_JWKS_ENDPOINT, { method: 'GET', signal, redirect: 'error', headers: { Accept: 'application/json' } }); }
+  try { response = await fetchImpl(GOOGLE_JWKS_ENDPOINT, { method: 'GET', signal, redirect: 'manual', headers: { Accept: 'application/json' } }); }
   catch { fail('auth_unavailable'); }
-  if (!response.ok || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('auth_unavailable');
+  if (isRedirectResponse(response) || !response.ok || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') {
+    fail('auth_unavailable');
+  }
   const body = await readBoundedJson(response, 64_000);
   if (!Array.isArray(body.keys) || body.keys.length > 20) fail('auth_unavailable');
   return body;
@@ -157,7 +160,7 @@ export async function exchangeGoogleAuthorizationCode({
     let response;
     try {
       response = await fetchImpl(GOOGLE_TOKEN_ENDPOINT, {
-        method: 'POST', signal: controller.signal, redirect: 'error',
+        method: 'POST', signal: controller.signal, redirect: 'manual',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
         body: new URLSearchParams({
           code, client_id: clientId, client_secret: clientSecret, redirect_uri: redirectUri,
@@ -168,7 +171,7 @@ export async function exchangeGoogleAuthorizationCode({
       report(diagnostic, 'google_token_fetch_failed');
       fail('auth_unavailable');
     }
-    if (response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') {
+    if (isRedirectResponse(response) || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') {
       report(diagnostic, 'google_token_response_invalid');
       fail('auth_unavailable');
     }
@@ -205,12 +208,12 @@ export async function refreshGoogleAccess({ refreshToken, clientId, clientSecret
   let response;
   try {
     response = await fetchImpl(GOOGLE_TOKEN_ENDPOINT, {
-      method: 'POST', signal, redirect: 'error',
+      method: 'POST', signal, redirect: 'manual',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
       body: new URLSearchParams({ client_id: clientId, client_secret: clientSecret, refresh_token: refreshToken, grant_type: 'refresh_token' }),
     });
   } catch { fail('auth_unavailable'); }
-  if (response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('auth_unavailable');
+  if (isRedirectResponse(response) || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('auth_unavailable');
   const body = await readBoundedJson(response);
   if (!response.ok) return body.error === 'invalid_grant' ? { error: 'invalid_grant' } : fail('auth_unavailable');
   const granted = body.scope == null ? null : typeof body.scope === 'string' ? new Set(body.scope.split(/\s+/u).filter(Boolean)) : new Set();
@@ -224,10 +227,10 @@ export async function refreshGoogleAccess({ refreshToken, clientId, clientSecret
 export async function revokeGoogleRefresh({ refreshToken, signal, fetchImpl = fetch }) {
   try {
     const response = await fetchImpl(GOOGLE_REVOKE_ENDPOINT, {
-      method: 'POST', signal, redirect: 'error',
+      method: 'POST', signal, redirect: 'manual',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
       body: new URLSearchParams({ token: refreshToken }),
     });
-    return response.ok;
+    return !isRedirectResponse(response) && response.ok;
   } catch { return false; }
 }

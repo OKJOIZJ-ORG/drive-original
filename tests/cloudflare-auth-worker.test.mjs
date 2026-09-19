@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import { AuthError } from '../auth/session-owner.mjs';
 import { base64urlEncode, createAuthCrypto, sha256Base64url } from '../worker/crypto.mjs';
 import {
-  GOOGLE_AUTHORIZATION_ENDPOINT, GOOGLE_JWKS_ENDPOINT, GOOGLE_TOKEN_ENDPOINT, REQUIRED_GOOGLE_SCOPES,
-  buildGoogleAuthorizationUrl, exchangeGoogleAuthorizationCode, verifyGoogleIdToken,
+  GOOGLE_AUTHORIZATION_ENDPOINT, GOOGLE_JWKS_ENDPOINT, GOOGLE_REVOKE_ENDPOINT, GOOGLE_TOKEN_ENDPOINT, REQUIRED_GOOGLE_SCOPES,
+  buildGoogleAuthorizationUrl, exchangeGoogleAuthorizationCode, refreshGoogleAccess, revokeGoogleRefresh, verifyGoogleIdToken,
 } from '../worker/google.mjs';
 import { AuthObject, CloudflareSqliteState } from '../worker/durable-object.mjs';
 import { createWorkerHandler } from '../worker/index.mjs';
@@ -110,6 +110,7 @@ test('code exchange sends verifier and rejects a token response missing any gran
   const fetchImpl = async (url, options) => {
     if (url === GOOGLE_TOKEN_ENDPOINT) {
       tokenRequests++;
+      assert.equal(options.redirect, 'manual');
       assert.equal(options.body.get('code_verifier'), transaction.pkceVerifier);
       return Response.json({
         access_token: 'access', expires_in: 3600, refresh_token: 'refresh', token_type: 'Bearer',
@@ -159,6 +160,41 @@ test('code exchange reports only fixed diagnostic stages for rejected Google res
     assert.deepEqual(diagnostics, [expectedStage]);
     assert.doesNotMatch(JSON.stringify(diagnostics), /provider|escape|fake-code|client-id/i);
   }
+});
+
+test('all Google server requests use manual redirects and reject every redirect response', async () => {
+  const fixture = await signingFixture();
+  const transaction = { state: 's'.repeat(64), pkceVerifier: 'v'.repeat(64), nonce: fixture.claims.nonce };
+  const requests = [];
+  const redirectStatuses = [300, 302, 307, 399];
+  const redirected = async (url, options) => {
+    requests.push({ url, redirect: options.redirect });
+    return new Response(null, {
+      status: redirectStatuses[requests.length - 1], headers: { Location: 'https://redirect.invalid/' },
+    });
+  };
+  const diagnostics = [];
+  await assert.rejects(exchangeGoogleAuthorizationCode({
+    code: 'code', transaction, clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET,
+    redirectUri: `${origin}/auth/google/callback`, fetchImpl: redirected,
+    diagnostic: stage => diagnostics.push(stage),
+  }), error => error.code === 'auth_unavailable');
+  assert.deepEqual(diagnostics, ['google_token_response_invalid']);
+  await assert.rejects(verifyGoogleIdToken({
+    idToken: fixture.token, clientId: env.GOOGLE_CLIENT_ID, nonce: fixture.claims.nonce,
+    clock: () => fixedNow, fetchImpl: redirected,
+  }), error => error.code === 'auth_unavailable');
+  await assert.rejects(refreshGoogleAccess({
+    refreshToken: 'refresh', clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET,
+    fetchImpl: redirected,
+  }), error => error.code === 'auth_unavailable');
+  assert.equal(await revokeGoogleRefresh({ refreshToken: 'refresh', fetchImpl: redirected }), false);
+  assert.deepEqual(requests, [
+    { url: GOOGLE_TOKEN_ENDPOINT, redirect: 'manual' },
+    { url: GOOGLE_JWKS_ENDPOINT, redirect: 'manual' },
+    { url: GOOGLE_TOKEN_ENDPOINT, redirect: 'manual' },
+    { url: GOOGLE_REVOKE_ENDPOINT, redirect: 'manual' },
+  ]);
 });
 
 class FakeCursor {
