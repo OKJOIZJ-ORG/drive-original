@@ -9,6 +9,32 @@ const test = require('node:test');
 const root = path.join(__dirname, '..');
 const read = (name) => fs.readFileSync(path.join(root, name), 'utf8');
 
+function parseIsoBmffTopLevelBoxes(bytes) {
+  const boxes = [];
+  let offset = 0;
+  while (offset < bytes.length) {
+    assert(offset + 8 <= bytes.length, 'ISO-BMFF box header must fit inside the fixture');
+    const size32 = bytes.readUInt32BE(offset);
+    const type = bytes.toString('ascii', offset + 4, offset + 8);
+    let size = size32;
+    let headerSize = 8;
+    if (size32 === 1) {
+      assert(offset + 16 <= bytes.length, 'ISO-BMFF large-size header must fit inside the fixture');
+      const size64 = bytes.readBigUInt64BE(offset + 8);
+      assert(size64 <= BigInt(Number.MAX_SAFE_INTEGER), 'ISO-BMFF box size must be safe');
+      size = Number(size64);
+      headerSize = 16;
+    } else if (size32 === 0) {
+      size = bytes.length - offset;
+    }
+    assert(size >= headerSize, `ISO-BMFF ${type} box must have a valid size`);
+    assert(offset + size <= bytes.length, `ISO-BMFF ${type} box must stay inside the fixture`);
+    boxes.push({ type, offset, size, end: offset + size });
+    offset += size;
+  }
+  return boxes;
+}
+
 test('release version is synchronized across runtime, shell, HTML, and metadata', () => {
   const app = read('app.js');
   const worker = read('sw.js');
@@ -123,6 +149,26 @@ test('privacy documentation and shell use the same-origin memory-only credential
   assert.match(routes, /X-Drive-Original-CSRF/);
   assert.match(routes, /Sec-Fetch-Site/);
   assert.match(routes, /Cache-Control': 'no-store'/);
+});
+
+test('tail-index MP4 QA seed is small, immutable and keeps moov behind mdat', () => {
+  const fixture = fs.readFileSync(path.join(root, 'qa', 'tail-index-h264-aac.mp4'));
+  assert.equal(fixture.length, 57944, 'tail-index seed size must remain fixed and below 256 KiB');
+  assert.equal(crypto.createHash('sha256').update(fixture).digest('hex'), 'c3e75a4d8e234a8864940bfe498fb7ee49ad3305bf0790879e636e607fee595f');
+  const boxes = parseIsoBmffTopLevelBoxes(fixture);
+  const mdat = boxes.find((box) => box.type === 'mdat');
+  const moov = boxes.find((box) => box.type === 'moov');
+  assert.equal(boxes[0]?.type, 'ftyp');
+  assert(mdat);
+  assert(moov);
+  assert(moov.offset >= mdat.end, 'tail-index fixture must place moov after mdat');
+  assert.equal(boxes.some((box) => box.type === 'moof'), false, 'fixture must not be fragmented MP4');
+  assert.deepEqual(boxes.map(({ type, offset, size }) => ({ type, offset, size })), [
+    { type: 'ftyp', offset: 0, size: 32 },
+    { type: 'free', offset: 32, size: 8 },
+    { type: 'mdat', offset: 40, size: 55274 },
+    { type: 'moov', offset: 55314, size: 2630 }
+  ]);
 });
 
 test('candidate runtime config is loaded before app code and fails closed for Drive writes', () => {

@@ -14,22 +14,33 @@ function installQaSlowTailFixture() {
   const CONFIG = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIG';
   const STATE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE';
   const RELEASE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE';
+  const DISPOSE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE';
   const nativeFetch = self.fetch.bind(self);
   let fixture = null;
 
   const snapshot = (active) => ({
     fixtureId: active.fixtureId,
     fileId: active.fileId,
+    mode: active.mode,
+    mimeType: active.mimeType,
+    byteLength: active.bytes.byteLength,
+    indexStart: active.indexStart,
+    indexEnd: active.indexEnd,
     configured: fixture === active,
     streams: [...active.streams.values()].map((stream) => ({
       streamId: stream.streamId,
       range: stream.range,
       start: stream.start,
       end: stream.end,
+      status: 206,
+      contentRange: stream.contentRange,
+      contentLength: stream.responseLength,
       responseLength: stream.responseLength,
       deliveredBytes: stream.deliveredBytes,
       bodyComplete: stream.bodyComplete,
       waitingForRelease: stream.waitingForRelease,
+      intersectsIndex: stream.intersectsIndex,
+      isTailIndexRequest: stream.isTailIndexRequest,
       terminal: stream.terminal
     }))
   });
@@ -77,6 +88,11 @@ function installQaSlowTailFixture() {
       resolve?.();
     }
   };
+  const disposeStream = (active, stream) => {
+    if (stream.terminal) return;
+    try { stream.controller?.error(new DOMException('Fixture disposed', 'AbortError')); } catch (_) {}
+    markTerminal(active, stream, 'disposed');
+  };
   const bindControlPort = (active) => {
     active.port.onmessage = (event) => {
       const data = event.data || {};
@@ -88,6 +104,11 @@ function installQaSlowTailFixture() {
         for (const stream of active.streams.values()) releaseStream(active, stream);
         if (fixture === active) fixture = null;
         post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASED', requestId: data.requestId, state: snapshot(active) });
+      }
+      if (data.type === DISPOSE) {
+        for (const stream of active.streams.values()) disposeStream(active, stream);
+        if (fixture === active) fixture = null;
+        post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED', requestId: data.requestId, state: snapshot(active) });
       }
     };
     active.port.start?.();
@@ -102,7 +123,11 @@ function installQaSlowTailFixture() {
     const active = {
       fixtureId: String(data.fixtureId),
       fileId: String(data.fileId),
+      mode: data.mode === 'tail-index' ? 'tail-index' : 'slow-tail',
+      mimeType: String(data.mimeType || 'video/webm'),
       prefixBytes: Math.max(1, Number(data.prefixBytes) || 1),
+      indexStart: Math.max(0, Number(data.indexStart) || 0),
+      indexEnd: Math.max(0, Number(data.indexEnd) || 0),
       bytes,
       port,
       streamSequence: 0,
@@ -129,26 +154,45 @@ function installQaSlowTailFixture() {
     const headers = new Headers(request?.headers);
     new Headers(init.headers).forEach((value, name) => headers.set(name, value));
     const range = headers.get('Range') || '';
-    const match = /^bytes=(\d+)-(\d*)$/i.exec(range);
-    if (!match) return nativeFetch(input, init);
-    const start = Number(match[1]);
-    const requestedEnd = match[2] ? Number(match[2]) : active.bytes.byteLength - 1;
+    const match = /^bytes=(\d*)-(\d*)$/i.exec(range);
+    if (!match || (!match[1] && !match[2])) return nativeFetch(input, init);
+    const suffixLength = !match[1] ? Number(match[2]) : null;
+    const start = suffixLength == null
+      ? Number(match[1])
+      : Math.max(0, active.bytes.byteLength - suffixLength);
+    const requestedEnd = suffixLength == null && match[2]
+      ? Number(match[2])
+      : active.bytes.byteLength - 1;
     const end = Math.min(requestedEnd, active.bytes.byteLength - 1);
-    if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || start >= end) {
+    if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end)
+      || (suffixLength != null && (!Number.isSafeInteger(suffixLength) || suffixLength <= 0))
+      || start < 0 || start > end) {
       return nativeFetch(input, init);
     }
 
     const responseLength = end - start + 1;
-    const prefixLength = Math.min(active.prefixBytes, responseLength - 1);
+    const isTailIndexRequest = active.mode === 'tail-index'
+      && start > 0
+      && start >= Math.max(1, active.indexStart - active.prefixBytes * 2)
+      && end >= active.indexEnd;
+    const holdAfterPrefix = active.mode === 'slow-tail' || !isTailIndexRequest;
+    const prefixLength = holdAfterPrefix
+      ? Math.min(active.prefixBytes, Math.max(1, responseLength - 1))
+      : responseLength;
     const stream = {
       streamId: `${active.fixtureId}-${++active.streamSequence}`,
       range,
       start,
       end,
+      contentRange: `bytes ${start}-${end}/${active.bytes.byteLength}`,
       responseLength,
       deliveredBytes: 0,
       bodyComplete: false,
       waitingForRelease: false,
+      holdAfterPrefix,
+      intersectsIndex: active.indexEnd >= active.indexStart
+        && start <= active.indexEnd && end >= active.indexStart,
+      isTailIndexRequest,
       terminal: null,
       released: false,
       controller: null,
@@ -179,6 +223,12 @@ function installQaSlowTailFixture() {
           const prefix = active.bytes.slice(start, start + prefixLength);
           controller.enqueue(prefix);
           stream.deliveredBytes = prefix.byteLength;
+          if (!stream.holdAfterPrefix || stream.deliveredBytes >= stream.responseLength) {
+            controller.close();
+            stream.bodyComplete = true;
+            markTerminal(active, stream, 'complete');
+            return;
+          }
           stream.waitingForRelease = true;
           observe(active, stream);
           return;
@@ -201,8 +251,8 @@ function installQaSlowTailFixture() {
       status: 206,
       statusText: 'Partial Content',
       headers: {
-        'Content-Type': 'video/webm',
-        'Content-Range': `bytes ${start}-${end}/${active.bytes.byteLength}`,
+        'Content-Type': active.mimeType,
+        'Content-Range': stream.contentRange,
         'Content-Length': String(responseLength),
         'Accept-Ranges': 'bytes',
         'Access-Control-Allow-Origin': '*',
@@ -228,7 +278,34 @@ const server = http.createServer((req, res) => {
 });
 const results = [];
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-let base, browser, video;
+function parseIsoBmffTopLevelBoxes(bytes) {
+  const boxes=[];let offset=0;
+  while(offset<bytes.length) {
+    assert(offset+8<=bytes.length,'ISO-BMFF box header must fit inside the fixture');
+    const size32=bytes.readUInt32BE(offset);const type=bytes.toString('ascii',offset+4,offset+8);
+    let size=size32;let headerSize=8;
+    if(size32===1) {
+      assert(offset+16<=bytes.length,'ISO-BMFF large-size header must fit inside the fixture');
+      const size64=bytes.readBigUInt64BE(offset+8);assert(size64<=BigInt(Number.MAX_SAFE_INTEGER));
+      size=Number(size64);headerSize=16;
+    } else if(size32===0) size=bytes.length-offset;
+    assert(size>=headerSize&&offset+size<=bytes.length,`invalid ISO-BMFF ${type} box`);
+    boxes.push({type,offset,size,end:offset+size});offset+=size;
+  }
+  return boxes;
+}
+function expandTailIndexFixture(seed, freeBoxBytes=4*1024*1024) {
+  const boxes=parseIsoBmffTopLevelBoxes(seed);
+  const mdat=boxes.find(box=>box.type==='mdat');const moov=boxes.find(box=>box.type==='moov');
+  assert(mdat&&moov&&moov.offset>=mdat.end,'seed must keep moov behind mdat');
+  assert(Number.isSafeInteger(freeBoxBytes)&&freeBoxBytes>=8&&freeBoxBytes<=0xffffffff);
+  const free=Buffer.alloc(freeBoxBytes);free.writeUInt32BE(freeBoxBytes,0);free.write('free',4,4,'ascii');
+  const bytes=Buffer.concat([seed.subarray(0,moov.offset),free,seed.subarray(moov.offset)]);
+  const expanded=parseIsoBmffTopLevelBoxes(bytes);const expandedMoov=expanded.find(box=>box.type==='moov');
+  assert.equal(expandedMoov.offset,moov.offset+freeBoxBytes);
+  return {bytes,indexStart:expandedMoov.offset,indexEnd:expandedMoov.end-1,boxes:expanded};
+}
+let base, browser, video, tailIndexSeed, tailIndexVideo;
 const poster = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="#182c43"/><circle cx="320" cy="170" r="90" fill="#4c94d2"/><text x="320" y="190" text-anchor="middle" fill="white" font-size="32">Original fixture</text></svg>');
 function record(name, details = {}) { const r = { name, status:'passed', ...details }; results.push(r); console.log(JSON.stringify(r)); }
 async function check(name, callback) {
@@ -251,7 +328,7 @@ async function generateVideo() {
   });
   await page.close(); video=Buffer.from(bytes);fs.writeFileSync(path.join(out,'fixture.webm'),video);
 }
-async function environment({ mobile=false, disableOpfs=false, rangeFault=null, bulkFault=null }={}) {
+async function environment({ mobile=false, disableOpfs=false, rangeFault=null, bulkFault=null, mediaBytes=video, mediaMimeType='video/webm', mediaName='긴 제목과 공백을 포함한 영상.webm', mediaMetadata={width:640,height:360,durationMillis:'2500'} }={}) {
   const context = await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1280,height:800},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1});
   if(disableOpfs) await context.addInitScript(()=>{Object.defineProperty(navigator.storage,'getDirectory',{value:undefined,configurable:true});});
   // This audit writes only to the per-context in-memory fixture below. The
@@ -261,7 +338,7 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
     body:'globalThis.__DRIVE_ORIGINAL_RUNTIME__=Object.freeze({candidate:true,driveMutationsEnabled:true});'
   }));
   const store = new Map(); const calls=[]; let mediaCalls=0,tokenCounter=0;
-  for (const [i,id] of ['video-A','video-B','video-C','video-outside'].entries()) store.set(id,{id,name:`원본 테스트 ${i+1} — 긴 제목과 공백을 포함한 영상.webm`,mimeType:'video/webm',size:String(video.length),modifiedTime:`2026-09-${10+i}T12:00:00Z`,parents:[id==='video-outside'?'folder-Q':'root'],resourceKey:'fixture-key',thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true,canMoveItemWithinDrive:true},videoMediaMetadata:{width:640,height:360,durationMillis:'2500'}});
+  for (const [i,id] of ['video-A','video-B','video-C','video-outside'].entries()) store.set(id,{id,name:`원본 테스트 ${i+1} — ${mediaName}`,mimeType:mediaMimeType,size:String(mediaBytes.length),modifiedTime:`2026-09-${10+i}T12:00:00Z`,parents:[id==='video-outside'?'folder-Q':'root'],resourceKey:'fixture-key',thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true,canMoveItemWithinDrive:true},videoMediaMetadata:mediaMetadata});
   store.set('photo-A',{id:'photo-A',name:'이미지 모음.svg',mimeType:'image/svg+xml',size:'128',parents:['root'],thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true}});
   store.set('folder-Q',{id:'folder-Q',name:'다른 폴더',mimeType:'application/vnd.google-apps.folder',parents:['root']});
   const account = new Map([['state-legacy',{id:'state-legacy',name:'drive-original-account-state.json',modifiedTime:'2026-09-01T00:00:00Z',data:{schemaVersion:1,updatedAt:20,viewed:{},favorites:{'video-outside':{liked:true,updatedAt:20}}}}]]);
@@ -301,12 +378,12 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
       mediaCalls++;
       if(headers.range){
         if(rangeFault==='401-once' && mediaCalls===1)return reply({error:{errors:[{reason:'authError'}]}},401);
-        const match=/bytes=(\d+)-(\d*)/.exec(headers.range);const start=Number(match?.[1]||0);const end=Math.min(video.length-1,match?.[2]?Number(match[2]):video.length-1);
-        if(start>=video.length)return reply({error:{message:'range'}},416,{'Content-Range':`bytes */${video.length}`});
-        const bytes=video.subarray(start,end+1);const length=rangeFault==='invalid'?'1':String(bytes.length);
-        return route.fulfill({status:206,headers:{'Content-Type':'video/webm','Content-Range':`bytes ${start}-${end}/${video.length}`,'Content-Length':length,'Accept-Ranges':'bytes','Access-Control-Allow-Origin':'*','Access-Control-Expose-Headers':'Content-Range,Content-Length','Cache-Control':'no-store'},body:bytes});
+        const match=/bytes=(\d+)-(\d*)/.exec(headers.range);const start=Number(match?.[1]||0);const end=Math.min(mediaBytes.length-1,match?.[2]?Number(match[2]):mediaBytes.length-1);
+        if(start>=mediaBytes.length)return reply({error:{message:'range'}},416,{'Content-Range':`bytes */${mediaBytes.length}`});
+        const bytes=mediaBytes.subarray(start,end+1);const length=rangeFault==='invalid'?'1':String(bytes.length);
+        return route.fulfill({status:206,headers:{'Content-Type':mediaMimeType,'Content-Range':`bytes ${start}-${end}/${mediaBytes.length}`,'Content-Length':length,'Accept-Ranges':'bytes','Access-Control-Allow-Origin':'*','Access-Control-Expose-Headers':'Content-Range,Content-Length','Cache-Control':'no-store'},body:bytes});
       }
-      return route.fulfill({status:200,headers:{'Content-Type':'video/webm','Content-Length':String(video.length),'Access-Control-Allow-Origin':'*','Cache-Control':'no-store'},body:video});
+      return route.fulfill({status:200,headers:{'Content-Type':mediaMimeType,'Content-Length':String(mediaBytes.length),'Access-Control-Allow-Origin':'*','Cache-Control':'no-store'},body:mediaBytes});
     }
     if(store.has(id))return reply(store.get(id));
     if(id==='root')return reply({id:'root',name:'내 드라이브',mimeType:'application/vnd.google-apps.folder'});
@@ -333,9 +410,9 @@ async function openVideo(page,id='video-A') {
 async function exactBufferedBytes(page) {
   return hash(Buffer.from(await page.evaluate(async()=>[...new Uint8Array(await (await fetch(el.videoPlayer.src)).arrayBuffer())])));
 }
-async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024 }={}) {
-  const fixtureId = `slow-tail-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes }) => {
+async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0 }={}) {
+  const fixtureId = `${mode}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd }) => {
     if (typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
       return { supported: false, fixtureId };
     }
@@ -385,16 +462,22 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
       fixtureId,
       fileId,
       prefixBytes,
+      mode,
+      mimeType,
+      indexStart,
+      indexEnd,
       requestId,
       bytes: bytes.buffer
     }, [bytes.buffer, channel.port2]);
     await configured;
     return { supported: true, fixtureId };
-  }, { encoded: video.toString('base64'), fileId, fixtureId, prefixBytes });
+  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, mode, mimeType, indexStart, indexEnd });
 }
 (async()=>{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}/drive-original/`;
   browser=await chromium.launch({channel:'chrome',headless:true});
+  tailIndexSeed=fs.readFileSync(path.join(root,'qa','tail-index-h264-aac.mp4'));
+  tailIndexVideo=expandTailIndexFixture(tailIndexSeed);
   await generateVideo();
   try {
     await check('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',async()=>{
@@ -615,6 +698,151 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
         if(configured) {
           try { await page.evaluate(()=>{ if(!el.playerSheet.hidden) closePlayer(); }); } catch (_) {}
           try { await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE')); } catch (_) {}
+        }
+        await context.close();
+      }
+    });
+    await check('tail-index MP4 reaches a decoded frame through a coherent tail Range',async()=>{
+      const {page,context,calls,errors}=await environment({
+        mediaBytes:tailIndexVideo.bytes,
+        mediaMimeType:'video/mp4',
+        mediaName:'tail-index H.264 AAC.mp4',
+        mediaMetadata:{width:320,height:180,durationMillis:'3000'}
+      });
+      let configured=false;
+      const seedHash=hash(tailIndexSeed);
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:tailIndexVideo.bytes,
+          mode:'tail-index',
+          mimeType:'video/mp4',
+          prefixBytes:64*1024,
+          indexStart:tailIndexVideo.indexStart,
+          indexEnd:tailIndexVideo.indexEnd
+        });
+        assert.equal(setup.supported,true,'QA-TR-02 requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>openPlayer(state.files.find(file=>file.id==='video-A')));
+        await page.waitForFunction(()=>{
+          const stages=globalThis.__driveOriginalQaMediaStages||[];
+          return el.videoPlayer.readyState>=2
+            && stages.some(event=>event.stage==='first-decoded-frame'&&event.confidence==='decoded-frame')
+            && stages.some(event=>event.stage==='body-complete'&&event.route==='range');
+        },null,{timeout:10000});
+        const proof=await page.evaluate(async()=>{
+          const stateReply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          const streams=stateReply.state.streams;
+          const intervals=streams.filter(stream=>stream.deliveredBytes>0)
+            .map(stream=>[stream.start,stream.start+stream.deliveredBytes-1])
+            .sort((a,b)=>a[0]-b[0]);
+          const merged=[];
+          for(const interval of intervals) {
+            const last=merged.at(-1);
+            if(!last||interval[0]>last[1]+1) merged.push(interval.slice());
+            else last[1]=Math.max(last[1],interval[1]);
+          }
+          const deliveredUniqueBytes=merged.reduce((sum,interval)=>sum+interval[1]-interval[0]+1,0);
+          return {
+            fixture:stateReply.state,
+            deliveredUniqueBytes,
+            stages:(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+              stage:event.stage,sequence:event.sequence,route:event.route,requestId:event.requestId,
+              status:event.status,requestedRange:event.requestedRange,rangeSatisfied:event.rangeSatisfied,
+              playbackMode:event.playbackMode,bytes:event.bytes,totalBytes:event.totalBytes,
+              confidence:event.confidence,stale:event.stale
+            })),
+            readyState:el.videoPlayer.readyState,
+            duration:el.videoPlayer.duration,
+            width:el.videoPlayer.videoWidth,
+            height:el.videoPlayer.videoHeight,
+            mode:state.mediaPlaybackMode,
+            attempt:state.mediaAttempt,
+            retryCount:state.mediaRetryCount,
+            fullRequestCount:state.mediaFullRequestCount,
+            bufferStorageMode:state.mediaBufferStorageMode,
+            hasTempStorage:Boolean(state.mediaTempStorage),
+            transportVerified:state.mediaTransportVerified,
+            rangeIntegrity:state.mediaRangeIntegrity,
+            decodeVerified:state.mediaDecodeVerified,
+            previewHidden:el.drivePreview.hidden
+          };
+        });
+        const streams=proof.fixture.streams;
+        const front=streams.find(stream=>stream.start===0);
+        const tail=streams.find(stream=>stream.isTailIndexRequest&&stream.bodyComplete);
+        assert(front,'the media element must begin at the front of the MP4');
+        assert(front.deliveredBytes>0&&front.deliveredBytes<front.responseLength,'front delivery must stop before the full response');
+        assert.equal(front.bodyComplete,false);
+        assert(tail,'the media element must request and complete a non-zero Range crossing moov');
+        assert(tail.start<=proof.fixture.indexStart&&tail.end>=proof.fixture.indexEnd);
+        assert.equal(tail.status,206);
+        assert.equal(tail.contentRange,`bytes ${tail.start}-${tail.end}/${proof.fixture.byteLength}`);
+        assert.equal(tail.contentLength,tail.end-tail.start+1);
+        assert.equal(tail.deliveredBytes,tail.contentLength);
+        assert.equal(tail.terminal,'complete');
+        const tailFirstByte=proof.stages.find(event=>event.stage==='first-byte'&&event.requestedRange===tail.range&&event.rangeSatisfied===true);
+        assert(tailFirstByte,'production worker must report first-byte for the tail Range');
+        assert.equal(tailFirstByte.playbackMode,'original-range');
+        assert.equal(tailFirstByte.totalBytes,tail.responseLength);
+        const tailComplete=proof.stages.find(event=>event.stage==='body-complete'&&event.requestId===tailFirstByte.requestId);
+        assert(tailComplete,'production worker must complete the same tail request');
+        assert.equal(tailComplete.requestedRange,tail.range);
+        assert.equal(tailComplete.bytes,tail.responseLength);
+        assert.equal(tailComplete.totalBytes,tail.responseLength);
+        assert(proof.stages.some(event=>event.stage==='headers'&&event.requestId===tailFirstByte.requestId&&event.status===206));
+        assert(proof.stages.some(event=>event.stage==='first-decoded-frame'&&event.confidence==='decoded-frame'));
+        assert(proof.readyState>=2&&Number.isFinite(proof.duration)&&proof.duration>0);
+        assert(proof.width>0&&proof.height>0);
+        assert(proof.deliveredUniqueBytes<proof.fixture.byteLength,`decoded readiness must precede unique whole-file delivery: ${JSON.stringify(streams)}`);
+        assert(streams.every(stream=>Boolean(stream.range)),'every fixture media request must carry Range');
+        assert.equal(proof.mode,'original-range');
+        assert.equal(proof.attempt,'range');
+        assert.equal(proof.retryCount,0);
+        assert.equal(proof.fullRequestCount,0);
+        assert.equal(proof.bufferStorageMode,'');
+        assert.equal(proof.hasTempStorage,false);
+        assert.equal(proof.transportVerified,true);
+        assert.equal(proof.rangeIntegrity,'valid');
+        assert.equal(proof.decodeVerified,true);
+        assert.equal(proof.previewHidden,true);
+        assert.equal(proof.stages.some(event=>event.route==='full-original'),false);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,'Playwright fulfillment must not bypass the product worker fixture');
+        assert.deepEqual(errors,[]);
+        assert.equal(hash(fs.readFileSync(path.join(root,'qa','tail-index-h264-aac.mp4'))),seedHash,'the committed seed must remain unchanged');
+
+        await page.evaluate(()=>closePlayer());
+        await page.waitForFunction(async()=>{
+          const reply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          return reply.state.streams.every(stream=>Boolean(stream.terminal));
+        },null,{timeout:2000});
+        const closed=await page.evaluate(async()=>({
+          fixture:(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state,
+          selectedId:state.selected?.id||null,
+          attempt:state.mediaAttempt,
+          previewHidden:el.drivePreview.hidden
+        }));
+        assert(closed.fixture.streams.filter(stream=>!stream.bodyComplete).every(stream=>['cancelled','aborted'].includes(stream.terminal)));
+        assert.equal(closed.selectedId,null);
+        assert.equal(closed.attempt,'idle');
+        assert.equal(closed.previewHidden,true);
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        assert.deepEqual(errors,[],'close and dispose must not emit a page error');
+        configured=false;
+        record('tail-index MP4 reaches a decoded frame through a coherent tail Range',{
+          mode:proof.mode,
+          range:tail.range,
+          contentRange:tail.contentRange,
+          deliveredUniqueBytes:proof.deliveredUniqueBytes,
+          fileBytes:proof.fixture.byteLength,
+          moovStart:proof.fixture.indexStart,
+          readyState:proof.readyState
+        });
+      } finally {
+        if(configured) {
+          try { await page.evaluate(()=>{ if(!el.playerSheet.hidden) closePlayer(); }); } catch (_) {}
+          try { await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE')); } catch (_) {}
         }
         await context.close();
       }
