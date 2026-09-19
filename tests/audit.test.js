@@ -127,11 +127,22 @@ test('paginated collectors discard a final page completed after cancellation', a
   await assert.rejects(c.run(`collectAllPages(async () => { controller.abort(); return {files:[{id:'stale'}]}; }, {signal:controller.signal})`), { name: 'AbortError' });
 });
 
-test('old-session temporary file cleanup cannot delete the next session storage', () => {
+test('old temporary file cleanup cannot delete a newer session or source generation', () => {
   const c = app();
-  const result = c.run(`let removed = 0; state.mediaTempStorage = {session:12, name:'new',directory:{removeEntry(){removed++;return Promise.resolve()}}};
-    cleanupOriginalTempStorage(11); Boolean(state.mediaTempStorage) && removed === 0;`);
-  assert.equal(result, true);
+  const result = JSON.parse(c.run(`let removed = 0;
+    state.mediaTempStorage = {session:12, sourceGeneration:22, name:'new',directory:{removeEntry(){removed++;return Promise.resolve()}}};
+    cleanupOriginalTempStorage(11, 22);
+    const differentSessionPreserved = Boolean(state.mediaTempStorage) && removed === 0;
+    cleanupOriginalTempStorage(12, 21);
+    const differentSourcePreserved = Boolean(state.mediaTempStorage) && removed === 0;
+    cleanupOriginalTempStorage(12, 22);
+    JSON.stringify({differentSessionPreserved, differentSourcePreserved, removed, retained:Boolean(state.mediaTempStorage)});`));
+  assert.deepEqual(result, {
+    differentSessionPreserved: true,
+    differentSourcePreserved: true,
+    removed: 1,
+    retained: false
+  });
 });
 
 test('cache reset leaves sibling application caches and workers intact', async () => {

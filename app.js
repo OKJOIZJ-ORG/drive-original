@@ -101,7 +101,19 @@ function getUnsatisfiedRangeSize(contentRange) {
 function isLocalOriginalStorageError(error) {
   return ['QuotaExceededError', 'NotSupportedError', 'InvalidStateError', 'NoModificationAllowedError']
     .includes(String(error?.name || ''))
-    || /\bOPFS\b|quota|temporary storage/i.test(String(error?.message || ''));
+    || /\bOPFS\b|quota|temporary (?:storage|buffer)|memory buffer|buffer limit/i
+      .test(String(error?.message || ''));
+}
+
+function isCurrentOriginalBufferOwner(file, session, sourceGeneration) {
+  return Boolean(file)
+    && state.selected?.id === file.id
+    && state.mediaSession === session
+    && mediaSourceGeneration === sourceGeneration;
+}
+
+function createOriginalBufferOwnerError() {
+  return new DOMException('Media source changed', 'AbortError');
 }
 
 function decideMediaRecovery({
@@ -1829,10 +1841,16 @@ async function recoverFromMediaProxyError(data) {
   const retryFile = state.selected;
   if (!retryFile) return;
   const retrySession = state.mediaSession;
+  const retrySourceGeneration = mediaSourceGeneration;
   const isVideo = retryFile.mimeType?.startsWith('video/');
   if (isDriveSecurityRestriction(data) && !state.mediaAbuseAcknowledged) {
     state.mediaAttempt = 'security-confirmation';
-    state.pendingSecurityConfirmation = { fileId: retryFile.id, session: retrySession, stage: 'range' };
+    state.pendingSecurityConfirmation = {
+      fileId: retryFile.id,
+      session: retrySession,
+      sourceGeneration: retrySourceGeneration,
+      stage: 'range'
+    };
     showMediaError(
       'Google Drive가 이 파일을 악성코드·바이러스 또는 악용 가능성이 있는 파일로 표시했습니다. 위험을 이해하고 직접 선택한 경우에만 원본 다운로드를 다시 시도합니다.',
       { title: '보안 경고가 있는 원본 파일', showRetry: false }
@@ -1868,12 +1886,18 @@ async function recoverFromMediaProxyError(data) {
         ? data.rejectedRevision
         : state.tokenRevision
     });
-    if (state.selected?.id !== retryFile.id || state.mediaSession !== retrySession) return;
+    if (!isCurrentOriginalBufferOwner(retryFile, retrySession, retrySourceGeneration)) return;
     if (refreshed) {
       state.retryAfterAuth = false;
       state.authRetryContext = null;
       if (!retryOriginalStream(retryFile, retrySession, '연결 확인 완료 — 원본 스트림 다시 연결 중')) {
-        await offerOriginalBufferFallback(retryFile, isVideo ? 'video' : 'image', retrySession, '원본 연결을 복구하지 못해');
+        await offerOriginalBufferFallback(
+          retryFile,
+          isVideo ? 'video' : 'image',
+          retrySession,
+          '원본 연결을 복구하지 못해',
+          retrySourceGeneration
+        );
       }
     } else {
       state.mediaAttempt = 'failed';
@@ -1935,7 +1959,8 @@ async function recoverFromMediaProxyError(data) {
     retrySession,
     cause === 'range-416'
       ? '원본 파일 범위가 변경되어'
-      : '원본 구간 스트림을 안정적으로 이어가지 못해'
+      : '원본 구간 스트림을 안정적으로 이어가지 못해',
+    retrySourceGeneration
   );
 }
 
@@ -6799,6 +6824,8 @@ function startInitialOriginalPlayback(file, kind, session) {
 
 function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = null;
   clearMediaSeekWatchdog('range-source');
   clearMediaFrameWatchdog('range-source');
   mediaSourceGeneration += 1;
@@ -6961,6 +6988,7 @@ async function handleMediaElementError(kind) {
 
   const file = state.selected;
   const session = state.mediaSession;
+  const sourceGeneration = mediaSourceGeneration;
   const attempt = state.mediaAttempt;
   const mediaErrorCode = Number(element.error?.code) || 0;
   emitMediaDiagnosticStage('media-error', {
@@ -6977,6 +7005,7 @@ async function handleMediaElementError(kind) {
   await new Promise((resolve) => window.setTimeout(resolve, MEDIA_ERROR_CLASSIFY_DELAY_MS));
   if (
     state.selected?.id !== file.id || state.mediaSession !== session
+    || mediaSourceGeneration !== sourceGeneration
     || state.mediaAttempt !== attempt
   ) return;
 
@@ -7016,7 +7045,9 @@ async function handleMediaElementError(kind) {
   if (state.mediaAttempt === 'range' || state.mediaAttempt === 'range-retry') {
     if (kind === 'image') {
       state.mediaAttempt = 'buffer-evaluating';
-      await startOriginalBlobFallback(file, kind, session);
+      await startOriginalBlobFallback(file, kind, session, {
+        expectedSourceGeneration: sourceGeneration
+      });
     } else if (mediaErrorCode === 4) {
       const unsupportedAction = decideUnsupportedFormatRecovery({
         retryCount: state.mediaRetryCount,
@@ -7030,7 +7061,13 @@ async function handleMediaElementError(kind) {
         showDrivePreview(file, describeVideoPlaybackFailure(mediaErrorCode));
       } else {
         state.mediaAttempt = 'buffer-evaluating';
-        await offerOriginalBufferFallback(file, kind, session, describeVideoPlaybackFailure(mediaErrorCode));
+        await offerOriginalBufferFallback(
+          file,
+          kind,
+          session,
+          describeVideoPlaybackFailure(mediaErrorCode),
+          sourceGeneration
+        );
       }
     } else if (mediaErrorCode === 3 && state.mediaRangeIntegrity === 'valid' && state.mediaRetryCount < 1) {
       retryOriginalStream(file, session, '검증된 원본 스트림을 새로 만들어 다시 연결하는 중');
@@ -7038,10 +7075,22 @@ async function handleMediaElementError(kind) {
       retryOriginalStream(file, session, '원본 스트림 연결이 끊겨 자동으로 다시 연결하는 중');
     } else if ([0, 1, 2, 3].includes(mediaErrorCode)) {
       state.mediaAttempt = 'buffer-evaluating';
-      await offerOriginalBufferFallback(file, kind, session, describeVideoPlaybackFailure(mediaErrorCode));
+      await offerOriginalBufferFallback(
+        file,
+        kind,
+        session,
+        describeVideoPlaybackFailure(mediaErrorCode),
+        sourceGeneration
+      );
     } else {
       state.mediaAttempt = 'buffer-evaluating';
-      await offerOriginalBufferFallback(file, kind, session, describeVideoPlaybackFailure(mediaErrorCode));
+      await offerOriginalBufferFallback(
+        file,
+        kind,
+        session,
+        describeVideoPlaybackFailure(mediaErrorCode),
+        sourceGeneration
+      );
     }
     return;
   }
@@ -7154,20 +7203,69 @@ async function resolveOriginalBufferPolicy(file) {
   });
 }
 
-async function offerOriginalBufferFallback(file, kind, session, reason) {
-  if (!file || state.selected?.id !== file.id || session !== state.mediaSession) return;
+function showOriginalStorageLimit(
+  file,
+  session,
+  reason,
+  sourceGeneration = mediaSourceGeneration
+) {
+  if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) return false;
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = null;
+  clearDirectMediaSources();
+  state.mediaAttempt = 'buffer-storage-limited';
+  state.mediaPlaybackMode = '';
+  state.mediaBufferStorageMode = '';
+  state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
+  state.pendingOriginalBuffer = null;
+  state.lastProxyError = null;
+  updateQualityDisplay();
+  const explanation = `${reason} 이 기기의 앱 전용 저장공간과 안전한 메모리 한도 안에서 원본을 준비할 수 없습니다. 저장공간을 확보한 뒤 다시 시도하거나 Google 호환 재생을 직접 선택하세요.`;
+  if (el.codecNote) {
+    el.codecNote.textContent = '기기 저장공간 또는 메모리 한도이며 파일 형식 비호환으로 판정하지 않았습니다.';
+  }
+  showMediaError(explanation, { title: '기기 저장공간 한도', showRetry: true });
+  el.compatPlayerButton.hidden = false;
+  return true;
+}
+
+async function offerOriginalBufferFallback(
+  file,
+  kind,
+  session,
+  reason,
+  sourceGeneration = mediaSourceGeneration
+) {
+  if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) return;
   const policy = await resolveOriginalBufferPolicy(file);
-  if (state.selected?.id !== file.id || session !== state.mediaSession) return;
+  if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) return;
   if (policy.decision === 'auto') {
-    await startOriginalBlobFallback(file, kind, session, { confirmed: true, policy });
+    await startOriginalBlobFallback(file, kind, session, {
+      confirmed: true,
+      policy,
+      expectedSourceGeneration: sourceGeneration
+    });
     return;
   }
   if (policy.decision === 'denied') {
-    showDrivePreview(file, `${reason} 원본 전체 임시 저장도 이 기기의 안전 한도를 넘어`);
+    showOriginalStorageLimit(
+      file,
+      session,
+      `${reason} 원본 전체 임시 저장도 안전 한도를 넘어`,
+      sourceGeneration
+    );
     return;
   }
   state.mediaAttempt = 'buffer-choice';
-  state.pendingOriginalBuffer = { fileId: file.id, kind, session, reason, policy };
+  state.pendingOriginalBuffer = {
+    fileId: file.id,
+    kind,
+    session,
+    sourceGeneration,
+    reason,
+    policy
+  };
   const locationLabel = policy.mode === 'disk' ? '앱 전용 임시 디스크' : '메모리';
   const sizeLabel = Number(file.size) > 0 ? formatBytes(Number(file.size)) : '크기 미확인';
   showMediaError(
@@ -7180,17 +7278,26 @@ async function offerOriginalBufferFallback(file, kind, session, reason) {
 
 function confirmOriginalBufferFallback() {
   const pending = state.pendingOriginalBuffer;
-  if (!pending || state.selected?.id !== pending.fileId || state.mediaSession !== pending.session) return;
+  if (!pending || !isCurrentOriginalBufferOwner(
+    state.selected,
+    pending.session,
+    pending.sourceGeneration
+  )) return;
   startOriginalBlobFallback(state.selected, pending.kind, pending.session, {
     confirmed: true,
-    policy: pending.policy
+    policy: pending.policy,
+    expectedSourceGeneration: pending.sourceGeneration
   });
 }
 
 function confirmPendingMediaAction() {
   const pendingSecurity = state.pendingSecurityConfirmation;
   if (pendingSecurity) {
-    if (state.selected?.id !== pendingSecurity.fileId || state.mediaSession !== pendingSecurity.session) return;
+    if (!isCurrentOriginalBufferOwner(
+      state.selected,
+      pendingSecurity.session,
+      pendingSecurity.sourceGeneration
+    )) return;
     state.pendingSecurityConfirmation = null;
     state.mediaAbuseAcknowledged = true;
     el.bufferOriginalButton.textContent = '원본 전체 임시 저장';
@@ -7199,7 +7306,8 @@ function confirmPendingMediaAction() {
       startOriginalBlobFallback(state.selected, pendingSecurity.kind, pendingSecurity.session, {
         confirmed: true,
         policy: pendingSecurity.policy,
-        rangeFallbackOnFailure: pendingSecurity.rangeFallbackOnFailure === true
+        rangeFallbackOnFailure: pendingSecurity.rangeFallbackOnFailure === true,
+        expectedSourceGeneration: pendingSecurity.sourceGeneration
       });
     } else {
       retryOriginalStream(
@@ -7220,14 +7328,20 @@ function isOriginalTransferRateLimit(error) {
       && (error?.reasons || []).some((reason) => /rateLimitExceeded/i.test(String(reason || ''))));
 }
 
-async function downloadOriginalFile(file, session, policy, signal) {
+async function downloadOriginalFile(
+  file,
+  session,
+  policy,
+  signal,
+  sourceGeneration = mediaSourceGeneration
+) {
   const headers = {};
   if (file.resourceKey) headers['X-Goog-Drive-Resource-Keys'] = `${file.id}/${file.resourceKey}`;
   let lastError = null;
 
   while (state.mediaFullRequestCount < 3) {
-    if (signal?.aborted || session !== state.mediaSession || state.selected?.id !== file.id) {
-      throw new DOMException('Media session changed', 'AbortError');
+    if (signal?.aborted || !isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+      throw createOriginalBufferOwnerError();
     }
     const attempt = state.mediaFullRequestCount;
     state.mediaFullRequestCount += 1;
@@ -7239,10 +7353,10 @@ async function downloadOriginalFile(file, session, policy, signal) {
         status: Number(response.status) || 0,
         totalBytes: Number(response.headers.get('Content-Length')) || 0
       });
-      if (signal?.aborted || session !== state.mediaSession || state.selected?.id !== file.id) {
+      if (signal?.aborted || !isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
         await response.body?.cancel();
         response = null;
-        throw new DOMException('Media session changed', 'AbortError');
+        throw createOriginalBufferOwnerError();
       }
       const contentLength = Number(response.headers.get('Content-Length')) || 0;
       const metadataSize = Number(file.size) || 0;
@@ -7263,20 +7377,37 @@ async function downloadOriginalFile(file, session, policy, signal) {
         throw new RangeError('Original file exceeds the temporary buffer limit');
       }
       const originalFile = policy.mode === 'disk'
-        ? await writeResponseIntoOpfs(response, file, session, policy.hardLimit, diagnosticRequestId)
-        : await readResponseIntoBlob(response, file, session, policy.hardLimit, diagnosticRequestId);
-      if (session !== state.mediaSession || state.selected?.id !== file.id) {
-        cleanupOriginalTempStorage(session);
-        throw new DOMException('Media session changed', 'AbortError');
+        ? await writeResponseIntoOpfs(
+            response,
+            file,
+            session,
+            policy.hardLimit,
+            diagnosticRequestId,
+            sourceGeneration
+          )
+        : await readResponseIntoBlob(
+            response,
+            file,
+            session,
+            policy.hardLimit,
+            diagnosticRequestId,
+            sourceGeneration
+          );
+      if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+        cleanupOriginalTempStorage(session, sourceGeneration);
+        throw createOriginalBufferOwnerError();
       }
       const expectedSize = metadataSize || contentLength;
       if (expectedSize && originalFile.size !== expectedSize) {
-        cleanupOriginalTempStorage(session);
+        cleanupOriginalTempStorage(session, sourceGeneration);
         throw new Error(`Original byte count mismatch (${originalFile.size}/${expectedSize})`);
       }
       if (!metadataSize && contentLength) { file.size = String(contentLength); sortedPopulationCache = null; }
       return originalFile;
     } catch (error) {
+      if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+        error = createOriginalBufferOwnerError();
+      }
       lastError = error;
       emitDirectMediaDiagnosticStage(
         session,
@@ -7287,11 +7418,10 @@ async function downloadOriginalFile(file, session, policy, signal) {
         }, { terminal: true }
       );
       try { if (!response?.body?.locked) await response?.body?.cancel(); } catch (_) {}
-      cleanupOriginalTempStorage(session);
+      cleanupOriginalTempStorage(session, sourceGeneration);
       const rateLimited = isOriginalTransferRateLimit(error);
       const nonRetryable = error?.name === 'AbortError'
-        || session !== state.mediaSession
-        || state.selected?.id !== file.id
+        || !isCurrentOriginalBufferOwner(file, session, sourceGeneration)
         || isDriveSecurityRestriction(error)
         || isLocalOriginalStorageError(error)
         || error instanceof RangeError
@@ -7312,16 +7442,33 @@ async function startOriginalBlobFallback(
   file,
   kind,
   session,
-  { confirmed = false, policy = null, rangeFallbackOnFailure = false } = {}
+  {
+    confirmed = false,
+    policy = null,
+    rangeFallbackOnFailure = false,
+    expectedSourceGeneration = mediaSourceGeneration
+  } = {}
 ) {
+  if (!isCurrentOriginalBufferOwner(file, session, expectedSourceGeneration)) return;
   const resolvedPolicy = policy || await resolveOriginalBufferPolicy(file);
-  if (session !== state.mediaSession || state.selected?.id !== file.id) return;
+  if (!isCurrentOriginalBufferOwner(file, session, expectedSourceGeneration)) return;
   if (resolvedPolicy.decision === 'denied') {
-    showDrivePreview(file, '원본 전체 임시 저장 크기가 이 기기의 안전 한도를 넘어');
+    showOriginalStorageLimit(
+      file,
+      session,
+      '원본 전체 임시 저장 크기가 이 기기의 안전 한도를 넘어',
+      expectedSourceGeneration
+    );
     return;
   }
   if (resolvedPolicy.decision === 'confirm' && !confirmed) {
-    await offerOriginalBufferFallback(file, kind, session, '원본 구간 스트림을 이어가지 못해');
+    await offerOriginalBufferFallback(
+      file,
+      kind,
+      session,
+      '원본 구간 스트림을 이어가지 못해',
+      expectedSourceGeneration
+    );
     return;
   }
 
@@ -7354,16 +7501,18 @@ async function startOriginalBlobFallback(
     : `직접 스트림 복구 중 — 원본을 ${locationLabel}에 임시 저장하는 중`);
   const bufferController = new AbortController();
   state.mediaAbortController = bufferController;
+  const bufferSourceGeneration = mediaSourceGeneration;
 
   try {
     const originalFile = await downloadOriginalFile(
       file,
       session,
       resolvedPolicy,
-      bufferController.signal
+      bufferController.signal,
+      bufferSourceGeneration
     );
-    if (session !== state.mediaSession || state.selected?.id !== file.id) {
-      cleanupOriginalTempStorage(session);
+    if (!isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
+      cleanupOriginalTempStorage(session, bufferSourceGeneration);
       return;
     }
 
@@ -7392,9 +7541,13 @@ async function startOriginalBlobFallback(
       el.imageViewer.src = state.mediaBlobUrl;
     }
   } catch (error) {
-    if (error.name === 'AbortError' || session !== state.mediaSession) return;
+    if (error.name === 'AbortError'
+      || !isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
+      cleanupOriginalTempStorage(session, bufferSourceGeneration);
+      return;
+    }
     console.error('Original buffer fallback failed', error);
-    cleanupOriginalTempStorage(session);
+    cleanupOriginalTempStorage(session, bufferSourceGeneration);
     if (rangeFallbackOnFailure && resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
       state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
       startOriginalRangePlayback(file, kind, session, '임시 디스크를 사용할 수 없어 Drive 원본 스트림으로 연결 중');
@@ -7410,7 +7563,8 @@ async function startOriginalBlobFallback(
       if (memoryPolicy.decision === 'auto') {
         await startOriginalBlobFallback(file, kind, session, {
           confirmed: true,
-          policy: memoryPolicy
+          policy: memoryPolicy,
+          expectedSourceGeneration: bufferSourceGeneration
         });
         return;
       }
@@ -7420,6 +7574,7 @@ async function startOriginalBlobFallback(
           fileId: file.id,
           kind,
           session,
+          sourceGeneration: bufferSourceGeneration,
           reason: '임시 디스크 저장을 완료하지 못해',
           policy: memoryPolicy
         };
@@ -7433,12 +7588,34 @@ async function startOriginalBlobFallback(
         el.compatPlayerButton.hidden = false;
         return;
       }
+      if (memoryPolicy.decision === 'denied') {
+        showOriginalStorageLimit(
+          file,
+          session,
+          '앱 전용 임시 디스크 저장을 완료하지 못했고 원본 크기가 안전한 메모리 한도를 넘어',
+          bufferSourceGeneration
+        );
+        return;
+      }
+    }
+    if (isLocalOriginalStorageError(error)
+      || (resolvedPolicy.mode === 'memory' && error instanceof RangeError)) {
+      showOriginalStorageLimit(
+        file,
+        session,
+        resolvedPolicy.mode === 'disk'
+          ? '앱 전용 임시 디스크 저장을 완료하지 못해'
+          : '안전한 메모리 원본 준비를 완료하지 못해',
+        bufferSourceGeneration
+      );
+      return;
     }
     if (isDriveSecurityRestriction(error) && !state.mediaAbuseAcknowledged) {
       state.mediaAttempt = 'security-confirmation';
       state.pendingSecurityConfirmation = {
         fileId: file.id,
         session,
+        sourceGeneration: bufferSourceGeneration,
         stage: 'full',
         kind,
         policy: resolvedPolicy,
@@ -7466,13 +7643,14 @@ async function startOriginalBlobFallback(
           force: true,
           rejectedRevision: error.rejectedTokenRevision
         });
-        if (session !== state.mediaSession || state.selected?.id !== file.id) return;
+        if (!isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) return;
         if (refreshed) {
           state.mediaAttempt = 'buffer-evaluating';
           await startOriginalBlobFallback(file, kind, session, {
             confirmed: true,
             policy: resolvedPolicy,
-            rangeFallbackOnFailure
+            rangeFallbackOnFailure,
+            expectedSourceGeneration: bufferSourceGeneration
           });
           return;
         }
@@ -7509,7 +7687,14 @@ function updateOriginalBufferProgress(received, total, storageMode) {
 }
 updateOriginalBufferProgress.lastUpdate = 0;
 
-async function readResponseIntoBlob(response, file, session, hardLimit, diagnosticRequestId = '') {
+async function readResponseIntoBlob(
+  response,
+  file,
+  session,
+  hardLimit,
+  diagnosticRequestId = '',
+  sourceGeneration = mediaSourceGeneration
+) {
   const total = Number(response.headers.get('Content-Length')) || Number(file.size) || 0;
   if (!response.body?.getReader) {
     throw new DOMException('Streaming response reader is unavailable', 'NotSupportedError');
@@ -7521,8 +7706,8 @@ async function readResponseIntoBlob(response, file, session, hardLimit, diagnost
   try {
     while (true) {
       const { done, value } = await reader.read();
-      if (session !== state.mediaSession || state.selected?.id !== file.id) {
-        throw new DOMException('Media session changed', 'AbortError');
+      if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+        throw createOriginalBufferOwnerError();
       }
       if (done) break;
       received += value.byteLength;
@@ -7532,6 +7717,9 @@ async function readResponseIntoBlob(response, file, session, hardLimit, diagnost
       }
       chunks.push(value);
       updateOriginalBufferProgress(received, total, 'memory');
+    }
+    if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+      throw createOriginalBufferOwnerError();
     }
     completeDirectMediaDiagnosticRequest(session, diagnosticRequestId, received, total);
     return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
@@ -7555,7 +7743,14 @@ async function acquireOriginalBufferLease(name) {
   });
 }
 
-async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnosticRequestId = '') {
+async function writeResponseIntoOpfs(
+  response,
+  file,
+  session,
+  hardLimit,
+  diagnosticRequestId = '',
+  sourceGeneration = mediaSourceGeneration
+) {
   const root = await navigator.storage.getDirectory();
   const directory = await root.getDirectoryHandle(ORIGINAL_BUFFER_DIRECTORY, { create: true });
   const randomPart = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -7579,8 +7774,8 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnos
   const total = Number(response.headers.get('Content-Length')) || Number(file.size) || 0;
   let received = 0;
   try {
-    if (session !== state.mediaSession || state.selected?.id !== file.id) {
-      throw new DOMException('Media session changed', 'AbortError');
+    if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+      throw createOriginalBufferOwnerError();
     }
     const handle = await directory.getFileHandle(name, { create: true });
     if (typeof handle.createWritable !== 'function') {
@@ -7593,9 +7788,9 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnos
     } else {
       while (true) {
         const { done, value } = await reader.read();
-        if (session !== state.mediaSession || state.selected?.id !== file.id) {
+        if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
           await reader.cancel();
-          throw new DOMException('Media session changed', 'AbortError');
+          throw createOriginalBufferOwnerError();
         }
         if (done) break;
         received += value.byteLength;
@@ -7605,21 +7800,25 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnos
           throw new RangeError('Original file exceeds temporary storage');
         }
         await writable.write(value);
+        if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
+          await reader.cancel();
+          throw createOriginalBufferOwnerError();
+        }
         updateOriginalBufferProgress(received, total, 'disk');
       }
     }
     await writable.close();
     completeDirectMediaDiagnosticRequest(session, diagnosticRequestId, received, total);
-    if (session !== state.mediaSession || state.selected?.id !== file.id) {
+    if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
       await directory.removeEntry(name).catch(() => {});
-      throw new DOMException('Media session changed', 'AbortError');
+      throw createOriginalBufferOwnerError();
     }
     const storedFile = await handle.getFile();
-    if (session !== state.mediaSession || state.selected?.id !== file.id) {
+    if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
       await directory.removeEntry(name).catch(() => {});
-      throw new DOMException('Media session changed', 'AbortError');
+      throw createOriginalBufferOwnerError();
     }
-    state.mediaTempStorage = { directory, name, session, releaseLease };
+    state.mediaTempStorage = { directory, name, session, sourceGeneration, releaseLease };
     return storedFile;
   } catch (error) {
     try {
@@ -7635,9 +7834,10 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnos
   }
 }
 
-function cleanupOriginalTempStorage(session = null) {
+function cleanupOriginalTempStorage(session = null, sourceGeneration = null) {
   const temporary = state.mediaTempStorage;
   if (session != null && temporary?.session !== session) return;
+  if (sourceGeneration != null && temporary?.sourceGeneration !== sourceGeneration) return;
   state.mediaTempStorage = null;
   if (temporary?.directory && temporary.name) {
     temporary.directory.removeEntry(temporary.name).catch(() => {})

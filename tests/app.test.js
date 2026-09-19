@@ -954,6 +954,490 @@ test('original buffer policy prefers bounded OPFS and denies unsafe memory downl
   assert.equal(policies.memoryDenied.decision, 'denied');
 });
 
+test('QA-TR-11 local storage limits stay explicit and never auto-select compatibility', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const errors = [];
+    const previews = [];
+    const file = {
+      id: 'storage-limited', name: 'storage-limited.jpg', mimeType: 'image/jpeg',
+      size: String(300 * 1024 * 1024)
+    };
+    let policyChecks = 0;
+    showMediaError = (message, options = {}) => errors.push({ message, options });
+    showDrivePreview = (_file, reason) => previews.push(reason);
+    updateQualityDisplay = () => {};
+    clearDirectMediaSources = () => {};
+    showMediaLoading = () => {};
+    cleanupOriginalTempStorage = () => {};
+    el.compatPlayerButton = { hidden: true };
+    el.bufferOriginalButton = { hidden: true, textContent: '' };
+    el.codecNote = { textContent: '' };
+    el.mediaLoading = { hidden: true };
+    el.mediaLoadingText = { textContent: '' };
+    state.selected = file;
+    state.mediaSession = 41;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    supportsWritableOpfs = async () => { policyChecks += 1; return false; };
+    const storageFailure = {
+      type: 'MEDIA_PROXY_ERROR', fileId: file.id, sessionId: '41',
+      sourceGeneration: mediaSourceGeneration, status: 504,
+      category: 'timeout', driveReason: 'bodyNoProgress'
+    };
+    await handleWorkerMessage({ data: storageFailure });
+    await handleWorkerMessage({ data: storageFailure });
+    const unavailable = {
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      previewCount: previews.length,
+      errorCount: errors.length,
+      policyChecks,
+      error: errors.at(-1),
+      compatVisible: el.compatPlayerButton.hidden === false,
+      codecNote: el.codecNote.textContent
+    };
+
+    errors.length = 0;
+    previews.length = 0;
+    el.compatPlayerButton.hidden = true;
+    state.mediaSession = 42;
+    state.mediaAttempt = 'buffer-evaluating';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    downloadOriginalFile = async () => {
+      throw new DOMException('quota full', 'QuotaExceededError');
+    };
+    getOriginalBufferPolicy = () => ({
+      decision: 'denied', mode: 'memory', hardLimit: DESKTOP_MEMORY_BUFFER_HARD_LIMIT
+    });
+    await startOriginalBlobFallback(file, 'image', 42, {
+      confirmed: true,
+      policy: { decision: 'auto', mode: 'disk', hardLimit: 1024 * 1024 * 1024 }
+    });
+    const quota = {
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      previewCount: previews.length,
+      error: errors.at(-1),
+      compatVisible: el.compatPlayerButton.hidden === false,
+      codecNote: el.codecNote.textContent
+    };
+    return JSON.stringify({
+      unavailable,
+      quota,
+      memoryLimitClassified: isLocalOriginalStorageError(
+        new RangeError('Original file exceeds the memory buffer limit')
+      )
+    });
+  })()`));
+
+  for (const branch of [result.unavailable, result.quota]) {
+    assert.equal(branch.attempt, 'buffer-storage-limited');
+    assert.equal(branch.playbackMode, '');
+    assert.equal(branch.previewCount, 0);
+    assert.equal(branch.error.options.title, '기기 저장공간 한도');
+    assert.match(branch.error.message, /저장공간|메모리/);
+    assert.equal(branch.compatVisible, true);
+    assert.match(branch.codecNote, /형식.*판정하지 않았/);
+  }
+  assert.equal(result.unavailable.errorCount, 1);
+  assert.equal(result.unavailable.policyChecks, 1);
+  assert.equal(result.memoryLimitClassified, true);
+});
+
+test('QA-TR-11 a native memory Blob allocation failure stays storage-limited', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const file = {
+      id: 'blob-allocation', name: 'blob-allocation.jpg', mimeType: 'image/jpeg', size: '2'
+    };
+    const errors = [];
+    const previews = [];
+    let reads = 0;
+    let released = 0;
+    let readerCancelled = 0;
+    let bodyCancelled = 0;
+    const NativeBlob = Blob;
+    Blob = class {
+      constructor() { throw new RangeError('Native Blob allocation failed'); }
+    };
+    fetchOriginalFileResponse = async () => ({
+      status: 200,
+      headers: new Headers({ 'Content-Length': '2', 'Content-Type': 'image/jpeg' }),
+      body: {
+        getReader: () => ({
+          async read() {
+            reads += 1;
+            return reads === 1
+              ? { done: false, value: new Uint8Array([1, 2]) }
+              : { done: true };
+          },
+          async cancel() { readerCancelled += 1; },
+          releaseLock() { released += 1; }
+        }),
+        async cancel() { bodyCancelled += 1; }
+      }
+    });
+    updateOriginalBufferProgress = () => {};
+    updateQualityDisplay = () => {};
+    showMediaLoading = () => {};
+    showMediaError = (message, options = {}) => errors.push({ message, options });
+    showDrivePreview = (_file, reason) => previews.push(reason);
+    el.videoPlayer = {
+      hidden: false, dataset: { mediaSession: '43' },
+      pause() {}, removeAttribute() {}, load() {}, classList: { remove() {} }
+    };
+    el.imageViewer = {
+      hidden: false, dataset: { mediaSession: '43' }, alt: 'old',
+      removeAttribute() {}, classList: { remove() {} }
+    };
+    el.compatPlayerButton = { hidden: true };
+    el.bufferOriginalButton = { hidden: true, textContent: '' };
+    el.codecNote = { textContent: '' };
+    state.selected = file;
+    state.mediaSession = 43;
+    state.mediaFullRequestCount = 0;
+    state.mediaAttempt = 'buffer-evaluating';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    try {
+      await startOriginalBlobFallback(file, 'image', 43, {
+        confirmed: true,
+        policy: { decision: 'auto', mode: 'memory', hardLimit: DESKTOP_MEMORY_BUFFER_HARD_LIMIT }
+      });
+    } finally {
+      Blob = NativeBlob;
+    }
+    return JSON.stringify({
+      reads,
+      released,
+      readerCancelled,
+      bodyCancelled,
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      previewCount: previews.length,
+      error: errors.at(-1),
+      compatVisible: el.compatPlayerButton.hidden === false,
+      codecNote: el.codecNote.textContent,
+      abortOwner: Boolean(state.mediaAbortController)
+    });
+  })()`));
+
+  assert.equal(result.reads, 2);
+  assert.equal(result.released, 1);
+  assert.equal(result.readerCancelled, 1);
+  assert.equal(result.bodyCancelled, 1);
+  assert.equal(result.attempt, 'buffer-storage-limited');
+  assert.equal(result.playbackMode, '');
+  assert.equal(result.previewCount, 0);
+  assert.equal(result.error.options.title, '기기 저장공간 한도');
+  assert.equal(result.compatVisible, true);
+  assert.match(result.codecNote, /형식.*판정하지 않았/);
+  assert.equal(result.abortOwner, false);
+});
+
+test('QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const file = {
+      id: 'quota-partial', name: 'quota-partial.mp4', mimeType: 'video/mp4',
+      size: String(300 * 1024 * 1024)
+    };
+    const removed = [];
+    const lockNames = [];
+    const errors = [];
+    const previews = [];
+    let requests = 0;
+    let writes = 0;
+    let readerCancelled = 0;
+    let readerReleased = 0;
+    let writableAborted = 0;
+    let leaseSettled = 0;
+    const reader = {
+      index: 0,
+      async read() {
+        this.index += 1;
+        if (this.index === 1) return { done: false, value: new Uint8Array([1, 2]) };
+        if (this.index === 2) return { done: false, value: new Uint8Array([3, 4]) };
+        return { done: true };
+      },
+      async cancel() { readerCancelled += 1; },
+      releaseLock() { readerReleased += 1; }
+    };
+    const writable = {
+      async write() {
+        writes += 1;
+        if (writes === 2) throw new DOMException('quota full', 'QuotaExceededError');
+      },
+      async close() {},
+      async abort() { writableAborted += 1; }
+    };
+    const directory = {
+      async getFileHandle() {
+        return { createWritable: async () => writable, getFile: async () => new Blob(['bad']) };
+      },
+      async removeEntry(name) { removed.push(name); }
+    };
+    navigator.storage = {
+      getDirectory: async () => ({ getDirectoryHandle: async () => directory })
+    };
+    navigator.locks = {
+      request(name, optionsOrCallback, maybeCallback) {
+        lockNames.push(name);
+        const callback = typeof optionsOrCallback === 'function' ? optionsOrCallback : maybeCallback;
+        const lifetime = Promise.resolve().then(() => callback({ name }));
+        lifetime.then(() => { leaseSettled += 1; });
+        return lifetime;
+      }
+    };
+    fetchOriginalFileResponse = async () => {
+      requests += 1;
+      return {
+        status: 200,
+        headers: new Headers({ 'Content-Length': file.size }),
+        body: { getReader: () => reader, cancel: async () => {} }
+      };
+    };
+    updateOriginalBufferProgress = () => {};
+    updateQualityDisplay = () => {};
+    showMediaLoading = () => {};
+    showMediaError = (message, options = {}) => errors.push({ message, options });
+    showDrivePreview = (_file, reason) => previews.push(reason);
+    el.videoPlayer = {
+      hidden: false, dataset: { mediaSession: '51' },
+      pause() {}, removeAttribute() {}, load() {}, classList: { remove() {} }
+    };
+    el.imageViewer = {
+      hidden: false, dataset: { mediaSession: '51' }, alt: 'old',
+      removeAttribute() {}, classList: { remove() {} }
+    };
+    el.compatPlayerButton = { hidden: true };
+    el.bufferOriginalButton = { hidden: true, textContent: '' };
+    el.codecNote = { textContent: '' };
+    state.selected = file;
+    state.mediaSession = 51;
+    state.mediaFullRequestCount = 0;
+    state.mediaAttempt = 'buffer-evaluating';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    const sourceGenerationBefore = mediaSourceGeneration;
+    await startOriginalBlobFallback(file, 'image', 51, {
+      confirmed: true,
+      policy: { decision: 'auto', mode: 'disk', hardLimit: 1024 * 1024 * 1024 }
+    });
+    await Promise.resolve();
+    await Promise.resolve();
+    return JSON.stringify({
+      requests, writes, readerCancelled, readerReleased, writableAborted,
+      removed: removed.length, lockNames: lockNames.length, leaseSettled,
+      tempStorage: Boolean(state.mediaTempStorage),
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      exhaustedDisk: state.mediaExhaustedOriginalModes.has(PLAYBACK_MODE.OPFS),
+      fullRequestCount: state.mediaFullRequestCount,
+      previewCount: previews.length,
+      error: errors.at(-1),
+      compatVisible: el.compatPlayerButton.hidden === false,
+      codecNote: el.codecNote.textContent,
+      abortOwner: Boolean(state.mediaAbortController),
+      sourceGenerationDelta: mediaSourceGeneration - sourceGenerationBefore,
+      playerHidden: el.videoPlayer.hidden,
+      imageHidden: el.imageViewer.hidden
+    });
+  })()`));
+
+  assert.deepEqual({
+    requests: result.requests,
+    writes: result.writes,
+    readerCancelled: result.readerCancelled,
+    readerReleased: result.readerReleased,
+    writableAborted: result.writableAborted,
+    removed: result.removed,
+    lockNames: result.lockNames,
+    leaseSettled: result.leaseSettled,
+    tempStorage: result.tempStorage,
+    fullRequestCount: result.fullRequestCount,
+    previewCount: result.previewCount,
+    abortOwner: result.abortOwner,
+    sourceGenerationDelta: result.sourceGenerationDelta,
+    playerHidden: result.playerHidden,
+    imageHidden: result.imageHidden
+  }, {
+    requests: 1,
+    writes: 2,
+    readerCancelled: 1,
+    readerReleased: 1,
+    writableAborted: 1,
+    removed: 1,
+    lockNames: 1,
+    leaseSettled: 1,
+    tempStorage: false,
+    fullRequestCount: 1,
+    previewCount: 0,
+    abortOwner: false,
+    sourceGenerationDelta: 2,
+    playerHidden: true,
+    imageHidden: true
+  });
+  assert.equal(result.attempt, 'buffer-storage-limited');
+  assert.equal(result.playbackMode, '');
+  assert.equal(result.exhaustedDisk, true);
+  assert.equal(result.error.options.title, '기기 저장공간 한도');
+  assert.match(result.error.message, /저장공간|메모리/);
+  assert.equal(result.compatVisible, true);
+  assert.match(result.codecNote, /형식.*판정하지 않았/);
+});
+
+test('QA-TR-11 a superseded buffer failure cannot replace the newer source', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const file = {
+      id: 'quota-superseded', name: 'quota-superseded.jpg', mimeType: 'image/jpeg',
+      size: String(300 * 1024 * 1024)
+    };
+    const errors = [];
+    const previews = [];
+    let rejectDownload;
+    let ownedGeneration = null;
+    updateQualityDisplay = () => {};
+    showMediaLoading = () => {};
+    showMediaError = (message, options = {}) => errors.push({ message, options });
+    showDrivePreview = (_file, reason) => previews.push(reason);
+    downloadOriginalFile = (_file, _session, _policy, _signal, sourceGeneration) => {
+      ownedGeneration = sourceGeneration;
+      return new Promise((_resolve, reject) => { rejectDownload = reject; });
+    };
+    el.videoPlayer = {
+      hidden: false, dataset: { mediaSession: '61' },
+      pause() {}, removeAttribute() {}, load() {}, classList: { remove() {} }
+    };
+    el.imageViewer = {
+      hidden: false, dataset: { mediaSession: '61' }, alt: 'old', src: '',
+      removeAttribute(name) { if (name === 'src') this.src = ''; }, classList: { remove() {} }
+    };
+    el.compatPlayerButton = { hidden: true };
+    el.bufferOriginalButton = { hidden: true, textContent: '' };
+    el.codecNote = { textContent: '' };
+    el.mediaLoading = { hidden: true };
+    el.mediaLoadingText = { textContent: '' };
+    window.setTimeout = (callback, delay) => delay === 5000 ? 0 : setTimeout(callback, delay);
+    state.selected = file;
+    state.mediaSession = 61;
+    state.mediaAttempt = 'buffer-evaluating';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    const generationBefore = mediaSourceGeneration;
+    const stale = startOriginalBlobFallback(file, 'image', 61, {
+      confirmed: true,
+      policy: { decision: 'auto', mode: 'disk', hardLimit: 1024 * 1024 * 1024 }
+    });
+    await Promise.resolve();
+    const replacementStarted = startOriginalRangePlayback(file, 'image', 61, '새 원본 source 연결 중');
+    const replacementGeneration = mediaSourceGeneration;
+    rejectDownload(new DOMException('quota full', 'QuotaExceededError'));
+    await stale;
+    return JSON.stringify({
+      replacementStarted,
+      generationBefore,
+      ownedGeneration,
+      replacementGeneration,
+      finalGeneration: mediaSourceGeneration,
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      imageSrc: el.imageViewer.src,
+      imageSession: el.imageViewer.dataset.mediaSession,
+      previewCount: previews.length,
+      errorCount: errors.length,
+      compatVisible: el.compatPlayerButton.hidden === false,
+      abortOwner: Boolean(state.mediaAbortController)
+    });
+  })()`));
+
+  assert.equal(result.replacementStarted, true);
+  assert.equal(result.ownedGeneration, result.generationBefore + 1);
+  assert.equal(result.replacementGeneration, result.generationBefore + 2);
+  assert.equal(result.finalGeneration, result.replacementGeneration);
+  assert.equal(result.attempt, 'range');
+  assert.equal(result.playbackMode, 'original-range');
+  assert.match(result.imageSrc, /__drive_media\/quota-superseded/);
+  assert.match(result.imageSrc, new RegExp(`sourceGeneration=${result.replacementGeneration}`));
+  assert.equal(result.imageSession, '61');
+  assert.equal(result.previewCount, 0);
+  assert.equal(result.errorCount, 0);
+  assert.equal(result.compatVisible, false);
+  assert.equal(result.abortOwner, false);
+});
+
+test('QA-TR-11 a superseded storage-policy result cannot replace the newer source', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const result = JSON.parse(await run(context, `(async () => {
+    const file = {
+      id: 'policy-superseded', name: 'policy-superseded.jpg', mimeType: 'image/jpeg',
+      size: String(300 * 1024 * 1024)
+    };
+    const errors = [];
+    const previews = [];
+    let settlePolicy;
+    resolveOriginalBufferPolicy = () => new Promise((resolve) => { settlePolicy = resolve; });
+    updateQualityDisplay = () => {};
+    showMediaLoading = () => {};
+    showMediaError = (message, options = {}) => errors.push({ message, options });
+    showDrivePreview = (_file, reason) => previews.push(reason);
+    el.videoPlayer = {
+      hidden: false, dataset: { mediaSession: '62' },
+      pause() {}, removeAttribute() {}, load() {}, classList: { remove() {} }
+    };
+    el.imageViewer = {
+      hidden: false, dataset: { mediaSession: '62' }, alt: 'old', src: '',
+      removeAttribute(name) { if (name === 'src') this.src = ''; }, classList: { remove() {} }
+    };
+    el.compatPlayerButton = { hidden: true };
+    el.bufferOriginalButton = { hidden: true, textContent: '' };
+    el.codecNote = { textContent: '' };
+    el.mediaLoading = { hidden: true };
+    el.mediaLoadingText = { textContent: '' };
+    window.setTimeout = (callback, delay) => delay === 5000 ? 0 : setTimeout(callback, delay);
+    state.selected = file;
+    state.mediaSession = 62;
+    state.mediaAttempt = 'buffer-evaluating';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    const stale = offerOriginalBufferFallback(
+      file,
+      'image',
+      62,
+      '원본 구간 스트림을 안정적으로 이어가지 못해'
+    );
+    await Promise.resolve();
+    const replacementStarted = startOriginalRangePlayback(file, 'image', 62, '새 원본 source 연결 중');
+    const replacementGeneration = mediaSourceGeneration;
+    settlePolicy({ decision: 'denied', mode: 'memory', hardLimit: DESKTOP_MEMORY_BUFFER_HARD_LIMIT });
+    await stale;
+    return JSON.stringify({
+      replacementStarted,
+      replacementGeneration,
+      finalGeneration: mediaSourceGeneration,
+      attempt: state.mediaAttempt,
+      playbackMode: state.mediaPlaybackMode,
+      imageSrc: el.imageViewer.src,
+      previewCount: previews.length,
+      errorCount: errors.length,
+      compatVisible: el.compatPlayerButton.hidden === false
+    });
+  })()`));
+
+  assert.equal(result.replacementStarted, true);
+  assert.equal(result.finalGeneration, result.replacementGeneration);
+  assert.equal(result.attempt, 'range');
+  assert.equal(result.playbackMode, 'original-range');
+  assert.match(result.imageSrc, /__drive_media\/policy-superseded/);
+  assert.match(result.imageSrc, new RegExp(`sourceGeneration=${result.replacementGeneration}`));
+  assert.equal(result.previewCount, 0);
+  assert.equal(result.errorCount, 0);
+  assert.equal(result.compatVisible, false);
+});
+
 test('initial video playback starts Range without waiting for storage policy or full download', () => {
   const context = loadAppContext();
   const calls = JSON.parse(run(context, `(() => {
@@ -2575,7 +3059,12 @@ test('abuse acknowledgement is opt-in and scoped to the selected file', () => {
     state.selected = file;
     state.mediaSession = 22;
     state.mediaRetryCount = 1;
-    state.pendingSecurityConfirmation = { fileId: file.id, session: 22, stage: 'range' };
+    state.pendingSecurityConfirmation = {
+      fileId: file.id,
+      session: 22,
+      sourceGeneration: mediaSourceGeneration,
+      stage: 'range'
+    };
     el.bufferOriginalButton = { textContent: '' };
     let consumeRetry = null;
     retryOriginalStream = (_file, _session, _message, options) => {
