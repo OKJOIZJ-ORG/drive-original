@@ -14,6 +14,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `goal/drive-scale-stability.md` | Canonical structure and evidence for the completed large-library stability goal | Version cuts; never silently overwrite superseded structure |
 | `goal/commercial-player-stability.md` | Canonical structure and evidence for the active commercial-grade player and library goal | Update evidence and gates in place; never weaken acceptance criteria silently |
+| `specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md` | Active integrated v3.0 product specification and execution protocol | Preserve byte-for-byte; progress remains owned by the goal and checkpoint |
 
 ## Operating principles
 

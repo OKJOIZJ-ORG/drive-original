@@ -144,3 +144,9 @@ acceptance family. `V2-01B` is the sole READY task: a local-only, removable,
 session-correlated stage-timeline fixture. No real Drive write/share, OAuth
 change, paid or always-on infrastructure, origin/native deployment, merge, push,
 production deployment or automation resume occurred.
+
+## 2026-09-19 — v3.0 integrated specification resumed
+
+- Verified and preserved the user-supplied integrated specification at `memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md`; source and repository copies match SHA-256 `A57C7109A540BE09F351ACF582E0F9BA6A6A556F92E943A6CB6804CA2576B564`.
+- Recorded D-050 and closed A-005~A-007 as user-input/authority blockers. The exact sample path, browser/PWA operating choice, free B-auth direction and disposable-test write scope are supplied; ID/version, trace and live postconditions remain task evidence rather than assumed success.
+- Observed the read-only local sample at 208,001,508 bytes. FFprobe 9.0.1 identifies an MPEG-TS container despite the `.mp4` extension, with H.264 High level 3.0 360×640 30fps 8-bit BT.709 video and AAC-LC 48kHz stereo audio. This is a container-mismatch hypothesis until the current app trace proves transport succeeded and locates its first terminal stage.

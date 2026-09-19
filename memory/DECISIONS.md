@@ -264,3 +264,15 @@ D-045의 탐색 복원·중단 안전성은 유지하면서 플레이어에 독�
 현행 v1.21.0과 과거 자동화·배포 보고는 기준선이지 v2.0 완료 증거가 아니다. 같은 실패 파일의 인증·전송·컨테이너·디코더 경계를 먼저 판별한 뒤 구조 A/B/C를 선택하며, B는 우선 검증 후보일 뿐 채택 완료가 아니다. 이 결정은 D-039의 `OPFS 전체 저장 우선`을 기본 첫 프레임 경로로 고정한 순서와 D-035의 Google iframe 자동 호환 종료 경로를 각각 v2.0 TR-01 및 UI-04/Q-01~03 범위에서 대체한다. 원본 품질 우선, 사용자 데이터 보존, 수동 외부 열기, 기존 계정 appData의 임시 SSOT는 유지한다.
 
 현재 착수 단계는 읽기, 작업 브랜치의 최소 진단·재현 fixture, 로컬 테스트와 증거 기록으로 제한한다. 실제 Drive 쓰기·공유, OAuth 설정, 유료/상시 인프라, 새 origin·네이티브 배포, `main` 병합·push·운영 배포, 중지 자동화 재개는 별도 승인 전에는 실행하지 않는다.
+
+→ superseded in scope and active-source ownership by D-050 (2026-09-19)
+
+## D-050 · v3.0 통합 명세와 브라우저·직접 전송·최소 무료 인증 실행 범위 — 2026-09-19 (User-confirmed; supersedes D-049 scope and source ownership)
+
+`Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md`를 이번 작업의 단일 활성 통합 명세와 실행 규약으로 사용한다. 저장소 안의 보존본은 `memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md`, SHA-256은 `A57C7109A540BE09F351ACF582E0F9BA6A6A556F92E943A6CB6804CA2576B564`다. D-049의 한 번에 하나의 관찰 가능한 재현→수정→검증 단위, 전체 WP/QA 기준, 원본 품질·사용자 데이터 보존 원칙은 유지하되, 착수 단계 전용 제한과 이전 두 원문의 활성 소유권은 대체한다.
+
+기본 사용 경로는 브라우저/PWA이고 상시 개인 PC/NAS 및 사용자용 네이티브 배포는 제외한다. 현행 PWA/SW의 원본 직접 전송을 먼저 고치며, 장기 로그인은 미디어 중계·변환과 분리된 최소 무료 서버리스 인증 계층을 검증·구현한다. 지정 실패 표본 `G:\내 드라이브\ㅇㅎㅎ\x_953b92374b59458d.mp4`는 읽기 전용으로 실제 Drive ID·version·코덱·최초 실패 계층을 확인한다.
+
+작업 브랜치의 제품 코드·문서, 개발 도구, 테스트와 커밋, 이번 작업이 만든 일회용 Drive 테스트 데이터의 생성·이동·휴지통·복구·원격 확인, 앱 범위의 비파괴 OAuth/HTTPS 후보 설정과 기존 데이터 이관, 비용 없는 검증 배포를 승인한다. 실제 원본 변경·공개 공유·영구 삭제, 결제·카드·자동 과금, `main` 병합·원격 push·기존 운영 서비스 교체, 중지 자동화 재개는 승인하지 않는다. 본인 로그인·2단계 인증·약관·경로 승인과 운영 전환은 해당 경계에서 별도로 요청한다.
+
+sweep: active goal, open questions, checkpoint authority, specification index and session record aligned to the integrated v3.0 source and current authorization (2026-09-19)
