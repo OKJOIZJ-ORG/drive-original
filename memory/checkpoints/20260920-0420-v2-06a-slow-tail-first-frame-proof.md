@@ -1,4 +1,4 @@
-# Checkpoint — V2-06A frame watchdog closed; seek clock next — 2026-09-20 04:20 KST
+# Checkpoint — V2-06A slow-tail first-frame proof closed; frame watchdog next — 2026-09-20 03:40 KST
 
 ## The story so far
 
@@ -32,10 +32,6 @@ The discriminating first-frame evidence is committed at `7dcea0df95f25c661202ea3
 
 The final functional browser audit passes 14/14 and requires an acknowledged fixture release before success. The nine-file Node suite remains 232/232, syntax/diff checks pass, and independent review is clean after closing a false-positive gap that had not required positive product-worker first-byte evidence. This proves first-frame-before-response-completion on the production app/SW path with a synthetic WebM stream. It does not prove real Drive/TCP/CORS, a large normal MP4's continued progress, the 15-second frame-watchdog expiry, a physical device, or the priority MPEG-TS sample.
 
-The decoder/frame no-progress clock is committed at `89e74087cbe30c0b744219131c5c49a79484bd07`. A direct Range clock now starts only after an exact current-source signal produced by the first positive upstream chunk; buffered-original playback starts from its completed local source. Metadata, `canplay`, headers and zero-byte chunks cannot claim decoder progress. Actual `requestVideoFrameCallback` media-time advance is primary, with monotonic `timeupdate` only when frame callbacks are unavailable. Pause, hidden, offline, seek, close, superseding session/source and terminal media/proxy failures suspend or fence the one watchdog owner. One Range frame stall uses the existing retry/buffer budget; a buffered-original stall stops locally and exposes compatibility only as a user choice.
-
-The worker and app carry a source-generation fence through status/progress/error messages, stale timer and frame callbacks are inert, and a controller upgrade before the first byte reconnects only the current visible Range video without consuming its retry budget. Focused app/worker tests pass 118/118, the actual seven-file inventory passes 195/195, JavaScript syntax and diff checks pass, the post-fix functional browser audit passes 14/14, and the final independent review found no P1/P2/P3 defect. This unit is local and not deployed. It does not prove a seek-completion clock, browser sleep/wake, physical iPhone/PWA behavior, real Drive slow-tail behavior or the priority MPEG-TS sample.
-
 The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
 ## Decided
@@ -54,12 +50,12 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 ## Current execution state
 
 - Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
-- Active READY unit: `V2-06A` / WP-06, with headers watchdog `IMPLEMENTED_LOCAL` at `7e06c9a`, Range-first router at `38b4404`, first-byte/body-length guard at `171eecf`, demand-bound body no-progress watchdog at `ee2c3b1`, slow-tail first-frame proof at `7dcea0d`, and decoder/frame watchdog at `89e7408`; the separate seek-completion clock and remaining QA-TR matrix still govern completion under TR-01~10 and QA-TR-01~11.
-- Product runtime commit: `89e74087cbe30c0b744219131c5c49a79484bd07`; QA evidence commit: `7dcea0df95f25c661202ea3ca0363365d269ab05`, both on `codex/v2-kickoff-diagnostics`. Only this checkpoint/goal/product-truth record follows them locally.
+- Active READY unit: `V2-06A` / WP-06, with headers watchdog `IMPLEMENTED_LOCAL` at `7e06c9a`, Range-first router at `38b4404`, first-byte/body-length guard at `171eecf`, demand-bound body no-progress watchdog at `ee2c3b1`, and slow-tail first-frame proof at `7dcea0d`; decoder/frame and seek clocks plus the remaining QA-TR matrix still govern completion under TR-01~10 and QA-TR-01~11.
+- Product runtime commit: `ee2c3b1cc2f3cf5a950e665f043ac6adf51f175b`; QA evidence commit: `7dcea0df95f25c661202ea3ca0363365d269ab05`, both on `codex/v2-kickoff-diagnostics`. Only this checkpoint/goal/product-truth record follows them locally.
 - Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, and public-byte equality.
-- Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, seek-completion timeout/recovery, real Drive/TCP/CORS slow-tail behavior, and any Drive/appData write or migration.
+- Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail behavior, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
-- The five V2-06A runtime units and one QA evidence unit are not deployed. Production/main/remotes and the existing candidate remain unchanged.
+- The four V2-06A runtime units and one QA evidence unit are not deployed. Production/main/remotes and the existing candidate remain unchanged.
 
 ## Waiting on the user
 
@@ -67,7 +63,7 @@ The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB
 
 ## Next first action
 
-Add a separate seek-completion owner at the current video/player boundary. Give every seek a generation, let a newer seek/close/source/session cancel the older one, and require `seeked` plus a decoded frame at the new target before success; pause, hidden and offline must not become false failures. Exercise 10/50/90%, rapid replacement and stale-callback races, then route one finite terminal through the existing recovery budget without counting metadata or `canplay` as completion.
+Add the decoder/frame no-progress clock at the current app/player boundary. Arm an approximately 15-second clock only for the current foreground play intent after transport starts; pause, hidden, offline, close and a superseding media session must cancel or suspend it. Clear it only on an actual decoded-frame/playback-progress signal, never metadata or `canplay`, and keep one classified terminal/recovery owner with deterministic stale-callback race fixtures.
 
 ## Tried
 
@@ -82,6 +78,3 @@ Add a separate seek-completion owner at the current video/player boundary. Give 
 - The first-byte fixture initially had no finite timer. Later reviews exposed three false-confidence gaps—zero-byte chunks, 206 under/overrun, and app retry ownership—and two real races: timeout notification could outlive the stream, and a caller abort with a custom reason could be mislabeled. The final fixtures close each case and keep timeout as the only terminal winner under late competing events.
 - The first body-stall tests failed 0/3 because no post-first-byte timer or app diagnostic stage existed. The final matrix also invokes captured cleared callbacks after every competing terminal and delays `clients.get()` to prove the stream cannot outlive its classified error. A transient test-harness hang came from delaying both trace and error lookups with one release handle; removing the trace ID isolated the intended error-lifetime boundary, and the stale process was terminated without touching product services.
 - The first slow-tail review found that fixture state plus `requestVideoFrameCallback` could pass even if the product SW stopped instrumenting its body. The final assertion now requires the product's correlated Range `first-byte` event and exact range/byte totals. One intermediate full audit stopped earlier on the pre-existing reconnect-button visibility assertion; the adjacent complete runs passed and the slow-tail case passed every run that reached it.
-- The first frame-watchdog draft treated verified headers as transport start; that would time out before any body byte existed. A dedicated non-diagnostic first-positive-byte worker message now owns that boundary, and exact source generation prevents a late old request from arming a new source.
-- Independent review found two real lifecycle gaps: seeking cleared the clock but never re-armed it, and a same-session old frame callback could renew a replacement source. Preserving the transport-start fact across seek and fencing callbacks by source generation closed both.
-- A final mixed-version review found that a new app under an old controlling worker could receive no first-byte progress signal. On `controllerchange`, only a current visible pre-byte Range video is reconnected through the new worker with `consumeRetry:false`; started, blob, preview and stale-session sources remain untouched.
