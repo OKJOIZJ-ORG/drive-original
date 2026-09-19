@@ -41,6 +41,7 @@ const FOLDER_RENDER_MAX = 200;
 const BULK_ACTION_CONCURRENCY = 4;
 const DEFAULT_FRAME_DURATION = 1 / 30;
 const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
+const MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS = 15_000;
 const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
 const MAX_ORIGINAL_RETRY_AFTER_MS = 2_147_483_647;
@@ -544,6 +545,7 @@ const state = {
   mediaAttempt: 'idle',
   mediaPlaybackMode: '',
   mediaTransportVerified: false,
+  mediaTransportStarted: false,
   mediaRangeIntegrity: 'unknown',
   mediaDecodeVerified: false,
   mediaBlobUrl: null,
@@ -611,6 +613,8 @@ let swipeCommitPending = false;
 let moveRequestGeneration = 0;
 let moveParentsAbortController = null;
 let mediaRecoveryTimer = null;
+let mediaFrameWatchdog = null;
+let mediaSourceGeneration = 0;
 let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
 let swipePreviewDirection = null;
@@ -1292,8 +1296,14 @@ function bindEvents() {
     updateAccountSyncStatus();
     if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
     scheduleAccountStateRefresh(0);
+    syncMediaFrameWatchdog();
   });
-  window.addEventListener('offline', () => { stopAccountStateRefresh(); updateConnectionBadge(); updateAccountSyncStatus(); });
+  window.addEventListener('offline', () => {
+    clearMediaFrameWatchdog('offline');
+    stopAccountStateRefresh();
+    updateConnectionBadge();
+    updateAccountSyncStatus();
+  });
   window.addEventListener('pagehide', stopAccountStateRefresh);
   window.addEventListener('pageshow', () => scheduleAccountStateRefresh(0));
   window.addEventListener('storage', (event) => {
@@ -1334,7 +1344,11 @@ function bindEvents() {
           scheduleTokenRenewal();
         }
       }
-    } else stopAccountStateRefresh();
+      syncMediaFrameWatchdog();
+    } else {
+      clearMediaFrameWatchdog('hidden');
+      stopAccountStateRefresh();
+    }
   });
 
   el.videoPlayer.addEventListener('loadedmetadata', (event) => {
@@ -1343,7 +1357,6 @@ function bindEvents() {
       currentTime: Number(event.currentTarget.currentTime) || 0,
       confidence: 'container-metadata'
     });
-    state.mediaDecodeVerified = true;
     updateVideoProgress();
     updatePlayPauseUI();
     beginVideoFrameSampling();
@@ -1360,6 +1373,7 @@ function bindEvents() {
         currentTime: Number(event.currentTarget.currentTime) || 0
       });
       onMediaReady();
+      syncMediaFrameWatchdog();
     }
   });
   el.videoPlayer.addEventListener('timeupdate', (event) => {
@@ -1382,18 +1396,34 @@ function bindEvents() {
       });
     }
   });
-  el.videoPlayer.addEventListener('seeking', (event) => recordMediaDiagnosticSeekStart(event.currentTarget));
-  el.videoPlayer.addEventListener('seeked', (event) => recordMediaDiagnosticSeekEnd(event.currentTarget));
+  el.videoPlayer.addEventListener('seeking', (event) => {
+    if (!isCurrentMediaEvent(event.currentTarget)) return;
+    state.isSeeking = true;
+    state.lastPresentedMediaTime = null;
+    clearMediaFrameWatchdog('seeking');
+    recordMediaDiagnosticSeekStart(event.currentTarget);
+  });
+  el.videoPlayer.addEventListener('seeked', (event) => {
+    if (!isCurrentMediaEvent(event.currentTarget)) return;
+    state.isSeeking = false;
+    recordMediaDiagnosticSeekEnd(event.currentTarget);
+    syncMediaFrameWatchdog();
+  });
   el.videoPlayer.addEventListener('play', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
     updatePlayPauseUI();
     beginVideoFrameSampling();
+    syncMediaFrameWatchdog();
     resetControlsTimer();
   });
   el.videoPlayer.addEventListener('pause', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    clearMediaFrameWatchdog('paused');
     updatePlayPauseUI();
     resetControlsTimer();
+  });
+  el.videoPlayer.addEventListener('ended', (event) => {
+    if (isCurrentMediaEvent(event.currentTarget)) clearMediaFrameWatchdog('ended');
   });
   el.videoPlayer.addEventListener('volumechange', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) updateVolumeUI();
@@ -1405,7 +1435,9 @@ function bindEvents() {
     if (isCurrentMediaEvent(event.currentTarget)) updateQualityDisplay();
   });
   el.videoPlayer.addEventListener('error', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) handleMediaElementError('video');
+    if (!isCurrentMediaEvent(event.currentTarget)) return;
+    clearMediaFrameWatchdog('media-error');
+    handleMediaElementError('video');
   });
   el.videoPlayer.addEventListener('loadeddata', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
@@ -1448,6 +1480,7 @@ async function setupServiceWorker() {
         window.location.reload();
       } else {
         sendTokenToWorker();
+        restartPendingMediaAfterServiceWorkerChange();
       }
     });
 
@@ -1462,6 +1495,24 @@ async function setupServiceWorker() {
     console.warn('Service worker registration failed', error);
     if (!state.demo) showToast('원본 스트리밍 준비가 지연됩니다. 연결 상태를 확인한 뒤 새로고침하세요.');
   }
+}
+
+function restartPendingMediaAfterServiceWorkerChange() {
+  const file = state.selected;
+  const video = el.videoPlayer;
+  if (
+    !file?.mimeType?.startsWith('video/')
+    || !['range', 'range-retry'].includes(state.mediaAttempt)
+    || state.mediaTransportStarted === true
+    || !video || video.hidden || !isCurrentMediaEvent(video)
+  ) return false;
+
+  return retryOriginalStream(
+    file,
+    state.mediaSession,
+    '새 원본 스트림에 다시 연결하는 중',
+    { consumeRetry: false }
+  );
 }
 
 function withDeadline(operation, timeoutMs) {
@@ -1669,9 +1720,19 @@ async function handleWorkerMessage(event) {
   }
   if (data.type === 'MEDIA_PROXY_STATUS') {
     const messageSession = Number(data.sessionId ?? data.mediaSession);
+    const messageSourceGeneration = data.sourceGeneration == null
+      ? null
+      : Number(data.sourceGeneration);
     if (data.fileId && data.fileId !== state.selected?.id) return;
     if (Number.isFinite(messageSession) && messageSession !== state.mediaSession) return;
-    if (!state.selected || state.mediaPlaybackMode === PLAYBACK_MODE.COMPATIBILITY) return;
+    if (messageSourceGeneration != null && (
+      !Number.isSafeInteger(messageSourceGeneration)
+      || messageSourceGeneration !== mediaSourceGeneration
+    )) return;
+    if (
+      !state.selected || !['range', 'range-retry'].includes(state.mediaAttempt)
+      || state.mediaPlaybackMode === PLAYBACK_MODE.COMPATIBILITY
+    ) return;
     const requestedRange = String(data.requestedRange || '');
     const contentRange = String(data.contentRange || '');
     const rangeSatisfied = data.rangeSatisfied === true;
@@ -1692,21 +1753,46 @@ async function handleWorkerMessage(event) {
     }
     state.lastProxyError = null;
     updateQualityDisplay();
+    syncMediaFrameWatchdog();
+    return;
+  }
+  if (data.type === 'MEDIA_PROXY_PROGRESS') {
+    if (data.stage !== 'first-byte') return;
+    const messageSession = Number(data.sessionId ?? data.mediaSession);
+    const messageSourceGeneration = data.sourceGeneration == null
+      ? null
+      : Number(data.sourceGeneration);
+    if (data.fileId && data.fileId !== state.selected?.id) return;
+    if (!Number.isFinite(messageSession) || messageSession !== state.mediaSession) return;
+    if (
+      !Number.isSafeInteger(messageSourceGeneration)
+      || messageSourceGeneration !== mediaSourceGeneration
+    ) return;
+    if (!state.selected || !['range', 'range-retry'].includes(state.mediaAttempt)) return;
+    state.mediaTransportStarted = true;
+    syncMediaFrameWatchdog();
     return;
   }
   if (data.type === 'MEDIA_PROXY_ERROR') {
     if (data.fileId && data.fileId !== state.selected?.id) return;
     const messageSession = Number(data.sessionId ?? data.mediaSession);
+    const messageSourceGeneration = data.sourceGeneration == null
+      ? null
+      : Number(data.sourceGeneration);
     if (Number.isFinite(messageSession) && messageSession !== state.mediaSession) return;
+    if (messageSourceGeneration != null && (
+      !Number.isSafeInteger(messageSourceGeneration)
+      || messageSourceGeneration !== mediaSourceGeneration
+    )) return;
+    if (!state.selected || !['range', 'range-retry'].includes(state.mediaAttempt)) return;
+    clearMediaFrameWatchdog('proxy-error');
     state.lastProxyError = data;
-    if (!state.selected) return;
-    if (state.mediaAttempt.startsWith('drive-preview')) return;
-    if (['auth-refresh', 'retry-wait', 'blob-loading', 'buffer-evaluating', 'buffer-choice'].includes(state.mediaAttempt)) return;
     await recoverFromMediaProxyError(data);
   }
 }
 
 async function recoverFromMediaProxyError(data) {
+  clearMediaFrameWatchdog('classified-failure');
   const retryFile = state.selected;
   if (!retryFile) return;
   const retrySession = state.mediaSession;
@@ -4675,11 +4761,194 @@ function seekRelative(deltaSeconds) {
   resetControlsTimer();
 }
 
+function isMediaFrameWatchdogSource() {
+  const direct = ['range', 'range-retry'].includes(state.mediaAttempt)
+    && [PLAYBACK_MODE.RANGE, PLAYBACK_MODE.SEQUENTIAL].includes(state.mediaPlaybackMode);
+  const buffered = state.mediaAttempt === 'blob'
+    && [PLAYBACK_MODE.OPFS, PLAYBACK_MODE.MEMORY].includes(state.mediaPlaybackMode);
+  return direct || buffered;
+}
+
+function canWatchMediaFrameProgress(video = el.videoPlayer) {
+  return Boolean(
+    video && !video.hidden && isCurrentMediaEvent(video)
+    && state.selected?.mimeType?.startsWith('video/')
+    && isMediaFrameWatchdogSource()
+    && state.mediaTransportVerified === true
+    && state.mediaTransportStarted === true
+    && video.paused === false && video.ended !== true
+    && video.seeking !== true && state.isSeeking !== true
+    && document.visibilityState !== 'hidden'
+    && navigator.onLine !== false
+    && el.playerSheet?.hidden !== true
+  );
+}
+
+function clearMediaFrameWatchdog(_reason = '') {
+  const owner = mediaFrameWatchdog;
+  mediaFrameWatchdog = null;
+  if (owner?.timerId != null) clearTimeout(owner.timerId);
+}
+
+function scheduleMediaFrameWatchdog(owner) {
+  if (!owner || mediaFrameWatchdog !== owner || owner.terminalClaimed) return;
+  const elapsed = Math.max(0, mediaDiagnosticTimestamp() - owner.lastProgressAt);
+  const remaining = Math.max(0, MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS - elapsed);
+  owner.timerId = window.setTimeout(() => {
+    owner.timerId = null;
+    if (mediaFrameWatchdog !== owner || owner.terminalClaimed) return;
+    if (
+      state.mediaSession !== owner.session
+      || state.selected?.id !== owner.fileId
+      || state.mediaAttempt !== owner.sourceAttempt
+      || mediaSourceGeneration !== owner.sourceGeneration
+    ) {
+      clearMediaFrameWatchdog('stale-owner');
+      return;
+    }
+    if (!canWatchMediaFrameProgress(owner.video)) {
+      clearMediaFrameWatchdog('inactive');
+      return;
+    }
+    const stalledFor = Math.max(0, mediaDiagnosticTimestamp() - owner.lastProgressAt);
+    if (stalledFor < MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS) {
+      scheduleMediaFrameWatchdog(owner);
+      return;
+    }
+
+    owner.terminalClaimed = true;
+    mediaFrameWatchdog = null;
+    const reason = owner.frameSeen ? 'playback-frame-no-progress' : 'initial-frame-no-progress';
+    emitMediaDiagnosticStage('frame-no-progress', {
+      reason,
+      attempt: owner.sourceAttempt,
+      currentTime: Number(owner.video.currentTime) || 0,
+      terminal: true
+    }, owner.session);
+
+    if (owner.sourceAttempt === 'blob') {
+      clearDirectMediaSources();
+      state.mediaAttempt = 'failed';
+      showMediaError(
+        '원본 파일은 준비됐지만 브라우저의 영상 프레임 진행이 멈췄습니다. 다시 시도하거나 호환 재생을 직접 선택할 수 있습니다.',
+        { title: '원본 영상 재생이 멈췄습니다' }
+      );
+      if (el.compatPlayerButton) el.compatPlayerButton.hidden = false;
+      return;
+    }
+
+    void recoverFromMediaProxyError({
+      type: 'MEDIA_FRAME_NO_PROGRESS',
+      fileId: owner.fileId,
+      sessionId: String(owner.session),
+      mediaSession: String(owner.session),
+      status: 504,
+      category: 'timeout',
+      driveReason: 'frameNoProgress',
+      frameReason: reason
+    }).catch((error) => console.warn('Frame progress recovery failed:', error));
+  }, remaining);
+}
+
+function syncMediaFrameWatchdog() {
+  const video = el.videoPlayer;
+  if (!canWatchMediaFrameProgress(video)) {
+    clearMediaFrameWatchdog('inactive');
+    return false;
+  }
+  const fileId = state.selected.id;
+  const session = state.mediaSession;
+  const sourceAttempt = state.mediaAttempt;
+  if (
+    mediaFrameWatchdog
+    && mediaFrameWatchdog.video === video
+    && mediaFrameWatchdog.fileId === fileId
+    && mediaFrameWatchdog.session === session
+    && mediaFrameWatchdog.sourceAttempt === sourceAttempt
+    && mediaFrameWatchdog.sourceGeneration === mediaSourceGeneration
+  ) return true;
+
+  clearMediaFrameWatchdog('superseded');
+  const owner = {
+    video,
+    fileId,
+    session,
+    sourceAttempt,
+    sourceGeneration: mediaSourceGeneration,
+    frameSeen: state.mediaDecodeVerified === true,
+    lastMediaTime: Number.isFinite(state.lastPresentedMediaTime)
+      ? state.lastPresentedMediaTime
+      : null,
+    lastProgressAt: mediaDiagnosticTimestamp(),
+    timerId: null,
+    terminalClaimed: false
+  };
+  mediaFrameWatchdog = owner;
+  emitMediaDiagnosticStage('frame-watchdog-armed', {
+    reason: owner.frameSeen ? 'playback-progress-required' : 'first-frame-required',
+    attempt: sourceAttempt
+  }, session);
+  scheduleMediaFrameWatchdog(owner);
+  return true;
+}
+
+function noteMediaFrameProgress(
+  video,
+  mediaTime,
+  confidence = 'decoded-frame',
+  expectedSourceGeneration = mediaSourceGeneration
+) {
+  if (
+    expectedSourceGeneration !== mediaSourceGeneration
+    || !isCurrentMediaEvent(video) || state.isSeeking || video.seeking === true
+  ) return false;
+  const numericMediaTime = Number(mediaTime);
+  if (!Number.isFinite(numericMediaTime)) return false;
+
+  state.mediaDecodeVerified = true;
+  state.mediaTransportStarted = true;
+  const owner = mediaFrameWatchdog;
+  if (!owner) syncMediaFrameWatchdog();
+  const current = mediaFrameWatchdog;
+  if (
+    !current || current.video !== video
+    || current.session !== state.mediaSession
+    || current.fileId !== state.selected?.id
+    || current.sourceAttempt !== state.mediaAttempt
+    || current.sourceGeneration !== mediaSourceGeneration
+  ) return false;
+
+  const prior = current.lastMediaTime;
+  const progressed = !Number.isFinite(prior) || numericMediaTime > prior + 0.0001;
+  if (!progressed) return false;
+  current.lastMediaTime = numericMediaTime;
+  current.lastProgressAt = mediaDiagnosticTimestamp();
+  current.frameSeen = true;
+  if (confidence === 'decoded-frame') state.mediaDecodeVerified = true;
+  return true;
+}
+
+function cancelVideoFrameSampling() {
+  if (state.frameCallbackId != null && el.videoPlayer?.cancelVideoFrameCallback) {
+    el.videoPlayer.cancelVideoFrameCallback(state.frameCallbackId);
+  }
+  state.frameCallbackId = null;
+}
+
 function beginVideoFrameSampling() {
   const video = el.videoPlayer;
   if (!video?.requestVideoFrameCallback || video.hidden || state.frameCallbackId != null) return;
-  state.frameCallbackId = video.requestVideoFrameCallback((_now, metadata) => {
-    state.frameCallbackId = null;
+  const session = state.mediaSession;
+  const fileId = state.selected?.id;
+  const sourceGeneration = mediaSourceGeneration;
+  let callbackId = null;
+  callbackId = video.requestVideoFrameCallback((_now, metadata) => {
+    if (state.frameCallbackId === callbackId) state.frameCallbackId = null;
+    if (
+      state.mediaSession !== session || state.selected?.id !== fileId
+      || mediaSourceGeneration !== sourceGeneration
+      || !isCurrentMediaEvent(video)
+    ) return;
     const mediaTime = Number(metadata?.mediaTime);
     const previous = state.lastPresentedMediaTime;
     if (Number.isFinite(mediaTime) && Number.isFinite(previous)) {
@@ -4688,9 +4957,13 @@ function beginVideoFrameSampling() {
         state.frameDuration = state.frameDuration * 0.65 + delta * 0.35;
       }
     }
-    if (Number.isFinite(mediaTime)) state.lastPresentedMediaTime = mediaTime;
+    if (Number.isFinite(mediaTime) && !state.isSeeking && video.seeking !== true) {
+      state.lastPresentedMediaTime = mediaTime;
+      noteMediaFrameProgress(video, mediaTime, 'decoded-frame', sourceGeneration);
+    }
     if (!video.hidden) beginVideoFrameSampling();
   });
+  state.frameCallbackId = callbackId;
 }
 
 function stepVideoFrame(direction) {
@@ -4814,6 +5087,13 @@ function onSpeedMenuKeyDown(event) {
 
 function onVideoTimeUpdate() {
   if (isSeekingPointer) return;
+  if (
+    typeof el.videoPlayer?.requestVideoFrameCallback !== 'function'
+    && !state.isSeeking && el.videoPlayer?.seeking !== true
+    && Number(el.videoPlayer?.currentTime) > 0
+  ) {
+    noteMediaFrameProgress(el.videoPlayer, Number(el.videoPlayer.currentTime), 'playback-clock');
+  }
   if (mediaDiagnosticTrace && !mediaDiagnosticTrace.playbackProgressSeen && Number(el.videoPlayer?.currentTime) > 0) {
     mediaDiagnosticTrace.playbackProgressSeen = true;
     emitMediaDiagnosticStage('playback-progress', {
@@ -6074,9 +6354,12 @@ function startInitialOriginalPlayback(file, kind, session) {
 
 function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
+  clearMediaFrameWatchdog('range-source');
+  mediaSourceGeneration += 1;
   state.mediaAttempt = 'range';
   state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
   state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
   state.mediaRangeIntegrity = 'unknown';
   state.lastProxyError = null;
   emitMediaDiagnosticStage('range-source-assigned', { route: 'range', kind }, session);
@@ -6129,6 +6412,7 @@ async function attemptCurrentPlayback(session) {
     if (session !== state.mediaSession) return;
     state.pendingPlay = false;
     if (error?.name === 'NotAllowedError') {
+      clearMediaFrameWatchdog('autoplay-blocked');
       showPlayerFeedback('화면을 눌러 재생');
       updatePlayPauseUI();
       return;
@@ -6147,6 +6431,7 @@ function buildMediaUrl(file) {
   url.searchParams.set('accountGeneration', String(state.driveSessionGeneration));
   const traceId = getMediaDiagnosticTraceId(state.mediaSession);
   if (traceId) url.searchParams.set('_trace', traceId);
+  url.searchParams.set('sourceGeneration', String(mediaSourceGeneration));
   if (state.mediaRetryCount) url.searchParams.set('attempt', String(state.mediaRetryCount));
   if (state.mediaAbuseAcknowledged && state.selected?.id === file.id) {
     url.searchParams.set('acknowledgeAbuse', '1');
@@ -6207,6 +6492,7 @@ function decideUnsupportedFormatRecovery({
 }
 
 async function handleMediaElementError(kind) {
+  if (kind === 'video') clearMediaFrameWatchdog('media-error');
   const element = kind === 'video' ? el.videoPlayer : el.imageViewer;
   if (!element.getAttribute('src') || !state.selected) return;
   if (
@@ -6311,6 +6597,7 @@ async function handleMediaElementError(kind) {
 
 function scheduleOriginalStreamRetry(file, expectedSession, delayMs, message) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== expectedSession) return;
+  clearMediaFrameWatchdog('retry-wait');
   clearTimeout(mediaRecoveryTimer);
   state.mediaAttempt = 'retry-wait';
   showMediaLoading(message);
@@ -6326,6 +6613,8 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     || state.mediaSession !== expectedSession || (consumeRetry && state.mediaRetryCount >= 1)
   ) return false;
 
+  clearMediaFrameWatchdog('range-retry');
+  cancelVideoFrameSampling();
   const snapshot = state.resumePosition?.fileId === file.id && state.resumePosition.snapshot
     ? state.resumePosition.snapshot
     : capturePlaybackSnapshot();
@@ -6336,11 +6625,13 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
   state.mediaAttempt = 'range-retry';
   state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
   state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
   state.mediaRangeIntegrity = 'unknown';
   const retrySession = state.mediaSession;
   updateMediaDiagnosticSession(retrySession, 'range-retry');
 
   clearDirectMediaSources();
+  mediaSourceGeneration += 1;
   setNativeVideoActionsAvailable(true);
   const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
   if (poster) {
@@ -6583,6 +6874,7 @@ async function startOriginalBlobFallback(
   state.mediaBufferStorageMode = resolvedPolicy.mode;
   state.mediaPlaybackMode = resolvedPolicy.mode === 'disk' ? PLAYBACK_MODE.OPFS : PLAYBACK_MODE.MEMORY;
   state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
   state.pendingOriginalBuffer = null;
   state.lastProxyError = null;
   updateQualityDisplay();
@@ -6616,8 +6908,10 @@ async function startOriginalBlobFallback(
     }
 
     state.mediaBlobUrl = URL.createObjectURL(originalFile);
+    mediaSourceGeneration += 1;
     state.mediaAttempt = 'blob';
     state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
     updateQualityDisplay();
     el.codecNote.textContent = `Drive 원본 파일 바이트를 ${locationLabel}에 임시 저장해 재인코딩 없이 재생 중입니다. 플레이어를 닫거나 이동하면 즉시 삭제됩니다.`;
 
@@ -6948,6 +7242,7 @@ function showDrivePreview(file, reason) {
   state.mediaAttempt = 'drive-preview-loading';
   state.mediaPlaybackMode = PLAYBACK_MODE.COMPATIBILITY;
   state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
   state.lastProxyError = null;
   state.pendingPlay = false;
   state.pendingOriginalBuffer = null;
@@ -7649,6 +7944,7 @@ function openPermissionGuide() {
 
 function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.mediaSession) {
   if (!video || video.hidden || !isCurrentMediaEvent(video)) return;
+  const sourceGeneration = mediaSourceGeneration;
   const presentationKey = String(session);
   if (video.dataset.presentationSession === presentationKey) return;
   video.dataset.presentationSession = presentationKey;
@@ -7658,6 +7954,7 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
     presented = true;
     if (
       state.mediaSession !== session || !isCurrentMediaEvent(video)
+      || mediaSourceGeneration !== sourceGeneration
       || video.dataset.presentationSession !== presentationKey
     ) return;
     delete video.dataset.presentationSession;
@@ -7680,19 +7977,22 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
   };
 
   if (typeof video.requestVideoFrameCallback === 'function') {
-    video.requestVideoFrameCallback(() => reveal('decoded-frame'));
+    video.requestVideoFrameCallback((_now, metadata) => {
+      noteMediaFrameProgress(video, metadata?.mediaTime, 'decoded-frame', sourceGeneration);
+      reveal('decoded-frame');
+    });
   } else {
     requestAnimationFrame(() => requestAnimationFrame(() => reveal('paint-only')));
   }
 }
 
 function onMediaReady() {
-  el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
   if (el.videoPlayer && !el.videoPlayer.hidden) {
     scheduleVideoFramePresentation(el.videoPlayer, state.mediaSession);
   }
   if (el.imageViewer && !el.imageViewer.hidden) {
+    el.mediaLoading.hidden = true;
     el.imageViewer.classList.add('is-ready');
     requestAnimationFrame(() => hideSwipeNeighbor({ immediate: false }));
   }
@@ -7906,6 +8206,9 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  mediaSourceGeneration += 1;
+  clearMediaFrameWatchdog('source-cleared');
+  cancelVideoFrameSampling();
   if (el.videoPlayer) {
     delete el.videoPlayer.dataset.mediaSession;
     delete el.videoPlayer.dataset.presentationSession;
@@ -7932,6 +8235,7 @@ function clearDirectMediaSources() {
 
 function resetMediaElements() {
   state.mediaSession += 1;
+  clearMediaFrameWatchdog('session-reset');
   activeSeekCleanup?.();
   clearTimeout(singleTapTimer);
   singleTapTimer = null;
@@ -7942,10 +8246,7 @@ function resetMediaElements() {
   mediaRecoveryTimer = null;
   state.mediaAbortController?.abort();
   state.mediaAbortController = null;
-  if (state.frameCallbackId != null && el.videoPlayer?.cancelVideoFrameCallback) {
-    el.videoPlayer.cancelVideoFrameCallback(state.frameCallbackId);
-  }
-  state.frameCallbackId = null;
+  cancelVideoFrameSampling();
   state.lastPresentedMediaTime = null;
   state.frameDuration = DEFAULT_FRAME_DURATION;
   clearDirectMediaSources();
@@ -7980,6 +8281,7 @@ function resetMediaElements() {
   state.mediaAttempt = 'idle';
   state.mediaPlaybackMode = '';
   state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
   state.mediaRangeIntegrity = 'unknown';
   state.mediaDecodeVerified = false;
   state.mediaRetryCount = 0;
@@ -7993,6 +8295,7 @@ function resetMediaElements() {
   state.pendingOriginalBuffer = null;
   state.drivePreviewReason = '';
   state.lastProxyError = null;
+  state.isSeeking = false;
   state.retryAfterAuth = false;
   state.authRetryContext = null;
 }

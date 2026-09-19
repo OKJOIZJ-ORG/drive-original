@@ -101,6 +101,38 @@ test('candidate prerelease versions remain valid and compare in SemVer order', (
   assert.equal(run(context, `isNewerVersion('not-a-version', '1.22.0-rc.1')`), false);
 });
 
+test('a new service worker reconnects only a pre-byte Range source without consuming its retry', () => {
+  const context = loadAppContext();
+  run(context, `(() => {
+    globalThis.controllerReconnects = [];
+    state.selected = { id: 'upgrade-skew-video', mimeType: 'video/mp4' };
+    state.mediaSession = 23;
+    state.mediaAttempt = 'range';
+    state.mediaTransportStarted = false;
+    el.videoPlayer = { hidden: false, dataset: { mediaSession: '23' } };
+    retryOriginalStream = (file, session, message, options) => {
+      controllerReconnects.push({ fileId: file.id, session, message, options });
+      return true;
+    };
+  })()`);
+
+  assert.equal(run(context, 'restartPendingMediaAfterServiceWorkerChange()'), true);
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(controllerReconnects)')), [{
+    fileId: 'upgrade-skew-video',
+    session: 23,
+    message: '새 원본 스트림에 다시 연결하는 중',
+    options: { consumeRetry: false }
+  }]);
+
+  run(context, 'state.mediaTransportStarted = true');
+  assert.equal(run(context, 'restartPendingMediaAfterServiceWorkerChange()'), false);
+  run(context, `state.mediaTransportStarted = false; state.mediaAttempt = 'blob'`);
+  assert.equal(run(context, 'restartPendingMediaAfterServiceWorkerChange()'), false);
+  run(context, `state.mediaAttempt = 'range'; el.videoPlayer.dataset.mediaSession = '22'`);
+  assert.equal(run(context, 'restartPendingMediaAfterServiceWorkerChange()'), false);
+  assert.equal(run(context, 'controllerReconnects.length'), 1);
+});
+
 test('callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely', () => {
   const context = loadAppContext();
   const replacements = [];
@@ -151,6 +183,42 @@ test('callback auth error is consumed once, preserves unrelated URL state, and i
 
 function run(context, source) {
   return vm.runInContext(source, context);
+}
+
+function installFakeClock(context, startAt = 1_000) {
+  let now = startAt;
+  let sequence = 0;
+  const scheduled = new Map();
+  const captured = [];
+  const setTimeoutImpl = (callback, delay = 0) => {
+    const id = ++sequence;
+    const entry = { id, callback, delay: Math.max(0, Number(delay) || 0), due: now + Math.max(0, Number(delay) || 0) };
+    scheduled.set(id, entry);
+    captured.push(entry);
+    return id;
+  };
+  const clearTimeoutImpl = (id) => scheduled.delete(id);
+  context.setTimeout = setTimeoutImpl;
+  context.clearTimeout = clearTimeoutImpl;
+  context.window.setTimeout = setTimeoutImpl;
+  context.window.clearTimeout = clearTimeoutImpl;
+  context.__mediaWatchdogClock = { now };
+  run(context, 'mediaDiagnosticTimestamp = () => __mediaWatchdogClock.now');
+
+  const advance = (milliseconds) => {
+    now += milliseconds;
+    context.__mediaWatchdogClock.now = now;
+    while (true) {
+      const due = [...scheduled.values()]
+        .filter((entry) => entry.due <= now)
+        .sort((left, right) => left.due - right.due || left.id - right.id)[0];
+      if (!due) break;
+      scheduled.delete(due.id);
+      due.callback();
+    }
+  };
+
+  return { advance, captured, scheduled, now: () => now };
 }
 
 function installMiniDom(context) {
@@ -1258,16 +1326,24 @@ test('video transition keeps the neighbour poster until a frame is actually pres
     tryCaptureAmbientFrame = () => {};
     hideSwipeNeighbor = () => { hiddenNeighbours += 1; };
     onMediaReady();
-    const beforeFrame = { hiddenNeighbours, ready: classes.has('is-ready') };
+    const beforeFrame = {
+      hiddenNeighbours,
+      ready: classes.has('is-ready'),
+      loadingHidden: el.mediaLoading.hidden
+    };
     frameCallback?.(0, { mediaTime: 0 });
     return JSON.stringify({
       beforeFrame,
-      afterFrame: { hiddenNeighbours, ready: classes.has('is-ready') }
+      afterFrame: {
+        hiddenNeighbours,
+        ready: classes.has('is-ready'),
+        loadingHidden: el.mediaLoading.hidden
+      }
     });
   })()`));
   assert.deepEqual(result, {
-    beforeFrame: { hiddenNeighbours: 0, ready: false },
-    afterFrame: { hiddenNeighbours: 1, ready: true }
+    beforeFrame: { hiddenNeighbours: 0, ready: false, loadingHidden: false },
+    afterFrame: { hiddenNeighbours: 1, ready: true, loadingHidden: true }
   });
 });
 
@@ -1452,13 +1528,22 @@ test('media trace does not call metadata a decoded frame and waits for frame pre
     emitMediaDiagnosticStage('media-metadata', { confidence: 'container-metadata' }, 8);
     onMediaReady();
     const before = events.map((event) => event.stage);
+    const decodedBeforeFrame = state.mediaDecodeVerified;
     frameCallback?.(0, { mediaTime: 0 });
     const after = events.map((event) => event.stage);
-    return JSON.stringify({ before, after, ready: classes.has('is-ready') });
+    return JSON.stringify({
+      before,
+      after,
+      decodedBeforeFrame,
+      decodedAfterFrame: state.mediaDecodeVerified,
+      ready: classes.has('is-ready')
+    });
   })()`));
 
   assert.equal(result.before.includes('first-decoded-frame'), false);
   assert.equal(result.after.includes('first-decoded-frame'), true);
+  assert.equal(result.decodedBeforeFrame, false);
+  assert.equal(result.decodedAfterFrame, true);
   assert.equal(result.ready, true);
 });
 
@@ -1501,6 +1586,306 @@ test('media element errors remain provisional until the worker classification wi
   assert.equal(result.events[3].reason, 'proxy-auth');
   assert.equal(result.mediaAttempt, 'range');
   assert.doesNotMatch(JSON.stringify(result.events), /private-video-id|private-token|blob:private-source/);
+});
+
+test('frame watchdog starts only after positive media bytes and keeps one recovery owner', async () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  await run(context, `(async () => {
+    globalThis.watchdogEvents = [];
+    globalThis.watchdogRecoveries = [];
+    globalThis.watchdogActions = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => watchdogEvents.push(event);
+    const file = {
+      id: 'frame-stall', mimeType: 'video/mp4', size: '1000',
+      capabilities: { canDownload: true }
+    };
+    const video = {
+      hidden: false, paused: false, ended: false, seeking: false, currentTime: 0,
+      dataset: { mediaSession: '51' }, error: { code: 4 },
+      getAttribute(name) { return name === 'src' ? '/__drive_media/frame-stall' : ''; }
+    };
+    state.selected = file;
+    state.mediaSession = 51;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = false;
+    state.mediaTransportStarted = false;
+    state.mediaRetryCount = 0;
+    state.token = 'fixture-token';
+    state.expiresAt = Date.now() + 60_000;
+    el.videoPlayer = video;
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(file, 51, mediaDiagnosticTimestamp());
+    const originalRecover = recoverFromMediaProxyError;
+    recoverFromMediaProxyError = async (failure) => {
+      watchdogRecoveries.push({
+        type: failure.type,
+        status: failure.status,
+        category: failure.category,
+        driveReason: failure.driveReason,
+        frameReason: failure.frameReason
+      });
+      return originalRecover(failure);
+    };
+    scheduleOriginalStreamRetry = (selected, session, delay) => {
+      watchdogActions.push({ type: 'range-retry', id: selected.id, session, delay });
+      state.mediaAttempt = 'retry-wait';
+    };
+    offerOriginalBufferFallback = async () => { watchdogActions.push({ type: 'buffer' }); };
+    showDrivePreview = () => { watchdogActions.push({ type: 'preview' }); };
+
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_STATUS', fileId: file.id, sessionId: '51',
+      requestedRange: 'bytes=0-', contentRange: 'bytes 0-999/1000',
+      status: 206, rangeSatisfied: true, playbackMode: PLAYBACK_MODE.RANGE
+    } });
+    globalThis.watchdogAfterHeaders = mediaFrameWatchdog !== null;
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_PROGRESS', stage: 'first-byte', fileId: file.id, sessionId: '50'
+    } });
+    globalThis.watchdogAfterStaleByte = mediaFrameWatchdog !== null;
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_PROGRESS', stage: 'first-byte', fileId: file.id, sessionId: '51',
+      sourceGeneration: mediaSourceGeneration + 1
+    } });
+    globalThis.watchdogAfterStaleSource = mediaFrameWatchdog !== null;
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_PROGRESS', stage: 'first-byte', fileId: file.id, sessionId: '51',
+      sourceGeneration: mediaSourceGeneration
+    } });
+    globalThis.watchdogAfterCurrentByte = mediaFrameWatchdog !== null;
+  })()`);
+
+  assert.equal(run(context, 'watchdogAfterHeaders'), false);
+  assert.equal(run(context, 'watchdogAfterStaleByte'), false);
+  assert.equal(run(context, 'watchdogAfterStaleSource'), false);
+  assert.equal(run(context, 'watchdogAfterCurrentByte'), true);
+  assert.equal(clock.scheduled.size, 1);
+  assert.equal([...clock.scheduled.values()][0].delay, 15_000);
+
+  clock.advance(14_999);
+  assert.equal(run(context, 'watchdogRecoveries.length'), 0);
+  clock.advance(1);
+  await Promise.resolve();
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(watchdogRecoveries)')), [{
+    type: 'MEDIA_FRAME_NO_PROGRESS',
+    status: 504,
+    category: 'timeout',
+    driveReason: 'frameNoProgress',
+    frameReason: 'initial-frame-no-progress'
+  }]);
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(watchdogActions)')), [
+    { type: 'range-retry', id: 'frame-stall', session: 51, delay: 700 }
+  ]);
+
+  clock.captured[0].callback();
+  await run(context, `(async () => {
+    const lateFailure = {
+      type: 'MEDIA_PROXY_ERROR', fileId: 'frame-stall', sessionId: '51',
+      status: 504, category: 'timeout', driveReason: 'bodyNoProgress'
+    };
+    await handleWorkerMessage({ data: lateFailure });
+    await handleMediaElementError('video');
+  })()`);
+  assert.equal(run(context, 'watchdogRecoveries.length'), 1);
+  assert.equal(run(context, 'watchdogActions.length'), 1);
+  const terminalEvents = JSON.parse(run(context, `JSON.stringify(
+    watchdogEvents.filter((event) => event.stage === 'frame-no-progress')
+  )`));
+  assert.equal(terminalEvents.length, 1);
+  assert.equal(terminalEvents[0].reason, 'initial-frame-no-progress');
+  assert.equal(terminalEvents[0].terminal, true);
+});
+
+test('actual frame time progress renews one watchdog lease while duplicate frames do not', async () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.frameLeaseEvents = [];
+    globalThis.frameLeaseRecoveries = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => frameLeaseEvents.push(event);
+    state.selected = { id: 'progressing-video', mimeType: 'video/mp4', capabilities: { canDownload: true } };
+    state.mediaSession = 61;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    const video = {
+      hidden: false, paused: false, ended: false, seeking: false, currentTime: 0,
+      dataset: { mediaSession: '61' }
+    };
+    el.videoPlayer = video;
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(state.selected, 61, mediaDiagnosticTimestamp());
+    recoverFromMediaProxyError = async (failure) => {
+      frameLeaseRecoveries.push({ driveReason: failure.driveReason, frameReason: failure.frameReason });
+      state.mediaAttempt = 'retry-wait';
+    };
+    syncMediaFrameWatchdog();
+  })()`);
+
+  clock.advance(14_000);
+  assert.equal(run(context, 'noteMediaFrameProgress(el.videoPlayer, 0, "decoded-frame")'), true);
+  assert.equal(run(context, 'state.mediaDecodeVerified'), true);
+  assert.equal(clock.scheduled.size, 1, 'frame progress updates the lease without timer churn');
+  clock.advance(1_000);
+  assert.equal(run(context, 'frameLeaseRecoveries.length'), 0);
+  assert.equal(clock.scheduled.size, 1);
+  assert.equal([...clock.scheduled.values()][0].delay, 14_000);
+
+  clock.advance(10_000);
+  assert.equal(run(context, 'noteMediaFrameProgress(el.videoPlayer, 0.04, "decoded-frame")'), true);
+  const progressAt = run(context, 'mediaFrameWatchdog.lastProgressAt');
+  clock.advance(1_000);
+  assert.equal(run(context, 'noteMediaFrameProgress(el.videoPlayer, 0.04, "decoded-frame")'), false);
+  assert.equal(run(context, 'mediaFrameWatchdog.lastProgressAt'), progressAt);
+  clock.advance(3_000);
+  assert.equal(run(context, 'frameLeaseRecoveries.length'), 0);
+  clock.advance(11_000);
+  await Promise.resolve();
+
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(frameLeaseRecoveries)')), [{
+    driveReason: 'frameNoProgress',
+    frameReason: 'playback-frame-no-progress'
+  }]);
+  assert.equal(JSON.parse(run(context, `JSON.stringify(
+    frameLeaseEvents.filter((event) => event.stage === 'frame-no-progress')
+  )`)).length, 1);
+});
+
+test('timeupdate is a monotonic fallback only when frame callbacks are unavailable and no seek is active', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    state.selected = { id: 'fallback-clock', mimeType: 'video/mp4' };
+    state.mediaSession = 66;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.SEQUENTIAL;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: false, currentTime: 0,
+      dataset: { mediaSession: '66' }
+    };
+    el.playerSheet = { hidden: false };
+    syncMediaFrameWatchdog();
+  })()`);
+  clock.advance(14_000);
+  run(context, 'el.videoPlayer.currentTime=0.5;onVideoTimeUpdate()');
+  const progressedAt = run(context, 'mediaFrameWatchdog.lastProgressAt');
+  assert.equal(progressedAt, clock.now());
+  assert.equal(run(context, 'state.mediaDecodeVerified'), true);
+
+  clock.advance(500);
+  run(context, 'state.isSeeking=true;el.videoPlayer.seeking=true;el.videoPlayer.currentTime=30;onVideoTimeUpdate()');
+  assert.equal(run(context, 'mediaFrameWatchdog.lastProgressAt'), progressedAt);
+});
+
+test('frame watchdog suspends for inactive playback and rejects stale timers and frame callbacks', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.suspendedRecoveries = [];
+    globalThis.sampleCallbacks = [];
+    state.selected = { id: 'suspend-video', mimeType: 'video/mp4' };
+    state.mediaSession = 71;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    const video = {
+      hidden: false, paused: false, ended: false, seeking: false, currentTime: 0,
+      dataset: { mediaSession: '71' },
+      requestVideoFrameCallback(callback) { sampleCallbacks.push(callback); return sampleCallbacks.length; },
+      cancelVideoFrameCallback() {}
+    };
+    el.videoPlayer = video;
+    el.playerSheet = { hidden: false };
+    recoverFromMediaProxyError = async (failure) => { suspendedRecoveries.push(failure.driveReason); };
+    syncMediaFrameWatchdog();
+    beginVideoFrameSampling();
+  })()`);
+
+  const exerciseSuspension = (before, after) => {
+    const staleTimer = clock.captured.at(-1).callback;
+    run(context, before);
+    assert.equal(run(context, 'mediaFrameWatchdog === null'), true);
+    staleTimer();
+    assert.equal(run(context, 'suspendedRecoveries.length'), 0);
+    run(context, after);
+    assert.equal(run(context, 'mediaFrameWatchdog !== null'), true);
+  };
+
+  exerciseSuspension(
+    'el.videoPlayer.paused=true;syncMediaFrameWatchdog()',
+    'el.videoPlayer.paused=false;syncMediaFrameWatchdog()'
+  );
+  exerciseSuspension(
+    'document.visibilityState="hidden";syncMediaFrameWatchdog()',
+    'document.visibilityState="visible";syncMediaFrameWatchdog()'
+  );
+  exerciseSuspension(
+    'navigator.onLine=false;syncMediaFrameWatchdog()',
+    'navigator.onLine=true;syncMediaFrameWatchdog()'
+  );
+  exerciseSuspension(
+    'state.isSeeking=true;el.videoPlayer.seeking=true;syncMediaFrameWatchdog()',
+    'state.isSeeking=false;el.videoPlayer.seeking=false;syncMediaFrameWatchdog()'
+  );
+
+  run(context, `
+    state.mediaDecodeVerified=false;
+    state.lastPresentedMediaTime=null;
+    mediaSourceGeneration+=1;
+    sampleCallbacks[0](0,{mediaTime:1});
+  `);
+  assert.equal(run(context, 'state.mediaDecodeVerified'), false);
+  assert.equal(run(context, 'state.lastPresentedMediaTime'), null);
+  run(context, 'syncMediaFrameWatchdog()');
+  const staleSessionTimer = clock.captured.at(-1).callback;
+  run(context, `
+    state.mediaSession=72;
+    state.selected={id:'new-video',mimeType:'video/mp4'};
+    el.videoPlayer.dataset.mediaSession='72';
+    state.mediaDecodeVerified=false;
+    state.lastPresentedMediaTime=null;
+  `);
+  staleSessionTimer();
+  assert.equal(run(context, 'suspendedRecoveries.length'), 0);
+  assert.equal(run(context, 'mediaFrameWatchdog'), null);
+  assert.equal(run(context, 'state.mediaDecodeVerified'), false);
+  assert.equal(run(context, 'state.lastPresentedMediaTime'), null);
+});
+
+test('buffered-original frame timeout stops locally and leaves compatibility as a user choice', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.bufferedFailures = [];
+    globalThis.bufferedPreviews = 0;
+    state.selected = { id: 'buffered-video', mimeType: 'video/mp4' };
+    state.mediaSession = 81;
+    state.mediaAttempt = 'blob';
+    state.mediaPlaybackMode = PLAYBACK_MODE.OPFS;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: false, currentTime: 12,
+      dataset: { mediaSession: '81' }
+    };
+    el.playerSheet = { hidden: false };
+    el.compatPlayerButton = { hidden: true };
+    clearDirectMediaSources = () => { clearMediaFrameWatchdog('fixture-source-cleared'); };
+    showMediaError = (message, options) => bufferedFailures.push({ message, title: options.title });
+    showDrivePreview = () => { bufferedPreviews += 1; };
+    syncMediaFrameWatchdog();
+  })()`);
+  clock.advance(15_000);
+  assert.equal(run(context, 'state.mediaAttempt'), 'failed');
+  assert.equal(run(context, 'bufferedFailures.length'), 1);
+  assert.equal(run(context, 'bufferedPreviews'), 0);
+  assert.equal(run(context, 'el.compatPlayerButton.hidden'), false);
 });
 
 test('task pool caps concurrency and returns aligned all-settled results', async () => {
@@ -1552,6 +1937,7 @@ test('Drive view, preview, and media URLs preserve required context', () => {
     return buildMediaUrl({ id: 'file-id', mimeType: 'video/mp4', size: '1000' });
   })()`);
   assert.equal(new URL(mediaUrl).searchParams.get('mediaSession'), '19');
+  assert.equal(new URL(mediaUrl).searchParams.get('sourceGeneration'), '0');
   assert.equal(new URL(mediaUrl).searchParams.get('size'), '1000');
 });
 

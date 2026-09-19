@@ -160,6 +160,14 @@ async function proxyDriveMedia(request, url, clientId) {
     || !/^\d+$/.test(url.searchParams.get('accountGeneration') || '')) {
     return mediaErrorResponse('Invalid account generation', 400);
   }
+  const sourceGenerationValue = url.searchParams.get('sourceGeneration');
+  if (sourceGenerationValue != null && !/^\d+$/.test(sourceGenerationValue)) {
+    return mediaErrorResponse('Invalid media source generation', 400);
+  }
+  const sourceGeneration = sourceGenerationValue == null ? null : Number(sourceGenerationValue);
+  if (sourceGeneration != null && (!Number.isSafeInteger(sourceGeneration) || sourceGeneration < 0)) {
+    return mediaErrorResponse('Invalid media source generation', 400);
+  }
   const context = {
     requestId: `media-${++requestSequence}`,
     clientId: clientId || '',
@@ -167,7 +175,8 @@ async function proxyDriveMedia(request, url, clientId) {
     sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
     accountGeneration: Number(url.searchParams.get('accountGeneration')),
     requestedRange: request.headers.get('range'),
-    traceId: normalizeMediaTraceId(url.searchParams.get('_trace'))
+    traceId: normalizeMediaTraceId(url.searchParams.get('_trace')),
+    ...(sourceGeneration == null ? {} : { sourceGeneration })
   };
   if (!Number.isSafeInteger(context.accountGeneration) || context.accountGeneration < 0) {
     return mediaErrorResponse('Invalid account generation', 400);
@@ -659,6 +668,9 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
           if (!firstByteSeen) {
             firstByteSeen = true;
             lastProgressAt = Date.now();
+            void notifyMediaProgress(context, 'first-byte', {
+              ...details, bytes: received, totalBytes
+            });
             notifyMediaTrace(context, 'first-byte', {
               ...details, bytes: received, totalBytes
             });
@@ -969,12 +981,41 @@ async function notifyMediaStatus(context, details) {
       fileId: context.fileId,
       sessionId: context.sessionId,
       mediaSession: context.mediaSession,
+      ...(Number.isSafeInteger(context.sourceGeneration)
+        ? { sourceGeneration: context.sourceGeneration }
+        : {}),
       status: details.status,
       requestedRange: context.requestedRange || null,
       contentRange: details.contentRange || null,
       contentRangeInferred: Boolean(details.contentRangeInferred),
       rangeSatisfied: Boolean(details.rangeSatisfied),
       playbackMode: details.playbackMode
+    });
+  } catch (_) {
+    // Closing a client must not turn its media response into another error.
+  }
+}
+
+async function notifyMediaProgress(context, stage, details = {}) {
+  if (!context.clientId) return;
+  try {
+    const client = await self.clients.get(context.clientId);
+    client?.postMessage({
+      type: 'MEDIA_PROXY_PROGRESS',
+      requestId: context.requestId,
+      fileId: context.fileId,
+      sessionId: context.sessionId,
+      mediaSession: context.mediaSession,
+      ...(Number.isSafeInteger(context.sourceGeneration)
+        ? { sourceGeneration: context.sourceGeneration }
+        : {}),
+      stage: String(stage || ''),
+      status: Number(details.status) || 0,
+      requestedRange: context.requestedRange || null,
+      rangeSatisfied: details.rangeSatisfied === true,
+      playbackMode: String(details.playbackMode || ''),
+      bytes: Number(details.bytes) || 0,
+      totalBytes: Number(details.totalBytes) || 0
     });
   } catch (_) {
     // Closing a client must not turn its media response into another error.

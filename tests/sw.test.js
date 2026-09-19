@@ -98,13 +98,16 @@ function createWorker(fetchImpl, {
     request(clientId, {
       fileId = 'fileA', range = 'bytes=100-199', signal, method = 'GET',
       sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000', traceId = '',
-      accountGeneration = 1
+      accountGeneration = 1, sourceGeneration = null
     } = {}) {
       const abuseQuery = acknowledgeAbuse ? '&acknowledgeAbuse=1' : '';
       const sizeQuery = size == null ? '' : `&size=${encodeURIComponent(size)}`;
       const traceQuery = traceId ? `&_trace=${encodeURIComponent(traceId)}` : '';
       const generationQuery = accountGeneration == null ? '' : `&accountGeneration=${encodeURIComponent(accountGeneration)}`;
-      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sizeQuery}${abuseQuery}${traceQuery}`, {
+      const sourceGenerationQuery = sourceGeneration == null
+        ? ''
+        : `&sourceGeneration=${encodeURIComponent(sourceGeneration)}`;
+      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sourceGenerationQuery}${sizeQuery}${abuseQuery}${traceQuery}`, {
         method, headers: { Range: range }, signal
       });
       let response;
@@ -282,7 +285,7 @@ test('missing client identity fails closed without borrowing another client toke
   assert.equal(messages.length, 0);
 });
 
-test('media fixtures always carry accountGeneration and invalid values fail closed', async () => {
+test('media fixtures carry account generation and reject malformed source generations', async () => {
   const validWorker = createWorker(() => partialResponse());
   validWorker.addClient('A');
   validWorker.setToken('A', 'valid');
@@ -295,6 +298,15 @@ test('media fixtures always carry accountGeneration and invalid values fail clos
     worker.addClient('A');
     worker.setToken('A', 'valid');
     const response = await worker.request('A', { accountGeneration }).response;
+    assert.equal(response.status, 400);
+    assert.equal(response.headers.get('Cache-Control'), 'no-store');
+    assert.equal(worker.calls.length, 0);
+  }
+  for (const sourceGeneration of ['not-an-integer', -1, 1.5]) {
+    const worker = createWorker(() => { throw new Error('must not fetch'); });
+    worker.addClient('A');
+    worker.setToken('A', 'valid');
+    const response = await worker.request('A', { sourceGeneration }).response;
     assert.equal(response.status, 400);
     assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(worker.calls.length, 0);
@@ -848,7 +860,9 @@ test('a positive first chunk clears the first-byte deadline without aborting ups
   });
   const messages = worker.addClient('A');
   worker.setToken('A', 'valid');
-  const response = await worker.request('A', { traceId: 'trace-first-byte-ok' }).response;
+  const response = await worker.request('A', {
+    traceId: 'trace-first-byte-ok', sourceGeneration: 9
+  }).response;
   assert.equal(scheduled.size, 0);
   const reader = response.body.getReader();
   const pendingRead = reader.read();
@@ -863,6 +877,22 @@ test('a positive first chunk clears the first-byte deadline without aborting ups
   await reader.cancel('test complete');
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+  const progress = messages.find((message) => message.type === 'MEDIA_PROXY_PROGRESS');
+  assert.deepEqual({ ...progress }, {
+    type: 'MEDIA_PROXY_PROGRESS',
+    requestId: 'media-1',
+    fileId: 'fileA',
+    sessionId: '7',
+    mediaSession: '7',
+    sourceGeneration: 9,
+    stage: 'first-byte',
+    status: 206,
+    requestedRange: 'bytes=100-199',
+    rangeSatisfied: true,
+    playbackMode: 'original-range',
+    bytes: 3,
+    totalBytes: 100
+  });
   const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
   assert.equal(trace.filter((message) => message.stage === 'first-byte').length, 1);
   assert.equal(trace.some((message) => message.stage === 'first-byte-timeout'), false);
@@ -1143,6 +1173,10 @@ test('body no-progress protection remains active when diagnostic tracing is off'
   const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
   assert.equal(failures.length, 1);
   assert.equal(failures[0].driveReason, 'bodyNoProgress');
+  const progress = messages.filter((message) => message.type === 'MEDIA_PROXY_PROGRESS');
+  assert.equal(progress.length, 1);
+  assert.equal(progress[0].stage, 'first-byte');
+  assert.equal(progress[0].bytes, 1);
   assert.equal(messages.some((message) => message.type === 'MEDIA_TRACE_EVENT'), false);
 });
 
