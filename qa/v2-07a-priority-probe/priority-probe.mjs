@@ -330,7 +330,7 @@ export function analyzePriorityProbe({
     },
     coverage: {
       metadataInventoryCount: 1,
-      boundedProbeCount: 1,
+      configuredContainerAnalysisCount: 1,
       decodedInThisRunCount: 0
     },
     redaction: {

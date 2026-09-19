@@ -286,4 +286,9 @@ test('analysis options and unmeasured I/O, index, seek and decode stay distinct'
   assert.equal(report.configuredContainerAnalysis.seekBehavior, 'not-measured');
   assert.equal(report.limitations.ffprobeAnalysisOptionsAreNotTotalIoBounds, true);
   assert.equal(report.limitations.decodeOrPlaybackPerformed, false);
+  assert.deepEqual(report.coverage, {
+    metadataInventoryCount: 1,
+    configuredContainerAnalysisCount: 1,
+    decodedInThisRunCount: 0
+  });
 });
