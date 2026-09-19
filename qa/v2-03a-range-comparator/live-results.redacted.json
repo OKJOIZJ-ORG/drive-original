@@ -1,0 +1,105 @@
+{
+  "schema": "drive-original.v2-03a-range-comparison-redacted/1",
+  "producer": "exact-local-source-import:range-comparator.mjs@v2-03a.4",
+  "candidate": "fe9c35965a96adfaaaa97727f94377f878e2de51",
+  "recordedAt": "2026-09-19T12:23:00Z",
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Chrome 152.0.0.0",
+    "origin": "http://localhost:4173",
+    "serviceWorkerControlled": true
+  },
+  "identity": {
+    "filesVersionStable": true,
+    "contentRevisionStable": true,
+    "sha256Stable": true,
+    "sizeStable": true,
+    "modifiedTimeStable": true,
+    "privateValues": "omitted"
+  },
+  "sampleBytesPerRange": 65536,
+  "ranges": [
+    {
+      "label": "front",
+      "rangeClass": "front",
+      "currentSw": {
+        "status": 206,
+        "rangeVerdict": "exact",
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 839.0,
+        "bodyCompleteMs": 926.3
+      },
+      "independentApi": {
+        "status": 206,
+        "rangeVerdict": "opaque",
+        "contentRangeExposed": false,
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 820.0,
+        "bodyCompleteMs": 912.5
+      },
+      "digestEqual": true
+    },
+    {
+      "label": "middle",
+      "rangeClass": "middle",
+      "currentSw": {
+        "status": 206,
+        "rangeVerdict": "exact",
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 789.4,
+        "bodyCompleteMs": 884.5
+      },
+      "independentApi": {
+        "status": 206,
+        "rangeVerdict": "opaque",
+        "contentRangeExposed": false,
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 815.7,
+        "bodyCompleteMs": 899.6
+      },
+      "digestEqual": true
+    },
+    {
+      "label": "tail",
+      "rangeClass": "tail",
+      "currentSw": {
+        "status": 206,
+        "rangeVerdict": "exact",
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 825.2,
+        "bodyCompleteMs": 921.9
+      },
+      "independentApi": {
+        "status": 206,
+        "rangeVerdict": "opaque",
+        "contentRangeExposed": false,
+        "contentLength": 65536,
+        "receivedLength": 65536,
+        "headersMs": 1105.5,
+        "bodyCompleteMs": 1197.0
+      },
+      "digestEqual": true
+    }
+  ],
+  "summary": {
+    "equalCount": 3,
+    "mismatchCount": 0,
+    "inconclusiveCount": 0,
+    "allEqual": true,
+    "finding": "current SW and independent Drive API readers returned identical bytes at front, middle, and tail under one stable private content identity"
+  },
+  "redaction": {
+    "account": "omitted",
+    "fileId": "omitted",
+    "filesVersionAndContentRevision": "omitted",
+    "absoluteRangeOffsets": "omitted",
+    "checksumAndRangeDigests": "omitted",
+    "tokenAndUrls": "omitted",
+    "mediaBytes": "omitted"
+  }
+}
