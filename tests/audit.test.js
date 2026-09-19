@@ -103,7 +103,10 @@ test('late Drive JSON bodies cannot commit into a new account generation', async
 test('seekbar keyboard handling is consumed before global shortcuts', () => {
   const c = app();
   const result = JSON.parse(c.run(`el.playerSheet = {hidden:false};
-    el.videoPlayer = {hidden:false,duration:100,currentTime:20}; updateVideoProgress = () => {};
+    state.selected = {id:'seekbar-video',mimeType:'video/mp4'};
+    state.mediaSession = 1; state.mediaAttempt = 'range'; state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    el.videoPlayer = {hidden:false,paused:true,ended:false,seeking:false,duration:100,currentTime:20,dataset:{mediaSession:'1'}};
+    updateVideoProgress = () => {};
     seekRelative = d => {el.videoPlayer.currentTime += d};
     const e = {key:'ArrowRight',target:{tagName:'DIV'},preventDefault(){this.defaultPrevented=true},stopPropagation(){this.stopped=true}};
     onSeekKeyDown(e); handlePlayerKeyboard(e); JSON.stringify({time:el.videoPlayer.currentTime,stopped:e.stopped});`));

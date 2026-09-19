@@ -1782,6 +1782,503 @@ test('timeupdate is a monotonic fallback only when frame callbacks are unavailab
   assert.equal(run(context, 'mediaFrameWatchdog.lastProgressAt'), progressedAt);
 });
 
+test('seek completion requires seeked plus a decoded frame at each requested target', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.seekEvents = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => seekEvents.push(event);
+    state.selected = { id: 'seek-target-video', mimeType: 'video/mp4' };
+    state.mediaSession = 67;
+    state.playbackSession = 9;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 0, duration: 100, dataset: { mediaSession: '67' },
+      requestVideoFrameCallback() { return 1; }, cancelVideoFrameCallback() {}
+    };
+    el.playerSheet = { hidden: false };
+    el.mediaError = { hidden: true };
+    el.imageViewer = { hidden: true };
+    updateQualityDisplay = () => {};
+    beginMediaDiagnosticTrace(state.selected, 67, mediaDiagnosticTimestamp());
+  })()`);
+
+  for (const target of [10, 50, 90]) {
+    run(context, `(() => {
+      el.videoPlayer.currentTime = ${target};
+      el.videoPlayer.seeking = true;
+      beginMediaSeekIntent(el.videoPlayer, ${target}, 'fixture');
+    })()`);
+    const generation = run(context, 'mediaSeekWatchdog.seekGeneration');
+    assert.equal(run(context, 'mediaSeekWatchdog !== null'), true);
+    assert.equal(clock.scheduled.size, 1);
+    run(context, 'onMediaReady();beginVideoFrameSampling()');
+    assert.equal(run(context, 'mediaSeekWatchdog.seekedSeen'), false, 'metadata and canplay are not seek completion');
+
+    run(context, `(() => {
+      el.videoPlayer.seeking = false;
+      state.isSeeking = false;
+      noteMediaSeeked(el.videoPlayer, ${generation});
+    })()`);
+    assert.equal(run(context, 'mediaSeekWatchdog !== null'), true, 'seeked alone is not displayed-frame proof');
+    assert.equal(run(context, `noteMediaSeekFrameProgress(
+      el.videoPlayer, ${target - 5}, 'decoded-frame', mediaSourceGeneration, ${generation}
+    )`), false, 'a frame from the old position cannot finish the seek');
+    assert.equal(run(context, `noteMediaSeekFrameProgress(
+      el.videoPlayer, ${target}, 'decoded-frame', mediaSourceGeneration, ${generation}
+    )`), true);
+    assert.equal(run(context, 'mediaSeekWatchdog'), null);
+    assert.equal(run(context, 'mediaFrameWatchdog !== null'), true, 'ordinary frame monitoring resumes');
+    assert.equal(clock.scheduled.size, 1);
+  }
+
+  const completed = JSON.parse(run(context, `JSON.stringify(
+    seekEvents.filter((event) => event.stage === 'seek-frame')
+  )`));
+  assert.deepEqual(completed.map((event) => event.presentedMediaTime), [10, 50, 90]);
+  assert.deepEqual(completed.map((event) => event.seekGeneration), [1, 2, 3]);
+
+  run(context, `(() => {
+    el.videoPlayer.paused = true;
+    el.videoPlayer.currentTime = 75;
+    el.videoPlayer.seeking = true;
+    globalThis.frameFirstGeneration = beginMediaSeekIntent(el.videoPlayer, 75, 'frame-first');
+    globalThis.frameFirstCompletedEarly = noteMediaSeekFrameProgress(
+      el.videoPlayer, 75, 'decoded-frame', mediaSourceGeneration, frameFirstGeneration
+    );
+  })()`);
+  assert.equal(run(context, 'frameFirstCompletedEarly'), false);
+  assert.equal(run(context, 'mediaSeekWatchdog.frameSeen'), true, 'target frame is retained before seeked');
+  run(context, `(() => {
+    el.videoPlayer.seeking = false;
+    state.isSeeking = false;
+    globalThis.frameFirstSeekedAccepted = noteMediaSeeked(el.videoPlayer, frameFirstGeneration);
+  })()`);
+  assert.equal(run(context, 'frameFirstSeekedAccepted'), true);
+  assert.equal(run(context, 'mediaSeekWatchdog'), null, 'seeked completes a retained target frame');
+  const frameFirstCompletion = JSON.parse(run(context, `JSON.stringify(
+    seekEvents.filter((event) => event.stage === 'seek-frame').at(-1)
+  )`));
+  assert.equal(frameFirstCompletion.presentedMediaTime, 75);
+  assert.equal(frameFirstCompletion.confidence, 'decoded-frame');
+});
+
+test('seek completion times out once at 15 seconds and delegates to existing Range recovery', async () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.seekTimeoutEvents = [];
+    globalThis.seekTimeoutRecoveries = [];
+    globalThis.seekTimeoutActions = [];
+    globalThis.seekTimeoutFrames = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => seekTimeoutEvents.push(event);
+    const file = {
+      id: 'seek-timeout-video', mimeType: 'video/mp4', size: '1000',
+      capabilities: { canDownload: true }
+    };
+    state.selected = file;
+    state.mediaSession = 68;
+    state.playbackSession = 10;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    state.mediaRetryCount = 0;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 50, duration: 100, dataset: { mediaSession: '68' }, error: { code: 2 },
+      getAttribute(name) { return name === 'src' ? '/__drive_media/seek-timeout-video' : ''; },
+      requestVideoFrameCallback(callback) { seekTimeoutFrames.push(callback); return seekTimeoutFrames.length; },
+      cancelVideoFrameCallback() {}
+    };
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(file, 68, mediaDiagnosticTimestamp());
+    const originalRecover = recoverFromMediaProxyError;
+    recoverFromMediaProxyError = async (failure) => {
+      seekTimeoutRecoveries.push({
+        type: failure.type,
+        status: failure.status,
+        category: failure.category,
+        driveReason: failure.driveReason,
+        seekGeneration: failure.seekGeneration,
+        targetTime: failure.targetTime
+      });
+      return originalRecover(failure);
+    };
+    scheduleOriginalStreamRetry = (selected, session, delay) => {
+      seekTimeoutActions.push({ type: 'range-retry', id: selected.id, session, delay });
+      state.mediaAttempt = 'retry-wait';
+    };
+    globalThis.seekTimeoutGeneration = beginMediaSeekIntent(el.videoPlayer, 50, 'fixture');
+  })()`);
+
+  assert.equal(clock.scheduled.size, 1);
+  const staleTimer = clock.captured[0].callback;
+  clock.advance(14_999);
+  assert.equal(run(context, 'seekTimeoutRecoveries.length'), 0);
+  clock.advance(1);
+  await Promise.resolve();
+
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(seekTimeoutRecoveries)')), [{
+    type: 'MEDIA_SEEK_NO_PROGRESS',
+    status: 504,
+    category: 'timeout',
+    driveReason: 'seekNoProgress',
+    seekGeneration: 1,
+    targetTime: 50
+  }]);
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(seekTimeoutActions)')), [{
+    type: 'range-retry', id: 'seek-timeout-video', session: 68, delay: 700
+  }]);
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+
+  staleTimer();
+  assert.equal(run(context, `(() => {
+    el.videoPlayer.seeking = false;
+    state.isSeeking = false;
+    const seeked = noteMediaSeeked(el.videoPlayer, seekTimeoutGeneration);
+    const frame = noteMediaSeekFrameProgress(
+      el.videoPlayer, 50, 'decoded-frame', mediaSourceGeneration, seekTimeoutGeneration
+    );
+    return seeked || frame;
+  })()`), false);
+  assert.equal(run(context, 'handleVideoSeeked({ currentTarget: el.videoPlayer })'), false);
+  run(context, 'seekTimeoutFrames[0](0, { mediaTime: 50 })');
+  await run(context, `(async () => {
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_ERROR', fileId: 'seek-timeout-video', sessionId: '68',
+      sourceGeneration: mediaSourceGeneration, status: 504,
+      category: 'timeout', driveReason: 'bodyNoProgress'
+    } });
+    await handleMediaElementError('video');
+  })()`);
+  assert.equal(run(context, 'seekTimeoutRecoveries.length'), 1);
+  assert.equal(run(context, 'seekTimeoutActions.length'), 1);
+  const terminalEvents = JSON.parse(run(context, `JSON.stringify(
+    seekTimeoutEvents.filter((event) => event.stage === 'seek-no-progress')
+  )`));
+  assert.equal(terminalEvents.length, 1);
+  assert.equal(terminalEvents[0].terminal, true);
+  assert.equal(terminalEvents[0].targetTime, 50);
+  assert.equal(JSON.parse(run(context, `JSON.stringify(
+    seekTimeoutEvents.filter((event) => ['seeked', 'seek-frame'].includes(event.stage))
+  )`)).length, 0, 'late listener and frame signals cannot contradict the terminal trace');
+});
+
+test('a classified worker failure beats a captured seek timer and remains the sole recovery owner', async () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.workerFirstEvents = [];
+    globalThis.workerFirstRecoveries = [];
+    globalThis.workerFirstActions = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => workerFirstEvents.push(event);
+    const file = {
+      id: 'worker-first-seek', mimeType: 'video/mp4', size: '1000',
+      capabilities: { canDownload: true }
+    };
+    state.selected = file;
+    state.mediaSession = 86;
+    state.playbackSession = 17;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    state.mediaRetryCount = 0;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 35, duration: 100, dataset: { mediaSession: '86' }, error: { code: 2 },
+      getAttribute(name) { return name === 'src' ? '/__drive_media/worker-first-seek' : ''; }
+    };
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(file, 86, mediaDiagnosticTimestamp());
+    const originalRecover = recoverFromMediaProxyError;
+    recoverFromMediaProxyError = async (failure) => {
+      workerFirstRecoveries.push(failure.driveReason);
+      return originalRecover(failure);
+    };
+    scheduleOriginalStreamRetry = (selected, session, delay) => {
+      workerFirstActions.push({ id: selected.id, session, delay });
+      state.mediaAttempt = 'retry-wait';
+    };
+    beginMediaSeekIntent(el.videoPlayer, 35, 'fixture');
+  })()`);
+  const staleTimer = clock.captured[0].callback;
+
+  await run(context, `(async () => {
+    await handleWorkerMessage({ data: {
+      type: 'MEDIA_PROXY_ERROR', fileId: 'worker-first-seek', sessionId: '86',
+      sourceGeneration: mediaSourceGeneration, status: 504,
+      category: 'timeout', driveReason: 'bodyNoProgress'
+    } });
+  })()`);
+  staleTimer();
+  await run(context, 'handleMediaElementError("video")');
+
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(workerFirstRecoveries)')), ['bodyNoProgress']);
+  assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(workerFirstActions)')), [
+    { id: 'worker-first-seek', session: 86, delay: 700 }
+  ]);
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+  assert.equal(JSON.parse(run(context, `JSON.stringify(
+    workerFirstEvents.filter((event) => event.stage === 'seek-no-progress')
+  )`)).length, 0);
+});
+
+test('a newer seek fences stale seeked events, frame callbacks, and timers', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  run(context, `(() => {
+    globalThis.rapidSeekEvents = [];
+    globalThis.rapidSeekRecoveries = [];
+    globalThis.rapidSeekFrames = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => rapidSeekEvents.push(event);
+    state.selected = { id: 'rapid-seek-video', mimeType: 'video/mp4' };
+    state.mediaSession = 69;
+    state.playbackSession = 11;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 10, duration: 100, dataset: { mediaSession: '69' },
+      requestVideoFrameCallback(callback) { rapidSeekFrames.push(callback); return rapidSeekFrames.length; },
+      cancelVideoFrameCallback() {}
+    };
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(state.selected, 69, mediaDiagnosticTimestamp());
+    recoverFromMediaProxyError = async (failure) => { rapidSeekRecoveries.push(failure); };
+    globalThis.rapidSeekA = beginMediaSeekIntent(el.videoPlayer, 10, 'fixture-a');
+  })()`);
+  const staleTimer = clock.captured[0].callback;
+
+  run(context, `(() => {
+    el.videoPlayer.currentTime = 90;
+    el.videoPlayer.seeking = true;
+    globalThis.rapidSeekB = beginMediaSeekIntent(el.videoPlayer, 90, 'fixture-b');
+  })()`);
+  assert.equal(run(context, 'rapidSeekB > rapidSeekA'), true);
+  assert.equal(run(context, 'rapidSeekFrames.length'), 2);
+
+  run(context, `(() => {
+    globalThis.staleSeekedAccepted = noteMediaSeeked(el.videoPlayer, rapidSeekA);
+    el.videoPlayer.currentTime = 10;
+    el.videoPlayer.seeking = true;
+    state.isSeeking = true;
+    globalThis.staleSeekedEventAccepted = handleVideoSeeked({ currentTarget: el.videoPlayer });
+    el.videoPlayer.currentTime = 90;
+    el.videoPlayer.seeking = false;
+    globalThis.currentSeekedAccepted = handleVideoSeeked({ currentTarget: el.videoPlayer });
+  })()`);
+  staleTimer();
+  run(context, 'rapidSeekFrames[0](0, { mediaTime: 90 })');
+  assert.equal(run(context, 'staleSeekedAccepted'), false);
+  assert.equal(run(context, 'staleSeekedEventAccepted'), false);
+  assert.equal(run(context, 'currentSeekedAccepted'), true);
+  assert.equal(run(context, 'mediaSeekWatchdog.seekGeneration'), run(context, 'rapidSeekB'));
+  assert.equal(run(context, 'rapidSeekRecoveries.length'), 0);
+  assert.equal(JSON.parse(run(context, `JSON.stringify(
+    rapidSeekEvents.filter((event) => event.stage === 'seek-frame')
+  )`)).length, 0);
+  const seekedEvents = JSON.parse(run(context, `JSON.stringify(
+    rapidSeekEvents.filter((event) => event.stage === 'seeked')
+  )`));
+  assert.equal(seekedEvents.length, 1, 'a stale seeked event is not attributed to the current generation');
+  assert.equal(seekedEvents[0].seekGeneration, run(context, 'rapidSeekB'));
+
+  run(context, 'rapidSeekFrames[1](0, { mediaTime: 90 })');
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+  assert.equal(run(context, 'rapidSeekRecoveries.length'), 0);
+  const completions = JSON.parse(run(context, `JSON.stringify(
+    rapidSeekEvents.filter((event) => event.stage === 'seek-frame')
+  )`));
+  assert.equal(completions.length, 1);
+  assert.equal(completions[0].seekGeneration, run(context, 'rapidSeekB'));
+  assert.equal(completions[0].presentedMediaTime, 90);
+});
+
+test('seek clock spends only active foreground time across pause, hidden, offline, and pointer drag', async () => {
+  const cases = [
+    ['pause', 'el.videoPlayer.paused=true', 'el.videoPlayer.paused=false'],
+    ['hidden', 'document.visibilityState="hidden"', 'document.visibilityState="visible"'],
+    ['offline', 'navigator.onLine=false', 'navigator.onLine=true'],
+    ['pointer', 'isSeekingPointer=true', 'isSeekingPointer=false']
+  ];
+
+  for (const [label, suspend, resume] of cases) {
+    const context = loadAppContext();
+    const clock = installFakeClock(context);
+    run(context, `(() => {
+      globalThis.suspendedSeekRecoveries = [];
+      state.selected = { id: 'seek-${label}', mimeType: 'video/mp4' };
+      state.mediaSession = 70;
+      state.playbackSession = 12;
+      state.mediaAttempt = 'range';
+      state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+      state.mediaTransportVerified = true;
+      state.mediaTransportStarted = true;
+      el.videoPlayer = {
+        hidden: false, paused: false, ended: false, seeking: true,
+        currentTime: 40, duration: 100, dataset: { mediaSession: '70' }
+      };
+      el.playerSheet = { hidden: false };
+      recoverFromMediaProxyError = async (failure) => suspendedSeekRecoveries.push(failure.driveReason);
+      beginMediaSeekIntent(el.videoPlayer, 40, 'fixture');
+    })()`);
+
+    clock.advance(5_000);
+    run(context, `${suspend};syncMediaSeekWatchdog()`);
+    assert.equal(run(context, 'mediaSeekWatchdog.remainingMs'), 10_000, `${label} preserves elapsed active time`);
+    assert.equal(clock.scheduled.size, 0, `${label} clears the active timer`);
+    clock.advance(60_000);
+    assert.equal(run(context, 'suspendedSeekRecoveries.length'), 0, `${label} does not expire while suspended`);
+
+    run(context, `${resume};syncMediaSeekWatchdog()`);
+    assert.equal(clock.scheduled.size, 1, `${label} rearms on resume`);
+    assert.equal([...clock.scheduled.values()][0].delay, 10_000);
+    clock.advance(9_999);
+    assert.equal(run(context, 'suspendedSeekRecoveries.length'), 0);
+    clock.advance(1);
+    await Promise.resolve();
+    assert.deepEqual(JSON.parse(run(context, 'JSON.stringify(suspendedSeekRecoveries)')), ['seekNoProgress']);
+  }
+});
+
+test('source replacement, session replacement, and source clearing make old seek work inert', () => {
+  const cases = [
+    ['source', 'mediaSourceGeneration+=1;syncMediaSeekWatchdog()'],
+    ['session', 'state.mediaSession=82;el.videoPlayer.dataset.mediaSession="82";syncMediaSeekWatchdog()'],
+    ['source-clear', 'clearDirectMediaSources()']
+  ];
+
+  for (const [label, replace] of cases) {
+    const context = loadAppContext();
+    const clock = installFakeClock(context);
+    run(context, `(() => {
+      globalThis.staleSeekCallbacks = [];
+      globalThis.staleSeekRecoveries = [];
+      state.selected = { id: 'stale-${label}', mimeType: 'video/mp4' };
+      state.mediaSession = 81;
+      state.playbackSession = 13;
+      state.mediaAttempt = 'range';
+      state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+      state.mediaTransportVerified = true;
+      state.mediaTransportStarted = true;
+      state.mediaDecodeVerified = false;
+      el.videoPlayer = {
+        hidden: false, paused: false, ended: false, seeking: true,
+        currentTime: 25, duration: 100, dataset: { mediaSession: '81' },
+        requestVideoFrameCallback(callback) { staleSeekCallbacks.push(callback); return staleSeekCallbacks.length; },
+        cancelVideoFrameCallback() {}, pause() {}, removeAttribute() {}, load() {},
+        classList: { remove() {} }
+      };
+      el.playerSheet = { hidden: false };
+      recoverFromMediaProxyError = async (failure) => staleSeekRecoveries.push(failure);
+      beginMediaSeekIntent(el.videoPlayer, 25, 'fixture');
+    })()`);
+    const staleTimer = clock.captured[0].callback;
+
+    run(context, replace);
+    staleTimer();
+    run(context, 'staleSeekCallbacks[0](0, { mediaTime: 25 })');
+    assert.equal(run(context, 'mediaSeekWatchdog'), null, `${label} clears the owner`);
+    assert.equal(run(context, 'staleSeekRecoveries.length'), 0, `${label} rejects the old timer`);
+    assert.equal(run(context, 'state.mediaDecodeVerified'), false, `${label} rejects the old frame`);
+  }
+});
+
+test('timeupdate remains fallback evidence and never replaces a decoded seek frame', () => {
+  const withFrameCallback = loadAppContext();
+  installFakeClock(withFrameCallback);
+  run(withFrameCallback, `(() => {
+    state.selected = { id: 'rvfc-seek', mimeType: 'video/mp4' };
+    state.mediaSession = 83;
+    state.playbackSession = 14;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 60, duration: 100, dataset: { mediaSession: '83' },
+      requestVideoFrameCallback() { return 1; }, cancelVideoFrameCallback() {}
+    };
+    el.playerSheet = { hidden: false };
+    globalThis.rvfcSeekGeneration = beginMediaSeekIntent(el.videoPlayer, 60, 'fixture');
+    el.videoPlayer.seeking = false;
+    state.isSeeking = false;
+    noteMediaSeeked(el.videoPlayer, rvfcSeekGeneration);
+    onVideoTimeUpdate();
+  })()`);
+  assert.equal(run(withFrameCallback, 'mediaSeekWatchdog !== null'), true);
+
+  const fallback = loadAppContext();
+  installFakeClock(fallback);
+  run(fallback, `(() => {
+    globalThis.fallbackSeekEvents = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => fallbackSeekEvents.push(event);
+    state.selected = { id: 'fallback-seek', mimeType: 'video/mp4' };
+    state.mediaSession = 84;
+    state.playbackSession = 15;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.SEQUENTIAL;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 60, duration: 100, dataset: { mediaSession: '84' }
+    };
+    el.playerSheet = { hidden: false };
+    beginMediaDiagnosticTrace(state.selected, 84, mediaDiagnosticTimestamp());
+    const generation = beginMediaSeekIntent(el.videoPlayer, 60, 'fixture');
+    el.videoPlayer.seeking = false;
+    state.isSeeking = false;
+    noteMediaSeeked(el.videoPlayer, generation);
+    onVideoTimeUpdate();
+  })()`);
+  assert.equal(run(fallback, 'mediaSeekWatchdog !== null'), true);
+  const fallbackCompletions = JSON.parse(run(fallback, `JSON.stringify(
+    fallbackSeekEvents.filter((event) => event.stage === 'seek-presentation-fallback')
+  )`));
+  assert.equal(fallbackCompletions.length, 1);
+  assert.equal(fallbackCompletions[0].confidence, 'playback-clock');
+  assert.equal(JSON.parse(run(fallback, `JSON.stringify(
+    fallbackSeekEvents.filter((event) => event.stage === 'seek-frame')
+  )`)).length, 0);
+
+  const zeroFallback = loadAppContext();
+  installFakeClock(zeroFallback);
+  run(zeroFallback, `(() => {
+    state.selected = { id: 'zero-seek', mimeType: 'video/mp4' };
+    state.mediaSession = 85;
+    state.playbackSession = 16;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.SEQUENTIAL;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 0, duration: 100, dataset: { mediaSession: '85' }
+    };
+    el.playerSheet = { hidden: false };
+    const generation = beginMediaSeekIntent(el.videoPlayer, 0, 'fixture');
+    el.videoPlayer.seeking = false;
+    state.isSeeking = false;
+    noteMediaSeeked(el.videoPlayer, generation);
+    onVideoTimeUpdate();
+  })()`);
+  assert.equal(
+    run(zeroFallback, 'mediaSeekWatchdog !== null'),
+    true,
+    'zero is valid fallback evidence but not decoded-frame completion'
+  );
+});
+
 test('frame watchdog suspends for inactive playback and rejects stale timers and frame callbacks', () => {
   const context = loadAppContext();
   const clock = installFakeClock(context);

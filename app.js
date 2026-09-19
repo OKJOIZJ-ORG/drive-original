@@ -42,6 +42,7 @@ const BULK_ACTION_CONCURRENCY = 4;
 const DEFAULT_FRAME_DURATION = 1 / 30;
 const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
 const MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS = 15_000;
+const MEDIA_SEEK_COMPLETION_TIMEOUT_MS = 15_000;
 const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
 const MAX_ORIGINAL_RETRY_AFTER_MS = 2_147_483_647;
@@ -614,6 +615,9 @@ let moveRequestGeneration = 0;
 let moveParentsAbortController = null;
 let mediaRecoveryTimer = null;
 let mediaFrameWatchdog = null;
+let mediaSeekWatchdog = null;
+let mediaSeekGeneration = 0;
+let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
 let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
@@ -658,6 +662,7 @@ function sanitizeMediaDiagnosticDetails(details = {}) {
     'route', 'reason', 'kind', 'declaredMime', 'declaredSize', 'attempt',
     'requestId', 'status', 'requestedRange', 'rangeSatisfied', 'playbackMode',
     'bytes', 'totalBytes', 'mediaErrorCode', 'seekGeneration', 'currentTime',
+    'targetTime', 'presentedMediaTime', 'tolerance', 'activeElapsedMs',
     'confidence', 'fromSession', 'toSession', 'terminal', 'stale'
   ];
   const sanitized = {};
@@ -862,36 +867,59 @@ function forwardWorkerMediaDiagnostic(data) {
   }, messageSession, { allowKnownSession: true, stale });
 }
 
-function recordMediaDiagnosticSeekStart(video) {
+function recordMediaDiagnosticSeekStart(
+  video,
+  seekGeneration = null,
+  targetTime = Number(video?.currentTime) || 0
+) {
   if (!isCurrentMediaEvent(video) || !mediaDiagnosticTrace) return;
-  mediaDiagnosticTrace.seekGeneration += 1;
+  const generation = Number.isSafeInteger(seekGeneration) && seekGeneration > 0
+    ? seekGeneration
+    : mediaDiagnosticTrace.seekGeneration + 1;
+  mediaDiagnosticTrace.seekGeneration = generation;
   emitMediaDiagnosticStage('seeking', {
-    seekGeneration: mediaDiagnosticTrace.seekGeneration,
-    currentTime: Number(video.currentTime) || 0
+    seekGeneration: generation,
+    currentTime: Number(targetTime) || 0
   });
 }
 
-function recordMediaDiagnosticSeekEnd(video) {
+function recordMediaDiagnosticSeekEnd(video, seekGeneration = null, { ownedFrame = false } = {}) {
   const trace = mediaDiagnosticTrace;
   if (!trace || !isCurrentMediaEvent(video)) return;
   const session = state.mediaSession;
-  const generation = trace.seekGeneration;
+  const generation = Number.isSafeInteger(seekGeneration) && seekGeneration > 0
+    ? seekGeneration
+    : trace.seekGeneration;
+  const sourceGeneration = mediaSourceGeneration;
+  const targetTime = Number(video.currentTime) || 0;
   emitMediaDiagnosticStage('seeked', {
     seekGeneration: generation,
-    currentTime: Number(video.currentTime) || 0
+    currentTime: targetTime
   }, session);
+  if (ownedFrame) return;
   if (typeof video.requestVideoFrameCallback === 'function') {
-    video.requestVideoFrameCallback(() => {
-      if (!isCurrentMediaEvent(video) || state.mediaSession !== session) return;
+    video.requestVideoFrameCallback((_now, metadata) => {
+      const mediaTime = Number(metadata?.mediaTime);
+      if (
+        !isCurrentMediaEvent(video) || state.mediaSession !== session
+        || mediaSourceGeneration !== sourceGeneration
+        || trace !== mediaDiagnosticTrace || trace.seekGeneration !== generation
+        || !mediaSeekTimesMatch(mediaTime, targetTime)
+      ) return;
       emitMediaDiagnosticStage('seek-frame', {
         seekGeneration: generation,
         currentTime: Number(video.currentTime) || 0,
+        presentedMediaTime: mediaTime,
         confidence: 'decoded-frame'
       }, session);
     });
   } else {
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (!isCurrentMediaEvent(video) || state.mediaSession !== session) return;
+      if (
+        !isCurrentMediaEvent(video) || state.mediaSession !== session
+        || mediaSourceGeneration !== sourceGeneration
+        || trace !== mediaDiagnosticTrace || trace.seekGeneration !== generation
+      ) return;
       emitMediaDiagnosticStage('seek-presentation-fallback', {
         seekGeneration: generation,
         currentTime: Number(video.currentTime) || 0,
@@ -1296,9 +1324,11 @@ function bindEvents() {
     updateAccountSyncStatus();
     if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
     scheduleAccountStateRefresh(0);
+    syncMediaSeekWatchdog();
     syncMediaFrameWatchdog();
   });
   window.addEventListener('offline', () => {
+    syncMediaSeekWatchdog();
     clearMediaFrameWatchdog('offline');
     stopAccountStateRefresh();
     updateConnectionBadge();
@@ -1344,8 +1374,10 @@ function bindEvents() {
           scheduleTokenRenewal();
         }
       }
+      syncMediaSeekWatchdog();
       syncMediaFrameWatchdog();
     } else {
+      syncMediaSeekWatchdog();
       clearMediaFrameWatchdog('hidden');
       stopAccountStateRefresh();
     }
@@ -1398,32 +1430,28 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('seeking', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
-    state.isSeeking = true;
-    state.lastPresentedMediaTime = null;
-    clearMediaFrameWatchdog('seeking');
-    recordMediaDiagnosticSeekStart(event.currentTarget);
+    observeNativeMediaSeeking(event.currentTarget);
   });
-  el.videoPlayer.addEventListener('seeked', (event) => {
-    if (!isCurrentMediaEvent(event.currentTarget)) return;
-    state.isSeeking = false;
-    recordMediaDiagnosticSeekEnd(event.currentTarget);
-    syncMediaFrameWatchdog();
-  });
+  el.videoPlayer.addEventListener('seeked', handleVideoSeeked);
   el.videoPlayer.addEventListener('play', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
     updatePlayPauseUI();
     beginVideoFrameSampling();
+    syncMediaSeekWatchdog();
     syncMediaFrameWatchdog();
     resetControlsTimer();
   });
   el.videoPlayer.addEventListener('pause', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    syncMediaSeekWatchdog();
     clearMediaFrameWatchdog('paused');
     updatePlayPauseUI();
     resetControlsTimer();
   });
   el.videoPlayer.addEventListener('ended', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) clearMediaFrameWatchdog('ended');
+    if (!isCurrentMediaEvent(event.currentTarget)) return;
+    clearMediaSeekWatchdog('ended');
+    clearMediaFrameWatchdog('ended');
   });
   el.videoPlayer.addEventListener('volumechange', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) updateVolumeUI();
@@ -1436,6 +1464,7 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('error', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    clearMediaSeekWatchdog('media-error');
     clearMediaFrameWatchdog('media-error');
     handleMediaElementError('video');
   });
@@ -1753,6 +1782,7 @@ async function handleWorkerMessage(event) {
     }
     state.lastProxyError = null;
     updateQualityDisplay();
+    syncMediaSeekWatchdog();
     syncMediaFrameWatchdog();
     return;
   }
@@ -1770,6 +1800,7 @@ async function handleWorkerMessage(event) {
     ) return;
     if (!state.selected || !['range', 'range-retry'].includes(state.mediaAttempt)) return;
     state.mediaTransportStarted = true;
+    syncMediaSeekWatchdog();
     syncMediaFrameWatchdog();
     return;
   }
@@ -1785,6 +1816,7 @@ async function handleWorkerMessage(event) {
       || messageSourceGeneration !== mediaSourceGeneration
     )) return;
     if (!state.selected || !['range', 'range-retry'].includes(state.mediaAttempt)) return;
+    clearMediaSeekWatchdog('proxy-error');
     clearMediaFrameWatchdog('proxy-error');
     state.lastProxyError = data;
     await recoverFromMediaProxyError(data);
@@ -1792,6 +1824,7 @@ async function handleWorkerMessage(event) {
 }
 
 async function recoverFromMediaProxyError(data) {
+  clearMediaSeekWatchdog('classified-failure');
   clearMediaFrameWatchdog('classified-failure');
   const retryFile = state.selected;
   if (!retryFile) return;
@@ -4755,10 +4788,371 @@ function seekRelative(deltaSeconds) {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
   const duration = el.videoPlayer.duration || Infinity;
   const target = Math.max(0, Math.min(duration, el.videoPlayer.currentTime + deltaSeconds));
-  el.videoPlayer.currentTime = target;
+  setPlayerCurrentTime(el.videoPlayer, target, 'relative');
   showPlayerFeedback(deltaSeconds > 0 ? `+${deltaSeconds}S` : `${deltaSeconds}S`);
   updateVideoProgress();
   resetControlsTimer();
+}
+
+function mediaSeekTargetTolerance() {
+  const frameDuration = Number(state.frameDuration);
+  const frameTolerance = Number.isFinite(frameDuration) && frameDuration > 0
+    ? frameDuration * 2
+    : DEFAULT_FRAME_DURATION * 2;
+  return Math.min(1, Math.max(0.25, frameTolerance));
+}
+
+function mediaSeekTimesMatch(actual, target, tolerance = mediaSeekTargetTolerance()) {
+  const actualTime = Number(actual);
+  const targetTime = Number(target);
+  const allowed = Number(tolerance);
+  return Number.isFinite(actualTime) && Number.isFinite(targetTime)
+    && Number.isFinite(allowed) && allowed >= 0
+    && Math.abs(actualTime - targetTime) <= allowed;
+}
+
+function isCurrentMediaSeekOwner(owner = mediaSeekWatchdog) {
+  return Boolean(
+    owner && mediaSeekWatchdog === owner && !owner.terminalClaimed
+    && mediaSeekGeneration === owner.seekGeneration
+    && state.selected?.id === owner.fileId
+    && state.mediaSession === owner.session
+    && state.playbackSession === owner.playbackSession
+    && state.mediaAttempt === owner.sourceAttempt
+    && mediaSourceGeneration === owner.sourceGeneration
+    && isCurrentMediaEvent(owner.video)
+  );
+}
+
+function canOwnMediaSeek(video = el.videoPlayer) {
+  return Boolean(
+    video && !video.hidden && isCurrentMediaEvent(video)
+    && state.selected?.mimeType?.startsWith('video/')
+    && isMediaFrameWatchdogSource()
+    && el.playerSheet?.hidden !== true
+  );
+}
+
+function canRunMediaSeekWatchdog(owner = mediaSeekWatchdog) {
+  return Boolean(
+    isCurrentMediaSeekOwner(owner)
+    && state.mediaTransportVerified === true
+    && state.mediaTransportStarted === true
+    && owner.video.paused === false && owner.video.ended !== true
+    && document.visibilityState !== 'hidden'
+    && navigator.onLine !== false
+    && !isSeekingPointer
+    && el.playerSheet?.hidden !== true
+  );
+}
+
+function settleMediaSeekGeneration(generation = mediaSeekGeneration) {
+  const numericGeneration = Number(generation);
+  if (Number.isSafeInteger(numericGeneration) && numericGeneration > mediaSeekSettledGeneration) {
+    mediaSeekSettledGeneration = numericGeneration;
+  }
+}
+
+function clearMediaSeekWatchdog(_reason = '') {
+  const owner = mediaSeekWatchdog;
+  mediaSeekWatchdog = null;
+  if (owner) settleMediaSeekGeneration(owner.seekGeneration);
+  else if (state.isSeeking) settleMediaSeekGeneration();
+  state.isSeeking = false;
+  if (owner?.timerId != null) clearTimeout(owner.timerId);
+  if (owner) {
+    owner.timerId = null;
+    owner.activeSince = null;
+  }
+}
+
+function suspendMediaSeekWatchdog(owner) {
+  if (!owner || mediaSeekWatchdog !== owner) return;
+  if (owner.timerId != null) {
+    clearTimeout(owner.timerId);
+    owner.timerId = null;
+    if (Number.isFinite(owner.activeSince)) {
+      const elapsed = Math.max(0, mediaDiagnosticTimestamp() - owner.activeSince);
+      owner.remainingMs = Math.max(0, owner.remainingMs - elapsed);
+    }
+  }
+  owner.activeSince = null;
+}
+
+function failMediaSeekWatchdog(owner) {
+  if (!isCurrentMediaSeekOwner(owner)) return;
+  owner.terminalClaimed = true;
+  settleMediaSeekGeneration(owner.seekGeneration);
+  mediaSeekWatchdog = null;
+  if (owner.timerId != null) clearTimeout(owner.timerId);
+  owner.timerId = null;
+  owner.activeSince = null;
+  state.isSeeking = false;
+  emitMediaDiagnosticStage('seek-no-progress', {
+    seekGeneration: owner.seekGeneration,
+    targetTime: owner.targetTime,
+    currentTime: Number(owner.video.currentTime) || 0,
+    attempt: owner.sourceAttempt,
+    terminal: true
+  }, owner.session);
+
+  if (owner.sourceAttempt === 'blob') {
+    clearDirectMediaSources();
+    state.mediaAttempt = 'failed';
+    showMediaError(
+      '원본 파일은 준비됐지만 선택한 위치의 영상 프레임을 표시하지 못했습니다. 다시 시도하거나 호환 재생을 직접 선택할 수 있습니다.',
+      { title: '원본 영상 탐색이 멈췄습니다' }
+    );
+    if (el.compatPlayerButton) el.compatPlayerButton.hidden = false;
+    return;
+  }
+
+  void recoverFromMediaProxyError({
+    type: 'MEDIA_SEEK_NO_PROGRESS',
+    fileId: owner.fileId,
+    sessionId: String(owner.session),
+    mediaSession: String(owner.session),
+    status: 504,
+    category: 'timeout',
+    driveReason: 'seekNoProgress',
+    seekGeneration: owner.seekGeneration,
+    targetTime: owner.targetTime
+  }).catch((error) => console.warn('Seek completion recovery failed:', error));
+}
+
+function scheduleMediaSeekWatchdog(owner) {
+  if (!isCurrentMediaSeekOwner(owner) || owner.timerId != null) return;
+  const delay = Math.max(0, owner.remainingMs);
+  owner.activeSince = mediaDiagnosticTimestamp();
+  owner.timerId = window.setTimeout(() => {
+    owner.timerId = null;
+    if (!isCurrentMediaSeekOwner(owner)) return;
+    if (!canRunMediaSeekWatchdog(owner)) {
+      owner.activeSince = null;
+      return;
+    }
+    const elapsed = Math.max(0, mediaDiagnosticTimestamp() - owner.activeSince);
+    owner.remainingMs = Math.max(0, owner.remainingMs - elapsed);
+    owner.activeSince = null;
+    if (owner.remainingMs > 0) {
+      scheduleMediaSeekWatchdog(owner);
+      return;
+    }
+    failMediaSeekWatchdog(owner);
+  }, delay);
+}
+
+function syncMediaSeekWatchdog() {
+  const owner = mediaSeekWatchdog;
+  if (!owner) return false;
+  if (!isCurrentMediaSeekOwner(owner)) {
+    clearMediaSeekWatchdog('stale-owner');
+    return false;
+  }
+  if (!canRunMediaSeekWatchdog(owner)) {
+    suspendMediaSeekWatchdog(owner);
+    return false;
+  }
+  scheduleMediaSeekWatchdog(owner);
+  return true;
+}
+
+function beginMediaSeekIntent(video, targetTime, origin = 'native') {
+  const numericTarget = Number(targetTime);
+  clearMediaSeekWatchdog('superseded');
+  const seekGeneration = ++mediaSeekGeneration;
+  clearMediaFrameWatchdog('seeking');
+  cancelVideoFrameSampling();
+  state.isSeeking = true;
+  state.lastPresentedMediaTime = null;
+  recordMediaDiagnosticSeekStart(video, seekGeneration, numericTarget);
+
+  if (Number.isFinite(numericTarget) && canOwnMediaSeek(video)) {
+    mediaSeekWatchdog = {
+      video,
+      fileId: state.selected.id,
+      session: state.mediaSession,
+      playbackSession: state.playbackSession,
+      sourceAttempt: state.mediaAttempt,
+      sourceGeneration: mediaSourceGeneration,
+      seekGeneration,
+      origin,
+      targetTime: numericTarget,
+      effectiveTarget: null,
+      tolerance: mediaSeekTargetTolerance(),
+      seekedSeen: false,
+      frameSeen: false,
+      presentedMediaTime: null,
+      frameConfidence: '',
+      fallbackSeen: false,
+      remainingMs: MEDIA_SEEK_COMPLETION_TIMEOUT_MS,
+      activeSince: null,
+      timerId: null,
+      terminalClaimed: false
+    };
+    emitMediaDiagnosticStage('seek-watchdog-armed', {
+      seekGeneration,
+      targetTime: numericTarget,
+      origin
+    }, state.mediaSession);
+    syncMediaSeekWatchdog();
+  }
+  beginVideoFrameSampling();
+  return seekGeneration;
+}
+
+function observeNativeMediaSeeking(video) {
+  if (!isCurrentMediaEvent(video)) return null;
+  const targetTime = Number(video.currentTime);
+  state.isSeeking = true;
+  state.lastPresentedMediaTime = null;
+  clearMediaFrameWatchdog('seeking');
+  const owner = mediaSeekWatchdog;
+  if (
+    isCurrentMediaSeekOwner(owner)
+    && mediaSeekTimesMatch(targetTime, owner.targetTime, owner.tolerance)
+  ) {
+    syncMediaSeekWatchdog();
+    return owner.seekGeneration;
+  }
+  return beginMediaSeekIntent(video, targetTime, 'native');
+}
+
+function setPlayerCurrentTime(video, targetTime, origin = 'app') {
+  if (!video || video.hidden || !isCurrentMediaEvent(video)) return false;
+  const duration = Number(video.duration);
+  const numericTarget = Number(targetTime);
+  if (!Number.isFinite(numericTarget)) return false;
+  const target = Number.isFinite(duration) && duration >= 0
+    ? Math.max(0, Math.min(duration, numericTarget))
+    : Math.max(0, numericTarget);
+  if (Math.abs((Number(video.currentTime) || 0) - target) < 0.0001) return false;
+  beginMediaSeekIntent(video, target, origin);
+  try {
+    video.currentTime = target;
+  } catch (error) {
+    clearMediaSeekWatchdog('assignment-failed');
+    state.isSeeking = false;
+    throw error;
+  }
+  return true;
+}
+
+function completeMediaSeekWatchdog(owner) {
+  if (
+    !isCurrentMediaSeekOwner(owner)
+    || !owner.seekedSeen || !owner.frameSeen
+    || owner.frameConfidence !== 'decoded-frame'
+    || state.isSeeking || owner.video.seeking === true
+  ) return false;
+  const target = Number.isFinite(owner.effectiveTarget) ? owner.effectiveTarget : owner.targetTime;
+  if (!mediaSeekTimesMatch(owner.presentedMediaTime, target, owner.tolerance)) return false;
+
+  const activeElapsedMs = Math.max(
+    0,
+    MEDIA_SEEK_COMPLETION_TIMEOUT_MS - owner.remainingMs
+      + (Number.isFinite(owner.activeSince)
+        ? mediaDiagnosticTimestamp() - owner.activeSince
+        : 0)
+  );
+  if (owner.timerId != null) clearTimeout(owner.timerId);
+  owner.timerId = null;
+  owner.activeSince = null;
+  settleMediaSeekGeneration(owner.seekGeneration);
+  mediaSeekWatchdog = null;
+  emitMediaDiagnosticStage('seek-frame', {
+    seekGeneration: owner.seekGeneration,
+    targetTime: owner.targetTime,
+    currentTime: Number(owner.video.currentTime) || 0,
+    presentedMediaTime: owner.presentedMediaTime,
+    tolerance: owner.tolerance,
+    activeElapsedMs,
+    confidence: owner.frameConfidence
+  }, owner.session);
+  syncMediaFrameWatchdog();
+  return true;
+}
+
+function noteMediaSeeked(
+  video,
+  expectedSeekGeneration = mediaSeekGeneration,
+  { deferCompletion = false } = {}
+) {
+  const owner = mediaSeekWatchdog;
+  if (
+    !isCurrentMediaSeekOwner(owner)
+    || owner.seekGeneration !== expectedSeekGeneration
+    || video !== owner.video || video.seeking === true
+    || !mediaSeekTimesMatch(video.currentTime, owner.targetTime, owner.tolerance)
+  ) return false;
+  owner.seekedSeen = true;
+  owner.effectiveTarget = Number(video.currentTime);
+  if (!deferCompletion) completeMediaSeekWatchdog(owner);
+  syncMediaSeekWatchdog();
+  return true;
+}
+
+function handleVideoSeeked(event) {
+  const video = event?.currentTarget;
+  if (!isCurrentMediaEvent(video)) return false;
+  const owner = mediaSeekWatchdog;
+  const ownedSeek = isCurrentMediaSeekOwner(owner);
+  if (owner && !ownedSeek) {
+    syncMediaSeekWatchdog();
+    return false;
+  }
+  const generation = owner?.seekGeneration || mediaSeekGeneration;
+  if (!ownedSeek && generation <= mediaSeekSettledGeneration) return false;
+  if (video.seeking !== true) state.isSeeking = false;
+  const accepted = ownedSeek
+    ? noteMediaSeeked(video, generation, { deferCompletion: true })
+    : false;
+  if (ownedSeek && !accepted) {
+    syncMediaSeekWatchdog();
+    syncMediaFrameWatchdog();
+    return false;
+  }
+  recordMediaDiagnosticSeekEnd(video, generation, { ownedFrame: ownedSeek });
+  if (accepted) completeMediaSeekWatchdog(owner);
+  else settleMediaSeekGeneration(generation);
+  syncMediaSeekWatchdog();
+  syncMediaFrameWatchdog();
+  return accepted;
+}
+
+function noteMediaSeekFrameProgress(
+  video,
+  mediaTime,
+  confidence = 'decoded-frame',
+  expectedSourceGeneration = mediaSourceGeneration,
+  expectedSeekGeneration = mediaSeekGeneration
+) {
+  const owner = mediaSeekWatchdog;
+  if (
+    !isCurrentMediaSeekOwner(owner)
+    || expectedSourceGeneration !== owner.sourceGeneration
+    || expectedSeekGeneration !== owner.seekGeneration
+    || video !== owner.video
+  ) return false;
+  const presentedMediaTime = Number(mediaTime);
+  if (!mediaSeekTimesMatch(presentedMediaTime, owner.targetTime, owner.tolerance)) return false;
+  if (confidence !== 'decoded-frame') {
+    if (owner.seekedSeen && !owner.fallbackSeen) {
+      owner.fallbackSeen = true;
+      emitMediaDiagnosticStage('seek-presentation-fallback', {
+        seekGeneration: owner.seekGeneration,
+        targetTime: owner.targetTime,
+        currentTime: Number(video.currentTime) || 0,
+        presentedMediaTime,
+        confidence
+      }, owner.session);
+    }
+    return false;
+  }
+  owner.frameSeen = true;
+  owner.presentedMediaTime = presentedMediaTime;
+  owner.frameConfidence = confidence;
+  return completeMediaSeekWatchdog(owner);
 }
 
 function isMediaFrameWatchdogSource() {
@@ -4776,6 +5170,7 @@ function canWatchMediaFrameProgress(video = el.videoPlayer) {
     && isMediaFrameWatchdogSource()
     && state.mediaTransportVerified === true
     && state.mediaTransportStarted === true
+    && mediaSeekWatchdog === null
     && video.paused === false && video.ended !== true
     && video.seeking !== true && state.isSeeking !== true
     && document.visibilityState !== 'hidden'
@@ -4896,17 +5291,29 @@ function noteMediaFrameProgress(
   video,
   mediaTime,
   confidence = 'decoded-frame',
-  expectedSourceGeneration = mediaSourceGeneration
+  expectedSourceGeneration = mediaSourceGeneration,
+  expectedSeekGeneration = mediaSeekGeneration,
+  expectedSourceAttempt = state.mediaAttempt
 ) {
   if (
     expectedSourceGeneration !== mediaSourceGeneration
-    || !isCurrentMediaEvent(video) || state.isSeeking || video.seeking === true
+    || expectedSeekGeneration !== mediaSeekGeneration
+    || expectedSourceAttempt !== state.mediaAttempt
+    || !isCurrentMediaEvent(video)
   ) return false;
   const numericMediaTime = Number(mediaTime);
   if (!Number.isFinite(numericMediaTime)) return false;
 
   state.mediaDecodeVerified = true;
   state.mediaTransportStarted = true;
+  const seekCompleted = noteMediaSeekFrameProgress(
+    video,
+    numericMediaTime,
+    confidence,
+    expectedSourceGeneration,
+    expectedSeekGeneration
+  );
+  if (state.isSeeking || video.seeking === true) return seekCompleted;
   const owner = mediaFrameWatchdog;
   if (!owner) syncMediaFrameWatchdog();
   const current = mediaFrameWatchdog;
@@ -4916,16 +5323,16 @@ function noteMediaFrameProgress(
     || current.fileId !== state.selected?.id
     || current.sourceAttempt !== state.mediaAttempt
     || current.sourceGeneration !== mediaSourceGeneration
-  ) return false;
+  ) return seekCompleted;
 
   const prior = current.lastMediaTime;
   const progressed = !Number.isFinite(prior) || numericMediaTime > prior + 0.0001;
-  if (!progressed) return false;
+  if (!progressed) return seekCompleted;
   current.lastMediaTime = numericMediaTime;
   current.lastProgressAt = mediaDiagnosticTimestamp();
   current.frameSeen = true;
   if (confidence === 'decoded-frame') state.mediaDecodeVerified = true;
-  return true;
+  return seekCompleted || progressed;
 }
 
 function cancelVideoFrameSampling() {
@@ -4940,13 +5347,17 @@ function beginVideoFrameSampling() {
   if (!video?.requestVideoFrameCallback || video.hidden || state.frameCallbackId != null) return;
   const session = state.mediaSession;
   const fileId = state.selected?.id;
+  const sourceAttempt = state.mediaAttempt;
   const sourceGeneration = mediaSourceGeneration;
+  const seekGeneration = mediaSeekGeneration;
   let callbackId = null;
   callbackId = video.requestVideoFrameCallback((_now, metadata) => {
     if (state.frameCallbackId === callbackId) state.frameCallbackId = null;
     if (
       state.mediaSession !== session || state.selected?.id !== fileId
+      || state.mediaAttempt !== sourceAttempt
       || mediaSourceGeneration !== sourceGeneration
+      || mediaSeekGeneration !== seekGeneration
       || !isCurrentMediaEvent(video)
     ) return;
     const mediaTime = Number(metadata?.mediaTime);
@@ -4957,9 +5368,16 @@ function beginVideoFrameSampling() {
         state.frameDuration = state.frameDuration * 0.65 + delta * 0.35;
       }
     }
-    if (Number.isFinite(mediaTime) && !state.isSeeking && video.seeking !== true) {
-      state.lastPresentedMediaTime = mediaTime;
-      noteMediaFrameProgress(video, mediaTime, 'decoded-frame', sourceGeneration);
+    if (Number.isFinite(mediaTime)) {
+      if (!state.isSeeking && video.seeking !== true) state.lastPresentedMediaTime = mediaTime;
+      noteMediaFrameProgress(
+        video,
+        mediaTime,
+        'decoded-frame',
+        sourceGeneration,
+        seekGeneration,
+        sourceAttempt
+      );
     }
     if (!video.hidden) beginVideoFrameSampling();
   });
@@ -4973,7 +5391,11 @@ function stepVideoFrame(direction) {
   state.pendingPlay = false;
   const duration = Number.isFinite(video.duration) ? video.duration : Infinity;
   const frameDuration = Math.min(1 / 10, Math.max(1 / 240, state.frameDuration || DEFAULT_FRAME_DURATION));
-  video.currentTime = Math.max(0, Math.min(duration, video.currentTime + Math.sign(direction || 1) * frameDuration));
+  setPlayerCurrentTime(
+    video,
+    Math.max(0, Math.min(duration, video.currentTime + Math.sign(direction || 1) * frameDuration)),
+    'frame-step'
+  );
   updateVideoProgress();
   showPlayerFeedback(direction < 0 ? '−1 FRAME' : '+1 FRAME');
 }
@@ -5087,14 +5509,20 @@ function onSpeedMenuKeyDown(event) {
 
 function onVideoTimeUpdate() {
   if (isSeekingPointer) return;
+  const playbackTime = Number(el.videoPlayer?.currentTime);
+  const pendingSeekFallback = Boolean(
+    mediaSeekWatchdog
+    && mediaSeekWatchdog.video === el.videoPlayer
+    && mediaSeekWatchdog.seekedSeen
+  );
   if (
     typeof el.videoPlayer?.requestVideoFrameCallback !== 'function'
     && !state.isSeeking && el.videoPlayer?.seeking !== true
-    && Number(el.videoPlayer?.currentTime) > 0
+    && (playbackTime > 0 || pendingSeekFallback)
   ) {
-    noteMediaFrameProgress(el.videoPlayer, Number(el.videoPlayer.currentTime), 'playback-clock');
+    noteMediaFrameProgress(el.videoPlayer, playbackTime, 'playback-clock');
   }
-  if (mediaDiagnosticTrace && !mediaDiagnosticTrace.playbackProgressSeen && Number(el.videoPlayer?.currentTime) > 0) {
+  if (mediaDiagnosticTrace && !mediaDiagnosticTrace.playbackProgressSeen && playbackTime > 0) {
     mediaDiagnosticTrace.playbackProgressSeen = true;
     emitMediaDiagnosticStage('playback-progress', {
       currentTime: Number(el.videoPlayer.currentTime) || 0
@@ -5157,6 +5585,7 @@ function beginPointerSeek(event, track, showTooltip = false) {
   const pointerId = event.pointerId;
   event.preventDefault();
   isSeekingPointer = true;
+  syncMediaSeekWatchdog();
   track.classList.add('seeking');
   const ownsPointer = (e) => pointerId == null || e?.pointerId == null || e.pointerId === pointerId;
   function onPointerMove(e) {
@@ -5164,7 +5593,11 @@ function beginPointerSeek(event, track, showTooltip = false) {
     if (session !== state.mediaSession || video.hidden) { cleanup(); return; }
     const rect = track.getBoundingClientRect();
     if (rect.width <= 0) return;
-    video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration;
+    setPlayerCurrentTime(
+      video,
+      Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration,
+      'pointer'
+    );
     updateVideoProgress();
     if (showTooltip) onSeekPointerHover(e);
   }
@@ -5176,6 +5609,8 @@ function beginPointerSeek(event, track, showTooltip = false) {
     document.removeEventListener('pointercancel', onPointerUp);
     window.removeEventListener('blur', cleanup);
     if (activeSeekCleanup === cleanup) activeSeekCleanup = null;
+    syncMediaSeekWatchdog();
+    syncMediaFrameWatchdog();
     resetControlsTimer();
   }
   function onPointerUp(e) { if (ownsPointer(e)) cleanup(); }
@@ -6174,7 +6609,11 @@ function handlePlayerKeyboard(event) {
       const digit = Number(code.replace('Digit', ''));
       if (!isNaN(digit) && el.videoPlayer.duration) {
         event.preventDefault();
-        el.videoPlayer.currentTime = (digit / 10) * el.videoPlayer.duration;
+        setPlayerCurrentTime(
+          el.videoPlayer,
+          (digit / 10) * el.videoPlayer.duration,
+          'digit-shortcut'
+        );
         showPlayerFeedback(`SEEK ${digit * 10}%`);
         updateVideoProgress();
       }
@@ -6245,7 +6684,13 @@ function restorePlaybackSnapshot(video, snapshot, session) {
   video.playbackRate = snapshot.playbackRate;
   video.addEventListener('loadedmetadata', () => {
     if (state.mediaSession !== session || !isCurrentMediaEvent(video)) return;
-    if (snapshot.time > 0) video.currentTime = Math.min(video.duration || snapshot.time, snapshot.time);
+    if (snapshot.time > 0) {
+      setPlayerCurrentTime(
+        video,
+        Math.min(video.duration || snapshot.time, snapshot.time),
+        'restore-snapshot'
+      );
+    }
     if (state.resumePosition?.snapshot === snapshot) state.resumePosition = null;
     if (!snapshot.paused) {
       state.pendingPlay = true;
@@ -6354,6 +6799,7 @@ function startInitialOriginalPlayback(file, kind, session) {
 
 function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
+  clearMediaSeekWatchdog('range-source');
   clearMediaFrameWatchdog('range-source');
   mediaSourceGeneration += 1;
   state.mediaAttempt = 'range';
@@ -6382,7 +6828,11 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
     if (!resumeSnapshot && Number.isFinite(resume) && resume > 0) {
       el.videoPlayer.addEventListener('loadedmetadata', () => {
         if (session !== state.mediaSession) return;
-        el.videoPlayer.currentTime = Math.min(el.videoPlayer.duration || resume, resume);
+        setPlayerCurrentTime(
+          el.videoPlayer,
+          Math.min(el.videoPlayer.duration || resume, resume),
+          'resume-position'
+        );
         state.resumePosition = null;
       }, { once: true });
     }
@@ -6412,6 +6862,7 @@ async function attemptCurrentPlayback(session) {
     if (session !== state.mediaSession) return;
     state.pendingPlay = false;
     if (error?.name === 'NotAllowedError') {
+      syncMediaSeekWatchdog();
       clearMediaFrameWatchdog('autoplay-blocked');
       showPlayerFeedback('화면을 눌러 재생');
       updatePlayPauseUI();
@@ -6452,7 +6903,11 @@ function onSeekKeyDown(event) {
   if (target == null) return;
   event.preventDefault();
   event.stopPropagation();
-  el.videoPlayer.currentTime = Math.max(0, Math.min(duration, target));
+  setPlayerCurrentTime(
+    el.videoPlayer,
+    Math.max(0, Math.min(duration, target)),
+    'seek-key'
+  );
   updateVideoProgress();
 }
 
@@ -6492,7 +6947,10 @@ function decideUnsupportedFormatRecovery({
 }
 
 async function handleMediaElementError(kind) {
-  if (kind === 'video') clearMediaFrameWatchdog('media-error');
+  if (kind === 'video') {
+    clearMediaSeekWatchdog('media-error');
+    clearMediaFrameWatchdog('media-error');
+  }
   const element = kind === 'video' ? el.videoPlayer : el.imageViewer;
   if (!element.getAttribute('src') || !state.selected) return;
   if (
@@ -6597,6 +7055,7 @@ async function handleMediaElementError(kind) {
 
 function scheduleOriginalStreamRetry(file, expectedSession, delayMs, message) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== expectedSession) return;
+  clearMediaSeekWatchdog('retry-wait');
   clearMediaFrameWatchdog('retry-wait');
   clearTimeout(mediaRecoveryTimer);
   state.mediaAttempt = 'retry-wait';
@@ -6613,6 +7072,7 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     || state.mediaSession !== expectedSession || (consumeRetry && state.mediaRetryCount >= 1)
   ) return false;
 
+  clearMediaSeekWatchdog('range-retry');
   clearMediaFrameWatchdog('range-retry');
   cancelVideoFrameSampling();
   const snapshot = state.resumePosition?.fileId === file.id && state.resumePosition.snapshot
@@ -7944,7 +8404,9 @@ function openPermissionGuide() {
 
 function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.mediaSession) {
   if (!video || video.hidden || !isCurrentMediaEvent(video)) return;
+  const sourceAttempt = state.mediaAttempt;
   const sourceGeneration = mediaSourceGeneration;
+  const seekGeneration = mediaSeekGeneration;
   const presentationKey = String(session);
   if (video.dataset.presentationSession === presentationKey) return;
   video.dataset.presentationSession = presentationKey;
@@ -7954,6 +8416,7 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
     presented = true;
     if (
       state.mediaSession !== session || !isCurrentMediaEvent(video)
+      || state.mediaAttempt !== sourceAttempt
       || mediaSourceGeneration !== sourceGeneration
       || video.dataset.presentationSession !== presentationKey
     ) return;
@@ -7978,7 +8441,14 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
 
   if (typeof video.requestVideoFrameCallback === 'function') {
     video.requestVideoFrameCallback((_now, metadata) => {
-      noteMediaFrameProgress(video, metadata?.mediaTime, 'decoded-frame', sourceGeneration);
+      noteMediaFrameProgress(
+        video,
+        metadata?.mediaTime,
+        'decoded-frame',
+        sourceGeneration,
+        seekGeneration,
+        sourceAttempt
+      );
       reveal('decoded-frame');
     });
   } else {
@@ -8206,6 +8676,8 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  clearMediaSeekWatchdog('source-cleared');
+  state.isSeeking = false;
   mediaSourceGeneration += 1;
   clearMediaFrameWatchdog('source-cleared');
   cancelVideoFrameSampling();
@@ -8235,6 +8707,7 @@ function clearDirectMediaSources() {
 
 function resetMediaElements() {
   state.mediaSession += 1;
+  clearMediaSeekWatchdog('session-reset');
   clearMediaFrameWatchdog('session-reset');
   activeSeekCleanup?.();
   clearTimeout(singleTapTimer);
