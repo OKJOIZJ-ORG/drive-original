@@ -10,7 +10,7 @@
 ## Current evidence
 
 - Canonical source: `C:\Users\jbs\Desktop\폴더모음\자작프로그램\Drive-Original\source`.
-- Work branch: `codex/v2-kickoff-diagnostics`; product implementation commit `fe9c35965a96adfaaaa97727f94377f878e2de51` (`feat: add correlated media stage diagnostics`). The v3 authority record is commit `70a5f9a`.
+- Work branch / current committed HEAD: `codex/v2-kickoff-diagnostics` / `d7aeabf` (`docs: record V2-01B diagnostic evidence`). Product implementation is `fe9c35965a96adfaaaa97727f94377f878e2de51`; the v3 authority record is `70a5f9a`.
 - V2-01B fixture passed 12/12 injected scenarios. Full Node suite passed 153/153; app, service-worker, audit and classifier syntax checks passed; diff whitespace passed.
 - The generated evidence `qa/player-stage-v2-01b/results.json` is bound to `fe9c359`, app SHA-256 `0bdab264f9d5f975e97b1f863b4d20523bbd1f0c96bb29663ffac06107bcab7e`, and service-worker SHA-256 `5d8c5e4bb199fdf80eac72458cd947657f577050dd8a51095af6d4e91dd5bfab`.
 - Public build still contains only the 12 allowlisted files; QA traces, tests, memory and private sample metadata are excluded.
@@ -19,10 +19,11 @@
 
 ## Working state
 
-- The original media has not been changed, shared or uploaded. Production, `main`, remotes, OAuth configuration and the paused automation have not been changed.
+- The original media has not been changed, shared or uploaded. Production runtime, `main`, remotes and the paused automation have not been changed; the only external configuration change is the read-backed localhost OAuth validation origin described below.
 - Normal Google login was not attempted again in the managed automated Chrome after Google rejected that automation-controlled browser. Its popup was closed; this does not count as an account failure or app authentication result.
+- The ordinary-Chrome localhost candidate first returned `400 origin_mismatch` for exact origin `http://localhost:4173`. The existing production origin was preserved, that localhost origin was added to the same `Drive Original Web` client, Cloud Console reported a successful save, and a fresh readback showed both origins. A new OAuth attempt now reaches Google's normal account chooser, so the registration blocker is closed.
 - V2-01B changes are isolated to diagnostics, QA and tests. The sink is opt-in and inert in ordinary product use; recovery policy and visible UI remain unchanged.
-- The generated V2-01B result snapshot and this checkpoint/goal/session readback are the only expected task-owned evidence changes after `fe9c359` until the evidence commit is made.
+- The V2-01B result snapshot and goal/session evidence are committed at `d7aeabf`. This post-commit HEAD readback is the only expected task-owned uncommitted change before V2-01C begins.
 
 ## Open questions / remaining failures
 
@@ -35,4 +36,5 @@
 
 - Run V2-01C read-only: preserve the private stable ID/version ledger, obtain the minimum metadata fields, reproduce the exact sample twice through the diagnostic path, and derive a redacted first-failure record.
 - If ordinary Google login or a physical iPhone/PWA action is required, ask only for that normal user operation and provide the URL/version plus two or three concrete checks.
+- The next required action is user-owned authentication: choose the Drive account and approve the existing Drive scopes in the open Google account chooser. After the popup returns to the app, continue the exact-sample trace without reloading the instrumented localhost tab.
 - Do not change the original, make it public, permanently delete data, spend money, register a card, merge/push, replace production, or resume the paused automation. Do not adopt a media relay or conversion server merely to improve authentication.
