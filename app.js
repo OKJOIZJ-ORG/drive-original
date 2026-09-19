@@ -457,13 +457,6 @@ function getOriginalBufferPolicy({
   return { decision: 'denied', mode: 'memory', hardLimit: memoryHard };
 }
 
-function chooseInitialOriginalPlaybackRoute({ isVideo = false, policy = null } = {}) {
-  if (isVideo && policy?.mode === 'disk' && policy?.decision === 'auto') {
-    return PLAYBACK_MODE.OPFS;
-  }
-  return PLAYBACK_MODE.RANGE;
-}
-
 function buildResourceKeysHeader(items) {
   const pairs = [];
   const seen = new Set();
@@ -6069,31 +6062,12 @@ function openMediaSource(file) {
   startInitialOriginalPlayback(file, isVideo ? 'video' : 'image', session);
 }
 
-async function startInitialOriginalPlayback(file, kind, session) {
+function startInitialOriginalPlayback(file, kind, session) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return;
-  if (kind !== 'video') {
-    emitMediaDiagnosticStage('route-selected', { route: 'range', reason: 'non-video' }, session);
-    startOriginalRangePlayback(file, kind, session);
-    return;
-  }
-
-  state.mediaAttempt = 'buffer-evaluating';
-  showMediaLoading('원본 임시 디스크 사용 가능 여부 확인 중');
-  const policy = await resolveOriginalBufferPolicy(file);
-  if (state.selected?.id !== file.id || state.mediaSession !== session) return;
-  const route = chooseInitialOriginalPlaybackRoute({ isVideo: true, policy });
   emitMediaDiagnosticStage('route-selected', {
-    route,
-    reason: String(policy?.reason || policy?.decision || '')
+    route: 'range',
+    reason: 'direct-original-first'
   }, session);
-  if (route === PLAYBACK_MODE.OPFS) {
-    await startOriginalBlobFallback(file, kind, session, {
-      confirmed: true,
-      policy,
-      rangeFallbackOnFailure: true
-    });
-    return;
-  }
   startOriginalRangePlayback(file, kind, session);
 }
 

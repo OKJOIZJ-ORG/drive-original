@@ -47,12 +47,32 @@ async function generateVideo() {
 async function environment({ mobile=false, disableOpfs=false, rangeFault=null, bulkFault=null }={}) {
   const context = await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1280,height:800},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1});
   if(disableOpfs) await context.addInitScript(()=>{Object.defineProperty(navigator.storage,'getDirectory',{value:undefined,configurable:true});});
+  // This audit writes only to the per-context in-memory fixture below. The
+  // checked-in candidate and every real Drive surface remain write-disabled.
+  await context.route('**/runtime-config.js*', route=>route.fulfill({
+    contentType:'text/javascript',
+    body:'globalThis.__DRIVE_ORIGINAL_RUNTIME__=Object.freeze({candidate:true,driveMutationsEnabled:true});'
+  }));
   const store = new Map(); const calls=[]; let mediaCalls=0,tokenCounter=0;
   for (const [i,id] of ['video-A','video-B','video-C','video-outside'].entries()) store.set(id,{id,name:`원본 테스트 ${i+1} — 긴 제목과 공백을 포함한 영상.webm`,mimeType:'video/webm',size:String(video.length),modifiedTime:`2026-09-${10+i}T12:00:00Z`,parents:[id==='video-outside'?'folder-Q':'root'],resourceKey:'fixture-key',thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true,canMoveItemWithinDrive:true},videoMediaMetadata:{width:640,height:360,durationMillis:'2500'}});
   store.set('photo-A',{id:'photo-A',name:'이미지 모음.svg',mimeType:'image/svg+xml',size:'128',parents:['root'],thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true}});
   store.set('folder-Q',{id:'folder-Q',name:'다른 폴더',mimeType:'application/vnd.google-apps.folder',parents:['root']});
   const account = new Map([['state-legacy',{id:'state-legacy',name:'drive-original-account-state.json',modifiedTime:'2026-09-01T00:00:00Z',data:{schemaVersion:1,updatedAt:20,viewed:{},favorites:{'video-outside':{liked:true,updatedAt:20}}}}]]);
-  await context.route('https://accounts.google.com/gsi/client', route=>route.fulfill({contentType:'text/javascript',body:`window.google={accounts:{oauth2:{initTokenClient(options){return{requestAccessToken(){setTimeout(()=>options.callback({access_token:'fixture-'+(++window.fixtureTokenCounter),expires_in:3600,scope:'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata'}),0);}}},revoke(token,done){done?.();}}}};window.fixtureTokenCounter=0;`}));
+  await context.route('**/api/session/credential', async route=>{
+    const request=route.request();const headers=await request.allHeaders();
+    assert.equal(request.method(),'POST');assert.equal(headers['x-drive-original-csrf'],'1');
+    tokenCounter++;
+    await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+      accessToken:`fixture-${tokenCounter}`,
+      expiresAt:Date.now()+60*60*1000,
+      account:'fixture-account',
+      revision:tokenCounter
+    })});
+  });
+  await context.route('**/auth/google/start?**', route=>route.fulfill({
+    status:303,
+    headers:{Location:base,'Cache-Control':'no-store'}
+  }));
   await context.route('https://www.googleapis.com/**',async route=>{
     const req=route.request(); const url=new URL(req.url()); const id=url.pathname.split('/').pop(); const method=req.method(); const headers=await req.allHeaders();
     const entry={method,path:url.pathname,query:Object.fromEntries(url.searchParams),range:headers.range||null,sw:Boolean(req.serviceWorker()),authorization:headers.authorization,resourceKey:headers['x-goog-drive-resource-keys']};calls.push(entry);
@@ -91,8 +111,10 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
   });
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'networkidle'});
-  await page.locator('#connectButton').click();
-  await page.waitForFunction(()=>state.accountStateLoaded && state.files.length===4 && !state.loading,{timeout:20000});
+  await page.waitForFunction(()=>{
+    try { return state.accountStateLoaded && state.files.length===4 && !state.loading; }
+    catch (_) { return false; }
+  },null,{timeout:20000});
   await page.waitForFunction(()=>navigator.serviceWorker.controller);
   return {context,page,calls,account,store,errors};
 }
@@ -205,7 +227,7 @@ async function exactBufferedBytes(page) {
         const proof=await page.evaluate(async()=>{
           const files=state.files, selected=state.selected, session=state.mediaSession;
           const generation=state.driveSessionGeneration, revision=state.tokenRevision;
-          const ok=await requestGoogleToken({background:false,force:true,invalidateSession:true});
+          const ok=await requestSessionCredential({background:false,force:true,rejectedRevision:revision});
           clearRejectedToken({status:401,rejectedTokenRevision:revision,rejectedAccountGeneration:generation});
           return {ok,sameFiles:state.files===files,sameSelected:state.selected===selected,
             sameMedia:state.mediaSession===session,sameAccountGeneration:state.driveSessionGeneration===generation,
@@ -223,13 +245,27 @@ async function exactBufferedBytes(page) {
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
         await page.screenshot({path:path.join(out,'320-reconnect-preserves-library.png')});
         await page.locator('#reconnectButton').click();
-        await page.waitForFunction(()=>hasUsableToken()&&!document.getElementById('reconnectButton').disabled);
+        await page.waitForFunction(()=>{
+          try { return hasUsableToken()&&!document.getElementById('reconnectButton').disabled; }
+          catch (_) { return false; }
+        },null,{timeout:20000});
         assert.equal(await page.locator('#reconnectButton').isVisible(),false);
         assert.deepEqual(errors,[]);record('same-account fixture renewal preserves playback and the expired library',{proof});
       }finally{await context.close();}
     });
-    await check('original OPFS, playback, keyboard, active-tab lease and scoped cleanup',async()=>{
+    await check('initial route stays Range-first when writable OPFS is available',async()=>{
       const {page,context,calls,errors}=await environment();
+      try {
+        await openVideo(page);
+        const mode=await page.evaluate(()=>state.mediaPlaybackMode);assert.equal(mode,'original-range');
+        const media=calls.filter(c=>c.query.alt==='media'&&!c.path.includes('state'));
+        assert(media.length>0);assert(media[0].range);assert(media[0].sw);
+        assert.equal(media.some(c=>!c.range),false,'initial playback must not start a full-file recovery request');
+        assert.deepEqual(errors,[]);record('initial route stays Range-first when writable OPFS is available',{mode,mediaRequests:media.length});
+      } finally{await context.close();}
+    });
+    await check('Range recovery OPFS, playback, keyboard, active-tab lease and scoped cleanup',async()=>{
+      const {page,context,calls,errors}=await environment({rangeFault:'invalid'});
       try {
         await openVideo(page);
         const mode=await page.evaluate(()=>state.mediaPlaybackMode);assert.equal(mode,'original-opfs');
@@ -253,7 +289,9 @@ async function exactBufferedBytes(page) {
         assert.equal(await page.evaluate(async()=>Boolean(await fixtureTemp.directory.getFileHandle(fixtureTemp.name))),true);
         await second.close();await page.evaluate(()=>closePlayer());await page.waitForTimeout(200);
         assert.equal(await page.evaluate(async()=>{try{await fixtureTemp.directory.getFileHandle(fixtureTemp.name);return false;}catch(e){return e.name==='NotFoundError';}}),true);
-        assert.deepEqual(errors,[]);record('original OPFS, playback, keyboard, active-tab lease and scoped cleanup',{mode,sha256:hash(video),requests:calls.filter(c=>c.query.alt==='media'&&!c.path.includes('state')).length});
+        const media=calls.filter(c=>c.query.alt==='media'&&!c.path.includes('state'));
+        assert(media.some(c=>c.range));assert(media.some(c=>!c.range));
+        assert.deepEqual(errors,[]);record('Range recovery OPFS, playback, keyboard, active-tab lease and scoped cleanup',{mode,sha256:hash(video),requests:media.length});
       } finally{await context.close();}
     });
     for(const fault of [null,'401-once','invalid']) await check(`Range transport ${fault||'valid'}`,async()=>{

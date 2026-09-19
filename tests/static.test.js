@@ -193,8 +193,9 @@ test('video adaptively chooses exact-original transport and exhausts original pa
   const html = read('index.html');
   const readme = read('README.md');
   const productTruth = read('memory/PRODUCT-TRUTH.md');
-  assert.match(app, /function chooseInitialOriginalPlaybackRoute\([\s\S]*?policy\?\.mode === 'disk'[\s\S]*?PLAYBACK_MODE\.OPFS[\s\S]*?PLAYBACK_MODE\.RANGE/);
-  assert.match(app, /function startInitialOriginalPlayback\([\s\S]*?resolveOriginalBufferPolicy\(file\)[\s\S]*?chooseInitialOriginalPlaybackRoute[\s\S]*?rangeFallbackOnFailure: true/);
+  const initialRoute = app.match(/function startInitialOriginalPlayback\([\s\S]*?(?=\nfunction startOriginalRangePlayback)/)?.[0] || '';
+  assert.match(initialRoute, /route: 'range'[\s\S]*?startOriginalRangePlayback\(file, kind, session\)/);
+  assert.doesNotMatch(initialRoute, /resolveOriginalBufferPolicy|startOriginalBlobFallback|await /);
   assert.match(app, /rangeFallbackOnFailure[\s\S]*?startOriginalRangePlayback\(file, kind, session/);
   assert.match(app, /mediaExhaustedOriginalModes\.add\(PLAYBACK_MODE\.OPFS\)[\s\S]*?startOriginalRangePlayback/);
   assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('mediaSession'/);

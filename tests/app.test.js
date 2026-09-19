@@ -886,32 +886,26 @@ test('original buffer policy prefers bounded OPFS and denies unsafe memory downl
   assert.equal(policies.memoryDenied.decision, 'denied');
 });
 
-test('initial video playback uses temporary disk only when the safe automatic OPFS policy is proven', () => {
+test('initial video playback starts Range without waiting for storage policy or full download', () => {
   const context = loadAppContext();
-  const routes = JSON.parse(run(context, `JSON.stringify({
-    safeVideo: chooseInitialOriginalPlaybackRoute({
-      isVideo: true,
-      policy: { decision: 'auto', mode: 'disk' }
-    }),
-    largeVideo: chooseInitialOriginalPlaybackRoute({
-      isVideo: true,
-      policy: { decision: 'confirm', mode: 'disk' }
-    }),
-    memoryOnlyVideo: chooseInitialOriginalPlaybackRoute({
-      isVideo: true,
-      policy: { decision: 'auto', mode: 'memory' }
-    }),
-    image: chooseInitialOriginalPlaybackRoute({
-      isVideo: false,
-      policy: { decision: 'auto', mode: 'disk' }
-    })
-  })`));
-  assert.deepEqual(routes, {
-    safeVideo: 'original-opfs',
-    largeVideo: 'original-range',
-    memoryOnlyVideo: 'original-range',
-    image: 'original-range'
-  });
+  const calls = JSON.parse(run(context, `(() => {
+    const calls = [];
+    const file = { id: 'video', mimeType: 'video/mp4', size: String(32 * 1024 * 1024) };
+    state.selected = file;
+    state.mediaSession = 17;
+    resolveOriginalBufferPolicy = async () => {
+      calls.push('storage-policy');
+      return { decision: 'auto', mode: 'disk' };
+    };
+    startOriginalBlobFallback = async () => { calls.push('full-download'); };
+    startOriginalRangePlayback = (selected, kind, session) => {
+      calls.push('range:' + selected.id + ':' + kind + ':' + session);
+      return true;
+    };
+    startInitialOriginalPlayback(file, 'video', 17);
+    return JSON.stringify(calls);
+  })()`));
+  assert.deepEqual(calls, ['range:video:video:17']);
 });
 
 test('an exhausted temporary-disk route is not selected again after Range fallback', async () => {
