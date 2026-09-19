@@ -10,6 +10,209 @@ const root = path.resolve(__dirname, '..');
 const out = path.join(__dirname, process.argv[2] || 'functional');
 fs.mkdirSync(out, { recursive: true });
 const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.json':'application/json', '.webmanifest':'application/manifest+json', '.svg':'image/svg+xml', '.png':'image/png' };
+function installQaSlowTailFixture() {
+  const CONFIG = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIG';
+  const STATE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE';
+  const RELEASE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE';
+  const nativeFetch = self.fetch.bind(self);
+  let fixture = null;
+
+  const snapshot = (active) => ({
+    fixtureId: active.fixtureId,
+    fileId: active.fileId,
+    configured: fixture === active,
+    streams: [...active.streams.values()].map((stream) => ({
+      streamId: stream.streamId,
+      range: stream.range,
+      start: stream.start,
+      end: stream.end,
+      responseLength: stream.responseLength,
+      deliveredBytes: stream.deliveredBytes,
+      bodyComplete: stream.bodyComplete,
+      waitingForRelease: stream.waitingForRelease,
+      terminal: stream.terminal
+    }))
+  });
+  const post = (active, message) => {
+    try { active.port.postMessage({ fixtureId: active.fixtureId, ...message }); } catch (_) {}
+  };
+  const observe = (active, stream) => post(active, {
+    type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_OBSERVATION',
+    stream: snapshot(active).streams.find((item) => item.streamId === stream.streamId)
+  });
+  const markTerminal = (active, stream, terminal) => {
+    if (stream.terminal) return false;
+    stream.terminal = terminal;
+    stream.waitingForRelease = false;
+    stream.detachAbort?.();
+    stream.detachAbort = null;
+    const resolve = stream.resolvePendingPull;
+    stream.resolvePendingPull = null;
+    resolve?.();
+    observe(active, stream);
+    return true;
+  };
+  const releaseStream = (active, stream) => {
+    if (stream.terminal) return;
+    stream.released = true;
+    const resolve = stream.resolvePendingPull;
+    stream.resolvePendingPull = null;
+    if (!stream.controller) {
+      resolve?.();
+      return;
+    }
+    try {
+      const tailStart = stream.start + stream.deliveredBytes;
+      if (tailStart <= stream.end) {
+        const tail = active.bytes.slice(tailStart, stream.end + 1);
+        stream.controller.enqueue(tail);
+        stream.deliveredBytes += tail.byteLength;
+      }
+      stream.controller.close();
+      stream.bodyComplete = true;
+      markTerminal(active, stream, 'complete');
+    } catch (_) {
+      markTerminal(active, stream, 'release-error');
+    } finally {
+      resolve?.();
+    }
+  };
+  const bindControlPort = (active) => {
+    active.port.onmessage = (event) => {
+      const data = event.data || {};
+      if (data.fixtureId !== active.fixtureId) return;
+      if (data.type === STATE) {
+        post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE_RESULT', requestId: data.requestId, state: snapshot(active) });
+      }
+      if (data.type === RELEASE) {
+        for (const stream of active.streams.values()) releaseStream(active, stream);
+        if (fixture === active) fixture = null;
+        post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASED', requestId: data.requestId, state: snapshot(active) });
+      }
+    };
+    active.port.start?.();
+  };
+
+  self.addEventListener('message', (event) => {
+    const data = event.data || {};
+    if (data.type !== CONFIG) return;
+    const port = event.ports?.[0];
+    const bytes = data.bytes instanceof ArrayBuffer ? new Uint8Array(data.bytes) : null;
+    if (!port || !bytes?.byteLength || !data.fixtureId || !data.fileId) return;
+    const active = {
+      fixtureId: String(data.fixtureId),
+      fileId: String(data.fileId),
+      prefixBytes: Math.max(1, Number(data.prefixBytes) || 1),
+      bytes,
+      port,
+      streamSequence: 0,
+      streams: new Map()
+    };
+    fixture = active;
+    bindControlPort(active);
+    post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIGURED', requestId: data.requestId, state: snapshot(active) });
+  });
+
+  self.fetch = async (input, init = {}) => {
+    const active = fixture;
+    if (!active) return nativeFetch(input, init);
+    const request = input instanceof Request ? input : null;
+    const url = new URL(request?.url || String(input));
+    const fileId = decodeURIComponent(url.pathname.split('/').pop() || '');
+    if (
+      url.origin !== 'https://www.googleapis.com'
+      || !url.pathname.startsWith('/drive/v3/files/')
+      || url.searchParams.get('alt') !== 'media'
+      || fileId !== active.fileId
+    ) return nativeFetch(input, init);
+
+    const headers = new Headers(request?.headers);
+    new Headers(init.headers).forEach((value, name) => headers.set(name, value));
+    const range = headers.get('Range') || '';
+    const match = /^bytes=(\d+)-(\d*)$/i.exec(range);
+    if (!match) return nativeFetch(input, init);
+    const start = Number(match[1]);
+    const requestedEnd = match[2] ? Number(match[2]) : active.bytes.byteLength - 1;
+    const end = Math.min(requestedEnd, active.bytes.byteLength - 1);
+    if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || start >= end) {
+      return nativeFetch(input, init);
+    }
+
+    const responseLength = end - start + 1;
+    const prefixLength = Math.min(active.prefixBytes, responseLength - 1);
+    const stream = {
+      streamId: `${active.fixtureId}-${++active.streamSequence}`,
+      range,
+      start,
+      end,
+      responseLength,
+      deliveredBytes: 0,
+      bodyComplete: false,
+      waitingForRelease: false,
+      terminal: null,
+      released: false,
+      controller: null,
+      resolvePendingPull: null,
+      detachAbort: null
+    };
+    active.streams.set(stream.streamId, stream);
+    const signal = init.signal || request?.signal;
+    const body = new ReadableStream({
+      start(controller) {
+        stream.controller = controller;
+        if (signal) {
+          const abort = () => {
+            if (stream.terminal) return;
+            try { controller.error(signal.reason || new DOMException('Aborted', 'AbortError')); } catch (_) {}
+            markTerminal(active, stream, 'aborted');
+          };
+          if (signal.aborted) abort();
+          else {
+            signal.addEventListener('abort', abort, { once: true });
+            stream.detachAbort = () => signal.removeEventListener('abort', abort);
+          }
+        }
+      },
+      pull(controller) {
+        if (stream.terminal) return;
+        if (stream.deliveredBytes === 0) {
+          const prefix = active.bytes.slice(start, start + prefixLength);
+          controller.enqueue(prefix);
+          stream.deliveredBytes = prefix.byteLength;
+          stream.waitingForRelease = true;
+          observe(active, stream);
+          return;
+        }
+        if (stream.released) {
+          releaseStream(active, stream);
+          return;
+        }
+        return new Promise((resolve) => { stream.resolvePendingPull = resolve; });
+      },
+      cancel() {
+        markTerminal(active, stream, 'cancelled');
+      }
+    }, { highWaterMark: 0 });
+    post(active, {
+      type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_REQUEST',
+      request: { streamId: stream.streamId, fileId, range, usedFixture: true }
+    });
+    return new Response(body, {
+      status: 206,
+      statusText: 'Partial Content',
+      headers: {
+        'Content-Type': 'video/webm',
+        'Content-Range': `bytes ${start}-${end}/${active.bytes.byteLength}`,
+        'Content-Length': String(responseLength),
+        'Accept-Ranges': 'bytes',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Expose-Headers': 'Content-Range,Content-Length,Accept-Ranges,Content-Type',
+        'Cache-Control': 'no-store'
+      }
+    });
+  };
+}
+const qaSlowTailServiceWorkerFixture = `;(${installQaSlowTailFixture.toString()})();`;
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://localhost');
   if (url.pathname === '/sibling/sw.js') { res.setHeader('Content-Type', 'text/javascript'); res.end('self.addEventListener("install",()=>self.skipWaiting());'); return; }
@@ -17,6 +220,10 @@ const server = http.createServer((req, res) => {
   const file = path.resolve(root, relative);
   if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); res.end('not found'); return; }
   res.writeHead(200, { 'Content-Type': mime[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+  if (relative === 'sw.js') {
+    res.end(`${fs.readFileSync(file, 'utf8')}\n${qaSlowTailServiceWorkerFixture}`);
+    return;
+  }
   fs.createReadStream(file).pipe(res);
 });
 const results = [];
@@ -125,6 +332,65 @@ async function openVideo(page,id='video-A') {
 }
 async function exactBufferedBytes(page) {
   return hash(Buffer.from(await page.evaluate(async()=>[...new Uint8Array(await (await fetch(el.videoPlayer.src)).arrayBuffer())])));
+}
+async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024 }={}) {
+  const fixtureId = `slow-tail-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes }) => {
+    if (typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
+      return { supported: false, fixtureId };
+    }
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i=0; i<binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const controller = navigator.serviceWorker.controller;
+    if (!controller) throw new Error('Slow-tail fixture requires a controlling service worker');
+    const channel = new MessageChannel();
+    const pending = new Map();
+    let sequence = 0;
+    globalThis.__driveOriginalQaSlowTailMessages = [];
+    globalThis.__driveOriginalQaMediaStages = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => {
+      globalThis.__driveOriginalQaMediaStages.push({ ...event });
+    };
+    channel.port1.onmessage = (event) => {
+      const data = event.data || {};
+      globalThis.__driveOriginalQaSlowTailMessages.push(data);
+      const waiter = pending.get(data.requestId);
+      if (!waiter) return;
+      pending.delete(data.requestId);
+      clearTimeout(waiter.timeout);
+      waiter.resolve(data);
+    };
+    channel.port1.start();
+    const request = (type, payload = {}) => new Promise((resolve, reject) => {
+      const requestId = `${fixtureId}-${++sequence}`;
+      const timeout = setTimeout(() => {
+        pending.delete(requestId);
+        reject(new Error(`Slow-tail control timeout: ${type}`));
+      }, 2000);
+      pending.set(requestId, { resolve, timeout });
+      channel.port1.postMessage({ type, fixtureId, requestId, ...payload });
+    });
+    globalThis.__driveOriginalQaSlowTailRequest = request;
+    const requestId = `${fixtureId}-${++sequence}`;
+    const configured = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        pending.delete(requestId);
+        reject(new Error('Slow-tail configuration timeout'));
+      }, 2000);
+      pending.set(requestId, { resolve, timeout });
+    });
+    controller.postMessage({
+      type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIG',
+      fixtureId,
+      fileId,
+      prefixBytes,
+      requestId,
+      bytes: bytes.buffer
+    }, [bytes.buffer, channel.port2]);
+    await configured;
+    return { supported: true, fixtureId };
+  }, { encoded: video.toString('base64'), fileId, fixtureId, prefixBytes });
 }
 (async()=>{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}/drive-original/`;
@@ -263,6 +529,95 @@ async function exactBufferedBytes(page) {
         assert.equal(media.some(c=>!c.range),false,'initial playback must not start a full-file recovery request');
         assert.deepEqual(errors,[]);record('initial route stays Range-first when writable OPFS is available',{mode,mediaRequests:media.length});
       } finally{await context.close();}
+    });
+    await check('decoded first frame precedes slow Range body completion',async()=>{
+      const {page,context,calls,errors}=await environment();
+      let configured=false;
+      try {
+        const setup=await configureSlowTailFixture(page);
+        assert.equal(setup.supported,true,'QA-TR-01 requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>openPlayer(state.files.find(file=>file.id==='video-A')));
+        await page.waitForFunction(
+          ()=>globalThis.__driveOriginalQaMediaStages?.some(event=>event.stage==='first-decoded-frame'&&event.confidence==='decoded-frame'),
+          null,
+          {timeout:8000}
+        );
+        const proof=await page.evaluate(async()=>{
+          const stateReply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          const stages=globalThis.__driveOriginalQaMediaStages.slice();
+          const frame=stages.find(event=>event.stage==='first-decoded-frame');
+          const stream=stateReply.state.streams.find(item=>item.waitingForRelease&&!item.terminal);
+          return {
+            frame,
+            stream,
+            stagesThroughSnapshot:stages.map(event=>({
+              stage:event.stage,
+              sequence:event.sequence,
+              route:event.route,
+              requestId:event.requestId,
+              requestedRange:event.requestedRange,
+              rangeSatisfied:event.rangeSatisfied,
+              playbackMode:event.playbackMode,
+              bytes:event.bytes,
+              totalBytes:event.totalBytes,
+              confidence:event.confidence
+            })),
+            mode:state.mediaPlaybackMode,
+            transportVerified:state.mediaTransportVerified,
+            rangeIntegrity:state.mediaRangeIntegrity,
+            fullRequestCount:state.mediaFullRequestCount,
+            previewHidden:el.drivePreview.hidden,
+            readyState:el.videoPlayer.readyState
+          };
+        });
+        assert(proof.frame,'decoded-frame stage must be emitted');
+        assert.equal(proof.frame.confidence,'decoded-frame');
+        assert(proof.stream,'a held Range stream must still be active at the frame boundary');
+        assert(proof.stream.range,'the controlled request must contain a Range header');
+        assert(proof.stream.deliveredBytes>0,'the playable prefix must reach the product worker');
+        assert(proof.stream.deliveredBytes<proof.stream.responseLength,'the response body must remain incomplete');
+        assert.equal(proof.stream.bodyComplete,false);
+        assert.equal(proof.stream.waitingForRelease,true);
+        assert.equal(proof.stream.terminal,null);
+        const firstByte=proof.stagesThroughSnapshot.find(event=>event.stage==='first-byte'&&event.route==='range');
+        assert(firstByte,'the production service worker must emit its Range first-byte evidence');
+        assert(firstByte.requestId,'the Range first-byte evidence must be request-correlated');
+        assert.equal(firstByte.requestedRange,proof.stream.range);
+        assert.equal(firstByte.rangeSatisfied,true);
+        assert.equal(firstByte.playbackMode,'original-range');
+        assert.equal(firstByte.bytes,proof.stream.deliveredBytes);
+        assert.equal(firstByte.totalBytes,proof.stream.responseLength);
+        assert.equal(proof.stagesThroughSnapshot.some(event=>event.stage==='body-complete'),false);
+        assert.equal(proof.stagesThroughSnapshot.some(event=>['first-byte-timeout','body-no-progress'].includes(event.stage)),false);
+        assert.equal(proof.mode,'original-range');
+        assert.equal(proof.transportVerified,true);
+        assert.equal(proof.rangeIntegrity,'valid');
+        assert.equal(proof.fullRequestCount,0);
+        assert.equal(proof.previewHidden,true);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,'buffered Playwright fulfillment must not supply this media body');
+        assert.deepEqual(errors,[]);
+        await page.evaluate(()=>closePlayer());
+        const cleanup=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE'));
+        assert.equal(cleanup.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASED');
+        assert.equal(cleanup.state.configured,false);
+        configured=false;
+        record('decoded first frame precedes slow Range body completion',{
+          mode:proof.mode,
+          range:proof.stream.range,
+          deliveredBytes:proof.stream.deliveredBytes,
+          responseLength:proof.stream.responseLength,
+          bodyComplete:proof.stream.bodyComplete,
+          confidence:proof.frame.confidence,
+          readyState:proof.readyState
+        });
+      } finally {
+        if(configured) {
+          try { await page.evaluate(()=>{ if(!el.playerSheet.hidden) closePlayer(); }); } catch (_) {}
+          try { await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest?.('DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE')); } catch (_) {}
+        }
+        await context.close();
+      }
     });
     await check('Range recovery OPFS, playback, keyboard, active-tab lease and scoped cleanup',async()=>{
       const {page,context,calls,errors}=await environment({rangeFault:'invalid'});
