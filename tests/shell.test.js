@@ -48,3 +48,12 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);
   assert.match(publish,/publicFiles = \['index\.html'/);assert.doesNotMatch(publish,/--force/);
 });
+test('candidate deployment rematerializes the public allowlist from a clean committed HEAD',()=>{
+  const materialize=fs.readFileSync(path.join(root,'scripts/materialize-committed-pages.cjs'),'utf8');
+  const workerPackage=JSON.parse(fs.readFileSync(path.join(root,'worker/package.json'),'utf8'));
+  assert.match(materialize,/git\(\['status', '--porcelain'\]\)/);
+  assert.match(materialize,/\['show', `HEAD:\$\{relative\}`\]/);
+  assert.match(materialize,/relative === '\.nojekyll'/);
+  assert.match(workerPackage.scripts['build:committed-assets'],/materialize-committed-pages\.cjs/);
+  assert.match(workerPackage.scripts['deploy:candidate'],/build:committed-assets/);
+});

@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "build:assets": "node ../scripts/build-pages.cjs",
+    "build:committed-assets": "npm run build:assets && node ../scripts/materialize-committed-pages.cjs",
     "check": "wrangler deploy --dry-run --config wrangler.jsonc --outdir .wrangler/dry-run",
+    "deploy:candidate": "npm run build:committed-assets && wrangler deploy --config wrangler.jsonc",
     "dev": "npm run build:assets && wrangler dev --config wrangler.jsonc",
     "test": "node --test ../tests/cloudflare-auth-worker.test.mjs"
   },
