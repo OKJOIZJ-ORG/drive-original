@@ -249,12 +249,14 @@ test('finite deadlines reject stalled initialization and preserve successful res
   await assert.rejects(c.run('withDeadline(new Promise(()=>{}),1)'),/응답 시간/);
 });
 
-test('a background refresh from a different account cannot replace the current token', async () => {
-  const c=app();c.fetch=async()=>new Response(JSON.stringify({user:{permissionId:'other'}}));
-  c.run(`state.accountId='original';state.token='original-token';state.expiresAt=Date.now()+60000;`);
-  const changed=await c.run(`applyTokenResponse({access_token:'other-token',expires_in:3600},
-    {background:true,invalidateSession:false,generation:state.authGeneration})`);
+test('a background credential from a different account cannot replace the current token', () => {
+  const c=app();
+  c.run(`state.accountId='original';state.authAccountKey='account-A';state.tokenRevision=7;
+    state.token='original-token';state.expiresAt=Date.now()+60000;`);
+  const changed=c.run(`installSessionCredential({accessToken:'other-token',expiresAt:Date.now()+3600000,
+    account:'account-B',revision:8},{generation:state.authGeneration})`);
   assert.equal(changed,false);assert.equal(c.run('state.token'),'original-token');
+  assert.equal(c.run('state.authAccountKey'),'account-A');
   assert.equal(c.run('state.accountId'),'original');
 });
 

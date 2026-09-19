@@ -1,13 +1,20 @@
 'use strict';
 
 const APP_VERSION = '1.21.0';
-const CLIENT_ID_KEY = 'drive-original.oauth-client-id';
-const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com';
-const TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
-const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
-const DRIVE_APPDATA_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
-const DRIVE_SCOPES = `${DRIVE_SCOPE} ${DRIVE_APPDATA_SCOPE}`;
-const OAUTH_SCOPE_VERSION = 2;
+const AUTH_PROTOCOL = 'drive-original-auth-v1';
+const AUTH_CREDENTIAL_PATH = '/api/session/credential';
+const AUTH_LOGOUT_PATH = '/api/session/logout';
+const AUTH_DISCONNECT_PATH = '/api/account/disconnect';
+const AUTH_START_PATH = '/auth/google/start';
+const AUTH_CSRF_HEADER = 'X-Drive-Original-CSRF';
+const AUTH_CREDENTIAL_TIMEOUT_MS = 55_000;
+const AUTH_MUTATION_TIMEOUT_MS = 25_000;
+const LEGACY_TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
+const LEGACY_CLIENT_ID_STORAGE_KEY = 'drive-original.oauth-client-id';
+const AUTH_ERROR_CODES = new Set([
+  'account_mismatch', 'stale_revision', 'reconnect_required', 'auth_unavailable',
+  'unauthorized', 'forbidden', 'bad_request'
+]);
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const TOKEN_SKEW_MS = 30_000;
 const MOBILE_MEMORY_BUFFER_AUTO_LIMIT = 24 * 1024 * 1024;
@@ -463,30 +470,12 @@ function buildResourceKeysHeader(items) {
   return pairs.join(',');
 }
 
-function normalizeClientIdOverride(value) {
-  const clientId = String(value || '').trim();
-  if (!clientId || clientId === DEFAULT_OAUTH_CLIENT_ID || !validateClientId(clientId)) return '';
-  return clientId;
-}
-
-function loadClientIdOverride() {
-  try {
-    const stored = localStorage.getItem(CLIENT_ID_KEY) || '';
-    const override = normalizeClientIdOverride(stored);
-    if (stored && !override) localStorage.removeItem(CLIENT_ID_KEY);
-    return override;
-  } catch (_) {
-    return '';
-  }
-}
-
-const initialClientIdOverride = loadClientIdOverride();
 const state = {
-  clientIdOverride: initialClientIdOverride,
-  clientId: initialClientIdOverride || DEFAULT_OAUTH_CLIENT_ID,
   token: null,
   expiresAt: 0,
-  tokenClient: null,
+  tokenRevision: 0,
+  authAccountKey: null,
+  authStatus: 'anonymous',
   folders: [],
   files: [],
   nextPageToken: null,
@@ -610,10 +599,9 @@ let tokenRenewalTimer = null;
 let shuffledOrderMap = new Map();
 let sortedPopulationCache = null;
 let filteredPopulationCache = null;
-let tokenRequestPromise = null;
-let tokenRequestGeneration = -1;
-let tokenRequestBackground = true;
-let pendingTokenRequest = null;
+let credentialRequestPromise = null;
+let credentialRequestGeneration = -1;
+let credentialRequestAbortController = null;
 let playerReturnFocus = null;
 let playbackNavigationChain = Promise.resolve();
 let mediaTransitionTimers = [];
@@ -928,7 +916,7 @@ async function init() {
   setupLibraryEdgeBackGesture();
   setupInfiniteScroll();
   cleanupStaleOriginalBuffers().catch(() => {});
-  el.settingsClientId.value = state.clientIdOverride;
+  removeLegacyCredentialStorage();
   el.currentOrigin.textContent = location.origin;
   el.appVersion.textContent = `v${APP_VERSION}`;
   if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
@@ -937,17 +925,9 @@ async function init() {
 
   if (state.demo) {
     startDemoMode();
-  } else if (loadSavedToken()) {
-    sendTokenToWorker();
-    updateConnectionBadge();
+  } else if (await requestSessionCredential({ background: true, force: true })) {
     showLibrary();
-    await initializeAccountMediaState().catch((error) => {
-      console.warn('Account media state sync was unavailable:', error);
-    });
-    loadFiles({ append: false });
   } else {
-    // GIS token requests require a user gesture. Never open an OAuth dialog
-    // automatically on first load, even when the built-in client ID is ready.
     updateConnectionBadge();
     showSetup();
   }
@@ -957,7 +937,7 @@ function bindElements() {
   const ids = [
     'brandButton', 'connectionBadge', 'settingsButton', 'settingsUpdateDot',
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
-    'setupView', 'libraryView', 'clientIdHint',
+    'setupView', 'libraryView', 'authHint',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
     'sortSelect', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
@@ -988,7 +968,7 @@ function bindElements() {
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
-    'settingsClientId', 'settingsClientIdHint', 'saveSettingsButton', 'disconnectButton', 'setupHelpSection',
+    'logoutButton', 'disconnectButton', 'setupHelpSection',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
@@ -1188,8 +1168,7 @@ function bindEvents() {
   el.openDriveButton.addEventListener('click', openSelectedInDrive);
   el.drivePreviewRetryButton.addEventListener('click', retryMedia);
   el.drivePreviewOpenButton.addEventListener('click', openSelectedInDrive);
-  el.saveSettingsButton.addEventListener('click', saveSettings);
-  el.settingsClientId.addEventListener('input', clearSettingsClientIdError);
+  el.logoutButton.addEventListener('click', logout);
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
 
@@ -1277,9 +1256,7 @@ function bindEvents() {
     el.permissionDialog.close();
     state.retryAfterAuth = false;
     state.authRetryContext = null;
-    clearToken(false);
-    state.tokenClient = null;
-    requestAccessToken();
+    beginAuthorization();
   });
   [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
@@ -1321,14 +1298,9 @@ function bindEvents() {
       if (state.token && state.expiresAt) {
         const remaining = state.expiresAt - Date.now();
         if (remaining <= 0) {
-          // 이미 만료 — 즉시 갱신 시도
-          clearToken(false);
-          if (state.clientId && validateClientId(state.clientId)) {
-            attemptSilentAutoLogin({ background: true });
-          }
+          requestSessionCredential({ background: true, force: true });
         } else if (remaining < 5 * 60 * 1000) {
-          // 5분 이내 만료 — 즉시 갱신
-          attemptSilentAutoLogin({ background: true });
+          requestSessionCredential({ background: true, force: true });
         } else {
           // 타이머가 드리프트됐을 수 있으므로 재스케줄
           scheduleTokenRenewal();
@@ -1430,7 +1402,7 @@ function bindEvents() {
 async function setupServiceWorker() {
   if (location.protocol === 'file:') {
     if (!state.demo) {
-      setClientIdError('압축을 푼 파일을 직접 열면 스트리밍할 수 없습니다. HTTPS 주소에 배포한 뒤 사용하세요.');
+      setAuthError('압축을 푼 파일을 직접 열면 스트리밍할 수 없습니다. HTTPS 주소에 배포한 뒤 사용하세요.');
     }
     return;
   }
@@ -1613,15 +1585,33 @@ async function handleWorkerMessage(event) {
   const data = event.data || {};
   if (data.type === 'TOKEN_REQUEST' && event.ports && event.ports[0]) {
     const port = event.ports[0];
-    let available = hasUsableToken();
-    if (data.forceRefresh && state.clientId && validateClientId(state.clientId)) {
-      available = await requestGoogleToken({ background: true, force: true });
+    const requestGeneration = Number(data.accountGeneration);
+    const accountMatches = !data.expectedAccount || data.expectedAccount === state.authAccountKey;
+    const generationMatches = Number.isInteger(requestGeneration)
+      && requestGeneration === state.driveSessionGeneration;
+    let available = generationMatches && accountMatches && hasUsableToken();
+    if (generationMatches && accountMatches && (!available || data.forceRefresh)) {
+      available = await requestSessionCredential({
+        background: true,
+        force: true,
+        rejectedRevision: data.forceRefresh && Number.isSafeInteger(data.rejectedRevision)
+          ? data.rejectedRevision
+          : null
+      });
     }
+    const stillCurrent = generationMatches
+      && requestGeneration === state.driveSessionGeneration
+      && accountMatches
+      && (!data.expectedAccount || data.expectedAccount === state.authAccountKey);
     port.postMessage({
       type: 'TOKEN_RESPONSE',
       requestId: data.requestId,
-      token: available && hasUsableToken() ? state.token : null,
-      expiresAt: available && hasUsableToken() ? state.expiresAt : 0
+      credentialProtocol: AUTH_PROTOCOL,
+      token: available && stillCurrent && hasUsableToken() ? state.token : null,
+      expiresAt: available && stillCurrent && hasUsableToken() ? state.expiresAt : 0,
+      account: available && stillCurrent && hasUsableToken() ? state.authAccountKey : null,
+      revision: available && stillCurrent && hasUsableToken() ? state.tokenRevision : 0,
+      accountGeneration: state.driveSessionGeneration
     });
     port.close?.();
     return;
@@ -1705,9 +1695,13 @@ async function recoverFromMediaProxyError(data) {
     showMediaLoading(action === 'refresh-auth'
       ? 'Google 연결을 안전하게 갱신하는 중'
       : 'Drive 원본 권한을 다시 확인하는 중');
-    const refreshed = state.clientId && validateClientId(state.clientId)
-      ? await requestGoogleToken({ background: true, force: true })
-      : false;
+    const refreshed = await requestSessionCredential({
+      background: true,
+      force: true,
+      rejectedRevision: Number.isSafeInteger(data.rejectedRevision)
+        ? data.rejectedRevision
+        : state.tokenRevision
+    });
     if (state.selected?.id !== retryFile.id || state.mediaSession !== retrySession) return;
     if (refreshed) {
       state.retryAfterAuth = false;
@@ -1780,144 +1774,83 @@ async function recoverFromMediaProxyError(data) {
 }
 
 function sendTokenToWorker() {
-  if (!hasUsableToken() || !navigator.serviceWorker) return;
-  const message = { type: 'SET_TOKEN', token: state.token, expiresAt: state.expiresAt };
+  if (!hasUsableToken() || !state.authAccountKey || !navigator.serviceWorker) return;
+  const message = {
+    type: 'SET_TOKEN',
+    credentialProtocol: AUTH_PROTOCOL,
+    token: state.token,
+    expiresAt: state.expiresAt,
+    account: state.authAccountKey,
+    revision: state.tokenRevision,
+    accountGeneration: state.driveSessionGeneration
+  };
   if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(message);
   const registration = state.serviceWorkerRegistration;
   [registration?.active, registration?.waiting, registration?.installing].forEach((worker) => worker?.postMessage(message));
 }
 
-function saveToken(token, expiresAt) {
-  state.tokenRevision = (state.tokenRevision || 0) + 1;
-  state.token = token;
-  state.expiresAt = expiresAt;
+function removeLegacyCredentialStorage() {
   try {
-    localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify({ token, expiresAt, scopeVersion: OAUTH_SCOPE_VERSION }));
+    localStorage.removeItem(LEGACY_TOKEN_STORAGE_KEY);
+    localStorage.removeItem(LEGACY_CLIENT_ID_STORAGE_KEY);
   } catch (_) {}
+}
+
+function normalizeSessionCredential(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const accessToken = typeof value.accessToken === 'string' ? value.accessToken : '';
+  const expiresAt = value.expiresAt;
+  const account = typeof value.account === 'string' ? value.account : '';
+  const revision = value.revision;
+  if (!accessToken || accessToken.length > 16_384) return null;
+  if (!Number.isFinite(expiresAt) || expiresAt <= Date.now() + TOKEN_SKEW_MS) return null;
+  if (!account || account.length > 256 || /[\s\x00-\x1f\x7f]/.test(account)) return null;
+  if (!Number.isSafeInteger(revision) || revision < 1) return null;
+  return { accessToken, expiresAt, account, revision };
+}
+
+function authErrorCode(value, fallback = 'auth_unavailable') {
+  const code = typeof value?.error?.code === 'string' ? value.error.code : '';
+  return AUTH_ERROR_CODES.has(code) ? code : fallback;
+}
+
+async function readAuthJson(response) {
+  const contentType = response.headers?.get?.('Content-Type') || '';
+  if (!contentType.toLowerCase().includes('application/json')) return null;
+  try { return await response.json(); }
+  catch (_) { return null; }
+}
+
+function installSessionCredential(value, { generation, rejectedRevision = null } = {}) {
+  const credential = normalizeSessionCredential(value);
+  if (!credential || generation !== state.authGeneration) return false;
+  if (state.authAccountKey && credential.account !== state.authAccountKey) return false;
+  if (Number.isSafeInteger(rejectedRevision) && credential.revision <= rejectedRevision) return false;
+  if (credential.account === state.authAccountKey && credential.revision < state.tokenRevision) return false;
+  if (credential.account === state.authAccountKey && credential.revision === state.tokenRevision
+    && state.token && credential.accessToken !== state.token) return false;
+  state.authAccountKey = credential.account;
+  state.token = credential.accessToken;
+  state.expiresAt = credential.expiresAt;
+  state.tokenRevision = credential.revision;
+  state.authStatus = 'online';
   scheduleTokenRenewal();
-}
-
-function loadSavedToken() {
-  try {
-    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
-    if (!raw) return false;
-    const data = JSON.parse(raw);
-    if (data?.scopeVersion !== OAUTH_SCOPE_VERSION) {
-      localStorage.removeItem(TOKEN_STORAGE_KEY);
-      return false;
-    }
-    if (data?.token && typeof data.expiresAt === 'number') {
-      if (Date.now() < data.expiresAt - TOKEN_SKEW_MS) {
-        state.token = data.token;
-        state.expiresAt = data.expiresAt;
-        scheduleTokenRenewal();
-        return true;
-      }
-    }
-  } catch (_) {}
-  return false;
-}
-
-function scheduleTokenRenewal() {
-  if (tokenRenewalTimer) {
-    clearTimeout(tokenRenewalTimer);
-    tokenRenewalTimer = null;
-  }
-  if (!state.token || !state.expiresAt) return;
-  // 1차: 만료 10분 전에 갱신하고, 실패하면 만료 3분 전에 한 번 더 시도한다.
-  const remainingMs = state.expiresAt - Date.now();
-  const firstTryMs = Math.max(10_000, remainingMs - (10 * 60 * 1000));
-  tokenRenewalTimer = setTimeout(async () => {
-    if (!state.clientId || !validateClientId(state.clientId)) return;
-    const expiresAtBeforeAttempt = state.expiresAt;
-    const refreshed = await requestGoogleToken({ background: true, force: true });
-    if (refreshed || state.expiresAt !== expiresAtBeforeAttempt) return;
-    const secondRemaining = expiresAtBeforeAttempt - Date.now();
-    if (secondRemaining <= 0) return;
-    tokenRenewalTimer = setTimeout(() => {
-      requestGoogleToken({ background: true, force: true });
-    }, Math.max(5_000, secondRemaining - (3 * 60 * 1000)));
-  }, firstTryMs);
-}
-
-function beginAuthorization() {
-  if (!validateClientId(state.clientId)) {
-    setClientIdError('OAuth 연결 설정을 확인해 주세요. 자체 배포 중이라면 고급 설정에서 클라이언트 ID를 저장하세요.');
-    return;
-  }
-  clearClientIdError();
-  requestAccessToken();
-}
-
-async function requestAccessToken() {
-  return requestGoogleToken({ background: false, force: true, invalidateSession: true });
-}
-
-async function attemptSilentAutoLogin({ background = false } = {}) {
-  if (!state.clientId || !validateClientId(state.clientId)) {
-    if (!background) showSetup();
-    return;
-  }
-  const connected = await requestGoogleToken({ background, force: true, invalidateSession: !background });
-  if (!connected && !background) showSetup();
-  return connected;
-}
-
-async function refreshedTokenMatchesAccount(token, expectedAccountId, generation) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8_000);
-  try {
-    // Validate the candidate token without publishing it to shared state or the
-    // service worker. A changed Google default account must not inherit a live
-    // media session, queued mutations, or another account's app-data file IDs.
-    const response = await fetch(`${DRIVE_API}/about?fields=user(permissionId)`, {
-      headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', signal: controller.signal
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    if (!data?.user?.permissionId || generation !== state.authGeneration) return null;
-    return String(data.user.permissionId) === expectedAccountId;
-  } catch (_) { return null; }
-  finally { clearTimeout(timeout); }
-}
-
-async function applyTokenResponse(response, { background, invalidateSession, generation, isCurrent = () => true }) {
-  if (generation !== state.authGeneration || !isCurrent()) return false;
-  if (!response || response.error || !response.access_token) {
-    updateConnectionBadge();
-    if (!background && response?.error !== 'user_cancelled') {
-      setClientIdError(response?.error_description || 'Google 인증이 완료되지 않았습니다.');
-    }
-    return false;
-  }
-  const expectedAccountId = state.accountId || state.previousAccountId;
-  if (expectedAccountId) {
-    const matches = await refreshedTokenMatchesAccount(response.access_token, expectedAccountId, generation);
-    // Only a verified different account requires discarding the current view.
-    // A timeout is unknown identity, not a different account.
-    if (matches == null || (background && !matches)) return false;
-    invalidateSession = !matches;
-  }
-  if (generation !== state.authGeneration || !isCurrent()) return false;
-  const expiresIn = Math.max(60, Number(response.expires_in) || 3600);
-  if (invalidateSession) {
-    if (el.playerSheet && !el.playerSheet.hidden) closePlayer();
-    invalidateDriveSessionData();
-  }
-  saveToken(response.access_token, Date.now() + expiresIn * 1000);
-  clearClientIdError();
+  clearAuthError();
   sendTokenToWorker();
   updateConnectionBadge();
+  resumeAfterCredential(generation);
+  return true;
+}
+
+function resumeAfterCredential(generation) {
   setTimeout(async () => {
-    if (generation !== state.authGeneration) return;
+    if (generation !== state.authGeneration || !hasUsableToken()) return;
     if (!state.accountStateLoaded) {
       await initializeAccountMediaState().catch((error) => {
         console.warn('Account media state sync was unavailable:', error);
       });
     }
     if (generation !== state.authGeneration || state.accountIdentityPending) return;
-    // Token clearance stops polling. A verified renewal must restart it even
-    // when the account was already loaded and initialization was skipped.
     state.accountStateRefreshBlocked = false;
     scheduleAccountStateRefresh(0);
     const retryContext = state.authRetryContext;
@@ -1939,21 +1872,64 @@ async function applyTokenResponse(response, { background, invalidateSession, gen
       loadFiles({ append: false });
     }
   }, 0);
-  return true;
 }
 
-function requestGoogleToken({ background = false, force = false, invalidateSession = false } = {}) {
+function scheduleTokenRenewal() {
+  if (tokenRenewalTimer) {
+    clearTimeout(tokenRenewalTimer);
+    tokenRenewalTimer = null;
+  }
+  if (!state.token || !state.expiresAt) return;
+  const remainingMs = state.expiresAt - Date.now();
+  const firstTryMs = Math.max(1_000, remainingMs - TOKEN_SKEW_MS - 5_000);
+  tokenRenewalTimer = setTimeout(async () => {
+    const expiresAtBeforeAttempt = state.expiresAt;
+    const refreshed = await requestSessionCredential({ background: true, force: true });
+    if (refreshed || state.expiresAt !== expiresAtBeforeAttempt) return;
+    const secondRemaining = expiresAtBeforeAttempt - Date.now();
+    if (secondRemaining <= 0) return;
+    tokenRenewalTimer = setTimeout(() => {
+      requestSessionCredential({ background: true, force: true });
+    }, Math.max(1_000, secondRemaining - TOKEN_SKEW_MS));
+  }, firstTryMs);
+}
+
+function beginAuthorization() {
+  if (!navigator.onLine) {
+    setAuthError('오프라인에서는 Google 계정 연결을 시작할 수 없습니다.');
+    return;
+  }
+  clearAuthError();
+  setConnectBusy(true);
+  const target = new URL(AUTH_START_PATH, location.origin);
+  target.searchParams.set('returnTo', `${location.pathname}${location.search}${location.hash}`);
+  location.assign(target.href);
+}
+
+function requestSessionCredential({ background = false, force = false, rejectedRevision = null } = {}) {
   if (!force && hasUsableToken()) return Promise.resolve(true);
+  if (!navigator.onLine) {
+    state.authStatus = 'auth-unavailable';
+    updateConnectionBadge();
+    return Promise.resolve(false);
+  }
   const generation = state.authGeneration;
-  if (tokenRequestPromise) {
-    const sameGeneration = tokenRequestGeneration === generation;
-    const existingRequestCoversThisOne = !tokenRequestBackground || background;
-    if (sameGeneration && existingRequestCoversThisOne) return tokenRequestPromise;
-    const priorRequest = tokenRequestPromise;
+  const rejected = rejectedRevision == null
+    ? null
+    : Number.isSafeInteger(Number(rejectedRevision)) ? Number(rejectedRevision) : null;
+  if (credentialRequestPromise) {
+    const priorRequest = credentialRequestPromise;
     return priorRequest.catch(() => false).then((connected) => {
       if (generation !== state.authGeneration) return false;
-      if (connected && hasUsableToken()) return true;
-      return requestGoogleToken({ background, force, invalidateSession });
+      if (!connected) return false;
+      if (connected && hasUsableToken() && (rejected == null || state.tokenRevision > rejected)) return true;
+      if (rejected == null || !hasUsableToken()) return false;
+      if (credentialRequestGeneration !== -1) {
+        return new Promise((resolve) => queueMicrotask(() => {
+          resolve(requestSessionCredential({ background, force, rejectedRevision: rejected }));
+        }));
+      }
+      return requestSessionCredential({ background, force, rejectedRevision: rejected });
     });
   }
   if (!background) {
@@ -1962,80 +1938,68 @@ function requestGoogleToken({ background = false, force = false, invalidateSessi
   }
 
   const operation = (async () => {
+    const controller = new AbortController();
+    credentialRequestAbortController = controller;
+    const timeout = setTimeout(() => controller.abort(), AUTH_CREDENTIAL_TIMEOUT_MS);
     try {
-      await waitForGoogleIdentity(background ? 5_000 : 12_000);
-      if (generation !== state.authGeneration) return false;
-      return await new Promise((resolve) => {
-        let settled = false;
-        const finish = (result) => {
-          if (settled) return;
-          settled = true;
-          clearTimeout(timeout);
-          if (pendingTokenRequest?.generation === generation) pendingTokenRequest = null;
-          resolve(Boolean(result));
-        };
-        const client = window.google.accounts.oauth2.initTokenClient({
-          client_id: state.clientId,
-          scope: DRIVE_SCOPES,
-          callback: async (response) => {
-            if (settled || generation !== state.authGeneration) return;
-            try {
-              finish(await applyTokenResponse(response, { background, invalidateSession, generation, isCurrent: () => !settled }));
-            } catch (error) {
-              console.warn('Google token response could not be applied:', error);
-              finish(false);
-            }
-          },
-          error_callback: (error) => {
-            if (settled || generation !== state.authGeneration) return;
-            console.warn('Google OAuth request did not complete:', error);
-            if (!background) {
-              const message = error?.type === 'popup_failed_to_open'
-                ? 'Google 로그인 창이 차단되었습니다. 브라우저의 팝업 허용 설정을 확인하세요.'
-                : 'Google 로그인을 완료하지 못했습니다. 다시 연결해 주세요.';
-              showToast(message);
-            }
-            finish(false);
-          }
-        });
-        state.tokenClient = client;
-        const timeout = setTimeout(() => finish(false), background ? 10_500 : 120_000);
-        pendingTokenRequest = { generation, finish };
-        client.requestAccessToken({ prompt: '' });
+      const response = await fetch(new URL(AUTH_CREDENTIAL_PATH, location.origin), {
+        method: 'POST',
+        credentials: 'same-origin',
+        cache: 'no-store',
+        mode: 'same-origin',
+        redirect: 'error',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          [AUTH_CSRF_HEADER]: '1'
+        },
+        body: JSON.stringify({ expectedAccount: state.authAccountKey, rejectedRevision: rejected }),
+        signal: controller.signal
       });
+      if (generation !== state.authGeneration) return false;
+      const payload = await readAuthJson(response);
+      if (generation !== state.authGeneration) return false;
+      if (!response.ok) {
+        const code = authErrorCode(payload);
+        state.authStatus = code === 'unauthorized' ? 'anonymous'
+          : code === 'reconnect_required' || code === 'account_mismatch' ? 'reconnect-required'
+            : 'auth-unavailable';
+        if (state.token && ['unauthorized', 'reconnect_required', 'account_mismatch'].includes(code)) {
+          clearToken(true, { preserveAccount: true });
+        }
+        if (!background && code !== 'unauthorized') {
+          setAuthError(code === 'reconnect_required' || code === 'account_mismatch'
+            ? 'Google 계정을 다시 연결해야 합니다.'
+            : '인증 서비스에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+        }
+        return false;
+      }
+      const installed = installSessionCredential(payload, { generation, rejectedRevision: rejected });
+      if (!installed) state.authStatus = 'auth-unavailable';
+      return installed;
     } catch (error) {
-      console.error('Google Identity request failed:', error);
-      if (!background) setClientIdError('Google 인증 라이브러리를 불러오지 못했습니다. 네트워크 연결을 확인하세요.');
+      if (error?.name !== 'AbortError') state.authStatus = 'auth-unavailable';
+      if (!background && error?.name !== 'AbortError') {
+        setAuthError('인증 서비스에 연결하지 못했습니다. 네트워크를 확인해 주세요.');
+      }
       return false;
     } finally {
+      clearTimeout(timeout);
+      if (credentialRequestAbortController === controller) credentialRequestAbortController = null;
       if (!background) setConnectBusy(false);
       updateConnectionBadge();
     }
   })();
 
-  tokenRequestPromise = operation;
-  tokenRequestGeneration = generation;
-  tokenRequestBackground = background;
+  credentialRequestPromise = operation;
+  credentialRequestGeneration = generation;
   operation.finally(() => {
-    if (tokenRequestPromise === operation) {
-      tokenRequestPromise = null;
-      tokenRequestGeneration = -1;
-      tokenRequestBackground = true;
+    if (credentialRequestPromise === operation) {
+      credentialRequestPromise = null;
+      credentialRequestGeneration = -1;
     }
   });
   return operation;
-}
-
-function waitForGoogleIdentity(timeoutMs = 12_000) {
-  return new Promise((resolve, reject) => {
-    const started = Date.now();
-    const tick = () => {
-      if (window.google?.accounts?.oauth2) return resolve();
-      if (Date.now() - started > timeoutMs) return reject(new Error('Google Identity Services timeout'));
-      setTimeout(tick, 100);
-    };
-    tick();
-  });
 }
 
 let infiniteScrollObserver = null;
@@ -3256,8 +3220,8 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
   if (!hasUsableToken()) {
-    if (!_retried && state.clientId && validateClientId(state.clientId)) {
-      await requestGoogleToken({ background: true, force: true });
+    if (!_retried) {
+      await requestSessionCredential({ background: true, force: true });
       assertOwner();
       if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
     }
@@ -3282,15 +3246,19 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
       body = await response.json();
     } catch (_) {}
     assertOwner();
-    if (response.status === 401 && !_retried && state.clientId && validateClientId(state.clientId)) {
+    if (response.status === 401 && !_retried) {
       // A concurrent request may already have replaced the rejected token.
       if (((state.tokenRevision || 0) !== requestTokenRevision || state.token !== requestToken) && hasUsableToken()) {
         return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       }
-      const refreshed = await requestGoogleToken({ background: true, force: true });
+      const refreshed = await requestSessionCredential({
+        background: true,
+        force: true,
+        rejectedRevision: requestTokenRevision
+      });
       assertOwner();
       if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
-      if ((state.tokenRevision || 0) === requestTokenRevision && state.token === requestToken) clearToken(false);
+      if ((state.tokenRevision || 0) === requestTokenRevision && state.token === requestToken) clearToken(true);
     }
     const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
     const rateLimited = response.status === 429
@@ -3829,7 +3797,7 @@ async function fetchOriginalFileResponse(file, options = {}) {
 }
 
 function tryQuietTokenRefresh() {
-  return requestGoogleToken({ background: true, force: true });
+  return requestSessionCredential({ background: true, force: true });
 }
 
 let renderWindowRaf = 0;
@@ -6141,6 +6109,7 @@ function buildMediaUrl(file) {
   if (file.size) url.searchParams.set('size', file.size);
   if (file.resourceKey) url.searchParams.set('resourceKey', file.resourceKey);
   url.searchParams.set('mediaSession', String(state.mediaSession));
+  url.searchParams.set('accountGeneration', String(state.driveSessionGeneration));
   const traceId = getMediaDiagnosticTraceId(state.mediaSession);
   if (traceId) url.searchParams.set('_trace', traceId);
   if (state.mediaRetryCount) url.searchParams.set('attempt', String(state.mediaRetryCount));
@@ -6703,9 +6672,11 @@ async function startOriginalBlobFallback(
         }
         state.mediaAttempt = 'auth-refresh';
         showMediaLoading('Drive 원본 권한을 다시 확인하는 중');
-        const refreshed = state.clientId && validateClientId(state.clientId)
-          ? await requestGoogleToken({ background: true, force: true })
-          : false;
+        const refreshed = await requestSessionCredential({
+          background: true,
+          force: true,
+          rejectedRevision: error.rejectedTokenRevision
+        });
         if (session !== state.mediaSession || state.selected?.id !== file.id) return;
         if (refreshed) {
           state.mediaAttempt = 'buffer-evaluating';
@@ -7848,7 +7819,9 @@ function retryMedia() {
   if (!hasUsableToken() && !state.demo) {
     state.retryAfterAuth = true;
     state.authRetryContext = { fileId: state.selected.id, mediaSession: state.mediaSession };
-    requestGoogleToken({ background: false, force: true });
+    requestSessionCredential({ background: false, force: true }).then((connected) => {
+      if (!connected && state.retryAfterAuth) beginAuthorization();
+    });
     return;
   }
   openMediaSource(state.selected);
@@ -7996,80 +7969,118 @@ function isMobileDevice() {
 }
 
 function openSettings(scrollToHelp) {
-  el.settingsClientId.value = state.clientIdOverride;
-  clearSettingsClientIdError();
   if (!el.settingsDialog.open) el.settingsDialog.showModal();
   if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 }
 
-function saveSettings() {
-  const enteredValue = el.settingsClientId.value.trim();
-  if (enteredValue && !validateClientId(enteredValue)) {
-    el.settingsClientId.setAttribute('aria-invalid', 'true');
-    el.settingsClientIdHint.textContent = '…apps.googleusercontent.com 형식의 웹 OAuth 클라이언트 ID를 입력하세요.';
-    el.settingsClientIdHint.classList.add('error');
-    el.settingsClientId.focus({ preventScroll: true });
-    showToast('올바른 웹 OAuth 클라이언트 ID가 아닙니다.');
-    return;
+async function postAuthAction(path, body = {}) {
+  if (!navigator.onLine) return { ok: false, payload: null };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AUTH_MUTATION_TIMEOUT_MS);
+  try {
+    const response = await fetch(new URL(path, location.origin), {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-store',
+      mode: 'same-origin',
+      redirect: 'error',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        [AUTH_CSRF_HEADER]: '1'
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+    const payload = await readAuthJson(response);
+    return { ok: response.ok && Boolean(payload) && !payload.error, payload };
+  } catch (_) {
+    return { ok: false, payload: null };
+  } finally {
+    clearTimeout(timeout);
   }
-  const override = normalizeClientIdOverride(enteredValue);
-  const nextClientId = override || DEFAULT_OAUTH_CLIENT_ID;
-  const changed = nextClientId !== state.clientId;
-  state.clientIdOverride = override;
-  state.clientId = nextClientId;
-  el.settingsClientId.value = override;
-  if (override) localStorage.setItem(CLIENT_ID_KEY, override);
-  else localStorage.removeItem(CLIENT_ID_KEY);
-  if (changed) {
-    state.tokenClient = null;
-    clearToken(false);
-    invalidateDriveSessionData();
-  }
-  clearClientIdError();
-  clearSettingsClientIdError();
-  showToast(override
-    ? '이 기기에서 자체 OAuth 클라이언트 ID를 사용합니다.'
-    : '기본 OAuth 연결 설정을 사용합니다.');
 }
 
-function disconnect() {
-  const token = state.token;
-  clearToken(true);
+async function logout() {
+  if (el.logoutButton) el.logoutButton.disabled = true;
+  const result = await postAuthAction(AUTH_LOGOUT_PATH);
+  if (el.logoutButton) el.logoutButton.disabled = false;
+  if (!result.ok || result.payload?.loggedOut !== true) {
+    showToast('로그아웃하지 못했습니다. 연결 상태를 확인해 주세요.');
+    return;
+  }
+  clearToken(true, { preserveAccount: false });
   invalidateDriveSessionData();
   state.selected = null;
   closePlayer();
-  if (token && window.google?.accounts?.oauth2) {
-    window.google.accounts.oauth2.revoke(token, () => {});
-  }
   if (el.settingsDialog.open) el.settingsDialog.close();
   showSetup();
-  showToast('Google Drive 연결을 해제했습니다.');
+  showToast('이 브라우저 세션에서 로그아웃했습니다.');
 }
 
-function clearToken(notifyWorker) {
-  state.tokenRevision = (state.tokenRevision || 0) + 1;
+async function disconnect() {
+  if (!state.authAccountKey) {
+    showToast('연결된 Google 계정이 없습니다.');
+    return;
+  }
+  if (!window.confirm('모든 로그인 세션과 서버에 보관된 계정 인증 정보를 삭제하고 Google 연결을 해제할까요?')) return;
+  el.disconnectButton.disabled = true;
+  const result = await postAuthAction(AUTH_DISCONNECT_PATH, { expectedAccount: state.authAccountKey });
+  el.disconnectButton.disabled = false;
+  if (!result.ok || result.payload?.disconnected !== true) {
+    showToast('연결을 해제하지 못했습니다. 연결 상태를 확인해 주세요.');
+    return;
+  }
+  clearToken(true, { preserveAccount: false });
+  invalidateDriveSessionData();
+  state.selected = null;
+  closePlayer();
+  if (el.settingsDialog.open) el.settingsDialog.close();
+  showSetup();
+  if (result.payload.revocation === 'confirmed') {
+    showToast('앱 세션과 Google Drive 연결을 해제했습니다.');
+  } else {
+    setAuthError('앱 세션은 삭제했지만 Google 권한 폐기는 확인되지 않았습니다. Google 계정의 연결된 앱에서 Drive Original 권한을 확인해 주세요.');
+    showToast('앱 세션은 삭제됐지만 Google 권한 폐기는 확인되지 않았습니다.');
+  }
+}
+
+function clearToken(notifyWorker, { preserveAccount = true } = {}) {
+  const clearedAccount = state.authAccountKey;
+  const clearedRevision = state.tokenRevision;
+  const clearedAccountGeneration = state.driveSessionGeneration;
   stopAccountStateRefresh();
   state.authGeneration += 1;
   state.accountStateAbortController?.abort();
   state.accountStateAbortController = null;
-  pendingTokenRequest?.finish(false);
-  pendingTokenRequest = null;
-  // A settled request from the old generation must not single-flight a new
-  // authorization attempt after credentials are explicitly cleared.
-  tokenRequestPromise = null;
-  tokenRequestGeneration = -1;
-  tokenRequestBackground = true;
+  credentialRequestAbortController?.abort();
+  credentialRequestAbortController = null;
+  credentialRequestPromise = null;
+  credentialRequestGeneration = -1;
   state.token = null;
   state.expiresAt = 0;
+  if (!preserveAccount) {
+    state.authAccountKey = null;
+    state.tokenRevision = 0;
+    state.authStatus = 'anonymous';
+  } else if (state.authStatus === 'online') {
+    state.authStatus = 'reconnect-required';
+  }
   if (tokenRenewalTimer) {
     clearTimeout(tokenRenewalTimer);
     tokenRenewalTimer = null;
   }
   try {
-    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    localStorage.removeItem(LEGACY_TOKEN_STORAGE_KEY);
   } catch (_) {}
   if (notifyWorker && navigator.serviceWorker) {
-    const message = { type: 'CLEAR_TOKEN' };
+    const message = {
+      type: 'CLEAR_TOKEN',
+      credentialProtocol: AUTH_PROTOCOL,
+      account: clearedAccount,
+      revision: clearedRevision,
+      accountGeneration: clearedAccountGeneration
+    };
     navigator.serviceWorker.controller?.postMessage(message);
     const registration = state.serviceWorkerRegistration;
     [registration?.active, registration?.waiting, registration?.installing].forEach((worker) => worker?.postMessage(message));
@@ -8167,6 +8178,8 @@ function updateConnectionBadge(forcedState) {
     if (badgeState === 'busy') label.textContent = '연결 중…';
     else if (!navigator.onLine) label.textContent = '오프라인';
     else if (badgeState === 'online') label.textContent = state.demo ? '데모 모드' : 'Drive 연결됨';
+    else if (state.authStatus === 'reconnect-required') label.textContent = '재연결 필요';
+    else if (state.authStatus === 'auth-unavailable') label.textContent = '인증 일시 중단';
     else label.textContent = '연결 안 됨';
   }
 }
@@ -8175,13 +8188,9 @@ function hasUsableToken() {
   return Boolean(state.token && Date.now() < state.expiresAt - TOKEN_SKEW_MS);
 }
 
-function validateClientId(value) {
-  return /^\d+-[A-Za-z0-9_-]+\.apps\.googleusercontent\.com$/.test(value);
-}
-
-function setClientIdError(message) {
-  el.clientIdHint.textContent = message;
-  el.clientIdHint.classList.add('error');
+function setAuthError(message) {
+  el.authHint.textContent = message;
+  el.authHint.classList.add('error');
 }
 
 function getStaticGifThumbnailObserver() {
@@ -8385,15 +8394,9 @@ function processGifThumbnailQueue() {
   }
 }
 
-function clearClientIdError() {
-  el.clientIdHint.textContent = 'Google 로그인 창에서 계정과 Drive 권한을 확인합니다.';
-  el.clientIdHint.classList.remove('error');
-}
-
-function clearSettingsClientIdError() {
-  el.settingsClientId.removeAttribute('aria-invalid');
-  el.settingsClientIdHint.textContent = '비워 두면 앱에 포함된 기본 OAuth 연결 설정을 사용합니다.';
-  el.settingsClientIdHint.classList.remove('error');
+function clearAuthError() {
+  el.authHint.textContent = 'Google 로그인에서 계정과 Drive 권한을 확인합니다.';
+  el.authHint.classList.remove('error');
 }
 
 function showToast(message) {

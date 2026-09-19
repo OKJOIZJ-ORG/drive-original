@@ -50,14 +50,13 @@ test('a file permission failure does not erase account credentials', async () =>
   assert.equal(c.run('cleared'),0);
 });
 
-test('same-account interactive renewal preserves listing and session generations', async () => {
+test('same-account session credential renewal preserves listing and session generations', () => {
   const c=client();
-  c.run(`state.accountId='account-A';state.accountStateLoaded=true;state.accountIdentityPending=false;
+  c.run(`state.authAccountKey='account-A';state.token='old';state.tokenRevision=2;state.accountId='account-A';state.accountStateLoaded=true;state.accountIdentityPending=false;
     let invalidations=0;invalidateDriveSessionData=()=>invalidations++;
-    refreshedTokenMatchesAccount=async()=>true;saveToken=()=>{};clearClientIdError=()=>{};
-    sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};`);
-  assert.equal(await c.run(`applyTokenResponse({access_token:'new',expires_in:3600},
-    {background:false,invalidateSession:true,generation:state.authGeneration})`),true);
+    scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};`);
+  assert.equal(c.run(`installSessionCredential({accessToken:'new',expiresAt:Date.now()+3600000,account:'account-A',revision:3},
+    {generation:state.authGeneration})`),true);
   assert.equal(c.run('invalidations'),0);
 });
 
@@ -100,13 +99,13 @@ test('secondary 401 handlers cannot clear a newer token or a different account',
   assert.equal(c.run('cleared'),1);
 });
 
-test('unknown renewal identity preserves the current account instead of replacing it', async () => {
+test('account-mismatched session credential preserves the current account instead of replacing it', () => {
   const c=client();
-  c.run(`state.accountId='account-A';state.token='valid-A';let saved=0;saveToken=()=>saved++;
-    refreshedTokenMatchesAccount=async()=>null;`);
-  assert.equal(await c.run(`applyTokenResponse({access_token:'unverified',expires_in:3600},
-    {background:false,invalidateSession:true,generation:state.authGeneration})`),false);
-  assert.equal(c.run('saved'),0);assert.equal(c.run('state.token'),'valid-A');
+  c.run(`state.authAccountKey='account-A';state.token='valid-A';state.tokenRevision=4;
+    scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};`);
+  assert.equal(c.run(`installSessionCredential({accessToken:'unverified',expiresAt:Date.now()+3600000,account:'account-B',revision:5},
+    {generation:state.authGeneration})`),false);
+  assert.equal(c.run('state.authAccountKey'),'account-A');assert.equal(c.run('state.token'),'valid-A');
 });
 
 test('Drive API 403 preserves the token and carries no bearer credentials in its error', async () => {
@@ -132,7 +131,7 @@ test('an older player-close deadline cannot unlock a newer back operation', () =
 test('a late 401 uses the newer revision even when token text is identical', async () => {
   const c=client();let release;let requests=0;
   c.run(`state.token='same-text';state.expiresAt=Date.now()+3600000;state.tokenRevision=1;
-    let refreshes=0;requestGoogleToken=async()=>{refreshes++;return false;};`);
+    let refreshes=0;requestSessionCredential=async()=>{refreshes++;return false;};`);
   c.fetch=async()=>{
     if(++requests===1) return new Promise(resolve=>{release=resolve;});
     return new Response('{}',{status:200});

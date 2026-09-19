@@ -1,6 +1,6 @@
 # Drive Original
 
-Google Drive의 저화질 미리보기 대신 **원본 파일 바이트**를 iPhone Safari로 전달하는 정적 PWA입니다. 별도 앱 서버나 데이터베이스가 필요하지 않습니다.
+Google Drive의 저화질 미리보기 대신 **원본 파일 바이트**를 iPhone Safari로 전달하는 PWA입니다. V2-04A 인증 후보에서는 같은 origin의 최소 서버리스 세션 API가 인증 상태만 맡고, 미디어 바이트는 계속 브라우저와 서비스 워커가 Google Drive에서 직접 받습니다.
 
 ## v1.21.0 조작 방식
 
@@ -18,7 +18,7 @@ Chrome/WebKit·가상 Google API 검증과 실제 iPhone/두 실기기 검증의
 
 ## 정확히 무엇을 하는가
 
-1. Google Identity Services로 사용자가 직접 Drive 보기·수정 권한을 승인합니다.
+1. V2-04A 후보에서는 같은 origin의 인증 시작·콜백·세션 API를 통해 사용자가 Drive 권한을 승인합니다. 실제 Cloudflare/Google 어댑터와 라이브 콜백은 아직 검증되지 않았습니다.
 2. Drive API에서 영상과 이미지 목록을 불러옵니다.
 3. 화면에 필요한 카드만 단계적으로 렌더링하고, 제한된 동시성 큐로 썸네일을 불러옵니다. GIF 카드는 분리된 이미지에서 한 프레임만 320×320 캔버스에 그린 뒤 원본 이미지를 해제하므로 목록에서 움직이지 않습니다.
 4. 영상은 파일 크기·OPFS 쓰기 가능 여부·남은 저장 공간을 먼저 확인합니다. 안전 자동 한도 안의 영상은 원본 전체를 앱 전용 임시 디스크에 청크 단위로 준비하고, 큰 파일·크기 미상·OPFS 비지원 환경은 즉시 `Range` 원본 스트림을 시작합니다.
@@ -54,8 +54,7 @@ Chrome/WebKit·가상 Google API 검증과 실제 iPhone/두 실기기 검증의
 - 현재 앱은 코덱을 변환하지 않습니다. 디코딩 가능성은 기기의 지원 범위에 달려 있으며, 별도 변환 서버가 있더라도 변환본을 원본 바이트와 동일하다고 표시하지 않습니다.
 - 전체 파일 보조 경로는 쓰기 가능한 OPFS와 실제 여유 공간을 먼저 확인합니다. OPFS 비지원 환경에서는 메모리 상한을 넘는 파일을 자동 다운로드하지 않으며, 큰 파일은 사용자 확인 또는 호환 재생 선택을 요구합니다.
 - 브라우저 버전 이름 대신 실제 OPFS 쓰기 기능과 저장 공간을 검사합니다. 메인 스레드 `createWritable()`이 없으면 디스크 경로를 선택하지 않고 Range 및 제한된 메모리 원본으로 복구합니다.
-- Google OAuth 액세스 토큰은 짧게 유효합니다. 앱이 조용한 갱신을 먼저 시도하며, 동의나 팝업이 필요하면 사용자가 다시 연결해야 합니다.
-- v1.19.1은 비공개 앱 상태 동기화 범위를 명시적으로 추가했으므로, 이전 버전에서 저장한 토큰은 한 번 폐기되고 **Google Drive 연결하기**를 다시 눌러야 합니다.
+- Google OAuth 액세스 자격 증명은 짧게 유효합니다. V2-04A 후보에서 페이지와 서비스 워커는 `{accessToken, expiresAt, account, revision}`만 메모리에 두며, 세션 갱신은 같은 origin 세션 API가 담당합니다. 필요한 사용자 승인 또는 재연결이 있으면 기존 화면을 지우지 않고 안내합니다.
 - 다운로드가 금지된 공유 파일은 원본 스트리밍도 할 수 없습니다.
 - GIF는 목록 성능을 위해 카드마다 한 정지 프레임만 표시합니다. 정지 프레임을 만들 수 없는 경우에만 GIF 자리표시자를 유지하며, 파일을 열면 원본 GIF가 재생될 수 있습니다.
 - 시청·좋아요 상태는 기기별 작성자 파일을 읽고 병합합니다. 서로 다른 기기가 같은 JSON을 덮어써 기록이 사라지는 경쟁을 방지하며, 기존 단일 파일은 읽기 전용 이관 원본으로 보존합니다. 같은 기기의 탭은 Web Locks로 직렬화하고, 잠금 미지원 환경은 실행 컨텍스트별 파일을 사용합니다. 항목별 최신 시각이 우선하며 정확히 같은 시각의 충돌은 좋아요 취소가 우선합니다. 모든 기기의 v1.20.0 이상 사용을 권장합니다.
@@ -63,7 +62,7 @@ Chrome/WebKit·가상 Google API 검증과 실제 iPhone/두 실기기 검증의
 
 ## 1. 웹에 올리기
 
-런타임 빌드가 필요 없는 정적 사이트입니다. 공개 배포 파일은 `node scripts/build-pages.cjs`로 `_site/`에 준비한 뒤 해당 디렉터리만 배포하세요. 내부 작업 기록·테스트·유지보수 문서가 공개 사이트에 포함되지 않도록 GitHub Pages는 공개 파일만 있는 `gh-pages` 브랜치를 배포합니다. 커밋 후 `node scripts/publish-pages.cjs`를 실행하면 JavaScript 문법 검사와 전체 회귀 테스트를 통과한 소스의 Git 바이트만 해당 브랜치로 게시합니다. 기존 전체 저장소 업로드 워크플로는 비활성 상태로 보존합니다.
+런타임 빌드가 필요 없는 공개 셸은 `node scripts/build-pages.cjs`로 `_site/`에 준비할 수 있습니다. 이 절은 기존 정적 셸의 패키징 방법만 설명하며, V2-04A의 인증 서버리스 API를 배포하거나 동작을 검증했다는 뜻이 아닙니다. V2-04A는 셸과 `/auth/*`, `/api/session/*`가 같은 HTTPS origin에서 제공되어야 하므로, 정적 셸만의 GitHub Pages 게시으로는 그 인증 계약을 충족하지 않습니다.
 
 로컬 확인:
 
@@ -76,30 +75,17 @@ python3 -m http.server 8080
 
 ## 2. Google Drive 연결
 
-공식 배포 주소에서는 앱에 포함된 기본 웹 OAuth 클라이언트 ID를 사용합니다. 첫 화면에서 ID를 입력할 필요 없이 **Google Drive 연결하기**를 누르고 Google 로그인 창에서 계정과 Drive 권한을 확인하면 됩니다. 토큰 요청은 페이지 로드 중 자동으로 팝업을 열지 않고 사용자의 연결 버튼 클릭으로만 시작합니다.
+**V2-04A 후보 계약(아직 라이브 배포·검증 전):** 사용자가 **Google Drive 연결하기**를 누르면 현재 페이지와 정확히 같은 HTTPS origin의 인증 시작점으로 이동합니다. 콜백과 세션 API도 그 origin에서만 처리합니다. Google OAuth 클라이언트 ID·client secret·refresh credential은 페이지 설정이나 `localStorage`에 입력·저장하지 않습니다.
 
-기본 클라이언트 ID는 `376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com`입니다. 클라이언트 ID는 웹앱에서 사용하는 공개 식별자이며 클라이언트 보안 비밀이 아닙니다.
+인증 서버리스 계층은 암호화된 refresh credential과 서버 세션 상태를 소유합니다. 페이지와 서비스 워커에는 `{accessToken, expiresAt, account, revision}`이라는 짧은 Drive access credential만 필요한 동안 메모리로 전달합니다. 새로고침·서비스 워커 종료·브라우저 재시작 뒤에도 그 credential을 `localStorage`, Cache Storage, IndexedDB에 복원하지 않습니다.
 
-### 자체 배포 또는 다른 Google Cloud 프로젝트 사용
+세션 API는 정확한 `Origin`만 허용하고, 상태를 바꾸는 요청은 해당 origin 확인과 별도 CSRF 방어를 모두 통과해야 합니다. 콜백 허용 주소도 실제 같은 HTTPS origin의 정확한 경로로 제한합니다. 이 문서는 일반 사용자가 클라이언트 ID를 재정의하거나 임의 origin을 추가하는 절차를 제공하지 않습니다.
 
-공식 배포가 아닌 다른 origin에서 호스팅하거나 별도 Google Cloud 프로젝트를 사용하려면 다음 설정이 필요합니다.
-
-1. [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트를 만듭니다.
-2. **API 및 서비스 → 라이브러리**에서 **Google Drive API**를 사용 설정합니다.
-3. **Google Auth Platform / OAuth 동의 화면**을 구성하고 **데이터 액세스 / 범위**에 아래 두 범위를 모두 추가합니다.
-   - `https://www.googleapis.com/auth/drive` — Drive 파일 보기·수정
-   - `https://www.googleapis.com/auth/drive.appdata` — 앱 전용 시청·좋아요 상태 동기화
-4. 앱이 테스트 상태라면 **테스트 사용자**에 본인의 Google 계정을 추가합니다.
-5. **클라이언트 → 클라이언트 만들기 → 웹 애플리케이션**을 선택합니다.
-6. **승인된 JavaScript 원본**에 배포 사이트의 원본만 추가합니다.
-   - 예: `https://example.com`
-   - GitHub Pages 예: `https://조직명.github.io`
-   - 경로와 마지막 슬래시는 넣지 않습니다.
-7. 앱 설정의 **자체 배포 · 고급 OAuth 설정**에 생성된 `…apps.googleusercontent.com` 형식의 클라이언트 ID를 선택적으로 저장합니다.
-
-입력란을 비우거나 앱 기본 ID를 저장하면 custom override가 제거되고 기본 연결 설정으로 돌아갑니다. 승인된 JavaScript 원본은 정확히 제한해야 다른 사이트에서 해당 OAuth 프로젝트를 무단 사용하기 어렵습니다.
+이 계약의 Cloudflare Worker/Google OAuth 시작·콜백 어댑터, 실제 hostname·redirect 등록, 그리고 PC/iPhone 실기기 로그인·복귀 검증은 V2-04B에서 확인해야 하는 미검증 항목입니다. 이 README는 그 배포나 검증 완료를 주장하지 않습니다.
 
 ## 3. iPhone에 설치
+
+아래는 같은 HTTPS origin 인증 배포가 준비된 뒤의 사용 흐름입니다. V2-04A 인증 후보의 실제 iPhone 로그인·복귀는 V2-04B에서 아직 검증해야 하며, 이 문서만으로 설치 또는 연결 성공을 보장하지 않습니다.
 
 1. iPhone Safari에서 배포 주소를 엽니다.
 2. Google Drive 연결을 완료합니다.
@@ -111,15 +97,16 @@ python3 -m http.server 8080
 ## 개인정보와 보안
 
 - 권한: `https://www.googleapis.com/auth/drive`(Drive 파일 보기·수정), `https://www.googleapis.com/auth/drive.appdata`(앱 전용 시청·좋아요 상태 동기화)
-- 액세스 토큰: 자동 로그인을 위해 토큰과 만료 시각을 이 브라우저의 로컬 저장소에 보관하고, 실행 중에는 메모리 및 서비스 워커 메모리에도 전달
-- 장기 갱신 토큰: 사용하지 않음
+- 인증 상태(V2-04A 후보): 같은 origin의 최소 서버리스 세션 API가 암호화된 refresh credential과 세션을 소유합니다. 페이지·서비스 워커에는 `{accessToken, expiresAt, account, revision}`만 메모리로 전달하며, refresh credential과 client secret은 전달하지 않습니다.
 - 미디어 경로: 브라우저 ↔ Google Drive API
-- 자체 서버 업로드: 없음
+- 인증 서버는 Drive 미디어 바이트를 중계·캐시·변환하지 않으며, Drive 파일 수정 경로도 소유하지 않습니다.
 - 미디어 Cache Storage 저장: 없음
 - 계정 상태 동기화: Drive의 앱 전용 비공개 `appDataFolder`에 파일 ID별 시청 시각과 좋아요 상태만 저장하며, 미디어 자체는 복제하지 않음
 - 좋아요 조회 실패 복구: 이미 이 기기에 알려진 좋아요는 계속 표시하고, 나머지는 파일 ID별로 다시 조회하며, 화면을 벗어난 이전 요청과 상태 문구는 즉시 무효화
-- 로컬 저장소에 남는 값: 선택적으로 재정의한 OAuth 클라이언트 ID, 단기 액세스 토큰, 토큰 만료 시각, Drive 계정 ID로 분리된 시청·좋아요 상태 캐시
-- 연결 해제 시 저장된 액세스 토큰을 삭제하고 Google에 토큰 폐기를 요청
+- 로컬 저장소: OAuth client ID·access token·만료 시각·refresh credential·서버 세션은 저장하지 않습니다. 비밀이 아닌 계정별 시청·좋아요 상태 캐시는 별도 데이터 경로에서만 유지됩니다.
+- **로그아웃:** 현재 기기의 현재 세션만 종료하고 메모리 access credential을 제거합니다.
+- **모든 세션 연결 해제(disconnect):** 서버에 보관한 해당 계정의 앱 session과 refresh credential을 삭제하도록 요청합니다. Google revoke의 성공 여부가 불확실하면 성공으로 표시하지 않습니다.
+- 이 인증·세션 모델은 V2-04A의 로컬 계약입니다. Cloudflare/Google 실제 어댑터와 PC/iPhone 라이브 검증은 V2-04B 전까지 미확인입니다.
 
 ## 파일 구조
 
@@ -151,7 +138,7 @@ http://localhost:8080/?demo=1
 - HTTP 범위 요청은 영상 재생기의 임의 위치 탐색과 부분 전송에 쓰입니다.
 - OPFS는 앱 원본의 사설 저장 영역이며, 지원 브라우저에서 큰 원본의 임시 디스크 버퍼로 사용합니다.
 - `Retry-After`는 초 단위와 HTTP 날짜 형식을 모두 존중하며, 긴 대기는 조기 자동 재시도 대신 사용자에게 남은 시간을 알립니다.
-- Google Identity Services의 토큰 모델은 브라우저에서 REST와 CORS로 Google API를 호출하도록 설계됐습니다.
+- V2-04A 후보에서도 Drive REST와 원본 미디어 Range 요청은 브라우저/서비스 워커가 Google API에 직접 보냅니다. 인증 서버리스 계층은 인증·세션만 맡습니다.
 
 ## 라이선스
 

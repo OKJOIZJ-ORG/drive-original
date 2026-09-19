@@ -82,23 +82,27 @@ test('resource keys remain raw in the service-worker header', () => {
   assert.doesNotMatch(worker, /encodeURIComponent\(resourceKey\)/);
 });
 
-test('privacy documentation matches the requested OAuth scope and token storage', () => {
+test('privacy documentation and shell use the same-origin memory-only credential contract', () => {
   const app = read('app.js');
   const html = read('index.html');
   const readme = read('README.md');
+  const routes = read('auth/routes.mjs');
   assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive/);
   assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive\.appdata/);
-  assert.match(readme, /로컬 저장소/);
+  assert.match(readme, /\{accessToken, expiresAt, account, revision\}/);
+  assert.match(readme, /미디어 바이트를 중계·캐시·변환하지 않/);
   assert.doesNotMatch(readme, /drive\.readonly/);
-  assert.doesNotMatch(readme, /액세스 토큰: 메모리에만/);
-  assert.match(app, /const DEFAULT_OAUTH_CLIENT_ID = '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l\.apps\.googleusercontent\.com'/);
-  assert.doesNotMatch(html, /id="clientIdInput"|id="pasteClientId"/);
-  assert.match(html, /OAuth 클라이언트 ID 재정의 \(선택\)/);
-  assert.match(readme, /첫 화면에서 ID를 입력할 필요 없이/);
-  assert.match(readme, /입력란을 비우거나 앱 기본 ID를 저장하면 custom override가 제거/);
-  assert.match(app, /const DRIVE_SCOPES = `\$\{DRIVE_SCOPE\} \$\{DRIVE_APPDATA_SCOPE\}`/);
-  assert.match(app, /scope:\s*DRIVE_SCOPES/);
-  assert.match(app, /scopeVersion:\s*OAUTH_SCOPE_VERSION/);
+  assert.match(app, /const AUTH_CREDENTIAL_PATH = '\/api\/session\/credential'/);
+  assert.match(app, /credentials:\s*'same-origin'/);
+  assert.match(app, /\[AUTH_CSRF_HEADER\]: '1'/);
+  assert.doesNotMatch(app, /localStorage\.setItem\([^\n]*(?:oauth-token|accessToken)/);
+  assert.doesNotMatch(app, /DEFAULT_OAUTH_CLIENT_ID|initTokenClient|requestAccessToken/);
+  assert.doesNotMatch(html, /accounts\.google\.com\/gsi\/client|settingsClientId|saveSettingsButton/);
+  assert.match(html, /id="logoutButton"/);
+  assert.match(html, /id="disconnectButton"/);
+  assert.match(routes, /X-Drive-Original-CSRF/);
+  assert.match(routes, /Sec-Fetch-Site/);
+  assert.match(routes, /Cache-Control': 'no-store'/);
 });
 
 test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {

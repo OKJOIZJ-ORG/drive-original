@@ -145,181 +145,176 @@ test('GIF detection covers MIME and case-insensitive filename fallback', () => {
   assert.equal(run(context, "isGifFile({ mimeType: 'image/jpeg', name: 'photo.jpg' })"), false);
 });
 
-test('OAuth uses the shipped client ID by default and preserves a valid custom override', () => {
-  const defaultContext = loadAppContext();
-  const defaultState = JSON.parse(run(defaultContext, `JSON.stringify({
-    defaultId: DEFAULT_OAUTH_CLIENT_ID,
-    clientId: state.clientId,
-    override: state.clientIdOverride,
-    stored: localStorage.getItem(CLIENT_ID_KEY)
-  })`));
-  assert.deepEqual(defaultState, {
-    defaultId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-    override: '',
-    stored: null
+test('session credentials are strict, memory-only, and remove legacy browser artifacts', () => {
+  const context = loadAppContext({
+    'drive-original.oauth-token': 'legacy-token',
+    'drive-original.oauth-client-id': 'legacy-client'
   });
+  const writes = [];
+  const setItem = context.localStorage.setItem;
+  context.localStorage.setItem = (key, value) => { writes.push([key, String(value)]); setItem.call(context.localStorage, key, value); };
+  const result = JSON.parse(run(context, `(() => {
+    scheduleTokenRenewal = () => {};
+    clearAuthError = () => {};
+    sendTokenToWorker = () => {};
+    updateConnectionBadge = () => {};
+    resumeAfterCredential = () => {};
+    removeLegacyCredentialStorage();
+    const expiresAt = Date.now() + 60_000;
+    const installed = installSessionCredential({ accessToken: 'session-token', expiresAt, account: 'account-A', revision: 7 }, { generation: state.authGeneration });
+    const rejected = [
+      installSessionCredential({ accessToken: '', expiresAt, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ accessToken: 'near-expiry', expiresAt: Date.now() + TOKEN_SKEW_MS, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ accessToken: 'bad-account', expiresAt, account: 'bad account', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ accessToken: 'string-numbers', expiresAt: String(expiresAt), account: 'account-A', revision: '8' }, { generation: state.authGeneration })
+    ];
+    return JSON.stringify({ installed, rejected, token: state.token, expiresAt: state.expiresAt, account: state.authAccountKey, revision: state.tokenRevision,
+      legacyToken: localStorage.getItem(LEGACY_TOKEN_STORAGE_KEY), legacyClient: localStorage.getItem(LEGACY_CLIENT_ID_STORAGE_KEY),
+      hasClientId: Object.hasOwn(state, 'clientId') });
+  })()`));
+  assert.deepEqual(result, {
+    installed: true,
+    rejected: [false, false, false, false],
+    token: 'session-token',
+    expiresAt: result.expiresAt,
+    account: 'account-A',
+    revision: 7,
+    legacyToken: null,
+    legacyClient: null,
+    hasClientId: false
+  });
+  assert.ok(result.expiresAt > Date.now());
+  assert.deepEqual(writes, [], 'installing a server credential must not persist an access token or client override');
+});
 
-  const customContext = loadAppContext({
-    'drive-original.oauth-client-id': '123-custom.apps.googleusercontent.com'
-  });
-  const customState = JSON.parse(run(customContext, `JSON.stringify({
-    clientId: state.clientId,
-    override: state.clientIdOverride,
-    stored: localStorage.getItem(CLIENT_ID_KEY)
-  })`));
-  assert.deepEqual(customState, {
-    clientId: '123-custom.apps.googleusercontent.com',
-    override: '123-custom.apps.googleusercontent.com',
-    stored: '123-custom.apps.googleusercontent.com'
-  });
-
-  for (const redundantValue of [
-    '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-    'not-a-valid-client-id'
-  ]) {
-    const migratedContext = loadAppContext({ 'drive-original.oauth-client-id': redundantValue });
-    const migratedState = JSON.parse(run(migratedContext, `JSON.stringify({
-      clientId: state.clientId,
-      override: state.clientIdOverride,
-      stored: localStorage.getItem(CLIENT_ID_KEY)
-    })`));
-    assert.deepEqual(migratedState, {
-      clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-      override: '',
-      stored: null
+test('same-origin credential requests are single-flight and send the account fence', async () => {
+  const context = loadAppContext();
+  let calls = 0; let request; let release;
+  context.fetch = async (url, options) => {
+    calls += 1;
+    request = { url: String(url), options };
+    await new Promise((resolve) => { release = resolve; });
+    return new Response(JSON.stringify({ accessToken: 'renewed-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 4 }), {
+      headers: { 'Content-Type': 'application/json' }
     });
-  }
+  };
+  run(context, `state.authAccountKey='account-A';state.token='expired';state.expiresAt=0;state.tokenRevision=3;
+    el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};
+    scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};`);
+  const first = run(context, 'requestSessionCredential({background:true,force:true})');
+  const second = run(context, 'requestSessionCredential({background:true,force:true})');
+  assert.equal(calls, 1);
+  release();
+  assert.deepEqual(await Promise.all([first, second]), [true, true]);
+  assert.equal(calls, 1);
+  assert.equal(request.url, 'https://example.test/api/session/credential');
+  assert.deepEqual(JSON.parse(request.options.body), { expectedAccount: 'account-A', rejectedRevision: null });
+  assert.equal(request.options.credentials, 'same-origin');
+  assert.equal(request.options.cache, 'no-store');
+  assert.equal(request.options.mode, 'same-origin');
+  assert.equal(request.options.redirect, 'error');
+  assert.equal(request.options.headers['X-Drive-Original-CSRF'], '1');
+  assert.equal(run(context, 'state.tokenRevision'), 4);
 });
 
-test('OAuth token cache rejects the legacy scope contract and accepts the current one', () => {
-  const expiresAt = Date.now() + 60_000;
-  const legacyContext = loadAppContext({
-    'drive-original.oauth-token': JSON.stringify({ token: 'legacy-token', expiresAt })
-  });
-  const legacy = JSON.parse(run(legacyContext, `(() => {
-    scheduleTokenRenewal = () => {};
-    const loaded = loadSavedToken();
-    return JSON.stringify({ loaded, stored: localStorage.getItem(TOKEN_STORAGE_KEY), token: state.token });
-  })()`));
-  assert.deepEqual(legacy, { loaded: false, stored: null, token: null });
-
-  const currentContext = loadAppContext({
-    'drive-original.oauth-token': JSON.stringify({ token: 'current-token', expiresAt, scopeVersion: 2 })
-  });
-  const current = JSON.parse(run(currentContext, `(() => {
-    scheduleTokenRenewal = () => {};
-    const loaded = loadSavedToken();
-    return JSON.stringify({ loaded, token: state.token, expiresAt: state.expiresAt, scopeVersion: OAUTH_SCOPE_VERSION });
-  })()`));
-  assert.deepEqual(current, { loaded: true, token: 'current-token', expiresAt, scopeVersion: 2 });
+test('offline and non-JSON credential failures are bounded and preserve the current memory credential', async () => {
+  const context = loadAppContext(); let calls = 0;
+  context.fetch = async () => {
+    calls += 1;
+    return new Response('temporarily unavailable', { status: 503, headers: { 'Content-Type': 'text/plain' } });
+  };
+  run(context, `state.authAccountKey='account-A';state.token='still-valid';state.expiresAt=Date.now()+60_000;state.tokenRevision=5;
+    el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};`);
+  assert.equal(await run(context, 'requestSessionCredential({background:true,force:true})'), false);
+  assert.equal(run(context, 'state.token'), 'still-valid');
+  run(context, 'navigator.onLine=false');
+  assert.equal(await run(context, 'requestSessionCredential({background:true,force:true})'), false);
+  assert.equal(calls, 1);
+  assert.equal(run(context, 'state.token'), 'still-valid');
 });
 
-test('blank or default OAuth settings remove the override and only effective-ID changes reset the session', () => {
+test('concurrent credential waiters share one failed request without starting another fetch', async () => {
+  const context = loadAppContext(); let calls = 0; let release;
+  context.fetch = async () => {
+    calls += 1;
+    await new Promise((resolve) => { release = resolve; });
+    return new Response(JSON.stringify({ error: { code: 'auth_unavailable' } }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  };
+  run(context, `el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};`);
+  const first = run(context, 'requestSessionCredential({background:true,force:true})');
+  const second = run(context, 'requestSessionCredential({background:true,force:true})');
+  release();
+  assert.deepEqual(await Promise.all([first, second]), [false, false]);
+  assert.equal(calls, 1);
+});
+
+test('a credential response parsed after its account generation changes cannot install', async () => {
+  const context = loadAppContext(); let release;
+  context.fetch = async () => ({
+    ok: true,
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    json: async () => {
+      await new Promise((resolve) => { release = resolve; });
+      return { accessToken: 'late-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 2 };
+    }
+  });
+  run(context, `state.authAccountKey='account-A';state.token='current-token';state.expiresAt=Date.now()+60_000;state.tokenRevision=1;
+    el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};`);
+  const pending = run(context, 'requestSessionCredential({background:true,force:true})');
+  for (let index = 0; index < 4 && !release; index++) await Promise.resolve();
+  assert.equal(typeof release, 'function');
+  run(context, 'state.authGeneration += 1');
+  release();
+  assert.equal(await pending, false);
+  assert.equal(run(context, 'state.token'), 'current-token');
+  assert.equal(run(context, 'state.tokenRevision'), 1);
+});
+
+test('account and revision fences reject stale credentials without replacing the current account', () => {
   const context = loadAppContext();
   const result = JSON.parse(run(context, `(() => {
-    let tokenClears = 0;
-    let sessionInvalidations = 0;
-    const messages = [];
-    el.settingsClientId = {
-      value: '',
-      removeAttribute() {},
-      setAttribute() {},
-      focus() {}
-    };
-    el.settingsClientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
-    el.clientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
-    clearToken = () => { tokenClears += 1; };
-    invalidateDriveSessionData = () => { sessionInvalidations += 1; };
-    showToast = (message) => { messages.push(message); };
-
-    saveSettings();
-    const afterBlank = {
-      clientId: state.clientId,
-      override: state.clientIdOverride,
-      stored: localStorage.getItem(CLIENT_ID_KEY),
-      tokenClears,
-      sessionInvalidations
-    };
-
-    el.settingsClientId.value = '123-custom.apps.googleusercontent.com';
-    saveSettings();
-    const afterCustom = {
-      clientId: state.clientId,
-      override: state.clientIdOverride,
-      stored: localStorage.getItem(CLIENT_ID_KEY),
-      tokenClears,
-      sessionInvalidations
-    };
-
-    el.settingsClientId.value = DEFAULT_OAUTH_CLIENT_ID;
-    saveSettings();
-    const afterDefault = {
-      clientId: state.clientId,
-      override: state.clientIdOverride,
-      stored: localStorage.getItem(CLIENT_ID_KEY),
-      tokenClears,
-      sessionInvalidations
-    };
-    return JSON.stringify({ afterBlank, afterCustom, afterDefault, messages });
+    scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};
+    state.authAccountKey='account-A';state.token='current';state.expiresAt=Date.now()+60_000;state.tokenRevision=5;
+    const results = [
+      installSessionCredential({accessToken:'other-account',expiresAt:Date.now()+60_000,account:'account-B',revision:6},{generation:state.authGeneration}),
+      installSessionCredential({accessToken:'stale',expiresAt:Date.now()+60_000,account:'account-A',revision:4},{generation:state.authGeneration}),
+      installSessionCredential({accessToken:'changed-same-revision',expiresAt:Date.now()+60_000,account:'account-A',revision:5},{generation:state.authGeneration}),
+      installSessionCredential({accessToken:'same-text',expiresAt:Date.now()+60_000,account:'account-A',revision:6},{generation:state.authGeneration})
+    ];
+    return JSON.stringify({results,account:state.authAccountKey,token:state.token,revision:state.tokenRevision});
   })()`));
-
-  assert.deepEqual(result.afterBlank, {
-    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-    override: '',
-    stored: null,
-    tokenClears: 0,
-    sessionInvalidations: 0
-  });
-  assert.deepEqual(result.afterCustom, {
-    clientId: '123-custom.apps.googleusercontent.com',
-    override: '123-custom.apps.googleusercontent.com',
-    stored: '123-custom.apps.googleusercontent.com',
-    tokenClears: 1,
-    sessionInvalidations: 1
-  });
-  assert.deepEqual(result.afterDefault, {
-    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com',
-    override: '',
-    stored: null,
-    tokenClears: 2,
-    sessionInvalidations: 2
-  });
+  assert.deepEqual(result, { results: [false, false, false, true], account: 'account-A', token: 'same-text', revision: 6 });
 });
 
-test('first load waits for a user gesture and the primary connect button uses the default client ID', async () => {
+test('logout and disconnect use separate server actions and clear browser session state only after success', async () => {
   const context = loadAppContext();
-  const result = await run(context, `(async () => {
-    let automaticRequests = 0;
-    let interactiveRequests = 0;
-    let setupShown = 0;
-    bindElements = () => {};
-    bindEvents = () => {};
-    setupTouchGestures = () => {};
-    setupInfiniteScroll = () => {};
-    cleanupStaleOriginalBuffers = async () => {};
-    setupServiceWorker = async () => {};
-    loadSavedToken = () => false;
-    updateConnectionBadge = () => {};
-    showSetup = () => { setupShown += 1; };
-    attemptSilentAutoLogin = async () => { automaticRequests += 1; };
-    requestAccessToken = async () => { interactiveRequests += 1; };
-    el.settingsClientId = { value: '' };
-    el.currentOrigin = { textContent: '' };
-    el.appVersion = { textContent: '' };
-    el.settingsAppVersion = { textContent: '' };
-    el.clientIdHint = { textContent: '', classList: { add() {}, remove() {} } };
-
-    await init();
-    beginAuthorization();
-    return JSON.stringify({ automaticRequests, interactiveRequests, setupShown, clientId: state.clientId });
-  })()`);
-
-  assert.deepEqual(JSON.parse(result), {
-    automaticRequests: 0,
-    interactiveRequests: 1,
-    setupShown: 1,
-    clientId: '376776089602-t0te7oadl7ki589fnfdfhs173gco2n0l.apps.googleusercontent.com'
+  const result = JSON.parse(await run(context, `(async () => {
+    const calls=[]; const authErrors=[]; let invalidations=0;
+    postAuthAction=async(path,body)=>{calls.push({path,body});return path===AUTH_LOGOUT_PATH
+      ? {ok:true,payload:{loggedOut:true}}
+      : {ok:true,payload:{disconnected:true,revocation:'inconclusive'}}};
+    invalidateDriveSessionData=()=>{invalidations++};closePlayer=()=>{};showSetup=()=>{};showToast=()=>{};setAuthError=(message)=>authErrors.push(message);
+    el.logoutButton={disabled:false};el.disconnectButton={disabled:false};el.settingsDialog={open:false};
+    window.confirm=()=>true;
+    state.authAccountKey='account-A';state.token='one';state.expiresAt=Date.now()+60_000;state.tokenRevision=5;
+    await logout();
+    const afterLogout={account:state.authAccountKey,token:state.token,revision:state.tokenRevision};
+    state.authAccountKey='account-B';state.token='two';state.expiresAt=Date.now()+60_000;state.tokenRevision=9;
+    await disconnect();
+    return JSON.stringify({calls,invalidations,authErrors,afterLogout,afterDisconnect:{account:state.authAccountKey,token:state.token,revision:state.tokenRevision}});
+  })()`));
+  assert.deepEqual(result, {
+    calls: [
+      { path: '/api/session/logout' },
+      { path: '/api/account/disconnect', body: { expectedAccount: 'account-B' } }
+    ],
+    invalidations: 2,
+    authErrors: ['앱 세션은 삭제했지만 Google 권한 폐기는 확인되지 않았습니다. Google 계정의 연결된 앱에서 Drive Original 권한을 확인해 주세요.'],
+    afterLogout: { account: null, token: null, revision: 0 },
+    afterDisconnect: { account: null, token: null, revision: 0 }
   });
 });
 
@@ -1633,13 +1628,11 @@ test('full-original permission failure refreshes once in-app before requiring re
     const file = { id: 'permission-file', name: 'permission.jpg', mimeType: 'image/jpeg', size: '3' };
     state.selected = file;
     state.mediaSession = 12;
-    state.clientId = 'test.apps.googleusercontent.com';
     state.mediaPermissionRetryCount = 0;
     let downloads = 0;
     let refreshes = 0;
     let cleared = 0;
-    validateClientId = () => true;
-    requestGoogleToken = async () => { refreshes += 1; return true; };
+    requestSessionCredential = async () => { refreshes += 1; return true; };
     clearToken = () => { cleared += 1; };
     updateQualityDisplay = () => {};
     clearDirectMediaSources = () => {};
@@ -1737,37 +1730,23 @@ test('bulk action target text is stable for empty, single, and multi-file select
   assert.equal(run(context, "formatActionTarget([{ id: 'one', name: 'one.mp4' }, { id: 'two', name: 'two.jpg' }, { id: 'three', name: 'three.png' }])"), '3개 파일 · one.mp4 외 2개');
 });
 
-test('clearing a pending background token request lets the next generation start a fresh GIS request', async () => {
+test('clearing a pending session credential request aborts it and permits a new generation', async () => {
   const context = loadAppContext();
-  const result = await run(context, `(async () => {
-    let starts = 0;
-    const callbacks = [];
-    const oauth2 = {
-      initTokenClient({ callback }) {
-        callbacks.push(callback);
-        return { requestAccessToken() { starts++; } };
-      }
-    };
-    window.google = { accounts: { oauth2 } };
-    google = window.google;
-    state.clientId = '123-test.apps.googleusercontent.com';
-    el.connectionBadge = { dataset: {}, querySelector() { return null; } };
-
-    const first = attemptSilentAutoLogin({ background: true });
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    const beforeClear = starts;
-    clearToken(false);
-    const second = attemptSilentAutoLogin({ background: true });
-    for (let index = 0; index < 4 && starts < 2; index++) {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    }
-    const afterSecondStart = starts;
-    callbacks[1]?.({ error: 'access_denied' });
-    await Promise.all([first, second]);
-    return { beforeClear, afterSecondStart };
-  })()`);
-  const normalized = JSON.parse(JSON.stringify(result));
-
-  assert.equal(normalized.beforeClear, 1);
-  assert.equal(normalized.afterSecondStart, 2);
+  let starts = 0; const signals = [];
+  context.fetch = async (_url, options) => {
+    starts += 1;
+    signals.push(options.signal);
+    return new Promise((_resolve, reject) => {
+      options.signal.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true });
+    });
+  };
+  run(context, `el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};`);
+  const first = run(context, 'requestSessionCredential({background:true,force:true})');
+  assert.equal(starts, 1);
+  run(context, 'clearToken(false)');
+  assert.equal(signals[0].aborted, true);
+  const second = run(context, 'requestSessionCredential({background:true,force:true})');
+  assert.equal(starts, 2);
+  run(context, 'credentialRequestAbortController?.abort()');
+  assert.deepEqual(await Promise.all([first, second]), [false, false]);
 });

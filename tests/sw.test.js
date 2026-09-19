@@ -7,7 +7,28 @@ const test = require('node:test');
 const vm = require('node:vm');
 
 const source = fs.readFileSync(path.join(__dirname, '..', 'sw.js'), 'utf8');
+const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const expiresAt = () => Date.now() + 3_600_000;
+
+function accountForClient(clientId) {
+  return `${clientId || 'unknown'}-account`;
+}
+
+function credentialEnvelope(type, {
+  clientId = 'A', token = 'fresh', expiration = expiresAt(), account,
+  revision = 1, accountGeneration = 1, requestId
+} = {}) {
+  return {
+    type,
+    ...(requestId ? { requestId } : {}),
+    credentialProtocol: AUTH_PROTOCOL,
+    token,
+    expiresAt: expiration,
+    account: account || accountForClient(clientId),
+    revision,
+    accountGeneration
+  };
+}
 
 class TestMessageChannel {
   constructor() {
@@ -56,15 +77,28 @@ function createWorker(fetchImpl) {
       return messages;
     },
     message(id, data) { listeners.get('message')({ source: id ? { id } : null, data }); },
-    setToken(id, token) { worker.message(id, { type: 'SET_TOKEN', token, expiresAt: expiresAt() }); },
+    setToken(id, token, overrides = {}) {
+      worker.message(id, credentialEnvelope('SET_TOKEN', { clientId: id, token, ...overrides }));
+    },
+    clearToken(id, overrides = {}) {
+      worker.message(id, {
+        type: 'CLEAR_TOKEN',
+        credentialProtocol: AUTH_PROTOCOL,
+        account: overrides.account || accountForClient(id),
+        revision: overrides.revision ?? 1,
+        accountGeneration: overrides.accountGeneration ?? 1
+      });
+    },
     request(clientId, {
       fileId = 'fileA', range = 'bytes=100-199', signal, method = 'GET',
-      sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000', traceId = ''
+      sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000', traceId = '',
+      accountGeneration = 1
     } = {}) {
       const abuseQuery = acknowledgeAbuse ? '&acknowledgeAbuse=1' : '';
       const sizeQuery = size == null ? '' : `&size=${encodeURIComponent(size)}`;
       const traceQuery = traceId ? `&_trace=${encodeURIComponent(traceId)}` : '';
-      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${sizeQuery}${abuseQuery}${traceQuery}`, {
+      const generationQuery = accountGeneration == null ? '' : `&accountGeneration=${encodeURIComponent(accountGeneration)}`;
+      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sizeQuery}${abuseQuery}${traceQuery}`, {
         method, headers: { Range: range }, signal
       });
       let response;
@@ -75,8 +109,20 @@ function createWorker(fetchImpl) {
   return worker;
 }
 
-function tokenReply(message, port, token = 'fresh') {
-  port.postMessage({ type: 'TOKEN_RESPONSE', requestId: message.requestId, token, expiresAt: expiresAt() });
+function tokenResponse(message, token = 'fresh', overrides = {}) {
+  return credentialEnvelope('TOKEN_RESPONSE', {
+    clientId: message.clientId,
+    token,
+    requestId: message.requestId,
+    revision: overrides.revision ?? (Number.isSafeInteger(message.rejectedRevision) ? message.rejectedRevision + 1 : 1),
+    accountGeneration: overrides.accountGeneration ?? message.accountGeneration,
+    account: overrides.account || message.expectedAccount || accountForClient(message.clientId),
+    ...overrides
+  });
+}
+
+function tokenReply(message, port, token = 'fresh', overrides = {}) {
+  port.postMessage(tokenResponse(message, token, overrides));
 }
 
 function errorResponse(status, reason = 'denied') {
@@ -151,31 +197,67 @@ test('acknowledgeAbuse reaches Drive only after explicit opt-in and survives an 
   }
 });
 
-test('tokens and CLEAR_TOKEN are scoped to the source client', async () => {
+test('credentials and CLEAR_TOKEN are scoped to the source client', async () => {
   const worker = createWorker(() => partialResponse());
-  worker.addClient('A', tokenReply);
+  const aMessages = worker.addClient('A', tokenReply);
   const bMessages = worker.addClient('B', (message, port) => tokenReply(message, port, 'B-recovered'));
   worker.setToken('A', 'A-token');
   worker.setToken('B', 'B-token');
-  worker.message('A', { type: 'CLEAR_TOKEN' });
+  worker.clearToken('A');
   await worker.request('B').response;
   assert.equal(worker.calls[0].headers.get('Authorization'), 'Bearer B-token');
   assert.equal(bMessages.filter((message) => message.type === 'TOKEN_REQUEST').length, 0);
   await worker.request('A').response;
   assert.equal(worker.calls[1].headers.get('Authorization'), 'Bearer fresh');
+  assert.equal(aMessages.filter((message) => message.type === 'TOKEN_REQUEST').length, 1);
+});
+
+test('stale and conflicting credential revisions cannot replace the newest client credential', async () => {
+  const worker = createWorker(() => partialResponse());
+  worker.addClient('A');
+  worker.setToken('A', 'newest', { revision: 5 });
+  worker.setToken('A', 'lower-revision', { revision: 4 });
+  worker.setToken('A', 'conflicting-same-revision', { revision: 5 });
+
+  assert.equal((await worker.request('A').response).status, 206);
+  assert.equal(worker.calls[0].headers.get('Authorization'), 'Bearer newest');
+  assert.equal(vm.runInContext('clientCredentials.get("A").revision', worker.context), 5);
+});
+
+test('old account-generation SET and CLEAR messages are ignored', async () => {
+  const worker = createWorker(() => partialResponse());
+  worker.addClient('A');
+  worker.setToken('A', 'current-account-token', {
+    account: 'current-account', revision: 2, accountGeneration: 4
+  });
+  worker.setToken('A', 'old-account-token', {
+    account: 'old-account', revision: 999, accountGeneration: 3
+  });
+  worker.clearToken('A', {
+    account: 'old-account', revision: 999, accountGeneration: 3
+  });
+
+  assert.equal((await worker.request('A', { accountGeneration: 4 }).response).status, 206);
+  assert.equal(worker.calls[0].headers.get('Authorization'), 'Bearer current-account-token');
+  assert.equal(vm.runInContext('clientCredentials.get("A").account', worker.context), 'current-account');
+  assert.equal(vm.runInContext('clientCredentials.get("A").revision', worker.context), 2);
+  assert.equal(vm.runInContext('clientCredentials.get("A").accountGeneration', worker.context), 4);
 });
 
 test('worker restart resolves only the requesting client and requires the correlated response', async () => {
   const worker = createWorker(() => partialResponse());
   const aMessages = worker.addClient('A', (message, port) => {
-    port.postMessage({ type: 'TOKEN_RESPONSE', requestId: 'wrong', token: 'wrong', expiresAt: expiresAt() });
-    worker.message('B', { type: 'TOKEN_RESPONSE', requestId: message.requestId, token: 'B-token', expiresAt: expiresAt() });
-    worker.message('A', { type: 'TOKEN_RESPONSE', requestId: message.requestId, token: 'A-token', expiresAt: expiresAt() });
+    port.postMessage(tokenResponse(message, 'wrong', { requestId: 'wrong' }));
+    worker.message('B', tokenResponse(message, 'B-token', { account: accountForClient('B') }));
+    worker.message('A', tokenResponse(message, 'A-token'));
   });
   const bMessages = worker.addClient('B');
   await worker.request('A').response;
   assert.equal(worker.calls[0].headers.get('Authorization'), 'Bearer A-token');
   assert.equal(aMessages[0].forceRefresh, false);
+  assert.equal(aMessages[0].accountGeneration, 1);
+  assert.equal(aMessages[0].expectedAccount, null);
+  assert.equal(aMessages[0].rejectedRevision, null);
   assert.equal(bMessages.length, 0);
 });
 
@@ -188,6 +270,25 @@ test('missing client identity fails closed without borrowing another client toke
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
   assert.equal(worker.calls.length, 0);
   assert.equal(messages.length, 0);
+});
+
+test('media fixtures always carry accountGeneration and invalid values fail closed', async () => {
+  const validWorker = createWorker(() => partialResponse());
+  validWorker.addClient('A');
+  validWorker.setToken('A', 'valid');
+  const validRequest = validWorker.request('A');
+  assert.equal(new URL(validRequest.request.url).searchParams.get('accountGeneration'), '1');
+  assert.equal((await validRequest.response).status, 206);
+
+  for (const accountGeneration of [null, 'not-an-integer', -1, 1.5]) {
+    const worker = createWorker(() => { throw new Error('must not fetch'); });
+    worker.addClient('A');
+    worker.setToken('A', 'valid');
+    const response = await worker.request('A', { accountGeneration }).response;
+    assert.equal(response.status, 400);
+    assert.equal(response.headers.get('Cache-Control'), 'no-store');
+    assert.equal(worker.calls.length, 0);
+  }
 });
 
 test('a Range request answered with 200 is reported as original sequential playback without synthetic range support', async () => {
@@ -393,14 +494,44 @@ test('error status, JSON MIME and reasons survive and notify only the requesting
 });
 
 test('failed refresh does not retry the rejected token', async () => {
-  for (const returnedToken of [null, 'old']) {
+  for (const response of [
+    { token: null, revision: 2 },
+    { token: 'old', revision: 1 }
+  ]) {
     const worker = createWorker(() => errorResponse(401));
-    const messages = worker.addClient('A', (message, port) => tokenReply(message, port, returnedToken));
+    const messages = worker.addClient('A', (message, port) => {
+      tokenReply(message, port, response.token, { revision: response.revision });
+    });
     worker.setToken('A', 'old');
     assert.equal((await worker.request('A').response).status, 401);
     assert.equal(worker.calls.length, 1);
     assert.equal(messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR').length, 1);
   }
+});
+
+test('a rejected token is replayed once when the same token arrives at a higher revision', async () => {
+  const worker = createWorker((url, options, attempt) => attempt === 1
+    ? errorResponse(401)
+    : partialResponse('revision-fenced bytes'));
+  const messages = worker.addClient('A', (message, port) => {
+    tokenReply(message, port, 'stable-token', { revision: 8 });
+  });
+  worker.setToken('A', 'stable-token', { revision: 7 });
+
+  const response = await worker.request('A').response;
+
+  assert.equal(response.status, 206);
+  assert.equal(await response.text(), 'revision-fenced bytes');
+  assert.equal(worker.calls.length, 2);
+  assert.deepEqual(
+    worker.calls.map((call) => call.headers.get('Authorization')),
+    ['Bearer stable-token', 'Bearer stable-token']
+  );
+  const refresh = messages.find((message) => message.type === 'TOKEN_REQUEST');
+  assert.equal(refresh.forceRefresh, true);
+  assert.equal(refresh.expectedAccount, accountForClient('A'));
+  assert.equal(refresh.rejectedRevision, 7);
+  assert.equal(vm.runInContext('clientCredentials.get("A").revision', worker.context), 8);
 });
 
 test('403 rate limits are classified separately and preserve Retry-After timing', async () => {
@@ -458,11 +589,26 @@ test('abort while waiting for a token closes the request without an auth notific
 test('CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials', async () => {
   const worker = createWorker(() => { throw new Error('must not fetch'); });
   worker.addClient('A', (message, port) => {
-    worker.message('A', { type: 'CLEAR_TOKEN' });
+    worker.clearToken('A');
     tokenReply(message, port, 'late');
   });
   assert.equal((await worker.request('A').response).status, 401);
-  assert.equal(vm.runInContext('clientTokens.has("A")', worker.context), false);
+  assert.equal(vm.runInContext('clientCredentials.has("A")', worker.context), false);
+});
+
+test('a late CLEAR_TOKEN cannot erase a newer credential revision', async () => {
+  const worker = createWorker(() => partialResponse('new credential bytes'));
+  worker.addClient('A');
+  worker.setToken('A', 'older', { revision: 10 });
+  worker.setToken('A', 'newer', { revision: 11 });
+  worker.clearToken('A', { revision: 10 });
+
+  const response = await worker.request('A').response;
+
+  assert.equal(response.status, 206);
+  assert.equal(await response.text(), 'new credential bytes');
+  assert.equal(worker.calls[0].headers.get('Authorization'), 'Bearer newer');
+  assert.equal(vm.runInContext('clientCredentials.get("A").revision', worker.context), 11);
 });
 
 test('HEAD remains bodyless and network failures are not exposed or cached', async () => {
@@ -540,8 +686,10 @@ test('opt-in media trace distinguishes a missing credential from a rejected upst
   await new Promise((resolve) => setImmediate(resolve));
   const rejectedTrace = rejectedMessages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
   assert.deepEqual(rejectedTrace.map((message) => message.stage), [
-    'credential-requested', 'credential-ready', 'request-start', 'headers', 'http-error'
+    'credential-requested', 'credential-ready',
+    'request-start', 'headers', 'request-start', 'headers', 'http-error'
   ]);
+  assert.equal(rejectedWorker.calls.length, 2);
   assert.equal(rejectedTrace.at(-1).status, 401);
   assert.equal(rejectedTrace.at(-1).reason, 'denied');
 });

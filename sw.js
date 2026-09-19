@@ -1,6 +1,8 @@
 const VERSION = '1.21.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
+const AUTH_PROTOCOL = 'drive-original-auth-v1';
+const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
 const SHELL_FILES = [
   './',
   './index.html',
@@ -17,7 +19,7 @@ const SHELL_FILES = [
 
 // A worker controls several tabs/PWA windows. Credentials belong to the
 // requesting client, never to whichever window sent a message most recently.
-const clientTokens = new Map();
+const clientCredentials = new Map();
 const tokenRequests = new Map();
 let requestSequence = 0;
 let mediaTraceSequence = 0;
@@ -45,13 +47,25 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('message', (event) => {
   const data = event.data || {};
   const clientId = event.source?.id;
-  if (data.type === 'SET_TOKEN' && clientId && isUsableToken(data)) {
-    clientTokens.set(clientId, { token: data.token, expiresAt: Number(data.expiresAt) });
+  if (data.type === 'SET_TOKEN' && clientId) {
+    const credential = normalizeCredential(data);
+    const current = clientCredentials.get(clientId);
+    if (credential && shouldAcceptCredential(current, credential)) {
+      clientCredentials.set(clientId, credential);
+    }
   }
   if (data.type === 'CLEAR_TOKEN' && clientId) {
-    clientTokens.delete(clientId);
-    for (const pending of tokenRequests.values()) {
-      if (pending.clientId === clientId) pending.finish(null);
+    const current = clientCredentials.get(clientId);
+    const accepted = current ? clearMatchesCredential(data, current) : isValidClearMessage(data);
+    if (current && accepted) clientCredentials.delete(clientId);
+    if (accepted) {
+      for (const pending of tokenRequests.values()) {
+        if (pending.clientId === clientId
+          && pending.accountGeneration === data.accountGeneration
+          && (!pending.expectedAccount || pending.expectedAccount === data.account)) {
+          pending.finish(null);
+        }
+      }
     }
   }
   if (data.type === 'TOKEN_RESPONSE' && clientId) {
@@ -138,14 +152,22 @@ async function proxyDriveMedia(request, url, clientId) {
   if (!fileId || !/^[A-Za-z0-9_-]+$/.test(fileId)) {
     return mediaErrorResponse('Invalid Drive file ID', 400);
   }
+  if (!url.searchParams.has('accountGeneration')
+    || !/^\d+$/.test(url.searchParams.get('accountGeneration') || '')) {
+    return mediaErrorResponse('Invalid account generation', 400);
+  }
   const context = {
     requestId: `media-${++requestSequence}`,
     clientId: clientId || '',
     fileId,
     sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
+    accountGeneration: Number(url.searchParams.get('accountGeneration')),
     requestedRange: request.headers.get('range'),
     traceId: normalizeMediaTraceId(url.searchParams.get('_trace'))
   };
+  if (!Number.isSafeInteger(context.accountGeneration) || context.accountGeneration < 0) {
+    return mediaErrorResponse('Invalid account generation', 400);
+  }
   // `mediaSession` is retained until all controlled clients have moved to the
   // clearer `sessionId` field.
   context.mediaSession = context.sessionId;
@@ -170,9 +192,9 @@ async function proxyDriveMedia(request, url, clientId) {
   try {
     request.signal.throwIfAborted();
     notifyMediaTrace(context, 'credential-requested');
-    let token = await getUsableToken(context, { signal: request.signal });
+    let credential = await getUsableCredential(context, { signal: request.signal });
     request.signal.throwIfAborted();
-    if (!token) {
+    if (!credential) {
       notifyMediaTrace(context, 'credential-missing', {
         reason: 'no-usable-credential', terminal: true
       });
@@ -183,7 +205,7 @@ async function proxyDriveMedia(request, url, clientId) {
     let upstreamAttempt = 0;
     const fetchMedia = async () => {
       request.signal.throwIfAborted();
-      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${credential.token}`);
       upstreamAttempt += 1;
       notifyMediaTrace(context, 'request-start', { attempt: upstreamAttempt });
       const response = await fetch(driveUrl.toString(), {
@@ -203,16 +225,29 @@ async function proxyDriveMedia(request, url, clientId) {
     };
     let upstream = await fetchMedia();
     if (upstream.status === 401) {
-      const rejectedToken = token;
-      const cached = clientTokens.get(clientId);
-      // Another request may already have refreshed this client's token.
-      if (isUsableToken(cached) && cached.token !== rejectedToken) {
-        token = cached.token;
+      const rejectedCredential = credential;
+      const cached = clientCredentials.get(clientId);
+      // The server revision, not the token string, fences concurrent refreshes.
+      // Google may return the same access-token string with a newer revision.
+      if (credentialMatchesContext(cached, context)
+        && isUsableCredential(cached)
+        && cached.account === rejectedCredential.account
+        && cached.revision > rejectedCredential.revision) {
+        credential = cached;
       } else {
-        clientTokens.delete(clientId);
-        token = await getUsableToken(context, { forceRefresh: true, signal: request.signal });
+        if (sameCredential(clientCredentials.get(clientId), rejectedCredential)) {
+          clientCredentials.delete(clientId);
+        }
+        credential = await getUsableCredential(context, {
+          forceRefresh: true,
+          rejectedRevision: rejectedCredential.revision,
+          expectedAccount: rejectedCredential.account,
+          signal: request.signal
+        });
       }
-      if (token && token !== rejectedToken) {
+      if (credential
+        && credential.account === rejectedCredential.account
+        && credential.revision > rejectedCredential.revision) {
         await upstream.body?.cancel();
         upstream = await fetchMedia();
       }
@@ -220,8 +255,8 @@ async function proxyDriveMedia(request, url, clientId) {
 
     request.signal.throwIfAborted();
     if (!upstream.ok) {
-      if (upstream.status === 401 && clientTokens.get(clientId)?.token === token) {
-        clientTokens.delete(clientId);
+      if (upstream.status === 401 && sameCredential(clientCredentials.get(clientId), credential)) {
+        clientCredentials.delete(clientId);
       }
       let reasons = [];
       try {
@@ -239,6 +274,7 @@ async function proxyDriveMedia(request, url, clientId) {
         category: upstream.status === 416 ? 'range-unsatisfiable' : undefined,
         contentRange,
         rangeSatisfied: false,
+        rejectedRevision: upstream.status === 401 ? credential?.revision : undefined,
         driveReason: reasons[0] || (upstream.status === 416 ? 'rangeNotSatisfiable' : null)
       });
       const errorHeaders = new Headers(upstream.headers);
@@ -368,7 +404,6 @@ function instrumentMediaResponseBody(body, context, details = {}) {
     try { reader.releaseLock?.(); } catch (_) {}
     return true;
   };
-
   return new ReadableStream({
     async pull(controller) {
       try {
@@ -448,18 +483,80 @@ function extractFileId(pathname) {
   return slash === -1 ? trailing : trailing.slice(0, slash);
 }
 
-function isUsableToken(data) {
-  return typeof data?.token === 'string' && Boolean(data.token)
-    && Number.isFinite(Number(data.expiresAt)) && Date.now() < Number(data.expiresAt) - 30_000;
+function normalizeCredential(data) {
+  const account = typeof data?.account === 'string' ? data.account : '';
+  const revision = data?.revision;
+  const accountGeneration = data?.accountGeneration;
+  const expiresAt = data?.expiresAt;
+  if (data?.credentialProtocol !== AUTH_PROTOCOL) return null;
+  if (typeof data?.token !== 'string' || !data.token || data.token.length > 16_384) return null;
+  if (!Number.isFinite(expiresAt)) return null;
+  if (!account || account.length > 256 || /[\s\x00-\x1f\x7f]/.test(account)) return null;
+  if (!Number.isSafeInteger(revision) || revision < 1) return null;
+  if (!Number.isSafeInteger(accountGeneration) || accountGeneration < 0) return null;
+  return { token: data.token, expiresAt, account, revision, accountGeneration };
 }
 
-async function getUsableToken(context, { forceRefresh = false, signal } = {}) {
-  const cached = clientTokens.get(context.clientId);
-  if (!forceRefresh && isUsableToken(cached)) return cached.token;
-  return requestTokenFromClient(context, { forceRefresh, signal });
+function isUsableCredential(data) {
+  return Boolean(data?.token) && Date.now() < Number(data.expiresAt) - 30_000;
 }
 
-async function requestTokenFromClient(context, { forceRefresh, signal }) {
+function credentialMatchesContext(credential, context) {
+  return Boolean(credential)
+    && credential.accountGeneration === context.accountGeneration
+    && (!context.expectedAccount || credential.account === context.expectedAccount);
+}
+
+function sameCredential(left, right) {
+  return Boolean(left && right)
+    && left.accountGeneration === right.accountGeneration
+    && left.account === right.account
+    && left.revision === right.revision
+    && left.token === right.token;
+}
+
+function shouldAcceptCredential(current, next) {
+  if (!current) return true;
+  if (next.accountGeneration !== current.accountGeneration) {
+    return next.accountGeneration > current.accountGeneration;
+  }
+  if (next.account !== current.account) return false;
+  if (next.revision !== current.revision) return next.revision > current.revision;
+  return next.token === current.token && next.expiresAt >= current.expiresAt;
+}
+
+function isValidClearMessage(data) {
+  const generation = data?.accountGeneration;
+  const revision = data?.revision;
+  return data?.credentialProtocol === AUTH_PROTOCOL
+    && Number.isSafeInteger(generation)
+    && generation >= 0
+    && typeof data.account === 'string'
+    && Boolean(data.account)
+    && Number.isSafeInteger(revision)
+    && revision >= 1;
+}
+
+function clearMatchesCredential(data, current) {
+  return isValidClearMessage(data)
+    && data.accountGeneration === current.accountGeneration
+    && data.account === current.account
+    && data.revision >= current.revision;
+}
+
+async function getUsableCredential(context, {
+  forceRefresh = false,
+  rejectedRevision = null,
+  expectedAccount = null,
+  signal
+} = {}) {
+  const cached = clientCredentials.get(context.clientId);
+  const scopedContext = { ...context, expectedAccount: expectedAccount || context.expectedAccount || null };
+  if (!forceRefresh && credentialMatchesContext(cached, scopedContext) && isUsableCredential(cached)) return cached;
+  return requestTokenFromClient(scopedContext, { forceRefresh, rejectedRevision, signal });
+}
+
+async function requestTokenFromClient(context, { forceRefresh, rejectedRevision = null, signal }) {
   signal?.throwIfAborted();
   const client = context.clientId ? await self.clients.get(context.clientId) : null;
   signal?.throwIfAborted();
@@ -476,25 +573,41 @@ async function requestTokenFromClient(context, { forceRefresh, signal }) {
       tokenRequests.delete(requestId);
       channel.port1.close();
       channel.port2.close();
-      if (isUsableToken(data)) {
-        clientTokens.set(context.clientId, { token: data.token, expiresAt: Number(data.expiresAt) });
-        resolve(data.token);
-      } else {
-        resolve(null);
+      const received = normalizeCredential(data);
+      if (received && credentialMatchesContext(received, context)
+        && (!Number.isSafeInteger(rejectedRevision) || received.revision > rejectedRevision)) {
+        const current = clientCredentials.get(context.clientId);
+        if (shouldAcceptCredential(current, received)) clientCredentials.set(context.clientId, received);
       }
+      const accepted = clientCredentials.get(context.clientId);
+      resolve(credentialMatchesContext(accepted, context)
+        && isUsableCredential(accepted)
+        && (!Number.isSafeInteger(rejectedRevision) || accepted.revision > rejectedRevision)
+        ? accepted
+        : null);
     };
     const respond = (data) => {
       if (data?.type === 'TOKEN_RESPONSE' && data.requestId === requestId) finish(data);
     };
     const onAbort = () => finish(null);
-    const timeout = setTimeout(() => finish(null), forceRefresh ? 12_000 : 1500);
-    tokenRequests.set(requestId, { clientId: context.clientId, finish, respond });
+    const timeout = setTimeout(() => finish(null), CREDENTIAL_REQUEST_TIMEOUT_MS);
+    tokenRequests.set(requestId, {
+      clientId: context.clientId,
+      accountGeneration: context.accountGeneration,
+      expectedAccount: context.expectedAccount || null,
+      finish,
+      respond
+    });
     channel.port1.onmessage = (event) => respond(event.data);
     signal?.addEventListener('abort', onAbort, { once: true });
     try {
       client.postMessage({
         type: 'TOKEN_REQUEST', requestId, forceRefresh,
-        clientId: context.clientId, fileId: context.fileId
+        clientId: context.clientId,
+        fileId: context.fileId,
+        accountGeneration: context.accountGeneration,
+        expectedAccount: context.expectedAccount || null,
+        rejectedRevision: Number.isSafeInteger(rejectedRevision) ? rejectedRevision : null
       }, [channel.port2]);
     } catch (_) {
       finish(null);
@@ -673,6 +786,7 @@ async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0,
       contentRange: details.contentRange || null,
       contentRangeInferred: Boolean(details.contentRangeInferred),
       rangeSatisfied: Boolean(details.rangeSatisfied),
+      rejectedRevision: Number.isSafeInteger(details.rejectedRevision) ? details.rejectedRevision : null,
       retryAfterMs,
       sessionId: context.sessionId
     });

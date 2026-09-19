@@ -155,18 +155,18 @@ test('Drive 403 rate-limit errors back off rather than blocking future refresh',
   assert.ok(c.timers.get(c.run('state.accountStateRefreshTimer')).delay >= 59900);
 });
 
-test('verified token renewal restarts polling for an already-loaded account', async () => {
+test('verified same-account session credential renewal restarts polling for an already-loaded account', async () => {
   const c = client();
-  c.run(`state.accountStateLoaded=true;state.files=[{id:'existing'}];
-    refreshedTokenMatchesAccount=async()=>true;clearClientIdError=()=>{};
-    sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};
-    saveToken=(token,expires)=>{state.token=token;state.expiresAt=expires};clearToken(false);`);
-  assert.equal(await c.run(`applyTokenResponse({access_token:'renewed',expires_in:3600},
-    {background:true,invalidateSession:false,generation:state.authGeneration})`), true);
-  const [id, callback] = [...c.timers.entries()][0]; c.timers.delete(id);
+  c.run(`state.authAccountKey='same-account';state.token='expired';state.tokenRevision=2;
+    state.accountStateLoaded=true;state.accountIdentityPending=false;state.files=[{id:'existing'}];
+    scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};
+    let refreshes=0;scheduleAccountStateRefresh=()=>{refreshes++};`);
+  assert.equal(c.run(`installSessionCredential({accessToken:'renewed',expiresAt:Date.now()+3600000,account:'same-account',revision:3},
+    {generation:state.authGeneration})`), true);
+  const callback = [...c.timers.values()].find(timer => timer.delay === 0);
+  assert.ok(callback);
   await callback.fn();
-  assert.notEqual(c.run('state.accountStateRefreshTimer'), null);
-  assert.equal(c.timers.size, 1);
+  assert.equal(c.run('refreshes'), 1);
 });
 
 test('remote favorite membership invalidates back snapshots and refreshes the visible projection without reset', async () => {

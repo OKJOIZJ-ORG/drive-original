@@ -24,7 +24,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css?v=1.21.0">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="./app.js?v=1.21.0" defer></script>
 </head>
 <body>
@@ -116,8 +115,8 @@
                 </svg>
               </div>
               <div class="feature-content">
-                <strong>0-Server 기기 내 안전한 인증</strong>
-                <span>토큰은 이 브라우저에 보관되며 앱 자체 서버를 거치지 않음</span>
+                <strong>원본 직접 전송 · 인증 분리</strong>
+                <span>인증 갱신은 최소 서버리스 세션이 맡고 원본 파일은 앱 서버를 거치지 않음</span>
               </div>
             </div>
           </div>
@@ -127,18 +126,18 @@
         <div class="setup-console-card">
           <div class="console-card-header">
             <h2>Google Drive 연결</h2>
-            <p>앱에 포함된 기본 OAuth 연결 설정으로 바로 시작합니다.</p>
+            <p>같은 출처의 보안 세션을 통해 Google 계정을 연결합니다.</p>
           </div>
 
           <button class="primary-button full" id="connectButton" type="button">
             <span>Google Drive 연결하기</span>
           </button>
-          <p class="field-hint" id="clientIdHint">Google 로그인 창에서 계정과 Drive 권한을 확인합니다.</p>
+          <p class="field-hint" id="authHint">Google 로그인에서 계정과 Drive 권한을 확인합니다.</p>
 
           <div class="console-footer">
             <button class="text-button" id="openSetupHelp" type="button">
               <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>자체 배포 · 고급 OAuth 설정</span>
+              <span>인증 및 자체 배포 안내</span>
             </button>
           </div>
         </div>
@@ -541,26 +540,21 @@
         </section>
 
         <section class="settings-group">
-          <h3>자체 배포 · 고급 OAuth 설정</h3>
-          <p class="dialog-text">공식 배포에서는 기본 OAuth 클라이언트 ID를 사용합니다. 다른 도메인이나 Google Cloud 프로젝트로 자체 배포할 때만 아래 값을 입력하세요. 비워 두거나 기본 ID를 입력하면 기본 설정으로 복원됩니다.</p>
-          <div class="field-block">
-            <label class="field-label" for="settingsClientId">OAuth 클라이언트 ID 재정의 (선택)</label>
-            <p class="field-hint" id="settingsClientIdHint">비워 두면 앱에 포함된 기본 OAuth 연결 설정을 사용합니다.</p>
-            <input class="plain-input" id="settingsClientId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="비워 두면 앱 기본값 사용" aria-describedby="settingsClientIdHint">
-          </div>
+          <h3>계정 및 인증</h3>
+          <p class="dialog-text">로그아웃은 이 브라우저 세션만 끝냅니다. 연결 해제는 모든 로그인 세션과 서버에 보관된 갱신 인증 정보를 삭제합니다. 어느 경우에도 Drive 원본 파일은 수정하거나 삭제하지 않습니다.</p>
           <div class="button-row">
-            <button class="secondary-button" id="saveSettingsButton" type="button">설정 저장</button>
-            <button class="danger-button" id="disconnectButton" type="button">연결 해제</button>
+            <button class="secondary-button" id="logoutButton" type="button">이 브라우저에서 로그아웃</button>
+            <button class="danger-button" id="disconnectButton" type="button">모든 세션 연결 해제</button>
           </div>
         </section>
 
         <section class="settings-group" id="setupHelpSection">
-          <h3>자체 배포 설정 안내</h3>
+          <h3>자체 배포 인증 안내</h3>
           <ol class="steps-list">
             <li><span>1</span><p><strong>Google Cloud Console</strong>에서 프로젝트 생성 후 <b>Google Drive API</b>를 사용 설정합니다.</p></li>
             <li><span>2</span><p><strong>OAuth 동의 화면</strong>에 본인 Google 계정을 테스트 사용자로 등록합니다.</p></li>
-            <li><span>3</span><p><strong>웹 애플리케이션</strong> OAuth 클라이언트를 만들고 아래 원본 주소를 승인된 JavaScript 원본에 등록합니다.</p></li>
-            <li><span>4</span><p>발급된 <strong>클라이언트 ID</strong>를 위 선택 입력란에 저장한 뒤 연결합니다.</p></li>
+            <li><span>3</span><p><strong>웹 애플리케이션</strong> OAuth 클라이언트에 정확한 HTTPS 원본과 서버 콜백 주소를 등록합니다.</p></li>
+            <li><span>4</span><p>클라이언트 ID·비밀정보·암호화 키는 브라우저가 아니라 배포 환경의 서버 비밀정보로 설정합니다.</p></li>
           </ol>
           <div class="origin-box">
             <div>
