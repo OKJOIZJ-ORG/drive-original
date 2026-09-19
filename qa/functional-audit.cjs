@@ -1256,6 +1256,262 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
         } finally { await context.close(); }
       }
     });
+    await check('same faststart MP4 settles 10/50/90 percent seeks and fences superseded work',async()=>{
+      const {page,context,calls,errors}=await environment({
+        disableOpfs:true,
+        mediaBytes:faststartVideo.bytes,
+        mediaMimeType:'video/mp4',
+        mediaName:'faststart seek H.264 AAC.mp4',
+        mediaMetadata:{width:320,height:180,durationMillis:'10000'}
+      });
+      let configured=false;
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:faststartVideo.bytes,
+          mode:'faststart-chunked',
+          mimeType:'video/mp4',
+          initialChunkBytes:24*1024,
+          warmupChunkBytes:faststartSeed.length,
+          prefixBytes:96*1024
+        });
+        assert.equal(setup.supported,true,'QA-TR-03 requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>{
+          el.videoPlayer.muted=true;
+          openPlayer(state.files.find(file=>file.id==='video-A'));
+          void el.videoPlayer.play().catch(()=>{});
+        });
+        await page.waitForFunction(()=>el.videoPlayer.readyState>=2
+          &&state.mediaTransportVerified&&state.mediaDecodeVerified
+          &&el.videoPlayer.currentTime>.2,null,{timeout:10000});
+        const baseline=await page.evaluate(()=>({
+          duration:el.videoPlayer.duration,
+          decodedVideoFrames:Number(el.videoPlayer.webkitDecodedFrameCount)||0,
+          decodedAudioBytes:Number(el.videoPlayer.webkitAudioDecodedByteCount)||0,
+          src:el.videoPlayer.currentSrc||el.videoPlayer.src,
+          mediaSession:state.mediaSession,sourceGeneration:mediaSourceGeneration
+        }));
+        assert(Math.abs(baseline.duration-10)<.05,`unexpected seek fixture duration ${baseline.duration}`);
+        assert(baseline.decodedVideoFrames>0,'Chrome must decode video before seek evidence begins');
+        assert(baseline.decodedAudioBytes>0,'Chrome must decode AAC before seek evidence begins');
+        const preSeekFixture=(await page.evaluate(()=>(
+          globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')
+        ))).state;
+        const completedSeedStreams=preSeekFixture.streams
+          .filter(stream=>stream.bodyComplete&&stream.terminal==='complete'
+            &&stream.start<faststartVideo.trailingFreeStart)
+          .sort((left,right)=>left.start-right.start);
+        assert.equal(completedSeedStreams.length,2,
+          'the immutable MP4 seed must be complete in exactly two bounded responses before seeking');
+        let contiguousSeedEnd=-1;
+        for(const stream of completedSeedStreams){
+          assert.equal(stream.start,contiguousSeedEnd+1,'completed pre-seek seed bytes must be contiguous');
+          contiguousSeedEnd=stream.end;
+        }
+        assert.equal(contiguousSeedEnd,faststartVideo.trailingFreeStart-1,
+          'every immutable MP4 seed byte must arrive before seeking');
+        const preSeekHeld=preSeekFixture.streams.filter(stream=>stream.waitingForRelease&&!stream.terminal);
+        assert.equal(preSeekHeld.length,1,'exactly one trailing response may remain held before seeking');
+        assert.equal(preSeekHeld[0].start,faststartVideo.trailingFreeStart);
+        assert.equal(preSeekHeld[0].bodyComplete,false);
+        assert.equal(preSeekFixture.streams.length,completedSeedStreams.length+preSeekHeld.length,
+          'no additional media stream may be hidden before seeking');
+
+        const runSeek=async(percent,{rapidFromPercent=null}={})=>{
+          const issued=await page.evaluate(({percent,rapidFromPercent})=>{
+            const video=el.videoPlayer;
+            const target=video.duration*percent;
+            let staleGeneration=null;
+            let staleTarget=null;
+            if(Number.isFinite(rapidFromPercent)){
+              staleTarget=video.duration*rapidFromPercent;
+              if(!setPlayerCurrentTime(video,staleTarget,'qa-tr-03-superseded')){
+                throw new Error('Superseded seek was not assigned');
+              }
+              staleGeneration=mediaSeekGeneration;
+            }
+            if(!setPlayerCurrentTime(video,target,'qa-tr-03')){
+              throw new Error('Target seek was not assigned');
+            }
+            return {percent,target,generation:mediaSeekGeneration,staleGeneration,staleTarget};
+          },{percent,rapidFromPercent});
+          assert(Number.isSafeInteger(issued.generation)&&issued.generation>0);
+          if(issued.staleGeneration!=null)assert(issued.generation>issued.staleGeneration);
+          await page.waitForFunction(({generation,target})=>{
+            const completion=(globalThis.__driveOriginalQaMediaStages||[])
+              .find(event=>event.stage==='seek-frame'&&event.seekGeneration===generation
+                &&event.confidence==='decoded-frame');
+            return Boolean(completion)
+              &&Math.abs(Number(completion.presentedMediaTime)-target)<=Number(completion.tolerance)
+              &&mediaSeekWatchdog===null&&!state.isSeeking&&el.videoPlayer.seeking===false;
+          },issued,{timeout:5000});
+          const proof=await page.evaluate(({generation,staleGeneration,target})=>{
+            const stages=(globalThis.__driveOriginalQaMediaStages||[]).filter(event=>
+              event.seekGeneration===generation||event.seekGeneration===staleGeneration
+            ).map(event=>({
+              stage:event.stage,sequence:event.sequence,traceId:event.traceId,
+              seekGeneration:event.seekGeneration,currentTime:event.currentTime,
+              targetTime:event.targetTime,presentedMediaTime:event.presentedMediaTime,
+              tolerance:event.tolerance,confidence:event.confidence,terminal:event.terminal
+            }));
+            return {
+              stages,target,currentTime:el.videoPlayer.currentTime,
+              readyState:el.videoPlayer.readyState,error:el.videoPlayer.error?.code||0,
+              settledGeneration:mediaSeekSettledGeneration,
+              activeSeek:mediaSeekWatchdog!==null,isSeeking:state.isSeeking
+            };
+          },issued);
+          const seeking=proof.stages.filter(event=>event.stage==='seeking'
+            &&event.seekGeneration===issued.generation);
+          const seeked=proof.stages.filter(event=>event.stage==='seeked'
+            &&event.seekGeneration===issued.generation);
+          const completed=proof.stages.filter(event=>event.stage==='seek-frame'
+            &&event.seekGeneration===issued.generation);
+          assert.equal(seeking.length,1);
+          assert.equal(seeked.length,1);
+          assert.equal(completed.length,1);
+          assert(seeking[0].sequence<seeked[0].sequence&&seeked[0].sequence<completed[0].sequence);
+          assert.equal(completed[0].confidence,'decoded-frame');
+          assert(Math.abs(completed[0].targetTime-issued.target)<=.001);
+          assert(Math.abs(completed[0].presentedMediaTime-issued.target)<=completed[0].tolerance);
+          assert(Math.abs(proof.currentTime-issued.target)<=.5);
+          assert(proof.readyState>=2);
+          assert.equal(proof.error,0);
+          assert(proof.settledGeneration>=issued.generation);
+          assert.equal(proof.activeSeek,false);
+          assert.equal(proof.isSeeking,false);
+          assert.equal(proof.stages.some(event=>event.stage==='seek-no-progress'),false);
+          if(issued.staleGeneration!=null){
+            const staleTerminal=proof.stages.filter(event=>event.seekGeneration===issued.staleGeneration
+              &&['seeked','seek-frame','seek-no-progress'].includes(event.stage));
+            assert.deepEqual(staleTerminal,[],'superseded seek work must not emit a terminal stage');
+          }
+          return {issued,completion:completed[0],currentTime:proof.currentTime};
+        };
+
+        const seeks=[];
+        seeks.push(await runSeek(.1));
+        seeks.push(await runSeek(.5));
+        seeks.push(await runSeek(.9,{rapidFromPercent:.25}));
+        await page.waitForTimeout(250);
+
+        const proof=await page.evaluate(async()=>{
+          const fixture=(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state;
+          const video=el.videoPlayer;
+          let audioTracks=null;
+          if(typeof video.captureStream==='function'){
+            const stream=video.captureStream();
+            audioTracks=stream.getAudioTracks().length;
+            stream.getTracks().forEach(track=>track.stop());
+          }
+          return {
+            fixture,audioTracks,
+            stages:(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+              stage:event.stage,sequence:event.sequence,traceId:event.traceId,
+              route:event.route,requestId:event.requestId,requestedRange:event.requestedRange,
+              playbackMode:event.playbackMode,seekGeneration:event.seekGeneration,
+              currentTime:event.currentTime,targetTime:event.targetTime,
+              presentedMediaTime:event.presentedMediaTime,tolerance:event.tolerance,
+              confidence:event.confidence,terminal:event.terminal
+            })),
+            decodedVideoFrames:Number(video.webkitDecodedFrameCount)||0,
+            decodedAudioBytes:Number(video.webkitAudioDecodedByteCount)||0,
+            src:video.currentSrc||video.src,
+            mediaSession:state.mediaSession,sourceGeneration:mediaSourceGeneration,
+            seekGeneration:mediaSeekGeneration,settledGeneration:mediaSeekSettledGeneration,
+            activeSeek:mediaSeekWatchdog!==null,isSeeking:state.isSeeking,videoSeeking:video.seeking,
+            mode:state.mediaPlaybackMode,attempt:state.mediaAttempt,
+            retryCount:state.mediaRetryCount,fullRequestCount:state.mediaFullRequestCount,
+            bufferStorageMode:state.mediaBufferStorageMode,
+            hasTempStorage:Boolean(state.mediaTempStorage),previewHidden:el.drivePreview.hidden,
+            seekNoProgress:(globalThis.__driveOriginalQaMediaStages||[])
+              .filter(event=>event.stage==='seek-no-progress').length
+          };
+        });
+        assert.equal(proof.src,baseline.src,'all targets must stay on the same exact-original source');
+        assert.equal(proof.mediaSession,baseline.mediaSession,'all targets must stay in one media session');
+        assert.equal(proof.sourceGeneration,baseline.sourceGeneration,
+          'all targets must stay in one source generation');
+        assert(proof.decodedVideoFrames>baseline.decodedVideoFrames);
+        assert(proof.decodedAudioBytes>baseline.decodedAudioBytes);
+        assert.equal(proof.audioTracks,1,'the decoded MP4 must expose one AAC audio track');
+        assert.equal(proof.mode,'original-range');
+        assert.equal(proof.attempt,'range');
+        assert.equal(proof.retryCount,0);
+        assert.equal(proof.fullRequestCount,0);
+        assert.equal(proof.bufferStorageMode,'');
+        assert.equal(proof.hasTempStorage,false);
+        assert.equal(proof.previewHidden,true);
+        assert.equal(proof.seekNoProgress,0);
+        assert.equal(proof.activeSeek,false);
+        assert.equal(proof.isSeeking,false);
+        assert.equal(proof.videoSeeking,false);
+        assert.equal(proof.seekGeneration,seeks.at(-1).issued.generation);
+        assert(proof.settledGeneration>=proof.seekGeneration);
+        const traceIds=[...new Set(proof.stages.map(event=>event.traceId).filter(Boolean))];
+        assert.equal(traceIds.length,1,'all seek evidence must stay in one diagnostic trace');
+        for(const seek of seeks){
+          const generation=seek.issued.generation;
+          const live=proof.stages.filter(event=>event.seekGeneration===generation);
+          for(const stage of ['seeking','seek-watchdog-armed','seeked','seek-frame']){
+            assert.equal(live.filter(event=>event.stage===stage).length,1,
+              `seek generation ${generation} must emit exactly one ${stage}`);
+          }
+          assert.equal(live.some(event=>['seek-no-progress','seek-presentation-fallback'].includes(event.stage)),false);
+        }
+        const staleGeneration=seeks.at(-1).issued.staleGeneration;
+        const stale=proof.stages.filter(event=>event.seekGeneration===staleGeneration);
+        assert.equal(stale.filter(event=>event.stage==='seeking').length,1);
+        assert.equal(stale.filter(event=>event.stage==='seek-watchdog-armed').length,1);
+        assert.equal(stale.some(event=>['seeked','seek-frame','seek-no-progress','seek-presentation-fallback']
+          .includes(event.stage)),false,'late superseded seek evidence must remain fenced after the grace period');
+        assert(proof.fixture.streams.every(stream=>Boolean(stream.range)),
+          'every fixture media request must be a Range request');
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,
+          'Playwright fulfillment must not bypass the production worker seek fixture');
+        const held=proof.fixture.streams.find(stream=>stream.waitingForRelease&&!stream.terminal);
+        assert(held&&held.start===faststartVideo.trailingFreeStart&&!held.bodyComplete);
+        const heldFirstBytes=proof.stages.filter(event=>event.stage==='first-byte'
+          &&event.route==='range'&&event.traceId===traceIds[0]
+          &&event.requestedRange===held.range);
+        assert.equal(heldFirstBytes.length,1,'held continuation must cross the production worker exactly once');
+        assert.equal(heldFirstBytes[0].playbackMode,'original-range');
+        assert.equal(proof.stages.some(event=>event.stage==='body-complete'
+          &&event.requestId===heldFirstBytes[0].requestId),false);
+        assert.equal(proof.stages.some(event=>event.route==='full-original'),false);
+
+        await page.evaluate(()=>closePlayer());
+        await page.waitForFunction(async()=>{
+          const reply=await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE');
+          return reply.state.streams.every(stream=>Boolean(stream.terminal));
+        },null,{timeout:2000});
+        const closed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE'));
+        const closedHeld=closed.state.streams.find(stream=>stream.streamId===held.streamId);
+        assert(closedHeld&&!closedHeld.bodyComplete&&['cancelled','aborted'].includes(closedHeld.terminal));
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        configured=false;
+        assert.deepEqual(errors,[]);
+        record('same faststart MP4 settles 10/50/90 percent seeks and fences superseded work',{
+          targets:seeks.map(item=>({percent:item.issued.percent,target:item.issued.target,
+            presented:item.completion.presentedMediaTime,generation:item.issued.generation,
+            staleGeneration:item.issued.staleGeneration})),
+          decodedVideoFrames:proof.decodedVideoFrames,
+          decodedAudioBytes:proof.decodedAudioBytes,
+          audioTracks:proof.audioTracks
+        });
+      } finally {
+        try {
+          if(configured){
+            await page.evaluate(()=>{if(!el.playerSheet.hidden)closePlayer();});
+            const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+            assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+            assert.equal(disposed.state.configured,false);
+          }
+        } finally { await context.close(); }
+      }
+    });
     await check('2/4 GiB sparse Range crosses the production service worker without allocation',async()=>{
       const {page,context,calls,errors}=await environment();
       let configured=false;

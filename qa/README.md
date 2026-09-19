@@ -72,6 +72,23 @@ tail, so this does not claim decode from a partial `mdat`. It is also not proof
 of real Drive or CORS behavior, native large-transfer throughput, or a physical
 iPhone/PWA.
 
+QA-TR-03 reuses that pinned seed in a fresh Chrome context to exercise the
+product's seek lifecycle at 10, 50, and 90 percent (1, 5, and 9 seconds). Each
+accepted target must produce exactly one `seeking`, `seeked`, and decoded-frame
+`seek-frame` in the same media session, source generation, source URL, and
+diagnostic trace. A synchronous 25-to-90-percent supersession must leave the
+older generation without a late terminal or fallback event after a bounded
+grace period. Increasing Chrome video-frame and AAC decoded-byte counters plus
+one `captureStream()` audio track are decoder/track evidence; they do not prove
+physical audible output.
+
+The entire 202,253-byte MP4 seed is already received before these seeks, while
+only the appended trailing `free` response remains held. Consequently this
+case proves browser/app seek completion and generation fencing, not a new Range
+request per target or cancellation of pending seek-specific transport. Those
+network claims require a larger faststart fixture whose target samples are not
+already cached. Real Drive behavior and physical-device playback remain open.
+
 The faststart seed was generated with FFmpeg 9.0.1:
 
 ```powershell
