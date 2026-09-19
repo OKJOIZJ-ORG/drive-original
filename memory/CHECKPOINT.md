@@ -1,40 +1,26 @@
-# Checkpoint — V2-01B closed / exact-sample trace next — 2026-09-19 KST
+# Checkpoint — V2-01C closed / V2-03A comparator next — 2026-09-19 20:41 KST
 
-## Current goal
+## The story so far
 
-- Overall owner: `memory/goal/commercial-player-stability.md`; continue the existing dependency map rather than making a parallel plan.
-- Active requirements and execution source: `memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md`, version 3.0, SHA-256 `A57C7109A540BE09F351ACF582E0F9BA6A6A556F92E943A6CB6804CA2576B564`.
-- Completed unit: `V2-01B` — inert, redacted, session/request-correlated media-stage diagnostics and deterministic classification evidence.
-- Next READY unit: `V2-01C` — reproduce the exact supplied Drive sample twice, bind the trace to its stable Drive version, and identify the first failed stage without mutating the original.
+The v3.0 integrated spec remains the single execution authority on branch `codex/v2-kickoff-diagnostics`; committed HEAD is `ecf7991`. V2-01B diagnostics remain verified at 12/12 fixtures and 153/153 tests. The localhost OAuth validation origin is registered alongside the preserved production origin, the user completed account selection, and the app reports `Drive 연결됨`. V2-01C is now closed by two ordinary-Chrome current-app reproductions of the supplied read-only sample: both selected `original-opfs`, received HTTP 200 and exactly 208,001,508 bytes, then emitted media-element code 4 and terminal `container-or-decoder` before compatibility selection. `files.version` advanced from 15 to 19 while `headRevisionId`, SHA-256, size and `modifiedTime` stayed unchanged and `viewedByMeTime` advanced after compatibility preview; because Google defines `files.version` as all server-side changes, the private content identity is file ID + head revision + SHA-256 + size. The redacted evidence contains none of those private values except size. Local FFprobe independently identifies MPEG-TS under the `.mp4` name with browser-decodable H.264/AAC tracks, making a container-only issue the leading but not yet V2-03A-confirmed explanation. The original, production deployment, `main`, remotes and paused automation remain unchanged.
 
-## Current evidence
+## Decided
 
-- Canonical source: `C:\Users\jbs\Desktop\폴더모음\자작프로그램\Drive-Original\source`.
-- Work branch / current committed HEAD: `codex/v2-kickoff-diagnostics` / `d7aeabf` (`docs: record V2-01B diagnostic evidence`). Product implementation is `fe9c35965a96adfaaaa97727f94377f878e2de51`; the v3 authority record is `70a5f9a`.
-- V2-01B fixture passed 12/12 injected scenarios. Full Node suite passed 153/153; app, service-worker, audit and classifier syntax checks passed; diff whitespace passed.
-- The generated evidence `qa/player-stage-v2-01b/results.json` is bound to `fe9c359`, app SHA-256 `0bdab264f9d5f975e97b1f863b4d20523bbd1f0c96bb29663ffac06107bcab7e`, and service-worker SHA-256 `5d8c5e4bb199fdf80eac72458cd947657f577050dd8a51095af6d4e91dd5bfab`.
-- Public build still contains only the 12 allowlisted files; QA traces, tests, memory and private sample metadata are excluded.
-- Independent Sol review found no material issue. It confirmed that code4, playable and stale-session fixtures use actual SW VM messages and actual app VM hooks rather than injected player-event shortcuts.
-- Read-only local probe of the priority sample found 208,001,508 bytes and an MPEG-TS container despite the `.mp4` extension, with H.264 High L3.0 360x640 30fps video and AAC-LC 48kHz stereo audio. This is a hypothesis input, not yet proof of the app's first failed stage.
+- D-050: `memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md` v3.0 remains the single active requirements and execution source.
+- V2-01C is `IMPLEMENTED_LOCAL`; Google iframe entry is not playback success, and the first failed layer is post-transfer browser parse/decode.
+- V2-03A is the sole READY unit; authentication work remains separate from media relay or conversion.
 
-## Working state
+## Waiting on the user
 
-- The original media has not been changed, shared or uploaded. Production runtime, `main`, remotes and the paused automation have not been changed; the only external configuration change is the read-backed localhost OAuth validation origin described below.
-- Normal Google login was not attempted again in the managed automated Chrome after Google rejected that automation-controlled browser. Its popup was closed; this does not count as an account failure or app authentication result.
-- The ordinary-Chrome localhost candidate first returned `400 origin_mismatch` for exact origin `http://localhost:4173`. The existing production origin was preserved, that localhost origin was added to the same `Drive Original Web` client, Cloud Console reported a successful save, and a fresh readback showed both origins. A new OAuth attempt now reaches Google's normal account chooser, so the registration blocker is closed.
-- V2-01B changes are isolated to diagnostics, QA and tests. The sink is opt-in and inert in ordinary product use; recovery policy and visible UI remain unchanged.
-- The V2-01B result snapshot and goal/session evidence are committed at `d7aeabf`. This post-commit HEAD readback is the only expected task-owned uncommitted change before V2-01C begins.
+- Nothing for V2-03A. Physical iPhone Chrome/PWA checks remain deferred until a runnable candidate exists, when the exact URL/version and two or three checks will be supplied.
 
-## Open questions / remaining failures
+## Next first action
 
-- The exact Drive file ID is known privately from the local DriveFS metadata cache, but Drive API `version`, checksums/capabilities and live request timeline are not yet all confirmed. Do not publish the private ID in project records.
-- The sample's internal MPEG-TS/container mismatch may explain a post-byte browser failure, but the current app must first prove credential, headers, first byte/body completion and final media-element outcome twice.
-- Actual iPhone Chrome-tab and standalone-PWA behavior remains unverified in this unit. User participation is available after a runnable validation candidate is prepared.
-- BUG-01 through BUG-08, full-format/original-quality, real Drive operations, quiet UI and existing-feature preservation remain active acceptance requirements; V2-01B closes none of those broader gates by itself.
+Run the V2-03A local read-only comparator on the authenticated tab for front, middle and tail ranges, comparing current SW bytes against a direct Drive API reader under the same private content fingerprint and recording only redacted status, length, timing and digest equality.
 
-## Next and approval boundary
+## Tried
 
-- Run V2-01C read-only: preserve the private stable ID/version ledger, obtain the minimum metadata fields, reproduce the exact sample twice through the diagnostic path, and derive a redacted first-failure record.
-- If ordinary Google login or a physical iPhone/PWA action is required, ask only for that normal user operation and provide the URL/version plus two or three concrete checks.
-- The next required action is user-owned authentication: choose the Drive account and approve the existing Drive scopes in the open Google account chooser. After the popup returns to the app, continue the exact-sample trace without reloading the instrumented localhost tab.
-- Do not change the original, make it public, permanently delete data, spend money, register a card, merge/push, replace production, or resume the paused automation. Do not adopt a media relay or conversion server merely to improve authentication.
+- Google rejected the separate automation-controlled Chrome login as an unsafe browser; ordinary Chrome succeeded and this was not counted as an account failure.
+- Ordinary Chrome initially returned `400 origin_mismatch`; adding only the exact localhost validation origin while preserving production resolved it.
+- Waiting for the entire OPFS body delayed the first failure for 370 seconds on the cold first run; the second run closed in 6.4 seconds, so performance numbers are not compared across cold/warm state.
+- Raw Drive `files.version` is not a stable content key for this path because compatibility preview advanced user-view/server state without changing content revision, checksum, size or modified time.

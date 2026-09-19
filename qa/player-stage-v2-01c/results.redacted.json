@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "task": "V2-01C",
+  "candidate": "fe9c35965a96adfaaaa97727f94377f878e2de51",
+  "sample": {
+    "alias": "priority-sample",
+    "driveFileVersionsObserved": ["15", "19"],
+    "driveFileVersionStable": false,
+    "contentRevisionStable": true,
+    "sha256Stable": true,
+    "declaredMimeType": "video/mp4",
+    "declaredSizeBytes": 208001508,
+    "localAndDriveSha256Match": true,
+    "originalMutated": false
+  },
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Chrome 152.0.0.0",
+    "appOrigin": "http://localhost:4173",
+    "connectionSnapshot": {
+      "effectiveType": "4g",
+      "downlinkMbps": 10,
+      "rttMs": 50,
+      "saveData": false
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "startedAt": "2026-09-19T11:29:42.595Z",
+      "endedAt": "2026-09-19T11:35:52.869Z",
+      "durationMs": 370279,
+      "route": "original-opfs",
+      "request": {
+        "route": "full-original",
+        "status": 200,
+        "headersAtMs": 912,
+        "firstByteAtMs": 944,
+        "firstByteSize": 31016,
+        "bodyCompleteAtMs": 370052,
+        "bytesReceived": 208001508,
+        "expectedBytes": 208001508
+      },
+      "media": {
+        "waitingAtMs": 370070,
+        "errorAtMs": 370090,
+        "mediaErrorCode": 4,
+        "classifiedAtMs": 370275,
+        "classification": "container-or-decoder",
+        "compatibilitySelectedAtMs": 370279
+      },
+      "firstFailedLayer": "media-parse-or-decode-after-complete-transport",
+      "terminalStage": "compatibility-selected",
+      "eventCount": 1308
+    },
+    {
+      "run": 2,
+      "startedAt": "2026-09-19T11:38:55.262Z",
+      "endedAt": "2026-09-19T11:39:01.623Z",
+      "durationMs": 6364,
+      "route": "original-opfs",
+      "request": {
+        "route": "full-original",
+        "status": 200,
+        "headersAtMs": 910,
+        "firstByteAtMs": 934,
+        "firstByteSize": 47401,
+        "bodyCompleteAtMs": 6152,
+        "bytesReceived": 208001508,
+        "expectedBytes": 208001508
+      },
+      "media": {
+        "waitingAtMs": 6156,
+        "errorAtMs": 6175,
+        "mediaErrorCode": 4,
+        "classifiedAtMs": 6362,
+        "classification": "container-or-decoder",
+        "compatibilitySelectedAtMs": 6364
+      },
+      "firstFailedLayer": "media-parse-or-decode-after-complete-transport",
+      "terminalStage": "compatibility-selected",
+      "eventCount": 159
+    }
+  ],
+  "identityFinding": {
+    "observed": "files.version advanced while headRevisionId, SHA-256, size, and modifiedTime remained unchanged; viewedByMeTime advanced after compatibility preview",
+    "documentedSemantics": "files.version covers all server-side changes, including changes not visible to the user; it is not a content-only revision",
+    "comparisonKey": "private fileId + headRevisionId + SHA-256 + size",
+    "privateValues": "omitted"
+  },
+  "redaction": {
+    "fileId": "omitted",
+    "account": "omitted",
+    "credentials": "omitted",
+    "requestUrls": "omitted",
+    "mediaBytes": "omitted"
+  },
+  "status": "TWO_RUNS_COMPLETE_FIRST_FAILURE_CONFIRMED"
+}
