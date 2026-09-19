@@ -89,6 +89,53 @@ request per target or cancellation of pending seek-specific transport. Those
 network claims require a larger faststart fixture whose target samples are not
 already cached. Real Drive behavior and physical-device playback remain open.
 
+`seek-range-h264-aac.mp4` supplies that larger transport discriminator. It is a
+60-second, 5,223,316-byte, non-fragmented faststart H.264 Constrained
+Baseline/AAC fixture with a one-second GOP. Its exact bytes, SHA-256 and
+top-level box layout are pinned by `tests/static.test.js`. The 30-second target
+starts at byte 2,631,163 and its next GOP starts at 2,722,529; the 54-second
+target starts at byte 4,705,854 and its next GOP starts at 4,795,163.
+
+In a fresh Chrome context, paused metadata preload first reaches a quiet,
+fully completed contiguous boundary before either target. The observed run used
+five requests through byte 327,679. Merely arming phase A for another 500 ms,
+without changing native `currentTime`, must create no request and no seek
+generation. Only the real 30-second `setPlayerCurrentTime()` may then open a
+non-contiguous Range beyond that sequential boundary which overlaps the A GOP;
+the observed request was `bytes=2621440-`, and the fixture withheld it after 64
+bytes. Removing the native seek while resuming playback produces only the next
+sequential request and fails this non-contiguous discriminator.
+
+A real 54-second seek then supersedes the app generation. In the observed
+Chrome run the browser did not cancel the pending A response during a 250 ms
+grace period. The audit therefore releases A late, after B owns the app
+generation, and Chrome requests a second non-contiguous Range (`bytes=4685824-`)
+covering B's GOP. Only B may emit `seeked` and a decoded target frame at 54
+seconds. A's correlated worker body completion must occur after B's `seeking`
+stage and may not mutate the final time or emit any stale terminal/fallback app
+stage. The alternate accepted branch requires an observed browser/SW
+cancellation or abort before the same late-release no-op check.
+
+This proves that an uncached, pending original Range from a superseded seek
+cannot reclaim the app's final seek state. It also records that this Chrome
+choreography did not cancel A; the app does not directly own native `<video>`
+Range requests. It does not prove app-owned seek transport cancellation, real
+Drive/CORS behavior, physical audible output, or a physical device.
+
+The seek-range seed was generated with FFmpeg 9.0.1:
+
+```powershell
+ffmpeg.exe -hide_banner -nostdin -n `
+  -f lavfi -i "testsrc2=size=640x360:rate=30:duration=60" `
+  -f lavfi -i "sine=frequency=660:sample_rate=48000:duration=60" `
+  -map 0:v:0 -map 1:a:0 `
+  -c:v libx264 -profile:v baseline -level:v 3.1 -pix_fmt yuv420p `
+  -g 30 -keyint_min 30 -sc_threshold 0 -crf 26 -threads 1 `
+  -c:a aac -b:a 48k -shortest -map_metadata -1 `
+  -movflags +faststart `
+  qa/seek-range-h264-aac.mp4
+```
+
 The faststart seed was generated with FFmpeg 9.0.1:
 
 ```powershell

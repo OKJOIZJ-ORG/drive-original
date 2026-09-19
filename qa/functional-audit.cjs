@@ -14,6 +14,8 @@ function installQaSlowTailFixture() {
   const CONFIG = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIG';
   const STATE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE';
   const RELEASE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE';
+  const ARM_SEEK = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_ARM_SEEK';
+  const RELEASE_STREAM = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE_STREAM';
   const DISPOSE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE';
   const nativeFetch = self.fetch.bind(self);
   let fixture = null;
@@ -27,9 +29,18 @@ function installQaSlowTailFixture() {
     logicalTotalBytes: active.logicalTotalBytes,
     indexStart: active.indexStart,
     indexEnd: active.indexEnd,
+    phase: active.phase,
+    baselineEnd: active.baselineEnd,
+    seekAStart: active.seekAStart,
+    seekAEnd: active.seekAEnd,
+    seekBStart: active.seekBStart,
+    seekBEnd: active.seekBEnd,
     configured: fixture === active,
     streams: [...active.streams.values()].map((stream) => ({
       streamId: stream.streamId,
+      openedSequence: stream.openedSequence,
+      phaseAtOpen: stream.phaseAtOpen,
+      role: stream.role,
       range: stream.range,
       start: stream.start,
       end: stream.end,
@@ -44,8 +55,16 @@ function installQaSlowTailFixture() {
       isTailIndexRequest: stream.isTailIndexRequest,
       isFaststartInitialChunk: stream.isFaststartInitialChunk,
       isFaststartWarmupChunk: stream.isFaststartWarmupChunk,
+      overlapStart: stream.overlapStart,
+      overlapEnd: stream.overlapEnd,
+      deliveredEnd: stream.deliveredBytes > 0 ? stream.start + stream.deliveredBytes - 1 : null,
       openedAt: stream.openedAt,
-      terminal: stream.terminal
+      terminal: stream.terminal,
+      terminalAt: stream.terminalAt,
+      abortSignalSeen: stream.abortSignalSeen,
+      consumerCancelSeen: stream.consumerCancelSeen,
+      lateReleaseAttempted: stream.lateReleaseAttempted,
+      lateReleaseOutcome: stream.lateReleaseOutcome
     }))
   });
   const post = (active, message) => {
@@ -58,6 +77,7 @@ function installQaSlowTailFixture() {
   const markTerminal = (active, stream, terminal) => {
     if (stream.terminal) return false;
     stream.terminal = terminal;
+    stream.terminalAt = Date.now();
     stream.waitingForRelease = false;
     stream.detachAbort?.();
     stream.detachAbort = null;
@@ -67,9 +87,15 @@ function installQaSlowTailFixture() {
     observe(active, stream);
     return true;
   };
-  const releaseStream = (active, stream) => {
-    if (stream.terminal) return;
+  const releaseStream = (active, stream, { late = false } = {}) => {
+    if (late) stream.lateReleaseAttempted = true;
+    if (stream.terminal) {
+      if (late) stream.lateReleaseOutcome = `ignored-${stream.terminal}`;
+      observe(active, stream);
+      return;
+    }
     stream.released = true;
+    if (late) stream.lateReleaseOutcome = 'released';
     const resolve = stream.resolvePendingPull;
     stream.resolvePendingPull = null;
     if (!stream.controller) {
@@ -109,6 +135,26 @@ function installQaSlowTailFixture() {
         if (fixture === active) fixture = null;
         post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASED', requestId: data.requestId, state: snapshot(active) });
       }
+      if (data.type === ARM_SEEK && active.mode === 'seek-range-race') {
+        const label = String(data.label || '').toUpperCase();
+        if (label === 'A' || label === 'B') active.phase = label;
+        post(active, {
+          type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_SEEK_ARMED',
+          requestId: data.requestId,
+          label,
+          state: snapshot(active)
+        });
+      }
+      if (data.type === RELEASE_STREAM && active.mode === 'seek-range-race') {
+        const stream = active.streams.get(String(data.streamId || ''));
+        if (stream) releaseStream(active, stream, { late: data.late === true });
+        post(active, {
+          type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STREAM_RELEASED',
+          requestId: data.requestId,
+          streamId: String(data.streamId || ''),
+          state: snapshot(active)
+        });
+      }
       if (data.type === DISPOSE) {
         for (const stream of active.streams.values()) disposeStream(active, stream);
         if (fixture === active) fixture = null;
@@ -129,7 +175,9 @@ function installQaSlowTailFixture() {
       ? 'tail-index'
       : requestedMode === 'sparse-offset'
         ? 'sparse-offset'
-        : requestedMode === 'faststart-chunked' ? 'faststart-chunked' : 'slow-tail';
+        : requestedMode === 'faststart-chunked'
+          ? 'faststart-chunked'
+          : requestedMode === 'seek-range-race' ? 'seek-range-race' : 'slow-tail';
     const logicalTotalBytes = mode === 'sparse-offset'
       ? Number(data.logicalTotalBytes)
       : bytes.byteLength;
@@ -144,12 +192,23 @@ function installQaSlowTailFixture() {
       warmupChunkBytes: Math.max(8, Number(data.warmupChunkBytes) || 64 * 1024),
       indexStart: Math.max(0, Number(data.indexStart) || 0),
       indexEnd: Math.max(0, Number(data.indexEnd) || 0),
+      phase: mode === 'seek-range-race' ? 'baseline' : '',
+      baselineEnd: Math.max(0, Number(data.baselineEnd) || 0),
+      seekAStart: Math.max(0, Number(data.seekAStart) || 0),
+      seekAEnd: Math.max(0, Number(data.seekAEnd) || 0),
+      seekBStart: Math.max(0, Number(data.seekBStart) || 0),
+      seekBEnd: Math.max(0, Number(data.seekBEnd) || 0),
       logicalTotalBytes,
       bytes,
       port,
       streamSequence: 0,
       streams: new Map()
     };
+    if (mode === 'seek-range-race' && (
+      active.baselineEnd >= logicalTotalBytes
+      || active.seekAStart > active.seekAEnd || active.seekAEnd >= logicalTotalBytes
+      || active.seekBStart > active.seekBEnd || active.seekBEnd >= logicalTotalBytes
+    )) return;
     fixture = active;
     bindControlPort(active);
     post(active, { type: 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIGURED', requestId: data.requestId, state: snapshot(active) });
@@ -192,10 +251,40 @@ function installQaSlowTailFixture() {
       && active.streams.size === 0 && start === 0;
     const isFaststartWarmupChunk = active.mode === 'faststart-chunked'
       && !isFaststartInitialChunk && start < active.warmupChunkBytes;
+    const isSeekRangeRace = active.mode === 'seek-range-race';
+    const phaseAtOpen = isSeekRangeRace ? active.phase : '';
+    const requestedOverlapsA = isSeekRangeRace
+      && start <= active.seekAEnd && requestedEnd >= active.seekAStart;
+    const requestedOverlapsB = isSeekRangeRace
+      && start <= active.seekBEnd && requestedEnd >= active.seekBStart;
+    let role = '';
+    let raceHoldAfterPrefix = false;
     if (isFaststartInitialChunk) {
       end = Math.min(end, active.initialChunkBytes - 1);
     } else if (isFaststartWarmupChunk) {
       end = Math.min(end, active.warmupChunkBytes - 1);
+    }
+    if (isSeekRangeRace) {
+      if (active.streams.size === 0 && phaseAtOpen === 'baseline' && start === 0) {
+        role = 'initial';
+        end = Math.min(end, active.baselineEnd);
+      } else if (phaseAtOpen === 'baseline') {
+        role = 'speculative';
+        end = Math.min(end, start + 64 * 1024 - 1);
+        raceHoldAfterPrefix = false;
+      } else if (phaseAtOpen === 'A' && requestedOverlapsA) {
+        role = 'seek-A';
+        end = Math.min(end, active.seekAEnd);
+        raceHoldAfterPrefix = true;
+      } else if (phaseAtOpen === 'B' && requestedOverlapsB) {
+        role = 'seek-B';
+      } else {
+        role = 'unrelated';
+        if (phaseAtOpen === 'A') {
+          end = Math.min(end, start + 64 * 1024 - 1);
+          raceHoldAfterPrefix = true;
+        }
+      }
     }
     const responseLength = end - start + 1;
     if (!Number.isSafeInteger(responseLength) || responseLength <= 0
@@ -207,16 +296,24 @@ function installQaSlowTailFixture() {
       && start > 0
       && start >= Math.max(1, active.indexStart - active.prefixBytes * 2)
       && end >= active.indexEnd;
-    const holdAfterPrefix = !isFaststartInitialChunk && !isFaststartWarmupChunk
-      && active.mode !== 'sparse-offset'
-      && (active.mode === 'slow-tail' || !isTailIndexRequest);
+    const holdAfterPrefix = isSeekRangeRace
+      ? raceHoldAfterPrefix
+      : !isFaststartInitialChunk && !isFaststartWarmupChunk
+        && active.mode !== 'sparse-offset'
+        && (active.mode === 'slow-tail' || !isTailIndexRequest);
     const prefixLength = active.mode === 'sparse-offset'
       ? 1
       : holdAfterPrefix
       ? Math.min(active.prefixBytes, Math.max(1, responseLength - 1))
       : responseLength;
+    const roleStart = role === 'seek-A' ? active.seekAStart : role === 'seek-B' ? active.seekBStart : null;
+    const roleEnd = role === 'seek-A' ? active.seekAEnd : role === 'seek-B' ? active.seekBEnd : null;
+    const openedSequence = ++active.streamSequence;
     const stream = {
-      streamId: `${active.fixtureId}-${++active.streamSequence}`,
+      streamId: `${active.fixtureId}-${openedSequence}`,
+      openedSequence,
+      phaseAtOpen,
+      role,
       range,
       start,
       end,
@@ -232,8 +329,15 @@ function installQaSlowTailFixture() {
       isTailIndexRequest,
       isFaststartInitialChunk,
       isFaststartWarmupChunk,
+      overlapStart: roleStart == null ? null : Math.max(start, roleStart),
+      overlapEnd: roleEnd == null ? null : Math.min(end, roleEnd),
       openedAt: Date.now(),
       terminal: null,
+      terminalAt: null,
+      abortSignalSeen: false,
+      consumerCancelSeen: false,
+      lateReleaseAttempted: false,
+      lateReleaseOutcome: '',
       released: false,
       controller: null,
       resolvePendingPull: null,
@@ -247,6 +351,7 @@ function installQaSlowTailFixture() {
         if (signal) {
           const abort = () => {
             if (stream.terminal) return;
+            stream.abortSignalSeen = true;
             try { controller.error(signal.reason || new DOMException('Aborted', 'AbortError')); } catch (_) {}
             markTerminal(active, stream, 'aborted');
           };
@@ -282,6 +387,7 @@ function installQaSlowTailFixture() {
         return new Promise((resolve) => { stream.resolvePendingPull = resolve; });
       },
       cancel() {
+        stream.consumerCancelSeen = true;
         markTerminal(active, stream, 'cancelled');
       }
     }, { highWaterMark: 0 });
@@ -364,7 +470,14 @@ function appendFaststartTrailingFreeBox(seed, freeBoxBytes=4*1024*1024) {
   assert.equal(trailingFree.type,'free');assert.equal(trailingFree.offset,seed.length);assert.equal(trailingFree.size,freeBoxBytes);
   return {bytes,boxes:expanded,trailingFreeStart:trailingFree.offset,trailingFreeEnd:trailingFree.end-1};
 }
-let base, browser, video, tailIndexSeed, tailIndexVideo, faststartSeed, faststartVideo;
+const seekRangeLayout = Object.freeze({
+  baselineEnd: 65535,
+  seekAStart: 2631163,
+  seekAEnd: 2722528,
+  seekBStart: 4705854,
+  seekBEnd: 4795162
+});
+let base, browser, video, tailIndexSeed, tailIndexVideo, faststartSeed, faststartVideo, seekRangeSeed;
 const poster = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="#182c43"/><circle cx="320" cy="170" r="90" fill="#4c94d2"/><text x="320" y="190" text-anchor="middle" fill="white" font-size="32">Original fixture</text></svg>');
 function record(name, details = {}) { const r = { name, status:'passed', ...details }; results.push(r); console.log(JSON.stringify(r)); }
 async function check(name, callback) {
@@ -469,9 +582,9 @@ async function openVideo(page,id='video-A') {
 async function exactBufferedBytes(page) {
   return hash(Buffer.from(await page.evaluate(async()=>[...new Uint8Array(await (await fetch(el.videoPlayer.src)).arrayBuffer())])));
 }
-async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, initialChunkBytes=24*1024, warmupChunkBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0, logicalTotalBytes=null }={}) {
+async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64*1024, initialChunkBytes=24*1024, warmupChunkBytes=64*1024, bytes=video, mode='slow-tail', mimeType='video/webm', indexStart=0, indexEnd=0, logicalTotalBytes=null, baselineEnd=0, seekAStart=0, seekAEnd=0, seekBStart=0, seekBEnd=0 }={}) {
   const fixtureId = `${mode}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes }) => {
+  return page.evaluate(async ({ encoded, fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes, baselineEnd, seekAStart, seekAEnd, seekBStart, seekBEnd }) => {
     if (mode !== 'sparse-offset'
       && typeof HTMLVideoElement.prototype.requestVideoFrameCallback !== 'function') {
       return { supported: false, fixtureId };
@@ -529,12 +642,17 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
       indexStart,
       indexEnd,
       logicalTotalBytes,
+      baselineEnd,
+      seekAStart,
+      seekAEnd,
+      seekBStart,
+      seekBEnd,
       requestId,
       bytes: bytes.buffer
     }, [bytes.buffer, channel.port2]);
     await configured;
     return { supported: true, fixtureId };
-  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes });
+  }, { encoded: bytes.toString('base64'), fileId, fixtureId, prefixBytes, initialChunkBytes, warmupChunkBytes, mode, mimeType, indexStart, indexEnd, logicalTotalBytes, baselineEnd, seekAStart, seekAEnd, seekBStart, seekBEnd });
 }
 (async()=>{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}/drive-original/`;
@@ -543,6 +661,7 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
   tailIndexVideo=expandTailIndexFixture(tailIndexSeed);
   faststartSeed=fs.readFileSync(path.join(root,'qa','faststart-h264-aac.mp4'));
   faststartVideo=appendFaststartTrailingFreeBox(faststartSeed);
+  seekRangeSeed=fs.readFileSync(path.join(root,'qa','seek-range-h264-aac.mp4'));
   await generateVideo();
   try {
     await check('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',async()=>{
@@ -1506,6 +1625,360 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
           if(configured){
             await page.evaluate(()=>{if(!el.playerSheet.hidden)closePlayer();});
             const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+            assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+            assert.equal(disposed.state.configured,false);
+          }
+        } finally { await context.close(); }
+      }
+    });
+    await check('uncached seek supersession fences a pending original Range from the final target',async()=>{
+      const {page,context,calls,errors}=await environment({
+        disableOpfs:true,
+        mediaBytes:seekRangeSeed,
+        mediaMimeType:'video/mp4',
+        mediaName:'seek Range H.264 AAC.mp4',
+        mediaMetadata:{width:640,height:360,durationMillis:'60000'}
+      });
+      let configured=false;
+      const intervalCovered=(streams,start,end)=>{
+        let cursor=start;
+        for(const stream of streams
+          .filter(item=>item.deliveredEnd!=null&&item.deliveredEnd>=start&&item.start<=end)
+          .sort((left,right)=>left.start-right.start)){
+          if(stream.start>cursor)break;
+          cursor=Math.max(cursor,stream.deliveredEnd+1);
+          if(cursor>end)return true;
+        }
+        return false;
+      };
+      const contiguousDeliveredEnd=(streams,start=0)=>{
+        let cursor=start;
+        for(const stream of streams
+          .filter(item=>item.deliveredEnd!=null&&item.deliveredEnd>=start)
+          .sort((left,right)=>left.start-right.start)){
+          if(stream.start>cursor)break;
+          cursor=Math.max(cursor,stream.deliveredEnd+1);
+        }
+        return cursor-1;
+      };
+      const fixtureState=()=>page.evaluate(async()=>(
+        await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')
+      ).state);
+      const waitForFixture=async(predicate,label,timeoutMs=5000)=>{
+        const deadline=Date.now()+timeoutMs;
+        let latest=null;
+        while(Date.now()<deadline){
+          latest=await fixtureState();
+          if(predicate(latest))return latest;
+          await new Promise(resolve=>setTimeout(resolve,25));
+        }
+        throw new Error(`${label}: ${JSON.stringify(latest)}`);
+      };
+      const waitForFixtureQuiet=async(label,quietMs=500,timeoutMs=10000)=>{
+        const deadline=Date.now()+timeoutMs;
+        let latest=null;
+        let lastCount=-1;
+        let quietSince=Date.now();
+        while(Date.now()<deadline){
+          latest=await fixtureState();
+          if(latest.streams.length!==lastCount){
+            lastCount=latest.streams.length;
+            quietSince=Date.now();
+          }
+          if(latest.streams.every(stream=>Boolean(stream.terminal))
+            &&Date.now()-quietSince>=quietMs)return latest;
+          await new Promise(resolve=>setTimeout(resolve,25));
+        }
+        throw new Error(`${label}: ${JSON.stringify(latest)}`);
+      };
+      const snapshot=()=>page.evaluate(async()=>{
+        const fixture=(await globalThis.__driveOriginalQaSlowTailRequest('DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE')).state;
+        const video=el.videoPlayer;
+        let audioTracks=null;
+        if(typeof video.captureStream==='function'){
+          const stream=video.captureStream();
+          audioTracks=stream.getAudioTracks().length;
+          stream.getTracks().forEach(track=>track.stop());
+        }
+        return {
+          fixture,audioTracks,
+          stages:(globalThis.__driveOriginalQaMediaStages||[]).map(event=>({
+            stage:event.stage,sequence:event.sequence,traceId:event.traceId,
+            route:event.route,requestId:event.requestId,requestedRange:event.requestedRange,
+            playbackMode:event.playbackMode,seekGeneration:event.seekGeneration,
+            currentTime:event.currentTime,targetTime:event.targetTime,
+            presentedMediaTime:event.presentedMediaTime,tolerance:event.tolerance,
+            confidence:event.confidence,terminal:event.terminal
+          })),
+          duration:video.duration,currentTime:video.currentTime,
+          readyState:video.readyState,error:video.error?.code||0,
+          decodedVideoFrames:Number(video.webkitDecodedFrameCount)||0,
+          decodedAudioBytes:Number(video.webkitAudioDecodedByteCount)||0,
+          src:video.currentSrc||video.src,
+          mediaSession:state.mediaSession,sourceGeneration:mediaSourceGeneration,
+          seekGeneration:mediaSeekGeneration,settledGeneration:mediaSeekSettledGeneration,
+          activeSeek:mediaSeekWatchdog!==null,isSeeking:state.isSeeking,videoSeeking:video.seeking,
+          mode:state.mediaPlaybackMode,attempt:state.mediaAttempt,
+          retryCount:state.mediaRetryCount,fullRequestCount:state.mediaFullRequestCount,
+          bufferStorageMode:state.mediaBufferStorageMode,
+          hasTempStorage:Boolean(state.mediaTempStorage),previewHidden:el.drivePreview.hidden
+        };
+      });
+      try {
+        const setup=await configureSlowTailFixture(page,{
+          bytes:seekRangeSeed,
+          mode:'seek-range-race',
+          mimeType:'video/mp4',
+          prefixBytes:64,
+          ...seekRangeLayout
+        });
+        assert.equal(setup.supported,true,'QA-TR-03 transport requires requestVideoFrameCallback');
+        configured=true;
+        await page.evaluate(()=>{
+          const video=el.videoPlayer;
+          video.muted=true;
+          openPlayer(state.files.find(file=>file.id==='video-A'));
+          state.pendingPlay=false;
+          video.pause();
+        });
+        try {
+          await page.waitForFunction(()=>el.videoPlayer.readyState>=1
+            &&state.mediaTransportVerified,null,{timeout:10000});
+        } catch (error) {
+          const diagnostic=await snapshot();
+          throw new Error(`paused seek baseline did not load: ${JSON.stringify(diagnostic)}`,
+            {cause:error});
+        }
+        await page.evaluate(()=>el.videoPlayer.pause());
+        await waitForFixtureQuiet('paused metadata preload did not reach a quiet boundary');
+        const baseline=await snapshot();
+        assert(Math.abs(baseline.duration-60)<.05,
+          `unexpected seek transport fixture duration ${baseline.duration}`);
+        const initial=baseline.fixture.streams.find(stream=>stream.role==='initial');
+        assert(initial,'baseline must include the initial bounded response');
+        assert(initial&&initial.start===0&&initial.end===seekRangeLayout.baselineEnd);
+        assert.equal(initial.bodyComplete,true);
+        assert.equal(initial.terminal,'complete');
+        assert(baseline.fixture.streams.every(stream=>Boolean(stream.terminal)));
+        assert(baseline.fixture.streams.every(stream=>['initial','speculative'].includes(stream.role)));
+        const baselineDeliveredEnd=contiguousDeliveredEnd(baseline.fixture.streams);
+        assert(baselineDeliveredEnd>=seekRangeLayout.baselineEnd);
+        assert(baselineDeliveredEnd<seekRangeLayout.seekAStart,
+          'paused preload must stop before the A target GOP');
+        assert.equal(intervalCovered(baseline.fixture.streams,seekRangeLayout.seekAStart,seekRangeLayout.seekAEnd),false,
+          'A target bytes were already delivered before seek A; transport race is not discriminating');
+        assert.equal(intervalCovered(baseline.fixture.streams,seekRangeLayout.seekBStart,seekRangeLayout.seekBEnd),false,
+          'B target bytes were already delivered before seek A; transport race is not discriminating');
+
+        const armedA=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest(
+          'DRIVE_ORIGINAL_QA_SLOW_TAIL_ARM_SEEK',{label:'A'}));
+        assert.equal(armedA.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_SEEK_ARMED');
+        assert.equal(armedA.state.phase,'A');
+        await page.waitForTimeout(500);
+        const noSeekControl=await snapshot();
+        assert.equal(noSeekControl.fixture.phase,'A');
+        assert.equal(noSeekControl.fixture.streams.length,baseline.fixture.streams.length,
+          'arming seek A without a native currentTime change must not create a Range');
+        assert(noSeekControl.fixture.streams.every(stream=>Boolean(stream.terminal)));
+        assert.equal(noSeekControl.seekGeneration,baseline.seekGeneration);
+        assert(Math.abs(noSeekControl.currentTime-baseline.currentTime)<.001);
+        assert.equal(noSeekControl.stages.filter(event=>event.stage==='seeking').length,0);
+        const seekA=await page.evaluate(()=>{
+          const video=el.videoPlayer;
+          if(!setPlayerCurrentTime(video,30,'qa-tr-03-transport-a'))throw new Error('seek A was not assigned');
+          void video.play().catch(()=>{});
+          return {generation:mediaSeekGeneration,target:30};
+        });
+        await waitForFixture(state=>state.streams.some(stream=>stream.role==='seek-A'
+          &&stream.waitingForRelease&&!stream.terminal),
+        'seek A did not cause an attributable uncached Range');
+        const pendingA=await snapshot();
+        const aStreams=pendingA.fixture.streams.filter(stream=>stream.role==='seek-A');
+        assert(aStreams.length>=1,
+          `seek A did not cause an attributable uncached Range: ${JSON.stringify(pendingA.fixture)}`);
+        assert(aStreams.some(stream=>stream.waitingForRelease&&!stream.terminal));
+        assert(aStreams.some(stream=>stream.start>baselineDeliveredEnd+1
+          &&stream.start<=seekRangeLayout.seekAStart&&stream.end>=seekRangeLayout.seekAStart),
+        'seek A must open a non-contiguous target Range beyond paused sequential preload');
+        assert.equal(intervalCovered(aStreams,seekRangeLayout.seekAStart,seekRangeLayout.seekAEnd),false);
+        assert.equal(pendingA.stages.some(event=>event.seekGeneration===seekA.generation
+          &&['seeked','seek-frame','seek-no-progress','seek-presentation-fallback'].includes(event.stage)),false,
+          'seek A must still be pending before supersession');
+
+        const armedB=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest(
+          'DRIVE_ORIGINAL_QA_SLOW_TAIL_ARM_SEEK',{label:'B'}));
+        assert.equal(armedB.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_SEEK_ARMED');
+        assert.equal(armedB.state.phase,'B');
+        const seekB=await page.evaluate(()=>{
+          const video=el.videoPlayer;
+          if(!setPlayerCurrentTime(video,54,'qa-tr-03-transport-b'))throw new Error('seek B was not assigned');
+          void video.play().catch(()=>{});
+          return {generation:mediaSeekGeneration,target:54};
+        });
+        assert(seekB.generation>seekA.generation);
+        await page.waitForTimeout(250);
+        const supersededTransport=await fixtureState();
+        assert.equal(supersededTransport.phase,'B');
+        const aAtSupersession=supersededTransport.streams.filter(stream=>stream.role==='seek-A');
+        assert(aAtSupersession.length>=1);
+        assert(aAtSupersession.some(stream=>stream.waitingForRelease&&!stream.terminal)
+          ||aAtSupersession.some(stream=>['cancelled','aborted'].includes(stream.terminal)),
+        'seek A must still be pending or observably cancelled after seek B supersedes it');
+        for(const stream of aAtSupersession.filter(item=>item.waitingForRelease&&!item.terminal)){
+          const released=await page.evaluate(streamId=>globalThis.__driveOriginalQaSlowTailRequest(
+            'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE_STREAM',{streamId,late:true}),stream.streamId);
+          assert.equal(released.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_STREAM_RELEASED');
+        }
+        try {
+          await page.waitForFunction(({generation,target})=>{
+            const completion=(globalThis.__driveOriginalQaMediaStages||[])
+              .find(event=>event.stage==='seek-frame'&&event.seekGeneration===generation
+                &&event.confidence==='decoded-frame');
+            return Boolean(completion)
+              &&Math.abs(Number(completion.presentedMediaTime)-target)<=Number(completion.tolerance)
+              &&mediaSeekWatchdog===null&&!state.isSeeking&&el.videoPlayer.seeking===false;
+          },seekB,{timeout:10000});
+        } catch (error) {
+          const diagnostic=await snapshot();
+          throw new Error(`seek B did not settle after superseding/releasing A: ${JSON.stringify(diagnostic)}`,
+            {cause:error});
+        }
+        await page.evaluate(()=>el.videoPlayer.pause());
+        const beforeLateRelease=await snapshot();
+        const bStreams=beforeLateRelease.fixture.streams.filter(stream=>stream.role==='seek-B');
+        assert(bStreams.length>=1,'seek B must cause a Range overlapping uncached target bytes');
+        assert(bStreams.some(stream=>stream.start>seekRangeLayout.seekAEnd+1
+          &&stream.start<=seekRangeLayout.seekBStart&&stream.end>=seekRangeLayout.seekBEnd),
+        'seek B must open a non-contiguous Range covering its later target GOP');
+        assert.equal(intervalCovered(bStreams,seekRangeLayout.seekBStart,seekRangeLayout.seekBEnd),true,
+          'completed seek B transport must cover the target GOP');
+        const bStages=beforeLateRelease.stages.filter(event=>event.seekGeneration===seekB.generation);
+        for(const stage of ['seeking','seek-watchdog-armed','seeked','seek-frame']){
+          assert.equal(bStages.filter(event=>event.stage===stage).length,1,
+            `seek B must emit exactly one ${stage}`);
+        }
+        assert.equal(bStages.some(event=>['seek-no-progress','seek-presentation-fallback'].includes(event.stage)),false);
+        const completion=bStages.find(event=>event.stage==='seek-frame');
+        assert.equal(completion.confidence,'decoded-frame');
+        assert(Math.abs(completion.presentedMediaTime-seekB.target)<=completion.tolerance);
+        assert(Math.abs(beforeLateRelease.currentTime-seekB.target)<=.5);
+        assert.equal(beforeLateRelease.activeSeek,false);
+        assert.equal(beforeLateRelease.isSeeking,false);
+        assert.equal(beforeLateRelease.videoSeeking,false);
+        assert(beforeLateRelease.settledGeneration>=seekB.generation);
+
+        const aBeforeRelease=beforeLateRelease.fixture.streams.filter(stream=>stream.role==='seek-A');
+        assert(aBeforeRelease.length>=1);
+        assert(aBeforeRelease.every(stream=>stream.terminal==null||stream.terminal==='complete'
+          ||['cancelled','aborted'].includes(stream.terminal)));
+        for(const stream of aBeforeRelease){
+          if(['cancelled','aborted'].includes(stream.terminal)){
+            assert(stream.abortSignalSeen||stream.consumerCancelSeen,
+              'a cancelled seek-A stream must identify the observed cancellation boundary');
+          }
+          if(stream.lateReleaseAttempted)continue;
+          const released=await page.evaluate(streamId=>globalThis.__driveOriginalQaSlowTailRequest(
+            'DRIVE_ORIGINAL_QA_SLOW_TAIL_RELEASE_STREAM',{streamId,late:true}),stream.streamId);
+          assert.equal(released.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_STREAM_RELEASED');
+        }
+        await page.waitForTimeout(500);
+        const final=await snapshot();
+        const finalA=final.fixture.streams.filter(stream=>stream.role==='seek-A');
+        assert.equal(finalA.length,aBeforeRelease.length);
+        assert(finalA.every(stream=>stream.lateReleaseAttempted));
+        assert(finalA.every(stream=>stream.terminal==='complete'
+          ||['cancelled','aborted'].includes(stream.terminal)));
+        for(const stream of finalA){
+          if(stream.terminal==='complete')assert.equal(stream.lateReleaseOutcome,'released');
+          else {
+            assert.equal(stream.lateReleaseOutcome,`ignored-${stream.terminal}`);
+            assert(stream.abortSignalSeen||stream.consumerCancelSeen);
+          }
+        }
+        assert.equal(final.stages.some(event=>event.seekGeneration===seekA.generation
+          &&['seeked','seek-frame','seek-no-progress','seek-presentation-fallback'].includes(event.stage)),false,
+          'late seek-A bytes must not mutate app state after seek B settles');
+        assert(Math.abs(final.currentTime-seekB.target)<=.5);
+        assert.equal(final.seekGeneration,seekB.generation);
+        assert(final.settledGeneration>=seekB.generation);
+        assert.equal(final.activeSeek,false);
+        assert.equal(final.isSeeking,false);
+        assert.equal(final.videoSeeking,false);
+        assert.equal(final.src,baseline.src);
+        assert.equal(final.mediaSession,baseline.mediaSession);
+        assert.equal(final.sourceGeneration,baseline.sourceGeneration);
+        assert(final.decodedVideoFrames>baseline.decodedVideoFrames);
+        assert(final.decodedAudioBytes>baseline.decodedAudioBytes);
+        assert.equal(final.audioTracks,1);
+        assert.equal(final.error,0);
+        assert.equal(final.mode,'original-range');
+        assert.equal(final.attempt,'range');
+        assert.equal(final.retryCount,0);
+        assert.equal(final.fullRequestCount,0);
+        assert.equal(final.bufferStorageMode,'');
+        assert.equal(final.hasTempStorage,false);
+        assert.equal(final.previewHidden,true);
+        assert(final.fixture.streams.every(stream=>Boolean(stream.range)));
+        const traceIds=[...new Set(final.stages.map(event=>event.traceId).filter(Boolean))];
+        assert.equal(traceIds.length,1);
+        const bSeeking=final.stages.find(event=>event.stage==='seeking'
+          &&event.seekGeneration===seekB.generation);
+        assert(bSeeking);
+        for(const role of ['seek-A','seek-B']){
+          const streams=final.fixture.streams.filter(stream=>stream.role===role);
+          assert(streams.some(stream=>final.stages.some(event=>event.stage==='first-byte'
+            &&event.route==='range'&&event.traceId===traceIds[0]
+            &&event.requestedRange===stream.range)),`${role} must cross the production worker`);
+        }
+        for(const stream of finalA){
+          const firstByte=final.stages.find(event=>event.stage==='first-byte'
+            &&event.route==='range'&&event.traceId===traceIds[0]
+            &&event.requestedRange===stream.range);
+          assert(firstByte,`seek-A ${stream.range} must have a correlated first byte`);
+          const terminalStage=final.stages.find(event=>event.requestId===firstByte.requestId
+            &&event.stage===(stream.terminal==='complete'?'body-complete':'request-cancelled'));
+          assert(terminalStage,`seek-A ${stream.range} must have a correlated terminal stage`);
+          assert(bSeeking.sequence<terminalStage.sequence,
+            'seek-A transport must terminate only after seek B owns the app generation');
+        }
+        assert.equal(final.stages.some(event=>event.route==='full-original'),false);
+        assert.equal(calls.some(call=>call.query.alt==='media'&&call.path.endsWith('/video-A')),false,
+          'Playwright fulfillment must not bypass the production worker seek-race fixture');
+
+        await page.evaluate(()=>closePlayer());
+        await waitForFixture(state=>state.streams.every(stream=>Boolean(stream.terminal)),
+          'closing the player must terminate every seek-race stream',2000);
+        const closed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest(
+          'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE'));
+        assert(closed.state.streams.every(stream=>Boolean(stream.terminal)));
+        const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest(
+          'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
+        assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
+        assert.equal(disposed.state.configured,false);
+        configured=false;
+        assert.deepEqual(errors,[]);
+        record('uncached seek supersession fences a pending original Range from the final target',{
+          baseline:{streamCount:baseline.fixture.streams.length,deliveredEnd:baselineDeliveredEnd,
+            noSeekControlMs:500},
+          seekA:{generation:seekA.generation,
+            pendingAfterGrace:aAtSupersession.filter(stream=>stream.waitingForRelease&&!stream.terminal).length,
+            cancelledAfterGrace:aAtSupersession.filter(stream=>['cancelled','aborted'].includes(stream.terminal)).length,
+            streams:finalA.map(stream=>({
+            range:stream.range,terminal:stream.terminal,abortSignalSeen:stream.abortSignalSeen,
+            consumerCancelSeen:stream.consumerCancelSeen,lateReleaseOutcome:stream.lateReleaseOutcome
+          }))},
+          seekB:{generation:seekB.generation,target:seekB.target,presented:completion.presentedMediaTime,
+            streams:bStreams.map(stream=>stream.range)},
+          decodedVideoFrames:final.decodedVideoFrames,
+          decodedAudioBytes:final.decodedAudioBytes,
+          audioTracks:final.audioTracks
+        });
+      } finally {
+        try {
+          if(configured){
+            await page.evaluate(()=>{if(!el.playerSheet.hidden)closePlayer();});
+            const disposed=await page.evaluate(()=>globalThis.__driveOriginalQaSlowTailRequest(
+              'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSE'));
             assert.equal(disposed.type,'DRIVE_ORIGINAL_QA_SLOW_TAIL_DISPOSED');
             assert.equal(disposed.state.configured,false);
           }

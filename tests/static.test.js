@@ -192,6 +192,27 @@ test('faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat', (
   ]);
 });
 
+test('seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat', () => {
+  const fixture = fs.readFileSync(path.join(root, 'qa', 'seek-range-h264-aac.mp4'));
+  assert.equal(fixture.length, 5223316, 'seek-range seed size must remain fixed and below 6 MiB');
+  assert(fixture.length < 6 * 1024 * 1024);
+  assert.equal(crypto.createHash('sha256').update(fixture).digest('hex'), 'e77b2b55a20b403c08fa3edec1371090258b3531b1f41da4ad7f9c6be624a0a6');
+  const boxes = parseIsoBmffTopLevelBoxes(fixture);
+  const mdat = boxes.find((box) => box.type === 'mdat');
+  const moov = boxes.find((box) => box.type === 'moov');
+  assert.equal(boxes[0]?.type, 'ftyp');
+  assert(mdat);
+  assert(moov);
+  assert(moov.end <= mdat.offset, 'seek-range fixture must place moov before mdat');
+  assert.equal(boxes.some((box) => box.type === 'moof'), false, 'fixture must not be fragmented MP4');
+  assert.deepEqual(boxes.map(({ type, offset, size }) => ({ type, offset, size })), [
+    { type: 'ftyp', offset: 0, size: 32 },
+    { type: 'moov', offset: 32, size: 53361 },
+    { type: 'free', offset: 53393, size: 8 },
+    { type: 'mdat', offset: 53401, size: 5169915 }
+  ]);
+});
+
 test('candidate runtime config is loaded before app code and fails closed for Drive writes', () => {
   const app = read('app.js');
   const html = read('index.html');
