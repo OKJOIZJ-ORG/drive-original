@@ -96,3 +96,24 @@ Resumed after an interrupted tool session with the dirty audit branch intact. Pr
 ## 2026-09-17 - v1.20.0 acceptance follow-up
 
 Verified current GitHub/source and isolated codex/acceptance-v1.20.0-20260917 without touching the clean production workspace. Reproduced three failures before patching: missing foreground propagation, cancelled fulfilled-animation completion and double promise/deadline completion. Implemented scoped polling, projection refresh and one-shot transition identity; prepared cache-safe v1.20.1 metadata. Passed 131 Node tests, eight edge groups and eight functional groups; baseline independent-context browser test fails while fixed foreground state and visible favorites converge. Reviewed the offline fixture and invalidated its permissive interception result; stricter network blocking is implemented but an execution-tool block prevented rerun. No real Drive mutation, physical iPhone gesture or live two-device Google test was performed. See ACCEPTANCE-20260917.md and qa/acceptance-results.json; both real-device gates remain open.
+
+## 2026-09-19 — relocated canonical source; immersive v1.21.0 published
+
+User authorized continuing the nine UX/auth fixes directly, without delegating
+Antigravity or resuming the paused Codex automation. Verified relocated source
+and live main at 70ff332, reran baseline 120/candidate 131 tests, reviewed and reused
+9a13076, then implemented D-048 on codex/immersive-stability-20260919. Added 13
+regressions; 144 tests passed. Browser results: 12 functional groups, 8 edge
+groups, 50 layout states, 4 strict propagation/offline groups and a cached-shell
+upgrade fixture. Actual iPhone/Google-device/session-duration gates remain open.
+
+Committed e08989a6caecc51bc2fdd37f538619fa8ed5900d, fast-forwarded main and pushed.
+The existing public-only publish command reran all 144 tests and published
+ef9c24b7c5b4d0ef746a75e7300d48b1245d14d2. Pages run 35425467582 succeeded. Live
+verification at 2026-09-19T06:03:50.728Z matched eleven assets to Git blobs,
+confirmed three internal routes return 404, and passed cold mobile/desktop demo
+controls/back/accessibility with no errors. The first verifier's wrong image
+selector was corrected only in QA; its failed output remains local evidence.
+Production runtime did not change after e08989a. Archived the old checkpoint and
+updated release/implementation/product-truth records. No real Drive media or
+external Notion maintenance was changed. See RELEASE-1.21.0.md.

@@ -44,7 +44,7 @@ let browser;
       await page.waitForFunction(v=>APP_VERSION===v&&state.demo&&!state.loadingFiles&&navigator.serviceWorker.controller,version);
       const folder=await page.evaluate(()=>state.currentFolderId);
       await page.evaluate(()=>openPlayer(state.files.find(f=>f.mimeType?.startsWith('image/'))));
-      await page.waitForFunction(()=>!el.playerSheet.hidden&&el.imagePlayer.complete);
+      await page.waitForFunction(()=>!el.playerSheet.hidden&&el.imageViewer.complete&&el.imageViewer.naturalWidth>0);
       assert.equal(await page.evaluate(()=>playerChrome.inert),true);
       if(viewport.width<600)await page.touchscreen.tap(viewport.width/2,viewport.height-3);
       else await page.mouse.move(viewport.width/2,viewport.height-3);

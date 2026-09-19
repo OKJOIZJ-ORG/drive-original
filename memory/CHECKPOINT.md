@@ -1,11 +1,36 @@
-# Checkpoint — v1.20.0 released — 2026-09-17
+# Checkpoint — v1.21.0 production verified — 2026-09-19
 
-Implementation `5faf6ba5320946592928225e3aeb585db1c14e18` is live through public tree `c907530694b98d0d1e28dab7d7935bb28d2ffa74`. GitHub Pages build `1219624967` is built and Actions `35132094392` succeeded. Eleven public assets match the source Git blobs; internal memory, test and QA routes return 404. Production mobile/desktop smoke and back restoration passed.
+Canonical Git source: `C:\Users\jbs\Desktop\폴더모음\자작프로그램\Drive-Original\source`.
+Runtime commit `e08989a6caecc51bc2fdd37f538619fa8ed5900d` is live through public
+deployment `ef9c24b7c5b4d0ef746a75e7300d48b1245d14d2`. Pages is built; Actions
+`35425467582` succeeded. All eleven nonempty public assets match source Git blobs;
+internal memory/tests/qa routes return 404. Cold production mobile/desktop demo
+smoke passed with bottom controls, player-only back, zero axe/console/page errors.
 
-The comprehensive audit and Apple-like mobile edge-back refinement are recorded in `AUDIT-20260917.md`, D-043–D-046 and `RELEASE-1.20.0.md`. 120 Node tests passed three consecutive runs; final Chrome/WebKit 40-state checks, eight functional fixture groups and eight navigation groups passed. Physical iPhone OS behavior and real multi-device propagation remain explicit verification boundaries.
+The nine user requests are implemented and mapped to evidence in
+`IMMERSIVE-20260919.md`, D-048 and `RELEASE-1.21.0.md`. Main includes the reviewed
+`9a13076` sync/one-shot-edge candidate; PR #1 is merged. Current follow-up changes
+to documentation/QA do not change the runtime identity above.
 
-Source changes live on `main`; publish with `node scripts/publish-pages.cjs` after committing. The public-only `gh-pages` branch is the Pages source. The earlier whole-repository workflow remains unchanged and disabled because its proposed replacement required an unavailable OAuth scope. The original unpushed proposal is retained locally at `5b9fc92` and its audit branches.
+Verified: 144 Node tests, 12 functional browser groups, 50 Chrome/WebKit layout
+states, 8 edge groups, 4 independent-context propagation groups and an actual
+v1.20.0 Git-shell-to-v1.21.0 offline-preserving update fixture. Strict offline
+replay A-003 is closed. Still open: physical iPhone Safari/PWA A-001, actual two
+Google-authenticated devices A-002 and actual long-duration renewal A-004.
 
-The final tagged source archive is `Drive-Original-v1.20.0.zip` with `Drive-Original.zip` as stable alias in Downloads. The authoritative package hash and canonical maintenance readback are in the Notion page `cde9b849-3a7f-473f-9915-e948b1e6defe` and sibling `release-evidence.json`. Use local `ntn` only; do not use a Notion plugin.
+Controls reveal only from the bottom pointer/touch zone or explicit keyboard
+access, not pause or generic movement. Back and video swipe have separate owners.
+Same-account renewal preserves the view; file permission errors are not logout.
+Do not promise perpetual login or treat mock/viewport tests as hardware proof.
 
-For new reports, reproduce against this release and extend the focused regression case. Do not redo the broad audit or claim physical-device coverage from fixture evidence.
+Publish only with `node scripts/publish-pages.cjs` from a clean committed source.
+The gh-pages branch contains only the public allowlist; leave the old repository-
+wide workflow disabled. Source tests/QA and private records must not be published.
+The paused automation was not restarted. No Antigravity delegation, real Drive
+mutation or external Notion maintenance was performed.
+
+The outgoing checkpoint is preserved at
+`checkpoints/CHECKPOINT-before-v1.21.0-20260919.md`. Workspace layout/recovery is
+owned by the parent README. Future packages go to parent `releases`; do not
+recreate old scratch/Downloads copies. Reproduce new user reports against the
+served v1.21.0, retaining the explicit real-device acceptance boundaries.

@@ -86,3 +86,11 @@ while offline and reconnection/reload preservation. A-003 is closed; physical
 iPhone A-001, actual two-device Google A-002 and actual long-duration A-004 remain
 open. No destructive real Drive operation was performed. See IMMERSIVE-20260919.md
 and qa/immersive-results.json. Deployment is a separate evidence claim.
+
+- operational 2026-09-19: v1.21.0 runtime `e08989a6caecc51bc2fdd37f538619fa8ed5900d`
+  is served by public-only deployment `ef9c24b7c5b4d0ef746a75e7300d48b1245d14d2`.
+  Pages run `35425467582` succeeded. Eleven public assets match the runtime Git
+  blobs, internal memory/tests/qa routes return 404, and cold production demo
+  profiles at 390x844 and 1280x800 pass bottom-controls/player-only-back/axe with
+  no page or console errors. Exact evidence: RELEASE-1.21.0.md and the local
+  qa/release-1.21.0-production/results.json. Real-device gates remain open.
