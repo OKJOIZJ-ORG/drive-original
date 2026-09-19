@@ -9,6 +9,11 @@ export { AuthObject };
 const CALLBACK_PATH = '/auth/google/callback';
 const START_PATH = '/auth/google/start';
 const CALLBACK_RECOVERY_ERRORS = new Set(['transaction_invalid', 'auth_unavailable']);
+const AUTH_DIAGNOSTIC_STAGES = new Set([
+  'google_token_fetch_failed', 'google_token_response_invalid', 'google_token_invalid_grant',
+  'google_token_invalid_client', 'google_token_rejected', 'google_token_payload_invalid',
+  'google_id_token_invalid', 'account_key_failed', 'account_establish_failed', 'session_index_failed',
+]);
 const SESSION_MAX_AGE = Math.floor(SESSION_ABSOLUTE_MS / 1000);
 const cookie = (name, value, maxAge) => `${name}=${value}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
 const expire = name => cookie(name, '', 0);
@@ -105,8 +110,18 @@ function returnPathOf(url, origin) {
 export function createWorkerHandler(env, {
   fetchImpl = fetch, clock = Date.now, random = opaqueId,
   callObject = (name, payload) => callAuthObject(env, name, payload),
+  authDiagnostic = null,
 } = {}) {
   const object = (name, payload) => callObject(name, payload);
+  const diagnostic = typeof authDiagnostic === 'function'
+    ? authDiagnostic
+    : env?.AUTH_DIAGNOSTICS === 'true'
+      ? stage => console.warn(`[drive-original-auth] ${stage}`)
+      : null;
+  const diagnose = stage => {
+    if (!AUTH_DIAGNOSTIC_STAGES.has(stage) || typeof diagnostic !== 'function') return;
+    try { diagnostic(stage); } catch {}
+  };
 
   async function start(request, settings, crypt) {
     if (!sameOriginStart(request, settings.origin)) throw new AuthError('forbidden');
@@ -140,21 +155,33 @@ export function createWorkerHandler(env, {
     if (error) throw new AuthError('transaction_invalid');
     const verified = await exchangeGoogleAuthorizationCode({
       code, transaction, clientId: settings.clientId, clientSecret: settings.clientSecret,
-      redirectUri: settings.redirectUri, fetchImpl, clock,
+      redirectUri: settings.redirectUri, fetchImpl, clock, diagnostic: diagnose,
     });
-    const account = await crypt.deriveAccountKey(verified.iss, verified.sub);
-    const established = await object(`account:${account}`, {
-      kind: 'account', operation: 'establish', args: {
-        account,
-        verified: { account, accessToken: verified.accessToken, expiresAt: verified.expiresAt, refreshToken: verified.refreshToken },
-      },
-    });
+    let account;
+    try { account = await crypt.deriveAccountKey(verified.iss, verified.sub); }
+    catch {
+      diagnose('account_key_failed');
+      throw new AuthError('auth_unavailable');
+    }
+    let established;
+    try {
+      established = await object(`account:${account}`, {
+        kind: 'account', operation: 'establish', args: {
+          account,
+          verified: { account, accessToken: verified.accessToken, expiresAt: verified.expiresAt, refreshToken: verified.refreshToken },
+        },
+      });
+    } catch (error) {
+      diagnose('account_establish_failed');
+      throw error;
+    }
     try {
       const sessionIndex = await crypt.sessionIndexKey(established.sessionId);
       await object(`session:${sessionIndex}`, {
         kind: 'session-index', operation: 'set', args: { accountKey: account, expiresAt: clock() + SESSION_ABSOLUTE_MS },
       });
     } catch {
+      diagnose('session_index_failed');
       await object(`account:${account}`, {
         kind: 'account', operation: 'logout', args: { account, input: { sessionId: established.sessionId } },
       }).catch(() => {});

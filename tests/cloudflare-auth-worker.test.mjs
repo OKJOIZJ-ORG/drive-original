@@ -26,6 +26,7 @@ const env = {
 test('checked-in candidate enables auth at the exact public origin while Drive writes remain disabled', () => {
   const config = JSON.parse(fs.readFileSync(new URL('../worker/wrangler.jsonc', import.meta.url), 'utf8'));
   assert.equal(config.vars.AUTH_ENABLED, 'true');
+  assert.equal(config.vars.AUTH_DIAGNOSTICS, 'true');
   assert.equal(config.vars.CANDIDATE_DRIVE_WRITES_ENABLED, 'false');
   assert.equal(config.vars.PUBLIC_ORIGIN, 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev');
   assert.match(config.vars.GOOGLE_CLIENT_ID, /^\d+-[a-z0-9]+\.apps\.googleusercontent\.com$/u);
@@ -126,14 +127,38 @@ test('code exchange sends verifier and rejects a token response missing any gran
   assert.equal(result.expiresAt, fixedNow + 3600_000);
   assert.equal(tokenRequests, 1);
 
+  const diagnostics = [];
   await assert.rejects(exchangeGoogleAuthorizationCode({
     code: 'code', transaction, clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET,
     redirectUri: `${origin}/auth/google/callback`, clock: () => fixedNow, jwks: fixture.jwks,
+    diagnostic: stage => diagnostics.push(stage),
     fetchImpl: async () => Response.json({
       access_token: 'access', expires_in: 3600, refresh_token: 'refresh', token_type: 'Bearer',
       scope: REQUIRED_GOOGLE_SCOPES.slice(0, -1).join(' '), id_token: fixture.token,
     }),
   }), error => error.code === 'auth_unavailable');
+  assert.deepEqual(diagnostics, ['google_token_payload_invalid']);
+});
+
+test('code exchange reports only fixed diagnostic stages for rejected Google responses', async () => {
+  const transaction = { state: 's'.repeat(64), pkceVerifier: 'v'.repeat(64), nonce: 'n'.repeat(64) };
+  for (const [providerError, expectedStage] of [
+    ['invalid_grant', 'google_token_invalid_grant'],
+    ['invalid_client', 'google_token_invalid_client'],
+    ['unauthorized_client', 'google_token_invalid_client'],
+    ['deleted_client', 'google_token_invalid_client'],
+    ['private-provider-detail', 'google_token_rejected'],
+  ]) {
+    const diagnostics = [];
+    await assert.rejects(exchangeGoogleAuthorizationCode({
+      code: 'fake-code', transaction, clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET,
+      redirectUri: `${origin}/auth/google/callback`, clock: () => fixedNow,
+      diagnostic: stage => diagnostics.push(stage),
+      fetchImpl: async () => Response.json({ error: providerError, error_description: 'must not escape' }, { status: 400 }),
+    }), error => error.code === 'auth_unavailable');
+    assert.deepEqual(diagnostics, [expectedStage]);
+    assert.doesNotMatch(JSON.stringify(diagnostics), /provider|escape|fake-code|client-id/i);
+  }
 });
 
 class FakeCursor {
@@ -214,7 +239,9 @@ function responseCookies(response) {
   return typeof response.headers.getSetCookie === 'function' ? response.headers.getSetCookie() : [response.headers.get('Set-Cookie')];
 }
 
-async function workerFlowFixture({ failLocator = false, consumeError = null } = {}) {
+async function workerFlowFixture({
+  failLocator = false, consumeError = null, tokenError = null, authDiagnostic = null, authDiagnosticsEnabled = false,
+} = {}) {
   const jwt = await signingFixture();
   const state = '1'.repeat(64);
   const preauth = '2'.repeat(64);
@@ -251,15 +278,20 @@ async function workerFlowFixture({ failLocator = false, consumeError = null } = 
     throw new Error(`Unexpected operation ${payload.kind}/${payload.operation}`);
   };
   const fetchImpl = async url => {
-    if (url === GOOGLE_TOKEN_ENDPOINT) return Response.json({
-      access_token: 'access', expires_in: 3600, refresh_token: 'refresh', token_type: 'Bearer',
-      scope: REQUIRED_GOOGLE_SCOPES.join(' '), id_token: jwt.token,
-    });
+    if (url === GOOGLE_TOKEN_ENDPOINT) {
+      if (tokenError) return Response.json({ error: tokenError, error_description: 'private upstream detail' }, { status: 400 });
+      return Response.json({
+        access_token: 'access', expires_in: 3600, refresh_token: 'refresh', token_type: 'Bearer',
+        scope: REQUIRED_GOOGLE_SCOPES.join(' '), id_token: jwt.token,
+      });
+    }
     if (url === GOOGLE_JWKS_ENDPOINT) return Response.json(jwt.jwks);
     throw new Error(`Unexpected fetch ${url}`);
   };
   const randomValues = [state, preauth];
-  const handler = createWorkerHandler(env, { fetchImpl, clock: () => fixedNow, random: () => randomValues.shift(), callObject });
+  const handler = createWorkerHandler({ ...env, AUTH_DIAGNOSTICS: authDiagnosticsEnabled ? 'true' : 'false' }, {
+    fetchImpl, clock: () => fixedNow, random: () => randomValues.shift(), callObject, authDiagnostic,
+  });
   return { handler, calls, state, preauth, sessionId };
 }
 
@@ -316,6 +348,36 @@ test('recoverable callback failures expire pre-auth and redirect to one allowlis
   assert.equal(callback.headers.get('Location'), `${origin}/?authError=transaction_invalid`);
   assert.match(responseCookies(callback).join('\n'), /__Host-drive_original_oauth=;.*Max-Age=0/);
   assert.doesNotMatch(callback.headers.get('Location'), /secret-code|secret-scope|state=/);
+});
+
+test('live diagnostic wiring reports a fixed token rejection stage without leaking provider data', async () => {
+  const diagnostics = [];
+  const fixture = await workerFlowFixture({ tokenError: 'invalid_client', authDiagnostic: stage => diagnostics.push(stage) });
+  await fixture.handler(new Request(`${origin}/auth/google/start`, { headers: { 'Sec-Fetch-Site': 'same-origin' } }));
+  const callback = await fixture.handler(new Request(`${origin}/auth/google/callback?code=secret-code&state=${fixture.state}`, {
+    headers: { Cookie: `__Host-drive_original_oauth=${fixture.preauth}` },
+  }));
+  assert.equal(callback.status, 303);
+  assert.equal(callback.headers.get('Location'), `${origin}/?authError=auth_unavailable`);
+  assert.deepEqual(diagnostics, ['google_token_invalid_client']);
+  assert.doesNotMatch(JSON.stringify(diagnostics), /private|secret-code|upstream/);
+});
+
+test('checked-in diagnostic flag uses the fixed-stage logger without upstream data', async () => {
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = (...args) => warnings.push(args);
+  try {
+    const fixture = await workerFlowFixture({ tokenError: 'invalid_client', authDiagnosticsEnabled: true });
+    await fixture.handler(new Request(`${origin}/auth/google/start`, { headers: { 'Sec-Fetch-Site': 'same-origin' } }));
+    await fixture.handler(new Request(`${origin}/auth/google/callback?code=secret-code&state=${fixture.state}`, {
+      headers: { Cookie: `__Host-drive_original_oauth=${fixture.preauth}` },
+    }));
+  } finally {
+    console.warn = originalWarn;
+  }
+  assert.deepEqual(warnings, [['[drive-original-auth] google_token_invalid_client']]);
+  assert.doesNotMatch(JSON.stringify(warnings), /private|secret-code|upstream|not-a-live-secret/);
 });
 
 test('failed session-locator creation rolls account establishment back before any session cookie escapes', async () => {

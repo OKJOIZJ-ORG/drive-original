@@ -14,6 +14,16 @@ export const REQUIRED_GOOGLE_SCOPES = Object.freeze([
 const encoder = new TextEncoder();
 const decoder = new TextDecoder('utf-8', { fatal: true });
 const fail = code => { throw new AuthError(code); };
+const report = (diagnostic, stage) => {
+  if (typeof diagnostic !== 'function') return;
+  try { diagnostic(stage); } catch {}
+};
+
+function tokenRejectionStage(body) {
+  if (body?.error === 'invalid_grant') return 'google_token_invalid_grant';
+  if (['invalid_client', 'unauthorized_client', 'deleted_client'].includes(body?.error)) return 'google_token_invalid_client';
+  return 'google_token_rejected';
+}
 
 async function readBoundedJson(response, maximum = 32_768) {
   const reader = response.body?.getReader();
@@ -136,7 +146,10 @@ function validateTokenResponse(body, clock) {
   };
 }
 
-export async function exchangeGoogleAuthorizationCode({ code, transaction, clientId, clientSecret, redirectUri, fetchImpl = fetch, clock = Date.now, jwks }) {
+export async function exchangeGoogleAuthorizationCode({
+  code, transaction, clientId, clientSecret, redirectUri,
+  fetchImpl = fetch, clock = Date.now, jwks, diagnostic,
+}) {
   if (typeof code !== 'string' || !code || code.length > 2048 || typeof clientSecret !== 'string' || !clientSecret) fail('bad_request');
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15_000);
@@ -151,10 +164,39 @@ export async function exchangeGoogleAuthorizationCode({ code, transaction, clien
           grant_type: 'authorization_code', code_verifier: transaction.pkceVerifier,
         }),
       });
-    } catch { fail('auth_unavailable'); }
-    if (!response.ok || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('auth_unavailable');
-    const tokens = validateTokenResponse(await readBoundedJson(response), clock);
-    const identity = await verifyGoogleIdToken({ idToken: tokens.idToken, clientId, nonce: transaction.nonce, fetchImpl, clock, jwks, signal: controller.signal });
+    } catch {
+      report(diagnostic, 'google_token_fetch_failed');
+      fail('auth_unavailable');
+    }
+    if (response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') {
+      report(diagnostic, 'google_token_response_invalid');
+      fail('auth_unavailable');
+    }
+    let body;
+    try { body = await readBoundedJson(response); }
+    catch (error) {
+      report(diagnostic, 'google_token_response_invalid');
+      throw error;
+    }
+    if (!response.ok) {
+      report(diagnostic, tokenRejectionStage(body));
+      fail('auth_unavailable');
+    }
+    let tokens;
+    try { tokens = validateTokenResponse(body, clock); }
+    catch (error) {
+      report(diagnostic, 'google_token_payload_invalid');
+      throw error;
+    }
+    let identity;
+    try {
+      identity = await verifyGoogleIdToken({
+        idToken: tokens.idToken, clientId, nonce: transaction.nonce, fetchImpl, clock, jwks, signal: controller.signal,
+      });
+    } catch (error) {
+      report(diagnostic, 'google_id_token_invalid');
+      throw error;
+    }
     return { ...identity, accessToken: tokens.accessToken, expiresAt: tokens.expiresAt, refreshToken: tokens.refreshToken };
   } finally { clearTimeout(timer); }
 }
