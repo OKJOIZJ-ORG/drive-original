@@ -1447,46 +1447,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   overflow: hidden;
 }
 
-/* Immersive Clean Tap & Mouse Idle Auto-hide (Pure Black Cinema Mode) */
-.player-modal.immersive .player-topbar,
-.player-modal.controls-idle .player-topbar {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translateY(-14px) !important;
-  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
-}
-
-.player-modal.immersive .custom-video-controls,
-.player-modal.controls-idle .custom-video-controls {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translateX(-50%) translateY(14px) !important;
-  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
-}
-
-.player-modal.immersive .media-info-bar,
-.player-modal.controls-idle .media-info-bar {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translateY(14px) !important;
-  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
-}
-
-.player-modal.immersive .stage-center-play-btn,
-.player-modal.controls-idle .stage-center-play-btn {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translate(-50%, -50%) scale(0.88) !important;
-  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
-}
-
-.player-modal.immersive .player-ctrl-btn,
-.player-modal.controls-idle .player-ctrl-btn {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 240ms var(--ease-out);
-}
-
+/* Chrome visibility is owned by the single bottom wrapper, not each child. */
 .player-modal.immersive .ambient-backdrop,
 .player-modal.controls-idle .ambient-backdrop {
   opacity: 0 !important;
@@ -3405,22 +3366,6 @@ dialog {
     display: none !important;
   }
 
-  .player-modal.immersive .player-topbar {
-    opacity: 0;
-    transform: translateY(-10px);
-    visibility: hidden;
-    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
-  }
-
-  .player-modal.immersive .mobile-shorts-overlay,
-  .player-modal.controls-idle .mobile-shorts-overlay {
-    opacity: 0;
-    transform: translateY(12px);
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
-  }
-
   .media-loading {
     width: min(280px, calc(100% - 40px));
     padding: 16px 18px;
@@ -3693,3 +3638,85 @@ dialog {
 .library-edge-snapshot .file-card { content-visibility: visible; }
 .library-edge-snapshot .edge-shade { position: absolute; inset: 0; background: #000; pointer-events: none; }
 .library-edge-snapshot .folder-row { background: var(--system-bg-secondary); }
+
+/* One bottom-owned chrome layer; title/actions no longer occupy video space. */
+.player-chrome {
+  position: absolute;
+  z-index: 24;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 38px max(20px, var(--safe-right)) max(12px, var(--safe-bottom)) max(20px, var(--safe-left));
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .58) 35%, rgba(0, 0, 0, .86));
+  /* Focus must work synchronously in the same Tab event. Animate paint only. */
+  transition: opacity 160ms var(--ease-out);
+}
+.player-modal.controls-idle .player-chrome {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.media-stage:focus { outline: none; }
+.player-modal.controls-idle .player-feedback,
+.player-modal.controls-idle .favorite-feedback {
+  opacity: 0;
+  pointer-events: none;
+}
+.player-chrome .player-topbar {
+  position: relative;
+  inset: auto;
+  padding: 0;
+  background: transparent;
+  gap: 12px;
+}
+.player-chrome .custom-video-controls {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: none;
+  transform: none !important;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.player-chrome .player-title-box { flex: 1; min-width: 0; }
+.player-chrome .player-title-box h2 { font-size: 14px; }
+.player-chrome .player-ctrl-btn { box-shadow: none; }
+.file-card, .file-card-open, .file-card img, .file-card-visual {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+.file-card-open { touch-action: pan-y pinch-zoom; }
+.media-stage > img, .media-stage > video {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+@media (max-width: 600px) {
+  .player-chrome { padding: 28px max(14px, var(--safe-right)) max(12px, var(--safe-bottom)) max(14px, var(--safe-left)); gap: 6px; }
+  .player-chrome .mobile-shorts-overlay {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    transform: none !important;
+  }
+  .player-chrome .player-topbar { padding: 0; }
+  .player-chrome .stream-badge-row { max-width: 100%; box-shadow: none; }
+  .player-chrome .player-title-box { overflow: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .player-chrome { transition: none; }
+}
