@@ -67,6 +67,7 @@ function classifyMediaProxyFailure(data = {}) {
   const driveReason = String(data.driveReason || reasons[0] || '');
   const category = String(data.category || '');
   if (category === 'auth' || status === 401) return 'auth';
+  if (category === 'timeout') return 'timeout';
   if (category === 'rate-limit' || status === 429 || /rateLimitExceeded/i.test(driveReason)) return 'rate-limit';
   if (category === 'not-found' || status === 404) return 'not-found';
   if (status === 416 || category === 'range-not-satisfiable') return 'range-416';
@@ -635,7 +636,7 @@ const MEDIA_DIAGNOSTIC_PROGRESS_INTERVAL_MS = 250;
 const MEDIA_DIAGNOSTIC_WORKER_STAGES = new Set([
   'credential-requested', 'credential-ready', 'credential-missing',
   'request-start', 'headers', 'first-byte', 'body-progress', 'body-complete',
-  'body-error', 'http-error', 'range-error', 'request-cancelled'
+  'first-byte-timeout', 'body-error', 'http-error', 'range-error', 'request-cancelled'
 ]);
 
 function getMediaDiagnosticSink() {

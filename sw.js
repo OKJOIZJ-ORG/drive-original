@@ -4,6 +4,7 @@ const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
 const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
+const MEDIA_FIRST_BYTE_TIMEOUT_MS = 15_000;
 const SHELL_FILES = [
   './',
   './index.html',
@@ -210,21 +211,23 @@ async function proxyDriveMedia(request, url, clientId) {
       headers.set('Authorization', `Bearer ${credential.token}`);
       upstreamAttempt += 1;
       notifyMediaTrace(context, 'request-start', { attempt: upstreamAttempt });
-      const response = await fetchMediaWithHeadersDeadline(driveUrl.toString(), {
+      const attempt = await fetchMediaWithHeadersDeadline(driveUrl.toString(), {
         method: request.method,
         headers,
         redirect: 'follow',
         mode: 'cors',
         cache: 'no-store'
       }, request.signal);
+      const response = attempt.response;
       notifyMediaTrace(context, 'headers', {
         attempt: upstreamAttempt,
         status: response.status,
         totalBytes: Number(response.headers.get('Content-Length')) || 0
       });
-      return response;
+      return attempt;
     };
-    let upstream = await fetchMedia();
+    let upstreamFetch = await fetchMedia();
+    let upstream = upstreamFetch.response;
     if (upstream.status === 401) {
       const rejectedCredential = credential;
       const cached = clientCredentials.get(clientId);
@@ -250,7 +253,9 @@ async function proxyDriveMedia(request, url, clientId) {
         && credential.account === rejectedCredential.account
         && credential.revision > rejectedCredential.revision) {
         await upstream.body?.cancel();
-        upstream = await fetchMedia();
+        upstreamFetch.release();
+        upstreamFetch = await fetchMedia();
+        upstream = upstreamFetch.response;
       }
     }
 
@@ -280,7 +285,11 @@ async function proxyDriveMedia(request, url, clientId) {
       });
       const errorHeaders = new Headers(upstream.headers);
       errorHeaders.set('Cache-Control', 'no-store');
-      return new Response(request.method === 'HEAD' ? null : upstream.body, {
+      if (request.method === 'HEAD') upstreamFetch.release();
+      const errorBody = request.method === 'HEAD'
+        ? null
+        : finalizeMediaResponseBody(upstream.body, upstreamFetch);
+      return new Response(errorBody, {
         status: upstream.status,
         statusText: upstream.statusText,
         headers: errorHeaders
@@ -298,14 +307,19 @@ async function proxyDriveMedia(request, url, clientId) {
     const contentRange = exposedContentRange || inferredContentRange;
     const contentRangeInferred = Boolean(inferredContentRange);
     const declaredLength = upstream.headers.get('Content-Length');
-    const interval = /^bytes\s+(\d+)-(\d+)\//i.exec(String(contentRange || ''));
-    const lengthConsistent = !declaredLength || (interval && /^\d+$/.test(declaredLength)
+    const satisfiedInterval = parseSatisfiedContentRange(contentRange);
+    const expectedRangeBytes = satisfiedInterval
+      ? satisfiedInterval.end - satisfiedInterval.start + 1
+      : 0;
+    const expectedRangeLengthSafe = Number.isSafeInteger(expectedRangeBytes) && expectedRangeBytes > 0;
+    const lengthConsistent = expectedRangeLengthSafe && (!declaredLength || (satisfiedInterval && /^\d+$/.test(declaredLength)
       && Number.isSafeInteger(Number(declaredLength))
-      && Number(declaredLength) === Number(interval[2]) - Number(interval[1]) + 1);
+      && Number(declaredLength) === expectedRangeBytes));
     const rangeSatisfied = upstream.status === 206
       && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent);
     if (upstream.status === 206 && !rangeSatisfied) {
       await upstream.body?.cancel();
+      upstreamFetch.release();
       notifyMediaTrace(context, 'range-error', {
         status: upstream.status,
         reason: 'range-invalid',
@@ -350,14 +364,15 @@ async function proxyDriveMedia(request, url, clientId) {
       });
     }
 
+    if (request.method === 'HEAD') upstreamFetch.release();
     const responseBody = request.method === 'HEAD'
       ? null
       : instrumentMediaResponseBody(upstream.body, context, {
-          totalBytes: Number(declaredLength) || 0,
+          totalBytes: rangeSatisfied ? expectedRangeBytes : Number(declaredLength) || 0,
           status: upstream.status,
           rangeSatisfied,
           playbackMode: rangeSatisfied ? 'original-range' : 'original-sequential'
-        });
+        }, upstreamFetch, request.signal);
     return new Response(responseBody, {
       status: upstream.status,
       statusText: upstream.statusText,
@@ -412,7 +427,18 @@ async function fetchMediaWithHeadersDeadline(url, options, requestSignal) {
   try {
     const response = await fetch(url, { ...options, signal: controller.signal });
     headersReceived = true;
-    return response;
+    let released = false;
+    return {
+      response,
+      abort(reason) {
+        if (!controller.signal.aborted) controller.abort(reason);
+      },
+      release() {
+        if (released) return;
+        released = true;
+        requestSignal?.removeEventListener('abort', abortForCaller);
+      }
+    };
   } catch (error) {
     if (timedOut && !requestSignal?.aborted) {
       const timeoutError = new Error('Media response headers timeout');
@@ -434,19 +460,17 @@ function normalizeMediaTraceId(value) {
   return /^[A-Za-z0-9._-]{1,80}$/.test(traceId) ? traceId : '';
 }
 
-function instrumentMediaResponseBody(body, context, details = {}) {
-  if (!body || !context.traceId || typeof body.getReader !== 'function') return body;
+function finalizeMediaResponseBody(body, upstreamFetch) {
+  if (!body || typeof body.getReader !== 'function') {
+    upstreamFetch?.release?.();
+    return body;
+  }
   const reader = body.getReader();
-  const totalBytes = Number(details.totalBytes) || 0;
-  let received = 0;
-  let firstByteSeen = false;
-  let lastProgressBytes = 0;
-  let lastProgressAt = Date.now();
   let settled = false;
-
   const settle = () => {
     if (settled) return false;
     settled = true;
+    upstreamFetch?.release?.();
     try { reader.releaseLock?.(); } catch (_) {}
     return true;
   };
@@ -454,45 +478,192 @@ function instrumentMediaResponseBody(body, context, details = {}) {
     async pull(controller) {
       try {
         const { done, value } = await reader.read();
+        if (settled) return;
         if (done) {
-          if (settle()) {
-            notifyMediaTrace(context, 'body-complete', {
-              ...details, bytes: received, totalBytes, terminal: false
-            });
-          }
+          settle();
           controller.close();
           return;
         }
-        const byteLength = Number(value?.byteLength) || 0;
-        received += byteLength;
-        if (!firstByteSeen && byteLength > 0) {
-          firstByteSeen = true;
-          lastProgressAt = Date.now();
-          notifyMediaTrace(context, 'first-byte', {
-            ...details, bytes: received, totalBytes
-          });
-        }
-        const now = Date.now();
-        if (
-          received - lastProgressBytes >= 1024 * 1024
-          || now - lastProgressAt >= MEDIA_TRACE_PROGRESS_INTERVAL_MS
-          || (totalBytes > 0 && received >= totalBytes)
-        ) {
-          lastProgressBytes = received;
-          lastProgressAt = now;
-          notifyMediaTrace(context, 'body-progress', {
-            ...details, bytes: received, totalBytes
-          });
-        }
         controller.enqueue(value);
       } catch (error) {
-        if (settle()) {
+        if (!settled) {
+          settle();
+          controller.error(error);
+        }
+      }
+    },
+    async cancel(reason) {
+      if (settled) return;
+      upstreamFetch?.abort?.(reason);
+      try { await reader.cancel(reason); } catch (_) {}
+      settle();
+    }
+  }, { highWaterMark: 0 });
+}
+
+function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch = null, requestSignal = null) {
+  if (!body || typeof body.getReader !== 'function') {
+    upstreamFetch?.release?.();
+    return body;
+  }
+  const reader = body.getReader();
+  const totalBytes = Number(details.totalBytes) || 0;
+  let received = 0;
+  let firstByteSeen = false;
+  let firstByteTimer = null;
+  let lastProgressBytes = 0;
+  let lastProgressAt = Date.now();
+  let terminalWinner = '';
+  let terminalError = null;
+  let terminalNotificationPromise = null;
+  let resolveTimeoutNotification;
+  const timeoutNotificationComplete = new Promise((resolve) => {
+    resolveTimeoutNotification = resolve;
+  });
+
+  const clearFirstByteDeadline = () => {
+    if (firstByteTimer == null) return;
+    clearTimeout(firstByteTimer);
+    firstByteTimer = null;
+  };
+  const releaseReaderLock = () => {
+    try { reader.releaseLock?.(); } catch (_) {}
+  };
+  const claimTerminal = (winner, releaseLock = true) => {
+    if (terminalWinner) return false;
+    terminalWinner = winner;
+    clearFirstByteDeadline();
+    upstreamFetch?.release?.();
+    if (releaseLock) releaseReaderLock();
+    return true;
+  };
+  const armFirstByteDeadline = () => {
+    if (terminalWinner || firstByteSeen || firstByteTimer != null) return;
+    firstByteTimer = setTimeout(() => {
+      if (terminalWinner || firstByteSeen || requestSignal?.aborted) return;
+      const timeoutError = new Error('Media response first byte timeout');
+      timeoutError.name = 'MediaFirstByteTimeoutError';
+      if (!claimTerminal('first-byte-timeout', false)) return;
+      terminalError = timeoutError;
+      notifyMediaTrace(context, 'first-byte-timeout', {
+        ...details,
+        bytes: received,
+        totalBytes,
+        status: 504,
+        reason: 'first-byte-timeout',
+        terminal: true
+      });
+      terminalNotificationPromise = notifyMediaError(context, 504, [], 0, {
+        category: 'timeout',
+        driveReason: 'firstByteTimeout',
+        rangeSatisfied: false
+      });
+      void terminalNotificationPromise.finally(() => resolveTimeoutNotification(timeoutError));
+      upstreamFetch?.abort?.(timeoutError);
+    }, MEDIA_FIRST_BYTE_TIMEOUT_MS);
+  };
+  const failBodyLength = async (controller, actualBytes) => {
+    const lengthError = new Error('Drive media body length mismatch');
+    lengthError.name = 'MediaBodyLengthError';
+    if (claimTerminal('body-length-error')) {
+      notifyMediaTrace(context, 'body-error', {
+        ...details,
+        bytes: actualBytes,
+        totalBytes,
+        reason: 'body-length-mismatch',
+        terminal: true
+      });
+      await notifyMediaError(context, 0, [], 0, {
+        category: 'network',
+        driveReason: 'bodyLengthMismatch',
+        rangeSatisfied: false
+      });
+      upstreamFetch?.abort?.(lengthError);
+    }
+    controller.error(lengthError);
+  };
+  return new ReadableStream({
+    async pull(controller) {
+      if (terminalWinner) return;
+      armFirstByteDeadline();
+      try {
+        while (!terminalWinner) {
+          const pendingRead = reader.read();
+          const { done, value } = firstByteSeen
+            ? await pendingRead
+            : await Promise.race([
+                pendingRead,
+                timeoutNotificationComplete.then((error) => Promise.reject(error))
+              ]);
+          if (terminalWinner) {
+            releaseReaderLock();
+            if (terminalWinner === 'first-byte-timeout') {
+              await terminalNotificationPromise;
+              controller.error(terminalError);
+            }
+            return;
+          }
+          if (done) {
+            if (details.rangeSatisfied === true && totalBytes > 0 && received !== totalBytes) {
+              await failBodyLength(controller, received);
+              return;
+            }
+            if (claimTerminal('body-complete')) {
+              notifyMediaTrace(context, 'body-complete', {
+                ...details, bytes: received, totalBytes, terminal: false
+              });
+            }
+            controller.close();
+            return;
+          }
+          const byteLength = Number(value?.byteLength) || 0;
+          if (byteLength <= 0) continue;
+          const nextReceived = received + byteLength;
+          if (details.rangeSatisfied === true && totalBytes > 0 && nextReceived > totalBytes) {
+            await failBodyLength(controller, nextReceived);
+            return;
+          }
+          received = nextReceived;
+          if (!firstByteSeen) {
+            firstByteSeen = true;
+            clearFirstByteDeadline();
+            lastProgressAt = Date.now();
+            notifyMediaTrace(context, 'first-byte', {
+              ...details, bytes: received, totalBytes
+            });
+          }
+          const now = Date.now();
+          if (
+            received - lastProgressBytes >= 1024 * 1024
+            || now - lastProgressAt >= MEDIA_TRACE_PROGRESS_INTERVAL_MS
+            || (totalBytes > 0 && received >= totalBytes)
+          ) {
+            lastProgressBytes = received;
+            lastProgressAt = now;
+            notifyMediaTrace(context, 'body-progress', {
+              ...details, bytes: received, totalBytes
+            });
+          }
+          controller.enqueue(value);
+          return;
+        }
+      } catch (error) {
+        if (terminalWinner) {
+          releaseReaderLock();
+          if (terminalWinner === 'first-byte-timeout') {
+            await terminalNotificationPromise;
+            controller.error(terminalError || error);
+          }
+          return;
+        }
+        const callerCancelled = requestSignal?.aborted || error?.name === 'AbortError';
+        if (claimTerminal(callerCancelled ? 'request-cancelled' : 'body-error')) {
           notifyMediaTrace(context,
-            error?.name === 'AbortError' ? 'request-cancelled' : 'body-error', {
+            callerCancelled ? 'request-cancelled' : 'body-error', {
               ...details,
               bytes: received,
               totalBytes,
-              reason: error?.name === 'AbortError' ? 'body-aborted' : 'body-read-failed',
+              reason: callerCancelled ? 'body-aborted' : 'body-read-failed',
               terminal: true
             });
         }
@@ -500,18 +671,27 @@ function instrumentMediaResponseBody(body, context, details = {}) {
       }
     },
     async cancel(reason) {
-      try { await reader.cancel(reason); } catch (_) {}
-      if (settle()) {
-        notifyMediaTrace(context, 'request-cancelled', {
-          ...details,
-          bytes: received,
-          totalBytes,
-          reason: 'consumer-cancelled',
-          terminal: true
-        });
+      const shouldTrace = claimTerminal('consumer-cancelled', false);
+      if (!shouldTrace) {
+        if (terminalWinner === 'first-byte-timeout') {
+          await terminalNotificationPromise;
+          try { await reader.cancel(reason); } catch (_) {}
+          releaseReaderLock();
+        }
+        return;
       }
+      upstreamFetch?.abort?.(reason);
+      try { await reader.cancel(reason); } catch (_) {}
+      releaseReaderLock();
+      notifyMediaTrace(context, 'request-cancelled', {
+        ...details,
+        bytes: received,
+        totalBytes,
+        reason: 'consumer-cancelled',
+        terminal: true
+      });
     }
-  });
+  }, { highWaterMark: 0 });
 }
 
 function mediaErrorResponse(message, status) {

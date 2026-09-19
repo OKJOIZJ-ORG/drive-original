@@ -137,10 +137,12 @@ function errorResponse(status, reason = 'denied') {
   });
 }
 
-function partialResponse(body = 'ok', contentRange = 'bytes 100-199/1000', headers = {}) {
+function partialResponse(body = 'ok', contentRange = null, headers = {}) {
+  const length = typeof body === 'string' ? Buffer.byteLength(body) : Number(body?.byteLength) || 0;
+  const resolvedRange = contentRange || `bytes 100-${100 + length - 1}/1000`;
   return new Response(body, {
     status: 206,
-    headers: { 'Content-Range': contentRange, ...headers }
+    headers: { 'Content-Range': resolvedRange, ...headers }
   });
 }
 
@@ -154,7 +156,7 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
   const result = await response;
   assert.equal(result.status, 206);
   assert.equal(await result.text(), 'original bytes');
-  assert.equal(result.headers.get('Content-Range'), 'bytes 100-199/1000');
+  assert.equal(result.headers.get('Content-Range'), 'bytes 100-113/1000');
   assert.equal(result.headers.get('Content-Type'), 'video/mp4');
   assert.match(result.headers.get('Cache-Control'), /no-store/);
   assert.equal(worker.calls.length, 2);
@@ -181,7 +183,7 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
     mediaSession: '7',
     status: 206,
     requestedRange: 'bytes=100-199',
-    contentRange: 'bytes 100-199/1000',
+    contentRange: 'bytes 100-113/1000',
     contentRangeInferred: false,
     rangeSatisfied: true,
     playbackMode: 'original-range'
@@ -409,13 +411,22 @@ test('a visible mismatched or unprovable hidden Content-Range on 206 fails close
     {
       response: () => new Response('x'.repeat(99), { status: 206, headers: { 'Content-Length': '99' } }),
       expectedContentRange: null
+    },
+    {
+      response: () => new Response('', {
+        status: 206,
+        headers: { 'Content-Range': 'bytes 0-9007199254740991/*' }
+      }),
+      range: 'bytes=0-',
+      size: null,
+      expectedContentRange: 'bytes 0-9007199254740991/*'
     }
   ];
   for (const testCase of cases) {
     const worker = createWorker(testCase.response);
     const messages = worker.addClient('A');
     worker.setToken('A', 'valid');
-    const response = await worker.request('A', { size: testCase.size }).response;
+    const response = await worker.request('A', { range: testCase.range, size: testCase.size }).response;
     assert.equal(response.status, 502);
     assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_STATUS'), false);
@@ -423,7 +434,7 @@ test('a visible mismatched or unprovable hidden Content-Range on 206 fails close
     assert.equal(failure.status, 206);
     assert.equal(failure.category, 'range-invalid');
     assert.equal(failure.driveReason, 'rangeInvalid');
-    assert.equal(failure.requestedRange, 'bytes=100-199');
+    assert.equal(failure.requestedRange, testCase.range || 'bytes=100-199');
     assert.equal(failure.contentRange, testCase.expectedContentRange);
     assert.equal(failure.contentRangeInferred, false);
     assert.equal(failure.rangeSatisfied, false);
@@ -436,7 +447,9 @@ test('open-ended and suffix byte ranges accept valid contained 206 responses', a
     ['bytes=0-', 'bytes 0-499/1000'],
     ['bytes=-100', 'bytes 900-999/1000']
   ]) {
-    const worker = createWorker(() => partialResponse('range bytes', contentRange));
+    const parsed = /bytes (\d+)-(\d+)\//.exec(contentRange);
+    const body = 'x'.repeat(Number(parsed[2]) - Number(parsed[1]) + 1);
+    const worker = createWorker(() => partialResponse(body, contentRange));
     const messages = worker.addClient('A');
     worker.setToken('A', 'valid');
     assert.equal((await worker.request('A', { range, size: null }).response).status, 206);
@@ -631,8 +644,461 @@ test('upstream headers timeout is finite and distinct from caller cancellation',
   assert.equal(trace.some((message) => message.stage === 'request-cancelled'), false);
 });
 
+test('first-byte timeout starts on downstream demand and reports one classified failure', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  const worker = createWorker((url, { signal }) => new Response(new ReadableStream({
+    start(controller) {
+      signal.addEventListener('abort', () => controller.error(signal.reason), { once: true });
+    }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const { request, response } = worker.request('A', { traceId: 'trace-first-byte-timeout' });
+  const result = await response;
+
+  assert.equal(scheduled.size, 0, 'headers alone must not arm a body deadline');
+  const reader = result.body.getReader();
+  const pendingRead = reader.read();
+  await Promise.resolve();
+  assert.equal(scheduled.size, 1);
+  const [firstByteTimer] = [...scheduled.values()];
+  assert.equal(firstByteTimer.delay, 15_000);
+  firstByteTimer.callback();
+
+  await assert.rejects(pendingRead, { name: 'MediaFirstByteTimeoutError' });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(worker.calls[0].signal.aborted, true);
+  assert.equal(request.signal.aborted, false);
+  assert.equal(scheduled.size, 0);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].status, 504);
+  assert.equal(failures[0].category, 'timeout');
+  assert.equal(failures[0].driveReason, 'firstByteTimeout');
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.at(-1).stage, 'first-byte-timeout');
+  assert.equal(trace.at(-1).reason, 'first-byte-timeout');
+  assert.equal(trace.at(-1).terminal, true);
+  assert.equal(trace.filter((message) => message.stage === 'first-byte-timeout').length, 1);
+  assert.equal(trace.some((message) => ['body-error', 'request-cancelled'].includes(message.stage)), false);
+});
+
+test('first-byte stream failure waits for the classified client notification lifetime', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  const worker = createWorker((url, { signal }) => new Response(new ReadableStream({
+    start(controller) {
+      signal.addEventListener('abort', () => controller.error(signal.reason), { once: true });
+    }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A').response;
+  const client = await worker.context.self.clients.get('A');
+  let releaseClientLookup;
+  worker.context.self.clients.get = async () => new Promise((resolve) => {
+    releaseClientLookup = () => resolve(client);
+  });
+  const pendingRead = response.body.getReader().read();
+  let readSettled = false;
+  void pendingRead.then(
+    () => { readSettled = true; },
+    () => { readSettled = true; }
+  );
+  await Promise.resolve();
+  [...scheduled.values()][0].callback();
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(readSettled, false);
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+  releaseClientLookup();
+  await assert.rejects(pendingRead, { name: 'MediaFirstByteTimeoutError' });
+  assert.equal(messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR').length, 1);
+});
+
+test('first-byte timeout atomically wins over later bytes, caller abort and consumer cancel', async () => {
+  for (const lateEvent of ['byte', 'caller-abort', 'consumer-cancel']) {
+    const scheduled = new Map();
+    let timerSequence = 0;
+    let sourceController;
+    const worker = createWorker(() => new Response(new ReadableStream({
+      start(controller) { sourceController = controller; }
+    }), {
+      status: 206,
+      headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+    }), {
+      setTimeoutImpl(callback, delay) {
+        const timerId = ++timerSequence;
+        scheduled.set(timerId, { callback, delay });
+        return timerId;
+      },
+      clearTimeoutImpl(timerId) {
+        scheduled.delete(timerId);
+      }
+    });
+    const messages = worker.addClient('A');
+    worker.setToken('A', 'valid');
+    const caller = new AbortController();
+    const response = await worker.request('A', {
+      signal: caller.signal,
+      traceId: `trace-timeout-race-${lateEvent}`
+    }).response;
+    const reader = response.body.getReader();
+    const pendingRead = reader.read();
+    await Promise.resolve();
+    [...scheduled.values()][0].callback();
+
+    if (lateEvent === 'caller-abort') caller.abort();
+    if (lateEvent === 'consumer-cancel') {
+      await reader.cancel('late consumer cancel');
+      assert.equal((await pendingRead).done, true);
+    } else {
+      sourceController.enqueue(new Uint8Array([9]));
+      await assert.rejects(pendingRead, { name: 'MediaFirstByteTimeoutError' });
+    }
+    await new Promise((resolve) => setImmediate(resolve));
+    const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+    const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+    assert.equal(failures.length, 1, lateEvent);
+    assert.equal(failures[0].driveReason, 'firstByteTimeout', lateEvent);
+    assert.equal(trace.filter((message) => message.stage === 'first-byte-timeout').length, 1, lateEvent);
+    assert.equal(trace.some((message) => ['first-byte', 'body-error', 'request-cancelled'].includes(message.stage)), false, lateEvent);
+  }
+});
+
+test('first-byte protection remains active when diagnostic tracing is off', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  const worker = createWorker((url, { signal }) => new Response(new ReadableStream({
+    start(controller) {
+      signal.addEventListener('abort', () => controller.error(signal.reason), { once: true });
+    }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A').response;
+  const pendingRead = response.body.getReader().read();
+  await Promise.resolve();
+  assert.equal([...scheduled.values()][0]?.delay, 15_000);
+  [...scheduled.values()][0].callback();
+
+  await assert.rejects(pendingRead, { name: 'MediaFirstByteTimeoutError' });
+  await new Promise((resolve) => setImmediate(resolve));
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].driveReason, 'firstByteTimeout');
+  assert.equal(messages.some((message) => message.type === 'MEDIA_TRACE_EVENT'), false);
+});
+
+test('a positive first chunk clears the first-byte deadline without aborting upstream', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  let sourceController;
+  const worker = createWorker(() => new Response(new ReadableStream({
+    start(controller) { sourceController = controller; }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { traceId: 'trace-first-byte-ok' }).response;
+  assert.equal(scheduled.size, 0);
+  const reader = response.body.getReader();
+  const pendingRead = reader.read();
+  await Promise.resolve();
+  assert.equal([...scheduled.values()][0]?.delay, 15_000);
+
+  sourceController.enqueue(new Uint8Array([1, 2, 3]));
+  const first = await pendingRead;
+  assert.equal(first.value.byteLength, 3);
+  assert.equal(scheduled.size, 0);
+  assert.equal(worker.calls[0].signal.aborted, false);
+  await reader.cancel('test complete');
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.filter((message) => message.stage === 'first-byte').length, 1);
+  assert.equal(trace.some((message) => message.stage === 'first-byte-timeout'), false);
+});
+
+test('an empty chunk is not a first byte and cannot disarm the deadline', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  let sourceController;
+  const worker = createWorker((url, { signal }) => new Response(new ReadableStream({
+    start(controller) {
+      sourceController = controller;
+      signal.addEventListener('abort', () => controller.error(signal.reason), { once: true });
+    }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { traceId: 'trace-empty-first-chunk' }).response;
+  const pendingRead = response.body.getReader().read();
+  await Promise.resolve();
+  sourceController.enqueue(new Uint8Array(0));
+  await Promise.resolve();
+  assert.equal(scheduled.size, 1);
+  assert.equal([...scheduled.values()][0].delay, 15_000);
+  [...scheduled.values()][0].callback();
+
+  await assert.rejects(pendingRead, { name: 'MediaFirstByteTimeoutError' });
+  await new Promise((resolve) => setImmediate(resolve));
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.some((message) => message.stage === 'first-byte'), false);
+  assert.equal(trace.filter((message) => message.stage === 'first-byte-timeout').length, 1);
+  assert.equal(messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR').length, 1);
+});
+
+test('consumer cancellation before the first byte clears the deadline without a proxy failure', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  let upstreamCancelled = false;
+  const worker = createWorker((url, { signal }) => {
+    signal.addEventListener('abort', () => { upstreamCancelled = true; }, { once: true });
+    return new Response(new ReadableStream({
+      cancel() { upstreamCancelled = true; }
+    }), {
+      status: 206,
+      headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+    });
+  }, {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { traceId: 'trace-consumer-before-byte' }).response;
+  const reader = response.body.getReader();
+  const pendingRead = reader.read();
+  await Promise.resolve();
+  assert.equal([...scheduled.values()][0]?.delay, 15_000);
+
+  await reader.cancel('consumer stopped');
+  const read = await pendingRead;
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(read.done, true);
+  assert.equal(upstreamCancelled, true);
+  assert.equal(scheduled.size, 0);
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.at(-1).stage, 'request-cancelled');
+  assert.equal(trace.at(-1).reason, 'consumer-cancelled');
+  assert.equal(trace.some((message) => message.stage === 'first-byte-timeout'), false);
+});
+
+test('truncated 206 EOF is a body-length error, never a first-byte timeout', async () => {
+  const scheduled = new Map();
+  let timerSequence = 0;
+  const worker = createWorker(() => new Response(new ReadableStream({
+    start(controller) { controller.close(); }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-199/1000' }
+  }), {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { traceId: 'trace-empty-body' }).response;
+  const pendingRead = response.body.getReader().read();
+  await assert.rejects(pendingRead, { name: 'MediaBodyLengthError' });
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(scheduled.size, 0);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].category, 'network');
+  assert.equal(failures[0].driveReason, 'bodyLengthMismatch');
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.at(-1).stage, 'body-error');
+  assert.equal(trace.at(-1).reason, 'body-length-mismatch');
+  assert.equal(trace.some((message) => message.stage === 'first-byte-timeout'), false);
+});
+
+test('an oversized 206 chunk is rejected before any byte reaches the consumer', async () => {
+  let sourceController;
+  let upstreamSignal;
+  const worker = createWorker((url, { signal }) => {
+    upstreamSignal = signal;
+    return new Response(new ReadableStream({
+      start(controller) { sourceController = controller; }
+    }), {
+      status: 206,
+      headers: { 'Content-Range': 'bytes 100-199/1000' }
+    });
+  });
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', { traceId: 'trace-body-overrun' }).response;
+  const pendingRead = response.body.getReader().read();
+  sourceController.enqueue(new Uint8Array(101));
+
+  await assert.rejects(pendingRead, { name: 'MediaBodyLengthError' });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(upstreamSignal.aborted, true);
+  const failures = messages.filter((message) => message.type === 'MEDIA_PROXY_ERROR');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].driveReason, 'bodyLengthMismatch');
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.filter((message) => message.stage === 'body-error').length, 1);
+  assert.equal(trace.at(-1).reason, 'body-length-mismatch');
+  assert.equal(trace.some((message) => message.stage === 'first-byte'), false);
+});
+
+test('non-OK response bodies release caller abort linkage after EOF and bodyless HEAD', async () => {
+  let getSignal;
+  const getWorker = createWorker((url, { signal }) => {
+    getSignal = signal;
+    return errorResponse(503, 'backendError');
+  });
+  getWorker.addClient('A');
+  getWorker.setToken('A', 'valid');
+  const getCaller = new AbortController();
+  const getResponse = await getWorker.request('A', { signal: getCaller.signal }).response;
+  assert.equal(getResponse.status, 503);
+  await getResponse.text();
+  assert.equal(getSignal.aborted, false);
+  getCaller.abort();
+  assert.equal(getSignal.aborted, false);
+
+  let headSignal;
+  const headWorker = createWorker((url, { signal }) => {
+    headSignal = signal;
+    return new Response(null, { status: 503 });
+  });
+  headWorker.addClient('A');
+  headWorker.setToken('A', 'valid');
+  const headCaller = new AbortController();
+  const headResponse = await headWorker.request('A', {
+    method: 'HEAD', signal: headCaller.signal
+  }).response;
+  assert.equal(headResponse.status, 503);
+  assert.equal(headSignal.aborted, false);
+  headCaller.abort();
+  assert.equal(headSignal.aborted, false);
+});
+
+test('non-OK body finalizer releases exactly once on consumer cancel and upstream error', async () => {
+  for (const ending of ['consumer-cancel', 'upstream-error']) {
+    let sourceController;
+    let sourceCancelled = false;
+    let aborts = 0;
+    let releases = 0;
+    const body = new ReadableStream({
+      start(controller) { sourceController = controller; },
+      cancel() { sourceCancelled = true; }
+    });
+    const attempt = {
+      abort(reason) {
+        aborts++;
+        sourceController.error(reason);
+      },
+      release() { releases++; }
+    };
+    const worker = createWorker(() => { throw new Error('not used'); });
+    worker.context.__testErrorBody = body;
+    worker.context.__testErrorAttempt = attempt;
+    const wrapped = vm.runInContext(
+      'finalizeMediaResponseBody(__testErrorBody, __testErrorAttempt)',
+      worker.context
+    );
+    const reader = wrapped.getReader();
+    const pendingRead = reader.read();
+    await Promise.resolve();
+
+    if (ending === 'consumer-cancel') {
+      await reader.cancel('consumer stopped');
+      assert.equal((await pendingRead).done, true);
+      assert.equal(aborts, 1);
+      assert.equal(sourceCancelled || aborts === 1, true);
+    } else {
+      const upstreamError = new Error('upstream ended');
+      upstreamError.name = 'AbortError';
+      sourceController.error(upstreamError);
+      await assert.rejects(pendingRead, { name: 'AbortError' });
+      assert.equal(aborts, 0);
+    }
+    assert.equal(releases, 1, ending);
+  }
+});
+
 test('caller cancellation remains linked to the upstream body after headers arrive', async () => {
   let upstreamSignal;
+  const scheduled = new Map();
+  let timerSequence = 0;
   const worker = createWorker((url, { signal }) => {
     upstreamSignal = signal;
     return new Response(new ReadableStream({
@@ -643,8 +1109,17 @@ test('caller cancellation remains linked to the upstream body after headers arri
       status: 206,
       headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
     });
+  }, {
+    setTimeoutImpl(callback, delay) {
+      const timerId = ++timerSequence;
+      scheduled.set(timerId, { callback, delay });
+      return timerId;
+    },
+    clearTimeoutImpl(timerId) {
+      scheduled.delete(timerId);
+    }
   });
-  worker.addClient('A');
+  const messages = worker.addClient('A');
   worker.setToken('A', 'valid');
   const controller = new AbortController();
   const result = await worker.request('A', {
@@ -652,11 +1127,20 @@ test('caller cancellation remains linked to the upstream body after headers arri
     traceId: 'trace-body-request-cancel'
   }).response;
   const pendingRead = result.body.getReader().read();
+  await Promise.resolve();
+  assert.equal([...scheduled.values()][0]?.delay, 15_000);
 
-  controller.abort();
+  controller.abort(new Error('custom caller cancellation'));
 
   assert.equal(upstreamSignal.aborted, true);
-  await assert.rejects(pendingRead, { name: 'AbortError' });
+  await assert.rejects(pendingRead, { name: 'Error', message: 'custom caller cancellation' });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(scheduled.size, 0);
+  assert.equal(messages.some((message) => message.type === 'MEDIA_PROXY_ERROR'), false);
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.at(-1).stage, 'request-cancelled');
+  assert.equal(trace.at(-1).reason, 'body-aborted');
+  assert.equal(trace.some((message) => message.stage === 'first-byte-timeout'), false);
 });
 
 test('abort while waiting for a token closes the request without an auth notification', async () => {
