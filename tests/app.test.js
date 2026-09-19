@@ -1303,6 +1303,10 @@ test('opt-in media trace is redacted, session-correlated and added to media URLs
       type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-2', sessionId: '5',
       stage: 'first-byte-timeout', status: 504, reason: 'first-byte-timeout', terminal: true
     });
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-2', sessionId: '5',
+      stage: 'body-no-progress', status: 504, reason: 'body-no-progress', terminal: true
+    });
     finishMediaDiagnosticTrace('closed');
     const inactiveUrl = buildMediaUrl(file);
     return JSON.stringify({
@@ -1322,7 +1326,7 @@ test('opt-in media trace is redacted, session-correlated and added to media URLs
   assert.equal(result.afterStale, 3, 'a prior-session cancellation remains in the correlated trace');
   assert.equal(result.afterUnknown, 3, 'unknown worker stages cannot enter the diagnostic sink');
   assert.deepEqual(result.events.map((event) => event.stage), [
-    'intent', 'session-changed', 'request-cancelled', 'headers', 'first-byte-timeout', 'trace-finished'
+    'intent', 'session-changed', 'request-cancelled', 'headers', 'first-byte-timeout', 'body-no-progress', 'trace-finished'
   ]);
   assert.equal(result.events[0].fileKey, 'file-1');
   assert.equal(result.events[2].requestId, 'media-1');
@@ -1330,6 +1334,8 @@ test('opt-in media trace is redacted, session-correlated and added to media URLs
   assert.equal(result.events[3].requestId, 'media-2');
   assert.equal(result.events[4].reason, 'first-byte-timeout');
   assert.equal(result.events[4].terminal, true);
+  assert.equal(result.events[5].reason, 'body-no-progress');
+  assert.equal(result.events[5].terminal, true);
   assert.doesNotMatch(JSON.stringify(result.events), /private-drive-id|private-name\.mp4/);
 });
 
@@ -1598,45 +1604,53 @@ test('proxy classification preserves structured range and Drive failure causes',
   assert.equal(run(context, "isLocalOriginalStorageError({ status: 503, message: 'backend unavailable' })"), false);
 });
 
-test('first-byte timeout has one app retry owner and blocks a competing media fallback', async () => {
+test('stream timeouts have one app retry owner and block a competing media fallback', async () => {
   const context = loadAppContext();
   const result = JSON.parse(await run(context, `(async () => {
-    const calls = [];
+    const results = [];
     const file = {
       id: 'video-timeout', mimeType: 'video/mp4', size: '1000',
       capabilities: { canDownload: true }
     };
-    state.selected = file;
-    state.mediaSession = 73;
-    state.mediaAttempt = 'range';
-    state.mediaRetryCount = 0;
-    state.token = 'fixture-token';
-    state.expiresAt = Date.now() + 60_000;
-    scheduleOriginalStreamRetry = (selected, session, delay) => {
-      calls.push({ type: 'range-retry', id: selected.id, session, delay });
-      state.mediaAttempt = 'retry-wait';
-    };
-    offerOriginalBufferFallback = async () => { calls.push({ type: 'buffer' }); };
-    showDrivePreview = () => { calls.push({ type: 'preview' }); };
-    el.videoPlayer = {
-      error: { code: 4 },
-      getAttribute(name) { return name === 'src' ? '/__drive_media/video-timeout' : ''; }
-    };
-    const failure = {
-      type: 'MEDIA_PROXY_ERROR', fileId: file.id, sessionId: '73',
-      status: 504, category: 'timeout', driveReason: 'firstByteTimeout'
-    };
-    await handleWorkerMessage({ data: failure });
-    await handleWorkerMessage({ data: failure });
-    await handleMediaElementError('video');
-    return JSON.stringify({ calls, attempt: state.mediaAttempt, lastProxyError: state.lastProxyError });
+    for (const driveReason of ['firstByteTimeout', 'bodyNoProgress']) {
+      const calls = [];
+      state.selected = file;
+      state.mediaSession = 73;
+      state.mediaAttempt = 'range';
+      state.mediaRetryCount = 0;
+      state.lastProxyError = null;
+      state.token = 'fixture-token';
+      state.expiresAt = Date.now() + 60_000;
+      scheduleOriginalStreamRetry = (selected, session, delay) => {
+        calls.push({ type: 'range-retry', id: selected.id, session, delay });
+        state.mediaAttempt = 'retry-wait';
+      };
+      offerOriginalBufferFallback = async () => { calls.push({ type: 'buffer' }); };
+      showDrivePreview = () => { calls.push({ type: 'preview' }); };
+      el.videoPlayer = {
+        error: { code: 4 },
+        getAttribute(name) { return name === 'src' ? '/__drive_media/video-timeout' : ''; }
+      };
+      const failure = {
+        type: 'MEDIA_PROXY_ERROR', fileId: file.id, sessionId: '73',
+        status: 504, category: 'timeout', driveReason
+      };
+      await handleWorkerMessage({ data: failure });
+      await handleWorkerMessage({ data: failure });
+      await handleMediaElementError('video');
+      results.push({ driveReason, calls, attempt: state.mediaAttempt, lastProxyError: state.lastProxyError });
+    }
+    return JSON.stringify(results);
   })()`));
 
-  assert.deepEqual(result.calls, [
-    { type: 'range-retry', id: 'video-timeout', session: 73, delay: 700 }
+  assert.deepEqual(result.map((entry) => entry.calls), [
+    [{ type: 'range-retry', id: 'video-timeout', session: 73, delay: 700 }],
+    [{ type: 'range-retry', id: 'video-timeout', session: 73, delay: 700 }]
   ]);
-  assert.equal(result.attempt, 'retry-wait');
-  assert.equal(result.lastProxyError.driveReason, 'firstByteTimeout');
+  assert.deepEqual(result.map((entry) => entry.attempt), ['retry-wait', 'retry-wait']);
+  assert.deepEqual(result.map((entry) => entry.lastProxyError.driveReason), [
+    'firstByteTimeout', 'bodyNoProgress'
+  ]);
 });
 
 test('quality labels remain neutral until original byte delivery is verified', () => {

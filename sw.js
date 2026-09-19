@@ -5,6 +5,7 @@ const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
 const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
 const MEDIA_FIRST_BYTE_TIMEOUT_MS = 15_000;
+const MEDIA_BODY_NO_PROGRESS_TIMEOUT_MS = 15_000;
 const SHELL_FILES = [
   './',
   './index.html',
@@ -510,21 +511,19 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
   const totalBytes = Number(details.totalBytes) || 0;
   let received = 0;
   let firstByteSeen = false;
-  let firstByteTimer = null;
+  let progressDeadline = null;
   let lastProgressBytes = 0;
   let lastProgressAt = Date.now();
   let terminalWinner = '';
   let terminalError = null;
   let terminalNotificationPromise = null;
-  let resolveTimeoutNotification;
-  const timeoutNotificationComplete = new Promise((resolve) => {
-    resolveTimeoutNotification = resolve;
-  });
 
-  const clearFirstByteDeadline = () => {
-    if (firstByteTimer == null) return;
-    clearTimeout(firstByteTimer);
-    firstByteTimer = null;
+  const clearProgressDeadline = () => {
+    const deadline = progressDeadline;
+    if (!deadline) return;
+    progressDeadline = null;
+    clearTimeout(deadline.timerId);
+    deadline.resolve(null);
   };
   const releaseReaderLock = () => {
     try { reader.releaseLock?.(); } catch (_) {}
@@ -532,35 +531,66 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
   const claimTerminal = (winner, releaseLock = true) => {
     if (terminalWinner) return false;
     terminalWinner = winner;
-    clearFirstByteDeadline();
+    clearProgressDeadline();
     upstreamFetch?.release?.();
     if (releaseLock) releaseReaderLock();
     return true;
   };
-  const armFirstByteDeadline = () => {
-    if (terminalWinner || firstByteSeen || firstByteTimer != null) return;
-    firstByteTimer = setTimeout(() => {
-      if (terminalWinner || firstByteSeen || requestSignal?.aborted) return;
-      const timeoutError = new Error('Media response first byte timeout');
-      timeoutError.name = 'MediaFirstByteTimeoutError';
-      if (!claimTerminal('first-byte-timeout', false)) return;
+  const armProgressDeadline = () => {
+    if (terminalWinner || progressDeadline) return progressDeadline;
+    const firstByteWait = !firstByteSeen;
+    const timeoutMs = firstByteWait
+      ? MEDIA_FIRST_BYTE_TIMEOUT_MS
+      : MEDIA_BODY_NO_PROGRESS_TIMEOUT_MS;
+    const winner = firstByteWait ? 'first-byte-timeout' : 'body-no-progress';
+    const errorName = firstByteWait ? 'MediaFirstByteTimeoutError' : 'MediaBodyNoProgressError';
+    const errorMessage = firstByteWait
+      ? 'Media response first byte timeout'
+      : 'Media response body made no progress';
+    const driveReason = firstByteWait ? 'firstByteTimeout' : 'bodyNoProgress';
+    let resolveDeadline;
+    const completion = new Promise((resolve) => {
+      resolveDeadline = resolve;
+    });
+    const deadline = {
+      completion,
+      resolve: resolveDeadline,
+      timerId: null
+    };
+    deadline.timerId = setTimeout(() => {
+      if (progressDeadline !== deadline || terminalWinner) return;
+      if (requestSignal?.aborted) return;
+      clearTimeout(deadline.timerId);
+      deadline.timerId = null;
+      progressDeadline = null;
+      const timeoutError = new Error(errorMessage);
+      timeoutError.name = errorName;
+      if (!claimTerminal(winner, false)) {
+        deadline.resolve(null);
+        return;
+      }
       terminalError = timeoutError;
-      notifyMediaTrace(context, 'first-byte-timeout', {
+      notifyMediaTrace(context, winner, {
         ...details,
         bytes: received,
         totalBytes,
         status: 504,
-        reason: 'first-byte-timeout',
+        reason: winner,
         terminal: true
       });
       terminalNotificationPromise = notifyMediaError(context, 504, [], 0, {
         category: 'timeout',
-        driveReason: 'firstByteTimeout',
+        driveReason,
         rangeSatisfied: false
       });
-      void terminalNotificationPromise.finally(() => resolveTimeoutNotification(timeoutError));
+      void terminalNotificationPromise.then(
+        () => deadline.resolve(timeoutError),
+        () => deadline.resolve(timeoutError)
+      );
       upstreamFetch?.abort?.(timeoutError);
-    }, MEDIA_FIRST_BYTE_TIMEOUT_MS);
+    }, timeoutMs);
+    progressDeadline = deadline;
+    return deadline;
   };
   const failBodyLength = async (controller, actualBytes) => {
     const lengthError = new Error('Drive media body length mismatch');
@@ -585,24 +615,25 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
   return new ReadableStream({
     async pull(controller) {
       if (terminalWinner) return;
-      armFirstByteDeadline();
+      const deadline = armProgressDeadline();
+      const deadlineResult = deadline.completion.then((error) => {
+        if (error) throw error;
+        return null;
+      });
       try {
         while (!terminalWinner) {
           const pendingRead = reader.read();
-          const { done, value } = firstByteSeen
-            ? await pendingRead
-            : await Promise.race([
-                pendingRead,
-                timeoutNotificationComplete.then((error) => Promise.reject(error))
-              ]);
+          const readResult = await Promise.race([pendingRead, deadlineResult]);
           if (terminalWinner) {
             releaseReaderLock();
-            if (terminalWinner === 'first-byte-timeout') {
+            if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
               await terminalNotificationPromise;
               controller.error(terminalError);
             }
             return;
           }
+          if (!readResult) return;
+          const { done, value } = readResult;
           if (done) {
             if (details.rangeSatisfied === true && totalBytes > 0 && received !== totalBytes) {
               await failBodyLength(controller, received);
@@ -618,6 +649,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
           }
           const byteLength = Number(value?.byteLength) || 0;
           if (byteLength <= 0) continue;
+          clearProgressDeadline();
           const nextReceived = received + byteLength;
           if (details.rangeSatisfied === true && totalBytes > 0 && nextReceived > totalBytes) {
             await failBodyLength(controller, nextReceived);
@@ -626,7 +658,6 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
           received = nextReceived;
           if (!firstByteSeen) {
             firstByteSeen = true;
-            clearFirstByteDeadline();
             lastProgressAt = Date.now();
             notifyMediaTrace(context, 'first-byte', {
               ...details, bytes: received, totalBytes
@@ -650,7 +681,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
       } catch (error) {
         if (terminalWinner) {
           releaseReaderLock();
-          if (terminalWinner === 'first-byte-timeout') {
+          if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
             await terminalNotificationPromise;
             controller.error(terminalError || error);
           }
@@ -673,7 +704,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
     async cancel(reason) {
       const shouldTrace = claimTerminal('consumer-cancelled', false);
       if (!shouldTrace) {
-        if (terminalWinner === 'first-byte-timeout') {
+        if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
           await terminalNotificationPromise;
           try { await reader.cancel(reason); } catch (_) {}
           releaseReaderLock();

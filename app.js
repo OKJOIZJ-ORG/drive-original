@@ -636,7 +636,7 @@ const MEDIA_DIAGNOSTIC_PROGRESS_INTERVAL_MS = 250;
 const MEDIA_DIAGNOSTIC_WORKER_STAGES = new Set([
   'credential-requested', 'credential-ready', 'credential-missing',
   'request-start', 'headers', 'first-byte', 'body-progress', 'body-complete',
-  'first-byte-timeout', 'body-error', 'http-error', 'range-error', 'request-cancelled'
+  'first-byte-timeout', 'body-no-progress', 'body-error', 'http-error', 'range-error', 'request-cancelled'
 ]);
 
 function getMediaDiagnosticSink() {
