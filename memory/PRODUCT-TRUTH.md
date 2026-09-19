@@ -94,3 +94,7 @@ and qa/immersive-results.json. Deployment is a separate evidence claim.
   profiles at 390x844 and 1280x800 pass bottom-controls/player-only-back/axe with
   no page or console errors. Exact evidence: RELEASE-1.21.0.md and the local
   qa/release-1.21.0-production/results.json. Real-device gates remain open.
+
+## V2 candidate implementation evidence — 2026-09-20
+
+- `verified locally, not deployed`: commit `38b440481343ce8f6195633cb8057b1d106ad494` makes initial video playback assign the original Range source without awaiting OPFS policy or starting a simultaneous full-file recovery request. A writable-OPFS browser fixture stayed in `original-range` with one Range request; an intentionally invalid Range response then recovered to OPFS and matched the generated source SHA-256. Evidence: 13/13 functional browser scenarios, 214/214 Node tests, syntax/diff checks and two independent reviews. This proves route order and recovery integrity, not yet first-frame-before-body-complete or the physical priority sample.
