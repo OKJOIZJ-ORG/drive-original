@@ -20,6 +20,9 @@ const SHELL_FILES = [
 const clientTokens = new Map();
 const tokenRequests = new Map();
 let requestSequence = 0;
+let mediaTraceSequence = 0;
+const MEDIA_TRACE_PROGRESS_INTERVAL_MS = 250;
+const mediaTraceDeliveryQueues = new Map();
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -140,7 +143,8 @@ async function proxyDriveMedia(request, url, clientId) {
     clientId: clientId || '',
     fileId,
     sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
-    requestedRange: request.headers.get('range')
+    requestedRange: request.headers.get('range'),
+    traceId: normalizeMediaTraceId(url.searchParams.get('_trace'))
   };
   // `mediaSession` is retained until all controlled clients have moved to the
   // clearer `sessionId` field.
@@ -165,16 +169,24 @@ async function proxyDriveMedia(request, url, clientId) {
 
   try {
     request.signal.throwIfAborted();
+    notifyMediaTrace(context, 'credential-requested');
     let token = await getUsableToken(context, { signal: request.signal });
     request.signal.throwIfAborted();
     if (!token) {
+      notifyMediaTrace(context, 'credential-missing', {
+        reason: 'no-usable-credential', terminal: true
+      });
       await notifyMediaError(context, 401);
       return mediaErrorResponse('Google authorization required', 401);
     }
-    const fetchMedia = () => {
+    notifyMediaTrace(context, 'credential-ready');
+    let upstreamAttempt = 0;
+    const fetchMedia = async () => {
       request.signal.throwIfAborted();
       headers.set('Authorization', `Bearer ${token}`);
-      return fetch(driveUrl.toString(), {
+      upstreamAttempt += 1;
+      notifyMediaTrace(context, 'request-start', { attempt: upstreamAttempt });
+      const response = await fetch(driveUrl.toString(), {
         method: request.method,
         headers,
         redirect: 'follow',
@@ -182,6 +194,12 @@ async function proxyDriveMedia(request, url, clientId) {
         cache: 'no-store',
         signal: request.signal
       });
+      notifyMediaTrace(context, 'headers', {
+        attempt: upstreamAttempt,
+        status: response.status,
+        totalBytes: Number(response.headers.get('Content-Length')) || 0
+      });
+      return response;
     };
     let upstream = await fetchMedia();
     if (upstream.status === 401) {
@@ -212,6 +230,11 @@ async function proxyDriveMedia(request, url, clientId) {
       } catch (_) {}
       const retryAfterMs = parseRetryAfterMs(upstream.headers.get('Retry-After'));
       const contentRange = upstream.headers.get('Content-Range');
+      notifyMediaTrace(context, 'http-error', {
+        status: upstream.status,
+        reason: reasons[0] || (upstream.status === 401 ? 'credential-rejected' : 'upstream-http'),
+        terminal: true
+      });
       await notifyMediaError(context, upstream.status, reasons, retryAfterMs, {
         category: upstream.status === 416 ? 'range-unsatisfiable' : undefined,
         contentRange,
@@ -246,6 +269,12 @@ async function proxyDriveMedia(request, url, clientId) {
       && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent);
     if (upstream.status === 206 && !rangeSatisfied) {
       await upstream.body?.cancel();
+      notifyMediaTrace(context, 'range-error', {
+        status: upstream.status,
+        reason: 'range-invalid',
+        rangeSatisfied: false,
+        terminal: true
+      });
       await notifyMediaError(context, upstream.status, ['rangeInvalid'], 0, {
         category: 'range-invalid',
         contentRange,
@@ -284,13 +313,31 @@ async function proxyDriveMedia(request, url, clientId) {
       });
     }
 
-    return new Response(request.method === 'HEAD' ? null : upstream.body, {
+    const responseBody = request.method === 'HEAD'
+      ? null
+      : instrumentMediaResponseBody(upstream.body, context, {
+          totalBytes: Number(declaredLength) || 0,
+          status: upstream.status,
+          rangeSatisfied,
+          playbackMode: rangeSatisfied ? 'original-range' : 'original-sequential'
+        });
+    return new Response(responseBody, {
       status: upstream.status,
       statusText: upstream.statusText,
       headers: responseHeaders
     });
   } catch (error) {
-    if (request.signal.aborted || error?.name === 'AbortError') throw error;
+    if (request.signal.aborted || error?.name === 'AbortError') {
+      notifyMediaTrace(context, 'request-cancelled', {
+        reason: 'request-aborted', terminal: true
+      });
+      throw error;
+    }
+    notifyMediaTrace(context, 'http-error', {
+      status: 0,
+      reason: 'network-failure',
+      terminal: true
+    });
     await notifyMediaError(context, 0, [], 0, {
       category: 'network',
       driveReason: 'networkFailure',
@@ -298,6 +345,92 @@ async function proxyDriveMedia(request, url, clientId) {
     });
     return mediaErrorResponse('Drive streaming request failed', 502);
   }
+}
+
+function normalizeMediaTraceId(value) {
+  const traceId = String(value || '');
+  return /^[A-Za-z0-9._-]{1,80}$/.test(traceId) ? traceId : '';
+}
+
+function instrumentMediaResponseBody(body, context, details = {}) {
+  if (!body || !context.traceId || typeof body.getReader !== 'function') return body;
+  const reader = body.getReader();
+  const totalBytes = Number(details.totalBytes) || 0;
+  let received = 0;
+  let firstByteSeen = false;
+  let lastProgressBytes = 0;
+  let lastProgressAt = Date.now();
+  let settled = false;
+
+  const settle = () => {
+    if (settled) return false;
+    settled = true;
+    try { reader.releaseLock?.(); } catch (_) {}
+    return true;
+  };
+
+  return new ReadableStream({
+    async pull(controller) {
+      try {
+        const { done, value } = await reader.read();
+        if (done) {
+          if (settle()) {
+            notifyMediaTrace(context, 'body-complete', {
+              ...details, bytes: received, totalBytes, terminal: false
+            });
+          }
+          controller.close();
+          return;
+        }
+        const byteLength = Number(value?.byteLength) || 0;
+        received += byteLength;
+        if (!firstByteSeen && byteLength > 0) {
+          firstByteSeen = true;
+          lastProgressAt = Date.now();
+          notifyMediaTrace(context, 'first-byte', {
+            ...details, bytes: received, totalBytes
+          });
+        }
+        const now = Date.now();
+        if (
+          received - lastProgressBytes >= 1024 * 1024
+          || now - lastProgressAt >= MEDIA_TRACE_PROGRESS_INTERVAL_MS
+          || (totalBytes > 0 && received >= totalBytes)
+        ) {
+          lastProgressBytes = received;
+          lastProgressAt = now;
+          notifyMediaTrace(context, 'body-progress', {
+            ...details, bytes: received, totalBytes
+          });
+        }
+        controller.enqueue(value);
+      } catch (error) {
+        if (settle()) {
+          notifyMediaTrace(context,
+            error?.name === 'AbortError' ? 'request-cancelled' : 'body-error', {
+              ...details,
+              bytes: received,
+              totalBytes,
+              reason: error?.name === 'AbortError' ? 'body-aborted' : 'body-read-failed',
+              terminal: true
+            });
+        }
+        controller.error(error);
+      }
+    },
+    async cancel(reason) {
+      try { await reader.cancel(reason); } catch (_) {}
+      if (settle()) {
+        notifyMediaTrace(context, 'request-cancelled', {
+          ...details,
+          bytes: received,
+          totalBytes,
+          reason: 'consumer-cancelled',
+          terminal: true
+        });
+      }
+    }
+  });
 }
 
 function mediaErrorResponse(message, status) {
@@ -462,6 +595,7 @@ async function notifyMediaStatus(context, details) {
     const client = await self.clients.get(context.clientId);
     client?.postMessage({
       type: 'MEDIA_PROXY_STATUS',
+      requestId: context.requestId,
       fileId: context.fileId,
       sessionId: context.sessionId,
       mediaSession: context.mediaSession,
@@ -475,6 +609,46 @@ async function notifyMediaStatus(context, details) {
   } catch (_) {
     // Closing a client must not turn its media response into another error.
   }
+}
+
+function notifyMediaTrace(context, stage, details = {}) {
+  if (!context.clientId || !context.traceId) return;
+  const message = {
+    type: 'MEDIA_TRACE_EVENT',
+    traceId: context.traceId,
+    requestId: context.requestId,
+    sessionId: context.sessionId,
+    mediaSession: context.mediaSession,
+    sequence: ++mediaTraceSequence,
+    at: Date.now(),
+    stage: String(stage || 'unknown'),
+    requestedRange: context.requestedRange || null
+  };
+  const allowed = [
+    'attempt', 'status', 'bytes', 'totalBytes', 'rangeSatisfied',
+    'playbackMode', 'reason', 'terminal'
+  ];
+  for (const key of allowed) {
+    const value = details[key];
+    if (value == null) continue;
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      message[key] = value;
+    }
+  }
+  const queueKey = context.requestId;
+  const prior = mediaTraceDeliveryQueues.get(queueKey) || Promise.resolve();
+  const delivery = prior.catch(() => {}).then(async () => {
+    try {
+      const client = await self.clients.get(context.clientId);
+      client?.postMessage(message);
+    } catch (_) {
+      // Diagnostics must never alter the media response.
+    }
+  });
+  mediaTraceDeliveryQueues.set(queueKey, delivery);
+  void delivery.finally(() => {
+    if (mediaTraceDeliveryQueues.get(queueKey) === delivery) mediaTraceDeliveryQueues.delete(queueKey);
+  }).catch(() => {});
 }
 
 async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0, details = {}) {

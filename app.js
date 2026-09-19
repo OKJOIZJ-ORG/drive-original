@@ -639,6 +639,276 @@ let writableOpfsSupportPromise = null;
 let edgeBackGesture = null;
 const warmedThumbnails = new Map();
 let playerMediaPriorityActive = false;
+let mediaDiagnosticTrace = null;
+let mediaDiagnosticSequence = 0;
+let mediaDiagnosticPlaybackSequence = 0;
+const mediaDiagnosticRetiredTraces = new Map();
+const mediaDiagnosticDirectRequestOwners = new Map();
+const MEDIA_DIAGNOSTIC_RETIRED_TRACE_LIMIT = 8;
+const MEDIA_DIAGNOSTIC_PROGRESS_INTERVAL_MS = 250;
+const MEDIA_DIAGNOSTIC_WORKER_STAGES = new Set([
+  'credential-requested', 'credential-ready', 'credential-missing',
+  'request-start', 'headers', 'first-byte', 'body-progress', 'body-complete',
+  'body-error', 'http-error', 'range-error', 'request-cancelled'
+]);
+
+function getMediaDiagnosticSink() {
+  return typeof globalThis.__driveOriginalMediaTraceSink === 'function'
+    ? globalThis.__driveOriginalMediaTraceSink
+    : null;
+}
+
+function mediaDiagnosticTimestamp() {
+  return Date.now();
+}
+
+function sanitizeMediaDiagnosticDetails(details = {}) {
+  const allowed = [
+    'route', 'reason', 'kind', 'declaredMime', 'declaredSize', 'attempt',
+    'requestId', 'status', 'requestedRange', 'rangeSatisfied', 'playbackMode',
+    'bytes', 'totalBytes', 'mediaErrorCode', 'seekGeneration', 'currentTime',
+    'confidence', 'fromSession', 'toSession', 'terminal', 'stale'
+  ];
+  const sanitized = {};
+  for (const key of allowed) {
+    const value = details[key];
+    if (value == null) continue;
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      sanitized[key] = value;
+    }
+  }
+  return sanitized;
+}
+
+function emitMediaDiagnosticTraceStage(trace, stage, details = {}, session = state.mediaSession, {
+  allowKnownSession = false,
+  stale = false
+} = {}) {
+  const sink = getMediaDiagnosticSink();
+  const numericSession = Number(session);
+  const currentSession = Number(trace?.mediaSession);
+  const knownSession = trace?.sessions?.has(numericSession);
+  if (!trace || !sink || !Number.isFinite(numericSession)) return false;
+  if (numericSession !== currentSession && !(allowKnownSession && knownSession)) return false;
+  const at = mediaDiagnosticTimestamp();
+  const event = {
+    type: 'DRIVE_ORIGINAL_MEDIA_STAGE',
+    version: 1,
+    source: 'app',
+    playbackId: trace.playbackId,
+    traceId: trace.traceId,
+    fileKey: trace.fileKey,
+    mediaSession: String(numericSession),
+    sequence: ++mediaDiagnosticSequence,
+    at,
+    elapsedMs: Math.max(0, at - trace.startedAt),
+    stage: String(stage || 'unknown'),
+    ...sanitizeMediaDiagnosticDetails(stale ? { ...details, stale: true } : details)
+  };
+  try { sink(event); } catch (_) { /* Diagnostics never change playback. */ }
+  return true;
+}
+
+function emitMediaDiagnosticStage(stage, details = {}, session = state.mediaSession) {
+  return emitMediaDiagnosticTraceStage(mediaDiagnosticTrace, stage, details, session);
+}
+
+function beginMediaDiagnosticTrace(file, session, startedAt = mediaDiagnosticTimestamp()) {
+  if (!getMediaDiagnosticSink()) {
+    mediaDiagnosticTrace = null;
+    mediaDiagnosticRetiredTraces.clear();
+    mediaDiagnosticDirectRequestOwners.clear();
+    return null;
+  }
+  const ordinal = ++mediaDiagnosticPlaybackSequence;
+  const playbackId = `playback-${startedAt.toString(36)}-${ordinal.toString(36)}`;
+  mediaDiagnosticTrace = {
+    playbackId,
+    traceId: playbackId,
+    fileKey: `file-${ordinal}`,
+    mediaSession: Number(session),
+    sessions: new Set([Number(session)]),
+    startedAt,
+    firstFrameSeen: false,
+    playbackProgressSeen: false,
+    seekGeneration: 0,
+    directRequestSequence: 0,
+    directRequests: new Map()
+  };
+  emitMediaDiagnosticStage('intent', {
+    kind: file?.mimeType?.startsWith('video/') ? 'video' : 'image',
+    declaredMime: String(file?.mimeType || ''),
+    declaredSize: Number(file?.size) || 0
+  }, session);
+  return mediaDiagnosticTrace;
+}
+
+function updateMediaDiagnosticSession(session, reason) {
+  const trace = mediaDiagnosticTrace;
+  if (!trace) return;
+  const previous = trace.mediaSession;
+  trace.mediaSession = Number(session);
+  trace.sessions.add(Number(session));
+  emitMediaDiagnosticStage('session-changed', {
+    reason,
+    fromSession: Number(previous),
+    toSession: Number(session)
+  }, session);
+}
+
+function finishMediaDiagnosticTrace(reason = 'closed') {
+  if (!mediaDiagnosticTrace) return;
+  const trace = mediaDiagnosticTrace;
+  emitMediaDiagnosticStage('trace-finished', { reason, terminal: true }, trace.mediaSession);
+  mediaDiagnosticRetiredTraces.delete(trace.traceId);
+  mediaDiagnosticRetiredTraces.set(trace.traceId, trace);
+  while (mediaDiagnosticRetiredTraces.size > MEDIA_DIAGNOSTIC_RETIRED_TRACE_LIMIT) {
+    const retiredTraceId = mediaDiagnosticRetiredTraces.keys().next().value;
+    const retiredTrace = mediaDiagnosticRetiredTraces.get(retiredTraceId);
+    for (const requestId of retiredTrace?.directRequests?.keys?.() || []) {
+      mediaDiagnosticDirectRequestOwners.delete(requestId);
+    }
+    mediaDiagnosticRetiredTraces.delete(retiredTraceId);
+  }
+  mediaDiagnosticTrace = null;
+}
+
+function getMediaDiagnosticTraceId(session = state.mediaSession) {
+  return mediaDiagnosticTrace && Number(mediaDiagnosticTrace.mediaSession) === Number(session)
+    ? mediaDiagnosticTrace.traceId
+    : '';
+}
+
+function beginDirectMediaDiagnosticRequest(session, attempt) {
+  const trace = mediaDiagnosticTrace;
+  if (!trace || Number(trace.mediaSession) !== Number(session)) return '';
+  const requestId = `${trace.traceId}-direct-${++trace.directRequestSequence}`;
+  trace.directRequests.set(requestId, {
+    firstByte: false,
+    lastProgressBytes: 0,
+    lastProgressAt: mediaDiagnosticTimestamp()
+  });
+  mediaDiagnosticDirectRequestOwners.set(requestId, trace);
+  emitMediaDiagnosticStage('request-start', {
+    route: 'full-original', requestId, attempt
+  }, session);
+  return requestId;
+}
+
+function recordDirectMediaDiagnosticBytes(session, requestId, bytes, totalBytes) {
+  const trace = mediaDiagnosticDirectRequestOwners.get(requestId);
+  const request = trace?.directRequests?.get(requestId);
+  const numericSession = Number(session);
+  if (!request || !trace.sessions.has(numericSession)) return;
+  const stale = trace !== mediaDiagnosticTrace || Number(trace.mediaSession) !== numericSession;
+  if (!request.firstByte && bytes > 0) {
+    request.firstByte = true;
+    request.lastProgressAt = mediaDiagnosticTimestamp();
+    emitMediaDiagnosticTraceStage(trace, 'first-byte', {
+      route: 'full-original', requestId, bytes, totalBytes
+    }, session, { allowKnownSession: true, stale });
+  }
+  const now = mediaDiagnosticTimestamp();
+  if (
+    bytes - request.lastProgressBytes >= 1024 * 1024
+    || now - request.lastProgressAt >= MEDIA_DIAGNOSTIC_PROGRESS_INTERVAL_MS
+    || (totalBytes > 0 && bytes >= totalBytes)
+  ) {
+    request.lastProgressBytes = bytes;
+    request.lastProgressAt = now;
+    emitMediaDiagnosticTraceStage(trace, 'body-progress', {
+      route: 'full-original', requestId, bytes, totalBytes
+    }, session, { allowKnownSession: true, stale });
+  }
+}
+
+function emitDirectMediaDiagnosticStage(session, requestId, stage, details = {}, {
+  terminal = false,
+  finalize = terminal
+} = {}) {
+  if (!requestId) return false;
+  const trace = mediaDiagnosticDirectRequestOwners.get(requestId);
+  const numericSession = Number(session);
+  if (!trace || !trace.sessions.has(numericSession)) return false;
+  const stale = trace !== mediaDiagnosticTrace || Number(trace.mediaSession) !== numericSession;
+  const emitted = emitMediaDiagnosticTraceStage(trace, stage, {
+    route: 'full-original', requestId, ...details, terminal
+  }, session, { allowKnownSession: true, stale });
+  if (finalize) {
+    trace.directRequests.delete(requestId);
+    mediaDiagnosticDirectRequestOwners.delete(requestId);
+  }
+  return emitted;
+}
+
+function completeDirectMediaDiagnosticRequest(session, requestId, bytes, totalBytes) {
+  if (!requestId) return;
+  recordDirectMediaDiagnosticBytes(session, requestId, bytes, totalBytes);
+  emitDirectMediaDiagnosticStage(session, requestId, 'body-complete', {
+    bytes, totalBytes
+  }, { finalize: true });
+}
+
+function forwardWorkerMediaDiagnostic(data) {
+  const trace = data?.traceId === mediaDiagnosticTrace?.traceId
+    ? mediaDiagnosticTrace
+    : mediaDiagnosticRetiredTraces.get(data?.traceId);
+  if (!trace || !MEDIA_DIAGNOSTIC_WORKER_STAGES.has(data?.stage)) return;
+  const messageSession = Number(data.sessionId ?? data.mediaSession);
+  if (!Number.isFinite(messageSession) || !trace.sessions.has(messageSession)) return;
+  const stale = trace !== mediaDiagnosticTrace || messageSession !== Number(trace.mediaSession);
+  emitMediaDiagnosticTraceStage(trace, data.stage, {
+    route: 'range',
+    requestId: String(data.requestId || ''),
+    status: Number(data.status) || 0,
+    requestedRange: String(data.requestedRange || ''),
+    rangeSatisfied: data.rangeSatisfied === true,
+    playbackMode: String(data.playbackMode || ''),
+    bytes: Number(data.bytes) || 0,
+    totalBytes: Number(data.totalBytes) || 0,
+    reason: String(data.reason || ''),
+    terminal: data.terminal === true
+  }, messageSession, { allowKnownSession: true, stale });
+}
+
+function recordMediaDiagnosticSeekStart(video) {
+  if (!isCurrentMediaEvent(video) || !mediaDiagnosticTrace) return;
+  mediaDiagnosticTrace.seekGeneration += 1;
+  emitMediaDiagnosticStage('seeking', {
+    seekGeneration: mediaDiagnosticTrace.seekGeneration,
+    currentTime: Number(video.currentTime) || 0
+  });
+}
+
+function recordMediaDiagnosticSeekEnd(video) {
+  const trace = mediaDiagnosticTrace;
+  if (!trace || !isCurrentMediaEvent(video)) return;
+  const session = state.mediaSession;
+  const generation = trace.seekGeneration;
+  emitMediaDiagnosticStage('seeked', {
+    seekGeneration: generation,
+    currentTime: Number(video.currentTime) || 0
+  }, session);
+  if (typeof video.requestVideoFrameCallback === 'function') {
+    video.requestVideoFrameCallback(() => {
+      if (!isCurrentMediaEvent(video) || state.mediaSession !== session) return;
+      emitMediaDiagnosticStage('seek-frame', {
+        seekGeneration: generation,
+        currentTime: Number(video.currentTime) || 0,
+        confidence: 'decoded-frame'
+      }, session);
+    });
+  } else {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!isCurrentMediaEvent(video) || state.mediaSession !== session) return;
+      emitMediaDiagnosticStage('seek-presentation-fallback', {
+        seekGeneration: generation,
+        currentTime: Number(video.currentTime) || 0,
+        confidence: 'paint-only'
+      }, session);
+    }));
+  }
+}
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -1069,16 +1339,28 @@ function bindEvents() {
 
   el.videoPlayer.addEventListener('loadedmetadata', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    emitMediaDiagnosticStage('media-metadata', {
+      currentTime: Number(event.currentTarget.currentTime) || 0,
+      confidence: 'container-metadata'
+    });
     state.mediaDecodeVerified = true;
     updateVideoProgress();
     updatePlayPauseUI();
     beginVideoFrameSampling();
   });
   el.videoPlayer.addEventListener('canplay', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) onMediaReady();
+    if (isCurrentMediaEvent(event.currentTarget)) {
+      emitMediaDiagnosticStage('canplay', { confidence: 'ready-state' });
+      onMediaReady();
+    }
   });
   el.videoPlayer.addEventListener('playing', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) onMediaReady();
+    if (isCurrentMediaEvent(event.currentTarget)) {
+      emitMediaDiagnosticStage('playing', {
+        currentTime: Number(event.currentTarget.currentTime) || 0
+      });
+      onMediaReady();
+    }
   });
   el.videoPlayer.addEventListener('timeupdate', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) onVideoTimeUpdate();
@@ -1086,6 +1368,22 @@ function bindEvents() {
   el.videoPlayer.addEventListener('progress', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) onVideoProgressUpdate();
   });
+  el.videoPlayer.addEventListener('waiting', (event) => {
+    if (isCurrentMediaEvent(event.currentTarget)) {
+      emitMediaDiagnosticStage('media-waiting', {
+        currentTime: Number(event.currentTarget.currentTime) || 0
+      });
+    }
+  });
+  el.videoPlayer.addEventListener('stalled', (event) => {
+    if (isCurrentMediaEvent(event.currentTarget)) {
+      emitMediaDiagnosticStage('media-stalled', {
+        currentTime: Number(event.currentTarget.currentTime) || 0
+      });
+    }
+  });
+  el.videoPlayer.addEventListener('seeking', (event) => recordMediaDiagnosticSeekStart(event.currentTarget));
+  el.videoPlayer.addEventListener('seeked', (event) => recordMediaDiagnosticSeekEnd(event.currentTarget));
   el.videoPlayer.addEventListener('play', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
     updatePlayPauseUI();
@@ -1111,6 +1409,7 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('loadeddata', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    emitMediaDiagnosticStage('media-loaded-data', { confidence: 'decoded-current-frame' });
     scheduleVideoFramePresentation(event.currentTarget, state.mediaSession);
   });
   el.imageViewer.addEventListener('load', (event) => {
@@ -1325,6 +1624,10 @@ async function handleWorkerMessage(event) {
       expiresAt: available && hasUsableToken() ? state.expiresAt : 0
     });
     port.close?.();
+    return;
+  }
+  if (data.type === 'MEDIA_TRACE_EVENT') {
+    forwardWorkerMediaDiagnostic(data);
     return;
   }
   if (data.type === 'MEDIA_PROXY_STATUS') {
@@ -4489,6 +4792,12 @@ function onSpeedMenuKeyDown(event) {
 
 function onVideoTimeUpdate() {
   if (isSeekingPointer) return;
+  if (mediaDiagnosticTrace && !mediaDiagnosticTrace.playbackProgressSeen && Number(el.videoPlayer?.currentTime) > 0) {
+    mediaDiagnosticTrace.playbackProgressSeen = true;
+    emitMediaDiagnosticStage('playback-progress', {
+      currentTime: Number(el.videoPlayer.currentTime) || 0
+    });
+  }
   updateVideoProgress();
 }
 
@@ -5648,6 +5957,8 @@ function restorePlaybackSnapshot(video, snapshot, session) {
 
 function openMediaSource(file) {
   if (!file) return;
+  const diagnosticIntentAt = mediaDiagnosticTimestamp();
+  finishMediaDiagnosticTrace('superseded');
   state.selected = file;
   if (!state.playbackOrderIds.includes(file.id)) state.playbackOrderIds.push(file.id);
   if (state.playbackDeck?.anchorId !== file.id) {
@@ -5669,6 +5980,7 @@ function openMediaSource(file) {
   const isVideo = file.mimeType?.startsWith('video/');
 
   resetMediaElements();
+  beginMediaDiagnosticTrace(file, state.mediaSession, diagnosticIntentAt);
   setNativeVideoActionsAvailable(isVideo);
   collapseShortsExpand();
   resetVideoRotation();
@@ -5695,6 +6007,9 @@ function openMediaSource(file) {
   state.mediaTransportVerified = false;
   state.mediaRangeIntegrity = 'unknown';
   state.lastProxyError = null;
+  emitMediaDiagnosticStage('route-selecting', {
+    kind: isVideo ? 'video' : 'image'
+  }, session);
   updateQualityDisplay();
   showMediaLoading('원본 재생 경로 확인 중');
 
@@ -5729,6 +6044,7 @@ function openMediaSource(file) {
 async function startInitialOriginalPlayback(file, kind, session) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return;
   if (kind !== 'video') {
+    emitMediaDiagnosticStage('route-selected', { route: 'range', reason: 'non-video' }, session);
     startOriginalRangePlayback(file, kind, session);
     return;
   }
@@ -5738,6 +6054,10 @@ async function startInitialOriginalPlayback(file, kind, session) {
   const policy = await resolveOriginalBufferPolicy(file);
   if (state.selected?.id !== file.id || state.mediaSession !== session) return;
   const route = chooseInitialOriginalPlaybackRoute({ isVideo: true, policy });
+  emitMediaDiagnosticStage('route-selected', {
+    route,
+    reason: String(policy?.reason || policy?.decision || '')
+  }, session);
   if (route === PLAYBACK_MODE.OPFS) {
     await startOriginalBlobFallback(file, kind, session, {
       confirmed: true,
@@ -5756,6 +6076,7 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
   state.mediaTransportVerified = false;
   state.mediaRangeIntegrity = 'unknown';
   state.lastProxyError = null;
+  emitMediaDiagnosticStage('range-source-assigned', { route: 'range', kind }, session);
   updateQualityDisplay();
   showMediaLoading(message);
   sendTokenToWorker();
@@ -5820,6 +6141,8 @@ function buildMediaUrl(file) {
   if (file.size) url.searchParams.set('size', file.size);
   if (file.resourceKey) url.searchParams.set('resourceKey', file.resourceKey);
   url.searchParams.set('mediaSession', String(state.mediaSession));
+  const traceId = getMediaDiagnosticTraceId(state.mediaSession);
+  if (traceId) url.searchParams.set('_trace', traceId);
   if (state.mediaRetryCount) url.searchParams.set('attempt', String(state.mediaRetryCount));
   if (state.mediaAbuseAcknowledged && state.selected?.id === file.id) {
     url.searchParams.set('acknowledgeAbuse', '1');
@@ -5892,6 +6215,13 @@ async function handleMediaElementError(kind) {
   const session = state.mediaSession;
   const attempt = state.mediaAttempt;
   const mediaErrorCode = Number(element.error?.code) || 0;
+  emitMediaDiagnosticStage('media-error', {
+    kind,
+    mediaErrorCode,
+    reason: `media-element-code-${mediaErrorCode || 'unknown'}`,
+    confidence: 'provisional',
+    terminal: false
+  }, session);
 
   // The media element and service worker report the same failure on separate
   // queues. Give the classified HTTP error a brief chance to arrive first so
@@ -5901,6 +6231,23 @@ async function handleMediaElementError(kind) {
     state.selected?.id !== file.id || state.mediaSession !== session
     || state.mediaAttempt !== attempt
   ) return;
+
+  const diagnosticReason = !navigator.onLine
+    ? 'network-offline'
+    : !hasUsableToken()
+      ? 'credential-missing'
+      : state.lastProxyError
+        ? `proxy-${classifyMediaProxyFailure(state.lastProxyError)}`
+        : mediaErrorCode === 4
+          ? 'container-or-decoder'
+          : `media-element-code-${mediaErrorCode || 'unknown'}`;
+  emitMediaDiagnosticStage('media-error-classified', {
+    kind,
+    mediaErrorCode,
+    reason: diagnosticReason,
+    confidence: 'classified-after-worker-window',
+    terminal: true
+  }, session);
 
   if (!navigator.onLine) {
     state.mediaAttempt = 'failed';
@@ -5987,6 +6334,7 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
   state.mediaTransportVerified = false;
   state.mediaRangeIntegrity = 'unknown';
   const retrySession = state.mediaSession;
+  updateMediaDiagnosticSession(retrySession, 'range-retry');
 
   clearDirectMediaSources();
   setNativeVideoActionsAvailable(true);
@@ -6129,8 +6477,13 @@ async function downloadOriginalFile(file, session, policy, signal) {
     const attempt = state.mediaFullRequestCount;
     state.mediaFullRequestCount += 1;
     let response = null;
+    const diagnosticRequestId = beginDirectMediaDiagnosticRequest(session, attempt + 1);
     try {
       response = await fetchOriginalFileResponse(file, { headers, signal });
+      emitDirectMediaDiagnosticStage(session, diagnosticRequestId, 'headers', {
+        status: Number(response.status) || 0,
+        totalBytes: Number(response.headers.get('Content-Length')) || 0
+      });
       if (signal?.aborted || session !== state.mediaSession || state.selected?.id !== file.id) {
         await response.body?.cancel();
         response = null;
@@ -6155,8 +6508,8 @@ async function downloadOriginalFile(file, session, policy, signal) {
         throw new RangeError('Original file exceeds the temporary buffer limit');
       }
       const originalFile = policy.mode === 'disk'
-        ? await writeResponseIntoOpfs(response, file, session, policy.hardLimit)
-        : await readResponseIntoBlob(response, file, session, policy.hardLimit);
+        ? await writeResponseIntoOpfs(response, file, session, policy.hardLimit, diagnosticRequestId)
+        : await readResponseIntoBlob(response, file, session, policy.hardLimit, diagnosticRequestId);
       if (session !== state.mediaSession || state.selected?.id !== file.id) {
         cleanupOriginalTempStorage(session);
         throw new DOMException('Media session changed', 'AbortError');
@@ -6170,6 +6523,14 @@ async function downloadOriginalFile(file, session, policy, signal) {
       return originalFile;
     } catch (error) {
       lastError = error;
+      emitDirectMediaDiagnosticStage(
+        session,
+        diagnosticRequestId,
+        error?.name === 'AbortError' ? 'request-cancelled' : 'http-error', {
+          status: Number(error?.status) || Number(response?.status) || 0,
+          reason: error?.name === 'AbortError' ? 'session-cancelled' : 'full-original-failed'
+        }, { terminal: true }
+      );
       try { if (!response?.body?.locked) await response?.body?.cancel(); } catch (_) {}
       cleanupOriginalTempStorage(session);
       const rateLimited = isOriginalTransferRateLimit(error);
@@ -6388,7 +6749,7 @@ function updateOriginalBufferProgress(received, total, storageMode) {
 }
 updateOriginalBufferProgress.lastUpdate = 0;
 
-async function readResponseIntoBlob(response, file, session, hardLimit) {
+async function readResponseIntoBlob(response, file, session, hardLimit, diagnosticRequestId = '') {
   const total = Number(response.headers.get('Content-Length')) || Number(file.size) || 0;
   if (!response.body?.getReader) {
     throw new DOMException('Streaming response reader is unavailable', 'NotSupportedError');
@@ -6405,12 +6766,14 @@ async function readResponseIntoBlob(response, file, session, hardLimit) {
       }
       if (done) break;
       received += value.byteLength;
+      recordDirectMediaDiagnosticBytes(session, diagnosticRequestId, received, total);
       if (received > hardLimit) {
         throw new RangeError('Original file exceeds the memory buffer limit');
       }
       chunks.push(value);
       updateOriginalBufferProgress(received, total, 'memory');
     }
+    completeDirectMediaDiagnosticRequest(session, diagnosticRequestId, received, total);
     return new Blob(chunks, { type: file.mimeType || response.headers.get('Content-Type') || 'application/octet-stream' });
   } catch (error) {
     try { await reader.cancel(error); } catch (_) {}
@@ -6432,7 +6795,7 @@ async function acquireOriginalBufferLease(name) {
   });
 }
 
-async function writeResponseIntoOpfs(response, file, session, hardLimit) {
+async function writeResponseIntoOpfs(response, file, session, hardLimit, diagnosticRequestId = '') {
   const root = await navigator.storage.getDirectory();
   const directory = await root.getDirectoryHandle(ORIGINAL_BUFFER_DIRECTORY, { create: true });
   const randomPart = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -6476,6 +6839,7 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit) {
         }
         if (done) break;
         received += value.byteLength;
+        recordDirectMediaDiagnosticBytes(session, diagnosticRequestId, received, total);
         if (received > hardLimit) {
           await reader.cancel();
           throw new RangeError('Original file exceeds temporary storage');
@@ -6485,6 +6849,7 @@ async function writeResponseIntoOpfs(response, file, session, hardLimit) {
       }
     }
     await writable.close();
+    completeDirectMediaDiagnosticRequest(session, diagnosticRequestId, received, total);
     if (session !== state.mediaSession || state.selected?.id !== file.id) {
       await directory.removeEntry(name).catch(() => {});
       throw new DOMException('Media session changed', 'AbortError');
@@ -6568,8 +6933,12 @@ function showDrivePreview(file, reason) {
   state.mediaAbortController = null;
   clearDirectMediaSources();
   clearDrivePreview();
+  emitMediaDiagnosticStage('compatibility-selected', {
+    route: 'compatibility', reason, terminal: true
+  });
   state.mediaSession += 1;
   const previewSession = state.mediaSession;
+  updateMediaDiagnosticSession(previewSession, 'compatibility');
   state.mediaAttempt = 'drive-preview-loading';
   state.mediaPlaybackMode = PLAYBACK_MODE.COMPATIBILITY;
   state.mediaTransportVerified = false;
@@ -7278,7 +7647,7 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
   if (video.dataset.presentationSession === presentationKey) return;
   video.dataset.presentationSession = presentationKey;
   let presented = false;
-  const reveal = () => {
+  const reveal = (confidence = 'decoded-frame') => {
     if (presented) return;
     presented = true;
     if (
@@ -7286,6 +7655,14 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
       || video.dataset.presentationSession !== presentationKey
     ) return;
     delete video.dataset.presentationSession;
+    if (mediaDiagnosticTrace && !mediaDiagnosticTrace.firstFrameSeen) {
+      mediaDiagnosticTrace.firstFrameSeen = true;
+      emitMediaDiagnosticStage(
+        confidence === 'decoded-frame' ? 'first-decoded-frame' : 'presentation-fallback',
+        { currentTime: Number(video.currentTime) || 0, confidence },
+        session
+      );
+    }
     video.classList.add('is-ready');
     video.classList.remove('has-poster');
     video.removeAttribute('poster');
@@ -7297,9 +7674,9 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
   };
 
   if (typeof video.requestVideoFrameCallback === 'function') {
-    video.requestVideoFrameCallback(() => reveal());
+    video.requestVideoFrameCallback(() => reveal('decoded-frame'));
   } else {
-    requestAnimationFrame(() => requestAnimationFrame(reveal));
+    requestAnimationFrame(() => requestAnimationFrame(() => reveal('paint-only')));
   }
 }
 
@@ -7499,6 +7876,7 @@ function closePlayer({ preserveHistory = false } = {}) {
     if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
   }
+  finishMediaDiagnosticTrace('closed');
   resetMediaElements();
   setPlayerMediaPriorityActive(false);
   if (el.playerMoreMenu) el.playerMoreMenu.open = false;

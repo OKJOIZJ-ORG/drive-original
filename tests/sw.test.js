@@ -28,7 +28,7 @@ function createWorker(fetchImpl) {
   const clients = new Map();
   const calls = [];
   const context = {
-    URL, Headers, Request, Response, Date, Map, Number, Boolean,
+    URL, Headers, Request, Response, ReadableStream, Date, Map, Number, Boolean,
     setTimeout, clearTimeout, MessageChannel: TestMessageChannel,
     self: {
       location: { origin: 'https://app.test' },
@@ -59,11 +59,12 @@ function createWorker(fetchImpl) {
     setToken(id, token) { worker.message(id, { type: 'SET_TOKEN', token, expiresAt: expiresAt() }); },
     request(clientId, {
       fileId = 'fileA', range = 'bytes=100-199', signal, method = 'GET',
-      sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000'
+      sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000', traceId = ''
     } = {}) {
       const abuseQuery = acknowledgeAbuse ? '&acknowledgeAbuse=1' : '';
       const sizeQuery = size == null ? '' : `&size=${encodeURIComponent(size)}`;
-      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${sizeQuery}${abuseQuery}`, {
+      const traceQuery = traceId ? `&_trace=${encodeURIComponent(traceId)}` : '';
+      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${sizeQuery}${abuseQuery}${traceQuery}`, {
         method, headers: { Range: range }, signal
       });
       let response;
@@ -120,6 +121,7 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
   const status = messages.find((message) => message.type === 'MEDIA_PROXY_STATUS');
   assert.deepEqual({ ...status }, {
     type: 'MEDIA_PROXY_STATUS',
+    requestId: 'media-1',
     fileId: 'fileA',
     sessionId: '7',
     mediaSession: '7',
@@ -198,6 +200,7 @@ test('a Range request answered with 200 is reported as original sequential playb
   assert.equal(response.headers.get('Accept-Ranges'), null);
   assert.deepEqual({ ...messages.find((message) => message.type === 'MEDIA_PROXY_STATUS') }, {
     type: 'MEDIA_PROXY_STATUS',
+    requestId: 'media-1',
     fileId: 'fileA',
     sessionId: '7',
     mediaSession: '7',
@@ -479,4 +482,117 @@ test('HEAD remains bodyless and network failures are not exposed or cached', asy
   assert.equal(messages[0].status, 0);
   assert.equal(messages[0].category, 'network');
   assert.equal(messages[0].driveReason, 'networkFailure');
+});
+
+test('opt-in media trace correlates credential, headers, first byte and body completion without secrets', async () => {
+  const worker = createWorker(() => new Response(new ReadableStream({
+    start(controller) {
+      controller.enqueue(new Uint8Array([1, 2, 3, 4]));
+      controller.close();
+    }
+  }), {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-103/1000', 'Content-Length': '4' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'private-token-value');
+  const response = await worker.request('A', {
+    range: 'bytes=100-103',
+    traceId: 'trace-safe-1'
+  }).response;
+  assert.equal(response.status, 206);
+  assert.equal((await response.arrayBuffer()).byteLength, 4);
+  await new Promise((resolve) => setImmediate(resolve));
+
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.deepEqual(trace.map((message) => message.stage), [
+    'credential-requested',
+    'credential-ready',
+    'request-start',
+    'headers',
+    'first-byte',
+    'body-progress',
+    'body-complete'
+  ]);
+  assert.ok(trace.every((message) => message.traceId === 'trace-safe-1'));
+  assert.ok(trace.every((message) => message.requestId === 'media-1'));
+  assert.ok(trace.every((message) => message.sessionId === '7'));
+  assert.deepEqual(trace.map((message) => message.sequence), [1, 2, 3, 4, 5, 6, 7]);
+  const serialized = JSON.stringify(trace);
+  assert.doesNotMatch(serialized, /private-token-value|Authorization|fileA|googleapis\.com/);
+});
+
+test('opt-in media trace distinguishes a missing credential from a rejected upstream credential', async () => {
+  const missingWorker = createWorker(() => { throw new Error('must not fetch'); });
+  const missingMessages = missingWorker.addClient('A', (message, port) => tokenReply(message, port, null));
+  const missing = await missingWorker.request('A', { traceId: 'trace-missing' }).response;
+  assert.equal(missing.status, 401);
+  assert.deepEqual(
+    missingMessages.filter((message) => message.type === 'MEDIA_TRACE_EVENT').map((message) => message.stage),
+    ['credential-requested', 'credential-missing']
+  );
+
+  const rejectedWorker = createWorker(() => errorResponse(401));
+  const rejectedMessages = rejectedWorker.addClient('A', (message, port) => tokenReply(message, port, 'old'));
+  rejectedWorker.setToken('A', 'old');
+  const rejected = await rejectedWorker.request('A', { traceId: 'trace-rejected' }).response;
+  assert.equal(rejected.status, 401);
+  await new Promise((resolve) => setImmediate(resolve));
+  const rejectedTrace = rejectedMessages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.deepEqual(rejectedTrace.map((message) => message.stage), [
+    'credential-requested', 'credential-ready', 'request-start', 'headers', 'http-error'
+  ]);
+  assert.equal(rejectedTrace.at(-1).status, 401);
+  assert.equal(rejectedTrace.at(-1).reason, 'denied');
+});
+
+test('opt-in media trace records cancellation without converting it into an HTTP failure', async () => {
+  let upstreamStarted;
+  const started = new Promise((resolve) => { upstreamStarted = resolve; });
+  const worker = createWorker((url, { signal }) => new Promise((resolve, reject) => {
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+    upstreamStarted();
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const controller = new AbortController();
+  const pending = worker.request('A', { signal: controller.signal, traceId: 'trace-cancelled' }).response;
+  await started;
+  controller.abort();
+  await assert.rejects(pending, { name: 'AbortError' });
+  await new Promise((resolve) => setImmediate(resolve));
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.equal(trace.at(-1).stage, 'request-cancelled');
+  assert.equal(trace.at(-1).reason, 'request-aborted');
+  assert.equal(trace.some((message) => message.stage === 'http-error'), false);
+});
+
+test('opt-in response-body cancellation propagates upstream after headers and first byte', async () => {
+  let sourceController;
+  let upstreamCancelled = false;
+  const upstreamBody = new ReadableStream({
+    start(controller) { sourceController = controller; },
+    cancel() { upstreamCancelled = true; }
+  });
+  const worker = createWorker(() => new Response(upstreamBody, {
+    status: 206,
+    headers: { 'Content-Range': 'bytes 100-115/1000', 'Content-Length': '16' }
+  }));
+  const messages = worker.addClient('A');
+  worker.setToken('A', 'valid');
+  const response = await worker.request('A', {
+    range: 'bytes=100-115', traceId: 'trace-consumer-cancel'
+  }).response;
+  const reader = response.body.getReader();
+  const firstRead = reader.read();
+  sourceController.enqueue(new Uint8Array([1]));
+  await firstRead;
+  await reader.cancel('consumer stopped');
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(upstreamCancelled, true);
+  const trace = messages.filter((message) => message.type === 'MEDIA_TRACE_EVENT');
+  assert.deepEqual(trace.slice(-2).map((message) => message.stage), ['first-byte', 'request-cancelled']);
+  assert.equal(trace.at(-1).reason, 'consumer-cancelled');
+  assert.equal(trace.some((message) => message.stage === 'body-complete'), false);
 });

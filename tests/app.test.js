@@ -1153,6 +1153,226 @@ test('video transition keeps the neighbour poster until a frame is actually pres
   });
 });
 
+test('opt-in media trace is redacted, session-correlated and added to media URLs only while active', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const events = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => events.push(event);
+    const file = { id: 'private-drive-id', name: 'private-name.mp4', mimeType: 'video/mp4', size: '208001508' };
+    state.selected = file;
+    state.mediaSession = 4;
+    beginMediaDiagnosticTrace(file, 4, Date.now());
+    const activeUrl = buildMediaUrl(file);
+    const traceId = new URL(activeUrl).searchParams.get('_trace');
+    const playbackId = events[0].playbackId;
+    updateMediaDiagnosticSession(5, 'range-retry');
+    state.mediaSession = 5;
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-1', sessionId: '4',
+      stage: 'request-cancelled', reason: 'request-aborted', terminal: true
+    });
+    const afterStale = events.length;
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-unknown', sessionId: '5',
+      stage: 'private-name.mp4', reason: 'must-not-pass'
+    });
+    const afterUnknown = events.length;
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-2', sessionId: '5',
+      stage: 'headers', status: 206, requestedRange: 'bytes=0-99', rangeSatisfied: true
+    });
+    finishMediaDiagnosticTrace('closed');
+    const inactiveUrl = buildMediaUrl(file);
+    return JSON.stringify({
+      events,
+      traceId,
+      playbackId,
+      afterStale,
+      afterUnknown,
+      activeTrace: new URL(activeUrl).searchParams.get('_trace'),
+      inactiveTrace: new URL(inactiveUrl).searchParams.get('_trace')
+    });
+  })()`));
+
+  assert.equal(result.traceId, result.playbackId);
+  assert.equal(result.activeTrace, result.traceId);
+  assert.equal(result.inactiveTrace, null);
+  assert.equal(result.afterStale, 3, 'a prior-session cancellation remains in the correlated trace');
+  assert.equal(result.afterUnknown, 3, 'unknown worker stages cannot enter the diagnostic sink');
+  assert.deepEqual(result.events.map((event) => event.stage), [
+    'intent', 'session-changed', 'request-cancelled', 'headers', 'trace-finished'
+  ]);
+  assert.equal(result.events[0].fileKey, 'file-1');
+  assert.equal(result.events[2].requestId, 'media-1');
+  assert.equal(result.events[2].stale, true);
+  assert.equal(result.events[3].requestId, 'media-2');
+  assert.doesNotMatch(JSON.stringify(result.events), /private-drive-id|private-name\.mp4/);
+});
+
+test('a superseded playback keeps its cancellation trace without mutating the newer file session', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const events = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => events.push(event);
+    state.selected = { id: 'private-file-a', mimeType: 'video/mp4' };
+    state.mediaSession = 11;
+    beginMediaDiagnosticTrace(state.selected, 11, Date.now());
+    const oldTraceId = mediaDiagnosticTrace.traceId;
+    finishMediaDiagnosticTrace('superseded');
+    state.selected = { id: 'private-file-b', mimeType: 'video/mp4' };
+    state.mediaSession = 12;
+    beginMediaDiagnosticTrace(state.selected, 12, Date.now() + 1);
+    const newTraceId = mediaDiagnosticTrace.traceId;
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId: oldTraceId, requestId: 'media-old',
+      sessionId: '11', stage: 'request-cancelled', reason: 'request-aborted', terminal: true
+    });
+    forwardWorkerMediaDiagnostic({
+      type: 'MEDIA_TRACE_EVENT', traceId: newTraceId, requestId: 'media-new',
+      sessionId: '12', stage: 'headers', status: 206, rangeSatisfied: true
+    });
+    return JSON.stringify({
+      events,
+      selectedId: state.selected.id,
+      mediaSession: state.mediaSession,
+      mediaAttempt: state.mediaAttempt,
+      oldTraceId,
+      newTraceId
+    });
+  })()`));
+
+  const oldEvents = result.events.filter((event) => event.traceId === result.oldTraceId);
+  const newEvents = result.events.filter((event) => event.traceId === result.newTraceId);
+  assert.deepEqual(oldEvents.map((event) => event.stage), ['intent', 'trace-finished', 'request-cancelled']);
+  assert.equal(oldEvents.at(-1).stale, true);
+  assert.deepEqual(newEvents.map((event) => event.stage), ['intent', 'headers']);
+  assert.equal(result.selectedId, 'private-file-b');
+  assert.equal(result.mediaSession, 12);
+  assert.doesNotMatch(JSON.stringify(result.events), /private-file-a|private-file-b/);
+});
+
+test('a superseded direct full-original request reports late bytes and cancellation to its retired trace', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const events = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => events.push(event);
+    state.selected = { id: 'private-direct-a', mimeType: 'video/mp4' };
+    state.mediaSession = 41;
+    beginMediaDiagnosticTrace(state.selected, 41, Date.now());
+    const oldTraceId = mediaDiagnosticTrace.traceId;
+    const requestId = beginDirectMediaDiagnosticRequest(41, 1);
+    finishMediaDiagnosticTrace('superseded');
+    state.selected = { id: 'private-direct-b', mimeType: 'video/mp4' };
+    state.mediaSession = 42;
+    beginMediaDiagnosticTrace(state.selected, 42, Date.now() + 1);
+    const newTraceId = mediaDiagnosticTrace.traceId;
+    emitDirectMediaDiagnosticStage(41, requestId, 'headers', { status: 200, totalBytes: 16 });
+    recordDirectMediaDiagnosticBytes(41, requestId, 1, 16);
+    emitDirectMediaDiagnosticStage(41, requestId, 'request-cancelled', {
+      reason: 'session-cancelled'
+    }, { terminal: true });
+    return JSON.stringify({
+      events,
+      oldTraceId,
+      newTraceId,
+      selectedId: state.selected.id,
+      mediaSession: state.mediaSession,
+      requestRetained: mediaDiagnosticDirectRequestOwners.has(requestId)
+    });
+  })()`));
+
+  const oldEvents = result.events.filter((event) => event.traceId === result.oldTraceId);
+  const newEvents = result.events.filter((event) => event.traceId === result.newTraceId);
+  assert.deepEqual(oldEvents.map((event) => event.stage), [
+    'intent', 'request-start', 'trace-finished', 'headers', 'first-byte', 'request-cancelled'
+  ]);
+  assert.ok(oldEvents.slice(3).every((event) => event.stale === true));
+  assert.deepEqual(newEvents.map((event) => event.stage), ['intent']);
+  assert.equal(result.requestRetained, false);
+  assert.equal(result.selectedId, 'private-direct-b');
+  assert.equal(result.mediaSession, 42);
+  assert.doesNotMatch(JSON.stringify(result.events), /private-direct-a|private-direct-b/);
+});
+
+test('media trace does not call metadata a decoded frame and waits for frame presentation', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const events = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => events.push(event);
+    state.mediaSession = 8;
+    state.selected = { id: 'video-id', mimeType: 'video/mp4' };
+    beginMediaDiagnosticTrace(state.selected, 8, Date.now());
+    let frameCallback = null;
+    const classes = new Set();
+    const video = {
+      hidden: false,
+      currentTime: 0,
+      dataset: { mediaSession: '8' },
+      classList: { add(name) { classes.add(name); }, remove(name) { classes.delete(name); } },
+      removeAttribute() {},
+      requestVideoFrameCallback(callback) { frameCallback = callback; }
+    };
+    el.videoPlayer = video;
+    el.imageViewer = { hidden: true };
+    el.mediaLoading = { hidden: false };
+    el.mediaError = { hidden: false };
+    updateQualityDisplay = () => {};
+    tryCaptureAmbientFrame = () => {};
+    hideSwipeNeighbor = () => {};
+    emitMediaDiagnosticStage('media-metadata', { confidence: 'container-metadata' }, 8);
+    onMediaReady();
+    const before = events.map((event) => event.stage);
+    frameCallback?.(0, { mediaTime: 0 });
+    const after = events.map((event) => event.stage);
+    return JSON.stringify({ before, after, ready: classes.has('is-ready') });
+  })()`));
+
+  assert.equal(result.before.includes('first-decoded-frame'), false);
+  assert.equal(result.after.includes('first-decoded-frame'), true);
+  assert.equal(result.ready, true);
+});
+
+test('media element errors remain provisional until the worker classification window closes', async () => {
+  const context = loadAppContext();
+  const result = JSON.parse(await run(context, `(async () => {
+    const events = [];
+    globalThis.__driveOriginalMediaTraceSink = (event) => events.push(event);
+    state.selected = { id: 'private-video-id', mimeType: 'video/mp4' };
+    state.mediaSession = 21;
+    state.mediaAttempt = 'range';
+    state.token = 'private-token';
+    state.expiresAt = Date.now() + 60_000;
+    el.videoPlayer = {
+      error: { code: 4 },
+      getAttribute(name) { return name === 'src' ? 'blob:private-source' : ''; }
+    };
+    beginMediaDiagnosticTrace(state.selected, 21, Date.now());
+    const traceId = mediaDiagnosticTrace.traceId;
+    window.setTimeout = (resolve) => {
+      forwardWorkerMediaDiagnostic({
+        type: 'MEDIA_TRACE_EVENT', traceId, requestId: 'media-http', sessionId: '21',
+        stage: 'http-error', status: 401, reason: 'credential-rejected', terminal: true
+      });
+      state.lastProxyError = { status: 401, category: 'auth', reasons: [] };
+      resolve();
+      return 1;
+    };
+    await handleMediaElementError('video');
+    return JSON.stringify({ events, mediaAttempt: state.mediaAttempt });
+  })()`));
+
+  assert.deepEqual(result.events.map((event) => event.stage), [
+    'intent', 'media-error', 'http-error', 'media-error-classified'
+  ]);
+  assert.equal(result.events[1].terminal, false);
+  assert.equal(result.events[1].confidence, 'provisional');
+  assert.equal(result.events[2].terminal, true);
+  assert.equal(result.events[3].terminal, true);
+  assert.equal(result.events[3].reason, 'proxy-auth');
+  assert.equal(result.mediaAttempt, 'range');
+  assert.doesNotMatch(JSON.stringify(result.events), /private-video-id|private-token|blob:private-source/);
+});
+
 test('task pool caps concurrency and returns aligned all-settled results', async () => {
   const context = loadAppContext();
   const result = await run(context, `(async () => {
