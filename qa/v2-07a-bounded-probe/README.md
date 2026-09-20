@@ -127,6 +127,22 @@ explicitly sets `decodeClaimed:false` and `playbackClaimed:false`. It is only an
 initial route selector; native box/index/track parsers and product/device tests
 remain later units.
 
+## Live redacted front-sniff evidence
+
+`results.redacted.json` records the one authenticated candidate run without file
+identifiers, names, paths, resource keys, account values, credentials, URLs, or
+media bytes. The adapter processed all 38 freshly selected representatives. It
+made 37 serial bounded body requests totaling 2,124,313 unique bytes; all 37
+passed both identity checks. One row returned `IDENTITY_MISMATCH` before a body
+request, so the evidence records that cause as unresolved rather than retrying
+or treating it as a format failure.
+
+The 37 front-byte routes were MPEG-TS 15, ISO-BMFF 8, JPEG 7, GIF 2, PNG 2,
+WebM 1, WebP 1, and unknown 1. These are routing observations only. They do not
+claim a complete container/track parse, corruption, decode, playback, or physical
+device success. The next unit is metadata-only reconciliation of the mismatch;
+it must not repeat the 37 successful body reads.
+
 ## Focused verification
 
 ```powershell

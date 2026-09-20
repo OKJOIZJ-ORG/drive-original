@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import vm from 'node:vm';
 import { createDriveBrowserAdapter } from './drive-browser-adapter.mjs';
@@ -10,6 +11,44 @@ const EXPECTED_OUTPUT_KEYS = [
   'magicCounts', 'playbackClaimed', 'postflightPassedCount', 'preflightPassedCount',
   'processedCount', 'schema', 'successCount', 'totals'
 ].sort();
+
+test('tracked live evidence is aggregate-only and internally consistent', async () => {
+  const raw = await readFile(new URL('./results.redacted.json', import.meta.url), 'utf8');
+  const evidence = JSON.parse(raw);
+  const aggregate = evidence.aggregate;
+  const forbiddenKeys = new Set([
+    'accessToken', 'accountKey', 'authorization', 'cookie', 'email', 'fileId',
+    'fileName', 'name', 'path', 'refreshToken', 'resourceKey', 'token', 'url'
+  ]);
+
+  const visit = (value) => {
+    if (!value || typeof value !== 'object') return;
+    for (const [key, child] of Object.entries(value)) {
+      assert.equal(forbiddenKeys.has(key), false, `private evidence key: ${key}`);
+      visit(child);
+    }
+  };
+  visit(evidence);
+
+  assert.equal(evidence.schema, 'drive-original.v2-07a-front-sniff-evidence-redacted/1');
+  assert.equal(aggregate.schema, 'drive-original.v2-07a-front-sniff-aggregate/1');
+  assert.equal(aggregate.complete, true);
+  assert.equal(aggregate.processedCount, aggregate.expectedCount);
+  assert.equal(aggregate.successCount + aggregate.failureCount, aggregate.expectedCount);
+  assert.equal(Object.values(aggregate.magicCounts).reduce((sum, count) => sum + count, 0), aggregate.successCount);
+  assert.equal(Object.values(aggregate.failureCounts).reduce((sum, count) => sum + count, 0), aggregate.failureCount);
+  assert.deepEqual(aggregate.failureCounts, { IDENTITY_MISMATCH: 1 });
+  assert.equal(aggregate.totals.requests, aggregate.successCount);
+  assert.equal(aggregate.totals.receivedBytes, aggregate.totals.uniqueBytes);
+  assert.ok(aggregate.totals.receivedBytes <= evidence.limits.frontBytesPerEligibleFile * aggregate.successCount);
+  assert.equal(aggregate.decodeClaimed, false);
+  assert.equal(aggregate.playbackClaimed, false);
+  assert.equal(evidence.execution.driveMutations, 0);
+  assert.equal(evidence.execution.decodeAttempts, 0);
+  assert.equal(evidence.execution.playbackAttempts, 0);
+  assert.equal(evidence.limitations.identityMismatchBodyRead, false);
+  assert.equal(evidence.limitations.identityMismatchCauseResolved, false);
+});
 
 function manifest(overrides = {}) {
   const selected = Array.from({ length: 38 }, (_, index) => ({

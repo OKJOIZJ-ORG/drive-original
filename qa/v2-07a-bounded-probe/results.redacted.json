@@ -1,0 +1,93 @@
+{
+  "schema": "drive-original.v2-07a-front-sniff-evidence-redacted/1",
+  "recordedAt": "2026-09-20T04:03:15Z",
+  "adapterCommit": "e0f8228b44034a150bc1df36394076d569e14f00",
+  "transportIntegrityHeaderCommit": "465cf41f62a42b4bad0ebd36803e89fa610b5d0d",
+  "boundedCoreCommit": "31bb099afb242c1ae6411614109ff0077b5a7724",
+  "boundedCleanupCommit": "f31c8702f18ac5c9b07ad539d900f80c294f02f8",
+  "inventoryToolCommit": "e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b",
+  "inventoryEvidenceCommit": "78b1b14cd4703ea90b9268559f60266e2d2f1d09",
+  "selectorToolCommit": "dd30d2b9394560d7d0f35e85f6a48cc04a2b624c",
+  "selectorEvidenceCommit": "56248e5837bca4c6dcdfcf18e8a19259a6c9775f",
+  "productCandidateCommit": "3597e6399056908542680f2a7a5266effd40e96a",
+  "execution": {
+    "candidateAppVersion": "1.22.0-rc.4",
+    "authenticatedDesktopChrome": true,
+    "readOnlyCandidate": true,
+    "freshAuthenticatedRepeatedInventoryInsideRun": true,
+    "representativeSelectionRecomputedInsideRun": true,
+    "callerSuppliedManifestOrFileIds": false,
+    "appMediaOwnerIdleBeforeAndThroughoutRun": true,
+    "recentMediaRequestsDuringPreRunQuietWindow": 0,
+    "publicEntrypointRemovedSynchronously": true,
+    "temporaryPrivateContextRemovedAfterRun": true,
+    "driveMutations": 0,
+    "decodeAttempts": 0,
+    "playbackAttempts": 0,
+    "privateIdentifierLeakCount": 0,
+    "privateResourceKeyLeakCount": 0
+  },
+  "transport": {
+    "workerName": "drive-original-v2-07a-browser-transport",
+    "workerVersion": "c6544964-525e-4eaf-8af2-27413c1553fa",
+    "bundleRole": "bounded-adapter",
+    "bundleSha256": "5EA41F6C7C369ACCC2D9ABFB5F5F8ACEC7ECAAD33E2D1CA4039844BB0B491865",
+    "bundleBytes": 107952,
+    "localRemoteAndInPageHashMatched": true,
+    "exactCandidateOriginCors": true,
+    "cacheControlNoStore": true,
+    "nosniffVisibleInCandidatePage": true,
+    "identityEncodingGetAndHeadDeclaredExactLength": true,
+    "defaultCompressedGetDeclaredLengthAvailable": false,
+    "noBindings": true,
+    "productCandidateReplaced": false
+  },
+  "aggregate": {
+    "schema": "drive-original.v2-07a-front-sniff-aggregate/1",
+    "complete": true,
+    "expectedCount": 38,
+    "processedCount": 38,
+    "preflightPassedCount": 37,
+    "postflightPassedCount": 37,
+    "successCount": 37,
+    "failureCount": 1,
+    "magicCounts": {
+      "gif": 2,
+      "iso-bmff": 8,
+      "jpeg": 7,
+      "mpeg-ts": 15,
+      "png": 2,
+      "unknown": 1,
+      "webm": 1,
+      "webp": 1
+    },
+    "failureCounts": {
+      "IDENTITY_MISMATCH": 1
+    },
+    "totals": {
+      "requests": 37,
+      "receivedBytes": 2124313,
+      "uniqueBytes": 2124313
+    },
+    "decodeClaimed": false,
+    "playbackClaimed": false
+  },
+  "limits": {
+    "frontBytesPerEligibleFile": 65536,
+    "maximumBodyRequestsPerFile": 1,
+    "probeBodyConcurrency": 1,
+    "maximumBatchBytes": 2490368,
+    "openEndedOrSuffixRangeAllowed": false,
+    "persistentMediaStorage": false
+  },
+  "limitations": {
+    "identityMismatchBodyRead": false,
+    "identityMismatchCauseResolved": false,
+    "frontMagicIsCompleteContainerOrTrackProof": false,
+    "unknownMagicMeansCorruption": false,
+    "decodeOrPlaybackProven": false,
+    "physicalIphonePlaybackProven": false,
+    "unrelatedPreExistingServiceWorkerTrafficEnumerated": false,
+    "fullCorpusBodyProbed": false
+  }
+}
