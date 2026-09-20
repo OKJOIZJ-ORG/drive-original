@@ -185,6 +185,20 @@ function run(context, source) {
   return vm.runInContext(source, context);
 }
 
+function installAuthUi(context) {
+  run(context, `(() => {
+    const buttonLabel = { textContent: '' };
+    const badgeLabel = { textContent: '' };
+    globalThis.authUi = { buttonLabel, badgeLabel };
+    el.connectButton = { disabled: false, querySelector() { return buttonLabel; } };
+    el.connectionBadge = { dataset: {}, querySelector() { return badgeLabel; } };
+    el.authHint = { textContent: '', classList: { add() {}, remove() {} } };
+    el.setupView = { hidden: false, setAttribute() {} };
+    el.libraryView = { hidden: true };
+    document.getElementById = () => null;
+  })()`);
+}
+
 function installFakeClock(context, startAt = 1_000) {
   let now = startAt;
   let sequence = 0;
@@ -315,24 +329,27 @@ test('session credentials are strict, memory-only, and remove legacy browser art
     resumeAfterCredential = () => {};
     removeLegacyCredentialStorage();
     const expiresAt = Date.now() + 60_000;
-    const installed = installSessionCredential({ accessToken: 'session-token', expiresAt, account: 'account-A', revision: 7 }, { generation: state.authGeneration });
+    const installed = installSessionCredential({ accessToken: 'session-token', expiresAt, account: 'account-A', revision: 7, sessionMarker: 's'.repeat(43) }, { generation: state.authGeneration });
     const rejected = [
       installSessionCredential({ accessToken: '', expiresAt, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
       installSessionCredential({ accessToken: 'near-expiry', expiresAt: Date.now() + TOKEN_SKEW_MS, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
       installSessionCredential({ accessToken: 'bad-account', expiresAt, account: 'bad account', revision: 8 }, { generation: state.authGeneration }),
-      installSessionCredential({ accessToken: 'string-numbers', expiresAt: String(expiresAt), account: 'account-A', revision: '8' }, { generation: state.authGeneration })
+      installSessionCredential({ accessToken: 'string-numbers', expiresAt: String(expiresAt), account: 'account-A', revision: '8' }, { generation: state.authGeneration }),
+      installSessionCredential({ accessToken: 'bad-marker', expiresAt, account: 'account-A', revision: 8, sessionMarker: 'not valid' }, { generation: state.authGeneration })
     ];
     return JSON.stringify({ installed, rejected, token: state.token, expiresAt: state.expiresAt, account: state.authAccountKey, revision: state.tokenRevision,
+      sessionMarker: sessionCredentialMarker,
       legacyToken: localStorage.getItem(LEGACY_TOKEN_STORAGE_KEY), legacyClient: localStorage.getItem(LEGACY_CLIENT_ID_STORAGE_KEY),
       hasClientId: Object.hasOwn(state, 'clientId') });
   })()`));
   assert.deepEqual(result, {
     installed: true,
-    rejected: [false, false, false, false],
+    rejected: [false, false, false, false, false],
     token: 'session-token',
     expiresAt: result.expiresAt,
     account: 'account-A',
     revision: 7,
+    sessionMarker: 's'.repeat(43),
     legacyToken: null,
     legacyClient: null,
     hasClientId: false
@@ -348,7 +365,10 @@ test('same-origin credential requests are single-flight and send the account fen
     calls += 1;
     request = { url: String(url), options };
     await new Promise((resolve) => { release = resolve; });
-    return new Response(JSON.stringify({ accessToken: 'renewed-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 4 }), {
+    return new Response(JSON.stringify({
+      accessToken: 'renewed-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 4,
+      sessionMarker: 'm'.repeat(43)
+    }), {
       headers: { 'Content-Type': 'application/json' }
     });
   };
@@ -369,6 +389,7 @@ test('same-origin credential requests are single-flight and send the account fen
   assert.equal(request.options.redirect, 'error');
   assert.equal(request.options.headers['X-Drive-Original-CSRF'], '1');
   assert.equal(run(context, 'state.tokenRevision'), 4);
+  assert.equal(run(context, 'sessionCredentialMarker'), 'm'.repeat(43));
 });
 
 test('initial session recovery keeps the reconnect action inert until the credential probe settles', () => {
@@ -412,6 +433,282 @@ test('initial session recovery keeps the reconnect action inert until the creden
     badgeLabel: '연결 안 됨',
     ariaBusy: 'false'
   });
+});
+
+test('iOS standalone starts OAuth inside the web-app context while browser surfaces keep same-window navigation', () => {
+  const standalone = loadAppContext();
+  installAuthUi(standalone);
+  const opened = [];
+  const assigned = [];
+  const authWindow = { opener: standalone.window };
+  standalone.window.open = (url, target) => {
+    opened.push({ url: String(url), target });
+    return authWindow;
+  };
+  standalone.location.assign = (url) => assigned.push(String(url));
+  run(standalone, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';beginAuthorization();beginAuthorization();`);
+  assert.equal(opened.length, 1, 'a repeated activation must not open a second OAuth window');
+  assert.equal(opened[0].target, '_blank');
+  assert.equal(new URL(opened[0].url).pathname, '/auth/google/start');
+  assert.equal(new URL(opened[0].url).searchParams.get('returnTo'), '/drive-original/');
+  assert.equal(authWindow.opener, null);
+  assert.deepEqual(assigned, []);
+  assert.equal(run(standalone, 'standaloneAuthAttempt !== null'), true);
+  assert.equal(run(standalone, 'authUi.buttonLabel.textContent'), 'Google 로그인 진행 중…');
+  assert.equal(run(standalone, 'el.authHint.textContent'), '열려 있는 Google 로그인 창을 완료한 뒤 이 화면으로 돌아오세요.');
+
+  for (const fixture of [
+    { name: 'iPhone browser tab', userAgent: 'Mozilla/5.0 (iPhone)', standalone: false, display: false },
+    { name: 'desktop standalone', userAgent: 'Mozilla/5.0 (Windows NT 10.0)', standalone: false, display: true },
+    { name: 'Android standalone', userAgent: 'Mozilla/5.0 (Linux; Android 15)', standalone: false, display: true }
+  ]) {
+    const context = loadAppContext();
+    installAuthUi(context);
+    const navigations = [];
+    let popupCalls = 0;
+    context.location.assign = (url) => navigations.push(String(url));
+    context.window.open = () => { popupCalls += 1; return {}; };
+    context.window.matchMedia = () => ({ matches: fixture.display });
+    run(context, `navigator.userAgent=${JSON.stringify(fixture.userAgent)};
+      navigator.standalone=${fixture.standalone};beginAuthorization();`);
+    assert.equal(popupCalls, 0, fixture.name);
+    assert.equal(navigations.length, 1, fixture.name);
+  }
+});
+
+test('a blocked standalone OAuth window fails closed and releases the connect action', () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  context.window.open = () => null;
+  context.location.assign = () => { throw new Error('standalone must not fall back to cross-context navigation'); };
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;beginAuthorization();`);
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+  assert.equal(run(context, 'el.connectButton.disabled'), false);
+  assert.equal(run(context, 'el.setupView.hidden'), false);
+  assert.match(run(context, 'el.authHint.textContent'), /로그인 창을 열지 못했습니다/);
+});
+
+test('standalone popup and deadline failures preserve an already usable session', async () => {
+  const blocked = loadAppContext();
+  installAuthUi(blocked);
+  blocked.window.open = () => null;
+  run(blocked, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';navigator.standalone=true;
+    state.token='still-usable';state.expiresAt=Date.now()+60000;sessionCredentialMarker='a'.repeat(43);
+    el.setupView.hidden=true;el.libraryView.hidden=false;globalThis.failureToast='';showToast=(message)=>{failureToast=message;};
+    beginAuthorization();`);
+  assert.equal(run(blocked, 'state.token'), 'still-usable');
+  assert.equal(run(blocked, 'el.setupView.hidden'), true);
+  assert.equal(run(blocked, 'el.libraryView.hidden'), false);
+  assert.match(run(blocked, 'failureToast'), /로그인 창을 열지 못했습니다/);
+
+  const expired = loadAppContext();
+  installAuthUi(expired);
+  const clock = installFakeClock(expired);
+  expired.window.open = () => ({ opener: expired.window });
+  run(expired, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';navigator.standalone=true;
+    document.visibilityState='visible';state.token='still-usable';state.expiresAt=Date.now()+60000;
+    sessionCredentialMarker='a'.repeat(43);el.setupView.hidden=true;el.libraryView.hidden=false;
+    globalThis.failureToast='';showToast=(message)=>{failureToast=message;};requestSessionCredential=async()=>true;
+    beginAuthorization();markStandaloneAuthorizationReturned({pageshow:true});resumeStandaloneAuthorization();`);
+  for (const delay of [0, 800, 2_000]) {
+    clock.advance(delay);
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  clock.advance(600_000 - 2_800);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(expired, 'state.token'), 'still-usable');
+  assert.equal(run(expired, 'el.setupView.hidden'), true);
+  assert.equal(run(expired, 'el.libraryView.hidden'), false);
+  assert.match(run(expired, 'failureToast'), /로그인 시간이 만료되었습니다/);
+});
+
+test('standalone foreground recovery is single-owner, survives one early 401, and opens the library on credential proof', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const clock = installFakeClock(context);
+  context.window.open = () => ({ opener: context.window });
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';
+    globalThis.recoveryCalls=0;globalThis.libraryShows=0;
+    showLibrary=()=>{libraryShows+=1;el.setupView.hidden=true;el.libraryView.hidden=false;};
+    requestSessionCredential=async()=>{
+      recoveryCalls+=1;
+      if(recoveryCalls===1)return false;
+      state.token='standalone-session-token';state.expiresAt=Date.now()+60000;
+      sessionCredentialMarker='b'.repeat(43);return true;
+    };
+    beginAuthorization();markStandaloneAuthorizationHidden();document.visibilityState='visible';markStandaloneAuthorizationReturned();
+    resumeStandaloneAuthorization();resumeStandaloneAuthorization();`);
+  assert.equal(clock.scheduled.size, 2);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 1);
+  assert.equal(clock.scheduled.size, 2, 'one bounded retry and one transaction deadline should remain armed after an early 401');
+  run(context, 'resumeStandaloneAuthorization();resumeStandaloneAuthorization();');
+  assert.equal(clock.scheduled.size, 2, 'foreground event bursts must not duplicate the retry owner or deadline');
+  clock.advance(800);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 2);
+  assert.equal(run(context, 'libraryShows'), 1);
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+  assert.equal(run(context, 'el.connectButton.disabled'), false);
+  assert.equal(run(context, 'el.libraryView.hidden'), false);
+});
+
+test('standalone recovery requires a new HttpOnly-session marker instead of any usable token or revision change', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const clock = installFakeClock(context);
+  context.window.open = () => ({ opener: context.window });
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';
+    state.token='old-token';state.expiresAt=Date.now()+60000;state.tokenRevision=8;
+    sessionCredentialMarker='a'.repeat(43);globalThis.recoveryCalls=0;globalThis.libraryShows=0;
+    showLibrary=()=>{libraryShows+=1;};
+    requestSessionCredential=async()=>{
+      recoveryCalls+=1;state.token='refreshed-token';state.expiresAt=Date.now()+60000;state.tokenRevision+=1;
+      if(recoveryCalls===2)sessionCredentialMarker='b'.repeat(43);
+      return true;
+    };
+    beginAuthorization();markStandaloneAuthorizationHidden();markStandaloneAuthorizationReturned();resumeStandaloneAuthorization();`);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 1);
+  assert.equal(run(context, 'libraryShows'), 0, 'a refresh on the old session must not impersonate OAuth completion');
+  assert.equal(run(context, 'standaloneAuthAttempt !== null'), true);
+  clock.advance(800);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 2);
+  assert.equal(run(context, 'libraryShows'), 1);
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+});
+
+test('a standalone recovery timer that fires while hidden consumes no probe budget', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const clock = installFakeClock(context);
+  context.window.open = () => ({ opener: context.window });
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';globalThis.recoveryCalls=0;
+    requestSessionCredential=async()=>{recoveryCalls+=1;state.token='new-token';state.expiresAt=Date.now()+60000;
+      sessionCredentialMarker='z'.repeat(43);return true;};
+    beginAuthorization();markStandaloneAuthorizationHidden();markStandaloneAuthorizationReturned();resumeStandaloneAuthorization();
+    document.visibilityState='hidden';`);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 0);
+  assert.equal(run(context, 'standaloneAuthAttempt.nextProbe'), 0);
+  assert.equal(run(context, 'standaloneAuthAttempt.timer'), null);
+  run(context, `document.visibilityState='visible';markStandaloneAuthorizationReturned();resumeStandaloneAuthorization();`);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 1);
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+});
+
+test('pageshow alone can resume standalone recovery and a later return gets a fresh bounded probe epoch', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const clock = installFakeClock(context);
+  context.window.open = () => ({ opener: context.window });
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';globalThis.recoveryCalls=0;globalThis.libraryShows=0;
+    globalThis.callbackReady=false;showLibrary=()=>{libraryShows+=1;};
+    requestSessionCredential=async()=>{recoveryCalls+=1;if(!callbackReady)return false;
+      state.token='new-session';state.expiresAt=Date.now()+60000;sessionCredentialMarker='p'.repeat(43);return true;};
+    beginAuthorization();markStandaloneAuthorizationReturned({pageshow:true});resumeStandaloneAuthorization();`);
+  for (const delay of [0, 800, 2_000]) {
+    clock.advance(delay);
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(run(context, 'recoveryCalls'), 3);
+  assert.equal(run(context, 'standaloneAuthAttempt.waitingForReturn'), true);
+  assert.equal(run(context, 'standaloneAuthAttempt !== null'), true);
+  run(context, `callbackReady=true;markStandaloneAuthorizationReturned({pageshow:true});resumeStandaloneAuthorization();`);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'recoveryCalls'), 4);
+  assert.equal(run(context, 'libraryShows'), 1);
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+});
+
+test('standalone recovery expires at the OAuth transaction deadline and stale completion cannot revive it', async () => {
+  const failed = loadAppContext();
+  installAuthUi(failed);
+  const failureClock = installFakeClock(failed);
+  failed.window.open = () => ({ opener: failed.window });
+  run(failed, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';
+    globalThis.recoveryCalls=0;requestSessionCredential=async()=>{recoveryCalls+=1;return false;};
+    beginAuthorization();markStandaloneAuthorizationHidden();markStandaloneAuthorizationReturned();resumeStandaloneAuthorization();`);
+  for (const delay of [0, 800, 2_000]) {
+    failureClock.advance(delay);
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(run(failed, 'recoveryCalls'), 3);
+  assert.equal(run(failed, 'standaloneAuthAttempt.waitingForReturn'), true);
+  assert.equal(run(failed, 'standaloneAuthAttempt !== null'), true);
+  assert.equal(run(failed, 'el.connectButton.disabled'), true);
+  failureClock.advance(600_000 - 2_800);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(failed, 'standaloneAuthAttempt'), null);
+  assert.equal(run(failed, 'el.connectButton.disabled'), false);
+  assert.match(run(failed, 'el.authHint.textContent'), /로그인 시간이 만료되었습니다/);
+
+  const stale = loadAppContext();
+  installAuthUi(stale);
+  const staleClock = installFakeClock(stale);
+  stale.window.open = () => ({ opener: stale.window });
+  let release;
+  stale.releaseCredential = () => release?.();
+  run(stale, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';globalThis.libraryShows=0;
+    showLibrary=()=>{libraryShows+=1;};
+    requestSessionCredential=async()=>{await new Promise(resolve=>{globalThis.releaseRecovery=resolve;});
+      state.token='late-token';state.expiresAt=Date.now()+60000;sessionCredentialMarker='c'.repeat(43);return true;};
+    beginAuthorization();markStandaloneAuthorizationHidden();markStandaloneAuthorizationReturned();resumeStandaloneAuthorization();`);
+  staleClock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  run(stale, 'clearStandaloneAuthAttempt();releaseRecovery();');
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(stale, 'libraryShows'), 0);
+  assert.equal(run(stale, 'standaloneAuthAttempt'), null);
+});
+
+test('standalone deadline generation-fences a real credential response that resolves late', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const clock = installFakeClock(context);
+  context.window.open = () => ({ opener: context.window });
+  let release;
+  let calls = 0;
+  context.fetch = async () => {
+    calls += 1;
+    await new Promise((resolve) => { release = resolve; });
+    return new Response(JSON.stringify({
+      accessToken: 'must-not-install', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 1,
+      sessionMarker: 'l'.repeat(43)
+    }), { headers: { 'Content-Type': 'application/json' } });
+  };
+  run(context, `navigator.userAgent='Mozilla/5.0 (iPhone) AppleWebKit/605.1.15';
+    navigator.standalone=true;document.visibilityState='visible';
+    scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};
+    beginAuthorization();markStandaloneAuthorizationReturned({pageshow:true});resumeStandaloneAuthorization();`);
+  clock.advance(0);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(calls, 1);
+  clock.advance(600_000);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'standaloneAuthAttempt'), null);
+  assert.equal(run(context, 'state.authGeneration'), 1);
+  release();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(run(context, 'state.token'), null);
+  assert.equal(run(context, 'sessionCredentialMarker'), null);
+  assert.equal(run(context, 'el.libraryView.hidden'), true);
+  assert.match(run(context, 'el.authHint.textContent'), /로그인 시간이 만료되었습니다/);
 });
 
 test('offline and non-JSON credential failures are bounded and preserve the current memory credential', async () => {

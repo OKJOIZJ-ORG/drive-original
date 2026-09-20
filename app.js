@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.3';
+const APP_VERSION = '1.22.0-rc.4';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -10,6 +10,8 @@ const AUTH_START_PATH = '/auth/google/start';
 const AUTH_CSRF_HEADER = 'X-Drive-Original-CSRF';
 const AUTH_CREDENTIAL_TIMEOUT_MS = 55_000;
 const AUTH_MUTATION_TIMEOUT_MS = 25_000;
+const AUTH_STANDALONE_RECOVERY_DELAYS_MS = Object.freeze([0, 800, 2_000]);
+const AUTH_STANDALONE_DEADLINE_MS = 600_000;
 const LEGACY_TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const LEGACY_CLIENT_ID_STORAGE_KEY = 'drive-original.oauth-client-id';
 const AUTH_ERROR_CODES = new Set([
@@ -616,6 +618,8 @@ let filteredPopulationCache = null;
 let credentialRequestPromise = null;
 let credentialRequestGeneration = -1;
 let credentialRequestAbortController = null;
+let sessionCredentialMarker = null;
+let standaloneAuthAttempt = null;
 let playerReturnFocus = null;
 let playbackNavigationChain = Promise.resolve();
 let mediaTransitionTimers = [];
@@ -1338,6 +1342,7 @@ function bindEvents() {
     scheduleAccountStateRefresh(0);
     syncMediaSeekWatchdog();
     syncMediaFrameWatchdog();
+    resumeStandaloneAuthorization();
   });
   window.addEventListener('offline', () => {
     syncMediaSeekWatchdog();
@@ -1347,7 +1352,16 @@ function bindEvents() {
     updateAccountSyncStatus();
   });
   window.addEventListener('pagehide', stopAccountStateRefresh);
-  window.addEventListener('pageshow', () => scheduleAccountStateRefresh(0));
+  window.addEventListener('pageshow', () => {
+    scheduleAccountStateRefresh(0);
+    markStandaloneAuthorizationReturned({ pageshow: true });
+    resumeStandaloneAuthorization();
+  });
+  window.addEventListener('blur', markStandaloneAuthorizationHidden);
+  window.addEventListener('focus', () => {
+    markStandaloneAuthorizationReturned();
+    resumeStandaloneAuthorization();
+  });
   window.addEventListener('storage', (event) => {
     if (!state.accountId || state.accountIdentityPending || event.key !== accountStateCacheKey()) return;
     const cached = readCachedAccountMediaState(state.accountId);
@@ -1370,6 +1384,8 @@ function bindEvents() {
   // events and general document activity never reveal controls.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
+      markStandaloneAuthorizationReturned();
+      resumeStandaloneAuthorization();
       sendTokenToWorker();
       checkForAppUpdate({ manual: false });
       scheduleAccountStateRefresh(0);
@@ -1389,6 +1405,7 @@ function bindEvents() {
       syncMediaSeekWatchdog();
       syncMediaFrameWatchdog();
     } else {
+      markStandaloneAuthorizationHidden();
       syncMediaSeekWatchdog();
       clearMediaFrameWatchdog('hidden');
       stopAccountStateRefresh();
@@ -1993,11 +2010,13 @@ function normalizeSessionCredential(value) {
   const expiresAt = value.expiresAt;
   const account = typeof value.account === 'string' ? value.account : '';
   const revision = value.revision;
+  const sessionMarker = value.sessionMarker == null ? null : value.sessionMarker;
   if (!accessToken || accessToken.length > 16_384) return null;
   if (!Number.isFinite(expiresAt) || expiresAt <= Date.now() + TOKEN_SKEW_MS) return null;
   if (!account || account.length > 256 || /[\s\x00-\x1f\x7f]/.test(account)) return null;
   if (!Number.isSafeInteger(revision) || revision < 1) return null;
-  return { accessToken, expiresAt, account, revision };
+  if (sessionMarker != null && (typeof sessionMarker !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(sessionMarker))) return null;
+  return { accessToken, expiresAt, account, revision, sessionMarker };
 }
 
 function authErrorCode(value, fallback = 'auth_unavailable') {
@@ -2024,6 +2043,7 @@ function installSessionCredential(value, { generation, rejectedRevision = null }
   state.token = credential.accessToken;
   state.expiresAt = credential.expiresAt;
   state.tokenRevision = credential.revision;
+  sessionCredentialMarker = credential.sessionMarker;
   state.authStatus = 'online';
   scheduleTokenRenewal();
   clearAuthError();
@@ -2085,15 +2105,171 @@ function scheduleTokenRenewal() {
   }, firstTryMs);
 }
 
+function isIOSStandaloneWebApp() {
+  const userAgent = typeof navigator.userAgent === 'string' ? navigator.userAgent : '';
+  const appleMobile = /iPhone|iPad|iPod/i.test(userAgent)
+    || (navigator.platform === 'MacIntel' && Number(navigator.maxTouchPoints) > 1);
+  if (!appleMobile) return false;
+  if (navigator.standalone === true) return true;
+  try { return window.matchMedia?.('(display-mode: standalone)')?.matches === true; }
+  catch (_) { return false; }
+}
+
+function clearStandaloneAuthAttempt(attempt = standaloneAuthAttempt) {
+  if (!attempt || standaloneAuthAttempt !== attempt) return false;
+  if (attempt.timer != null) clearTimeout(attempt.timer);
+  if (attempt.deadlineTimer != null) clearTimeout(attempt.deadlineTimer);
+  attempt.timer = null;
+  attempt.deadlineTimer = null;
+  standaloneAuthAttempt = null;
+  return true;
+}
+
+function completeStandaloneAuthorization(attempt) {
+  if (!clearStandaloneAuthAttempt(attempt)) return false;
+  setConnectBusy(false);
+  clearAuthError();
+  showLibrary();
+  return true;
+}
+
+function failStandaloneAuthorization(attempt, message) {
+  if (!clearStandaloneAuthAttempt(attempt)) return false;
+  setConnectBusy(false);
+  if (hasUsableToken()) {
+    showLibrary();
+    showToast(message);
+  } else {
+    showSetup();
+    setAuthError(message);
+  }
+  return true;
+}
+
+function expireStandaloneAuthorization(attempt) {
+  if (!attempt || standaloneAuthAttempt !== attempt) return false;
+  if (attempt.probePromise) {
+    state.authGeneration += 1;
+    credentialRequestAbortController?.abort();
+    credentialRequestAbortController = null;
+    credentialRequestPromise = null;
+    credentialRequestGeneration = -1;
+  }
+  return failStandaloneAuthorization(
+    attempt,
+    'Google 로그인 시간이 만료되었습니다. 홈 화면 앱 안에서 다시 시도해 주세요.'
+  );
+}
+
+function markStandaloneAuthorizationHidden() {
+  const attempt = standaloneAuthAttempt;
+  if (!attempt) return false;
+  attempt.awayObserved = true;
+  if (attempt.timer != null) clearTimeout(attempt.timer);
+  attempt.timer = null;
+  return true;
+}
+
+function markStandaloneAuthorizationReturned({ pageshow = false } = {}) {
+  const attempt = standaloneAuthAttempt;
+  if (!attempt || (!pageshow && !attempt.awayObserved)) return false;
+  attempt.awayObserved = false;
+  attempt.returnEpoch += 1;
+  attempt.nextProbe = 0;
+  attempt.waitingForReturn = false;
+  return true;
+}
+
+function resumeStandaloneAuthorization() {
+  const attempt = standaloneAuthAttempt;
+  if (!attempt || document.visibilityState === 'hidden' || attempt.returnEpoch < 1) return false;
+  if (attempt.timer != null || attempt.probePromise) return true;
+  const delay = AUTH_STANDALONE_RECOVERY_DELAYS_MS[attempt.nextProbe];
+  if (!Number.isFinite(delay)) {
+    attempt.waitingForReturn = true;
+    setConnectBusy(true, 'Google 로그인 완료를 기다리는 중…');
+    return true;
+  }
+  setConnectBusy(true, 'Google 로그인 결과 확인 중…');
+  attempt.timer = setTimeout(async () => {
+    attempt.timer = null;
+    if (standaloneAuthAttempt !== attempt) return;
+    if (document.visibilityState === 'hidden') return;
+    attempt.nextProbe += 1;
+    let connected = false;
+    try {
+      attempt.probePromise = requestSessionCredential({ background: true, force: true });
+      connected = await attempt.probePromise;
+    } catch (_) {
+      connected = false;
+    } finally {
+      if (standaloneAuthAttempt === attempt) attempt.probePromise = null;
+    }
+    if (standaloneAuthAttempt !== attempt) return;
+    const newSessionProved = connected && hasUsableToken()
+      && typeof sessionCredentialMarker === 'string'
+      && sessionCredentialMarker !== attempt.baselineSessionMarker;
+    if (newSessionProved) {
+      completeStandaloneAuthorization(attempt);
+      return;
+    }
+    if (document.visibilityState === 'hidden') {
+      attempt.nextProbe = Math.max(0, attempt.nextProbe - 1);
+      return;
+    }
+    if (attempt.nextProbe >= AUTH_STANDALONE_RECOVERY_DELAYS_MS.length) {
+      attempt.waitingForReturn = true;
+      setConnectBusy(true, 'Google 로그인 완료를 기다리는 중…');
+      return;
+    }
+    resumeStandaloneAuthorization();
+  }, delay);
+  return true;
+}
+
 function beginAuthorization() {
   if (!navigator.onLine) {
     setAuthError('오프라인에서는 Google 계정 연결을 시작할 수 없습니다.');
+    return;
+  }
+  if (standaloneAuthAttempt) {
+    setAuthError('열려 있는 Google 로그인 창을 완료한 뒤 이 화면으로 돌아오세요.');
     return;
   }
   clearAuthError();
   setConnectBusy(true);
   const target = new URL(AUTH_START_PATH, location.origin);
   target.searchParams.set('returnTo', `${location.pathname}${location.search}${location.hash}`);
+  if (isIOSStandaloneWebApp()) {
+    const attempt = {
+      baselineSessionMarker: sessionCredentialMarker,
+      awayObserved: false,
+      returnEpoch: 0,
+      waitingForReturn: false,
+      nextProbe: 0,
+      timer: null,
+      probePromise: null,
+      deadlineTimer: null
+    };
+    standaloneAuthAttempt = attempt;
+    setConnectBusy(true, 'Google 로그인 진행 중…');
+    let authWindow = null;
+    try { authWindow = window.open(target.href, '_blank'); }
+    catch (_) {}
+    if (!authWindow) {
+      failStandaloneAuthorization(
+        attempt,
+        'Google 로그인 창을 열지 못했습니다. 팝업을 허용한 뒤 다시 시도해 주세요.'
+      );
+      return;
+    }
+    try { authWindow.opener = null; } catch (_) {}
+    attempt.deadlineTimer = setTimeout(() => {
+      expireStandaloneAuthorization(attempt);
+    }, AUTH_STANDALONE_DEADLINE_MS);
+    attempt.deadlineTimer?.unref?.();
+    return;
+  }
   location.assign(target.href);
 }
 
@@ -9020,6 +9196,7 @@ async function logout() {
     showToast('로그아웃하지 못했습니다. 연결 상태를 확인해 주세요.');
     return;
   }
+  clearStandaloneAuthAttempt();
   clearToken(true, { preserveAccount: false });
   invalidateDriveSessionData();
   state.selected = null;
@@ -9042,6 +9219,7 @@ async function disconnect() {
     showToast('연결을 해제하지 못했습니다. 연결 상태를 확인해 주세요.');
     return;
   }
+  clearStandaloneAuthAttempt();
   clearToken(true, { preserveAccount: false });
   invalidateDriveSessionData();
   state.selected = null;
@@ -9068,6 +9246,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
   credentialRequestAbortController = null;
   credentialRequestPromise = null;
   credentialRequestGeneration = -1;
+  sessionCredentialMarker = null;
   state.token = null;
   state.expiresAt = 0;
   if (!preserveAccount) {

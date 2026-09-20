@@ -195,6 +195,7 @@ export function createWorkerHandler(env, {
       origin: settings.origin,
       resolveSession: async sessionId => {
         const indexKey = await crypt.sessionIndexKey(sessionId);
+        const sessionMarker = await crypt.sessionClientMarker(sessionId);
         const route = await object(`session:${indexKey}`, { kind: 'session-index', operation: 'get', args: {} });
         if (!route?.accountKey || !/^[A-Za-z0-9_-]{43}$/u.test(route.accountKey)) return null;
         const invoke = (operation, input) => object(`account:${route.accountKey}`, {
@@ -202,7 +203,7 @@ export function createWorkerHandler(env, {
         });
         const removeIndex = () => object(`session:${indexKey}`, { kind: 'session-index', operation: 'delete', args: {} }).catch(() => {});
         return {
-          credential: input => invoke('credential', input),
+          credential: async input => ({ ...await invoke('credential', input), sessionMarker }),
           logout: async input => { const result = await invoke('logout', input); await removeIndex(); return result; },
           disconnect: async input => { const result = await invoke('disconnect', input); await removeIndex(); return result; },
         };

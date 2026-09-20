@@ -61,6 +61,10 @@ export function createAuthCrypto(env) {
       if (typeof sessionId !== 'string' || !/^[A-Za-z0-9_-]{32,256}$/u.test(sessionId)) throw new TypeError('Invalid session');
       return hmac(await authKey, 'drive-original/session-index/v1', sessionId);
     },
+    async sessionClientMarker(sessionId) {
+      if (typeof sessionId !== 'string' || !/^[A-Za-z0-9_-]{32,256}$/u.test(sessionId)) throw new TypeError('Invalid session');
+      return hmac(await authKey, 'drive-original/session-client-marker/v1', sessionId);
+    },
     async deriveAccountKey(issuer, subject) {
       if (typeof issuer !== 'string' || typeof subject !== 'string' || !subject) throw new TypeError('Invalid subject');
       return hmac(await accountKey, 'drive-original/account/v1', `${issuer}\0${subject}`);

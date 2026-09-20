@@ -48,6 +48,18 @@ test('AES-GCM refresh envelope is versioned, account-bound and tamper-evident', 
   await assert.rejects(crypt.decryptRefresh({ ...envelope, v: 2 }, account));
 });
 
+test('client session markers are stable per HttpOnly session and domain-separated from routing keys', async () => {
+  const crypt = createAuthCrypto(env);
+  const firstSession = 'a'.repeat(64);
+  const secondSession = 'b'.repeat(64);
+  const marker = await crypt.sessionClientMarker(firstSession);
+  assert.match(marker, /^[A-Za-z0-9_-]{43}$/u);
+  assert.equal(await crypt.sessionClientMarker(firstSession), marker);
+  assert.notEqual(await crypt.sessionClientMarker(secondSession), marker);
+  assert.notEqual(await crypt.sessionIndexKey(firstSession), marker);
+  assert.notEqual(marker, firstSession);
+});
+
 test('authorization URL uses exact redirect, PKCE S256, nonce, offline access and minimum scopes', async () => {
   const transaction = { state: 's'.repeat(64), pkceVerifier: 'v'.repeat(64), nonce: 'n'.repeat(64) };
   const target = new URL(await buildGoogleAuthorizationUrl({
@@ -362,7 +374,10 @@ test('exact GET start/callback flow sets hardened cookies and locator routing ig
   });
   const credential = await fixture.handler(credentialRequest(account));
   assert.equal(credential.status, 200);
-  assert.equal((await credential.json()).account, account);
+  const credentialBody = await credential.json();
+  assert.equal(credentialBody.account, account);
+  assert.equal(credentialBody.sessionMarker, await crypt.sessionClientMarker(fixture.sessionId));
+  assert.notEqual(credentialBody.sessionMarker, fixture.sessionId);
   const wrong = await fixture.handler(credentialRequest('browser-supplied-account'));
   assert.equal(wrong.status, 409);
   const accountCalls = fixture.calls.filter(call => call.payload.kind === 'account' && call.payload.operation === 'credential');

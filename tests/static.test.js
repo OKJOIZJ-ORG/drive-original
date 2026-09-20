@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.3');
+  assert.equal(metadata.version, '1.22.0-rc.4');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -142,6 +142,7 @@ test('privacy documentation and shell use the same-origin memory-only credential
   assert.match(app, /credentials:\s*'same-origin'/);
   assert.match(app, /\[AUTH_CSRF_HEADER\]: '1'/);
   assert.doesNotMatch(app, /localStorage\.setItem\([^\n]*(?:oauth-token|accessToken)/);
+  assert.doesNotMatch(app, /localStorage\.setItem\([^\n]*sessionCredentialMarker/);
   assert.doesNotMatch(app, /DEFAULT_OAUTH_CLIENT_ID|initTokenClient|requestAccessToken/);
   assert.doesNotMatch(html, /accounts\.google\.com\/gsi\/client|settingsClientId|saveSettingsButton/);
   assert.match(html, /id="logoutButton"/);

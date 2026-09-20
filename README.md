@@ -77,27 +77,27 @@ python3 -m http.server 8080
 
 **V2-04A 후보 계약(아직 라이브 배포·검증 전):** 사용자가 **Google Drive 연결하기**를 누르면 현재 페이지와 정확히 같은 HTTPS origin의 인증 시작점으로 이동합니다. 콜백과 세션 API도 그 origin에서만 처리합니다. Google OAuth 클라이언트 ID·client secret·refresh credential은 페이지 설정이나 `localStorage`에 입력·저장하지 않습니다.
 
-인증 서버리스 계층은 암호화된 refresh credential과 서버 세션 상태를 소유합니다. 페이지와 서비스 워커에는 `{accessToken, expiresAt, account, revision}`이라는 짧은 Drive access credential만 필요한 동안 메모리로 전달합니다. 새로고침·서비스 워커 종료·브라우저 재시작 뒤에도 그 credential을 `localStorage`, Cache Storage, IndexedDB에 복원하지 않습니다.
+인증 서버리스 계층은 암호화된 refresh credential과 서버 세션 상태를 소유합니다. 페이지와 서비스 워커에는 `{accessToken, expiresAt, account, revision}`이라는 짧은 Drive access credential만 필요한 동안 메모리로 전달합니다. 페이지는 홈 화면 앱의 OAuth 복귀를 판별할 때 현재 HttpOnly 세션에서 파생된 비밀 아닌 marker도 메모리에서만 비교하며, 이 값은 URL·로컬 저장소·서비스 워커로 보내지 않습니다. 새로고침·서비스 워커 종료·브라우저 재시작 뒤에도 그 credential이나 marker를 `localStorage`, Cache Storage, IndexedDB에 복원하지 않습니다.
 
 세션 API는 정확한 `Origin`만 허용하고, 상태를 바꾸는 요청은 해당 origin 확인과 별도 CSRF 방어를 모두 통과해야 합니다. 콜백 허용 주소도 실제 같은 HTTPS origin의 정확한 경로로 제한합니다. 이 문서는 일반 사용자가 클라이언트 ID를 재정의하거나 임의 origin을 추가하는 절차를 제공하지 않습니다.
 
-이 계약의 Cloudflare Worker/Google OAuth 시작·콜백 어댑터, 실제 hostname·redirect 등록, 그리고 PC/iPhone 실기기 로그인·복귀 검증은 V2-04B에서 확인해야 하는 미검증 항목입니다. 이 README는 그 배포나 검증 완료를 주장하지 않습니다.
+같은 origin의 Cloudflare Worker/Google OAuth 시작·콜백 어댑터와 PC Chrome 세션 복구는 V2-04B 후보에서 확인했습니다. iPhone 홈 화면 앱은 브라우저와 분리된 쿠키 저장소를 쓰므로 standalone 전용 인증 창·복귀 경로를 따로 사용하며, 실제 iPhone 결과는 여전히 실기기 검증 전입니다.
 
 ## 3. iPhone에 설치
 
-아래는 같은 HTTPS origin 인증 배포가 준비된 뒤의 사용 흐름입니다. V2-04A 인증 후보의 실제 iPhone 로그인·복귀는 V2-04B에서 아직 검증해야 하며, 이 문서만으로 설치 또는 연결 성공을 보장하지 않습니다.
+아래는 같은 HTTPS origin 인증 후보의 의도한 사용 흐름입니다. 실제 iPhone 로그인·복귀는 V2-04B에서 아직 검증해야 하며, 이 문서만으로 설치 또는 연결 성공을 보장하지 않습니다.
 
 1. iPhone Safari에서 배포 주소를 엽니다.
-2. Google Drive 연결을 완료합니다.
-3. Safari의 **공유 → 홈 화면에 추가**를 선택합니다.
-4. 홈 화면의 Drive Original을 실행합니다.
+2. Safari의 **공유 → 홈 화면에 추가**를 선택합니다.
+3. 홈 화면의 Drive Original을 실행합니다.
+4. 홈 화면 앱 안의 **Google Drive에 연결**을 눌러 열린 Google 로그인 창을 완료하고 앱으로 돌아옵니다.
 
-홈 화면 앱에서 Google 로그인 팝업이 완료되지 않으면 Safari 탭에서 먼저 연결하세요.
+설치 뒤 Safari/Chrome 탭에서 새로 로그인해도 그 쿠키가 기존 홈 화면 앱으로 복사되지는 않습니다. 연결은 홈 화면 앱 안에서 시작해야 하며, 결과를 확인하지 못한 경우 앱은 자동으로 OAuth를 반복하지 않고 오류를 표시합니다.
 
 ## 개인정보와 보안
 
 - 권한: `https://www.googleapis.com/auth/drive`(Drive 파일 보기·수정), `https://www.googleapis.com/auth/drive.appdata`(앱 전용 시청·좋아요 상태 동기화)
-- 인증 상태(V2-04A 후보): 같은 origin의 최소 서버리스 세션 API가 암호화된 refresh credential과 세션을 소유합니다. 페이지·서비스 워커에는 `{accessToken, expiresAt, account, revision}`만 메모리로 전달하며, refresh credential과 client secret은 전달하지 않습니다.
+- 인증 상태(V2-04A 후보): 같은 origin의 최소 서버리스 세션 API가 암호화된 refresh credential과 세션을 소유합니다. 페이지·서비스 워커에는 `{accessToken, expiresAt, account, revision}`만 메모리로 전달하며, 페이지는 standalone OAuth 복귀 판별용 비밀 아닌 세션 marker를 메모리에서만 비교합니다. refresh credential과 client secret은 전달하지 않습니다.
 - 미디어 경로: 브라우저 ↔ Google Drive API
 - 인증 서버는 Drive 미디어 바이트를 중계·캐시·변환하지 않으며, Drive 파일 수정 경로도 소유하지 않습니다.
 - 미디어 Cache Storage 저장: 없음
@@ -106,7 +106,7 @@ python3 -m http.server 8080
 - 로컬 저장소: OAuth client ID·access token·만료 시각·refresh credential·서버 세션은 저장하지 않습니다. 비밀이 아닌 계정별 시청·좋아요 상태 캐시는 별도 데이터 경로에서만 유지됩니다.
 - **로그아웃:** 현재 기기의 현재 세션만 종료하고 메모리 access credential을 제거합니다.
 - **모든 세션 연결 해제(disconnect):** 서버에 보관한 해당 계정의 앱 session과 refresh credential을 삭제하도록 요청합니다. Google revoke의 성공 여부가 불확실하면 성공으로 표시하지 않습니다.
-- 이 인증·세션 모델은 V2-04A의 로컬 계약입니다. Cloudflare/Google 실제 어댑터와 PC/iPhone 라이브 검증은 V2-04B 전까지 미확인입니다.
+- 같은 origin Cloudflare/Google 어댑터와 PC Chrome 세션은 V2-04B 후보에서 확인했습니다. iPhone 브라우저와 홈 화면 앱의 실제 콜백·세션 유지는 별도 실기기 인수 항목입니다.
 
 ## 파일 구조
 
