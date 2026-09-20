@@ -50,6 +50,7 @@ test('serves only exact-origin GET and HEAD with exact bytes, hash and length', 
   const get = await serve(request(artifact.path));
   assert.equal(get.status, 200);
   assert.equal(get.headers.get('Access-Control-Allow-Origin'), CANDIDATE_ORIGIN);
+  assert.equal(get.headers.get('Access-Control-Expose-Headers'), 'Content-Length, X-Content-Type-Options');
   assert.equal(get.headers.get('Content-Length'), String(Buffer.byteLength(PUBLIC_SOURCE)));
   assert.equal(get.headers.get('Cache-Control'), 'no-store');
   assert.equal(get.headers.get('X-Content-Type-Options'), 'nosniff');

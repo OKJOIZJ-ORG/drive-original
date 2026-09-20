@@ -44,6 +44,7 @@ export function createBundleTransport(bundles) {
     const bundle = byPath.get(url.pathname);
     if (!bundle) return notFound();
     const headers = new Headers({
+      'Access-Control-Expose-Headers': 'Content-Length, X-Content-Type-Options',
       'Access-Control-Allow-Origin': CANDIDATE_ORIGIN,
       'Cache-Control': 'no-store',
       'Content-Length': String(bundle.byteLength),

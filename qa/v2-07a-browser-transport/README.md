@@ -29,4 +29,5 @@ until their staged hash, byte length, tests, and Wrangler dry-run all match.
 
 The Worker intentionally accepts GET and HEAD only. A valid HEAD response has the
 same exact `Content-Length` as GET and no body. It sends exact-Origin CORS,
-`no-store`, `nosniff`, and no credentials header.
+exposes only `Content-Length` and `X-Content-Type-Options` for in-page integrity
+checks, sends `no-store` and `nosniff`, and has no credentials header.
