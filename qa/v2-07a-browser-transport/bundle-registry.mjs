@@ -14,7 +14,7 @@ function notFound() {
 function isTrustedBundle(bundle) {
   const role = typeof bundle?.role === 'string' ? bundle.role : '';
   return bundle
-    && ['root-inventory', 'representative-selector', 'bounded-adapter'].includes(role)
+    && ['root-inventory', 'representative-selector', 'bounded-adapter', 'identity-reconciler'].includes(role)
     && typeof bundle.path === 'string'
     && /^[a-f0-9]{64}$/.test(bundle.sha256)
     && bundle.path === `/v2-07a/${role}-${bundle.sha256}.js`
@@ -25,7 +25,7 @@ function isTrustedBundle(bundle) {
 }
 
 export function createBundleTransport(bundles) {
-  if (!Array.isArray(bundles) || bundles.length > 3 || bundles.some((bundle) => !isTrustedBundle(bundle))) {
+  if (!Array.isArray(bundles) || bundles.length > 4 || bundles.some((bundle) => !isTrustedBundle(bundle))) {
     throw new TypeError('An array of generated V2-07A bundles is required');
   }
   const byPath = new Map();

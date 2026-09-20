@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 export const ARTIFACT_ROLES = Object.freeze([
   'root-inventory',
   'representative-selector',
-  'bounded-adapter'
+  'bounded-adapter',
+  'identity-reconciler'
 ]);
 
 const MAX_BUNDLE_BYTES = 512 * 1024;
@@ -47,7 +48,7 @@ function validateArtifact({ role, source, sourcePath }) {
 
 export async function buildTransport({ artifacts, outDirectory }) {
   if (!Array.isArray(artifacts) || artifacts.length < 1 || artifacts.length > ARTIFACT_ROLES.length) {
-    fail('supply one to three public artifacts');
+    fail('supply one to four public artifacts');
   }
   const seenRoles = new Set();
   const seenHashes = new Set();

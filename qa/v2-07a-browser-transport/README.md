@@ -5,10 +5,11 @@ origin. It has no Worker bindings, cookies, secrets, account state, request
 logging, Drive access, or private-manifest input. Any method, Origin, pathname or
 query outside the exact allowlist receives an empty `404` without CORS.
 
-`bounded-adapter` is the normal one-artifact deployment input. It is expected to
-contain the reviewed final adapter composite, including root inventory and
-selection code only when that composite deliberately embeds them. Do not also add
-the component bundles in that case. `root-inventory` and
+`bounded-adapter` is the normal front-sniff deployment input. A reviewed
+`identity-reconciler` may be added to the same registry so the existing bounded
+artifact remains available while a metadata-only diagnostic runs. Each composite
+contains its reviewed dependencies, including root inventory and selection code.
+Do not also add those component bundles in that case. `root-inventory` and
 `representative-selector` are available only for a reviewed deployment that still
 needs them independently.
 
@@ -18,6 +19,12 @@ deployment payload and redacted manifest:
 ```powershell
 node qa/v2-07a-browser-transport/build-transport.mjs --artifact bounded-adapter=PATH_TO_REVIEWED_PUBLIC_ADAPTER.mjs
 node --test qa/v2-07a-browser-transport/transport.test.mjs
+```
+
+To preserve the front-sniff artifact while adding reconciliation:
+
+```powershell
+node qa/v2-07a-browser-transport/build-transport.mjs --artifact bounded-adapter=PATH_TO_REVIEWED_PUBLIC_ADAPTER.mjs --artifact identity-reconciler=PATH_TO_REVIEWED_RECONCILER.mjs
 ```
 
 The build creates `generated-bundles.mjs` and `manifest.redacted.json` in this

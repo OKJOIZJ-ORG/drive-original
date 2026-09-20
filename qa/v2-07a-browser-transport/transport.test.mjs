@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import test from 'node:test';
 import { buildTransport } from './build-transport.mjs';
 import { CANDIDATE_ORIGIN, createBundleTransport } from './bundle-registry.mjs';
+import { BUNDLES as CHECKED_IN_BUNDLES } from './generated-bundles.mjs';
 
 const PUBLIC_SOURCE = '/* Drive Original V2-07A public QA bundle */\nexport const endpoint = "https://example.test/x";\nexport const checked = 7;\n';
 
@@ -85,16 +86,22 @@ test('fails closed for origin, method, path and query mismatches without CORS', 
   }
 });
 
-test('permits only the three named roles and never duplicates final bytes', async (t) => {
+test('permits only the four named roles and never duplicates final bytes', async (t) => {
   const fixture = await buildFixture([
     { role: 'root-inventory', name: 'root.mjs', source: `${PUBLIC_SOURCE}export const root = true;\n` },
     { role: 'representative-selector', name: 'selector.mjs', source: `${PUBLIC_SOURCE}export const selector = true;\n` },
-    { role: 'bounded-adapter', name: 'adapter.mjs', source: `${PUBLIC_SOURCE}export const adapter = true;\n` }
+    { role: 'bounded-adapter', name: 'adapter.mjs', source: `${PUBLIC_SOURCE}export const adapter = true;\n` },
+    { role: 'identity-reconciler', name: 'reconciler.mjs', source: `${PUBLIC_SOURCE}export const reconciler = true;\n` }
   ]);
   t.after(() => rm(fixture.directory, { recursive: true, force: true }));
   assert.deepEqual(fixture.manifest.artifacts.map(({ role }) => role), [
-    'bounded-adapter', 'representative-selector', 'root-inventory'
+    'bounded-adapter', 'identity-reconciler', 'representative-selector', 'root-inventory'
   ]);
+  const serveAll = createBundleTransport(fixture.generated.BUNDLES);
+  const reconciler = fixture.generated.BUNDLES.find(({ role }) => role === 'identity-reconciler');
+  const reconcilerResponse = await serveAll(request(reconciler.path));
+  assert.equal(reconcilerResponse.status, 200);
+  assert.equal(await reconcilerResponse.text(), reconciler.source);
   await assert.rejects(
     () => buildTransport({ artifacts: [{ role: 'unexpected', sourcePath: join(fixture.directory, 'adapter.mjs') }], outDirectory: fixture.directory }),
     /unsupported artifact role/
@@ -146,6 +153,23 @@ test('worker and deployment config have no bindings, secrets, cookies or logging
   ].sort());
   assert.doesNotMatch(configText, /\b(?:vars|kv_namespaces|r2_buckets|d1_databases|services|secrets?|bindings?)\b/i);
   assert.equal(config.main, 'transport-worker.mjs');
+});
+
+test('checked-in registry and manifest preserve exact reviewed artifact bytes', async () => {
+  const manifest = JSON.parse(await readFile(new URL('./manifest.redacted.json', import.meta.url), 'utf8'));
+  const publicBundles = CHECKED_IN_BUNDLES.map(({ source, ...bundle }) => bundle);
+  assert.deepEqual(publicBundles, manifest.artifacts);
+  assert.deepEqual(publicBundles.map(({ role }) => role), ['bounded-adapter', 'identity-reconciler']);
+  for (const bundle of CHECKED_IN_BUNDLES) {
+    assert.equal(Buffer.byteLength(bundle.source), bundle.byteLength);
+    assert.equal(createHash('sha256').update(bundle.source).digest('hex'), bundle.sha256);
+  }
+  const serve = createBundleTransport(CHECKED_IN_BUNDLES);
+  for (const bundle of CHECKED_IN_BUNDLES) {
+    const response = await serve(request(bundle.path));
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), bundle.source);
+  }
 });
 
 test('the checked-in reviewed registry still rejects every unlisted path', async () => {
