@@ -1,4 +1,4 @@
-# Checkpoint — V2-07A canonical-root inventory closed; risk representatives next — 2026-09-20 09:44 KST
+# Checkpoint — V2-07A priority sample classified; target-root inventory next — 2026-09-20 09:05 KST
 
 ## The story so far
 
@@ -72,10 +72,6 @@ The priority-sample probe tool is fixed at `41952452cb5f837915b161d3bcfc723692c3
 
 The fixed tool serially matched the 208,001,508-byte read-only local mirror to the private SHA-256 both before and after FFprobe and kept stronger stat identity unchanged. The `.mp4`/`video/mp4` metadata actually contains MPEG-TS with exactly one H.264 High L3.0 360x640 8-bit BT.709 stream and one AAC-LC 48 kHz stereo stream, no subtitle/other track and probe score 100. That is a Q1 container-only stream-copy candidate, not corruption and not current product playback. Current decode/playback remains 0; the earlier same-fingerprint Windows Chrome Q1 result remains historical evidence only. The combined priority/range/remux tests pass 36/36, syntax/JSON/diff checks pass, and independent evidence review is clean.
 
-The canonical-root inventory tool is fixed at `e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b`; its exact live aggregate is committed at `78b1b14`. The authenticated candidate re-read the private account fence and priority file, required the captured root to remain its direct parent, exhausted 26 pages across nine folders twice, resolved every shortcut classification, and matched both private normalized passes in 50.089 seconds. The two passes returned 8,471 unique containment items: eight folders and 8,463 physical files, including 2,052 video objects, 6,410 image objects, one other object and no shortcuts. The known priority file appeared exactly once in each pass. No media body, thumbnail, download URL or Drive mutation was used.
-
-Risk metadata now shows two objects at least 4 GiB, 35 MP4/MOV objects at least 256 MiB, 20 videos at least one hour, 14 rare MKV/AVI/BMP objects, 995 GIF/WebP candidates, 68 rotated images and 59 extension/MIME mismatches. These are metadata candidate counts, not corruption, container, decode or playback results. The live report matched the tracked redacted object exactly; scoped tests pass 28/28, the full suite passes 287/287, bundle integrity and diff/JSON checks pass, and independent evidence review is clean.
-
 ## Decided
 
 - D-050 and D-051 remain in force: same-origin serverless auth is the control plane, while original Drive bytes remain direct browser/service-worker data-plane traffic.
@@ -96,10 +92,10 @@ Risk metadata now shows two objects at least 4 GiB, 35 MP4/MOV objects at least 
 
 - Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
 - `V2-06A` / WP-06 is `IMPLEMENTED_LOCAL` through `QA-TR-01~11`: the final quota/resource classification and source-owner unit is `14c501a`. `QA-TR-12`, actual token-boundary long playback and foreground return remain in `V2-06B`, not silently counted here.
-- Active READY unit: `V2-07A` / WP-07. Priority identity/container evidence is `IMPLEMENTED_LOCAL` at `4195245`/`4a02391`, and complete canonical-root metadata inventory is `IMPLEMENTED_LOCAL` at `e928f7b`/`78b1b14`. The next discriminating action is deterministic private risk-representative selection, then bounded read-only container probes. `V2-06B` remains `BLOCKED(active V2-07A priority)`; `V2-07B` remains blocked on the representative matrix.
-- Product runtime commit: `14c501ad80a3950f4b6886dd3a5ae31b031c5af6`; current V2-07A QA commits: priority probe `4195245`/`4a02391`, inventory tool/evidence `e928f7b`/`78b1b14`.
-- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, active controlling SW, candidate identity/config, priority identity/container fence, and two matching complete metadata-only passes over the canonical real-parent tree.
-- Not verified: bounded probes for the risk representatives, the complete container/track matrix, current product Q1 integration, current priority-file decode/seek/sustained playback, physical iPhone Chrome tab/home-screen PWA callback/session/playback, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
+- Active READY unit: `V2-07A` / WP-07. The priority-sample identity/container unit is `IMPLEMENTED_LOCAL` at `4195245`/`4a02391`; the next discriminating action is a complete metadata-only inventory of the privately captured canonical target root, followed by risk-based representative selection. `V2-06B` has its prerequisite satisfied but remains `BLOCKED(active V2-07A priority)`; `V2-07B` remains blocked on the corpus matrix.
+- Product runtime commit: `14c501ad80a3950f4b6886dd3a5ae31b031c5af6`; current V2-07A QA commits: probe tool `41952452cb5f837915b161d3bcfc723692c3b939`, redacted evidence `4a02391`. Earlier QA evidence commits remain on `codex/v2-kickoff-diagnostics` and unchanged.
+- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, public-byte equality, and the priority file's stable authenticated Drive version/content identity/parent/capability fence around the read-only probe.
+- Not verified: complete target-root inventory/probe matrix, current product Q1 integration, current priority-file decode/seek/sustained playback, physical iPhone Chrome tab/home-screen PWA callback/session/playback, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
 - The V2-06A runtime work and the V2-07A probe/evidence units are not deployed. Production/main/remotes and the existing candidate remain unchanged.
 
@@ -109,7 +105,7 @@ Risk metadata now shows two objects at least 4 GiB, 35 MP4/MOV objects at least 
 
 ## Next first action
 
-Select the smallest deterministic private representative set that covers the observed >=4 GiB, large MP4/MOV, long-video, MKV/AVI/BMP, GIF/WebP, rotation and extension/MIME-mismatch risks while retaining the priority sample. Record only redacted category coverage and keep IDs/names/paths in the authenticated page context. Then design and run bounded read-only container probes without conversion, upload, sharing or mutation. Keep metadata, configured analysis, decode, product playback and physical-device counts separate.
+Inventory the privately captured canonical target media root through paginated, metadata-only authenticated Drive reads. Prove complete pagination and record redacted counts by media type, extension, MIME, size/risk band, version/capability availability and inventory errors without reading file bodies. Then select the smallest risk representatives for bounded probes, keeping inventory, probe, decode and device playback counts separate. Do not search by folder name, convert/upload/share/mutate originals, or call metadata inventory a playback pass.
 
 ## Tried
 
