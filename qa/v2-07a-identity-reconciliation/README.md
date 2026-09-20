@@ -41,3 +41,16 @@ Focused verification:
 ```powershell
 node --test qa/v2-07a-identity-reconciliation/drive-identity-reconciliation.test.mjs qa/v2-07a-browser-transport/transport.test.mjs
 ```
+
+## Live redacted result
+
+`results.redacted.json` records the authenticated candidate run. All 38 selected
+rows produced paired pre/post metadata reads and were stable across every fixed
+dimension. The operation used 138 Drive metadata requests in total, including
+exactly 76 reconciliation reads, and produced zero media requests or bodies.
+
+The earlier front sniff's one pre-body `IDENTITY_MISMATCH` did not reproduce.
+Because that earlier result intentionally retained no row or dimension identity,
+its historic cause remains unknown. This result must not be read as proof that
+the earlier event never occurred, as a new front signature for that row, or as
+container, track, decode, playback, expiry, sleep/wake, or physical-device proof.

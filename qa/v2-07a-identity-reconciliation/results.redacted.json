@@ -1,0 +1,103 @@
+{
+  "schema": "drive-original.v2-07a-identity-reconciliation-evidence-redacted/1",
+  "recordedAt": "2026-09-20T04:36:20Z",
+  "reconcilerCommit": "60f743b4ddd97ca96f7308af3fa8c362718514fc",
+  "frontSniffEvidenceCommit": "797ec695226714fe5669a23a63c516ebd96f5a86",
+  "productCandidateCommit": "3597e6399056908542680f2a7a5266effd40e96a",
+  "execution": {
+    "candidateAppVersion": "1.22.0-rc.4",
+    "authenticatedDesktopChrome": true,
+    "readOnlyCandidate": true,
+    "freshAuthenticatedRepeatedInventoryInsideRun": true,
+    "representativeSelectionRecomputedInsideRun": true,
+    "callerSuppliedManifestOrFileIds": false,
+    "exactPriorityAndDirectParentFenceRecreated": true,
+    "appMediaOwnerIdleBeforeAndAfterRun": true,
+    "mediaRequestDelta": 0,
+    "publicEntrypointRemovedSynchronously": true,
+    "temporaryPrivateContextRemovedAfterRun": true,
+    "appStillConnectedAfterRun": true,
+    "driveMutations": 0,
+    "mediaBodyRequests": 0,
+    "decodeAttempts": 0,
+    "playbackAttempts": 0,
+    "privateIdentifierLeakCount": 0,
+    "privateResourceKeyLeakCount": 0
+  },
+  "transport": {
+    "workerName": "drive-original-v2-07a-browser-transport",
+    "workerVersion": "68cf79bb-3c04-4cbf-8472-ffa3880d9836",
+    "bundleRole": "identity-reconciler",
+    "bundleSha256": "DFB28450F396A649D8D713B168FFDC3234A56609C1B3EC1DEC0CBFDCC2C1AF1C",
+    "bundleBytes": 78855,
+    "localRemoteAndInPageHashMatched": true,
+    "boundedAdapterPreserved": true,
+    "exactCandidateOriginCors": true,
+    "cacheControlNoStore": true,
+    "nosniffVisibleInCandidatePage": true,
+    "identityEncodingGetAndHeadDeclaredExactLength": true,
+    "noBindings": true,
+    "productCandidateReplaced": false
+  },
+  "aggregate": {
+    "schema": "drive-original.v2-07a-identity-reconciliation-aggregate/1",
+    "complete": true,
+    "selectedCount": 38,
+    "processedCount": 38,
+    "preflightReadCount": 38,
+    "postflightReadCount": 38,
+    "stableIdentityCount": 38,
+    "mismatchedIdentityCount": 0,
+    "unresolvedIdentityCount": 0,
+    "expectedMismatchCounts": {
+      "fileId": 0,
+      "version": 0,
+      "size": 0,
+      "modifiedTime": 0,
+      "mimeType": 0,
+      "canDownload": 0,
+      "trashed": 0,
+      "resourceKeyPresence": 0
+    },
+    "prePostDriftCounts": {
+      "fileId": 0,
+      "version": 0,
+      "size": 0,
+      "modifiedTime": 0,
+      "mimeType": 0,
+      "canDownload": 0,
+      "trashed": 0,
+      "resourceKeyPresence": 0
+    },
+    "failureCounts": {},
+    "totals": {
+      "driveMetadataRequests": 138,
+      "reconciliationMetadataRequests": 76
+    },
+    "mediaBodiesRead": 0,
+    "decodeClaimed": false,
+    "playbackClaimed": false
+  },
+  "priorFrontSniffComparison": {
+    "priorIdentityMismatchCount": 1,
+    "currentIdentityMismatchCount": 0,
+    "successfulFrontBodyReadsRepeated": 0,
+    "historicMismatchReproduced": false,
+    "historicMismatchDimensionRecoverableFromPriorAggregate": false
+  },
+  "limits": {
+    "maximumDriveMetadataRequests": 512,
+    "maximumReconciliationMetadataRequests": 76,
+    "maximumRunMilliseconds": 600000,
+    "metadataConcurrency": 1,
+    "mediaBodyRequestsAllowed": 0
+  },
+  "limitations": {
+    "historicIdentityMismatchCauseResolved": false,
+    "currentStableMetadataProvesHistoricCause": false,
+    "frontMagicOrContainerTrackProvenByThisRun": false,
+    "decodeOrPlaybackProven": false,
+    "physicalIphonePlaybackProven": false,
+    "tokenExpiryOrSleepWakeProven": false
+  }
+}

@@ -1,10 +1,57 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import vm from 'node:vm';
 import { createDriveIdentityReconciliation } from './drive-identity-reconciliation.mjs';
 import { buildBrowserBundleText } from './build-browser-bundle.mjs';
 
 const ORIGIN = 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev';
+
+test('tracked live reconciliation evidence is aggregate-only and internally consistent', async () => {
+  const raw = await readFile(new URL('./results.redacted.json', import.meta.url), 'utf8');
+  const evidence = JSON.parse(raw);
+  const aggregate = evidence.aggregate;
+  const forbiddenKeys = new Set([
+    'accessToken', 'accountKey', 'authorization', 'cookie', 'email',
+    'fileName', 'name', 'path', 'refreshToken', 'resourceKey', 'token', 'url'
+  ]);
+  const visit = (value, path = []) => {
+    if (!value || typeof value !== 'object') return;
+    for (const [key, child] of Object.entries(value)) {
+      assert.equal(forbiddenKeys.has(key), false, `private evidence key: ${key}`);
+      if (key === 'fileId') {
+        assert.ok(['expectedMismatchCounts', 'prePostDriftCounts'].includes(path.at(-1)));
+        assert.equal(child, 0);
+      }
+      visit(child, [...path, key]);
+    }
+  };
+  visit(evidence);
+
+  assert.equal(evidence.schema, 'drive-original.v2-07a-identity-reconciliation-evidence-redacted/1');
+  assert.equal(aggregate.schema, 'drive-original.v2-07a-identity-reconciliation-aggregate/1');
+  assert.equal(aggregate.complete, true);
+  assert.equal(aggregate.selectedCount, 38);
+  assert.equal(aggregate.processedCount, aggregate.selectedCount);
+  assert.equal(aggregate.preflightReadCount, aggregate.selectedCount);
+  assert.equal(aggregate.postflightReadCount, aggregate.selectedCount);
+  assert.equal(aggregate.stableIdentityCount, aggregate.selectedCount);
+  assert.equal(aggregate.mismatchedIdentityCount, 0);
+  assert.equal(aggregate.unresolvedIdentityCount, 0);
+  assert.equal(Object.values(aggregate.expectedMismatchCounts).reduce((sum, count) => sum + count, 0), 0);
+  assert.equal(Object.values(aggregate.prePostDriftCounts).reduce((sum, count) => sum + count, 0), 0);
+  assert.deepEqual(aggregate.failureCounts, {});
+  assert.equal(aggregate.totals.reconciliationMetadataRequests, 76);
+  assert.ok(aggregate.totals.driveMetadataRequests <= evidence.limits.maximumDriveMetadataRequests);
+  assert.equal(aggregate.mediaBodiesRead, 0);
+  assert.equal(aggregate.decodeClaimed, false);
+  assert.equal(aggregate.playbackClaimed, false);
+  assert.equal(evidence.execution.mediaRequestDelta, 0);
+  assert.equal(evidence.execution.driveMutations, 0);
+  assert.equal(evidence.priorFrontSniffComparison.successfulFrontBodyReadsRepeated, 0);
+  assert.equal(evidence.priorFrontSniffComparison.historicMismatchReproduced, false);
+  assert.equal(evidence.limitations.historicIdentityMismatchCauseResolved, false);
+});
 
 function manifest(mutate) {
   const selected = Array.from({ length: 38 }, (_, index) => ({
