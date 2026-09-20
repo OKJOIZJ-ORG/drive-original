@@ -209,7 +209,9 @@ test('accepts only an exact 206 and returns page-private parser evidence', async
 
 test('rejects 200 and cancels the unexpected response body', async () => {
   let cancelled = 0;
+  const phases = [];
   const result = await baseRun({
+    getIdentity: async ({ phase }) => { phases.push(phase); return identity; },
     readRange: async (request) => exactResponse(request, new Uint8Array(8), {
       status: 200,
       body: { cancel: async () => { cancelled += 1; } }
@@ -218,6 +220,152 @@ test('rejects 200 and cancels the unexpected response body', async () => {
   assertFailure(result, 'STATUS_NOT_206');
   assert.equal(cancelled, 1);
   assert.equal(result.metrics.receivedBytes, 0);
+  assert.deepEqual(phases, ['preflight', 'postflight']);
+  assert.equal(result.identity.postflight, true);
+});
+
+test('failed body read is overridden by postflight drift and publishes no private evidence', async () => {
+  let checks = 0;
+  const result = await baseRun({
+    getIdentity: async () => (++checks === 1 ? identity : { ...identity, version: '18' }),
+    readRange: async (request) => exactResponse(request, new Uint8Array(7), {
+      headers: { 'Content-Length': '8' }
+    }),
+    probe: async ({ read }) => {
+      await read({ start: 0, end: 7 });
+      return { privateBodyEvidence: 'must-disappear' };
+    }
+  });
+  assertFailure(result, 'POSTFLIGHT_DRIFT');
+  assert.equal(checks, 2);
+  assert.equal(result.identity.preflight, true);
+  assert.equal(result.identity.postflight, false);
+  assert.equal(result.metrics.receivedBytes, 7);
+  assert.equal(result.metrics.uniqueBytes, 0);
+  assert.doesNotMatch(JSON.stringify(result), /must-disappear/);
+});
+
+test('failed body read is overridden by a fixed redacted postflight failure', async () => {
+  let checks = 0;
+  const result = await baseRun({
+    getIdentity: async () => {
+      checks += 1;
+      if (checks === 1) return identity;
+      throw new Error('PRIVATE_POSTFLIGHT_SENTINEL');
+    },
+    readRange: async () => { throw new Error('PRIVATE_READER_SENTINEL'); }
+  });
+  assertFailure(result, 'POSTFLIGHT_FAILED');
+  assert.equal(checks, 2);
+  assert.equal(result.identity.preflight, true);
+  assert.equal(result.identity.postflight, false);
+  assert.equal(result.metrics.uniqueBytes, 0);
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE_POSTFLIGHT_SENTINEL|PRIVATE_READER_SENTINEL/);
+});
+
+test('failure postflight starts only after an active background read is aborted and settled', async () => {
+  let releaseStarted;
+  const started = new Promise((resolve) => { releaseStarted = resolve; });
+  let releaseCancelStarted;
+  const cancelStarted = new Promise((resolve) => { releaseCancelStarted = resolve; });
+  let finishCancel;
+  let bodyActive = false;
+  let postflightSawActive = null;
+  let cancelled = 0;
+  const body = {
+    getReader: () => ({
+      read: async () => {
+        bodyActive = true;
+        releaseStarted();
+        return new Promise(() => {});
+      },
+      cancel: async () => new Promise((resolve) => {
+        cancelled += 1;
+        releaseCancelStarted();
+        finishCancel = () => {
+          bodyActive = false;
+          resolve();
+        };
+      }),
+      releaseLock: () => {}
+    })
+  };
+  const pending = baseRun({
+    getIdentity: async ({ phase }) => {
+      if (phase === 'postflight') postflightSawActive = bodyActive;
+      return identity;
+    },
+    readRange: async (request) => exactResponse(request, new Uint8Array(8), { body }),
+    probe: async ({ read }) => {
+      void read({ start: 0, end: 7 }).catch(() => {});
+      await started;
+      throw new Error('probe failed while its background read was active');
+    }
+  });
+  await cancelStarted;
+  assert.equal(postflightSawActive, null);
+  finishCancel();
+  const result = await pending;
+  assertFailure(result, 'PROBE_FAILED');
+  assert.equal(postflightSawActive, false);
+  assert.equal(result.identity.postflight, true);
+  assert.equal(cancelled >= 1, true);
+});
+
+test('failure postflight cannot extend the per-file hard deadline', async () => {
+  const timers = scheduler();
+  let rejectRead;
+  let postflightSignal;
+  const pending = baseRun({
+    getIdentity: async ({ phase, signal }) => {
+      if (phase === 'preflight') return identity;
+      postflightSignal = signal;
+      return new Promise(() => {});
+    },
+    readRange: async () => new Promise((resolve, reject) => { rejectRead = reject; }),
+    limits: { headersMs: 30, fileMs: 20 },
+    setTimeoutFn: timers.setTimeoutFn,
+    clearTimeoutFn: timers.clearTimeoutFn
+  });
+  for (let index = 0; index < 10 && !rejectRead; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  rejectRead(new Error('reader failed before the file deadline'));
+  for (let index = 0; index < 10 && !postflightSignal; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(Boolean(postflightSignal), true);
+  assert.equal(timers.fire(20), 1);
+  const result = await pending;
+  assertFailure(result, 'FILE_TIMEOUT');
+  assert.equal(postflightSignal.aborted, true);
+  assert.equal(timers.fire(30), 0);
+});
+
+test('read-phase timeout preserves a bounded postflight window inside the file deadline', async () => {
+  const timers = scheduler();
+  const phases = [];
+  let observedSignal;
+  const pending = baseRun({
+    getIdentity: async ({ phase }) => { phases.push(phase); return identity; },
+    readRange: async ({ signal }) => {
+      observedSignal = signal;
+      return new Promise(() => {});
+    },
+    limits: { headersMs: 30, fileMs: 20 },
+    setTimeoutFn: timers.setTimeoutFn,
+    clearTimeoutFn: timers.clearTimeoutFn
+  });
+  for (let index = 0; index < 10 && !observedSignal; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(timers.fire(10), 1);
+  const result = await pending;
+  assertFailure(result, 'FILE_TIMEOUT');
+  assert.equal(observedSignal.aborted, true);
+  assert.deepEqual(phases, ['preflight', 'postflight']);
+  assert.equal(result.identity.postflight, true);
+  assert.equal(timers.fire(20), 0);
 });
 
 test('rejects mismatched or wildcard Content-Range before consuming the body', async () => {
@@ -459,10 +607,165 @@ test('batch runner is serial and stops new reads at its shared byte budget', asy
     limits: { batchBytes: 4 }
   });
   assert.equal(result.concurrency, 1);
+  assert.equal(result.complete, true);
+  assert.equal(result.processed, 2);
   assert.equal(maximum, 1);
   assert.equal(result.receivedBytes, 3);
   assert.equal(result.results[0].ok, true);
   assertFailure(result.results[1], 'BATCH_BYTE_LIMIT');
+});
+
+test('an unresponsive cancellation terminates the batch before another transfer starts', async () => {
+  const timers = scheduler();
+  const representatives = [identity, { ...identity, fileId: 'second-private-file' }];
+  let firstSignal;
+  let firstActive = false;
+  let cancelStarted = false;
+  let secondReads = 0;
+  let maximum = 0;
+  const pending = runBoundedProbeBatch({
+    representatives,
+    getIdentity: async ({ expectedIdentity }) => expectedIdentity,
+    readRange: async (request) => {
+      if (request.identity.fileId !== identity.fileId) {
+        secondReads += 1;
+        return exactResponse(request, fixtureBytes(request.start, request.end));
+      }
+      firstSignal = request.signal;
+      return exactResponse(request, new Uint8Array(8), {
+        body: {
+          getReader: () => ({
+            read: async () => {
+              firstActive = true;
+              maximum = Math.max(maximum, 1 + secondReads);
+              return new Promise(() => {});
+            },
+            cancel: async () => {
+              cancelStarted = true;
+              return new Promise(() => {});
+            },
+            releaseLock: () => {}
+          })
+        }
+      });
+    },
+    probe: async ({ read }) => { await read({ start: 0, end: 7 }); },
+    generation: 3,
+    isGenerationCurrent: (value) => value === 3,
+    limits: { headersMs: 30, bodyNoProgressMs: 30, fileMs: 20 },
+    setTimeoutFn: timers.setTimeoutFn,
+    clearTimeoutFn: timers.clearTimeoutFn
+  });
+  for (let index = 0; index < 10 && !firstActive; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(timers.fire(10), 1);
+  for (let index = 0; index < 10 && !cancelStarted; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(cancelStarted, true);
+  assert.equal(timers.fire(20), 1);
+  const result = await pending;
+  assert.equal(result.complete, false);
+  assert.equal(result.processed, 1);
+  assert.equal(result.results.length, 1);
+  assertFailure(result.results[0], 'CLEANUP_TIMEOUT');
+  assert.equal(result.results[0].identity.postflight, false);
+  assert.equal(firstSignal.aborted, true);
+  assert.equal(firstActive, true);
+  assert.equal(secondReads, 0);
+  assert.equal(maximum, 1);
+});
+
+test('a rejected cancellation is a redacted terminal failure and cannot overlap the next file', async () => {
+  const timers = scheduler();
+  const representatives = [identity, { ...identity, fileId: 'second-private-file' }];
+  let firstActive = false;
+  let firstSignal;
+  let secondReads = 0;
+  const pending = runBoundedProbeBatch({
+    representatives,
+    getIdentity: async ({ expectedIdentity }) => expectedIdentity,
+    readRange: async (request) => {
+      if (request.identity.fileId !== identity.fileId) {
+        secondReads += 1;
+        return exactResponse(request, fixtureBytes(request.start, request.end));
+      }
+      firstSignal = request.signal;
+      return exactResponse(request, new Uint8Array(8), {
+        body: {
+          getReader: () => ({
+            read: async () => {
+              firstActive = true;
+              return new Promise(() => {});
+            },
+            cancel: async () => { throw new Error('PRIVATE_CANCEL_REJECTION'); },
+            releaseLock: () => {}
+          })
+        }
+      });
+    },
+    probe: async ({ read }) => { await read({ start: 0, end: 7 }); },
+    generation: 3,
+    isGenerationCurrent: (value) => value === 3,
+    limits: { headersMs: 30, bodyNoProgressMs: 30, fileMs: 20 },
+    setTimeoutFn: timers.setTimeoutFn,
+    clearTimeoutFn: timers.clearTimeoutFn
+  });
+  for (let index = 0; index < 10 && !firstActive; index += 1) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  assert.equal(timers.fire(10), 1);
+  const result = await pending;
+  assert.equal(result.complete, false);
+  assert.equal(result.processed, 1);
+  assertFailure(result.results[0], 'CLEANUP_FAILED');
+  assert.equal(result.results[0].identity.postflight, false);
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE_CANCEL_REJECTION/);
+  assert.equal(firstSignal.aborted, true);
+  assert.equal(firstActive, true);
+  assert.equal(secondReads, 0);
+});
+
+test('reader acquisition failure cancels the response before the next file starts', async () => {
+  const representatives = [identity, { ...identity, fileId: 'second-private-file' }];
+  let firstActive = true;
+  let cancelCalls = 0;
+  let secondReads = 0;
+  let maximum = 1;
+  const result = await runBoundedProbeBatch({
+    representatives,
+    getIdentity: async ({ expectedIdentity }) => expectedIdentity,
+    readRange: async (request) => {
+      if (request.identity.fileId !== identity.fileId) {
+        secondReads += 1;
+        maximum = Math.max(maximum, Number(firstActive) + 1);
+        return exactResponse(request, fixtureBytes(request.start, request.end));
+      }
+      return exactResponse(request, new Uint8Array(8), {
+        body: {
+          getReader: () => { throw new Error('PRIVATE_GET_READER_FAILURE'); },
+          cancel: async () => {
+            cancelCalls += 1;
+            firstActive = false;
+          }
+        }
+      });
+    },
+    probe: async ({ read }) => { await read({ start: 0, end: 7 }); },
+    generation: 3,
+    isGenerationCurrent: (value) => value === 3
+  });
+  assert.equal(result.complete, true);
+  assert.equal(result.processed, 2);
+  assertFailure(result.results[0], 'PROBE_FAILED');
+  assert.equal(result.results[0].identity.postflight, true);
+  assert.equal(result.results[1].ok, true);
+  assert.equal(cancelCalls, 1);
+  assert.equal(firstActive, false);
+  assert.equal(secondReads, 1);
+  assert.equal(maximum, 1);
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE_GET_READER_FAILURE/);
 });
 
 test('header timeout aborts the injected reader with a fixed redacted code', async () => {

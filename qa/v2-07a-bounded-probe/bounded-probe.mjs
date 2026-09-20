@@ -1,5 +1,5 @@
 const MIB = 1024 * 1024;
-const TOOL_VERSION = 'v2-07a-bounded-probe.1';
+const TOOL_VERSION = 'v2-07a-bounded-probe.2';
 const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER);
 
 export const DEFAULT_LIMITS = Object.freeze({
@@ -20,6 +20,8 @@ export const FAILURE_CODES = Object.freeze([
   'BODY_TIMEOUT',
   'BODY_UNAVAILABLE',
   'CACHE_CONTROL_INVALID',
+  'CLEANUP_FAILED',
+  'CLEANUP_TIMEOUT',
   'CONTENT_LENGTH_INVALID',
   'CONTENT_RANGE_INVALID',
   'DOWNLOAD_FORBIDDEN',
@@ -166,13 +168,12 @@ function awaitWithSignal(value, signal) {
   });
 }
 
-function cancelBody(result, reason) {
+async function cancelBody(result, reason) {
   const body = result?.body;
   try {
-    const pending = body?.cancel?.(reason);
-    void Promise.resolve(pending).catch(() => {});
+    await body?.cancel?.(reason);
   } catch {
-    // Best effort only. The fixed primary failure code remains authoritative.
+    fail('CLEANUP_FAILED');
   }
 }
 
@@ -315,7 +316,7 @@ async function awaitHeaders(readRange, request, options) {
   );
   const pending = Promise.resolve().then(() => readRange(request));
   pending.then((late) => {
-    if (options.signal.aborted) cancelBody(late, options.signal.reason);
+    if (options.signal.aborted) void cancelBody(late, options.signal.reason).catch(() => {});
   }).catch(() => {});
   try {
     return await Promise.race([awaitWithSignal(pending, options.signal), timeout.promise]);
@@ -340,6 +341,7 @@ async function readExactBody(result, expectedLength, options) {
   }
   if (!result.body?.getReader) fail('BODY_UNAVAILABLE');
   const reader = result.body.getReader();
+  options.onReaderOwned();
   const chunks = [];
   let received = 0;
   const timeout = createTimedRejection(
@@ -348,7 +350,19 @@ async function readExactBody(result, expectedLength, options) {
     options.setTimeoutFn,
     options.clearTimeoutFn
   );
-  const onAbort = () => { void reader.cancel(options.signal.reason).catch(() => {}); };
+  let cancellationPromise = null;
+  const cancel = (reason) => {
+    if (!cancellationPromise) {
+      cancellationPromise = Promise.resolve()
+        .then(() => {
+          if (typeof reader?.cancel !== 'function') fail('CLEANUP_FAILED');
+          return reader.cancel(reason);
+        })
+        .catch(() => { fail('CLEANUP_FAILED'); });
+    }
+    return cancellationPromise;
+  };
+  const onAbort = () => { void cancel(options.signal.reason).catch(() => {}); };
   options.signal.addEventListener('abort', onAbort, { once: true });
   try {
     try {
@@ -380,7 +394,7 @@ async function readExactBody(result, expectedLength, options) {
         chunks.push(new Uint8Array(chunk));
       }
     } catch (error) {
-      await reader.cancel(error).catch(() => {});
+      await cancel(error);
       throw error;
     }
   } finally {
@@ -462,6 +476,58 @@ function successResult(evidence, metrics) {
   });
 }
 
+async function verifyBoundedPostflight({
+  expected,
+  getIdentity,
+  generation,
+  isGenerationCurrent,
+  signal,
+  timeoutMs,
+  setTimeoutFn,
+  clearTimeoutFn
+}) {
+  throwIfAborted(signal);
+  if (!isGenerationCurrent(generation)) fail('GENERATION_STALE');
+
+  const controller = new AbortController();
+  const unlinkAbort = linkAbort(signal, controller);
+  const timer = setTimeoutFn(
+    () => controller.abort(new BoundedProbeError('POSTFLIGHT_FAILED')),
+    timeoutMs
+  );
+  try {
+    let after;
+    try {
+      after = await awaitWithSignal(
+        Promise.resolve().then(() => getIdentity({
+          phase: 'postflight',
+          generation,
+          signal: controller.signal
+        })),
+        controller.signal
+      );
+    } catch {
+      throwIfAborted(signal);
+      if (!isGenerationCurrent(generation)) fail('GENERATION_STALE');
+      fail('POSTFLIGHT_FAILED');
+    }
+    throwIfAborted(signal);
+    if (!isGenerationCurrent(generation)) fail('GENERATION_STALE');
+    try {
+      assertExpectedIdentity(expected, after);
+    } catch (error) {
+      if (error instanceof BoundedProbeError && error.code === 'IDENTITY_MISMATCH') {
+        fail('POSTFLIGHT_DRIFT');
+      }
+      throw error;
+    }
+  } finally {
+    clearTimeoutFn(timer);
+    unlinkAbort();
+    controller.abort(new BoundedProbeError('ABORTED'));
+  }
+}
+
 export async function runBoundedProbe({
   expectedIdentity: expectedValue,
   getIdentity,
@@ -491,17 +557,29 @@ export async function runBoundedProbe({
     return redactedFailureResult(fixedCode(error, 'PROBE_FAILED'), metrics, identityState);
   }
 
+  const lifetimeController = new AbortController();
+  const unlinkAbort = linkAbort(signal, lifetimeController);
   const fileController = new AbortController();
-  const unlinkAbort = linkAbort(signal, fileController);
-  const fileTimer = setTimeoutFn(
-    () => fileController.abort(new BoundedProbeError('FILE_TIMEOUT')),
+  const unlinkLifetime = linkAbort(lifetimeController.signal, fileController);
+  const postflightBudgetMs = Math.min(
+    limits.headersMs,
+    Math.max(1, Math.floor(limits.fileMs / 2))
+  );
+  const readPhaseMs = Math.max(1, limits.fileMs - postflightBudgetMs);
+  const lifetimeTimer = setTimeoutFn(
+    () => lifetimeController.abort(new BoundedProbeError('FILE_TIMEOUT')),
     limits.fileMs
+  );
+  const readPhaseTimer = setTimeoutFn(
+    () => fileController.abort(new BoundedProbeError('FILE_TIMEOUT')),
+    readPhaseMs
   );
   const cache = new Map();
   const inflight = new Map();
   const intervals = [];
   let activeReads = 0;
   let serialTail = Promise.resolve();
+  let readFailure = null;
 
   const generationCheck = () => {
     if (!isGenerationCurrent(generation)) fail('GENERATION_STALE');
@@ -538,6 +616,7 @@ export async function runBoundedProbe({
       activeReads += 1;
       metrics.requests += 1;
       let result = null;
+      let bodyHandlingStarted = false;
       try {
         result = await awaitHeaders(readRange, Object.freeze({
           identity: expected,
@@ -562,7 +641,8 @@ export async function runBoundedProbe({
           limits,
           setTimeoutFn,
           clearTimeoutFn,
-          onReceived: addReceived
+          onReceived: addReceived,
+          onReaderOwned: () => { bodyHandlingStarted = true; }
         });
         throwIfAborted(fileController.signal);
         generationCheck();
@@ -572,14 +652,17 @@ export async function runBoundedProbe({
         cache.set(key, new Uint8Array(bytes));
         return bytes;
       } catch (error) {
-        cancelBody(result, error);
+        if (!bodyHandlingStarted) await cancelBody(result, error);
         throw error;
       } finally {
         activeReads -= 1;
       }
     };
     const operation = serialTail.then(execute);
-    serialTail = operation.catch(() => {});
+    serialTail = operation.then(
+      () => undefined,
+      (error) => { if (!readFailure) readFailure = error; }
+    );
     inflight.set(key, operation);
     try {
       return new Uint8Array(await operation);
@@ -624,39 +707,69 @@ export async function runBoundedProbe({
     throwIfAborted(fileController.signal);
     generationCheck();
 
-    let after;
-    try {
-      after = await awaitWithSignal(
-        getIdentity({ phase: 'postflight', generation, signal: fileController.signal }),
-        fileController.signal
-      );
-    } catch (error) {
-      if (fileController.signal.aborted) throw abortReason(fileController.signal);
-      if (error instanceof BoundedProbeError) throw error;
-      fail('POSTFLIGHT_FAILED');
-    }
-    try {
-      assertExpectedIdentity(expected, after);
-    } catch (error) {
-      if (error instanceof BoundedProbeError && error.code === 'IDENTITY_MISMATCH') {
-        fail('POSTFLIGHT_DRIFT');
-      }
-      throw error;
-    }
+    await awaitWithSignal(serialTail, fileController.signal);
+    if (readFailure) throw readFailure;
+    fileController.abort(new BoundedProbeError('ABORTED'));
+    clearTimeoutFn(readPhaseTimer);
+    await verifyBoundedPostflight({
+      expected,
+      getIdentity,
+      generation,
+      isGenerationCurrent,
+      signal: lifetimeController.signal,
+      timeoutMs: postflightBudgetMs,
+      setTimeoutFn,
+      clearTimeoutFn
+    });
     identityState.postflight = true;
     generationCheck();
     return successResult(evidence, metrics);
   } catch (error) {
     cache.clear();
     const fallback = identityState.preflight ? 'PROBE_FAILED' : 'PREFLIGHT_FAILED';
-    const code = fixedCode(error, fallback);
-    if (code === 'POSTFLIGHT_DRIFT' || code === 'POSTFLIGHT_FAILED') {
+    let code = fixedCode(error, fallback);
+    const needsFailurePostflight = identityState.preflight
+      && metrics.requests > 0
+      && code !== 'ABORTED'
+      && code !== 'GENERATION_STALE'
+      && code !== 'POSTFLIGHT_DRIFT'
+      && code !== 'POSTFLIGHT_FAILED';
+    if (needsFailurePostflight) {
+      let cleanupSettled = false;
+      try {
+        fileController.abort(new BoundedProbeError(code));
+        await awaitWithSignal(serialTail, lifetimeController.signal);
+        cleanupSettled = true;
+        if (readFailure instanceof BoundedProbeError && readFailure.code === 'CLEANUP_FAILED') {
+          throw readFailure;
+        }
+        clearTimeoutFn(readPhaseTimer);
+        await verifyBoundedPostflight({
+          expected,
+          getIdentity,
+          generation,
+          isGenerationCurrent,
+          signal: lifetimeController.signal,
+          timeoutMs: postflightBudgetMs,
+          setTimeoutFn,
+          clearTimeoutFn
+        });
+        identityState.postflight = true;
+      } catch (postflightError) {
+        code = fixedCode(postflightError, 'POSTFLIGHT_FAILED');
+        if (!cleanupSettled && code === 'FILE_TIMEOUT') code = 'CLEANUP_TIMEOUT';
+      }
+    }
+    if (metrics.requests > 0 && !identityState.postflight) {
       metrics.uniqueBytes = 0;
     }
     return redactedFailureResult(code, metrics, identityState);
   } finally {
+    lifetimeController.abort(new BoundedProbeError('ABORTED'));
     fileController.abort(new BoundedProbeError('ABORTED'));
-    clearTimeoutFn(fileTimer);
+    clearTimeoutFn(readPhaseTimer);
+    clearTimeoutFn(lifetimeTimer);
+    unlinkLifetime();
     unlinkAbort();
     cache.clear();
     inflight.clear();
@@ -679,6 +792,11 @@ export async function runBoundedProbeBatch({
   const resolvedLimits = normalizeLimits(limits);
   const batchBudget = createBatchBudget(resolvedLimits.batchBytes);
   const results = [];
+  let terminated = false;
+  const terminalCodes = new Set([
+    'ABORTED', 'BODY_TIMEOUT', 'CLEANUP_FAILED', 'CLEANUP_TIMEOUT', 'FILE_TIMEOUT',
+    'GENERATION_STALE', 'HEADER_TIMEOUT', 'POSTFLIGHT_DRIFT', 'POSTFLIGHT_FAILED'
+  ]);
   for (let index = 0; index < representatives.length; index += 1) {
     throwIfAborted(signal);
     const expectedIdentity = representatives[index];
@@ -696,10 +814,18 @@ export async function runBoundedProbeBatch({
       clearTimeoutFn
     });
     results.push(result);
+    if (!result.ok && (terminalCodes.has(result.failure.code)
+      || (result.identity.preflight && result.metrics.requests > 0
+        && !result.identity.postflight))) {
+      terminated = true;
+      break;
+    }
   }
   return Object.freeze({
     schema: 'drive-original.v2-07a-bounded-probe-batch/1',
     concurrency: 1,
+    complete: !terminated && results.length === representatives.length,
+    processed: results.length,
     receivedBytes: batchBudget.receivedBytes,
     results: Object.freeze(results)
   });

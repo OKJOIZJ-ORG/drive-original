@@ -20,15 +20,22 @@ request, decode, playback, Cache API write, OPFS write or filesystem write.
 5. Run reads serially with memory-only exact-range cache/in-flight dedupe,
    generation ownership, abort propagation, and separate received/unique byte
    accounting.
-6. Postflight the same seven identity fields. Any drift returns only
+6. Settle every started read and its cancellation before postflight. Reader or
+   response cancellation rejection becomes terminal `CLEANUP_FAILED`; cleanup
+   that cannot settle inside the file lifetime becomes terminal
+   `CLEANUP_TIMEOUT`. Neither case can start the next batch item.
+7. Postflight the same seven identity fields after successful reads and after a
+   failed request whose cleanup settled. Any drift returns only
    `POSTFLIGHT_DRIFT`; parsed evidence and successful-body evidence are removed.
 
 The hard default ceilings are 1 MiB per request, 16 MiB and 64 requests per
 file, 512 MiB per batch, one concurrent request, 10 seconds to headers, 15
-seconds without a positive body-byte chunk, and 60 seconds per file. Callers may
-lower, but not raise, these ceilings. Budget exhaustion and timeouts are
-probe failures/unknowns; they are not corruption, compatibility, decode or
-playback verdicts.
+seconds without a positive body-byte chunk, and 60 seconds per file. The file
+lifetime reserves up to one header-timeout interval for cleanup plus postflight;
+with defaults the read phase therefore stops at 50 seconds and the absolute
+file wall remains 60 seconds. Callers may lower, but not raise, these ceilings.
+Budget exhaustion and timeouts are probe failures/unknowns; they are not
+corruption, compatibility, decode or playback verdicts.
 
 ## Injected contract
 
@@ -68,12 +75,15 @@ the signal and must not add persistence. The core also cancels an opened body on
 header, ownership, timeout, abort, or length failure.
 
 `runBoundedProbeBatch()` shares the 512 MiB ledger and processes representatives
-strictly one at a time. Structural identity values are not copied into results,
-and failures contain only a fixed code; raw exceptions are not returned. Success
-evidence is supplied by the private parser callback and is therefore private by
-contract: keep the complete result in the authenticated page only. A separate
-reviewed browser adapter/redactor must emit the tracked aggregate; never serialize
-this core result directly.
+strictly one at a time. Its fixed `complete` and `processed` fields distinguish a
+full batch from a fail-closed terminal stop. Abort, generation loss, timeouts,
+postflight uncertainty, and unsettled/failed cleanup stop the batch before any
+next representative request. Structural identity values are not copied into
+results, and failures contain only a fixed code; raw exceptions are not returned.
+Success evidence is supplied by the private parser callback and is therefore
+private by contract: keep the complete result in the authenticated page only. A
+separate reviewed browser adapter/redactor must emit the tracked aggregate; never
+serialize this core result directly.
 
 This module deliberately does not choose a network endpoint. It is not safe for
 live private data until the separately reviewed browser adapter constrains the
