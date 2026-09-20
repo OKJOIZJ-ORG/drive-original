@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
   RepresentativeSelectionError,
@@ -277,4 +279,121 @@ test('redacted report omits every private row and unknown raw metadata sentinel'
   assert.equal(result.report.evidenceLevels.currentProductPlaybackCount, 0);
   assert.equal(result.report.evidenceLevels.physicalDevicePlaybackCount, 0);
   assert.equal(result.report.limitations.animationCandidatesNotConfirmedAnimated, true);
+});
+
+test('committed evidence binds the reviewed selector and stays aggregate-only', async () => {
+  const evidence = JSON.parse(await readFile(
+    new URL('./results.redacted.json', import.meta.url),
+    'utf8'
+  ));
+  assert.equal(evidence.schema, 'drive-original.v2-07a-risk-selection-evidence-redacted/1');
+  assert.equal(evidence.selectionToolCommit, 'dd30d2b9394560d7d0f35e85f6a48cc04a2b624c');
+  assert.equal(evidence.inventoryToolCommit, 'e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b');
+  assert.equal(evidence.inventoryEvidenceCommit, '78b1b14cd4703ea90b9268559f60266e2d2f1d09');
+  assert.equal(evidence.productBaselineCommit, '14c501ad80a3950f4b6886dd3a5ae31b031c5af6');
+  assert.equal(evidence.execution.driveMetadataRequestsInSelection, 0);
+  assert.equal(evidence.execution.driveMediaBodiesRead, 0);
+  assert.equal(evidence.execution.driveMutations, 0);
+  assert.equal(evidence.execution.candidateAppVersion, '1.22.0-rc.3');
+  assert.equal(evidence.execution.authenticatedDesktopChrome, true);
+  assert.equal(evidence.execution.privateInventorySecondPassReused, true);
+  assert.equal(evidence.execution.privateManifestHeldOnlyInAuthenticatedPage, true);
+  assert.equal(evidence.execution.bundleIntegrityCheckedLocallyRemotelyAndInPage, true);
+  assert.equal(evidence.execution.originRestrictedQaTransport, true);
+  assert.equal(evidence.execution.inputOrderReversalChecked, true);
+  assert.equal(evidence.execution.privateManifestByteStableAcrossInputOrder, true);
+  assert.equal(evidence.execution.redactedReportByteStableAcrossInputOrder, true);
+  assert.equal(evidence.execution.privateIdentifierLeakCount, 0);
+  assert.equal(evidence.execution.privateResourceKeyLeakCount, 0);
+  assert.equal(evidence.execution.unknownRawMetadataLeakCount, 0);
+  assert.equal(evidence.selectionOutput.input.objectCount, 8463);
+  assert.equal(evidence.selectionOutput.selection.selectedUniqueObjectCount, 38);
+  assert.equal(evidence.selectionOutput.selection.prioritySampleSelected, true);
+  assert.equal(evidence.selectionOutput.selection.allRareMkvAviBmpSelected, true);
+  assert.equal(evidence.selectionOutput.selection.allGe4GiBSelected, true);
+  assert.equal(evidence.selectionOutput.selection.subsetMinimalAfterMandatory, true);
+  assert.equal(evidence.selectionOutput.selection.globalMinimumClaimed, false);
+  assert.equal(evidence.selectionOutput.coverage.uncoveredCategoryCount, 0);
+  assert.equal(
+    evidence.selectionOutput.coverage.requiredCategoryCount,
+    evidence.selectionOutput.coverage.coveredCategoryCount
+  );
+  assert.equal(
+    Object.values(evidence.selectionOutput.selectedCountsBySafeExtension)
+      .reduce((sum, count) => sum + count, 0),
+    evidence.selectionOutput.selection.selectedUniqueObjectCount
+  );
+  assert.equal(evidence.selectionOutput.evidenceLevels.boundedProbeCount, 0);
+  assert.equal(evidence.selectionOutput.evidenceLevels.decodeCount, 0);
+  assert.equal(evidence.selectionOutput.evidenceLevels.currentProductPlaybackCount, 0);
+  assert.equal(evidence.selectionOutput.evidenceLevels.physicalDevicePlaybackCount, 0);
+
+  const reportDigest = createHash('sha256')
+    .update(JSON.stringify(evidence.selectionOutput))
+    .digest('hex')
+    .toUpperCase();
+  assert.equal(reportDigest, evidence.execution.redactedReportSha256);
+
+  const selectorSource = await readFile(
+    new URL('./representative-selector.mjs', import.meta.url),
+    'utf8'
+  );
+  const generatedBundle = [
+    '(() => {',
+    "'use strict';",
+    selectorSource.replace(/^export\s+/gm, ''),
+    'window.__driveOriginalRepresentativeSelector = Object.freeze({ selectRiskRepresentatives });',
+    '})();',
+    ''
+  ].join('\n');
+  assert.equal(Buffer.byteLength(generatedBundle), evidence.execution.injectedBundleBytes);
+  assert.equal(
+    createHash('sha256').update(generatedBundle).digest('hex').toUpperCase(),
+    evidence.execution.injectedBundleSha256
+  );
+
+  const previewWorker = await readFile(
+    new URL('./preview-worker.mjs', import.meta.url),
+    'utf8'
+  );
+  const previewConfigText = await readFile(
+    new URL('./wrangler.preview.jsonc', import.meta.url),
+    'utf8'
+  );
+  const previewConfig = JSON.parse(previewConfigText);
+  const normalizedPreviewWorker = previewWorker.replace(/\r\n/g, '\n');
+  const normalizedPreviewConfig = previewConfigText.replace(/\r\n/g, '\n');
+  assert.equal(
+    createHash('sha256').update(normalizedPreviewWorker).digest('hex').toUpperCase(),
+    evidence.execution.qaTransportWorkerSourceNormalizedSha256
+  );
+  assert.equal(
+    createHash('sha256').update(normalizedPreviewConfig).digest('hex').toUpperCase(),
+    evidence.execution.qaTransportConfigNormalizedSha256
+  );
+  assert.match(previewWorker, /drive-original-v2-candidate\.drive-original-cloudflare-candidate\.workers\.dev/);
+  assert.match(previewWorker, /representative-selector-0d003842d0bff591\.js/);
+  assert.match(previewWorker, /origin !== ALLOWED_ORIGIN/);
+  assert.match(previewWorker, /Access-Control-Allow-Origin/);
+  assert.equal(previewConfig.name, 'drive-original-v2-qa-bundle-20260920');
+  assert.equal(previewConfig.workers_dev, true);
+  assert.equal(previewConfig.preview_urls, false);
+  assert.deepEqual(
+    Object.keys(previewConfig).sort(),
+    ['$schema', 'compatibility_date', 'main', 'name', 'observability', 'preview_urls', 'rules', 'workers_dev'].sort()
+  );
+  assert.match(evidence.execution.qaTransportWorkerVersion, /^[0-9a-f-]{36}$/);
+
+  assert.equal(evidence.interpretation.selectionCoversMetadataRiskCategoriesOnly, true);
+  assert.equal(evidence.interpretation.selectedObjectsHaveNotYetBeenBodyProbed, true);
+  assert.equal(evidence.interpretation.containerCodecAnimationAndRotationRemainUnverified, true);
+  assert.equal(evidence.interpretation.currentProductPlaybackVerified, false);
+  assert.equal(evidence.interpretation.physicalIphoneOrPwaVerified, false);
+
+  const serialized = JSON.stringify(evidence);
+  assert.doesNotMatch(
+    serialized,
+    /[A-Z]:\\|\/Users\/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|Bearer\s|ya29\.|refresh_token|access_token/i
+  );
+  assert.doesNotMatch(serialized, /"(?:file|folder|root|parent|resourceKey)Id"\s*:/i);
 });

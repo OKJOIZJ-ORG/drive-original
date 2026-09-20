@@ -1,0 +1,124 @@
+{
+  "schema": "drive-original.v2-07a-risk-selection-evidence-redacted/1",
+  "recordedAt": "2026-09-20T01:14:00Z",
+  "selectionToolCommit": "dd30d2b9394560d7d0f35e85f6a48cc04a2b624c",
+  "inventoryToolCommit": "e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b",
+  "inventoryEvidenceCommit": "78b1b14cd4703ea90b9268559f60266e2d2f1d09",
+  "productBaselineCommit": "14c501ad80a3950f4b6886dd3a5ae31b031c5af6",
+  "execution": {
+    "candidateAppVersion": "1.22.0-rc.3",
+    "authenticatedDesktopChrome": true,
+    "privateInventorySecondPassReused": true,
+    "driveMetadataRequestsInSelection": 0,
+    "driveMediaBodiesRead": 0,
+    "driveMutations": 0,
+    "injectedBundleSha256": "0D003842D0BFF5913ACD4DB18EA2F4E2A8C180F63CCDF7D07E16A7CF183231B1",
+    "injectedBundleBytes": 22128,
+    "bundleIntegrityCheckedLocallyRemotelyAndInPage": true,
+    "originRestrictedQaTransport": true,
+    "qaTransportWorkerVersion": "d65c5aa8-cca6-4f6a-9211-be1d115fbe32",
+    "qaTransportWorkerSourceNormalizedSha256": "C68BDE1E6AB713DB984DD2EFDD9AF5B8A42DFBF610A5326E3601A53B2A2519DD",
+    "qaTransportConfigNormalizedSha256": "28857D610A07BDC061D7C568159011296D95F896E4416D7A0AB04E2C87E36B04",
+    "privateManifestHeldOnlyInAuthenticatedPage": true,
+    "inputOrderReversalChecked": true,
+    "privateManifestByteStableAcrossInputOrder": true,
+    "redactedReportByteStableAcrossInputOrder": true,
+    "privateIdentifierLeakCount": 0,
+    "privateResourceKeyLeakCount": 0,
+    "unknownRawMetadataLeakCount": 0,
+    "redactedReportSha256": "BF0B29728ECD90EE73C5F98B9E22C75F27E03D9FB60DE015CF6946AE1968A1B7"
+  },
+  "selectionOutput": {
+    "schema": "drive-original.v2-07a-risk-selection-redacted/1",
+    "producer": "representative-selector.mjs@v2-07a.1",
+    "input": {
+      "objectCount": 8463,
+      "requestedExtensionCount": 11,
+      "requestedExtensionsPresentCount": 11,
+      "allRequestedExtensionsPresent": true,
+      "unresolvedShortcutTargetCount": 0
+    },
+    "selection": {
+      "selectedUniqueObjectCount": 38,
+      "mandatoryUniqueObjectCount": 20,
+      "optionalUniqueObjectCount": 18,
+      "prioritySampleSelected": true,
+      "allRareMkvAviBmpSelected": true,
+      "rareMkvAviBmpObjectCount": 14,
+      "allGe4GiBSelected": true,
+      "ge4GiBObjectCount": 2,
+      "largestMp4Selected": true,
+      "largestMovSelected": true,
+      "longestKnownVideoSelected": true,
+      "subsetMinimalAfterMandatory": true,
+      "inputOrderIndependent": true,
+      "globalMinimumClaimed": false
+    },
+    "coverage": {
+      "requiredCategoryCount": 64,
+      "coveredCategoryCount": 64,
+      "uncoveredCategoryCount": 0,
+      "byCategoryFamily": {
+        "animationCandidate": { "required": 5, "covered": 5 },
+        "extension": { "required": 11, "covered": 11 },
+        "largeVideo": { "required": 2, "covered": 2 },
+        "longVideo": { "required": 3, "covered": 3 },
+        "mandatoryObject": { "required": 20, "covered": 20 },
+        "mediaFamily": { "required": 2, "covered": 2 },
+        "mime": { "required": 9, "covered": 9 },
+        "mimeMismatchPair": { "required": 9, "covered": 9 },
+        "rotation": { "required": 3, "covered": 3 }
+      }
+    },
+    "selectedCountsBySafeExtension": {
+      ".avi": 5,
+      ".bmp": 1,
+      ".gif": 2,
+      ".jpeg": 1,
+      ".jpg": 3,
+      ".mkv": 8,
+      ".mov": 1,
+      ".mp4": 5,
+      ".png": 1,
+      ".webm": 1,
+      ".webp": 1,
+      "<other>": 9
+    },
+    "evidenceLevels": {
+      "metadataSelectedCount": 38,
+      "boundedProbeCount": 0,
+      "decodeCount": 0,
+      "currentProductPlaybackCount": 0,
+      "physicalDevicePlaybackCount": 0
+    },
+    "limitations": {
+      "metadataSelectionIsNotContainerCodecOrAnimationProof": true,
+      "metadataSelectionIsNotPlaybackProof": true,
+      "animationCandidatesNotConfirmedAnimated": true,
+      "rotationMetadataNotDisplayValidation": true,
+      "largeSelectionNotThroughputOrRangeProof": true,
+      "globalMinimumSetCoverNotClaimed": true
+    },
+    "redaction": {
+      "idsVersionsNamesPathsParents": "omitted",
+      "perObjectRowsAndCategoryCombinations": "omitted",
+      "tokensCredentialsResourceKeys": "omitted",
+      "unknownRawExtensionsAndMimes": "collapsed"
+    }
+  },
+  "interpretation": {
+    "selectionCoversMetadataRiskCategoriesOnly": true,
+    "selectedObjectsHaveNotYetBeenBodyProbed": true,
+    "containerCodecAnimationAndRotationRemainUnverified": true,
+    "currentProductPlaybackVerified": false,
+    "physicalIphoneOrPwaVerified": false
+  },
+  "nextDiscriminator": "run identity-fenced bounded read-only container probes over the private representative manifest",
+  "redaction": {
+    "account": "omitted",
+    "fileRevisionReferenceAndResourceKeyValues": "omitted",
+    "namesAndPaths": "omitted",
+    "tokensCookiesHeadersAndUrls": "omitted",
+    "mediaBytesFramesAndThumbnails": "not-read"
+  }
+}
