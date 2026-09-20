@@ -90,6 +90,33 @@ live private data until the separately reviewed browser adapter constrains the
 callbacks to lexical authenticated metadata reads and same-origin exact-Range
 `GET` requests with no persistence or mutation.
 
+## Closed candidate-browser adapter
+
+`drive-browser-adapter.mjs` is the only live binding for this probe. Its public
+browser entrypoint is zero-argument and one-shot: it captures the already
+verified private account/root/priority fence, requires the exact read-only
+`1.22.0-rc.4` candidate and an idle app media owner, then runs a fresh
+authenticated two-pass root inventory and the reviewed representative selector
+inside the same closure. A caller cannot supply a manifest, inventory pass, or
+file ID. Exactly 38 internally selected rows are required before any body read.
+
+The adapter keeps the account generation, media session, controlling `/sw.js`
+object, lifecycle, and idle-player state fenced through publication. It uses one
+same-origin `bytes=0-65535` (or exact EOF) request per eligible file, processes
+files serially, and returns only aggregate magic/failure counts and byte totals.
+It does not claim that unrelated pre-existing service-worker work can be
+enumerated from the page. The browser global deletes itself synchronously on its
+first owning invocation; retained references still hit the internal one-shot
+latch.
+
+Generate the temporary, ignored composite only after the source and tests have
+been reviewed:
+
+```powershell
+node qa/v2-07a-bounded-probe/build-browser-bundle.mjs
+node --check qa/v2-07a-bounded-probe/private-front-sniff-browser-bundle.js
+```
+
 ## Initial magic router
 
 `sniffMagic(bytes)` consults bytes only—never extension or MIME metadata. It
@@ -103,6 +130,7 @@ remain later units.
 ## Focused verification
 
 ```powershell
-node --test qa/v2-07a-bounded-probe/bounded-probe.test.mjs
+node --test qa/v2-07a-bounded-probe/bounded-probe.test.mjs qa/v2-07a-bounded-probe/drive-browser-adapter.test.mjs
 node --check qa/v2-07a-bounded-probe/bounded-probe.mjs
+node --check qa/v2-07a-bounded-probe/drive-browser-adapter.mjs
 ```
