@@ -1,4 +1,4 @@
-# Checkpoint — V2-07A priority sample classified; target-root inventory next — 2026-09-20 09:05 KST
+# Checkpoint — V2-06A QA-TR-11 quota boundary closed; V2-07A corpus probe next — 2026-09-20 08:25 KST
 
 ## The story so far
 
@@ -68,9 +68,7 @@ The `QA-TR-11` limited-cache/quota boundary is committed at `14c501ad80a3950f4b6
 
 The final implementation gives the bounded-original recovery one exact `{fileId, mediaSession, sourceGeneration}` owner through storage-policy lookup, credential refresh, full transfer, memory assembly, OPFS writes, terminal UI and targeted cleanup. OPFS/quota/memory allocation exhaustion now ends as `buffer-storage-limited`, explicitly says it is not a codec verdict, and leaves Google compatibility as a manual choice rather than an automatic success route. The fixtures prove unavailable OPFS, native Blob allocation failure, mid-write quota cleanup, superseded buffer failure, superseded policy result, and same-session different-source cleanup protection. The final full Node suite passes 259/259, Chromium functional audit passes 20/20, syntax/diff checks pass, and independent rereview found no P1/P2/P3 defect. This is deterministic local resource and ownership evidence; it is not a physical-device quota test, actual Drive/CORS resource exhaustion, a deployment, or success on the priority MPEG-TS sample.
 
-The priority-sample probe tool is fixed at `41952452cb5f837915b161d3bcfc723692c3b939`; its redacted evidence is committed at `4a02391`. An authenticated candidate Drive metadata read before and after the local probe kept the private file ID, `files.version`, content revision, checksum, size, modified time and single parent stable. The parent was independently confirmed as the canonical target folder, the file remained untrashed, and download/revision-read capabilities were present. Private IDs, revisions, checksums, names, paths and version integers stay out of the tracked evidence.
-
-The fixed tool serially matched the 208,001,508-byte read-only local mirror to the private SHA-256 both before and after FFprobe and kept stronger stat identity unchanged. The `.mp4`/`video/mp4` metadata actually contains MPEG-TS with exactly one H.264 High L3.0 360x640 8-bit BT.709 stream and one AAC-LC 48 kHz stereo stream, no subtitle/other track and probe score 100. That is a Q1 container-only stream-copy candidate, not corruption and not current product playback. Current decode/playback remains 0; the earlier same-fingerprint Windows Chrome Q1 result remains historical evidence only. The combined priority/range/remux tests pass 36/36, syntax/JSON/diff checks pass, and independent evidence review is clean.
+The priority sample remains read-only: Drive ID `17FhpF8e0lElLZSA3-yuDkgXJnMdwOB_u`, version counter `26`, 208,001,508 bytes, MPEG-TS under an `.mp4` name and `video/mp4` MIME, H.264/AAC streams. In the authenticated candidate the original-first attempt still fell back to the Google preview iframe and displayed `Google 호환 재생 · 원본 화질 미확인`. This is a reproduced product failure, not playback success. V2-03B already proved browser-side stream-copy remux of this same byte source succeeds; product integration remains pending after the session loop is closed.
 
 ## Decided
 
@@ -86,18 +84,17 @@ The fixed tool serially matched the 208,001,508-byte read-only local mirror to t
 - Candidate remains read-only: `CANDIDATE_DRIVE_WRITES_ENABLED=false` and public `driveMutationsEnabled:false` are unchanged.
 - Treat `QA-TR-03` browser/app lifecycle and seek-specific transport ownership as separate evidence layers. The larger uncached fixture proves stale Range bytes cannot reclaim final app state, while this Chrome run explicitly observed no native cancellation of the superseded A request.
 - Treat local storage exhaustion as a resource failure, not a codec verdict. Only the exact current file/session/source generation may publish its terminal state or remove its temporary file; Google compatibility remains an explicit user choice at this boundary.
-- Treat FFprobe `probesize`/`analyzeduration` as analysis options, not total-I/O bounds. Keep inventory, configured analysis, decode and physical-device playback as separate evidence levels; Q1 stays a candidate until product integration and current-device playback pass.
 
 ## Current execution state
 
 - Completed automated/live-PC unit: `V2-04B` / WP-04 is `BLOCKED(physical iPhone/PWA)` only for QA-SL-05 and true sleep/wake/device behavior; AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain the governing verified subset.
 - `V2-06A` / WP-06 is `IMPLEMENTED_LOCAL` through `QA-TR-01~11`: the final quota/resource classification and source-owner unit is `14c501a`. `QA-TR-12`, actual token-boundary long playback and foreground return remain in `V2-06B`, not silently counted here.
-- Active READY unit: `V2-07A` / WP-07. The priority-sample identity/container unit is `IMPLEMENTED_LOCAL` at `4195245`/`4a02391`; the next discriminating action is a complete metadata-only inventory of the privately captured canonical target root, followed by risk-based representative selection. `V2-06B` has its prerequisite satisfied but remains `BLOCKED(active V2-07A priority)`; `V2-07B` remains blocked on the corpus matrix.
-- Product runtime commit: `14c501ad80a3950f4b6886dd3a5ae31b031c5af6`; current V2-07A QA commits: probe tool `41952452cb5f837915b161d3bcfc723692c3b939`, redacted evidence `4a02391`. Earlier QA evidence commits remain on `codex/v2-kickoff-diagnostics` and unchanged.
-- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, public-byte equality, and the priority file's stable authenticated Drive version/content identity/parent/capability fence around the read-only probe.
-- Not verified: complete target-root inventory/probe matrix, current product Q1 integration, current priority-file decode/seek/sustained playback, physical iPhone Chrome tab/home-screen PWA callback/session/playback, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
+- Active READY unit: `V2-07A` / WP-07. Stable read-only identity and the prior exact-sample Q1 result make the next discriminating action a bounded metadata/container/track probe for the 208,001,508-byte priority sample, recorded in a private manifest without product/source mutation. `V2-06B` has its prerequisite satisfied but remains `BLOCKED(active V2-07A priority)` because long playback cannot answer the sample's earlier container-entry failure; `V2-07B` remains blocked on the probe matrix.
+- Product runtime commit: `14c501ad80a3950f4b6886dd3a5ae31b031c5af6`; QA evidence commits: `7dcea0df95f25c661202ea3ca0363365d269ab05`, `724e91826bd27aeb4d54642fd7d84aa5859c1ec5`, `a9a2ac396491cf87f1be32acb45b590dea6abf66`, `d5f140e7fec4b3c7619dbda7858bf75e5f4ceef2`, `7f507aa45c5e1ba9d70b31d287c5cdfd1e08a224`, and `b2e6afe2bb87c6cfecb04d1ed090dd2202ec3861`, all on `codex/v2-kickoff-diagnostics`. This checkpoint update follows them locally.
+- Verified live: exact candidate PC Chrome cookie/session recovery, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, Drive listing, active controlling SW, candidate identity/config, and public-byte equality.
+- Not verified: physical iPhone Chrome tab/home-screen PWA callback and session persistence, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
 - External writes completed once and read back: candidate deployment version `7dc03568-97e1-4a30-ab45-58b6c6cbd189`. Do not repeat it without a new committed change.
-- The V2-06A runtime work and the V2-07A probe/evidence units are not deployed. Production/main/remotes and the existing candidate remain unchanged.
+- The eight V2-06A runtime units and six QA evidence units are not deployed. Production/main/remotes and the existing candidate remain unchanged.
 
 ## Waiting on the user
 
@@ -105,7 +102,7 @@ The fixed tool serially matched the 208,001,508-byte read-only local mirror to t
 
 ## Next first action
 
-Inventory the privately captured canonical target media root through paginated, metadata-only authenticated Drive reads. Prove complete pagination and record redacted counts by media type, extension, MIME, size/risk band, version/capability availability and inventory errors without reading file bodies. Then select the smallest risk representatives for bounded probes, keeping inventory, probe, decode and device playback counts separate. Do not search by folder name, convert/upload/share/mutate originals, or call metadata inventory a playback pass.
+Start the `V2-07A` priority-sample probe without changing product runtime. Revalidate the exact 208,001,508-byte read-only Drive identity before and after a bounded metadata/container/track probe; distinguish displayed `.mp4`/`video/mp4` metadata from actual MPEG-TS packaging and H.264/AAC tracks; record private metadata/probed/decoded counts and the Q0-container-failure versus Q1-stream-copy candidate in the existing private QA structure. Do not convert, upload, share or mutate the original, and do not call the prior Q1 derivative or Google iframe a product playback success.
 
 ## Tried
 
