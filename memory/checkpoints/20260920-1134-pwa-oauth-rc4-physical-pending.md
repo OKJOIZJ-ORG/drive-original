@@ -1,4 +1,4 @@
-# Checkpoint — PWA OAuth rc.4 physical return accepted; V2-07A adapter next — 2026-09-20 11:34 KST
+# Checkpoint — PWA OAuth rc.4 candidate ready; physical iPhone boundary open — 2026-09-20 11:26 KST
 
 ## The story so far
 
@@ -88,13 +88,11 @@ Commit `3597e6399056908542680f2a7a5266effd40e96a` ships `1.22.0-rc.4` for that s
 
 The clean commit was deployed to the existing read-only candidate as Cloudflare Worker version `28d2a9fc-730e-48d4-b060-8e49554a8c7b`. HTTPS readback matched all 12 allowlisted public files byte-for-byte against the commit and three internal routes returned 404. The final full suite passes 298/298; JavaScript syntax, diff, secret scan and Worker dry-run pass; final independent review is clean. After updating the controlled PC tab, the pending first paint stayed inert, one credential request returned 200, `1.22.0-rc.4` settled to `Drive 연결됨` with real Drive data, the candidate service worker was activated and controlling, and the session marker was valid. This closes the implementation, deploy/readback and controlled-PC regression layers only. Physical iPhone Chrome-tab and installed home-screen PWA callback/session persistence remain unverified.
 
-The user then completed the exact three-step physical iPhone home-screen procedure and reported `1/2/3 됨`: the installed PWA updated/opened at `1.22.0-rc.4`, one Google Drive connection returned to `Drive 연결됨` with the real folder list instead of the connect screen, and a full app termination/relaunch stayed connected without renewed consent. This user-confirmed physical-device result closes the reported standalone OAuth return/relaunch loop and QA-SL-05 boundary for this candidate. It does not prove iPhone Chrome-tab media playback, actual token-expiry or sleep/wake renewal, long playback, or the priority MPEG-TS sample.
-
 ## Decided
 
 - D-050 and D-051 remain in force: same-origin serverless auth is the control plane, while original Drive bytes remain direct browser/service-worker data-plane traffic.
 - Candidate origin is fixed to `https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev`; production/main/remotes remain untouched.
-- All four Worker secrets are verified by binding name. A real callback and credential 200 prove the client pairing and server callback in controlled PC Chrome; the exact `1.22.0-rc.4` installed-PWA auth return and relaunch persistence are additionally user-confirmed on a physical iPhone.
+- All four Worker secrets are verified by binding name. A real callback and credential 200 prove the client pairing and server callback for one controlled Chrome session, but do not yet prove installed-PWA or iPhone session persistence.
 - Auth and Drive/appData writes remain separate gates. Keep `driveMutationsEnabled:false` through identity and appData snapshot/read/compare even after login works.
 - Keep the 10-minute OAuth transaction TTL. Recover expiry safely in the app instead of weakening the replay window.
 - Callback recovery never masks missing or malformed Worker crypto configuration, and query parsing accepts only own, string-valued allowlist entries.
@@ -111,22 +109,22 @@ The user then completed the exact three-step physical iPhone home-screen procedu
 
 ## Current execution state
 
-- `V2-04B` / WP-04 has an implemented, reviewed and deployed `1.22.0-rc.4` candidate at `3597e63`. Controlled PC AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain verified; the physical iPhone home-screen PWA now also passes the exact auth return, real-listing and full-relaunch persistence checks, closing the reported QA-SL-05 loop. Actual token-expiry/sleep-wake duration remains A-004/V2-09B evidence rather than being inferred from relaunch.
+- Priority unit `V2-04B` / WP-04 has an implemented, reviewed and deployed `1.22.0-rc.4` candidate at `3597e63`. Controlled PC AUTH-03~09, QA-AU-01/02/05/06/07/09 and QA-SL-01/03 remain verified; the updated PC candidate also proves inert session recovery, credential 200, a valid session marker, active controlling SW and live Drive listing. QA-SL-05 and the standalone OAuth browsing-context handoff remain open until a physical iPhone home-screen PWA completes the round trip and survives a relaunch.
 - `V2-06A` / WP-06 is `IMPLEMENTED_LOCAL` through `QA-TR-01~11`: the final quota/resource classification and source-owner unit is `14c501a`. `QA-TR-12`, actual token-boundary long playback and foreground return remain in `V2-06B`, not silently counted here.
 - Paused-after-savepoint READY unit: `V2-07A` / WP-07. Priority identity/container evidence is `4195245`/`4a02391`, canonical-root inventory is `e928f7b`/`78b1b14`, deterministic representative selection is `dd30d2b`/`56248e5`, and the bounded core is `31bb099`. Its next action is the separately reviewed browser adapter, followed by a serial 64-KiB front sniff over the private 38-object manifest. `V2-06B` remains `BLOCKED(active V2-07A priority)`; `V2-07B` remains blocked on the bounded representative matrix.
 - Product runtime candidate commit: `3597e6399056908542680f2a7a5266effd40e96a`; current V2-07A QA commits: priority `4195245`/`4a02391`, inventory `e928f7b`/`78b1b14`, selection `dd30d2b`/`56248e5`, bounded core `31bb099`.
 - Verified live: exact candidate PC Chrome cookie/session recovery through `1.22.0-rc.4`, first-paint lock, same-profile new-tab recovery, one-request concurrent refresh with monotonic revision, credential 200, valid memory-only session marker, active controlling SW, real Drive listing, candidate identity/config, priority identity/container fence, two matching complete metadata-only root passes, and byte-stable private selection of 38 representatives covering 64 metadata-risk categories.
-- Not verified: any body probe for the 38 representatives, the bounded browser adapter, the complete container/track matrix, current product Q1 integration, current priority-file decode/seek/sustained playback, physical iPhone Chrome-tab and home-screen media playback, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
+- Not verified: any body probe for the 38 representatives, the bounded browser adapter, the complete container/track matrix, current product Q1 integration, current priority-file decode/seek/sustained playback, physical iPhone Chrome tab/home-screen PWA callback/session/playback after the reported loop, actual token-expiry/sleep-wake duration, pause/hidden with an already pending media pull, real Drive/TCP/CORS slow-tail/tail-index/seek/large-file behavior, app-owned native Range cancellation, native large-file throughput, decode from a partial non-fragmented MP4 `mdat`, the remaining QA-TR matrix, and any Drive/appData write or migration.
 - External writes completed once and read back: current product candidate version `28d2a9fc-730e-48d4-b060-8e49554a8c7b` and separate public-code-only QA transport version `d65c5aa8-cca6-4f6a-9211-be1d115fbe32`. Do not repeat either without a new committed change.
 - The V2-06A runtime work and V2-07A product code remain undeployed. Production, main and remotes are unchanged; the product candidate remains read-only with `driveMutationsEnabled:false`.
 
 ## Waiting on the user
 
-- Empty. The exact physical iPhone home-screen auth return/relaunch boundary has been reported successful. Do not request it again; retain the separate A-004 long-duration and media-playback gates.
+- One physical boundary is required to close `V2-04B`: update/open the existing iPhone home-screen PWA at `1.22.0-rc.4`, complete one Google Drive connection round trip, then fully close and relaunch it. Expected results are `Drive 연결됨` plus the real folder list without returning to the connect screen, followed by a connected relaunch without renewed consent. This is device observation, not new action permission; continue other approved READY work while awaiting it.
 
 ## Next first action
 
-Implement and review the V2-07A browser adapter that binds the authenticated in-page private 38-object manifest to the identity-fenced bounded core, then run only the serial 64-KiB front sniff under the recorded budgets; do not expose identifiers or run the unconstrained core directly.
+Record the physical iPhone `1.22.0-rc.4` outcome without treating a mere Google iframe/open or return to `/` as success. If the PWA shows the real library after consent and remains connected after a full relaunch, close `V2-04B`; otherwise capture the first failed surface without weakening cookie/Fetch Metadata policy. In parallel or immediately afterward, resume the separately reviewed V2-07A browser adapter and the serial private 38-object bounded sniff; do not run the unconstrained core directly.
 
 ## Tried
 
