@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { analyzePriorityProbe, PriorityProbeError } from './priority-probe.mjs';
 
@@ -291,4 +292,42 @@ test('analysis options and unmeasured I/O, index, seek and decode stay distinct'
     configuredContainerAnalysisCount: 1,
     decodedInThisRunCount: 0
   });
+});
+
+test('committed evidence binds the fixed probe tool without exposing private identity', async () => {
+  const evidence = JSON.parse(await readFile(
+    new URL('./results.redacted.json', import.meta.url),
+    'utf8'
+  ));
+  assert.equal(evidence.schema, 'drive-original.v2-07a-priority-probe-evidence-redacted/2');
+  assert.equal(evidence.probeToolCommit, '41952452cb5f837915b161d3bcfc723692c3b939');
+  assert.equal(
+    evidence.probeOutput.schema,
+    'drive-original.v2-07a-priority-probe-output-redacted/2'
+  );
+  assert.equal(evidence.driveObservation.filesVersionMatchedBeforeAfter, true);
+  assert.equal(evidence.driveObservation.canonicalTargetRootConfirmedFolder, true);
+  assert.deepEqual(evidence.probeOutput.configuredContainerAnalysis.formatNames, ['mpegts']);
+  assert.equal(evidence.probeOutput.configuredContainerAnalysis.video.codec, 'h264');
+  assert.equal(evidence.probeOutput.configuredContainerAnalysis.audio.codec, 'aac');
+  assert.equal(
+    evidence.probeOutput.classification.qPathCandidate,
+    'Q1-container-only-stream-copy'
+  );
+  assert.equal(evidence.probeOutput.classification.currentProductPlaybackVerified, false);
+  assert.equal(evidence.probeOutput.classification.physicalIphoneOrPwaVerified, false);
+  assert.deepEqual(evidence.coverage, {
+    targetRootInventoryCount: 0,
+    priorityFileMetadataCount: 1,
+    configuredContainerAnalysisCount: 1,
+    decodedInThisRunCount: 0,
+    historicalExactFingerprintQ1DecodedCount: 1
+  });
+
+  const serialized = JSON.stringify(evidence);
+  assert.doesNotMatch(
+    serialized,
+    /[A-Z]:\\|\/Users\/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|https?:\/\/|Bearer\s/i
+  );
+  assert.doesNotMatch(serialized, /"filesVersion(?:Before|After)"|[A-Fa-f0-9]{64}/);
 });

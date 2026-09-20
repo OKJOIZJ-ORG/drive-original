@@ -1,0 +1,159 @@
+{
+  "schema": "drive-original.v2-07a-priority-probe-evidence-redacted/2",
+  "recordedAt": "2026-09-20T00:00:00Z",
+  "probeToolCommit": "41952452cb5f837915b161d3bcfc723692c3b939",
+  "productBaselineCommit": "14c501ad80a3950f4b6886dd3a5ae31b031c5af6",
+  "environment": {
+    "deviceClass": "desktop",
+    "os": "Windows 11 Pro 10.0.26200 x64",
+    "ffprobe": "9.0.1-full_build-www.gyan.dev",
+    "candidateAuthenticatedDriveRead": true,
+    "productBrowserPlaybackRun": false
+  },
+  "driveObservation": {
+    "metadataReadBeforeAndAfter": true,
+    "filesVersionMatchedBeforeAfter": true,
+    "filesVersionAtOrAbovePrivateBaseline": true,
+    "filesVersionAdvancedSincePrivateBaseline": true,
+    "fileIdMatchedPrivateExpectation": true,
+    "contentRevisionChecksumSizeAndModifiedTimeMatchedPrivateExpectation": true,
+    "nameMimeAndSizeMatchedPrivateExpectation": true,
+    "singleParentMatchedBeforeAfter": true,
+    "canonicalTargetRootCapturedPrivately": true,
+    "canonicalTargetRootConfirmedFolder": true,
+    "trashed": false,
+    "canDownload": true,
+    "canReadRevisions": true,
+    "privateValues": "omitted"
+  },
+  "probeOutput": {
+    "schema": "drive-original.v2-07a-priority-probe-output-redacted/2",
+    "producer": "priority-probe.mjs@v2-07a.2",
+    "source": {
+      "label": "priority-sample-1",
+      "metadataExtension": ".mp4",
+      "metadataMimeType": "video/mp4",
+      "sizeBytes": 208001508,
+      "localFingerprintMatchedBeforeAndAfter": true,
+      "localFileStateUnchanged": true,
+      "privateIdentityValues": "omitted"
+    },
+    "driveFence": {
+      "filesVersionMatchedBeforeAfter": true,
+      "filesVersionAtOrAbovePrivateBaseline": true,
+      "filesVersionAdvancedSincePrivateBaseline": true,
+      "privateValues": "omitted"
+    },
+    "configuredContainerAnalysis": {
+      "ffprobeVersion": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers",
+      "probeAnalysisSizeOptionBytes": 8388608,
+      "analyzeDurationOptionUs": 5000000,
+      "processTimeoutMs": 30000,
+      "totalInputBytesReadMeasured": false,
+      "elapsedMs": 168,
+      "probeScore": 100,
+      "probeConfidence": "high",
+      "formatNames": ["mpegts"],
+      "formatLongName": "MPEG-TS (MPEG-2 Transport Stream)",
+      "durationSeconds": 1609.344,
+      "startTimeSeconds": 1.445333,
+      "bitRate": 1033969,
+      "streamCount": 2,
+      "streamTypeCounts": {
+        "video": 1,
+        "audio": 1,
+        "subtitle": 0,
+        "other": 0
+      },
+      "otherStreamTypes": [],
+      "video": {
+        "codec": "h264",
+        "codecTag": "[27][0][0][0]",
+        "profile": "High",
+        "level": 30,
+        "width": 360,
+        "height": 640,
+        "pixelFormat": "yuv420p",
+        "bitDepth": 8,
+        "averageFrameRate": "30/1",
+        "realFrameRate": "30/1",
+        "sampleAspectRatio": null,
+        "displayAspectRatio": null,
+        "colorRange": "tv",
+        "colorSpace": "bt709",
+        "colorTransfer": "bt709",
+        "colorPrimaries": "bt709",
+        "rotationDegrees": null,
+        "rotationSource": null,
+        "sideData": [],
+        "hdrMetadataPresent": false,
+        "hdrBearing": false,
+        "hdrSignals": [],
+        "default": false
+      },
+      "audio": {
+        "codec": "aac",
+        "codecTag": "[15][0][0][0]",
+        "profile": "LC",
+        "sampleRate": 48000,
+        "channels": 2,
+        "channelLayout": "stereo",
+        "language": "und",
+        "default": false
+      },
+      "subtitles": [],
+      "indexPresence": "not-measured",
+      "seekBehavior": "not-measured"
+    },
+    "classification": {
+      "metadataContainerMismatch": true,
+      "exactH264AacPair": true,
+      "corruptionConfirmed": false,
+      "qPathCandidate": "Q1-container-only-stream-copy",
+      "result": "unverified-current-playback",
+      "currentProductPlaybackVerified": false,
+      "physicalIphoneOrPwaVerified": false
+    },
+    "coverage": {
+      "metadataInventoryCount": 1,
+      "configuredContainerAnalysisCount": 1,
+      "decodedInThisRunCount": 0
+    },
+    "redaction": {
+      "account": "omitted",
+      "fileIdAndRevisions": "omitted",
+      "checksums": "omitted",
+      "paths": "omitted",
+      "mediaBytesAndFrames": "omitted"
+    },
+    "limitations": {
+      "ffprobeAnalysisOptionsAreNotTotalIoBounds": true,
+      "indexAndSeekNotMeasured": true,
+      "decodeOrPlaybackPerformed": false
+    }
+  },
+  "historicalComparison": {
+    "exactFingerprintBoundToCurrentContentIdentity": true,
+    "q0CurrentProductOutcome": "historical container-or-decoder failure",
+    "q1WindowsChromeResult": "historical stream-copy pass",
+    "historicalDecodeOrPlaybackCount": 1,
+    "currentProductPlaybackVerified": false,
+    "physicalIphoneOrPwaVerified": false
+  },
+  "coverage": {
+    "targetRootInventoryCount": 0,
+    "priorityFileMetadataCount": 1,
+    "configuredContainerAnalysisCount": 1,
+    "decodedInThisRunCount": 0,
+    "historicalExactFingerprintQ1DecodedCount": 1
+  },
+  "nextDiscriminator": "inventory the privately captured canonical target media root by metadata, then select risk representatives before V2-07B product integration",
+  "redaction": {
+    "account": "omitted",
+    "fileIdFolderIdAndRevisions": "omitted",
+    "checksumsAndSampleDigests": "omitted",
+    "namesAndPaths": "omitted",
+    "tokensCookiesAndUrls": "omitted",
+    "mediaBytesAndFrames": "omitted"
+  }
+}
