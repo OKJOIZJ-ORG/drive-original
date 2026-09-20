@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
   collectInventoryPass,
@@ -595,4 +596,38 @@ test('stable output is independent of provider item ordering', () => {
   const report = summarize({ firstPass: first, secondPass: second, elapsedMs: 1 });
   assert.equal(report.counts.totalUniqueItems, 3);
   assert.equal(report.completeness.repeatedPrivateInventoryMatched, true);
+});
+
+test('committed evidence binds the reviewed tool and stays aggregate-only', async () => {
+  const evidence = JSON.parse(await readFile(
+    new URL('./results.redacted.json', import.meta.url),
+    'utf8'
+  ));
+  assert.equal(evidence.schema, 'drive-original.v2-07a-root-inventory-evidence-redacted/1');
+  assert.equal(evidence.inventoryToolCommit, 'e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b');
+  assert.equal(evidence.productBaselineCommit, '14c501ad80a3950f4b6886dd3a5ae31b031c5af6');
+  assert.equal(evidence.execution.mediaBodiesRead, 0);
+  assert.equal(evidence.execution.driveMutations, 0);
+  assert.equal(evidence.inventoryOutput.completeness.repeatedPrivateInventoryMatched, true);
+  assert.equal(evidence.inventoryOutput.completeness.containmentComplete, true);
+  assert.equal(evidence.inventoryOutput.completeness.shortcutClassificationComplete, true);
+  assert.equal(evidence.inventoryOutput.completeness.inventoryErrorCount, 0);
+  assert.equal(evidence.inventoryOutput.risk.prioritySampleCount, 1);
+  assert.equal(evidence.inventoryOutput.counts.totalUniqueItems, 8471);
+  assert.equal(
+    evidence.inventoryOutput.counts.totalUniqueItems,
+    evidence.inventoryOutput.counts.folders
+      + evidence.inventoryOutput.counts.shortcuts
+      + evidence.inventoryOutput.counts.physicalFiles
+  );
+  assert.equal(evidence.inventoryOutput.coverage.configuredContainerAnalysisCount, 0);
+  assert.equal(evidence.inventoryOutput.coverage.decodedInThisRunCount, 0);
+  assert.equal(evidence.inventoryOutput.coverage.physicalDevicePlaybackCount, 0);
+
+  const serialized = JSON.stringify(evidence);
+  assert.doesNotMatch(
+    serialized,
+    /[A-Z]:\\|\/Users\/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|Bearer\s|ya29\.|refresh_token|access_token/i
+  );
+  assert.doesNotMatch(serialized, /"(?:file|folder|root|parent|resourceKey)Id"\s*:/i);
 });

@@ -1,0 +1,180 @@
+{
+  "schema": "drive-original.v2-07a-root-inventory-evidence-redacted/1",
+  "recordedAt": "2026-09-20T00:41:32Z",
+  "inventoryToolCommit": "e928f7b9b6c64ce91fe6aa5278b18b0c82c97c8b",
+  "productBaselineCommit": "14c501ad80a3950f4b6886dd3a5ae31b031c5af6",
+  "execution": {
+    "candidateAppVersion": "1.22.0-rc.3",
+    "authenticatedDesktopChrome": true,
+    "injectedBundleSha256": "98FF08594242E25567D93CD00545BBB0867FB82BADAA8D7EA305B2CA56477F81",
+    "bundleIntegrityCheckedBeforeExecution": true,
+    "priorityFileAndRootProvenanceChecked": true,
+    "mediaBodiesRead": 0,
+    "driveMutations": 0
+  },
+  "inventoryOutput": {
+    "schema": "drive-original.v2-07a-root-inventory-output-redacted/1",
+    "producer": "root-inventory.mjs@v2-07a.1",
+    "source": {
+      "canonicalRootResolvedFromPriorityParent": true,
+      "knownPriorityAnchorChecked": true,
+      "rootNameOrPathUsedForSelection": false,
+      "privateRootIdentity": "omitted"
+    },
+    "completeness": {
+      "repeatedPassCount": 2,
+      "repeatedPrivateInventoryMatched": true,
+      "accountStableWithinEachPass": true,
+      "rootMetadataStableWithinEachPass": true,
+      "recursiveFolderTraversal": true,
+      "folderShortcutsTraversed": false,
+      "traversedFolderCount": 9,
+      "pageCountPerPass": [26, 26],
+      "duplicateReferenceCountPerPass": [0, 0],
+      "incompleteSearchCount": 0,
+      "paginationCycleCount": 0,
+      "inventoryErrorCount": 0,
+      "shortcutResolutionErrorCount": 0,
+      "containmentComplete": true,
+      "shortcutClassificationComplete": true,
+      "providerTransactionalSnapshotGuaranteed": false,
+      "elapsedMs": 50089
+    },
+    "counts": {
+      "totalUniqueItems": 8471,
+      "folders": 8,
+      "shortcuts": 0,
+      "folderShortcutsNotTraversed": 0,
+      "physicalFiles": 8463,
+      "classifiedUniqueObjects": 8463,
+      "videoObjects": 2052,
+      "imageObjects": 6410,
+      "audioObjects": 0,
+      "otherObjects": 1,
+      "visibleMediaReferences": 8462,
+      "uniqueMediaObjects": 8462,
+      "uniqueShortcutTargets": 0
+    },
+    "extensions": {
+      ".avi": 5,
+      ".bmp": 1,
+      ".gif": 547,
+      ".jpeg": 306,
+      ".jpg": 4916,
+      ".mkv": 8,
+      ".mov": 141,
+      ".mp4": 1828,
+      ".png": 167,
+      ".webm": 38,
+      ".webp": 448,
+      "<other>": 58
+    },
+    "mimeTypes": {
+      "<other>": 25,
+      "image/gif": 563,
+      "image/jpeg": 5237,
+      "image/png": 140,
+      "image/webp": 446,
+      "video/mp4": 1860,
+      "video/quicktime": 141,
+      "video/webm": 38,
+      "video/x-matroska": 8,
+      "video/x-msvideo": 5
+    },
+    "sizes": {
+      "bands": {
+        ">=4GiB": 2,
+        ">0-24MiB": 8132,
+        ">24-64MiB": 181,
+        ">256MiB-<2GiB": 35,
+        ">64-96MiB": 41,
+        ">96-256MiB": 72
+      },
+      "knownSizeFileCount": 8463,
+      "unknownSizeFileCount": 0,
+      "totalKnownSizeBytes": "63731305297",
+      "maximumKnownSizeBytes": "4437708818"
+    },
+    "metadataAvailability": {
+      "size": { "present": 8463, "absent": 0 },
+      "modifiedTime": { "present": 8463, "absent": 0 },
+      "version": { "present": 8463, "absent": 0 }
+    },
+    "capabilities": {
+      "canDownload": { "true": 8463 },
+      "canReadRevisions": { "true": 8463 },
+      "canListChildren": { "true": 8 }
+    },
+    "risk": {
+      "prioritySampleCount": 1,
+      "extensionCounts": {
+        ".mp4": 1828,
+        ".mov": 141,
+        ".webm": 38,
+        ".mkv": 8,
+        ".avi": 5,
+        ".bmp": 1,
+        ".gif": 547,
+        ".webp": 448
+      },
+      "largestSizeBytesByExtension": {
+        ".mp4": "1083524091",
+        ".mov": "416479784",
+        ".webm": "38069635",
+        ".mkv": "135356052",
+        ".avi": "56948584",
+        ".bmp": "160031",
+        ".gif": "54540085",
+        ".webp": "20918714"
+      },
+      "rareExtensionCount": 14,
+      "animatedGifOrWebp": 995,
+      "largeMp4OrMov": 35,
+      "videosAtLeastOneHour": 20,
+      "maximumVideoDurationMillis": "9578623",
+      "imagesWithRotation": 68,
+      "extensionMimeMismatchCount": 59,
+      "downloadBlocked": 0,
+      "downloadCapabilityUnknown": 0,
+      "missingVersion": 0,
+      "missingSize": 0,
+      "unresolvedShortcutTargetCount": 0,
+      "staleShortcutTargetMimeCount": 0
+    },
+    "coverage": {
+      "metadataInventoryCount": 8463,
+      "configuredContainerAnalysisCount": 0,
+      "decodedInThisRunCount": 0,
+      "physicalDevicePlaybackCount": 0
+    },
+    "limitations": {
+      "fileBodiesRead": false,
+      "providerListIsNotTransactionalSnapshot": true,
+      "shortcutsToFoldersNotTraversed": 0,
+      "metadataInventoryIsPlaybackProof": false
+    },
+    "redaction": {
+      "account": "omitted",
+      "rootFileAndRevisionIds": "omitted",
+      "namesAndPaths": "omitted",
+      "checksumsAndInventoryDigests": "omitted",
+      "pageTokensUrlsTokensAndCookies": "omitted",
+      "mediaBytesFramesAndThumbnails": "omitted"
+    }
+  },
+  "interpretation": {
+    "stableObservationNotAtomicSnapshot": true,
+    "metadataIsNotContainerCodecOrPlaybackProof": true,
+    "prioritySampleRemainsCurrentQ1ContainerOnlyCandidate": true,
+    "currentProductPlaybackVerified": false,
+    "physicalIphoneOrPwaVerified": false
+  },
+  "nextDiscriminator": "select private risk representatives from the stable inventory before bounded container probes and V2-07B product integration",
+  "redaction": {
+    "account": "omitted",
+    "fileFolderRevisionAndResourceKeyValues": "omitted",
+    "namesAndPaths": "omitted",
+    "tokensCookiesAndUrls": "omitted",
+    "mediaBytesFramesAndThumbnails": "not-read"
+  }
+}
