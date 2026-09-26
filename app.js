@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.4';
+const APP_VERSION = '1.22.0-rc.5';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -62,6 +62,7 @@ const PLAYBACK_MODE = Object.freeze({
   SEQUENTIAL: 'original-sequential',
   OPFS: 'original-opfs',
   MEMORY: 'original-memory',
+  REPACKAGED: 'original-repackaged',
   COMPATIBILITY: 'compatibility-preview'
 });
 
@@ -635,6 +636,24 @@ let mediaSeekWatchdog = null;
 let mediaSeekGeneration = 0;
 let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
+let q1Playback = null;
+let q1Retirement = Promise.resolve({ settled: true });
+let pendingPlaybackRestore = null;
+
+function retireQ1Playback(owner) {
+  if (!owner || owner.retirement) return owner?.retirement;
+  owner.controller.abort();
+  const immediate = owner.player?.dispose();
+  const previous = q1Retirement;
+  owner.retirement = (async () => {
+    await owner.setupDone;
+    const cleanup = await (immediate || owner.player?.dispose());
+    const prior = await previous;
+    return { settled: prior.settled && owner.cleanupOk !== false && cleanup?.settled !== false };
+  })().catch(() => ({ settled: false }));
+  q1Retirement = owner.retirement;
+  return owner.retirement;
+}
 let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
 let swipePreviewDirection = null;
@@ -5194,7 +5213,7 @@ function failMediaSeekWatchdog(owner) {
     terminal: true
   }, owner.session);
 
-  if (owner.sourceAttempt === 'blob') {
+  if (owner.sourceAttempt === 'blob' || owner.sourceAttempt === 'q1') {
     clearDirectMediaSources();
     state.mediaAttempt = 'failed';
     showMediaError(
@@ -5325,6 +5344,10 @@ function setPlayerCurrentTime(video, targetTime, origin = 'app') {
     ? Math.max(0, Math.min(duration, numericTarget))
     : Math.max(0, numericTarget);
   if (Math.abs((Number(video.currentTime) || 0) - target) < 0.0001) return false;
+  if (state.mediaAttempt === 'q1' && q1Playback?.player) {
+    q1Playback.player.seek(target, { autoplay: !video.paused }).catch(() => {});
+    return true;
+  }
   beginMediaSeekIntent(video, target, origin);
   try {
     video.currentTime = target;
@@ -5458,7 +5481,8 @@ function isMediaFrameWatchdogSource() {
     && [PLAYBACK_MODE.RANGE, PLAYBACK_MODE.SEQUENTIAL].includes(state.mediaPlaybackMode);
   const buffered = state.mediaAttempt === 'blob'
     && [PLAYBACK_MODE.OPFS, PLAYBACK_MODE.MEMORY].includes(state.mediaPlaybackMode);
-  return direct || buffered;
+  const repackaged = state.mediaAttempt === 'q1' && state.mediaPlaybackMode === PLAYBACK_MODE.REPACKAGED;
+  return direct || buffered || repackaged;
 }
 
 function canWatchMediaFrameProgress(video = el.videoPlayer) {
@@ -5519,7 +5543,7 @@ function scheduleMediaFrameWatchdog(owner) {
       terminal: true
     }, owner.session);
 
-    if (owner.sourceAttempt === 'blob') {
+    if (owner.sourceAttempt === 'blob' || owner.sourceAttempt === 'q1') {
       clearDirectMediaSources();
       state.mediaAttempt = 'failed';
       showMediaError(
@@ -6967,7 +6991,7 @@ function capturePlaybackSnapshot() {
   if (!video || video.hidden) return null;
   return {
     time: Number.isFinite(video.currentTime) ? video.currentTime : 0,
-    paused: Boolean(video.paused),
+    paused: Boolean(video.paused) && !state.pendingPlay,
     volume: Number.isFinite(video.volume) ? video.volume : 1,
     muted: Boolean(video.muted),
     playbackRate: Number.isFinite(video.playbackRate) ? video.playbackRate : 1,
@@ -6982,8 +7006,12 @@ function restorePlaybackSnapshot(video, snapshot, session) {
   video.volume = snapshot.volume;
   video.muted = snapshot.muted;
   video.playbackRate = snapshot.playbackRate;
+  const sourceGeneration = mediaSourceGeneration;
+  const restore = { fileId: state.selected?.id, session, snapshot };
+  pendingPlaybackRestore = restore;
   video.addEventListener('loadedmetadata', () => {
-    if (state.mediaSession !== session || !isCurrentMediaEvent(video)) return;
+    if (state.mediaSession !== session || mediaSourceGeneration !== sourceGeneration || !isCurrentMediaEvent(video)) return;
+    if (pendingPlaybackRestore === restore) pendingPlaybackRestore = null;
     if (snapshot.time > 0) {
       setPlayerCurrentTime(
         video,
@@ -7162,7 +7190,10 @@ async function attemptCurrentPlayback(session) {
     if (session === state.mediaSession) state.pendingPlay = false;
   } catch (error) {
     if (session !== state.mediaSession) return;
-    state.pendingPlay = false;
+    // Native unsupported-container rejection does not revoke the user's play
+    // intent; the Q0 retry and Q1 repackager may still honor it. Gesture denial
+    // and unrelated failures must not silently retry autoplay.
+    if (error?.name !== 'NotSupportedError') state.pendingPlay = false;
     if (error?.name === 'NotAllowedError') {
       syncMediaSeekWatchdog();
       clearMediaFrameWatchdog('autoplay-blocked');
@@ -7248,6 +7279,102 @@ function decideUnsupportedFormatRecovery({
   return 'buffer-original';
 }
 
+async function tryOriginalTsPlayback(file, session) {
+  if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
+  const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
+  const oldAttempt = state.mediaAttempt;
+  const controller = new AbortController();
+  let setupFinished;
+  const previousRetirement = q1Retirement;
+  const owner = { player: null, controller, cleanupOk: true,
+    setupDone: new Promise(resolve => { setupFinished = resolve; }) };
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = controller;
+  state.mediaAttempt = 'q1-probing';
+  q1Playback = owner;
+  const current = () => q1Playback === owner && !controller.signal.aborted
+    && state.selected?.id === file.id && state.mediaSession === session
+    && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration;
+  const stopFailure = code => {
+    if (!current()) return;
+    emitMediaDiagnosticStage('q1-failed', { reason: code, terminal: true }, session);
+    showDrivePreview(file, '원본 스트림 재포장 경로에서 안전하게 재생을 이어가지 못했습니다.');
+  };
+  try {
+    const retired = await previousRetirement;
+    if (!current()) return true;
+    if (!retired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
+    const [{ openDriveQ1Source }, { createTsPlayer }] = await Promise.all([
+      import('./media/drive-source.mjs'), import('./media/ts-player.mjs')
+    ]);
+    if (!current()) return true;
+    const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
+    metadataUrl.searchParams.set('supportsAllDrives', 'true');
+    const openSource = ({ signal }) => openDriveQ1Source({
+      fileId: file.id, accountKey: account, accountGeneration, signal, isCurrent: current,
+      readMetadata: async ({ signal }) => {
+        const headers = file.resourceKey ? { 'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}` } : {};
+        const response = await driveFetch(metadataUrl.href, { signal, headers });
+        return response.json();
+      },
+      readRange: ({ range, signal }) => fetch(buildMediaUrl(file), { signal, cache: 'no-store', headers: { Range: range } })
+    });
+    // A sniff is bounded and identity-fenced. Extension/MIME is not the route.
+    const sniff = await openSource({ signal: controller.signal });
+    let head;
+    try { head = await sniff.read({ start: 0, end: Math.min(Number(sniff.identity.size), 65536) - 1 }); }
+    finally {
+      const cleanup = await sniff.abort();
+      owner.cleanupOk = cleanup.settled;
+      if (!cleanup.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
+    }
+    if (!current()) return true;
+    const ts = Number(sniff.identity.size) % 188 === 0 && head.length >= 188 * 5
+      && [0,188,376,564,752].every(offset => head[offset] === 0x47);
+    if (!ts) {
+      q1Playback = null; controller.abort(); state.mediaAbortController = null; state.mediaAttempt = oldAttempt;
+      return false;
+    }
+    const snapshot = pendingPlaybackRestore?.fileId === file.id && pendingPlaybackRestore.session === session
+      ? pendingPlaybackRestore.snapshot : capturePlaybackSnapshot();
+    // Retire native Q0 without disposing this newly selected owner.
+    q1Playback = null; clearDirectMediaSources(); q1Playback = owner;
+    state.mediaAttempt = 'q1'; state.mediaPlaybackMode = PLAYBACK_MODE.REPACKAGED;
+    state.mediaTransportVerified = false; state.mediaTransportStarted = false; state.mediaDecodeVerified = false;
+    setNativeVideoActionsAvailable(true);
+    el.videoPlayer.hidden = false; el.videoPlayer.dataset.mediaSession = String(session);
+    const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id);
+    if (poster) { el.videoPlayer.poster = poster; el.videoPlayer.classList.add('has-poster'); }
+    owner.player = createTsPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
+      initialTime: Number.isFinite(snapshot?.time) ? snapshot.time : 0,
+      autoplay: state.pendingPlay || snapshot?.paused === false,
+      onEvent(event) {
+        if (!current()) return;
+        if (event.type === 'starting') {
+          mediaSourceGeneration += 1;
+          clearMediaSeekWatchdog('q1-source'); clearMediaFrameWatchdog('q1-source'); cancelVideoFrameSampling();
+          state.isSeeking = false; state.mediaTransportVerified = false; state.mediaTransportStarted = false;
+          state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
+          showMediaLoading('원본 스트림 재포장 준비 중'); updateQualityDisplay();
+        } else if (event.type === 'buffered') {
+          state.mediaTransportVerified = true; state.mediaTransportStarted = true;
+          state.pendingPlay = false;
+          el.codecNote.textContent = '원본 영상·음성 스트림을 재인코딩 없이 재포장합니다. 실제 표시와 탐색은 별도로 확인합니다.';
+          updateQualityDisplay(); beginVideoFrameSampling(); syncMediaFrameWatchdog();
+        } else if (event.type === 'gesture-required') showPlayerFeedback('화면을 눌러 재생');
+        else if (event.type === 'error') stopFailure(event.code);
+      }
+    });
+    owner.player.ready.catch(() => {});
+    return true;
+  } catch (error) {
+    if (error?.cleanup?.settled === false) owner.cleanupOk = false;
+    if (current()) stopFailure(/^Q1_[A-Z_]+$/.test(error?.message) ? error.message : 'Q1_SETUP_FAILED');
+    return true;
+  } finally { setupFinished(); }
+}
+
 async function handleMediaElementError(kind) {
   if (kind === 'video') {
     clearMediaSeekWatchdog('media-error');
@@ -7258,7 +7385,7 @@ async function handleMediaElementError(kind) {
   if (
     state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'buffer-evaluating'
     || state.mediaAttempt === 'auth-refresh' || state.mediaAttempt === 'retry-wait'
-    || state.mediaAttempt.startsWith('drive-preview')
+    || state.mediaAttempt.startsWith('drive-preview') || state.mediaAttempt.startsWith('q1')
   ) return;
 
   const file = state.selected;
@@ -7332,6 +7459,8 @@ async function handleMediaElementError(kind) {
       });
       if (unsupportedAction === 'retry-range') {
         retryOriginalStream(file, session, '원본 응답을 다시 검증한 뒤 형식 호환성을 확인하는 중');
+      } else if (await tryOriginalTsPlayback(file, session)) {
+        // The Q1 owner controls source identity, append/decode and recovery.
       } else if (unsupportedAction === 'compatibility') {
         showDrivePreview(file, describeVideoPlaybackFailure(mediaErrorCode));
       } else {
@@ -9257,6 +9386,7 @@ function getResolutionCategory(width, height) {
 function getPlaybackQualityLabel(mode, verified) {
   if (mode === PLAYBACK_MODE.COMPATIBILITY) return 'Google 호환 재생 · 원본 화질 미확인';
   if (!verified) return '원본 확인 중';
+  if (mode === PLAYBACK_MODE.REPACKAGED) return '원본 스트림 · 재포장';
   if (mode === PLAYBACK_MODE.SEQUENTIAL) return 'Drive 원본 파일 · 연속 전송';
   if (mode === PLAYBACK_MODE.OPFS) return 'Drive 원본 파일 · 임시 디스크';
   if (mode === PLAYBACK_MODE.MEMORY) return 'Drive 원본 파일 · 메모리';
@@ -9440,6 +9570,10 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  const q1 = q1Playback;
+  q1Playback = null;
+  retireQ1Playback(q1);
+  pendingPlaybackRestore = null;
   clearMediaSeekWatchdog('source-cleared');
   state.isSeeking = false;
   mediaSourceGeneration += 1;

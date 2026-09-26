@@ -1,0 +1,17 @@
+# Public bytes and their maintained Q1 producers must survive a Windows checkout
+# unchanged so producer manifests and committed candidate verification agree.
+/app.js text eol=lf
+/index.html text eol=lf
+/styles.css text eol=lf
+/runtime-config.js text eol=lf
+/sw.js text eol=lf
+/version.json text eol=lf
+/manifest.webmanifest text eol=lf
+/icons/app-icon.svg text eol=lf
+/media/** text eol=lf
+/media/mux-mp4.min.js -text
+/qa/q1-*-audit.cjs text eol=lf
+/qa/v2-07b-ts-q1/*.mjs text eol=lf
+/qa/v2-07b-ts-q1/*-probe.cjs text eol=lf
+/qa/v2-07a-bounded-probe/bounded-probe.mjs text eol=lf
+/qa/v2-07a-container-probe/mpeg-ts-probe.mjs text eol=lf

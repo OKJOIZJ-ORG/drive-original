@@ -1,10 +1,10 @@
-# Checkpoint — continuous source-bound seek — 2026-09-27 00:24
+# Checkpoint — product Q1 slice verified locally — 2026-09-27 01:08
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Prior QA f198ca9; last product ced16ef. Bounded bootstrap plus actual Worker/MSE seeks10/50/90% through EOF on72s generated public media. Native3/browser9, related128/128 tests, refreshed180s one-GOP native3/browser5 pass. Reports continuous-seek-results.redacted.json and seek-playback-results.redacted.json pin final producers.13 bootstrap tests verify admitted PES identity/order/count, raw continuity, bounds/generation/cleanup. Actual target frames7.221333/36.121333/65.021333; ahead<7.73s/span<13.94s. Independent review fixed11.1s EOF pause, true media-error precedence and absolute clock proof.
+Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Product unit after fad6593 is locally verified, pending scoped commit. New media/ player/source/bundles connect native code4 fallback to bounded TS Q1 using actual app+SW. Source21 tests, full324 Node, core120, app5 modes, lifecycle6, native preservation5 and existing functional22 pass. Last three Q1 reports pin final sources; build19-file allowlist byte equality passes. rc.5 local only. Independent review clean after reproduced seek ACK deadlock, false abort cleanup, MMS setting restoration and Q1 seek watchdog fixes. Details/commands/rollback: media/README.md.
 
-Same-start independently extracted original AAC and output have exact compressed bytes/all PCM. Uninterrupted10% PCM differs in16 int16 values by1; retained false, no tolerance added. Decoder-history/PNS cause remains hypothesis. Public media cleaned. Browser muted; audibility/color/total memory open. QA-only, not product/Drive/priority/iPhone/all-format success. Candidate remains rc.4/3597e63, isolated browser unauthenticated/mutations locked; prior user PWA auth acceptance separate. Priority4MiB strict decode false. No original/Drive mutation, deploy, merge or push.
+Product is now locally integrated, but synthetic tests are NOT authenticated Drive/priority/iPhone/full-format acceptance. Candidate remains rc.4/3597e63, isolated browser unauthenticated/mutations locked; prior user PWA auth acceptance separate. Priority4MiB strict decode false remains historical. Current native-first fallback can read substantial data before Q1; actual priority evidence should guide earlier reusable route discovery. Browser audibility/color/total memory and actual expiry/long-run remain open. No original/Drive mutation, deploy, merge or push.
 
 ## Decided
 
@@ -16,7 +16,7 @@ No new local decision. Authenticated Drive/device and operating transition remai
 
 ## Next first action
 
-Close unit with scoped diff/stage/commit, then product Q1 source-owner integration. Read app.js startOriginalRangePlayback/handleMediaElementError/clearDirectMediaSources, SW source/account/range contracts and public build allowlists. App currently routes verified-byte code4 to manual compatibility after native retry; no Q1 product module. Reuse proven worker/GOP/seek primitives under one canonical product owner, avoid QA runtime imports and duplicates. Need actual source identity binding across sparse+sequential reads (QA strong ETag is not proven Google CORS contract), start-at-beginning/audio-leading handling, seek generation replacement, quality labels and public assets. Preserve Q0 first/UI/session/watchdog/state behavior. Inspect metadata/headRevisionId and existing SW read evidence before selecting version fence. Local ETag proof is not Drive revision immutability.
+Review/stage exact product-unit paths and reports, commit, then read-only stat the priority G:/ sample and locate its existing redacted/private identity records to prepare full-original bounded Q1 playback; retain live Drive/device gates and do not redeploy production. If local access is absent, continue independent V2-06B/V2-08A READY work.
 
 ## Tried
 
@@ -27,3 +27,7 @@ Close unit with scoped diff/stage/commit, then product Q1 source-owner integrati
 - Relative timing misses common shifts; seek now checks absolute PTS/DTS.
 - Intentional tail pause has no fixed lifetime; media error precedes cleanup cancellation.
 - Actual rVFC/frame progress/ended, not just append, prove local playback.
+- Awaiting seeked inside fragment ACK deadlocked at6.1s/readyState1/bufferEnd6.101333; independent target promise now allows the next fragment.
+- Aborting real fetch before reader.cancel produced false cleanupFailure; cancellation now starts first, preserving genuine failure/unknown guards.
+- Stale native loadedmetadata restore could own a Q1 source; source-generation fence and carried restore snapshot prevent that.
+- Source abort returns bounded cleanup evidence; unsettled callbacks must block replacement transport owners.

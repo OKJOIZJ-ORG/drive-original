@@ -120,6 +120,14 @@ function prepare({headBytes,bytes,offset,plan}={}) {
   demand(audioStart>=0,'SEEK_INPUT_AUDIO_PREROLL');
   let audioEnd=-1;
   for(let i=audioStart;i<scan.audio.length;i++)if(scan.audio[i].pts+scan.audio[i].frames*audioStep>=videoEnd){audioEnd=i;break;}
+  // A true source EOF may have an audio track ending before the last picture.
+  // Preserve that real gap; require the independently sampled tail endpoint,
+  // not fabricated silence or an absent PES. Non-EOF coverage stays strict.
+  if(audioEnd<0&&!following&&offset+window.length===plan.sourceSize&&scan.audio.length){
+    const last=scan.audio.at(-1),end=last.pts+last.frames*audioStep;
+    if(end===plan.timeline.audioEndTicks&&end>=rap.pts&&videoEnd===plan.timeline.videoEndTicks)
+      audioEnd=scan.audio.length-1;
+  }
   demand(audioEnd>=audioStart,'SEEK_INPUT_AUDIO_COVERAGE');
   const audio=scan.audio.slice(audioStart,audioEnd+1);
   const prerollFrames=audio.reduce((sum,row)=>sum+Math.max(0,Math.min(row.frames,Math.floor((rap.pts-row.pts)/audioStep))),0);

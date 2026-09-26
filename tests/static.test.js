@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.4');
+  assert.equal(metadata.version, '1.22.0-rc.5');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -150,6 +150,31 @@ test('privacy documentation and shell use the same-origin memory-only credential
   assert.match(routes, /X-Drive-Original-CSRF/);
   assert.match(routes, /Sec-Fetch-Site/);
   assert.match(routes, /Cache-Control': 'no-store'/);
+});
+
+test('Q1 public bundles match their exact source manifest and offline shell', () => {
+  const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+  const manifest = JSON.parse(read('media/build.json'));
+  const publicFiles = require('../scripts/public-files.cjs');
+  assert.equal(new Set(publicFiles).size, publicFiles.length);
+  assert.equal(manifest.compiler, '0.28.1');
+  assert.equal(manifest.mux, '7.1.0');
+  for (const [file, record] of Object.entries(manifest.outputs)) {
+    assert.equal(hash(fs.readFileSync(path.join(root, file))), record.sha256, file);
+    for (const [input, expected] of Object.entries(record.inputs)) {
+      assert.equal(hash(fs.readFileSync(path.join(root, input))), expected, input);
+    }
+    assert.doesNotMatch(read(file), /(?:from|import)\s*['"][^'"]*(?:qa\/|node_modules|file:|https?:)/);
+  }
+  assert.equal(hash(fs.readFileSync(path.join(root, 'media/mux-mp4.min.js'))),
+    '4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f');
+  for (const file of publicFiles.filter(file => file.startsWith('media/'))) {
+    assert.ok(read('sw.js').includes(`'./${file}'`), file);
+    assert.ok(fs.existsSync(path.join(root, file)), file);
+  }
+  assert.equal(publicFiles.some(file => /(?:qa\/|build\.json|entry\.mjs|memory\/|\.env)/.test(file)), false);
+  assert.match(read('scripts/build-pages.cjs'), /require\('\.\/public-files\.cjs'\)/);
+  assert.match(read('scripts/publish-pages.cjs'), /require\('\.\/public-files\.cjs'\)/);
 });
 
 test('tail-index MP4 QA seed is small, immutable and keeps moov behind mdat', () => {

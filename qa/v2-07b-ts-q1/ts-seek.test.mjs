@@ -55,6 +55,18 @@ test('near EOF final-frame span has no invented following anchor and fails witho
   assert.equal(input.calls.length,2);
 });
 
+test('product absolute time requests clamp only to actual first/last frame anchors',async()=>{
+  for(const seconds of [0,.001,5,1000]){
+    const result=await probe({fraction:undefined,positionSeconds:seconds});
+    const expected=Math.max(whole.video[0].pts,Math.min(Math.max(...whole.video.map(row=>row.pts)),result.timeline.originTicks+seconds*90000));
+    assert.equal(result.targetTicks,expected);
+    assert.ok(result.local.before.pts<=expected&&result.local.after.pts>=expected);
+  }
+  for(const positionSeconds of [-1,NaN,Infinity])
+    await assert.rejects(probe({fraction:undefined,positionSeconds}),/SEEK_OPTIONS/);
+  await assert.rejects(probe({positionSeconds:0}),/SEEK_OPTIONS/);
+});
+
 test('single full bounded window is deduplicated and legal with one read credit',async()=>{
   const input=reader(),result=await probe({read:input.read,windowBytes:fixture.length,maxWindows:1});
   assert.equal(input.calls.length,1);assert.equal(result.windows.length,1);

@@ -11,10 +11,12 @@ const anchor = ({offset,pts,dts}) => ({offset,pts,dts});
 // generation, cancellation, deadlines and transport limits. No raw TS escapes.
 // A sampled timeline is only a candidate: unseen clock epochs/format changes,
 // complete pictures, decoder preroll and playable seek slices remain unproven.
-export async function probeTsSeek({ read,sourceSize,fraction,windowBytes=524144,maxWindows=12 } = {}) {
+export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,windowBytes=524144,maxWindows=12 } = {}) {
   demand(typeof read === 'function' && Number.isSafeInteger(sourceSize) && sourceSize > 0 && sourceSize%188 === 0,
     'SEEK_OPTIONS');
-  demand(Number.isFinite(fraction) && fraction > 0 && fraction < 1 && Number.isSafeInteger(windowBytes)
+  const absolute=positionSeconds!==undefined;
+  demand((absolute? fraction===undefined&&Number.isFinite(positionSeconds)&&positionSeconds>=0:
+    Number.isFinite(fraction)&&fraction>0&&fraction<1) && Number.isSafeInteger(windowBytes)
     && windowBytes >= 188 && windowBytes <= 1024*1024 && windowBytes%188 === 0
     && Number.isInteger(maxWindows) && maxWindows >= 1 && maxWindows <= 16, 'SEEK_OPTIONS');
   const width = Math.min(windowBytes,sourceSize), cache = new Map(), windows = [];
@@ -131,11 +133,16 @@ export async function probeTsSeek({ read,sourceSize,fraction,windowBytes=524144,
   const endTicks=Math.max(videoEnd,audioEnd);
   demand(endTicks>originTicks && endTicks<2**33 && Math.max(videoEnd,audioEnd)-Math.min(videoEnd,audioEnd)<=90000,
     'SEEK_TIMELINE_UNPROVEN');
-  const targetTicks=originTicks+fraction*(endTicks-originTicks);
+  const lastVideoPts=Math.max(...tail.result.video.map(row=>row.pts));
+  // Product time requests clamp to real first/last picture anchors. The
+  // requested audio-only lead/tail remains distinct from the decode target;
+  // never fabricate a picture at zero or the duration endpoint.
+  const targetTicks=absolute?Math.max(head.result.video[0].pts,Math.min(lastVideoPts,originTicks+positionSeconds*90000)):
+    originTicks+fraction*(endTicks-originTicks);
   demand(targetTicks>=head.result.video[0].pts, 'SEEK_TARGET_BEFORE_VIDEO');
   // Cadence gives a candidate final-frame duration, not another observed frame
   // anchor. Do not invent an "after" anchor in that final span/audio-only tail.
-  demand(targetTicks<=Math.max(...tail.result.video.map(row=>row.pts)), 'SEEK_TARGET_AFTER_LAST_ANCHOR');
+  demand(targetTicks<=lastVideoPts, 'SEEK_TARGET_AFTER_LAST_ANCHOR');
   const timeline={kind:'sampled-candidate',originTicks,endTicks,durationSeconds:(endTicks-originTicks)/90000,
     videoEndTicks:videoEnd,audioEndTicks:audioEnd,videoStepTicks:step,globalContinuityVerified:false};
 

@@ -41,12 +41,13 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   const build=fs.readFileSync(path.join(root,'scripts/build-pages.cjs'),'utf8');
   const copies=[];
   const mock={existsSync:()=>false,mkdirSync(){},copyFileSync:(source,dest)=>copies.push(path.relative(root,source)),writeFileSync(){}};
-  vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
-  assert.equal(copies.length,12);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
+  const files=require('../scripts/public-files.cjs');
+  vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:name==='./public-files.cjs'?files:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
+  assert.equal(copies.length,18);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');
   assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);
-  assert.match(publish,/publicFiles = \['index\.html'/);assert.doesNotMatch(publish,/--force/);
+  assert.match(publish,/publicFiles = require\('\.\/public-files\.cjs'\)/);assert.doesNotMatch(publish,/--force/);
 });
 test('candidate deployment rematerializes the public allowlist from a clean committed HEAD',()=>{
   const materialize=fs.readFileSync(path.join(root,'scripts/materialize-committed-pages.cjs'),'utf8');

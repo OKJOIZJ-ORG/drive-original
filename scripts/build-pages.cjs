@@ -5,9 +5,7 @@ const root = path.resolve(__dirname, '..');
 const destination = path.join(root, '_site');
 // This is an allowlist, not a repository export. Internal memory, tests and
 // operational records must never become part of the public Pages artifact.
-const files = ['index.html', 'runtime-config.js', 'app.js', 'styles.css', 'sw.js', 'version.json', 'manifest.webmanifest',
-  'icons/app-icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
-  'icons/maskable-512.png', 'icons/apple-touch-icon.png'];
+const files = require('./public-files.cjs');
 if (fs.existsSync(destination)) {
   if (fs.realpathSync(destination) !== destination) throw new Error('Refusing a linked _site output directory');
   fs.rmSync(destination, { recursive: true });

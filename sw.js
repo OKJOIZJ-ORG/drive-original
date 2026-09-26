@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.4';
+const VERSION = '1.22.0-rc.5';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -12,6 +12,12 @@ const SHELL_FILES = [
   './styles.css',
   './runtime-config.js',
   './app.js',
+  './media/drive-source.mjs',
+  './media/ts-player.mjs',
+  './media/q1-core.mjs',
+  './media/transmux-worker.mjs',
+  './media/mux-mp4.min.js',
+  './media/mux-LICENSE.txt',
   './version.json',
   './manifest.webmanifest',
   './icons/app-icon.svg',

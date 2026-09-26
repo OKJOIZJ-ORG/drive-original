@@ -9,7 +9,7 @@ const { AxeBuilder } = require('@axe-core/playwright');
 const root = path.resolve(__dirname, '..');
 const out = path.join(__dirname, process.argv[2] || 'functional');
 fs.mkdirSync(out, { recursive: true });
-const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.json':'application/json', '.webmanifest':'application/manifest+json', '.svg':'image/svg+xml', '.png':'image/png' };
+const mime = { '.html':'text/html', '.js':'text/javascript', '.mjs':'text/javascript', '.css':'text/css', '.json':'application/json', '.webmanifest':'application/manifest+json', '.svg':'image/svg+xml', '.png':'image/png' };
 function installQaSlowTailFixture() {
   const CONFIG = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_CONFIG';
   const STATE = 'DRIVE_ORIGINAL_QA_SLOW_TAIL_STATE';

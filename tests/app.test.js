@@ -3608,3 +3608,44 @@ test('clearing a pending session credential request aborts it and permits a new 
   run(context, 'credentialRequestAbortController?.abort()');
   assert.deepEqual(await Promise.all([first, second]), [false, false]);
 });
+
+test('Q1 retirement hides no pending cleanup and carries failure across later owners', async () => {
+  const context = loadAppContext();
+  const first = run(context, `
+    let finishSetup,finishCleanup,aborts=0,disposals=0;
+    const cleanup=new Promise(resolve=>{finishCleanup=resolve});
+    const owner={controller:{abort(){aborts++}},setupDone:new Promise(resolve=>{finishSetup=resolve}),
+      player:{dispose(){disposals++;return cleanup}}};
+    retireQ1Playback(owner);
+  `);
+  assert.equal(run(context,'aborts'),1);assert.equal(run(context,'disposals'),1);
+  assert.equal(run(context,'retireQ1Playback(owner)'),first);
+  let settled=false;first.then(()=>{settled=true;});
+  run(context,'finishSetup()');await Promise.resolve();assert.equal(settled,false);
+  run(context,'finishCleanup({settled:false})');assert.equal((await first).settled,false);
+  const second=run(context,'retireQ1Playback({controller:{abort(){}},setupDone:Promise.resolve(),player:{dispose(){return Promise.resolve({settled:true})}}})');
+  assert.equal((await second).settled,false);
+});
+
+test('native unsupported container keeps requested play intent but gesture denial clears it', async () => {
+  const context = loadAppContext();context.console={warn(){}};
+  run(context,`state.mediaSession=9;state.pendingPlay=true;
+    el.videoPlayer={hidden:false,paused:true,currentTime:0,play:()=>Promise.reject(new DOMException('unsupported','NotSupportedError'))};
+    showPlayerFeedback=()=>{};updatePlayPauseUI=()=>{};syncMediaSeekWatchdog=()=>{};clearMediaFrameWatchdog=()=>{};`);
+  await run(context,'attemptCurrentPlayback(9)');assert.equal(run(context,'state.pendingPlay'),true);
+  assert.equal(run(context,'capturePlaybackSnapshot().paused'),false);
+  run(context,`el.videoPlayer.play=()=>Promise.reject(new DOMException('gesture','NotAllowedError'));`);
+  await run(context,'attemptCurrentPlayback(9)');assert.equal(run(context,'state.pendingPlay'),false);
+  assert.equal(run(context,'capturePlaybackSnapshot().paused'),true);
+});
+
+test('native restore callback cannot reposition a later Q1 source in the same session', () => {
+  const context=loadAppContext();
+  run(context,`let restored=0,metadataCallback;
+    state.mediaSession=1;state.selected={id:'one'};mediaSourceGeneration=1;
+    isCurrentMediaEvent=()=>true;setPlayerCurrentTime=()=>{restored++};
+    const video={addEventListener(_name,fn){metadataCallback=fn}};
+    restorePlaybackSnapshot(video,{time:6.1,paused:true,volume:1,muted:true,playbackRate:1},1);
+    mediaSourceGeneration=2;metadataCallback();`);
+  assert.equal(run(context,'restored'),0);
+});

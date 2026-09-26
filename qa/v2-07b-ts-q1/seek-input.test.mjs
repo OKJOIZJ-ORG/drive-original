@@ -84,8 +84,16 @@ test('mutated RAP, target bracket, topology, origin and GOP endpoint plans are r
   }
 });
 
-test('partial ends, missing audio coverage and bounded-input arithmetic cannot be promoted',()=>{
-  assert.throws(()=>prepare(plans[2]),/^Error: SEEK_INPUT_AUDIO_COVERAGE$/);
+test('true EOF preserves an original shorter audio tail, but contradictory tail evidence fails',()=>{
+  const result=prepare(plans[2]);assert.ok(result.audio.endPts<result.video.endPts);
+  assert.equal(result.audio.endPts,plans[2].timeline.audioEndTicks);
+  const changed=structuredClone(plans[2]);changed.timeline.audioEndTicks++;
+  assert.throws(()=>prepare(changed),/^Error: SEEK_INPUT_AUDIO_COVERAGE$/);
+  changed.timeline.audioEndTicks--;changed.timeline.videoEndTicks++;
+  assert.throws(()=>prepare(changed),/^Error: SEEK_INPUT_AUDIO_COVERAGE$/);
+});
+
+test('partial ends and bounded-input arithmetic cannot be promoted',()=>{
   for(const patch of [{headBytes:new Uint8Array(0)},{headBytes:new Uint8Array(65537)},
     {bytes:new Uint8Array(187)},{bytes:new Uint8Array(1024*1024+188)},{offset:-188},{offset:2**53}])
     assert.throws(()=>prepareTsSeekInput({...input(),...patch}),/^Error: SEEK_INPUT_(BYTES|WINDOW)$/);
