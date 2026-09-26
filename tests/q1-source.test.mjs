@@ -13,6 +13,58 @@ const options=patch=>({fileId:'test-file',accountKey:'account-1',accountGenerati
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return {promise,resolve,reject};};
 
+test('only absent opening revision is unavailable, with settled cleanup and no range callback',async()=>{
+  for(const revision of [null,undefined]){
+    let ranges=0;const phases=[];
+    await assert.rejects(openDriveQ1Source(options({
+      readMetadata:async({phase})=>{phases.push(phase);return {...base(),headRevisionId:revision};},
+      readRange:async()=>{ranges++;return response();}
+    })),error=>{
+      assert.equal(error.message,'Q1_SOURCE_IDENTITY_UNAVAILABLE');
+      assert.deepEqual(error.cleanup,{settled:true,pendingCallbacks:0,cleanupPending:0,cleanupFailed:false});return true;
+    });
+    assert.deepEqual(phases,['open']);assert.equal(ranges,0);
+  }
+});
+
+test('missing opening revision never hides other malformed metadata or permission denial',async()=>{
+  for(const patch of [{id:'other'},{size:'0'},{size:'9007199254740992'},{mimeType:''},{modifiedTime:null},
+    {sha256Checksum:'bad'},{version:1},{capabilities:{canDownload:false}},{capabilities:undefined},{trashed:true}]){
+    let ranges=0;
+    await assert.rejects(openDriveQ1Source(options({readMetadata:async()=>({...base(),headRevisionId:null,...patch}),
+      readRange:async()=>{ranges++;return response();}})),error=>{
+      assert.equal(error.message,Object.hasOwn(patch,'capabilities')||Object.hasOwn(patch,'trashed')
+        ?'Q1_SOURCE_PERMISSION':'Q1_SOURCE_METADATA');
+      assert.equal(error.cleanup.settled,true);return true;
+    });
+    assert.equal(ranges,0);
+  }
+});
+
+test('empty and malformed opening revisions are not eligibility fallback',async()=>{
+  for(const revision of ['',0,false,'bad/revision','x'.repeat(513)]){
+    let ranges=0;
+    await assert.rejects(openDriveQ1Source(options({readMetadata:async()=>({...base(),headRevisionId:revision}),
+      readRange:async()=>{ranges++;return response();}})),/^Error: Q1_SOURCE_METADATA$/);
+    assert.equal(ranges,0);
+  }
+});
+
+test('revision disappearance after opening is terminal drift, not eligibility fallback',async()=>{
+  for(const phase of ['preflight','postflight'])for(const revision of [null,undefined]){
+    let ranges=0;
+    const source=await openDriveQ1Source(options({readMetadata:async request=>
+      request.phase===phase?{...base(),headRevisionId:revision}:base(),
+      readRange:async()=>{ranges++;return response();}}));
+    await assert.rejects(source.read({start:0,end:9}),/^Error: Q1_SOURCE_CONTENT_DRIFT$/);
+    assert.equal(ranges,phase==='preflight'?0:1);assert.equal(source.stats().releasedBytes,0);
+    assert.equal(source.stats().retainedBytes,0);assert.equal(source.stats().state,'failed');
+    assert.equal((await source.abort()).settled,true);
+    await assert.rejects(source.read({start:0,end:9}),/^Error: Q1_SOURCE_CONTENT_DRIFT$/);
+    assert.equal(ranges,phase==='preflight'?0:1);
+  }
+});
+
 test('fresh open/pre/post content fences release exact bytes while version-only changes succeed',async()=>{
   let version=0;const phases=[],ranges=[];
   const source=await openDriveQ1Source(options({readMetadata:async({phase,signal})=>{
@@ -64,6 +116,32 @@ test('checksum may be initially unavailable but becomes a strict fence once obse
   await assert.rejects(source.read({start:10,end:19}),/Q1_SOURCE_CONTENT_DRIFT/);assert.equal(source.stats().readsCompleted,1);
   for(const hash of ['',123,'x'.repeat(64),'a'.repeat(63)])
     await assert.rejects(openDriveQ1Source(options({readMetadata:async()=>({...base(),sha256Checksum:hash})})),/Q1_SOURCE_METADATA/);
+});
+
+test('effective frozen identity carries a late checksum through abort without mutating opening snapshots',async()=>{
+  for(const acquisition of ['preflight','postflight']){
+    let hash=null,version=0;
+    const source=await openDriveQ1Source(options({readMetadata:async({phase})=>{
+      if(phase===acquisition)hash='a'.repeat(64);
+      return {...base(),sha256Checksum:hash,version:String(++version)};
+    }}));
+    const opening=source.identity;assert.equal(opening.sha256Checksum,null);
+    await source.read({start:0,end:9});
+    const effective=source.identity;
+    assert.notEqual(effective,opening);assert.ok(Object.isFrozen(effective));
+    assert.equal(effective.sha256Checksum,'a'.repeat(64));assert.equal(effective.version,'1');
+    assert.equal(opening.sha256Checksum,null);assert.equal(opening.version,'1');
+    assert.equal(Object.hasOwn(source.stats(),'sha256Checksum'),false);
+    assert.equal((await source.abort()).settled,true);
+    assert.equal(source.identity,effective);assert.equal(source.identity.sha256Checksum,'a'.repeat(64));
+  }
+  let hash=null;
+  const source=await openDriveQ1Source(options({readMetadata:async()=>({...base(),sha256Checksum:hash})}));
+  hash='a'.repeat(64);await source.read({start:0,end:9});const bound=source.identity;
+  hash='b'.repeat(64);
+  await assert.rejects(source.read({start:10,end:19}),/^Error: Q1_SOURCE_CONTENT_DRIFT$/);
+  assert.equal(source.identity,bound);assert.equal(source.identity.sha256Checksum,'a'.repeat(64));
+  assert.equal(source.stats().readsCompleted,1);assert.equal((await source.abort()).settled,true);
 });
 
 test('malformed/missing/zero/short/overlong range headers cancel the opened body without consuming it',async()=>{

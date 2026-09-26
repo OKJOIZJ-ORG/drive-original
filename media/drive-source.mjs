@@ -8,6 +8,10 @@
 // cleanup wall is min(requestTimeoutMs,2000); a false result MUST block starting
 // another transport owner. A failed open carries the same result in error.cleanup.
 // An injected callback that ignores cancellation cannot be forcibly terminated.
+// Only an otherwise valid opening metadata response with null/absent revision
+// reports IDENTITY_UNAVAILABLE. This never permits a read or a later identity loss.
+// identity returns the latest frozen binding, including any checksum learned
+// during reads. Earlier snapshots and the informational opening version stay fixed.
 const MAX_READ=1024*1024,MAX_TIMEOUT=70000;
 class SourceError extends Error {}
 const requireThat=(value,code)=>{if(!value)throw new SourceError(`Q1_SOURCE_${code}`);};
@@ -75,9 +79,9 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
     requireThat(active(),'CLOSED');requireThat(current===true,'STALE');
     requireThat(!signal?.aborted,'ABORTED');
   }
-  function metadata(value){
+  function metadata(value,phase){
     requireThat(value&&typeof value==='object'&&!Array.isArray(value),'METADATA');
-    requireThat(value.id===fileId&&text(value.headRevisionId,512)&&/^[A-Za-z0-9_-]+$/.test(value.headRevisionId)
+    requireThat(value.id===fileId
       &&typeof value.size==='string'&&/^[1-9]\d*$/.test(value.size)&&value.size.length<=16
       &&Number.isSafeInteger(Number(value.size))&&Number(value.size)>0
       &&text(value.mimeType,256)&&text(value.modifiedTime,128),'METADATA');
@@ -86,16 +90,24 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
     requireThat(hash===null||(typeof hash==='string'&&/^[a-fA-F0-9]{64}$/.test(hash)),'METADATA');
     const version=value.version??null;
     requireThat(version===null||(typeof version==='string'&&/^\d+$/.test(version)&&version.length<=32),'METADATA');
+    // Validate all other metadata first: missing revision must not hide denial
+    // or malformed identity. Once opened, disappearance is content drift.
+    requireThat(value.headRevisionId!=null,phase==='open'&&state==='opening'&&identity===null
+      ?'IDENTITY_UNAVAILABLE':'CONTENT_DRIFT');
+    requireThat(text(value.headRevisionId,512)&&/^[A-Za-z0-9_-]+$/.test(value.headRevisionId),'METADATA');
     return {accountKey,accountGeneration,fileId,headRevisionId:value.headRevisionId,size:value.size,
       mimeType:value.mimeType,modifiedTime:value.modifiedTime,canDownload:true,trashed:false,
       sha256Checksum:hash?.toLowerCase()??null,version};
   }
-  function reconcile(value){
-    const observed=metadata(value);
+  function reconcile(value,phase){
+    const observed=metadata(value,phase);
     if(identity)for(const key of ['headRevisionId','size','mimeType','modifiedTime'])
       requireThat(observed[key]===identity[key],'CONTENT_DRIFT');
     if(checksum!==null)requireThat(observed.sha256Checksum===checksum,'CONTENT_DRIFT');
-    else if(observed.sha256Checksum!==null)checksum=observed.sha256Checksum;
+    else if(observed.sha256Checksum!==null){
+      checksum=observed.sha256Checksum;
+      if(identity)identity=Object.freeze({...identity,sha256Checksum:checksum});
+    }
     return observed;
   }
   async function wait(owner,operation,lateCleanup=null,accept=null){
@@ -114,7 +126,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
   async function readMeta(owner,phase){
     counts.metadataRequests++;
     const value=await wait(owner,()=>readMetadata({signal:owner.controller.signal,phase}));
-    check();return reconcile(value);
+    check();return reconcile(value,phase);
   }
   async function own(operation,readSignal=null){
     requireThat(active(),'CLOSED');
@@ -147,7 +159,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
   try{identity=Object.freeze(await own(owner=>readMeta(owner,'open')));check();state='open';}
   catch(error){if(active())terminate(error instanceof SourceError?error.message.slice('Q1_SOURCE_'.length):'READ_FAILED');
     const result=new SourceError(failure||'Q1_SOURCE_READ_FAILED');result.cleanup=await settleCleanup();throw result;}
-  return Object.freeze({identity,
+  return Object.freeze({get identity(){return identity;},
     async read(request={}){
       try{const bytes=await own(async owner=>{
         const {start,end}=request;

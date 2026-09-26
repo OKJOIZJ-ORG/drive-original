@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.5';
+const APP_VERSION = '1.22.0-rc.6';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -636,8 +636,10 @@ let mediaSeekWatchdog = null;
 let mediaSeekGeneration = 0;
 let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
+let initialMediaRouteGeneration = 0;
 let q1Playback = null;
 let q1Retirement = Promise.resolve({ settled: true });
+let q1RetirementResult = { settled: true };
 let pendingPlaybackRestore = null;
 
 function retireQ1Playback(owner) {
@@ -650,8 +652,12 @@ function retireQ1Playback(owner) {
     const cleanup = await (immediate || owner.player?.dispose());
     const prior = await previous;
     return { settled: prior.settled && owner.cleanupOk !== false && cleanup?.settled !== false };
-  })().catch(() => ({ settled: false }));
+  })().catch(() => ({ settled: false })).then(result => {
+    if (q1Retirement === owner.retirement) q1RetirementResult = result;
+    return result;
+  });
   q1Retirement = owner.retirement;
+  q1RetirementResult = null;
   return owner.retirement;
 }
 let drivePreviewSlowTimer = null;
@@ -7116,8 +7122,46 @@ function openMediaSource(file) {
   startInitialOriginalPlayback(file, isVideo ? 'video' : 'image', session);
 }
 
-function startInitialOriginalPlayback(file, kind, session) {
+function shouldProbeOriginalTs(file, kind) {
+  if (kind !== 'video' || !(globalThis.MediaSource || globalThis.ManagedMediaSource)
+    || !globalThis.Worker || typeof el.videoPlayer?.canPlayType !== 'function') return false;
+  // This is only a cheap eligibility hint for the current strict 188-byte TS
+  // path. Unknown/stale listing data cannot disable the later code4 fallback.
+  const size = Number(file?.size);
+  if (!Number.isSafeInteger(size) || size < 940 || size % 188 !== 0) return false;
+  try { return el.videoPlayer.canPlayType('video/mp2t') === ''; }
+  catch { return false; }
+}
+
+async function startInitialOriginalPlayback(file, kind, session) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return;
+  const routeGeneration = ++initialMediaRouteGeneration;
+  if (q1Playback) {
+    const previous = q1Playback; q1Playback = null;
+    retireQ1Playback(previous);
+  }
+  const accountGeneration = state.driveSessionGeneration;
+  const current = () => state.selected?.id === file.id && state.mediaSession === session
+    && state.driveSessionGeneration === accountGeneration && routeGeneration === initialMediaRouteGeneration;
+  // A prior probe/player may still own callbacks even when its UI is gone.
+  // Q0 replacements must obey the same cleanup barrier as Q1 replacements.
+  // Keep the established synchronous native source assignment when cleanup is
+  // already known. An unnecessary microtask would cancel an immediate play()
+  // made by the caller when the later native load() resets the element.
+  const retired = q1RetirementResult || await q1Retirement;
+  if (!current()) return;
+  if (!retired.settled) {
+    state.mediaAttempt = 'failed';
+    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    return;
+  }
+  if (shouldProbeOriginalTs(file, kind)) {
+    emitMediaDiagnosticStage('route-selected', { route: 'probe', reason: 'bounded-ts-admission' }, session);
+    showMediaLoading('원본 형식 확인 중');
+    sendTokenToWorker();
+    if (await tryOriginalTsPlayback(file, session, { initial: true })) return;
+    if (!current()) return;
+  }
   emitMediaDiagnosticStage('route-selected', {
     route: 'range',
     reason: 'direct-original-first'
@@ -7279,7 +7323,7 @@ function decideUnsupportedFormatRecovery({
   return 'buffer-original';
 }
 
-async function tryOriginalTsPlayback(file, session) {
+async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
   const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
   const oldAttempt = state.mediaAttempt;
@@ -7295,6 +7339,10 @@ async function tryOriginalTsPlayback(file, session) {
   const current = () => q1Playback === owner && !controller.signal.aborted
     && state.selected?.id === file.id && state.mediaSession === session
     && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration;
+  const resumeNative = () => {
+    q1Playback = null; controller.abort(); state.mediaAbortController = null; state.mediaAttempt = oldAttempt;
+    return false;
+  };
   const stopFailure = code => {
     if (!current()) return;
     emitMediaDiagnosticStage('q1-failed', { reason: code, terminal: true }, session);
@@ -7304,26 +7352,39 @@ async function tryOriginalTsPlayback(file, session) {
     const retired = await previousRetirement;
     if (!current()) return true;
     if (!retired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
-    const [{ openDriveQ1Source }, { createTsPlayer }] = await Promise.all([
-      import('./media/drive-source.mjs'), import('./media/ts-player.mjs')
-    ]);
+    const { openDriveQ1Source } = await import('./media/drive-source.mjs');
     if (!current()) return true;
     const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
     metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
     metadataUrl.searchParams.set('supportsAllDrives', 'true');
-    const openSource = ({ signal }) => openDriveQ1Source({
+    let routeIdentity = null;
+    const openSource = async ({ signal }) => {
+      let sourceMetadata;
+      const source = await openDriveQ1Source({
       fileId: file.id, accountKey: account, accountGeneration, signal, isCurrent: current,
       readMetadata: async ({ signal }) => {
         const headers = file.resourceKey ? { 'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}` } : {};
         const response = await driveFetch(metadataUrl.href, { signal, headers });
-        return response.json();
+        sourceMetadata = await response.json();
+        return sourceMetadata;
       },
-      readRange: ({ range, signal }) => fetch(buildMediaUrl(file), { signal, cache: 'no-store', headers: { Range: range } })
-    });
+      readRange: ({ range, signal }) => fetch(buildMediaUrl({ ...file, size: sourceMetadata.size, mimeType: sourceMetadata.mimeType }),
+        { signal, cache: 'no-store', headers: { Range: range } })
+      });
+      // A new generation may not silently switch revisions after admission.
+      // files.version remains a metadata counter, not a content-only fence.
+      if (routeIdentity && (['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime','canDownload','trashed']
+        .some(key => source.identity[key] !== routeIdentity[key])
+        || (routeIdentity.sha256Checksum && routeIdentity.sha256Checksum !== source.identity.sha256Checksum))) {
+        const cleanup = await source.abort();
+        throw Object.assign(new Error('Q1_SOURCE_CONTENT_DRIFT'), { cleanup });
+      }
+      return source;
+    };
     // A sniff is bounded and identity-fenced. Extension/MIME is not the route.
     const sniff = await openSource({ signal: controller.signal });
     let head;
-    try { head = await sniff.read({ start: 0, end: Math.min(Number(sniff.identity.size), 65536) - 1 }); }
+    try { head = await sniff.read({ start: 0, end: Math.min(Number(sniff.identity.size), 940) - 1 }); }
     finally {
       const cleanup = await sniff.abort();
       owner.cleanupOk = cleanup.settled;
@@ -7332,12 +7393,15 @@ async function tryOriginalTsPlayback(file, session) {
     if (!current()) return true;
     const ts = Number(sniff.identity.size) % 188 === 0 && head.length >= 188 * 5
       && [0,188,376,564,752].every(offset => head[offset] === 0x47);
-    if (!ts) {
-      q1Playback = null; controller.abort(); state.mediaAbortController = null; state.mediaAttempt = oldAttempt;
-      return false;
-    }
-    const snapshot = pendingPlaybackRestore?.fileId === file.id && pendingPlaybackRestore.session === session
-      ? pendingPlaybackRestore.snapshot : capturePlaybackSnapshot();
+    if (!ts) return resumeNative();
+    routeIdentity = sniff.identity;
+    const { createTsPlayer } = await import('./media/ts-player.mjs');
+    if (!current()) return true;
+    const resume = initial && state.resumePosition?.fileId === file.id ? state.resumePosition : null;
+    const snapshot = resume ? (resume.snapshot || { ...capturePlaybackSnapshot(), time: resume.time })
+      : pendingPlaybackRestore?.fileId === file.id && pendingPlaybackRestore.session === session
+        ? pendingPlaybackRestore.snapshot : capturePlaybackSnapshot();
+    if (resume) state.resumePosition = null;
     // Retire native Q0 without disposing this newly selected owner.
     q1Playback = null; clearDirectMediaSources(); q1Playback = owner;
     state.mediaAttempt = 'q1'; state.mediaPlaybackMode = PLAYBACK_MODE.REPACKAGED;
@@ -7346,9 +7410,14 @@ async function tryOriginalTsPlayback(file, session) {
     el.videoPlayer.hidden = false; el.videoPlayer.dataset.mediaSession = String(session);
     const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id);
     if (poster) { el.videoPlayer.poster = poster; el.videoPlayer.classList.add('has-poster'); }
+    if (snapshot) {
+      if (Number.isFinite(snapshot.volume)) el.videoPlayer.volume = snapshot.volume;
+      if (typeof snapshot.muted === 'boolean') el.videoPlayer.muted = snapshot.muted;
+      if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) el.videoPlayer.playbackRate = snapshot.playbackRate;
+    }
     owner.player = createTsPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
       initialTime: Number.isFinite(snapshot?.time) ? snapshot.time : 0,
-      autoplay: state.pendingPlay || snapshot?.paused === false,
+      autoplay: resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
       onEvent(event) {
         if (!current()) return;
         if (event.type === 'starting') {
@@ -7370,6 +7439,11 @@ async function tryOriginalTsPlayback(file, session) {
     return true;
   } catch (error) {
     if (error?.cleanup?.settled === false) owner.cleanupOk = false;
+    // Only this explicit pre-byte eligibility result can keep native Q0.
+    // Permission, malformed metadata, drift, timeout and unknown cleanup remain
+    // failures; they are never disguised as unsupported packaging.
+    if (initial && current() && error?.message === 'Q1_SOURCE_IDENTITY_UNAVAILABLE'
+      && error.cleanup?.settled === true) return resumeNative();
     if (current()) stopFailure(/^Q1_[A-Z_]+$/.test(error?.message) ? error.message : 'Q1_SETUP_FAILED');
     return true;
   } finally { setupFinished(); }

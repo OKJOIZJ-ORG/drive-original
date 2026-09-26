@@ -30,7 +30,7 @@ const server=http.createServer((req,res)=>{
 });
 const results=[];let browser;
 const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
-  ['replace-opening','replace-preflight','cleanup-timeout','cleanup-cancel-failed','mms-shaped-restore','real-fetch-abort'];
+  ['replace-opening','replace-preflight','cleanup-timeout','cleanup-cancel-failed','mms-shaped-restore','real-fetch-abort','late-checksum-drift'];
 (async()=>{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const base=`http://127.0.0.1:${server.address().port}`;
@@ -92,7 +92,8 @@ const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
                 ||(phase==='preflight'&&mode==='replace-preflight'))){
                 held=true;await new Promise(resolve=>{release=resolve;}); // deliberately ignores signal
               }
-              return {...metadata,version:String(metadataCalls)};
+              return {...metadata,version:String(metadataCalls),sha256Checksum:mode==='late-checksum-drift'
+                ?(number===1?(phase==='open'?undefined:digest):'a'.repeat(64)):digest};
             },
             readRange:({start,end})=>new Response(number===1&&mode==='cleanup-cancel-failed'
               ?new ReadableStream({pull(){bodyPull=true;return new Promise(()=>{});},cancel(){cancelCalls++;return Promise.reject(new Error('synthetic cancel failure'));}})
@@ -111,6 +112,16 @@ const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
         const player=createTsPlayer({video,openSource,isCurrent:()=>true,onEvent:event=>events.push(event),autoplay:false});
         window.lifecyclePlayer=player;
         try{
+          if(mode==='late-checksum-drift'){
+            await player.ready;
+            demand(owners[0].identity.sha256Checksum===digest,'READ_CHECKSUM_NOT_EXPOSED');
+            const error=await player.seek(6.1,{autoplay:false}).then(()=>null,error=>error.message);
+            demand(error==='Q1_CONTENT_DRIFT','LATE_CHECKSUM_NOT_BOUND_ACROSS_SEEK');
+            demand(opens===2&&owners[1].stats().rangeRequests===0,'DRIFT_READ_BYTES_BEFORE_REJECTION');
+            const cleanup=await player.dispose(),stats=player.stats();
+            demand(cleanup.settled&&stats.appends===0,'DRIFT_APPENDED_OR_LEAKED');
+            return {mode,passed:true,opens,error,cleanup,stats};
+          }
           if(mode==='mms-shaped-restore'){
             await player.ready;demand(video.disableRemotePlayback===true,'MMS_DID_NOT_OWN_REMOTE_SETTING');
             const snapshots=[];

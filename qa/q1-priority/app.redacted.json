@@ -1,0 +1,104 @@
+{
+  "recordedAt": "2026-09-26T16:53:11.676Z",
+  "sourceLabel": "priority-sample-1",
+  "currentDriveIdentityVerified": false,
+  "originalWrites": 0,
+  "derivativesCreated": 0,
+  "scope": "private local original through actual product app, SW, worker and isolated muted Chrome; synthetic Google GET metadata/bytes, not live Drive, physical device, audibility or native preservation proof",
+  "initialFingerprintMatched": true,
+  "sourceBytes": 208001508,
+  "sources": {
+    "qa/q1-priority-app-audit.cjs": "c60c76d475890a891638f126ed8613eefd937e459d821f0d8162038f02c71e14",
+    "index.html": "aaeb3165314ca5468dd258a19e45e36401a3088cd6fcb5e5144729362ac678b6",
+    "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
+    "app.js": "a663b5cf6853969978d74df74ff64a18abbc7d95a8d169ec3b43cd3e1a427077",
+    "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
+    "sw.js": "fa1e922c9bc2f27f8c1e0649aefbb23d21a14a9ed42ceb7aa537fc7868c9b20d",
+    "version.json": "d641a541b81277a92de4281756c460ccc6741b218c7857a914c7bd4a0ced17b0",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "19406973d9649f72e4bbbf441c89d284fea0c4dfc41a713a5bc1c574ed655f11",
+    "media/ts-player.mjs": "1de5c9dbb3c83d9e5495c3fc2e003d09d0e691ed6c7d349619a07a9ded48074b",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+  },
+  "browserVersion": "153.0.8010.54",
+  "initial": {
+    "width": 360,
+    "height": 640,
+    "duration": 1609.408,
+    "frameCount": 15,
+    "time": 0.488,
+    "nativeCode4": 0,
+    "rangeBytes": 2687372,
+    "rangeRequests": 9
+  },
+  "seeks": [
+    {
+      "target": 160.9408,
+      "time": 160.921333,
+      "width": 360,
+      "height": 640,
+      "paused": true,
+      "frameCount": 1
+    },
+    {
+      "target": 804.704,
+      "time": 804.688,
+      "width": 360,
+      "height": 640,
+      "paused": true,
+      "frameCount": 1
+    },
+    {
+      "target": 1448.4672,
+      "time": 1448.454667,
+      "width": 360,
+      "height": 640,
+      "paused": true,
+      "frameCount": 1
+    }
+  ],
+  "nearEnd": {
+    "ended": true
+  },
+  "cleanup": {
+    "settled": true
+  },
+  "passed": true,
+  "terminal": {
+    "attempt": "idle",
+    "phase": "ended",
+    "failure": null,
+    "sourceCleanup": {
+      "settled": true,
+      "pendingCallbacks": 0,
+      "cleanupPending": 0,
+      "cleanupFailed": false
+    },
+    "nativeCode4": 0,
+    "frameCount": 56
+  },
+  "finalRetirement": {
+    "settled": true
+  },
+  "cleanupDescriptors": 0,
+  "cleanupRequests": 0,
+  "finalFingerprintMatched": true,
+  "localStateUnchanged": true,
+  "producerUnchanged": true,
+  "metadataReads": 98,
+  "rangeRequests": 46,
+  "rangeBytes": 16105116,
+  "peakReadBufferBytes": 524144,
+  "preflights": 0,
+  "previewRequests": 0,
+  "errors": [],
+  "transportErrors": []
+}

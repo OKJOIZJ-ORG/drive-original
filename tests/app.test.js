@@ -1735,7 +1735,7 @@ test('QA-TR-11 a superseded storage-policy result cannot replace the newer sourc
   assert.equal(result.compatVisible, false);
 });
 
-test('initial video playback starts Range without waiting for storage policy or full download', () => {
+test('known-clean initial Q0 assigns its source synchronously without storage policy or full download', () => {
   const context = loadAppContext();
   const calls = JSON.parse(run(context, `(() => {
     const calls = [];
@@ -3648,4 +3648,69 @@ test('native restore callback cannot reposition a later Q1 source in the same se
     restorePlaybackSnapshot(video,{time:6.1,paused:true,volume:1,muted:true,playbackRate:1},1);
     mediaSourceGeneration=2;metadataCallback();`);
   assert.equal(run(context,'restored'),0);
+});
+
+test('early TS eligibility is a bounded hint and preserves native capability and unknown-size paths', () => {
+  const context=loadAppContext();context.MediaSource=function(){};context.Worker=function(){};
+  run(context,`el.videoPlayer={canPlayType:()=>''};`);
+  assert.equal(run(context,"shouldProbeOriginalTs({size:'940'},'video')"),true);
+  for(const size of ['939','941','0','-188','invalid','9007199254740992',undefined]){
+    context.sampleSize=size;
+    assert.equal(run(context,"shouldProbeOriginalTs({size:sampleSize},'video')"),false);
+  }
+  assert.equal(run(context,"shouldProbeOriginalTs({size:'940'},'image')"),false);
+  run(context,"el.videoPlayer.canPlayType=()=> 'maybe'");
+  assert.equal(run(context,"shouldProbeOriginalTs({size:'940'},'video')"),false);
+  run(context,"el.videoPlayer.canPlayType=()=>{throw new Error()}");
+  assert.equal(run(context,"shouldProbeOriginalTs({size:'940'},'video')"),false);
+});
+
+test('early TS route chooses Q1 or Q0 only after the owned probe result', async () => {
+  for(const admitted of [true,false]){
+    const context=loadAppContext();context.MediaSource=function(){};context.Worker=function(){};
+    context.admitted=admitted;
+    const result=await run(context,`(async()=>{
+      let calls=[];const file={id:'test',size:'940'};state.selected=file;state.mediaSession=1;
+      el.videoPlayer={canPlayType:()=>''};showMediaLoading=()=>{};sendTokenToWorker=()=>{};
+      tryOriginalTsPlayback=async(_file,_session,options)=>{calls.push('probe:'+options.initial);return admitted};
+      startOriginalRangePlayback=()=>calls.push('native');
+      await startInitialOriginalPlayback(file,'video',1);return JSON.stringify(calls);
+    })()`);
+    assert.deepEqual(JSON.parse(result),admitted?['probe:true']:['probe:true','native']);
+  }
+});
+
+test('initial native replacement waits for Q1 retirement and rejects failed or stale cleanup', async () => {
+  for(const outcome of ['clean','failed','stale']){
+    const context=loadAppContext();
+    run(context,`let finish,calls=[];const file={id:'test',size:'941'};state.selected=file;state.mediaSession=1;
+      q1Retirement=new Promise(resolve=>{finish=resolve});q1RetirementResult=null;startOriginalRangePlayback=()=>calls.push('native');
+      showMediaError=()=>calls.push('blocked');`);
+    const request=run(context,"startInitialOriginalPlayback(file,'video',1)");
+    await Promise.resolve();assert.equal(run(context,'calls.length'),0);
+    if(outcome==='stale')run(context,'state.mediaSession++');
+    run(context,`finish({settled:${outcome!=='failed'}})`);await request;
+    assert.deepEqual(JSON.parse(run(context,'JSON.stringify(calls)')),outcome==='clean'?['native']:outcome==='failed'?['blocked']:[]);
+  }
+});
+
+test('a stale early probe cannot assign native after an account change', async () => {
+  const context=loadAppContext();context.MediaSource=function(){};context.Worker=function(){};
+  run(context,`let calls=0;const file={id:'test',size:'940'};state.selected=file;state.mediaSession=1;
+    el.videoPlayer={canPlayType:()=>''};showMediaLoading=()=>{};sendTokenToWorker=()=>{};
+    tryOriginalTsPlayback=async()=>{state.driveSessionGeneration++;return false};startOriginalRangePlayback=()=>calls++;`);
+  await run(context,"startInitialOriginalPlayback(file,'video',1)");assert.equal(run(context,'calls'),0);
+});
+
+test('same-session initial calls have one route owner and cannot bypass an active probe cleanup', async () => {
+  const context=loadAppContext();
+  run(context,`let finishSetup,finishCleanup,calls=0,aborted=0;const file={id:'test',size:'941'};
+    state.selected=file;state.mediaSession=1;startOriginalRangePlayback=()=>calls++;showMediaError=()=>{};
+    q1Playback={controller:{abort(){aborted++}},setupDone:new Promise(resolve=>finishSetup=resolve),
+      player:{dispose(){return new Promise(resolve=>finishCleanup=resolve)}}};`);
+  const first=run(context,"startInitialOriginalPlayback(file,'video',1)");
+  const second=run(context,"startInitialOriginalPlayback(file,'video',1)");
+  await Promise.resolve();assert.equal(run(context,'aborted'),1);assert.equal(run(context,'calls'),0);
+  run(context,'finishSetup();finishCleanup({settled:true})');await Promise.all([first,second]);
+  assert.equal(run(context,'calls'),1);
 });

@@ -1,9 +1,13 @@
-# Q1 product vertical slice — local rc.5
+# Q1 product routing — local rc.6
 
-Observed 2026-09-27. Native original delivery remains first, with its existing
-one native retry. A code4 failure may enter Q1 only after a bounded actual-byte
-TS sniff. Extension and Google preview are not success evidence. This strict
-path supports the tested single H264/AAC CFR TS combination, not all formats.
+Observed 2026-09-27. A possible strict188-byte TS candidate takes an exact940-byte
+identity-fenced sniff before native delivery, when MSE/Worker exist and the media
+element reports no native TS capability. Safe listed size>=940 and divisibility
+by188 are only skip hints, not identification; unknown/stale hints retain the
+later code4→Q1 path. Other files and native TS capability keep Q0 first. A false
+TS signature returns Q0 after cleanup; the probe costs three metadata reads and
+one940-byte read only for eligible candidates. Extension and Google preview are
+not success evidence. This strict H264/AAC CFR slice is not all-format support.
 
 ## Ownership
 
@@ -16,11 +20,19 @@ counter and may change on a view. This is an optimistic observed-content fence,
 not an atomic revision snapshot or per-range cryptographic proof. No revision is
 pinned with keepForever, and source originals are never changed.
 
+Only otherwise-valid opening metadata with an absent headRevisionId can decline
+early Q1 eligibility before any bytes and retain Q0. Permission denial, malformed
+metadata, drift and unknown cleanup are never hidden by this fallback. A checksum
+first exposed on later metadata becomes a new immutable identity snapshot and
+is bound across admission, subsequent reads and all seek generations.
+
 Source abort tracks pending callbacks/stream cancellation, with a separate bounded
 cleanup result. Unknown/failed cleanup blocks another Q1 owner in the page until
 reload. Normal fetch cancellation starts reader cancellation before aborting its
 signal, avoiding a reproduced false AbortError cleanup failure. Real failures
 remain failures. Tokens/remote URLs never enter the media worker.
+Initial Q0 replacements also wait for this barrier. A monotonic initial-route
+owner prevents same-session duplicate starts from bypassing an unfinished probe.
 
 `ts-player.mjs` owns MSE/ManagedMediaSource, one worker, one fragment ACK,
 generation replacement and source-buffer eviction. Seek uses bounded sparse
@@ -50,21 +62,30 @@ Scoped Git attributes keep public text/Q1 producer line endings stable on Window
 the vendor artifact is byte-preserved. Report hashes are checked against Git blobs,
 not only the working copy, before the savepoint.
 
-- `node --test --test-concurrency=1 tests/*.test.js tests/*.test.mjs`:324/324.
+- `node --test --test-concurrency=1 tests/*.test.js tests/*.test.mjs`:334/334.
 - `node --test --test-concurrency=1 qa/v2-07b-ts-q1/*.test.mjs`:120/120.
-- `node qa/q1-product-audit.cjs`: actual app+SW, synthetic Drive responses,5/5.
+- `node qa/q1-product-audit.cjs`: actual app+SW, synthetic Drive responses,16/16.
   Original code4+one retry → real frame; UI seeks1.2/6.1/0/end/11.95, EOF,
   saved-position/autoplay intent, source drift before MSE, pending close,
   Q1 seek-watchdog failure without Q0 retry, and six cached assets.
-- `node qa/q1-lifecycle-audit.cjs`: actual Chrome product lifecycle6/6,
+  Early TS emits a frame without any open-ended native read; aligned/ordinary
+  MP4 and missing revision retain Q0. Early resume, native capability, closed
+  probe, permission/revision/checksum contradiction and duplicate pending setup
+  have explicit discriminators.
+- `node qa/q1-lifecycle-audit.cjs`: actual Chrome product lifecycle7/7,
   including held/noncooperative callbacks, true failed cancel and real fetch
   abort. MMS-shaped Chrome subclass is ownership testing, NOT actual iPhone MMS.
+  A checksum first acquired while reading is enforced before any later seek byte.
 - `node qa/q1-preservation-audit.cjs`: native5/5 at0/1.2/6.1/11.95/end.
   Strict zero-diagnostic decode, coded bytes/metadata/absolute clocks, original
   video suffix and all original AAC/same-start PCM agree. Beginning also matches
   uninterrupted full-source PCM. Different uninterrupted decoder histories after
   a seek remain separate, as recorded in prior continuous-seek evidence.
-- `node qa/functional-audit.cjs q1-functional`: existing product regression22/22.
+- `node qa/functional-audit.cjs q1-routing-functional`: existing product regression22/22.
+- `node qa/q1-priority-app-audit.cjs qa/player-stage-v2-01c/private-sample.json`:
+  actual local208MB original through app+SW, first frame after2,687,372 bytes,
+  10/50/90% within one frame and near-end→ended;46 finite ranges total,
+  no native code4/open-ended read, no iframe. Full source fingerprint/stat unchanged.
 
 The three Q1 reports contain producer hashes in their respective `qa/q1-*`
 directories. The earlier QA reports remain historical fixed-producer evidence;
@@ -77,12 +98,12 @@ component Chrome16x playback, bounded pause/seek/cleanup, and native all-frame,
 coded, absolute-timing and full PCM comparisons. Reports are underqa/q1-priority;
 scope and recovery are in memory/Q1-PRIORITY-20260927.md. Original is unchanged.
 
-Not yet verified: current authenticated Drive priority file/version and whole-app
+Not yet verified: current authenticated Drive priority file/version and live whole-app
 priority playback, physical iPhone Chrome/Safari/PWA, actual audibility/color,
 expiry/background long-run behavior, full-format support and total memory.
-Current native-first fallback can consume substantial native bytes before TS is
-identified; actual priority evidence must guide earlier reusable route discovery.
-No claim that 12-second synthetic success closes those gates.
+The early eligible route removes native whole-body TS attempts. Native capability
+claims and stale/missing listing hints can still defer Q1 to the existing late
+fallback. No claim that synthetic success closes the remaining live gates.
 
 This unit does not deploy, merge, push, mutate originals or enable candidate
 Drive writes. Last deployed candidate remains rc.4/3597e63; production v1.21.0

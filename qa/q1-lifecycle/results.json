@@ -1,12 +1,12 @@
 {
   "passed": true,
   "syntheticOnly": true,
-  "recordedAt": "2026-09-26T16:06:05.219Z",
+  "recordedAt": "2026-09-26T16:48:26.249Z",
   "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
   "sources": {
-    "qa/q1-lifecycle-audit.cjs": "e5b8a44cec0a2036cefdcc046e56625511deee707b77113fcee39b63fcf8bbac",
-    "media/ts-player.mjs": "e7cb62c05b4a7f4b42a254ada35ee3491ddabdfd0023739553a4201734d79624",
-    "media/drive-source.mjs": "8217592d894842c56884741b2a4e643b49a12ca685cee9a779811e51e10a770d",
+    "qa/q1-lifecycle-audit.cjs": "22a5152359356f0152aac0c9fae6d744ca3478bbfa61b464a2f8c20dfe51e21f",
+    "media/ts-player.mjs": "1de5c9dbb3c83d9e5495c3fc2e003d09d0e691ed6c7d349619a07a9ded48074b",
+    "media/drive-source.mjs": "19406973d9649f72e4bbbf441c89d284fea0c4dfc41a713a5bc1c574ed655f11",
     "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
     "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead"
   },
@@ -1104,6 +1104,120 @@
           "releasedBytes": 0,
           "retainedBytes": 0,
           "peakRetainedBytes": 65536,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 5000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "late-checksum-drift",
+      "passed": true,
+      "opens": 2,
+      "error": "Q1_CONTENT_DRIFT",
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      },
+      "stats": {
+        "generation": 2,
+        "phase": "failed",
+        "failure": "Q1_CONTENT_DRIFT",
+        "target": null,
+        "appends": 0,
+        "frames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 0
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "aborted",
+          "failure": "Q1_SOURCE_ABORTED",
+          "busy": false,
+          "readsStarted": 0,
+          "readsCompleted": 0,
+          "metadataRequests": 1,
+          "rangeRequests": 0,
+          "receivedBytes": 0,
+          "releasedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 0,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 5000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "ownersAfterCleanup": [
+        {
+          "state": "aborted",
+          "failure": "Q1_SOURCE_ABORTED",
+          "busy": false,
+          "readsStarted": 5,
+          "readsCompleted": 5,
+          "metadataRequests": 11,
+          "rangeRequests": 5,
+          "receivedBytes": 1900000,
+          "releasedBytes": 1900000,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 5000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        },
+        {
+          "state": "aborted",
+          "failure": "Q1_SOURCE_ABORTED",
+          "busy": false,
+          "readsStarted": 0,
+          "readsCompleted": 0,
+          "metadataRequests": 1,
+          "rangeRequests": 0,
+          "receivedBytes": 0,
+          "releasedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 0,
           "checksumBound": true,
           "pendingCallbacks": 0,
           "cleanupPending": 0,

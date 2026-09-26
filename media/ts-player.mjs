@@ -116,13 +116,20 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
           openCleanup=error?.cleanup||{settled:true};throw error;
         });
         await opening;opening=null;check();
-        const identity=reader.identity;
-        if(baseline){demand(SAME_CONTENT.every(key=>baseline[key]===identity[key]),'CONTENT_DRIFT');
-          if(checksum!==null)demand(identity.sha256Checksum===checksum,'CONTENT_DRIFT');
-        }else baseline=identity;
-        if(checksum===null&&identity.sha256Checksum)checksum=identity.sha256Checksum;
+        function bindIdentity(identity){
+          if(baseline){demand(SAME_CONTENT.every(key=>baseline[key]===identity[key]),'CONTENT_DRIFT');
+            if(checksum!==null)demand(identity.sha256Checksum===checksum,'CONTENT_DRIFT');
+          }else baseline=identity;
+          if(checksum===null&&identity.sha256Checksum)checksum=identity.sha256Checksum;
+        }
+        const identity=reader.identity;bindIdentity(identity);
         const read=async request=>{
-          try{return await reader.read({...request,signal:controller.signal});}
+          try{
+            const bytes=await reader.read({...request,signal:controller.signal});check();
+            // Metadata may first expose a checksum during a successful read.
+            // Carry that stronger binding across later seek generations too.
+            bindIdentity(reader.identity);return bytes;
+          }
           catch(error){if(current())state.failure||=fixed(error);throw error;}
         },size=Number(identity.size);
         const plan=await probeTsSeek({read,sourceSize:size,positionSeconds:seconds});check();

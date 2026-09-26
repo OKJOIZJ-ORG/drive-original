@@ -4,12 +4,17 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
 const {createHash}=require('node:crypto'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),allowed=new Set(require('../scripts/public-files.cjs'));
-const bytes=fs.readFileSync(path.join(__dirname,'v2-07b-ts-q1/synthetic-bframes-audiolead.ts'));
+const tsBytes=fs.readFileSync(path.join(__dirname,'v2-07b-ts-q1/synthetic-bframes-audiolead.ts'));
+const mp4Bytes=fs.readFileSync(path.join(__dirname,'faststart-h264-aac.mp4'));
 const hash=data=>createHash('sha256').update(data).digest('hex');
 const producerFiles=['qa/q1-product-audit.cjs',...allowed];
 const sourceHashes=()=>Object.fromEntries(producerFiles.map(file=>[file,hash(fs.readFileSync(path.join(root,file)))]));
 const sources=sourceHashes();
-assert.equal(hash(bytes),'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4');
+assert.equal(hash(tsBytes),'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4');
+assert.equal(hash(mp4Bytes),'178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079');
+// One inert ISO-BMFF free box produces a valid packet-aligned non-TS control.
+const padding=Buffer.alloc((188-mp4Bytes.length%188)%188+188);padding.writeUInt32BE(padding.length);padding.write('free',4);
+const alignedMp4=Buffer.concat([mp4Bytes,padding]);assert.equal(alignedMp4.length%188,0);
 const mime={'.js':'text/javascript','.mjs':'text/javascript','.html':'text/html','.css':'text/css','.json':'application/json',
   '.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png','.txt':'text/plain'};
 const server=http.createServer((req,res)=>{
@@ -21,9 +26,13 @@ const results=[];let browser;
 (async()=>{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base=`http://127.0.0.1:${server.address().port}`;
   browser=await chromium.launch({channel:'chrome',headless:true});
-  for(const mode of ['native-to-q1','resume-to-q1','postflight-content-change','close-pending','seek-watchdog']){
+  for(const mode of ['native-to-q1','resume-to-q1','postflight-content-change','close-pending','seek-watchdog',
+    'early-to-q1','early-resume','early-revision-drift','early-permission-denied','early-close-pending',
+    'early-mp4','early-mp4-no-revision','early-mp4-unaligned','native-capability','early-double-pending','early-checksum-drift']){
     if(process.argv[2]&&mode!==process.argv[2])continue;
     const context=await browser.newContext(),page=await context.newPage(),errors=[],calls=[];
+    const early=mode.startsWith('early-'),nativeControl=mode.startsWith('early-mp4');
+    const bytes=nativeControl?(mode==='early-mp4-unaligned'?mp4Bytes:alignedMp4):tsBytes;
     let metadataReads=0,previews=0,held=null;
     const file={id:'synthetic-ts',name:'public-fixture.mp4',mimeType:'video/mp4',size:String(bytes.length),
       headRevisionId:'source-revision-1',version:'1',modifiedTime:'2026-09-26T00:00:00.000Z',sha256Checksum:hash(bytes),
@@ -40,8 +49,12 @@ const results=[];let browser;
       const reply=data=>route.fulfill({contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*','Cache-Control':'no-store'},body:JSON.stringify(data)});
       if(url.searchParams.get('alt')!=='media'){
         metadataReads++;calls.push({kind:'metadata',sequence:metadataReads});
-        if(mode==='close-pending'&&metadataReads===5){held=route;return;}
-        return reply({...file,version:String(metadataReads),headRevisionId:mode==='postflight-content-change'&&metadataReads>=6?'source-revision-2':file.headRevisionId});
+        if((mode==='close-pending'&&metadataReads===5)||(mode==='early-close-pending'&&metadataReads===2)){held=route;return;}
+        return reply({...file,version:String(metadataReads),
+          sha256Checksum:mode==='early-checksum-drift'?(metadataReads===1?undefined:metadataReads<=3?hash(bytes):'a'.repeat(64)):file.sha256Checksum,
+          headRevisionId:mode==='early-mp4-no-revision'?undefined
+            :((mode==='postflight-content-change'&&metadataReads>=6)||(mode==='early-revision-drift'&&metadataReads>=4))?'source-revision-2':file.headRevisionId,
+          capabilities:{canDownload:mode!=='early-permission-denied'}});
       }
       assert.equal(Boolean(req.serviceWorker()),true,'MEDIA_MUST_USE_PRODUCT_SW');
       assert.equal(headers.authorization,'Bearer synthetic-test-token');
@@ -60,7 +73,7 @@ const results=[];let browser;
       await page.evaluate(()=>navigator.serviceWorker.ready);
       if(!await page.evaluate(()=>Boolean(navigator.serviceWorker.controller)))await page.reload();
       await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
-      await page.evaluate(file=>{
+      await page.evaluate(({file,mode,early})=>{
         state.demo=false;state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
         state.authAccountKey='synthetic-account';state.accountId='synthetic-account';state.tokenRevision=1;
         state.selected=file;state.mediaSession++;state.pendingPlay=true;state.mediaRetryCount=0;
@@ -69,26 +82,60 @@ const results=[];let browser;
         window.q1MseSources=0;const createObjectURL=URL.createObjectURL;
         URL.createObjectURL=function(value){if(value instanceof MediaSource)window.q1MseSources++;return createObjectURL.call(this,value);};
         el.playerSheet.hidden=false;el.videoPlayer.hidden=false;el.videoPlayer.muted=true;
-        state.playbackOrderIds=[file.id];sendTokenToWorker();startInitialOriginalPlayback(file,'video',state.mediaSession);
-      },file);
+        if(mode==='early-resume')state.resumePosition={fileId:file.id,time:6.1,
+          snapshot:{time:6.1,paused:false,muted:true,volume:.25,playbackRate:1.25,decoded:false}};
+        if(mode==='native-capability'){
+          const native=el.videoPlayer.canPlayType.bind(el.videoPlayer);
+          el.videoPlayer.canPlayType=type=>type==='video/mp2t'?'maybe':native(type);
+        }
+        if(mode==='early-double-pending'){
+          window.q1HeldOpening=0;
+          driveFetch=()=>{window.q1HeldOpening++;return new Promise(()=>{});};
+        }
+        state.playbackOrderIds=[file.id];sendTokenToWorker();
+        // The first five preserve the post-native-failure fallback acceptance.
+        if(early||mode==='native-capability')startInitialOriginalPlayback(file,'video',state.mediaSession);
+        else startOriginalRangePlayback(file,'video',state.mediaSession);
+      },{file,mode,early});
       if(mode==='resume-to-q1')await page.evaluate(()=>{
         state.resumePosition={fileId:state.selected.id,time:6.1,snapshot:{time:6.1,paused:false,muted:true,volume:1,playbackRate:1,decoded:false}};
       });
-      if(mode==='close-pending'){
+      if(mode==='early-double-pending'){
+        await page.waitForFunction(()=>window.q1HeldOpening===1);
+        await page.evaluate(()=>startInitialOriginalPlayback(state.selected,'video',state.mediaSession));
+        assert.equal(await page.evaluate(()=>window.q1HeldOpening),1,'DUPLICATE_MUST_NOT_OPEN_AROUND_OLD_CALLBACK');
+        assert.equal(await page.evaluate(()=>state.mediaAttempt),'failed');
+        assert.equal((await page.evaluate(()=>q1Retirement)).settled,false);
+        assert.equal(calls.length,0);assert.equal(await page.evaluate(()=>window.q1MseSources),0);
+        results.push({mode,passed:true,blockedUnsettledOpening:true});
+      }else if(mode==='close-pending'||mode==='early-close-pending'){
         const end=Date.now()+15000;while(!held&&Date.now()<end)await new Promise(resolve=>setTimeout(resolve,25));assert.ok(held);
         await page.evaluate(()=>closePlayer({preserveHistory:true}));
         await held.fulfill({contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify(file)}).catch(()=>{});
         const cleanup=await page.evaluate(()=>q1Retirement);assert.equal(cleanup.settled,true);
         assert.equal(await page.evaluate(()=>q1Playback===null&&el.playerSheet.hidden&&el.videoPlayer.getAttribute('src')===null),true);
+        if(early)assert.equal(calls.filter(row=>row.kind==='media').length,0,'CLOSED_PROBE_MUST_NOT_READ');
         results.push({mode,passed:true,metadataReads});
-      }else if(mode==='postflight-content-change'){
+      }else if(mode==='postflight-content-change'||mode==='early-revision-drift'||mode==='early-permission-denied'||mode==='early-checksum-drift'){
         await page.waitForFunction(()=>state.mediaAttempt==='failed'&&!el.mediaError.hidden);
         assert.equal(await page.evaluate(()=>el.videoPlayer.videoWidth),0);
         assert.equal(await page.evaluate(()=>state.mediaDecodeVerified),false);
         const failure=await page.evaluate(()=>({sources:window.q1MseSources,trace:window.q1Trace.filter(row=>row.stage==='q1-failed')}));
         assert.equal(failure.sources,0,'POSTFLIGHT_DRIFT_MUST_PRECEDE_MSE_CREATION');
-        assert.equal(failure.trace.at(-1)?.reason,'Q1_SOURCE_CONTENT_DRIFT');
+        assert.equal(failure.trace.at(-1)?.reason,mode==='early-permission-denied'?'Q1_SOURCE_PERMISSION':'Q1_SOURCE_CONTENT_DRIFT');
+        if(early)assert.equal(calls.filter(row=>row.kind==='media').length,mode==='early-permission-denied'?0:1);
         results.push({mode,passed:true,metadataReads,failure});
+      }else if(nativeControl){
+        await page.waitForFunction(()=>state.mediaDecodeVerified&&el.videoPlayer.currentTime>.1);
+        assert.equal(await page.evaluate(()=>state.mediaAttempt),'range');
+        assert.equal(await page.evaluate(()=>q1Playback),null);
+        const probes=calls.filter(row=>row.kind==='media'&&row.range==='bytes=0-939');
+        assert.equal(probes.length,mode==='early-mp4'?1:0);
+        assert.equal(metadataReads,mode==='early-mp4'?3:mode==='early-mp4-no-revision'?1:0);
+        const frame=await page.evaluate(()=>({width:el.videoPlayer.videoWidth,height:el.videoPlayer.videoHeight,time:state.lastPresentedMediaTime}));
+        assert.ok(frame.width>0&&frame.height>0);
+        await page.evaluate(()=>closePlayer({preserveHistory:true}));assert.equal((await page.evaluate(()=>q1Retirement)).settled,true);
+        results.push({mode,passed:true,metadataReads,frame,probeBytes:probes.length*940});
       }else{
         await page.waitForFunction(()=>state.mediaAttempt==='q1'&&state.mediaTransportVerified,{},{timeout:20000});
         await page.evaluate(()=>{window.lastQ1=q1Playback.player;});
@@ -96,8 +143,10 @@ const results=[];let browser;
         await page.waitForFunction(()=>state.mediaDecodeVerified&&el.videoPlayer.currentTime>.5);
         assert.equal(await page.evaluate(()=>getPlaybackQualityLabel(state.mediaPlaybackMode,state.mediaTransportVerified)),'원본 스트림 · 재포장');
         assert.equal(await page.evaluate(()=>el.videoPlayer.videoWidth),360);
-        assert.equal(calls.filter(row=>row.kind==='media'&&row.range==='bytes=0-').length,2,'NATIVE_FIRST_AND_ONE_RETRY');
-        assert.equal(await page.evaluate(()=>q1Trace.filter(row=>row.stage==='media-error'&&row.mediaErrorCode===4).length),2);
+        assert.equal(calls.filter(row=>row.kind==='media'&&row.range==='bytes=0-').length,early?0:2,'ONLY_LATE_FALLBACK_TRIES_NATIVE');
+        assert.equal(await page.evaluate(()=>q1Trace.filter(row=>row.stage==='media-error'&&row.mediaErrorCode===4).length),early?0:2);
+        if(early){assert.equal(calls.find(row=>row.kind==='media').range,'bytes=0-939');
+          assert.ok(calls.filter(row=>row.kind==='media').every(row=>row.end-row.start+1<=1048576));}
         if(mode==='seek-watchdog'){
           await page.evaluate(()=>{
             beginMediaSeekIntent(el.videoPlayer,6.1,'qa-no-frame');
@@ -110,7 +159,8 @@ const results=[];let browser;
           assert.equal(previews,0);assert.deepEqual(errors,[]);
           results.push({mode,passed:true,metadataReads});continue;
         }
-        if(mode==='resume-to-q1')assert.ok(await page.evaluate(()=>el.videoPlayer.currentTime>=6.1&&q1Playback.player.stats().generation===1));
+        if(mode==='resume-to-q1'||mode==='early-resume')assert.ok(await page.evaluate(()=>el.videoPlayer.currentTime>=6.1&&q1Playback.player.stats().generation===1));
+        if(mode==='early-resume')assert.deepEqual(await page.evaluate(()=>[el.videoPlayer.volume,el.videoPlayer.playbackRate,el.videoPlayer.muted]),[.25,1.25,true]);
         const seeks=[];
         for(const seconds of [1.2,6.1,0,1000,11.95]){
           await page.evaluate(seconds=>{

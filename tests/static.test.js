@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.5');
+  assert.equal(metadata.version, '1.22.0-rc.6');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -309,7 +309,8 @@ test('video adaptively chooses exact-original transport and exhausts original pa
   const productTruth = read('memory/PRODUCT-TRUTH.md');
   const initialRoute = app.match(/function startInitialOriginalPlayback\([\s\S]*?(?=\nfunction startOriginalRangePlayback)/)?.[0] || '';
   assert.match(initialRoute, /route: 'range'[\s\S]*?startOriginalRangePlayback\(file, kind, session\)/);
-  assert.doesNotMatch(initialRoute, /resolveOriginalBufferPolicy|startOriginalBlobFallback|await /);
+  assert.doesNotMatch(initialRoute, /resolveOriginalBufferPolicy|startOriginalBlobFallback/);
+  assert.match(initialRoute, /shouldProbeOriginalTs[\s\S]*?tryOriginalTsPlayback/);
   assert.match(app, /rangeFallbackOnFailure[\s\S]*?startOriginalRangePlayback\(file, kind, session/);
   assert.match(app, /mediaExhaustedOriginalModes\.add\(PLAYBACK_MODE\.OPFS\)[\s\S]*?startOriginalRangePlayback/);
   assert.match(app, /function buildMediaUrl\(file\)[\s\S]*?searchParams\.set\('mediaSession'/);
