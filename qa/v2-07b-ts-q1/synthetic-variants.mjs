@@ -29,7 +29,7 @@ export function variant(mutate = () => {}) {
   for (const record of changed) {
     if (record.idr) idrStarts.push(size);
     for (let cursor = 0; cursor < record.data.length;) {
-      const count = Math.min(184,record.data.length-cursor);
+      const count = Math.min(cursor===0?(record.firstPacketBytes||184):184,record.data.length-cursor);
       const packet = Buffer.alloc(188,255);
       packet[0]=0x47;packet[1]=(record.pid>>8)|(cursor===0?64:0);packet[2]=record.pid&255;
       const cc=counters.get(record.pid)||0;counters.set(record.pid,(cc+1)%16);

@@ -103,6 +103,8 @@ async function run() {
   const input = path.join(__dirname,'synthetic-bframes-audiolead.ts');
   const bytes = fs.readFileSync(input);
   if (sha(bytes) !== 'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4') throw new Error('QA_FIXTURE_IDENTITY');
+  if (require('mux.js/package.json').version !== '7.1.0'
+    || sha(fs.readFileSync(bundlePath)) !== '4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f') throw new Error('QA_LIBRARY_IDENTITY');
   const boundary = analyzeGopBoundaries(bytes);
   const source = extract(input); const sourceDecoded = decode(input);
   const cases = [
@@ -140,12 +142,13 @@ async function run() {
       const maxVideoDecodeTimelineOverlap = Math.max(0,...packets.slice(0,-1).map((packet,index) =>
         Number(packet.dts_time)+Number(packet.duration_time)-Number(packets[index+1].dts_time)));
       observations.push({ name:scenario.name, expectedPreserved:scenario.expectedPreserved, fragments:output.fragments,
-        ...comparison, decodedVideoEqual, decodedPcmEqual, maxVideoDecodeTimelineOverlap, mediaDiagnostics,
+        ...comparison, outputBytes:output.bytes.length,outputSha256:sha(output.bytes),decodedVideoEqual, decodedPcmEqual, maxVideoDecodeTimelineOverlap, mediaDiagnostics,
         preserved:!mediaDiagnostics.length && comparison.preserved && decodedVideoEqual && decodedPcmEqual && maxVideoDecodeTimelineOverlap <= 1/90000+0.000002 });
     }
     const report = { schema:'drive-original.q1-incremental-discriminator/1',recordedAt:new Date().toISOString(),
       library:{name:'mux.js',version:'7.1.0',artifact:'dist/mux-mp4.min.js',sha256:sha(fs.readFileSync(bundlePath))},
       producer:{driverSha256:sha(fs.readFileSync(__filename)),boundarySha256:sha(fs.readFileSync(path.join(__dirname,'gop-boundaries.mjs'))),
+        containerProbeSha256:sha(fs.readFileSync(path.join(__dirname,'../v2-07a-container-probe/mpeg-ts-probe.mjs'))),
         comparisonSha256:sha(fs.readFileSync(path.join(__dirname,'preservation-probe.cjs'))),variantSha256:sha(fs.readFileSync(path.join(__dirname,'synthetic-variants.mjs'))),
         lockSha256:sha(fs.readFileSync(path.join(__dirname,'package-lock.json'))),node:process.version},
       fixture:{sha256:sha(bytes),bytes:bytes.length},boundary:{cuts:boundary.cuts,largestWindowBytes:boundary.largestWindowBytes,dtsStep:boundary.dtsStep},

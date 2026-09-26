@@ -95,6 +95,39 @@ despite exit 0. Either source or output error-level diagnostics exclude success;
 only sanitized diagnostic codes are saved. The 80-test parser/static/helper
 integration passes. All generated media in each run is removed by exact path.
 
+## Bounded incremental raw interval owner
+
+`node --test --test-concurrency=1 psi-stream.test.mjs gop-stream.test.mjs`
+
+After refreshing the nine-case report with the current producer:
+`node stream-probe.mjs`
+
+The dependency-free `gop-stream.mjs` incrementally retains raw TS bytes and
+releases before-IDR intervals through a synchronous sink. `psi-stream.mjs` reuses
+the existing CRC/section assembler; `elementary-stream.mjs` retains bounded
+per-GOP presentation data and validates SPS syntax, stable parameters and global
+audio sample cadence. No raw byte is rewritten and no whole-file prepass occurs
+inside the owner. The next IDR PES must finish before the preceding GOP is emitted.
+
+The 958,800-byte public fixture passes six input chunkings from1 to65,536 bytes.
+First callback occurs with164,500–196,608 source bytes supplied; five intervals
+arrive before EOF and the sixth at exact EOF. Retained raw byte peak is177,472;
+the conservative accounted storage is387,328 encoded bytes including arena,
+carry/counters, bounded PSI, PES/SPS scratch and transient output copy. This is
+**not** a JS heap, complete mux/decoder/worker/MSE or product memory measurement.
+The QA harness separately retains fixture and comparison outputs. Every emitted
+interval concatenates to the exact input, and the persistent mux output is
+byte-identical to the pinned strict-decoder positive result. The report binds
+actual mux artifact, fixture, transitive producer and positive output hashes.
+
+Eleven owner and ten PSI tests cover tiny/split headers, PSI repeats without
+lifetime growth, malformed future input, limits, exact EOF, abort, generations,
+reentrancy, unsupported async consumers, rejected Promises, redacted callback
+errors and incomplete SPS. Independent review findings were reproduced and
+fixed; parser/static/all-helper integration passes101/101. Early output followed
+by later failure remains a failed stream, not whole-file validation. This unit is
+still QA-only and does not change app.js, candidate assets or production.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -103,9 +136,11 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption needs a browser-safe validated SPS/SAR signal and a bounded
-GOP/PES window owner with lookahead, two-track readiness, VFR/sample-duration,
-partial ADTS and mux GOP-cache memory ownership. Source local stat identity
+Product adoption still needs a browser-safe validated SPS/SAR signal, worker
+backpressure/lifecycle and mux GOP-cache memory ownership. VFR/sample-duration,
+partial ADTS and other rejected combinations remain required support work, not
+removed acceptance requirements. Next metadata unit replaces FFprobe-only SAR
+eligibility with a validated source-SPS signal. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or

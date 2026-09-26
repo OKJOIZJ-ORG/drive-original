@@ -446,7 +446,7 @@ function appendPsiBytes(assembler, chunk, state, add, packetIndex, pid) {
   }
 }
 
-function feedPsi(pid, payload, payloadUnitStart, continuityCounter, discontinuity, state, add, packetIndex) {
+export function feedMpegTsPsi(pid, payload, payloadUnitStart, continuityCounter, discontinuity, state, add, packetIndex) {
   let assembler = state.assemblers.get(pid);
   if (!assembler) {
     assembler = newAssembler();
@@ -511,6 +511,18 @@ function feedPsi(pid, payload, payloadUnitStart, continuityCounter, discontinuit
     }
   }
   appendPsiBytes(assembler, payload.subarray(1 + pointer), state, add, packetIndex, pid);
+}
+
+// Shared PSI state/assembly primitives; the bounded file probe and stricter
+// streaming QA owner apply their own lifecycle and acceptance policies.
+const feedPsi = feedMpegTsPsi;
+export { psiSetComplete as isMpegTsPsiSetComplete };
+export function createMpegTsPsiState(limits) {
+  return {
+    limits, assemblers: new Map(), pmtPids: new Set(), programs: new Map(), esStates: new Map(),
+    transportStreamIds: new Set(), networkPids: new Set(), sectionsExamined: 0, sectionsValid: 0,
+    patSet: null, patVersion: null, totalStreams: 0, limitHit: false, unsupported: false,
+  };
 }
 
 function appendElementary(state, bytes, limits) {
@@ -734,7 +746,7 @@ function hasValidRbspTrailingBits(reader) {
   return reader.bit === reader.bytes.length * 8;
 }
 
-function parseH264Sps(nal) {
+export function parseH264Sps(nal) {
   try {
     if (nal.length < 5) return { status: 'incomplete', code: 'H264_SPS_TRUNCATED' };
     if ((nal[0] & 0x1f) !== 7) return { status: 'malformed', code: 'H264_SPS_INVALID' };

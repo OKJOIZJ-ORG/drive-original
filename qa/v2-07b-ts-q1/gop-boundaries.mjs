@@ -11,6 +11,10 @@ const join = parts => {
   return output;
 };
 
+// Shared bounded elementary readers. They establish syntax/framing, not decode
+// validity. Runtime window ownership still needs independent media acceptance.
+export { pes as readPes, nals as readAnnexBNals };
+
 function timestamp(bytes, offset, prefix) {
   requireThat(offset + 5 <= bytes.length && bytes[offset] >> 4 === prefix
     && (bytes[offset] & bytes[offset + 2] & bytes[offset + 4] & 1) === 1, 'PES_TIMESTAMP');

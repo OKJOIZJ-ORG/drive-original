@@ -1,0 +1,538 @@
+{
+  "schema": "drive-original.q1-stream-owner/1",
+  "recordedAt": "2026-09-26T13:12:28.831Z",
+  "fixture": {
+    "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+    "bytes": 958800
+  },
+  "library": {
+    "name": "mux.js",
+    "version": "7.1.0",
+    "artifact": "dist/mux-mp4.min.js",
+    "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+  },
+  "producer": {
+    "sources": {
+      "stream-probe.mjs": "f4e40d6ac076f017446eb71b5ed0fad8957687237bc3331e90ae83a3a1255334",
+      "gop-stream.mjs": "4a0f121d9d298ef8d97ab2eee239013af397b5784a206385fc4d1357923ed4cd",
+      "elementary-stream.mjs": "ca2bd58057ce77b445850c3189ff0bcaed06c329609180e6784446bcaf2b54d0",
+      "psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
+      "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+      "../v2-07a-container-probe/mpeg-ts-probe.mjs": "0afede1c1602c8906d57eec7e8e290789598fa59fa574a7b3f45fd1c36b72b48",
+      "incremental-probe.cjs": "0c1498a6aa8fd2143dda9c450ed5198308596ee70b5269a26fbdb6cc088bc1af",
+      "preservation-probe.cjs": "9137d425ee0b3a28ddc606394b884b02efc0a26264dec686ab9300eca6c99e8f",
+      "synthetic-variants.mjs": "f66c812bf4f6b95b0c196a1f46a4d371521044bf3541df364e14c79286adb630",
+      "package-lock.json": "103790350b36712ea45f5feff1b84f1b5271a98158e4bf6e4ba4f21aac8f01a1"
+    },
+    "node": "v24.18.0"
+  },
+  "comparisonReportSha256": "7fcbf33dc4b20eb617bfa4bdf27ad24f48f8cbe950bed06d7fd5a0311f419da9",
+  "observations": [
+    {
+      "chunkBytes": 1,
+      "firstCallbackInputBytes": 164500,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    },
+    {
+      "chunkBytes": 187,
+      "firstCallbackInputBytes": 164560,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    },
+    {
+      "chunkBytes": 188,
+      "firstCallbackInputBytes": 164500,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    },
+    {
+      "chunkBytes": 189,
+      "firstCallbackInputBytes": 164619,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    },
+    {
+      "chunkBytes": 4093,
+      "firstCallbackInputBytes": 167813,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    },
+    {
+      "chunkBytes": 65536,
+      "firstCallbackInputBytes": 196608,
+      "intervalsBeforeEof": 5,
+      "sourceBytesEqual": true,
+      "verifiedMuxBytesEqual": true,
+      "outputBytes": 855885,
+      "outputSha256": "0afe4e4929cd58308902a2e81c01ff33af738a6603f4b298f9df85c4af8318bc",
+      "intervals": [
+        {
+          "start": 0,
+          "end": 156228,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 156228,
+          "end": 322044,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 322044,
+          "end": 481092,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 481092,
+          "end": 643524,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 88
+        },
+        {
+          "start": 643524,
+          "end": 800692,
+          "final": false,
+          "videoFrames": 60,
+          "aacFrames": 99
+        },
+        {
+          "start": 800692,
+          "end": 958800,
+          "final": true,
+          "videoFrames": 60,
+          "aacFrames": 91
+        }
+      ],
+      "stats": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "received": 958800,
+        "packets": 5100,
+        "emittedIntervals": 6,
+        "firstEmissionOffset": 164500,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 177472,
+        "peakOwnedByteStorage": 387328,
+        "storageCapacity": 193264,
+        "emittedAacFrames": 564,
+        "elementary": {
+          "parameterBytes": 0,
+          "retainedFrames": 0,
+          "peakFrames": 60,
+          "videoFrames": 360,
+          "aacFrames": 564
+        },
+        "psi": {
+          "terminal": true,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 410,
+          "snapshotBytes": 0,
+          "sectionCount": 0,
+          "maxRetainedEncodedBytes": 11640
+        },
+        "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+      }
+    }
+  ],
+  "limitations": [
+    "QA-only public generated fixture, not adopted/deployed product code",
+    "fixture and comparison outputs loaded/retained by test harness, excluded from owner accounting",
+    "encoded owner byte storage accounting, not total JS heap/mux cache/decoder/worker/MSE memory",
+    "structural eligibility is not complete-picture/error-free decode proof; equality links only this fixture to prior strict decoder evidence",
+    "initial CFR, fixed topology, no cross-PES ADTS, no cross-IDR presentation reorder; not full-format support",
+    "synchronous sink only; no network/Drive identity, worker backpressure, indexed seek, duration discovery, MSE/MMS or device proof"
+  ]
+}
