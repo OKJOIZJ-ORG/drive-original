@@ -1,0 +1,22 @@
+[
+  {
+    "name": "favorite cross-folder selection and partial bulk failure",
+    "status": "passed"
+  },
+  {
+    "name": "mutation lost-after readback and reload",
+    "status": "passed",
+    "initialState": "confirmed",
+    "patchRequests": 1,
+    "finalState": "confirmed",
+    "syntheticOnly": true
+  },
+  {
+    "name": "mutation lost-before readback and reload",
+    "status": "passed",
+    "initialState": "uncertain",
+    "patchRequests": 1,
+    "finalState": "confirmed",
+    "syntheticOnly": true
+  }
+]

@@ -481,6 +481,7 @@ let base, browser, video, tailIndexSeed, tailIndexVideo, faststartSeed, faststar
 const poster = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="#182c43"/><circle cx="320" cy="170" r="90" fill="#4c94d2"/><text x="320" y="190" text-anchor="middle" fill="white" font-size="32">Original fixture</text></svg>');
 function record(name, details = {}) { const r = { name, status:'passed', ...details }; results.push(r); console.log(JSON.stringify(r)); }
 async function check(name, callback) {
+  if (process.argv[4] === 'mutations-only' && !/mutation|partial bulk/i.test(name)) return;
   try { await callback(); }
   catch (error) { results.push({ name, status:'failed', error:error.stack }); fs.writeFileSync(path.join(out,'results.json'), JSON.stringify(results,null,2)); throw error; }
 }
@@ -521,7 +522,7 @@ async function generateVideo() {
   });
   await page.close(); video=Buffer.from(bytes);fs.writeFileSync(path.join(out,'fixture.webm'),video);
 }
-async function environment({ mobile=false, disableOpfs=false, rangeFault=null, bulkFault=null, mediaBytes=video, mediaMimeType='video/webm', mediaName='긴 제목과 공백을 포함한 영상.webm', mediaMetadata={width:640,height:360,durationMillis:'2500'} }={}) {
+async function environment({ mobile=false, disableOpfs=false, rangeFault=null, bulkFault=null, mutationFault=null, mediaBytes=video, mediaMimeType='video/webm', mediaName='긴 제목과 공백을 포함한 영상.webm', mediaMetadata={width:640,height:360,durationMillis:'2500'} }={}) {
   const context = await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1280,height:800},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1});
   if(disableOpfs) await context.addInitScript(()=>{Object.defineProperty(navigator.storage,'getDirectory',{value:undefined,configurable:true});});
   // This audit writes only to the per-context in-memory fixture below. The
@@ -534,6 +535,10 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
   for (const [i,id] of ['video-A','video-B','video-C','video-outside'].entries()) store.set(id,{id,name:`원본 테스트 ${i+1} — ${mediaName}`,mimeType:mediaMimeType,size:String(mediaBytes.length),modifiedTime:`2026-09-${10+i}T12:00:00Z`,parents:[id==='video-outside'?'folder-Q':'root'],resourceKey:'fixture-key',thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true,canMoveItemWithinDrive:true},videoMediaMetadata:mediaMetadata});
   store.set('photo-A',{id:'photo-A',name:'이미지 모음.svg',mimeType:'image/svg+xml',size:'128',parents:['root'],thumbnailLink:poster,capabilities:{canDownload:true,canTrash:true}});
   store.set('folder-Q',{id:'folder-Q',name:'다른 폴더',mimeType:'application/vnd.google-apps.folder',parents:['root']});
+  for (const file of store.values()) {
+    file.trashed = false; file.version = '1';
+    if (file.mimeType === 'application/vnd.google-apps.folder') file.capabilities = { canAddChildren: true };
+  }
   const account = new Map([['state-legacy',{id:'state-legacy',name:'drive-original-account-state.json',modifiedTime:'2026-09-01T00:00:00Z',data:{schemaVersion:1,updatedAt:20,viewed:{},favorites:{'video-outside':{liked:true,updatedAt:20}}}}]]);
   await context.route('**/api/session/credential', async route=>{
     const request=route.request();const headers=await request.allHeaders();
@@ -564,8 +569,12 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
     if (url.searchParams.get('spaces')==='appDataFolder') return reply({files:[...account.values()].map(({data,...rest})=>rest)});
     if(method==='PATCH') {
       if(id===bulkFault) return reply({error:{errors:[{reason:'insufficientFilePermissions'}],message:'Fixture permission denied'}},403);
+      if(mutationFault==='lost-before') return route.abort('failed');
       const file=store.get(id);Object.assign(file,JSON.parse(req.postData()||'{}'));
-      if(url.searchParams.has('addParents'))file.parents=[url.searchParams.get('addParents')];return reply(file);
+      if(url.searchParams.has('addParents'))file.parents=[url.searchParams.get('addParents')];
+      file.version=String(Number(file.version)+1);
+      if(mutationFault==='lost-after') return route.abort('failed');
+      return reply(file);
     }
     if(url.searchParams.get('alt')==='media') {
       mediaCalls++;
@@ -579,7 +588,7 @@ async function environment({ mobile=false, disableOpfs=false, rangeFault=null, b
       return route.fulfill({status:200,headers:{'Content-Type':mediaMimeType,'Content-Length':String(mediaBytes.length),'Access-Control-Allow-Origin':'*','Cache-Control':'no-store'},body:mediaBytes});
     }
     if(store.has(id))return reply(store.get(id));
-    if(id==='root')return reply({id:'root',name:'내 드라이브',mimeType:'application/vnd.google-apps.folder'});
+    if(id==='root')return reply({id:'root',name:'내 드라이브',mimeType:'application/vnd.google-apps.folder',trashed:false,capabilities:{canAddChildren:true}});
     if(id==='files') {
       const query=url.searchParams.get('q')||'';const parent=/'([^']+)' in parents/.exec(query)?.[1];
       return reply({files:[...store.values()].filter(f=>!f.trashed&&(!parent||f.parents?.includes(parent)))});
@@ -2240,8 +2249,35 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
         await page.locator('#selectionDeleteBtn').click();await page.locator('#deleteConfirmButton').click();await page.waitForFunction(()=>!state.bulkAction);
         assert.deepEqual(await page.evaluate(()=>[...state.selectedFileIds]),['video-B']);
         assert.deepEqual(calls.filter(c=>c.method==='PATCH'&&!c.path.includes('/upload/')).map(c=>c.path.split('/').pop()).sort(),['video-A','video-B','video-C']);
+        const ledger=await page.evaluate(()=>readDriveMutations(captureDriveMutationOwner()).map(row=>({id:row.fileId,state:row.state})));
+        assert.deepEqual(ledger.sort((a,b)=>a.id.localeCompare(b.id)),[{id:'video-A',state:'confirmed'},{id:'video-B',state:'failed'},{id:'video-C',state:'confirmed'}]);
         assert.deepEqual(errors,[]);await page.screenshot({path:path.join(out,'bulk-partial.png')});record('favorite cross-folder selection and partial bulk failure');
       }finally{await context.close();}
+    });
+    for (const fault of ['lost-after','lost-before']) await check(`mutation ${fault} readback and reload`,async()=>{
+      const {page,context,calls,store,errors}=await environment({mutationFault:fault});
+      try {
+        const outcome=await page.evaluate(async()=>{
+          const file=state.files.find(file=>file.id==='video-A');
+          try { await moveDriveFile(file,{id:'folder-Q'}); return {state:'confirmed',parents:file.parents}; }
+          catch(error) { return {state:error.mutationState,parents:file.parents}; }
+        });
+        assert.equal(outcome.state,fault==='lost-after'?'confirmed':'uncertain');
+        assert.deepEqual(outcome.parents,fault==='lost-after'?['folder-Q']:['root']);
+        const patches=()=>calls.filter(call=>call.method==='PATCH'&&!call.path.includes('/upload/'));
+        assert.equal(patches().length,1);
+        // Exercise actual persistent browser storage across a document reload;
+        // the reconstructed operation may only read, never replay its PATCH.
+        if(fault==='lost-before') {store.get('video-A').parents=['folder-Q'];store.get('video-A').version='2';}
+        await page.reload({waitUntil:'networkidle'});
+        await page.waitForFunction(()=>state.accountStateLoaded);
+        await page.evaluate(()=>recoverDriveMutations());
+        const ledger=await page.evaluate(()=>readDriveMutations(captureDriveMutationOwner()).map(row=>({state:row.state,confirmed:Boolean(row.confirmedAt)})));
+        assert.deepEqual(ledger,[{state:'confirmed',confirmed:true}]);
+        assert.equal(patches().length,1);
+        assert.deepEqual(errors,[]);
+        record(`mutation ${fault} readback and reload`,{initialState:outcome.state,patchRequests:1,finalState:'confirmed',syntheticOnly:true});
+      } finally {await context.close();}
     });
     await check('mobile video, overflow actions, seek and double-tap',async()=>{
       const {page,context,errors}=await environment({mobile:true});

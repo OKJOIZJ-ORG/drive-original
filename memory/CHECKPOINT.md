@@ -1,32 +1,31 @@
-# Checkpoint — V2-02B presentation and quiet status verified locally — 2026-09-26
+# Checkpoint — V2-05A mutation readback verified locally — 2026-09-26
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. V2-02A is committed at 8b16fae (manual-only external preview, one bottom chrome, accessible recovery). V2-02B changes normal sync/loading verbosity and viewed timing: video needs presentation progress; image needs decode and foreground paint. Existing history/schema/writer merge is untouched. Retry rebinding and foreground-image recovery were added after independently reproduced review counterexamples.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. V2-02A is committed at 8b16fae; V2-02B at e68d579. V2-05A now has account-owned persistent per-file operations, independent GET postconditions, read-only reload/refresh recovery and truthful partial-result counts. Response loss, malformed JSON, 404 and changed-account results never imply success or unconditional replay. Initial confirmed evidence remains separate from later external changes.
 
-Current evidence: Node 277/277 passes with --test-concurrency=1; focused browser before (8b16fae) and after PC/mobile 2/2 each under qa/v2-presentation/before and after. Actual failed opens were marked viewed before but not after. The after driver exercises actual video retry lifecycle plus image hidden-load/visible-return, using synthetic bytes only.
-
-Expanded browser retry passed 17 cases (including Range, auth renewal, OPFS, tail indexes and seeks), then failed at the next page navigation with net::ERR_INSUFFICIENT_RESOURCES. A shell simultaneously reported Windows 0x800705AF paging-file-too-small. This is not a full 20/20 pass. Earlier fixture generation hung and was stopped; the QA driver now has a bounded recorder wait and an explicit bounded synthetic-seed reuse option. All task-owned test runs have ended.
+Evidence: tests/mutations.test.js 22/22; combined suite 298/298 before the final input-snapshot regression fix (focused 22/22 after it). Browser qa/v2-mutations-integration/results.json 22/22; defensive null/readback changes rechecked by qa/v2-mutations-final/results.json 3/3. Independent review findings fixed; final main review additionally reproduced/fixed asynchronous UI snapshot drift. Local only, no deployment, no real Drive mutation, no physical-device claim. Earlier browser resource failure remains historical; the current full browser run succeeded with the pinned synthetic seed.
 
 ## Decided
 
-- D-050/D-051/D-052 remain active. No merge/push/deployment, original mutation, public sharing, billing or automation restart.
-- Full corpus is not a prerequisite for a known-container product slice; all format and device acceptance remains required.
-- Current Chrome DevTools candidate has no authenticated session. Historical iPhone auth confirmation is not current playback proof.
-- Browser-heavy Q1/integration work needs a usable host resource budget. Continue lightweight independent product work instead of repeatedly launching failing browsers or changing OS settings.
+- D-050/D-051/D-052 remain active. No main merge/push/production replacement, original mutation, public sharing, billing or automation restart.
+- Browser owns Drive mutations; auth-only Worker remains unchanged. Candidate driveMutationsEnabled stays false.
+- Web Locks plus local persistent ledger serialize same-origin account writes. Unsupported locking or storage failure stops writes, not read/playback. Natural storage limits remain fail-closed; no history is silently pruned.
+- A new explicit UI retry may send one PATCH only after fresh original version/state readback and another preflight match. Reload/refresh and duplicate operation IDs never resend. Preflight is not atomic protection from other apps/devices.
 
 ## Waiting on the user
 
-No decision needed for local implementation. Actual Google login/device acceptance and final production transition remain user-controlled gates. Host resource failure is recorded, not silently counted as passing.
+No decision needed for local implementation. Live Google/device acceptance and final production transition remain user-controlled gates. Current isolated candidate is unauthenticated; do not borrow a personal browser session or count historical iPhone auth confirmation as current media evidence.
 
 ## Next first action
 
-Read spec MUT-01 through MUT-10 and app.js trashDriveFile/moveDriveFile/runTaskPool; implement V2-05A response-loss readback and per-file operation ownership using synthetic tests while browser-heavy Q1 validation is resource-blocked.
+Inspect qa/v2-03b and the priority MPEG-TS evidence, then implement the smallest bounded local Q1 transmux/seek-preservation discriminator; use synthetic media and read-only priority evidence before adopting a product library.
 
 ## Tried
 
-- Automatic view-on-open caused failed videos to become viewed; replaced with presentation evidence without rewriting old history.
-- First observation-only draft missed retry session rebinding and background-loaded image resumption; both independently reproduced, fixed and regression-tested.
-- Expanded browser verification: 17 passed then ERR_INSUFFICIENT_RESOURCES. Preserve qa/v2-presentation-integration-retry/results.json; do not claim all browser checks passed.
-- Parallel Node workers also exited under host memory pressure; a serial full run passed all 277.
-- No OS paging settings or user processes were modified. Rollback is the isolated V2-02B commit; no remote/user data recovery is necessary.
+- Legacy mutations accepted unreadable PATCH responses or fabricated destination parents; baseline two tests failed, now independent GET owns success.
+- First ledger draft lost prior confirmed evidence, imposed an arbitrary 2000-row ceiling and rejected parentless destinations; review reproduced all, fixed and tested.
+- Repeated 404 exposed null/stale readback reuse during explicit retry; fixed with fresh-observation clearing and exact null-safe guards.
+- Mutable UI file objects could change intent during preflight; a discriminating red test now passes after input snapshotting.
+- Expanded V2-02B browser run previously stopped at ERR_INSUFFICIENT_RESOURCES; later complete 22/22 synthetic run succeeded. OS paging and user processes were not changed.
+- Rollback: revert the isolated local unit while retaining candidate read-only configuration and private local ledger; no original or remote data recovery is needed.

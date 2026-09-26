@@ -170,3 +170,9 @@ runtime dependency.
 `acceptance-audit.cjs` starts two isolated browser contexts with separate storage and synthetic OAuth sessions against one intercepted Drive store. It uses real application timers and UI actions, not manual sync calls, to verify continuous-foreground convergence, visible favorite removal, offline replay and reload persistence. Output is written to `qa/acceptance-browser/` (or the directory name passed as the first argument). `ACCEPTANCE_ROOT` may point to another checkout to reproduce the failure against `70ff332`; the unchanged baseline is expected to exit nonzero at the foreground convergence assertion. This does not certify actual Google propagation or two physical devices.
 
 The physical-device procedure and remaining open gates are in `memory/ACCEPTANCE-20260917.md`.
+
+### V2 mutation result ownership
+
+`node --test --test-concurrency=1 tests/mutations.test.js` exercises the actual application controller with a synthetic authenticated Drive/ledger/lock store: response loss, independent GET, 403/429, 404, operation-ID conflicts, changed account, partial batch, storage failure, cross-tab serialization, root aliases, shortcut IDs, retry and immutable first-confirmed evidence. It does not prove live Google behavior.
+
+`node qa/functional-audit.cjs v2-mutations-final qa/v2-ui-integration/fixture.webm mutations-only` runs the focused browser slice with actual localStorage/Web Locks and intercepted synthetic Drive only. Omit `mutations-only` for the complete suite. The optional seed is a bounded existing synthetic fixture, not a user video. Browser results: `qa/v2-mutations-integration/results.json` (22/22), `qa/v2-mutations-final/results.json` (3/3 after defensive fixes). No real Drive write or physical-device result is implied.

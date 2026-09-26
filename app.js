@@ -1079,6 +1079,7 @@ function bindEvents() {
     if (state.token || state.demo) showLibrary();
   });
   el.refreshButton.addEventListener('click', () => {
+    void recoverDriveMutations({ notifyResult: true }).catch(() => {});
     state.treeCache = null;
     state.folderIndex = null;
     state.moveFolderRows = [];
@@ -3590,6 +3591,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const maxRateAttempts = Math.max(1, Math.min(3, Number(options.driveMaxRateAttempts) || 3));
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
+  delete requestOptions.driveNoRetry;
   const requestMethod = String(requestOptions.method || 'GET').toUpperCase();
   if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod)) {
     const error = new Error('Candidate Drive mutations are disabled until state verification completes.');
@@ -3624,7 +3626,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
       body = await response.json();
     } catch (_) {}
     assertOwner();
-    if (response.status === 401 && !_retried) {
+    if (response.status === 401 && !_retried && !options.driveNoRetry) {
       // A concurrent request may already have replaced the rejected token.
       if (((state.tokenRevision || 0) !== requestTokenRevision || state.token !== requestToken) && hasUsableToken()) {
         return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
@@ -3641,7 +3643,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     const reasons = (body?.error?.errors || []).map((item) => item?.reason).filter(Boolean);
     const rateLimited = response.status === 429
       || (response.status === 403 && reasons.some((reason) => /rateLimitExceeded/i.test(reason)));
-    if (rateLimited && _rateAttempt < maxRateAttempts - 1) {
+    if (rateLimited && !options.driveNoRetry && _rateAttempt < maxRateAttempts - 1) {
       const retryAfterMs = parseRetryAfterMs(response.headers.get('Retry-After'));
       const delayMs = retryAfterMs || 500 * (2 ** _rateAttempt) + Math.floor(Math.random() * 250);
       await waitForRetry(delayMs, options.signal);
@@ -3932,6 +3934,9 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
     persistAccountMediaState();
     refreshFavoritePresentation();
     updateAccountSyncStatus();
+    // Recovery only reads the origin account's submitted operations. It never
+    // replays a PATCH, including after a reload or a changed credential.
+    void recoverDriveMutations().catch(() => {});
     if (remoteNeedsMerge) queueAccountStateSync();
     return state.accountMediaState;
   })();
@@ -8341,17 +8346,297 @@ function requestDeleteFile() {
   }
 }
 
-async function trashDriveFile(file) {
+const DRIVE_MUTATION_PREFIX = 'drive-original.mutation.v1.';
+const DRIVE_MUTATION_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,capabilities(canTrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_MUTATION_PENDING = new Set(['submitted', 'verifying', 'uncertain']);
+
+function driveMutationError(mutationState, message, status = 0) {
+  return Object.assign(new Error(message), { mutationState, status });
+}
+
+function captureDriveMutationOwner() {
+  const base = captureAccountStateRequest();
+  const accountKey = state.authAccountKey;
+  const accountId = state.accountId;
+  const current = () => base.current() && Boolean(accountKey && accountId)
+    && state.authAccountKey === accountKey && state.accountId === accountId && !state.accountIdentityPending && !state.demo;
+  const assert = () => {
+    if (!current()) throw new DOMException('Drive mutation account changed', 'AbortError');
+  };
+  assert();
+  return { ...base, accountKey, accountId, current, assert,
+    prefix: `${DRIVE_MUTATION_PREFIX}${encodeURIComponent(accountKey)}.${encodeURIComponent(accountId)}.` };
+}
+
+function readDriveMutations(owner) {
+  const entries = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key?.startsWith(owner.prefix)) continue;
+      const row = JSON.parse(localStorage.getItem(key));
+      if (row?.schema !== 1 || row.accountKey !== owner.accountKey || row.accountId !== owner.accountId
+        || !row.operationId || key !== owner.prefix + encodeURIComponent(row.operationId)
+        || !row.fileId || !['trash', 'move'].includes(row.action) || typeof row.intent !== 'string') throw new Error('Invalid ledger');
+      entries.push(row);
+    }
+    return entries;
+  } catch (_) {
+    throw driveMutationError('uncertain', '이전 작업 기록을 읽지 못했습니다. 다시 연결해 확인해 주세요.');
+  }
+}
+
+function persistDriveMutation(entry, owner, nextState) {
+  // Origin ownership is immutable even if a response arrives after switching
+  // accounts. No token, file name or media body is retained here.
+  entry.state = nextState;
+  entry.updatedAt = Date.now();
+  if (nextState === 'confirmed' && !entry.confirmedAt) {
+    entry.confirmedAt = entry.updatedAt;
+    entry.confirmedAfter = entry.after;
+  }
+  const compactMetadata = value => value ? { id: value.id, parents: value.parents,
+    trashed: value.trashed, version: value.version, driveId: value.driveId } : null;
+  const stored = { ...entry, before: compactMetadata(entry.before), after: compactMetadata(entry.after),
+    confirmedAfter: compactMetadata(entry.confirmedAfter) };
+  try {
+    localStorage.setItem(owner.prefix + encodeURIComponent(entry.operationId), JSON.stringify(stored));
+  } catch (_) {
+    throw driveMutationError('uncertain', '작업 기록을 저장하지 못했습니다. 저장 공간을 확인해 주세요.');
+  }
+}
+
+function driveMutationMetadata(value, id, { rootAlias = false } = {}) {
+  // A destination (including shared-drive roots) need not itself have parents.
+  // Ordinary selected-file pre/post metadata must still contain them.
+  if (rootAlias && value?.mimeType === 'application/vnd.google-apps.folder' && value.parents == null) {
+    value = { ...value, parents: [] };
+  }
+  if (!value || (value.id !== id && !(rootAlias && id === 'root' && typeof value.id === 'string' && value.id))
+    || typeof value.trashed !== 'boolean' || !Array.isArray(value.parents)
+    || value.parents.some(parent => typeof parent !== 'string' || !parent)) {
+    throw driveMutationError('uncertain', 'Drive의 파일 상태를 확인하지 못했습니다.');
+  }
+  return { id: value.id, parents: [...value.parents].sort(), trashed: value.trashed,
+    version: typeof value.version === 'string' ? value.version : null,
+    driveId: value.driveId || null, mimeType: value.mimeType || '',
+    resourceKey: value.resourceKey || '', capabilities: value.capabilities || {} };
+}
+
+async function readDriveMutationMetadata(file, owner, { rootAlias = false } = {}) {
+  owner.assert();
+  const params = new URLSearchParams({ supportsAllDrives: 'true', fields: DRIVE_MUTATION_FIELDS });
+  const resourceKeys = buildResourceKeysHeader([file]);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params}`, {
+    ...owner.options, driveMaxRateAttempts: 1,
+    headers: resourceKeys ? { 'X-Goog-Drive-Resource-Keys': resourceKeys } : {}
+  });
+  const metadata = driveMutationMetadata(await response.json(), file.id, { rootAlias });
+  owner.assert();
+  return metadata;
+}
+
+function driveMutationMatches(entry, metadata) {
+  return entry.action === 'trash' ? metadata.trashed === true
+    : !metadata.trashed && metadata.parents.length === 1 && metadata.parents[0] === entry.targetId;
+}
+
+function driveMutationPreStateMatches(before, after) {
+  return Boolean(before && after) && before.trashed === after.trashed && before.driveId === after.driveId
+    && JSON.stringify(before.parents) === JSON.stringify(after.parents)
+    && (before.version == null || before.version === after.version);
+}
+
+async function verifyDriveMutation(entry, owner) {
+  // A failed fresh read must not authorize retry using a prior observation.
+  // Historical success remains separately immutable in confirmedAfter.
+  entry.after = null;
+  persistDriveMutation(entry, owner, 'verifying');
+  try {
+    const after = await readDriveMutationMetadata({ id: entry.fileId, resourceKey: entry.resourceKey }, owner);
+    entry.after = after;
+    if (driveMutationMatches(entry, after)) persistDriveMutation(entry, owner, 'confirmed');
+    else if (!driveMutationPreStateMatches(entry.before, after)) persistDriveMutation(entry, owner, 'conflict');
+    else persistDriveMutation(entry, owner, entry.rejectionStatus ? 'failed' : 'uncertain');
+  } catch (error) {
+    // 404, an unreadable body and account loss are not deletion proof.
+    persistDriveMutation(entry, owner, 'uncertain');
+  }
+  return entry;
+}
+
+function driveMutationResult(entry) {
+  if (entry.state !== 'confirmed') {
+    const message = entry.state === 'conflict' ? '파일 상태가 바뀌었습니다. 새로고침해 확인해 주세요.'
+      : entry.state === 'failed' ? 'Drive가 작업을 거절했습니다.' : '작업 결과를 확인 중입니다. 다시 누르면 먼저 결과를 확인합니다.';
+    throw Object.assign(driveMutationError(entry.state, message, entry.rejectionStatus || 0), { operationId: entry.operationId });
+  }
+  return { skipped: Boolean(entry.skipped), metadata: entry.after, operationId: entry.operationId };
+}
+
+async function withDriveMutationLock(owner, task) {
+  if (!navigator.locks?.request) throw driveMutationError('failed', '안전한 파일 작업을 지원하는 최신 브라우저에서 다시 시도해 주세요.');
+  return navigator.locks.request(`${owner.prefix}lock`, async () => {
+    owner.assert();
+    const controller = new AbortController();
+    const abort = () => controller.abort();
+    owner.options.signal.addEventListener('abort', abort, { once: true });
+    const timer = setTimeout(abort, 60_000);
+    const boundedOwner = { ...owner, options: { signal: controller.signal }, assert() {
+      owner.assert();
+      if (controller.signal.aborted) throw new DOMException('Drive operation timed out', 'AbortError');
+    } };
+    try { return await task(boundedOwner); }
+    finally { clearTimeout(timer); owner.options.signal.removeEventListener('abort', abort); }
+  });
+}
+
+async function executeDriveMutation(file, action, targetRow = null, { operationId = null, retryUnchanged = false } = {}) {
+  if (!['trash', 'move'].includes(action) || typeof file?.id !== 'string' || !file.id
+    || (action === 'move' && (typeof targetRow?.id !== 'string' || !targetRow.id))) {
+    throw driveMutationError('failed', '작업할 파일과 폴더를 다시 선택해 주세요.');
+  }
+  // Freeze intent inputs before the first asynchronous boundary. Background
+  // listing refresh must not silently change an already requested pre-state.
+  file = { ...file, parents: Array.isArray(file.parents) ? [...file.parents] : undefined };
+  targetRow = targetRow ? { ...targetRow } : null;
+  const owner = captureDriveMutationOwner();
+  if (!DRIVE_MUTATIONS_ENABLED) throw driveMutationError('failed', '후보의 파일 변경은 검증 완료 전까지 잠겨 있습니다.', 423);
+  const intent = JSON.stringify({ fileId: file.id, action, target: targetRow?.id || null,
+    expectedParents: Array.isArray(file.parents) ? [...file.parents].sort() : null, expectedVersion: file.version || null });
+  return withDriveMutationLock(owner, async (boundedOwner) => {
+    const entries = readDriveMutations(owner);
+    const duplicate = operationId && entries.find(row => row.operationId === operationId);
+    if (duplicate && duplicate.intent !== intent) throw driveMutationError('conflict', '같은 작업 번호에 다른 요청을 보낼 수 없습니다.');
+    const pending = entries.find(row => row.fileId === file.id && DRIVE_MUTATION_PENDING.has(row.state));
+    let retryEntry = null;
+    if (duplicate || pending) {
+      const existing = duplicate || pending;
+      if (existing.state === 'prepared') persistDriveMutation(existing, owner, 'cancelled-before-submit');
+      else if (DRIVE_MUTATION_PENDING.has(existing.state) || existing.state === 'confirmed') await verifyDriveMutation(existing, boundedOwner);
+      if (existing.intent !== intent) throw driveMutationError('conflict', '이전 작업 결과를 확인했습니다. 현재 상태에서 다시 선택해 주세요.');
+      // Only a new explicit UI action may retry an unknown submission, after
+      // this fresh GET proves the exact original version/state is unchanged.
+      // Recovery and duplicate operation-ID calls remain strictly read-only.
+      if (!operationId && retryUnchanged && existing.state === 'uncertain'
+        && existing.before?.version && driveMutationPreStateMatches(existing.before, existing.after)) retryEntry = existing;
+      else return driveMutationResult(existing);
+    }
+    const entry = retryEntry || { schema: 1, operationId: operationId || globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      accountKey: owner.accountKey, accountId: owner.accountId, fileId: file.id, action, intent,
+      resourceKey: file.resourceKey || '', targetId: targetRow?.id || null, before: null, rejectionStatus: 0 };
+    if (!retryEntry) persistDriveMutation(entry, owner, 'prepared');
+    try {
+      const before = await readDriveMutationMetadata(file, boundedOwner);
+      if (retryEntry && !driveMutationPreStateMatches(entry.before, before)) {
+        persistDriveMutation(entry, owner, 'conflict');
+        throw driveMutationError('conflict', '파일 상태가 바뀌었습니다. 새로고침해 주세요.');
+      }
+      entry.before = before;
+      entry.resourceKey = before.resourceKey || entry.resourceKey;
+      if ((file.version && file.version !== before.version)
+        || (Array.isArray(file.parents) && JSON.stringify([...file.parents].sort()) !== JSON.stringify(before.parents))) {
+        throw driveMutationError('conflict', '파일 위치 또는 버전이 바뀌었습니다. 새로고침해 주세요.');
+      }
+      let target = null;
+      if (action === 'move') {
+        target = await readDriveMutationMetadata(targetRow, boundedOwner, { rootAlias: true });
+        entry.targetId = target.id;
+        if (target.mimeType !== 'application/vnd.google-apps.folder' || target.trashed || target.capabilities.canAddChildren !== true || before.trashed) {
+          throw driveMutationError('failed', '이 폴더로 이동할 권한이나 상태를 확인하지 못했습니다.', 403);
+        }
+      }
+      if (driveMutationMatches(entry, before)) {
+        entry.skipped = true; entry.after = before;
+        persistDriveMutation(entry, owner, 'confirmed');
+        return driveMutationResult(entry);
+      }
+      const moveCapability = normalizedDriveId(before) === normalizedDriveId(target) ? 'canMoveItemWithinDrive' : 'canMoveItemOutOfDrive';
+      if (before.capabilities[action === 'trash' ? 'canTrash' : moveCapability] !== true) {
+        throw driveMutationError('failed', '파일을 변경할 권한이 없습니다.', 403);
+      }
+      const params = new URLSearchParams({ supportsAllDrives: 'true', fields: DRIVE_MUTATION_FIELDS });
+      if (action === 'move') {
+        params.set('addParents', entry.targetId);
+        params.set('removeParents', before.parents.join(','));
+      }
+      const resourceKeys = buildResourceKeysHeader([before, target, ...state.moveFolderRows.filter(row => before.parents.includes(row.id))]);
+      const headers = { 'Content-Type': 'application/json' };
+      if (resourceKeys) headers['X-Goog-Drive-Resource-Keys'] = resourceKeys;
+      boundedOwner.assert();
+      entry.attempts = (entry.attempts || 0) + 1;
+      entry.rejectionStatus = 0;
+      persistDriveMutation(entry, owner, 'submitted');
+      try {
+        // No transparent auth/rate-limit PATCH retries: every possible send is
+        // followed by an independent read before any later user intent.
+        const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params}`, {
+          ...boundedOwner.options, driveNoRetry: true, method: 'PATCH', headers,
+          body: action === 'trash' ? JSON.stringify({ trashed: true }) : '{}'
+        });
+        await response.json();
+      } catch (error) {
+        if ([400, 401, 403, 404, 409, 412, 429].includes(error?.status)) entry.rejectionStatus = error.status;
+      }
+      await verifyDriveMutation(entry, boundedOwner);
+      return driveMutationResult(entry);
+    } catch (error) {
+      if (entry.state === 'prepared') {
+        persistDriveMutation(entry, owner,
+          error?.name === 'AbortError' ? 'cancelled-before-submit' : error.mutationState === 'conflict' ? 'conflict' : 'failed');
+        error.mutationState = entry.state;
+      }
+      if (DRIVE_MUTATION_PENDING.has(entry.state)) error.mutationState = 'uncertain';
+      throw error;
+    }
+  });
+}
+
+async function recoverDriveMutations({ notifyResult = false } = {}) {
+  if (state.demo || !state.authAccountKey || !state.accountId || state.accountIdentityPending || !navigator.locks?.request) return;
+  const owner = captureDriveMutationOwner();
+  return withDriveMutationLock(owner, async boundedOwner => {
+    const entries = readDriveMutations(owner);
+    let unresolved = 0;
+    let confirmed = 0;
+    let failed = 0;
+    for (const entry of entries) {
+      boundedOwner.assert();
+      if (entry.state === 'prepared') persistDriveMutation(entry, owner, 'cancelled-before-submit');
+      else if (DRIVE_MUTATION_PENDING.has(entry.state)) {
+        await verifyDriveMutation(entry, boundedOwner);
+        if (entry.state !== 'confirmed' && entry.state !== 'failed') unresolved++;
+        else if (entry.state === 'confirmed') confirmed++;
+        else failed++;
+      }
+    }
+    if (owner.current() && unresolved) showToast(`${unresolved}개 파일 작업을 확인 중입니다. 새로고침하면 다시 확인합니다.`);
+    else if (owner.current() && notifyResult && confirmed + failed) showToast(`이전 작업: ${confirmed}개 확인됨, ${failed}개 실패`);
+  }).catch(error => {
+    if (owner.current() && error?.name !== 'AbortError') showToast(error.message || '이전 파일 작업의 결과를 확인하지 못했습니다.');
+    throw error;
+  });
+}
+
+function summarizeDriveMutationFailures(results) {
+  const counts = { failed: 0, uncertain: 0, conflict: 0, cancelled: 0 };
+  for (const result of results) {
+    const status = result.reason?.mutationState;
+    if (status === 'uncertain' || status === 'submitted' || status === 'verifying') counts.uncertain++;
+    else if (status === 'conflict') counts.conflict++;
+    else if (status === 'cancelled-before-submit' || result.reason?.name === 'AbortError') counts.cancelled++;
+    else counts.failed++;
+  }
+  return [[counts.failed, '실패'], [counts.uncertain, '확인 중'], [counts.conflict, '다시 확인'], [counts.cancelled, '취소']]
+    .filter(([count]) => count).map(([count, label]) => `${count.toLocaleString('ko-KR')}개 ${label}`).join(', ');
+}
+
+async function trashDriveFile(file, options) {
   if (state.demo) {
     await new Promise((resolve) => setTimeout(resolve, 180));
     return;
   }
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?supportsAllDrives=true`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ trashed: true })
-  });
-  await response.json().catch(() => ({}));
+  return executeDriveMutation(file, 'trash', null, options);
 }
 
 async function performDeleteFile() {
@@ -8369,7 +8654,7 @@ async function performDeleteFile() {
     const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
     const results = await runTaskPool(files, async (file) => {
       owner.assert();
-      return trashDriveFile(file);
+      return trashDriveFile(file, { retryUnchanged: true });
     });
     owner.assert();
     const succeeded = results.filter((result) => result.status === 'fulfilled').map((result) => result.item);
@@ -8400,7 +8685,7 @@ async function performDeleteFile() {
     } else {
       const firstError = failed[0]?.reason;
       failed.forEach(result => clearRejectedToken(result.reason));
-      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 삭제, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(firstError)}`);
+      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 휴지통 이동, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(firstError)}`);
     }
   } catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
@@ -8769,7 +9054,18 @@ function getBulkMoveBlockReason(files, targetRow) {
   return actionableCount ? null : '현재 위치';
 }
 
-async function moveDriveFile(file, targetRow) {
+async function moveDriveFile(file, targetRow, options) {
+  if (!state.demo) {
+    const owner = captureDriveMutationOwner();
+    const result = await executeDriveMutation(file, 'move', targetRow, options);
+    owner.assert();
+    // Only the independent GET may update local parents/capabilities.
+    file.parents = [...result.metadata.parents];
+    file.driveId = result.metadata.driveId;
+    file.version = result.metadata.version;
+    file.capabilities = { ...(file.capabilities || {}), ...result.metadata.capabilities };
+    return result;
+  }
   const target = targetRow.id;
   const currentParents = Array.isArray(file.parents) && file.parents.length
     ? file.parents
@@ -8786,28 +9082,6 @@ async function moveDriveFile(file, targetRow) {
     file.parents = [target];
     return { skipped: false };
   }
-  const params = new URLSearchParams({
-    addParents: target,
-    removeParents: currentParents.join(','),
-    supportsAllDrives: 'true',
-    fields: 'id,parents,driveId,capabilities(canMoveItemOutOfDrive,canMoveItemWithinDrive)'
-  });
-  const referencedFolders = currentParents
-    .map((parentId) => state.moveFolderRows.find((row) => row.id === parentId))
-    .filter(Boolean);
-  const resourceKeys = buildResourceKeysHeader([file, targetRow, ...referencedFolders]);
-  const headers = { 'Content-Type': 'application/json' };
-  if (resourceKeys) headers['X-Goog-Drive-Resource-Keys'] = resourceKeys;
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params.toString()}`, {
-    method: 'PATCH',
-    headers,
-    body: '{}'
-  });
-  const moved = await response.json();
-  file.parents = Array.isArray(moved.parents) && moved.parents.length ? moved.parents : [target];
-  file.driveId = moved.driveId || targetRow.driveId || null;
-  file.capabilities = { ...(file.capabilities || {}), ...(moved.capabilities || {}) };
-  return { skipped: false };
 }
 
 async function performMoveFile() {
@@ -8837,7 +9111,7 @@ async function performMoveFile() {
     const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
     const results = await runTaskPool(files, async (file) => {
       owner.assert();
-      return moveDriveFile(file, targetRow);
+      return moveDriveFile(file, targetRow, { retryUnchanged: true });
     });
     owner.assert();
     const moved = results.filter((result) => result.status === 'fulfilled' && !result.value?.skipped).map((result) => result.item);
@@ -8863,7 +9137,8 @@ async function performMoveFile() {
       showToast(`${moved.length.toLocaleString('ko-KR')}개 파일을 이동했습니다${skippedText}.${demoText}`);
     } else {
       failed.forEach(result => clearRejectedToken(result.reason));
-      showToast(`${moved.length.toLocaleString('ko-KR')}개 이동, ${failed.length.toLocaleString('ko-KR')}개 실패: ${humanizeDriveError(failed[0]?.reason)}`);
+      const skippedText = skipped.length ? `, ${skipped.length.toLocaleString('ko-KR')}개 이미 해당 위치` : '';
+      showToast(`${moved.length.toLocaleString('ko-KR')}개 이동${skippedText}, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(failed[0]?.reason)}`);
       if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
     }
   } catch (error) {
