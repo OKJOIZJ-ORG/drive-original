@@ -352,6 +352,34 @@ the native oracle's whole-source buffers are outside bounded probe accounting.
 No decoder, actual browser target frame, private/Drive/device or product success
 is claimed. Next: source-bound local decode-start and presented-frame seek proof.
 
+## Actual target-frame seek (one bounded interval)
+
+`seek-input.mjs` independently binds the source PSI, RAP, parameter sets and
+local packet bracket, then repacketizes one complete GOP and complete AAC PES
+with at least two frames of preroll except at true source beginning. Original
+PES headers, timestamps and compressed payloads are copied byte-for-byte; only
+TS packetization/counters/adaptation (including PCR) change. Output is capped
+at aligned1MiB. Missing audio coverage/partial input/extra tracks fail closed.
+
+`node qa/v2-07b-ts-q1/seek-playback-probe.cjs` tests180s public input against
+the full-source native oracle and actual isolated Chrome153. Three native
+10/50/90% intervals preserve coded/timing/metadata and all60 decoded video
+frames per interval. Expected PCM length is exact; source PCM matches after
+one AAC decoder-warmup frame, before the actual target. Five browser cases
+show real target rVFC at18.021333/90.121333/162.221333 seconds, within one frame
+of18.025467/90.127333/162.229200 targets, with exact native source PTS mapping.
+Each reads1,637,856/21,992,052 original bytes and appends one worker fragment.
+Replacing a held old seek gives zero old appends; postflight drift appends
+nothing. Cleanup removes the SourceBuffer, revokes the URL and terminates the
+worker with encoded owners empty.10 helper tests and related112/112 pass.
+
+Evidence: `seek-playback-results.redacted.json`. Native whole-source buffers
+are outside bounded browser accounting; browser is muted and color rendering
+is not compared. This is one short GOP after each seek, not continuous post-seek
+playback, a product path, actual Drive/priority/iPhone or all-format acceptance.
+Next: bounded raw-source bootstrap so the existing stream owner can continue
+from the chosen RAP through EOF, followed by product vertical-slice integration.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
