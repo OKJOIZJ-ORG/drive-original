@@ -214,6 +214,50 @@ actual browser pixel/audio comparison or deployed product integration yet.
 API references inspected: [MSE append/event algorithms](https://www.w3.org/TR/media-source-2/)
 (current working draft, not universal support) and [ISO BMFF MSE byte stream](https://www.w3.org/TR/mse-byte-stream-format-isobmff/).
 
+## Dedicated-worker input/output ownership
+
+`node --test --test-concurrency=1 transmux-session.test.mjs worker-client.test.mjs`
+
+`node mse-browser-probe.cjs --worker`
+
+The pure synchronous session is hosted in a real module Worker. The main thread
+transfers at most64KiB per input and has one input credit. One output fragment
+(at most2MiB) may be outstanding; a matching generation/sequence ACK after the
+consumer resolves is required before parsing resumes, including within the
+current input. Exact-size EOF also waits for its final fragment ACK. The worker
+protocol accepts no URL, credentials or network request. Original-byte source
+identity and authenticated reading remain parent responsibilities, not implemented
+by this QA module. Public synthetic output at two chunkings is byte-identical to
+the previously pinned strict-preservation positive, including all six fragments.
+
+`worker-results.redacted.json` records six real Chrome trials: incremental,
+tail cancel, invalid init, play rejection, held ACK then release, and held ACK
+then cancellation. A real360x640 frame precedes source completion. A read-only
+worker inspection compares the actual session's full counters before/after tail
+release while ACK is held:164,536 bytes consumed, one output outstanding and
+one retained64KiB input do not change. The main's last-reported consumption alone
+is not used as proof. Releasing ACK completes six fragments; cancelling does not.
+
+Terminal reset/dispose releases the parser, input/output/config/init and actual
+pinned mux GOP backing buffers. Browser completion observed a1,384,052-byte peak
+for GOP-cache backing allocations (six cached GOPs), versus695,423 NAL view bytes;
+these are deliberately different measurements. The worker's encoded owner peak
+is849,424 bytes with its default arena. None of these counts covers total JS heap,
+transient mux scratch, transport, MSE or decoder allocations. The cache guard is
+8MiB; input/output limits and cleanup-to-zero are checked in every browser trial.
+
+Nineteen new protocol/bridge tests cover transfer detachment, stale generations,
+credit/order violations, reentrant ACK/abort, rejected send/consumer and terminal
+cleanup failures. Independent review closed an unhandled ACK-post rejection and
+an in-transit finished/error response lost during abort. Cancelled EOF remains
+cancelled even when a finished response supplies valid cleanup evidence. Related
+parser/Q1/static/browser-adapter integration passes190/190. The main-thread five
+trial baseline was refreshed; both reports pin current producer hashes.
+
+This is a QA-only worker/MSE slice, not a shipped product media engine. Sustained
+buffer-window eviction, time/indexed seeking, duration and all device/format gates
+remain. No candidate or production asset was changed.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -222,12 +266,12 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption still needs worker
-backpressure/lifecycle and mux GOP-cache memory ownership. VFR/sample-duration,
+Product adoption still needs sustained buffer eviction, indexed seek and complete
+pipeline memory evidence. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
 removed acceptance requirements. The local MSE first-frame unit is now observed;
-next is a bounded worker input/output ACK owner with cancellation and memory
-evidence, before sustained buffering and indexed seek. Source local stat identity
+the worker input/output ACK owner now has local public-fixture evidence. Next is
+sustained buffering and indexed seek. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or
