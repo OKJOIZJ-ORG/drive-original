@@ -312,6 +312,25 @@ efficient indexed seek. Removal may extend to a later random-access point under
 the [MSE removal algorithm](https://www.w3.org/TR/media-source-2/#sourcebuffer-coded-frame-removal);
 the tested two-second-GOP configuration and verified current range are explicit.
 
+## Bounded raw timestamp windows
+
+`ts-window.mjs` extracts only complete PES/NAL/ADTS anchors from an arbitrary
+packet-aligned window, ignoring leading continuations and withholding incomplete
+tails unless the caller supplies exact EOF. Input is capped at1MiB, selected
+PES assembly at64KiB per track, and output at4096 records. Source offsets use
+safe arithmetic beyond4GiB; timestamps remain raw33-bit90kHz values, not inferred
+epochs. Parameter sets are copies. Discontinuity and transport/continuity errors
+fail closed. This is a deliberately bounded syntax candidate, not decoder proof.
+
+`node qa/v2-07b-ts-q1/ts-window-probe.mjs` independently compares FFprobe's
+packet positions, timestamps, keyframe flags and AAC frame counts for five
+public full/head/interior/tail/virtual-large-offset windows. All five pass;
+the full control has360 video frames/six IDRs/564 AAC frames.14 scanner tests
+and related boundary/static integration pass41/41. Producer-pinned evidence:
+`ts-window-results.redacted.json`. No full-file index, exact global duration,
+clock continuity, efficient seek or actual Drive/device claim follows. Next
+is bounded time-to-byte bracketing and a locally verified decode-start interval.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and

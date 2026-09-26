@@ -1,0 +1,141 @@
+{
+  "schema": "drive-original.q1-ts-window/1",
+  "recordedAt": "2026-09-26T14:36:04.907Z",
+  "fixture": {
+    "bytes": 958800,
+    "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4"
+  },
+  "producer": {
+    "sources": {
+      "ts-window-probe.mjs": "5f9e1bbda89e574540357d7ecc9953bda3f72d830c80d683d1ef43605b0b54e4",
+      "ts-window.mjs": "3ff06e6da20108eda6fd527b20247bf61339b3c7d51a8a9c1b6b9ef97db0a450",
+      "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+      "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e"
+    },
+    "node": "v24.18.0",
+    "ffprobe": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "observations": [
+    {
+      "name": "whole-public-control",
+      "start": 0,
+      "endExclusive": 958800,
+      "bytes": 958800,
+      "atEof": true,
+      "videoRecords": 360,
+      "keyframes": 6,
+      "audioPes": 52,
+      "aacFrames": 564,
+      "leadingPartial": {
+        "video": false,
+        "audio": false
+      },
+      "trailingPartial": {
+        "video": false,
+        "audio": false
+      },
+      "nativeVideoPositionTimestampKeyframeEqual": true,
+      "nativeAudioPositionTimestampCountEqual": true,
+      "virtualOffsetOnly": false,
+      "scope": "bounded PES/NAL/ADTS syntax anchors with raw 33-bit timestamps; no PSI/source identity, global clock continuity, exact duration, complete-picture/decode or seek guarantee"
+    },
+    {
+      "name": "head-with-trailing-partial",
+      "start": 0,
+      "endExclusive": 206800,
+      "bytes": 206800,
+      "atEof": false,
+      "videoRecords": 77,
+      "keyframes": 2,
+      "audioPes": 11,
+      "aacFrames": 121,
+      "leadingPartial": {
+        "video": false,
+        "audio": false
+      },
+      "trailingPartial": {
+        "video": true,
+        "audio": false
+      },
+      "nativeVideoPositionTimestampKeyframeEqual": true,
+      "nativeAudioPositionTimestampCountEqual": true,
+      "virtualOffsetOnly": false,
+      "scope": "bounded PES/NAL/ADTS syntax anchors with raw 33-bit timestamps; no PSI/source identity, global clock continuity, exact duration, complete-picture/decode or seek guarantee"
+    },
+    {
+      "name": "interior-leading-and-trailing",
+      "start": 75200,
+      "endExclusive": 338400,
+      "bytes": 263200,
+      "atEof": false,
+      "videoRecords": 93,
+      "keyframes": 2,
+      "audioPes": 14,
+      "aacFrames": 154,
+      "leadingPartial": {
+        "video": true,
+        "audio": false
+      },
+      "trailingPartial": {
+        "video": true,
+        "audio": false
+      },
+      "nativeVideoPositionTimestampKeyframeEqual": true,
+      "nativeAudioPositionTimestampCountEqual": true,
+      "virtualOffsetOnly": false,
+      "scope": "bounded PES/NAL/ADTS syntax anchors with raw 33-bit timestamps; no PSI/source identity, global clock continuity, exact duration, complete-picture/decode or seek guarantee"
+    },
+    {
+      "name": "tail-at-exact-source-end",
+      "start": 770800,
+      "endExclusive": 958800,
+      "bytes": 188000,
+      "atEof": true,
+      "videoRecords": 72,
+      "keyframes": 1,
+      "audioPes": 11,
+      "aacFrames": 113,
+      "leadingPartial": {
+        "video": true,
+        "audio": false
+      },
+      "trailingPartial": {
+        "video": false,
+        "audio": false
+      },
+      "nativeVideoPositionTimestampKeyframeEqual": true,
+      "nativeAudioPositionTimestampCountEqual": true,
+      "virtualOffsetOnly": false,
+      "scope": "bounded PES/NAL/ADTS syntax anchors with raw 33-bit timestamps; no PSI/source identity, global clock continuity, exact duration, complete-picture/decode or seek guarantee"
+    },
+    {
+      "name": "same-tail-virtual-offset-above-4gib",
+      "start": 4295738148,
+      "endExclusive": 4295926148,
+      "bytes": 188000,
+      "atEof": true,
+      "videoRecords": 72,
+      "keyframes": 1,
+      "audioPes": 11,
+      "aacFrames": 113,
+      "leadingPartial": {
+        "video": true,
+        "audio": false
+      },
+      "trailingPartial": {
+        "video": false,
+        "audio": false
+      },
+      "nativeVideoPositionTimestampKeyframeEqual": true,
+      "nativeAudioPositionTimestampCountEqual": true,
+      "virtualOffsetOnly": true,
+      "scope": "bounded PES/NAL/ADTS syntax anchors with raw 33-bit timestamps; no PSI/source identity, global clock continuity, exact duration, complete-picture/decode or seek guarantee"
+    }
+  ],
+  "limitations": [
+    "public packet-oracle QA only; no authenticated Drive/private source or browser playback",
+    "bounded complete PES anchors; not a complete source index, exact global duration or successful seek",
+    "no global PSI/source identity/clock-epoch/wrap/discontinuity or decoder validity guarantee",
+    "above-4GiB offset is virtual arithmetic evidence, not a real large media read"
+  ]
+}
