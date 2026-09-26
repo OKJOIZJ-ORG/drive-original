@@ -1,31 +1,34 @@
-# Checkpoint — V2-05A mutation readback verified locally — 2026-09-26
+# Checkpoint — bounded Q1 preservation discriminator — 2026-09-26
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. V2-02A is committed at 8b16fae; V2-02B at e68d579. V2-05A now has account-owned persistent per-file operations, independent GET postconditions, read-only reload/refresh recovery and truthful partial-result counts. Response loss, malformed JSON, 404 and changed-account results never imply success or unconditional replay. Initial confirmed evidence remains separate from later external changes.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, last product HEAD ced16ef. V2-02A8b16fae, V2-02Be68d579 and V2-05Aced16ef are local product units; product Node299/299 and synthetic browser22/22 pass. No new candidate deployment; production and candidate mutation lock are unchanged.
 
-Evidence: tests/mutations.test.js 22/22; combined suite 298/298 before the final input-snapshot regression fix (focused 22/22 after it). Browser qa/v2-mutations-integration/results.json 22/22; defensive null/readback changes rechecked by qa/v2-mutations-final/results.json 3/3. Independent review findings fixed; final main review additionally reproduced/fixed asynchronous UI snapshot drift. Local only, no deployment, no real Drive mutation, no physical-device claim. Earlier browser resource failure remains historical; the current full browser run succeeded with the pinned synthetic seed.
+QA-only qa/v2-07b-ts-q1 pins/executes mux.js7.1.0 MP4 bundle4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f. Synthetic default options drop10 AAC frames; keepOriginalTimestamps preserves them. The priority local4MiB prefix preserves1022 VCL units/1586 AAC frames, but introduced1:1 SAR first failed strict metadata comparison. A generic bounded init-box adapter, used only after independently confirmed unspecified source SAR, changes just that introduced pasp type to free. Payloads, normalized PTS/DTS/duration, metadata and complete FFmpeg decoded frames/PCM then match.
+
+Nine helper tests pass; independent review closed partial-write cleanup, wrong executed-artifact hash and private CLI-path leakage. Final synthetic/priority reports are producer-hash-matched in that QA directory. The source was read-only; current Drive identity/full-file hash was not revalidated. Generated private TS/MP4 derivatives were removed. This is bounded EOF-flush quality evidence, not product, incremental playback, seek, MSE/MMS, browser color or physical-device success.
 
 ## Decided
 
 - D-050/D-051/D-052 remain active. No main merge/push/production replacement, original mutation, public sharing, billing or automation restart.
-- Browser owns Drive mutations; auth-only Worker remains unchanged. Candidate driveMutationsEnabled stays false.
-- Web Locks plus local persistent ledger serialize same-origin account writes. Unsupported locking or storage failure stops writes, not read/playback. Natural storage limits remain fail-closed; no history is silently pruned.
-- A new explicit UI retry may send one PATCH only after fresh original version/state readback and another preflight match. Reload/refresh and duplicate operation IDs never resend. Preflight is not atomic protection from other apps/devices.
+- Browser owns direct bytes/mutations; minimal Worker owns auth only. driveMutationsEnabled remains false.
+- mux.js is a QA candidate, not an adopted or shipped product dependency. Preserve timestamps; do not accept silent AAC trimming or fabricated aspect metadata.
+- Prioritize incremental bounded GOP/PES and seek ownership before product Q1 integration. FFmpeg metadata is a QA oracle, not a browser runtime solution.
 
 ## Waiting on the user
 
-No decision needed for local implementation. Live Google/device acceptance and final production transition remain user-controlled gates. Current isolated candidate is unauthenticated; do not borrow a personal browser session or count historical iPhone auth confirmation as current media evidence.
+No new decision needed for local work. Current isolated candidate is unauthenticated; current Google/device acceptance and production transition are still separate user-controlled gates. Historical iPhone auth confirmation is not media proof.
 
 ## Next first action
 
-Inspect qa/v2-03b and the priority MPEG-TS evidence, then implement the smallest bounded local Q1 transmux/seek-preservation discriminator; use synthetic media and read-only priority evidence before adopting a product library.
+Use only synthetic-bframes-audiolead.ts to compare arbitrary per-chunk mux flushes with GOP/PES-aligned boundaries, inspecting mux.js ElementaryStream flush retention; require no lost/duplicated coded frames or timing before building the bounded TS seek owner.
 
 ## Tried
 
-- Legacy mutations accepted unreadable PATCH responses or fabricated destination parents; baseline two tests failed, now independent GET owns success.
-- First ledger draft lost prior confirmed evidence, imposed an arbitrary 2000-row ceiling and rejected parentless destinations; review reproduced all, fixed and tested.
-- Repeated 404 exposed null/stale readback reuse during explicit retry; fixed with fresh-observation clearing and exact null-safe guards.
-- Mutable UI file objects could change intent during preflight; a discriminating red test now passes after input snapshotting.
-- Expanded V2-02B browser run previously stopped at ERR_INSUFFICIENT_RESOURCES; later complete 22/22 synthetic run succeeded. OS paging and user processes were not changed.
-- Rollback: revert the isolated local unit while retaining candidate read-only configuration and private local ledger; no original or remote data recovery is needed.
+- Automatic Google preview and viewed-on-open were false success paths; fixed in V2-02A/B, not priority media fixes.
+- Legacy Drive writes guessed success; V2-05A now independently reads remote state and retains durable origin evidence.
+- Browser resource failure occurred earlier; the later full synthetic22/22 run succeeded with an existing bounded seed. No OS settings/user processes changed.
+- mux.js default timestamp mode discarded synthetic leading AAC; keepOriginalTimestamps preserves it.
+- Priority unspecified SAR became explicit1:1; strict comparison caught it, adapter preserves absence without touching SPS or media bytes.
+- FFmpeg container-relative -ss windows gave inconsistent cuts; one bounded decode plus ordinal windows and independent packet timing replaced that harness.
+- Rollback: remove only QA candidate files/dependencies if rejected; current product commit remains unchanged, and no remote/original recovery is needed.

@@ -1,0 +1,257 @@
+{
+  "schema": "drive-original.q1-preservation/1",
+  "label": "priority-prefix",
+  "recordedAt": "2026-09-26T12:29:52.677Z",
+  "library": {
+    "name": "mux.js",
+    "version": "7.1.0",
+    "artifact": "dist/mux-mp4.min.js",
+    "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+  },
+  "producer": {
+    "driverSha256": "e861cda05d1b4ef5eb94ca5fb47bc90b3f47aa05e9bdfe96e43564b35c66a277",
+    "sarAdapterSha256": "5c5c5894323395d96312d197e6422a8f8b7a985278df90e0a4341ba64df128bc",
+    "lockSha256": "103790350b36712ea45f5feff1b84f1b5271a98158e4bf6e4ba4f21aac8f01a1",
+    "node": "v24.18.0"
+  },
+  "sourceBytesRead": 4194304,
+  "wholeFileRead": false,
+  "localStatUnchanged": true,
+  "currentDriveIdentityVerified": false,
+  "observations": [
+    {
+      "keepOriginalTimestamps": false,
+      "outputBytes": 3963722,
+      "videoVcl": {
+        "source": 1022,
+        "output": 1022,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 1586,
+        "output": 1586,
+        "equal": true
+      },
+      "metadataDifferences": [
+        {
+          "kind": "video",
+          "field": "sample_aspect_ratio",
+          "source": null,
+          "output": "1:1"
+        }
+      ],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 1022,
+          "outputPackets": 1022,
+          "maxDtsDelta": 7.105427357601002e-15,
+          "maxPtsDelta": 7.105427357601002e-15,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 1586,
+          "outputPackets": 1586,
+          "maxDtsDelta": 7.105427357601002e-15,
+          "maxPtsDelta": 7.105427357601002e-15,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": false,
+      "decoded": [
+        {
+          "fraction": 0.1,
+          "frameStart": 87,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.5,
+          "frameStart": 496,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.9,
+          "frameStart": 904,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        }
+      ],
+      "decodedAllEqual": true
+    },
+    {
+      "keepOriginalTimestamps": true,
+      "outputBytes": 3963722,
+      "videoVcl": {
+        "source": 1022,
+        "output": 1022,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 1586,
+        "output": 1586,
+        "equal": true
+      },
+      "metadataDifferences": [
+        {
+          "kind": "video",
+          "field": "sample_aspect_ratio",
+          "source": null,
+          "output": "1:1"
+        }
+      ],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 1022,
+          "outputPackets": 1022,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 1586,
+          "outputPackets": 1586,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": false,
+      "decoded": [
+        {
+          "fraction": 0.1,
+          "frameStart": 87,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.5,
+          "frameStart": 496,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.9,
+          "frameStart": 904,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        }
+      ],
+      "decodedAllEqual": true
+    },
+    {
+      "keepOriginalTimestamps": true,
+      "omitUnspecifiedSar": true,
+      "outputBytes": 3963722,
+      "videoVcl": {
+        "source": 1022,
+        "output": 1022,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 1586,
+        "output": 1586,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 1022,
+          "outputPackets": 1022,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 1586,
+          "outputPackets": 1586,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": true,
+      "decoded": [
+        {
+          "fraction": 0.1,
+          "frameStart": 87,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.5,
+          "frameStart": 496,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        },
+        {
+          "fraction": 0.9,
+          "frameStart": 904,
+          "sourceFrames": 30,
+          "outputFrames": 30,
+          "frameHashesEqual": true,
+          "sourcePcmBytes": 192000,
+          "outputPcmBytes": 192000,
+          "pcmEqual": true
+        }
+      ],
+      "decodedAllEqual": true
+    }
+  ],
+  "limitations": [
+    "bounded EOF flush only",
+    "no current Drive identity",
+    "no arbitrary flush or indexed seek",
+    "no browser/physical-device/color-render proof"
+  ]
+}
