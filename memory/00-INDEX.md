@@ -27,6 +27,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CLEANUP-20260927.md`: recoverable generated-output cleanup, preserved data, regeneration and exact archive recovery; product work remains paused.
 - `Q1-PRIORITY-20260927.md`: full read-only priority local Q1/browser/native evidence, exact scope and next routing defect; not live Drive/device acceptance.
 - `Q1-ROUTING-20260927.md`: rc.6 bounded early TS routing, exact local app/priority evidence, regression and recovery scope.
 - `CANDIDATE-RC6-20260927.md`: isolated free rc.6 delivery identity, public/cache bytes, cold/offline smoke, live limits and rollback.
