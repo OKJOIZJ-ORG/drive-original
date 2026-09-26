@@ -162,7 +162,7 @@ function escapeRbsp(rbsp) {
   return Uint8Array.from(output);
 }
 
-export function makeHigh720pBt709Sps() {
+export function makeHigh720pBt709Sps({ vuiPresent = true, aspectRatioIdc = null, sarWidth = 1, sarHeight = 1 } = {}) {
   const writer = new BitWriter();
   writer.bitsValue(100, 8); // High profile
   writer.bitsValue(0, 8);
@@ -183,8 +183,13 @@ export function makeHigh720pBt709Sps() {
   writer.bit(1); // frame_mbs_only
   writer.bit(1); // direct_8x8_inference
   writer.bit(0); // no crop
-  writer.bit(1); // VUI present
-  writer.bit(0); // aspect ratio absent
+  writer.bit(vuiPresent);
+  if (!vuiPresent) return concatBytes(Uint8Array.of(0x67), escapeRbsp(writer.finishRbsp()));
+  writer.bit(aspectRatioIdc !== null);
+  if (aspectRatioIdc !== null) {
+    writer.bitsValue(aspectRatioIdc,8);
+    if (aspectRatioIdc === 255) { writer.bitsValue(sarWidth,16); writer.bitsValue(sarHeight,16); }
+  }
   writer.bit(0); // overscan absent
   writer.bit(1); // video signal present
   writer.bitsValue(5, 3); // unspecified video_format

@@ -516,7 +516,7 @@ export function feedMpegTsPsi(pid, payload, payloadUnitStart, continuityCounter,
 // Shared PSI state/assembly primitives; the bounded file probe and stricter
 // streaming QA owner apply their own lifecycle and acceptance policies.
 const feedPsi = feedMpegTsPsi;
-export { psiSetComplete as isMpegTsPsiSetComplete };
+export const isMpegTsPsiSetComplete = psiSetComplete;
 export function createMpegTsPsiState(limits) {
   return {
     limits, assemblers: new Map(), pmtPids: new Set(), programs: new Map(), esStates: new Map(),
@@ -680,9 +680,16 @@ function skipScalingList(reader, size) {
 
 function parseH264Vui(reader) {
   const color = { fullRange: null, primariesCode: null, transferCode: null, matrixCode: null, primaries: null, transfer: null, matrix: null };
+  let aspectRatio = { status: 'unspecified', present: false, idc: null, width: null, height: null };
   if (reader.readBit()) {
     const aspectRatioIdc = reader.readBits(8);
-    if (aspectRatioIdc === 255) reader.readBits(32);
+    // H.264 VUI Table E-1. Zero dimensions/IDC0 mean unspecified, not square.
+    const table = [null,[1,1],[12,11],[10,11],[16,11],[40,33],[24,11],[20,11],
+      [32,11],[80,33],[18,11],[15,11],[64,33],[160,99],[4,3],[3,2],[2,1]];
+    const ratio = aspectRatioIdc === 255 ? [reader.readBits(16),reader.readBits(16)] : table[aspectRatioIdc];
+    aspectRatio = { status: aspectRatioIdc === 0 || (ratio && (!ratio[0] || !ratio[1])) ? 'unspecified'
+      : ratio ? 'explicit' : 'reserved', present: true, idc: aspectRatioIdc,
+      width: ratio?.[0] ?? null, height: ratio?.[1] ?? null };
   }
   if (reader.readBit()) reader.readBit();
   if (reader.readBit()) {
@@ -721,7 +728,7 @@ function parseH264Vui(reader) {
     reader.readUE();
     reader.readUE();
   }
-  return color;
+  return { color, aspectRatio };
 }
 
 function parseH264Hrd(reader) {
@@ -747,6 +754,8 @@ function hasValidRbspTrailingBits(reader) {
 }
 
 export function parseH264Sps(nal) {
+  if (!(nal instanceof Uint8Array)) return { status: 'malformed', code: 'H264_SPS_INPUT_INVALID' };
+  if (nal.length > 64 * 1024) return { status: 'incomplete', code: 'H264_SPS_BYTE_LIMIT' };
   try {
     if (nal.length < 5) return { status: 'incomplete', code: 'H264_SPS_TRUNCATED' };
     if ((nal[0] & 0x1f) !== 7) return { status: 'malformed', code: 'H264_SPS_INVALID' };
@@ -795,7 +804,9 @@ export function parseH264Sps(nal) {
       cropLeft = reader.readUE(); cropRight = reader.readUE(); cropTop = reader.readUE(); cropBottom = reader.readUE();
     }
     let color = { fullRange: null, primariesCode: null, transferCode: null, matrixCode: null, primaries: null, transfer: null, matrix: null };
-    if (reader.readBit()) color = parseH264Vui(reader);
+    let aspectRatio = { status: 'unspecified', present: false, idc: null, width: null, height: null };
+    const vuiPresent = reader.readBit() === 1;
+    if (vuiPresent) ({ color, aspectRatio } = parseH264Vui(reader));
     if (!hasValidRbspTrailingBits(reader)) return { status: 'incomplete', code: 'H264_RBSP_TRAILING_BITS_INVALID' };
     const chromaArrayType = separateColourPlaneFlag ? 0 : chromaFormatIdc;
     const subWidthC = chromaArrayType === 1 || chromaArrayType === 2 ? 2 : 1;
@@ -822,6 +833,8 @@ export function parseH264Sps(nal) {
       bitDepthLuma,
       bitDepthChroma,
       color,
+      vuiPresent,
+      aspectRatio,
     };
   } catch (error) {
     return { status: 'incomplete', code: 'H264_SPS_TRUNCATED', message: error instanceof Error ? error.message : 'SPS bitstream is incomplete.' };

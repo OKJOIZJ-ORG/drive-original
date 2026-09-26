@@ -128,6 +128,26 @@ fixed; parser/static/all-helper integration passes101/101. Early output followed
 by later failure remains a failed stream, not whole-file validation. This unit is
 still QA-only and does not change app.js, candidate assets or production.
 
+## Browser-safe SPS aspect metadata
+
+The shared bounded SPS reader now preserves missing VUI/missing aspect flag,
+IDC0, defined ratios1–16, Extended SAR and reserved IDC as distinct evidence.
+Zero Extended dimensions stay unspecified. Reserved values never qualify as
+absent. Coded dimensions and color are unchanged; no aspect metadata is returned
+until the entire SPS and trailing bits validate. Seven new tests cover every
+defined ratio, 16-bit extremes, truncation and byte-input bounds.
+
+Parser/Q1/static and upstream browser-adapter integration passes161/161.
+The broader check caught a PSI alias-export incompatibility with the existing
+browser bundler; an equivalent exported const fixes it and the actual generated
+bundle execution test now passes. The nine-case incremental and six-chunk stream
+reports were regenerated against the final producer. No remote diagnostic bundle
+was replaced. Independent scoped SPS review passed51/51 with no material issue.
+
+Reference implementations inspected: [FFmpeg VUI reader](https://ffmpeg.org/doxygen/8.1/h2645__vui_8c_source.html)
+and [defined SAR table](https://ffmpeg.org/doxygen/8.1/h2645data_8c_source.html).
+These support metadata interpretation, not browser rendering acceptance.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -136,11 +156,11 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption still needs a browser-safe validated SPS/SAR signal, worker
+Product adoption still needs source-SPS to init-segment binding, worker
 backpressure/lifecycle and mux GOP-cache memory ownership. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
-removed acceptance requirements. Next metadata unit replaces FFprobe-only SAR
-eligibility with a validated source-SPS signal. Source local stat identity
+removed acceptance requirements. Next metadata unit binds the validated source
+SPS signal to guarded init adaptation without FFprobe. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or
