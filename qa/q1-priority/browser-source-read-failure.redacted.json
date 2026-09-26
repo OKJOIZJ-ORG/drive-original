@@ -1,0 +1,562 @@
+{
+  "sourceLabel": "priority-sample-1",
+  "recordedAt": "2026-09-26T16:29:52.712Z",
+  "sources": {
+    "qa/q1-priority-browser-audit.cjs": "a610e8d3eaf6127643814203bfac5fca91f95fa597dd50f211121a6149cc7ec2",
+    "qa/v2-03b-container-remux/browser-probe-server.mjs": "9558b7d4521a5cd98ee9f2e145597a025c9db67fb6fdb433a71d3b56089c479d",
+    "media/ts-player.mjs": "e7cb62c05b4a7f4b42a254ada35ee3491ddabdfd0023739553a4201734d79624",
+    "media/drive-source.mjs": "8217592d894842c56884741b2a4e643b49a12ca685cee9a779811e51e10a770d",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+  },
+  "currentDriveIdentityVerified": false,
+  "originalWrites": 0,
+  "scope": "actual private local original, product Q1 and Chrome; local metadata/HTTP only, muted; not Drive/SW/iPhone/audibility/color/total-memory acceptance",
+  "historicalFingerprintMatched": true,
+  "sourceBytes": 208001508,
+  "cancellationIsolationChecks": 3,
+  "browserVersion": "153.0.8010.54",
+  "initial": {
+    "stats": {
+      "generation": 1,
+      "phase": "ready",
+      "failure": null,
+      "target": 0.021333333333333333,
+      "appends": 7,
+      "frames": 1,
+      "lastMediaTime": 0.021333,
+      "window": {
+        "waits": 1,
+        "removals": 0,
+        "peakAhead": 6.890666,
+        "peakSpan": 6.890666
+      },
+      "disposed": false,
+      "bufferRemoved": false,
+      "urlRevoked": false,
+      "previousCleanup": null,
+      "duration": 1609.408,
+      "timelineKind": "sampled-candidate"
+    },
+    "width": 360,
+    "height": 640,
+    "rangeRequests": 8,
+    "rangeBytes": 2686432
+  },
+  "samples": [
+    {
+      "time": 160.921333,
+      "target": 160.9408,
+      "width": 360,
+      "stats": {
+        "generation": 2,
+        "phase": "ready",
+        "failure": null,
+        "target": 160.9408,
+        "appends": 3,
+        "frames": 1,
+        "lastMediaTime": 160.921333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 1.9178660000000036,
+          "peakSpan": 2.901332999999994
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "duration": 1609.408,
+        "timelineKind": "sampled-candidate"
+      },
+      "progress": {
+        "frames": 5,
+        "time": 161.054667
+      }
+    },
+    {
+      "time": 804.688,
+      "target": 804.704,
+      "width": 360,
+      "stats": {
+        "generation": 3,
+        "phase": "ready",
+        "failure": null,
+        "target": 804.704,
+        "appends": 3,
+        "frames": 1,
+        "lastMediaTime": 804.688,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.1653330000000324,
+          "peakSpan": 2.9013330000000224
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "duration": 1609.408,
+        "timelineKind": "sampled-candidate"
+      },
+      "progress": {
+        "frames": 5,
+        "time": 804.821333
+      }
+    },
+    {
+      "time": 1448.454667,
+      "target": 1448.4672,
+      "width": 360,
+      "stats": {
+        "generation": 4,
+        "phase": "ready",
+        "failure": null,
+        "target": 1448.4672,
+        "appends": 4,
+        "frames": 1,
+        "lastMediaTime": 1448.454667,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 3.5008000000000266,
+          "peakSpan": 4.010667000000012
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "duration": 1609.408,
+        "timelineKind": "sampled-candidate"
+      },
+      "progress": {
+        "frames": 5,
+        "time": 1448.588
+      }
+    }
+  ],
+  "nearEnd": {
+    "generation": 5,
+    "phase": "ended",
+    "failure": null,
+    "target": 1607.408,
+    "appends": 3,
+    "frames": 56,
+    "lastMediaTime": 1609.221333,
+    "window": {
+      "waits": 0,
+      "removals": 0,
+      "peakAhead": 1.8466660000001411,
+      "peakSpan": 2.385332999999946
+    },
+    "disposed": false,
+    "bufferRemoved": false,
+    "urlRevoked": false,
+    "previousCleanup": {
+      "settled": true,
+      "source": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      }
+    },
+    "duration": 1609.408,
+    "timelineKind": "sampled-candidate",
+    "bootstrap": {
+      "state": "finished",
+      "failure": null,
+      "generation": 5,
+      "readStart": 207687924,
+      "sourceSize": 208001508,
+      "sourceOffset": 208001508,
+      "sourceReceived": 313584,
+      "outputSize": 313960,
+      "outputBytes": 313960,
+      "packets": 1668,
+      "nulledPackets": 0,
+      "carryBytes": 0,
+      "prefixBytes": 0,
+      "bindingBytes": 0,
+      "psiRetainedBytes": 0,
+      "retainedBytes": 0,
+      "peakRetainedBytes": 19933,
+      "maxPushOutputBytes": 82107,
+      "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+    },
+    "worker": {
+      "status": "finished",
+      "failure": null,
+      "terminated": true,
+      "fragmentBusy": false,
+      "sourceBytesOffered": 313960,
+      "sourceBytesConsumed": 313960,
+      "inputs": 8,
+      "detachedInputs": 8,
+      "transferredInputBytes": 313960,
+      "fragments": 3,
+      "acks": 3,
+      "peakPendingInputs": 1,
+      "worker": {
+        "state": "finished",
+        "failure": null,
+        "generation": 5,
+        "sourceSize": 313960,
+        "consumed": 313960,
+        "inputSequence": 8,
+        "fragments": 3,
+        "acknowledged": 3,
+        "awaitingFragment": null,
+        "retainedInputBytes": 0,
+        "retainedOutputBytes": 0,
+        "outstandingOutputBytes": 0,
+        "configBytes": 0,
+        "initBytes": 0,
+        "peakInputBytes": 65536,
+        "peakOutputBytes": 151839,
+        "peakConfigBytes": 34,
+        "peakInitBytes": 1140,
+        "muxCachedGops": 0,
+        "muxCachedNalBytes": 0,
+        "muxCachedBufferBytes": 0,
+        "peakMuxCachedGops": 3,
+        "peakMuxCachedNalBytes": 254287,
+        "peakMuxCachedBufferBytes": 501113,
+        "muxReleased": true,
+        "owner": {
+          "state": "finished",
+          "failure": null,
+          "generation": 5,
+          "received": 313960,
+          "packets": 1670,
+          "emittedIntervals": 3,
+          "firstEmissionOffset": 184052,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 184240,
+          "peakOwnedByteStorage": 842312,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 119,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 30,
+            "videoFrames": 67,
+            "aacFrames": 119
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 416,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "cleanup": {
+          "beforeGops": 3,
+          "beforeNalBytes": 254287,
+          "beforeBufferBytes": 501113,
+          "afterGops": 0,
+          "afterNalBytes": 0,
+          "afterBufferBytes": 0
+        },
+        "limits": {
+          "inputBytes": 65536,
+          "outputBytes": 2097152,
+          "muxCacheBufferBytes": 8388608
+        },
+        "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+      }
+    },
+    "source": {
+      "state": "open",
+      "failure": null,
+      "busy": false,
+      "readsStarted": 6,
+      "readsCompleted": 6,
+      "metadataRequests": 13,
+      "rangeRequests": 6,
+      "receivedBytes": 1951440,
+      "releasedBytes": 1951440,
+      "retainedBytes": 0,
+      "peakRetainedBytes": 524144,
+      "checksumBound": false,
+      "pendingCallbacks": 0,
+      "cleanupPending": 0,
+      "cleanupFailed": false,
+      "cleanupSettled": true,
+      "maxReadBytes": 1048576,
+      "requestTimeoutMs": 70000,
+      "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+    }
+  },
+  "passed": false,
+  "error": "PRIORITY_BROWSER_FAILED",
+  "failureState": {
+    "stats": {
+      "generation": 6,
+      "phase": "failed",
+      "failure": "Q1_SOURCE_READ_FAILED",
+      "target": 0.021333333333333333,
+      "appends": 299,
+      "frames": 594,
+      "lastMediaTime": 298.688,
+      "window": {
+        "waits": 74,
+        "removals": 101,
+        "peakAhead": 6.991079000000006,
+        "peakSpan": 13.946667000000005
+      },
+      "disposed": true,
+      "bufferRemoved": true,
+      "urlRevoked": true,
+      "previousCleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      },
+      "duration": 1609.408,
+      "timelineKind": "sampled-candidate",
+      "bootstrap": {
+        "state": "aborted",
+        "failure": "BOOTSTRAP_ABORTED",
+        "generation": 6,
+        "readStart": 564,
+        "sourceSize": 208001508,
+        "sourceOffset": 37749300,
+        "sourceReceived": 37748736,
+        "outputSize": 208001320,
+        "outputBytes": 37749084,
+        "packets": 200791,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 0,
+        "bindingBytes": 0,
+        "psiRetainedBytes": 0,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 26570,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "worker": {
+        "status": "aborted",
+        "failure": null,
+        "terminated": true,
+        "fragmentBusy": false,
+        "sourceBytesOffered": 37749084,
+        "sourceBytesConsumed": 37749084,
+        "inputs": 920,
+        "detachedInputs": 920,
+        "transferredInputBytes": 37749084,
+        "fragments": 299,
+        "acks": 299,
+        "peakPendingInputs": 1,
+        "worker": {
+          "state": "aborted",
+          "failure": null,
+          "generation": 6,
+          "sourceSize": 208001320,
+          "consumed": 37749084,
+          "inputSequence": 920,
+          "fragments": 299,
+          "acknowledged": 299,
+          "awaitingFragment": null,
+          "retainedInputBytes": 0,
+          "retainedOutputBytes": 0,
+          "outstandingOutputBytes": 0,
+          "configBytes": 0,
+          "initBytes": 0,
+          "peakInputBytes": 65536,
+          "peakOutputBytes": 169250,
+          "peakConfigBytes": 34,
+          "peakInitBytes": 1140,
+          "muxCachedGops": 0,
+          "muxCachedNalBytes": 0,
+          "muxCachedBufferBytes": 0,
+          "peakMuxCachedGops": 6,
+          "peakMuxCachedNalBytes": 778526,
+          "peakMuxCachedBufferBytes": 1536434,
+          "muxReleased": true,
+          "owner": {
+            "state": "aborted",
+            "failure": "ABORTED",
+            "generation": 6,
+            "received": 37749084,
+            "packets": 200793,
+            "emittedIntervals": 299,
+            "firstEmissionOffset": 159424,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 206612,
+            "peakOwnedByteStorage": 860890,
+            "storageCapacity": 655360,
+            "emittedAacFrames": 14009,
+            "elementary": {
+              "parameterBytes": 0,
+              "retainedFrames": 0,
+              "peakFrames": 30,
+              "videoFrames": 8983,
+              "aacFrames": 14033
+            },
+            "psi": {
+              "terminal": true,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 416,
+              "snapshotBytes": 0,
+              "sectionCount": 0,
+              "maxRetainedEncodedBytes": 11640
+            },
+            "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+          },
+          "cleanup": {
+            "beforeGops": 6,
+            "beforeNalBytes": 595976,
+            "beforeBufferBytes": 1169001,
+            "afterGops": 0,
+            "afterNalBytes": 0,
+            "afterBufferBytes": 0
+          },
+          "limits": {
+            "inputBytes": 65536,
+            "outputBytes": 2097152,
+            "muxCacheBufferBytes": 8388608
+          },
+          "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+        }
+      },
+      "sourceCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      },
+      "source": {
+        "state": "failed",
+        "failure": "Q1_SOURCE_READ_FAILED",
+        "busy": false,
+        "readsStarted": 149,
+        "readsCompleted": 148,
+        "metadataRequests": 298,
+        "rangeRequests": 149,
+        "receivedBytes": 39386592,
+        "releasedBytes": 39386592,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 524144,
+        "checksumBound": false,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false,
+        "cleanupSettled": true,
+        "maxReadBytes": 1048576,
+        "requestTimeoutMs": 70000,
+        "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+      }
+    },
+    "events": [
+      {
+        "type": "starting",
+        "generation": 1,
+        "time": 0
+      },
+      {
+        "type": "buffered",
+        "generation": 1,
+        "time": 0.021333333333333333,
+        "duration": 1609.408
+      },
+      {
+        "type": "starting",
+        "generation": 2,
+        "time": 160.9408
+      },
+      {
+        "type": "buffered",
+        "generation": 2,
+        "time": 160.9408,
+        "duration": 1609.408
+      },
+      {
+        "type": "starting",
+        "generation": 3,
+        "time": 804.704
+      },
+      {
+        "type": "buffered",
+        "generation": 3,
+        "time": 804.704,
+        "duration": 1609.408
+      },
+      {
+        "type": "starting",
+        "generation": 4,
+        "time": 1448.4672
+      },
+      {
+        "type": "buffered",
+        "generation": 4,
+        "time": 1448.4672,
+        "duration": 1609.408
+      },
+      {
+        "type": "starting",
+        "generation": 5,
+        "time": 1607.408
+      },
+      {
+        "type": "buffered",
+        "generation": 5,
+        "time": 1607.408,
+        "duration": 1609.408
+      },
+      {
+        "type": "ended",
+        "generation": 5
+      },
+      {
+        "type": "starting",
+        "generation": 6,
+        "time": 0
+      },
+      {
+        "type": "buffered",
+        "generation": 6,
+        "time": 0.021333333333333333,
+        "duration": 1609.408
+      },
+      {
+        "type": "error",
+        "generation": 6,
+        "code": "Q1_SOURCE_READ_FAILED"
+      }
+    ]
+  }
+}

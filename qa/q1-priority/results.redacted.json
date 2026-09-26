@@ -1,0 +1,374 @@
+{
+  "recordedAt": "2026-09-26T16:29:48.600Z",
+  "sourceLabel": "priority-sample-1",
+  "sources": {
+    "qa/q1-priority-audit.cjs": "65760f24e267fe50f611ce25111a9cd1b2c9fab3acb0f4d918cef0717317b2a7",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/build.json": "4a1806b261a3e147bc02a6b219d8c938370a85b229130f89d6efadf400597e8d"
+  },
+  "currentDriveIdentityVerified": false,
+  "originalWrites": 0,
+  "probes": [
+    {
+      "seconds": 0,
+      "passed": true,
+      "targetSeconds": 0.021333333333333333,
+      "timeline": {
+        "kind": "sampled-candidate",
+        "originTicks": 130080,
+        "endTicks": 144976800,
+        "durationSeconds": 1609.408,
+        "videoEndTicks": 144963000,
+        "audioEndTicks": 144976800,
+        "videoStepTicks": 3000,
+        "globalContinuityVerified": false
+      },
+      "rap": {
+        "offset": 564,
+        "pts": 132000,
+        "dts": 126000
+      },
+      "bootstrap": {
+        "state": "open",
+        "failure": null,
+        "generation": 1,
+        "readStart": 564,
+        "sourceSize": 208001508,
+        "sourceOffset": 564,
+        "sourceReceived": 0,
+        "outputSize": 208001320,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 376,
+        "bindingBytes": 25590,
+        "psiRetainedBytes": 416,
+        "retainedBytes": 26570,
+        "peakRetainedBytes": 26570,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        },
+        {
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "start": 0,
+          "end": 524143
+        }
+      ]
+    },
+    {
+      "seconds": 160.9344,
+      "passed": true,
+      "targetSeconds": 160.9344,
+      "timeline": {
+        "kind": "sampled-candidate",
+        "originTicks": 130080,
+        "endTicks": 144976800,
+        "durationSeconds": 1609.408,
+        "videoEndTicks": 144963000,
+        "audioEndTicks": 144976800,
+        "videoStepTicks": 3000,
+        "globalContinuityVerified": false
+      },
+      "rap": {
+        "offset": 20327124,
+        "pts": 14532000,
+        "dts": 14526000
+      },
+      "bootstrap": {
+        "state": "open",
+        "failure": null,
+        "generation": 1,
+        "readStart": 20327124,
+        "sourceSize": 208001508,
+        "sourceOffset": 20327124,
+        "sourceReceived": 0,
+        "outputSize": 187674760,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 376,
+        "bindingBytes": 24520,
+        "psiRetainedBytes": 416,
+        "retainedBytes": 25500,
+        "peakRetainedBytes": 25500,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        },
+        {
+          "start": 20537496,
+          "end": 21061639
+        },
+        {
+          "start": 20212068,
+          "end": 20736211
+        },
+        {
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "start": 20212068,
+          "end": 20736211
+        }
+      ]
+    },
+    {
+      "seconds": 804.672,
+      "passed": true,
+      "targetSeconds": 804.672,
+      "timeline": {
+        "kind": "sampled-candidate",
+        "originTicks": 130080,
+        "endTicks": 144976800,
+        "durationSeconds": 1609.408,
+        "videoEndTicks": 144963000,
+        "audioEndTicks": 144976800,
+        "videoStepTicks": 3000,
+        "globalContinuityVerified": false
+      },
+      "rap": {
+        "offset": 103248660,
+        "pts": 72492000,
+        "dts": 72486000
+      },
+      "bootstrap": {
+        "state": "open",
+        "failure": null,
+        "generation": 1,
+        "readStart": 103248660,
+        "sourceSize": 208001508,
+        "sourceOffset": 103248660,
+        "sourceReceived": 0,
+        "outputSize": 104753224,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 376,
+        "bindingBytes": 30347,
+        "psiRetainedBytes": 416,
+        "retainedBytes": 31327,
+        "peakRetainedBytes": 31327,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        },
+        {
+          "start": 103744980,
+          "end": 104269123
+        },
+        {
+          "start": 103055960,
+          "end": 103580103
+        },
+        {
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "start": 103055960,
+          "end": 103580103
+        }
+      ]
+    },
+    {
+      "seconds": 1448.4096000000002,
+      "passed": true,
+      "targetSeconds": 1448.4096000000002,
+      "timeline": {
+        "kind": "sampled-candidate",
+        "originTicks": 130080,
+        "endTicks": 144976800,
+        "durationSeconds": 1609.408,
+        "videoEndTicks": 144963000,
+        "audioEndTicks": 144976800,
+        "videoStepTicks": 3000,
+        "globalContinuityVerified": false
+      },
+      "rap": {
+        "offset": 187661976,
+        "pts": 130452000,
+        "dts": 130446000
+      },
+      "bootstrap": {
+        "state": "open",
+        "failure": null,
+        "generation": 1,
+        "readStart": 187661976,
+        "sourceSize": 208001508,
+        "sourceOffset": 187661976,
+        "sourceReceived": 0,
+        "outputSize": 20339908,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 376,
+        "bindingBytes": 31417,
+        "psiRetainedBytes": 416,
+        "retainedBytes": 32397,
+        "peakRetainedBytes": 32397,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        },
+        {
+          "start": 186952464,
+          "end": 187476607
+        },
+        {
+          "start": 187445024,
+          "end": 187969167
+        },
+        {
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "start": 187445024,
+          "end": 187969167
+        }
+      ]
+    },
+    {
+      "seconds": 1607.344,
+      "passed": true,
+      "targetSeconds": 1607.344,
+      "timeline": {
+        "kind": "sampled-candidate",
+        "originTicks": 130080,
+        "endTicks": 144976800,
+        "durationSeconds": 1609.408,
+        "videoEndTicks": 144963000,
+        "audioEndTicks": 144976800,
+        "videoStepTicks": 3000,
+        "globalContinuityVerified": false
+      },
+      "rap": {
+        "offset": 207687924,
+        "pts": 144762000,
+        "dts": 144756000
+      },
+      "bootstrap": {
+        "state": "open",
+        "failure": null,
+        "generation": 1,
+        "readStart": 207687924,
+        "sourceSize": 208001508,
+        "sourceOffset": 207687924,
+        "sourceReceived": 0,
+        "outputSize": 313960,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 376,
+        "bindingBytes": 18953,
+        "psiRetainedBytes": 416,
+        "retainedBytes": 19933,
+        "peakRetainedBytes": 19933,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        },
+        {
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "start": 207477364,
+          "end": 208001507
+        }
+      ]
+    }
+  ],
+  "scope": "local read-only original and product Q1 admission; not authenticated Drive/browser/device playback",
+  "size": 208001508,
+  "historicalFingerprintMatched": true,
+  "metadata": {
+    "format": {
+      "format_name": "mpegts",
+      "start_time": "1.445333",
+      "duration": "1609.344000"
+    },
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "profile": "High",
+        "codec_type": "video",
+        "width": 360,
+        "height": 640,
+        "pix_fmt": "yuv420p",
+        "level": 30,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "color_transfer": "bt709",
+        "color_primaries": "bt709",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1"
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "profile": "LC",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0"
+      }
+    ]
+  },
+  "fingerprintMatchedAfter": true,
+  "localStateUnchanged": true,
+  "passed": true
+}

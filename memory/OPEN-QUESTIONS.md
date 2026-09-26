@@ -14,5 +14,11 @@
 
 ## Readings in force — assumed, not decided
 
+Implementation follow-up (not a user-choice blocker): one priority local browser
+full run failed Q1_SOURCE_READ_FAILED near299s; final instrumented rerun passed.
+Preserved qa/q1-priority/browser-source-read-failure.redacted.json. Exact cause
+unknown; V2-06B must discriminate transient range/metadata failures and recovery
+without weakening revision/cleanup fences. Do not infer continuous stability.
+
 | ID | User's words (verbatim) | Our reading (`assumed`) | Breaks if wrong | Ends when | Relied on in |
 |---|---|---|---|---|---|

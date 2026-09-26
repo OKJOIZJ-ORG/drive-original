@@ -1,33 +1,28 @@
-# Checkpoint — product Q1 slice verified locally — 2026-09-27 01:08
+# Checkpoint — priority evidence closed; early TS route next — 2026-09-27 01:37
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Product unit after fad6593 is locally verified, pending scoped commit. New media/ player/source/bundles connect native code4 fallback to bounded TS Q1 using actual app+SW. Source21 tests, full324 Node, core120, app5 modes, lifecycle6, native preservation5 and existing functional22 pass. Last three Q1 reports pin final sources; build19-file allowlist byte equality passes. rc.5 local only. Independent review clean after reproduced seek ACK deadlock, false abort cleanup, MMS setting restoration and Q1 seek watchdog fixes. Details/commands/rollback: media/README.md.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Product ff124aa is local rc.5, candidate rc.4/3597e63 and production unchanged. Actual208MB local priority passes bounded admission5/5, product component Chrome frames/seeks/full16x1609.408s EOF+16.1s paused requestfreeze, and native entire coded/metadata/clock/video/PCM comparisons. Original fingerprint/stat unchanged, derivedMP4 deleted. qa/q1-priority reports and memory/Q1-PRIORITY-20260927.md own scope; not liveDrive/appSW/device/1xexpiry/allformats. One intermediate browser run failed Q1_SOURCE_READ_FAILED near299s; final instrumented full run passed, cause unknown, preserved counterevidence and V2-06B follow-up. No running audit process or helper edit remains.
 
-Product is now locally integrated, but synthetic tests are NOT authenticated Drive/priority/iPhone/full-format acceptance. Candidate remains rc.4/3597e63, isolated browser unauthenticated/mutations locked; prior user PWA auth acceptance separate. Priority4MiB strict decode false remains historical. Current native-first fallback can read substantial data before Q1; actual priority evidence should guide earlier reusable route discovery. Browser audibility/color/total memory and actual expiry/long-run remain open. No original/Drive mutation, deploy, merge or push.
+Current QA-only unit ready for scoped stage/hash-to-Git-blob check/commit. Next product defect: native whole-file code4 twice before TS Q1. Main/helper reviewed generic upfront940-byte fenced probe for possible current strict188-byte TS candidates; no SW handoff needed. Native-capability, nonaligned/unknown size and image skip to Q0; latefallback retained. Need safe missing-headRevision eligibility distinction, probe→player content binding, and prior Q1 cleanup fence for Q0 replacements. Helper gpt_6_sol_high_q1_integration_review returned design, idle. Full-format/lifecycle/state/live gates remain in goal.
 
 ## Decided
 
-D-050/051/052 unchanged: direct-original browser/PWA, auth-only free layer. Integrate a safe product vertical slice now, not a complete format platform. Full format/device acceptance stays open.
+D-050/051/052 unchanged: browser/PWA, direct original bytes, auth-only free candidate, sequential verified units; no production/push/original writes. Main owns integration, bounded helpers allowed.
 
 ## Waiting on the user
 
-No new local decision. Authenticated Drive/device and operating transition remain separate gates.
+No local decision needed. Actual authenticated Drive/device and operating transition remain separate gates; continue independent READY work.
 
 ## Next first action
 
-Review/stage exact product-unit paths and reports, commit, then read-only stat the priority G:/ sample and locate its existing redacted/private identity records to prepare full-original bounded Q1 playback; retain live Drive/device gates and do not redeploy production. If local access is absent, continue independent V2-06B/V2-08A READY work.
+Stage only this priority QA/evidence unit, verify each report.sources hash against staged Git blobs, commit it; then implement/test upfront bounded TS route in app.js and explicit missing-identity result in media/drive-source.mjs without broad fallback on errors.
 
 ## Tried
 
-- Arbitrary cuts/decoder stderr invalidate preservation; complete IDR/PES boundaries matter.
-- Sparse clock is sampled-candidate, not unseen global continuity/wrap support.
-- B-frame presentation/decode clocks and original/virtual offsets differ.
-- Same-start native decode controls decoder history; uninterrupted comparison stays separate.
-- Relative timing misses common shifts; seek now checks absolute PTS/DTS.
-- Intentional tail pause has no fixed lifetime; media error precedes cleanup cancellation.
-- Actual rVFC/frame progress/ended, not just append, prove local playback.
-- Awaiting seeked inside fragment ACK deadlocked at6.1s/readyState1/bufferEnd6.101333; independent target promise now allows the next fragment.
-- Aborting real fetch before reader.cancel produced false cleanupFailure; cancellation now starts first, preserving genuine failure/unknown guards.
-- Stale native loadedmetadata restore could own a Q1 source; source-generation fence and carried restore snapshot prevent that.
-- Source abort returns bounded cleanup evidence; unsettled callbacks must block replacement transport owners.
+- Shared stream fd despite autoClose:false caused EBADF; per-request verified descriptors now own automatic closure.
+- Final hash alone can miss same-content replacement/mtime changes; stat now fences both sides.
+- One full browser read failed at299s, cause unknown; keep failure evidence, no repeated-success laundering.
+- Native TS wholebody retry costs two full inputs; bounded generic early routing is next.
+- SW first-chunk sniff cannot cap open-ended transfer and lacks acknowledged cleanup handoff; upfront owned probe is smaller.
+- Code4/iframe/mock/append alone never proves a decoded original frame or device acceptance.

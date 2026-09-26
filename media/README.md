@@ -72,7 +72,12 @@ these current product-edge reports do not rewrite those earlier observations.
 
 ## Remaining gates and recovery
 
-Not yet verified: current authenticated Drive priority file/version, whole-file
+Priority follow-up: the actual208MB local original passes full-source product
+component Chrome16x playback, bounded pause/seek/cleanup, and native all-frame,
+coded, absolute-timing and full PCM comparisons. Reports are underqa/q1-priority;
+scope and recovery are in memory/Q1-PRIORITY-20260927.md. Original is unchanged.
+
+Not yet verified: current authenticated Drive priority file/version and whole-app
 priority playback, physical iPhone Chrome/Safari/PWA, actual audibility/color,
 expiry/background long-run behavior, full-format support and total memory.
 Current native-first fallback can consume substantial native bytes before TS is
