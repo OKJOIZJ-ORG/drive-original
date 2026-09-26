@@ -191,6 +191,8 @@ production deployment or automation resume occurred.
 
 ## 2026-09-26 — resumed relocated repository; local MPEG-TS gate
 
+- Final local follow-on: added the bounded ISO-BMFF top-level header walker (three new QA files), 47/47 new tests and 103/103 scanner/core/static integration. Independently reviewed normal/extended/UUID/EOF sizes, exact BigInt positions, request/byte ceilings, abort and private-output boundaries. Existing public front/tail-index seeds each needed 32 header bytes without reading `mdat` payload. No current corpus or codec/playback claim follows from this local gate. Preserved the authenticated MPEG-TS/ISO-BMFF live gate as unresolved, and removed only reproducible standalone bundles plus this run's Wrangler account cache after delivery verification.
+
 - Subsequent public-transport delivery: implementation `4cd7d60` deployed once to isolated QA Worker version `423b00b2-3c03-4e8f-897c-ad9c31dbf25e`, read back at 100%. All three public artifacts matched exact GET bytes and HEAD lengths; wrong-origin/unlisted/query requests returned empty 404 without CORS. Candidate app.js/sw.js still match product commit `3597e63`. `transport-results.redacted.json` explicitly records no authenticated/in-page/media execution. Browser control remains unavailable; proceed only with independent local ISO-BMFF index work, not a guessed live result.
 
 - Found canonical repository at `C:\extensions\Drive-Original\source`, same branch and `2294cf5` resume HEAD. Preserved ignored parser/adapter drafts. Did not reconstruct the removed Desktop path or reset historical commits.

@@ -1,8 +1,6 @@
-# Checkpoint — V2-07A MPEG-TS delivery and local ISO-BMFF header gates verified — 2026-09-26
+# Checkpoint — V2-07A MPEG-TS QA transport verified; live probe pending — 2026-09-26
 
 ## The story so far
-
-Latest closed local slice: `qa/v2-07a-isobmff-index/` locates declared top-level MP4/MOV box/index-candidate boundaries with BigInt arithmetic and at most 64 reads/4,096 header bytes/128 boxes. It never reads media payload or parses codecs. New tests pass 47/47; scanner/core/static integration passes 103/103 and independent review is clean. Existing front/tail-index public QA seeds each required only 32 header bytes. Reached EOF means header-chain-complete, never valid media or playable support. The current exact-range core still limits endpoints to MAX_SAFE_INTEGER; greater sparse offsets are parser-only tests.
 
 Repository is now `C:\extensions\Drive-Original\source`, branch `codex/v2-kickoff-diagnostics`; resume HEAD was `2294cf5`. The old Desktop location is absent. Existing ignored MPEG-TS drafts were preserved and completed, not reset. `qa/v2-07a-container-probe/results.redacted.json` pins the final parser hash and a read-only local priority-prefix observation: 65,536 bytes, stable local stat identity, 348 TS packets, one PAT/PMT and two observed H.264/AAC headers. This is not current authenticated Drive or playback evidence.
 
@@ -24,13 +22,11 @@ None for local work. Current native computer-use node_repl is unavailable; fallb
 
 ## Next first action
 
-Recover an authenticated candidate browser connection, verify the hash-pinned MPEG-TS bundle in-page and run its zero-argument one-shot probe once; retain only its reviewed aggregate. Then bind the local ISO-BMFF scanner through the existing exact-range core for real index/track evidence. Do not redeploy or repeat completed media reads merely to recover context.
+Build the next local bounded ISO-BMFF index-planning slice using the existing exact-range core; preserve the pending authenticated MPEG-TS probe and never label its public bundle delivery as live media evidence.
 
 ## Tried
 
 - Original paused parser drafts passed 36 tests but missed complete-frame/SPS and continuity evidence boundaries; eight new regressions plus fixes now pass.
 - Raw cross-origin Drive Range response cannot satisfy the shared core's exposed Content-Range/no-store contract; reuse the previously validated client service-worker path instead of adding a media server.
 - Local stat stability does not revalidate Drive file/version, whole-file hash, decode, seek, iPhone playback or expiry/sleep-wake behavior.
-- Current browser-tool discovery exposed no node_repl/Chrome DevTools/browser tool; fallback desktop observe returned Tool observe not found, and no running Chrome process exposed a reusable remote-debugging port. Do not read personal browser stores, bypass Google automation rejection, or claim the prior authenticated tab still exists. Login/2FA remain user-controlled if recovery actually requires them.
-- Three reproducible standalone QA bundles and this run's local Wrangler account cache were removed after verified delivery; their tracked source/registry remains recoverable. No user media was removed.
 - Rollback: revert only isolated QA commits; originals, product candidate and production require no recovery because they were not changed. Outgoing checkpoint is archived under memory/checkpoints/20260926-mpegts-parser-resume.md.
