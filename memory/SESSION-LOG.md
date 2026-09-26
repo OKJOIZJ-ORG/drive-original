@@ -191,6 +191,8 @@ production deployment or automation resume occurred.
 
 ## 2026-09-26 — resumed relocated repository; local MPEG-TS gate
 
+- Subsequent public-transport delivery: implementation `4cd7d60` deployed once to isolated QA Worker version `423b00b2-3c03-4e8f-897c-ad9c31dbf25e`, read back at 100%. All three public artifacts matched exact GET bytes and HEAD lengths; wrong-origin/unlisted/query requests returned empty 404 without CORS. Candidate app.js/sw.js still match product commit `3597e63`. `transport-results.redacted.json` explicitly records no authenticated/in-page/media execution. Browser control remains unavailable; proceed only with independent local ISO-BMFF index work, not a guessed live result.
+
 - Found canonical repository at `C:\extensions\Drive-Original\source`, same branch and `2294cf5` resume HEAD. Preserved ignored parser/adapter drafts. Did not reconstruct the removed Desktop path or reset historical commits.
 - Closed the pure local parser slice with 44/44 synthetic tests, an independent 16-assertion follow-up and unchanged product suite 269/269. Four new boundary failures were reproduced before correction; prior partial ADTS/SPS/gap fixes gained maintained regressions. Acceptance remains in `qa/v2-07a-container-probe/README.md` and `results.redacted.json`.
 - Final read-only priority prefix observation matched the exact staged parser hash: 65,536 bytes, stable private local stat identity, 348 TS packets plus 112 trailing bytes, one PAT/PMT, H.264 High L3.0 360x640 BT.709 limited and AAC-LC 48 kHz stereo. This does not revalidate current Drive identity or claim decode/playback.
