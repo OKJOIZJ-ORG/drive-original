@@ -205,3 +205,7 @@ production deployment or automation resume occurred.
 ## 2026-09-26 — V2-02A sequential implementation resumed
 
 User requested all remaining work sequentially with adaptable planning (D-052). Reconciled clean branch at 379ffdc; Chrome tooling recovered but isolated rc.4 is unauthenticated. Reproduced automatic iframe/island behavior in two synthetic viewports, changed product UI to manual-only external preview plus single chrome owner and accessible entry, fixed two independently reproduced review regressions. Before/after 2/2, full Node 269/269, browser functional 20/20; scoped 123/123 after fixes. No external mutation/deploy. Next V2-02B; full format/real-device/Drive acceptance remains open.
+
+## 2026-09-26 — V2-02B closed locally; host browser resource boundary
+
+Product UI unit8b16fae preceded presentation-owned viewed and silent normal status. Added8 focused regressions;277/277Node serial passes. Before/after PC/mobile fixtures2/2 each discriminate failed open, image decode/paint and actual retry-session progress. Independent review found retry rebinding and hidden-image foreground omissions, both fixed. Expanded browser17 passed then Chromium ERR_INSUFFICIENT_RESOURCES; shell reported0x800705AF. Earlier synthetic MediaRecorder run stalled and was terminated; added timeout and explicit bounded seed reuse, no user processes/settings touched. No live Drive mutations/deploy. Next independent lightweight unit V2-05A; Q1 product and full live gates remain unfinished.

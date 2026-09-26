@@ -485,6 +485,19 @@ async function check(name, callback) {
   catch (error) { results.push({ name, status:'failed', error:error.stack }); fs.writeFileSync(path.join(out,'results.json'), JSON.stringify(results,null,2)); throw error; }
 }
 async function generateVideo() {
+  // Reuse an explicitly supplied, bounded QA seed when MediaRecorder in the
+  // test browser cannot settle. Never interpret generator hangs as app proof.
+  if (process.argv[3]) {
+    const seedPath=path.resolve(root,process.argv[3]);
+    assert(seedPath.startsWith(path.join(root,'qa')+path.sep),'fixture must stay inside QA');
+    assert.equal(path.basename(seedPath),'fixture.webm');
+    const stat=fs.statSync(seedPath);
+    assert(stat.isFile() && stat.size>0 && stat.size<=16*1024*1024,'bounded synthetic fixture required');
+    video=fs.readFileSync(seedPath);
+    fs.writeFileSync(path.join(out,'fixture.webm'),video);
+    console.log(JSON.stringify({fixtureReused:true,bytes:video.length,sha256:createHash('sha256').update(video).digest('hex')}));
+    return;
+  }
   const page = await browser.newPage();
   await page.goto(base);
   const bytes = await page.evaluate(async () => {
@@ -492,7 +505,15 @@ async function generateVideo() {
     const ctx = canvas.getContext('2d'); const stream = canvas.captureStream(24);
     const media = new MediaRecorder(stream, { mimeType:'video/webm;codecs=vp8', videoBitsPerSecond:300000 });
     const chunks=[]; media.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
-    const done = new Promise(resolve=>{ media.onstop=async()=>resolve([...new Uint8Array(await new Blob(chunks).arrayBuffer())]); });
+    let deadline;
+    const done = new Promise((resolve,reject)=>{
+      deadline=setTimeout(()=>{stream.getTracks().forEach(t=>t.stop());reject(new Error('QA MediaRecorder did not settle within 20 seconds'));},20000);
+      media.onerror=()=>{clearTimeout(deadline);reject(new Error('QA MediaRecorder failed'));};
+      media.onstop=async()=>{clearTimeout(deadline);resolve([...new Uint8Array(await new Blob(chunks).arrayBuffer())]);};
+    });
+    // Attach immediately: recording errors can precede the drawing interval.
+    // Returning the original promise below still propagates the failure.
+    done.catch(()=>{});
     let frame=0;
     const draw = () => { ctx.fillStyle='#172b43';ctx.fillRect(0,0,640,360);ctx.fillStyle='#56a3ed';ctx.fillRect((frame*3)%540,70,100,160);ctx.fillStyle='white';ctx.font='26px sans-serif';ctx.fillText('Exact-original test '+frame,24,320);frame++; };
     draw(); media.start(); const timer=setInterval(draw,1000/24);
@@ -662,8 +683,8 @@ async function configureSlowTailFixture(page, { fileId='video-A', prefixBytes=64
   faststartSeed=fs.readFileSync(path.join(root,'qa','faststart-h264-aac.mp4'));
   faststartVideo=appendFaststartTrailingFreeBox(faststartSeed);
   seekRangeSeed=fs.readFileSync(path.join(root,'qa','seek-range-h264-aac.mp4'));
-  await generateVideo();
   try {
+    await generateVideo();
     await check('immersive bottom-only chrome, pointer focus, keyboard access and fullscreen',async()=>{
       const {page,context,errors}=await environment();
       try {

@@ -112,3 +112,7 @@ and qa/immersive-results.json. Deployment is a separate evidence claim.
 ## V2-02A local product correction — 2026-09-26
 
 Observed in isolated PC/mobile viewport fixtures: automatic original-path failure sends no Google preview request, manual preview remains explicitly selectable and unverified, its actions share bottom chrome visibility/inert state, an accessible entry reveals controls, recovery buttons are keyboard reachable, and retry/close remain functional. Before/after driver: qa/v2-ui-audit.cjs, results under qa/v2-ui/. Functional browser integration passes 20/20, Node suite 269/269; scoped 123/123 after independent-review fixes. Not deployed; not physical iPhone/VoiceOver or real Drive playback acceptance. No claim that original TS playback was fixed by this UI change.
+
+## V2-02B local presentation/state evidence — 2026-09-26
+
+Observed synthetic before/after in PC and mobile viewport: failed opens no longer write viewed; a decoded image displayed after foreground return and a progressing video after original retry do. Normal sync/loading details are hidden, errors remain. Existing account history and merge schema are preserved. Node277/277 serial; focused browser2/2; expanded browser17 passed then ERR_INSUFFICIENT_RESOURCES, so its remaining rows are unavailable. Evidence: tests/presentation-state.test.js and qa/v2-presentation-audit.cjs; qa/v2-presentation/before/results.json and after/results.json; qa/v2-presentation-integration-retry/results.json. Not deployed and not physical-device/real-Drive acceptance.

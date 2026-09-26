@@ -1354,6 +1354,7 @@ function bindEvents() {
   });
   window.addEventListener('pagehide', stopAccountStateRefresh);
   window.addEventListener('pageshow', () => {
+    resumeMediaViewObservation();
     scheduleAccountStateRefresh(0);
     markStandaloneAuthorizationReturned({ pageshow: true });
     resumeStandaloneAuthorization();
@@ -1385,6 +1386,7 @@ function bindEvents() {
   // events and general document activity never reveal controls.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
+      resumeMediaViewObservation();
       markStandaloneAuthorizationReturned();
       resumeStandaloneAuthorization();
       sendTokenToWorker();
@@ -1406,6 +1408,7 @@ function bindEvents() {
       syncMediaSeekWatchdog();
       syncMediaFrameWatchdog();
     } else {
+      if (mediaViewObservation) mediaViewObservation.firstMediaTime = null;
       markStandaloneAuthorizationHidden();
       syncMediaSeekWatchdog();
       clearMediaFrameWatchdog('hidden');
@@ -4044,13 +4047,80 @@ function queueAccountStateSync() {
 
 function updateAccountSyncStatus() {
   if (!el.accountSyncStatus) return;
-  el.accountSyncStatus.hidden = state.demo || !state.accountId;
   const pending = state.accountStateSyncPromise || state.accountStateSyncTimer;
-  const waiting = state.accountStateSyncError || !navigator.onLine;
+  const waiting = state.accountLocalStorageError || state.accountStateSyncError || !navigator.onLine;
+  el.accountSyncStatus.hidden = state.demo || !state.accountId || !waiting;
   el.accountSyncStatus.dataset.state = waiting ? 'pending' : pending ? 'syncing' : 'synced';
   el.accountSyncStatus.textContent = waiting ? (state.accountLocalStorageError
-    ? '기록 저장 대기 · 연결 상태와 저장 공간을 확인하세요' : '기록은 이 기기에 저장됨 · 계정 동기화 대기')
-    : pending ? '좋아요·시청 기록 동기화 중…' : '좋아요·시청 기록 동기화됨';
+    ? '기록을 저장하지 못했습니다. 저장 공간을 확인해 주세요.' : '기록 동기화 대기 · 연결을 확인해 주세요.')
+    : '';
+}
+
+let mediaViewObservation = null;
+
+function beginMediaViewObservation({ previousSession = null } = {}) {
+  const prior = mediaViewObservation;
+  const recorded = previousSession != null && prior?.session === previousSession
+    && prior?.fileId === state.selected?.id && prior?.account === state.accountId
+    && prior?.accountGeneration === state.driveSessionGeneration && prior.recorded;
+  mediaViewObservation = state.selected ? {
+    fileId: state.selected.id, session: state.mediaSession,
+    account: state.accountId, accountGeneration: state.driveSessionGeneration,
+    sourceGeneration: mediaSourceGeneration, seekGeneration: mediaSeekGeneration,
+    firstMediaTime: null, recorded: Boolean(recorded)
+  } : null;
+}
+
+function isCurrentMediaViewObservation(owner, element) {
+  return Boolean(owner && owner === mediaViewObservation && !owner.recorded
+    && owner.fileId === state.selected?.id && owner.session === state.mediaSession
+    && owner.account === state.accountId && owner.accountGeneration === state.driveSessionGeneration
+    && (!state.accountIdentityPending || state.demo)
+    && document.visibilityState === 'visible' && !el.playerSheet?.hidden
+    && el.mediaError?.hidden !== false && element && !element.hidden && isCurrentMediaEvent(element));
+}
+
+function commitMediaViewObservation(owner) {
+  owner.recorded = true;
+  markFileViewed(owner.fileId);
+}
+
+function noteViewedVideoPresentation(video, mediaTime, confidence) {
+  const owner = mediaViewObservation;
+  if (!isCurrentMediaViewObservation(owner, video)) return;
+  if (video.paused || video.seeking || state.isSeeking || video.readyState < 2) {
+    owner.firstMediaTime = null;
+    return;
+  }
+  if (!['decoded-frame', 'playback-clock'].includes(confidence) || !Number.isFinite(mediaTime)) return;
+  if (owner.sourceGeneration !== mediaSourceGeneration || owner.seekGeneration !== mediaSeekGeneration) {
+    owner.sourceGeneration = mediaSourceGeneration;
+    owner.seekGeneration = mediaSeekGeneration;
+    owner.firstMediaTime = null;
+  }
+  // Viewed means displayed and started, not completed. A paused/seeked first
+  // frame alone must not consume the unseen-first random population.
+  if (owner.firstMediaTime == null || mediaTime < owner.firstMediaTime) owner.firstMediaTime = mediaTime;
+  else if (mediaTime > owner.firstMediaTime + 0.0001) commitMediaViewObservation(owner);
+}
+
+function scheduleImageViewedPresentation(image) {
+  const owner = mediaViewObservation;
+  if (!isCurrentMediaViewObservation(owner, image)) return;
+  const source = image.src;
+  const sourceGeneration = mediaSourceGeneration;
+  const decoded = typeof image.decode === 'function' ? image.decode() : Promise.resolve();
+  Promise.resolve(decoded).then(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (isCurrentMediaViewObservation(owner, image)
+        && mediaSourceGeneration === sourceGeneration && image.src === source
+        && image.complete && image.naturalWidth > 0 && image.naturalHeight > 0) commitMediaViewObservation(owner);
+    }));
+  }).catch(() => {}); // The owned load/error path reports decoding failures.
+}
+
+function resumeMediaViewObservation() {
+  if (el.imageViewer?.complete) scheduleImageViewedPresentation(el.imageViewer);
 }
 
 function getViewedIdSet() {
@@ -5527,6 +5597,8 @@ function noteMediaFrameProgress(
   const numericMediaTime = Number(mediaTime);
   if (!Number.isFinite(numericMediaTime)) return false;
 
+  noteViewedVideoPresentation(video, numericMediaTime, confidence);
+
   state.mediaDecodeVerified = true;
   state.mediaTransportStarted = true;
   const seekCompleted = noteMediaSeekFrameProgress(
@@ -6935,7 +7007,6 @@ function openMediaSource(file) {
     state.playbackDeck = buildAccountPlaybackDeck(getPlaybackFileList(), file.id);
     state.playbackDeckComplete = hasCompletePlaybackPopulation();
   }
-  markFileViewed(file.id);
   refreshFavoritePresentation();
   Promise.resolve().then(() => {
     if (state.selected?.id === file.id && !el.playerSheet?.hidden) warmPlaybackNeighborhood(file);
@@ -6950,6 +7021,7 @@ function openMediaSource(file) {
   const isVideo = file.mimeType?.startsWith('video/');
 
   resetMediaElements();
+  beginMediaViewObservation();
   beginMediaDiagnosticTrace(file, state.mediaSession, diagnosticIntentAt);
   setNativeVideoActionsAvailable(isVideo);
   collapseShortsExpand();
@@ -7327,6 +7399,7 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     : capturePlaybackSnapshot();
   if (state.resumePosition?.fileId === file.id) state.resumePosition = null;
   state.mediaSession += 1;
+  beginMediaViewObservation({ previousSession: expectedSession });
   if (consumeRetry) state.mediaRetryCount += 1;
   state.lastProxyError = null;
   state.mediaAttempt = 'range-retry';
@@ -8881,6 +8954,7 @@ function onMediaReady() {
   if (el.imageViewer && !el.imageViewer.hidden) {
     el.mediaLoading.hidden = true;
     el.imageViewer.classList.add('is-ready');
+    scheduleImageViewedPresentation(el.imageViewer);
     requestAnimationFrame(() => hideSwipeNeighbor({ immediate: false }));
   }
   updateQualityDisplay();
@@ -9010,7 +9084,9 @@ function updateQualityDisplay() {
 }
 
 function showMediaLoading(message) {
+  // Keep diagnostic detail available without narrating normal transport/auth.
   el.mediaLoadingText.textContent = message;
+  el.mediaLoadingText.hidden = true;
   el.mediaLoading.hidden = false;
   el.mediaError.hidden = true;
 }
@@ -9119,6 +9195,7 @@ function clearDirectMediaSources() {
 }
 
 function resetMediaElements() {
+  mediaViewObservation = null;
   state.mediaSession += 1;
   clearMediaSeekWatchdog('session-reset');
   clearMediaFrameWatchdog('session-reset');

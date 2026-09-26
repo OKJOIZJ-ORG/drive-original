@@ -1,0 +1,201 @@
+[
+  {
+    "name": "immersive bottom-only chrome, pointer focus, keyboard access and fullscreen",
+    "status": "passed",
+    "bounds": {
+      "width": 1240,
+      "bg": "rgba(0, 0, 0, 0)",
+      "border": "0px"
+    }
+  },
+  {
+    "name": "player edge closes exactly one history entry; interior swipe keeps player open",
+    "status": "passed",
+    "physicalDevice": false
+  },
+  {
+    "name": "real pointer long press cancels native selection and consumes release click",
+    "status": "passed"
+  },
+  {
+    "name": "same-account fixture renewal preserves playback and the expired library",
+    "status": "passed",
+    "proof": {
+      "ok": true,
+      "sameFiles": true,
+      "sameSelected": true,
+      "sameMedia": true,
+      "sameAccountGeneration": true,
+      "renewed": true,
+      "usable": true,
+      "paused": true,
+      "time": 0.4
+    }
+  },
+  {
+    "name": "initial route stays Range-first when writable OPFS is available",
+    "status": "passed",
+    "mode": "original-range",
+    "mediaRequests": 1
+  },
+  {
+    "name": "decoded first frame precedes slow Range body completion",
+    "status": "passed",
+    "mode": "original-range",
+    "range": "bytes=0-",
+    "deliveredBytes": 65536,
+    "responseLength": 169327,
+    "bodyComplete": false,
+    "confidence": "decoded-frame",
+    "readyState": 4
+  },
+  {
+    "name": "tail-index MP4 reaches a decoded frame through a coherent tail Range",
+    "status": "passed",
+    "mode": "original-range",
+    "range": "bytes=4227072-",
+    "contentRange": "bytes 4227072-4252247/4252248",
+    "deliveredUniqueBytes": 156248,
+    "fileBytes": 4252248,
+    "moovStart": 4249618,
+    "readyState": 3
+  },
+  {
+    "name": "non-faststart MP4 stays undecodable while its tail index is withheld",
+    "status": "passed",
+    "range": "bytes=4227072-",
+    "deliveredBytes": 25175,
+    "moovStart": 4249618,
+    "currentTime": 0,
+    "readyState": 0
+  },
+  {
+    "name": "faststart MP4 presents two seconds before whole-file Range completion",
+    "status": "passed",
+    "initialRange": "bytes=0-",
+    "warmupRange": "bytes=24576-",
+    "range": "bytes=202253-",
+    "deliveredBytes": 98304,
+    "responseLength": 4194304,
+    "maxPresentedMediaTime": 2,
+    "currentTime": 2.015884,
+    "readyState": 3
+  },
+  {
+    "name": "same faststart MP4 settles 10/50/90 percent seeks and fences superseded work",
+    "status": "passed",
+    "targets": [
+      {
+        "percent": 0.1,
+        "target": 1,
+        "presented": 1,
+        "generation": 1,
+        "staleGeneration": null
+      },
+      {
+        "percent": 0.5,
+        "target": 5,
+        "presented": 5,
+        "generation": 2,
+        "staleGeneration": null
+      },
+      {
+        "percent": 0.9,
+        "target": 9,
+        "presented": 9,
+        "generation": 4,
+        "staleGeneration": 3
+      }
+    ],
+    "decodedVideoFrames": 25,
+    "decodedAudioBytes": 10109,
+    "audioTracks": 1
+  },
+  {
+    "name": "uncached seek supersession fences a pending original Range from the final target",
+    "status": "passed",
+    "baseline": {
+      "streamCount": 5,
+      "deliveredEnd": 327679,
+      "noSeekControlMs": 500
+    },
+    "seekA": {
+      "generation": 1,
+      "pendingAfterGrace": 1,
+      "cancelledAfterGrace": 0,
+      "streams": [
+        {
+          "range": "bytes=2621440-",
+          "terminal": "complete",
+          "abortSignalSeen": false,
+          "consumerCancelSeen": false,
+          "lateReleaseOutcome": "released"
+        }
+      ]
+    },
+    "seekB": {
+      "generation": 2,
+      "target": 54,
+      "presented": 54,
+      "streams": [
+        "bytes=4685824-"
+      ]
+    },
+    "decodedVideoFrames": 8,
+    "decodedAudioBytes": 3056,
+    "audioTracks": 1
+  },
+  {
+    "name": "2/4 GiB sparse Range crosses the production service worker without allocation",
+    "status": "passed",
+    "logicalTotalBytes": 4294967297,
+    "ranges": [
+      {
+        "range": "bytes=2147483648-2147483648",
+        "contentRange": "bytes 2147483648-2147483648/4294967297",
+        "bytes": 1
+      },
+      {
+        "range": "bytes=4294967296-4294967296",
+        "contentRange": "bytes 4294967296-4294967296/4294967297",
+        "bytes": 1
+      }
+    ],
+    "invalidStatus": 400,
+    "fixtureBytes": 1
+  },
+  {
+    "name": "Range recovery OPFS, playback, keyboard, active-tab lease and scoped cleanup",
+    "status": "passed",
+    "mode": "original-opfs",
+    "sha256": "d623f743186277d398bef41baaf3034c94f42876c05841951a09e87804c8e69a",
+    "requests": 3
+  },
+  {
+    "name": "Range transport valid",
+    "status": "passed",
+    "mode": "original-range",
+    "mediaRequests": 1
+  },
+  {
+    "name": "Range transport 401-once",
+    "status": "passed",
+    "mode": "original-range",
+    "mediaRequests": 2
+  },
+  {
+    "name": "Range transport invalid",
+    "status": "passed",
+    "mode": "original-memory",
+    "mediaRequests": 3
+  },
+  {
+    "name": "favorite cross-folder selection and partial bulk failure",
+    "status": "passed"
+  },
+  {
+    "name": "mobile video, overflow actions, seek and double-tap",
+    "status": "failed",
+    "error": "page.goto: net::ERR_INSUFFICIENT_RESOURCES at http://127.0.0.1:58831/drive-original/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:58831/drive-original/\", waiting until \"networkidle\"\u001b[22m\n\n    at environment (C:\\extensions\\Drive-Original\\source\\qa\\functional-audit.cjs:587:14)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\functional-audit.cjs:2244:35\n    at async check (C:\\extensions\\Drive-Original\\source\\qa\\functional-audit.cjs:484:9)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\functional-audit.cjs:2243:5"
+  }
+]
