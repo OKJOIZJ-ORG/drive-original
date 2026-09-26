@@ -1,34 +1,32 @@
-# Checkpoint — bounded Q1 preservation discriminator — 2026-09-26
+# Checkpoint — synthetic GOP boundary discriminator — 2026-09-26
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, last product HEAD ced16ef. V2-02A8b16fae, V2-02Be68d579 and V2-05Aced16ef are local product units; product Node299/299 and synthetic browser22/22 pass. No new candidate deployment; production and candidate mutation lock are unchanged.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Last product commit ced16ef; prior QA savepoint27409ec. Product Node299/299 and synthetic browser22/22 remain the latest product checks. Candidate stays rc.4/3597e63 with writes disabled, no new deployment.
 
-QA-only qa/v2-07b-ts-q1 pins/executes mux.js7.1.0 MP4 bundle4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f. Synthetic default options drop10 AAC frames; keepOriginalTimestamps preserves them. The priority local4MiB prefix preserves1022 VCL units/1586 AAC frames, but introduced1:1 SAR first failed strict metadata comparison. A generic bounded init-box adapter, used only after independently confirmed unspecified source SAR, changes just that introduced pasp type to free. Payloads, normalized PTS/DTS/duration, metadata and complete FFmpeg decoded frames/PCM then match.
+Q1 QA now differentiates nine incremental scenarios. Six before-IDR fragments preserve the public CFR fixture; arbitrary packet/PES cuts duplicate video, split ADTS changes audio timing and VFR can overlap by20ms. The bounded eligibility gate and unique init-track check reject unproven cases. Independent review fixed cumulative AAC timing tolerance and decoder concealment. Helper17/17 and parser/static/helper80/80 pass.
 
-Nine helper tests pass; independent review closed partial-write cleanup, wrong executed-artifact hash and private CLI-path leakage. Final synthetic/priority reports are producer-hash-matched in that QA directory. The source was read-only; current Drive identity/full-file hash was not revalidated. Generated private TS/MP4 derivatives were removed. This is bounded EOF-flush quality evidence, not product, incremental playback, seek, MSE/MMS, browser color or physical-device success.
+Correction: the old priority4MiB prefix's equal decoded buffers concealed error-level video decoder diagnostics. Read-only recheck confirmed source and all outputs emit errors despite exit0. Regenerated priority results now have preserved=false in all modes. Coded data/timing/adapted metadata still match; strict lossless playback is NOT proven. Local stat stayed stable and generated private derivatives were removed.
 
 ## Decided
 
-- D-050/D-051/D-052 remain active. No main merge/push/production replacement, original mutation, public sharing, billing or automation restart.
-- Browser owns direct bytes/mutations; minimal Worker owns auth only. driveMutationsEnabled remains false.
-- mux.js is a QA candidate, not an adopted or shipped product dependency. Preserve timestamps; do not accept silent AAC trimming or fabricated aspect metadata.
-- Prioritize incremental bounded GOP/PES and seek ownership before product Q1 integration. FFmpeg metadata is a QA oracle, not a browser runtime solution.
+- D-050/051/052 unchanged: direct original bytes and separate minimal B-auth; no merge/push/production replacement, original mutation, billing or automation restart.
+- mux.js remains QA-only, not an adopted product dependency. Reject decoder diagnostics and uncertain framing/timing; unsupported-by-this-gate does not mean product acceptance is waived.
+- Preserve current proof distinctions: structural eligibility, error-free decode, incremental runtime, indexed seek and physical-device acceptance are separate.
 
 ## Waiting on the user
 
-No new decision needed for local work. Current isolated candidate is unauthenticated; current Google/device acceptance and production transition are still separate user-controlled gates. Historical iPhone auth confirmation is not media proof.
+No new local-work decision. Current isolated candidate is unauthenticated. Live Google/device checks and eventual production approval stay separate user-controlled gates, not blockers for independent local work.
 
 ## Next first action
 
-Use only synthetic-bframes-audiolead.ts to compare arbitrary per-chunk mux flushes with GOP/PES-aligned boundaries, inspecting mux.js ElementaryStream flush retention; require no lost/duplicated coded frames or timing before building the bounded TS seek owner.
+Inspect qa/v2-07b-ts-q1/gop-boundaries.mjs and build a bounded streaming GOP/PES lookahead owner against the public synthetic fixture, proving incremental release/retained-byte limits before product integration or seek.
 
 ## Tried
 
-- Automatic Google preview and viewed-on-open were false success paths; fixed in V2-02A/B, not priority media fixes.
-- Legacy Drive writes guessed success; V2-05A now independently reads remote state and retains durable origin evidence.
-- Browser resource failure occurred earlier; the later full synthetic22/22 run succeeded with an existing bounded seed. No OS settings/user processes changed.
-- mux.js default timestamp mode discarded synthetic leading AAC; keepOriginalTimestamps preserves it.
-- Priority unspecified SAR became explicit1:1; strict comparison caught it, adapter preserves absence without touching SPS or media bytes.
-- FFmpeg container-relative -ss windows gave inconsistent cuts; one bounded decode plus ordinal windows and independent packet timing replaced that harness.
-- Rollback: remove only QA candidate files/dependencies if rejected; current product commit remains unchanged, and no remote/original recovery is needed.
+- Fixed TS byte chunks, arbitrary PES counts and IDR-first-packet flushes duplicate video; only before-IDR cuts preserve the CFR control.
+- Before-IDR alone is insufficient: partial ADTS, VFR durations and absent audio have concrete counterexamples.
+- Per-PES one-tick AAC tolerance accumulated drift; use one origin and cumulative sample count.
+- FFmpeg exit0 plus matching decoded buffers allowed concealment; both source/output error diagnostics now force preserved=false.
+- The4MiB priority cut is not a complete-picture decode fixture; use independently complete bounded GOP data before any strict priority-Q1 claim.
+- Rollback is removal of QA-only candidate files; product/candidate and original need no remote recovery.

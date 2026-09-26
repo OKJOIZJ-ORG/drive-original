@@ -1,0 +1,462 @@
+{
+  "schema": "drive-original.q1-incremental-discriminator/1",
+  "recordedAt": "2026-09-26T12:52:56.628Z",
+  "library": {
+    "name": "mux.js",
+    "version": "7.1.0",
+    "artifact": "dist/mux-mp4.min.js",
+    "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+  },
+  "producer": {
+    "driverSha256": "72b9b08ceb04a1aa50158d4ed0abdc2e16718e8c945f2506e4fba263e07f0b6b",
+    "boundarySha256": "967e8037da380b552b47a8852a07b7b004ef10be3515166191a7b38a5572b987",
+    "comparisonSha256": "9137d425ee0b3a28ddc606394b884b02efc0a26264dec686ab9300eca6c99e8f",
+    "variantSha256": "69458c8b697d803218f26eceeb7ce1e72be1368ea8ab1bac90aefe5b58622a67",
+    "lockSha256": "103790350b36712ea45f5feff1b84f1b5271a98158e4bf6e4ba4f21aac8f01a1",
+    "node": "v24.18.0"
+  },
+  "fixture": {
+    "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+    "bytes": 958800
+  },
+  "boundary": {
+    "cuts": [
+      156228,
+      322044,
+      481092,
+      643524,
+      800692
+    ],
+    "largestWindowBytes": 165816,
+    "dtsStep": 3000
+  },
+  "observations": [
+    {
+      "name": "single-eof-control",
+      "expectedPreserved": true,
+      "fragments": 1,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": true,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 1.7763568394002505e-15,
+      "mediaDiagnostics": []
+    },
+    {
+      "name": "before-verified-idr",
+      "expectedPreserved": true,
+      "fragments": 6,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": true,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 1.7763568394002505e-15,
+      "mediaDiagnostics": []
+    },
+    {
+      "name": "every-30-video-pes-negative",
+      "expectedPreserved": false,
+      "fragments": 12,
+      "videoVcl": {
+        "source": 360,
+        "output": 540,
+        "equal": false
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": false,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 540,
+          "maxDtsDelta": 4,
+          "maxPtsDelta": 4.100000000000001,
+          "maxDurationDelta": 0,
+          "preserved": false
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": false,
+      "decodedVideoEqual": false,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 0.9999990000000007,
+      "mediaDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ]
+    },
+    {
+      "name": "one-ts-packet-after-idr-negative",
+      "expectedPreserved": false,
+      "fragments": 6,
+      "videoVcl": {
+        "source": 360,
+        "output": 365,
+        "equal": false
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 365,
+          "maxDtsDelta": 0.16666700000000034,
+          "maxPtsDelta": 0.266667,
+          "maxDurationDelta": 0,
+          "preserved": false
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": false,
+      "decodedVideoEqual": false,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 0.03333300000000072,
+      "mediaDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        },
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ]
+    },
+    {
+      "name": "fixed-349-packet-negative",
+      "expectedPreserved": false,
+      "fragments": 15,
+      "videoVcl": {
+        "source": 360,
+        "output": 640,
+        "equal": false
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": false,
+      "aac": {
+        "source": 564,
+        "output": 561,
+        "equal": false
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 640,
+          "maxDtsDelta": 5.200000000000001,
+          "maxPtsDelta": 5.300000000000001,
+          "maxDurationDelta": 0,
+          "preserved": false
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 561,
+          "maxDtsDelta": 0.06400000000000006,
+          "maxPtsDelta": 0.06400000000000006,
+          "maxDurationDelta": 0,
+          "preserved": false
+        }
+      ],
+      "preserved": false,
+      "decodedVideoEqual": false,
+      "decodedPcmEqual": false,
+      "maxVideoDecodeTimelineOverlap": 0.9000000000000004,
+      "mediaDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        },
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        },
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ]
+    },
+    {
+      "name": "repacketized-idr-control",
+      "expectedPreserved": true,
+      "fragments": 6,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": true,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 1.7763568394002505e-15,
+      "mediaDiagnostics": []
+    },
+    {
+      "name": "cross-pes-adts-eof-control",
+      "expectedPreserved": true,
+      "fragments": 1,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": true,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 1.7763568394002505e-15,
+      "mediaDiagnostics": []
+    },
+    {
+      "name": "cross-pes-adts-idr-negative",
+      "expectedPreserved": false,
+      "fragments": 6,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0.021334000000000408,
+          "maxPtsDelta": 0.021334000000000408,
+          "maxDurationDelta": 0,
+          "preserved": false
+        }
+      ],
+      "preserved": false,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": false,
+      "maxVideoDecodeTimelineOverlap": 1.7763568394002505e-15,
+      "mediaDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ]
+    },
+    {
+      "name": "vfr-boundary-duration-negative",
+      "expectedPreserved": false,
+      "fragments": 6,
+      "videoVcl": {
+        "source": 360,
+        "output": 360,
+        "equal": true
+      },
+      "parameterSetsEqual": true,
+      "seiEqual": true,
+      "aac": {
+        "source": 564,
+        "output": 564,
+        "equal": true
+      },
+      "metadataDifferences": [],
+      "timing": [
+        {
+          "kind": "video",
+          "sourcePackets": 360,
+          "outputPackets": 360,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0.010000000000000002,
+          "preserved": false
+        },
+        {
+          "kind": "audio",
+          "sourcePackets": 564,
+          "outputPackets": 564,
+          "maxDtsDelta": 0,
+          "maxPtsDelta": 0,
+          "maxDurationDelta": 0,
+          "preserved": true
+        }
+      ],
+      "preserved": false,
+      "decodedVideoEqual": true,
+      "decodedPcmEqual": true,
+      "maxVideoDecodeTimelineOverlap": 0.019998999999999878,
+      "mediaDiagnostics": []
+    }
+  ],
+  "discriminated": true,
+  "limitations": [
+    "public synthetic only",
+    "bounded complete input analyzed before output; not streaming memory proof",
+    "CFR/one AU per PES/complete ADTS per PES only",
+    "no Drive, priority sample, browser/MSE/MMS, seek or physical device proof",
+    "no general VFR/wrap/discontinuity/track changes or cross-PES ADTS support"
+  ]
+}

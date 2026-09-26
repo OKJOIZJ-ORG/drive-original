@@ -11,11 +11,15 @@ const MAX_INPUT = 4 * 1024 * 1024;
 const MAX_OUTPUT = 16 * 1024 * 1024;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
-function command(executable, args, { json = false, maxBuffer = MAX_OUTPUT } = {}) {
+function command(executable, args, { json = false, maxBuffer = MAX_OUTPUT, diagnostics = null } = {}) {
   const result = spawnSync(executable, args, { windowsHide: true, timeout: 60_000, maxBuffer });
   if (result.error || result.status !== 0) {
     // FFmpeg diagnostics may include a private path: do not relay stderr.
     throw new Error(`${executable} failed (${result.error?.code || result.status}); inspect locally if needed`);
+  }
+  if (result.stderr.length) {
+    if (!diagnostics) throw new Error('ERROR_LEVEL_MEDIA_DIAGNOSTIC');
+    diagnostics.push({ executable, code: 'ERROR_LEVEL_MEDIA_DIAGNOSTIC' });
   }
   return json ? JSON.parse(result.stdout.toString('utf8')) : result.stdout;
 }
@@ -52,15 +56,15 @@ function adtsFrames(bytes) {
   return frames;
 }
 
-function extract(file) {
+function extract(file, diagnostics) {
   const metadata = command('ffprobe', ['-v','error','-show_entries',
     'stream=index,codec_name,codec_type,profile,level,width,height,pix_fmt,sample_aspect_ratio,color_range,color_space,color_transfer,color_primaries,sample_rate,channels,channel_layout',
-    '-of','json',file], { json: true });
+    '-of','json',file], { json: true, diagnostics });
   if (metadata.streams.length !== 2 || metadata.streams.filter(s => s.codec_type === 'video' && s.codec_name === 'h264').length !== 1
     || metadata.streams.filter(s => s.codec_type === 'audio' && s.codec_name === 'aac').length !== 1) throw new Error('Only exactly one H.264 and one AAC stream are in this bounded discriminator');
-  const nals = annexBNals(command('ffmpeg', ['-v','error','-nostdin','-i',file,'-map','0:v:0','-c:v','copy','-bsf:v','h264_mp4toannexb','-f','h264','pipe:1']));
-  const audio = adtsFrames(command('ffmpeg', ['-v','error','-nostdin','-i',file,'-map','0:a:0','-c:a','copy','-f','adts','pipe:1']));
-  const packets = command('ffprobe', ['-v','error','-show_packets','-show_entries','packet=stream_index,pts_time,dts_time,duration_time','-of','json',file], { json: true }).packets;
+  const nals = annexBNals(command('ffmpeg', ['-v','error','-nostdin','-i',file,'-map','0:v:0','-c:v','copy','-bsf:v','h264_mp4toannexb','-f','h264','pipe:1'], { diagnostics }));
+  const audio = adtsFrames(command('ffmpeg', ['-v','error','-nostdin','-i',file,'-map','0:a:0','-c:a','copy','-f','adts','pipe:1'], { diagnostics }));
+  const packets = command('ffprobe', ['-v','error','-show_packets','-show_entries','packet=stream_index,pts_time,dts_time,duration_time','-of','json',file], { json: true, diagnostics }).packets;
   return { streams: metadata.streams, nals, audio, packets };
 }
 
@@ -125,16 +129,16 @@ function transmux(bytes, { keepOriginalTimestamps, omitUnspecifiedSar = false, c
   return Buffer.concat(output);
 }
 
-function decode(file) {
+function decode(file, diagnostics) {
   // Decode the bounded input once, without container-relative -ss trimming.
   // Packet PTS/DTS are compared independently; ordinal windows must not shift
   // because FFmpeg chooses a different container start/seek rounding rule.
   const frames = command('ffmpeg', ['-v','error','-nostdin','-threads','1','-i',file,
-    '-map','0:v:0','-an','-vf','format=yuv420p','-fps_mode','passthrough','-f','framemd5','pipe:1'])
+    '-map','0:v:0','-an','-vf','format=yuv420p','-fps_mode','passthrough','-f','framemd5','pipe:1'], { diagnostics })
     .toString('utf8').split(/\r?\n/).filter(line => line && !line.startsWith('#'))
     .map(line => line.split(',').slice(-2).map(field => field.trim()));
   const pcm = command('ffmpeg', ['-v','error','-nostdin','-threads','1','-i',file,
-    '-map','0:a:0','-vn','-c:a','pcm_s16le','-f','s16le','pipe:1']);
+    '-map','0:a:0','-vn','-c:a','pcm_s16le','-f','s16le','pipe:1'], { diagnostics });
   if (!frames.length || !pcm.length) throw new Error('Empty decoded window');
   return { frames, pcm };
 }
@@ -157,16 +161,18 @@ function run(input, label) {
   const observations = [];
   try {
     fs.writeFileSync(prefix,bytes,{flag:'wx'});
-    const source = extract(prefix);
-    const sourceDecoded = decode(prefix);
+    const sourceDiagnostics = [];
+    const source = extract(prefix,sourceDiagnostics);
+    const sourceDecoded = decode(prefix,sourceDiagnostics);
     const configurations = [{keepOriginalTimestamps:false},{keepOriginalTimestamps:true}];
     if (source.streams.find(stream => stream.codec_type==='video').sample_aspect_ratio == null) configurations.push({keepOriginalTimestamps:true,omitUnspecifiedSar:true});
     for (const [configurationIndex,configuration] of configurations.entries()) {
       const derived = path.join(out,`candidate-${configurationIndex}.mp4`);
       const output = transmux(bytes,configuration);
       fs.writeFileSync(derived,output,{flag:'wx'});
-      const comparison = compare(source,extract(derived));
-      const outputDecoded = decode(derived);
+      const outputDiagnostics = [];
+      const comparison = compare(source,extract(derived,outputDiagnostics));
+      const outputDecoded = decode(derived,outputDiagnostics);
       const decoded = [0.1,0.5,0.9].map(fraction => {
         const frameStart = Math.max(0,Math.floor(sourceDecoded.frames.length*fraction)-15);
         const a = sourceDecoded.frames.slice(frameStart,frameStart+30); const b = outputDecoded.frames.slice(frameStart,frameStart+30);
@@ -180,8 +186,8 @@ function run(input, label) {
           sourcePcmBytes:pcmA.length,outputPcmBytes:pcmB.length,pcmEqual:pcmA.equals(pcmB) };
       });
       const decodedAllEqual = JSON.stringify(sourceDecoded.frames)===JSON.stringify(outputDecoded.frames) && sourceDecoded.pcm.equals(outputDecoded.pcm);
-      observations.push({ ...configuration, outputBytes: output.length, ...comparison, decoded,
-        decodedAllEqual,preserved:comparison.preserved && decodedAllEqual && decoded.every(window => window.frameHashesEqual && window.pcmEqual) });
+      observations.push({ ...configuration, outputBytes: output.length, ...comparison, decoded, sourceDiagnostics, outputDiagnostics,
+        decodedAllEqual,preserved:!sourceDiagnostics.length && !outputDiagnostics.length && comparison.preserved && decodedAllEqual && decoded.every(window => window.frameHashesEqual && window.pcmEqual) });
     }
     const after = fs.statSync(inputPath,{bigint:true});
     const statUnchanged = ['dev','ino','size','mtimeNs','ctimeNs'].every(key => inputStat[key] === after[key]);
@@ -191,7 +197,7 @@ function run(input, label) {
       producer:{driverSha256:sha(fs.readFileSync(__filename)),sarAdapterSha256:sha(fs.readFileSync(path.join(root,'preserve-sar.cjs'))),lockSha256:sha(fs.readFileSync(path.join(root,'package-lock.json'))),node:process.version},
       sourceBytesRead:bytes.length,wholeFileRead:BigInt(bytes.length)===inputStat.size,localStatUnchanged:statUnchanged,
       currentDriveIdentityVerified:false,observations,
-      limitations:['bounded EOF flush only','no current Drive identity','no arbitrary flush or indexed seek','no browser/physical-device/color-render proof'] };
+      limitations:['bounded EOF flush only; arbitrary prefix may end in an incomplete picture','any error-level decoder diagnostic excludes preservation even if decoded buffers match','no current Drive identity','no arbitrary flush or indexed seek','no browser/physical-device/color-render proof'] };
     fs.writeFileSync(path.join(out,'results.redacted.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
     process.stdout.write(JSON.stringify({report:path.relative(root,path.join(out,'results.redacted.json')),label,observations})+'\n');
     return report;
@@ -205,7 +211,7 @@ function run(input, label) {
   }
 }
 
-module.exports = { annexBNals, adtsFrames, compare, transmux, run };
+module.exports = { annexBNals, adtsFrames, compare, transmux, decode, run };
 if (require.main === module) {
   try { run(process.argv[2],process.argv[3]); }
   catch(error) {

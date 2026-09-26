@@ -48,8 +48,12 @@ ffmpeg -v error -hide_banner -nostdin -n
   adapter changed that introduced square `pasp` box type to `free`. Size, offsets,
   SPS and all media bytes stayed unchanged. Non-square/duplicate/malformed boxes
   are rejected. The resulting priority-prefix metadata, timestamps, compressed
-  payloads and complete FFmpeg-decoded frame/PCM buffers matched. Early/mid/late
-  ordinal windows also match, but are not seek tests.
+  payloads and FFmpeg-decoded buffers matched. **Correction after incremental
+  review:** the arbitrary 4 MiB cut produces an error-level video decoder
+  diagnostic for source and outputs despite exit 0. Equal concealed buffers do
+  not prove quality preservation. The regenerated priority report correctly has
+  `preserved:false` for all three modes. The synthetic positive has no diagnostic.
+  Early/mid/late ordinal windows are not seek tests.
 - Nine helper tests discriminate byte/metadata/timing changes, stale packaging,
   malformed input, unsafe chunk sizes, partial-write cleanup and CLI redaction.
 
@@ -59,15 +63,50 @@ It was replaced with one full bounded decode and ordinal windows; timing remains
 an independent all-packet comparison. Do not use the superseded run reports as
 evidence of pixel corruption.
 
+## Incremental boundary discriminator
+
+`node --test --test-concurrency=1 gop-boundaries.test.mjs preservation-probe.test.cjs`
+
+`node incremental-probe.cjs`
+
+The public synthetic clip is analyzed as one bounded input before output. This
+is not a network-streaming/memory proof. `gop-boundaries.mjs` admits only one
+stable H.264/AAC program, validated TS/PES framing, one AUD-delimited picture per
+video PES, stable SPS/PPS, fixed DTS/presentation cadence, globally sample-count
+anchored AAC timing, complete ADTS inside each PES and both tracks in every
+flush interval. It cuts **before** the next verified IDR PES. Structural
+eligibility does not prove a NAL payload is complete; strict decoding remains
+an independent check. Unproven cases are rejected by this QA slice, not labeled
+unplayable by the product.
+
+`incremental-results.redacted.json` pins all producer identities and records nine
+contrasting scenarios. EOF and six IDR-aligned fragments preserve all 360 VCL /
+564 AAC payloads, timing, metadata and decoded buffers with no error diagnostic.
+Arbitrary 349-packet flushes produce 640 VCL / 561 AAC; 30-video-PES cuts produce
+540 VCL; cutting one TS packet into an IDR produces 365 VCL. They fail rather
+than being called successful remuxing. The same source packetization with an
+AAC frame split across PES passes EOF but fails incremental timing/PCM/diagnostic
+checks. A VFR counterexample preserves coded payload but has a 20 ms overlapping
+video sample duration, independently checked against the next DTS.
+
+Seventeen helper tests include delayed audio causing duplicate init track IDs,
+accumulating one-tick AAC drift and a truncated final picture that FFmpeg conceals
+despite exit 0. Either source or output error-level diagnostics exclude success;
+only sanitized diagnostic codes are saved. The 80-test parser/static/helper
+integration passes. All generated media in each run is removed by exact path.
+
 ## Explicit limits / next required unit
 
-The entire4MiB sample is pushed in chunks but flushed only once at EOF. This
-does not prove arbitrary flush boundaries, uninterrupted incremental playback,
+The priority4MiB sample is pushed in chunks but flushed only once at EOF and
+does not pass strict decode. The synthetic interval experiment does not prove
+uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
-FFmpeg metadata is a QA oracle, not an available browser prerequisite. Product
-adoption needs a browser-safe validated SPS/SAR signal and a bounded GOP/PES
-window owner. Source local stat identity stayed stable, but current Drive
+FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
+Product adoption needs a browser-safe validated SPS/SAR signal and a bounded
+GOP/PES window owner with lookahead, two-track readiness, VFR/sample-duration,
+partial ADTS and mux GOP-cache memory ownership. Source local stat identity
+stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or
 product deployment performed. No full-format support claim follows from this.

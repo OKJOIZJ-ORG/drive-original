@@ -1,7 +1,7 @@
 {
   "schema": "drive-original.q1-preservation/1",
   "label": "priority-prefix",
-  "recordedAt": "2026-09-26T12:29:52.677Z",
+  "recordedAt": "2026-09-26T12:52:48.589Z",
   "library": {
     "name": "mux.js",
     "version": "7.1.0",
@@ -9,7 +9,7 @@
     "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
   },
   "producer": {
-    "driverSha256": "e861cda05d1b4ef5eb94ca5fb47bc90b3f47aa05e9bdfe96e43564b35c66a277",
+    "driverSha256": "9137d425ee0b3a28ddc606394b884b02efc0a26264dec686ab9300eca6c99e8f",
     "sarAdapterSha256": "5c5c5894323395d96312d197e6422a8f8b7a985278df90e0a4341ba64df128bc",
     "lockSha256": "103790350b36712ea45f5feff1b84f1b5271a98158e4bf6e4ba4f21aac8f01a1",
     "node": "v24.18.0"
@@ -95,6 +95,18 @@
           "pcmEqual": true
         }
       ],
+      "sourceDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
+      "outputDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
       "decodedAllEqual": true
     },
     {
@@ -173,6 +185,18 @@
           "pcmEqual": true
         }
       ],
+      "sourceDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
+      "outputDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
       "decodedAllEqual": true
     },
     {
@@ -212,7 +236,7 @@
           "preserved": true
         }
       ],
-      "preserved": true,
+      "preserved": false,
       "decoded": [
         {
           "fraction": 0.1,
@@ -245,11 +269,24 @@
           "pcmEqual": true
         }
       ],
+      "sourceDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
+      "outputDiagnostics": [
+        {
+          "executable": "ffmpeg",
+          "code": "ERROR_LEVEL_MEDIA_DIAGNOSTIC"
+        }
+      ],
       "decodedAllEqual": true
     }
   ],
   "limitations": [
-    "bounded EOF flush only",
+    "bounded EOF flush only; arbitrary prefix may end in an incomplete picture",
+    "any error-level decoder diagnostic excludes preservation even if decoded buffers match",
     "no current Drive identity",
     "no arbitrary flush or indexed seek",
     "no browser/physical-device/color-render proof"
