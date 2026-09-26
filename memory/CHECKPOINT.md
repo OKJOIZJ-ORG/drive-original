@@ -1,49 +1,31 @@
-# Checkpoint — V2-07A identity reconciliation complete; bounded container parsing next — 2026-09-20 13:38 KST
+# Checkpoint — V2-07A local MPEG-TS probe verified — 2026-09-26
 
-## Current state
+## The story so far
 
-- Repository: `C:\Users\jbs\Desktop\폴더모음\자작프로그램\Drive-Original\source`
-- Branch: `codex/v2-kickoff-diagnostics`; no merge or push is authorized.
-- Read-only product candidate remains `1.22.0-rc.4` at product commit `3597e6399056908542680f2a7a5266effd40e96a`, Worker version `28d2a9fc-730e-48d4-b060-8e49554a8c7b`.
-- Product candidate still has `driveMutationsEnabled:false`; production, `main`, original Drive files, remote branches and the paused automation are unchanged.
-- Physical iPhone home-screen PWA checks 1/2/3 remain user-accepted for the reported OAuth loop only; token-expiry/sleep-wake and media playback remain open.
+Repository is now `C:\extensions\Drive-Original\source`, branch `codex/v2-kickoff-diagnostics`; resume HEAD was `2294cf5`. The old Desktop location is absent. Existing ignored MPEG-TS drafts were preserved and completed, not reset. `qa/v2-07a-container-probe/results.redacted.json` pins the final parser hash and a read-only local priority-prefix observation: 65,536 bytes, stable local stat identity, 348 TS packets, one PAT/PMT and two observed H.264/AAC headers. This is not current authenticated Drive or playback evidence.
 
-## Closed metadata-only reconciliation unit
+Parser tests pass 44/44, independent follow-up 16 assertions pass, and unchanged nine-file product tests pass 269/269. Full ADTS frame/SPS trailing syntax, sticky unexpected continuity loss, declared-discontinuity separation, finite PES ownership and TEI/reserved-adaptation invalidation now have explicit gates. Only QA code changed.
 
-The separately reviewed reconciler is fixed at `60f743b4ddd97ca96f7308af3fa8c362718514fc`. It has no media URL, native fetch, Range, decode, playback, mutation or persistence path. It recomputes the authenticated repeated inventory and exact 38-object representative selection inside a zero-argument one-shot private closure, then performs serial fixed-field metadata reads before and after each selected row. One request owns its JSON body through settlement; whole-run/reconciliation/time ceilings are 512 requests, 76 reads and 10 minutes.
+Historical product candidate remains 1.22.0-rc.4 (3597e63), Worker 28d2a9fc-730e-48d4-b060-8e49554a8c7b; it was not redeployed or freshly verified this session. Prior iPhone 1/2/3 acceptance closes the reported OAuth loop only. Prior live reconciliation was 38/38 metadata-stable; prior front magic included 15 MPEG-TS and eight ISO-BMFF. Those remain separate dated observations, not current live proof.
 
-The isolated QA Worker was updated without replacing the product candidate. Worker version `68cf79bb-3c04-4cbf-8472-ffa3880d9836` preserves the original 107,952-byte bounded-adapter artifact and adds the 78,855-byte identity-reconciler artifact with SHA-256 `DFB28450F396A649D8D713B168FFDC3234A56609C1B3EC1DEC0CBFDCC2C1AF1C`. Local, checked-in, remote GET/HEAD and in-page bytes matched. Both exact paths returned candidate-origin CORS, `no-store`, `nosniff` and exact identity-encoding lengths; wrong-origin and unlisted paths returned 404 without CORS. Wrangler reported no bindings.
+## Decided
 
-The authenticated live reconciliation completed with:
+- D-050/D-051 remain active: browser/PWA, direct browser/SW Drive bytes, minimal same-origin serverless auth; no server media relay.
+- No main merge, push, production replacement, original mutation, sharing/billing or automation restart.
+- V2-07A is the sole READY workstream; V2-07B product Q1 integration is not yet accepted.
+- The separate browser adapter is still uncommitted under ignored qa/v2-07a-mpegts-browser-probe/. Its scoped worker reports 53/53 tests after SW transport, conservative evidence classification and whole-run bounds fixes; root integration review remains next.
 
-- 38 selected, 38 paired pre/post reads, 38 stable identities, zero unresolved rows.
-- Zero mismatch in `fileId`, `version`, `size`, `modifiedTime`, `mimeType`, `canDownload`, `trashed`, and resource-key presence.
-- Zero pre/post drift and zero fixed failures.
-- 138 total Drive metadata requests, including 76 reconciliation reads.
-- Zero media request delta, media bodies, decode, playback or Drive mutation.
-- Synchronous public-entry removal, private-context cleanup, and a still-connected, media-idle app under the active controller.
+## Waiting on the user
 
-The prior front sniff's single pre-body `IDENTITY_MISMATCH` did not reproduce. Its exact historic dimension cannot be recovered from the deliberately aggregate-only prior record, so the cause remains unresolved rather than being relabeled as a permanent file defect. No one retried or repeated the 37 successful front-body reads during reconciliation. Exact evidence is `qa/v2-07a-identity-reconciliation/results.redacted.json`.
+None for local work. Current native computer-use node_repl is unavailable; fallback desktop observe returns Tool observe not found. No authenticated browser probe or device check occurred this session. Do not reinterpret earlier logins as a current connected session.
 
-## What this does not prove
+## Next first action
 
-- Current stable metadata does not identify the historic transient mismatch cause.
-- Metadata reconciliation does not add a front signature for the prior unclassified row.
-- Front signatures are not full container/index/track parsing and do not prove corruption, decode or playback.
-- No current V2-07A unit proves physical iPhone media playback, token-expiry renewal, sleep/wake recovery or long-run playback.
+Review and verify qa/v2-07a-mpegts-browser-probe/drive-browser-adapter.mjs against the proven same-origin /__drive_media contract, then commit its exact public bundle and transport packaging before any live run.
 
-## Sole READY action
+## Tried
 
-Build the next bounded V2-07A container/index/track parser unit. Start with deterministic local fixtures and the dominant live video routes already observed (15 MPEG-TS and 8 ISO-BMFF), including the priority MPEG-TS sample. Use the identity-fenced exact-range core, read only the smallest necessary closed ranges, keep private row identities/results inside the authenticated page, and publish only a reviewed aggregate. Do not decode, play, mutate, persist, bulk-download or introduce a relay/transform service. Extend to WebM/Matroska/AVI and image metadata in later verified slices rather than guessing support from extension or MIME.
-
-## Verification
-
-- Reconciler/transport focused tests pass 34/34 and the inventory/selector/reconciler/transport/app/static integration passes 182/182. The unchanged full nine-file product suite passes 269/269.
-- Deterministic bundle hashes, the checked-in registry/manifest, remote identity-encoding GET/HEAD bytes and the in-page bytes all agree. Wrangler dry-run and live deploy both report no bindings; staged diff and fixed secret/private scans must remain clean before the evidence commit.
-- Independent adversarial review of the implementation and deployable packaging is clean after the four defects recorded above were fixed. The separate staged live-evidence/claim review is also clean; it verified the force-staged result blob, exact counts, hashes, versions, limits, non-claims and READY/rollback boundary.
-
-## Recovery boundary
-
-- The QA transport is separate from the product candidate. Its current version can be superseded by a reviewed QA-only version; deleting it remains a separate destructive external action.
-- Reconciliation rollback is removal of its local QA files and restoration of the prior QA Worker version. Original Drive files need no recovery because only metadata GETs occurred.
-- Do not deploy over production, merge, push, resume automation, publish Drive files, or change sharing/billing.
+- Original paused parser drafts passed 36 tests but missed complete-frame/SPS and continuity evidence boundaries; eight new regressions plus fixes now pass.
+- Raw cross-origin Drive Range response cannot satisfy the shared core's exposed Content-Range/no-store contract; reuse the previously validated client service-worker path instead of adding a media server.
+- Local stat stability does not revalidate Drive file/version, whole-file hash, decode, seek, iPhone playback or expiry/sleep-wake behavior.
+- Rollback: revert only isolated QA commits; originals, product candidate and production require no recovery because they were not changed. Outgoing checkpoint is archived under memory/checkpoints/20260926-mpegts-parser-resume.md.
