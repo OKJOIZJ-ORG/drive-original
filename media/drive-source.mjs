@@ -12,6 +12,8 @@
 // reports IDENTITY_UNAVAILABLE. This never permits a read or a later identity loss.
 // identity returns the latest frozen binding, including any checksum learned
 // during reads. Earlier snapshots and the informational opening version stay fixed.
+// A Range503 read failure alone carries frozen recovery advice. No retry happens
+// here; the caller must separately require settled abort cleanup before replacing.
 const MAX_READ=1024*1024,MAX_TIMEOUT=70000;
 class SourceError extends Error {}
 const requireThat=(value,code)=>{if(!value)throw new SourceError(`Q1_SOURCE_${code}`);};
@@ -19,6 +21,20 @@ const safe=value=>Number.isSafeInteger(value)&&value>=0;
 const text=(value,max)=>typeof value==='string'&&value.length>0&&value.length<=max&&!/[\u0000-\u001f\u007f]/.test(value);
 const signalLike=value=>value==null||(typeof value.aborted==='boolean'
   &&typeof value.addEventListener==='function'&&typeof value.removeEventListener==='function');
+function boundedRetryAfter(value){
+  if(value===null)return 250;
+  if(typeof value!=='string'||value.length>64)return null;
+  const raw=value.trim();let delay;
+  if(/^\d+$/.test(raw))delay=Number(raw)*1000;
+  else{
+    // Canonical HTTP date only: Date.parse alone accepts non-HTTP strings and
+    // normalizes some invalid calendar dates. Unsupported forms fail closed.
+    const date=Date.parse(raw);
+    if(!Number.isFinite(date)||new Date(date).toUTCString()!==raw)return null;
+    delay=Math.max(0,date-Date.now());
+  }
+  return Number.isFinite(delay)&&delay<=2000?Math.max(250,delay):null;
+}
 
 export async function openDriveQ1Source(options={}) {
   try{return await open(options);}
@@ -32,6 +48,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
     &&typeof isCurrent==='function'&&signalLike(signal)&&Number.isSafeInteger(requestTimeoutMs)
     &&requestTimeoutMs>0&&requestTimeoutMs<=MAX_TIMEOUT,'OPTIONS');
   let state='opening',failure=null,busy=false,checking=false,epoch=null,identity=null,checksum=null,held=null;
+  let recovery=null;
   let cleanupPending=0,cleanupFailed=false,pendingCallbacks=0,peakRetainedBytes=0,cleanupPromise=null,wakeCleanup=null;
   const counts={readsStarted:0,readsCompleted:0,metadataRequests:0,rangeRequests:0,receivedBytes:0,releasedBytes:0};
   const active=()=>state==='opening'||state==='open';
@@ -171,6 +188,11 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
         const response=await wait(owner,()=>readRange({start,end,range:`bytes=${start}-${end}`,signal:owner.controller.signal}),
           value=>cancel(value?.body),value=>{owner.response=value;});
         check();
+        if(response?.status===503&&typeof response.headers?.get==='function'){
+          const retryAfterMs=boundedRetryAfter(response.headers.get('Retry-After'));check();
+          recovery=Object.freeze({phase:'range-headers',status:503,retryAfterMs});
+          throw new SourceError('Q1_SOURCE_HTTP_UNAVAILABLE');
+        }
         requireThat(response?.status===206&&typeof response.headers?.get==='function','HEADERS');
         const header=name=>response.headers.get(name),length=end-start+1;
         requireThat(header('Content-Range')===`bytes ${start}-${end}/${identity.size}`
@@ -193,7 +215,10 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
       check();requireThat(safe(counts.releasedBytes+bytes.length),'METRICS_LIMIT');
       counts.readsCompleted++;counts.releasedBytes+=bytes.length;return bytes;}
       catch(error){const code=error instanceof SourceError?error.message:'Q1_SOURCE_READ_FAILED';
-        if(active())terminate(code.slice('Q1_SOURCE_'.length));throw new Error(failure||code);}
+        if(active())terminate(code.slice('Q1_SOURCE_'.length));
+        const result=new Error(failure||code);
+        if(result.message==='Q1_SOURCE_HTTP_UNAVAILABLE'&&recovery)result.recovery=recovery;
+        throw result;}
     },
     abort(){externalAbort();return settleCleanup();},stats,
   });

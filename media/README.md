@@ -1,4 +1,4 @@
-# Q1 product routing — local rc.6
+# Q1 product routing — local rc.7, deployed candidate rc.6
 
 Observed 2026-09-27. A possible strict188-byte TS candidate takes an exact940-byte
 identity-fenced sniff before native delivery, when MSE/Worker exist and the media
@@ -50,6 +50,13 @@ URL, source callback ownership and temporary remote-playback settings. App frame
 and seek watchdogs require presentation, never merely append. Playback intent,
 position, speed, volume/mute and stale metadata callbacks retain their owners.
 
+Only an explicitly observed Range503 may be retried, once per complete player
+lifetime (seeks do not replenish the budget). The failed source must settle
+cleanup before a cancellable250–2000ms wait and new source; content/account and
+any checksum learned on failed preflight bind the exact same range. Long/invalid
+Retry-After, other statuses, body/metadata failures and malformed206 stay terminal.
+No failed bytes reach the worker; no native/wholebody/iframe fallback is introduced.
+
 ## Reproducible build and evidence
 
 `node scripts/build-q1.cjs` builds the canonical tested primitives into standalone
@@ -62,7 +69,7 @@ Scoped Git attributes keep public text/Q1 producer line endings stable on Window
 the vendor artifact is byte-preserved. Report hashes are checked against Git blobs,
 not only the working copy, before the savepoint.
 
-- `node --test --test-concurrency=1 tests/*.test.js tests/*.test.mjs`:334/334.
+- `node --test --test-concurrency=1 tests/*.test.js tests/*.test.mjs`:339/339.
 - `node --test --test-concurrency=1 qa/v2-07b-ts-q1/*.test.mjs`:120/120.
 - `node qa/q1-product-audit.cjs`: actual app+SW, synthetic Drive responses,16/16.
   Original code4+one retry → real frame; UI seeks1.2/6.1/0/end/11.95, EOF,
@@ -72,10 +79,18 @@ not only the working copy, before the savepoint.
   MP4 and missing revision retain Q0. Early resume, native capability, closed
   probe, permission/revision/checksum contradiction and duplicate pending setup
   have explicit discriminators.
-- `node qa/q1-lifecycle-audit.cjs`: actual Chrome product lifecycle7/7,
+- `node qa/q1-lifecycle-audit.cjs`: actual Chrome product lifecycle9/9,
   including held/noncooperative callbacks, true failed cancel and real fetch
   abort. MMS-shaped Chrome subclass is ownership testing, NOT actual iPhone MMS.
   A checksum first acquired while reading is enforced before any later seek byte.
+  Failed/pending503body cancellation blocks both recovery and subsequent seeks.
+- `node qa/q1-resilience-audit.cjs --baseline`: reproduces the pre-fix termination
+  using public Git bytes from22f7271, without resetting the checkout.
+- `node qa/q1-resilience-audit.cjs`:12/12 actual app/SW synthetic modes. One503
+  recovers to EOF with all24worker input and6output fragment sequence/offset/size/
+  hash records equal to fault-free control. Repeated error, content/checksum/
+  permission changes, long delay, malformed206 and cancellation terminate safely;
+  a seek does not replenish the retry budget. No actual network-outage claim.
 - `node qa/q1-preservation-audit.cjs`: native5/5 at0/1.2/6.1/11.95/end.
   Strict zero-diagnostic decode, coded bytes/metadata/absolute clocks, original
   video suffix and all original AAC/same-start PCM agree. Beginning also matches

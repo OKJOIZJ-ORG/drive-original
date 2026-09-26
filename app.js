@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.6';
+const APP_VERSION = '1.22.0-rc.7';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';

@@ -30,7 +30,8 @@ const server=http.createServer((req,res)=>{
 });
 const results=[];let browser;
 const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
-  ['replace-opening','replace-preflight','cleanup-timeout','cleanup-cancel-failed','mms-shaped-restore','real-fetch-abort','late-checksum-drift'];
+  ['replace-opening','replace-preflight','cleanup-timeout','cleanup-cancel-failed','mms-shaped-restore','real-fetch-abort','late-checksum-drift',
+    'recovery-cancel-failed','recovery-cancel-pending'];
 (async()=>{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const base=`http://127.0.0.1:${server.address().port}`;
@@ -85,7 +86,7 @@ const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
         const openSource=({signal})=>{
           const number=++opens;
           return openDriveQ1Source({fileId:metadata.id,accountKey:'synthetic',accountGeneration:1,signal,isCurrent:()=>true,
-            requestTimeoutMs:mode==='cleanup-timeout'?200:5000,
+            requestTimeoutMs:mode==='cleanup-timeout'||mode==='recovery-cancel-pending'?200:5000,
             readMetadata:async({phase})=>{
               metadataCalls++;
               if(number===1&&!held&&((phase==='open'&&['replace-opening','cleanup-timeout'].includes(mode))
@@ -95,9 +96,12 @@ const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
               return {...metadata,version:String(metadataCalls),sha256Checksum:mode==='late-checksum-drift'
                 ?(number===1?(phase==='open'?undefined:digest):'a'.repeat(64)):digest};
             },
-            readRange:({start,end})=>new Response(number===1&&mode==='cleanup-cancel-failed'
+            readRange:({start,end})=>new Response(mode.startsWith('recovery-cancel-')
+              ?new ReadableStream({cancel(){cancelCalls++;if(mode==='recovery-cancel-failed')throw new Error('synthetic cancel failure');return new Promise(resolve=>{release=resolve;});}})
+              :number===1&&mode==='cleanup-cancel-failed'
               ?new ReadableStream({pull(){bodyPull=true;return new Promise(()=>{});},cancel(){cancelCalls++;return Promise.reject(new Error('synthetic cancel failure'));}})
-              :bytes.slice(start,end+1),{status:206,headers:{'Content-Range':`bytes ${start}-${end}/${bytes.length}`,'Content-Length':String(end-start+1)}})
+              :bytes.slice(start,end+1),{status:mode.startsWith('recovery-cancel-')?503:206,
+                headers:{'Content-Range':`bytes ${start}-${end}/${bytes.length}`,'Content-Length':String(end-start+1)}})
           }).then(owner=>{owners.push(owner);return owner;});
         };
         if(mode==='mms-shaped-restore'){
@@ -112,6 +116,17 @@ const modes=process.argv.includes('--fetch-cancel-only')?['real-fetch-abort']:
         const player=createTsPlayer({video,openSource,isCurrent:()=>true,onEvent:event=>events.push(event),autoplay:false});
         window.lifecyclePlayer=player;
         try{
+          if(mode.startsWith('recovery-cancel-')){
+            const error=await player.ready.then(()=>null,error=>error.message);
+            demand(error==='Q1_CLEANUP_UNCONFIRMED','503_RETRY_IGNORED_CLEANUP_FAILURE');
+            const old=await player.completion();
+            demand(opens===1&&cancelCalls===1&&old.appends===0,'503_UNKNOWN_CLEANUP_OPENED_OR_APPENDED');
+            demand(old.recovery?.cleanup?.settled===false,'503_CLEANUP_FALSLY_SETTLED');
+            const nextError=await player.seek(6.1,{autoplay:false}).then(()=>null,error=>error.message);
+            demand(nextError==='Q1_CLEANUP_UNCONFIRMED'&&opens===1,'SEEK_BYPASSED_503_CLEANUP_FENCE');
+            const cleanup=await player.dispose();demand(!cleanup.settled,'503_CLEANUP_FAILURE_FORGOTTEN');
+            release?.();return {mode,passed:true,opens,cancelCalls,error,nextError,old,cleanup};
+          }
           if(mode==='late-checksum-drift'){
             await player.ready;
             demand(owners[0].identity.sha256Checksum===digest,'READ_CHECKSUM_NOT_EXPOSED');

@@ -12,7 +12,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
   demand(video&&typeof openSource==='function'&&typeof isCurrent==='function'&&typeof onEvent==='function','OPTIONS');
   const Constructor=globalThis.MediaSource||globalThis.ManagedMediaSource;
   demand(Constructor&&typeof Worker==='function','UNAVAILABLE');
-  let generation=0,latest=null,closed=false,baseline=null,checksum=null,cleanupBlocked=false;
+  let generation=0,latest=null,closed=false,baseline=null,checksum=null,cleanupBlocked=false,recoveries=0;
   const originalRemote=video.disableRemotePlayback;
   const owned=()=>!closed&&isCurrent()===true;
   function launch(seconds,play){
@@ -47,6 +47,11 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
       const clean=()=>{events.forEach(name=>video.removeEventListener(name,wake));pending.delete(cancel);};
       const wake=()=>{clean();resolve();},cancel=()=>{clean();reject(new Error('Q1_CANCELLED'));};
       pending.add(cancel);events.forEach(name=>video.addEventListener(name,wake,{once:true}));if(!current())cancel();
+    });}
+    function backoff(milliseconds){return new Promise((resolve,reject)=>{
+      const finish=error=>{clearTimeout(timer);pending.delete(cancel);error?reject(error):resolve();};
+      const cancel=()=>finish(new Error('Q1_CANCELLED'));
+      const timer=setTimeout(()=>finish(),milliseconds);pending.add(cancel);if(!current())cancel();
     });}
     const ranges=()=>Array.from({length:buffer.buffered.length},(_,i)=>[buffer.buffered.start(i),buffer.buffered.end(i)]);
     function windowPlan(){
@@ -112,10 +117,14 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
       try{
         const prior=await priorCleanup;check();state.previousCleanup=prior||null;
         demand(!cleanupBlocked&&prior?.settled!==false,'CLEANUP_UNCONFIRMED');emit('starting',{time:seconds});
-        opening=Promise.resolve().then(()=>{check();return openSource({signal:controller.signal});}).then(value=>{reader=value;return value;},error=>{
-          openCleanup=error?.cleanup||{settled:true};throw error;
-        });
-        await opening;opening=null;check();
+        async function openReader(){
+          openCleanup=null;
+          opening=Promise.resolve().then(()=>{check();return openSource({signal:controller.signal});}).then(value=>{reader=value;return value;},error=>{
+            openCleanup=error?.cleanup||{settled:true};throw error;
+          });
+          await opening;opening=null;check();
+        }
+        await openReader();
         function bindIdentity(identity){
           if(baseline){demand(SAME_CONTENT.every(key=>baseline[key]===identity[key]),'CONTENT_DRIFT');
             if(checksum!==null)demand(identity.sha256Checksum===checksum,'CONTENT_DRIFT');
@@ -125,10 +134,37 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         const identity=reader.identity;bindIdentity(identity);
         const read=async request=>{
           try{
-            const bytes=await reader.read({...request,signal:controller.signal});check();
+            let bytes,retried=false;
+            try{bytes=await reader.read({...request,signal:controller.signal});}
+            catch(error){
+              check();
+              const recovery=error?.recovery;
+              // Only a classified HTTP503, before any range bytes are exposed,
+              // may retry. One budget belongs to the complete player lifetime,
+              // including seeks; auto-generations cannot replenish it.
+              if(error?.message!=='Q1_SOURCE_HTTP_UNAVAILABLE'||recovery?.phase!=='range-headers'
+                ||recovery.status!==503||!Number.isFinite(recovery.retryAfterMs)
+                ||recovery.retryAfterMs<250||recovery.retryAfterMs>2000||recoveries>=1)throw error;
+              recoveries++;
+              // A failed read's preflight may have learned the first checksum.
+              // Preserve that stronger fence before retiring the failed owner.
+              bindIdentity(reader.identity);
+              const failedSource=reader.stats(),cleanup=await reader.abort();
+              state.recovery={attempt:recoveries,code:error.message,phase:recovery.phase,status:503,
+                delayMs:recovery.retryAfterMs,source:failedSource,cleanup};
+              if(cleanup?.settled!==true){cleanupBlocked=true;throw new Error('Q1_CLEANUP_UNCONFIRMED');}
+              check();reader=null;openCleanup=cleanup;
+              await backoff(recovery.retryAfterMs);check();
+              await openReader();bindIdentity(reader.identity);
+              // Neither parser nor worker has seen this failed range. Reuse the
+              // exact interval once, with fresh pre/post identity checks.
+              bytes=await reader.read({...request,signal:controller.signal});
+              retried=true;
+            }
+            check();
             // Metadata may first expose a checksum during a successful read.
             // Carry that stronger binding across later seek generations too.
-            bindIdentity(reader.identity);return bytes;
+            bindIdentity(reader.identity);if(retried)state.recovery.completed=true;return bytes;
           }
           catch(error){if(current())state.failure||=fixed(error);throw error;}
         },size=Number(identity.size);

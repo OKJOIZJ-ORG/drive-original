@@ -1,0 +1,4084 @@
+{
+  "passed": true,
+  "syntheticOnly": true,
+  "baseline": false,
+  "baselineSource": null,
+  "sources": {
+    "qa/q1-resilience-audit.cjs": "061a218f583cddca287b0ec348766d77dab77d2ee06d25390c826f99b311fb4a",
+    "index.html": "8ae458782ffc8efa4b6b76b4c3c9a32071142b65abf4d3f295850686284527fa",
+    "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
+    "app.js": "fc49a29662c47892c9366d91a2fd0678b8e1bec05c67d113215d59bc3bb2f705",
+    "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
+    "sw.js": "e35a94faad8311ea59e399e76a1ab5f64704fe1989617304cb21d9fd61c764d0",
+    "version.json": "cb56c0397d5c0143d8eea19b8c989ff138ec3f8bcbc9442de6a6e4bb2454dc35",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "8cc28c88bfc41d66232fb330fab333e65b4b06c18a6e75b524188169bab6f9c1",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+  },
+  "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+  "recordedAt": "2026-09-26T17:19:06.128Z",
+  "results": [
+    {
+      "mode": "control",
+      "passed": true,
+      "initial": {
+        "time": 0.171685,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 6,
+        "frames": 99,
+        "lastMediaTime": 12.238,
+        "window": {
+          "waits": 8,
+          "removals": 0,
+          "peakAhead": 7.404768000000001,
+          "peakSpan": 12.031999
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 958800,
+          "sourceReceived": 958236,
+          "outputSize": 958612,
+          "outputBytes": 958612,
+          "packets": 5097,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 958612,
+          "sourceBytesConsumed": 958612,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 958612,
+          "fragments": 6,
+          "acks": 6,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 958612,
+            "inputSequence": 24,
+            "fragments": 6,
+            "acknowledged": 6,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 695423,
+            "peakMuxCachedBufferBytes": 1384052,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 958612,
+              "packets": 5099,
+              "emittedIntervals": 6,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 564,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 360,
+                "aacFrames": 564
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 695423,
+              "beforeBufferBytes": 1384052,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "source": {
+          "state": "open",
+          "failure": null,
+          "busy": false,
+          "readsStarted": 8,
+          "readsCompleted": 8,
+          "metadataRequests": 17,
+          "rangeRequests": 8,
+          "receivedBytes": 2596092,
+          "releasedBytes": 2596092,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "range",
+          "range": "bytes=786996-958799",
+          "start": 786996,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 20
+        }
+      ],
+      "workerBytes": {
+        "inputs": [
+          {
+            "generation": 1,
+            "sequence": 1,
+            "offset": 0,
+            "bytes": 65536,
+            "sha256": "10e240825efeac6729566408f2539d3bb96f851c582c7f2c8df0a9169e683955"
+          },
+          {
+            "generation": 1,
+            "sequence": 2,
+            "offset": 65536,
+            "bytes": 264,
+            "sha256": "bb2118fc6377b77e3dc38d16267bc0fac8ffa99970bef16a59b2c785e15ca805"
+          },
+          {
+            "generation": 1,
+            "sequence": 3,
+            "offset": 65800,
+            "bytes": 65536,
+            "sha256": "f646f7c1ea8a40573b3a586516e9a82cf32850c72cdc4220509ea42d55274069"
+          },
+          {
+            "generation": 1,
+            "sequence": 4,
+            "offset": 131336,
+            "bytes": 76,
+            "sha256": "d22854587db7866414aad7ef91e8c497891adc64fc78b7ad67d96d1f58c5490e"
+          },
+          {
+            "generation": 1,
+            "sequence": 5,
+            "offset": 131412,
+            "bytes": 65424,
+            "sha256": "b40cdc0e63d5f813884f199eb4885922f32566e0326d4c69f97667dcd62fe442"
+          },
+          {
+            "generation": 1,
+            "sequence": 6,
+            "offset": 196836,
+            "bytes": 65536,
+            "sha256": "87ff48b6a0a4f540b6d92ddf1e26f9fc7740612559688bd7df6f324d90ba37fb"
+          },
+          {
+            "generation": 1,
+            "sequence": 7,
+            "offset": 262372,
+            "bytes": 76,
+            "sha256": "714c718bc9a8a48bce016df90738499854c40298b8b3c79018a0529cfdf3a217"
+          },
+          {
+            "generation": 1,
+            "sequence": 8,
+            "offset": 262448,
+            "bytes": 65424,
+            "sha256": "ac0d4a51d2163dcb50346b61a66db33cf0083d1bfe8987f648b95e2891536464"
+          },
+          {
+            "generation": 1,
+            "sequence": 9,
+            "offset": 327872,
+            "bytes": 65536,
+            "sha256": "42f8a3341e9dc749e43739af5727323454f7ee1ebba2c213f2896e22ae9f6370"
+          },
+          {
+            "generation": 1,
+            "sequence": 10,
+            "offset": 393408,
+            "bytes": 76,
+            "sha256": "31a837ac37381c85a86aac9612377674c8a6b053702792ca9cf732f50501893e"
+          },
+          {
+            "generation": 1,
+            "sequence": 11,
+            "offset": 393484,
+            "bytes": 65536,
+            "sha256": "cf16747b259240cb9490cfdc4ba78b93ddd306ab30730211d4c65b1b43f22fda"
+          },
+          {
+            "generation": 1,
+            "sequence": 12,
+            "offset": 459020,
+            "bytes": 76,
+            "sha256": "5e386e4ff132d33558eab2c931c408c944574c725a490c223d993a4c02a8b7a8"
+          },
+          {
+            "generation": 1,
+            "sequence": 13,
+            "offset": 459096,
+            "bytes": 65424,
+            "sha256": "8a043d32d74d6f6701ac6205e7fc36c87660a7fa95a1ff3f7d87403570bbae25"
+          },
+          {
+            "generation": 1,
+            "sequence": 14,
+            "offset": 524520,
+            "bytes": 65536,
+            "sha256": "138d0bf31d66958fb13816bcbc71559d623aee8fcb7aa26a698b81ba5bd15752"
+          },
+          {
+            "generation": 1,
+            "sequence": 15,
+            "offset": 590056,
+            "bytes": 76,
+            "sha256": "7152678a569ac0d784e98c16618150186b30506948ec20159618c6943f1492c1"
+          },
+          {
+            "generation": 1,
+            "sequence": 16,
+            "offset": 590132,
+            "bytes": 65424,
+            "sha256": "ca55adb70bf30438e961c942bc9fd1d54d0d016c834b99be67beaf0212c59602"
+          },
+          {
+            "generation": 1,
+            "sequence": 17,
+            "offset": 655556,
+            "bytes": 65536,
+            "sha256": "98fea708fd02d8425e40f0be499dc0bcb394be0f003dd119f84dd0fdfde69490"
+          },
+          {
+            "generation": 1,
+            "sequence": 18,
+            "offset": 721092,
+            "bytes": 76,
+            "sha256": "11c969adc434b3ae594f6e674bb04fc92f1b46115f89c756ba08368e6f63de61"
+          },
+          {
+            "generation": 1,
+            "sequence": 19,
+            "offset": 721168,
+            "bytes": 65536,
+            "sha256": "2b42ffe1c0de0b9cec6ab9f6250512abbdd21df72b899269d8d8ac13a888c4a1"
+          },
+          {
+            "generation": 1,
+            "sequence": 20,
+            "offset": 786704,
+            "bytes": 76,
+            "sha256": "3e2f71ece97526dd548b0217a1a446c56c34c36a546be65204aa00d9f5748d5b"
+          },
+          {
+            "generation": 1,
+            "sequence": 21,
+            "offset": 786780,
+            "bytes": 65424,
+            "sha256": "20c6a53d60166a8a15c98878e21427b0a17d72ad029ee94a1a724cb0477d2396"
+          },
+          {
+            "generation": 1,
+            "sequence": 22,
+            "offset": 852204,
+            "bytes": 65536,
+            "sha256": "3ef94e2614e93ffe650877620751ad994a8487a5da825b218451afbb94363dda"
+          },
+          {
+            "generation": 1,
+            "sequence": 23,
+            "offset": 917740,
+            "bytes": 76,
+            "sha256": "9e4896a1a01a07b158afcd5d9a7339c0361e1a37fee57acf4903f55d0ea89c99"
+          },
+          {
+            "generation": 1,
+            "sequence": 24,
+            "offset": 917816,
+            "bytes": 40796,
+            "sha256": "9708c6c9b7b68753f2a9ef292a6cd150fbf54d1b4d039369bfac0bb8805b908b"
+          }
+        ],
+        "fragments": [
+          {
+            "generation": 1,
+            "sequence": 1,
+            "bytes": 139261,
+            "sha256": "5ed1877a95b589fdfff7ae9c81b0b0a1f381478cd4ee0df96d4817916cd7fa3b"
+          },
+          {
+            "generation": 1,
+            "sequence": 2,
+            "bytes": 149258,
+            "sha256": "985b8df83f127f622fe2f22a361387c9fe84f7927a5c778e713569a358fb7279"
+          },
+          {
+            "generation": 1,
+            "sequence": 3,
+            "bytes": 141836,
+            "sha256": "226ceb808c5dc3516c984313be02fb34548c5b276df26fe9f74331d5a377a614"
+          },
+          {
+            "generation": 1,
+            "sequence": 4,
+            "bytes": 144464,
+            "sha256": "ea0a6be1613aa90fb54888b0e9c9d5c406c255289a1be4a54cf311426d3293a4"
+          },
+          {
+            "generation": 1,
+            "sequence": 5,
+            "bytes": 140029,
+            "sha256": "0748da0cc685eb56e5ed01442e368c70f74b2d3136449ce3d6a3c953f46cbc0d"
+          },
+          {
+            "generation": 1,
+            "sequence": 6,
+            "bytes": 141037,
+            "sha256": "b1094909023b3512443e64164de00ec4fb0705440f54ffd434cdd5f56f00909c"
+          }
+        ]
+      }
+    },
+    {
+      "mode": "once-503",
+      "passed": true,
+      "initial": {
+        "time": 0.146697,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 6,
+        "frames": 98,
+        "lastMediaTime": 12.238,
+        "window": {
+          "waits": 7,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 12.031999
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 250,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "completed": true
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 958800,
+          "sourceReceived": 958236,
+          "outputSize": 958612,
+          "outputBytes": 958612,
+          "packets": 5097,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 958612,
+          "sourceBytesConsumed": 958612,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 958612,
+          "fragments": 6,
+          "acks": 6,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 958612,
+            "inputSequence": 24,
+            "fragments": 6,
+            "acknowledged": 6,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 695423,
+            "peakMuxCachedBufferBytes": 1384052,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 958612,
+              "packets": 5099,
+              "emittedIntervals": 6,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 564,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 360,
+                "aacFrames": 564
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 695423,
+              "beforeBufferBytes": 1384052,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "source": {
+          "state": "open",
+          "failure": null,
+          "busy": false,
+          "readsStarted": 2,
+          "readsCompleted": 2,
+          "metadataRequests": 5,
+          "rangeRequests": 2,
+          "receivedBytes": 433948,
+          "releasedBytes": 433948,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 262144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 20
+        },
+        {
+          "kind": "metadata",
+          "sequence": 21
+        },
+        {
+          "kind": "range",
+          "range": "bytes=786996-958799",
+          "start": 786996,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 22
+        }
+      ],
+      "workerBytes": {
+        "inputs": [
+          {
+            "generation": 1,
+            "sequence": 1,
+            "offset": 0,
+            "bytes": 65536,
+            "sha256": "10e240825efeac6729566408f2539d3bb96f851c582c7f2c8df0a9169e683955"
+          },
+          {
+            "generation": 1,
+            "sequence": 2,
+            "offset": 65536,
+            "bytes": 264,
+            "sha256": "bb2118fc6377b77e3dc38d16267bc0fac8ffa99970bef16a59b2c785e15ca805"
+          },
+          {
+            "generation": 1,
+            "sequence": 3,
+            "offset": 65800,
+            "bytes": 65536,
+            "sha256": "f646f7c1ea8a40573b3a586516e9a82cf32850c72cdc4220509ea42d55274069"
+          },
+          {
+            "generation": 1,
+            "sequence": 4,
+            "offset": 131336,
+            "bytes": 76,
+            "sha256": "d22854587db7866414aad7ef91e8c497891adc64fc78b7ad67d96d1f58c5490e"
+          },
+          {
+            "generation": 1,
+            "sequence": 5,
+            "offset": 131412,
+            "bytes": 65424,
+            "sha256": "b40cdc0e63d5f813884f199eb4885922f32566e0326d4c69f97667dcd62fe442"
+          },
+          {
+            "generation": 1,
+            "sequence": 6,
+            "offset": 196836,
+            "bytes": 65536,
+            "sha256": "87ff48b6a0a4f540b6d92ddf1e26f9fc7740612559688bd7df6f324d90ba37fb"
+          },
+          {
+            "generation": 1,
+            "sequence": 7,
+            "offset": 262372,
+            "bytes": 76,
+            "sha256": "714c718bc9a8a48bce016df90738499854c40298b8b3c79018a0529cfdf3a217"
+          },
+          {
+            "generation": 1,
+            "sequence": 8,
+            "offset": 262448,
+            "bytes": 65424,
+            "sha256": "ac0d4a51d2163dcb50346b61a66db33cf0083d1bfe8987f648b95e2891536464"
+          },
+          {
+            "generation": 1,
+            "sequence": 9,
+            "offset": 327872,
+            "bytes": 65536,
+            "sha256": "42f8a3341e9dc749e43739af5727323454f7ee1ebba2c213f2896e22ae9f6370"
+          },
+          {
+            "generation": 1,
+            "sequence": 10,
+            "offset": 393408,
+            "bytes": 76,
+            "sha256": "31a837ac37381c85a86aac9612377674c8a6b053702792ca9cf732f50501893e"
+          },
+          {
+            "generation": 1,
+            "sequence": 11,
+            "offset": 393484,
+            "bytes": 65536,
+            "sha256": "cf16747b259240cb9490cfdc4ba78b93ddd306ab30730211d4c65b1b43f22fda"
+          },
+          {
+            "generation": 1,
+            "sequence": 12,
+            "offset": 459020,
+            "bytes": 76,
+            "sha256": "5e386e4ff132d33558eab2c931c408c944574c725a490c223d993a4c02a8b7a8"
+          },
+          {
+            "generation": 1,
+            "sequence": 13,
+            "offset": 459096,
+            "bytes": 65424,
+            "sha256": "8a043d32d74d6f6701ac6205e7fc36c87660a7fa95a1ff3f7d87403570bbae25"
+          },
+          {
+            "generation": 1,
+            "sequence": 14,
+            "offset": 524520,
+            "bytes": 65536,
+            "sha256": "138d0bf31d66958fb13816bcbc71559d623aee8fcb7aa26a698b81ba5bd15752"
+          },
+          {
+            "generation": 1,
+            "sequence": 15,
+            "offset": 590056,
+            "bytes": 76,
+            "sha256": "7152678a569ac0d784e98c16618150186b30506948ec20159618c6943f1492c1"
+          },
+          {
+            "generation": 1,
+            "sequence": 16,
+            "offset": 590132,
+            "bytes": 65424,
+            "sha256": "ca55adb70bf30438e961c942bc9fd1d54d0d016c834b99be67beaf0212c59602"
+          },
+          {
+            "generation": 1,
+            "sequence": 17,
+            "offset": 655556,
+            "bytes": 65536,
+            "sha256": "98fea708fd02d8425e40f0be499dc0bcb394be0f003dd119f84dd0fdfde69490"
+          },
+          {
+            "generation": 1,
+            "sequence": 18,
+            "offset": 721092,
+            "bytes": 76,
+            "sha256": "11c969adc434b3ae594f6e674bb04fc92f1b46115f89c756ba08368e6f63de61"
+          },
+          {
+            "generation": 1,
+            "sequence": 19,
+            "offset": 721168,
+            "bytes": 65536,
+            "sha256": "2b42ffe1c0de0b9cec6ab9f6250512abbdd21df72b899269d8d8ac13a888c4a1"
+          },
+          {
+            "generation": 1,
+            "sequence": 20,
+            "offset": 786704,
+            "bytes": 76,
+            "sha256": "3e2f71ece97526dd548b0217a1a446c56c34c36a546be65204aa00d9f5748d5b"
+          },
+          {
+            "generation": 1,
+            "sequence": 21,
+            "offset": 786780,
+            "bytes": 65424,
+            "sha256": "20c6a53d60166a8a15c98878e21427b0a17d72ad029ee94a1a724cb0477d2396"
+          },
+          {
+            "generation": 1,
+            "sequence": 22,
+            "offset": 852204,
+            "bytes": 65536,
+            "sha256": "3ef94e2614e93ffe650877620751ad994a8487a5da825b218451afbb94363dda"
+          },
+          {
+            "generation": 1,
+            "sequence": 23,
+            "offset": 917740,
+            "bytes": 76,
+            "sha256": "9e4896a1a01a07b158afcd5d9a7339c0361e1a37fee57acf4903f55d0ea89c99"
+          },
+          {
+            "generation": 1,
+            "sequence": 24,
+            "offset": 917816,
+            "bytes": 40796,
+            "sha256": "9708c6c9b7b68753f2a9ef292a6cd150fbf54d1b4d039369bfac0bb8805b908b"
+          }
+        ],
+        "fragments": [
+          {
+            "generation": 1,
+            "sequence": 1,
+            "bytes": 139261,
+            "sha256": "5ed1877a95b589fdfff7ae9c81b0b0a1f381478cd4ee0df96d4817916cd7fa3b"
+          },
+          {
+            "generation": 1,
+            "sequence": 2,
+            "bytes": 149258,
+            "sha256": "985b8df83f127f622fe2f22a361387c9fe84f7927a5c778e713569a358fb7279"
+          },
+          {
+            "generation": 1,
+            "sequence": 3,
+            "bytes": 141836,
+            "sha256": "226ceb808c5dc3516c984313be02fb34548c5b276df26fe9f74331d5a377a614"
+          },
+          {
+            "generation": 1,
+            "sequence": 4,
+            "bytes": 144464,
+            "sha256": "ea0a6be1613aa90fb54888b0e9c9d5c406c255289a1be4a54cf311426d3293a4"
+          },
+          {
+            "generation": 1,
+            "sequence": 5,
+            "bytes": 140029,
+            "sha256": "0748da0cc685eb56e5ed01442e368c70f74b2d3136449ce3d6a3c953f46cbc0d"
+          },
+          {
+            "generation": 1,
+            "sequence": 6,
+            "bytes": 141037,
+            "sha256": "b1094909023b3512443e64164de00ec4fb0705440f54ffd434cdd5f56f00909c"
+          }
+        ]
+      }
+    },
+    {
+      "mode": "repeat-503",
+      "passed": true,
+      "initial": {
+        "time": 0.164717,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 35,
+        "lastMediaTime": 3.971333,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 250,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "busy": false,
+          "readsStarted": 1,
+          "readsCompleted": 0,
+          "metadataRequests": 2,
+          "rangeRequests": 1,
+          "receivedBytes": 0,
+          "releasedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 0,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    },
+    {
+      "mode": "revision-drift",
+      "passed": true,
+      "initial": {
+        "time": 0.128081,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_CONTENT_DRIFT",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 32,
+        "lastMediaTime": 3.804666,
+        "window": {
+          "waits": 3,
+          "removals": 0,
+          "peakAhead": 6.087385,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 250,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        }
+      ]
+    },
+    {
+      "mode": "late-checksum-drift",
+      "passed": true,
+      "initial": {
+        "time": 0.126973,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_CONTENT_DRIFT",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 33,
+        "lastMediaTime": 3.738,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 250,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "aborted",
+          "failure": "Q1_SOURCE_ABORTED",
+          "busy": false,
+          "readsStarted": 0,
+          "readsCompleted": 0,
+          "metadataRequests": 1,
+          "rangeRequests": 0,
+          "receivedBytes": 0,
+          "releasedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 0,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        }
+      ]
+    },
+    {
+      "mode": "permission-loss",
+      "passed": true,
+      "initial": {
+        "time": 0.153373,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_PERMISSION",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 32,
+        "lastMediaTime": 3.771333,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 250,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        }
+      ]
+    },
+    {
+      "mode": "retry-after-long",
+      "passed": true,
+      "initial": {
+        "time": 0.164933,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 25,
+        "lastMediaTime": 2.838,
+        "window": {
+          "waits": 3,
+          "removals": 0,
+          "peakAhead": 6.088141,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "busy": false,
+          "readsStarted": 7,
+          "readsCompleted": 6,
+          "metadataRequests": 14,
+          "rangeRequests": 7,
+          "receivedBytes": 2162144,
+          "releasedBytes": 2162144,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    },
+    {
+      "mode": "malformed-206",
+      "passed": true,
+      "initial": {
+        "time": 0.177261,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HEADERS",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 24,
+        "lastMediaTime": 2.838,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HEADERS",
+          "busy": false,
+          "readsStarted": 7,
+          "readsCompleted": 6,
+          "metadataRequests": 14,
+          "rangeRequests": 7,
+          "receivedBytes": 2162144,
+          "releasedBytes": 2162144,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 206
+        }
+      ]
+    },
+    {
+      "mode": "close-backoff",
+      "passed": true,
+      "initial": {
+        "time": 0.150221,
+        "frames": 1
+      },
+      "old": {
+        "generation": 1,
+        "phase": "ready",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 24,
+        "lastMediaTime": 2.738,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 2000,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    },
+    {
+      "mode": "seek-backoff",
+      "passed": true,
+      "initial": {
+        "time": 0.128853,
+        "frames": 1
+      },
+      "old": {
+        "generation": 1,
+        "phase": "ready",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 24,
+        "lastMediaTime": 2.804666,
+        "window": {
+          "waits": 3,
+          "removals": 0,
+          "peakAhead": 6.0937850000000005,
+          "peakSpan": 6.101333
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 2000,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 20
+        },
+        {
+          "kind": "metadata",
+          "sequence": 21
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 22
+        },
+        {
+          "kind": "metadata",
+          "sequence": 23
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 24
+        },
+        {
+          "kind": "metadata",
+          "sequence": 25
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 26
+        },
+        {
+          "kind": "metadata",
+          "sequence": 27
+        },
+        {
+          "kind": "range",
+          "range": "bytes=322044-584187",
+          "start": 322044,
+          "end": 584187,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 28
+        },
+        {
+          "kind": "metadata",
+          "sequence": 29
+        },
+        {
+          "kind": "range",
+          "range": "bytes=584188-846331",
+          "start": 584188,
+          "end": 846331,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 30
+        },
+        {
+          "kind": "metadata",
+          "sequence": 31
+        },
+        {
+          "kind": "range",
+          "range": "bytes=846332-958799",
+          "start": 846332,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 32
+        }
+      ]
+    },
+    {
+      "mode": "account-backoff",
+      "passed": true,
+      "initial": {
+        "time": 0.146933,
+        "frames": 1
+      },
+      "old": {
+        "generation": 1,
+        "phase": "ready",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 24,
+        "lastMediaTime": 2.738,
+        "window": {
+          "waits": 3,
+          "removals": 0,
+          "peakAhead": 6.075645000000001,
+          "peakSpan": 6.101333
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "recovery": {
+          "attempt": 1,
+          "code": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "phase": "range-headers",
+          "status": 503,
+          "delayMs": 2000,
+          "source": {
+            "state": "failed",
+            "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+            "busy": false,
+            "readsStarted": 7,
+            "readsCompleted": 6,
+            "metadataRequests": 14,
+            "rangeRequests": 7,
+            "receivedBytes": 2162144,
+            "releasedBytes": 2162144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 524144,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 1,
+            "cleanupFailed": false,
+            "cleanupSettled": false,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    },
+    {
+      "mode": "budget-after-seek",
+      "passed": true,
+      "initial": {
+        "time": 0.129265,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 2,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 24,
+        "lastMediaTime": 3.038,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 2,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 2,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 2,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HTTP_UNAVAILABLE",
+          "busy": false,
+          "readsStarted": 7,
+          "readsCompleted": 6,
+          "metadataRequests": 14,
+          "rangeRequests": 7,
+          "receivedBytes": 2162144,
+          "releasedBytes": 2162144,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 20
+        },
+        {
+          "kind": "metadata",
+          "sequence": 21
+        },
+        {
+          "kind": "metadata",
+          "sequence": 22
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 23
+        },
+        {
+          "kind": "metadata",
+          "sequence": 24
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 25
+        },
+        {
+          "kind": "metadata",
+          "sequence": 26
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 27
+        },
+        {
+          "kind": "metadata",
+          "sequence": 28
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 29
+        },
+        {
+          "kind": "metadata",
+          "sequence": 30
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 31
+        },
+        {
+          "kind": "metadata",
+          "sequence": 32
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 33
+        },
+        {
+          "kind": "metadata",
+          "sequence": 34
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    }
+  ]
+}

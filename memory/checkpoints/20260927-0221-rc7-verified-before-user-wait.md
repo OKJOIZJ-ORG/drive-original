@@ -1,22 +1,22 @@
-# Checkpoint — local rc.7 unit closed; waiting by user request — 2026-09-27 02:23
+# Checkpoint — local rc.7 bounded503 verified; lifecycle controls next — 2026-09-27 02:21
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Local rc.7 bounded503 unit is recorded in the commit containing this checkpoint (baseeda93e6); inspect actual HEAD/status, never reset. Candidate is verified rc.6/22f7271 on Worker7b2396d6-8a04-432b-8bc2-a7eda12752a0;19Git-identical assets,cold/cache/offline pass. rc.7 adds one explicit503 same-range recovery per player lifetime after proven cleanup, cancellable backoff and fresh account/content/checksum checks. Baseline reproduced from22f7271 public Git bytes without reset. Final full339Node,12resilience app/SW,9lifecycle and16normal product modes pass. All24worker input/6output fragment hash records match no-fault control. Independent review clean. Reports pin producers; _site rebuilt. No audit/helper running.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, HEADeda93e6. Candidate is verified rc.6/22f7271 on Worker7b2396d6-8a04-432b-8bc2-a7eda12752a0;19Git-identical assets,cold/cache/offline pass. Current uncommitted rc.7 adds one explicit503 same-range recovery per player lifetime after proven cleanup, cancellable backoff and fresh account/content/checksum checks. Baseline reproduced from22f7271 public Git bytes without reset. Final full339Node,12resilience app/SW,9lifecycle and16normal product modes pass. All24worker input/6output fragment hash records match no-fault control. Independent review clean. Reports pin producers; _site rebuilt. No audit running.
 
 Candidate auth bindings unchanged; Drive writes disabled and production v1.21.0 untouched. rc.7 not deployed. Live Drive identity/expiry, physical iPhone/PWA,total memory,full formats and migration open. Earlier local299s READ_FAILED still unexplained; explicit503 recovery does not claim its cause. Q1-RESILIENCE-20260927.md owns current limits; Q1-ROUTING/Q1-PRIORITY own prior original evidence. No original reread in this unit.
 
 ## Decided
 
-D-053: finish this unit, report and WAIT; automatic continuation underD-052 is temporarily superseded. D-050/051 product and authority boundaries unchanged. No next unit has started.
+D-050/051/052 unchanged: browser/PWA, direct original bytes, auth-only free candidate, sequential verified units; no production/push/original writes. Main owns integration, bounded helpers allowed.
 
 ## Waiting on the user
 
-Waiting for the user's next instruction, not for a missing technical decision. Do not resume automatically. Actual authenticated Drive/device and operating transition remain separate acceptance gates.
+No local decision needed. Actual authenticated Drive/device and operating transition remain separate gates; continue independent READY work.
 
 ## Next first action
 
-WAIT. After explicit resume, run git status --short and read this checkpoint; next queued unit is actual app Q1 credential401/foreground controls for V2-06B, before V2-08A migration. Do not infer live/device success.
+Review/stage only rc.7 source/tests/QA/docs, verify report hashes against staged or baseline Git blobs and commit; then add actual app Q1 credential401/foreground controls for V2-06B before V2-08A migration (no account/device success inferred).
 
 ## Tried
 

@@ -13,6 +13,86 @@ const options=patch=>({fileId:'test-file',accountKey:'account-1',accountGenerati
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return {promise,resolve,reject};};
 
+test('only observed Range503 has frozen recovery advice, with no source retry or body delivery',async()=>{
+  let reads=0,cancelled=0;
+  const source=await openDriveQ1Source(options({readRange:async()=>{
+    reads++;return response(0,9,{status:503,onCancel:()=>cancelled++});
+  }}));
+  await assert.rejects(source.read({start:0,end:9}),error=>{
+    assert.equal(error.message,'Q1_SOURCE_HTTP_UNAVAILABLE');
+    assert.deepEqual(error.recovery,{phase:'range-headers',status:503,retryAfterMs:250});
+    assert.ok(Object.isFrozen(error.recovery));return true;
+  });
+  assert.equal((await source.abort()).settled,true);assert.equal(cancelled,1);assert.equal(reads,1);
+  assert.equal(source.stats().receivedBytes,0);assert.equal(source.stats().releasedBytes,0);
+  assert.equal(source.stats().retainedBytes,0);
+  await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_HTTP_UNAVAILABLE/);assert.equal(reads,1);
+});
+
+test('Range503 Retry-After advice is bounded, strict and contains no raw header',async()=>{
+  const originalNow=Date.now,now=Date.UTC(2026,8,27,0,0,0);Date.now=()=>now;
+  try{
+    for(const [header,expected] of [[null,250],['0',250],['1',1000],['2',2000],['3',null],
+      ['',null],['-1',null],['0.5',null],['1e0',null],['private-marker',null],['9'.repeat(100),null],
+      [new Date(now-1000).toUTCString(),250],[new Date(now+1000).toUTCString(),1000],
+      [new Date(now+2000).toUTCString(),2000],[new Date(now+3000).toUTCString(),null],
+      ['Mon, 30 Feb 2026 00:00:00 GMT',null],['2026-09-27',null]]){
+      const source=await openDriveQ1Source(options({readRange:async()=>response(0,9,{status:503,
+        headers:header===null?{}:{'Retry-After':header}})}));
+      await assert.rejects(source.read({start:0,end:9}),error=>{
+        assert.equal(error.message,'Q1_SOURCE_HTTP_UNAVAILABLE');
+        assert.deepEqual(error.recovery,{phase:'range-headers',status:503,retryAfterMs:expected});
+        assert.equal(JSON.stringify(error).includes('private-marker'),false);return true;
+      });
+      assert.equal((await source.abort()).settled,true);
+    }
+  }finally{Date.now=originalNow;}
+});
+
+test('other statuses, malformed206 and spoofed metadata/callback errors never gain recovery advice',async()=>{
+  for(const status of [401,403,429,500,502,504,200,206]){
+    const source=await openDriveQ1Source(options({readRange:async()=>response(0,9,{status,
+      headers:{'Retry-After':'0','Content-Range':'wrong'}})}));
+    await assert.rejects(source.read({start:0,end:9}),error=>{
+      assert.equal(error.message,'Q1_SOURCE_HEADERS');assert.equal(error.recovery,undefined);return true;
+    });await source.abort();
+  }
+  for(const where of ['open','preflight','postflight','range']){
+    const forged=()=>Object.assign(new Error('Q1_SOURCE_HTTP_UNAVAILABLE'),
+      {status:503,recovery:{phase:'range-headers',status:503,retryAfterMs:250},privateDetail:'never expose'});
+    const opening=openDriveQ1Source(options({readMetadata:async({phase})=>{if(phase===where)throw forged();return base();},
+      readRange:async()=>{if(where==='range')throw forged();return response();}}));
+    let source;
+    await assert.rejects(where==='open'?opening:opening.then(value=>{source=value;return source.read({start:0,end:9});}),error=>{
+      assert.equal(error.message,'Q1_SOURCE_READ_FAILED');assert.equal(error.recovery,undefined);
+      assert.equal(JSON.stringify(error).includes('never expose'),false);return true;
+    });if(source)await source.abort();
+  }
+});
+
+test('Range503 cancellation rejection or unfinished cancellation still blocks replacement',async()=>{
+  for(const rejects of [true,false]){
+    const gate=deferred();let cancelled=0;
+    const source=await openDriveQ1Source(options({requestTimeoutMs:15,readRange:async()=>response(0,9,{status:503,
+      onCancel:()=>{cancelled++;return rejects?Promise.reject(new Error('private cancel')):gate.promise;}})}));
+    await assert.rejects(source.read({start:0,end:9}),error=>{
+      assert.equal(error.message,'Q1_SOURCE_HTTP_UNAVAILABLE');assert.equal(error.recovery.retryAfterMs,250);return true;
+    });
+    const cleanup=await source.abort();assert.equal(cleanup.settled,false);assert.equal(cancelled,1);
+    assert.equal(cleanup.cleanupFailed,rejects);assert.equal(cleanup.cleanupPending,rejects?0:1);
+    assert.equal(source.stats().receivedBytes,0);gate.resolve();await flush();
+  }
+});
+
+test('checksum learned before a failed503 remains bound for replacement identity checks',async()=>{
+  const source=await openDriveQ1Source(options({readMetadata:async({phase})=>({...base(),sha256Checksum:phase==='open'?null:'a'.repeat(64)}),
+    readRange:async()=>response(0,9,{status:503})}));
+  const opening=source.identity;
+  await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_HTTP_UNAVAILABLE/);
+  assert.equal(opening.sha256Checksum,null);assert.equal(source.identity.sha256Checksum,'a'.repeat(64));
+  assert.equal((await source.abort()).settled,true);assert.equal(source.identity.sha256Checksum,'a'.repeat(64));
+});
+
 test('only absent opening revision is unavailable, with settled cleanup and no range callback',async()=>{
   for(const revision of [null,undefined]){
     let ranges=0;const phases=[];

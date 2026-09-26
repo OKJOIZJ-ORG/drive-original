@@ -1,0 +1,320 @@
+{
+  "passed": true,
+  "syntheticOnly": true,
+  "baseline": true,
+  "baselineSource": "22f7271846dada90d4c19a29d6f56826b105d200",
+  "sources": {
+    "qa/q1-resilience-audit.cjs": "061a218f583cddca287b0ec348766d77dab77d2ee06d25390c826f99b311fb4a",
+    "index.html": "aaeb3165314ca5468dd258a19e45e36401a3088cd6fcb5e5144729362ac678b6",
+    "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
+    "app.js": "a663b5cf6853969978d74df74ff64a18abbc7d95a8d169ec3b43cd3e1a427077",
+    "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
+    "sw.js": "fa1e922c9bc2f27f8c1e0649aefbb23d21a14a9ed42ceb7aa537fc7868c9b20d",
+    "version.json": "d641a541b81277a92de4281756c460ccc6741b218c7857a914c7bd4a0ced17b0",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "19406973d9649f72e4bbbf441c89d284fea0c4dfc41a713a5bc1c574ed655f11",
+    "media/ts-player.mjs": "1de5c9dbb3c83d9e5495c3fc2e003d09d0e691ed6c7d349619a07a9ded48074b",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+  },
+  "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+  "recordedAt": "2026-09-26T17:18:33.814Z",
+  "results": [
+    {
+      "mode": "once-503",
+      "passed": true,
+      "baselineFailureReproduced": true,
+      "initial": {
+        "time": 0.180061,
+        "frames": 1
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HEADERS",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 27,
+        "lastMediaTime": 3.071333,
+        "window": {
+          "waits": 5,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HEADERS",
+          "busy": false,
+          "readsStarted": 7,
+          "readsCompleted": 6,
+          "metadataRequests": 14,
+          "rangeRequests": 7,
+          "receivedBytes": 2162144,
+          "releasedBytes": 2162144,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851,
+          "status": 206
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995,
+          "status": 503
+        }
+      ]
+    }
+  ]
+}

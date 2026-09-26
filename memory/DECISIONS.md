@@ -291,3 +291,11 @@ Drive 파일·Range 바이트는 앱/클라이언트 범위 서비스 워커가 
 ## D-052 · 남은 전체 구현의 순차 진행과 증거 기반 순서 조정 — 2026-09-26 (User-confirmed)
 
 사용자는 "전부 다 순차적으로 해 계획대로. 계획이 잘못된 거 있거나 더 좋은거 있으면 니가 알아서 능동적 유동적으로 해"라고 지시했다. 기존 전체 요구·인수 기준과 D-050의 승인/금지 경계는 유지하고, 작업 순서·잘못된 의존관계·구현 수단은 근거에 따라 조정한다. 한 번에 하나의 핵심 동작을 통합 검증과 커밋으로 닫으며, 특정 live 검사의 접근 부재를 독립적인 승인된 제품 작업의 중단 사유로 확대하지 않는다.
+
+→ automatic continuation temporarily superseded by D-053 (2026-09-27)
+
+## D-053 · 현재 단위 완료 후 보고하고 다음 지시 대기 — 2026-09-27 (User-confirmed; temporarily supersedes D-052 continuation)
+
+사용자는 "하던 작업 깔끔하게 완료하면 닫고 보고 후 다음작업 대기해"라고 지시했다. 진행 중인 로컬 rc.7의 Q1 단발503 복구 단위를 최종 검토·증거/체크포인트·커밋으로 닫고 보고한 뒤 대기한다. 다음401/foreground 또는 상태 이관 단위를 자동 착수하지 않는다. 전체 목표·인수 기준·D-050의 권한 경계는 그대로이며, 전체 완료나 운영 전환으로 해석하지 않는다.
+
+sweep: current checkpoint, active-goal execution state and session log now require an explicit resume before next work (2026-09-27)
