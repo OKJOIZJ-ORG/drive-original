@@ -255,3 +255,7 @@ Worker unit saved21d9df8. Rechecked modern-web-guidance; no MSE-specific entry, 
 ## 2026-09-26 — bounded timestamp window scanner
 
 Resumed6c1604b. Delegated only browser-safe scanner/two owned files; root reviewed and implemented independent native packet oracle.14 scanner tests plus related integration41/41 pass; all five native comparison windows pass with copied parameter/source-offset/timestamp safeguards. Maintained evidence and archived checkpoint. No private original read, Drive mutation, product/candidate change or deployment. Next bounded time-to-byte/RAP search, retaining no-global-clock/decode limitations.
+
+## 2026-09-26 — bounded sparse seek candidate
+
+Saved anchor unit01cc876. Delegated two seek helper/test files; root implemented real loopback Range/identity/native oracle driver and reviewed helper. Initial90% run failed SEEK_TARGET_UNBRACKETED; bounded expansion/B-picture bracket handling and following-IDR final-frame bracket addressed it. Preserved bounded reader error identity, rejected fabricated EOF endpoint anchors and cross-window PTS phase. Initial combined test79/80 exposed only expected-object idr field mismatch; corrected test shape. Final82/82 plus9 native/HTTP cases pass. Independent oracle review clean after root added exact native bracket and no-extra-read assertions. Reports pin final sources; generated public180s media removed after each run. No originals/Drive/candidate/deployment changed. Next local decode-start interval and actual browser seek before product integration.

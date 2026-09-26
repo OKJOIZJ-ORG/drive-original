@@ -331,6 +331,27 @@ and related boundary/static integration pass41/41. Producer-pinned evidence:
 clock continuity, efficient seek or actual Drive/device claim follows. Next
 is bounded time-to-byte bracketing and a locally verified decode-start interval.
 
+## Sparse target / RAP candidates
+
+`ts-seek.mjs` uses the existing identity/generation/deadline-fenced exact reader
+for bounded head/tail/interpolation windows and at most1MiB local expansion.
+It binds observed PSI/parameters/clock cadence, retains the common AAC/video
+origin and exposes sampled-candidate duration with globalContinuityVerified=false.
+The target has actual packet anchors on both sides, never an invented EOF frame.
+Audio-only lead, final-frame span without a later anchor, VFR/wrap/long-GOP cases
+remain unfinished support; a discovered RAP is not a directly playable TS slice.
+
+`node qa/v2-07b-ts-q1/ts-seek-probe.mjs` generates180s public media and compares
+real loopback Range results with an independent FFprobe whole-source oracle.
+10/50/90% each match the RAP and one-frame packet bracket with3 requests and
+1,572,432/21,992,052 bytes (7.15%). Nine cases include pre/post identity drift,
+generation cancellation, abort, malformed206 and request exhaustion. Terminal
+cases assert exact no-extra-read counts.12 helper tests plus related integration
+pass82/82. Evidence: `ts-seek-results.redacted.json`. Generated media is cleaned;
+the native oracle's whole-source buffers are outside bounded probe accounting.
+No decoder, actual browser target frame, private/Drive/device or product success
+is claimed. Next: source-bound local decode-start and presented-frame seek proof.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and

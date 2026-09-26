@@ -1,0 +1,499 @@
+{
+  "schema": "drive-original.q1-ts-sparse-seek/1",
+  "recordedAt": "2026-09-26T14:48:06.173Z",
+  "producer": {
+    "sources": {
+      "ts-seek-probe.mjs": "d816c08ecf5ebd0ce7b4d853f38e373193de76c694cfdc856fea82b6cc8650fd",
+      "ts-seek.mjs": "ee911d5e7e56ae42c2f6df0a51e24b114a1d16665e36bd5b72bbc45d11e46e7e",
+      "ts-window.mjs": "3ff06e6da20108eda6fd527b20247bf61339b3c7d51a8a9c1b6b9ef97db0a450",
+      "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+      "psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
+      "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
+      "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000"
+    },
+    "node": "v24.18.0",
+    "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "fixture": {
+    "durationSeconds": 180,
+    "bytes": 21992052,
+    "sha256": "e2890ae832ba4ffe20b7ffe8d404377c5bbd8185b117fc16022e23f66eb5ded3",
+    "generator": [
+      "-v",
+      "error",
+      "-hide_banner",
+      "-nostdin",
+      "-n",
+      "-f",
+      "lavfi",
+      "-i",
+      "testsrc2=size=360x640:rate=30:duration=180",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=880:sample_rate=48000:duration=180",
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-vf",
+      "setpts=PTS+0.25/TB",
+      "-c:v",
+      "libx264",
+      "-threads:v",
+      "1",
+      "-preset",
+      "veryfast",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "3.0",
+      "-pix_fmt",
+      "yuv420p",
+      "-g",
+      "60",
+      "-keyint_min",
+      "60",
+      "-sc_threshold",
+      "0",
+      "-bf",
+      "2",
+      "-x264-params",
+      "aud=1:repeat-headers=1",
+      "-c:a",
+      "aac",
+      "-b:a",
+      "96k",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      "-f",
+      "mpegts"
+    ]
+  },
+  "observations": [
+    {
+      "mode": "positive-10",
+      "fraction": 0.1,
+      "ok": true,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1572432,
+        "uniqueBytes": 1572432,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": true,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 1909516,
+          "end": 2433659
+        }
+      ],
+      "candidate": {
+        "timeline": {
+          "kind": "sampled-candidate",
+          "originTicks": 126000,
+          "endTicks": 16348920,
+          "durationSeconds": 180.25466666666668,
+          "videoEndTicks": 16348920,
+          "audioEndTicks": 16328880,
+          "videoStepTicks": 3000,
+          "globalContinuityVerified": false
+        },
+        "targetTicks": 1748292,
+        "rap": {
+          "offset": 1956516,
+          "pts": 1588920,
+          "dts": 1582920
+        },
+        "nativeRapPositionTimingEqual": true,
+        "nativeTargetBracketEqual": true,
+        "nativeEndpointEstimateEqual": true,
+        "receivedFraction": 0.07150001282281435
+      }
+    },
+    {
+      "mode": "positive-50",
+      "fraction": 0.5,
+      "ok": true,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1572432,
+        "uniqueBytes": 1572432,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": true,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 10718820,
+          "end": 11242963
+        }
+      ],
+      "candidate": {
+        "timeline": {
+          "kind": "sampled-candidate",
+          "originTicks": 126000,
+          "endTicks": 16348920,
+          "durationSeconds": 180.25466666666668,
+          "videoEndTicks": 16348920,
+          "audioEndTicks": 16328880,
+          "videoStepTicks": 3000,
+          "globalContinuityVerified": false
+        },
+        "targetTicks": 8237460,
+        "rap": {
+          "offset": 10761308,
+          "pts": 8068920,
+          "dts": 8062920
+        },
+        "nativeRapPositionTimingEqual": true,
+        "nativeTargetBracketEqual": true,
+        "nativeEndpointEstimateEqual": true,
+        "receivedFraction": 0.07150001282281435
+      }
+    },
+    {
+      "mode": "positive-90",
+      "fraction": 0.9,
+      "ok": true,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1572432,
+        "uniqueBytes": 1572432,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": true,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 19528124,
+          "end": 20052267
+        }
+      ],
+      "candidate": {
+        "timeline": {
+          "kind": "sampled-candidate",
+          "originTicks": 126000,
+          "endTicks": 16348920,
+          "durationSeconds": 180.25466666666668,
+          "videoEndTicks": 16348920,
+          "audioEndTicks": 16328880,
+          "videoStepTicks": 3000,
+          "globalContinuityVerified": false
+        },
+        "targetTicks": 14726628,
+        "rap": {
+          "offset": 19561964,
+          "pts": 14548920,
+          "dts": 14542920
+        },
+        "nativeRapPositionTimingEqual": true,
+        "nativeTargetBracketEqual": true,
+        "nativeEndpointEstimateEqual": true,
+        "receivedFraction": 0.07150001282281435
+      }
+    },
+    {
+      "mode": "preflight-drift",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 0,
+        "receivedBytes": 0,
+        "uniqueBytes": 0,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": false,
+        "postflight": false,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 0,
+      "serverBytes": 0,
+      "ranges": [],
+      "failure": "IDENTITY_MISMATCH"
+    },
+    {
+      "mode": "postflight-drift",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1572432,
+        "uniqueBytes": 0,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": false,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 10718820,
+          "end": 11242963
+        }
+      ],
+      "failure": "POSTFLIGHT_DRIFT"
+    },
+    {
+      "mode": "generation-change",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1048288,
+        "uniqueBytes": 0,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": false,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 10718820,
+          "end": 11242963
+        }
+      ],
+      "failure": "GENERATION_STALE"
+    },
+    {
+      "mode": "abort-read",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 3,
+        "receivedBytes": 1048288,
+        "uniqueBytes": 0,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": false,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 3,
+      "serverBytes": 1572432,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        },
+        {
+          "start": 10718820,
+          "end": 11242963
+        }
+      ],
+      "failure": "ABORTED"
+    },
+    {
+      "mode": "wrong-range",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 1,
+        "receivedBytes": 0,
+        "uniqueBytes": 0,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": true,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 1,
+      "serverBytes": 524144,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        }
+      ],
+      "failure": "CONTENT_RANGE_INVALID"
+    },
+    {
+      "mode": "request-budget",
+      "fraction": 0.5,
+      "ok": false,
+      "metrics": {
+        "requests": 2,
+        "receivedBytes": 1048288,
+        "uniqueBytes": 1048288,
+        "cacheHits": 0,
+        "dedupedReads": 0
+      },
+      "identity": {
+        "preflight": true,
+        "postflight": true,
+        "checked": [
+          "accountKey",
+          "fileId",
+          "version",
+          "size",
+          "modifiedTime",
+          "mimeType",
+          "canDownload"
+        ]
+      },
+      "serverRequests": 2,
+      "serverBytes": 1048288,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "start": 21467908,
+          "end": 21992051
+        }
+      ],
+      "failure": "FILE_REQUEST_LIMIT"
+    }
+  ],
+  "limitations": [
+    "public native whole-source oracle and local HTTP only; no current Drive/private original/device evidence",
+    "candidate duration and sparse clocks only; unseen resets/wrap/discontinuity remain unproven",
+    "target IDR discovery is not a self-contained decode interval or actual presented seek frame",
+    "QA retains whole source and FFprobe oracle outside bounded probe; read metrics are not total heap"
+  ]
+}

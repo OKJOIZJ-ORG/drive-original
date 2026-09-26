@@ -378,3 +378,7 @@ After21d9df8, a72-second public fixture discriminates unbounded buffering (72.02
 ### 2026-09-26 — bounded TS timestamp anchors
 
 The next seek prerequisite now scans arbitrary aligned windows without assuming they start at PES/IDR. Complete records only, raw33-bit clocks, safe source offsets and fixed caps are tested14/14,41/41 with related integration. Native independent packet oracle passes five windows. Report: qa/v2-07b-ts-q1/ts-window-results.redacted.json. No exact duration/global clock or decode-start claim; next is bounded target bracketing plus local RAP validation, actual target-frame MSE and product vertical slice. V2-07B stays PARTIAL.
+
+### 2026-09-26 — sparse source-clock RAP candidates
+
+After01cc876, bounded head/tail/interpolation and capped local expansion now find complete local GOP/target brackets. Common AAC/video clock origin stays intact; sampled duration is never exact-global proof. Native180s/localHTTP9/9 matches10/50/90% RAP and packet brackets with7.15% source bytes each.12 helper tests and integration82/82 pass. Root reproduced90% unbracketed failure and fixed complete-GOP/target bracket handling with helper; reader fixed errors are preserved. Report ts-seek-results.redacted.json. Next self-contained local decode-start preparation and actual browser presented target/generation cancellation, then product vertical slice. Full MEDIA acceptance and V2-07B remain PARTIAL.
