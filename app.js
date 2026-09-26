@@ -1025,7 +1025,7 @@ function bindElements() {
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
-    'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerFeedback', 'favoriteFeedback',
+    'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerControlsEntry', 'hidePlayerControlsButton', 'closeMediaErrorButton', 'playerFeedback', 'favoriteFeedback',
     'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
@@ -1239,8 +1239,9 @@ function bindEvents() {
   el.retryMediaButton.addEventListener('click', retryMedia);
   el.bufferOriginalButton.addEventListener('click', confirmPendingMediaAction);
   el.compatPlayerButton.addEventListener('click', () => {
-    if (state.selected) showDrivePreview(state.selected, '원본 임시 저장 대신');
+    if (state.selected) showDrivePreview(state.selected, '사용자 선택', { userInitiated: true });
   });
+  el.closeMediaErrorButton.addEventListener('click', requestClosePlayer);
   el.openDriveButton.addEventListener('click', openSelectedInDrive);
   el.drivePreviewRetryButton.addEventListener('click', retryMedia);
   el.drivePreviewOpenButton.addEventListener('click', openSelectedInDrive);
@@ -4880,9 +4881,21 @@ function setupPlayerChrome() {
   playerChrome = document.createElement('div');
   playerChrome.className = 'player-chrome';
   [el.playerModal.querySelector('.player-topbar'), el.customVideoControls,
-    el.mobileShortsOverlay, el.playerModal.querySelector('.media-info-bar')]
+    el.mobileShortsOverlay, el.playerModal.querySelector('.media-info-bar'), el.drivePreviewActions]
     .forEach(node => { if (node) playerChrome.appendChild(node); });
   el.mediaStage.appendChild(playerChrome);
+  el.playerControlsEntry?.addEventListener('click', () => {
+    playerInputModality = 'keyboard';
+    revealPlayerChrome();
+    const first = [...playerChrome.querySelectorAll('button,a,summary,input,select')]
+      .find(node => !node.disabled && node.getClientRects().length && !node.closest('[hidden]'));
+    first?.focus({ preventScroll: true });
+  });
+  el.hidePlayerControlsButton?.addEventListener('click', () => {
+    el.mediaStage.focus({ preventScroll: true });
+    playerChromePointer = false;
+    setPlayerChromeVisible(false);
+  });
   // A stable focus destination avoids Space activating the last pointer-clicked button.
   el.mediaStage.tabIndex = -1;
   el.mediaStage.setAttribute('aria-label', '미디어 화면. Tab: 재생 제어, Space: 재생 또는 일시정지, Escape: 닫기');
@@ -4918,10 +4931,19 @@ function setupPlayerChrome() {
     if (event.key !== 'Tab' || el.playerSheet.hidden || document.querySelector('dialog[open]')) return;
     playerInputModality = 'keyboard';
     revealPlayerChrome();
-    const controls = [...playerChrome.querySelectorAll('button,a,summary,input,select,[tabindex="0"]')]
+    const selector = 'button,a,summary,input,select,[tabindex="0"]';
+    const recovering = el.mediaError && !el.mediaError.hidden;
+    const controls = [...(recovering ? el.mediaError.querySelectorAll(selector) : []), ...playerChrome.querySelectorAll(selector)]
       .filter(node => !node.disabled && node.getClientRects().length && !node.closest('[hidden]'));
     if (!controls.length) return;
     const index = controls.indexOf(document.activeElement);
+    if (recovering) {
+      event.preventDefault();
+      const next = index < 0 ? (event.shiftKey ? controls.length - 1 : 0)
+        : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+      controls[next].focus({ preventScroll: true });
+      return;
+    }
     if (index < 0 || (!event.shiftKey && index === controls.length-1) || (event.shiftKey && index === 0)) {
       event.preventDefault();
       controls[event.shiftKey ? controls.length-1 : 0].focus({preventScroll:true});
@@ -8061,8 +8083,30 @@ function clearDrivePreview() {
   el.playerModal?.classList.remove('drive-preview-mode');
 }
 
-function showDrivePreview(file, reason) {
+function showDrivePreview(file, reason, { userInitiated = false } = {}) {
   if (!file || state.selected?.id !== file.id) return;
+  // An exhausted original path is a local failure, never permission to load
+  // a third-party document or claim compatibility playback succeeded.
+  if (!userInitiated) {
+    clearTimeout(mediaRecoveryTimer);
+    mediaRecoveryTimer = null;
+    state.mediaAbortController?.abort();
+    state.mediaAbortController = null;
+    clearDirectMediaSources();
+    clearDrivePreview();
+    state.mediaAttempt = 'failed';
+    state.pendingPlay = false;
+    state.pendingOriginalBuffer = null;
+    state.drivePreviewReason = reason;
+    setNativeVideoActionsAvailable(false);
+    updatePlayPauseUI();
+    emitMediaDiagnosticStage('original-playback-unavailable', { reason, terminal: true });
+    showMediaError('이 파일을 앱에서 재생하지 못했습니다.', { showDrive: true });
+    el.codecNote.textContent = reason;
+    el.compatPlayerButton.hidden = false;
+    updateQualityDisplay();
+    return;
+  }
   clearTimeout(mediaRecoveryTimer);
   mediaRecoveryTimer = null;
   state.mediaAbortController?.abort();
@@ -8092,16 +8136,13 @@ function showDrivePreview(file, reason) {
   el.mediaStage?.classList.add('drive-preview-active');
   el.playerModal?.classList.add('drive-preview-mode');
   if (el.drivePreviewActions) el.drivePreviewActions.hidden = false;
-  showMediaLoading('Drive Original 안에서 호환 재생기를 준비하는 중');
+  showMediaLoading('Google 미리보기 여는 중');
 
   el.drivePreview.title = `${file.name || '미디어'} · Google Drive 호환 재생기`;
   el.drivePreview.dataset.mediaSession = String(previewSession);
   el.drivePreview.hidden = false;
   el.drivePreview.src = buildDrivePreviewUrl(file);
-  el.codecNote.textContent = `${reason} Drive Original 안의 Google 호환 재생기로 자동 전환했습니다. Google 변환본은 원본보다 해상도가 낮을 수 있습니다.`;
-  showToast(/제한/.test(reason)
-    ? 'Drive 원본 다운로드가 제한되어 Google 호환 재생으로 전환했습니다.'
-    : '원본 재생 경로를 모두 시도한 뒤 Google 호환 재생으로 전환했습니다.');
+  el.codecNote.textContent = '직접 선택한 Google 미리보기입니다. 실제 재생과 원본 화질은 앱에서 확인할 수 없습니다.';
   updateQualityDisplay();
 
   drivePreviewSlowTimer = window.setTimeout(() => {
@@ -8139,7 +8180,7 @@ function handleDrivePreviewFailure(event) {
   clearDrivePreviewTimers();
   state.mediaAttempt = 'drive-preview-error';
   updateQualityDisplay();
-  showMediaError('앱 안의 Google 호환 재생기가 응답하지 않습니다. 먼저 앱 안에서 다시 불러오고, 계속 실패할 때만 Drive 직접 열기를 사용하세요.', {
+  showMediaError('Google 미리보기를 불러오지 못했습니다. 원본을 다시 시도하거나 Drive에서 열어 주세요.', {
     title: '호환 재생기 연결 지연',
     showDrive: true,
     showRetry: true
@@ -8993,10 +9034,6 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
 
 function retryMedia() {
   if (!state.selected) return;
-  if (state.mediaAttempt === 'drive-preview-error') {
-    showDrivePreview(state.selected, state.drivePreviewReason || '원본 재생 경로를 사용할 수 없어');
-    return;
-  }
   if (!hasUsableToken() && !state.demo) {
     state.retryAfterAuth = true;
     state.authRetryContext = { fileId: state.selected.id, mediaSession: state.mediaSession };

@@ -3430,9 +3430,9 @@ dialog {
    the cross-origin player owns pointer input inside its own viewport. */
 .media-stage > iframe.drive-preview {
   position: absolute;
-  inset: max(62px, calc(50px + var(--safe-top))) 0 0;
+  inset: 0 0 max(24px, calc(var(--safe-bottom) + 16px));
   width: 100%;
-  height: calc(100% - max(62px, calc(50px + var(--safe-top))));
+  height: calc(100% - max(24px, calc(var(--safe-bottom) + 16px)));
   max-width: 100%;
   max-height: none;
   border: 0;
@@ -3493,21 +3493,11 @@ dialog {
 }
 
 .drive-preview-actions {
-  position: absolute;
-  z-index: 30;
-  top: max(70px, calc(56px + var(--safe-top)));
-  right: 12px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  max-width: calc(100% - 24px);
-  padding: 6px;
-  border: var(--hairline-border);
-  border-radius: var(--radius-pill);
-  background: rgba(20, 20, 22, 0.84);
-  backdrop-filter: var(--blur-thin);
-  -webkit-backdrop-filter: var(--blur-thin);
-  box-shadow: var(--shadow-popover);
+  width: 100%;
 }
 
 .drive-preview-actions[hidden] {
@@ -3525,7 +3515,7 @@ dialog {
 }
 
 .drive-preview-actions button {
-  min-height: 34px;
+  min-height: 44px;
   padding: 0 10px;
   border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.12);
@@ -3549,40 +3539,30 @@ dialog {
   display: none !important;
 }
 
-.player-modal.drive-preview-mode .player-topbar,
-.player-modal.drive-preview-mode .player-ctrl-btn,
-.player-modal.media-recovery-mode .player-topbar,
-.player-modal.media-recovery-mode .player-ctrl-btn {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  cursor: auto !important;
+@media (max-width: 600px) {
+  .drive-preview-actions span {
+    flex-basis: 100%;
+  }
 }
 
-@media (max-width: 600px) {
-  .media-stage > iframe.drive-preview {
-    inset: max(58px, calc(46px + var(--safe-top))) 0 0;
-    width: 100%;
-    height: calc(100% - max(58px, calc(46px + var(--safe-top))));
-    max-height: none;
-  }
-
-  .drive-preview-actions {
-    top: auto;
-    right: 10px;
-    bottom: max(10px, var(--safe-bottom));
-    left: 10px;
-    justify-content: flex-end;
-    border-radius: var(--radius-lg);
-  }
-
-  .drive-preview-actions span {
-    flex: 1 1 auto;
-  }
-
-  .drive-preview-actions button {
-    min-height: 44px;
-  }
+/* Accessible entry remains outside inert chrome, without a persistent badge. */
+.player-controls-entry:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.player-controls-entry:focus {
+  position: absolute;
+  z-index: 26;
+  bottom: max(24px, var(--safe-bottom));
+  left: 16px;
+  min-height: 44px;
+  padding: 8px 16px;
+  color: white;
+  background: #252528;
+  outline: 2px solid white;
 }
 
 /* ==========================================================================

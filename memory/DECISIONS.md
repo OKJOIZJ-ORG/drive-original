@@ -286,3 +286,8 @@ Drive 파일·Range 바이트는 앱/클라이언트 범위 서비스 워커가 
 기존 Google project/Web client를 우선 재사용하고, 실제 후보 hostname을 얻은 뒤 정확한 HTTPS origin/callback만 추가한다. 현재 실제 Console의 External Testing, redirect 0개, `drive.readonly` 표시와 코드의 `drive`+`drive.appdata` 요청 불일치는 라이브 수락 전에 `openid` identity fence, 최소 Drive scope, 게시 상태, 7일 만료, 개인용 unverified 경로, 기존 grant의 offline refresh credential 발급/명시적 재동의와 함께 재검증한다. 누락된 refresh-token 응답으로 기존 credential을 덮어쓰지 않는다. 1기기 logout은 해당 session만 종료하고, 명시적 disconnect는 전체 앱 session과 서버 credential을 삭제하며 Google revoke 결과가 불확실하면 그대로 알린다. 마지막 session 종료/만료 뒤 7일 grace가 지나면 DO alarm이 credential을 삭제한다. Cloudflare Free/무카드 활성화, 실제 hostname/DO binding, 기존 client secret 재사용과 동일 appData 가시성은 아직 미검증이다. 결제·카드·자동 과금은 금지하며 요구되면 중단한다.
 
 후보 쓰기 전 계정/appData writer·카운트·tombstone snapshot을 만들고, 같은 계정의 읽기/비교가 일치한 뒤 새 origin writer ID로 기존 writer 전체를 merge한다. 빈 상태나 계정 불일치는 쓰기를 차단한다. rollback은 후보 로그인/쓰기 중지, 앱 세션 종료, 기존 Pages로 복귀, legacy readback 후에만 후보 credential을 폐기하는 순서이며 원본·appData·Google 전체 grant를 자동 삭제/취소하지 않는다. 상세 비용·한도·인터페이스·이관·기각안은 `memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md`가 소유한다.
+
+
+## D-052 · 남은 전체 구현의 순차 진행과 증거 기반 순서 조정 — 2026-09-26 (User-confirmed)
+
+사용자는 "전부 다 순차적으로 해 계획대로. 계획이 잘못된 거 있거나 더 좋은거 있으면 니가 알아서 능동적 유동적으로 해"라고 지시했다. 기존 전체 요구·인수 기준과 D-050의 승인/금지 경계는 유지하고, 작업 순서·잘못된 의존관계·구현 수단은 근거에 따라 조정한다. 한 번에 하나의 핵심 동작을 통합 검증과 커밋으로 닫으며, 특정 live 검사의 접근 부재를 독립적인 승인된 제품 작업의 중단 사유로 확대하지 않는다.

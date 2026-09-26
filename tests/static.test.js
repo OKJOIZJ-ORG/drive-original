@@ -235,7 +235,7 @@ test('player controls, in-app preview, and selection toolbar remain bound in the
   }
   assert.match(html, /id="drivePreview"[^>]*allow="[^"]*autoplay[^"]*fullscreen[^"]*"/);
   assert.match(app, /function buildDrivePreviewUrl\(file\)[\s\S]*?\/preview/);
-  assert.match(app, /function showDrivePreview\(file, reason\)/);
+  assert.match(app, /function showDrivePreview\(file, reason, \{ userInitiated = false \} = \{\}\)/);
   assert.match(app, /state\.mediaAttempt = 'drive-preview-page'/);
   assert.doesNotMatch(app, /function showDriveHandoff\(/);
 });
@@ -303,7 +303,7 @@ test('video adaptively chooses exact-original transport and exhausts original pa
   assert.match(app, /function suspendBackgroundThumbnailImages\(\)[\s\S]*?removeAttribute\('src'\)/);
   assert.match(app, /playerMediaPriorityActive[\s\S]*?thumbnail\.dataset\.playerDeferredSrc/);
   assert.match(readme, /Drive 원본 파일 · 임시 디스크/);
-  assert.match(readme, /Google 호환 재생 · 원본 화질 미확인/);
+  assert.match(readme, /Google 미리보기 · 재생·화질 미확인/);
   assert.doesNotMatch(readme, /영상에는 이 전체 파일 보조 경로를 사용하지 않습니다/);
   assert.match(readme, /적응형 판단은 \*\*전송 방식만\*\* 선택/);
   assert.match(readme, /같은 파일의 전체 다운로드와 Range 요청을 동시에 중복 실행하지 않습니다/);
@@ -317,7 +317,7 @@ test('playback quality starts unverified and documents only evidence-backed orig
 
   assert.match(html, /id="streamModeLabel" data-mode="checking"[\s\S]*?id="streamModeText">원본 확인 중/);
   assert.match(html, /id="qualityBadge" data-quality="checking"[^>]*>원본 확인 중/);
-  assert.match(html, /Google 호환 재생 · 원본 화질 미확인/);
+  assert.match(html, /Google 미리보기 · 재생·화질 미확인/);
   assert.doesNotMatch(html, /id="qualityBadge"[^>]*>100% 원본 화질/);
   assert.doesNotMatch(html, /100% 무인코딩 무손실 화질|1:1 원본 그대로 스트리밍/);
   assert.doesNotMatch(app, /100% 원본|100% 무손실|1:1 무변환/);
@@ -329,11 +329,11 @@ test('playback quality starts unverified and documents only evidence-backed orig
     'Drive 원본 파일 · 연속 전송',
     'Drive 원본 파일 · 임시 디스크',
     'Drive 원본 파일 · 메모리',
-    'Google 호환 재생 · 원본 화질 미확인',
+    'Google 미리보기 · 재생·화질 미확인',
   ]) {
     assert.match(readme, new RegExp(label));
   }
-  assert.match(readme, /외부 Drive 페이지는 자동으로 열지 않습니다/);
+  assert.match(readme, /Drive에서 열기는 사용자가 직접 선택할 때만/);
   assert.match(readme, /원본 확인 중/);
 });
 

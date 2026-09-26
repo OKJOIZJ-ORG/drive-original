@@ -303,11 +303,13 @@
           <div class="media-swipe-neighbor-image" id="mediaSwipeNeighborImage"></div>
           <span class="media-swipe-neighbor-title" id="mediaSwipeNeighborTitle"></span>
         </div>
-        <iframe class="drive-preview" id="drivePreview" title="Google Drive 호환 재생기" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="eager" hidden></iframe>
+        <button class="player-controls-entry" id="playerControlsEntry" type="button">재생 제어 열기</button>
+        <iframe class="drive-preview" id="drivePreview" title="Google Drive 미리보기 · 재생 미확인" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="eager" hidden></iframe>
         <div class="drive-preview-actions" id="drivePreviewActions" hidden>
-          <span>Google 호환 재생 · 원본 화질 미확인</span>
+          <span>Google 미리보기 · 재생·화질 미확인</span>
           <button type="button" id="drivePreviewRetryButton">원본 다시 시도</button>
           <button type="button" id="drivePreviewOpenButton">Drive 직접 열기</button>
+          <button type="button" id="hidePlayerControlsButton">제어 숨기기</button>
         </div>
         <div class="player-feedback" id="playerFeedback" hidden aria-hidden="true"></div>
         <div class="favorite-feedback" id="favoriteFeedback" role="status" aria-live="polite" hidden>
@@ -499,8 +501,9 @@
           <div class="error-actions">
             <button class="secondary-button" id="retryMediaButton" type="button">다시 시도</button>
             <button class="secondary-button" id="bufferOriginalButton" type="button" hidden>원본 전체 임시 저장</button>
-            <button class="secondary-button" id="compatPlayerButton" type="button" hidden>Google 호환 재생</button>
+            <button class="secondary-button" id="compatPlayerButton" type="button" hidden>Google 미리보기</button>
             <button class="secondary-button" id="openDriveButton" type="button">Drive에서 열기</button>
+            <button class="secondary-button" id="closeMediaErrorButton" type="button">닫기</button>
           </div>
         </div>
       </div>

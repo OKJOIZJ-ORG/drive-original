@@ -1,36 +1,28 @@
-# Checkpoint — V2-07A MPEG-TS delivery and local ISO-BMFF header gates verified — 2026-09-26
+# Checkpoint — V2-02A product UI verified locally — 2026-09-26
 
 ## The story so far
 
-Latest closed local slice: `qa/v2-07a-isobmff-index/` locates declared top-level MP4/MOV box/index-candidate boundaries with BigInt arithmetic and at most 64 reads/4,096 header bytes/128 boxes. It never reads media payload or parses codecs. New tests pass 47/47; scanner/core/static integration passes 103/103 and independent review is clean. Existing front/tail-index public QA seeds each required only 32 header bytes. Reached EOF means header-chain-complete, never valid media or playable support. The current exact-range core still limits endpoints to MAX_SAFE_INTEGER; greater sparse offsets are parser-only tests.
+Canonical repo C:\extensions\Drive-Original\source, branch codex/v2-kickoff-diagnostics; starting HEAD 379ffdc, previously clean. This is a product change, not another parser-only slice: automatic fallback no longer loads Google iframe; manual preview actions share one dismissible bottom chrome. Errors keep retry/manual external choice/close. Accessible controls entry remains outside inert chrome. Independent review found and fixed inaccessible error-button Tab order and dead native controls after failure.
 
-Repository is now `C:\extensions\Drive-Original\source`, branch `codex/v2-kickoff-diagnostics`; resume HEAD was `2294cf5`. The old Desktop location is absent. Existing ignored MPEG-TS drafts were preserved and completed, not reset. `qa/v2-07a-container-probe/results.redacted.json` pins the final parser hash and a read-only local priority-prefix observation: 65,536 bytes, stable local stat identity, 348 TS packets, one PAT/PMT and two observed H.264/AAC headers. This is not current authenticated Drive or playback evidence.
-
-Parser tests pass 44/44, independent follow-up 16 assertions pass, and unchanged nine-file product tests pass 269/269. Full ADTS frame/SPS trailing syntax, sticky unexpected continuity loss, declared-discontinuity separation, finite PES ownership and TEI/reserved-adaptation invalidation now have explicit gates. Only QA code changed.
-
-Historical product candidate remains 1.22.0-rc.4 (3597e63), Worker 28d2a9fc-730e-48d4-b060-8e49554a8c7b; it was not redeployed. Public app.js and sw.js were freshly compared byte-for-byte to the product commit, not authenticated or device-tested. Prior iPhone 1/2/3 acceptance closes the reported OAuth loop only. Prior live reconciliation was 38/38 metadata-stable; prior front magic included 15 MPEG-TS and eight ISO-BMFF. Those remain separate dated observations, not current live proof.
+Evidence: qa/v2-ui-audit.cjs before/after PC and mobile-touch viewports 2/2 each; Node product suite 269/269, then affected app/immersive/static 123/123 after review fixes; qa/v2-ui-integration/results.json functional browser 20/20. These are isolated fixtures, not physical iPhone/VoiceOver or actual Drive media. Historical deployed candidate remains rc.4/3597e63; no redeploy, push, merge, originals or automation change.
 
 ## Decided
 
-- D-050/D-051 remain active: browser/PWA, direct browser/SW Drive bytes, minimal same-origin serverless auth; no server media relay.
-- No main merge, push, production replacement, original mutation, sharing/billing or automation restart.
-- V2-07A is the sole READY workstream; V2-07B product Q1 integration is not yet accepted.
-- Local parser/evidence are committed at `3f49d1c`. The separate browser adapter now passes 53/53 focused tests and combined parser/core/adapters/transport/app/static/SW integration passes 370/370. It reuses the proven SW route, gates detail evidence on complete structure, holds metadata ownership through JSON settlement and caps total adapter dispatches at 512/ten minutes. `aggregateAvailable:false` explicitly marks discarded metrics on whole-run failures; zero placeholders are not zero-work proof.
-- The three-artifact QA registry preserves the old bounded adapter and reconciler byte-for-byte and adds only the reviewed public MPEG-TS composite. Local no-binding Wrangler dry-run passed. Remote readback still showed QA version `68cf79bb-3c04-4cbf-8472-ffa3880d9836` and both prior exact 200 artifact bodies; the reviewed implementation was then committed at `4cd7d60` and deployed once to QA version `423b00b2-3c03-4e8f-897c-ad9c31dbf25e` (read back at 100%). All three remote GET bodies and HEAD lengths/empty bodies matched; wrong-origin/unlisted/query paths returned empty 404 without CORS. Evidence: `qa/v2-07a-mpegts-browser-probe/transport-results.redacted.json`. No in-page execution occurred.
+- D-050/D-051 scope unchanged; current user permits adapting execution order, not weakening acceptance or production restrictions.
+- Priority is not a dependency: independent UI/mutation/state work is no longer blocked by full corpus probes. Known TS/H.264/AAC can enter general product Q1 work before full matrix acceptance.
+- Browser tooling recovered: Chrome DevTools opens the exact rc.4 candidate, but this isolated browser has no authenticated session. Prior iPhone auth acceptance does not establish a current session.
 
 ## Waiting on the user
 
-None for local work. Current native computer-use node_repl is unavailable; fallback desktop observe returns Tool observe not found. No authenticated browser probe or device check occurred this session. Do not reinterpret earlier logins as a current connected session.
+None for local work. Actual Google reauthentication, physical iPhone and final production approval remain user-controlled when their respective gates are reached; do not bypass login or use private browser stores.
 
 ## Next first action
 
-Recover an authenticated candidate browser connection, verify the hash-pinned MPEG-TS bundle in-page and run its zero-argument one-shot probe once; retain only its reviewed aggregate. Then bind the local ISO-BMFF scanner through the existing exact-range core for real index/track evidence. Do not redeploy or repeat completed media reads merely to recover context.
+Read app.js updateAccountSyncStatus, openMediaSource, scheduleVideoFramePresentation and image load handler; implement V2-02B quiet normal status and viewed-on-presentation with failed/stale-open regressions, then continue the identified TS Q1 product slice.
 
 ## Tried
 
-- Original paused parser drafts passed 36 tests but missed complete-frame/SPS and continuity evidence boundaries; eight new regressions plus fixes now pass.
-- Raw cross-origin Drive Range response cannot satisfy the shared core's exposed Content-Range/no-store contract; reuse the previously validated client service-worker path instead of adding a media server.
-- Local stat stability does not revalidate Drive file/version, whole-file hash, decode, seek, iPhone playback or expiry/sleep-wake behavior.
-- Current browser-tool discovery exposed no node_repl/Chrome DevTools/browser tool; fallback desktop observe returned Tool observe not found, and no running Chrome process exposed a reusable remote-debugging port. Do not read personal browser stores, bypass Google automation rejection, or claim the prior authenticated tab still exists. Login/2FA remain user-controlled if recovery actually requires them.
-- Three reproducible standalone QA bundles and this run's local Wrangler account cache were removed after verified delivery; their tracked source/registry remains recoverable. No user media was removed.
-- Rollback: revert only isolated QA commits; originals, product candidate and production require no recovery because they were not changed. Outgoing checkpoint is archived under memory/checkpoints/20260926-mpegts-parser-resume.md.
+- Old execution plan blocked unrelated product work behind all corpus QA; corrected per spec §§00.5/19.6, while retaining matrix acceptance.
+- Full UI integration found no transport regressions; new review counterexamples were real errors, not a reason to weaken keyboard checks.
+- Local/static media evidence is not current authenticated Drive or device proof. No repeat Drive mutation/deployment has been sent.
+- Recovery: revert only the UI unit to return to the prior product code; no remote or user data was changed. Prior checkpoint archived at memory/checkpoints/20260926-before-v2-02a.md.
