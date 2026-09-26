@@ -1,30 +1,32 @@
-# Checkpoint — source-bound Q1 init adaptation — 2026-09-26 22:35
+# Checkpoint — Chrome MSE first frame before EOF — 2026-09-26 22:46
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Last product ced16ef; prior QA d249f76. First TS interval now supplies copied source SPS/PPS and PSI video ID. Browser-safe init adapter validates exact parameters/track/geometry; absent/IDC0 removes only4 pasp type bytes, explicit square stays unchanged.
+Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Last product ced16ef; prior QA fd3f976. Main-thread Q1 browser discriminator now decodes a real360x640 frame with only206,800/958,800 public source bytes received and server tail held. EOF-only control cannot emit until completion. Incremental full completion yields six appends/progressing frames.
 
-Tests171/171 pass. Four public complete-clip/chunking runs prove raw absent-SAR metadata failure becomes coded/timing/metadata/strict-decoded equality; reports pin final producers. Independent adapter tests and root-wiring/driver review clean. This is QA-only, not yet browser playback, worker or indexed seek. Product checks299/299 and browser22/22 remain unchanged; candidate rc.4/3597e63 is unauthenticated and mutation-locked. Priority arbitrary4MiB strict decode remains failed (source and output diagnostics), not proof of full original corruption.
+Five isolated Chrome153 trials pass: negative, incremental, tail cancel, invalid init and injected play rejection. Review found mux.dispose retained cache; reset/drop/reader-lock/SourceBuffer cleanup and shared cleanup promise now verify populated cache->zero. Syntax/static19/19 passes. Proof at qa/v2-07b-ts-q1/mse-results.redacted.json. Local public fixture only; no product/Drive/iPhone/worker/indexed-seek claim.
+
+Earlier native strict preservation and metadata tests171/171 remain valid. Priority arbitrary4MiB prefix has source/output decoder diagnostics, so strict preservation remains false. Candidate rc.4/3597e63 remains unchanged, unauthenticated and mutation locked; last product checks299/299 and browser22/22.
 
 ## Decided
 
-- D-050/051/052 unchanged. No original mutation, deployment, push/merge or billing.
-- Non-square/reserved/zero Extended SAR is unfinished geometry work, not excluded acceptance.
-- Source binding and strict native QA do not prove actual browser/device display.
+- D-050/051/052 unchanged; no original mutation, push/merge/production/billing.
+- Browser first-frame evidence is separate from source version/account, color/audio equivalence, total memory and full-format support.
+- Pinned mux dispose is listener-only; reset and release references on every terminal path.
 
 ## Waiting on the user
 
-No new local decision. Authenticated account/device gates and eventual production approval remain separate.
+No new local decision. Authenticated Drive/device and production gates remain separate.
 
 ## Next first action
 
-Add a local-only browser MSE driver under qa/v2-07b-ts-q1 using createGopStream and adaptInitSar, with a held source tail and bounded append acknowledgment; require a real decoded frame before releasing the complete input.
+Implement a QA worker session under qa/v2-07b-ts-q1 that admits one bounded transferred input chunk, emits one source-bound fragment at a time, waits for matching generation/sequence ACK, and cancels/releases pending ownership; test ACK/abort races before integrating with the MSE driver.
 
 ## Tried
 
-- Arbitrary packet/PES flushes duplicate video; initial path requires validated CFR/GOP and complete ADTS.
-- Equal concealed decode buffers cannot prove preservation; error-level FFmpeg diagnostics fail.
-- SAR metadata alone is insufficient: bind source parameters and coded geometry before changing init.
-- mux uses coded width in tkhd even for non-square SAR; display geometry needs separate proof before admission.
-- Source configuration is copied only on first interval; consumer mutations must not alter later source comparisons.
-- Rollback removes only QA units. No remote/original/product recovery needed.
+- Arbitrary packet/PES flushes duplicate video; initial CFR/ADTS constraints remain.
+- EOF-only mux needs full input; held-tail negative proves the distinction.
+- updateend follows errors too; require update and no error before ACK.
+- dispose alone retains GOP/PES cache; reset and null all retained owners.
+- Native decoder concealment and exact SPS binding are separate quality gates.
+- Non-square SAR still needs display-geometry proof; worker/sustained memory/indexed seek are not done.

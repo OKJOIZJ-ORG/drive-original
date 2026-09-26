@@ -181,6 +181,39 @@ and one source-copy test bring related integration to171/171; separate review of
 the root wiring and driver found no material issue. Existing nine-contrast and
 six-chunk reports were refreshed for changed producers.
 
+## Isolated Chrome incremental MSE discriminator
+
+`node mse-browser-probe.cjs`
+
+This local-only allowlisted server and fresh Chrome context serve only public
+generated media and required modules. The server sends206,800 of958,800 bytes
+and holds the remaining response until an explicit QA release. The incremental
+owner/source-bound init reaches a real `requestVideoFrameCallback` with360x640
+dimensions while the tail remains held and sourceComplete=false. The EOF-only
+control emits no fragment/frame while held, then decodes only after full input.
+After release the incremental trial appends all six fragments and progresses
+media time. This is actual desktop Chrome153.0.8010.54, not iPhone/Drive/app evidence.
+
+The main-thread discriminator admits one188-byte parser feed at a time and
+awaits a successful SourceBuffer `update` plus `updateend` before more input.
+`updateend` alone is not success because errors/abort also terminate there.
+Invalid init and an injected play rejection terminate and clean up. A separate
+tail-held cancellation aborts the fetch/parser. Independent review reproduced
+retained mux GOPs after dispose (which only clears listeners); reset-before-dispose,
+dropping references, reader-lock release, SourceBuffer removal and a shared cleanup
+promise fix it. Every trial verifies a populated mux GOP cache becomes empty,
+references are released, video src is cleared and its object URL revoked.
+
+Five browser trials pass, with a19-test static regression check and syntax checks.
+Producer-pinned evidence: `mse-results.redacted.json`. Input chunk/backpressure
+observations are harness-level only: the network/browser may buffer beyond the
+single JS read, and mux/internal MSE/decoder allocations are not a total memory
+guarantee. There is no worker, sustained-window eviction, indexed seek, full-format,
+actual browser pixel/audio comparison or deployed product integration yet.
+
+API references inspected: [MSE append/event algorithms](https://www.w3.org/TR/media-source-2/)
+(current working draft, not universal support) and [ISO BMFF MSE byte stream](https://www.w3.org/TR/mse-byte-stream-format-isobmff/).
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -192,9 +225,9 @@ FFmpeg metadata/strict decode are QA oracles, not available browser prerequisite
 Product adoption still needs worker
 backpressure/lifecycle and mux GOP-cache memory ownership. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
-removed acceptance requirements. Next unit connects this source-bound incremental
-output to a backpressured browser MSE path and proves a decoded frame before input
-completion; worker ownership and indexed seek remain explicit requirements. Source local stat identity
+removed acceptance requirements. The local MSE first-frame unit is now observed;
+next is a bounded worker input/output ACK owner with cancellation and memory
+evidence, before sustained buffering and indexed seek. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or

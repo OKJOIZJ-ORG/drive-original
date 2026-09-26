@@ -1,0 +1,469 @@
+{
+  "schema": "drive-original.q1-mse-browser/1",
+  "recordedAt": "2026-09-26T13:45:18.071Z",
+  "browser": "153.0.8010.54",
+  "fixture": {
+    "bytes": 958800,
+    "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+    "heldPrefixBytes": 206800
+  },
+  "producer": {
+    "sources": {
+      "mse-browser-probe.cjs": "aac3a998b9b200bcdd435b923f18b3f9c044419902fa6c1f5674ed70d53183d0",
+      "mse-browser.mjs": "c6b1ff4b9f362627673d6c9c60c31fc9b2ef74111a365ae0483e62c7b0ab340c",
+      "gop-stream.mjs": "18a34246ea0be41eac9169edc03034ab1f98e01f143190a79bb91bbc2169a3a2",
+      "elementary-stream.mjs": "1471dddef4339a106543c1dcbe4c5ec3eace21272c4b5d9bb28dac112411ffd0",
+      "psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
+      "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+      "init-sar.mjs": "32b9573af2c764dc270b51f832d5bdde779bf2975cfb31295ea9504544ecfcf1",
+      "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
+      "node_modules/mux.js/dist/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+    },
+    "node": "v24.18.0"
+  },
+  "observations": [
+    {
+      "mode": "eof-only",
+      "held": {
+        "phase": "reading",
+        "failure": null,
+        "received": 206800,
+        "consumed": 206800,
+        "sourceComplete": false,
+        "fragments": 0,
+        "appends": 0,
+        "appendCompletions": 0,
+        "appendErrors": 0,
+        "firstFrame": null,
+        "frames": 0,
+        "lastMediaTime": null,
+        "peakQueuedBytes": 0,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 1,
+        "disposed": false,
+        "urlRevoked": false,
+        "cleanup": null,
+        "owner": null,
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "end": {
+        "phase": "complete",
+        "failure": null,
+        "received": 958800,
+        "consumed": 958800,
+        "sourceComplete": true,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 1,
+        "appendErrors": 0,
+        "firstFrame": {
+          "received": 958800,
+          "consumed": 958800,
+          "sourceComplete": true,
+          "mediaTime": 1.671333,
+          "width": 360,
+          "height": 640,
+          "appendedFragments": 1
+        },
+        "frames": 1,
+        "lastMediaTime": 1.671333,
+        "peakQueuedBytes": 854705,
+        "peakInputChunkBytes": 620928,
+        "peakPendingReads": 1,
+        "pendingReads": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "cleanup": null,
+        "owner": {
+          "state": "open",
+          "failure": null,
+          "generation": 1,
+          "received": 0,
+          "packets": 0,
+          "emittedIntervals": 0,
+          "firstEmissionOffset": null,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 0,
+          "peakOwnedByteStorage": 671932,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 0,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 0,
+            "videoFrames": 0,
+            "aacFrames": 0
+          },
+          "psi": {
+            "terminal": false,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 0,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "cleanup": {
+        "muxCachedGopsBefore": 1,
+        "muxCachedGopsAfter": 0,
+        "muxReleased": true,
+        "readerReleased": true,
+        "sourceBuffers": 0
+      }
+    },
+    {
+      "mode": "incremental",
+      "held": {
+        "phase": "reading",
+        "failure": null,
+        "received": 206800,
+        "consumed": 206800,
+        "sourceComplete": false,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 1,
+        "appendErrors": 0,
+        "firstFrame": {
+          "received": 206800,
+          "consumed": 206800,
+          "sourceComplete": false,
+          "mediaTime": 1.671333,
+          "width": 360,
+          "height": 640,
+          "appendedFragments": 1
+        },
+        "frames": 1,
+        "lastMediaTime": 1.671333,
+        "peakQueuedBytes": 139261,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 1,
+        "disposed": false,
+        "urlRevoked": false,
+        "cleanup": null,
+        "owner": null,
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "end": {
+        "phase": "complete",
+        "failure": null,
+        "received": 958800,
+        "consumed": 958800,
+        "sourceComplete": true,
+        "fragments": 6,
+        "appends": 6,
+        "appendCompletions": 6,
+        "appendErrors": 0,
+        "firstFrame": {
+          "received": 206800,
+          "consumed": 206800,
+          "sourceComplete": false,
+          "mediaTime": 1.671333,
+          "width": 360,
+          "height": 640,
+          "appendedFragments": 1
+        },
+        "frames": 3,
+        "lastMediaTime": 1.738,
+        "peakQueuedBytes": 149258,
+        "peakInputChunkBytes": 686464,
+        "peakPendingReads": 1,
+        "pendingReads": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "cleanup": null,
+        "owner": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "received": 958800,
+          "packets": 5100,
+          "emittedIntervals": 6,
+          "firstEmissionOffset": 164500,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 177472,
+          "peakOwnedByteStorage": 849424,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 564,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 360,
+            "aacFrames": 564
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "cleanup": {
+        "muxCachedGopsBefore": 6,
+        "muxCachedGopsAfter": 0,
+        "muxReleased": true,
+        "readerReleased": true,
+        "sourceBuffers": 0
+      }
+    },
+    {
+      "mode": "abort-tail",
+      "held": {
+        "phase": "reading",
+        "failure": null,
+        "received": 206800,
+        "consumed": 206800,
+        "sourceComplete": false,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 1,
+        "appendErrors": 0,
+        "firstFrame": {
+          "received": 206800,
+          "consumed": 206800,
+          "sourceComplete": false,
+          "mediaTime": 1.671333,
+          "width": 360,
+          "height": 640,
+          "appendedFragments": 1
+        },
+        "frames": 1,
+        "lastMediaTime": 1.671333,
+        "peakQueuedBytes": 139261,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 1,
+        "disposed": false,
+        "urlRevoked": false,
+        "cleanup": null,
+        "owner": null,
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "end": {
+        "phase": "failed",
+        "failure": "QA_CANCELLED",
+        "received": 206800,
+        "consumed": 206800,
+        "sourceComplete": false,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 1,
+        "appendErrors": 0,
+        "firstFrame": {
+          "received": 206800,
+          "consumed": 206800,
+          "sourceComplete": false,
+          "mediaTime": 1.671333,
+          "width": 360,
+          "height": 640,
+          "appendedFragments": 1
+        },
+        "frames": 1,
+        "lastMediaTime": 1.671333,
+        "peakQueuedBytes": 139261,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "cleanup": {
+          "muxCachedGopsBefore": 1,
+          "muxCachedGopsAfter": 0,
+          "muxReleased": true,
+          "readerReleased": true,
+          "sourceBuffers": 0
+        },
+        "owner": {
+          "state": "aborted",
+          "failure": "ABORTED",
+          "generation": 1,
+          "received": 206800,
+          "packets": 1100,
+          "emittedIntervals": 1,
+          "firstEmissionOffset": 164500,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 164688,
+          "peakOwnedByteStorage": 839872,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 99,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 77,
+            "aacFrames": 121
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "cleanup": {
+        "muxCachedGopsBefore": 1,
+        "muxCachedGopsAfter": 0,
+        "muxReleased": true,
+        "readerReleased": true,
+        "sourceBuffers": 0
+      }
+    },
+    {
+      "mode": "invalid-init",
+      "end": {
+        "phase": "failed",
+        "failure": "QA_MEDIA_EVENT_ERROR",
+        "received": 206800,
+        "consumed": 164500,
+        "sourceComplete": false,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 0,
+        "appendErrors": 1,
+        "firstFrame": null,
+        "frames": 0,
+        "lastMediaTime": null,
+        "peakQueuedBytes": 139261,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "cleanup": {
+          "muxCachedGopsBefore": 1,
+          "muxCachedGopsAfter": 0,
+          "muxReleased": true,
+          "readerReleased": true,
+          "sourceBuffers": 0
+        },
+        "owner": {
+          "state": "aborted",
+          "failure": "ABORTED",
+          "generation": 1,
+          "received": 164500,
+          "packets": 875,
+          "emittedIntervals": 1,
+          "firstEmissionOffset": 164500,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 164688,
+          "peakOwnedByteStorage": 839872,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 99,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 61,
+            "aacFrames": 99
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "cleanup": {
+        "muxCachedGopsBefore": 1,
+        "muxCachedGopsAfter": 0,
+        "muxReleased": true,
+        "readerReleased": true,
+        "sourceBuffers": 0
+      }
+    },
+    {
+      "mode": "play-rejected",
+      "end": {
+        "phase": "failed",
+        "failure": "QA_PLAY_REJECTED",
+        "received": 206800,
+        "consumed": 164688,
+        "sourceComplete": false,
+        "fragments": 1,
+        "appends": 1,
+        "appendCompletions": 1,
+        "appendErrors": 0,
+        "firstFrame": null,
+        "frames": 0,
+        "lastMediaTime": null,
+        "peakQueuedBytes": 139261,
+        "peakInputChunkBytes": 206800,
+        "peakPendingReads": 1,
+        "pendingReads": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "cleanup": {
+          "muxCachedGopsBefore": 1,
+          "muxCachedGopsAfter": 0,
+          "muxReleased": true,
+          "readerReleased": true,
+          "sourceBuffers": 0
+        },
+        "owner": {
+          "state": "aborted",
+          "failure": "ABORTED",
+          "generation": 1,
+          "received": 164500,
+          "packets": 875,
+          "emittedIntervals": 1,
+          "firstEmissionOffset": 164500,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 164688,
+          "peakOwnedByteStorage": 839872,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 99,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 61,
+            "aacFrames": 99
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
+      },
+      "cleanup": {
+        "muxCachedGopsBefore": 1,
+        "muxCachedGopsAfter": 0,
+        "muxReleased": true,
+        "readerReleased": true,
+        "sourceBuffers": 0
+      }
+    }
+  ],
+  "limitations": [
+    "isolated desktop Chrome with public synthetic bytes, not Drive/SW/product/iPhone/PWA",
+    "single small CFR H264/AAC clip, no full-format/priority/color/HDR/rotation/track-selection acceptance",
+    "main-thread proof harness, not worker or long-run total memory/backpressure/seek implementation",
+    "first-frame and frame progress only; no decoded pixel/audio comparison in Chrome, no indexed seek or duration discovery"
+  ]
+}
