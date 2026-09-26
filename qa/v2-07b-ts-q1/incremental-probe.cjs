@@ -168,5 +168,5 @@ async function run() {
   }
 }
 
-module.exports = { initTracks, transmuxAtCuts, decode, run };
+module.exports = { initTracks, transmuxAtCuts, extract, decode, run };
 if (require.main === module) run().catch(() => { process.stderr.write('Incremental Q1 probe failed; no product success recorded.\n'); process.exitCode = 1; });

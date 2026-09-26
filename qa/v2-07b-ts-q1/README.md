@@ -148,6 +148,39 @@ Reference implementations inspected: [FFmpeg VUI reader](https://ffmpeg.org/doxy
 and [defined SAR table](https://ffmpeg.org/doxygen/8.1/h2645data_8c_source.html).
 These support metadata interpretation, not browser rendering acceptance.
 
+## Source-bound init adaptation
+
+`node --test --test-concurrency=1 init-sar.test.mjs gop-stream.test.mjs`
+
+`node init-binding-probe.mjs`
+
+The first emitted interval now carries copied source SPS/PPS plus the validated
+PSI video PID. Consumer mutation of those copies cannot alter the retained source
+identity. `init-sar.mjs` is browser-safe and parses that SPS itself, binds exact
+SPS/PPS and profile bytes in the pinned mux init, and checks unique track IDs,
+sample counts, coded sizes, track/movie identity matrices and self-contained data
+references. It rejects duplicate/misplaced/unsupported geometry boxes. Bounds:
+2MiB init,128 parsed boxes,65535 bytes per parameter set.
+
+Absent aspect/IDC0 removes only the introduced square `pasp` type (4 bytes become
+`free`); exact explicit-square rational values are retained unchanged. Reserved,
+zero Extended and non-square SAR fail closed pending display-geometry validation.
+This is not a general MP4 validator or full audio/rotation/HDR acceptance. The
+pinned mux writes SPS count byte0x01; the adapter recognizes it without silently
+rewriting `avcC` reserved bits.
+
+`init-binding-results.redacted.json` records two public complete clips at two
+input chunk sizes each. One is the pinned square fixture, the other is generated
+testsrc2/sine with `setsar=0` (generation recipe/tool versions/hashes recorded).
+Raw mux output of the latter fails exactly SAR metadata preservation; source-bound
+adaptation removes that mismatch. Coded video, SPS/PPS/SEI, AAC, all-packet timing,
+full decoded pictures/PCM and zero error diagnostics pass. Both stream before EOF.
+No FFprobe metadata participates in adapter decisions; native tools are independent
+QA oracles. Temporary public media is deleted after each run. Nine adapter tests
+and one source-copy test bring related integration to171/171; separate review of
+the root wiring and driver found no material issue. Existing nine-contrast and
+six-chunk reports were refreshed for changed producers.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -156,11 +189,12 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption still needs source-SPS to init-segment binding, worker
+Product adoption still needs worker
 backpressure/lifecycle and mux GOP-cache memory ownership. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
-removed acceptance requirements. Next metadata unit binds the validated source
-SPS signal to guarded init adaptation without FFprobe. Source local stat identity
+removed acceptance requirements. Next unit connects this source-bound incremental
+output to a backpressured browser MSE path and proves a decoded frame before input
+completion; worker ownership and indexed seek remain explicit requirements. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or

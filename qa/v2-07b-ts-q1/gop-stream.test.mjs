@@ -52,6 +52,25 @@ test('persistent mux output is byte-identical to the independently verified IDR-
   assert.ok(Buffer.concat(chunks).equals(transmuxAtCuts(input,baseline.cuts).bytes));
 });
 
+test('first interval carries copied source parameter sets without exposing internal identity',()=>{
+  let configuration=null,calls=0;
+  const owner=createGopStream({...budgets,onInterval:item=>{
+    calls++;
+    if(calls===1){
+      configuration=item.configuration;
+      assert.equal(configuration.videoTrackId,baseline.videoPid);
+      assert.equal(configuration.sps[0]&31,7);assert.equal(configuration.pps[0]&31,8);
+      assert.ok(configuration.sps.length>5&&configuration.pps.length>1);
+      // Later IDR comparisons must still compare the source's retained bytes.
+      configuration.sps.fill(0);configuration.pps.fill(0);
+    }else assert.equal(item.configuration,null);
+  }});
+  deliver(owner,input,4093);owner.finish({sourceSize:input.length});
+  assert.equal(calls,6);assert.equal(owner.stats().state,'finished');
+  assert.equal(owner.stats().elementary.parameterBytes,0);
+  assert.ok(configuration.sps.every(value=>value===0));
+});
+
 test('PES length split across TS packets still closes complete audio before the GOP cut',()=>{
   const changed=variant((records,base)=>{for(const record of records)if(record.pid===base.audioPid)record.firstPacketBytes=5;});
   const expected=analyzeGopBoundaries(changed.bytes);

@@ -235,3 +235,7 @@ Final stream evidence pins actual library/source/fixture/output identities and r
 ## 2026-09-26 — browser-safe SPS aspect metadata
 
 Resumed dd5b856 and retained the uncommitted metadata unit through compaction. Implemented seven aspect tests; independent review51/51 clean. Extended integration found the prior shared PSI alias export broke the diagnostic IIFE builder. Replaced it with equivalent const export, reran actual generated-bundle execution, and final integration161/161 passes. Refreshed all nine incremental contrasts and six chunkings with final producer hashes. Archived the outgoing checkpoint before replacement. No private reread, remote bundle replacement, original/Drive write or deployment; next is exact source-SPS-to-init binding.
+
+## 2026-09-26 — source-bound init adaptation
+
+Prior SPS unit committed d249f76. Delegated only the pure bounded init adapter and its nine tests; root reviewed it and implemented first-interval parameter-set copies plus the public end-to-end driver. Review of root changes was independently clean.171/171 parser/Q1/static/browser-adapter tests pass; all four explicit/unspecified public clip/chunking cases preserve strict decode, packets and metadata, with a raw SAR-mismatch negative and exactly4 modified init bytes in the absent case. Refreshed producer-linked reports and archived checkpoint. No private media access, Drive mutations, app/candidate deployment or production change. Next is actual browser incremental first-frame evidence with backpressure, retaining worker/seek/geometry/full-format requirements.

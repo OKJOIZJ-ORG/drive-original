@@ -58,13 +58,15 @@ export function createGopStream({ generation=1,maxWindowBytes=512*1024,maxLookah
     const completed=audioClosed.filter(record=>record.end<=end);
     demand(completed.length>0&&completed.every(record=>record.offset>=base),'EACH_FRAGMENT_NEEDS_BOTH_TRACKS');
     const aacFrames=completed.reduce((count,record)=>count+record.frames,0);
-    const bytes=arena.slice(0,length);observe(bytes.byteLength);
+    const bytes=arena.slice(0,length);
+    const configuration=emitted===0?{videoTrackId:topology.videoPid,...elementary.configuration()}:null;
+    observe(bytes.byteLength+(configuration?configuration.sps.byteLength+configuration.pps.byteLength:0));
     const start=base;
     checkGeneration();
     if(firstEmissionOffset===null)firstEmissionOffset=received;
     emitted++;
     let result;
-    try{result=onInterval({generation,start,end,bytes,final,proof:{...proof,aacFrames}});
+    try{result=onInterval({generation,start,end,bytes,configuration,final,proof:{...proof,aacFrames}});
       if(result&&typeof result.then==='function'){
         // Drain rejection only; no acknowledgment or successful delivery is
         // inferred. Async consumers can already have their own side effects.

@@ -74,6 +74,9 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
 
   return {
     video,audio,
+    // The interval consumer receives its own copies, never references to the
+    // parameter-set identity retained by this source owner.
+    configuration(){demand(sps&&pps,'ES_CONFIGURATION_UNAVAILABLE');return {sps:sps.slice(),pps:pps.slice()};},
     finish(){demand(!closed,'ES_CLOSED');const result=closeGop();demand(audioCount>0,'AAC_REQUIRED');closed=true;return result;},
     abort(){closed=true;sps=null;pps=null;gop=[];audioConfig=null;},
     stats(){return {parameterBytes:(sps?.length||0)+(pps?.length||0),retainedFrames:gop.length,peakFrames,videoFrames:videoCount,aacFrames:audioCount};}
