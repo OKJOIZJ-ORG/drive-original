@@ -88,3 +88,19 @@ test('consumer rejection aborts and awaits worker cleanup without sending ACK',a
     assert.equal(client.stats().worker.muxReleased,true);assert.equal(client.stats().fragmentBusy,false);
   },{onFragment:()=>Promise.reject(new Error('private consumer failure'))});
 });
+
+test('intentional consumer backpressure suspends only the worker processing watchdog and ACK rearms it',async()=>{
+  const schedule=globalThis.setTimeout,clear=globalThis.clearTimeout,live=new Map();let release;
+  globalThis.setTimeout=(callback,delay,...args)=>{const id=schedule(callback,delay,...args);live.set(id,delay);return id;};
+  globalThis.clearTimeout=id=>{live.delete(id);clear(id);};
+  try{
+    await withClient(async(client,transport)=>{
+      const input=client.push(new Uint8Array(188));assert.deepEqual([...live.values()],[15000]);
+      transport.deliver({type:'fragment',fragmentSequence:1,bytes:new ArrayBuffer(4),initIncluded:true,sourceConsumed:188});
+      await turn();assert.deepEqual([...live.values()],[]);assert.equal(client.stats().fragmentBusy,true);
+      release();await turn();assert.deepEqual([...live.values()],[15000]);assert.equal(client.stats().acks,1);
+      transport.deliver({type:'input-done',sequence:1,offset:188});await input;assert.deepEqual([...live.values()],[]);
+    },{onFragment:()=>new Promise(resolve=>{release=resolve;})});
+    assert.equal(live.size,0);
+  }finally{globalThis.setTimeout=schedule;globalThis.clearTimeout=clear;for(const id of live.keys())clear(id);}
+});

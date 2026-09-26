@@ -13,7 +13,7 @@ const muxPath=require.resolve('mux.js/dist/mux-mp4.min.js');
 assert.equal(sha(fs.readFileSync(muxPath)),'4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f');
 const html='<!doctype html><html lang="en"><meta charset="utf-8"><title>Local Q1 MSE trial</title><video muted playsinline controls width="360" height="640" aria-label="Public generated test video"></video><script src="/mux.js"></script><script type="module">import {startTrial} from "/mse-browser.mjs";window.startTrial=startTrial;</script></html>';
 const allowed=new Map(['/mse-browser.mjs','/gop-stream.mjs','/elementary-stream.mjs','/psi-stream.mjs','/gop-boundaries.mjs','/init-sar.mjs',
-  '/worker-client.mjs','/transmux-worker.mjs','/transmux-session.mjs']
+  '/worker-client.mjs','/transmux-worker.mjs','/transmux-session.mjs','/buffer-window.mjs']
   .map(name=>[name,path.join(root,name.slice(1))]));
 allowed.set('/v2-07a-container-probe/mpeg-ts-probe.mjs',path.join(root,'../v2-07a-container-probe/mpeg-ts-probe.mjs'));
 allowed.set('/mux.js',muxPath);

@@ -1,6 +1,6 @@
 {
   "schema": "drive-original.q1-mse-worker/1",
-  "recordedAt": "2026-09-26T14:02:57.980Z",
+  "recordedAt": "2026-09-26T14:21:18.226Z",
   "browser": "153.0.8010.54",
   "fixture": {
     "bytes": 958800,
@@ -9,16 +9,17 @@
   },
   "producer": {
     "sources": {
-      "mse-browser-probe.cjs": "663ec92d5af56f536d2c0f47bd5e1cf6d7141969fa0ea85f917a3a4f7edb01dc",
-      "mse-browser.mjs": "13ccb4bb3b8bb807805137d720e59b6f8878c0339179ec5530d9cabeeb7c6ae1",
+      "mse-browser-probe.cjs": "3fc0e1a776f73f4dd7372f1d0613da968dee78cf92b86785cb23bb2f60c2daf8",
+      "mse-browser.mjs": "9c3b637195a197e2d0a659b5e658346287c0e0954fb7769dbaf6bdf5e72786e6",
       "gop-stream.mjs": "18a34246ea0be41eac9169edc03034ab1f98e01f143190a79bb91bbc2169a3a2",
       "elementary-stream.mjs": "1471dddef4339a106543c1dcbe4c5ec3eace21272c4b5d9bb28dac112411ffd0",
       "psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
       "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
       "init-sar.mjs": "32b9573af2c764dc270b51f832d5bdde779bf2975cfb31295ea9504544ecfcf1",
-      "worker-client.mjs": "92f18228a237f7edce28fb0d604573ef46e8b492ec3b829efb7b38ec5c2cc856",
+      "worker-client.mjs": "819862ec00b4a97c58656bc0cc94cf2e7718193e916d21a1ccbb1e74aff66564",
       "transmux-worker.mjs": "929c7bee2357489056ef7884cd75393259a0bb03b4021ed17dff2dee5d4dd045",
       "transmux-session.mjs": "afa537cb3bc024607a08e1b2f143ee00523dd6623b2bd5bdd97f2cdd9646eeb6",
+      "buffer-window.mjs": "8efd7d855c9eb4e403e8f18cad09309a7b25d8ac53c8497bd91b07d3948ce40b",
       "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
       "node_modules/mux.js/dist/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
     },
@@ -37,6 +38,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 206800,
@@ -58,6 +60,7 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": false,
           "sourceBytesOffered": 206800,
@@ -72,6 +75,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "blocked": null,
@@ -85,6 +114,7 @@
         "appends": 6,
         "appendCompletions": 6,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 206800,
@@ -97,7 +127,7 @@
         "frames": 3,
         "lastMediaTime": 1.738,
         "peakQueuedBytes": 149258,
-        "peakInputChunkBytes": 489979,
+        "peakInputChunkBytes": 620928,
         "peakPendingReads": 1,
         "pendingReads": 0,
         "disposed": false,
@@ -106,6 +136,7 @@
         "owner": null,
         "worker": {
           "status": "finished",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 958800,
@@ -190,6 +221,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 12.004804,
+          "peakSpan": 12.031998999999999,
+          "last": {
+            "wait": true,
+            "ahead": 12.004804,
+            "span": 12.031998999999999,
+            "start": 1.4,
+            "end": 13.431999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -199,6 +256,7 @@
         "readerReleased": true,
         "worker": {
           "status": "finished",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 958800,
@@ -296,6 +354,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 206800,
@@ -317,6 +376,7 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": false,
           "sourceBytesOffered": 206800,
@@ -331,6 +391,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "blocked": null,
@@ -344,6 +430,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 206800,
@@ -368,6 +455,7 @@
           "readerReleased": true,
           "worker": {
             "status": "aborted",
+            "failure": null,
             "terminated": true,
             "fragmentBusy": false,
             "sourceBytesOffered": 206800,
@@ -455,6 +543,7 @@
         "owner": null,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 206800,
@@ -539,6 +628,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -548,6 +663,7 @@
         "readerReleased": true,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 206800,
@@ -637,7 +753,7 @@
       "mode": "invalid-init",
       "end": {
         "phase": "failed",
-        "failure": "QA_PIPELINE_FAILED",
+        "failure": "QA_MEDIA_EVENT_ERROR",
         "received": 206800,
         "consumed": 164536,
         "sourceComplete": false,
@@ -645,6 +761,7 @@
         "appends": 1,
         "appendCompletions": 0,
         "appendErrors": 1,
+        "playInterruptions": 0,
         "firstFrame": null,
         "frames": 0,
         "lastMediaTime": null,
@@ -661,6 +778,7 @@
           "readerReleased": true,
           "worker": {
             "status": "aborted",
+            "failure": null,
             "terminated": true,
             "fragmentBusy": false,
             "sourceBytesOffered": 196608,
@@ -748,6 +866,7 @@
         "owner": null,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,
@@ -832,6 +951,25 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 0,
+          "last": null,
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -841,6 +979,7 @@
         "readerReleased": true,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,
@@ -938,6 +1077,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": null,
         "frames": 0,
         "lastMediaTime": null,
@@ -954,6 +1094,7 @@
           "readerReleased": true,
           "worker": {
             "status": "aborted",
+            "failure": null,
             "terminated": true,
             "fragmentBusy": false,
             "sourceBytesOffered": 196608,
@@ -1041,6 +1182,7 @@
         "owner": null,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,
@@ -1125,6 +1267,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -1134,6 +1302,7 @@
         "readerReleased": true,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,
@@ -1225,15 +1394,16 @@
         "phase": "reading",
         "failure": null,
         "received": 206800,
-        "consumed": 164536,
+        "consumed": 164650,
         "sourceComplete": false,
         "fragments": 1,
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
-          "consumed": 164536,
+          "consumed": 164650,
           "sourceComplete": false,
           "mediaTime": 1.671333,
           "width": 360,
@@ -1243,7 +1413,7 @@
         "frames": 1,
         "lastMediaTime": 1.671333,
         "peakQueuedBytes": 139261,
-        "peakInputChunkBytes": 206800,
+        "peakInputChunkBytes": 88962,
         "peakPendingReads": 1,
         "pendingReads": 0,
         "disposed": false,
@@ -1252,13 +1422,14 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": true,
-          "sourceBytesOffered": 196608,
-          "sourceBytesConsumed": 164536,
+          "sourceBytesOffered": 183374,
+          "sourceBytesConsumed": 164650,
           "inputs": 3,
           "detachedInputs": 3,
-          "transferredInputBytes": 196608,
+          "transferredInputBytes": 183374,
           "fragments": 1,
           "acks": 0,
           "peakPendingInputs": 1,
@@ -1266,13 +1437,39 @@
         },
         "ackHeld": true,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\"",
         "inspection": {
           "state": "open",
           "failure": null,
           "generation": 1,
           "sourceSize": 958800,
-          "consumed": 164536,
+          "consumed": 164650,
           "inputSequence": 3,
           "fragments": 1,
           "acknowledged": 0,
@@ -1297,11 +1494,11 @@
             "state": "open",
             "failure": null,
             "generation": 1,
-            "received": 164536,
+            "received": 164650,
             "packets": 875,
             "emittedIntervals": 1,
             "firstEmissionOffset": 164500,
-            "retainedBytes": 8308,
+            "retainedBytes": 8422,
             "peakRetainedBytes": 164688,
             "peakOwnedByteStorage": 839872,
             "storageCapacity": 655360,
@@ -1336,15 +1533,16 @@
         "phase": "reading",
         "failure": null,
         "received": 206800,
-        "consumed": 164536,
+        "consumed": 164650,
         "sourceComplete": false,
         "fragments": 1,
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
-          "consumed": 164536,
+          "consumed": 164650,
           "sourceComplete": false,
           "mediaTime": 1.671333,
           "width": 360,
@@ -1354,7 +1552,7 @@
         "frames": 1,
         "lastMediaTime": 1.671333,
         "peakQueuedBytes": 139261,
-        "peakInputChunkBytes": 206800,
+        "peakInputChunkBytes": 88962,
         "peakPendingReads": 1,
         "pendingReads": 0,
         "disposed": false,
@@ -1363,13 +1561,14 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": true,
-          "sourceBytesOffered": 196608,
-          "sourceBytesConsumed": 164536,
+          "sourceBytesOffered": 183374,
+          "sourceBytesConsumed": 164650,
           "inputs": 3,
           "detachedInputs": 3,
-          "transferredInputBytes": 196608,
+          "transferredInputBytes": 183374,
           "fragments": 1,
           "acks": 0,
           "peakPendingInputs": 1,
@@ -1377,13 +1576,39 @@
         },
         "ackHeld": true,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\"",
         "inspection": {
           "state": "open",
           "failure": null,
           "generation": 1,
           "sourceSize": 958800,
-          "consumed": 164536,
+          "consumed": 164650,
           "inputSequence": 3,
           "fragments": 1,
           "acknowledged": 0,
@@ -1408,11 +1633,11 @@
             "state": "open",
             "failure": null,
             "generation": 1,
-            "received": 164536,
+            "received": 164650,
             "packets": 875,
             "emittedIntervals": 1,
             "firstEmissionOffset": 164500,
-            "retainedBytes": 8308,
+            "retainedBytes": 8422,
             "peakRetainedBytes": 164688,
             "peakOwnedByteStorage": 839872,
             "storageCapacity": 655360,
@@ -1453,9 +1678,10 @@
         "appends": 6,
         "appendCompletions": 6,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
-          "consumed": 164536,
+          "consumed": 164650,
           "sourceComplete": false,
           "mediaTime": 1.671333,
           "width": 360,
@@ -1474,6 +1700,7 @@
         "owner": null,
         "worker": {
           "status": "finished",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 958800,
@@ -1558,6 +1785,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 11.747983999999999,
+          "peakSpan": 12.031998999999999,
+          "last": {
+            "wait": true,
+            "ahead": 11.747983999999999,
+            "span": 12.031998999999999,
+            "start": 1.4,
+            "end": 13.431999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -1567,6 +1820,7 @@
         "readerReleased": true,
         "worker": {
           "status": "finished",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 958800,
@@ -1664,6 +1918,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 164536,
@@ -1685,6 +1940,7 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": true,
           "sourceBytesOffered": 196608,
@@ -1699,6 +1955,32 @@
         },
         "ackHeld": true,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\"",
         "inspection": {
           "state": "open",
@@ -1775,6 +2057,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 164536,
@@ -1796,6 +2079,7 @@
         "owner": null,
         "worker": {
           "status": "open",
+          "failure": null,
           "terminated": false,
           "fragmentBusy": true,
           "sourceBytesOffered": 196608,
@@ -1810,6 +2094,32 @@
         },
         "ackHeld": true,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\"",
         "inspection": {
           "state": "open",
@@ -1886,6 +2196,7 @@
         "appends": 1,
         "appendCompletions": 1,
         "appendErrors": 0,
+        "playInterruptions": 0,
         "firstFrame": {
           "received": 206800,
           "consumed": 164536,
@@ -1910,6 +2221,7 @@
           "readerReleased": true,
           "worker": {
             "status": "aborted",
+            "failure": null,
             "terminated": true,
             "fragmentBusy": false,
             "sourceBytesOffered": 196608,
@@ -1997,6 +2309,7 @@
         "owner": null,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,
@@ -2081,6 +2394,32 @@
         },
         "ackHeld": false,
         "engine": "worker",
+        "window": {
+          "enabled": false,
+          "waiting": false,
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 2.111999,
+          "peakSpan": 2.111999,
+          "last": {
+            "wait": false,
+            "ahead": 2.111999,
+            "span": 2.111999,
+            "start": 1.4,
+            "end": 3.511999,
+            "removeEnd": null
+          },
+          "limits": {
+            "high": 6,
+            "low": 4,
+            "behind": 6,
+            "removeStep": 1
+          }
+        },
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangeRequestPending": false,
+        "peakRangeRequestBytes": 0,
         "mime": "video/mp4; codecs=\"avc1.64001e,mp4a.40.2\""
       },
       "cleanup": {
@@ -2090,6 +2429,7 @@
         "readerReleased": true,
         "worker": {
           "status": "aborted",
+          "failure": null,
           "terminated": true,
           "fragmentBusy": false,
           "sourceBytesOffered": 196608,

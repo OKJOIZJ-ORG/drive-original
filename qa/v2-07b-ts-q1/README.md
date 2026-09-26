@@ -258,6 +258,60 @@ This is a QA-only worker/MSE slice, not a shipped product media engine. Sustaine
 buffer-window eviction, time/indexed seeking, duration and all device/format gates
 remain. No candidate or production asset was changed.
 
+## Sustained window and sequential range admission
+
+`node --test --test-concurrency=1 buffer-window.test.mjs worker-client.test.mjs`
+
+`node mse-window-probe.cjs`
+
+The browser harness now optionally admits exact sequential64KiB Range responses
+with a fixed strong ETag/If-Match, exact206/Content-Range/length, streamed body
+overflow/short checks and a single read/request owner. This is a local public
+fixture protocol, not a claim of authenticated Drive identity handling or a
+production-optimal request size. ACK-held buffering prevents the next range
+request, rather than relying on browser backpressure for a full-body fetch.
+
+The six-second forward high-water/four-second resume window serializes append
+and backward removal, targeting six seconds behind at admission with a one-second
+removal step. The actual MSE update event and remaining current playback range
+are checked after removal. Pause waits have no codec deadline; worker processing
+watchdogs stop while the consumer owns backpressure and resume after ACK.
+Cancellation, media error and sourceclose wake/terminate waiters. A normal pause
+that interrupts a pending play Promise is distinguished from play rejection.
+
+Two local failures were reproduced before fixes: a normal pre-frame pause was
+reported as QA_PLAY_REJECTED, then a16.1-second pause hit the old15-second worker
+request watchdog. Independent review additionally closed lost originating removal
+error codes and an error event leaving a paused window stuck indefinitely. The
+driver also caught its playback-rate setup being reset by media load; it now
+sets defaultPlaybackRate and asserts the actual rate is4, rather than inferring it.
+
+`window-results.redacted.json` records a generated72-second/8,795,392-byte public
+clip (36 GOP fragments). The same pure worker session preserves all coded content,
+metadata and normalized timing; all2,160 native decoded video frames and full PCM
+match with zero error-level diagnostics. This is a native QA oracle, not Chrome
+pixel/audio equality. The browser completes at4x and reaches ended with progressing
+real frames. Window peak is7.852 seconds ahead and14.080 seconds overall with29
+explicit removals, compared with72.021 seconds retained by the no-window control.
+The target behind window is enforced on admission, not a claim of exact six-second
+retention after EOF; total exposed span remains bounded in the observed clip.
+
+During the16.1-second pause, actual worker session counters and server request/byte
+counts stay unchanged. Resume completes all135 bounded ranges. Other trials cover
+window cancellation, injected remove failure, response identity drift and injected
+media-error event routing while paused. The last is not a naturally occurring codec
+failure reproduction. All six trials clean SourceBuffer/reader/object URL/worker
+and retained encoded/cache owners. Three policy tests plus one watchdog regression
+and related scoped tests pass42/42; both older browser suites pass5/5 and6/6 with
+refreshed producer hashes. No original or deployed asset was touched. Only generated
+public source/remux media under the run directory was removed after the test.
+
+This is72-second synthetic desktop evidence, not tens-of-minutes real-time/device
+stability, arbitrary large-GOP/VFR safety, GPU/decoder/total heap accounting or
+efficient indexed seek. Removal may extend to a later random-access point under
+the [MSE removal algorithm](https://www.w3.org/TR/media-source-2/#sourcebuffer-coded-frame-removal);
+the tested two-second-GOP configuration and verified current range are explicit.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -266,12 +320,12 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption still needs sustained buffer eviction, indexed seek and complete
+Product adoption still needs indexed seek, complete
 pipeline memory evidence. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
 removed acceptance requirements. The local MSE first-frame unit is now observed;
-the worker input/output ACK owner now has local public-fixture evidence. Next is
-sustained buffering and indexed seek. Source local stat identity
+the worker input/output ACK owner and72-second window now have local public-fixture
+evidence. Next is bounded duration/indexed seek. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or

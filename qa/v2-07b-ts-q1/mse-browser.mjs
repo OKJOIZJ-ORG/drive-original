@@ -2,14 +2,18 @@
 import { createGopStream } from './gop-stream.mjs';
 import { adaptInitSar } from './init-sar.mjs';
 import { createWorkerClient } from './worker-client.mjs';
+import { createBufferWindow } from './buffer-window.mjs';
 
 const demand = (condition, code) => { if (!condition) throw new Error(code); };
 const equal = (a,b) => a.length === b.length && a.every((value,index) => value === b[index]);
 
-export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main',holdFirstAck=false}={}) {
+export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main',holdFirstAck=false,
+  windowed=false,inputMode='stream',sourceEtag=null,pauseAtWindow=false}={}) {
   demand(['incremental','eof-only','invalid-init'].includes(mode),'QA_MODE');
   demand(['main','worker'].includes(engine)&&!(engine==='worker'&&mode==='eof-only'),'QA_ENGINE');
   demand(new URL(sourceUrl,location.href).origin === location.origin,'QA_LOCAL_SOURCE');
+  demand(['stream','ranges'].includes(inputMode)&&(!windowed||engine==='worker'),'QA_INPUT_MODE');
+  if(inputMode==='ranges')demand(typeof sourceEtag==='string'&&/^"[a-f0-9]{64}"$/.test(sourceEtag),'QA_SOURCE_ETAG');
   const video = document.querySelector('video');
   const controller = new AbortController();
   const source = new MediaSource();
@@ -17,12 +21,18 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
   const pending = new Set();
   let reader=null,buffer=null,owner=null,config=null,init=null,queued=null,active=true,frameHandle=null;
   let appendSuccess=false,playing=false,disposal=null,client=null,releaseHeldAck=null,offered=0;
+  const windowPolicy=createBufferWindow();let pausedAtWindow=false;
   const state = {phase:'starting',failure:null,received:0,consumed:0,sourceComplete:false,
-    fragments:0,appends:0,appendCompletions:0,appendErrors:0,firstFrame:null,frames:0,lastMediaTime:null,
+    fragments:0,appends:0,appendCompletions:0,appendErrors:0,playInterruptions:0,firstFrame:null,frames:0,lastMediaTime:null,
     peakQueuedBytes:0,peakInputChunkBytes:0,peakPendingReads:0,pendingReads:0,
     disposed:false,urlRevoked:false,cleanup:null,owner:null,worker:null,ackHeld:false,engine,
+    window:{enabled:windowed,waiting:false,waits:0,removals:0,peakAhead:0,peakSpan:0,last:null,limits:windowPolicy.limits},
+    rangeRequests:0,rangeBytes:0,rangeRequestPending:false,peakRangeRequestBytes:0,
     mime:'video/mp4; codecs="avc1.64001e,mp4a.40.2"'};
   let mux = engine==='main'?new globalThis.muxjs.Transmuxer({remux:true,keepOriginalTimestamps:true}):null;
+  const mediaFailed=()=>{if(active){state.failure='QA_MEDIA_ELEMENT_ERROR';state.phase='failed';void dispose();}};
+  const sourceClosed=()=>{if(active){state.failure='QA_SOURCE_CLOSED';state.phase='failed';void dispose();}};
+  video.addEventListener('error',mediaFailed);source.addEventListener('sourceclose',sourceClosed);
 
   function event(target,name,errors=['error','abort'],action=null) {
     return new Promise((resolve,reject) => {
@@ -50,14 +60,92 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
       nextFrame();
     });
   }
+  const ranges=()=>Array.from({length:buffer.buffered.length},(_,i)=>[buffer.buffered.start(i),buffer.buffered.end(i)]);
+  function observeWindow(){
+    const observed=windowPolicy.plan(ranges(),video.currentTime);
+    state.window.last=observed;state.window.peakAhead=Math.max(state.window.peakAhead,observed.ahead);
+    state.window.peakSpan=Math.max(state.window.peakSpan,observed.span);return observed;
+  }
+  function waitForPosition(){
+    return new Promise((resolve,reject)=>{
+      const events=['timeupdate','playing','seeking'];
+      const clean=()=>{events.forEach(name=>video.removeEventListener(name,wake));pending.delete(cancel);};
+      const wake=()=>{clean();resolve();};const cancel=()=>{clean();reject(new Error('QA_CANCELLED'));};
+      pending.add(cancel);events.forEach(name=>video.addEventListener(name,wake,{once:true}));
+      if(!active)cancel();
+    });
+  }
+  async function admitAppend(){
+    if(!windowed)return;
+    for(;;){
+      demand(active&&!buffer.updating&&!video.error&&source.readyState==='open','QA_WINDOW_OWNER');
+      const plan=observeWindow();
+      if(plan.removeEnd!==null){
+        let updated=false;const success=()=>{updated=true;};buffer.addEventListener('update',success,{once:true});
+        try{await event(buffer,'updateend',['error','abort'],()=>buffer.remove(0,plan.removeEnd));}
+        finally{buffer.removeEventListener('update',success);}
+        demand(active&&updated&&!video.error,'QA_REMOVE_FAILED');state.window.removals++;
+        const after=observeWindow();
+        demand(after.start===null||after.start>plan.start,'QA_REMOVE_NO_PROGRESS');
+        // The public fixture has two-second GOPs. Verify actual removal has not
+        // crossed playback; this does not assume arbitrary long-GOP safety.
+        demand(ranges().some(([start,end])=>start<=video.currentTime&&end>=video.currentTime),'QA_REMOVE_CURRENT_RANGE');
+        continue;
+      }
+      if(!plan.wait){state.window.waiting=false;return;}
+      if(!state.window.waiting)state.window.waits++;
+      state.window.waiting=true;
+      if(pauseAtWindow&&!pausedAtWindow){pausedAtWindow=true;video.pause();}
+      await waitForPosition();
+    }
+  }
+  async function* inputChunks(){
+    if(inputMode==='stream'){
+      const response=await fetch(sourceUrl,{signal:controller.signal,cache:'no-store'});
+      demand(response.ok&&Number(response.headers.get('Content-Length'))===sourceSize,'QA_SOURCE_SIZE');
+      reader=response.body.getReader();
+      for(;;){
+        state.pendingReads++;state.peakPendingReads=Math.max(state.peakPendingReads,state.pendingReads);
+        let result;try{result=await reader.read();}finally{state.pendingReads--;}
+        demand(active,'QA_CANCELLED');if(result.done)return;yield result.value;
+      }
+    }
+    for(let start=0;start<sourceSize;start+=65536){
+      demand(active,'QA_CANCELLED');const end=Math.min(sourceSize,start+65536)-1,length=end-start+1;
+      state.rangeRequests++;state.rangeRequestPending=true;state.peakRangeRequestBytes=Math.max(state.peakRangeRequestBytes,length);
+      let owned=null;
+      try{
+        const response=await fetch(sourceUrl,{signal:controller.signal,cache:'no-store',
+          headers:{Range:`bytes=${start}-${end}`,'If-Match':sourceEtag}});
+        demand(response.status===206&&response.headers.get('Content-Range')===`bytes ${start}-${end}/${sourceSize}`
+          &&Number(response.headers.get('Content-Length'))===length&&response.headers.get('ETag')===sourceEtag
+          &&(!response.headers.get('Content-Encoding')||response.headers.get('Content-Encoding')==='identity'),'QA_RANGE_RESPONSE');
+        owned=response.body.getReader();reader=owned;const bytes=new Uint8Array(length);let cursor=0;
+        for(;;){
+          state.pendingReads++;state.peakPendingReads=Math.max(state.peakPendingReads,state.pendingReads);
+          let result;try{result=await owned.read();}finally{state.pendingReads--;}
+          demand(active,'QA_CANCELLED');if(result.done)break;
+          demand(result.value.length<=length-cursor,'QA_RANGE_OVERFLOW');bytes.set(result.value,cursor);cursor+=result.value.length;
+        }
+        demand(cursor===length,'QA_RANGE_SHORT');state.rangeBytes+=cursor;
+        owned.releaseLock();if(reader===owned)reader=null;owned=null;state.rangeRequestPending=false;
+        yield bytes;
+      }finally{
+        if(owned){try{await owned.cancel();}catch{}try{owned.releaseLock();}catch{}if(reader===owned)reader=null;}
+        state.rangeRequestPending=false;
+      }
+    }
+  }
   function dispose() {
     if(disposal)return disposal;
     disposal=(async()=>{
     active=false;state.disposed=true;controller.abort();
+    video.removeEventListener('error',mediaFailed);source.removeEventListener('sourceclose',sourceClosed);
     for(const cancel of [...pending])cancel();
     if(frameHandle!==null)video.cancelVideoFrameCallback(frameHandle);
     owner?.abort();state.owner=owner?.stats()||null;
     releaseHeldAck?.();releaseHeldAck=null;state.ackHeld=false;
+    state.window.waiting=false;
     if(client){await client.abort();state.worker=client.stats();client=null;}
     try{await reader?.cancel();}catch{}
     try{reader?.releaseLock();}catch{}
@@ -94,6 +182,7 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
   });
   async function append() {
     if(!queued)return;
+    await admitAppend();
     demand(active&&!buffer.updating,'QA_APPEND_OWNER');
     state.appends++;appendSuccess=false;
     const updated=()=>{appendSuccess=true;};buffer.addEventListener('update',updated,{once:true});
@@ -106,8 +195,13 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
     if(!playing){
       demand(buffer.buffered.length>0,'QA_NO_BUFFERED_RANGE');
       video.currentTime=buffer.buffered.start(0);playing=true;
-      video.play().catch(()=>{if(active){state.failure='QA_PLAY_REJECTED';state.phase='failed';void dispose();}});
+      video.play().catch(error=>{
+        if(!active)return;
+        if(error?.name==='AbortError'&&video.paused&&!video.error){state.playInterruptions++;return;}
+        state.failure='QA_PLAY_REJECTED';state.phase='failed';void dispose();
+      });
     }
+    observeWindow();
   }
   const done=(async()=>{
     try{
@@ -116,6 +210,7 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
       buffer=source.addSourceBuffer(state.mime);nextFrame();state.phase='reading';
       if(engine==='worker'){
         client=createWorkerClient({sourceSize,onFragment:async message=>{
+          try{
           demand(active&&!queued,'QA_WORKER_OUTPUT_OWNER');
           queued=new Uint8Array(message.bytes);state.fragments++;state.consumed=message.sourceConsumed;
           state.peakQueuedBytes=Math.max(state.peakQueuedBytes,queued.byteLength);
@@ -126,6 +221,12 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
             await new Promise(resolve=>{releaseHeldAck=resolve;});
             releaseHeldAck=null;state.ackHeld=false;
           }
+          }catch(error){
+            // Preserve this harness's first fixed local failure before the
+            // transport bridge sanitizes arbitrary consumer errors.
+            if(active)state.failure||=/^QA_[A-Z_]+$/.test(error?.message)?error.message:'QA_CONSUMER_FAILED';
+            throw error;
+          }
         }});
         await client.ready;
       }else{
@@ -134,14 +235,8 @@ export function startTrial({sourceUrl,sourceSize,mode='incremental',engine='main
           demand(config,'QA_SOURCE_CONFIG');mux.push(item.bytes);mux.flush();
         }});
       }
-      const response=await fetch(sourceUrl,{signal:controller.signal,cache:'no-store'});
-      demand(response.ok&&Number(response.headers.get('Content-Length'))===sourceSize,'QA_SOURCE_SIZE');
-      reader=response.body.getReader();
-      for(;;){
-        demand(active,'QA_CANCELLED');state.pendingReads++;state.peakPendingReads=Math.max(state.peakPendingReads,state.pendingReads);
-        let result;try{result=await reader.read();}finally{state.pendingReads--;}
-        demand(active,'QA_CANCELLED');if(result.done)break;
-        const bytes=result.value;state.received+=bytes.length;state.peakInputChunkBytes=Math.max(state.peakInputChunkBytes,bytes.length);
+      for await(const bytes of inputChunks()){
+        demand(active,'QA_CANCELLED');state.received+=bytes.length;state.peakInputChunkBytes=Math.max(state.peakInputChunkBytes,bytes.length);
         demand(state.received<=sourceSize&&bytes.length<=1024*1024,'QA_INPUT_BUDGET');
         if(engine==='worker'){
           for(let offset=0;offset<bytes.length;offset+=65536){

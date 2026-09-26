@@ -12,7 +12,7 @@ export function createWorkerClient({sourceSize,generation=1,onFragment}) {
   const worker=new Worker(new URL('./transmux-worker.mjs',import.meta.url),{type:'module'});
   const ready=deferred();let request=null,aborting=null,sequence=0,offset=0,fragment=0,fragmentBusy=false;
   let inspection=null,inspectionSequence=0;
-  let status='starting',terminated=false,workerStats=null,lastConsumed=0;
+  let status='starting',failure=null,terminated=false,workerStats=null,lastConsumed=0;
   const counters={inputs:0,detachedInputs:0,transferredInputBytes:0,fragments:0,acks:0,peakPendingInputs:0};
   const timer=setTimeout(()=>fail('WORKER_READY_TIMEOUT'),10000);
   function stop() {clearTimeout(timer);if(!terminated){worker.terminate();terminated=true;}}
@@ -20,17 +20,20 @@ export function createWorkerClient({sourceSize,generation=1,onFragment}) {
     inspection?.reject(error);inspection=null;}
   function fail(code) {
     if(terminated)return;
-    status='failed';rejectPending(code);stop();aborting?.resolve();
+    status='failed';failure=code;rejectPending(code);stop();aborting?.resolve();
   }
   function post(message,transfer=[]) {
     try{worker.postMessage({...message,generation},transfer);}catch{fail('WORKER_POST_FAILED');throw new Error('WORKER_POST_FAILED');}
   }
   function begin(type,extra={}) {
     requireThat(status==='open'&&!request&&!aborting,'WORKER_REQUEST_BUSY');
-    const result=deferred();const timeout=setTimeout(()=>fail('WORKER_REQUEST_TIMEOUT'),15000);
+    const result=deferred();let timeout=null;
+    const pause=()=>{clearTimeout(timeout);timeout=null;};
+    const arm=()=>{pause();timeout=setTimeout(()=>fail('WORKER_REQUEST_TIMEOUT'),15000);};
     request={...result,type,...extra,
-      resolve:value=>{clearTimeout(timeout);result.resolve(value);},
-      reject:error=>{clearTimeout(timeout);result.reject(error);}};
+      arm,pause,resolve:value=>{pause();result.resolve(value);},
+      reject:error=>{pause();result.reject(error);}};
+    arm();
     return result.promise;
   }
   function abort() {
@@ -73,10 +76,13 @@ export function createWorkerClient({sourceSize,generation=1,onFragment}) {
           &&data.initIncluded===(fragment===0)&&Number.isSafeInteger(data.sourceConsumed)
           &&data.sourceConsumed>=lastConsumed&&data.sourceConsumed<=offset,'WORKER_FRAGMENT_INVALID');
         const fragmentSequence=data.fragmentSequence;
+        // The consumer owns intentional backpressure (including pause) now.
+        // The worker watchdog only runs while the worker can actually progress.
+        request.pause();
         fragment=fragmentSequence;lastConsumed=data.sourceConsumed;fragmentBusy=true;counters.fragments++;
         Promise.resolve().then(()=>onFragment(data)).then(()=>{
           if(terminated||aborting)return;
-          fragmentBusy=false;post({type:'ack',fragmentSequence});counters.acks++;
+          fragmentBusy=false;request?.arm();post({type:'ack',fragmentSequence});counters.acks++;
         }).catch(()=>{if(!terminated&&!aborting){rejectPending('WORKER_CONSUMER_FAILED');void abort();}})
           .finally(()=>{fragmentBusy=false;});
         return;
@@ -119,7 +125,7 @@ export function createWorkerClient({sourceSize,generation=1,onFragment}) {
       post({type:'inspect',inspectionSequence:next});return result.promise;
     },
     abort,
-    stats(){return {status,terminated,fragmentBusy,sourceBytesOffered:offset,sourceBytesConsumed:lastConsumed,
+    stats(){return {status,failure,terminated,fragmentBusy,sourceBytesOffered:offset,sourceBytesConsumed:lastConsumed,
       ...counters,worker:workerStats};}
   };
 }
