@@ -1,31 +1,29 @@
-# Checkpoint — source-bound actual seek frames — 2026-09-27 00:06
+# Checkpoint — continuous source-bound seek — 2026-09-27 00:24
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Prior QA3e07fad; last product ced16ef. One-GOP source-bound TS packager independently revalidates PSI/RAP/clocks, copies full selected PES bytes/timestamps, includes AAC preroll/coverage, and changes only transport packetization/CC/adaptation.10 new tests, related112/112 pass.
+Repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics. Prior QA f198ca9; last product ced16ef. Bounded bootstrap plus actual Worker/MSE seeks10/50/90% through EOF on72s generated public media. Native3/browser9, related128/128 tests, refreshed180s one-GOP native3/browser5 pass. Reports continuous-seek-results.redacted.json and seek-playback-results.redacted.json pin final producers.13 bootstrap tests verify admitted PES identity/order/count, raw continuity, bounds/generation/cleanup. Actual target frames7.221333/36.121333/65.021333; ahead<7.73s/span<13.94s. Independent review fixed11.1s EOF pause, true media-error precedence and absolute clock proof.
 
-Public180s/21,992,052-byte native3 + real Chrome153/Worker5 pass.10/50/90% rVFC times18.021333/90.121333/162.221333 are within one frame of targets and map to native source PTS. Each reads1,637,856 bytes and packs239,512–243,084.60 video frames/interval match full source; exact expected PCM size and source PCM match after one AAC decoder warmup frame. Replacement cancels a held old read with zero old appends; identity drift blocks appending. Buffer/URL/worker cleanup checked. Review fixed potential empty PCM comparison and missing oracle producer hashes; report qa/v2-07b-ts-q1/seek-playback-results.redacted.json pins final sources.
-
-This is one local GOP only, not continuous post-seek/product/Drive/priority/iPhone or all-format proof. Full source native buffers are QA-only; browser muted and color/total heap unverified. Generated public media cleaned. Isolated candidate browser remains unauthenticated, deployed rc.4/3597e63/mutations locked; prior user-confirmed PWA auth acceptance remains separate. Priority4MiB strict decode false. No original/Drive mutation or deploy/merge/push.
+Same-start independently extracted original AAC and output have exact compressed bytes/all PCM. Uninterrupted10% PCM differs in16 int16 values by1; retained false, no tolerance added. Decoder-history/PNS cause remains hypothesis. Public media cleaned. Browser muted; audibility/color/total memory open. QA-only, not product/Drive/priority/iPhone/all-format success. Candidate remains rc.4/3597e63, isolated browser unauthenticated/mutations locked; prior user PWA auth acceptance separate. Priority4MiB strict decode false. No original/Drive mutation, deploy, merge or push.
 
 ## Decided
 
-D-050/051/052 unchanged. Direct-original browser/PWA, auth-only free layer; full format/device acceptance. Integrate safe product vertical slice without building every format platform first.
+D-050/051/052 unchanged: direct-original browser/PWA, auth-only free layer. Integrate a safe product vertical slice now, not a complete format platform. Full format/device acceptance stays open.
 
 ## Waiting on the user
 
-No new local decision. Actual authenticated Drive/device and operating transition remain separate gates.
+No new local decision. Authenticated Drive/device and operating transition remain separate gates.
 
 ## Next first action
 
-Implement bounded continuous raw-source seek bootstrap for existing gop-stream/transmux-session, not repeated isolated GOP muxes with overlapping AAC. Use validated prepared PAT/PMT prefix, original readStart=min(selected audio-preroll PES, RAP) and original source size. Pass each subsequent source packet once; replace leading pre-RAP video / partial initial PSI with null packets, validate source transport/CC separately then normalize output CC to join bootstrap. Preserve every selected PES/timestamp after admitted starts; exact virtual size=prefix bytes+sourceSize-readStart.188-byte carry and64KiB input/ACK owner, abort/generation fences. Verify forward-to-EOF compressed/native/frame continuity and bounded real Chrome seek playback, then move a coherent Q1 vertical slice into product. Do not present packaging timestamps/source offsets as interchangeable.
+Close unit with scoped diff/stage/commit, then product Q1 source-owner integration. Read app.js startOriginalRangePlayback/handleMediaElementError/clearDirectMediaSources, SW source/account/range contracts and public build allowlists. App currently routes verified-byte code4 to manual compatibility after native retry; no Q1 product module. Reuse proven worker/GOP/seek primitives under one canonical product owner, avoid QA runtime imports and duplicates. Need actual source identity binding across sparse+sequential reads (QA strong ETag is not proven Google CORS contract), start-at-beginning/audio-leading handling, seek generation replacement, quality labels and public assets. Preserve Q0 first/UI/session/watchdog/state behavior. Inspect metadata/headRevisionId and existing SW read evidence before selecting version fence. Local ETag proof is not Drive revision immutability.
 
 ## Tried
 
-- Arbitrary TS cuts duplicate media; complete IDR/PES boundary and decoder stderr matter.
-- Sparse timestamps are candidates, not unseen-clock/format proof; no fabricated final EOF frame.
-- B pictures require presentation and decode/byte bounds kept distinct.
-- Repacketized local GOP needs preceding AAC for decoder warmup and coverage through video end.
-- PCM nonempty is insufficient: exact expected all-frame byte count prevents empty post-warmup equality.
-- Actual rVFC plus native source PTS is required; appended data alone is not seek success.
-- Cancellation settles previous cleanup before new video ownership; clear prior-owner links.
+- Arbitrary cuts/decoder stderr invalidate preservation; complete IDR/PES boundaries matter.
+- Sparse clock is sampled-candidate, not unseen global continuity/wrap support.
+- B-frame presentation/decode clocks and original/virtual offsets differ.
+- Same-start native decode controls decoder history; uninterrupted comparison stays separate.
+- Relative timing misses common shifts; seek now checks absolute PTS/DTS.
+- Intentional tail pause has no fixed lifetime; media error precedes cleanup cancellation.
+- Actual rVFC/frame progress/ended, not just append, prove local playback.

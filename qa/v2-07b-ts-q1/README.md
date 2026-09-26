@@ -380,6 +380,37 @@ playback, a product path, actual Drive/priority/iPhone or all-format acceptance.
 Next: bounded raw-source bootstrap so the existing stream owner can continue
 from the chosen RAP through EOF, followed by product vertical-slice integration.
 
+## Continuous post-seek source suffix (2026-09-27)
+
+`seek-bootstrap.mjs` seeds validated original PAT/PMT, consumes each original
+suffix packet once, nulls only pre-start selected media/partial initial PSI,
+and validates raw counters before output normalization. Admitted PES/payload/
+PCR/timestamps stay intact. Original offsets differ from prefixed virtual size.
+64KiB pushes/188-byte carry, copied PES bindings and terminal fences have13 tests.
+Observed bootstrap-owned peak13,245–14,309 bytes is not total pipeline memory.
+
+`node qa/v2-07b-ts-q1/seek-playback-probe.cjs --continuous` passes three native
+72s suffixes and nine actual Chrome153 cases.10/50/90% target rVFC times are
+7.221333/36.121333/65.021333, then ended at4x with33/19/4 fragments. Before the
+first frame,262,144/524,288/262,144 suffix bytes are read, in addition to sparse
+probe reads. Forward buffer<7.73s/span<13.94s, evictions26/13/0. Paused real
+worker/server freeze, old-read replacement, identity drift and media-error
+precedence pass. EOF pause11.1s resumes without the former10s timeout.
+
+Native proof now checks absolute output PTS/DTS, source video frames, original
+AAC suffix hashes/counts and all PCM against independently extracted original
+ADTS decoded from the same fresh start. No tolerance was added. Uninterrupted
+source PCM at10% is **not equal**:16 int16 values differ by1 in selected frame8;
+same-start native PCM is exact. The report retains this counterevidence.
+Stateful AAC noise synthesis is plausible ([FFmpeg n8.1 source](https://raw.githubusercontent.com/FFmpeg/FFmpeg/n8.1/libavcodec/aac/aacdec_proc_template.c)),
+not a proven cause. Reset and uninterrupted decoder histories are distinct.
+
+Evidence: `continuous-seek-results.redacted.json`; original180s native3/browser5
+baseline refreshed in `seek-playback-results.redacted.json`; tests128/128 pass.
+This is local generated QA, not product/Drive/priority/iPhone/all-format success.
+Browser audibility/color and total memory remain open. Next: product vertical
+slice, not additional all-format platform prerequisites.
+
 ## Explicit limits / next required unit
 
 The priority4MiB sample is pushed in chunks but flushed only once at EOF and
@@ -388,12 +419,13 @@ uninterrupted product streaming,
 bounded time-to-byte/keyframe seek, duration discovery,33-bit wrap/discontinuity,
 native MSE/ManagedMediaSource, browser color rendering or physical iPhone/PWA.
 FFmpeg metadata/strict decode are QA oracles, not available browser prerequisites.
-Product adoption still needs indexed seek, complete
+Product adoption still needs app/Drive source-owner integration and complete
 pipeline memory evidence. VFR/sample-duration,
 partial ADTS and other rejected combinations remain required support work, not
 removed acceptance requirements. The local MSE first-frame unit is now observed;
 the worker input/output ACK owner and72-second window now have local public-fixture
-evidence. Next is bounded duration/indexed seek. Source local stat identity
+evidence. Indexed/continuous seek has the local proof above, not Drive/device
+acceptance. Source local stat identity
 stayed stable in the repeated read-only audit, but current Drive
 file/version/account identity and the full original hash were not revalidated.
 No private source frame was displayed, original modified, Drive write made or

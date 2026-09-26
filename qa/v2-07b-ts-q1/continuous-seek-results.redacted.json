@@ -1,0 +1,4974 @@
+{
+  "schema": "drive-original.q1-ts-continuous-seek/1",
+  "recordedAt": "2026-09-26T15:22:56.483Z",
+  "producer": {
+    "sources": {
+      "seek-playback-probe.cjs": "719268c14c561aa61b8120842863e0dad9508468bcf83fe319cc1bb06f2fb384",
+      "incremental-probe.cjs": "577b35b6f8592e943b5d86710d0a6ff4cecb5834cd714706532387b0cee55303",
+      "preservation-probe.cjs": "9137d425ee0b3a28ddc606394b884b02efc0a26264dec686ab9300eca6c99e8f",
+      "seek-browser.mjs": "bb3dbe2aff93e83c4f19c8856b58a7cc68925ed3d18f4ca806ddd261ce94ec5a",
+      "seek-input.mjs": "366bcf41d0f4614f4742b4cf3c6d99d70b6d019e2765e85214b6bb29d9279964",
+      "seek-bootstrap.mjs": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0",
+      "buffer-window.mjs": "8efd7d855c9eb4e403e8f18cad09309a7b25d8ac53c8497bd91b07d3948ce40b",
+      "ts-seek.mjs": "ee911d5e7e56ae42c2f6df0a51e24b114a1d16665e36bd5b72bbc45d11e46e7e",
+      "ts-window.mjs": "3ff06e6da20108eda6fd527b20247bf61339b3c7d51a8a9c1b6b9ef97db0a450",
+      "gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+      "psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
+      "worker-client.mjs": "819862ec00b4a97c58656bc0cc94cf2e7718193e916d21a1ccbb1e74aff66564",
+      "transmux-worker.mjs": "929c7bee2357489056ef7884cd75393259a0bb03b4021ed17dff2dee5d4dd045",
+      "transmux-session.mjs": "afa537cb3bc024607a08e1b2f143ee00523dd6623b2bd5bdd97f2cdd9646eeb6",
+      "gop-stream.mjs": "18a34246ea0be41eac9169edc03034ab1f98e01f143190a79bb91bbc2169a3a2",
+      "elementary-stream.mjs": "1471dddef4339a106543c1dcbe4c5ec3eace21272c4b5d9bb28dac112411ffd0",
+      "init-sar.mjs": "32b9573af2c764dc270b51f832d5bdde779bf2975cfb31295ea9504544ecfcf1",
+      "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
+      "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000"
+    },
+    "node": "v24.18.0",
+    "chrome": "153.0.8010.54",
+    "muxSha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "fixture": {
+    "durationSeconds": 72,
+    "bytes": 8795392,
+    "sha256": "7a2933edff6e945c85e1c051693888a33915b07dddc3640c62b801832e696176",
+    "generator": [
+      "-v",
+      "error",
+      "-hide_banner",
+      "-nostdin",
+      "-n",
+      "-f",
+      "lavfi",
+      "-i",
+      "testsrc2=size=360x640:rate=30:duration=72",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=880:sample_rate=48000:duration=72",
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-vf",
+      "setpts=PTS+0.25/TB",
+      "-c:v",
+      "libx264",
+      "-threads:v",
+      "1",
+      "-preset",
+      "veryfast",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "3.0",
+      "-pix_fmt",
+      "yuv420p",
+      "-g",
+      "60",
+      "-keyint_min",
+      "60",
+      "-sc_threshold",
+      "0",
+      "-bf",
+      "2",
+      "-x264-params",
+      "aud=1:repeat-headers=1",
+      "-c:a",
+      "aac",
+      "-b:a",
+      "96k",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      "-f",
+      "mpegts"
+    ]
+  },
+  "native": [
+    {
+      "fraction": 0.1,
+      "sourceWindow": {
+        "start": 589944,
+        "endExclusive": 1114088
+      },
+      "packagedBytes": 8061628,
+      "packagedSha256": "11a5d4790da4d8cf65507e869975fc2f267c0ebe21991484c0e8b20957c39a7b",
+      "video": {
+        "frames": 60,
+        "startPts": 688920,
+        "endPts": 868920,
+        "step": 3000
+      },
+      "audio": {
+        "frames": 110,
+        "startPts": 675120,
+        "endPts": 886320,
+        "prerollFrames": 7
+      },
+      "decodedVideoFrames": 1980,
+      "decodedAacFrames": 3090,
+      "fragments": 33,
+      "bootstrap": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "readStart": 734140,
+        "sourceSize": 8795392,
+        "sourceOffset": 8795392,
+        "sourceReceived": 8061252,
+        "outputSize": 8061628,
+        "outputBytes": 8061628,
+        "packets": 42879,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 0,
+        "bindingBytes": 0,
+        "psiRetainedBytes": 0,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 14309,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "quality": {
+        "videoVcl": {
+          "source": 1980,
+          "output": 1980,
+          "equal": true
+        },
+        "parameterSetsEqual": true,
+        "seiEqual": true,
+        "aac": {
+          "source": 3090,
+          "output": 3090,
+          "equal": true
+        },
+        "metadataDifferences": [],
+        "timing": [
+          {
+            "kind": "video",
+            "sourcePackets": 1980,
+            "outputPackets": 1980,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          },
+          {
+            "kind": "audio",
+            "sourcePackets": 3090,
+            "outputPackets": 3090,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          }
+        ],
+        "preserved": true
+      },
+      "absoluteSourceClockEqual": true,
+      "sourceVideoFramesEqual": true,
+      "sourceAacSuffixEqual": true,
+      "resetNativeSourcePcmEqual": true,
+      "sourcePcmAfterOneFramePrerollEqual": false,
+      "uninterruptedPcmDifference": {
+        "fraction": 0.1,
+        "pcmSample": 292864,
+        "expectedAudio": 3090,
+        "differences": 16,
+        "first": 30510,
+        "last": 32754,
+        "peak": 1,
+        "frameCounts": {
+          "7": 16
+        }
+      },
+      "decodedPcmBytes": 12656640,
+      "comparedPcmBytes": 12652544,
+      "decoderWarmupSamples": 1024,
+      "decoderDiagnostics": 0
+    },
+    {
+      "fraction": 0.5,
+      "sourceWindow": {
+        "start": 4120208,
+        "endExclusive": 4644352
+      },
+      "packagedBytes": 4618784,
+      "packagedSha256": "78d72a79cd69cf87842792c4f7f3ceb760bb7546a33be71ca61439ae10826e6d",
+      "video": {
+        "frames": 60,
+        "startPts": 3208920,
+        "endPts": 3388920,
+        "step": 3000
+      },
+      "audio": {
+        "frames": 99,
+        "startPts": 3201840,
+        "endPts": 3391920,
+        "prerollFrames": 3
+      },
+      "decodedVideoFrames": 1140,
+      "decodedAacFrames": 1774,
+      "fragments": 19,
+      "bootstrap": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "readStart": 4176984,
+        "sourceSize": 8795392,
+        "sourceOffset": 8795392,
+        "sourceReceived": 4618408,
+        "outputSize": 4618784,
+        "outputBytes": 4618784,
+        "packets": 24566,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 0,
+        "bindingBytes": 0,
+        "psiRetainedBytes": 0,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 13739,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "quality": {
+        "videoVcl": {
+          "source": 1140,
+          "output": 1140,
+          "equal": true
+        },
+        "parameterSetsEqual": true,
+        "seiEqual": true,
+        "aac": {
+          "source": 1774,
+          "output": 1774,
+          "equal": true
+        },
+        "metadataDifferences": [],
+        "timing": [
+          {
+            "kind": "video",
+            "sourcePackets": 1140,
+            "outputPackets": 1140,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          },
+          {
+            "kind": "audio",
+            "sourcePackets": 1774,
+            "outputPackets": 1774,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          }
+        ],
+        "preserved": true
+      },
+      "absoluteSourceClockEqual": true,
+      "sourceVideoFramesEqual": true,
+      "sourceAacSuffixEqual": true,
+      "resetNativeSourcePcmEqual": true,
+      "sourcePcmAfterOneFramePrerollEqual": true,
+      "uninterruptedPcmDifference": null,
+      "decodedPcmBytes": 7266304,
+      "comparedPcmBytes": 7262208,
+      "decoderWarmupSamples": 1024,
+      "decoderDiagnostics": 0
+    },
+    {
+      "fraction": 0.9,
+      "sourceWindow": {
+        "start": 7650472,
+        "endExclusive": 8174616
+      },
+      "packagedBytes": 973840,
+      "packagedSha256": "5358374252812ac146aee33c0db9b2d37431a0a038183b55138812d79c79e0e7",
+      "video": {
+        "frames": 60,
+        "startPts": 5908920,
+        "endPts": 6088920,
+        "step": 3000
+      },
+      "audio": {
+        "frames": 110,
+        "startPts": 5884080,
+        "endPts": 6095280,
+        "prerollFrames": 12
+      },
+      "decodedVideoFrames": 240,
+      "decodedAacFrames": 377,
+      "fragments": 4,
+      "bootstrap": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "readStart": 7821928,
+        "sourceSize": 8795392,
+        "sourceOffset": 8795392,
+        "sourceReceived": 973464,
+        "outputSize": 973840,
+        "outputBytes": 973840,
+        "packets": 5178,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 0,
+        "bindingBytes": 0,
+        "psiRetainedBytes": 0,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 13245,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "quality": {
+        "videoVcl": {
+          "source": 240,
+          "output": 240,
+          "equal": true
+        },
+        "parameterSetsEqual": true,
+        "seiEqual": true,
+        "aac": {
+          "source": 377,
+          "output": 377,
+          "equal": true
+        },
+        "metadataDifferences": [],
+        "timing": [
+          {
+            "kind": "video",
+            "sourcePackets": 240,
+            "outputPackets": 240,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          },
+          {
+            "kind": "audio",
+            "sourcePackets": 377,
+            "outputPackets": 377,
+            "maxDtsDelta": 0,
+            "maxPtsDelta": 0,
+            "maxDurationDelta": 0,
+            "preserved": true
+          }
+        ],
+        "preserved": true
+      },
+      "absoluteSourceClockEqual": true,
+      "sourceVideoFramesEqual": true,
+      "sourceAacSuffixEqual": true,
+      "resetNativeSourcePcmEqual": true,
+      "sourcePcmAfterOneFramePrerollEqual": true,
+      "uninterruptedPcmDifference": null,
+      "decodedPcmBytes": 1544192,
+      "comparedPcmBytes": 1540096,
+      "decoderWarmupSamples": 1024,
+      "decoderDiagnostics": 0
+    }
+  ],
+  "observations": [
+    {
+      "mode": "seek-10",
+      "final": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 33,
+        "appendUpdates": 33,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 8061628,
+          "sourceBytesConsumed": 8061628,
+          "inputs": 198,
+          "detachedInputs": 198,
+          "transferredInputBytes": 8061628,
+          "fragments": 33,
+          "acks": 33,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 8061628,
+            "inputSequence": 198,
+            "fragments": 33,
+            "acknowledged": 33,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 235632,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 1207172,
+            "peakMuxCachedBufferBytes": 2397681,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 8061628,
+              "packets": 42881,
+              "emittedIntervals": 33,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 265268,
+              "peakOwnedByteStorage": 938342,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 3090,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 1980,
+                "aacFrames": 3090
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 1183630,
+              "beforeBufferBytes": 2351183,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 124,
+        "rangeBytes": 8061252,
+        "rangePending": false,
+        "continuousFrames": 935,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 15,
+          "removals": 26,
+          "peakAhead": 7.686287,
+          "peakSpan": 13.931999999999999,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 8061252,
+          "outputSize": 8061628,
+          "outputBytes": 8061628,
+          "packets": 42879,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            60.254666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 33,
+        "appendUpdates": 33,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 8061628,
+          "sourceBytesConsumed": 8061628,
+          "inputs": 198,
+          "detachedInputs": 198,
+          "transferredInputBytes": 8061628,
+          "fragments": 33,
+          "acks": 33,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 8061628,
+            "inputSequence": 198,
+            "fragments": 33,
+            "acknowledged": 33,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 235632,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 1207172,
+            "peakMuxCachedBufferBytes": 2397681,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 8061628,
+              "packets": 42881,
+              "emittedIntervals": 33,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 265268,
+              "peakOwnedByteStorage": 938342,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 3090,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 1980,
+                "aacFrames": 3090
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 1183630,
+              "beforeBufferBytes": 2351183,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 124,
+        "rangeBytes": 8061252,
+        "rangePending": false,
+        "continuousFrames": 935,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 15,
+          "removals": 26,
+          "peakAhead": 7.686287,
+          "peakSpan": 13.931999999999999,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 8061252,
+          "outputSize": 8061628,
+          "outputBytes": 8061628,
+          "packets": 42879,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            60.254666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 589944,
+            "end": 1114087
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 734140,
+            "end": 799675
+          },
+          {
+            "start": 799676,
+            "end": 865211
+          },
+          {
+            "start": 865212,
+            "end": 930747
+          },
+          {
+            "start": 930748,
+            "end": 996283
+          },
+          {
+            "start": 996284,
+            "end": 1061819
+          },
+          {
+            "start": 1061820,
+            "end": 1127355
+          },
+          {
+            "start": 1127356,
+            "end": 1192891
+          },
+          {
+            "start": 1192892,
+            "end": 1258427
+          },
+          {
+            "start": 1258428,
+            "end": 1323963
+          },
+          {
+            "start": 1323964,
+            "end": 1389499
+          },
+          {
+            "start": 1389500,
+            "end": 1455035
+          },
+          {
+            "start": 1455036,
+            "end": 1520571
+          },
+          {
+            "start": 1520572,
+            "end": 1586107
+          },
+          {
+            "start": 1586108,
+            "end": 1651643
+          },
+          {
+            "start": 1651644,
+            "end": 1717179
+          },
+          {
+            "start": 1717180,
+            "end": 1782715
+          },
+          {
+            "start": 1782716,
+            "end": 1848251
+          },
+          {
+            "start": 1848252,
+            "end": 1913787
+          },
+          {
+            "start": 1913788,
+            "end": 1979323
+          },
+          {
+            "start": 1979324,
+            "end": 2044859
+          },
+          {
+            "start": 2044860,
+            "end": 2110395
+          },
+          {
+            "start": 2110396,
+            "end": 2175931
+          },
+          {
+            "start": 2175932,
+            "end": 2241467
+          },
+          {
+            "start": 2241468,
+            "end": 2307003
+          },
+          {
+            "start": 2307004,
+            "end": 2372539
+          },
+          {
+            "start": 2372540,
+            "end": 2438075
+          },
+          {
+            "start": 2438076,
+            "end": 2503611
+          },
+          {
+            "start": 2503612,
+            "end": 2569147
+          },
+          {
+            "start": 2569148,
+            "end": 2634683
+          },
+          {
+            "start": 2634684,
+            "end": 2700219
+          },
+          {
+            "start": 2700220,
+            "end": 2765755
+          },
+          {
+            "start": 2765756,
+            "end": 2831291
+          },
+          {
+            "start": 2831292,
+            "end": 2896827
+          },
+          {
+            "start": 2896828,
+            "end": 2962363
+          },
+          {
+            "start": 2962364,
+            "end": 3027899
+          },
+          {
+            "start": 3027900,
+            "end": 3093435
+          },
+          {
+            "start": 3093436,
+            "end": 3158971
+          },
+          {
+            "start": 3158972,
+            "end": 3224507
+          },
+          {
+            "start": 3224508,
+            "end": 3290043
+          },
+          {
+            "start": 3290044,
+            "end": 3355579
+          },
+          {
+            "start": 3355580,
+            "end": 3421115
+          },
+          {
+            "start": 3421116,
+            "end": 3486651
+          },
+          {
+            "start": 3486652,
+            "end": 3552187
+          },
+          {
+            "start": 3552188,
+            "end": 3617723
+          },
+          {
+            "start": 3617724,
+            "end": 3683259
+          },
+          {
+            "start": 3683260,
+            "end": 3748795
+          },
+          {
+            "start": 3748796,
+            "end": 3814331
+          },
+          {
+            "start": 3814332,
+            "end": 3879867
+          },
+          {
+            "start": 3879868,
+            "end": 3945403
+          },
+          {
+            "start": 3945404,
+            "end": 4010939
+          },
+          {
+            "start": 4010940,
+            "end": 4076475
+          },
+          {
+            "start": 4076476,
+            "end": 4142011
+          },
+          {
+            "start": 4142012,
+            "end": 4207547
+          },
+          {
+            "start": 4207548,
+            "end": 4273083
+          },
+          {
+            "start": 4273084,
+            "end": 4338619
+          },
+          {
+            "start": 4338620,
+            "end": 4404155
+          },
+          {
+            "start": 4404156,
+            "end": 4469691
+          },
+          {
+            "start": 4469692,
+            "end": 4535227
+          },
+          {
+            "start": 4535228,
+            "end": 4600763
+          },
+          {
+            "start": 4600764,
+            "end": 4666299
+          },
+          {
+            "start": 4666300,
+            "end": 4731835
+          },
+          {
+            "start": 4731836,
+            "end": 4797371
+          },
+          {
+            "start": 4797372,
+            "end": 4862907
+          },
+          {
+            "start": 4862908,
+            "end": 4928443
+          },
+          {
+            "start": 4928444,
+            "end": 4993979
+          },
+          {
+            "start": 4993980,
+            "end": 5059515
+          },
+          {
+            "start": 5059516,
+            "end": 5125051
+          },
+          {
+            "start": 5125052,
+            "end": 5190587
+          },
+          {
+            "start": 5190588,
+            "end": 5256123
+          },
+          {
+            "start": 5256124,
+            "end": 5321659
+          },
+          {
+            "start": 5321660,
+            "end": 5387195
+          },
+          {
+            "start": 5387196,
+            "end": 5452731
+          },
+          {
+            "start": 5452732,
+            "end": 5518267
+          },
+          {
+            "start": 5518268,
+            "end": 5583803
+          },
+          {
+            "start": 5583804,
+            "end": 5649339
+          },
+          {
+            "start": 5649340,
+            "end": 5714875
+          },
+          {
+            "start": 5714876,
+            "end": 5780411
+          },
+          {
+            "start": 5780412,
+            "end": 5845947
+          },
+          {
+            "start": 5845948,
+            "end": 5911483
+          },
+          {
+            "start": 5911484,
+            "end": 5977019
+          },
+          {
+            "start": 5977020,
+            "end": 6042555
+          },
+          {
+            "start": 6042556,
+            "end": 6108091
+          },
+          {
+            "start": 6108092,
+            "end": 6173627
+          },
+          {
+            "start": 6173628,
+            "end": 6239163
+          },
+          {
+            "start": 6239164,
+            "end": 6304699
+          },
+          {
+            "start": 6304700,
+            "end": 6370235
+          },
+          {
+            "start": 6370236,
+            "end": 6435771
+          },
+          {
+            "start": 6435772,
+            "end": 6501307
+          },
+          {
+            "start": 6501308,
+            "end": 6566843
+          },
+          {
+            "start": 6566844,
+            "end": 6632379
+          },
+          {
+            "start": 6632380,
+            "end": 6697915
+          },
+          {
+            "start": 6697916,
+            "end": 6763451
+          },
+          {
+            "start": 6763452,
+            "end": 6828987
+          },
+          {
+            "start": 6828988,
+            "end": 6894523
+          },
+          {
+            "start": 6894524,
+            "end": 6960059
+          },
+          {
+            "start": 6960060,
+            "end": 7025595
+          },
+          {
+            "start": 7025596,
+            "end": 7091131
+          },
+          {
+            "start": 7091132,
+            "end": 7156667
+          },
+          {
+            "start": 7156668,
+            "end": 7222203
+          },
+          {
+            "start": 7222204,
+            "end": 7287739
+          },
+          {
+            "start": 7287740,
+            "end": 7353275
+          },
+          {
+            "start": 7353276,
+            "end": 7418811
+          },
+          {
+            "start": 7418812,
+            "end": 7484347
+          },
+          {
+            "start": 7484348,
+            "end": 7549883
+          },
+          {
+            "start": 7549884,
+            "end": 7615419
+          },
+          {
+            "start": 7615420,
+            "end": 7680955
+          },
+          {
+            "start": 7680956,
+            "end": 7746491
+          },
+          {
+            "start": 7746492,
+            "end": 7812027
+          },
+          {
+            "start": 7812028,
+            "end": 7877563
+          },
+          {
+            "start": 7877564,
+            "end": 7943099
+          },
+          {
+            "start": 7943100,
+            "end": 8008635
+          },
+          {
+            "start": 8008636,
+            "end": 8074171
+          },
+          {
+            "start": 8074172,
+            "end": 8139707
+          },
+          {
+            "start": 8139708,
+            "end": 8205243
+          },
+          {
+            "start": 8205244,
+            "end": 8270779
+          },
+          {
+            "start": 8270780,
+            "end": 8336315
+          },
+          {
+            "start": 8336316,
+            "end": 8401851
+          },
+          {
+            "start": 8401852,
+            "end": 8467387
+          },
+          {
+            "start": 8467388,
+            "end": 8532923
+          },
+          {
+            "start": 8532924,
+            "end": 8598459
+          },
+          {
+            "start": 8598460,
+            "end": 8663995
+          },
+          {
+            "start": 8663996,
+            "end": 8729531
+          },
+          {
+            "start": 8729532,
+            "end": 8795067
+          },
+          {
+            "start": 8795068,
+            "end": 8795391
+          }
+        ],
+        "sent": 9699108,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "seek-50",
+      "final": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 36.12733333333333,
+          "ticks": 3377460,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 4176984,
+          "rapPts": 3208920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 36.121333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 36.121333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 19,
+        "appendUpdates": 19,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 4618784,
+          "sourceBytesConsumed": 4618784,
+          "inputs": 113,
+          "detachedInputs": 113,
+          "transferredInputBytes": 4618784,
+          "fragments": 19,
+          "acks": 19,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 4618784,
+            "consumed": 4618784,
+            "inputSequence": 113,
+            "fragments": 19,
+            "acknowledged": 19,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 229975,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 1189456,
+            "peakMuxCachedBufferBytes": 2364111,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 4618784,
+              "packets": 24568,
+              "emittedIntervals": 19,
+              "firstEmissionOffset": 252860,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 932702,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 1774,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 1140,
+                "aacFrames": 1774
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 1183630,
+              "beforeBufferBytes": 2351183,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 71,
+        "rangeBytes": 4618408,
+        "rangePending": false,
+        "continuousFrames": 526,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 8,
+          "removals": 13,
+          "peakAhead": 7.722425000000001,
+          "peakSpan": 13.845332999999997,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 4176984,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 4618408,
+          "outputSize": 4618784,
+          "outputBytes": 4618784,
+          "packets": 24566,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13739,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 4176984,
+        "outputSize": 4618784,
+        "actualTime": 36.127333,
+        "buffered": [
+          [
+            60.254666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            34.176,
+            38.165333
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 524288,
+        "rangeRequestsAtFirstFrame": 8,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 36.12733333333333,
+          "ticks": 3377460,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 4176984,
+          "rapPts": 3208920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 36.121333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 36.121333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 19,
+        "appendUpdates": 19,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 4618784,
+          "sourceBytesConsumed": 4618784,
+          "inputs": 113,
+          "detachedInputs": 113,
+          "transferredInputBytes": 4618784,
+          "fragments": 19,
+          "acks": 19,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 4618784,
+            "consumed": 4618784,
+            "inputSequence": 113,
+            "fragments": 19,
+            "acknowledged": 19,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 229975,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 6,
+            "peakMuxCachedNalBytes": 1189456,
+            "peakMuxCachedBufferBytes": 2364111,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 4618784,
+              "packets": 24568,
+              "emittedIntervals": 19,
+              "firstEmissionOffset": 252860,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 932702,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 1774,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 1140,
+                "aacFrames": 1774
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 6,
+              "beforeNalBytes": 1183630,
+              "beforeBufferBytes": 2351183,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 71,
+        "rangeBytes": 4618408,
+        "rangePending": false,
+        "continuousFrames": 526,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 8,
+          "removals": 13,
+          "peakAhead": 7.722425000000001,
+          "peakSpan": 13.845332999999997,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 4176984,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 4618408,
+          "outputSize": 4618784,
+          "outputBytes": 4618784,
+          "packets": 24566,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13739,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 4176984,
+        "outputSize": 4618784,
+        "actualTime": 36.127333,
+        "buffered": [
+          [
+            60.254666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            34.176,
+            38.165333
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 524288,
+        "rangeRequestsAtFirstFrame": 8,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 4120208,
+            "end": 4644351
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 4176984,
+            "end": 4242519
+          },
+          {
+            "start": 4242520,
+            "end": 4308055
+          },
+          {
+            "start": 4308056,
+            "end": 4373591
+          },
+          {
+            "start": 4373592,
+            "end": 4439127
+          },
+          {
+            "start": 4439128,
+            "end": 4504663
+          },
+          {
+            "start": 4504664,
+            "end": 4570199
+          },
+          {
+            "start": 4570200,
+            "end": 4635735
+          },
+          {
+            "start": 4635736,
+            "end": 4701271
+          },
+          {
+            "start": 4701272,
+            "end": 4766807
+          },
+          {
+            "start": 4766808,
+            "end": 4832343
+          },
+          {
+            "start": 4832344,
+            "end": 4897879
+          },
+          {
+            "start": 4897880,
+            "end": 4963415
+          },
+          {
+            "start": 4963416,
+            "end": 5028951
+          },
+          {
+            "start": 5028952,
+            "end": 5094487
+          },
+          {
+            "start": 5094488,
+            "end": 5160023
+          },
+          {
+            "start": 5160024,
+            "end": 5225559
+          },
+          {
+            "start": 5225560,
+            "end": 5291095
+          },
+          {
+            "start": 5291096,
+            "end": 5356631
+          },
+          {
+            "start": 5356632,
+            "end": 5422167
+          },
+          {
+            "start": 5422168,
+            "end": 5487703
+          },
+          {
+            "start": 5487704,
+            "end": 5553239
+          },
+          {
+            "start": 5553240,
+            "end": 5618775
+          },
+          {
+            "start": 5618776,
+            "end": 5684311
+          },
+          {
+            "start": 5684312,
+            "end": 5749847
+          },
+          {
+            "start": 5749848,
+            "end": 5815383
+          },
+          {
+            "start": 5815384,
+            "end": 5880919
+          },
+          {
+            "start": 5880920,
+            "end": 5946455
+          },
+          {
+            "start": 5946456,
+            "end": 6011991
+          },
+          {
+            "start": 6011992,
+            "end": 6077527
+          },
+          {
+            "start": 6077528,
+            "end": 6143063
+          },
+          {
+            "start": 6143064,
+            "end": 6208599
+          },
+          {
+            "start": 6208600,
+            "end": 6274135
+          },
+          {
+            "start": 6274136,
+            "end": 6339671
+          },
+          {
+            "start": 6339672,
+            "end": 6405207
+          },
+          {
+            "start": 6405208,
+            "end": 6470743
+          },
+          {
+            "start": 6470744,
+            "end": 6536279
+          },
+          {
+            "start": 6536280,
+            "end": 6601815
+          },
+          {
+            "start": 6601816,
+            "end": 6667351
+          },
+          {
+            "start": 6667352,
+            "end": 6732887
+          },
+          {
+            "start": 6732888,
+            "end": 6798423
+          },
+          {
+            "start": 6798424,
+            "end": 6863959
+          },
+          {
+            "start": 6863960,
+            "end": 6929495
+          },
+          {
+            "start": 6929496,
+            "end": 6995031
+          },
+          {
+            "start": 6995032,
+            "end": 7060567
+          },
+          {
+            "start": 7060568,
+            "end": 7126103
+          },
+          {
+            "start": 7126104,
+            "end": 7191639
+          },
+          {
+            "start": 7191640,
+            "end": 7257175
+          },
+          {
+            "start": 7257176,
+            "end": 7322711
+          },
+          {
+            "start": 7322712,
+            "end": 7388247
+          },
+          {
+            "start": 7388248,
+            "end": 7453783
+          },
+          {
+            "start": 7453784,
+            "end": 7519319
+          },
+          {
+            "start": 7519320,
+            "end": 7584855
+          },
+          {
+            "start": 7584856,
+            "end": 7650391
+          },
+          {
+            "start": 7650392,
+            "end": 7715927
+          },
+          {
+            "start": 7715928,
+            "end": 7781463
+          },
+          {
+            "start": 7781464,
+            "end": 7846999
+          },
+          {
+            "start": 7847000,
+            "end": 7912535
+          },
+          {
+            "start": 7912536,
+            "end": 7978071
+          },
+          {
+            "start": 7978072,
+            "end": 8043607
+          },
+          {
+            "start": 8043608,
+            "end": 8109143
+          },
+          {
+            "start": 8109144,
+            "end": 8174679
+          },
+          {
+            "start": 8174680,
+            "end": 8240215
+          },
+          {
+            "start": 8240216,
+            "end": 8305751
+          },
+          {
+            "start": 8305752,
+            "end": 8371287
+          },
+          {
+            "start": 8371288,
+            "end": 8436823
+          },
+          {
+            "start": 8436824,
+            "end": 8502359
+          },
+          {
+            "start": 8502360,
+            "end": 8567895
+          },
+          {
+            "start": 8567896,
+            "end": 8633431
+          },
+          {
+            "start": 8633432,
+            "end": 8698967
+          },
+          {
+            "start": 8698968,
+            "end": 8764503
+          },
+          {
+            "start": 8764504,
+            "end": 8795391
+          }
+        ],
+        "sent": 6256264,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "seek-90",
+      "final": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 108,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.737368000000004,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 108,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.737368000000004,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 7650472,
+            "end": 8174615
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 7821928,
+            "end": 7887463
+          },
+          {
+            "start": 7887464,
+            "end": 7952999
+          },
+          {
+            "start": 7953000,
+            "end": 8018535
+          },
+          {
+            "start": 8018536,
+            "end": 8084071
+          },
+          {
+            "start": 8084072,
+            "end": 8149607
+          },
+          {
+            "start": 8149608,
+            "end": 8215143
+          },
+          {
+            "start": 8215144,
+            "end": 8280679
+          },
+          {
+            "start": 8280680,
+            "end": 8346215
+          },
+          {
+            "start": 8346216,
+            "end": 8411751
+          },
+          {
+            "start": 8411752,
+            "end": 8477287
+          },
+          {
+            "start": 8477288,
+            "end": 8542823
+          },
+          {
+            "start": 8542824,
+            "end": 8608359
+          },
+          {
+            "start": 8608360,
+            "end": 8673895
+          },
+          {
+            "start": 8673896,
+            "end": 8739431
+          },
+          {
+            "start": 8739432,
+            "end": 8795391
+          }
+        ],
+        "sent": 2611320,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "replace-held-seek",
+      "final": {
+        "generation": 2,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 2
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 2
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 2,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 2,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 107,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.879148000000001,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 2,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "cleanup": {
+        "generation": 2,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 2
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 2
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 2,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 2,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 107,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.879148000000001,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 2,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "old": {
+        "generation": 1,
+        "phase": "cancelled",
+        "failure": "SEEKQA_CANCELLED",
+        "probe": null,
+        "target": null,
+        "presented": null,
+        "frames": [],
+        "appends": 0,
+        "appendUpdates": 0,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": null,
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangePending": false,
+        "continuousFrames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 0,
+          "waiting": false
+        },
+        "bootstrap": null
+      },
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 4120208,
+            "end": 4644351
+          }
+        ],
+        "sent": 1048288,
+        "held": true,
+        "closed": true
+      }
+    },
+    {
+      "mode": "postflight-drift",
+      "final": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "POSTFLIGHT_DRIFT",
+        "probe": {
+          "ok": false,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 0,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": false,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": null,
+        "presented": null,
+        "frames": [],
+        "appends": 0,
+        "appendUpdates": 0,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": null,
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangePending": false,
+        "continuousFrames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 0,
+          "waiting": false
+        },
+        "bootstrap": null
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "POSTFLIGHT_DRIFT",
+        "probe": {
+          "ok": false,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 0,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": false,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": null,
+        "presented": null,
+        "frames": [],
+        "appends": 0,
+        "appendUpdates": 0,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": null,
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 0,
+        "rangeBytes": 0,
+        "rangePending": false,
+        "continuousFrames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 0,
+          "waiting": false
+        },
+        "bootstrap": null
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 4120208,
+            "end": 4644351
+          },
+          {
+            "start": 0,
+            "end": 65423
+          }
+        ],
+        "sent": 1637856,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "cancel-stream-wait",
+      "final": {
+        "generation": 1,
+        "phase": "cancelled",
+        "failure": "SEEKQA_CANCELLED",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 1245424,
+          "sourceBytesConsumed": 1235912,
+          "inputs": 30,
+          "detachedInputs": 30,
+          "transferredInputBytes": 1245424,
+          "fragments": 5,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 1235912,
+            "inputSequence": 30,
+            "fragments": 5,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 230815,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 5,
+            "peakMuxCachedNalBytes": 996114,
+            "peakMuxCachedBufferBytes": 1977764,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 1235912,
+              "packets": 6574,
+              "emittedIntervals": 5,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 263388,
+              "peakOwnedByteStorage": 933642,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 462,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 301,
+                "aacFrames": 473
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 5,
+              "beforeNalBytes": 996114,
+              "beforeBufferBytes": 1977764,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 19,
+        "rangeBytes": 1245184,
+        "rangePending": false,
+        "continuousFrames": 5,
+        "lastMediaTime": 7.754666,
+        "window": {
+          "waits": 1,
+          "removals": 0,
+          "peakAhead": 6.674980000000001,
+          "peakSpan": 7.9786660000000005,
+          "waiting": true
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 1979324,
+          "sourceReceived": 1245184,
+          "outputSize": 8061628,
+          "outputBytes": 1245500,
+          "packets": 6623,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "cancelled",
+        "failure": "SEEKQA_CANCELLED",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 1245424,
+          "sourceBytesConsumed": 1235912,
+          "inputs": 30,
+          "detachedInputs": 30,
+          "transferredInputBytes": 1245424,
+          "fragments": 5,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 1235912,
+            "inputSequence": 30,
+            "fragments": 5,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 230815,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 5,
+            "peakMuxCachedNalBytes": 996114,
+            "peakMuxCachedBufferBytes": 1977764,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 1235912,
+              "packets": 6574,
+              "emittedIntervals": 5,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 263388,
+              "peakOwnedByteStorage": 933642,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 462,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 301,
+                "aacFrames": 473
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 5,
+              "beforeNalBytes": 996114,
+              "beforeBufferBytes": 1977764,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 19,
+        "rangeBytes": 1245184,
+        "rangePending": false,
+        "continuousFrames": 5,
+        "lastMediaTime": 7.754666,
+        "window": {
+          "waits": 1,
+          "removals": 0,
+          "peakAhead": 6.674980000000001,
+          "peakSpan": 7.9786660000000005,
+          "waiting": true
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 1979324,
+          "sourceReceived": 1245184,
+          "outputSize": 8061628,
+          "outputBytes": 1245500,
+          "packets": 6623,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4
+      },
+      "old": null,
+      "paused": {
+        "kind": "cancel",
+        "milliseconds": 1200,
+        "workerUnchanged": true,
+        "serverUnchanged": true
+      },
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 589944,
+            "end": 1114087
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 734140,
+            "end": 799675
+          },
+          {
+            "start": 799676,
+            "end": 865211
+          },
+          {
+            "start": 865212,
+            "end": 930747
+          },
+          {
+            "start": 930748,
+            "end": 996283
+          },
+          {
+            "start": 996284,
+            "end": 1061819
+          },
+          {
+            "start": 1061820,
+            "end": 1127355
+          },
+          {
+            "start": 1127356,
+            "end": 1192891
+          },
+          {
+            "start": 1192892,
+            "end": 1258427
+          },
+          {
+            "start": 1258428,
+            "end": 1323963
+          },
+          {
+            "start": 1323964,
+            "end": 1389499
+          },
+          {
+            "start": 1389500,
+            "end": 1455035
+          },
+          {
+            "start": 1455036,
+            "end": 1520571
+          },
+          {
+            "start": 1520572,
+            "end": 1586107
+          },
+          {
+            "start": 1586108,
+            "end": 1651643
+          },
+          {
+            "start": 1651644,
+            "end": 1717179
+          },
+          {
+            "start": 1717180,
+            "end": 1782715
+          },
+          {
+            "start": 1782716,
+            "end": 1848251
+          },
+          {
+            "start": 1848252,
+            "end": 1913787
+          },
+          {
+            "start": 1913788,
+            "end": 1979323
+          }
+        ],
+        "sent": 2883040,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "stream-identity-drift",
+      "final": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "SEEKQA_RANGE_IDENTITY",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 36.12733333333333,
+          "ticks": 3377460,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 4176984,
+          "rapPts": 3208920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": null,
+        "frames": [],
+        "appends": 1,
+        "appendUpdates": 1,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 327872,
+          "sourceBytesConsumed": 327872,
+          "inputs": 8,
+          "detachedInputs": 8,
+          "transferredInputBytes": 327872,
+          "fragments": 1,
+          "acks": 1,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 4618784,
+            "consumed": 327872,
+            "inputSequence": 8,
+            "fragments": 1,
+            "acknowledged": 1,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 224442,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 1,
+            "peakMuxCachedNalBytes": 198354,
+            "peakMuxCachedBufferBytes": 393877,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 327872,
+              "packets": 1744,
+              "emittedIntervals": 1,
+              "firstEmissionOffset": 252860,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 253048,
+              "peakOwnedByteStorage": 926340,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 88,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 80,
+                "aacFrames": 121
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 1,
+              "beforeNalBytes": 198354,
+              "beforeBufferBytes": 393877,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 6,
+        "rangeBytes": 327680,
+        "rangePending": false,
+        "continuousFrames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 1.8773330000000001,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 4176984,
+          "sourceSize": 8795392,
+          "sourceOffset": 4504664,
+          "sourceReceived": 327680,
+          "outputSize": 4618784,
+          "outputBytes": 327872,
+          "packets": 1742,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13739,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 4176984,
+        "outputSize": 4618784
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "SEEKQA_RANGE_IDENTITY",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 36.12733333333333,
+          "ticks": 3377460,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 4176984,
+          "rapPts": 3208920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": null,
+        "frames": [],
+        "appends": 1,
+        "appendUpdates": 1,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 327872,
+          "sourceBytesConsumed": 327872,
+          "inputs": 8,
+          "detachedInputs": 8,
+          "transferredInputBytes": 327872,
+          "fragments": 1,
+          "acks": 1,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 4618784,
+            "consumed": 327872,
+            "inputSequence": 8,
+            "fragments": 1,
+            "acknowledged": 1,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 224442,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 1,
+            "peakMuxCachedNalBytes": 198354,
+            "peakMuxCachedBufferBytes": 393877,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 327872,
+              "packets": 1744,
+              "emittedIntervals": 1,
+              "firstEmissionOffset": 252860,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 253048,
+              "peakOwnedByteStorage": 926340,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 88,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 80,
+                "aacFrames": 121
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 1,
+              "beforeNalBytes": 198354,
+              "beforeBufferBytes": 393877,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 6,
+        "rangeBytes": 327680,
+        "rangePending": false,
+        "continuousFrames": 0,
+        "lastMediaTime": null,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0,
+          "peakSpan": 1.8773330000000001,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 4176984,
+          "sourceSize": 8795392,
+          "sourceOffset": 4504664,
+          "sourceReceived": 327680,
+          "outputSize": 4618784,
+          "outputBytes": 327872,
+          "packets": 1742,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13739,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 4176984,
+        "outputSize": 4618784
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 4120208,
+            "end": 4644351
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 4176984,
+            "end": 4242519
+          },
+          {
+            "start": 4242520,
+            "end": 4308055
+          },
+          {
+            "start": 4308056,
+            "end": 4373591
+          },
+          {
+            "start": 4373592,
+            "end": 4439127
+          },
+          {
+            "start": 4439128,
+            "end": 4504663
+          },
+          {
+            "start": 4504664,
+            "end": 4570199
+          }
+        ],
+        "sent": 2031072,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "media-error-during-wait",
+      "final": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "SEEKQA_MEDIA_ERROR",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 1245424,
+          "sourceBytesConsumed": 1235912,
+          "inputs": 30,
+          "detachedInputs": 30,
+          "transferredInputBytes": 1245424,
+          "fragments": 5,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 1235912,
+            "inputSequence": 30,
+            "fragments": 5,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 230815,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 5,
+            "peakMuxCachedNalBytes": 996114,
+            "peakMuxCachedBufferBytes": 1977764,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 1235912,
+              "packets": 6574,
+              "emittedIntervals": 5,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 263388,
+              "peakOwnedByteStorage": 933642,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 462,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 301,
+                "aacFrames": 473
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 5,
+              "beforeNalBytes": 996114,
+              "beforeBufferBytes": 1977764,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 19,
+        "rangeBytes": 1245184,
+        "rangePending": false,
+        "continuousFrames": 5,
+        "lastMediaTime": 7.688,
+        "window": {
+          "waits": 1,
+          "removals": 0,
+          "peakAhead": 6.537928000000001,
+          "peakSpan": 7.9786660000000005,
+          "waiting": true
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 1979324,
+          "sourceReceived": 1245184,
+          "outputSize": 8061628,
+          "outputBytes": 1245500,
+          "packets": 6623,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "SEEKQA_MEDIA_ERROR",
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 7.225466666666667,
+          "ticks": 776292,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 734140,
+          "rapPts": 688920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 7.221333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 7.221333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 1245424,
+          "sourceBytesConsumed": 1235912,
+          "inputs": 30,
+          "detachedInputs": 30,
+          "transferredInputBytes": 1245424,
+          "fragments": 5,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 8061628,
+            "consumed": 1235912,
+            "inputSequence": 30,
+            "fragments": 5,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 230815,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 5,
+            "peakMuxCachedNalBytes": 996114,
+            "peakMuxCachedBufferBytes": 1977764,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 1235912,
+              "packets": 6574,
+              "emittedIntervals": 5,
+              "firstEmissionOffset": 260756,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 263388,
+              "peakOwnedByteStorage": 933642,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 462,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 301,
+                "aacFrames": 473
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 5,
+              "beforeNalBytes": 996114,
+              "beforeBufferBytes": 1977764,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 19,
+        "rangeBytes": 1245184,
+        "rangePending": false,
+        "continuousFrames": 5,
+        "lastMediaTime": 7.688,
+        "window": {
+          "waits": 1,
+          "removals": 0,
+          "peakAhead": 6.537928000000001,
+          "peakSpan": 7.9786660000000005,
+          "waiting": true
+        },
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 734140,
+          "sourceSize": 8795392,
+          "sourceOffset": 1979324,
+          "sourceReceived": 1245184,
+          "outputSize": 8061628,
+          "outputBytes": 1245500,
+          "packets": 6623,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 14309,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 734140,
+        "outputSize": 8061628,
+        "actualTime": 7.225466,
+        "buffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            6.101333,
+            7.978666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4
+      },
+      "old": null,
+      "paused": null,
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 589944,
+            "end": 1114087
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 734140,
+            "end": 799675
+          },
+          {
+            "start": 799676,
+            "end": 865211
+          },
+          {
+            "start": 865212,
+            "end": 930747
+          },
+          {
+            "start": 930748,
+            "end": 996283
+          },
+          {
+            "start": 996284,
+            "end": 1061819
+          },
+          {
+            "start": 1061820,
+            "end": 1127355
+          },
+          {
+            "start": 1127356,
+            "end": 1192891
+          },
+          {
+            "start": 1192892,
+            "end": 1258427
+          },
+          {
+            "start": 1258428,
+            "end": 1323963
+          },
+          {
+            "start": 1323964,
+            "end": 1389499
+          },
+          {
+            "start": 1389500,
+            "end": 1455035
+          },
+          {
+            "start": 1455036,
+            "end": 1520571
+          },
+          {
+            "start": 1520572,
+            "end": 1586107
+          },
+          {
+            "start": 1586108,
+            "end": 1651643
+          },
+          {
+            "start": 1651644,
+            "end": 1717179
+          },
+          {
+            "start": 1717180,
+            "end": 1782715
+          },
+          {
+            "start": 1782716,
+            "end": 1848251
+          },
+          {
+            "start": 1848252,
+            "end": 1913787
+          },
+          {
+            "start": 1913788,
+            "end": 1979323
+          }
+        ],
+        "sent": 2883040,
+        "held": false,
+        "closed": false
+      }
+    },
+    {
+      "mode": "pause-after-eof",
+      "final": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": false,
+        "urlRevoked": false,
+        "bufferRemoved": false,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 106,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.689852000000002,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "cleanup": {
+        "generation": 1,
+        "phase": "ended",
+        "failure": null,
+        "probe": {
+          "ok": true,
+          "metrics": {
+            "requests": 4,
+            "receivedBytes": 1637856,
+            "uniqueBytes": 1572432,
+            "cacheHits": 1,
+            "dedupedReads": 0
+          },
+          "identity": {
+            "preflight": true,
+            "postflight": true,
+            "checked": [
+              "accountKey",
+              "fileId",
+              "version",
+              "size",
+              "modifiedTime",
+              "mimeType",
+              "canDownload"
+            ]
+          }
+        },
+        "target": {
+          "seconds": 65.0292,
+          "ticks": 5978628,
+          "originTicks": 126000,
+          "tolerance": 0.033433333333333336,
+          "rapOffset": 7821928,
+          "rapPts": 5908920,
+          "timelineKind": "sampled-candidate"
+        },
+        "presented": {
+          "mediaTime": 65.021333,
+          "width": 360,
+          "height": 640,
+          "generation": 1
+        },
+        "frames": [
+          {
+            "mediaTime": 65.021333,
+            "width": 360,
+            "height": 640,
+            "generation": 1
+          }
+        ],
+        "appends": 4,
+        "appendUpdates": 4,
+        "appendErrors": 0,
+        "sourceSize": 8795392,
+        "packagedBytes": 0,
+        "disposed": true,
+        "urlRevoked": true,
+        "bufferRemoved": true,
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 973840,
+          "sourceBytesConsumed": 973840,
+          "inputs": 24,
+          "detachedInputs": 24,
+          "transferredInputBytes": 973840,
+          "fragments": 4,
+          "acks": 4,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 973840,
+            "consumed": 973840,
+            "inputSequence": 24,
+            "fragments": 4,
+            "acknowledged": 4,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 228333,
+            "peakConfigBytes": 30,
+            "peakInitBytes": 1136,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 4,
+            "peakMuxCachedNalBytes": 791097,
+            "peakMuxCachedBufferBytes": 1572752,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "received": 973840,
+              "packets": 5180,
+              "emittedIntervals": 4,
+              "firstEmissionOffset": 257184,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 260756,
+              "peakOwnedByteStorage": 930822,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 377,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 240,
+                "aacFrames": 377
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 4,
+              "beforeNalBytes": 791097,
+              "beforeBufferBytes": 1572752,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "retainedInputBytes": 0,
+        "continuous": true,
+        "rangeRequests": 15,
+        "rangeBytes": 973464,
+        "rangePending": false,
+        "continuousFrames": 106,
+        "lastMediaTime": 72.221333,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 6.689852000000002,
+          "peakSpan": 8.042667000000002,
+          "waiting": false
+        },
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "readStart": 7821928,
+          "sourceSize": 8795392,
+          "sourceOffset": 8795392,
+          "sourceReceived": 973464,
+          "outputSize": 973840,
+          "outputBytes": 973840,
+          "packets": 5178,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 13245,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "readStart": 7821928,
+        "outputSize": 973840,
+        "actualTime": 65.0292,
+        "buffered": [
+          [
+            63.978666,
+            72.254666
+          ]
+        ],
+        "firstBuffered": [
+          [
+            63.978666,
+            66.090666
+          ]
+        ],
+        "rangeBytesAtFirstFrame": 262144,
+        "rangeRequestsAtFirstFrame": 4,
+        "playbackRate": 4,
+        "ended": true,
+        "finalTime": 72.254666
+      },
+      "old": null,
+      "paused": {
+        "kind": "resume-tail",
+        "milliseconds": 11100,
+        "serverUnchanged": true
+      },
+      "server": {
+        "ranges": [
+          {
+            "start": 0,
+            "end": 524143
+          },
+          {
+            "start": 8271248,
+            "end": 8795391
+          },
+          {
+            "start": 7650472,
+            "end": 8174615
+          },
+          {
+            "start": 0,
+            "end": 65423
+          },
+          {
+            "start": 7821928,
+            "end": 7887463
+          },
+          {
+            "start": 7887464,
+            "end": 7952999
+          },
+          {
+            "start": 7953000,
+            "end": 8018535
+          },
+          {
+            "start": 8018536,
+            "end": 8084071
+          },
+          {
+            "start": 8084072,
+            "end": 8149607
+          },
+          {
+            "start": 8149608,
+            "end": 8215143
+          },
+          {
+            "start": 8215144,
+            "end": 8280679
+          },
+          {
+            "start": 8280680,
+            "end": 8346215
+          },
+          {
+            "start": 8346216,
+            "end": 8411751
+          },
+          {
+            "start": 8411752,
+            "end": 8477287
+          },
+          {
+            "start": 8477288,
+            "end": 8542823
+          },
+          {
+            "start": 8542824,
+            "end": 8608359
+          },
+          {
+            "start": 8608360,
+            "end": 8673895
+          },
+          {
+            "start": 8673896,
+            "end": 8739431
+          },
+          {
+            "start": 8739432,
+            "end": 8795391
+          }
+        ],
+        "sent": 2611320,
+        "held": false,
+        "closed": false
+      }
+    }
+  ],
+  "limitations": [
+    "generated local desktop Chrome only; no actual Drive/priority/iPhone or shipped product claim",
+    "72-second continuous generated source only; global unsampled clock/duration, longGOP/VFR, other formats/devices remain unverified",
+    "native reset-decoder original-AAC suffix and output match all PCM; uninterrupted full-source PCM differences are explicitly retained, not treated as equal; browser muted, audibility/color not verified",
+    "native whole-source oracle is outside bounded browser memory; no total heap/decoder/GPU accounting"
+  ]
+}
