@@ -1,10 +1,10 @@
-# Checkpoint — rc.6 bounded early TS route verified locally — 2026-09-27 01:57
+# Checkpoint — rc.6 candidate verified; bounded transient recovery next — 2026-09-27 02:08
 
 ## The story so far
 
-Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, HEAD d4589c8. Priority full-original evidence is committed. Current uncommitted rc.6 avoids two whole native reads for eligible TS: owned940-byte probe, safe native fallback only for non-TS/cleanly missing revision, source identity/checksum binding and prior-owner cleanup fence. Known-clean native startup stays synchronous. Final Node334/334, app/SW16/16, lifecycle7/7, legacy functional22/22 pass. Actual208MB priority through app+SW passes firstframe/10-50-90% seek/end without native code4 or open-ended range; original full fingerprint/stat unchanged. Reports pin final producers. Independent review clean. No audit running.
+Repo C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, product22f7271(rc.6). Generic940-byte early TS routing is committed with Node334/app16/lifecycle7/legacy22 and actual local208MB app firstframe/seeks/end evidence. Original fingerprint/stat unchanged. Free candidate deployed once to Worker7b2396d6-8a04-432b-8bc2-a7eda12752a0. All19public assets equal product Git blobs;4private paths404; fresh unauthenticated Chrome caches17public shell assets exactly, controls page and reloads offline. Existing isolated tab normal reload also controls rc.6 with only its shell cache. No audit running.
 
-Candidate remains rc.4/3597e63, production v1.21.0 unchanged. rc.6 is not committed/deployed yet. Rebuild _site because the last app fix followed its previous build. Live Drive identity/expiry, physical iPhone/PWA, total memory, full formats and migration acceptance remain open. Earlier local full-run Q1_SOURCE_READ_FAILED counterevidence remains unresolved under V2-06B; latest partial replay does not erase it.
+Candidate auth bindings unchanged; Drive writes remain disabled and production v1.21.0 untouched. Live Drive identity/expiry, physical iPhone/PWA, total memory, full formats and migration acceptance remain open. Earlier local full-run Q1_SOURCE_READ_FAILED near299s remains unexplained. Read-only review identifies an independent concrete V2-06B gap: Q1 maps a single503 Range to HEADERS and terminates, unlike its native route. Need bounded retry without mixing bytes, not an unsupported claim that the299s cause is fixed.
 
 ## Decided
 
@@ -16,7 +16,7 @@ No local decision needed. Actual authenticated Drive/device and operating transi
 
 ## Next first action
 
-Finish rc.6 evidence/goal/truth updates, run node scripts/build-pages.cjs and exact19-file allowlist byte check, review scoped diff/report producers, stage only this unit and commit; then verify/deploy the authorized free candidate without changing auth/write gates or production.
+Commit only candidate delivery driver/reports/docs, then reproduce one post-firstframe finite Range503 in the actual app fixture and implement one cleanup-fenced same-range retry with fresh content/account/checksum binding; retain permanent/drift/malformed/unknown-cleanup failures.
 
 ## Tried
 
@@ -29,3 +29,5 @@ Finish rc.6 evidence/goal/truth updates, run node scripts/build-pages.cjs and ex
 - Native TS wholebody retry costs two full inputs; bounded generic early routing now passes local app tests.
 - SW first-chunk sniff cannot cap open-ended transfer and lacks acknowledged cleanup handoff; upfront owned probe is smaller.
 - Code4/iframe/mock/append alone never proves a decoded original frame or device acceptance.
+- First delivery audit timed out fetching a public module; retained report, later full19-byte read succeeded. QA wrongly expected sw.js in app shell cache; corrected to the actual17public-file contract (root separately), not a product change.
+- DevTools ignore-cache reload left the page temporarily uncontrolled; normal reload restored rc.6 control. Fresh isolated Chrome installation/offline checks passed separately.

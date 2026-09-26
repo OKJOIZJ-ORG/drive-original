@@ -105,9 +105,11 @@ The early eligible route removes native whole-body TS attempts. Native capabilit
 claims and stale/missing listing hints can still defer Q1 to the existing late
 fallback. No claim that synthetic success closes the remaining live gates.
 
-This unit does not deploy, merge, push, mutate originals or enable candidate
-Drive writes. Last deployed candidate remains rc.4/3597e63; production v1.21.0
-is unchanged. Local recovery: revert this coherent product commit on the work
+The subsequent approved candidate deployment serves rc.6/22f7271:19public files
+equal Git bytes,17cached public shell files equal those bytes, and cold/offline
+unauthenticated Chrome checks pass (memory/CANDIDATE-RC6-20260927.md).
+No merge/push, original mutation or candidate Drive writes occurred; production
+v1.21.0 is unchanged. Local recovery: revert this coherent product commit on the work
 branch through a new commit, retaining prior QA and user work. Candidate recovery
 if later deployed: normal redeployment of the previous committed allowlist/auth
 configuration; no cookie purge, appData rewrite or original-media operation.
