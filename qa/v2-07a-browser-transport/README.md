@@ -13,6 +13,12 @@ Do not also add those component bundles in that case. `root-inventory` and
 `representative-selector` are available only for a reviewed deployment that still
 needs them independently.
 
+The separately reviewed `mpegts-probe` composite adds the bounded MPEG-TS
+parser/adapter without replacing either existing diagnostic. Keep both previous
+artifacts byte-identical and include `--artifact mpegts-probe=PATH_TO_REVIEWED_MPEGTS_BUNDLE.js`
+when rebuilding the three-artifact registry. This only serves public JavaScript;
+private media and account data never enter this Worker.
+
 After the final adapter bytes exist and have been reviewed, generate the local
 deployment payload and redacted manifest:
 

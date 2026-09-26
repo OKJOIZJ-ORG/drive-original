@@ -86,22 +86,25 @@ test('fails closed for origin, method, path and query mismatches without CORS', 
   }
 });
 
-test('permits only the four named roles and never duplicates final bytes', async (t) => {
+test('permits only the five named roles and never duplicates final bytes', async (t) => {
   const fixture = await buildFixture([
     { role: 'root-inventory', name: 'root.mjs', source: `${PUBLIC_SOURCE}export const root = true;\n` },
     { role: 'representative-selector', name: 'selector.mjs', source: `${PUBLIC_SOURCE}export const selector = true;\n` },
     { role: 'bounded-adapter', name: 'adapter.mjs', source: `${PUBLIC_SOURCE}export const adapter = true;\n` },
-    { role: 'identity-reconciler', name: 'reconciler.mjs', source: `${PUBLIC_SOURCE}export const reconciler = true;\n` }
+    { role: 'identity-reconciler', name: 'reconciler.mjs', source: `${PUBLIC_SOURCE}export const reconciler = true;\n` },
+    { role: 'mpegts-probe', name: 'mpegts.mjs', source: `${PUBLIC_SOURCE}export const mpegts = true;\n` }
   ]);
   t.after(() => rm(fixture.directory, { recursive: true, force: true }));
   assert.deepEqual(fixture.manifest.artifacts.map(({ role }) => role), [
-    'bounded-adapter', 'identity-reconciler', 'representative-selector', 'root-inventory'
+    'bounded-adapter', 'identity-reconciler', 'mpegts-probe', 'representative-selector', 'root-inventory'
   ]);
   const serveAll = createBundleTransport(fixture.generated.BUNDLES);
   const reconciler = fixture.generated.BUNDLES.find(({ role }) => role === 'identity-reconciler');
   const reconcilerResponse = await serveAll(request(reconciler.path));
   assert.equal(reconcilerResponse.status, 200);
   assert.equal(await reconcilerResponse.text(), reconciler.source);
+  const mpegts = fixture.generated.BUNDLES.find(({ role }) => role === 'mpegts-probe');
+  assert.equal(await serveAll(request(mpegts.path)).text(), mpegts.source);
   await assert.rejects(
     () => buildTransport({ artifacts: [{ role: 'unexpected', sourcePath: join(fixture.directory, 'adapter.mjs') }], outDirectory: fixture.directory }),
     /unsupported artifact role/
@@ -159,7 +162,7 @@ test('checked-in registry and manifest preserve exact reviewed artifact bytes', 
   const manifest = JSON.parse(await readFile(new URL('./manifest.redacted.json', import.meta.url), 'utf8'));
   const publicBundles = CHECKED_IN_BUNDLES.map(({ source, ...bundle }) => bundle);
   assert.deepEqual(publicBundles, manifest.artifacts);
-  assert.deepEqual(publicBundles.map(({ role }) => role), ['bounded-adapter', 'identity-reconciler']);
+  assert.deepEqual(publicBundles.map(({ role }) => role), ['bounded-adapter', 'identity-reconciler', 'mpegts-probe']);
   for (const bundle of CHECKED_IN_BUNDLES) {
     assert.equal(Buffer.byteLength(bundle.source), bundle.byteLength);
     assert.equal(createHash('sha256').update(bundle.source).digest('hex'), bundle.sha256);

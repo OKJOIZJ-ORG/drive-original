@@ -1,4 +1,4 @@
-# Checkpoint — V2-07A MPEG-TS browser probe locally verified — 2026-09-26
+# Checkpoint — V2-07A local MPEG-TS probe verified — 2026-09-26
 
 ## The story so far
 
@@ -13,8 +13,7 @@ Historical product candidate remains 1.22.0-rc.4 (3597e63), Worker 28d2a9fc-730e
 - D-050/D-051 remain active: browser/PWA, direct browser/SW Drive bytes, minimal same-origin serverless auth; no server media relay.
 - No main merge, push, production replacement, original mutation, sharing/billing or automation restart.
 - V2-07A is the sole READY workstream; V2-07B product Q1 integration is not yet accepted.
-- Local parser/evidence are committed at `3f49d1c`. The separate browser adapter now passes 53/53 focused tests and combined parser/core/adapters/transport/app/static/SW integration passes 370/370. It reuses the proven SW route, gates detail evidence on complete structure, holds metadata ownership through JSON settlement and caps total adapter dispatches at 512/ten minutes. `aggregateAvailable:false` explicitly marks discarded metrics on whole-run failures; zero placeholders are not zero-work proof.
-- The three-artifact QA registry preserves the old bounded adapter and reconciler byte-for-byte and adds only the reviewed public MPEG-TS composite. Local no-binding Wrangler dry-run passed. Remote readback still showed QA version `68cf79bb-3c04-4cbf-8472-ffa3880d9836` and both prior exact 200 artifact bodies; no deployment has occurred yet in this slice.
+- The separate browser adapter is still uncommitted under ignored qa/v2-07a-mpegts-browser-probe/. Its scoped worker reports 53/53 tests after SW transport, conservative evidence classification and whole-run bounds fixes; root integration review remains next.
 
 ## Waiting on the user
 
@@ -22,7 +21,7 @@ None for local work. Current native computer-use node_repl is unavailable; fallb
 
 ## Next first action
 
-Deploy the committed three-artifact registry using worker/node_modules/wrangler/bin/wrangler.js and qa/v2-07a-browser-transport/wrangler.v2-07a-transport.json only; verify exact remote GET/HEAD bytes and headers, then run the one-shot authenticated probe only after browser control is available.
+Review and verify qa/v2-07a-mpegts-browser-probe/drive-browser-adapter.mjs against the proven same-origin /__drive_media contract, then commit its exact public bundle and transport packaging before any live run.
 
 ## Tried
 
