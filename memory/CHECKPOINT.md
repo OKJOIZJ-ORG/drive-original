@@ -1,38 +1,37 @@
-# Checkpoint — rc.8 delivered; state snapshot next — 2026-09-28 10:15
+# Checkpoint — rc.9 local verified; cycle QA running — 2026-09-28 10:36
 
 ## The story so far
 
 Repo `C:/extensions/Drive-Original/source`, branch `codex/v2-kickoff-diagnostics`.
-Product `c49c971`, docs `0846242`, rc.8 now served by candidate Worker
-`500506d1-d0f1-48e4-b213-ecb1b96d9bcf`. 19 public/17 cached Git-equal bodies,
-cold/offline Chrome pass. Full344Node,17auth,16product,22functional local checks
-pass. Q1-AUTH-20260928.md and CANDIDATE-RC8-20260928.md own evidence/limits.
+Candidate rc.8/productc49c971/Worker500506d1 remains live; productionv1.21.0 unchanged.
+State QA committed988b809: collector13 and adapter11 tests pass, no product schema
+change or live private snapshot. See STATE-SNAPSHOT-20260928.md.
 
-V2-08A uses the existing writer union; a bounded read-only snapshot/comparator is
-being implemented in qa/v2-state-snapshot. No new storage schema is needed.
-V2-06B real expiry/device, indefinite401cancel and historic299s READ_FAILED remain
-open. Production Pages v1.21.0 is unchanged.
+Local rc.9 fixes SW401 cancellation rejection/hang with a2s wall, explicit source
+uncertainty and client Q1 completion fence. Node348, auth17, functional22 pass;
+QA normal16 and50cycle actual-app checks are active. Preserve pending agent
+q1-product-audit.cjs work. Q1-CLEANUP-20260928.md owns proof and limits.
 
 ## Decided
 
-D-054 resumes work and ends D-053 wait. Judge plan means/order by evidence while
-preserving goals and D-050 boundaries. Candidate Drive writes stay disabled;
-automation paused; original media read-only; no main merge/push/production change.
+D-054 resumes work; judge plan means/order by evidence. D-050 boundaries remain:
+free candidate only, candidate writes disabled, original media read-only,
+automation paused, no main merge/push/production change or billing.
 
 ## Waiting on the user
 
-Actual Google login in the visible DevTools candidate tab was requested to enable
-read-only live checks. Physical iPhone/PWA media checks still remain.
+Visible managed Chrome candidate needs actual Google login; request is pending.
+Legacy-origin unsynced local replica and physical devices still need evidence.
 
 ## Next first action
 
-Inspect git status, finish/review the QA-only state snapshot and comparator,
-then use the same managed candidate session after actual login. Do not infer state
-migration success from matching counts or runtime schema normalization.
+Inspect status and agent completion, finish50cycle/normal QA and commit owned
+rc.9 runtime, then free candidate delivery/readback. Keep cross-route Q0 retirement,
+real expiry/device/full formats/total memory and historic299s READ_FAILED open.
 
 ## Tried
 
-- Page fetch abort alone could not prevent stale SW401 replay; exact owner
-  approval after body cleanup also fences cached-newer token paths.
-- Existing appData writer union is adequate; adding another schema would add risk.
-- Prior299s READ_FAILED is unexplained; the later success does not explain it.
+- Abort request is not cleanup proof. Fixed uncertainty blocks later Q1 reads;
+  generic/direct-buffer cross-route replacement remains a separate discriminator.
+- Counts do not prove state preservation; compare complete raw and normalized
+  contents with schema/account/catalog checks and keep pending local state separate.

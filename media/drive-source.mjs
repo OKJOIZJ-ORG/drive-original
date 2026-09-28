@@ -7,6 +7,8 @@
 // Promise: {settled,pendingCallbacks,cleanupPending,cleanupFailed}. Its separate
 // cleanup wall is min(requestTimeoutMs,2000); a false result MUST block starting
 // another transport owner. A failed open carries the same result in error.cleanup.
+// A fixed SW cleanup-uncertain response keeps this result false even when the
+// local response body/callback has settled; upstream abort alone is not proof.
 // An injected callback that ignores cancellation cannot be forcibly terminated.
 // Only an otherwise valid opening metadata response with null/absent revision
 // reports IDENTITY_UNAVAILABLE. This never permits a read or a later identity loss.
@@ -188,6 +190,12 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
         const response=await wait(owner,()=>readRange({start,end,range:`bytes=${start}-${end}`,signal:owner.controller.signal}),
           value=>cancel(value?.body),value=>{owner.response=value;});
         check();
+        if(response?.status===502&&response.headers?.get?.('X-Drive-Original-Q1-Cleanup')==='unconfirmed'){
+          // The SW's remote body cleanup is separate from this callback/body.
+          // A returned failure must not let local cancellation claim it settled.
+          cleanupFailed=true;
+          throw new SourceError('Q1_SOURCE_CLEANUP_UNCONFIRMED');
+        }
         if(response?.status===503&&typeof response.headers?.get==='function'){
           const retryAfterMs=boundedRetryAfter(response.headers.get('Retry-After'));check();
           recovery=Object.freeze({phase:'range-headers',status:503,retryAfterMs});

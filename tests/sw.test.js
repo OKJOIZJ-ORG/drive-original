@@ -232,6 +232,105 @@ test('Q1 media cannot substitute a cached token for a missing affirmative owner 
   assert.equal(worker.calls.length, 0);
 });
 
+test('Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned', async () => {
+  for (const mode of ['reject', 'timeout', 'abort']) {
+    const scheduled = new Map(); let sequence = 0, release, reject, cancelStarted;
+    const started = new Promise(resolve => { cancelStarted = resolve; });
+    const gate = new Promise((resolve, no) => { release = resolve; reject = no; });
+    const worker = createWorker((_url, _options, attempt) => attempt === 1
+      ? new Response(new ReadableStream({ cancel() {
+        cancelStarted(); return mode === 'reject' ? Promise.reject(new Error('private cancel detail')) : gate;
+      } }), { status: 401 }) : partialResponse(), {
+      setTimeoutImpl(callback, delay) { const id = ++sequence; scheduled.set(id, { callback, delay }); return id; },
+      clearTimeoutImpl(id) { scheduled.delete(id); }
+    });
+    const messages = worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true }));
+    worker.setToken('A', 'old');
+    const caller = new AbortController();
+    const old = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3, signal: caller.signal }).response;
+    await started;
+    const replacement = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 4 }).response;
+    if (mode === 'timeout') {
+      const timers = [...scheduled.values()]; assert.equal(timers.length, 1); assert.equal(timers[0].delay, 2000);
+      timers[0].callback();
+    } else if (mode === 'abort') caller.abort();
+    // The page may discard old entirely. The worker's fence still rejects its
+    // next source; a fresh SET_TOKEN/account revision must not clear uncertainty.
+    const first = await old, next = await replacement;
+    for (const response of [first, next]) {
+      assert.equal(response.status, 502);
+      assert.equal(response.headers.get('X-Drive-Original-Q1-Cleanup'), 'unconfirmed');
+      assert.equal((await response.text()).includes('private cancel detail'), false);
+    }
+    worker.setToken('A', 'fresh', { revision: 9, accountGeneration: 2 });
+    const later = await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 5, accountGeneration: 2 }).response;
+    assert.equal(later.headers.get('X-Drive-Original-Q1-Cleanup'), 'unconfirmed');
+    assert.equal(worker.calls.length, 1); assert.equal(worker.calls[0].signal.aborted, true);
+    assert.equal(messages.filter(message => message.type === 'TOKEN_REQUEST').length, 1);
+    assert.equal(scheduled.size, 0);
+    if (mode === 'timeout') reject(new Error('late private cancel'));
+    else release();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(vm.runInContext('q1CleanupFences.has("A")', worker.context), true);
+    // Generic media/thumbnail requests and a different Q1 client retain their
+    // established transport behavior despite A's Q1-only fence.
+    assert.equal((await worker.request('A', { accountGeneration: 2 }).response).status, 206);
+    worker.addClient('B', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true }));
+    worker.setToken('B', 'other');
+    assert.equal((await worker.request('B', { mediaOwner: 'q1', sourceGeneration: 1 }).response).status, 206);
+  }
+});
+
+test('concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client', async () => {
+  for (const firstFinishes of [true, false]) {
+  const scheduled = new Map(); let sequence = 0;
+  const worker = createWorker(() => partialResponse(), {
+    setTimeoutImpl(callback, delay) { const id = ++sequence; scheduled.set(id, { callback, delay }); return id; },
+    clearTimeoutImpl(id) { scheduled.delete(id); }
+  });
+  worker.addClient('A');
+  let resolveFirst, resolveSecond;
+  const first = new Promise(resolve => { resolveFirst = resolve; });
+  const second = new Promise(resolve => { resolveSecond = resolve; });
+  worker.context.firstCleanup = { response: { body: { cancel: () => first } }, abort() {}, release() {} };
+  worker.context.secondCleanup = { response: { body: { cancel: () => second } }, abort() {}, release() {} };
+  const one = vm.runInContext('fenceQ1RejectedBody("A",firstCleanup)', worker.context);
+  const two = vm.runInContext('fenceQ1RejectedBody("A",secondCleanup)', worker.context);
+  (firstFinishes ? resolveFirst : resolveSecond)(); await new Promise(resolve => setImmediate(resolve));
+  let done = false; (firstFinishes ? one : two).then(() => { done = true; });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(done, false); assert.equal(vm.runInContext('q1CleanupFences.has("A")', worker.context), true);
+  assert.equal(scheduled.size, 1);
+  const timer = [...scheduled.values()][0]; assert.equal(timer.delay, 2000); timer.callback();
+  // The remaining wall is a failure regardless of which cancel succeeded first.
+  assert.equal(await one, false); assert.equal(await two, false);
+  (firstFinishes ? resolveSecond : resolveFirst)(); await new Promise(resolve => setImmediate(resolve));
+  assert.equal(vm.runInContext('q1CleanupFences.has("A")', worker.context), true);
+  worker.context.self.clients.get = async () => null;
+  await vm.runInContext('pruneQ1CleanupFences()', worker.context);
+  assert.equal(vm.runInContext('q1CleanupFences.size', worker.context), 0);
+  }
+});
+
+test('successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay', async () => {
+  let release, began;
+  const started = new Promise(resolve => { began = resolve; });
+  const gate = new Promise(resolve => { release = resolve; });
+  const worker = createWorker((_url, _options, attempt) => attempt === 1
+    ? new Response(new ReadableStream({ cancel() { began(); return gate; } }), { status: 401 }) : partialResponse());
+  const messages = worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true }));
+  worker.setToken('A', 'old');
+  const old = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+  await started;
+  const next = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 4 }).response;
+  await new Promise(resolve => setImmediate(resolve)); assert.equal(worker.calls.length, 1);
+  release(); assert.equal((await old).status, 206); assert.equal((await next).status, 206);
+  assert.equal(worker.calls.length, 3);
+  assert.equal(messages.filter(message => message.type === 'TOKEN_REQUEST' && message.forceRefresh).length, 1);
+  assert.ok(worker.calls.every(call => call.headers.get('Range') === 'bytes=100-199'));
+  assert.equal(vm.runInContext('q1CleanupFences.size', worker.context), 0);
+});
+
 test('acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay', async () => {
   const worker = createWorker((url, options, attempt) => attempt === 1
     ? errorResponse(401)

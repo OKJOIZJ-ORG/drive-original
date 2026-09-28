@@ -303,3 +303,7 @@ Observed one deployment of committed rc.8 product c49c971 via existing candidate
 ## 2026-09-28 — strict read-only state reconstruction QA
 
 Collector/comparator13synthetic cases pass; adapter11cases pass after independent review reproduced a missing final synchronous deadline and identified generic driveFetch error-JSON bytes outside the cap. Final adapter uses restricted rawGET/current memory credential without retry/refresh/redirect, rechecks ownership/time after compare, and returns aggregates only. Actual anonymous candidate gate observed; no live snapshot obtained. STATE-SNAPSHOT-20260928.md and qa/v2-state-snapshot/README.md preserve contracts and limits. Candidate writes remain disabled; legacy-origin pending local replica and device convergence are still unverified.
+
+## 2026-09-28 — bounded Q1 rejected-body cleanup
+
+Baseline rc.8 reproduces rejected cancel becoming generic502/false-success source retirement and nonsettling cancel ignoring caller abort. Q1-only2s termination plus sticky uncertainty and client completion fence fixes later Q1 owner starts, even when old marker is abandoned; concurrent success cannot erase failure. Focused4, SW/source91, fullNode348, actual-app auth17 and functional22 pass. QA before/after pinned; Q1-CLEANUP-20260928.md retains limits, including pending generic/direct-buffer cross-route discriminator. Normal16/50cycle work active. No physical/real Google resource-release claim, production/data write or push.

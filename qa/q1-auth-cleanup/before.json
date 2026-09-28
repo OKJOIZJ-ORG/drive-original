@@ -1,0 +1,37 @@
+{
+  "syntheticOnly": true,
+  "sources": {
+    "sw.js": "85d2cee0f42161a63cb589e61f62fdc57f32696c3d225793c506cf54553511f4",
+    "media/drive-source.mjs": "8cc28c88bfc41d66232fb330fab333e65b4b06c18a6e75b524188169bab6f9c1",
+    "tests/sw.test.js": "8f4871d5275b52ec4091b194a2392017d370e8b2c1aff193c7a99e3395c40fb7",
+    "qa/q1-auth-cleanup/reproduce.cjs": "256cf72b0b9a6a9eda86a8a771523acc79b0dd3fac5699bb9f2abb20f8322dd3"
+  },
+  "observations": [
+    {
+      "mode": "reject",
+      "cancelCalls": 1,
+      "beforeAbort": 502,
+      "afterAbort": 502,
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true,
+      "sourceCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      }
+    },
+    {
+      "mode": "pending",
+      "cancelCalls": 1,
+      "beforeAbort": "pending",
+      "afterAbort": "pending",
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true
+    }
+  ]
+}

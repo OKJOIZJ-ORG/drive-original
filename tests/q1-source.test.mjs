@@ -84,6 +84,22 @@ test('Range503 cancellation rejection or unfinished cancellation still blocks re
   }
 });
 
+test('SW remote cleanup uncertainty keeps Q1 retirement failed even after its local response body settles',async()=>{
+  let reads=0;
+  const source=await openDriveQ1Source(options({readRange:async()=>{
+    reads++;return response(0,9,{status:502,headers:{'X-Drive-Original-Q1-Cleanup':'unconfirmed'}});
+  }}));
+  await assert.rejects(source.read({start:0,end:9}),error=>{
+    assert.equal(error.message,'Q1_SOURCE_CLEANUP_UNCONFIRMED');assert.equal(error.recovery,undefined);return true;
+  });
+  const cleanup=await source.abort();
+  assert.equal(cleanup.settled,false);assert.equal(cleanup.cleanupFailed,true);
+  assert.equal(cleanup.pendingCallbacks,0);assert.equal(cleanup.cleanupPending,0);
+  assert.equal(source.stats().receivedBytes,0);assert.equal(source.stats().releasedBytes,0);
+  await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_CLEANUP_UNCONFIRMED/);
+  assert.equal(reads,1);assert.equal(await source.abort(),cleanup);
+});
+
 test('checksum learned before a failed503 remains bound for replacement identity checks',async()=>{
   const source=await openDriveQ1Source(options({readMetadata:async({phase})=>({...base(),sha256Checksum:phase==='open'?null:'a'.repeat(64)}),
     readRange:async()=>response(0,9,{status:503})}));

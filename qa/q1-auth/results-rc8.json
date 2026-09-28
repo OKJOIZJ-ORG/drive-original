@@ -5,19 +5,19 @@
   "baselineSource": null,
   "sources": {
     "qa/q1-auth-audit.cjs": "940a6c173f8ae39c9bbf8ee00b35f4337323eb76af521c715cea077f0405d08d",
-    "index.html": "4e6fd1dd65caa1f6951aaab7026045d7d6a3ffe713b0815d2e53efa0fc9c0b1b",
+    "index.html": "d7bcdf1445183a915bbccd01f7fa0ed44a31b578c2ddabac987441de71169d59",
     "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
-    "app.js": "996b059b924f5f8b34313ab247714b67aa0ff6c913df51f61b493931d676f6ea",
+    "app.js": "7a8781d7bbad9c0be6da6bc32d72b6a1c5527eaf0eb3aab970f863ec3b836047",
     "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
-    "sw.js": "6536fc3fe2e84c6eaf86ee079f6d9a5ee971a49033e785503f67023525ac75d5",
-    "version.json": "5e158f0b550734409237352bd2e17dd7bb525254819a8c424fea393fcba1a135",
+    "sw.js": "85d2cee0f42161a63cb589e61f62fdc57f32696c3d225793c506cf54553511f4",
+    "version.json": "beb763d8038d5de73cf69dfc7beb4cf0f32144b46ea9f5cdb36c62d4e202f981",
     "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
     "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
     "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
     "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
     "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
     "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
-    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/drive-source.mjs": "8cc28c88bfc41d66232fb330fab333e65b4b06c18a6e75b524188169bab6f9c1",
     "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
     "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
     "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
@@ -25,14 +25,14 @@
     "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
   },
   "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
-  "recordedAt": "2026-09-28T01:30:23.590Z",
+  "recordedAt": "2026-09-28T01:03:32.460Z",
   "results": [
     {
       "mode": "control",
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.142541,
+        "time": 0.131917,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -43,12 +43,12 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 113,
+        "frames": 105,
         "lastMediaTime": 12.238,
         "window": {
           "waits": 8,
           "removals": 0,
-          "peakAhead": 7.777752,
+          "peakAhead": 7.71874,
           "peakSpan": 12.031999
         },
         "disposed": false,
@@ -577,7 +577,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.162093,
+        "time": 0.146853,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -588,13 +588,13 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 101,
+        "frames": 105,
         "lastMediaTime": 12.238,
         "window": {
-          "waits": 8,
-          "removals": 0,
-          "peakAhead": 7.131290000000001,
-          "peakSpan": 12.031999
+          "waits": 7,
+          "removals": 1,
+          "peakAhead": 7.012824,
+          "peakSpan": 10.090666
         },
         "disposed": false,
         "bufferRemoved": false,
@@ -1132,7 +1132,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.174397,
+        "time": 0.127849,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -1143,12 +1143,12 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 107,
+        "frames": 101,
         "lastMediaTime": 12.238,
         "window": {
           "waits": 8,
           "removals": 0,
-          "peakAhead": 7.073748,
+          "peakAhead": 6.926076,
           "peakSpan": 12.031999
         },
         "disposed": false,
@@ -1687,7 +1687,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.179785,
+        "time": 0.162973,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -1698,13 +1698,13 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 101,
+        "frames": 104,
         "lastMediaTime": 12.238,
         "window": {
-          "waits": 7,
-          "removals": 1,
-          "peakAhead": 7.050636000000001,
-          "peakSpan": 10.090666
+          "waits": 8,
+          "removals": 0,
+          "peakAhead": 7.080504000000001,
+          "peakSpan": 12.031999
         },
         "disposed": false,
         "bufferRemoved": false,
@@ -2242,7 +2242,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.147369,
+        "time": 0.126765,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -2253,8 +2253,8 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 24,
-        "lastMediaTime": 2.838,
+        "frames": 28,
+        "lastMediaTime": 2.871333,
         "window": {
           "waits": 4,
           "removals": 0,
@@ -2569,7 +2569,7 @@
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.127589,
+        "time": 0.148621,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -2580,12 +2580,12 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 26,
-        "lastMediaTime": 2.871333,
+        "frames": 25,
+        "lastMediaTime": 2.904666,
         "window": {
-          "waits": 3,
+          "waits": 4,
           "removals": 0,
-          "peakAhead": 6.091573,
+          "peakAhead": 6.101333,
           "peakSpan": 6.101333
         },
         "disposed": true,
@@ -2886,7 +2886,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.156241,
+        "time": 0.153217,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -2897,8 +2897,8 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 24,
-        "lastMediaTime": 2.738,
+        "frames": 25,
+        "lastMediaTime": 2.904666,
         "window": {
           "waits": 4,
           "removals": 0,
@@ -3207,7 +3207,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.161961,
+        "time": 0.172041,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3218,12 +3218,12 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 26,
-        "lastMediaTime": 2.771333,
+        "frames": 25,
+        "lastMediaTime": 2.838,
         "window": {
-          "waits": 4,
+          "waits": 3,
           "removals": 0,
-          "peakAhead": 6.101333,
+          "peakAhead": 6.092541000000001,
           "peakSpan": 6.101333
         },
         "disposed": true,
@@ -3528,7 +3528,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.167125,
+        "time": 0.177965,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3689,7 +3689,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.172481,
+        "time": 0.120929,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3853,7 +3853,7 @@
           "kind": "metadata",
           "range": null,
           "status": 200,
-          "credentialRevision": 1
+          "credentialRevision": 2
         },
         {
           "kind": "range",
@@ -3982,7 +3982,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.159405,
+        "time": 0.141201,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4149,7 +4149,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.127445,
+        "time": 0.176341,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4448,7 +4448,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.132685,
+        "time": 0.187685,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4615,7 +4615,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.164161,
+        "time": 0.180137,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4770,7 +4770,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.126369,
+        "time": 0.177769,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4925,7 +4925,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.139817,
+        "time": 0.149265,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -5080,7 +5080,7 @@
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.125749,
+        "time": 0.126761,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0

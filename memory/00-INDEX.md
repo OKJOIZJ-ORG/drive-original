@@ -35,6 +35,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `Q1-AUTH-20260928.md`: local rc.8 foreground/credential waiter fixes, stale SW replay counterexample and request lease; synthetic/live evidence boundary.
 - `CANDIDATE-RC8-20260928.md`: rc.8 candidate identity, committed public/cache byte comparison, cold/offline smoke and candidate-only recovery.
 - `STATE-SNAPSHOT-20260928.md`: complete read-only state collector/comparator and private candidate adapter, synthetic checks and live migration boundaries.
+- `Q1-CLEANUP-20260928.md`: bounded SW401 cancellation, client Q1 fence, sticky source uncertainty and retained cross-route/live limitations.
 
 - `architecture/V2-04A-AUTH-CONTRACT.md`: local same-origin session/auth implementation at `ed8b619`, deterministic security/concurrency evidence and explicit V2-04B live boundary.
 - `IMMERSIVE-20260919.md`: v1.21.0 implementation, nine requested fixes, observed tests and physical-device boundaries. Production publication is recorded separately in the current checkpoint/release record.

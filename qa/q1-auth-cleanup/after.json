@@ -1,0 +1,76 @@
+{
+  "syntheticOnly": true,
+  "after": true,
+  "baselineSource": null,
+  "sources": {
+    "sw.js": "6536fc3fe2e84c6eaf86ee079f6d9a5ee971a49033e785503f67023525ac75d5",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "tests/sw.test.js": "bc52e0dc13244cb7e5a6eb430bd8ff4c0fd17792ab0503214fa127ba643562e5",
+    "qa/q1-auth-cleanup/reproduce.cjs": "201a66d0cb55d7f3ead012c485097dd81c370602ae6c152e945f2140c1d16c99"
+  },
+  "observations": [
+    {
+      "mode": "reject",
+      "cancelCalls": 1,
+      "beforeAbort": 502,
+      "afterAbort": 502,
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": true,
+      "upstreamAborted": true,
+      "pageOwnerClosed": true,
+      "callerAbortDelivered": true,
+      "sourceCleanup": {
+        "settled": false,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": true
+      },
+      "nextRangeBlocked": true,
+      "oldFailureStatus": 502,
+      "oldResponseConsumedByPage": true
+    },
+    {
+      "mode": "pending",
+      "cancelCalls": 1,
+      "beforeAbort": "pending",
+      "afterAbort": "pending",
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true,
+      "pageOwnerClosed": false,
+      "callerAbortDelivered": false,
+      "sourceCleanup": {
+        "settled": false,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": true
+      },
+      "nextRangeBlocked": true,
+      "oldFailureStatus": 502,
+      "oldResponseConsumedByPage": true
+    },
+    {
+      "mode": "abandoned",
+      "cancelCalls": 1,
+      "beforeAbort": "pending",
+      "afterAbort": "pending",
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true,
+      "pageOwnerClosed": true,
+      "callerAbortDelivered": false,
+      "sourceCleanup": {
+        "settled": false,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": true
+      },
+      "nextRangeBlocked": true,
+      "oldFailureStatus": 502,
+      "oldResponseConsumedByPage": false
+    }
+  ]
+}

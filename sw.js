@@ -1,9 +1,10 @@
-const VERSION = '1.22.0-rc.8';
+const VERSION = '1.22.0-rc.9';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
 const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
+const Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS = 2_000;
 const MEDIA_FIRST_BYTE_TIMEOUT_MS = 15_000;
 const MEDIA_BODY_NO_PROGRESS_TIMEOUT_MS = 15_000;
 const SHELL_FILES = [
@@ -31,6 +32,9 @@ const SHELL_FILES = [
 // requesting client, never to whichever window sent a message most recently.
 const clientCredentials = new Map();
 const tokenRequests = new Map();
+// Failed Q1 remote cleanup cannot be repaired by a new credential or source.
+// This fence belongs only to that controlled client and this worker lifetime.
+const q1CleanupFences = new Map();
 let requestSequence = 0;
 let mediaTraceSequence = 0;
 const MEDIA_TRACE_PROGRESS_INTERVAL_MS = 250;
@@ -229,6 +233,10 @@ async function proxyDriveMedia(request, url, clientId) {
 
   try {
     request.signal.throwIfAborted();
+    if (context.requireCurrentMedia && !await waitForQ1CleanupFence(clientId)) {
+      return q1CleanupUnconfirmedResponse();
+    }
+    request.signal.throwIfAborted();
     notifyMediaTrace(context, 'credential-requested');
     let credential = await getUsableCredential(context, { signal: request.signal });
     request.signal.throwIfAborted();
@@ -268,8 +276,10 @@ async function proxyDriveMedia(request, url, clientId) {
       // Release the rejected body before the final Q1 owner handshake; a close
       // during cleanup or credential refresh must never authorize a new Range.
       if (context.requireCurrentMedia) {
-        await upstream.body?.cancel();
-        upstreamFetch.release();
+        const settled = await fenceQ1RejectedBody(clientId, upstreamFetch, request.signal);
+        if (!settled) {
+          return q1CleanupUnconfirmedResponse();
+        }
         upstream = new Response(null, { status: upstream.status, statusText: upstream.statusText, headers: upstream.headers });
       }
       const rejectedCredential = credential;
@@ -457,6 +467,73 @@ async function proxyDriveMedia(request, url, clientId) {
     });
     return mediaErrorResponse('Drive streaming request failed', 502);
   }
+}
+
+function q1CleanupUnconfirmedResponse() {
+  const response = mediaErrorResponse('Q1 rejected body cleanup unconfirmed', 502);
+  response.headers.set('X-Drive-Original-Q1-Cleanup', 'unconfirmed');
+  return response;
+}
+
+async function waitForQ1CleanupFence(clientId) {
+  for (;;) {
+    const fence = q1CleanupFences.get(clientId);
+    if (!fence) return true;
+    const pending = fence.completion;
+    if (!await pending) return false;
+    // Another already-started request may have registered cleanup meanwhile.
+    if (q1CleanupFences.get(clientId) === fence && fence.completion === pending) return true;
+  }
+}
+
+function fenceQ1RejectedBody(clientId, upstreamFetch, signal) {
+  const fence = q1CleanupFences.get(clientId) || { completion: Promise.resolve(true) };
+  q1CleanupFences.set(clientId, fence);
+  const completion = Promise.all([fence.completion, cancelQ1RejectedBody(upstreamFetch, signal)])
+    .then(results => results.every(Boolean));
+  fence.completion = completion;
+  void completion.then(settled => {
+    if (settled && q1CleanupFences.get(clientId) === fence && fence.completion === completion) q1CleanupFences.delete(clientId);
+    // Active clients retain uncertainty. Only confirmed-gone clients can be
+    // pruned, so opening/closing windows does not retain failure entries forever.
+    void pruneQ1CleanupFences();
+  });
+  return completion.then(settled => settled ? waitForQ1CleanupFence(clientId) : false);
+}
+
+async function pruneQ1CleanupFences() {
+  for (const [clientId, fence] of q1CleanupFences) {
+    try {
+      const client = await self.clients.get(clientId);
+      if (!client && q1CleanupFences.get(clientId) === fence) q1CleanupFences.delete(clientId);
+    } catch (_) { /* An unavailable client lookup is not proof of teardown. */ }
+  }
+}
+
+function cancelQ1RejectedBody(upstreamFetch, signal) {
+  // A rejected body is never consumed or replayed until cancellation settles.
+  // Abort and listener release request termination; neither proves resources
+  // were released when cancellation rejects or exceeds this separate wall.
+  return new Promise(resolve => {
+    let finished = false;
+    const finish = settled => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      signal?.removeEventListener('abort', interrupted);
+      if (!settled) upstreamFetch.abort();
+      upstreamFetch.release();
+      resolve(settled);
+    };
+    const interrupted = () => finish(false);
+    const timer = setTimeout(interrupted, Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS);
+    signal?.addEventListener('abort', interrupted, { once: true });
+    // Observe late rejection too. A timeout cannot make its late settlement
+    // authorize a refresh or retry, and no reader lock is acquired here.
+    Promise.resolve().then(() => upstreamFetch.response.body?.cancel())
+      .then(() => finish(true), () => finish(false));
+    if (signal?.aborted) interrupted();
+  });
 }
 
 async function fetchMediaWithHeadersDeadline(url, options, requestSignal) {

@@ -1,0 +1,43 @@
+{
+  "syntheticOnly": true,
+  "after": false,
+  "baselineSource": "776605b00da1b26537db72239cff9c5f217e012e",
+  "sources": {
+    "sw.js": "85d2cee0f42161a63cb589e61f62fdc57f32696c3d225793c506cf54553511f4",
+    "media/drive-source.mjs": "8cc28c88bfc41d66232fb330fab333e65b4b06c18a6e75b524188169bab6f9c1",
+    "tests/sw.test.js": "bc52e0dc13244cb7e5a6eb430bd8ff4c0fd17792ab0503214fa127ba643562e5",
+    "qa/q1-auth-cleanup/reproduce.cjs": "201a66d0cb55d7f3ead012c485097dd81c370602ae6c152e945f2140c1d16c99"
+  },
+  "observations": [
+    {
+      "mode": "reject",
+      "cancelCalls": 1,
+      "beforeAbort": 502,
+      "afterAbort": 502,
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true,
+      "pageOwnerClosed": true,
+      "callerAbortDelivered": true,
+      "sourceCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      }
+    },
+    {
+      "mode": "pending",
+      "cancelCalls": 1,
+      "beforeAbort": "pending",
+      "afterAbort": "pending",
+      "rangeRequests": 1,
+      "tokenRequests": 1,
+      "upstreamAbortedBeforeCaller": false,
+      "upstreamAborted": true,
+      "pageOwnerClosed": true,
+      "callerAbortDelivered": true
+    }
+  ]
+}

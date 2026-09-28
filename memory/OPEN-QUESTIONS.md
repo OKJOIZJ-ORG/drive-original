@@ -20,5 +20,11 @@ Preserved qa/q1-priority/browser-source-read-failure.redacted.json. Exact cause
 unknown; V2-06B must discriminate transient range/metadata failures and recovery
 without weakening revision/cleanup fences. Do not infer continuous stability.
 
+2026-09-28 follow-up: Q1 SW401 rejected-body cancellation now terminates within
+two seconds and fences later Q1 reads, including an abandoned page response.
+This is not a full transport retirement proof: generic Q0/direct-buffer replacement
+after an abandoned response needs its own discriminator. Keep V2-06B partial;
+do not treat the upstream abort request or generic path as confirmed cleanup.
+
 | ID | User's words (verbatim) | Our reading (`assumed`) | Breaks if wrong | Ends when | Relied on in |
 |---|---|---|---|---|---|
