@@ -299,3 +299,7 @@ Read integrated spec/current project records and prior chat; verified clean bc6a
 ## 2026-09-28 — rc.8 free candidate delivery
 
 Observed one deployment of committed rc.8 product c49c971 via existing candidate workflow after dry-run. Exact Worker500506d1 readback confirms auth bindings and writes=false. Fresh anonymous Chrome verifies19public/17cached Git-identical bodies,4private404 routes and offline rc.8 with0pageerrors; existing DevTools tab independently reloaded rc.8. Evidence CANDIDATE-RC8-20260928.md and qa/candidate-delivery-rc8/results.json; prior rc.6 report preserved. Google login is requested only for the real-account boundary; QA-only state snapshot/comparator continues. No new configuration/secret/origin/billing, main merge/push, production or original media change.
+
+## 2026-09-28 — strict read-only state reconstruction QA
+
+Collector/comparator13synthetic cases pass; adapter11cases pass after independent review reproduced a missing final synchronous deadline and identified generic driveFetch error-JSON bytes outside the cap. Final adapter uses restricted rawGET/current memory credential without retry/refresh/redirect, rechecks ownership/time after compare, and returns aggregates only. Actual anonymous candidate gate observed; no live snapshot obtained. STATE-SNAPSHOT-20260928.md and qa/v2-state-snapshot/README.md preserve contracts and limits. Candidate writes remain disabled; legacy-origin pending local replica and device convergence are still unverified.

@@ -1,0 +1,19 @@
+✔ repeated complete remote reads and runtime reconstruction pass without private output or writes (34.6977ms)
+✔ pending candidate local state is separate from unchanged remote evidence (4.0092ms)
+✔ stale or incorrect runtime projection cannot pass a remote-only comparison (2.4715ms)
+✔ anonymous, writes-enabled, wrong version and media-active contexts issue no reads (0.391ms)
+✔ account, SW controller, projection and lifecycle changes cancel without leaking raw errors (1.7445ms)
+✔ one overall deadline bounds a reader ignoring abort (24.5532ms)
+✔ generated function is valid and anonymous app lexical context cannot call Drive (4.5765ms)
+✔ final synchronous comparison cannot return success beyond its deadline (3.4889ms)
+✔ both captures share request and response-byte budgets (78.6001ms)
+✔ generated authenticated function uses raw GET once and returns only safe aggregates (9.687ms)
+✔ non-success raw response is rejected without consuming its unbounded JSON error body (0.8774ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 257.6958
