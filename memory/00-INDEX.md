@@ -46,6 +46,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `OWN-WRITER-20260928.md`: one restricted canonical own-writer POST, preserved failed403/readback, later full raw confirmation and private recovery; historical D-058 closeout superseded by D-059 continuation.
 - `STATE-NORMAL-20260928.md`: rc.11 scoped normal state-write transport, stable-ID CREATE, actual normal sync/full raw readback/reload and isolated empty-cache/old-code compatibility; live-device limits preserved.
 - `PC-OUTPUT-20260929.md`: actual Q1 native output error, independent fresh-document PCM discriminator and read-only Windows endpoint evidence; actual30s-return unperformed, no volume/settings changes or product-cause claim.
+- `ISO-HEADERS-RC11-20260929.md`: current actual first ISO top-level chain, strict3GET/956bytes and repeated catalog stability; active SW runtime cache-write proof; tracks/codecs/playback/full formats remain separate.
 - `CANDIDATE-RC11-20260929.md`: fixed candidate source/Worker/public/cache identity, actual same-account state acceptance, protected recovery and candidate-only rollback scope.
 - `CATALOG-DIAGNOSTICS-20260928.md`: redacted comparator causes and a separate metadata-only diagnostic driver; local preparation, historical failure not retrospectively resolved.
 

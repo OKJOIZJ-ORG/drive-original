@@ -201,3 +201,8 @@ Observed2026-09-28 restricted canonical own-writer persistence: one POST, initia
 - `observed source-independent failure`: fresh-document generated0.5s/stereo48k/16bitPCM under actualclick reachesplaying then sameerror264ms/current0. WAV/audio/blob/listeners/timer cleanup pass; no Drive/MSE/original data or settings changes.
 - `observed read-only environment`: Windows active render1/defaults3 active HRESULT0, servicesrunning. This proves endpoint availability, not a working outputstream. Supported rawCDP histogram command unavailable, lower stage/drivercauseunknown. No productfix/transcoder/mute inference.
 - `verification scope`: producer fixtures6/6 verify WAV/gesture/cleanup/redaction and retained-observation consistency, not extra playback/device proof. PC-OUTPUT-20260929.md and qa/v2-pc-return-rc11/ own producers/results. NewUI remainsqueued; currentgeneral-write lock intentionally prevents normal disposableUI acceptance.
+
+## First actual ISO header chain — 2026-09-29
+
+- `verified bounded structural scope`: actualrc.11 freshselection36 findsfirstISO afterone routedobject,3strict206GET/956bytes;4logicalheaders32bytes/3boxes,ftyp+one moov beforemdat,declaredchainEOF.126metadataGET22775004bytes/finalcatalogstable; extra1staticGET actualruntimecachewrite proof. No finalpayloadbyte/track/codec/whole-container/decode/audio/device inference.
+- `verified scoped QA`:11producerchecks/syntaxpass, independentSolmedium materialfindings0, exactbundlef9ce8cca…9deb. Actualhelpers cleared/playeridle; genericupstreamcleanupunknown. ISO-HEADERS-RC11-20260929.md/qa/v2-07a-isobmff-rc11/live-results.json/review.json ownscope. Product/originals/settings/production unchanged.

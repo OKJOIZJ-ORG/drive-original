@@ -512,3 +512,20 @@ New rc11 metadata-only producer7localchecks, preservedrc10artifacthashes. Actual
 - User requested Astra medium/high for blockers. SpawnAstrahigh attempted; runtimeagent-threadlimit rejected, existingindependentSolmedium reused. Do not claimAstrareview.
 - WP05 normalUI remainsblockedbyintentional immutableglobalwritefalse, and existingtextfixture notgallerymedia. No authority/filters/stateinjection introduced solelyforQA.
 - ContinueWP07 firstactualISO top-levelstructuralprobe; observedfreshuniqueassetGET underactualcontroller provesruntimewritesrc11shellcache. QueuedUI untouched; production/automation unchanged.
+
+## 2026-09-29 — Actual first ISO scoped exit
+
+- Fresh maintainedselection36; firstactualISO strict3mediaGET956bytes,4logicalheaders32bytes/3top-levelboxes/ftyp+moovbeforemdat. Finalrepeatedcatalogstable,126metadataGET22775004bytes plus1separatestaticruntimeproofGET. Declaredknown-sizeEOF isnotpayloadvalidation.
+- Source/facade f9ce8cca…9deb/a60b8c8d…c154,actualactiveSWcachewriter pinnedrc.11.11localchecks andsyntaxpass, independentSolmediumreview material0 withouttestrepeat. Privatehelpers/objectgroup cleared/playeridle; appDatatimers untouched.
+- Tracks/codecs/full-container/nativegenericcleanup/playback/device remainunknown/unaccepted. Existingcore continuesWP10qualification with explicitblockedacceptancestates; queuedUI untouched. SeeISO-HEADERS-RC11-20260929.md andsafeactualrecord.
+
+## 2026-09-29 — User reboot closeout (D-060)
+
+User: "재부팅하게 하던 작업까지 마저 완료하고 닫아." Current actualISO unit is
+verified and saved; no new package or queuedUI implementation started. NextWP10
+qualification-matrix.md is preserved explicitly as an interrupted, unreviewed draft.
+Its worker was stopped; no final acceptance claim. Browser diagnostic job/private
+handles and objectgroups cleared, player idle; known read-only exec sessions return
+finished/absent. Existing five private recovery envelopes and paused automation
+remain. CHECKPOINT/HANDOFF/goal now WAIT for explicit resume. Production/candidate
+product source unchanged; user performs OS reboot. Local savepoint commits only.

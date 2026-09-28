@@ -1,4 +1,4 @@
-# Checkpoint — WAIT after actual ISO scoped exit; ready for user reboot — 2026-09-29
+# Checkpoint — WP-06 output blocker recorded; WP-07 ISO structure active — 2026-09-29
 
 Repo C:\extensions\Drive-Original\source; branch codex/v2-kickoff-diagnostics.
 Requery Git HEAD/status for current documentation savepoint; deployed source is
@@ -7,10 +7,9 @@ fe556d43-9251-40c7-82bf-d138f35ebccd. Candidate:
 https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
 Productionv1.21.0/global writes=false/automation paused unchanged.
 
-## Stopped and next
+## Active and next
 
-D-060 closes the current verified unit and stops work for user reboot. WAIT for an
-explicit resume. D-059 priority still holds: existing plan first, new UI queued.
+D-059 resumes existing plan; do not replace it with new queued UI requests.
 WP-08 normal sync local368 tests/independent review and actual scoped exit pass.
 Current rc.11 metadata-only two complete repeated inventories/final comparator
 PASS124GET22774540bytes/owned media0writes0; catalogStable/completetrue, released.
@@ -24,19 +23,10 @@ Windows read-only defaults exist/active, audio services running; exact lower sta
 and drivercause unknown. RawCDP histogram lookup unsupported. PC-OUTPUT-20260929.md
 and qa/v2-pc-return-rc11/ own evidence, failed first capture and cleanup scopes.
 No volume/output/browser/service settings changed; no source fix from this evidence.
-Actual first ISO-BMFF top-level chain passes: fresh selection36/routed1,
-strict3mediaGET956bytes, fourlogicalheaders32bytes/3boxes/ftyp+moov-before-mdat;
-126metadataGET22775004bytes/finalcatalogstable. Exact nativeSW uniqueasset cache
-write proof pins rc.11, extra1staticGET. Localproducer11pass/syntaxpass, allprivate
-helpers/objectgroup released/playeridle. ISO-HEADERS-RC11-20260929.md owns scope;
-no tracks/codecs/full-container/frames/audio/device or genericupstreamcleanup claim.
-No active probe or next-unit execution. WP10qualification matrix draft is preserved
-under qa/candidate-rc11-package/; review it before reuse. Package was not built.
-On explicit resume, first recheck the PC output blocker after reboot; if playback
-establishes, perform the planned30s return. Then continue fixed candidate
-qualification with explicit blocked states. G5actual-device/output/full-format gates and G6separate operational
-approval remain unaccepted; no production change implied. Do not auto-resume after
-restart or activate queued UI in place of the original core continuation.
+Next authorized core: first actual ISO-BMFF top-level structure under bounded fresh
+selection/Range/identity fences. New QA leaf qa/v2-07a-isobmff-rc11/; actual activated
+SW fresh uniqueasset cache-write proof pins rc.11, staticGET1/media0metadata0.
+Existing local tests and historical corpus results are not full-format/device pass.
 Normal disposable UI remains pending behind intentional general-write lock; prior
 restricted controller proof is valid in its own scope. Do not unlock general writes
 or publish private test-ID manifests merely for a QA pass.

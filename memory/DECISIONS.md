@@ -362,3 +362,17 @@ D-056의 pause-without-overlay와 D-057 Android 우선 검증, D-050의 기존 �
 경계는 유지한다. 자동화 재개·운영 전환은 이 재개 요청의 추가 권한으로 추정하지 않는다.
 
 sweep: current checkpoint/goal execution state and queued UI entries aligned to resume and priority correction (2026-09-28)
+
+→ continuation superseded for this session by D-060 (2026-09-29); queue priority and authority boundaries remain.
+
+## D-060 · 현재 단위 완료 후 작업 종료, 재부팅 후 재개 대기 — 2026-09-29 (User-confirmed)
+
+사용자는 "재부팅하게 하던 작업까지 마저 완료하고 닫아"라고 지시했다.
+현재 실제 ISO 헤더 검증 단위의 결과·검토·복구 지점을 저장하고 커밋한 뒤
+작업을 종료한다. 진행 중이던 다음 WP-10 인수표 초안은 보존하되 새 패키지,
+배포, 후속 UI 구현을 시작하지 않는다. 재부팅 후 사용자의 재개 요청을 기다린다.
+D-059의 기존 계획 우선/새 UI 대기열, D-056의 pause-without-overlay,
+D-057의 Android 대안, D-050의 권한 경계는 유지한다. 자동화는 PAUSED이며
+이 종료 요청은 운영 반영이나 OS 재부팅 실행 권한으로 해석하지 않는다.
+
+sweep: checkpoint/goal/handoff/session closeout aligned to WAIT; current verified ISO unit preserved.
