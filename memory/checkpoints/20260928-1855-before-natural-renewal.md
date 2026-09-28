@@ -1,4 +1,4 @@
-# Checkpoint — actual natural credential renewal — 2026-09-28 18:56
+# Checkpoint — authenticated priority seeks and close — 2026-09-28 18:41
 
 ## The story so far
 
@@ -21,13 +21,6 @@ owners clear. Q1-LIVE-20260928.md/qa/q1-live-rc10/results.json own exact values,
 producer hashes and scope. Truncated14-response206 tail is not a complete trace.
 Frozen358Node/50cycles150seeks remain separate fixed-source local evidence.
 
-One actual natural credential renewal now passes during about6min1x Q1 playback:
-392samples keep ownership/readOnly,106active samples cross old expiry, a real
-310.888s frame and postrenewal50% seek pass; retirement clears again. Observer
-changes no clock/credential/product timer and is stopped/released. See the later
-section of Q1-LIVE-20260928.md and qa/q1-live-rc10/renewal-results.json.
-This does not explain the old299s failure or prove sleep/wake/iPhone/hour-long runs.
-
 ## Decided
 
 D-054 continues approved work by evidence; D-050 authority is unchanged.
@@ -48,13 +41,10 @@ Privately inspect old-origin account-local state through a verified inert same-
 origin asset, without starting the production application or its sync. Compare
 account/projection/pending provenance in-browser and export only safe aggregates;
 retain the write gate until full migration conditions are actually met.
-The connected inert legacy tab275136804 confirms1.21.0/product app absent.
-New QA-only legacy helper/builder tests11pass; its private read/compare execution
-is next, using expected candidate account/owner without printing raw payload.
 
 ## Tried
 
 - Actual connected profile resolved the earlier managed-profile login mismatch.
 - Controlled state read resolves visibility only; ordinary read-only blocked flush remains distinct.
 - Actual priority UI playback/seeks/close pass; no first-frame latency, EOF or uninterrupted299s discriminator was measured.
-- One actual PC natural renewal passes; sleep/wake/devices, historic299s cause, full formats, generic Q0 native release and total memory stay open.
+- Natural expiry/sleep-wake, historic299s READ_FAILED, full formats/devices, generic Q0 native release and total memory stay open.

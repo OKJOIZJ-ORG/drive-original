@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-28T09:55:45.569Z",
+  "scope": "One actual desktop account's natural credential renewal during continuous original Q1 playback",
+  "pass": true,
+  "candidateVersion": "1.22.0-rc.10",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "candidateWorkerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "productProducerHashes": {"report": "results.json", "committedAt": "77a3252"},
+  "observerSha256TrimmedSource": "570ae12c5216633942194576c6afdbda919257a8c577b22621faa399dd928251",
+  "observer": {
+    "elapsedMs": 390574, "sampleCount": 392, "observerStopped": true,
+    "initialCredentialRemainingMs": 285869,
+    "firstRenewedSampleElapsedMs": 257013,
+    "credentialRevisionAdvanced": true, "credentialExpiryAdvanced": true,
+    "expiryExtensionMs": 3569728,
+    "ownerStableAcrossSamples": true, "readOnlyAcrossSamples": true,
+    "mediaErrorObserved": false, "ownerStable": true, "readOnly": true,
+    "continuous": {
+      "samples": 362, "firstElapsedMs": 30003, "lastElapsedMs": 390574,
+      "firstMediaTime": 0.400176, "lastMediaTime": 360.241573,
+      "nonAdvancingPairs": 0, "maxSampleGapMs": 1015,
+      "afterOriginalExpiryActiveSamples": 106
+    }
+  },
+  "oneTimesPlaybackRateVerified": true,
+  "initialPresentedFrame": {"errorVisible": false, "mediaTime": 0.021333, "presentedInTargetBand": true, "requestedPercent": 0, "route": "Q1", "targetTime": 0, "totalVideoFrames": 4},
+  "afterOriginalExpiryPresentedFrame": {"errorVisible": false, "mediaTime": 310.888, "playbackRate": 1, "presented": true, "route": "q1", "videoError": 0},
+  "postRenewalSeek": {"errorVisible": false, "mediaTime": 805.488, "presentedInTargetBand": true, "requestedPercent": 50, "route": "Q1", "targetTime": 804.704, "totalVideoFrames": 29},
+  "seekObservationToleranceSeconds": 2,
+  "close": {
+    "pass": true,
+    "checks": {"blobUrlCleared": true, "connected": true, "errorHidden": true, "idle": true, "mediaControllerCleared": true, "pendingOriginalBufferCleared": true, "pendingPlaybackRestoreCleared": true, "playerHidden": true, "q1OwnerCleared": true, "readOnly": true, "retirementSettled": true, "tempStorageCleared": true, "videoPaused": true, "videoSrcRemoved": true}
+  },
+  "network": {
+    "captures": 7, "captureTruncated": true,
+    "credentialResponses": 5, "credentialStatuses": {"200": 5},
+    "mediaStatuses": {"206": 103}, "knownSizeFiniteRanges": 103,
+    "canceledLoadingFailures": 105, "nonCanceledLoadingFailures": 0,
+    "scope": "Partial retained response events; response count is not a token-refresh count; loading failures are page-wide"
+  },
+  "controls": {"clockChanged": false, "credentialChangedByObserver": false, "forcedRefreshByObserver": false, "productTimersChanged": false, "observerTimerRemoved": true, "privateRemoteObjectGroupReleased": true, "driveWritesEnabled": false},
+  "limits": {"eofObserved": false, "sleepWakeVerified": false, "physicalDeviceVerified": false, "fullHourPlaybackVerified": false, "historic299SecondFailureCauseResolved": false, "completeNetworkTrace": false, "subsecondStallsExcluded": false, "postRenewalSeekFrameAccurate": false, "fullFormatAcceptance": false, "productionChanged": false}
+}

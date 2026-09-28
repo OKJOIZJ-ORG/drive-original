@@ -40,3 +40,30 @@ Before the first seek, media time was248.891003. No uninterrupted299s discrimina
 EOF, natural credential expiry, sleep/wake, physical iPhone, audible output,
 full-format or broad stability acceptance was performed here. Earlier native
 preservation evidence remains separately owned by `qa/q1-priority/`.
+
+## Natural renewal continuation
+
+`renewal-results.json` is a later independent actual observation on the same
+unchanged candidate. `observe-renewal.js` is its exact public main-world source
+(hash its trimmed text). It returns a private CDP object with `report()`/`stop()`;
+keep that object in its own remote object group. It reads app/video state once
+per second for at most12minutes/720samples, never tokens or provider bodies.
+It changes neither clock, credentials, product timers nor storage. Its initial
+remaining285869ms expires naturally; no forced refresh is called by the observer.
+Normal UI playback and the product's own renewal remain the behavior under test.
+
+This run observes a newer credential revision/expiry at257013ms and a3569728ms
+expiry extension. Account/auth/data/controller ownership and read-only mode are
+stable across392samples. Continuous active samples advance from0.400176 to
+360.241573s with zero nonadvancing adjacent1s samples; largest wall gap1015ms.
+106active samples occur after the old expiry. Actual rVFC presents310.888s,
+and a subsequent50% UI seek presents805.488s within the2s observer band.
+That seek is not claimed frame accurate. Close retirement and all checked app
+owners clear again. `stop()` removes the observer interval; its object group is
+released. The safe aggregate excludes account IDs, credential values and revisions.
+
+The partial response capture observes five credential200s and103known-size206s;
+five responses are not five refreshes. Event loss prevents full trace claims.
+Once-per-second progress cannot exclude every subsecond stall. One observed
+natural boundary does not prove hour-long playback, device/sleep-wake behavior,
+all formats or the cause of the historic local299s failure.

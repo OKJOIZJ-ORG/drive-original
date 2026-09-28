@@ -340,3 +340,17 @@ No product change or deployment, original/appData write, merge/push or automatio
 change. The user revoked temporary silence; no further volume adjustment was made.
 Next discriminating read: privately inspect the old origin's local state through
 an inert same-origin asset, without starting the production application or sync.
+
+## 2026-09-28 — actual natural PC renewal during original playback
+
+Used the real285869ms-to-expiry window without altering credentials/clock/product
+timers or forcing refresh. Exact passive public observer392samples sees newer
+revision/expiry at257013ms and3569728ms extension, preserving account/auth/data/SW
+and readOnly. About6min1x active progress,106samples past original expiry, actual
+310.888s frame, postrenewal50% seek and protocol-confirmed close pass. Interval
+stopped, private object group released. Partial captured103finite206/5credential200
+responses do not constitute complete trace or five renewals. Q1-LIVE-20260928.md
+and qa/q1-live-rc10/renewal-results.json pin scope/provenance. Sleep/wake/iPhone/
+hour-long/formats and historic299s cause remain open; production/data/volume unchanged.
+Independent QA legacy helper/builder now11tests pass; inert production version.json
+confirms1.21.0 and product app absent. Private legacy read/compare is next.
