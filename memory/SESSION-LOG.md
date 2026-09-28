@@ -295,3 +295,7 @@ User requested cleanup only. Product2a9dfd1 and D-053 waiting state preserved. I
 ## 2026-09-28 — resumed work, local rc.8 auth unit
 
 Read integrated spec/current project records and prior chat; verified clean bc6a9aa work branch. D-054 ends D-053 wait and records critical plan interpretation. Existing auth owner reuse replaced a proposed duplicate Q1 recovery layer. Reproduced/fixed expiry recheck and auth-waiter cancellation; expanded Chrome audit discovered/fixed actual stale SW401 replay after close. Code/evidence committed c49c971;344Node,17auth,16product,22functional pass with independent review. Live/private/device gates remain open, candidate writes false, automation paused, no merge/push/production change. Next read-only state snapshot/comparison unit.
+
+## 2026-09-28 — rc.8 free candidate delivery
+
+Observed one deployment of committed rc.8 product c49c971 via existing candidate workflow after dry-run. Exact Worker500506d1 readback confirms auth bindings and writes=false. Fresh anonymous Chrome verifies19public/17cached Git-identical bodies,4private404 routes and offline rc.8 with0pageerrors; existing DevTools tab independently reloaded rc.8. Evidence CANDIDATE-RC8-20260928.md and qa/candidate-delivery-rc8/results.json; prior rc.6 report preserved. Google login is requested only for the real-account boundary; QA-only state snapshot/comparator continues. No new configuration/secret/origin/billing, main merge/push, production or original media change.

@@ -33,6 +33,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `CANDIDATE-RC6-20260927.md`: isolated free rc.6 delivery identity, public/cache bytes, cold/offline smoke, live limits and rollback.
 - `Q1-RESILIENCE-20260927.md`: local rc.7 single503 recovery, cleanup/content guards and byte-equivalent fault control; not real expiry/device proof.
 - `Q1-AUTH-20260928.md`: local rc.8 foreground/credential waiter fixes, stale SW replay counterexample and request lease; synthetic/live evidence boundary.
+- `CANDIDATE-RC8-20260928.md`: rc.8 candidate identity, committed public/cache byte comparison, cold/offline smoke and candidate-only recovery.
 
 - `architecture/V2-04A-AUTH-CONTRACT.md`: local same-origin session/auth implementation at `ed8b619`, deterministic security/concurrency evidence and explicit V2-04B live boundary.
 - `IMMERSIVE-20260919.md`: v1.21.0 implementation, nine requested fixes, observed tests and physical-device boundaries. Production publication is recorded separately in the current checkpoint/release record.

@@ -9,7 +9,9 @@ assert(/^[a-f0-9]{40}$/.test(source||''),'Full committed source SHA required');
 const base='https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/';
 const git=file=>execFileSync('git',['show',`${source}:${file}`],{cwd:root,maxBuffer:5e6});
 const files=require('../scripts/public-files.cjs'),version=JSON.parse(git('version.json')).version;
-const out=path.join(__dirname,'candidate-delivery'),result={source,version,base,passed:false,assets:[],privateRoutes:[],
+const outputName=process.argv[3]||'candidate-delivery';
+assert(/^[a-z0-9][a-z0-9-]*$/.test(outputName),'Output must be a QA folder name');
+const out=path.join(__dirname,outputName),result={source,version,base,passed:false,assets:[],privateRoutes:[],
   scope:'Public delivery and fresh unauthenticated Chrome shell only; no actual Drive/media/device acceptance'};
 let browser;
 (async()=>{
