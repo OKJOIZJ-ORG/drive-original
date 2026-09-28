@@ -52,11 +52,15 @@ function createWorker(fetchImpl, {
   const clients = new Map();
   const calls = [];
   const context = {
-    URL, Headers, Request, Response, ReadableStream, Date, Map, Number, Boolean,
+    URL, Headers, Request, Response, ReadableStream, Date, Map, Number, Boolean, TextDecoder, Uint8Array,
     AbortController, DOMException,
     setTimeout: setTimeoutImpl,
     clearTimeout: clearTimeoutImpl,
     MessageChannel: TestMessageChannel,
+    importScripts(name) {
+      assert.equal(name, './media/revision-pin.js');
+      vm.runInContext(fs.readFileSync(path.join(__dirname, '../media/revision-pin.js'), 'utf8'), context);
+    },
     self: {
       location: { origin: 'https://app.test' },
       addEventListener(type, callback) { listeners.set(type, callback); },

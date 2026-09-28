@@ -1,0 +1,149 @@
+{
+  "scope": "Isolated installed Chrome; actual app/SW/native MP4; synthetic Drive only; no real account/provider acceptance",
+  "producer": {
+    "qa/q0-provider-product/native-audit.cjs": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+    "app.js": "f7c66de366610eada7a506d13b66a228804a4c1e10ad32bc0d6ffd087042bf91",
+    "sw.js": "f391f9c096f0686c9c7482604b5464cd91f96286fd8fcf5ef669a3b4b3025414",
+    "index.html": "931d88a5b9d05106f1122d2be315d23f2f1c8ae356eddb8a36408037733f25af",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "scripts/public-files.cjs": "5f0c6385b48091ae904907ce5711b1e0753bc04ddaab3d99119b26ed51fed026",
+    "qa/faststart-h264-aac.mp4": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079"
+  },
+  "fixtureBytes": 202253,
+  "chrome": "153.0.8010.54",
+  "play": {
+    "time": 0.510713,
+    "duration": 10,
+    "frames": 14,
+    "pinSize": "202253",
+    "pinMime": "video/mp4",
+    "src": "http://127.0.0.1:53669/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0",
+    "attempt": "range"
+  },
+  "seek": {
+    "time": 9.314003,
+    "duration": 10,
+    "frames": 24,
+    "error": null
+  },
+  "close": {
+    "settled": true,
+    "owner": false,
+    "pin": false,
+    "src": false,
+    "hidden": true
+  },
+  "events": [
+    {
+      "type": "loadedmetadata",
+      "time": 0,
+      "ready": 1,
+      "error": null
+    },
+    {
+      "type": "canplay",
+      "time": 0.000652,
+      "ready": 4,
+      "error": null
+    },
+    {
+      "type": "playing",
+      "time": 0.000747,
+      "ready": 4,
+      "error": null
+    },
+    {
+      "type": "seeking",
+      "time": 9,
+      "ready": 1,
+      "error": null
+    },
+    {
+      "type": "seeked",
+      "time": 9,
+      "ready": 4,
+      "error": null
+    },
+    {
+      "type": "canplay",
+      "time": 9,
+      "ready": 4,
+      "error": null
+    },
+    {
+      "type": "playing",
+      "time": 9.000361,
+      "ready": 4,
+      "error": null
+    }
+  ],
+  "passed": true,
+  "requests": [
+    {
+      "kind": "metadata",
+      "method": "GET",
+      "range": null,
+      "fromWorker": true
+    },
+    {
+      "kind": "download",
+      "method": "POST",
+      "range": null,
+      "fromWorker": true
+    },
+    {
+      "kind": "metadata",
+      "method": "GET",
+      "range": null,
+      "fromWorker": true
+    },
+    {
+      "kind": "revision",
+      "method": "GET",
+      "range": "bytes=0-",
+      "fromWorker": true,
+      "start": 0,
+      "end": 65535,
+      "length": 65536
+    },
+    {
+      "kind": "revision",
+      "method": "GET",
+      "range": "bytes=65536-",
+      "fromWorker": true,
+      "start": 65536,
+      "end": 131071,
+      "length": 65536
+    },
+    {
+      "kind": "revision",
+      "method": "GET",
+      "range": "bytes=131072-",
+      "fromWorker": true,
+      "start": 131072,
+      "end": 196607,
+      "length": 65536
+    },
+    {
+      "kind": "revision",
+      "method": "GET",
+      "range": "bytes=196608-",
+      "fromWorker": true,
+      "start": 196608,
+      "end": 202252,
+      "length": 5645
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "blockedExternal": [
+    {
+      "origin": "https://fonts.googleapis.com",
+      "path": "/css2"
+    }
+  ],
+  "sourceSnapshotUnchanged": true
+}

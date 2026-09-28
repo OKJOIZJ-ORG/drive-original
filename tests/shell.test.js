@@ -8,6 +8,7 @@ function worker(fetchImpl, cacheImpl={}) {
   const c={URL,Headers,Request,Response,setTimeout,clearTimeout,console,
     self:{location:{origin:'https://app.test',href:'https://app.test/drive-original/sw.js'},registration:{scope:'https://app.test/drive-original/'},addEventListener:(type,fn)=>listeners.set(type,fn)},
     fetch:fetchImpl,caches:{open:async name=>{assert.match(name,/^drive-original-shell-/);return cacheImpl;}}};
+  c.importScripts=name=>{assert.equal(name,'./media/revision-pin.js');vm.runInContext(fs.readFileSync(path.join(root,'media/revision-pin.js'),'utf8'),c);};
   vm.createContext(c);vm.runInContext(fs.readFileSync(path.join(root,'sw.js'),'utf8'),c);
   return {c,listeners,run:code=>vm.runInContext(code,c)};
 }
@@ -43,18 +44,111 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   const mock={existsSync:()=>false,mkdirSync(){},copyFileSync:(source,dest)=>copies.push(path.relative(root,source)),writeFileSync(){}};
   const files=require('../scripts/public-files.cjs');
   vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:name==='./public-files.cjs'?files:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
-  assert.equal(copies.length,18);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
+  assert.equal(copies.length,19);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
+  assert(copies.includes(path.join('media','revision-pin.js')));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');
   assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);
   assert.match(publish,/publicFiles = require\('\.\/public-files\.cjs'\)/);assert.doesNotMatch(publish,/--force/);
 });
-test('candidate deployment rematerializes the public allowlist from a clean committed HEAD',()=>{
-  const materialize=fs.readFileSync(path.join(root,'scripts/materialize-committed-pages.cjs'),'utf8');
+test('candidate deployment runs committed-asset materialization before publication',()=>{
   const workerPackage=JSON.parse(fs.readFileSync(path.join(root,'worker/package.json'),'utf8'));
-  assert.match(materialize,/git\(\['status', '--porcelain'\]\)/);
-  assert.match(materialize,/\['show', `HEAD:\$\{relative\}`\]/);
-  assert.match(materialize,/relative === '\.nojekyll'/);
   assert.match(workerPackage.scripts['build:committed-assets'],/materialize-committed-pages\.cjs/);
   assert.match(workerPackage.scripts['deploy:candidate'],/build:committed-assets/);
+});
+
+// In-memory Git/filesystem release scenario: execute the actual materializer,
+// observe exact artifact writes, and inject failures at concrete release fences.
+const {materializeCommittedPages}=require('../scripts/materialize-committed-pages.cjs');
+const crypto=require('node:crypto');
+function releaseFixture() {
+  const repoRoot=path.join(root,'virtual-release'),destination=path.join(repoRoot,'_site');
+  const nodes=new Map(),blobs=new Map(),dirty=new Set(),writes=[],commands=[];
+  let head='a'.repeat(40),sequence=0,fdSequence=0;const fds=new Map();
+  const digest=bytes=>crypto.createHash('sha1').update(bytes).digest('hex');
+  const absolute=name=>path.join(repoRoot,name);
+  function directory(name) {if(nodes.has(name))return;nodes.set(name,{type:'directory',ino:++sequence,nlink:1});const parent=path.dirname(name);if(parent!==name)directory(parent);}
+  function file(name,data) {const target=absolute(name);directory(path.dirname(target));nodes.set(target,{type:'file',data:Buffer.from(data),ino:++sequence,nlink:1});}
+  function commit(name,data) {blobs.set(name,Buffer.from(data));file(name,data);}
+  directory(repoRoot);
+  commit('scripts/public-files.cjs',"module.exports=Object.freeze(['app.js','icons/a.png']);");
+  for(const name of ['.gitattributes','scripts/build-pages.cjs','scripts/materialize-committed-pages.cjs','scripts/publish-pages.cjs','worker/index.mjs','worker/wrangler.jsonc','worker/package.json','worker/package-lock.json'])commit(name,`committed:${name}\n`);
+  commit('app.js','committed application\n');commit('icons/a.png',Buffer.from([0,255,1,2]));
+  file('_site/app.js','prior build bytes');file('_site/icons/a.png','prior build bytes');file('_site/.nojekyll','prior marker');
+  const stat=node=>({dev:1,ino:node.ino,nlink:node.nlink,isFile:()=>node.type==='file',isDirectory:()=>node.type==='directory',isSymbolicLink:()=>node.type==='link'});
+  const get=name=>{const node=nodes.get(name);if(!node)throw Error('ENOENT '+name);return node;};
+  const normalized=(name,data)=>name.endsWith('.png')?data:Buffer.from(data.toString('utf8').replaceAll('\r\n','\n'));
+  const fixture={repoRoot,nodes,blobs,dirty,writes,commands,file,absolute,setHead:value=>{head=value;},onGit:null,onWrite:null,onOpen:null};
+  fixture.fsApi={
+    lstatSync:name=>stat(get(name)),realpathSync:name=>get(name).type==='link'?get(name).target:name,
+    readdirSync:name=>[...nodes.keys()].filter(key=>path.dirname(key)===name).map(key=>path.basename(key)),
+    openSync(name,flags){assert.equal(flags,'r+');const node=get(name);fixture.onOpen?.(name);const fd=++fdSequence;fds.set(fd,{name,node});return fd;},
+    fstatSync:fd=>stat(fds.get(fd).node),ftruncateSync(fd,length){assert.equal(length,0);fds.get(fd).node.data=Buffer.alloc(0);},
+    writeFileSync(fd,data){const entry=fds.get(fd);entry.node.data=Buffer.from(data);writes.push(entry.name);fixture.onWrite?.(entry.name);},
+    closeSync:fd=>fds.delete(fd),readFileSync:name=>Buffer.from(get(name).data)
+  };
+  fixture.gitApi=args=>{
+    commands.push(args);fixture.onGit?.(args);
+    if(args[0]==='rev-parse')return Buffer.from(head+'\n');
+    if(args[0]==='status') {
+      const paths=args.slice(args.indexOf('--')+1);
+      return Buffer.from([...dirty].filter(name=>paths.some(p=>name===p||name.startsWith(p+'/'))).map(name=>' M '+name+'\0').join(''));
+    }
+    if(args[0]==='show') {assert.ok(args[1].startsWith('a'.repeat(40)+':'),'every blob must use the initial fixed SHA');const name=args[1].slice(41);if(!blobs.has(name))throw Error('missing HEAD blob');return Buffer.from(blobs.get(name));}
+    if(args[0]==='ls-tree') {
+      const paths=args.slice(args.indexOf('--')+1);
+      return Buffer.from([...blobs].filter(([name])=>paths.some(p=>name===p||name.startsWith(p+'/')))
+        .map(([name,data])=>`100644 blob ${digest(data)}\t${name}\0`).join(''));
+    }
+    if(args[0]==='hash-object') {const name=args.at(-1);return Buffer.from(digest(normalized(name,get(absolute(name)).data))+'\n');}
+    throw Error('unexpected Git operation '+args[0]);
+  };
+  fixture.run=()=>materializeCommittedPages(fixture);
+  fixture.output=name=>fixture.fsApi.readFileSync(path.join(destination,name));
+  return fixture;
+}
+test('committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output',()=>{
+  const f=releaseFixture();f.file('app.js','committed application\r\n');
+  for(const name of ['media/general-worker.mjs','scripts/build-general-q1.cjs','tests/general.test.js','qa/private.json','memory/CHECKPOINT.md']) {f.file(name,'PRIVATE preparation');f.dirty.add(name);}
+  assert.deepEqual(f.run(),{head:'a'.repeat(40),materialized:2});
+  assert.ok(f.output('app.js').equals(f.blobs.get('app.js')));assert.ok(f.output('icons/a.png').equals(f.blobs.get('icons/a.png')));
+  assert.equal(f.output('.nojekyll').length,0);assert.equal(f.writes.length,3);
+  assert.ok(f.writes.every(name=>name.startsWith(path.join(f.repoRoot,'_site')+path.sep)));
+});
+test('dirty/untracked public, governing scripts and worker source/config reject before any write',()=>{
+  for(const name of ['app.js','icons/a.png','scripts/public-files.cjs','scripts/build-pages.cjs','scripts/materialize-committed-pages.cjs','scripts/publish-pages.cjs','.gitattributes','worker/index.mjs','worker/wrangler.jsonc','worker/package.json','worker/package-lock.json','worker/new-import.mjs']) {
+    const f=releaseFixture();f.dirty.add(name);assert.throws(f.run,/publication inputs must be clean/);assert.equal(f.writes.length,0);
+  }
+});
+test('an allowlisted asset missing from captured HEAD rejects even when ignored by Git status',()=>{
+  const f=releaseFixture();f.blobs.delete('app.js');assert.throws(f.run,/missing from captured HEAD/);assert.equal(f.writes.length,0);
+});
+test('a public change hidden by Git status still fails normalized blob provenance',()=>{
+  const f=releaseFixture();f.file('app.js','dirty public content');assert.throws(f.run,/differs from captured HEAD/);assert.equal(f.writes.length,0);
+});
+test('extra/missing artifact files and unexpected empty directories reject before any write',()=>{
+  for(const mutation of [f=>f.file('_site/private.json','PRIVATE'),f=>f.nodes.delete(f.absolute('_site/app.js')),f=>f.nodes.delete(f.absolute('_site/.nojekyll')),f=>f.nodes.set(f.absolute('_site/empty'),{type:'directory',ino:999,nlink:1})]) {
+    const f=releaseFixture();mutation(f);assert.throws(f.run,/Extra|Missing/);assert.equal(f.writes.length,0);
+  }
+});
+test('linked output roots, directories/files, hardlinks and linked publication source are refused',()=>{
+  for(const name of ['_site','_site/icons','_site/app.js','app.js','worker/index.mjs']) {
+    const f=releaseFixture();f.nodes.set(f.absolute(name),{type:'link',ino:999,nlink:1,target:'outside'});
+    assert.throws(f.run,/Linked|linked/);assert.equal(f.writes.length,0);
+  }
+  const f=releaseFixture();f.nodes.get(f.absolute('_site/app.js')).nlink=2;assert.throws(f.run,/linked/);assert.equal(f.writes.length,0);
+});
+test('a changed HEAD after fixed blobs were read prevents the first output write',()=>{
+  const f=releaseFixture();f.onGit=args=>{if(args[0]==='show'&&args[1].endsWith(':icons/a.png'))f.setHead('b'.repeat(40));};
+  assert.throws(f.run,/HEAD changed/);assert.equal(f.writes.length,0);
+});
+test('an output path replaced between inspection and open is refused before truncation',()=>{
+  const f=releaseFixture();f.onOpen=name=>{f.nodes.set(name,{type:'link',ino:999,nlink:1,target:'outside'});};
+  assert.throws(f.run,/changed or became linked/);assert.equal(f.writes.length,0);
+});
+test('HEAD/public changes or output contamination during writing prevent successful release completion',()=>{
+  for(const mutate of [f=>f.setHead('b'.repeat(40)),f=>{f.file('app.js','late hidden edit');},f=>f.file('_site/private.json','late private artifact')]) {
+    const f=releaseFixture();let once=false;f.onWrite=()=>{if(!once){once=true;mutate(f);}};
+    assert.throws(f.run,/HEAD changed|differs from captured HEAD|Extra/);assert.ok(f.writes.length>0);
+  }
 });

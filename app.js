@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.13';
+const APP_VERSION = '1.22.0-rc.14';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -76,6 +76,7 @@ function classifyMediaProxyFailure(data = {}) {
   const reasons = Array.isArray(data.reasons) ? data.reasons : [];
   const driveReason = String(data.driveReason || reasons[0] || '');
   const category = String(data.category || '');
+  if (category === 'source-pin' || data.name === 'RevisionPinError') return 'source-pin';
   if (category === 'auth' || status === 401) return 'auth';
   if (category === 'timeout') return 'timeout';
   if (category === 'rate-limit' || status === 429 || /rateLimitExceeded/i.test(driveReason)) return 'rate-limit';
@@ -132,6 +133,7 @@ function decideMediaRecovery({
   rangeRebuildCount = 0,
   permissionRetryCount = 0
 } = {}) {
+  if (cause === 'source-pin') return 'fail-source-pin';
   if (cause === 'auth') return 'refresh-auth';
   if (cause === 'not-found') return 'fail-not-found';
   if (!downloadAllowed || cause === 'download-restricted') return 'compatibility';
@@ -647,10 +649,127 @@ let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
 let initialMediaRouteGeneration = 0;
 let q1Playback = null;
+let q0Playback = null;
+let q0ControlWait = null;
+// Private, immutable for this selected file lifetime; never persist or log.
+let q0PinnedSource = null;
 let q1Retirement = Promise.resolve({ settled: true });
 let q1RetirementResult = { settled: true };
 let q1RetirementSequence = 0;
 let pendingPlaybackRestore = null;
+
+function retireQ0Playback() {
+  const owner = q0Playback;
+  q0Playback = null;
+  return retireQ1Playback(owner);
+}
+
+function beginQ0Playback(file, session) {
+  const owner = { controller: new AbortController(), fileId: file.id, session,
+    account: state.authAccountKey, accountGeneration: state.driveSessionGeneration,
+    swGeneration: mediaSourceGeneration, swController: navigator.serviceWorker?.controller,
+    requiresSwReadiness: true, setupDone: Promise.resolve(), cleanupOk: true };
+  q0Playback = owner;
+  return owner;
+}
+
+function isCurrentQ0Playback(owner, fileId, sourceGeneration) {
+  return Boolean(owner && owner === q0Playback && !owner.controller.signal.aborted
+    && state.selected?.id === fileId && owner.fileId === fileId
+    && owner.session === state.mediaSession && owner.swGeneration === sourceGeneration
+    && sourceGeneration === mediaSourceGeneration && owner.account === state.authAccountKey
+    && owner.accountGeneration === state.driveSessionGeneration);
+}
+
+function q0OwnerContext(owner, clientId) {
+  return { clientId, fileId: owner.fileId, mediaSession: String(owner.session),
+    sourceGeneration: owner.swGeneration, accountKey: owner.account,
+    accountGeneration: owner.accountGeneration };
+}
+
+function waitForQ0Control(file, kind, session, message) {
+  const serviceWorker = navigator.serviceWorker;
+  if (q0ControlWait?.fileId === file.id && q0ControlWait.session === session
+    && q0ControlWait.accountKey === state.authAccountKey
+    && q0ControlWait.accountGeneration === state.driveSessionGeneration
+    && q0ControlWait.sourceGeneration === mediaSourceGeneration
+    && !q0ControlWait.controller.signal.aborted) return true;
+  q0ControlWait?.controller.abort();
+  const controller = new AbortController();
+  const owner = { fileId: file.id, session, accountKey: state.authAccountKey,
+    accountGeneration: state.driveSessionGeneration,
+    sourceGeneration: mediaSourceGeneration, controller };
+  q0ControlWait = owner;
+  state.mediaAbortController?.abort(); state.mediaAbortController = controller;
+  state.mediaAttempt = 'range-preparing';
+  showMediaLoading(message);
+  let finished = false;
+  const finish = outcome => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(timer);
+    serviceWorker.removeEventListener?.('controllerchange', controlled);
+    controller.signal.removeEventListener('abort', cancelled);
+    const current = q0ControlWait === owner && !controller.signal.aborted
+      && state.selected?.id === file.id && state.mediaSession === session
+      && state.authAccountKey === owner.accountKey
+      && state.driveSessionGeneration === owner.accountGeneration
+      && mediaSourceGeneration === owner.sourceGeneration;
+    if (q0ControlWait === owner) q0ControlWait = null;
+    if (state.mediaAbortController === controller) state.mediaAbortController = null;
+    if (!current) return;
+    if (outcome === 'ready') startOriginalRangePlayback(file, kind, session, message);
+    else if (outcome === 'timeout') {
+      state.mediaAttempt = 'failed';
+      showMediaError('원본 재생 연결 준비가 지연되고 있습니다. 앱을 새로 연 뒤 다시 시도하세요.',
+        { title: '재생 연결 준비 필요', showRetry: false });
+    }
+  };
+  const controlled = () => { if (serviceWorker.controller) finish('ready'); };
+  const cancelled = () => finish('cancelled');
+  const timer = setTimeout(() => finish('timeout'), 12000);
+  controller.signal.addEventListener('abort', cancelled, { once: true });
+  serviceWorker.addEventListener?.('controllerchange', controlled);
+  controlled();
+  return true;
+}
+
+function sameQ0Context(a, b) {
+  return ['clientId','fileId','mediaSession','sourceGeneration','accountKey','accountGeneration']
+    .every(key => a?.[key] === b?.[key]);
+}
+
+function handleQ0PinMessage(event, data) {
+  const port = event.ports?.[0], owner = q0Playback;
+  if (!port) return;
+  const protocol = globalThis.DriveRevisionPin?.PROTOCOL;
+  const valid = protocol && data.protocol === protocol && /^[A-Za-z0-9_-]{1,80}$/.test(data.requestId || '')
+    && typeof data.clientId === 'string' && data.clientId.length > 0 && data.clientId.length <= 512
+    && event.source === owner?.swController && navigator.serviceWorker?.controller === owner?.swController
+    && isCurrentQ0Playback(owner, data.fileId, data.sourceGeneration);
+  const context = valid ? q0OwnerContext(owner, data.clientId) : null;
+  if (data.type === 'Q0_OWNER_REQUEST') {
+    port.postMessage({ type: 'Q0_OWNER_RESPONSE', protocol, requestId: data.requestId,
+      requestCurrent: Boolean(valid), context,
+      resourceKey: valid ? state.selected.resourceKey || null : null,
+      traceId: valid ? getMediaDiagnosticTraceId(state.mediaSession) : '',
+      acknowledgeAbuse: valid && state.mediaAbuseAcknowledged === true });
+  } else {
+    let error = null;
+    const authorized = valid && sameQ0Context(data.context, context);
+    try {
+      if (!authorized) throw new Error('OWNER');
+      if (data.mode === 'bind') {
+        const pin = DriveRevisionPin.validatePin(data.pin, context);
+        if (q0PinnedSource && !DriveRevisionPin.samePin(q0PinnedSource, pin)) throw new Error('PIN_REPLACEMENT');
+        q0PinnedSource ||= Object.freeze({ ...pin, descriptor: Object.freeze({ ...pin.descriptor }) });
+      } else if (data.mode !== 'get') throw new Error('PROTOCOL');
+    } catch (_) { error = 'PIN_REJECTED'; }
+    port.postMessage({ type: 'Q0_PIN_RESPONSE', protocol, requestId: data.requestId, context,
+      requestCurrent: Boolean(authorized && !error), pin: authorized && !error ? q0PinnedSource : null, error });
+  }
+  port.close?.();
+}
 
 function retireQ1Playback(owner) {
   if (!owner || owner.retirement) return owner?.retirement;
@@ -1614,6 +1733,9 @@ async function setupServiceWorker() {
     showToast('HTTPS 환경이 아니어서 원본 스트리밍 기능을 시작할 수 없습니다.');
     return;
   }
+  // The first controller claim can precede registration.ready. Install the
+  // private owner receiver before starting registration or native playback.
+  navigator.serviceWorker.addEventListener('message', handleWorkerMessage);
   try {
     const registration = await withDeadline(navigator.serviceWorker.register('./sw.js', { scope: './' }), 12_000);
     state.serviceWorkerRegistration = registration;
@@ -1628,7 +1750,6 @@ async function setupServiceWorker() {
       }
     });
 
-    navigator.serviceWorker.addEventListener('message', handleWorkerMessage);
     sendTokenToWorker();
     setInterval(sendTokenToWorker, 20_000);
 
@@ -1838,14 +1959,24 @@ async function forceReloadApp() {
 
 async function handleWorkerMessage(event) {
   const data = event.data || {};
+  if (data.type === 'Q0_OWNER_REQUEST' || data.type === 'Q0_PIN_REQUEST') {
+    handleQ0PinMessage(event, data);
+    return;
+  }
   if (data.type === 'TOKEN_REQUEST' && event.ports && event.ports[0]) {
     const port = event.ports[0];
     const requestGeneration = Number(data.accountGeneration);
-    const mediaMatches = () => data.requireCurrentMedia !== true || Boolean(
+    const mediaMatches = () => data.requireCurrentMedia !== true || (data.mediaOwner === 'q0' ? Boolean(
+      data.q0PinProtocol === globalThis.DriveRevisionPin?.PROTOCOL
+      && event.source === q0Playback?.swController
+      && navigator.serviceWorker?.controller === q0Playback?.swController
+      && isCurrentQ0Playback(q0Playback, data.fileId, data.sourceGeneration)
+      && String(q0Playback.session) === data.mediaSession
+    ) : Boolean(
       q1Playback && !q1Playback.controller.signal.aborted && state.mediaAttempt.startsWith('q1')
       && state.selected?.id === data.fileId && String(state.mediaSession) === data.mediaSession
       && Number.isSafeInteger(data.sourceGeneration) && data.sourceGeneration === mediaSourceGeneration
-    );
+    ));
     const accountMatches = !data.expectedAccount || data.expectedAccount === state.authAccountKey;
     const generationMatches = Number.isInteger(requestGeneration)
       && requestGeneration === state.driveSessionGeneration;
@@ -1869,6 +2000,7 @@ async function handleWorkerMessage(event) {
       requestId: data.requestId,
       requestCurrent: stillCurrent,
       q1RetirementProtocol: data.requireCurrentMedia === true ? Q1_RETIRE_PROTOCOL : undefined,
+      q0PinProtocol: data.mediaOwner === 'q0' ? globalThis.DriveRevisionPin?.PROTOCOL : undefined,
       credentialProtocol: AUTH_PROTOCOL,
       token: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.token : null,
       expiresAt: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.expiresAt : 0,
@@ -1967,6 +2099,14 @@ async function recoverFromMediaProxyError(data) {
   const retrySession = state.mediaSession;
   const retrySourceGeneration = mediaSourceGeneration;
   const isVideo = retryFile.mimeType?.startsWith('video/');
+  if (classifyMediaProxyFailure(data) === 'source-pin') {
+    retireQ0Playback();
+    clearDirectMediaSources();
+    state.mediaAttempt = 'failed';
+    showMediaError('선택한 원본 버전을 안전하게 연결할 수 없습니다. 플레이어를 닫은 뒤 파일을 다시 열어 주세요.',
+      { title: '원본 연결 확인 필요', showRetry: false });
+    return;
+  }
   if (isDriveSecurityRestriction(data) && !state.mediaAbuseAcknowledged) {
     state.mediaAttempt = 'security-confirmation';
     state.pendingSecurityConfirmation = {
@@ -4548,8 +4688,22 @@ function showFavoriteFeedback(liked) {
 }
 
 async function fetchOriginalFileResponse(file, options = {}) {
-  return driveFetch(buildDriveMediaApiUrl(file), {
-    ...options,
+  const { requireRevisionPin = false, ...fetchOptions } = options;
+  let target = buildDriveMediaApiUrl(file);
+  if (requireRevisionPin) {
+    const context = { fileId: file.id, accountKey: state.authAccountKey, accountGeneration: state.driveSessionGeneration };
+    if (!q0PinnedSource) throw DriveRevisionPin.error('PIN_UNAVAILABLE', 422);
+    const pin = DriveRevisionPin.validatePin(q0PinnedSource, context);
+    target = pin.uri;
+    const headers = new Headers(fetchOptions.headers);
+    if (pin.descriptor.resourceKey) {
+      headers.set('X-Goog-Drive-Resource-Keys', `${file.id}/${pin.descriptor.resourceKey}`);
+    } else headers.delete('X-Goog-Drive-Resource-Keys');
+    fetchOptions.headers = Object.fromEntries(headers.entries());
+  }
+  return driveFetch(target, {
+    ...fetchOptions,
+    ...(requireRevisionPin ? { redirect: 'error', cache: 'no-store' } : {}),
     driveMaxRateAttempts: 1
   });
 }
@@ -7486,6 +7640,7 @@ function shouldProbeOriginalTs(file, kind) {
 async function startInitialOriginalPlayback(file, kind, session) {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return;
   const routeGeneration = ++initialMediaRouteGeneration;
+  retireQ0Playback();
   if (q1Playback) {
     const previous = q1Playback; q1Playback = null;
     retireQ1Playback(previous);
@@ -7522,6 +7677,7 @@ async function startInitialOriginalPlayback(file, kind, session) {
 function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
   if (q1Playback) { const prior = q1Playback; q1Playback = null; retireQ1Playback(prior); }
+  retireQ0Playback();
   if (!q1RetirementResult) {
     const accountGeneration = state.driveSessionGeneration;
     void q1Retirement.then(() => {
@@ -7532,6 +7688,9 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
   if (!q1RetirementResult.settled) {
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
     return false;
+  }
+  if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
+    return waitForQ0Control(file, kind, session, message);
   }
   state.mediaAbortController?.abort();
   state.mediaAbortController = null;
@@ -7548,7 +7707,8 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
   updateQualityDisplay();
   showMediaLoading(message);
   sendTokenToWorker();
-  const mediaUrl = buildMediaUrl(file);
+  beginQ0Playback(file, session);
+  const mediaUrl = buildPinnedMediaUrl(file);
 
   if (kind === 'video') {
     const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id) || '';
@@ -7629,6 +7789,13 @@ function buildMediaUrl(file) {
   return url.href;
 }
 
+function buildPinnedMediaUrl(file) {
+  const url = new URL(`__drive_media/${encodeURIComponent(file.id)}`, new URL('.', location.href));
+  url.searchParams.set('sourceGeneration', String(mediaSourceGeneration));
+  url.searchParams.set('mediaOwner', 'q0');
+  return url.href;
+}
+
 function onSeekKeyDown(event) {
   if (event.ctrlKey || event.metaKey || event.altKey) return;
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
@@ -7687,6 +7854,7 @@ function decideUnsupportedFormatRecovery({
 
 async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
+  retireQ0Playback();
   const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
   const oldAttempt = state.mediaAttempt;
   const controller = new AbortController();
@@ -7749,6 +7917,11 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
         return fetch(url.href, { signal, cache: 'no-store', headers: { Range: range } });
       }
       });
+      if (q0PinnedSource && ['headRevisionId','size','mimeType','modifiedTime','sha256Checksum']
+        .some(key => source.identity[key] !== q0PinnedSource.descriptor[key])) {
+        const cleanup = await source.abort();
+        throw Object.assign(new Error('Q1_SOURCE_CONTENT_DRIFT'), { cleanup });
+      }
       // A new generation may not silently switch revisions after admission.
       // files.version remains a metadata counter, not a content-only fence.
       if (routeIdentity && (['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime','canDownload','trashed']
@@ -7835,6 +8008,7 @@ async function handleMediaElementError(kind) {
   }
   const element = kind === 'video' ? el.videoPlayer : el.imageViewer;
   if (!element.getAttribute('src') || !state.selected) return;
+  if (!q0Playback && !q1RetirementResult && ['range','range-retry'].includes(state.mediaAttempt)) return;
   if (
     state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'buffer-evaluating'
     || state.mediaAttempt === 'auth-refresh' || state.mediaAttempt === 'retry-wait'
@@ -7964,6 +8138,7 @@ function scheduleOriginalStreamRetry(file, expectedSession, delayMs, message) {
   clearMediaSeekWatchdog('retry-wait');
   clearMediaFrameWatchdog('retry-wait');
   clearTimeout(mediaRecoveryTimer);
+  retireQ0Playback();
   state.mediaAttempt = 'retry-wait';
   showMediaLoading(message);
   mediaRecoveryTimer = window.setTimeout(() => {
@@ -7972,11 +8147,28 @@ function scheduleOriginalStreamRetry(file, expectedSession, delayMs, message) {
   }, delayMs);
 }
 
-function retryOriginalStream(file, expectedSession, message, { consumeRetry = true } = {}) {
+function retryOriginalStream(file, expectedSession, message, { consumeRetry = true, afterRetirement = false } = {}) {
   if (
     !file || !file.mimeType?.startsWith('video/') || state.selected?.id !== file.id
     || state.mediaSession !== expectedSession || (consumeRetry && state.mediaRetryCount >= 1)
   ) return false;
+
+  if (!afterRetirement) {
+    retireQ0Playback();
+    if (!q1RetirementResult) {
+      const accountGeneration = state.driveSessionGeneration;
+      void q1Retirement.then(() => {
+        if (accountGeneration === state.driveSessionGeneration) retryOriginalStream(file, expectedSession, message,
+          { consumeRetry, afterRetirement: true });
+      });
+      return true;
+    }
+  }
+  if (!q1RetirementResult?.settled) {
+    state.mediaAttempt = 'failed';
+    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    return false;
+  }
 
   clearMediaSeekWatchdog('range-retry');
   clearMediaFrameWatchdog('range-retry');
@@ -8011,7 +8203,8 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
 
   el.videoPlayer.hidden = false;
   el.videoPlayer.dataset.mediaSession = String(retrySession);
-  el.videoPlayer.src = buildMediaUrl(file);
+  beginQ0Playback(file, retrySession);
+  el.videoPlayer.src = buildPinnedMediaUrl(file);
   restorePlaybackSnapshot(el.videoPlayer, snapshot, retrySession);
   el.videoPlayer.load();
   if (!snapshot || !snapshot.paused) {
@@ -8054,7 +8247,7 @@ async function resolveOriginalBufferPolicy(file) {
     } catch (_) {}
   }
   return getOriginalBufferPolicy({
-    size: file?.size,
+    size: q0PinnedSource && q0PinnedSource.descriptor.fileId === file?.id ? q0PinnedSource.descriptor.size : file?.size,
     mobile: isMobileDevice(),
     opfsAvailable,
     storageAvailable
@@ -8208,7 +8401,7 @@ async function downloadOriginalFile(
     let response = null;
     const diagnosticRequestId = beginDirectMediaDiagnosticRequest(session, attempt + 1);
     try {
-      response = await fetchOriginalFileResponse(file, { headers, signal });
+      response = await fetchOriginalFileResponse(file, { headers, signal, requireRevisionPin: true });
       emitDirectMediaDiagnosticStage(session, diagnosticRequestId, 'headers', {
         status: Number(response.status) || 0,
         totalBytes: Number(response.headers.get('Content-Length')) || 0
@@ -8219,7 +8412,7 @@ async function downloadOriginalFile(
         throw createOriginalBufferOwnerError();
       }
       const contentLength = Number(response.headers.get('Content-Length')) || 0;
-      const metadataSize = Number(file.size) || 0;
+      const metadataSize = Number(q0PinnedSource?.descriptor.fileId === file.id ? q0PinnedSource.descriptor.size : file.size) || 0;
       if (response.status !== 200) {
         const status = response.status;
         await response.body?.cancel();
@@ -8236,10 +8429,12 @@ async function downloadOriginalFile(
         response = null;
         throw new RangeError('Original file exceeds the temporary buffer limit');
       }
+      const sourceFile = q0PinnedSource?.descriptor.fileId === file.id
+        ? { ...file, size: q0PinnedSource.descriptor.size, mimeType: q0PinnedSource.descriptor.mimeType } : file;
       const originalFile = policy.mode === 'disk'
         ? await writeResponseIntoOpfs(
             response,
-            file,
+            sourceFile,
             session,
             policy.hardLimit,
             diagnosticRequestId,
@@ -8247,7 +8442,7 @@ async function downloadOriginalFile(
           )
         : await readResponseIntoBlob(
             response,
-            file,
+            sourceFile,
             session,
             policy.hardLimit,
             diagnosticRequestId,
@@ -8281,6 +8476,7 @@ async function downloadOriginalFile(
       cleanupOriginalTempStorage(session, sourceGeneration);
       const rateLimited = isOriginalTransferRateLimit(error);
       const nonRetryable = error?.name === 'AbortError'
+        || error?.name === 'RevisionPinError'
         || !isCurrentOriginalBufferOwner(file, session, sourceGeneration)
         || isDriveSecurityRestriction(error)
         || isLocalOriginalStorageError(error)
@@ -8408,6 +8604,10 @@ async function startOriginalBlobFallback(
     }
     reportAppFailure('original-buffer-fallback', error);
     cleanupOriginalTempStorage(session, bufferSourceGeneration);
+    if (classifyMediaProxyFailure(error) === 'source-pin') {
+      await recoverFromMediaProxyError(error);
+      return;
+    }
     if (rangeFallbackOnFailure && resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
       state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
       startOriginalRangePlayback(file, kind, session, '임시 디스크를 사용할 수 없어 Drive 원본 스트림으로 연결 중');
@@ -10029,6 +10229,8 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  q0ControlWait?.controller.abort();
+  retireQ0Playback();
   const q1 = q1Playback;
   q1Playback = null;
   retireQ1Playback(q1);
@@ -10063,6 +10265,7 @@ function clearDirectMediaSources() {
 }
 
 function resetMediaElements() {
+  q0PinnedSource = null;
   mediaViewObservation = null;
   state.mediaSession += 1;
   clearMediaSeekWatchdog('session-reset');

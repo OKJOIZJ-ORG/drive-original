@@ -59,6 +59,7 @@ function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEna
   };
   context.matchMedia = context.window.matchMedia;
   vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(__dirname, '../media/revision-pin.js'), 'utf8'), context);
   const appPath = path.join(__dirname, '..', 'app.js');
   vm.runInContext(fs.readFileSync(appPath, 'utf8'), context, { filename: appPath });
   // Existing fixtures represent a verified full-grant credential. Partial/unknown tests override this explicitly.

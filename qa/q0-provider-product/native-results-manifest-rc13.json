@@ -1,0 +1,73 @@
+{
+  "scope": "Synthetic actual-source product integration QA; no account/provider/device acceptance",
+  "protocol": "drive-original-q0-revision-pin-v1",
+  "files": {
+    "tests/q0-proxy.test.js": "46bc6a00638aa30d5f580326852bb49f961e253c93433c0bcb587e53f3bec260",
+    "qa/q0-provider-product/native-audit.cjs": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+    "qa/q0-provider-product/native-results.json": "7377a20df24a87ad2c6f6a43ec11fdec50bc1d202bb089f5e698ea9bce87094f",
+    "qa/q0-provider-product/native-results-initial.json": "3a16b8d6b49004490ec2786a8d3294dc7c52f2ab4d9ab1f218eaedd1bbcee143",
+    "qa/q0-provider-product/native-results-node.json": "c89697c9870eb66ad5df018ed7ef1b36749679169ca6e8aa63314786ed767195",
+    "qa/q0-provider-product/native-results-node-attempt-1.json": "0a1802a596d17d05e1ccfd1383ce5064bc4050501662e28d2c3dc9f60b582628",
+    "qa/q0-provider-product/native-results-node-attempt-2.json": "c15004e0877aa17af4f5a3b0ee925aa79af5619ad09838e9b7b64d417e91aba0",
+    "qa/q0-provider-product/native-results-resource-key-attempt-1.json": "17eefa923696eae1376dd70177abb4b9290b4dae8fb91096a342161cc8891107"
+  },
+  "node": {
+    "passed": 40,
+    "failed": 0,
+    "sourceUnchanged": true,
+    "producer": {
+      "tests/q0-proxy.test.js": "46bc6a00638aa30d5f580326852bb49f961e253c93433c0bcb587e53f3bec260",
+      "app.js": "57e368c07d887b3d4b69699702c0922681a49ca81d02cdd3cff857857a2013ab",
+      "sw.js": "2826ae1b8cf19717300f599653d876bf62c8d617f301c74952437a31fae39968",
+      "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+    }
+  },
+  "native": {
+    "passed": true,
+    "producer": {
+      "qa/q0-provider-product/native-audit.cjs": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+      "app.js": "4df0cad360e01e0a577efe959f3f81a96fc6766b42062886d2b06584cabd9455",
+      "sw.js": "2826ae1b8cf19717300f599653d876bf62c8d617f301c74952437a31fae39968",
+      "index.html": "931d88a5b9d05106f1122d2be315d23f2f1c8ae356eddb8a36408037733f25af",
+      "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+      "scripts/public-files.cjs": "5f0c6385b48091ae904907ce5711b1e0753bc04ddaab3d99119b26ed51fed026",
+      "qa/faststart-h264-aac.mp4": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079"
+    },
+    "sourceSnapshotUnchanged": true,
+    "play": {
+      "time": 0.515175,
+      "duration": 10,
+      "frames": 12,
+      "pinSize": "202253",
+      "pinMime": "video/mp4",
+      "src": "http://127.0.0.1:54043/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0",
+      "attempt": "range"
+    },
+    "seek": {
+      "time": 9.320841,
+      "duration": 10,
+      "frames": 22,
+      "error": null
+    },
+    "close": {
+      "settled": true,
+      "owner": false,
+      "pin": false,
+      "src": false,
+      "hidden": true
+    }
+  },
+  "review": {
+    "resolved": [
+      "cold controller-wait accountKey fence",
+      "retained full-original resourceKey from private descriptor",
+      "Headers conversion required by existing driveFetch object merge"
+    ],
+    "nativeDeltaAfterProof": "Only direct full-original Headers object serialization changed after native run; Q0 range/native route unchanged",
+    "limits": [
+      "VM watchdog timers accelerated;12s cold deadline callback explicitly dispatched",
+      "Native10s202253B MP4,90pct seek with4revision requests; not large-file/realGoogle/physical-iOS qualification",
+      "Fresh Chrome user-data owned by Playwright closed in finally; local HTTP server closed; no background process created"
+    ]
+  }
+}

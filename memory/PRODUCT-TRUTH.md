@@ -232,3 +232,7 @@ Verified locally: synthetic upstream404 private-ID message reaches fixed app con
 
 - `observed actual provider`: A newly-created16-byte disposable revision changed A→B. First files.download revision URI still returned A, while latest returned B. Verified restoration and recoverable trash complete;17requests/four file writes/64media bytes. No original-media mutation or KeepForever. One bounded experiment does not prove universal retention, product integration or device acceptance. Evidence: memory/Q0-REVISION-SNAPSHOT-20260929.md and exact qa/q0-revision-pin-disposable-rc13b records.
 - `verified QA copy`: Q0 external close now joins bounded source and consumer drainage; canonical/classic15/15. The unchanged product does not yet use this owner.
+
+## Q0 local product, separate from candidate — 2026-09-29
+
+Verified local app/SW: immutable revision admission before original bytes, private first-pin reuse across worker restart/401/native retry, terminal source-pin failure, full-original URI/header ownership and bounded cold-control account/session/source fencing. Independent app/SW contract tests plus real Chrome/synthetic-provider MP4 decode,90% seek and settled close pass. Exact counts/producers and retained failed attempts are in qa/q0-provider-product. Current candidate deployment/actual Google replay are separate; no physical-device or whole-format claim. Source and consumer retirement reuse the product's existing barrier rather than the earlier QA-only copy. Evidence: Q0-PRODUCT-20260929.md.

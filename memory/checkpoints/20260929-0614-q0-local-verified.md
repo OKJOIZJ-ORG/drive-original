@@ -1,8 +1,8 @@
-# Checkpoint — Q0 verified, candidate deployment next — 2026-09-29 06:14
+# Checkpoint — Q0 product review, Q1/Q2 preparations — 2026-09-29 05:58
 
 ## The story so far
 
-Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, pre-savepoint HEAD d5fe0e9. Local rc.14 Q0 product and publication-input materializer now pass the complete452/452 suite with unchanged producers. Independent Q0 app/SW41/41 and shell15/15 pass. Actual isolated Chrome native playback/90%seek/close passed before version-only/direct-header/absent-resource-key deltas; those deltas have targeted current-source proof. Candidate still rc.13/570f9c3 until upcoming commit/deploy; production v1.21.0/e08989a and automation PAUSED. Q1 general AVC/AAC packet-copy preparations and its exact preferred-source package are ready but unpublished. Q2 source-built AC3/EAC3 modules are being connected to a separate general Worker; a256-sample preroll counterexample is retained and being repaired. Separate source/relink publication is preparing. No generic app routing yet. New-app/old-worker upgrade ordering is independently under QA. Physical/device, broad formats and original qualification gates stay explicit.
+Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, HEAD d5fe0e903796b5cdbdd8b91bcafcf7023af6f3d8. That savepoint preserves actual disposable A/B revision proof and exact QA producers. Candidate stays rc.13/570f9c3, production v1.21.0/e08989a, automation PAUSED. Dirty Q0 product now acquires an immutable revision before media bytes, privately retains it across retries/SW restart, and joins source/consumer retirement. Existing full product checks passed 402/402 before the cold-controller patch. Independent real Chrome native playback and 90% seek passed; close settled with sources/pin released. New actual app/SW VM tests found cold-wait account-key and full-original resource-key mismatches; both are now repaired, final tests/native rerun pending. Isolated Q1 general AVC/AAC packet-copy and Q2 source-built AC3/EAC3 modules are untracked preparations; no app routing or public allowlist yet. Physical/device, broad format and original qualification gates remain explicit.
 
 ## Decided
 
@@ -19,7 +19,7 @@ None for executable work. Device-only and separate production-authority gates st
 
 ## Next first action
 
-Stage the explicit Q0 product/QA/docs paths in qa/q0-provider-product/save-product.cjs, commit, then run the candidate-only committed-asset deployment and real-account read-only replay.
+Run node --test tests/q0-proxy.test.js tests/revision-pin.test.js, receive the independent cold-controller native rerun, then cut the verified Q0 rc.14 candidate.
 
 ## Tried
 

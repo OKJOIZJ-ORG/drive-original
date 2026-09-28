@@ -1,0 +1,13 @@
+{
+  "scope": "Actual app/SW VM stable private resource-key versus stale public listing; targeted discriminating regression",
+  "producer": {
+    "tests/q0-proxy.test.js": "46bc6a00638aa30d5f580326852bb49f961e253c93433c0bcb587e53f3bec260",
+    "app.js": "9c62c377eb51398a2e14ac44d6e789e50a93fc7987ca1dedc0fd64920cc4c2a5",
+    "sw.js": "2826ae1b8cf19717300f599653d876bf62c8d617f301c74952437a31fae39968",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "sourceUnchanged": true,
+  "exitCode": 1,
+  "stdout": "✖ retained full-original resource-key header comes from the private descriptor rather than stale listing (55.2148ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 148.7962\n\n✖ failing tests:\n\ntest at tests\\q0-proxy.test.js:232:1\n✖ retained full-original resource-key header comes from the private descriptor rather than stale listing (55.2148ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'fixture/listing-key'\n  - 'fixture/pin-key'\n             ^\n  \n      at TestContext.<anonymous> (C:\\extensions\\Drive-Original\\source\\tests\\q0-proxy.test.js:238:10)\n      at async Test.run (node:internal/test_runner/test:1332:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'fixture/listing-key',\n    expected: 'fixture/pin-key',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": ""
+}

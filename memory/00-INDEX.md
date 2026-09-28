@@ -75,3 +75,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `CANDIDATE-RC13-20260929.md` — fixed rc.13 delivery/package, actual MKV/AVI replay and separate local privacy repair.
 - `Q0-AND-PRIVACY-20260929.md` — actual rejected content-validator discriminator, current short WebM replay, reproduced console canary repair and source-fence continuation.
 - `Q0-REVISION-SNAPSHOT-20260929.md` — actual disposable A/B revision pin proof, preserved failed baseline and bounded consumer-drain repair; product integration remains separate.
+- `Q0-PRODUCT-20260929.md` — actual app/SW immutable revision, cold-control and full-original ownership, independent protocol/native proof and candidate delivery boundary.

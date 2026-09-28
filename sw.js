@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.13';
+const VERSION = '1.22.0-rc.14';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -7,6 +7,7 @@ const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
 const Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS = 2_000;
 const MEDIA_FIRST_BYTE_TIMEOUT_MS = 15_000;
 const MEDIA_BODY_NO_PROGRESS_TIMEOUT_MS = 15_000;
+importScripts('./media/revision-pin.js');
 const SHELL_FILES = [
   './',
   './index.html',
@@ -14,6 +15,7 @@ const SHELL_FILES = [
   './runtime-config.js',
   './app.js',
   './media/drive-source.mjs',
+  './media/revision-pin.js',
   './media/ts-player.mjs',
   './media/q1-core.mjs',
   './media/transmux-worker.mjs',
@@ -38,6 +40,8 @@ const q1CleanupFences = new Map();
 const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
 const q1TransportOwners = new Map();
 const q1RetiredThrough = new Map();
+const q0Pins = new Map();
+const q0Acquisitions = new Map();
 let requestSequence = 0;
 let mediaTraceSequence = 0;
 const MEDIA_TRACE_PROGRESS_INTERVAL_MS = 250;
@@ -174,9 +178,14 @@ async function proxyDriveMedia(request, url, clientId) {
   if (!fileId || !/^[A-Za-z0-9_-]+$/.test(fileId)) {
     return mediaErrorResponse('Invalid Drive file ID', 400);
   }
-  if (!url.searchParams.has('accountGeneration')
-    || !/^\d+$/.test(url.searchParams.get('accountGeneration') || '')) {
+  const mediaOwner = url.searchParams.get('mediaOwner');
+  const pinnedNative = mediaOwner === 'q0';
+  if (!pinnedNative && (!url.searchParams.has('accountGeneration')
+    || !/^\d+$/.test(url.searchParams.get('accountGeneration') || ''))) {
     return mediaErrorResponse('Invalid account generation', 400);
+  }
+  if (pinnedNative && [...url.searchParams.keys()].some(key => !['mediaOwner','sourceGeneration'].includes(key))) {
+    return mediaErrorResponse('Invalid native source URL', 400);
   }
   const sourceGenerationValue = url.searchParams.get('sourceGeneration');
   if (sourceGenerationValue != null && !/^\d+$/.test(sourceGenerationValue)) {
@@ -191,13 +200,14 @@ async function proxyDriveMedia(request, url, clientId) {
     clientId: clientId || '',
     fileId,
     sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
-    accountGeneration: Number(url.searchParams.get('accountGeneration')),
-    requireCurrentMedia: url.searchParams.get('mediaOwner') === 'q1',
+    accountGeneration: pinnedNative ? null : Number(url.searchParams.get('accountGeneration')),
+    mediaOwner,
+    requireCurrentMedia: mediaOwner === 'q1' || pinnedNative,
     requestedRange: request.headers.get('range'),
     traceId: normalizeMediaTraceId(url.searchParams.get('_trace')),
     ...(sourceGeneration == null ? {} : { sourceGeneration })
   };
-  if (!Number.isSafeInteger(context.accountGeneration) || context.accountGeneration < 0) {
+  if (!pinnedNative && (!Number.isSafeInteger(context.accountGeneration) || context.accountGeneration < 0)) {
     return mediaErrorResponse('Invalid account generation', 400);
   }
   if (context.requireCurrentMedia && (!clientId || !Number.isSafeInteger(sourceGeneration))) {
@@ -228,7 +238,7 @@ async function proxyDriveMedia(request, url, clientId) {
     });
     return mediaErrorResponse('Invalid media byte range', 400);
   }
-  const driveUrl = new URL(`https://www.googleapis.com/drive/v3/files/${fileId}`);
+  let driveUrl = new URL(`https://www.googleapis.com/drive/v3/files/${fileId}`);
   driveUrl.searchParams.set('alt', 'media');
   driveUrl.searchParams.set('supportsAllDrives', 'true');
   if (url.searchParams.get('acknowledgeAbuse') === '1') {
@@ -236,7 +246,7 @@ async function proxyDriveMedia(request, url, clientId) {
   }
   const headers = new Headers();
 
-  const resourceKey = url.searchParams.get('resourceKey');
+  let resourceKey = url.searchParams.get('resourceKey');
   if (resourceKey) {
     headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
   }
@@ -250,6 +260,28 @@ async function proxyDriveMedia(request, url, clientId) {
 
   try {
     transportSignal.throwIfAborted();
+    if (pinnedNative) {
+      const reply = await requestQ0Page(context, 'owner', null, transportSignal);
+      const scope = reply.context;
+      if (scope?.clientId !== context.clientId || scope.fileId !== fileId
+        || scope.sourceGeneration !== sourceGeneration || typeof scope.mediaSession !== 'string'
+        || !/^\d{1,16}$/.test(scope.mediaSession) || !Number.isSafeInteger(Number(scope.mediaSession))) {
+        throw DriveRevisionPin.error('OWNER');
+      }
+      if (!Number.isSafeInteger(scope.accountGeneration) || scope.accountGeneration < 0
+        || typeof scope.accountKey !== 'string' || !scope.accountKey || scope.accountKey.length > 512
+        || /[\u0000-\u001f\u007f]/.test(scope.accountKey)
+        || (reply.resourceKey != null && (typeof reply.resourceKey !== 'string'
+          || !reply.resourceKey || reply.resourceKey.length > 512 || /[\u0000-\u001f\u007f]/.test(reply.resourceKey)))) {
+        throw DriveRevisionPin.error('OWNER');
+      }
+      Object.assign(context, { accountGeneration: scope.accountGeneration, expectedAccount: scope.accountKey,
+        sessionId: scope.mediaSession, mediaSession: scope.mediaSession, resourceKey: reply.resourceKey || null,
+        traceId: normalizeMediaTraceId(reply.traceId),
+        acknowledgeAbuse: reply.acknowledgeAbuse === true });
+      resourceKey = context.resourceKey;
+      if (resourceKey) headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
+    }
     if (context.requireCurrentMedia && !await waitForQ1CleanupFence(clientId)) {
       return q1CleanupUnconfirmedResponse();
     }
@@ -265,6 +297,18 @@ async function proxyDriveMedia(request, url, clientId) {
       return mediaErrorResponse('Google authorization required', 401);
     }
     notifyMediaTrace(context, 'credential-ready');
+    let pinnedSource = null;
+    if (pinnedNative) {
+      pinnedSource = await getQ0RevisionPin(context, credential);
+      transportSignal.throwIfAborted();
+      driveUrl = new URL(pinnedSource.uri);
+      if (pinnedSource.descriptor.resourceKey) headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${pinnedSource.descriptor.resourceKey}`);
+      else headers.delete('X-Goog-Drive-Resource-Keys');
+      // Pin acquisition may have taken time; reauthorize this exact page owner
+      // before any original bytes and retain the same snapshot on renewal.
+      credential = await getUsableCredential(context, { expectedAccount: pinnedSource.descriptor.accountKey, signal: transportSignal });
+      if (!credential) throw DriveRevisionPin.error('AUTH', 401);
+    }
     let upstreamAttempt = 0;
     const fetchMedia = async () => {
       transportSignal.throwIfAborted();
@@ -274,7 +318,7 @@ async function proxyDriveMedia(request, url, clientId) {
       const attempt = await fetchMediaWithHeadersDeadline(driveUrl.toString(), {
         method: request.method,
         headers,
-        redirect: 'follow',
+        redirect: pinnedNative ? 'error' : 'follow',
         mode: 'cors',
         cache: 'no-store'
       }, transportSignal);
@@ -352,7 +396,8 @@ async function proxyDriveMedia(request, url, clientId) {
         terminal: true
       });
       await notifyMediaError(context, upstream.status, reasons, retryAfterMs, {
-        category: upstream.status === 416 ? 'range-unsatisfiable' : undefined,
+        category: pinnedNative && [403,404,410].includes(upstream.status) ? 'source-pin'
+          : upstream.status === 416 ? 'range-unsatisfiable' : undefined,
         contentRange,
         rangeSatisfied: false,
         rejectedRevision: upstream.status === 401 ? credential?.revision : undefined,
@@ -376,7 +421,7 @@ async function proxyDriveMedia(request, url, clientId) {
     const inferredContentRange = upstream.status === 206 && !exposedContentRange
       ? inferContentRangeFromLength(
           range,
-          url.searchParams.get('size'),
+          pinnedSource?.descriptor.size || url.searchParams.get('size'),
           upstream.headers.get('Content-Length')
         )
       : null;
@@ -391,9 +436,13 @@ async function proxyDriveMedia(request, url, clientId) {
     const lengthConsistent = expectedRangeLengthSafe && (!declaredLength || (satisfiedInterval && /^\d+$/.test(declaredLength)
       && Number.isSafeInteger(Number(declaredLength))
       && Number(declaredLength) === expectedRangeBytes));
+    const pinnedLengthConsistent = !pinnedSource || (upstream.status === 206
+      ? satisfiedInterval?.total === Number(pinnedSource.descriptor.size)
+      : upstream.status !== 200 || (declaredLength && /^\d+$/.test(declaredLength)
+        && Number(declaredLength) === Number(pinnedSource.descriptor.size)));
     const rangeSatisfied = upstream.status === 206
-      && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent);
-    if (upstream.status === 206 && !rangeSatisfied) {
+      && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent) && Boolean(pinnedLengthConsistent);
+    if ((upstream.status === 206 && !rangeSatisfied) || !pinnedLengthConsistent) {
       if (owner) {
         if (!await fenceQ1RejectedBody(clientId, upstreamFetch, transportSignal)) return q1CleanupUnconfirmedResponse();
       } else {
@@ -429,7 +478,7 @@ async function proxyDriveMedia(request, url, clientId) {
     }
 
     // Force exact MIME type if known (prevents Safari application/octet-stream rejection)
-    const mimeParam = url.searchParams.get('mime');
+    const mimeParam = pinnedSource?.descriptor.mimeType || url.searchParams.get('mime');
     if (mimeParam) {
       responseHeaders.set('Content-Type', mimeParam);
     }
@@ -460,6 +509,17 @@ async function proxyDriveMedia(request, url, clientId) {
       headers: responseHeaders
     });
   } catch (error) {
+    if (transportSignal.aborted || error?.name === 'AbortError') {
+      notifyMediaTrace(context, 'request-cancelled', { reason: 'request-aborted', terminal: true });
+      throw error;
+    }
+    if (error?.name === 'RevisionPinError') {
+      const status = Number(error.status) || 409;
+      await notifyMediaError(context, status, [], 0, {
+        category: error.code === 'AUTH' ? 'auth' : 'source-pin', driveReason: 'revisionPinUnavailable', rangeSatisfied: false
+      });
+      return mediaErrorResponse('Original revision connection unavailable', status);
+    }
     if (error?.name === 'Q1ClientUpgradeRequiredError') {
       await notifyMediaError(context, 409, [], 0, { category: 'client-upgrade-required', driveReason: 'q1RetirementProtocol' });
       return mediaErrorResponse('Q1 client upgrade required', 409);
@@ -476,12 +536,6 @@ async function proxyDriveMedia(request, url, clientId) {
         rangeSatisfied: false
       });
       return mediaErrorResponse('Drive response headers timed out', 504);
-    }
-    if (transportSignal.aborted || error?.name === 'AbortError') {
-      notifyMediaTrace(context, 'request-cancelled', {
-        reason: 'request-aborted', terminal: true
-      });
-      throw error;
     }
     notifyMediaTrace(context, 'http-error', {
       status: 0,
@@ -500,6 +554,169 @@ async function proxyDriveMedia(request, url, clientId) {
       owner.complete(settled);
     }
   }
+}
+
+function q0Context(context) {
+  return { clientId: context.clientId, fileId: context.fileId, mediaSession: String(context.sessionId),
+    sourceGeneration: context.sourceGeneration, accountKey: context.expectedAccount, accountGeneration: context.accountGeneration };
+}
+
+function sameQ0Context(a, b) {
+  return ['clientId','fileId','mediaSession','sourceGeneration','accountKey','accountGeneration']
+    .every(key => a?.[key] === b?.[key]);
+}
+
+async function requestQ0Page(context, mode, pin, signal) {
+  signal?.throwIfAborted();
+  const client = await self.clients.get(context.clientId);
+  signal?.throwIfAborted();
+  if (!client) throw DriveRevisionPin.error('OWNER');
+  const requestId = `q0-${mode}-${++requestSequence}`;
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    let finished = false;
+    const finish = (error, data) => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer); signal?.removeEventListener('abort', aborted);
+      channel.port1.close(); channel.port2.close();
+      error ? reject(error) : resolve(data);
+    };
+    const aborted = () => finish(new DOMException('Original owner retired', 'AbortError'));
+    const timer = setTimeout(() => finish(DriveRevisionPin.error('HANDSHAKE_TIMEOUT')), 2000);
+    channel.port1.onmessage = ({ data }) => {
+      if (data?.requestId !== requestId) return;
+      if (data.protocol !== DriveRevisionPin.PROTOCOL || data.requestCurrent !== true
+        || data.type !== (mode === 'owner' ? 'Q0_OWNER_RESPONSE' : 'Q0_PIN_RESPONSE')
+        || (mode !== 'owner' && !sameQ0Context(data.context, q0Context(context)))) {
+        finish(DriveRevisionPin.error('OWNER')); return;
+      }
+      finish(null, data);
+    };
+    channel.port1.onmessageerror = () => finish(DriveRevisionPin.error('PROTOCOL'));
+    signal?.addEventListener('abort', aborted, { once: true });
+    try {
+      client.postMessage({ type: mode === 'owner' ? 'Q0_OWNER_REQUEST' : 'Q0_PIN_REQUEST',
+        protocol: DriveRevisionPin.PROTOCOL, requestId, mode, clientId: context.clientId,
+        fileId: context.fileId, sourceGeneration: context.sourceGeneration,
+        ...(mode === 'owner' ? {} : { context: q0Context(context), pin }) }, [channel.port2]);
+      if (signal?.aborted) aborted();
+    } catch (_) { finish(DriveRevisionPin.error('OWNER')); }
+  });
+}
+
+async function getQ0RevisionPin(context, credential) {
+  const scope = q0Context(context), key = JSON.stringify([scope.clientId, scope.sourceGeneration]);
+  const cached = q0Pins.get(key);
+  if (cached) {
+    if (!sameQ0Context(cached.context, scope)) throw DriveRevisionPin.error('OWNER');
+    return DriveRevisionPin.validatePin(cached.pin, scope);
+  }
+  if (!q0Acquisitions.has(key)) {
+    // Native Range cancellation detaches one request, not the shared pin job.
+    // Explicit page retirement owns and joins this independent bounded job.
+    const jobContext = { ...context, requestId: `q0-acquire-${++requestSequence}` };
+    const owner = registerQ1TransportOwner(jobContext, new AbortController().signal);
+    const pending = new Set();
+    const track = promise => {
+      pending.add(promise);
+      promise.finally(() => pending.delete(promise)).catch(() => {});
+      return promise;
+    };
+    const current = () => !owner.controller.signal.aborted && !owner.finished
+      && context.sourceGeneration > (q1RetiredThrough.get(context.clientId) ?? -1);
+    let jsonBytes = 0;
+    const requestJSON = (target, method, resourceKey, signal) => track((async () => {
+      if (!current()) throw DriveRevisionPin.error('OWNER');
+      signal.throwIfAborted();
+      const headers = new Headers({ Authorization: `Bearer ${credential.token}` });
+      if (resourceKey) headers.set('X-Goog-Drive-Resource-Keys', `${context.fileId}/${resourceKey}`);
+      const upstream = await fetchMediaWithHeadersDeadline(target, {
+        method, headers, redirect: 'error', mode: 'cors', cache: 'no-store'
+      }, signal);
+      owner.upstream = upstream;
+      let reader, done = false, cancelPromise;
+      const cancel = () => cancelPromise ||= fenceQ1RejectedBody(context.clientId, reader ? {
+        response: { body: { cancel: () => reader.cancel() } },
+        abort: () => upstream.abort(), release() { upstream.release(); reader.releaseLock(); }
+      } : upstream);
+      owner.cancelBody = cancel;
+      try {
+        signal.throwIfAborted();
+        if (!current()) throw DriveRevisionPin.error('OWNER');
+        if (!upstream.response.ok) throw DriveRevisionPin.error(upstream.response.status === 401 ? 'AUTH' : 'PROVIDER_DENIAL', upstream.response.status);
+        if (!upstream.response.body?.getReader) throw DriveRevisionPin.error('JSON_BODY');
+        reader = upstream.response.body.getReader();
+        const decoder = new TextDecoder('utf-8', { fatal: true });
+        let text = '';
+        for (;;) {
+          const result = await reader.read();
+          signal.throwIfAborted();
+          if (!current()) throw DriveRevisionPin.error('OWNER');
+          if (result.done) break;
+          if (!(result.value instanceof Uint8Array) || jsonBytes + result.value.byteLength > 32768) throw DriveRevisionPin.error('JSON_LIMIT');
+          jsonBytes += result.value.byteLength;
+          text += decoder.decode(result.value, { stream: true });
+        }
+        text += decoder.decode();
+        reader.releaseLock(); upstream.release(); done = true;
+        let parsed;
+        try { parsed = JSON.parse(text); } catch (_) { throw DriveRevisionPin.error('JSON_INVALID'); }
+        return parsed;
+      } finally {
+        if (!done && !await cancel()) throw DriveRevisionPin.error('CLEANUP_UNSETTLED');
+        if (owner.upstream === upstream) { owner.upstream = null; owner.cancelBody = null; }
+      }
+    })());
+    const acquisition = (async () => {
+      let success = false;
+      try {
+        const retained = (await requestQ0Page(context, 'get', null, owner.controller.signal)).pin;
+        const pin = await DriveRevisionPin.acquire({ context: scope, retainedPin: retained, signal: owner.controller.signal,
+          isCurrent: current,
+          readMetadata: ({ signal }) => {
+            const url = new URL(`https://www.googleapis.com/drive/v3/files/${context.fileId}`);
+            url.searchParams.set('fields', 'id,headRevisionId,size,mimeType,modifiedTime,sha256Checksum,trashed,resourceKey,capabilities(canDownload,canReadRevisions)');
+            url.searchParams.set('supportsAllDrives', 'true');
+            return requestJSON(url.href, 'GET', context.resourceKey, signal);
+          },
+          startDownload: ({ revisionId, resourceKey, signal }) => {
+            const url = new URL(`https://www.googleapis.com/drive/v3/files/${context.fileId}/download`);
+            url.searchParams.set('revisionId', revisionId);
+            return requestJSON(url.href, 'POST', resourceKey || context.resourceKey, signal);
+          },
+          pollOperation: ({ name, resourceKey, signal }) => requestJSON(
+            `https://www.googleapis.com/drive/v3/operations/${encodeURIComponent(name)}`, 'GET', resourceKey || context.resourceKey, signal),
+          pause: (ms, signal) => new Promise((resolve, reject) => {
+            const stop = () => { clearTimeout(timer); signal.removeEventListener('abort', aborted); };
+            const aborted = () => { stop(); reject(signal.reason || new DOMException('Cancelled', 'AbortError')); };
+            const timer = setTimeout(() => { stop(); resolve(); }, ms);
+            signal.addEventListener('abort', aborted, { once: true }); if (signal.aborted) aborted();
+          }) });
+        if (!current()) throw DriveRevisionPin.error('OWNER');
+        const acknowledged = (await requestQ0Page(context, 'bind', pin, owner.controller.signal)).pin;
+        if (!current() || !DriveRevisionPin.samePin(pin, acknowledged)) throw DriveRevisionPin.error('PIN_REPLACEMENT');
+        q0Pins.set(key, { context: scope, pin }); success = true;
+        return pin;
+      } finally {
+        let settled = true, timer;
+        try {
+          if (owner.upstream) settled = await (owner.cancelBody?.() || fenceQ1RejectedBody(context.clientId, owner.upstream));
+          const callbacksSettled = await Promise.race([
+            Promise.allSettled([...pending]).then(() => true),
+            new Promise(resolve => { timer = setTimeout(() => resolve(false), Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS); })
+          ]);
+          settled &&= callbacksSettled;
+        } catch (_) { settled = false; }
+        finally { clearTimeout(timer); owner.complete(settled); }
+        if (!settled) { q0Pins.delete(key); throw DriveRevisionPin.error('CLEANUP_UNSETTLED'); }
+        if (!success) q0Pins.delete(key);
+      }
+    })();
+    q0Acquisitions.set(key, acquisition);
+    acquisition.finally(() => { if (q0Acquisitions.get(key) === acquisition) q0Acquisitions.delete(key); }).catch(() => {});
+  }
+  return q0Acquisitions.get(key);
 }
 
 function markQ1CleanupUncertain(clientId) {
@@ -547,6 +764,9 @@ async function replyQ1Retirement(event, data, clientId) {
   try {
     if (valid) {
       q1RetiredThrough.set(clientId, Math.max(q1RetiredThrough.get(clientId) ?? -1, data.retiredThroughGeneration));
+      for (const [key, value] of q0Pins) {
+        if (value.context.clientId === clientId && value.context.sourceGeneration <= data.retiredThroughGeneration) q0Pins.delete(key);
+      }
       const owners = [...q1TransportOwners.values()].filter(owner => owner.clientId === clientId
         && owner.sourceGeneration <= data.retiredThroughGeneration);
       owners.forEach(owner => owner.retire());
@@ -603,6 +823,7 @@ async function pruneQ1CleanupFences() {
       if (!client) {
         if (q1CleanupFences.get(clientId) === fence) q1CleanupFences.delete(clientId);
         q1RetiredThrough.delete(clientId);
+        for (const [key, value] of q0Pins) if (value.context.clientId === clientId) q0Pins.delete(key);
       }
     } catch (_) { /* An unavailable client lookup is not proof of teardown. */ }
   }
@@ -1097,12 +1318,15 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
       // owner-required request needs an affirmative reply for its exact id.
       const received = normalizeCredential(data);
       if (context.requireCurrentMedia && data?.requestCurrent === true
-        && data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL && received && credentialMatchesContext(received, context)) {
+        && (data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL
+          || (context.mediaOwner === 'q0' && data.q0PinProtocol !== DriveRevisionPin.PROTOCOL))
+        && received && credentialMatchesContext(received, context)) {
         const error = new Error('Q1 client upgrade required'); error.name = 'Q1ClientUpgradeRequiredError';
         reject(error); return;
       }
       if (context.requireCurrentMedia && (data?.requestCurrent !== true
-        || data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL)) { resolve(null); return; }
+        || data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL
+        || (context.mediaOwner === 'q0' && data.q0PinProtocol !== DriveRevisionPin.PROTOCOL))) { resolve(null); return; }
       if (received && credentialMatchesContext(received, context)
         && (!Number.isSafeInteger(rejectedRevision) || received.revision > rejectedRevision)) {
         const current = clientCredentials.get(context.clientId);
@@ -1135,6 +1359,8 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
         clientId: context.clientId,
         fileId: context.fileId,
         requireCurrentMedia: context.requireCurrentMedia === true,
+        mediaOwner: context.mediaOwner,
+        q0PinProtocol: context.mediaOwner === 'q0' ? DriveRevisionPin.PROTOCOL : undefined,
         mediaSession: context.sessionId,
         sourceGeneration: context.sourceGeneration,
         accountGeneration: context.accountGeneration,

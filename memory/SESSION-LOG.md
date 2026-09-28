@@ -559,3 +559,9 @@ Observed WebM original playback/midpoint/EOF/close pass, largeISO Q0 decode/10% 
 - Preserved the failed restrictive operation-name probe and corrected a separate copy. Actual disposable A→B/latest-B/old-URI-A/restored-A/recoverable-trash all pass;17requests/4filewrites/64media bytes/14.6s. No original media or retention changes; all private helpers released.
 - Reproduced premature settled reporting with pending stream consumers; reviewed QA copy joins bounded source and consumer drainage, canonical/classic15/15. Product integration is next. Exact producers/records are bound in Q0-REVISION-SNAPSHOT-20260929.md.
 - Q1 clock/color fork and Q2 source-built codec remain independent preparation units. Candidate rc.13/570f9c3, productionv1.21.0 and PAUSED automation remain unchanged.
+
+## 2026-09-29 — Q0 product snapshot integration
+
+- Local rc.14 uses a page-retained immutable revision for native Range and full-original recovery. The first bounded acquisition is acknowledged before bytes; restart/refresh/retry cannot adopt latest. Explicit source/consumer retirement blocks unknown cleanup.
+- Independent actual app/SW tests and native Chrome decode/90% seek/close pass their recorded scope. Cold-controller account-key and stale resource-key/header findings were reproduced and fixed. Exact raw attempts are preserved in qa/q0-provider-product; the full rc.14 suite and candidate evidence remain separately owned.
+- Candidate remains rc.13 until the new committed assets and deployment are verified. Q1 general packet copy and Q2 source-built stereo audio preparations continue with corresponding-source publication and app integration. Physical devices, broad formats, production and paused automation stay explicit.
