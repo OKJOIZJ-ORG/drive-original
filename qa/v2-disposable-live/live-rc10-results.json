@@ -1,0 +1,254 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-09-28T10:58:47.600Z",
+  "identity": {
+    "candidate": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+    "version": "1.22.0-rc.10",
+    "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+    "workerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+    "publicAppSHA256": "43ba2889b349c29e35e6075600d09886089361cf40549b374ac3541cd0e5aedc"
+  },
+  "producers": {
+    "canonicalSHA256": "6a2ffe9bd7b2bf83110ff5af856515e8e6b0f5b57dd67251c6f47ac239a6b6bf",
+    "buildSHA256": "c3ee516055b88eaba1d31efa79865746613268eb59ed1051ed0933f948057177",
+    "runnerSHA256": "7a856f64ddae507b6408cbbd076eca3ffd5ed2e286e39d867388f763980e3159",
+    "guardTestsSHA256": "982a01b4ad2512ee96d1095fe743432d4f4ee5a84f00516c0de0f9ddf74728c0",
+    "executedExpressionSHA256": "8543d23c6960b4678641a1a936512f71080713e8d5de3c57c7e3c613985a4f3e",
+    "finalVerifierSha256": "1d2e563687bfc80956677cbf943411257f4ad7040fd05f6cf01660ab6b62f938",
+    "finalVerifierTestsSha256": "b77c7ea5cbaeb3a2c486cd19dbbec5f8a213c7a909ce1d9a58c97eebb5f68ebb"
+  },
+  "localGuardTests": {
+    "passed": 13,
+    "total": 13
+  },
+  "live": {
+    "roundTrip": {
+      "finished": true,
+      "phase": "complete",
+      "requests": 35,
+      "result": {
+        "created": 3,
+        "ok": true,
+        "requests": 35,
+        "responseLossVerified": true,
+        "roundTrip": true,
+        "testFileTrashed": true,
+        "testFoldersRetained": 2,
+        "writes": 8
+      },
+      "writes": 8
+    },
+    "postOwners": {
+      "accountStable": true,
+      "cacheEqual": true,
+      "controllerStable": true,
+      "idle": true,
+      "projectionEqual": true,
+      "readOnly": true,
+      "writerEqual": true
+    },
+    "ledgerAudit": {
+      "allCanonicalConfirmed": true,
+      "allPlannedSent": true,
+      "canonicalRows": 4,
+      "created": 3,
+      "onlyCreatedIds": true,
+      "patchCount": 5,
+      "patchesOnlyTestFile": true,
+      "planned": 3,
+      "postCount": 3,
+      "privateLedgerRetained": true,
+      "recordedFileInOriginalFolder": true,
+      "recordedFileTrashed": true
+    },
+    "readOnlyRecovery": {
+      "finished": true,
+      "phase": "recovery-verified",
+      "requests": 4,
+      "result": {
+        "ok": true,
+        "readOnlyRecovery": true,
+        "recoveryRetained": true,
+        "requests": 4,
+        "unknown": 0,
+        "verified": 3,
+        "writes": 0
+      },
+      "writes": 0
+    },
+    "failedFinalReadbacks": [
+      {
+        "source": "verify-final-pre-folder-correction.js",
+        "sha256": "e51539391114485a8c3d8c49b8e53c56342e06fcc407861068c9255afaa04a02",
+        "result": {
+          "bytes": 309,
+          "code": "QA_FINAL_DRIFT",
+          "ok": false,
+          "ownerStable": true,
+          "readOnly": true,
+          "requests": 1,
+          "rows": [
+            {
+              "httpStatus": 200,
+              "owned": true,
+              "role": "folder-a",
+              "stateMatches": false,
+              "status": "drift",
+              "tagMatches": true,
+              "trashed": false
+            }
+          ],
+          "targetsVerified": 0
+        }
+      },
+      {
+        "source": "verify-failed-dimensions.js",
+        "sha256": "745a896602fe85b698e53cea7d3f25b7f2e581fb887721d7ccd3ac83c3f86db6",
+        "result": {
+          "bytes": 309,
+          "code": "QA_FINAL_DRIFT",
+          "ok": false,
+          "ownerStable": true,
+          "readOnly": true,
+          "requests": 1,
+          "rows": [
+            {
+              "httpStatus": 200,
+              "idMatches": true,
+              "mimeMatches": true,
+              "owned": true,
+              "parentsMatch": true,
+              "role": "folder-a",
+              "stateMatches": false,
+              "status": "drift",
+              "tagMatches": true,
+              "trashed": false,
+              "versionMatches": false
+            }
+          ],
+          "targetsVerified": 0
+        }
+      }
+    ],
+    "finalReadback": {
+      "bytes": 1834,
+      "ok": true,
+      "ownerStable": true,
+      "readOnly": true,
+      "requests": 6,
+      "rows": [
+        {
+          "creationVersionMatches": false,
+          "httpStatus": 200,
+          "owned": true,
+          "role": "folder-a",
+          "secondHttpStatus": 200,
+          "snapshotStable": true,
+          "stateMatches": true,
+          "status": "verified",
+          "tagMatches": true,
+          "trashed": false
+        },
+        {
+          "creationVersionMatches": false,
+          "httpStatus": 200,
+          "owned": true,
+          "role": "folder-b",
+          "secondHttpStatus": 200,
+          "snapshotStable": true,
+          "stateMatches": true,
+          "status": "verified",
+          "tagMatches": true,
+          "trashed": false
+        },
+        {
+          "httpStatus": 200,
+          "owned": true,
+          "role": "test-file",
+          "secondHttpStatus": 200,
+          "snapshotStable": true,
+          "stateMatches": true,
+          "status": "verified",
+          "tagMatches": true,
+          "trashed": true
+        }
+      ],
+      "targetsVerified": 3
+    },
+    "finalOwners": {
+      "accountStable": true,
+      "cacheEqual": false,
+      "controllerStable": true,
+      "idle": true,
+      "projectionEqual": false,
+      "readOnly": true,
+      "writerEqual": true
+    },
+    "cacheDrift": {
+      "observed": {
+        "cacheSemanticallyEqual": false,
+        "disposableIdsAbsent": true,
+        "favorites": {
+          "added": 0,
+          "changed": 0,
+          "removed": 0
+        },
+        "projectionSemanticallyEqual": false,
+        "readOnly": true,
+        "runtimeMatchesCache": true,
+        "updatedAtEqual": false,
+        "viewed": {
+          "added": 2,
+          "changed": 1,
+          "removed": 0
+        }
+      },
+      "remoteReadCacheComparison": {
+        "allViewedDeltasPresentInRemoteReadCache": false,
+        "appDataSyncInFlight": false,
+        "baselineRetained": true,
+        "before": {
+          "liked": 8,
+          "unliked": 48,
+          "viewed": 131
+        },
+        "current": {
+          "liked": 8,
+          "unliked": 48,
+          "viewed": 133
+        },
+        "currentEqualsMergeOfBaselineAndRemoteReadCache": false,
+        "normalReadRefreshEnabled": true,
+        "readCacheDocuments": 6,
+        "readOnly": true
+      },
+      "causalLimit": "Immediate post-run cache/projection equality passed. A later check observed two viewed additions and one timestamp change, with no favorite change or baseline loss. None are QA item IDs. The whole delta is not explained by the current remote read cache; writer/device/action origin is unknown."
+    }
+  },
+  "scope": {
+    "actualAuthenticatedPcChrome": true,
+    "canonicalControllerInRestrictedQaClosure": true,
+    "normalProductUiMutationsVerified": false,
+    "deliberateResponseSuppressionAfterRealMove": true,
+    "naturalNetworkResponseLossVerified": false,
+    "qaTransportExistingFileWrites": 0,
+    "qaTransportAppDataWrites": 0,
+    "qaTransportPermanentDeletes": 0,
+    "globalWritesEnabled": false,
+    "testFoldersRetained": 2,
+    "testFileInTrash": true
+  },
+  "limits": {
+    "recoveryNetworkEventsTruncated": true,
+    "recoveryNetworkResponseBodiesRetained": 0,
+    "folderCreationVersionIsNotFinalBaseline": true,
+    "exactCauseOfFolderVersionAdvance": "unknown; child operations are an inference",
+    "physicalDeviceMutationVerified": false,
+    "wholeIntervalAccountCacheUnchanged": false
+  },
+  "localFinalVerifierTests": {
+    "passed": 12,
+    "failed": 0
+  },
+  "privacyOmissionCheck": true
+}

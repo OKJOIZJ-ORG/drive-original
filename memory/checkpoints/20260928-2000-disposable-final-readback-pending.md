@@ -1,4 +1,4 @@
-# Checkpoint — actual disposable QA closed, current-corpus follow-up — 2026-09-28 20:03
+# Checkpoint — disposable QA final readback pending — 2026-09-28 19:54
 
 ## The story so far
 
@@ -58,35 +58,29 @@ Production approval remains a later boundary.
 
 ## Next first action
 
-Restricted canonical-controller QA completed on the actual account:35requests
+The restricted QA transport has completed its real-account round trip: 35requests
 (27GET,3POST,5PATCH), three new tagged items, four canonical operations confirmed
-without replay after deliberate response suppression. File is recoverably trashed,
-two folders retained. Recovery4GET/0writes and corrected final6GET/1834bytes pass;
-all three final snapshots stable twice, file recorded-final-version strict.
-Guard13/13 and final-verifier12/12 pass. DISPOSABLE-20260928.md and
-qa/v2-disposable-live/live-rc10-results.json own exact producers/scope.
-The failed folder creation-version baseline and diagnostic are preserved; cause
-of folder version advancement remains unknown. No further test writes needed.
+without replay after deliberate lost-response suppression. Only the new test
+file was patched; it is recoverably trashed and two test folders are retained.
+Same account/controller/projection/cache/writer/readOnly/idle checks pass. A
+separate recovery pass used4GET/0writes and verified all three identities.
 
-Immediate post-run cache/projection equality passed. Later viewed2added/1changed,
-favorites unchanged/baseline retained/runtime matches cache; no QA IDs in maps.
-The whole delta is not in current remote read cache. Originating writer/device/
-action unknown; whole-interval cache equality is false. A-011 records this limit.
-Account/controller/writer/readOnly/idle final checks pass. Private handles/group
-released; ledger retained for recovery. Safe QA-result report tab closed.
+Finish the independent final metadata check using corrected verify-final.js
+SHA1d2e563687bfc80956677cbf943411257f4ad7040fd05f6cf01660ab6b62f938,
+12focused tests passed. The first verifier incorrectly treated folder creation
+versions as final-state versions; its1GET failure and1GET diagnostic are retained.
+Only version differed, while identity/parent/MIME/tags/ownership matched. Cause
+of the server version advance is unknown. The corrected check requires strict
+recorded final version for the file and two consecutive stable fresh snapshots
+for all three items. Do not replay any write or edit the frozen successful runner.
 
-Close the owned evidence/docs commit before a new unit. The completed read-only
-audit recommends a fresh rc.10-only current corpus QA adapter, preserving old
-rc.4 reports. Reuse maintained identity inventory/38 deterministic cover/TS parser;
-collect940-byte prefix once and reuse it, TS-only nonoverlapping continuation
-through byte65535. Skip small full-object/EOF reads. Strict stop after first body
-failure; maximum2requests/64KiB per file,76requests/2,490,368bytes for38 samples.
-Do not falsely attach mediaOwner=q1 or retire a synthetic maximal generation:
-those require the actual product owner and could poison later playback. No public
-QA redeploy is needed: exact local public bundle can be read via CUA node:fs/CDP.
-Use existing candidateCdp/tab275136719, leave global writes=false and original
-media read-only. ISO-BMFF tracks are a later slice; old walker only locates moov.
-The mobile overlay-only defect remains queued, with pause-hidden contract intact.
+CUA candidateCdp and disposableJobHandle remain live on tab275136719. Read the
+exact public source via CUA node:fs, verify SHA, and Runtime.callFunctionOn the
+private control handle; export only safe aggregates. Update live-rc10-results.json
+currently finalReadback:null after the6GET check, perform a private omission
+check, release private references/object group, then update evidence/docs and
+commit exact owned paths. Global writes remain false. The read-only corpus audit
+is complete; choose its next bounded unit after closing this commit.
 
 ## Tried
 

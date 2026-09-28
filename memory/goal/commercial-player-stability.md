@@ -138,13 +138,14 @@ Only one core task may be edited at a time. READY/queued means prerequisites are
 | `V2-01C` / WP-01 / `IMPLEMENTED_LOCAL` | On the exact failing file, where is the first failed stage and what is the stable file version? | BUG-01/02/04/07, EXP-01/02; QA-TR-01/02/08/12, QA-AU-01/06 | V2-01B and supplied exact sample/device observations | Read-only trace; no Drive mutation or cookie clearing | two current-app reproductions completed; content revision/SHA-256/size stable; both reached full body then `MediaError` 4 → `container-or-decoder` | Delete private trace after the committed redacted record; no source-media mutation |
 | `V2-02A` / WP-02 / `IMPLEMENTED_LOCAL` | Compatibility/Drive-open actions live inside the one dismissible bottom control owner, not a permanent island. | BUG-03; UI-02/04; QA-UI-01~06 | V2-01B | `index.html`, `styles.css`, player UI owner in `app.js`; no transport change | qa/v2-ui-audit.cjs before/after PC and touch-viewport 2/2; 269 Node checks; functional browser 20/20; review counterexamples fixed. Actual iPhone/VoiceOver pending | Revert isolated UI commit; retain existing manual Drive escape path |
 | `V2-02B` / WP-02 / `IMPLEMENTED_LOCAL(live device pending)` | Normal sync/original preparation stays silent; actionable errors remain short and owned by the current request. | BUG-05, UI-01/03/10, STATE-07; QA-UI-10, QA-ST-03 | V2-01B | status ownership and viewed-event timing only; no account schema migration | stale-status, failed-open-not-viewed, actual display/start, screen-size regression | Feature-level revert; do not rewrite existing viewed history |
+| `V2-02C` / WP-02 / `QUEUED(after current unit; user-reported physical iPhone)` | The designated overlay-only touch area reveals controls without changing playback state. | D-048/D-055/D-056; A-010; QA-UI-01~06 | Continue current disposable QA first; then discriminate touch hit area/event routing against the report | Player controls/gestures after reproduction; pause must never force overlay; no auth/transport redesign | Exact rc.10 and supplied playback user-confirmed; overlay-only zone failure user-reported; mid/end seeks and30s return unknown | Isolated feature revert; keep source/originals/account state |
 | `V2-03A` / WP-03 / `IMPLEMENTED_LOCAL` | Does an independent read-only API reader succeed on the same ranges where the current SW path fails? | ARCH-01~04, E01/E05 | Exact sample trace | Local read-only comparator; no new origin/daemon | same content revision/fingerprint, sampled front/mid/tail all 206, exact lengths and digest equality | Remove comparator and bounded cache; no source mutation |
 | `V2-03B` / WP-03 / `IMPLEMENTED_LOCAL` | If transfer is good, does native playback or container-only remux solve the same sample without video re-encode? | E02/E03/E04, Q-01~06, MEDIA-01/02/05/08; QA-FM-02~04 | V2-03A proves post-transport failure | Local spike/output outside Drive; no deployed native app or original overwrite | exact Q1 copy mappings and stream probes; decoded early/mid/end equality; secured Chrome v2-03b.2 frame/seek/audio/206 evidence | Derived media and servers removed; source fingerprint preserved |
 | `V2-03C` / WP-03 / `IMPLEMENTED_LOCAL` | Adopt the minimum direct-data plus B-auth responsibility split with explicit benefit, cost, host, data migration and exit path; add media relay only if same-file evidence requires it. | ARCH-01~05; G2 | Same-sample V2-03A/B evidence under D-050 | Decision record only | D-051 and `memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md`; all adoption fields, losing options and rollback recorded | Supersede, never rewrite, if later evidence changes the decision |
 | `V2-04A` / WP-04 / `IMPLEMENTED_LOCAL` | Token expiry/reconnect preserves the correct account/view and has one retry owner. | AUTH-01~08; QA-AU-01~09 | Approved architecture | Chosen auth owner and public interface; do not run two auth models | `ed8b619`, `memory/architecture/V2-04A-AUTH-CONTRACT.md`; deterministic expiry/late 401/concurrency/account switch/offline/restart/retention fixtures; full 187/187 | Revert `ed8b619`; production Pages v1.21.0 and external configuration remain untouched |
 | `V2-04B` / WP-04 / `IN_PROGRESS(auth/PWA accepted; A-004 duration open)` | Bind the local contract to one no-cost same-origin candidate and determine whether real login, expiry, sleep/wake and PWA cookie behavior match it. | E06, EXP-04; QA-AU-01/02/06/07/09, QA-TR-12 | V2-04A; actual account/device window; A-008/A-009 action-time checks | Cloudflare host adapters/bindings and reversible candidate-only Google origin/redirect/scope settings; no media proxy, production replacement, global logout or cookie purge | `1.22.0-rc.4` deployed identity/config and PC credential/listing verified; user-confirmed physical iPhone PWA auth return, real list and full-relaunch persistence; actual expiry/sleep-wake remains A-004 | Revert candidate code/config additions and remove candidate origin/redirect if abandoned; existing Pages v1.21.0 remains rollback |
 | `V2-05A` / WP-05 / `IMPLEMENTED_LOCAL(live pending)` | A local operation ledger never turns response loss or partial failure into guessed success. | MUT-01~10, EXP-05; QA-MU-03~08 | Failure-stage contract | Repository/operation interface and synthetic store only | applied-before-loss, failed-before-apply, 403/429, account switch, duplicate operation ID | Revert ledger commit and restore fixture snapshot |
-| `V2-05B` / WP-05 / `BLOCKED(legacy/state gate; disposable target pending)` | Approved trash/move operations match independent remote GET and can be restored. | MUT-01~10; QA-MU-01~10 | Implemented V2-05A/V2-04A; live session, V2-08A state gate and newly created allowlisted disposable target | Named test IDs only; never permanent delete | pre-state, request, response, independent readback, G:/web distinction and recovery readback | Restore recorded parents/trashed state only after checking current remote state |
+| `V2-05B` / WP-05 / `PARTIAL(actual restricted disposable round trip passes; normal UI/live matrix pending)` | Approved trash/move operations match independent remote GET and can be restored. | MUT-01~10; QA-MU-01~10 | Implemented V2-05A/V2-04A; same-account live session and newly created allowlisted disposable target under D-050. V2-08A gates appData/global sync, not isolated new-test-file transport | Named newly generated test IDs only; actual canonical controller in QA closure, global writes=false; never permanent delete | DISPOSABLE-20260928.md:3new items,35run requests/8writes,4GET recovery,6GET stable final states; deliberate response suppression confirmed without replay. Normal candidate UI/G:/web/broad matrix acceptance separate; later cache drift unknown | Restore recorded parents/trashed state only after checking current remote state |
 | `V2-06A` / WP-06 / `IMPLEMENTED_LOCAL` (runtime through `14c501a`; browser evidence through seek transport `b2e6afe`) | Q0 starts before full download and separates credential/header/byte/body/frame/seek stalls. | TR-01~10; QA-TR-01~11 | Approved reader/auth owners | Reader, bounded cache and single watchdog owner | range edges, tail index, 2/4 GiB sparse offsets, stalls, rapid seek/close and quota/resource classification; full 259/259 plus browser 20/20 | Feature flag or commit revert; bounded cache cleanup by file/version lease |
 | `V2-06B` / WP-06 / `IN_PROGRESS(local faults/cycles + one actual PC natural-renewal Q1 boundary verified; broad duration/sleep-wake pending)` | Long playback survives token boundaries, source changes and foreground return without mixing bytes. | TR-07~10; QA-TR-09/10/12 | V2-06A and long-run environment | Lifecycle/retry integration only | long synthetic then actual playback, expiry-edge seek and background/foreground | Cancel active work and invalidate only affected file/version cache |
 | `V2-07A` / WP-07 / `PARTIAL(live authenticated probe pending)` | What container/track/device combinations actually exist and which samples are high risk? | CORPUS-01~07, MEDIA-01; QA-FM-01/05~09 | Stable file identity and read access | Metadata inventory, bounded probes, private manifest; no bulk conversion | priority `4195245`/`4a02391`; inventory `e928f7b`/`78b1b14`; representative cover `dd30d2b`/`56248e5`; core `31bb099`/`f31c870`; front sniff `e0f8228`/`797ec69`; metadata reconciler `60f743b` found 38/38 current stable and did not reproduce the one historic pre-body mismatch; local MPEG-TS parser `3f49d1c`, browser/QA bundle `4cd7d60` and delivery `4226bbf`; local ISO-BMFF header gate 47/47; user-profile candidate authentication restored 2026-09-28; current authenticated container probe pending | Delete probes/derived private manifest; originals remain read-only |
@@ -465,3 +466,42 @@ legacy-live-rc10-results.json own limits and cleanup. No storage/remote/product
 write. Current-profile legacy-local inclusion is now verified, while remote
 persistence/fresh-state/physical-device acceptance stay distinct. User cannot
 perform iPhone trial now; continue source-authorized independent desktop work.
+
+### 2026-09-28 — later physical-iPhone report and isolated disposable unit
+
+The user's later report confirms the requested rc.10 version and supplied-video
+playback on iPhone. D-056 clarifies that pause without controls is intended; the
+designated overlay-only touch area does not work. Never force overlay on pause.
+This reportedly dates from an unspecified GitHub version. Exact hit area/mode and
+the regression boundary are unknown; mid/end seek and30s return remain unverified.
+D-055 queues V2-02C/A-010 after the active unit. Existing D-048 lower-control
+ownership is a contract to discriminate, not a reason to dismiss the report.
+
+Source audit separates D-051 recoverable appData migration requirements from
+D-050's already approved disposable file writes. A strict QA transport may run
+new-test-file move/trash/restore without enabling automatic account sync or
+waiting for all physical-device release rows. Same-account root/private-MyDrive
+read-only preflight passes; createdItems0 at this checkpoint. Initial QA10tests
+pass; final guard review and live side effects have not yet been performed.
+
+### 2026-09-28 — actual restricted disposable mutation result
+
+DISPOSABLE-20260928.md and live-rc10-results.json record the unchanged actual
+candidate's35request/8write round trip on3new tagged items, deliberate move
+response suppression confirmed without replay,4GET identity recovery and6GET
+two-pass stable final metadata. Guard13/13 and final-verifier12/12 pass. The new
+file is recoverably trashed and2new folders retained; no existing file/appData/
+sharing/permanent deletion. Global flag remains false. The canonical controller
+runs in a restricted lexical QA closure, so normal product UI/broad live matrix
+are still separate and V2-05B remains PARTIAL.
+
+Failed folder creation-version equality and exact diagnostic producers are
+retained; corrected verifier keeps file final-version equality and fresh stable
+folder versions. Cause of the advance is unknown. Immediate post-run cache equals
+baseline; later2viewed added/1changed, favorites unchanged/baseline retained and
+no QA IDs. Entire delta is not in current remote read cache; originating writer/
+device/action unknown (A-011), not asserted as a QA product defect. Private handles
+released, private recovery ledger retained. Next bounded independent evidence is
+current rc.10 corpus probing; completed audit finds rc.4-only stale QA adapters,
+unnecessary64KiB non-TS reads and small full-object risk. Preserve historical
+reports; no synthetic Q1 owner or maximal-generation retirement.

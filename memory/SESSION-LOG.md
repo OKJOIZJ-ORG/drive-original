@@ -367,3 +367,54 @@ STATE-SNAPSHOT-20260928.md/legacy-live-rc10-results.json retain actual scope.
 The user says iPhone verification is unavailable now; desktop independent work
 continues. A bounded audit checks source-owned pre-write versus later device/release
 requirements before opening any global switch or introducing needless dependencies.
+
+## 2026-09-28 — later iPhone report, current disposable QA continues
+
+User now confirms requested rc.10 version and supplied-video playback on physical
+iPhone, but reports single-touch pause without overlay and cannot clearly test
+mid/end seek or30s home-return. D-055 registers deferred V2-02C/A-010; do not
+interrupt active QA or claim full device acceptance. Source audit removes an
+unsupported all-device prerequisite from isolated D-050 disposable writes,
+retaining D-051 appData snapshot requirements/global false gate. Root read-only
+same-account root/canAddChildren/private-MyDrive preflight passes with0created.
+Child's initial maintained canonical-controller QA10tests pass; final owner,
+stream budget/abort and file-only cleanup review precede actual Drive execution.
+
+User clarification D-056: pause without controls is intended. The missing function
+is the separate overlay-only touch region; a fix must keep playback state and
+must never show controls merely on pause. Deferred queue/OPEN/CHECKPOINT aligned;
+no mobile product code changed. QA source transfer failed before any job start,
+so no actual Drive create/update request has yet been made at this entry.
+
+## 2026-09-28 — actual disposable round trip and independent final reads
+
+Executed exact reviewed public QA expression in same authenticated candidate
+Chrome; source/public app SHA matches fixed8187121/rc.10. Restricted canonical
+controller35requests (27GET/3POST/5PATCH) creates3new tagged private items and
+passes file A→B/trash/restore/B→A/final trash. Deliberately hidden real successful
+move response confirms by independent GET with no replay.4canonical rows confirmed
+once; file-only cleanup retains2folders/recoverably trashed file. Guard13pass;
+separate recovery4GET/0writes verifies3/unknown0.
+
+Final verifier first failed1GET on creation-record folder version, diagnostic1GET
+isolated version-only difference. Exact failed source preserved; frozen runner
+unchanged. Corrected12test verifier performs6GET/1834bytes, stable final metadata
+for3targets twice and strict recorded final file version. Folder advance cause
+unknown. Safe report excludes private account/token/IDs; private ledger retained,
+object group/references released and safe QA report screenshot saved/tab closed.
+
+Immediate account/cache/projection/writer/controller/readOnly/idle equality passed.
+Later viewed2added/1changed; favorites unchanged/baseline retained/no QA IDs/runtime
+matches cache. Entire delta not explained by current6document remote read cache,
+so originating action/writer/device remains unknown A-011. Final account/controller/
+writer/readOnly/idle pass. Evidence records final raw comparison false rather than
+claiming whole-interval equality. No existing file/appData/sharing/permanent DELETE,
+product source/deployment/main/push/automation/volume action. Normal mutation UI,
+physical devices/migration/broad matrix remain open. D-056 overlay-only touch
+contract and deferred queue remain; no pause-overlay patch.
+
+Completed bounded read-only current-corpus audit recommends new rc.10 QA adapter,
+reuse identity/38cover/TS parser,940-byte prefix reuse and TS-only continuation,
+no small full-object read, strict stop after body failure, no fake Q1 ownership/
+maximal-generation retirement. Historical rc.4 assets remain unchanged. Close
+this evidence commit before implementing the next independent slice.
