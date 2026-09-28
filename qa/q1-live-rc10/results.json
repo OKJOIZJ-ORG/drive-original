@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-28T09:38:08.750Z",
+  "scope": "Actual authenticated desktop Chrome candidate: supplied original Q1 frames, three UI seeks, private metadata readback and close retirement",
+  "pass": true,
+  "candidateVersion": "1.22.0-rc.10",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "candidateWorkerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "target": {"userSuppliedName": "x_953b92374b59458d.mp4", "knownSize": 208001508},
+  "firstPresentedSample": {
+    "compatibilityIframeVisible": false,
+    "duration": 1609.408,
+    "errorVisible": false,
+    "matchingKnownSize": true,
+    "matchingTarget": true,
+    "mediaTime": 38.888,
+    "presented": true,
+    "route": "Q1",
+    "totalVideoFrames": 1171
+  },
+  "beforeFirstSeek": {"currentTime": 248.891003, "errorVisible": false, "route": "Q1", "totalVideoFrames": 7471},
+  "seekObservationToleranceSeconds": 2,
+  "seeks": [
+    {"requestedPercent": 10, "targetTime": 160.9408, "mediaTime": 160.921333, "presentedInTargetBand": true, "route": "Q1", "errorVisible": false, "totalVideoFrames": 4},
+    {"requestedPercent": 50, "targetTime": 804.704, "mediaTime": 804.721333, "presentedInTargetBand": true, "route": "Q1", "errorVisible": false, "totalVideoFrames": 5},
+    {"requestedPercent": 90, "targetTime": 1448.4672, "mediaTime": 1448.454667, "presentedInTargetBand": true, "route": "Q1", "errorVisible": false, "totalVideoFrames": 4}
+  ],
+  "identityReadback": {
+    "pass": true, "ownerStable": true, "readOnly": true, "knownSizeMatches": true,
+    "versionPresent": true, "checksumPresent": true,
+    "metadataUnchanged": {"id": true, "version": true, "size": true, "modifiedTime": true, "mimeType": true, "md5Checksum": true}
+  },
+  "close": {
+    "pass": true,
+    "checks": {
+      "blobUrlCleared": true, "connected": true, "errorHidden": true, "idle": true,
+      "mediaControllerCleared": true, "pendingOriginalBufferCleared": true,
+      "pendingPlaybackRestoreCleared": true, "playerHidden": true, "q1OwnerCleared": true,
+      "readOnly": true, "retirementSettled": true, "selectedCleared": true,
+      "tempStorageCleared": true, "videoPaused": true, "videoSrcRemoved": true
+    }
+  },
+  "networkTail": {
+    "capturedEvents": 136, "captureTruncated": true, "moreAvailable": false,
+    "responseStatuses": {"200": 108, "206": 14},
+    "candidateMediaResponses": 14, "candidateMediaStatuses": {"206": 14},
+    "serviceWorkerMediaResponses": 14, "finiteRangeResponses": 14, "validKnownSizeRanges": 14,
+    "nonCanceledLoadingFailures": 0, "canceledLoadingFailures": 14,
+    "scope": "Retained event-buffer tail only; loading failures are unscoped across the page, not a complete media trace"
+  },
+  "producerFileSha256": {
+    "app.js": "43ba2889b349c29e35e6075600d09886089361cf40549b374ac3541cd0e5aedc",
+    "sw.js": "a0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478",
+    "version.json": "41d1909a1226f59b12f4dd072ab9b0ddb689ab0ba500c890a838bedfb02ebefe",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+  },
+  "limits": {
+    "firstFrameLatencyMeasured": false, "preFullBodyFirstFrameProven": false,
+    "eofObserved": false, "historic299SecondFailureResolved": false,
+    "naturalExpiryVerified": false, "sleepWakeVerified": false, "physicalDeviceVerified": false,
+    "nativeDecoderReuseVerified": false, "completeNetworkTrace": false,
+    "liveNativePreservationReverified": false, "audioAudibilityVerified": false,
+    "fullFormatAcceptance": false, "totalMemoryMeasured": false,
+    "driveWritesEnabled": false, "productionChanged": false
+  }
+}

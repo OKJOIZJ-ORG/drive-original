@@ -327,3 +327,16 @@ The user reported already signed-in candidate playback and asked how much remain
 A reviewed bounded developer window holds only this page's state timers, waits existing owners within a total30s, runs the maintained strict snapshot with the remaining budget and restores eligible same-owner reservations. Actual20GETs/102048bytes/0retries pass complete two six-document snapshots and actual runtime reconstruction in29995ms; local pending state preserved, refresh timer restored. Failed runs and execution/source hashes retained in qa/v2-state-snapshot/live-rc10-results.json, exact public wrapper in quiescent-window-rc10.js. Passing run does not exercise sync/retry restoration or prove concurrent write, legacy-origin/device migration or expiry. No credential/ID/raw snapshot exported or Drive write authorized. Frozen prior rc.10 QA manifest is retained and not claimed current after the QA-only change.
 
 The user requested silence, then specifically device/Chrome-wide silence rather than repeated per-video actions. Windows default playback endpoint7%to0% applied via Core Audio and read back0. No new dependency, admin elevation, product code/version/deploy, main/push, original/appData write or automation change. Existing authenticated candidate tab retained as handoff; next exact priority original-path media checks are now possible.
+
+## 2026-09-28 — actual authenticated priority media
+
+Unchanged rc.10 candidate in the connected user Chrome plays the supplied original
+through Q1 and passes10/50/90% actual UI seeks, private metadata equality and
+protocol-confirmed Escape retirement. All checked app source/temp/pending owners
+clear. Q1-LIVE-20260928.md and qa/q1-live-rc10/results.json preserve exact presented
+values, producer hashes and the truncated network-tail scope. Pre-first-seek
+248.891003s, no EOF/expiry/iPhone/full-format claim; historic299s failure stays open.
+No product change or deployment, original/appData write, merge/push or automation
+change. The user revoked temporary silence; no further volume adjustment was made.
+Next discriminating read: privately inspect the old origin's local state through
+an inert same-origin asset, without starting the production application or sync.
