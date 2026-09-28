@@ -1,0 +1,78 @@
+{
+  "schema": "drive-original.rc12-local-integration/1",
+  "version": "1.22.0-rc.12",
+  "sourceState": "exact working files before candidate commit; git/public materialization separately verified",
+  "productSuite": {
+    "tests": 382,
+    "passed": 382,
+    "failed": 0,
+    "skipped": 0,
+    "files": [
+      "tests/app.test.js",
+      "tests/static.test.js",
+      "tests/sw.test.js",
+      "tests/shell.test.js",
+      "tests/presentation-state.test.js",
+      "tests/mutations.test.js",
+      "tests/immersive.test.js",
+      "tests/audit.test.js",
+      "tests/account-state.test.js",
+      "tests/acceptance.test.js",
+      "tests/auth-session.test.mjs",
+      "tests/auth-scopes.test.mjs",
+      "tests/cloudflare-auth-worker.test.mjs",
+      "tests/q1-source.test.mjs"
+    ]
+  },
+  "focusedAfterIntegrationFixes": {
+    "passed": 33,
+    "failed": 0
+  },
+  "preservedFailures": {
+    "incorrectDirectoryInvocation": true,
+    "initialIntegration": {
+      "passed": 380,
+      "failed": 2,
+      "causes": [
+        "old geometry fixture omitted new native entry rectangle",
+        "incomplete version synchronization"
+      ]
+    },
+    "actualRc11SeekAndClockFailures": "qa/v2-live-format-playback-rc11"
+  },
+  "independentReview": {
+    "model": "gpt-6-astra",
+    "reasoning": "medium",
+    "authSeekClockMaterialFindings": 0,
+    "playerUiMaterialFindings": 0,
+    "scope": "read-only code and saved evidence, no test or device proof"
+  },
+  "workingCopyHashes": {
+    "app.js": "3653eb40e0b9d85598198c9053b08a5b976037c4688b071940926d9dfd5194b4",
+    "sw.js": "fbb8db06c563846a402cbf480c266767512228f4a1611283bbb4b193cabbf92a",
+    "index.html": "f07b5e139ebbaa02573a969a2e43e227330f8724270f66bf699a2baea758c5b3",
+    "styles.css": "293562e1fc96b8072b7f1be659d3600a1932d65754fc2128ef0f7db71c8d103f",
+    "version.json": "0d68c1068adb016ddbc1983c6363e2247565dfa87e1dfe1829437ef8f62f7780",
+    "README.md": "cb1784c14ab8553de16792da42dc662657557c9962d5ab964e49bee7d5aca84d",
+    "auth/scope-policy.mjs": "86e3e7c587c22032345644dc92ec9f1107126e201ff451883a39de131ec03f98",
+    "auth/routes.mjs": "843d381d3cd545aeb8721688aef967ff48ac279f7ca8d7e99aae0af5e6f4962d",
+    "auth/session-owner.mjs": "a29a5ffc578ecfd65fb30dd98cdda07a1fcea5e02e423c27f4fa4ca750c30ced",
+    "worker/google.mjs": "5b77097b5a6447eeedb9a4515c71bdd9fd96556b79a0293390f100edd22f5344",
+    "worker/index.mjs": "8e38a215966f98956657f7b81982be64af59f1791e0104fe4ac834c25d795bbf",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "8dda58e2b0b36e977428846d6bd2c2c9a27d932f430e45afb283c2bf8d378605",
+    "media/build.json": "8a5ea262c8738f4aa8c64ecae04772c8117895fe7f889e59346697ab8e2d50af",
+    "tests/immersive.test.js": "09e8a88fbdf68d7ae262986822ae0f620c6ecb9cb2a6fc2941b88504d648cb5d",
+    "tests/static.test.js": "dd8658f6e36fc06e31d530456bc6ffaf65dded75f67147d168a1895a66f20bad"
+  },
+  "logHashes": {
+    "full-tests.log": "0ad81dd7cbe5c091bf51029c010977ed6fee7683cc46424da7bb4f55ba09493a",
+    "full-tests-integration-before-fixes.log": "c343c9742f6a6fa8de2119bb57de50b1d043fa7166cb3a3df08a947d34817896",
+    "full-tests-invocation-failure.log": "88a09ad6c2e0621f9e3ea471f8bd3ee7ea6da80eb07fb9a40e95d2fd879500dd",
+    "focused-integration-tests.log": "2be231bea04d0fca88c3c542d3963913b92af2e46352456f3714378a55d8223a"
+  },
+  "liveCandidateAfterFix": false,
+  "physicalDevice": false,
+  "productionChanged": false,
+  "volumeSettingsChanged": false
+}

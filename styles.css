@@ -1454,12 +1454,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transition: opacity 300ms var(--ease-out);
 }
 
-.player-modal.controls-idle,
-.player-modal.controls-idle *,
-.player-modal.controls-idle .media-stage {
-  cursor: none !important;
-}
-
 /* PC Player Top Bar — Clean Floating Frosted Header */
 .player-topbar {
   position: absolute;
@@ -1613,6 +1607,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 
 .media-stage video.has-poster {
   opacity: 1;
+}
+
+.media-stage > video {
+  width: 100%;
+  height: 100%;
+  flex: none;
+  object-fit: contain;
 }
 
 .media-stage video.is-rotated {
@@ -1927,7 +1928,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   transform: translateY(-50%) scale(1);
 }
 
-/* Apple Centered Glass Media Loading Card */
+/* Quiet loading indicator; the stage-sized poster supplies visual context. */
 .media-loading {
   position: absolute;
   top: 50%;
@@ -1938,9 +1939,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 18px 26px;
-  border-radius: var(--radius-lg);
+  width: 56px;
+  height: 56px;
+  gap: 0;
+  padding: 0;
+  border-radius: 50%;
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -2631,6 +2634,11 @@ dialog::backdrop {
 .media-stage video.is-rotated {
   transform: none;
   rotate: 90deg;
+  width: 100vh;
+  width: 100dvh;
+  height: 100vw;
+  max-width: 100dvh;
+  max-height: 100vw;
 }
 
 .custom-video-controls {
@@ -3366,11 +3374,6 @@ dialog {
     display: none !important;
   }
 
-  .media-loading {
-    width: min(280px, calc(100% - 40px));
-    padding: 16px 18px;
-  }
-
   .media-error {
     width: min(360px, calc(100% - 28px));
     padding: 20px 16px 16px;
@@ -3545,24 +3548,38 @@ dialog {
   }
 }
 
-/* Accessible entry remains outside inert chrome, without a persistent badge. */
-.player-controls-entry:not(:focus) {
+/* Stable native entry outside inert chrome, with usable space above safe area. */
+.player-controls-entry {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 0;
+  width: 100%;
+  height: calc(44px + var(--safe-bottom));
+  padding: 0 16px var(--safe-bottom);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  touch-action: none;
+}
+.player-controls-entry > span {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
 }
-.player-controls-entry:focus {
-  position: absolute;
-  z-index: 26;
-  bottom: max(24px, var(--safe-bottom));
-  left: 16px;
-  min-height: 44px;
+.player-controls-entry:focus-visible { outline: 2px solid white; outline-offset: -3px; }
+.player-controls-entry:focus-visible > span {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
   padding: 8px 16px;
-  color: white;
+  border-radius: var(--radius-sm);
   background: #252528;
-  outline: 2px solid white;
 }
 
 /* ==========================================================================
@@ -3640,6 +3657,7 @@ dialog {
   visibility: hidden;
   pointer-events: none;
 }
+.player-modal[data-player-input="keyboard"] .player-chrome { transition: none; }
 .media-stage:focus { outline: none; }
 .player-modal.controls-idle .player-feedback,
 .player-modal.controls-idle .favorite-feedback {

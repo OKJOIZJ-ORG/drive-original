@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.11');
+  assert.equal(metadata.version, '1.22.0-rc.12');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -137,7 +137,8 @@ test('privacy documentation and shell use the same-origin memory-only credential
   assert.match(readme, /https:\/\/www\.googleapis\.com\/auth\/drive\.appdata/);
   assert.match(readme, /\{accessToken, expiresAt, account, revision\}/);
   assert.match(readme, /미디어 바이트를 중계·캐시·변환하지 않/);
-  assert.doesNotMatch(readme, /drive\.readonly/);
+  assert.match(readme, /drive\.readonly/);
+  assert.match(readme, /capabilities/);
   assert.match(app, /const AUTH_CREDENTIAL_PATH = '\/api\/session\/credential'/);
   assert.match(app, /credentials:\s*'same-origin'/);
   assert.match(app, /\[AUTH_CSRF_HEADER\]: '1'/);

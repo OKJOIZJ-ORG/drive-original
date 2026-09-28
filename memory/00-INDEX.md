@@ -68,3 +68,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `QUALIFICATION-BASELINE-20260929.md` — fixed rc.11 acceptance review, focused contracts and public ZIP.
 
 - `ISO-TRACKS-20260929.md` — actual4.6GB sparse track metadata without whole-moov reads.
+
+- `PLAYER-QUALITY-20260929.md` — reproduced player entry/cursor/poster/status repair and rc.12 integration evidence.

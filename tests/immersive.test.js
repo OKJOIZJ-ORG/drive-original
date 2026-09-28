@@ -75,12 +75,23 @@ test('card long press supports pointer mouse and cancels a second contact', () =
   assert.equal(c.timers.size,0);
 });
 
-test('bottom activation is a narrow boundary, independent of media pause', () => {
+test('bottom activation follows the native entry rectangle, independent of media pause', () => {
   const c=client();
-  c.run(`el.playerModal={getBoundingClientRect:()=>({left:0,right:390,top:0,bottom:844})};`);
+  c.run(`el.playerModal={getBoundingClientRect:()=>({left:0,right:390,top:0,bottom:844})};
+    el.playerControlsEntry={getBoundingClientRect:()=>({left:0,right:390,top:800,bottom:844})};
+    el.videoPlayer={paused:true};`);
   assert.equal(c.run(`isPlayerBottomActivation(190,838)`),true);
   assert.equal(c.run(`isPlayerBottomActivation(190,600)`),false);
   assert.equal(c.run(`isPlayerBottomActivation(-1,838)`),false);
+  assert.equal(c.run(`isPlayerBottomActivation(190,799)`),false);
+  assert.equal(c.run(`isPlayerBottomActivation(190,800)`),true);
+  assert.equal(c.run(`el.videoPlayer.paused=false;isPlayerBottomActivation(190,838)`),true);
+  // Safe-area/fullscreen layout changes are owned by the actual entry, not a
+  // second independently computed activation strip.
+  c.run(`el.playerControlsEntry.getBoundingClientRect=()=>({left:12,right:378,top:776,bottom:844});`);
+  assert.equal(c.run(`isPlayerBottomActivation(190,776)`),true);
+  assert.equal(c.run(`isPlayerBottomActivation(10,838)`),false);
+  assert.equal(c.run(`el.playerControlsEntry=null;isPlayerBottomActivation(190,838)`),false);
 });
 
 test('edge-owned touch cannot become a video-swipe even without a back destination', () => {

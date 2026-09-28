@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.11';
+const APP_VERSION = '1.22.0-rc.12';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -4708,6 +4708,7 @@ async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } =
     }
     if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
     state.populationComplete = true;
+    updateLibraryStatus(statusToken, '');
   })();
   state.populationLoadPromise = promise;
   try {
@@ -5167,21 +5168,17 @@ let playerChrome = null;
 let playerChromePointer = false;
 let playerChromeTouch = false;
 let playerInputModality = 'pointer';
+let playerRevealPointer = null;
+let playerRevealClick = null;
 
 function playerHasKeyboardFocus() {
   return playerInputModality === 'keyboard' && Boolean(playerChrome?.contains(document.activeElement));
 }
 
 function isPlayerBottomActivation(x, y) {
-  const r = (document.fullscreenElement && document.fullscreenElement === el.mediaStage ? el.mediaStage : el.playerModal)?.getBoundingClientRect();
+  const r = el.playerControlsEntry?.getBoundingClientRect();
   if (!r) return false;
-  const inset = Number.parseFloat(getComputedSafeBottom()) || 0;
-  return x >= r.left && x <= r.right && y <= r.bottom && y >= r.bottom - Math.max(24, inset + 16);
-}
-
-function getComputedSafeBottom() {
-  return typeof getComputedStyle === 'function' && el.playerModal
-    ? getComputedStyle(el.playerModal).getPropertyValue('--safe-bottom') : '0';
+  return x >= r.left && x <= r.right && y <= r.bottom && y >= r.top;
 }
 
 function setPlayerChromeVisible(visible) {
@@ -5220,6 +5217,7 @@ function resetControlsTimer(delay = playerChromeTouch ? 3000 : 320) {
 
 function revealPlayerChrome({ touch = false } = {}) {
   playerChromeTouch = touch;
+  el.playerModal.dataset.playerInput = playerInputModality;
   setPlayerChromeVisible(true);
   resetControlsTimer();
 }
@@ -5232,9 +5230,11 @@ function setupPlayerChrome() {
     el.mobileShortsOverlay, el.playerModal.querySelector('.media-info-bar'), el.drivePreviewActions]
     .forEach(node => { if (node) playerChrome.appendChild(node); });
   el.mediaStage.appendChild(playerChrome);
-  el.playerControlsEntry?.addEventListener('click', () => {
-    playerInputModality = 'keyboard';
-    revealPlayerChrome();
+  el.playerControlsEntry?.addEventListener('click', event => {
+    const keyboard = event.detail === 0;
+    playerInputModality = keyboard ? 'keyboard' : 'pointer';
+    revealPlayerChrome({touch:event.pointerType === 'touch'});
+    if (!keyboard) { el.mediaStage.focus({preventScroll:true}); return; }
     const first = [...playerChrome.querySelectorAll('button,a,summary,input,select')]
       .find(node => !node.disabled && node.getClientRects().length && !node.closest('[hidden]'));
     first?.focus({ preventScroll: true });
@@ -5257,10 +5257,37 @@ function setupPlayerChrome() {
   }, { passive: true });
   el.playerModal.addEventListener('pointerleave', () => { playerChromePointer = false; resetControlsTimer(); });
   el.playerModal.addEventListener('pointerdown', event => {
+    if (event.isPrimary === false) { cancelActiveTouchGesture(); return; }
     playerInputModality = 'pointer';
-    if (isPlayerBottomActivation(event.clientX, event.clientY)) revealPlayerChrome({touch:event.pointerType !== 'mouse'});
+    playerRevealClick = null;
+    const revealOnly = el.playerControlsEntry?.contains(event.target)
+      || (el.playerModal.classList.contains('controls-idle') && isPlayerBottomActivation(event.clientX,event.clientY));
+    if (event.isPrimary !== false && (event.button == null || event.button === 0)
+      && (revealOnly || playerChrome.contains(event.target))) {
+      playerRevealPointer = {pointerId:event.pointerId,session:state.playbackSession,revealOnly};
+    } else playerRevealPointer = null;
+    if (revealOnly) {
+      clearTimeout(singleTapTimer); singleTapTimer = null; lastTapTime = 0;
+      revealPlayerChrome({touch:event.pointerType !== 'mouse'});
+    }
   }, { capture: true, passive: true });
+  const finishRevealPointer = event => {
+    if (!playerRevealPointer || event.pointerId !== playerRevealPointer.pointerId) return;
+    playerRevealClick = {...playerRevealPointer,expires:performance.now()+500};
+    playerRevealPointer = null;
+  };
+  document.addEventListener('pointerup',finishRevealPointer,{capture:true,passive:true});
+  document.addEventListener('pointercancel',finishRevealPointer,{capture:true,passive:true});
   el.playerModal.addEventListener('click', event => {
+    const owned = playerRevealClick;
+    playerRevealClick = null;
+    if (event.detail && owned && owned.session === state.playbackSession
+      && performance.now() <= owned.expires
+      && (event.pointerId == null || event.pointerId === owned.pointerId)
+      && (owned.revealOnly || !playerChrome.contains(event.target))) {
+      event.preventDefault();event.stopImmediatePropagation();
+      el.mediaStage.focus({preventScroll:true});return;
+    }
     if (!event.detail || !event.target.closest?.('button,summary')) return;
     // Run after handlers, including ones that stop propagation. Keyboard
     // activation (detail=0), input/select/range controls keep their focus.
@@ -5297,9 +5324,9 @@ function setupPlayerChrome() {
       controls[event.shiftKey ? controls.length-1 : 0].focus({preventScroll:true});
     }
   }, true);
-  window.addEventListener('blur', () => { playerChromePointer=false; cancelActiveTouchGesture(); });
+  window.addEventListener('blur', () => { playerChromePointer=false; playerRevealPointer=null; playerRevealClick=null; cancelActiveTouchGesture(); });
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') { playerChromePointer=false; cancelActiveTouchGesture(); setPlayerChromeVisible(false); }
+    if (document.visibilityState === 'hidden') { playerChromePointer=false; playerRevealPointer=null; playerRevealClick=null; cancelActiveTouchGesture(); setPlayerChromeVisible(false); }
   });
   setPlayerChromeVisible(false);
 }
@@ -6269,6 +6296,7 @@ function onMediaStageClick(event) {
   if (isMobileDevice() && event.sourceCapabilities?.firesTouchEvents !== false
     && isReservedBackStart(event.clientX)) return;
   const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  if (!el.playerModal.classList.contains('controls-idle')) { setPlayerChromeVisible(false); return; }
   if (isVideo) {
     togglePlayPause();
   }
@@ -6847,6 +6875,7 @@ function flashSeekHint(zone) {
 
 function handleStageTap(clientX, clientY) {
   const session = state.mediaSession;
+  const dismissChrome = Boolean(el.playerModal && !el.playerModal.classList.contains('controls-idle'));
   const now = Date.now();
   const zone = getTapZone(clientX, clientY);
   const isDoubleTap = (now - lastTapTime < 320)
@@ -6881,13 +6910,14 @@ function handleStageTap(clientX, clientY) {
   }
 
   // Any non-control surface can receive the second tap, so defer the single
-  // tap action by only the recognition window. Center toggles playback;
-  // the surrounding surface toggles the immersive chrome.
+  // tap action by only the recognition window. A visible layer is dismissed
+  // without changing playback; the hidden media surface toggles playback.
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
     if (session !== state.mediaSession || el.playerSheet?.hidden) return;
-    togglePlayPause();
+    if (dismissChrome) setPlayerChromeVisible(false);
+    else togglePlayPause();
   }, 320);
 }
 

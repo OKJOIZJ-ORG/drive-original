@@ -1,0 +1,41 @@
+✔ iOS standalone reserves native history, with no second custom page animation (42.3615ms)
+✔ paused video never forces the central play overlay into view (4.0106ms)
+✔ passive timer resets cannot reveal hidden chrome or pause the immersive state (1.7995ms)
+✔ a file permission failure does not erase account credentials (2.4419ms)
+✔ same-account session credential renewal preserves listing and session generations (1.9295ms)
+✔ card long press supports pointer mouse and cancels a second contact (1.8522ms)
+✔ bottom activation follows the native entry rectangle, independent of media pause (1.8898ms)
+✔ edge-owned touch cannot become a video-swipe even without a back destination (1.4751ms)
+✔ secondary 401 handlers cannot clear a newer token or a different account (3.9949ms)
+✔ account-mismatched session credential preserves the current account instead of replacing it (3.5714ms)
+✔ Drive API 403 preserves the token and carries no bearer credentials in its error (5.7276ms)
+✔ an older player-close deadline cannot unlock a newer back operation (1.5558ms)
+✔ a late 401 uses the newer revision even when token text is identical (2.4222ms)
+✔ release version is synchronized across runtime, shell, HTML, and metadata (4.6544ms)
+✔ authentication setup feedback is a polite atomic live region (0.5989ms)
+✔ first paint cannot restart OAuth while the existing session is still being recovered (0.6062ms)
+✔ every bound element ID exists once in index.html (3.3425ms)
+✔ manifest icons and service-worker shell assets exist (3.0908ms)
+✔ brand surfaces use the canonical rounded navy icon with the restored blue dot (2.2209ms)
+✔ resource keys remain raw in the service-worker header (0.4111ms)
+✔ privacy documentation and shell use the same-origin memory-only credential contract (4.022ms)
+✔ Q1 public bundles match their exact source manifest and offline shell (7.345ms)
+✔ tail-index MP4 QA seed is small, immutable and keeps moov behind mdat (1.8393ms)
+✔ faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat (1.052ms)
+✔ seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat (6.3248ms)
+✔ candidate runtime config is loaded before app code and fails closed for Drive writes (3.0726ms)
+✔ player controls, in-app preview, and selection toolbar remain bound in the shell (4.1526ms)
+✔ account-synced favorites and viewed history are wired into the existing library and player surfaces (5.2455ms)
+✔ mobile overflow actions stack above the trigger and favorite feedback is visually icon-only (3.4642ms)
+✔ video adaptively chooses exact-original transport and exhausts original paths before compatibility playback (5.3937ms)
+✔ playback quality starts unverified and documents only evidence-backed original labels (5.7734ms)
+✔ player chrome hides as one mobile layer and high-frequency motion stays transform based (4.0145ms)
+✔ mobile shell preserves zoom and high-contrast metadata labels (1.1131ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178.7979

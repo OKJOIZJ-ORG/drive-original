@@ -78,9 +78,11 @@ python3 -m http.server 8080
 
 ## 2. Google Drive 연결
 
-**V2-04A 후보 계약(아직 라이브 배포·검증 전):** 사용자가 **Google Drive 연결하기**를 누르면 현재 페이지와 정확히 같은 HTTPS origin의 인증 시작점으로 이동합니다. 콜백과 세션 API도 그 origin에서만 처리합니다. Google OAuth 클라이언트 ID·client secret·refresh credential은 페이지 설정이나 `localStorage`에 입력·저장하지 않습니다.
+**후보판 연결:** 사용자가 **Google Drive 연결하기**를 누르면 현재 페이지와 정확히 같은 HTTPS origin의 인증 시작점으로 이동합니다. 콜백과 세션 API도 그 origin에서만 처리합니다. Google OAuth 클라이언트 ID·client secret·refresh credential은 페이지 설정이나 `localStorage`에 입력·저장하지 않습니다.
 
-인증 서버리스 계층은 암호화된 refresh credential과 서버 세션 상태를 소유합니다. 페이지와 서비스 워커에는 `{accessToken, expiresAt, account, revision}`이라는 짧은 Drive access credential만 필요한 동안 메모리로 전달합니다. 페이지는 홈 화면 앱의 OAuth 복귀를 판별할 때 현재 HttpOnly 세션에서 파생된 비밀 아닌 marker도 메모리에서만 비교하며, 이 값은 URL·로컬 저장소·서비스 워커로 보내지 않습니다. 새로고침·서비스 워커 종료·브라우저 재시작 뒤에도 그 credential이나 marker를 `localStorage`, Cache Storage, IndexedDB에 복원하지 않습니다.
+인증 서버리스 계층은 암호화된 refresh credential과 서버 세션 상태를 소유합니다. `{accessToken, expiresAt, account, revision}`이라는 짧은 Drive access credential과 검증된 기능 권한 `capabilities`는 필요한 동안 페이지 메모리에 둡니다. 서비스 워커에는 Drive 읽기 권한이 있을 때만 재생에 필요한 credential을 전달합니다. 페이지는 홈 화면 앱의 OAuth 복귀를 판별할 때 현재 HttpOnly 세션에서 파생된 비밀 아닌 marker도 메모리에서만 비교하며, 이 값은 URL·로컬 저장소·서비스 워커로 보내지 않습니다. 새로고침·서비스 워커 종료·브라우저 재시작 뒤에도 그 credential이나 marker를 `localStorage`, Cache Storage, IndexedDB에 복원하지 않습니다.
+
+일부 권한만 승인했을 때는 가능한 기능을 유지합니다. `drive.readonly`는 목록·원본 재생을 허용하고 파일 수정은 허용하지 않습니다. 앱 데이터 권한이 없으면 시청·좋아요의 계정 동기화를 멈추고 대기 중인 로컬 기록은 보존합니다. `drive.file`이나 메타데이터 권한만으로 전체 라이브러리 읽기 권한이 있다고 판단하지 않습니다. 추가 권한이 필요한 기능은 사용자가 명시적으로 재연결할 수 있으며, 동의 창을 자동 반복하지 않습니다. 후보판의 일반 파일 수정 잠금은 Google 권한과 별도로 유지됩니다.
 
 세션 API는 정확한 `Origin`만 허용하고, 상태를 바꾸는 요청은 해당 origin 확인과 별도 CSRF 방어를 모두 통과해야 합니다. 콜백 허용 주소도 실제 같은 HTTPS origin의 정확한 경로로 제한합니다. 이 문서는 일반 사용자가 클라이언트 ID를 재정의하거나 임의 origin을 추가하는 절차를 제공하지 않습니다.
 
@@ -100,7 +102,7 @@ python3 -m http.server 8080
 ## 개인정보와 보안
 
 - 권한: `https://www.googleapis.com/auth/drive`(Drive 파일 보기·수정), `https://www.googleapis.com/auth/drive.appdata`(앱 전용 시청·좋아요 상태 동기화)
-- 인증 상태(V2-04A 후보): 같은 origin의 최소 서버리스 세션 API가 암호화된 refresh credential과 세션을 소유합니다. 페이지·서비스 워커에는 `{accessToken, expiresAt, account, revision}`만 메모리로 전달하며, 페이지는 standalone OAuth 복귀 판별용 비밀 아닌 세션 marker를 메모리에서만 비교합니다. refresh credential과 client secret은 전달하지 않습니다.
+- 인증 상태(후보판): 같은 origin의 최소 서버리스 세션 API가 암호화된 refresh credential과 세션을 소유합니다. 페이지는 짧은 access credential과 검증된 기능 권한을 메모리에만 두며, 서비스 워커에는 허용된 원본 읽기에 필요한 credential만 전달합니다. standalone OAuth 복귀 판별용 비밀 아닌 세션 marker도 페이지 메모리에서만 비교합니다. refresh credential과 client secret은 전달하지 않습니다.
 - 미디어 경로: 브라우저 ↔ Google Drive API
 - 인증 서버는 Drive 미디어 바이트를 중계·캐시·변환하지 않으며, Drive 파일 수정 경로도 소유하지 않습니다.
 - 미디어 Cache Storage 저장: 없음
