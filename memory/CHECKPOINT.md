@@ -1,35 +1,46 @@
-# Checkpoint — cycle QA passed; cross-route retirement active — 2026-09-28 10:43
+# Checkpoint — local rc.10 verified; delivery next — 2026-09-28 11:22
 
-## The story so far
+## Current identity
 
-Canonical repo source, branch codex/v2-kickoff-diagnostics, HEADce0026b.
-Product1405e1a localrc.9 passes348Node/auth17/functional22/normal16. Actualapp
-50cycles/150seeks pass; Worker/URL200create200release, active0; after-GC DOM and
-connected listener counts stable. Q1-CYCLES-20260928.md owns exact evidence.
-State QA988b809 passes13collector+11adapter cases; live snapshot not obtained.
-Candidate remainsrc.8/productc49c971/Worker500506d1, productionv1.21.0 unchanged.
+Canonical repo C:\extensions\Drive-Original\source, branch
+codex/v2-kickoff-diagnostics, product HEAD818712102d739eb68047913ad61e7afdae2cc0eb.
+Working tree clean after the product commit. App/SW/local assets1.22.0-rc.10.
+Candidate stillrc.8/productc49c971/Worker500506d1-d0f1-48e4-b213-ecb1b96d9bcf;
+production Pagesv1.21.0 was not changed. Candidate Drive writes stay disabled.
 
-Cross-route reproduction proves local source.abort=true can precede SW headers or
-credential completion; Q1-only401 fence cannot protect a new Q0/direct buffer.
-Agent gpt_6_sol_medium_q1_auth_review is implementing whole SW Q1 owner retirement
-from request registration to confirmed terminal body cleanup, with a scoped page
-MessageChannel barrier and late-fetch cutoff. Preserve its app.js/sw.js/test/QA
-work. Root owns version, full/regression/cycle verification, docs and delivery.
+## What is verified
 
-## Decided
+Q1-RETIREMENT-20260928.md owns whole SW request retirement and the late header,
+credential, downstream read and stale native-fallback counterexamples. Local
+fullNode358/state25/auth17/retirement4/product16/functional22/50cycles150seeks
+pass. Every50close: SWowners0/fences0/cutoff1/liveclient1, Worker/URL200/200
+active0 and stable retained DOM/listeners after explicit GC. Exact producers
+and evidence are pinned at qa/q1-auth-cleanup/verification-rc10.json. Independent
+review is clean. Historical failure and rc.8/rc.9 reports are preserved.
 
-D-054 resumes work and permits evidence-based means/order. D-050 remains:
-free candidate only, writes disabled, original media read-only, automation paused,
-no main merge/push/production/billing change. Abort or timeout is never success.
+State collector/adapter reuse existing writer merge, preserve private snapshots
+and reject pending retirement before any Drive read. No live state snapshot or
+legacy local replica/device convergence has been obtained. Global auth renewal
+is shared; cancelling one media owner cannot cancel it.
 
-## Waiting on the user
+## Authority and remaining gates
 
-Managed DevTools candidate is still anonymous at10:43; Google login request is
-pending. Legacy local pending replica, real expiry and physical devices need proof.
+D-054 resumes work and permits evidence-based means/order; D-050 still governs.
+Only the existing free candidate publication is authorized. No main merge/push,
+production transition, payment, original-media change or automation restart.
+Candidate writes cannot open before the live state/origin/local-replica gate.
+
+Managed Chrome page2 is on Google sign-in; user login request remains pending.
+Real account/expiry/duration, priority/corpus/full formats, physical iPhone/PWA,
+two-device state, total heap/native resource release and historic299s READ_FAILED
+remain open. Synthetic contexts and supported GC do not close them.
 
 ## Next first action
 
-Inspect status/agent handoff, review the cross-route protocol, test late headers,
-auth waits, channel/controller failure and native-only sync startup. Final rc.10
-then needs full tests, auth/product/functional/50cycles and candidate readback.
-Keep old producer-pinned reports immutable. No current live/device completion claim.
+Publish this fixed product through worker/npm run deploy:candidate, read back the
+exact new Worker version and writes=false, then run candidate-delivery-audit.cjs
+against full818712102d739eb68047913ad61e7afdae2cc0eb with candidate-delivery-rc10.
+Check19public/17cached Git-equal bodies, private404 and cold/offline shell. Preserve
+the Google sign-in tab and use another candidate tab for ordinary browser smoke.
+Record delivery identity and archive/update this checkpoint. If login completes,
+continue the existing read-only state/corpus adapters; do not guess a write gate.
