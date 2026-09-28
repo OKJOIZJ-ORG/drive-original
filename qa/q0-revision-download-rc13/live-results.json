@@ -1,0 +1,54 @@
+{
+  "done": true,
+  "summary": {
+    "complete": true,
+    "elapsedMs": 4120,
+    "failure": null,
+    "genericUpstreamCleanup": "unknown",
+    "identitySafe": true,
+    "localReferencesReleased": true,
+    "mediaBytes": 4,
+    "mediaRequests": 2,
+    "metadataBytes": 1568,
+    "metadataCleanup": "body-consumed",
+    "metadataRequests": 4,
+    "observedUriOrigin": {
+      "allowlisted": true,
+      "googleFamily": "googleapis",
+      "https": true,
+      "knownHost": "www.googleapis.com"
+    },
+    "operationRequests": 0,
+    "partialAllowed": true,
+    "payloadBytes": 650,
+    "pinQualification": "revision-request-and-two-bounded-ranges-observed-not-independent-body-revision-proof",
+    "postRequests": 1,
+    "results": [
+      {
+        "bodyBytes": 650,
+        "kind": "post",
+        "status": 200
+      },
+      {
+        "bodyBytes": 2,
+        "contentRangeExposed": false,
+        "kind": "media",
+        "rangeConsistent": true,
+        "status": 206
+      },
+      {
+        "bodyBytes": 2,
+        "contentRangeExposed": false,
+        "kind": "media",
+        "rangeConsistent": true,
+        "status": 206
+      }
+    ],
+    "revisionRequested": true,
+    "schema": "drive-original.q0-revision-download-rc13/1",
+    "sourceCleanup": {
+      "scope": "local fetch/body callbacks only",
+      "settled": true
+    }
+  }
+}

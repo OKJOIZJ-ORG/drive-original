@@ -1,0 +1,43 @@
+{
+  "kind": "Node native Response/ReadableStream, synthetic callbacks; not browser or Google throughput",
+  "node": "v24.18.0",
+  "rows": [
+    {
+      "metadataLatencyMs": 0,
+      "rangeLatencyMs": 0,
+      "bytes": 4194304,
+      "firstChunkMs": 31.429900000000004,
+      "elapsedMs": 36.0608,
+      "metadataRequests": 9,
+      "rangeRequests": 4,
+      "peakSourceHeldBytes": 1048576,
+      "cleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      }
+    },
+    {
+      "metadataLatencyMs": 25,
+      "rangeLatencyMs": 10,
+      "bytes": 4194304,
+      "firstChunkMs": 117.10900000000001,
+      "elapsedMs": 348.3638,
+      "metadataRequests": 9,
+      "rangeRequests": 4,
+      "peakSourceHeldBytes": 1048576,
+      "cleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      }
+    }
+  ],
+  "hashes": {
+    "owner": "bc39a8da633c5bcbce9360bf8a3b23844a3758601babd60b5935d704853f8391",
+    "source": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "benchmark": "31a2eb126289e709c21dab6474b82f879c03cccf024eb69a25346267ef18a094"
+  }
+}

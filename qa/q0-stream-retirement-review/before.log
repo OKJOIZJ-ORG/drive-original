@@ -1,0 +1,48 @@
+{"scenario":"active-and-queued-close","observed":{"cleanup":{"settled":true,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false},"stats":{"stopped":true,"activeResponses":0,"pendingReads":2,"reads":1,"reopens":0,"deliveredBytes":0,"chunkBytes":8,"source":{"state":"aborted","failure":"Q1_SOURCE_ABORTED","busy":true,"readsStarted":1,"readsCompleted":0,"metadataRequests":2,"rangeRequests":1,"receivedBytes":0,"releasedBytes":0,"retainedBytes":0,"peakRetainedBytes":0,"checksumBound":false,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"cleanupSettled":true,"maxReadBytes":1048576,"requestTimeoutMs":100,"scope":"optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"},"memoryScope":"one held source chunk; delivered/browser/consumer bytes excluded","genericUpstreamCleanup":"unknown"},"callbacks":0}}
+{"scenario":"reopening-close","observed":{"cleanup":{"settled":true,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false},"stats":{"stopped":true,"activeResponses":0,"pendingReads":1,"reads":1,"reopens":0,"deliveredBytes":0,"chunkBytes":8,"source":{"state":"aborted","failure":"Q1_SOURCE_ABORTED","busy":true,"readsStarted":1,"readsCompleted":0,"metadataRequests":2,"rangeRequests":1,"receivedBytes":0,"releasedBytes":0,"retainedBytes":0,"peakRetainedBytes":0,"checksumBound":false,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"cleanupSettled":true,"maxReadBytes":1048576,"requestTimeoutMs":100,"scope":"optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"},"memoryScope":"one held source chunk; delivered/browser/consumer bytes excluded","genericUpstreamCleanup":"unknown"},"callbacks":0}}
+✖ settled close means both source callbacks and active/queued native consumers have drained (30.5265ms)
+✖ settled close during a responsive reopening also drains the queued pull owner (1.9374ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 128.0715
+
+✖ failing tests:
+
+test at qa\q0-stream-retirement-review\drain.test.mjs:49:1
+✖ settled close means both source callbacks and active/queued native consumers have drained (30.5265ms)
+  AssertionError [ERR_ASSERTION]: A replacement must not start while a cancelled native consumer pull remains pending
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/qa/q0-stream-retirement-review/drain.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qa\q0-stream-retirement-review\drain.test.mjs:68:1
+✖ settled close during a responsive reopening also drains the queued pull owner (1.9374ms)
+  AssertionError [ERR_ASSERTION]: Opening callback completion alone must not admit a replacement before consumer drain
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/qa/q0-stream-retirement-review/drain.test.mjs:84:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

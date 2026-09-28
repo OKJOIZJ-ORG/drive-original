@@ -1,0 +1,69 @@
+{
+  "done": true,
+  "summary": {
+    "beforeA": false,
+    "cleanupFailure": null,
+    "complete": false,
+    "createdVerified": true,
+    "downloadPosts": 1,
+    "elapsedMs": 8278,
+    "failure": "OPERATION_NAME",
+    "genericUpstreamCleanup": "unknown",
+    "jsonBytes": 3352,
+    "latestB": false,
+    "localCleanupSettled": true,
+    "localReferencesReleased": true,
+    "mediaBytes": 16,
+    "oldUriStillA": false,
+    "operationRequests": 0,
+    "recoveryRequired": false,
+    "requests": 10,
+    "restoredVerified": true,
+    "results": [
+      {
+        "stage": "create-A",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "revision-download",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "restore-A",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "restore-readback",
+        "status": 206
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "trash",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      }
+    ],
+    "revisionChanged": false,
+    "schema": "drive-original.disposable-revision-pin/1",
+    "trashVerified": true,
+    "writeRequests": 3
+  }
+}

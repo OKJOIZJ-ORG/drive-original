@@ -1,0 +1,20 @@
+✔ disposable A pinned URI remains A after latest becomes B; restore and trash independently verified (46.1664ms)
+✔ old URI B/latest A/no revision change fail discriminator but still restore and trash (23.0785ms)
+✔ wrong marker/id/size type/MIME and creation returning an existing file never permit PATCH (22.9793ms)
+✔ account drift refuses all restore/trash writes and retains private recovery target (4.9245ms)
+✔ media oversize and update HTTP failure cannot pass; cleanup remains bounded (12.5368ms)
+✔ oversized JSON and immediate abort never broaden write scope (21.266ms)
+✔ rejected body cleanup prevents all further writes and keeps recovery private (3.8422ms)
+✔ opaque base64 operation names are accepted without exporting or interpreting them (6.5519ms)
+✔ polling encodes the entire opaque operation name as one fixed-origin path parameter (8.7876ms)
+✔ control or oversized operation names fail before B while restoring the verified fixture (12.4311ms)
+✔ latest B stays accessible while the pinned prior revision safely denies further bytes (5.0583ms)
+✔ HTTP denial begins body cancellation before aborting the fetch controller (8.1326ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271.3721

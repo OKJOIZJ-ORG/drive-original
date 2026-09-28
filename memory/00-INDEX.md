@@ -74,3 +74,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `SAR-AND-LIBRARY-20260929.md` — actual valid non-square SAR discriminator, preserved-original repair, successful large-ISO50/90% replay and proactive library/update quality.
 - `CANDIDATE-RC13-20260929.md` — fixed rc.13 delivery/package, actual MKV/AVI replay and separate local privacy repair.
 - `Q0-AND-PRIVACY-20260929.md` — actual rejected content-validator discriminator, current short WebM replay, reproduced console canary repair and source-fence continuation.
+- `Q0-REVISION-SNAPSHOT-20260929.md` — actual disposable A/B revision pin proof, preserved failed baseline and bounded consumer-drain repair; product integration remains separate.

@@ -1,0 +1,109 @@
+{
+  "done": true,
+  "summary": {
+    "beforeA": true,
+    "cleanupFailure": null,
+    "complete": true,
+    "createdVerified": true,
+    "downloadPosts": 1,
+    "elapsedMs": 14600,
+    "failure": null,
+    "genericUpstreamCleanup": "unknown",
+    "initialDone": true,
+    "jsonBytes": 4933,
+    "latestB": true,
+    "localCleanupSettled": true,
+    "localReferencesReleased": true,
+    "mediaBytes": 64,
+    "oldUriDenied": false,
+    "oldUriStillA": true,
+    "operationNameAccepted": true,
+    "operationRequests": 0,
+    "recoveryRequired": false,
+    "requests": 17,
+    "restoredVerified": true,
+    "results": [
+      {
+        "stage": "create-A",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "revision-download",
+        "status": 200
+      },
+      {
+        "stage": "old-uri-before-B",
+        "status": 206
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "update-B",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "latest-after-B",
+        "status": 206
+      },
+      {
+        "stage": "old-uri-after-B",
+        "status": 206
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "restore-A",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "restore-readback",
+        "status": 206
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      },
+      {
+        "stage": "trash",
+        "status": 200
+      },
+      {
+        "stage": "fixture-metadata",
+        "status": 200
+      }
+    ],
+    "revisionChanged": true,
+    "schema": "drive-original.disposable-revision-pin/2",
+    "trashVerified": true,
+    "uriProfile": {
+      "otherQueryKeysPresent": true,
+      "queryKeys": [
+        "alt"
+      ],
+      "revisionEmbeddedMatched": null,
+      "revisionPathMatched": true,
+      "sameFilePath": true
+    },
+    "writeRequests": 4
+  }
+}

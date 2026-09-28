@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const base=fs.readFileSync(path.join(__dirname,'../q0-revision-download-rc13/facade.expression.js'),'utf8');
+if(sha(base)!=='f500d16cee5e60031375a57fed91e52ea39e94d4864cde819ac2e30b794ac4b2')throw Error('BASE_CHANGED');
+let prefix=base.slice(0,base.indexOf('  const abort=new AbortController()'));
+prefix=prefix.replace('function (selected, swProof)','function (swProof)').replace('let projection,owner,fileSnapshot;','let projection,owner;');
+prefix=prefix.slice(0,prefix.indexOf('    if(!selected'))+prefix.slice(prefix.indexOf('    projection='));
+prefix=prefix.replace(/    &&state.files.includes\(selected\)[\s\S]*?(?=    &&state.accountId)/,'');
+prefix=prefix.replace('owner.caps.driveRead===true','owner.caps.driveRead===true&&owner.caps.driveWrite===true');
+const body=fs.readFileSync(path.join(__dirname,'body.js'),'utf8'),out=prefix+body+')';new(require('vm').Script)(out);
+fs.writeFileSync(path.join(__dirname,'facade.expression.js'),out);fs.writeFileSync(path.join(__dirname,'provenance.json'),JSON.stringify({baseSHA256:sha(base),producerSHA256:sha(fs.readFileSync(__filename)),bodySHA256:sha(body),outputSHA256:sha(out),bytes:Buffer.byteLength(out)},null,2)+'\n');console.log(sha(out));

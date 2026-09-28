@@ -1,0 +1,25 @@
+{"scenario":"active-and-queued-close","observed":{"cleanup":{"settled":true,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"pendingConsumerReads":0,"consumerCleanupSettled":true},"stats":{"stopped":true,"activeResponses":0,"pendingReads":0,"reads":1,"reopens":0,"deliveredBytes":0,"chunkBytes":8,"source":{"state":"aborted","failure":"Q1_SOURCE_ABORTED","busy":false,"readsStarted":1,"readsCompleted":0,"metadataRequests":2,"rangeRequests":1,"receivedBytes":0,"releasedBytes":0,"retainedBytes":0,"peakRetainedBytes":0,"checksumBound":false,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"cleanupSettled":true,"maxReadBytes":1048576,"requestTimeoutMs":100,"scope":"optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"},"memoryScope":"one held source chunk; delivered/browser/consumer bytes excluded","genericUpstreamCleanup":"unknown"},"callbacks":0}}
+{"scenario":"reopening-close","observed":{"cleanup":{"settled":true,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"pendingConsumerReads":0,"consumerCleanupSettled":true},"stats":{"stopped":true,"activeResponses":0,"pendingReads":0,"reads":1,"reopens":0,"deliveredBytes":0,"chunkBytes":8,"source":{"state":"aborted","failure":"Q1_SOURCE_ABORTED","busy":false,"readsStarted":1,"readsCompleted":0,"metadataRequests":2,"rangeRequests":1,"receivedBytes":0,"releasedBytes":0,"retainedBytes":0,"peakRetainedBytes":0,"checksumBound":false,"pendingCallbacks":0,"cleanupPending":0,"cleanupFailed":false,"cleanupSettled":true,"maxReadBytes":1048576,"requestTimeoutMs":100,"scope":"optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"},"memoryScope":"one held source chunk; delivered/browser/consumer bytes excluded","genericUpstreamCleanup":"unknown"},"callbacks":0}}
+✔ settled close means both source callbacks and active/queued native consumers have drained (11.0689ms)
+✔ settled close during a responsive reopening also drains the queued pull owner (2.8517ms)
+✔ an uncancellable upstream callback stays a sticky failed replacement barrier (50.1435ms)
+✔ external lease abort followed by close drains active and queued consumers (1.8598ms)
+✔ finite/open/suffix/noRange bytes and response headers are exact (23.5992ms)
+✔ huge virtual original emits first bounded chunk before later reads; backpressure holds (98.0645ms)
+✔ between-chunk same-size drift delivers no changed chunk and errors sibling (2.0799ms)
+✔ during-chunk drift is withheld through postflight, including sibling queue (13.2895ms)
+✔ held callback cancellation stays unsettled and never authorizes a new response (60.8505ms)
+✔ idle request cancellation preserves siblings; account/session drift retires lease (2.3742ms)
+✔ active native cancel drains upstream body then queued sibling reopens exact same pin (28.8886ms)
+✔ clean EOF allows later seek without new baseline; cancelled active re-open rejects changed descriptor (15.1378ms)
+✔ checksum learned before cancellation remains mandatory on reopened source (15.5074ms)
+✔ unsettled active cancellation blocks siblings and never reopens (45.0656ms)
+✔ lease close while reopening waits on opening cleanup and blocks queued bytes (46.7189ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 531.8921
