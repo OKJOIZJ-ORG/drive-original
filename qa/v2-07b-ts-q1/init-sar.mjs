@@ -7,7 +7,9 @@ const IDENTITY = [65536, 0, 0, 0, 65536, 0, 0, 0, 1073741824];
 // QA-only, browser-safe adapter for the pinned mux.js 7.1.0 init layout.
 // Bind caller-owned original SPS/PPS to exactly one video track before adapting
 // an introduced square pasp. No media bytes or parameter sets are rewritten.
-// Explicit non-square, reserved and zero Extended SAR remain unproven/rejected.
+// Explicit positive SAR is preserved exactly in SPS and pasp, with the pinned
+// generator's unscaled raster dimensions bound separately below. Never apply
+// the ratio to those dimensions again. Reserved/zero Extended SAR stay rejected.
 // Caller owns source/generation identity; this pure function neither stores nor
 // mutates its inputs. Successful syntax binding is not decoder/display proof.
 export function adaptInitSar(initBytes, source = {}) {
@@ -23,7 +25,9 @@ export function adaptInitSar(initBytes, source = {}) {
   requireThat(parsed.width <= 65535 && parsed.height <= 65535, 'SAR_GEOMETRY_RANGE');
   const aspect = parsed.aspectRatio;
   const remove = aspect.status === 'unspecified' && (!aspect.present || aspect.idc === 0);
-  requireThat(remove || (aspect.status === 'explicit' && aspect.width > 0 && aspect.width === aspect.height), 'SAR_ASPECT_UNPROVEN');
+  requireThat(remove || (aspect.status === 'explicit' && Number.isInteger(aspect.width)
+    && Number.isInteger(aspect.height) && aspect.width > 0 && aspect.height > 0
+    && aspect.width <= 65535 && aspect.height <= 65535), 'SAR_ASPECT_UNPROVEN');
 
   const view = new DataView(initBytes.buffer, initBytes.byteOffset, initBytes.byteLength);
   const text = offset => String.fromCharCode(...initBytes.subarray(offset, offset + 4));

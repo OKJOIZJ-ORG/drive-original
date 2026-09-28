@@ -1,0 +1,80 @@
+{
+  "producerHash": "6cbc62dbd244b0bf6b74d15a32272ae6451b44ea1e84026e36bc9597261b494d",
+  "hashes": {
+    "app.js": "2b8c4130812cda904cde6240674a0725ca467f90c8978fbf83b3d3be1d627118",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "index.html": "9f64cea691c7789a2e957bd9d525b6cf9ff05cadccc96a777431409f6b871b5c"
+  },
+  "accountUsed": false,
+  "productEdited": false,
+  "result": {
+    "requestCount": 2,
+    "afterNew": {
+      "bannerHidden": false,
+      "applyHidden": false,
+      "dotHidden": false,
+      "text": "v99.0.0 업데이트가 준비되었습니다. 지금 적용하세요.",
+      "checkDisabled": false
+    },
+    "afterStale": {
+      "bannerHidden": false,
+      "applyHidden": false,
+      "dotHidden": false,
+      "text": "v99.0.0 업데이트가 준비되었습니다. 지금 적용하세요.",
+      "checkDisabled": false
+    }
+  },
+  "cases": [
+    {
+      "scenario": {
+        "newest": "update",
+        "older": "error",
+        "newerFirst": true
+      },
+      "intermediate": {
+        "applyHidden": false,
+        "text": "v99.0.0 업데이트가 준비되었습니다. 지금 적용하세요.",
+        "checkDisabled": false
+      },
+      "final": {
+        "applyHidden": false,
+        "text": "v99.0.0 업데이트가 준비되었습니다. 지금 적용하세요.",
+        "checkDisabled": false
+      }
+    },
+    {
+      "scenario": {
+        "newest": "error",
+        "older": "current",
+        "newerFirst": false
+      },
+      "intermediate": {
+        "applyHidden": true,
+        "text": "최신 버전 확인 중…",
+        "checkDisabled": true
+      },
+      "final": {
+        "applyHidden": true,
+        "text": "업데이트 확인 중 오류가 발생했습니다.",
+        "checkDisabled": false
+      }
+    },
+    {
+      "scenario": {
+        "newest": "current",
+        "older": "update",
+        "newerFirst": false
+      },
+      "intermediate": {
+        "applyHidden": true,
+        "text": "최신 버전 확인 중…",
+        "checkDisabled": true
+      },
+      "final": {
+        "applyHidden": true,
+        "text": "현재 최신 버전(v1.22.0-rc.12)을 사용 중입니다. (03:53:05 확인)",
+        "checkDisabled": false
+      }
+    }
+  ]
+}

@@ -163,8 +163,7 @@ references. It rejects duplicate/misplaced/unsupported geometry boxes. Bounds:
 2MiB init,128 parsed boxes,65535 bytes per parameter set.
 
 Absent aspect/IDC0 removes only the introduced square `pasp` type (4 bytes become
-`free`); exact explicit-square rational values are retained unchanged. Reserved,
-zero Extended and non-square SAR fail closed pending display-geometry validation.
+`free`); exact explicit positive rational values are retained unchanged, including non-square SAR. Reserved and zero Extended SAR still fail closed. Raster dimensions bind separately to the source SPS and pinned mux layout; `pasp` must equal the exact declared ratio, and dimensions are never scaled again. The2026-09-29 actual diagnostic found Extended2600:2601 at360x640; generated native preservation checks retain SAR/DAR, coded payloads, decoded pixels/PCM and clocks. Actual candidate replay is recorded separately.
 This is not a general MP4 validator or full audio/rotation/HDR acceptance. The
 pinned mux writes SPS count byte0x01; the adapter recognizes it without silently
 rewriting `avcC` reserved bits.

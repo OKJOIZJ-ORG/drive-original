@@ -1,0 +1,3347 @@
+{
+  "producerHash": "09d4be95530beb83d162f20a529fd2b75ff12b88d1c21190afb2fb93ef8ee0f3",
+  "hashes": {
+    "app.js": "9d584f54c0fbf55eec56d7563c27db9891110b96b37f3117d4ef4e739e79d3ac",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "index.html": "9f64cea691c7789a2e957bd9d525b6cf9ff05cadccc96a777431409f6b871b5c"
+  },
+  "endHashes": {
+    "app.js": "9d584f54c0fbf55eec56d7563c27db9891110b96b37f3117d4ef4e739e79d3ac",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "index.html": "9f64cea691c7789a2e957bd9d525b6cf9ff05cadccc96a777431409f6b871b5c"
+  },
+  "accountUsed": false,
+  "physicalDevice": false,
+  "rows": [
+    {
+      "width": 1280,
+      "height": 800,
+      "mobile": false,
+      "scenes": [
+        {
+          "name": "1280x800-library",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-empty",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "searchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-selection",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-delete",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-move",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#moveDialog > form > .dialog-content > .dialog-text"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-move-empty",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "moveSearchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-settings",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-permission",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#permissionDialog > form > .dialog-top > h2"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#permissionDialog > form > .dialog-content > .dialog-text"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > p > strong"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "li:nth-child(5) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-long-name",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "settingsButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-long-delete-reduced",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteFileName"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "1280x800-long-move-reduced",
+          "geometry": {
+            "viewport": [
+              1280,
+              800
+            ],
+            "documentWidth": 1280,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#moveDialog > form > .dialog-content > .dialog-text"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "selection": {
+        "mode": true,
+        "selected": 1,
+        "focus": "",
+        "cardPressed": "true"
+      },
+      "deleteReturnFocus": "selectionDeleteBtn",
+      "moveKeyboard": {
+        "before": "가족 사진 아카이브",
+        "after": "가족 사진 아카이브"
+      },
+      "moveSelection": {
+        "target": "demo-folder-2",
+        "selected": [
+          {
+            "text": "가족 사진 아카이브",
+            "ariaSelected": null,
+            "ariaPressed": "true"
+          }
+        ]
+      },
+      "moveReturnFocus": "selectionMoveBtn",
+      "selectionExitFocus": {
+        "id": "selectionModeButton",
+        "hidden": null
+      },
+      "settingsTab": [
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        },
+        {
+          "id": "forceReloadButton",
+          "inside": true
+        },
+        {
+          "id": "logoutButton",
+          "inside": true
+        },
+        {
+          "id": "disconnectButton",
+          "inside": true
+        },
+        {
+          "id": "copyOriginButton",
+          "inside": true
+        },
+        {
+          "id": "",
+          "inside": false
+        },
+        {
+          "id": "",
+          "inside": true
+        },
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        }
+      ],
+      "settingsReturnFocus": "settingsButton"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "scenes": [
+        {
+          "name": "390x844-library",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-empty",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "searchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-selection",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-delete",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteDialogTitle"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#deleteDialog > form > .dialog-content > .dialog-text:nth-child(1)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".subtle"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#deleteCancelButton"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-move",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#moveCancelButton"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-move-empty",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "moveSearchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-settings",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#settingsDialog > form > .dialog-top > h2"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "#setupHelpSection > ol > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-permission",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "li:nth-child(5) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-long-name",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "settingsButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-long-delete-reduced",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteFileName"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "390x844-long-move-reduced",
+          "geometry": {
+            "viewport": [
+              390,
+              844
+            ],
+            "documentWidth": 390,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "button[data-filter=\"video\"]"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "button[data-filter=\"image\"]"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "button[data-filter=\"favorites\"]"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#moveFileName"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "selection": {
+        "mode": true,
+        "selected": 1,
+        "focus": "",
+        "cardPressed": "true"
+      },
+      "deleteReturnFocus": "selectionDeleteBtn",
+      "moveKeyboard": {
+        "before": "가족 사진 아카이브",
+        "after": "가족 사진 아카이브"
+      },
+      "moveSelection": {
+        "target": "demo-folder-2",
+        "selected": [
+          {
+            "text": "가족 사진 아카이브",
+            "ariaSelected": null,
+            "ariaPressed": "true"
+          }
+        ]
+      },
+      "moveReturnFocus": "selectionMoveBtn",
+      "selectionExitFocus": {
+        "id": "selectionModeButton",
+        "hidden": null
+      },
+      "settingsTab": [
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        },
+        {
+          "id": "forceReloadButton",
+          "inside": true
+        },
+        {
+          "id": "logoutButton",
+          "inside": true
+        },
+        {
+          "id": "disconnectButton",
+          "inside": true
+        },
+        {
+          "id": "copyOriginButton",
+          "inside": true
+        },
+        {
+          "id": "",
+          "inside": false
+        },
+        {
+          "id": "",
+          "inside": true
+        },
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        }
+      ],
+      "settingsReturnFocus": "settingsButton"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "mobile": true,
+      "scenes": [
+        {
+          "name": "320x568-library",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-empty",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "searchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-selection",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-delete",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteDialogTitle"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteDialog > form > .dialog-content > .dialog-text:nth-child(1)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-move",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-move-empty",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "moveSearchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-settings",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-permission",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#permissionDialog > form > .dialog-content > .dialog-text"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "p > code:nth-child(2)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "code:nth-child(3)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "li:nth-child(4) > p > strong"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "li:nth-child(5) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    "li:nth-child(5) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "li:nth-child(5) > p > strong"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#permissionCloseButton"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-long-name",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "settingsButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-long-delete-reduced",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteDialog > form > .dialog-content > .dialog-text:nth-child(1)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                },
+                {
+                  "target": [
+                    "#deleteFileName"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "320x568-long-move-reduced",
+          "geometry": {
+            "viewport": [
+              320,
+              568
+            ],
+            "documentWidth": 320,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "selection": {
+        "mode": true,
+        "selected": 1,
+        "focus": "",
+        "cardPressed": "true"
+      },
+      "deleteReturnFocus": "selectionDeleteBtn",
+      "moveKeyboard": {
+        "before": "가족 사진 아카이브",
+        "after": "가족 사진 아카이브"
+      },
+      "moveSelection": {
+        "target": "demo-folder-2",
+        "selected": [
+          {
+            "text": "가족 사진 아카이브",
+            "ariaSelected": null,
+            "ariaPressed": "true"
+          }
+        ]
+      },
+      "moveReturnFocus": "selectionMoveBtn",
+      "selectionExitFocus": {
+        "id": "selectionModeButton",
+        "hidden": null
+      },
+      "settingsTab": [
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        },
+        {
+          "id": "forceReloadButton",
+          "inside": true
+        },
+        {
+          "id": "logoutButton",
+          "inside": true
+        },
+        {
+          "id": "disconnectButton",
+          "inside": true
+        },
+        {
+          "id": "copyOriginButton",
+          "inside": true
+        },
+        {
+          "id": "",
+          "inside": false
+        },
+        {
+          "id": "",
+          "inside": true
+        },
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        }
+      ],
+      "settingsReturnFocus": "settingsButton"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mobile": true,
+      "scenes": [
+        {
+          "name": "844x390-library",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-empty",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "searchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-selection",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-delete",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteDialogTitle"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "#deleteDialog > form > .dialog-content > .dialog-text:nth-child(1)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".subtle"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-move",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-move-empty",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "moveSearchInput",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-settings",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-permission",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#permissionDialog > form > .dialog-content > .dialog-text"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(1) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(2) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(3) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "p > code:nth-child(2)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "code:nth-child(3)"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+                },
+                {
+                  "target": [
+                    ".permission-steps > li:nth-child(4) > p"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    "li:nth-child(4) > p > strong"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-long-name",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "settingsButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-long-delete-reduced",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "deleteCancelButton",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    "#deleteFileName"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "844x390-long-move-reduced",
+          "geometry": {
+            "viewport": [
+              844,
+              390
+            ],
+            "documentWidth": 844,
+            "focus": "",
+            "overflow": []
+          },
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "aria-prohibited-attr",
+              "nodes": [
+                {
+                  "target": [
+                    "#folderStrip"
+                  ],
+                  "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ]
+            },
+            {
+              "id": "color-contrast",
+              "nodes": [
+                {
+                  "target": [
+                    "#sortSelect"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+                },
+                {
+                  "target": [
+                    "#selectionCountText"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".selection-summary > span"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+                },
+                {
+                  "target": [
+                    ".folder-row[title=\"폴더 열기\"][type=\"button\"]:nth-child(1) > .folder-meta"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+                },
+                {
+                  "target": [
+                    ".video > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".file-card-duration-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                },
+                {
+                  "target": [
+                    ".image > .file-card-badge"
+                  ],
+                  "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "selection": {
+        "mode": true,
+        "selected": 1,
+        "focus": "",
+        "cardPressed": "true"
+      },
+      "deleteReturnFocus": "selectionDeleteBtn",
+      "moveKeyboard": {
+        "before": "가족 사진 아카이브",
+        "after": "가족 사진 아카이브"
+      },
+      "moveSelection": {
+        "target": "demo-folder-2",
+        "selected": [
+          {
+            "text": "가족 사진 아카이브",
+            "ariaSelected": null,
+            "ariaPressed": "true"
+          }
+        ]
+      },
+      "moveReturnFocus": "selectionMoveBtn",
+      "selectionExitFocus": {
+        "id": "selectionModeButton",
+        "hidden": null
+      },
+      "settingsTab": [
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        },
+        {
+          "id": "forceReloadButton",
+          "inside": true
+        },
+        {
+          "id": "logoutButton",
+          "inside": true
+        },
+        {
+          "id": "disconnectButton",
+          "inside": true
+        },
+        {
+          "id": "copyOriginButton",
+          "inside": true
+        },
+        {
+          "id": "",
+          "inside": false
+        },
+        {
+          "id": "",
+          "inside": true
+        },
+        {
+          "id": "checkUpdateButton",
+          "inside": true
+        }
+      ],
+      "settingsReturnFocus": "settingsButton"
+    }
+  ]
+}

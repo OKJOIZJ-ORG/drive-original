@@ -1,0 +1,37 @@
+{
+  "normalClose": {
+    "q1": false,
+    "readyState": 0,
+    "retirementSettled": true,
+    "selected": false,
+    "source": false,
+    "src": false
+  },
+  "diagnosticRelease": {
+    "events": [
+      {
+        "code": null,
+        "type": "ready"
+      },
+      {
+        "aspectRatio": {
+          "height": 2601,
+          "idc": 255,
+          "present": true,
+          "status": "explicit",
+          "width": 2600
+        },
+        "height": 640,
+        "type": "qa-sar-aggregate",
+        "width": 360
+      },
+      {
+        "code": "SAR_ASPECT_UNPROVEN",
+        "type": "error"
+      }
+    ],
+    "ownsWrapper": false,
+    "released": true,
+    "substituted": true
+  }
+}

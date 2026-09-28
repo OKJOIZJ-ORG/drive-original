@@ -70,3 +70,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `ISO-TRACKS-20260929.md` — actual4.6GB sparse track metadata without whole-moov reads.
 
 - `PLAYER-QUALITY-20260929.md` — reproduced player entry/cursor/poster/status repair and rc.12 integration evidence.
+
+- `SAR-AND-LIBRARY-20260929.md` — actual valid non-square SAR discriminator, preserved-original repair, successful large-ISO50/90% replay and proactive library/update quality.

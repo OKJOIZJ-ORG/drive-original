@@ -1,0 +1,30 @@
+{
+  "scope": "one-shot exact fixed rc.12 Worker plus bounded aggregate only; no coded bytes exported",
+  "inputSHA256": "5b2d4a4dd745c23fa84367d71f923db5e0c4a8f8c4dd7f9104bc6f580ec59647",
+  "workerSHA256": "8a02dd583c94017577a55a5085482d52f12071e53d990f51e3b9ebff2b19cd3e",
+  "events": [
+    {
+      "code": null,
+      "type": "ready"
+    },
+    {
+      "aspectRatio": {
+        "height": 2601,
+        "idc": 255,
+        "present": true,
+        "status": "explicit",
+        "width": 2600
+      },
+      "height": 640,
+      "type": "qa-sar-aggregate",
+      "width": 360
+    },
+    {
+      "code": "SAR_ASPECT_UNPROVEN",
+      "type": "error"
+    }
+  ],
+  "ownsWrapper": false,
+  "released": false,
+  "substituted": true
+}

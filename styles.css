@@ -2175,7 +2175,7 @@ dialog::backdrop {
   background: var(--system-bg-tertiary);
   font-family: var(--font-mono);
   font-size: 13px;
-  color: var(--system-blue);
+  color: var(--action-blue-text);
   word-break: break-all;
 }
 
@@ -2497,7 +2497,7 @@ dialog::backdrop {
 .selection-mode-button.active,
 .selection-mode-button[aria-pressed="true"] {
   color: #ffffff;
-  background: var(--system-blue);
+  background: var(--action-blue);
   border-color: transparent;
 }
 
@@ -2856,10 +2856,20 @@ dialog {
 }
 
 .delete-file-name {
-  max-height: 86px;
-  overflow: auto;
   overflow-wrap: anywhere;
   word-break: normal;
+}
+
+/* Keep content legible; the dialog body owns scrolling on short viewports. */
+:is(#deleteDialog, #moveDialog) .dialog-top,
+:is(#deleteDialog, #moveDialog) .dialog-content > *,
+.move-folder-row {
+  flex-shrink: 0;
+}
+
+.move-folder-list:focus-visible {
+  outline: 2px solid var(--action-blue-text);
+  outline-offset: 2px;
 }
 
 @media (hover: hover) and (pointer: fine) {

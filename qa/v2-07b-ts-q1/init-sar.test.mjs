@@ -85,14 +85,30 @@ test('absent VUI, absent SAR and IDC0 remove only the introduced pasp type bytes
   }
 });
 
-test('explicit square rational values remain exact; geometry-unproven SAR cannot be guessed', () => {
-  for (const options of [{aspectRatioIdc:1},{aspectRatioIdc:255,sarWidth:2,sarHeight:2},{aspectRatioIdc:255,sarWidth:65535,sarHeight:65535}]) {
+test('all defined explicit SAR values remain exact; reserved and zero SAR cannot be guessed', () => {
+  for (const options of [...Array.from({length:16},(_,index)=>({aspectRatioIdc:index+1})),
+    {aspectRatioIdc:255,sarWidth:2,sarHeight:2},{aspectRatioIdc:255,sarWidth:65535,sarHeight:65535},
+    {aspectRatioIdc:255,sarWidth:2600,sarHeight:2601},
+    {aspectRatioIdc:255,sarWidth:3,sarHeight:4},{aspectRatioIdc:255,sarWidth:65535,sarHeight:1}]) {
     const {bytes,source}=generated(options);assert.deepEqual(Buffer.from(adaptInitSar(bytes,source).initSegment),bytes);
   }
-  for (const options of [{aspectRatioIdc:14},{aspectRatioIdc:17},{aspectRatioIdc:254},
+  for (const options of [{aspectRatioIdc:17},{aspectRatioIdc:254},
     {aspectRatioIdc:255,sarWidth:0,sarHeight:1},{aspectRatioIdc:255,sarWidth:1,sarHeight:0}]) {
     const {bytes,source}=generated(options);assert.throws(()=>adaptInitSar(bytes,source),/SAR_ASPECT_UNPROVEN/);
   }
+});
+
+test('explicit non-square SAR never repairs mismatching pasp, raster geometry or source parameters', () => {
+  const {bytes,source}=generated({aspectRatioIdc:14});
+  assert.equal(parseH264Sps(source.sps).aspectRatio.width,4);
+  for(const [type,mutate] of [
+    ['pasp',(b,n)=>b.writeUInt32BE(1,n.offset+8)],
+    ['pasp',(b,n)=>b.writeUInt32BE(1,n.offset+12)],
+    ['avc1',(b,n)=>b.writeUInt16BE(1,n.offset+32)],
+    ['tkhd',(b,n)=>b.writeUInt32BE(1,n.offset+84)],
+  ])assert.throws(()=>adaptInitSar(change(bytes,type,mutate),source),/^Error: SAR_(PASP_MISMATCH|GEOMETRY_MISMATCH)$/);
+  const wrongPps=source.pps.slice();wrongPps[wrongPps.length-1]^=1;
+  assert.throws(()=>adaptInitSar(bytes,{...source,pps:wrongPps}),/SAR_PARAMETER_MISMATCH/);
 });
 
 test('source parameter bytes, counts and avcC header cannot be substituted', () => {

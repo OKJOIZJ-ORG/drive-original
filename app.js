@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.12';
+const APP_VERSION = '1.22.0-rc.13';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -613,6 +613,9 @@ const el = {};
 let toastTimer = null;
 let feedbackTimer = null;
 let updatePending = false;
+let updateCheckGeneration = 0;
+let updateCheckManualPending = false;
+const UPDATE_CHECK_TIMEOUT_MS = 15000;
 let controlsHideTimer = null;
 let isSeekingPointer = false;
 let activeSeekCleanup = null;
@@ -1698,6 +1701,11 @@ function notifyUpdateAvailable(newVersion, summary) {
 }
 
 async function checkForAppUpdate({ manual = false } = {}) {
+  const generation = ++updateCheckGeneration;
+  if (manual) updateCheckManualPending = true;
+  const manualFeedback = updateCheckManualPending;
+  const stillCurrent = () => generation === updateCheckGeneration;
+  const controller = new AbortController();
   if (manual && el.updateStatusText) {
     el.updateStatusText.textContent = '최신 버전 확인 중…';
     if (el.checkUpdateButton) el.checkUpdateButton.disabled = true;
@@ -1707,30 +1715,33 @@ async function checkForAppUpdate({ manual = false } = {}) {
   let releaseInfo = null;
 
   try {
-    // Fetch remote version metadata directly from server (bypassing all caches)
-    const versionUrl = new URL(`version.json?_t=${Date.now()}`, location.href).href;
-    const res = await fetch(versionUrl, {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
-    });
-
-    if (res.ok) {
-      releaseInfo = await res.json();
-      remoteVersion = releaseInfo.version;
-    }
-    if (!res.ok || !parseAppVersion(remoteVersion)) {
-      throw new Error('유효한 최신 버전 정보를 받지 못했습니다.');
-    }
-
-    if ('serviceWorker' in navigator && state.serviceWorkerRegistration) {
-      await state.serviceWorkerRegistration.update().catch(() => {});
-    }
+    await withDeadline((async () => {
+      // One deadline covers metadata/body and the non-cancellable worker check.
+      const versionUrl = new URL(`version.json?_t=${Date.now()}`, location.href).href;
+      const res = await fetch(versionUrl, {
+        signal: controller.signal,
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+      });
+      if (res.ok) {
+        releaseInfo = await res.json();
+        remoteVersion = releaseInfo.version;
+      }
+      if (!res.ok || !parseAppVersion(remoteVersion)) {
+        throw new Error('유효한 최신 버전 정보를 받지 못했습니다.');
+      }
+      if (stillCurrent() && !controller.signal.aborted
+        && 'serviceWorker' in navigator && state.serviceWorkerRegistration) {
+        await state.serviceWorkerRegistration.update().catch(() => {});
+      }
+    })(), UPDATE_CHECK_TIMEOUT_MS);
+    if (!stillCurrent()) return { hasUpdate: false, superseded: true };
 
     const hasNewVersion = Boolean(remoteVersion && isNewerVersion(remoteVersion, APP_VERSION));
 
     if (hasNewVersion) {
       notifyUpdateAvailable(remoteVersion, releaseInfo?.changeSummary);
-      if (manual) {
+      if (manualFeedback) {
         showToast(`새로운 버전(v${remoteVersion})이 준비되었습니다. [지금 업데이트]를 눌러 적용하세요.`);
       }
       return { hasUpdate: true, version: remoteVersion };
@@ -1741,7 +1752,7 @@ async function checkForAppUpdate({ manual = false } = {}) {
     if (el.settingsUpdateDot) el.settingsUpdateDot.hidden = true;
     if (el.applyUpdateButton) el.applyUpdateButton.hidden = true;
 
-    if (manual) {
+    if (manualFeedback) {
       const now = new Date();
       const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
       if (el.updateStatusText) {
@@ -1751,14 +1762,19 @@ async function checkForAppUpdate({ manual = false } = {}) {
     }
     return { hasUpdate: false, version: APP_VERSION };
   } catch (err) {
+    if (!stillCurrent()) return { hasUpdate: false, superseded: true };
     console.error('Update check failed:', err);
-    if (manual) {
+    if (manualFeedback) {
       if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다.';
       showToast('업데이트 확인 실패: 네트워크를 확인하세요.');
     }
     return { hasUpdate: false, error: err };
   } finally {
-    if (manual && el.checkUpdateButton) el.checkUpdateButton.disabled = false;
+    controller.abort();
+    if (stillCurrent()) {
+      if (updateCheckManualPending && el.checkUpdateButton) el.checkUpdateButton.disabled = false;
+      updateCheckManualPending = false;
+    }
   }
 }
 
@@ -4788,11 +4804,13 @@ function enterSelectionMode(initialFile = null) {
 }
 
 function exitSelectionMode() {
+  const toolbarOwnedFocus = el.selectionToolbar?.contains(document.activeElement);
   state.selectionGeneration += 1;
   state.selectionMode = false;
   state.selectedFileIds.clear();
   state.pendingActionFiles = [];
   updateSelectionUI();
+  if (toolbarOwnedFocus) el.selectionModeButton?.focus({ preventScroll: true });
 }
 
 function toggleFileSelection(file) {
@@ -9531,7 +9549,7 @@ function renderMoveFolderList(filterRaw) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'move-folder-row';
-    button.setAttribute('role', 'option');
+    button.setAttribute('aria-pressed', String(state.moveTargetFolderId === row.id));
     const blockReason = getBulkMoveBlockReason(files, row);
     const isCurrent = blockReason === '현재 위치';
     if (isCurrent) button.classList.add('current');
@@ -9551,8 +9569,12 @@ function renderMoveFolderList(filterRaw) {
     }
     button.addEventListener('click', () => {
       state.moveTargetFolderId = row.id;
-      el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => item.classList.remove('selected'));
+      el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => {
+        item.classList.remove('selected');
+        item.setAttribute('aria-pressed', 'false');
+      });
       button.classList.add('selected');
+      button.setAttribute('aria-pressed', 'true');
       if (el.moveConfirmButton) el.moveConfirmButton.disabled = false;
     });
     fragment.appendChild(button);

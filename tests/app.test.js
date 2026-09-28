@@ -103,6 +103,105 @@ test('candidate prerelease versions remain valid and compare in SemVer order', (
   assert.equal(run(context, `isNewerVersion('not-a-version', '1.22.0-rc.1')`), false);
 });
 
+test('update checks keep newest feedback and release manual loading across out-of-order success and errors', async () => {
+  for (const scenario of [
+    { oldManual: false, newest: 'update', older: 'current', newerFirst: true },
+    { oldManual: true, newest: 'update', older: 'error', newerFirst: true },
+    { oldManual: true, newest: 'error', older: 'current', newerFirst: false },
+    { oldManual: true, newest: 'current', older: 'update', newerFirst: false }
+  ]) {
+    const context = loadAppContext();
+    context.console = { error() {}, warn() {}, log() {} };
+    const requests = [];
+    context.fetch = () => new Promise((resolve, reject) => requests.push({ resolve, reject }));
+    run(context, `
+      for (const id of ['updateBanner','settingsUpdateDot','applyUpdateButton']) el[id]={hidden:true};
+      el.updateStatusText={textContent:''};el.checkUpdateButton={disabled:false};
+      globalThis.updateToasts=[];showToast=text=>updateToasts.push(text);
+    `);
+    const older = run(context, `checkForAppUpdate({manual:${scenario.oldManual}})`);
+    const newest = run(context, `checkForAppUpdate({manual:${!scenario.oldManual}})`);
+    const settle = (index, outcome) => outcome === 'error'
+      ? requests[index].reject(new Error('synthetic offline'))
+      : requests[index].resolve(new Response(JSON.stringify({ version: outcome === 'update' ? '99.0.0' : run(context, 'APP_VERSION') })));
+    if (scenario.newerFirst) {
+      settle(1, scenario.newest); await newest;
+      const published = run(context, 'JSON.stringify([el.updateBanner,el.applyUpdateButton,el.updateStatusText,el.checkUpdateButton,updateToasts])');
+      settle(0, scenario.older); await older;
+      assert.equal(run(context, 'JSON.stringify([el.updateBanner,el.applyUpdateButton,el.updateStatusText,el.checkUpdateButton,updateToasts])'), published, 'stale completion cannot change latest feedback');
+    } else {
+      settle(0, scenario.older); await older;
+      assert.equal(run(context, 'el.checkUpdateButton.disabled'), true, 'stale manual finally cannot unlock newest check');
+      settle(1, scenario.newest); await newest;
+    }
+    assert.equal(run(context, 'el.checkUpdateButton.disabled'), false, 'newest automatic check releases inherited manual loading');
+    assert.equal(run(context, 'el.applyUpdateButton.hidden'), scenario.newest !== 'update');
+    assert.match(run(context, 'el.updateStatusText.textContent'), scenario.newest === 'error' ? /오류/ : scenario.newest === 'update' ? /99\.0\.0/ : /현재 최신/);
+  }
+});
+
+test('update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update', async () => {
+  for (const phase of ['fetch', 'body', 'worker']) {
+    const context = loadAppContext();
+    context.console = { error() {}, warn() {}, log() {} };
+    let elapsed = 0, nextTimer = 0, signal, releaseLate;
+    const timers = new Map();
+    context.setTimeout = (callback, delay) => { const id = ++nextTimer; timers.set(id, { callback, due: elapsed + delay }); return id; };
+    context.clearTimeout = id => timers.delete(id);
+    const hanging = new Promise(resolve => { releaseLate = resolve; });
+    context.fetch = async (_url, options) => {
+      signal = options.signal;
+      if (phase === 'fetch') return hanging;
+      return { ok: true, json: () => phase === 'body' ? hanging : Promise.resolve({ version: '99.0.0' }) };
+    };
+    context.hangingWorker = () => hanging;
+    run(context, `
+      for (const id of ['updateBanner','settingsUpdateDot','applyUpdateButton']) el[id]={hidden:false};
+      el.updateStatusText={textContent:'valid update'};el.checkUpdateButton={disabled:false};showToast=()=>{};
+      navigator.serviceWorker={};state.serviceWorkerRegistration={update:hangingWorker};
+    `);
+    const pending = run(context, 'checkForAppUpdate({manual:true})');
+    for (let tick = 0; tick < 8; tick++) await Promise.resolve();
+    const deadline = run(context, 'UPDATE_CHECK_TIMEOUT_MS');
+    assert.ok(deadline > 0);
+    elapsed = deadline - 1;
+    assert.ok([...timers.values()].every(timer => timer.due > elapsed));
+    assert.equal(run(context, 'el.checkUpdateButton.disabled'), true, `${phase} stays pending before its deadline`);
+    elapsed++;
+    for (const timer of [...timers.values()]) if (timer.due <= elapsed) timer.callback();
+    await pending;
+    assert.equal(signal.aborted, true, `${phase} aborts its owned fetch/body`);
+    assert.equal(timers.size, 0);
+    assert.equal(run(context, 'el.checkUpdateButton.disabled'), false);
+    assert.match(run(context, 'el.updateStatusText.textContent'), /오류/);
+    assert.equal(run(context, 'el.applyUpdateButton.hidden'), false, 'timeout preserves previously valid update');
+    const timedOutUI = run(context, 'JSON.stringify([el.updateStatusText,el.applyUpdateButton,el.checkUpdateButton])');
+    releaseLate(phase === 'fetch' ? { ok: true, json: async () => ({ version: '99.0.0' }) } : { version: '99.0.0' });
+    for (let tick = 0; tick < 8; tick++) await Promise.resolve();
+    assert.equal(run(context, 'JSON.stringify([el.updateStatusText,el.applyUpdateButton,el.checkUpdateButton])'), timedOutUI, 'late completion cannot publish after timeout');
+  }
+});
+
+test('a stale update deadline cannot clear the newer automatic check manual loading', async () => {
+  const context = loadAppContext();
+  context.console = { error() {}, warn() {}, log() {} };
+  const timers = new Map(); let nextTimer = 0;
+  context.setTimeout = (callback, delay) => { const id = ++nextTimer; timers.set(id, { callback, delay }); return id; };
+  context.clearTimeout = id => timers.delete(id);
+  context.fetch = () => new Promise(() => {});
+  run(context, `el.updateStatusText={textContent:''};el.checkUpdateButton={disabled:false};showToast=()=>{};`);
+  const older = run(context, 'checkForAppUpdate({manual:true})');
+  const newer = run(context, 'checkForAppUpdate({manual:false})');
+  assert.ok(timers.get(1).delay > 0);
+  timers.get(1).callback(); await older;
+  assert.equal(run(context, 'el.checkUpdateButton.disabled'), true);
+  assert.equal(run(context, 'el.updateStatusText.textContent'), '최신 버전 확인 중…');
+  timers.get(2).callback(); await newer;
+  assert.equal(run(context, 'el.checkUpdateButton.disabled'), false);
+  assert.match(run(context, 'el.updateStatusText.textContent'), /오류/);
+  assert.equal(timers.size, 0);
+});
+
 test('a new service worker reconnects only a pre-byte Range source without consuming its retry', () => {
   const context = loadAppContext();
   run(context, `(() => {
