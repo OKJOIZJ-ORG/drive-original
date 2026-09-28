@@ -1,0 +1,1 @@
+state.files.filter(file=>file.mimeType==='video/x-msvideo'&&Number(file.size)>940&&!file.trashed).sort((a,b)=>Number(a.size)-Number(b.size))[0]

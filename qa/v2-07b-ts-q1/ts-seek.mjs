@@ -1,3 +1,4 @@
+import { validateVideoClock, videoGopTiming } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { BoundedProbeError } from '../v2-07a-bounded-probe/bounded-probe.mjs';
@@ -23,7 +24,7 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
   const widest=Math.min(align(1024*1024),sourceSize);
   const key=(start,length=width)=>`${start}:${length}`;
   let topology = null, sourceSps = null, sourcePps = null, audioConfig = null, step = null;
-  let firstVideoDts = null, firstVideoPts = null, firstAudioPts = null;
+  let firstAudioPts = null;
 
   function inspectPsi(bytes, required) {
     const psi = createPsiStream(); let found = null, started = false;
@@ -44,14 +45,11 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
   function validate(result) {
     demand(result.video.length>=3 && result.audio.length>0, 'SEEK_WINDOW_UNPROVEN');
     const delta=result.video[1].dts-result.video[0].dts;
-    demand(delta>0 && delta<=90000 && (step===null || step===delta), 'SEEK_VIDEO_CLOCK_UNPROVEN');
+    demand(delta>0 && delta<=90000, 'SEEK_VIDEO_CLOCK_UNPROVEN');
     if (step===null) step=delta;
-    let previous=null; const pts=new Set();
+    try { validateVideoClock(result.video,{referenceStep:step}); }
+    catch { throw new Error('SEEK_VIDEO_CLOCK_UNPROVEN'); }
     for (const row of result.video) {
-      demand(previous===null || row.dts-previous===step, 'SEEK_VIDEO_CLOCK_UNPROVEN'); previous=row.dts;
-      demand((row.dts-firstVideoDts)%step===0 && (row.pts-firstVideoPts)%step===0
-        && !pts.has(row.pts) && Math.abs(row.pts-row.dts)<=16*step, 'SEEK_VIDEO_CLOCK_UNPROVEN');
-      pts.add(row.pts);
       if (row.sps) demand(equal(row.sps,sourceSps), 'SEEK_PARAMETERS_CHANGED');
       if (row.pps) demand(equal(row.pps,sourcePps), 'SEEK_PARAMETERS_CHANGED');
     }
@@ -99,7 +97,7 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
       demand(first?.idr && first.sps && first.pps && result.audio.length && !result.leadingPartial.video
         && !result.leadingPartial.audio, 'SEEK_HEAD_UNPROVEN');
       sourceSps=Uint8Array.from(first.sps); sourcePps=Uint8Array.from(first.pps);
-      firstVideoDts=first.dts;firstVideoPts=first.pts;firstAudioPts=result.audio[0].pts;
+      firstAudioPts=result.audio[0].pts;
       audioConfig={sampleRate:result.audio[0].sampleRate,channels:result.audio[0].channels};
     }
     validate(result);
@@ -113,10 +111,9 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
     for (let n=0;n<ids.length;n++) {
       const next=ids[n+1];
       if (next===undefined && item.end+1!==sourceSize) continue;
-      const group=frames.slice(ids[n],next),presentation=[...group].sort((a,b)=>a.pts-b.pts);
-      demand(group.length>=3 && presentation[0].pts===group[0].pts
-        && presentation.every((row,index)=>!index || row.pts-presentation[index-1].pts===step), 'SEEK_GOP_PRESENTATION_UNPROVEN');
-      if (next!==undefined) demand(frames[next].pts===presentation.at(-1).pts+step, 'SEEK_GOP_PRESENTATION_UNPROVEN');
+      const group=frames.slice(ids[n],next);let presentation;
+      try { ({presentation}=videoGopTiming(group,{referenceStep:step,following:next===undefined?null:frames[next]})); }
+      catch { throw new Error('SEEK_GOP_PRESENTATION_UNPROVEN'); }
       result.push({rap:group[0],presentation,next:next===undefined?null:frames[next],count:group.length});
     }
     return result;
@@ -128,7 +125,8 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
   const headGops=gops(head),tailGops=gops(tail);
   demand(headGops.length && tailGops.length, 'SEEK_EDGE_GOP_UNPROVEN');
   const originTicks=Math.min(...head.result.video.map(row=>row.pts),head.result.audio[0].pts);
-  const videoEnd=Math.max(...tail.result.video.map(row=>row.pts))+step;
+  const tailFrames=tail.result.video;
+  const videoEnd=Math.max(...tailFrames.map(row=>row.pts))+(tailFrames.at(-1).dts-tailFrames.at(-2).dts);
   const audioLast=tail.result.audio.at(-1),audioEnd=audioLast.pts+audioLast.frames*1024*90000/audioLast.sampleRate;
   const endTicks=Math.max(videoEnd,audioEnd);
   demand(endTicks>originTicks && endTicks<2**33 && Math.max(videoEnd,audioEnd)-Math.min(videoEnd,audioEnd)<=90000,
@@ -144,7 +142,7 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
   // anchor. Do not invent an "after" anchor in that final span/audio-only tail.
   demand(targetTicks<=lastVideoPts, 'SEEK_TARGET_AFTER_LAST_ANCHOR');
   const timeline={kind:'sampled-candidate',originTicks,endTicks,durationSeconds:(endTicks-originTicks)/90000,
-    videoEndTicks:videoEnd,audioEndTicks:audioEnd,videoStepTicks:step,globalContinuityVerified:false};
+    videoEndTicks:videoEnd,audioEndTicks:audioEnd,videoStepTicks:step,videoTiming:'observed-intervals',finalVideoDurationInferred:true,globalContinuityVerified:false};
 
   function find() {
     let chosen=null;
@@ -192,5 +190,5 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
       before:anchor(prior),after:anchor(following),followingRap:group.next?anchor(group.next):null,
       sourceClockPreserved:true,completePicturesVerified:false,decodeStartSliceVerified:false},
     windows:windows.map(row=>({...row})),readBytes:windows.reduce((sum,row)=>sum+row.bytes,0),
-    scope:'bounded sampled RAP candidate with local cadence/bracket evidence; not global timeline, exact duration, decoded seek or a directly playable TS slice'};
+    scope:'bounded sampled RAP candidate with observed-clock/bracket evidence; not global timeline, exact duration, decoded seek or a directly playable TS slice'};
 }

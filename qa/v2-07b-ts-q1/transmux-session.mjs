@@ -1,3 +1,4 @@
+import { bindFragmentClock } from './fragment-clock.mjs';
 import { createGopStream } from './gop-stream.mjs';
 import { adaptInitSar } from './init-sar.mjs';
 
@@ -12,7 +13,7 @@ const equal = (a, b) => a.length === b.length && a.every((value, index) => value
 // them). One input credit and one fragment credit, no asynchronous send/queue.
 // Reentrant ACK/abort is supported: send is called only AFTER parser work has
 // unwound, and the pump never reenters the parser. Other generations are ignored.
-// The initial strict CFR/H264/AAC eligibility and SAR restrictions remain those
+// The bounded observed-clock H264/AAC eligibility and SAR restrictions remain those
 // of createGopStream/adaptInitSar. Byte counters exclude JS objects, MSE/decoder,
 // transport/caller buffers and unobservable mux scratch; they are NOT heap proof.
 export function createTransmuxSession({ generation, sourceSize, Transmuxer, send } = {}) {
@@ -21,6 +22,7 @@ export function createTransmuxSession({ generation, sourceSize, Transmuxer, send
   }
   let state = 'open', failure = null, busy = false, ending = false, eofProcessed = false;
   let mux = null, owner = null, sink = send, input = null, output = null, awaiting = null;
+  let intervalClock = null;
   let config = null, init = null, ownerSnapshot = null, inInterval = false, intervalOutputs = 0;
   let sequence = 0, consumed = 0, fragments = 0, acknowledged = 0, operationFailure = null;
   let peakInputBytes = 0, peakOutputBytes = 0, peakConfigBytes = 0, peakInitBytes = 0;
@@ -103,6 +105,7 @@ export function createTransmuxSession({ generation, sourceSize, Transmuxer, send
     if (!inInterval || terminal() || output || ++intervalOutputs !== 1 || segment.type !== 'combined') reject('SESSION_MUX_OUTPUT');
     if (!(segment.initSegment instanceof Uint8Array) || !(segment.data instanceof Uint8Array)
         || !segment.data.length || segment.initSegment.length > OUTPUT_LIMIT || segment.data.length > OUTPUT_LIMIT) reject('SESSION_OUTPUT_LIMIT');
+    try { bindFragmentClock(segment.data,{videoTrackId:config.videoTrackId,...intervalClock}); } catch { reject('SESSION_FRAGMENT_CLOCK'); }
     let next;
     try { next = adaptInitSar(segment.initSegment, config).initSegment; } catch { reject('SESSION_INIT_INVALID'); }
     if (init && !equal(init, next)) reject('SESSION_INIT_CHANGED');
@@ -124,8 +127,9 @@ export function createTransmuxSession({ generation, sourceSize, Transmuxer, send
       peakConfigBytes = config.sps.length + config.pps.length;
     }
     if (!config || output || awaiting) reject('SESSION_OUTPUT_OWNER');
+    intervalClock={samples:item.proof.samples,nextDts:item.proof.nextDts};
     inInterval = true; intervalOutputs = 0;
-    try { mux.push(item.bytes); mux.flush(); } finally { inInterval = false; }
+    try { mux.push(item.bytes); mux.flush(); } finally { inInterval = false; intervalClock=null; }
     if (intervalOutputs !== 1 || !output) reject('SESSION_MUX_OUTPUT');
     measureCache();
   }

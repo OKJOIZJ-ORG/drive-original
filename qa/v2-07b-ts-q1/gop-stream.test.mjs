@@ -89,9 +89,9 @@ test('malformed future data fails terminally after early emission and releases i
   assert.throws(()=>owner.finish({sourceSize:input.length}),/STREAM_CLOSED/);
 });
 
-test('VFR, split ADTS, delayed track and cumulatively drifting audio cannot finish successfully',()=>{
+test('split ADTS, delayed track and cumulatively drifting audio cannot finish successfully',()=>{
   const drift=variant((records,base)=>{let count=0;for(const record of records)if(record.pid===base.audioPid)shiftTimestamp(record.data,9,count++);});
-  for(const changed of [vfr(),crossAdts(),delayedAudio(),drift]){
+  for(const changed of [crossAdts(),delayedAudio(),drift]){
     const owner=createGopStream({...budgets,onInterval:()=>{}});
     assert.throws(()=>{deliver(owner,changed.bytes);owner.finish({sourceSize:changed.bytes.length});});
     assert.equal(owner.stats().state,'failed');assert.equal(owner.stats().retainedBytes,0);

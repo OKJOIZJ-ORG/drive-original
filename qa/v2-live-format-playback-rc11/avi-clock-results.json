@@ -1,0 +1,388 @@
+{
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "facadeSHA256": "53991a52ef4466639e6a6939940e2fa03fa25183a86858ee20402e213b83e059",
+  "clockSHA256": "2a24937f4f92869b721bd7e324ea8c836af2aef37655b3215277e747a2f05b49",
+  "selectionSHA256": "489d2681d9a61e99051977c77a70ccc0bbd1947b65803effb996855447dcc964",
+  "swRuntime": {
+    "accepted": true,
+    "controllerActivated": true,
+    "done": true,
+    "mediaGET": 0,
+    "metadataGET": 0,
+    "sameController": true,
+    "staticAssetGET": 1,
+    "version": "1.22.0-rc.11"
+  },
+  "summary": {
+    "clock": {
+      "bytesRead": 1048288,
+      "head": {
+        "audioCount": 36,
+        "dtsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 37,
+              "value": 4285
+            },
+            {
+              "count": 92,
+              "value": 4286
+            }
+          ]
+        },
+        "first": {
+          "dts": 126000,
+          "idr": true,
+          "pts": 134571
+        },
+        "headStep": 4285,
+        "last": {
+          "dts": 678857,
+          "idr": false,
+          "pts": 683142
+        },
+        "leadingPartial": {
+          "audio": false,
+          "video": false
+        },
+        "ptsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 37,
+              "value": 4285
+            },
+            {
+              "count": 92,
+              "value": 4286
+            }
+          ]
+        },
+        "reorderTicks": {
+          "distinct": 8,
+          "values": [
+            {
+              "count": 27,
+              "value": 0
+            },
+            {
+              "count": 4,
+              "value": 4285
+            },
+            {
+              "count": 31,
+              "value": 4286
+            },
+            {
+              "count": 31,
+              "value": 8571
+            },
+            {
+              "count": 6,
+              "value": 8572
+            },
+            {
+              "count": 4,
+              "value": 17143
+            },
+            {
+              "count": 9,
+              "value": 21428
+            },
+            {
+              "count": 18,
+              "value": 21429
+            }
+          ]
+        },
+        "trailingPartial": {
+          "audio": false,
+          "video": true
+        },
+        "videoCount": 130,
+        "violations": [
+          {
+            "dts": 130285,
+            "index": 1,
+            "previousDts": 126000,
+            "pts": 151714,
+            "reasons": [
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 134571,
+            "index": 2,
+            "previousDts": 130285,
+            "pts": 143142,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 138857,
+            "index": 3,
+            "previousDts": 134571,
+            "pts": 138857,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 143142,
+            "index": 4,
+            "previousDts": 138857,
+            "pts": 147428,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 147428,
+            "index": 5,
+            "previousDts": 143142,
+            "pts": 168857,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 151714,
+            "index": 6,
+            "previousDts": 147428,
+            "pts": 160285,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 156000,
+            "index": 7,
+            "previousDts": 151714,
+            "pts": 156000,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 160285,
+            "index": 8,
+            "previousDts": 156000,
+            "pts": 164571,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          }
+        ]
+      },
+      "reads": 2,
+      "scope": "bounded diagnostic clock samples, no admission/decode claim",
+      "tail": {
+        "audioCount": 42,
+        "dtsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 42,
+              "value": 4285
+            },
+            {
+              "count": 106,
+              "value": 4286
+            }
+          ]
+        },
+        "first": {
+          "dts": 13810285,
+          "idr": false,
+          "pts": 13831714
+        },
+        "headStep": 4285,
+        "last": {
+          "dts": 14444571,
+          "idr": false,
+          "pts": 14448857
+        },
+        "leadingPartial": {
+          "audio": false,
+          "video": true
+        },
+        "ptsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 43,
+              "value": 4285
+            },
+            {
+              "count": 105,
+              "value": 4286
+            }
+          ]
+        },
+        "reorderTicks": {
+          "distinct": 9,
+          "values": [
+            {
+              "count": 31,
+              "value": 0
+            },
+            {
+              "count": 4,
+              "value": 4285
+            },
+            {
+              "count": 36,
+              "value": 4286
+            },
+            {
+              "count": 31,
+              "value": 8571
+            },
+            {
+              "count": 9,
+              "value": 8572
+            },
+            {
+              "count": 5,
+              "value": 12857
+            },
+            {
+              "count": 2,
+              "value": 17143
+            },
+            {
+              "count": 12,
+              "value": 21428
+            },
+            {
+              "count": 19,
+              "value": 21429
+            }
+          ]
+        },
+        "trailingPartial": {
+          "audio": false,
+          "video": false
+        },
+        "videoCount": 149,
+        "violations": [
+          {
+            "dts": 13810285,
+            "index": 0,
+            "previousDts": null,
+            "pts": 13831714,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13814571,
+            "index": 1,
+            "previousDts": 13810285,
+            "pts": 13823142,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13818857,
+            "index": 2,
+            "previousDts": 13814571,
+            "pts": 13818857,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13823142,
+            "index": 3,
+            "previousDts": 13818857,
+            "pts": 13827428,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13827428,
+            "index": 4,
+            "previousDts": 13823142,
+            "pts": 13848857,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13831714,
+            "index": 5,
+            "previousDts": 13827428,
+            "pts": 13840285,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13836000,
+            "index": 6,
+            "previousDts": 13831714,
+            "pts": 13836000,
+            "reasons": [
+              "dts-step",
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 13840285,
+            "index": 7,
+            "previousDts": 13836000,
+            "pts": 13844571,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          }
+        ]
+      }
+    },
+    "complete": true,
+    "failure": null,
+    "genericUpstreamCleanup": "unknown",
+    "localReferencesReleased": true,
+    "mediaBytes": 1048288,
+    "mediaRequests": 2,
+    "metadataBytes": 1995,
+    "metadataCleanup": "body-consumed",
+    "metadataRequests": 5,
+    "schema": "drive-original.clock-live-rc11/1",
+    "sourceCleanup": {
+      "cleanupFailed": false,
+      "cleanupPending": 0,
+      "pendingCallbacks": 0,
+      "settled": true
+    }
+  }
+}

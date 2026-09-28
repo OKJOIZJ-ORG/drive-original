@@ -1,3 +1,4 @@
+import { videoGopTiming } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { readPes } from './gop-boundaries.mjs';
@@ -93,13 +94,12 @@ function prepare({headBytes,bytes,offset,plan}={}) {
   const following=nextIndex<0?null:scan.video[nextIndex];
   demand(following? sameAnchor(following,plan.local.followingRap)
     : plan.local.followingRap===null && offset+window.length===plan.sourceSize, 'SEEK_INPUT_GOP_END');
-  const video=scan.video.slice(index,nextIndex<0?undefined:nextIndex),step=video[1]?.dts-video[0]?.dts;
-  demand(video.length>=3 && video.length===plan.local.videoFrames && step>0 && step<=90000
-    && step===plan.timeline.videoStepTicks && video.every((row,i)=>!i||row.dts-video[i-1].dts===step), 'SEEK_INPUT_VIDEO_CLOCK');
-  const presentation=[...video].sort((a,b)=>a.pts-b.pts);
-  demand(presentation[0].pts===rap.pts && presentation.every((row,i)=>!i||row.pts-presentation[i-1].pts===step), 'SEEK_INPUT_PRESENTATION');
-  const videoEnd=presentation.at(-1).pts+step;
-  demand(!following||following.pts===videoEnd, 'SEEK_INPUT_PRESENTATION');
+  const video=scan.video.slice(index,nextIndex<0?undefined:nextIndex);
+  const step=headScan.video[1]?.dts-headScan.video[0]?.dts;
+  demand(video.length===plan.local.videoFrames && step===plan.timeline.videoStepTicks, 'SEEK_INPUT_VIDEO_CLOCK');
+  let presentation,videoEnd;
+  try { ({presentation,endPts:videoEnd}=videoGopTiming(video,{referenceStep:step,following})); }
+  catch { throw new InputError('SEEK_INPUT_PRESENTATION'); }
   const before=[...presentation].reverse().find(row=>row.pts<=plan.targetTicks);
   const after=presentation.find(row=>row.pts>=plan.targetTicks)||following;
   demand(before && after && plan.targetTicks>=rap.pts && plan.targetTicks<videoEnd

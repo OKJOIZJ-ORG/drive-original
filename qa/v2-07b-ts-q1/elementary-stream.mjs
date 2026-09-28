@@ -1,3 +1,4 @@
+import { validateVideoClock, videoGopTiming } from './video-clock.mjs';
 import { readPes, readAnnexBNals } from './gop-boundaries.mjs';
 import { parseH264Sps } from '../v2-07a-container-probe/mpeg-ts-probe.mjs';
 
@@ -5,7 +6,7 @@ const demand = (value, code) => { if (!value) throw new Error(code); };
 const equal = (a,b) => a.length === b.length && a.every((v,i)=>v===b[i]);
 const rates = [96000,88200,64000,48000,44100,32000,24000,22050,16000,12000,11025,8000,7350];
 
-// Bounded syntax/timing owner for the initial CFR + ADTS-framed Q1 slice.
+// Bounded syntax/timing owner for the bounded observed-clock H264 + ADTS-framed Q1 slice.
 // No stored payload except copied SPS/PPS; PTS bookkeeping is capped per GOP.
 export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
   demand(Number.isSafeInteger(maxFramesPerGop) && maxFramesPerGop >= 3 && maxFramesPerGop <= 4096,'ES_LIMIT');
@@ -13,13 +14,15 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
   let gop=[],audioConfig=null,audioOrigin=null,audioSamples=0,videoCount=0,audioCount=0;
   let peakFrames=0,closed=false;
 
-  function closeGop() {
+  function closeGop(following=null) {
     demand(gop.length>=3 && step>0,'GOP_TOO_SHORT');
-    const presentation=gop.map(frame=>frame.pts).sort((a,b)=>a-b);
-    demand(presentation.every((pts,i)=>!i||pts-presentation[i-1]===step),'GOP_PRESENTATION_CADENCE');
-    demand(previousMaxPts===null||presentation[0]-previousMaxPts===step,'CROSS_IDR_PRESENTATION_UNPROVEN');
+    let timing;
+    try{timing=videoGopTiming(gop,{referenceStep:step,following,previousMaxPts});}
+    catch{throw new Error('GOP_PRESENTATION_CADENCE');}
+    const presentation=timing.presentation.map(frame=>frame.pts);
     const result={videoFrames:gop.length,start:gop[0].offset,firstDts:gop[0].dts,lastDts:gop[gop.length-1].dts,
-      firstPts:presentation[0],lastPts:presentation[presentation.length-1],step};
+      firstPts:presentation[0],lastPts:presentation[presentation.length-1],step,endPts:timing.endPts,endInferred:timing.endInferred,
+      nextDts:following?.dts??null,samples:gop.map(({pts,dts})=>({pts,dts}))};
     previousMaxPts=result.lastPts;gop=[];
     return result;
   }
@@ -42,9 +45,10 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
     }
     demand(sps&&pps&&(videoCount||idr),'FIRST_IDR_REQUIRED');
     if(previousDts!==null){const delta=parsed.dts-previousDts;if(step===null)step=delta;
-      demand(step>0&&step<=90000&&delta===step,'VFR_OR_DISCONTINUITY_UNPROVEN');}
+      try{validateVideoClock([parsed],{referenceStep:step,previousDts});}
+      catch{throw new Error('VFR_OR_DISCONTINUITY_UNPROVEN');}}
     previousDts=parsed.dts;
-    const completed=idr&&gop.length?closeGop():null;
+    const completed=idr&&gop.length?closeGop(parsed):null;
     demand(gop.length<maxFramesPerGop,'GOP_FRAME_LIMIT');
     const frame={offset:parsed.offset,end:parsed.end,pts:parsed.pts,dts:parsed.dts,idr};
     gop.push(frame);peakFrames=Math.max(peakFrames,gop.length);videoCount++;

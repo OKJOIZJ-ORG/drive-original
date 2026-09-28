@@ -1,0 +1,39 @@
+{
+  "schema": "drive-original.actual-format-evidence-validation/1",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "passed": 8,
+  "checks": [
+    "actual-WebM-Range-midpoint-resume-EOF",
+    "actual-large-ISO-decode-before-whole-body",
+    "actual-seek-success-and-false-recovery-retained",
+    "native-discriminator-proves-delayed-frame-window-defect",
+    "mkv-bounded-clock-failure-discriminator",
+    "avi-bounded-clock-failure-discriminator",
+    "phase-and-rational-cadence-counterevidence",
+    "all-normal-close-source-retirement"
+  ],
+  "hashes": {
+    "avi-clock-results.json": "7d742efface5999962d516bc0637f488f520fa8be26e8dd8cc3fac7f1449b5e1",
+    "avi-close-results.json": "e0b7845de8813f2317588ecd4a0dd935fdf5ec22bb11c22c4e46bcba02b5dcd4",
+    "avi-results.json": "e90b45b1c048567274a1fa78c3dad6dd79c400a059070cbf8d9e7d00f809861d",
+    "avi-selection.expression.js": "489d2681d9a61e99051977c77a70ccc0bbd1947b65803effb996855447dcc964",
+    "iso-normal-close-results.json": "a701b03773c0f5b306ab41be30a0226f06f72eb07c4597ba820f02b676ad2874",
+    "iso-normal-results.json": "6053b6b9bcb5414870ca5833863d45a238e107cbf974d9c5d1dacf061c82c225",
+    "mkv-clock-results.json": "1d622df30252a0f834eb04ee078f451054a6f6f5a24a2661ddaf1238e752f1d3",
+    "mkv-close-results.json": "e0b7845de8813f2317588ecd4a0dd935fdf5ec22bb11c22c4e46bcba02b5dcd4",
+    "mkv-results.json": "a443a33f026391f664997250251dfbe0ab663adf55a621bb68ea28a61c8bc930",
+    "mkv-selection.expression.js": "1819b53ef443c16b3cbe57705ffb17cb6da1a8b2b25ddf78f11b60e20c7019e0",
+    "native-events.expression.js": "fcc6d7058700dc75d364490180b6904921eb4179c62c1f7ed22230a0321aeec8",
+    "README.md": "cbf644bd5df551c9b1cbb87923c883112b6d4186f29481d27da8ed022bf8f5fa",
+    "sample.expression.js": "e17b50d4d24c8e1834a52ddd5382159112e289e1fc818567dfd5ddd24176c85e",
+    "seek-presentation-final-results.json": "5d26eadfe5cb6523cb8d9ecf0e87ad9f30cfa338aae751a59f156d77ba978080",
+    "seek-presentation-initial-results.json": "129c57c900d4bafed62468fd6c2439898dabb5f89f10b59b8bed255563ac2d25",
+    "seek-presentation.expression.js": "e18372f6c00a109063e0bd4ba7ae68540d376a4f5f6169424226a03911a12532",
+    "seek-watchdog-fix.md": "e644699dabe9573d16b41bf57e2f2661f22ef64c6f46f31c3de0822e531e72fc",
+    "trace.expression.js": "8b807e067b89d1d2d271051af0a6a5c7a36fe79779f397419918eed497e1bbe7",
+    "validate.mjs": "42e5939857898ea6b932d3dce9bd43d3bae5f1bb67a4d393160b47798f8029ca",
+    "webm-close-results.json": "a701b03773c0f5b306ab41be30a0226f06f72eb07c4597ba820f02b676ad2874",
+    "webm-results.json": "65add04a597a913ee91fdfa9b89bc7a0d66833f125425b617f87dee47d2aef79"
+  },
+  "scope": "redacted preserved actual outcomes, not post-fix release acceptance"
+}

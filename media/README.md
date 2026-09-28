@@ -7,7 +7,10 @@ by188 are only skip hints, not identification; unknown/stale hints retain the
 later code4→Q1 path. Other files and native TS capability keep Q0 first. A false
 TS signature returns Q0 after cleanup; the probe costs three metadata reads and
 one940-byte read only for eligible candidates. Extension and Google preview are
-not success evidence. This strict H264/AAC CFR slice is not all-format support.
+not success evidence. This bounded H264/AAC TS path is not all-format support. Observed DTS/PTS
+intervals are retained, including fractional cadence and independently phased
+windows. Regressions, duplicate PTS, excessive reorder, large single intervals,
+explicit discontinuities and overlapping GOP presentation remain rejected.
 
 ## Ownership
 
@@ -41,6 +44,10 @@ Absolute requests clamp to actual first/last picture anchors. A real shorter
 audio EOF stays shorter; no silence is fabricated. The source clock is sampled,
 not globally validated. The target seek promise does not hold a fragment ACK:
 the next fragment may be needed before the browser can finish the seek.
+Every muxed video timestamp is checked against its original PES timestamp.
+The final sample duration of a fragment uses observed next-DTS lookahead; only
+true EOF uses the last observed interval as an explicit duration estimate.
+No source/PES clock, encoded video/audio payload, or resolution is changed.
 
 Forward admission uses6/4-second hysteresis and retains6 seconds behind. This
 limits exposed media time, not the total JS/transport/mux/MSE/decoder memory.

@@ -1,51 +1,47 @@
-# Checkpoint — resumed after reboot — 2026-09-29
+# Checkpoint — core integration and player completion — 2026-09-29
 
 ## The story so far
 
-Canonical repo C:/extensions/Drive-Original/source; branch codex/v2-kickoff-diagnostics;
-starting local savepoint e317112 with clean tree. User explicitly resumed after reboot.
-Fixed deployed candidate b9d873926e894bb89a9faa8e638f7f0a80c0eb7e,
-app/SW1.22.0-rc.11, Worker fe556d43-9251-40c7-82bf-d138f35ebccd:
-https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
-Production v1.21.0/e08989a, general Drive writes=false, automation PAUSED.
-Normal state7docs/6writers9/48/140 and full preservation/reload/scoped empty-cache/read-old
-schema, metadata124GET stability and first ISO top-level3mediaGET956bytes are saved.
-Post-reboot actual PCM/Q1 first frame13.503s/visible presentation/keyseek/resume/close pass;
-PC-POSTREBOOT-20260929.md owns exact scope. Actual30s return unperformed: supported tab
-actions produced no native hidden state. Independent WP10 review and ISO track QA leaf
-are running; no package built. Full formats/devices/two-device/offline/normalUI/G5/G6
-remain separate. Details in STATE-NORMAL/CANDIDATE-RC11/PC-OUTPUT/ISO-HEADERS records;
-outgoing checkpoint archived as checkpoints/20260929-resume-after-reboot.md.
+Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics,
+HEAD3fa5914. Core AUTH partial-grant/verified-regrant and delayed seek-presentation fixes
+are committed locally. Full381 passed before the last AUTH repair; focused AUTH30 then
+passed. Final integrated suite is pending. Actual candidate remains b9d8739/rc.11,
+Worker fe556d43; production v1.21.0/e08989a unchanged. Actual WebM playback/seek/EOF and
+4.6GB ISO first frame before whole body passed. ISO50/90% seek false recovery was
+reproduced with native frames advancing; local fix awaits candidate replay. Actual
+MKV/AVI-declared TS failures discriminate5tick phase and rational21fps clocks.
+Astra's observed-clock/final-fragment-duration Q1 extension is ready:133Q1/20static,
+synthetic payload/frame/PCM/time conservation; root integration/live replay next.
+Sol owns UI chrome/gesture/poster patch and real local DOM checks; another Sol owns
+bounded generic remux QA foundation, no shipping integration yet. Baseline69-row
+qualification24passed/39not-run/4blocked/2N/A and fixed19-file rc.11 ZIP are preserved,
+not final acceptance. Actual evidence validator8/8 passed. Browser275137375 is gallery,
+player/source absent, retirement settled and all root QA handles/groups released.
 
 ## Decided
 
-- D-061 supersedes D-060 WAIT: existing plan continues to completion.
-- D-059: original core first; mobile reveal zone, PC cursor/overlay, loading/player
-  presentation and overall UI are queued after it.
-- D-056: pause without overlay intentional; reveal-only region must preserve play.
-- D-057: use available Android alternatives; distinguish simulation/emulator/device/iOS.
-- D-050/D-051: candidate/local/scoped state/disposable authority; no main/push/production,
-  original media changes, new grants/terms/payment, permanent delete or automation restart.
-- Volume/output settings stay untouched. Protected private recovery files remain ignored
-  and untracked, current user/SYSTEM/Admins ACL; never force-stage or delete them.
+- D-061 resumes original work after reboot; D-062 authorizes autonomous/proactive completion while user sleeps.
+- D-059 keeps original core first; a coherent AUTH/seek unit is saved, queued UI implementation now proceeds alongside core format work.
+- D-056 pause without overlay is intentional; designated reveal region preserves playback.
+- D-057 distinguish desktop touch, Android emulator/device and iOS; no sleeping-user test handoff.
+- D-050/D-051 allow local changes, free candidate deployment, own appData and bounded new disposable QA; no main merge/push/production, original-media changes/new grants/payment/permanent delete/automation restart.
+- Volume/output settings untouched; protected private backups remain ignored/untracked with existing restricted ACL.
 
 ## Waiting on the user
 
-No decision needed for current read-only playback/qualification work. Separate production
-approval remains beyond this continuation; missing physical iOS/device proof is not passed.
+No input needed for executable work. Physical-device and production authorization boundaries remain explicit and do not stop independent local/candidate work.
 
 ## Next first action
 
-Inspect current state.files aggregate/pagination in actual candidate tab275137375; select
-a current ISO candidate for the scoped track facade once its independent local checks finish.
+Read qa/v2-07b-ts-q1/video-clock.mjs and fragment-clock.mjs, review Astra's exact clock/duration fences, and integrate the ready Q1 unit without touching Sol's active app/UI hunks.
 
 ## Tried
 
-- Pre-reboot Q1 native4frames then audio-render error; fresh PCM reproduced it independently.
-  Read-only Windows default endpoints exist; lower output stage remains unknown.
-- Raw CDP Browser.getHistograms unsupported; do not retry as a route to lower-stage proof.
-- Normal disposable UI blocked by intentional general-write lock; no broad unlock for QA.
-- Historical A-012 corpus comparator and A-013 transient read causes retained; later scoped
-  passes do not explain them.
-- Prior Astra spawn hit runtime thread limit; no Astra review claimed. Fresh runtime now
-  permits a Sol medium bounded matrix review; no recursive fan-out.
+- Actual tab operations never caused native hidden state;30s PC return remains unperformed.
+- Browser.getHistograms/getWindowForTarget/TargetsetAutoAttach unsupported; do not repeat.
+- Initial whole-moov2MiB probe rejected23MB index; sparse track probe now completes38GET/1375bytes.
+- Global integer CFR grid rejected valid5tick phase and rational21fps; observed timestamps and independent mux duration binding are now implemented locally.
+- Generic MKV packets can lack duration; Q1 spike fails unknown audio duration explicitly, not invented preservation.
+- Normal disposable UI remains intentionally write-locked; restricted QA proof is not broad UI proof.
+- Historical299s read failure and A-012/A-013 causes remain unknown despite later scoped passes.
+- Raw CRLF staging inflated tracked diffs; git add --renormalize on exact tracked paths corrected it; raw ignored evidence preserves producer hashes.

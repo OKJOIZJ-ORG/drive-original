@@ -1,0 +1,361 @@
+{
+  "schema": "drive-original.actual-format-playback-rc11/1",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "declaredMime": "video/webm",
+  "declaredSize": 318571,
+  "declaredDurationMs": 3936,
+  "scope": "one-current-file-normal-UI-original-read-midpoint-seek-resume-EOF",
+  "initial": {
+    "app": "1.22.0-rc.11",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 40,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 4,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 3.938,
+    "transportVerified": true,
+    "width": 338
+  },
+  "midpointSeek": {
+    "app": "1.22.0-rc.11",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 40,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 1,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 1.969,
+    "transportVerified": true,
+    "width": 338
+  },
+  "afterResume": {
+    "app": "1.22.0-rc.11",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 80,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 4,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 3.938,
+    "transportVerified": true,
+    "width": 338
+  },
+  "nativeEvents": {
+    "events": [
+      {
+        "currentTime": 0,
+        "elapsedMs": 485,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 1762,
+        "errorCode": null,
+        "event": "loadedmetadata",
+        "frames": 0,
+        "readyState": 1
+      },
+      {
+        "currentTime": 0.000313,
+        "elapsedMs": 1798,
+        "errorCode": null,
+        "event": "loadeddata",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0.000707,
+        "elapsedMs": 1798,
+        "errorCode": null,
+        "event": "canplay",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0.001201,
+        "elapsedMs": 1799,
+        "errorCode": null,
+        "event": "playing",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 3.938,
+        "elapsedMs": 5742,
+        "errorCode": null,
+        "event": "pause",
+        "frames": 40,
+        "readyState": 4
+      },
+      {
+        "currentTime": 1.970352,
+        "elapsedMs": 81005,
+        "errorCode": null,
+        "event": "canplay",
+        "frames": 63,
+        "readyState": 4
+      },
+      {
+        "currentTime": 1.970707,
+        "elapsedMs": 81005,
+        "errorCode": null,
+        "event": "playing",
+        "frames": 63,
+        "readyState": 4
+      },
+      {
+        "currentTime": 3.938,
+        "elapsedMs": 82981,
+        "errorCode": null,
+        "event": "pause",
+        "frames": 80,
+        "readyState": 4
+      }
+    ],
+    "videoId": "videoPlayer"
+  },
+  "trace": {
+    "events": [
+      {
+        "elapsedMs": 1,
+        "stage": "intent"
+      },
+      {
+        "elapsedMs": 2,
+        "stage": "route-selecting"
+      },
+      {
+        "elapsedMs": 2,
+        "reason": "direct-original-first",
+        "stage": "route-selected"
+      },
+      {
+        "elapsedMs": 2,
+        "stage": "range-source-assigned"
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 95,
+        "stage": "media-waiting"
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 102,
+        "stage": "credential-requested",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 102,
+        "stage": "credential-ready",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 102,
+        "stage": "request-start",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 1352,
+        "stage": "headers",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "elapsedMs": 1352,
+        "reason": "first-frame-required",
+        "stage": "frame-watchdog-armed"
+      },
+      {
+        "bytes": 14553,
+        "elapsedMs": 1352,
+        "stage": "first-byte",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 1371,
+        "stage": "media-metadata"
+      },
+      {
+        "elapsedMs": 1406,
+        "stage": "media-loaded-data"
+      },
+      {
+        "elapsedMs": 1407,
+        "stage": "canplay"
+      },
+      {
+        "currentTime": 0.001297,
+        "elapsedMs": 1407,
+        "stage": "playing"
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 1462,
+        "stage": "body-progress",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 1465,
+        "stage": "body-complete",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "currentTime": 0.225274,
+        "elapsedMs": 1631,
+        "stage": "playback-progress"
+      },
+      {
+        "currentTime": 0.845447,
+        "elapsedMs": 2251,
+        "stage": "first-decoded-frame"
+      },
+      {
+        "currentTime": 1.969,
+        "elapsedMs": 79103,
+        "stage": "seeking"
+      },
+      {
+        "elapsedMs": 79103,
+        "stage": "seek-watchdog-armed",
+        "targetTime": 1.969
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 79170,
+        "stage": "credential-requested",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 79171,
+        "stage": "credential-ready",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 79171,
+        "stage": "request-start",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "currentTime": 1.969,
+        "elapsedMs": 79260,
+        "stage": "media-waiting"
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 80460,
+        "stage": "headers",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "bytes": 14553,
+        "elapsedMs": 80461,
+        "stage": "first-byte",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 80554,
+        "stage": "body-progress",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 80554,
+        "stage": "body-complete",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "currentTime": 1.969776,
+        "elapsedMs": 80612,
+        "stage": "seeked"
+      },
+      {
+        "currentTime": 1.969776,
+        "elapsedMs": 80612,
+        "presentedMediaTime": 1.875,
+        "stage": "seek-frame",
+        "targetTime": 1.969
+      },
+      {
+        "elapsedMs": 80613,
+        "reason": "playback-progress-required",
+        "stage": "frame-watchdog-armed"
+      },
+      {
+        "elapsedMs": 80613,
+        "stage": "canplay"
+      },
+      {
+        "currentTime": 1.970735,
+        "elapsedMs": 80613,
+        "stage": "playing"
+      }
+    ],
+    "ownsSink": false
+  },
+  "codecParsed": false,
+  "audibleOutputProven": false,
+  "physicalMobile": false
+}

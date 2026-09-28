@@ -127,15 +127,15 @@ test('read rejection exposes only validated transport codes, never arbitrary cal
   await assert.rejects(probe({read:async()=>new Uint8Array(188)}),/^Error: SEEK_READ_LENGTH$/);
 });
 
-test('sampled VFR, timestamp reversal and AAC drift do not become seek candidates',async()=>{
+test('sampled timestamp reversal and AAC drift do not become seek candidates',async()=>{
   const backwards=variant(records=>{const record=records.find(row=>row.videoIndex===200);shiftTimestamp(record.data,9,-300000);shiftTimestamp(record.data,14,-300000);});
   const drift=variant((records,base)=>{const audio=records.filter(row=>row.pid===base.audioPid);shiftTimestamp(audio[2].data,9,10);});
-  for(const bytes of [vfr().bytes,backwards.bytes,drift.bytes]){
+  for(const bytes of [backwards.bytes,drift.bytes]){
     await assert.rejects(probe({read:reader(bytes).read,sourceSize:bytes.length}),/^Error: SEEK_(VIDEO_CLOCK_UNPROVEN|AUDIO_CLOCK_UNPROVEN|SAMPLED_CLOCK_ORDER)$/);
   }
 });
 
-test('sampled PSI identity/CRC changes and video presentation phase changes fail closed',async()=>{
+test('sampled PSI identity/CRC changes fail closed while valid phase offsets preserve their clocks',async()=>{
   const changed=Buffer.from(fixture),broken=Buffer.from(fixture);let first=true;
   for(let position=0;position<changed.length;position+=188){
     const packet=changed.subarray(position,position+188);
@@ -150,7 +150,8 @@ test('sampled PSI identity/CRC changes and video presentation phase changes fail
   await assert.rejects(probe({read:reader(broken).read}),/^Error: SEEK_PSI_INVALID$/);
   await assert.rejects(probe({read:reader(changed).read,windowBytes:282000}),/^Error: SEEK_TOPOLOGY_CHANGED$/);
   const phase=variant(records=>{for(const record of records)if(record.videoIndex>=180)shiftTimestamp(record.data,9,1500);});
-  await assert.rejects(probe({read:reader(phase.bytes).read,sourceSize:phase.bytes.length}),/^Error: SEEK_VIDEO_CLOCK_UNPROVEN$/);
+  const plan=await probe({read:reader(phase.bytes).read,sourceSize:phase.bytes.length});
+  assert.equal(plan.timeline.videoTiming,'observed-intervals');
 });
 
 test('sampled source parameter and AAC configuration changes are not silently joined',async()=>{

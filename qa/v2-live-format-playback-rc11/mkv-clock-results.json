@@ -1,0 +1,270 @@
+{
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "facadeSHA256": "53991a52ef4466639e6a6939940e2fa03fa25183a86858ee20402e213b83e059",
+  "clockSHA256": "2a24937f4f92869b721bd7e324ea8c836af2aef37655b3215277e747a2f05b49",
+  "selectionSHA256": "1819b53ef443c16b3cbe57705ffb17cb6da1a8b2b25ddf78f11b60e20c7019e0",
+  "swRuntime": {
+    "accepted": true,
+    "controllerActivated": true,
+    "done": true,
+    "mediaGET": 0,
+    "metadataGET": 0,
+    "sameController": true,
+    "staticAssetGET": 1,
+    "version": "1.22.0-rc.11"
+  },
+  "summary": {
+    "clock": {
+      "bytesRead": 1048288,
+      "head": {
+        "audioCount": 12,
+        "dtsDeltas": {
+          "distinct": 1,
+          "values": [
+            {
+              "count": 138,
+              "value": 3003
+            }
+          ]
+        },
+        "first": {
+          "dts": 126000,
+          "idr": true,
+          "pts": 132006
+        },
+        "headStep": 3003,
+        "last": {
+          "dts": 540414,
+          "idr": false,
+          "pts": 555429
+        },
+        "leadingPartial": {
+          "audio": false,
+          "video": false
+        },
+        "ptsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 137,
+              "value": 3003
+            },
+            {
+              "count": 1,
+              "value": 12012
+            }
+          ]
+        },
+        "reorderTicks": {
+          "distinct": 6,
+          "values": [
+            {
+              "count": 27,
+              "value": 0
+            },
+            {
+              "count": 37,
+              "value": 3003
+            },
+            {
+              "count": 38,
+              "value": 6006
+            },
+            {
+              "count": 8,
+              "value": 9009
+            },
+            {
+              "count": 1,
+              "value": 12012
+            },
+            {
+              "count": 28,
+              "value": 15015
+            }
+          ]
+        },
+        "trailingPartial": {
+          "audio": false,
+          "video": true
+        },
+        "videoCount": 139,
+        "violations": []
+      },
+      "reads": 2,
+      "scope": "bounded diagnostic clock samples, no admission/decode claim",
+      "tail": {
+        "audioCount": 14,
+        "dtsDeltas": {
+          "distinct": 1,
+          "values": [
+            {
+              "count": 134,
+              "value": 3003
+            }
+          ]
+        },
+        "first": {
+          "dts": 4747622,
+          "idr": false,
+          "pts": 4753628
+        },
+        "headStep": 3003,
+        "last": {
+          "dts": 5150024,
+          "idr": false,
+          "pts": 5153027
+        },
+        "leadingPartial": {
+          "audio": false,
+          "video": true
+        },
+        "ptsDeltas": {
+          "distinct": 2,
+          "values": [
+            {
+              "count": 133,
+              "value": 3003
+            },
+            {
+              "count": 1,
+              "value": 6006
+            }
+          ]
+        },
+        "reorderTicks": {
+          "distinct": 6,
+          "values": [
+            {
+              "count": 25,
+              "value": 0
+            },
+            {
+              "count": 40,
+              "value": 3003
+            },
+            {
+              "count": 34,
+              "value": 6006
+            },
+            {
+              "count": 9,
+              "value": 9009
+            },
+            {
+              "count": 3,
+              "value": 12012
+            },
+            {
+              "count": 24,
+              "value": 15015
+            }
+          ]
+        },
+        "trailingPartial": {
+          "audio": false,
+          "video": false
+        },
+        "videoCount": 135,
+        "violations": [
+          {
+            "dts": 4747622,
+            "index": 0,
+            "previousDts": null,
+            "pts": 4753628,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4750625,
+            "index": 1,
+            "previousDts": 4747622,
+            "pts": 4750625,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4753628,
+            "index": 2,
+            "previousDts": 4750625,
+            "pts": 4756631,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4756631,
+            "index": 3,
+            "previousDts": 4753628,
+            "pts": 4771646,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4759634,
+            "index": 4,
+            "previousDts": 4756631,
+            "pts": 4765640,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4762637,
+            "index": 5,
+            "previousDts": 4759634,
+            "pts": 4762637,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4765640,
+            "index": 6,
+            "previousDts": 4762637,
+            "pts": 4768643,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          },
+          {
+            "dts": 4768643,
+            "index": 7,
+            "previousDts": 4765640,
+            "pts": 4777652,
+            "reasons": [
+              "dts-phase",
+              "pts-phase"
+            ]
+          }
+        ]
+      }
+    },
+    "complete": true,
+    "failure": null,
+    "genericUpstreamCleanup": "unknown",
+    "localReferencesReleased": true,
+    "mediaBytes": 1048288,
+    "mediaRequests": 2,
+    "metadataBytes": 2000,
+    "metadataCleanup": "body-consumed",
+    "metadataRequests": 5,
+    "schema": "drive-original.clock-live-rc11/1",
+    "sourceCleanup": {
+      "cleanupFailed": false,
+      "cleanupPending": 0,
+      "pendingCallbacks": 0,
+      "settled": true
+    }
+  }
+}

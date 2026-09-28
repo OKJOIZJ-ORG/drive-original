@@ -282,3 +282,18 @@ test('cleanup resets actual cached bytes before dispose; reset failure is not re
   const x = setup({ Mux: Broken }); feed(x); x.session.receive({ type: 'abort', generation: 7 });
   assert.equal(x.messages.at(-1).code, 'SESSION_CLEANUP_FAILED'); assert.equal(x.session.stats().muxReleased, true);
 });
+
+
+test('fragment timestamp or sample-count contradiction fails before any fragment is exposed', () => {
+  for (const type of ['tfdt','trun']) {
+    const h = setup({ Mux: changedMux((item, emit) => {
+      const data=Buffer.from(item.data),at=data.lastIndexOf(Buffer.from(type));
+      assert.ok(at>=0);
+      // Pinned combined output contains video last: corrupt its source clock or sample count.
+      data[at+(type==='tfdt'?15:11)]^=1;
+      emit({...item,data});
+    }) });
+    feed(h);assert.equal(h.messages.at(-1).code,'SESSION_FRAGMENT_CLOCK');
+    assert.equal(h.messages.some(row=>row.type==='fragment'),false);cleared(h.session);
+  }
+});
