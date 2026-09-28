@@ -299,3 +299,11 @@ Drive 파일·Range 바이트는 앱/클라이언트 범위 서비스 워커가 
 사용자는 "하던 작업 깔끔하게 완료하면 닫고 보고 후 다음작업 대기해"라고 지시했다. 진행 중인 로컬 rc.7의 Q1 단발503 복구 단위를 최종 검토·증거/체크포인트·커밋으로 닫고 보고한 뒤 대기한다. 다음401/foreground 또는 상태 이관 단위를 자동 착수하지 않는다. 전체 목표·인수 기준·D-050의 권한 경계는 그대로이며, 전체 완료나 운영 전환으로 해석하지 않는다.
 
 sweep: current checkpoint, active-goal execution state and session log now require an explicit resume before next work (2026-09-27)
+
+→ superseded in continuation by D-054 (2026-09-28)
+
+## D-054 · 기존 작업 재개와 계획의 근거 기반 조정 — 2026-09-28 (User-confirmed; supersedes D-053 waiting)
+
+사용자는 v3.0 계획서와 현재 작업 폴더 및 이전 채팅을 확인하고 "현재 상태 파악하고 하던 작업 마저 수행해"라고 지시했다. 이어 "계획서가 잘못되거나 비효율적인 부분있을수도 있으니까 계획서를 너무 떠받들지 마"라고 명확히 했다. D-053의 다음 지시 대기는 종료한다. 기존 목표와 데이터·품질·비용·운영 전환의 승인 경계는 유지하며, 구현 수단과 순서는 현재 소스·반례·비용을 근거로 조정한다. 이미 있는 인증 갱신/작성자 병합을 중복 구현하지 않는다.
+
+sweep: checkpoint, active-goal continuation and this session record reflect explicit resume; automation remains paused and production transition is not authorized (2026-09-28)
