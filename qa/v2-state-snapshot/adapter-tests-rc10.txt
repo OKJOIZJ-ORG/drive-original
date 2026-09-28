@@ -1,0 +1,33 @@
+✔ repeated complete remote reads and runtime reconstruction pass without private output or writes (51.2176ms)
+✔ pending candidate local state is separate from unchanged remote evidence (3.6671ms)
+✔ stale or incorrect runtime projection cannot pass a remote-only comparison (3.2632ms)
+✔ anonymous, writes-enabled, wrong version and media-active contexts issue no reads (0.4819ms)
+✔ account, SW controller, projection and lifecycle changes cancel without leaking raw errors (2.3133ms)
+✔ one overall deadline bounds a reader ignoring abort (26.7711ms)
+✔ generated function is valid and anonymous app lexical context cannot call Drive (4.1994ms)
+✔ final synchronous comparison cannot return success beyond its deadline (2.8803ms)
+✔ both captures share request and response-byte budgets (66.3447ms)
+✔ generated authenticated function uses raw GET once and returns only safe aggregates (9.3779ms)
+✔ generated function blocks idle-looking media with pending or unconfirmed whole-owner retirement before Drive reads (3.7074ms)
+✔ non-success raw response is rejected without consuming its unbounded JSON error body (0.8509ms)
+✔ fresh origin reconstructs legacy + writer union without mutation, retaining unlikes/viewed and existing writer identities (55.1279ms)
+✔ same counts with different private IDs or timestamps never prove equivalence (4.0841ms)
+✔ transferred captures are revalidated; malformed metadata/state/union cannot assert stability (6.3593ms)
+✔ raw schema and malformed values are rejected before product normalization loses evidence (5.0702ms)
+✔ wrong account at either boundary and false request ownership abort safely (1.5317ms)
+✔ missing listed file is fatal rather than an empty migration input (0.4982ms)
+✔ catalog pagination is complete; incomplete, duplicate and repeated pages fail (2.675ms)
+✔ one concurrent change retries only changed bodies; a second change fails (3.4644ms)
+✔ local pending replica remains private and separate from confirmed remote evidence (2.2891ms)
+✔ empty snapshot requires explicit approval and never matches a nonempty baseline (3.8072ms)
+✔ cancellation and request, byte, file, page and elapsed-time budgets stop reads (1.921ms)
+✔ deadline also bounds a noncooperative injected fetch and stalled response body (36.6122ms)
+✔ canonical comparison ignores key order and preserves prototype-like IDs (0.3836ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 300.059

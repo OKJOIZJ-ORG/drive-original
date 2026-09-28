@@ -3715,6 +3715,67 @@ test('Q1 retirement hides no pending cleanup and carries failure across later ow
   assert.equal((await second).settled,false);
 });
 
+test('Q1 worker retirement requires a matching live controller reply and closes every port/listener', async () => {
+  for (const outcome of ['ok','denied','wrong-id','wrong-generation','replaced','timeout','missing']) {
+    const context=loadAppContext(),clock=installFakeClock(context),channels=[],listeners=new Set();
+    context.MessageChannel=class {
+      constructor(){this.port1={close(){this.closed=true}};this.port2={close(){this.closed=true}};channels.push(this);}
+    };
+    let request;
+    const controller={postMessage(data){request=data}};
+    const serviceWorker={controller:outcome==='missing'?null:controller,
+      addEventListener(_name,fn){listeners.add(fn)},removeEventListener(_name,fn){listeners.delete(fn)}};
+    context.navigator.serviceWorker=serviceWorker;context.owner={swController:controller,swGeneration:8};
+    const pending=run(context,'confirmQ1WorkerRetirement(owner)');
+    if(outcome==='missing'){assert.equal(await pending,false);assert.equal(channels.length,0);continue;}
+    const handler=channels[0].port1.onmessage;
+    const reply={type:'Q1_RETIRE_RESPONSE',protocol:'drive-original-q1-retirement-v1',
+      requestId:request.requestId,retiredThroughGeneration:8,settled:true};
+    if(outcome==='replaced'){serviceWorker.controller={};for(const listener of [...listeners])listener();}
+    else if(outcome==='timeout')clock.advance(2000);
+    else {if(outcome==='denied')reply.settled=false;if(outcome==='wrong-id')reply.requestId='other';
+      if(outcome==='wrong-generation')reply.retiredThroughGeneration=9;handler({data:reply});}
+    assert.equal(await pending,outcome==='ok');
+    handler({data:{...reply,requestId:request.requestId,retiredThroughGeneration:8,settled:true}});
+    assert.ok(channels[0].port1.closed&&channels[0].port2.closed);
+    assert.equal(channels[0].port1.onmessage,null);assert.equal(channels[0].port1.onmessageerror,null);
+    assert.equal(listeners.size,0);assert.equal(clock.scheduled.size,0);
+  }
+});
+
+test('native-only initial startup assigns its source synchronously before immediate play', async () => {
+  const context=loadAppContext();
+  run(context,`const file={id:'native',size:'941'};state.selected=file;state.mediaSession=1;
+    let assigned=false,played=false;startOriginalRangePlayback=()=>{assigned=true};
+    const video={play(){if(!assigned)throw new Error('late load would abort play');played=true}};`);
+  const pending=run(context,"startInitialOriginalPlayback(file,'video',1)");
+  run(context,'video.play()');assert.equal(run(context,'played'),true);await pending;
+});
+
+test('a native sniff fallback retirement reply cannot mutate a later file, session, account or source', async () => {
+  const app=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
+  const fallback=app.slice(app.indexOf('  const resumeNative = async () => {'),app.indexOf('  const stopFailure = code => {'));
+  for(const settled of [true,false])for(const change of ['none','file','session','account','source','route','owner']){
+    const context=loadAppContext();context.retired={settled};
+    run(context,`let finish,shown=0;const file={id:'one'},session=4,account='A',accountGeneration=2,oldAttempt='native';
+      const controller=new AbortController(),owner={};const setupFinished=()=>{};
+      state.selected=file;state.mediaSession=session;state.authAccountKey=account;state.driveSessionGeneration=accountGeneration;
+      state.mediaAttempt='q1-probing';q1Playback=owner;state.mediaAbortController=controller;
+      retireQ1Playback=()=>new Promise(resolve=>finish=resolve);showMediaError=()=>shown++;
+      ${fallback}`);
+    const pending=run(context,'resumeNative()');
+    if(change==='file')run(context,"state.selected={id:'later'}");
+    if(change==='session')run(context,'state.mediaSession++');
+    if(change==='account')run(context,'state.driveSessionGeneration++');
+    if(change==='source')run(context,'mediaSourceGeneration++');
+    if(change==='route')run(context,'initialMediaRouteGeneration++');
+    if(change==='owner')run(context,'q1Playback={}');
+    run(context,'finish(retired)');await pending;
+    assert.equal(run(context,'state.mediaAttempt'),change==='none'?(settled?'native':'failed'):'q1-probing');
+    assert.equal(run(context,'shown'),change==='none'&&!settled?1:0);
+  }
+});
+
 test('native unsupported container keeps requested play intent but gesture denial clears it', async () => {
   const context = loadAppContext();context.console={warn(){}};
   run(context,`state.mediaSession=9;state.pendingPlay=true;

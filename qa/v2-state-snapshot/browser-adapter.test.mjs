@@ -136,6 +136,7 @@ test('generated authenticated function uses raw GET once and returns only safe a
   const context = vm.createContext({ AbortController, setTimeout, clearTimeout, URL, URLSearchParams, Response,
     TextDecoder, Uint8Array, APP_VERSION: JSON.parse(fs.readFileSync(new URL('../../version.json', import.meta.url))).version,
     DRIVE_MUTATIONS_ENABLED: false, state: { ...f.context.state, mediaAttempt: 'idle' }, q1Playback: null,
+    q1RetirementResult: { settled: true },
     normalizeAccountMediaState: normalize, mergeAccountMediaStates: merge, hasUsableToken: () => true,
     fetch: (url, options) => { headers.push(options); return f.context.readDriveResponse(url, options); },
     location: f.context.location, navigator: f.context.navigator, document: f.context.document,
@@ -145,6 +146,24 @@ test('generated authenticated function uses raw GET once and returns only safe a
   assert.ok(headers.every(options => options.method === 'GET' && options.redirect === 'error'
     && options.credentials === 'omit' && options.headers.Authorization === 'Bearer private-token'));
   assert.equal(JSON.stringify(result).includes('private-'), false);
+});
+
+test('generated function blocks idle-looking media with pending or unconfirmed whole-owner retirement before Drive reads', async () => {
+  const source = await buildBrowserFunction();
+  for (const retirement of [null, { settled: false }, undefined]) {
+    const f = fixture(); let reads = 0;
+    const context = vm.createContext({ AbortController, setTimeout, clearTimeout,
+      APP_VERSION: JSON.parse(fs.readFileSync(new URL('../../version.json', import.meta.url))).version,
+      DRIVE_MUTATIONS_ENABLED: false, state: { ...f.context.state, mediaAttempt: 'idle' }, q1Playback: null,
+      q1RetirementResult: retirement, normalizeAccountMediaState: normalize, mergeAccountMediaStates: merge,
+      hasUsableToken: () => true, fetch: () => { reads++; throw new Error('must not read Drive'); },
+      location: f.context.location, navigator: f.context.navigator, document: f.context.document,
+      addEventListener() {}, removeEventListener() {}, localStorage: { getItem: () => null }, accountStateCacheKey: () => 'key' });
+    const result = await vm.runInContext(`(${source})()`, context);
+    assert.equal(result.failure, 'media_busy');
+    assert.equal(result.passed, false); assert.equal(result.writeAuthorization, false);
+    assert.equal(reads, 0);
+  }
 });
 
 test('non-success raw response is rejected without consuming its unbounded JSON error body', async () => {

@@ -4,13 +4,13 @@
   "baseline": false,
   "baselineSource": null,
   "sources": {
-    "qa/q1-auth-audit.cjs": "da95e34a3ef08493a74c2a285a35b363c502789c7a6e84dac45c0dd98af87dae",
-    "index.html": "9eb9660a836570479fc7d9909960d70c715e4befeb1fcf3cee06e7e70fcb3065",
+    "qa/q1-auth-audit.cjs": "940a6c173f8ae39c9bbf8ee00b35f4337323eb76af521c715cea077f0405d08d",
+    "index.html": "4e6fd1dd65caa1f6951aaab7026045d7d6a3ffe713b0815d2e53efa0fc9c0b1b",
     "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
-    "app.js": "43ba2889b349c29e35e6075600d09886089361cf40549b374ac3541cd0e5aedc",
+    "app.js": "996b059b924f5f8b34313ab247714b67aa0ff6c913df51f61b493931d676f6ea",
     "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
-    "sw.js": "a0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478",
-    "version.json": "41d1909a1226f59b12f4dd072ab9b0ddb689ab0ba500c890a838bedfb02ebefe",
+    "sw.js": "6536fc3fe2e84c6eaf86ee079f6d9a5ee971a49033e785503f67023525ac75d5",
+    "version.json": "5e158f0b550734409237352bd2e17dd7bb525254819a8c424fea393fcba1a135",
     "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
     "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
     "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
@@ -25,15 +25,14 @@
     "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
   },
   "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
-  "nativeFixtureSha256": "e61f0fbfca7d491b69069a9e3366f252da3887ba272627c5b66f71339a906159",
-  "recordedAt": "2026-09-28T02:04:46.358Z",
+  "recordedAt": "2026-09-28T01:30:23.590Z",
   "results": [
     {
       "mode": "control",
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.166025,
+        "time": 0.142541,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -44,12 +43,12 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 102,
+        "frames": 113,
         "lastMediaTime": 12.238,
         "window": {
           "waits": 8,
           "removals": 0,
-          "peakAhead": 7.675416,
+          "peakAhead": 7.777752,
           "peakSpan": 12.031999
         },
         "disposed": false,
@@ -578,7 +577,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.129889,
+        "time": 0.162093,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -589,13 +588,13 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 115,
+        "frames": 101,
         "lastMediaTime": 12.238,
         "window": {
           "waits": 8,
-          "removals": 1,
-          "peakAhead": 7.051608000000001,
-          "peakSpan": 10.090666
+          "removals": 0,
+          "peakAhead": 7.131290000000001,
+          "peakSpan": 12.031999
         },
         "disposed": false,
         "bufferRemoved": false,
@@ -1133,7 +1132,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.164241,
+        "time": 0.174397,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -1144,13 +1143,13 @@
         "failure": null,
         "target": 0.2713333333333333,
         "appends": 6,
-        "frames": 100,
+        "frames": 107,
         "lastMediaTime": 12.238,
         "window": {
           "waits": 8,
-          "removals": 1,
-          "peakAhead": 7.0015920000000005,
-          "peakSpan": 10.090666
+          "removals": 0,
+          "peakAhead": 7.073748,
+          "peakSpan": 12.031999
         },
         "disposed": false,
         "bufferRemoved": false,
@@ -1688,7 +1687,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.147397,
+        "time": 0.179785,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -1704,7 +1703,7 @@
         "window": {
           "waits": 7,
           "removals": 1,
-          "peakAhead": 7.055464000000001,
+          "peakAhead": 7.050636000000001,
           "peakSpan": 10.090666
         },
         "disposed": false,
@@ -2243,7 +2242,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.120925,
+        "time": 0.147369,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -2254,8 +2253,8 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 26,
-        "lastMediaTime": 2.871333,
+        "frames": 24,
+        "lastMediaTime": 2.838,
         "window": {
           "waits": 4,
           "removals": 0,
@@ -2570,7 +2569,7 @@
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.144669,
+        "time": 0.127589,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -2581,12 +2580,12 @@
         "failure": "Q1_SOURCE_HEADERS",
         "target": 0.2713333333333333,
         "appends": 3,
-        "frames": 28,
+        "frames": 26,
         "lastMediaTime": 2.871333,
         "window": {
           "waits": 3,
           "removals": 0,
-          "peakAhead": 6.075645000000001,
+          "peakAhead": 6.091573,
           "peakSpan": 6.101333
         },
         "disposed": true,
@@ -2887,328 +2886,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.178913,
-        "frames": 1,
-        "session": 1,
-        "driveGeneration": 0
-      },
-      "stats": {
-        "generation": 1,
-        "phase": "failed",
-        "failure": "Q1_SOURCE_HEADERS",
-        "target": 0.2713333333333333,
-        "appends": 3,
-        "frames": 24,
-        "lastMediaTime": 2.771333,
-        "window": {
-          "waits": 4,
-          "removals": 0,
-          "peakAhead": 6.101333,
-          "peakSpan": 6.101333
-        },
-        "disposed": true,
-        "bufferRemoved": false,
-        "urlRevoked": true,
-        "previousCleanup": null,
-        "duration": 12.271333333333333,
-        "timelineKind": "sampled-candidate",
-        "bootstrap": {
-          "state": "aborted",
-          "failure": "BOOTSTRAP_ABORTED",
-          "generation": 1,
-          "readStart": 564,
-          "sourceSize": 958800,
-          "sourceOffset": 524852,
-          "sourceReceived": 524288,
-          "outputSize": 958612,
-          "outputBytes": 524520,
-          "packets": 2788,
-          "nulledPackets": 0,
-          "carryBytes": 0,
-          "prefixBytes": 0,
-          "bindingBytes": 0,
-          "psiRetainedBytes": 0,
-          "retainedBytes": 0,
-          "peakRetainedBytes": 10009,
-          "maxPushOutputBytes": 82107,
-          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
-        },
-        "worker": {
-          "status": "aborted",
-          "failure": null,
-          "terminated": true,
-          "fragmentBusy": false,
-          "sourceBytesOffered": 524520,
-          "sourceBytesConsumed": 524520,
-          "inputs": 13,
-          "detachedInputs": 13,
-          "transferredInputBytes": 524520,
-          "fragments": 3,
-          "acks": 3,
-          "peakPendingInputs": 1,
-          "worker": {
-            "state": "aborted",
-            "failure": null,
-            "generation": 1,
-            "sourceSize": 958612,
-            "consumed": 524520,
-            "inputSequence": 13,
-            "fragments": 3,
-            "acknowledged": 3,
-            "awaitingFragment": null,
-            "retainedInputBytes": 0,
-            "retainedOutputBytes": 0,
-            "outstandingOutputBytes": 0,
-            "configBytes": 0,
-            "initBytes": 0,
-            "peakInputBytes": 65536,
-            "peakOutputBytes": 149258,
-            "peakConfigBytes": 36,
-            "peakInitBytes": 1142,
-            "muxCachedGops": 0,
-            "muxCachedNalBytes": 0,
-            "muxCachedBufferBytes": 0,
-            "peakMuxCachedGops": 3,
-            "peakMuxCachedNalBytes": 348492,
-            "peakMuxCachedBufferBytes": 693225,
-            "muxReleased": true,
-            "owner": {
-              "state": "aborted",
-              "failure": "ABORTED",
-              "generation": 1,
-              "received": 524520,
-              "packets": 2790,
-              "emittedIntervals": 3,
-              "firstEmissionOffset": 164312,
-              "retainedBytes": 0,
-              "peakRetainedBytes": 177472,
-              "peakOwnedByteStorage": 849424,
-              "storageCapacity": 655360,
-              "emittedAacFrames": 286,
-              "elementary": {
-                "parameterBytes": 0,
-                "retainedFrames": 0,
-                "peakFrames": 60,
-                "videoFrames": 194,
-                "aacFrames": 308
-              },
-              "psi": {
-                "terminal": true,
-                "retainedBytes": 0,
-                "peakRetainedBytes": 410,
-                "snapshotBytes": 0,
-                "sectionCount": 0,
-                "maxRetainedEncodedBytes": 11640
-              },
-              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
-            },
-            "cleanup": {
-              "beforeGops": 3,
-              "beforeNalBytes": 348492,
-              "beforeBufferBytes": 693225,
-              "afterGops": 0,
-              "afterNalBytes": 0,
-              "afterBufferBytes": 0
-            },
-            "limits": {
-              "inputBytes": 65536,
-              "outputBytes": 2097152,
-              "muxCacheBufferBytes": 8388608
-            },
-            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
-          }
-        },
-        "sourceCleanup": {
-          "settled": true,
-          "pendingCallbacks": 0,
-          "cleanupPending": 0,
-          "cleanupFailed": false
-        },
-        "source": {
-          "state": "failed",
-          "failure": "Q1_SOURCE_HEADERS",
-          "busy": false,
-          "readsStarted": 7,
-          "readsCompleted": 6,
-          "metadataRequests": 14,
-          "rangeRequests": 7,
-          "receivedBytes": 2162144,
-          "releasedBytes": 2162144,
-          "retainedBytes": 0,
-          "peakRetainedBytes": 524144,
-          "checksumBound": true,
-          "pendingCallbacks": 0,
-          "cleanupPending": 0,
-          "cleanupFailed": false,
-          "cleanupSettled": true,
-          "maxReadBytes": 1048576,
-          "requestTimeoutMs": 70000,
-          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
-        }
-      },
-      "calls": [
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=0-939",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=0-524143",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=434656-958799",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=0-65423",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=0-524143",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=564-262707",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=262708-524851",
-          "status": 206,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "metadata",
-          "range": null,
-          "status": 200,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "range",
-          "range": "bytes=524852-786995",
-          "status": 401,
-          "credentialRevision": 1
-        },
-        {
-          "kind": "credential",
-          "rejectedRevision": 1
-        }
-      ]
-    },
-    {
-      "mode": "refresh-mismatch",
-      "passed": true,
-      "authCalls": 1,
-      "initial": {
-        "time": 0.126281,
+        "time": 0.156241,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3525,11 +3203,332 @@
       ]
     },
     {
+      "mode": "refresh-mismatch",
+      "passed": true,
+      "authCalls": 1,
+      "initial": {
+        "time": 0.161961,
+        "frames": 1,
+        "session": 1,
+        "driveGeneration": 0
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "failed",
+        "failure": "Q1_SOURCE_HEADERS",
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 26,
+        "lastMediaTime": 2.771333,
+        "window": {
+          "waits": 4,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": true,
+        "bufferRemoved": false,
+        "urlRevoked": true,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "aborted",
+          "failure": "BOOTSTRAP_ABORTED",
+          "generation": 1,
+          "readStart": 564,
+          "sourceSize": 958800,
+          "sourceOffset": 524852,
+          "sourceReceived": 524288,
+          "outputSize": 958612,
+          "outputBytes": 524520,
+          "packets": 2788,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 10009,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "aborted",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 524520,
+          "sourceBytesConsumed": 524520,
+          "inputs": 13,
+          "detachedInputs": 13,
+          "transferredInputBytes": 524520,
+          "fragments": 3,
+          "acks": 3,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "aborted",
+            "failure": null,
+            "generation": 1,
+            "sourceSize": 958612,
+            "consumed": 524520,
+            "inputSequence": 13,
+            "fragments": 3,
+            "acknowledged": 3,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 149258,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 3,
+            "peakMuxCachedNalBytes": 348492,
+            "peakMuxCachedBufferBytes": 693225,
+            "muxReleased": true,
+            "owner": {
+              "state": "aborted",
+              "failure": "ABORTED",
+              "generation": 1,
+              "received": 524520,
+              "packets": 2790,
+              "emittedIntervals": 3,
+              "firstEmissionOffset": 164312,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 177472,
+              "peakOwnedByteStorage": 849424,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 286,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 194,
+                "aacFrames": 308
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 3,
+              "beforeNalBytes": 348492,
+              "beforeBufferBytes": 693225,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "sourceCleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "source": {
+          "state": "failed",
+          "failure": "Q1_SOURCE_HEADERS",
+          "busy": false,
+          "readsStarted": 7,
+          "readsCompleted": 6,
+          "metadataRequests": 14,
+          "rangeRequests": 7,
+          "receivedBytes": 2162144,
+          "releasedBytes": 2162144,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "calls": [
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=524852-786995",
+          "status": 401,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "credential",
+          "rejectedRevision": 1
+        }
+      ]
+    },
+    {
       "mode": "close-metadata-refresh",
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.150589,
+        "time": 0.167125,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3690,7 +3689,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.135813,
+        "time": 0.172481,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -3983,7 +3982,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.164261,
+        "time": 0.159405,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4150,7 +4149,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.130825,
+        "time": 0.127445,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4449,7 +4448,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.177229,
+        "time": 0.132685,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4616,7 +4615,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.143785,
+        "time": 0.164161,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4771,7 +4770,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.171701,
+        "time": 0.126369,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -4926,7 +4925,7 @@
       "passed": true,
       "authCalls": 1,
       "initial": {
-        "time": 0.184457,
+        "time": 0.139817,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0
@@ -5081,7 +5080,7 @@
       "passed": true,
       "authCalls": 0,
       "initial": {
-        "time": 0.164753,
+        "time": 0.125749,
         "frames": 1,
         "session": 1,
         "driveGeneration": 0

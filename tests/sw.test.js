@@ -53,7 +53,7 @@ function createWorker(fetchImpl, {
   const calls = [];
   const context = {
     URL, Headers, Request, Response, ReadableStream, Date, Map, Number, Boolean,
-    AbortController,
+    AbortController, DOMException,
     setTimeout: setTimeoutImpl,
     clearTimeout: clearTimeoutImpl,
     MessageChannel: TestMessageChannel,
@@ -82,7 +82,16 @@ function createWorker(fetchImpl, {
       });
       return messages;
     },
-    message(id, data) { listeners.get('message')({ source: id ? { id } : null, data }); },
+    message(id, data, ports = []) { listeners.get('message')({ source: id ? { id } : null, data, ports }); },
+    retire(id, generation, overrides = {}) {
+      const channel = new TestMessageChannel();
+      const response = new Promise(resolve => { channel.port1.onmessage = ({ data }) => {
+        channel.port1.close(); channel.port2.close(); resolve(data);
+      }; });
+      worker.message(id, { type: 'Q1_RETIRE_REQUEST', protocol: 'drive-original-q1-retirement-v1',
+        requestId: 'retire-fixture', retiredThroughGeneration: generation, ...overrides }, [channel.port2]);
+      return { channel, response };
+    },
     setToken(id, token, overrides = {}) {
       worker.message(id, credentialEnvelope('SET_TOKEN', { clientId: id, token, ...overrides }));
     },
@@ -122,7 +131,7 @@ function createWorker(fetchImpl, {
 }
 
 function tokenResponse(message, token = 'fresh', overrides = {}) {
-  return credentialEnvelope('TOKEN_RESPONSE', {
+  return Object.assign(credentialEnvelope('TOKEN_RESPONSE', {
     clientId: message.clientId,
     token,
     requestId: message.requestId,
@@ -130,7 +139,7 @@ function tokenResponse(message, token = 'fresh', overrides = {}) {
     accountGeneration: overrides.accountGeneration ?? message.accountGeneration,
     account: overrides.account || message.expectedAccount || accountForClient(message.clientId),
     ...overrides
-  });
+  }), message.requireCurrentMedia ? { q1RetirementProtocol: 'drive-original-q1-retirement-v1' } : {});
 }
 
 function tokenReply(message, port, token = 'fresh', overrides = {}) {
@@ -232,6 +241,18 @@ test('Q1 media cannot substitute a cached token for a missing affirmative owner 
   assert.equal(worker.calls.length, 0);
 });
 
+test('an old page affirmative Q1 token reply without retirement capability cannot start upstream transport', async () => {
+  const worker = createWorker(() => { throw new Error('must not fetch'); });
+  worker.setToken('A', 'cached');
+  const messages = worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true, q1RetirementProtocol: undefined }));
+  assert.equal((await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response).status, 409);
+  assert.equal(worker.calls.length, 0);
+  assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 0);
+  assert.equal(vm.runInContext('clientCredentials.get("A").token', worker.context), 'cached');
+  assert.equal(messages.filter(message => message.type === 'TOKEN_REQUEST' && message.forceRefresh).length, 0);
+  assert.equal(messages.find(message => message.type === 'MEDIA_PROXY_ERROR').category, 'client-upgrade-required');
+});
+
 test('Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned', async () => {
   for (const mode of ['reject', 'timeout', 'abort']) {
     const scheduled = new Map(); let sequence = 0, release, reject, cancelStarted;
@@ -253,7 +274,10 @@ test('Q1 rejected-body cleanup failures terminate without refresh and fence late
     if (mode === 'timeout') {
       const timers = [...scheduled.values()]; assert.equal(timers.length, 1); assert.equal(timers[0].delay, 2000);
       timers[0].callback();
-    } else if (mode === 'abort') caller.abort();
+    } else if (mode === 'abort') {
+      caller.abort();
+      const timer = [...scheduled.values()].find(item => item.delay === 2000); assert.ok(timer); timer.callback();
+    }
     // The page may discard old entirely. The worker's fence still rejects its
     // next source; a fresh SET_TOKEN/account revision must not clear uncertainty.
     const first = await old, next = await replacement;
@@ -329,6 +353,129 @@ test('successful Q1 rejected-body cleanup releases its fence and preserves one f
   assert.equal(messages.filter(message => message.type === 'TOKEN_REQUEST' && message.forceRefresh).length, 1);
   assert.ok(worker.calls.every(call => call.headers.get('Range') === 'bytes=100-199'));
   assert.equal(vm.runInContext('q1CleanupFences.size', worker.context), 0);
+});
+
+test('Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations', async () => {
+  for (const terminal of ['eof', 'cancel']) {
+    let cancellations = 0;
+    const worker = createWorker(() => terminal === 'eof' ? partialResponse() : new Response(new ReadableStream({
+      cancel() { cancellations++; }
+    }), { status: 206, headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' } }));
+    worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true }));
+    worker.setToken('A', 'old');
+    const body = await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+    assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 1, 'headers are not retirement');
+    if (terminal === 'eof') await body.text();
+    const retirement = worker.retire('A', 3), reply = await retirement.response;
+    assert.equal(reply.settled, true); assert.equal(reply.retiredThroughGeneration, 3);
+    assert.equal(retirement.channel.port1.closed, true); assert.equal(retirement.channel.port2.closed, true);
+    assert.equal(cancellations, terminal === 'cancel' ? 1 : 0);
+    assert.equal(vm.runInContext('q1TransportOwners.size + q1CleanupFences.size', worker.context), 0);
+    assert.equal((await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response).status, 409);
+    assert.equal(worker.calls.length, 1, 'a fetch event after readiness cannot revive the retired generation');
+  }
+});
+
+test('Q1 retirement cancels an owner/token await without cancelling any shared page credential operation', async () => {
+  let reached, late;
+  const started = new Promise(resolve => { reached = resolve; });
+  const worker = createWorker(() => { throw new Error('must not fetch'); });
+  worker.addClient('A', (message, port) => { late = () => port.postMessage({ ...tokenResponse(message), requestCurrent: true }); reached(); });
+  worker.setToken('A', 'old');
+  const old = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+  const failed = assert.rejects(old, { name: 'AbortError' });
+  await started;
+  const reply = await worker.retire('A', 3).response;
+  assert.equal(reply.settled, true); await failed; late(); await new Promise(resolve => setImmediate(resolve));
+  assert.equal(worker.calls.length, 0);
+  assert.equal(vm.runInContext('tokenRequests.size + q1TransportOwners.size + q1CleanupFences.size', worker.context), 0);
+});
+
+test('Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation', async () => {
+  for (const wrapper of ['instrument','finalize']) {
+    let cancellations=0;
+    const worker=createWorker(()=>new Response(new ReadableStream({cancel(){cancellations++}}),{
+      status:206,headers:{'Content-Range':'bytes 100-199/1000','Content-Length':'100'}}));
+    worker.addClient('A',(message,port)=>port.postMessage({...tokenResponse(message),requestCurrent:true}));
+    worker.setToken('A','old');
+    let stream;
+    if(wrapper==='instrument')stream=(await worker.request('A',{mediaOwner:'q1',sourceGeneration:3}).response).body;
+    else {
+      worker.context.testBody=new ReadableStream({cancel(){cancellations++}});
+      worker.context.testSignal=new AbortController().signal;
+      stream=vm.runInContext(`finalizeMediaResponseBody(testBody,{release(){},abort(){}},
+        registerQ1TransportOwner({clientId:'A',sourceGeneration:3,requestId:'manual'},testSignal))`,worker.context);
+    }
+    const pending=stream.getReader().read();
+    const rejection=assert.rejects(pending,{name:'AbortError'});
+    assert.equal((await worker.retire('A',3).response).settled,true);
+    await rejection;assert.equal(cancellations,1);
+    assert.equal(vm.runInContext('q1TransportOwners.size + q1CleanupFences.size',worker.context),0);
+  }
+});
+
+test('Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success', async () => {
+  const timers = new Map(); let sequence = 0, arrived, deliver;
+  const started = new Promise(resolve => { arrived = resolve; });
+  const worker = createWorker(() => { arrived(); return new Promise(resolve => { deliver = resolve; }); }, {
+    setTimeoutImpl(callback, delay) { const id = ++sequence; timers.set(id, { callback, delay }); return id; },
+    clearTimeoutImpl(id) { timers.delete(id); }
+  });
+  worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true }));
+  worker.setToken('A', 'old');
+  const old = worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+  const failed = assert.rejects(old, { name: 'AbortError' });
+  await started;
+  assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 1);
+  assert.equal(vm.runInContext('q1CleanupFences.size', worker.context), 0);
+  const retirement = worker.retire('A', 3);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(worker.calls[0].signal.aborted, true);
+  const wall = [...timers.values()].find(item => item.delay === 2000); assert.ok(wall); wall.callback();
+  assert.equal((await retirement.response).settled, false);
+  assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 1, 'an ignored callback remains observed');
+  deliver(partialResponse()); await failed;
+  assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 0);
+  assert.equal(await vm.runInContext('waitForQ1CleanupFence("A")', worker.context), false);
+  assert.equal((await worker.retire('A', 3).response).settled, false);
+});
+
+test('Q1 retirement is client and generation scoped and cannot cancel newer media', async () => {
+  let cancellations = 0;
+  const worker = createWorker(() => new Response(new ReadableStream({ cancel() { cancellations++; } }), {
+    status: 206, headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }));
+  for (const id of ['A', 'B']) {
+    worker.addClient(id, (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true })); worker.setToken(id, 'old');
+  }
+  const old = await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+  const newer = await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 4 }).response;
+  const other = await worker.request('B', { mediaOwner: 'q1', sourceGeneration: 2 }).response;
+  assert.equal((await worker.retire('A', 3).response).settled, true);
+  assert.equal(cancellations, 1);
+  assert.deepEqual(worker.calls.slice(1).map(call => call.signal.aborted), [false, false]);
+  assert.equal(vm.runInContext('q1TransportOwners.size', worker.context), 2);
+  assert.equal((await worker.retire('A', 99, { protocol: 'wrong' }).response).settled, false);
+  assert.equal(cancellations, 1);
+  await newer.body.cancel(); await other.body.cancel();
+  assert.equal(vm.runInContext('q1TransportOwners.size + q1CleanupFences.size', worker.context), 0);
+});
+
+test('Q1 retirement cannot acknowledge failed body cancellation or its later resolution', async () => {
+  const timers = new Map(); let sequence = 0, release;
+  const pending = new Promise(resolve => { release = resolve; });
+  const worker = createWorker(() => new Response(new ReadableStream({ cancel: () => pending }), {
+    status: 206, headers: { 'Content-Range': 'bytes 100-199/1000', 'Content-Length': '100' }
+  }), { setTimeoutImpl(callback, delay) { const id = ++sequence; timers.set(id, { callback, delay }); return id; },
+    clearTimeoutImpl(id) { timers.delete(id); } });
+  worker.addClient('A', (message, port) => port.postMessage({ ...tokenResponse(message), requestCurrent: true })); worker.setToken('A', 'old');
+  await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+  const retirement = worker.retire('A', 3);
+  await new Promise(resolve => setImmediate(resolve));
+  const walls = [...timers.values()].filter(item => item.delay === 2000); assert.ok(walls.length >= 1); walls.forEach(item => item.callback());
+  assert.equal((await retirement.response).settled, false);
+  release(); await new Promise(resolve => setImmediate(resolve));
+  assert.equal(await vm.runInContext('waitForQ1CleanupFence("A")', worker.context), false);
 });
 
 test('acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay', async () => {

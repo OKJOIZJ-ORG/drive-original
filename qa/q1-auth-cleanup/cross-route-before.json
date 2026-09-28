@@ -1,0 +1,40 @@
+{
+  "syntheticOnly": true,
+  "sources": {
+    "sw.js": "6536fc3fe2e84c6eaf86ee079f6d9a5ee971a49033e785503f67023525ac75d5",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "app.js": "996b059b924f5f8b34313ab247714b67aa0ff6c913df51f61b493931d676f6ea",
+    "tests/sw.test.js": "bc52e0dc13244cb7e5a6eb430bd8ff4c0fd17792ab0503214fa127ba643562e5",
+    "qa/q1-auth-cleanup/cross-route-reproduce.cjs": "916826f7457953842090605aeda165aeded14df1ed4b4023b7bdeff1115169cf"
+  },
+  "observations": [
+    {
+      "mode": "headers-late",
+      "localCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      },
+      "pending401Fences": 0,
+      "nextTransportStarted": true,
+      "q0Status": 206,
+      "upstreamRequests": 2,
+      "scope": "synthetic outer abort independent of SW request; not a new live browser assertion"
+    },
+    {
+      "mode": "credential-late",
+      "localCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      },
+      "pending401Fences": 0,
+      "nextTransportStarted": true,
+      "q0Status": 206,
+      "upstreamRequests": 1,
+      "scope": "synthetic outer abort independent of SW request; not a new live browser assertion"
+    }
+  ]
+}

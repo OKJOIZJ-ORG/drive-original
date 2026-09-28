@@ -26,5 +26,12 @@ This is not a full transport retirement proof: generic Q0/direct-buffer replacem
 after an abandoned response needs its own discriminator. Keep V2-06B partial;
 do not treat the upstream abort request or generic path as confirmed cleanup.
 
+2026-09-28 resolution of that local Q1 transition follow-up: rc.10 tracks SW
+owners before headers/credentials and gates Q0/direct-buffer replacement on
+confirmed local+SW retirement. Late queries/fetches and downstream/stale-fallback
+counterexamples are tested;50actual-app cycles leave SW owners/fences0. See
+Q1-RETIREMENT-20260928.md. Real expiry/duration, generic Q0 network-resource
+release, total heap/device memory and historic299s READ_FAILED remain open.
+
 | ID | User's words (verbatim) | Our reading (`assumed`) | Breaks if wrong | Ends when | Relied on in |
 |---|---|---|---|---|---|

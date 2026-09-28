@@ -50,3 +50,9 @@ clock-based merge semantics are unchanged.
 Maintained driver and exact commands/limits: `qa/v2-state-snapshot/README.md`.
 Keep actual snapshots private and out of commits. Production, original media,
 account appData and automation remain unchanged. No merge or push was performed.
+
+Observed rc.10 lifecycle alignment: generated capture additionally requires
+q1RetirementResult.settled=true before declaring media idle. Pending, false and
+missing results fail as media_busy with zero Drive reads. Collector13 and
+adapter12 tests pass together25/25; qa/v2-state-snapshot/adapter-tests-rc10.txt
+preserves this follow-up without replacing the original11-case adapter evidence.

@@ -10,6 +10,8 @@ const hash=data=>createHash('sha256').update(data).digest('hex');
 const producerFiles=['qa/q1-product-audit.cjs',...allowed];
 const sourceHashes=()=>Object.fromEntries(producerFiles.map(file=>[file,hash(fs.readFileSync(path.join(root,file)))]));
 const sources=sourceHashes();
+const reportTag=process.env.Q1_AUDIT_REPORT_TAG||'';
+assert.ok(!reportTag||/^[a-z0-9-]{1,48}$/.test(reportTag),'SCOPED_REPORT_TAG');
 assert.equal(hash(tsBytes),'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4');
 assert.equal(hash(mp4Bytes),'178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079');
 // One inert ISO-BMFF free box produces a valid packet-aligned non-TS control.
@@ -46,7 +48,7 @@ const results=[];let browser;
     });
     const early=mode.startsWith('early-'),nativeControl=mode.startsWith('early-mp4');
     const bytes=nativeControl?(mode==='early-mp4-unaligned'?mp4Bytes:alignedMp4):tsBytes;
-    let metadataReads=0,previews=0,held=null;
+    let metadataReads=0,previews=0,held=null,actualWorker=null;
     const file={id:'synthetic-ts',name:'public-fixture.mp4',mimeType:'video/mp4',size:String(bytes.length),
       headRevisionId:'source-revision-1',version:'1',modifiedTime:'2026-09-26T00:00:00.000Z',sha256Checksum:hash(bytes),
       trashed:false,parents:['root'],capabilities:{canDownload:true},videoMediaMetadata:{width:360,height:640,durationMillis:'12254'}};
@@ -70,6 +72,7 @@ const results=[];let browser;
           capabilities:{canDownload:mode!=='early-permission-denied'}});
       }
       assert.equal(Boolean(req.serviceWorker()),true,'MEDIA_MUST_USE_PRODUCT_SW');
+      if(mode==='cycles-50')assert.equal(req.serviceWorker(),actualWorker,'MEDIA_MUST_USE_CONTROLLED_ACTUAL_SW');
       assert.equal(headers.authorization,'Bearer synthetic-test-token');
       const match=/^bytes=(\d+)-(\d*)$/.exec(headers.range||'');
       const start=match?Number(match[1]):0,end=match&&match[2]?Math.min(Number(match[2]),bytes.length-1):bytes.length-1;
@@ -87,6 +90,10 @@ const results=[];let browser;
       if(!await page.evaluate(()=>Boolean(navigator.serviceWorker.controller)))await page.reload();
       await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
       if(mode==='cycles-50'){
+        assert.equal(context.serviceWorkers().length,1,'ONE_ACTUAL_SW_PER_FRESH_CONTEXT');
+        actualWorker=context.serviceWorkers()[0];
+        assert.equal(new URL(actualWorker.url()).pathname,'/sw.js','ACTUAL_PRODUCT_SW');
+        assert.equal(await page.evaluate(()=>navigator.serviceWorker.controller.scriptURL),actualWorker.url(),'ACTUAL_SW_CONTROLS_PAGE');
         await page.evaluate(file=>{
           state.demo=false;state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
           state.authAccountKey='synthetic-account';state.accountId='synthetic-account';state.tokenRevision=1;
@@ -124,6 +131,20 @@ const results=[];let browser;
               frameCallback:state.frameCallbackId===null}};
           });
           assert.equal(cleanup.retirement.settled,true,'ACTUAL_RETIREMENT_SETTLED');
+          assert.equal(context.serviceWorkers().length,1,'ONE_SW_THROUGHOUT_CYCLES');
+          assert.equal(context.serviceWorkers()[0],actualWorker,'SAME_ACTUAL_SW_THROUGHOUT_CYCLES');
+          assert.equal(await page.evaluate(()=>navigator.serviceWorker.controller.scriptURL),actualWorker.url(),'ACTUAL_SW_STILL_CONTROLS_PAGE');
+          // Direct actual-SW ownership sample after the application's retirement barrier.
+          // Return aggregates only: client/request IDs and generation cutoffs never leave the SW.
+          cleanup.sw=await actualWorker.evaluate(async()=>{
+            const controlled=await self.clients.matchAll({type:'window',includeUncontrolled:false});
+            const liveIds=new Set(controlled.map(client=>client.id));
+            return {activeOwners:q1TransportOwners.size,cleanupFenceClients:q1CleanupFences.size,
+              retiredThroughClients:q1RetiredThrough.size,controlledWindowClients:controlled.length,
+              retiredThroughAllLive:[...q1RetiredThrough.keys()].every(id=>liveIds.has(id))};
+          });
+          assert.deepEqual(cleanup.sw,{activeOwners:0,cleanupFenceClients:0,retiredThroughClients:1,
+            controlledWindowClients:1,retiredThroughAllLive:true},'ACTUAL_SW_RETIREMENT_OWNERS_ZERO_AND_CUTOFF_MAP_BOUNDED');
           assert.equal(cleanup.player.disposed,true);assert.equal(cleanup.player.urlRevoked,true);
           assert.equal(cleanup.player.failure,null);assert.equal(cleanup.player.cleanupFailure,undefined);
           assert.equal(cleanup.player.sourceCleanup.settled,true);
@@ -289,8 +310,10 @@ const results=[];let browser;
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{
   const cycleReport=process.argv[2]==='cycles-50',separateNormal=process.env.Q1_AUDIT_REPORT==='cycles-normal16';
   const out=path.join(__dirname,cycleReport||separateNormal?'q1-cycles':'q1-product');fs.mkdirSync(out,{recursive:true});
-  const reportName=cycleReport?'cycles-50-results.json':separateNormal?'normal16-results.json':'results.json';
+  const reportName=reportTag&& (cycleReport||separateNormal)
+    ?`${cycleReport?'cycles-50':'normal16'}-${reportTag}-results.json`
+    :cycleReport?'cycles-50-results.json':separateNormal?'normal16-results.json':'results.json';
   fs.writeFileSync(path.join(out,reportName),JSON.stringify({syntheticOnly:true,passed:!process.exitCode,recordedAt:new Date().toISOString(),
-    sources,fixtures:{ts:hash(tsBytes),mp4:hash(mp4Bytes)},limits:'Local synthetic Chrome app/SW lifecycle only; owned counters and CDP DOM listeners, not total JS heap/device memory or real Drive/device acceptance.',results},null,2)+'\n');
+    sources,reportTag:reportTag||null,fixtures:{ts:hash(tsBytes),mp4:hash(mp4Bytes)},limits:'Local synthetic Chrome app/SW lifecycle only; owned counters and CDP DOM listeners, not total JS heap/device memory or real Drive/device acceptance.',results},null,2)+'\n');
   if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));
 });

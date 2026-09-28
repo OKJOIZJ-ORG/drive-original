@@ -1,8 +1,9 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.9';
+const APP_VERSION = '1.22.0-rc.10';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
+const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
 const AUTH_LOGOUT_PATH = '/api/session/logout';
 const AUTH_DISCONNECT_PATH = '/api/account/disconnect';
@@ -640,6 +641,7 @@ let initialMediaRouteGeneration = 0;
 let q1Playback = null;
 let q1Retirement = Promise.resolve({ settled: true });
 let q1RetirementResult = { settled: true };
+let q1RetirementSequence = 0;
 let pendingPlaybackRestore = null;
 
 function retireQ1Playback(owner) {
@@ -650,8 +652,9 @@ function retireQ1Playback(owner) {
   owner.retirement = (async () => {
     await owner.setupDone;
     const cleanup = await (immediate || owner.player?.dispose());
+    const workerSettled = !owner.requiresSwReadiness || await confirmQ1WorkerRetirement(owner);
     const prior = await previous;
-    return { settled: prior.settled && owner.cleanupOk !== false && cleanup?.settled !== false };
+    return { settled: prior.settled && owner.cleanupOk !== false && cleanup?.settled !== false && workerSettled };
   })().catch(() => ({ settled: false })).then(result => {
     if (q1Retirement === owner.retirement) q1RetirementResult = result;
     return result;
@@ -659,6 +662,37 @@ function retireQ1Playback(owner) {
   q1Retirement = owner.retirement;
   q1RetirementResult = null;
   return owner.retirement;
+}
+
+function confirmQ1WorkerRetirement(owner) {
+  const serviceWorker = navigator.serviceWorker, controller = owner.swController;
+  if (!controller || serviceWorker?.controller !== controller || typeof MessageChannel !== 'function') return Promise.resolve(false);
+  const generation = owner.swGeneration;
+  if (!Number.isSafeInteger(generation) || generation < 0) return Promise.resolve(false);
+  return new Promise(resolve => {
+    const channel = new MessageChannel(), requestId = `q1-retire-${++q1RetirementSequence}`;
+    let ended = false;
+    const finish = settled => {
+      if (ended) return;
+      ended = true;
+      clearTimeout(timer);
+      serviceWorker.removeEventListener?.('controllerchange', replaced);
+      channel.port1.onmessage = null; channel.port1.onmessageerror = null;
+      channel.port1.close(); channel.port2.close();
+      resolve(settled === true && serviceWorker.controller === controller);
+    };
+    const replaced = () => finish(false);
+    const timer = setTimeout(() => finish(false), 2000);
+    channel.port1.onmessage = ({ data }) => finish(data?.type === 'Q1_RETIRE_RESPONSE'
+      && data.protocol === Q1_RETIRE_PROTOCOL && data.requestId === requestId
+      && data.retiredThroughGeneration === generation && data.settled === true);
+    channel.port1.onmessageerror = replaced;
+    serviceWorker.addEventListener?.('controllerchange', replaced);
+    try {
+      controller.postMessage({ type: 'Q1_RETIRE_REQUEST', protocol: Q1_RETIRE_PROTOCOL,
+        requestId, retiredThroughGeneration: generation }, [channel.port2]);
+    } catch (_) { finish(false); }
+  });
 }
 let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
@@ -1789,6 +1823,7 @@ async function handleWorkerMessage(event) {
       type: 'TOKEN_RESPONSE',
       requestId: data.requestId,
       requestCurrent: stillCurrent,
+      q1RetirementProtocol: data.requireCurrentMedia === true ? Q1_RETIRE_PROTOCOL : undefined,
       credentialProtocol: AUTH_PROTOCOL,
       token: available && stillCurrent && hasUsableToken() ? state.token : null,
       expiresAt: available && stillCurrent && hasUsableToken() ? state.expiresAt : 0,
@@ -7197,6 +7232,18 @@ async function startInitialOriginalPlayback(file, kind, session) {
 
 function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본 구간 스트림 준비 중') {
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
+  if (q1Playback) { const prior = q1Playback; q1Playback = null; retireQ1Playback(prior); }
+  if (!q1RetirementResult) {
+    const accountGeneration = state.driveSessionGeneration;
+    void q1Retirement.then(() => {
+      if (accountGeneration === state.driveSessionGeneration) startOriginalRangePlayback(file, kind, session, message);
+    });
+    return true;
+  }
+  if (!q1RetirementResult.settled) {
+    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    return false;
+  }
   state.mediaAbortController?.abort();
   state.mediaAbortController = null;
   clearMediaSeekWatchdog('range-source');
@@ -7356,7 +7403,8 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   const controller = new AbortController();
   let setupFinished;
   const previousRetirement = q1Retirement;
-  const owner = { player: null, controller, cleanupOk: true,
+  const owner = { player: null, controller, cleanupOk: true, requiresSwReadiness: true,
+    swController: navigator.serviceWorker?.controller, swGeneration: mediaSourceGeneration,
     setupDone: new Promise(resolve => { setupFinished = resolve; }) };
   state.mediaAbortController?.abort();
   state.mediaAbortController = controller;
@@ -7365,8 +7413,20 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   const current = () => q1Playback === owner && !controller.signal.aborted
     && state.selected?.id === file.id && state.mediaSession === session
     && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration;
-  const resumeNative = () => {
-    q1Playback = null; controller.abort(); state.mediaAbortController = null; state.mediaAttempt = oldAttempt;
+  const resumeNative = async () => {
+    const sourceGeneration = mediaSourceGeneration, routeGeneration = initialMediaRouteGeneration;
+    q1Playback = null; controller.abort(); state.mediaAbortController = null;
+    setupFinished();
+    const retired = await retireQ1Playback(owner);
+    if (q1Playback || state.selected?.id !== file.id || state.mediaSession !== session
+      || state.authAccountKey !== account || state.driveSessionGeneration !== accountGeneration
+      || mediaSourceGeneration !== sourceGeneration || initialMediaRouteGeneration !== routeGeneration) return true;
+    if (!retired.settled) {
+      state.mediaAttempt = 'failed';
+      showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+      return true;
+    }
+    state.mediaAttempt = oldAttempt;
     return false;
   };
   const stopFailure = code => {
@@ -7451,6 +7511,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
         if (!current()) return;
         if (event.type === 'starting') {
           mediaSourceGeneration += 1;
+          owner.swGeneration = mediaSourceGeneration;
           clearMediaSeekWatchdog('q1-source'); clearMediaFrameWatchdog('q1-source'); cancelVideoFrameSampling();
           state.isSeeking = false; state.mediaTransportVerified = false; state.mediaTransportStarted = false;
           state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
@@ -7843,6 +7904,8 @@ async function downloadOriginalFile(
   signal,
   sourceGeneration = mediaSourceGeneration
 ) {
+  const retired = q1RetirementResult || await q1Retirement;
+  if (!retired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
   const headers = {};
   if (file.resourceKey) headers['X-Goog-Drive-Resource-Keys'] = `${file.id}/${file.resourceKey}`;
   let lastError = null;

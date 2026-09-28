@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.9';
+const VERSION = '1.22.0-rc.10';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -35,6 +35,9 @@ const tokenRequests = new Map();
 // Failed Q1 remote cleanup cannot be repaired by a new credential or source.
 // This fence belongs only to that controlled client and this worker lifetime.
 const q1CleanupFences = new Map();
+const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
+const q1TransportOwners = new Map();
+const q1RetiredThrough = new Map();
 let requestSequence = 0;
 let mediaTraceSequence = 0;
 const MEDIA_TRACE_PROGRESS_INTERVAL_MS = 250;
@@ -61,6 +64,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('message', (event) => {
   const data = event.data || {};
   const clientId = event.source?.id;
+  if (data.type === 'Q1_RETIRE_REQUEST' && event.ports?.[0]) {
+    const operation = replyQ1Retirement(event, data, clientId);
+    event.waitUntil?.(operation);
+    return;
+  }
   if (data.type === 'SET_TOKEN' && clientId) {
     const credential = normalizeCredential(data);
     const current = clientCredentials.get(clientId);
@@ -192,6 +200,12 @@ async function proxyDriveMedia(request, url, clientId) {
   if (!Number.isSafeInteger(context.accountGeneration) || context.accountGeneration < 0) {
     return mediaErrorResponse('Invalid account generation', 400);
   }
+  if (context.requireCurrentMedia && (!clientId || !Number.isSafeInteger(sourceGeneration))) {
+    return mediaErrorResponse('Invalid Q1 media owner', 400);
+  }
+  if (context.requireCurrentMedia && sourceGeneration <= (q1RetiredThrough.get(clientId) ?? -1)) {
+    return mediaErrorResponse('Q1 media source retired', 409);
+  }
   // `mediaSession` is retained until all controlled clients have moved to the
   // clearer `sessionId` field.
   context.mediaSession = context.sessionId;
@@ -231,15 +245,18 @@ async function proxyDriveMedia(request, url, clientId) {
     headers.set('Range', range);
   }
 
+  const owner = context.requireCurrentMedia ? registerQ1TransportOwner(context, request.signal) : null;
+  const transportSignal = owner?.controller.signal || request.signal;
+
   try {
-    request.signal.throwIfAborted();
+    transportSignal.throwIfAborted();
     if (context.requireCurrentMedia && !await waitForQ1CleanupFence(clientId)) {
       return q1CleanupUnconfirmedResponse();
     }
-    request.signal.throwIfAborted();
+    transportSignal.throwIfAborted();
     notifyMediaTrace(context, 'credential-requested');
-    let credential = await getUsableCredential(context, { signal: request.signal });
-    request.signal.throwIfAborted();
+    let credential = await getUsableCredential(context, { signal: transportSignal });
+    transportSignal.throwIfAborted();
     if (!credential) {
       notifyMediaTrace(context, 'credential-missing', {
         reason: 'no-usable-credential', terminal: true
@@ -250,7 +267,7 @@ async function proxyDriveMedia(request, url, clientId) {
     notifyMediaTrace(context, 'credential-ready');
     let upstreamAttempt = 0;
     const fetchMedia = async () => {
-      request.signal.throwIfAborted();
+      transportSignal.throwIfAborted();
       headers.set('Authorization', `Bearer ${credential.token}`);
       upstreamAttempt += 1;
       notifyMediaTrace(context, 'request-start', { attempt: upstreamAttempt });
@@ -260,7 +277,8 @@ async function proxyDriveMedia(request, url, clientId) {
         redirect: 'follow',
         mode: 'cors',
         cache: 'no-store'
-      }, request.signal);
+      }, transportSignal);
+      if (owner) owner.upstream = attempt;
       const response = attempt.response;
       notifyMediaTrace(context, 'headers', {
         attempt: upstreamAttempt,
@@ -276,7 +294,7 @@ async function proxyDriveMedia(request, url, clientId) {
       // Release the rejected body before the final Q1 owner handshake; a close
       // during cleanup or credential refresh must never authorize a new Range.
       if (context.requireCurrentMedia) {
-        const settled = await fenceQ1RejectedBody(clientId, upstreamFetch, request.signal);
+        const settled = await fenceQ1RejectedBody(clientId, upstreamFetch, transportSignal);
         if (!settled) {
           return q1CleanupUnconfirmedResponse();
         }
@@ -293,7 +311,7 @@ async function proxyDriveMedia(request, url, clientId) {
         credential = context.requireCurrentMedia ? await getUsableCredential(context, {
           rejectedRevision: rejectedCredential.revision,
           expectedAccount: rejectedCredential.account,
-          signal: request.signal
+          signal: transportSignal
         }) : cached;
       } else {
         if (sameCredential(clientCredentials.get(clientId), rejectedCredential)) {
@@ -303,7 +321,7 @@ async function proxyDriveMedia(request, url, clientId) {
           forceRefresh: true,
           rejectedRevision: rejectedCredential.revision,
           expectedAccount: rejectedCredential.account,
-          signal: request.signal
+          signal: transportSignal
         });
       }
       if (credential
@@ -316,7 +334,7 @@ async function proxyDriveMedia(request, url, clientId) {
       }
     }
 
-    request.signal.throwIfAborted();
+    transportSignal.throwIfAborted();
     if (!upstream.ok) {
       if (upstream.status === 401 && sameCredential(clientCredentials.get(clientId), credential)) {
         clientCredentials.delete(clientId);
@@ -345,7 +363,8 @@ async function proxyDriveMedia(request, url, clientId) {
       if (request.method === 'HEAD') upstreamFetch.release();
       const errorBody = request.method === 'HEAD'
         ? null
-        : finalizeMediaResponseBody(upstream.body, upstreamFetch);
+        : finalizeMediaResponseBody(upstream.body, upstreamFetch, owner);
+      if (owner && errorBody) owner.bodyHanded = true;
       return new Response(errorBody, {
         status: upstream.status,
         statusText: upstream.statusText,
@@ -375,8 +394,12 @@ async function proxyDriveMedia(request, url, clientId) {
     const rangeSatisfied = upstream.status === 206
       && doesContentRangeSatisfy(range, contentRange) && Boolean(lengthConsistent);
     if (upstream.status === 206 && !rangeSatisfied) {
-      await upstream.body?.cancel();
-      upstreamFetch.release();
+      if (owner) {
+        if (!await fenceQ1RejectedBody(clientId, upstreamFetch, transportSignal)) return q1CleanupUnconfirmedResponse();
+      } else {
+        await upstream.body?.cancel();
+        upstreamFetch.release();
+      }
       notifyMediaTrace(context, 'range-error', {
         status: upstream.status,
         reason: 'range-invalid',
@@ -429,13 +452,18 @@ async function proxyDriveMedia(request, url, clientId) {
           status: upstream.status,
           rangeSatisfied,
           playbackMode: rangeSatisfied ? 'original-range' : 'original-sequential'
-        }, upstreamFetch, request.signal);
+        }, upstreamFetch, transportSignal, owner);
+    if (owner && responseBody) owner.bodyHanded = true;
     return new Response(responseBody, {
       status: upstream.status,
       statusText: upstream.statusText,
       headers: responseHeaders
     });
   } catch (error) {
+    if (error?.name === 'Q1ClientUpgradeRequiredError') {
+      await notifyMediaError(context, 409, [], 0, { category: 'client-upgrade-required', driveReason: 'q1RetirementProtocol' });
+      return mediaErrorResponse('Q1 client upgrade required', 409);
+    }
     if (error?.name === 'MediaHeadersTimeoutError') {
       notifyMediaTrace(context, 'http-error', {
         status: 504,
@@ -449,7 +477,7 @@ async function proxyDriveMedia(request, url, clientId) {
       });
       return mediaErrorResponse('Drive response headers timed out', 504);
     }
-    if (request.signal.aborted || error?.name === 'AbortError') {
+    if (transportSignal.aborted || error?.name === 'AbortError') {
       notifyMediaTrace(context, 'request-cancelled', {
         reason: 'request-aborted', terminal: true
       });
@@ -466,7 +494,73 @@ async function proxyDriveMedia(request, url, clientId) {
       rangeSatisfied: false
     });
     return mediaErrorResponse('Drive streaming request failed', 502);
+  } finally {
+    if (owner && !owner.bodyHanded) {
+      const settled = !owner.upstream || await fenceQ1RejectedBody(clientId, owner.upstream);
+      owner.complete(settled);
+    }
   }
+}
+
+function markQ1CleanupUncertain(clientId) {
+  const fence = q1CleanupFences.get(clientId) || {};
+  fence.completion = Promise.resolve(false);
+  q1CleanupFences.set(clientId, fence);
+}
+
+function registerQ1TransportOwner(context, callerSignal) {
+  let resolve;
+  const controller = new AbortController();
+  const owner = { clientId: context.clientId, sourceGeneration: context.sourceGeneration,
+    controller, upstream: null, bodyHanded: false, cancelBody: null, retiring: false, finished: false,
+    completion: new Promise(done => { resolve = done; }),
+    retire() {
+      owner.retiring = true;
+      // Start real body cancellation before aborting its transport. The query
+      // never treats the abort request itself as a completion acknowledgement.
+      const cancellation = owner.cancelBody?.();
+      cancellation?.catch(() => {});
+      controller.abort();
+    },
+    complete(settled) {
+      if (owner.finished) return;
+      owner.finished = true;
+      callerSignal.removeEventListener('abort', retired);
+      if (!settled) markQ1CleanupUncertain(context.clientId);
+      q1TransportOwners.delete(context.requestId);
+      resolve(settled === true);
+    }
+  };
+  const retired = () => owner.retire();
+  q1TransportOwners.set(context.requestId, owner);
+  callerSignal.addEventListener('abort', retired, { once: true });
+  if (callerSignal.aborted) retired();
+  return owner;
+}
+
+async function replyQ1Retirement(event, data, clientId) {
+  const port = event.ports[0];
+  const valid = clientId && data.protocol === Q1_RETIRE_PROTOCOL
+    && typeof data.requestId === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(data.requestId)
+    && Number.isSafeInteger(data.retiredThroughGeneration) && data.retiredThroughGeneration >= 0;
+  let settled = false, timer;
+  try {
+    if (valid) {
+      q1RetiredThrough.set(clientId, Math.max(q1RetiredThrough.get(clientId) ?? -1, data.retiredThroughGeneration));
+      const owners = [...q1TransportOwners.values()].filter(owner => owner.clientId === clientId
+        && owner.sourceGeneration <= data.retiredThroughGeneration);
+      owners.forEach(owner => owner.retire());
+      const confirmation = Promise.all(owners.map(owner => owner.completion)).then(async values =>
+        values.every(Boolean) && await waitForQ1CleanupFence(clientId));
+      settled = await Promise.race([confirmation, new Promise(resolve => {
+        timer = setTimeout(() => resolve(false), Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS);
+      })]);
+      if (!settled) markQ1CleanupUncertain(clientId);
+    }
+    port.postMessage({ type: 'Q1_RETIRE_RESPONSE', protocol: Q1_RETIRE_PROTOCOL,
+      requestId: data.requestId, retiredThroughGeneration: data.retiredThroughGeneration, settled: settled === true });
+  } catch (_) { if (valid) markQ1CleanupUncertain(clientId); }
+  finally { clearTimeout(timer); port.close(); void pruneQ1CleanupFences(); }
 }
 
 function q1CleanupUnconfirmedResponse() {
@@ -502,10 +596,14 @@ function fenceQ1RejectedBody(clientId, upstreamFetch, signal) {
 }
 
 async function pruneQ1CleanupFences() {
-  for (const [clientId, fence] of q1CleanupFences) {
+  for (const clientId of new Set([...q1CleanupFences.keys(), ...q1RetiredThrough.keys()])) {
+    const fence = q1CleanupFences.get(clientId);
     try {
       const client = await self.clients.get(clientId);
-      if (!client && q1CleanupFences.get(clientId) === fence) q1CleanupFences.delete(clientId);
+      if (!client) {
+        if (q1CleanupFences.get(clientId) === fence) q1CleanupFences.delete(clientId);
+        q1RetiredThrough.delete(clientId);
+      }
     } catch (_) { /* An unavailable client lookup is not proof of teardown. */ }
   }
 }
@@ -522,16 +620,18 @@ function cancelQ1RejectedBody(upstreamFetch, signal) {
       clearTimeout(timer);
       signal?.removeEventListener('abort', interrupted);
       if (!settled) upstreamFetch.abort();
-      upstreamFetch.release();
-      resolve(settled);
+      let confirmed = settled;
+      try { upstreamFetch.release(); } catch (_) { confirmed = false; upstreamFetch.abort(); }
+      resolve(confirmed);
     };
-    const interrupted = () => finish(false);
-    const timer = setTimeout(interrupted, Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS);
+    const interrupted = () => upstreamFetch.abort();
+    const timer = setTimeout(() => finish(false), Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS);
     signal?.addEventListener('abort', interrupted, { once: true });
     // Observe late rejection too. A timeout cannot make its late settlement
     // authorize a refresh or retry, and no reader lock is acquired here.
-    Promise.resolve().then(() => upstreamFetch.response.body?.cancel())
-      .then(() => finish(true), () => finish(false));
+    let cancellation;
+    try { cancellation = upstreamFetch.response.body?.cancel(); } catch (_) { finish(false); }
+    Promise.resolve(cancellation).then(() => finish(true), () => finish(false));
     if (signal?.aborted) interrupted();
   });
 }
@@ -584,40 +684,66 @@ function normalizeMediaTraceId(value) {
   return /^[A-Za-z0-9._-]{1,80}$/.test(traceId) ? traceId : '';
 }
 
-function finalizeMediaResponseBody(body, upstreamFetch) {
+function createQ1BodyCancellation(owner, reader, upstreamFetch, terminal) {
+  let cancellation;
+  return reason => {
+    if (cancellation) return cancellation;
+    owner.retiring = true;
+    terminal();
+    cancellation = fenceQ1RejectedBody(owner.clientId, {
+      response: { body: { cancel: () => reader.cancel(reason) } },
+      abort: () => upstreamFetch?.abort?.(reason),
+      release() { upstreamFetch?.release?.(); reader.releaseLock?.(); }
+    }).then(settled => {
+      owner.complete(settled);
+      if (!settled) throw new Error('Q1_REMOTE_CLEANUP_UNCONFIRMED');
+    });
+    return cancellation;
+  };
+}
+
+function finalizeMediaResponseBody(body, upstreamFetch, owner = null) {
   if (!body || typeof body.getReader !== 'function') {
     upstreamFetch?.release?.();
     return body;
   }
   const reader = body.getReader();
   let settled = false;
+  let downstream;
   const settle = () => {
     if (settled) return false;
     settled = true;
     upstreamFetch?.release?.();
-    try { reader.releaseLock?.(); } catch (_) {}
-    return true;
+    try { reader.releaseLock?.(); return true; } catch (_) { return false; }
   };
+  if (owner) owner.cancelBody = createQ1BodyCancellation(owner, reader, upstreamFetch, () => {
+    settled = true;
+    try { downstream.error(new DOMException('Q1 transport retired', 'AbortError')); } catch (_) {}
+  });
   return new ReadableStream({
+    start(controller) { downstream = controller; },
     async pull(controller) {
       try {
         const { done, value } = await reader.read();
         if (settled) return;
         if (done) {
-          settle();
+          const released = settle();
+          if (owner && !owner.retiring) owner.complete(released);
           controller.close();
           return;
         }
         controller.enqueue(value);
       } catch (error) {
         if (!settled) {
-          settle();
+          const released = settle();
+          if (owner && !owner.retiring) owner.complete(released);
           controller.error(error);
         }
       }
     },
     async cancel(reason) {
       if (settled) return;
+      if (owner) return owner.cancelBody(reason);
       upstreamFetch?.abort?.(reason);
       try { await reader.cancel(reason); } catch (_) {}
       settle();
@@ -625,7 +751,7 @@ function finalizeMediaResponseBody(body, upstreamFetch) {
   }, { highWaterMark: 0 });
 }
 
-function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch = null, requestSignal = null) {
+function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch = null, requestSignal = null, owner = null) {
   if (!body || typeof body.getReader !== 'function') {
     upstreamFetch?.release?.();
     return body;
@@ -640,6 +766,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
   let terminalWinner = '';
   let terminalError = null;
   let terminalNotificationPromise = null;
+  let downstream;
 
   const clearProgressDeadline = () => {
     const deadline = progressDeadline;
@@ -649,16 +776,22 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
     deadline.resolve(null);
   };
   const releaseReaderLock = () => {
-    try { reader.releaseLock?.(); } catch (_) {}
+    try { reader.releaseLock?.(); return true; } catch (_) { return false; }
   };
   const claimTerminal = (winner, releaseLock = true) => {
     if (terminalWinner) return false;
     terminalWinner = winner;
     clearProgressDeadline();
     upstreamFetch?.release?.();
-    if (releaseLock) releaseReaderLock();
+    const lockReleased = !releaseLock || releaseReaderLock();
+    if (owner && !owner.retiring && ['body-complete', 'body-error', 'request-cancelled'].includes(winner)) owner.complete(lockReleased);
     return true;
   };
+  if (owner) owner.cancelBody = createQ1BodyCancellation(owner, reader, upstreamFetch,
+    () => {
+      claimTerminal('consumer-cancelled', false);
+      try { downstream.error(new DOMException('Q1 transport retired', 'AbortError')); } catch (_) {}
+    });
   const armProgressDeadline = () => {
     if (terminalWinner || progressDeadline) return progressDeadline;
     const firstByteWait = !firstByteSeen;
@@ -710,7 +843,8 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
         () => deadline.resolve(timeoutError),
         () => deadline.resolve(timeoutError)
       );
-      upstreamFetch?.abort?.(timeoutError);
+      if (owner) owner.retire();
+      else upstreamFetch?.abort?.(timeoutError);
     }, timeoutMs);
     progressDeadline = deadline;
     return deadline;
@@ -718,7 +852,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
   const failBodyLength = async (controller, actualBytes) => {
     const lengthError = new Error('Drive media body length mismatch');
     lengthError.name = 'MediaBodyLengthError';
-    if (claimTerminal('body-length-error')) {
+    if (claimTerminal('body-length-error', !owner)) {
       notifyMediaTrace(context, 'body-error', {
         ...details,
         bytes: actualBytes,
@@ -731,11 +865,13 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
         driveReason: 'bodyLengthMismatch',
         rangeSatisfied: false
       });
-      upstreamFetch?.abort?.(lengthError);
+      if (owner) owner.retire();
+      else upstreamFetch?.abort?.(lengthError);
     }
     controller.error(lengthError);
   };
   return new ReadableStream({
+    start(controller) { downstream = controller; },
     async pull(controller) {
       if (terminalWinner) return;
       const deadline = armProgressDeadline();
@@ -748,7 +884,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
           const pendingRead = reader.read();
           const readResult = await Promise.race([pendingRead, deadlineResult]);
           if (terminalWinner) {
-            releaseReaderLock();
+            if (!owner?.retiring) releaseReaderLock();
             if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
               await terminalNotificationPromise;
               controller.error(terminalError);
@@ -806,7 +942,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
         }
       } catch (error) {
         if (terminalWinner) {
-          releaseReaderLock();
+          if (!owner?.retiring) releaseReaderLock();
           if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
             await terminalNotificationPromise;
             controller.error(terminalError || error);
@@ -828,6 +964,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
       }
     },
     async cancel(reason) {
+      if (owner) return owner.cancelBody(reason);
       const shouldTrace = claimTerminal('consumer-cancelled', false);
       if (!shouldTrace) {
         if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
@@ -945,7 +1082,7 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
   signal?.throwIfAborted();
   if (!client) return null;
   const requestId = `token-${++requestSequence}`;
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     let resolved = false;
     const channel = new MessageChannel();
     const finish = (data) => {
@@ -958,8 +1095,14 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
       channel.port2.close();
       // SET_TOKEN updates the shared account cache, not this media lease. An
       // owner-required request needs an affirmative reply for its exact id.
-      if (context.requireCurrentMedia && data?.requestCurrent !== true) { resolve(null); return; }
       const received = normalizeCredential(data);
+      if (context.requireCurrentMedia && data?.requestCurrent === true
+        && data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL && received && credentialMatchesContext(received, context)) {
+        const error = new Error('Q1 client upgrade required'); error.name = 'Q1ClientUpgradeRequiredError';
+        reject(error); return;
+      }
+      if (context.requireCurrentMedia && (data?.requestCurrent !== true
+        || data.q1RetirementProtocol !== Q1_RETIRE_PROTOCOL)) { resolve(null); return; }
       if (received && credentialMatchesContext(received, context)
         && (!Number.isSafeInteger(rejectedRevision) || received.revision > rejectedRevision)) {
         const current = clientCredentials.get(context.clientId);

@@ -1,0 +1,20 @@
+
+> check
+> wrangler deploy --dry-run --config wrangler.jsonc --outdir .wrangler/dry-run
+
+
+ ⛅️ wrangler 4.135.0 (update available 4.142.0)
+───────────────────────────────────────────────
+✨ Read 21 files from the assets directory C:\extensions\Drive-Original\source\_site
+Total Upload: 61.43 KiB / gzip: 14.18 KiB
+Your Worker has access to the following bindings:
+Binding                                                                              Resource
+env.AUTH_OBJECTS (AuthObject)                                                        Durable Object
+env.ASSETS                                                                           Assets
+env.AUTH_ENABLED ("true")                                                            Environment Variable
+env.AUTH_DIAGNOSTICS ("true")                                                        Environment Variable
+env.CANDIDATE_DRIVE_WRITES_ENABLED ("false")                                         Environment Variable
+env.PUBLIC_ORIGIN ("https://drive-original-v2-candidate.d...")                       Environment Variable
+env.GOOGLE_CLIENT_ID ("376776089602-t0te7oadl7ki589fnfdfhs17...")                    Environment Variable
+
+--dry-run: exiting now.

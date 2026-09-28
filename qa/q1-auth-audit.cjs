@@ -3,10 +3,15 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
 const {createHash}=require('node:crypto'),{execFileSync}=require('node:child_process'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),allowed=new Set(require('../scripts/public-files.cjs'));
-const bytes=fs.readFileSync(path.join(__dirname,'v2-07b-ts-q1/synthetic-bframes-audiolead.ts'));
+const tsBytes=fs.readFileSync(path.join(__dirname,'v2-07b-ts-q1/synthetic-bframes-audiolead.ts'));
 const hash=value=>createHash('sha256').update(value).digest('hex');
-assert.equal(hash(bytes),'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4');
+assert.equal(hash(tsBytes),'e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4');
+const mp4Bytes=fs.readFileSync(path.join(__dirname,'faststart-h264-aac.mp4'));
+assert.equal(hash(mp4Bytes),'178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079');
+const padding=Buffer.alloc((188-mp4Bytes.length%188)%188+188);padding.writeUInt32BE(padding.length);padding.write('free',4);
+const alignedMp4=Buffer.concat([mp4Bytes,padding]);
 const baseline=process.argv.includes('--baseline'),baselineSource=baseline?'bc6a9aa':null;
+const retirementRun=process.argv.includes('--retirement');
 const selected=process.argv.slice(2).find(value=>!value.startsWith('--'));
 const publicBytes=file=>baseline?execFileSync('git',['show',`${baselineSource}:${file}`],{cwd:root,maxBuffer:5e6}):fs.readFileSync(path.join(root,file));
 const sourceHashes=()=>Object.fromEntries(['qa/q1-auth-audit.cjs',...allowed].map(file=>
@@ -16,7 +21,7 @@ const sources=sourceHashes(),mime={'.js':'text/javascript','.mjs':'text/javascri
 const server=http.createServer((req,res)=>{const file=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html';
   if(!allowed.has(file))return res.writeHead(404).end();
   res.writeHead(200,{'Content-Type':mime[path.extname(file)],'Cache-Control':'no-store'}).end(publicBytes(file));});
-const modes=['control','range-401','metadata-401','same-token-401','repeat-401','range-403','refresh-unavailable','refresh-mismatch',
+const modes=retirementRun?['control','sniff-native','close-lateheaders','close-range-refresh']:['control','range-401','metadata-401','same-token-401','repeat-401','range-403','refresh-unavailable','refresh-mismatch',
   'close-metadata-refresh','seek-metadata-refresh','close-range-refresh','seek-range-refresh','account-refresh',
   'foreground-pageshow','foreground-focus','foreground-visible','foreground-offline'];
 const results=[];let browser;
@@ -25,6 +30,7 @@ const results=[];let browser;
   browser=await chromium.launch({channel:'chrome',headless:true});
   for(const mode of modes){
     if(selected&&selected!==mode&&mode!=='control')continue;
+    const bytes=mode==='sniff-native'?alignedMp4:tsBytes;
     const context=await browser.newContext(),page=await context.newPage(),calls=[],errors=[];
     let armed=false,faults=0,authCalls=0,previews=0,held=null;
     const file={id:'synthetic-auth-ts',name:'public-fixture.mp4',mimeType:'video/mp4',size:String(bytes.length),
@@ -72,8 +78,9 @@ const results=[];let browser;
       const media=url.searchParams.get('alt')==='media',old=headers.authorization==='Bearer synthetic-old';
       assert.ok(old||headers.authorization==='Bearer synthetic-new');
       const metadataFault=mode==='metadata-401'||mode.includes('metadata-refresh');
+      if(armed&&mode==='close-lateheaders'&&media&&!held){held=route;calls.push({kind:'held-range',range:headers.range});return;}
       const fail=armed&&((metadataFault&&!media&&old&&faults===0)||(!metadataFault&&media
-        &&!mode.startsWith('foreground-')&&mode!=='control'&&(faults===0||mode==='repeat-401')));
+        &&!mode.startsWith('foreground-')&&!['control','sniff-native','close-lateheaders'].includes(mode)&&(faults===0||mode==='repeat-401')));
       if(fail)faults++;
       const status=fail?(mode==='range-403'?403:401):media?206:200;
       calls.push({kind:media?'range':'metadata',range:headers.range||null,status,
@@ -82,8 +89,8 @@ const results=[];let browser;
         body:JSON.stringify({error:{errors:[{reason:status===403?'insufficientFilePermissions':'authError'}]}})});
       if(!media)return route.fulfill({contentType:'application/json',headers:cors,body:JSON.stringify(file)});
       assert.equal(Boolean(request.serviceWorker()),true);
-      const match=/^bytes=(\d+)-(\d+)$/.exec(headers.range||'');assert.ok(match,'BOUNDED_RANGE_REQUIRED');
-      const start=Number(match[1]),end=Number(match[2]);assert.ok(end<bytes.length&&end-start<1048576);
+      const match=(mode==='sniff-native'?/^bytes=(\d+)-(\d*)$/:/^bytes=(\d+)-(\d+)$/).exec(headers.range||'');assert.ok(match,'BOUNDED_RANGE_REQUIRED');
+      const start=Number(match[1]),end=match[2]?Number(match[2]):bytes.length-1;assert.ok(end<bytes.length&&(mode==='sniff-native'||end-start<1048576));
       return route.fulfill({status:206,headers:{...cors,'Content-Type':'video/mp4','Content-Length':String(end-start+1),
         'Content-Range':`bytes ${start}-${end}/${bytes.length}`},body:bytes.subarray(start,end+1)});
     });
@@ -97,11 +104,34 @@ const results=[];let browser;
         el.videoPlayer.defaultPlaybackRate=4;el.videoPlayer.playbackRate=4;
         sendTokenToWorker();startInitialOriginalPlayback(file,'video',state.mediaSession);
       },file);
+      if(mode==='sniff-native'){
+        await page.waitForFunction(()=>q1Playback===null&&q1RetirementResult?.settled===true&&state.mediaAttempt==='range');
+        assert.equal(await page.evaluate(()=>Boolean(el.videoPlayer.getAttribute('src'))),true);
+        await page.evaluate(()=>closePlayer({preserveHistory:true}));
+        assert.equal((await page.evaluate(()=>q1Retirement)).settled,true);
+        const worker=context.serviceWorkers()[0];assert.ok(worker);
+        const owners=await worker.evaluate(()=>({active:q1TransportOwners.size,uncertain:q1CleanupFences.size,tokens:tokenRequests.size}));
+        assert.deepEqual(owners,{active:0,uncertain:0,tokens:0});
+        assert.equal(previews,0);assert.deepEqual(errors,[]);
+        results.push({mode,passed:true,nativeFallbackAssigned:true,owners,calls});
+        continue;
+      }
       await page.waitForFunction(()=>state.mediaDecodeVerified&&el.videoPlayer.currentTime>.1);
       const initial=await page.evaluate(()=>{window.testPlayer=q1Playback.player;return {time:el.videoPlayer.currentTime,frames:q1Playback.player.stats().frames,
         session:state.mediaSession,driveGeneration:state.driveSessionGeneration};});
       assert.ok(initial.frames>0);armed=mode!=='control';
-      if(mode.startsWith('foreground-')){
+      if(mode==='close-lateheaders'){
+        const end=Date.now()+15000;while(!held&&Date.now()<end)await new Promise(resolve=>setTimeout(resolve,25));assert.ok(held,'HELD_HEADERS_NOT_REACHED');
+        const worker=context.serviceWorkers()[0];assert.ok(worker);
+        assert.ok(await worker.evaluate(()=>q1TransportOwners.size)>0,'PREHEADER_OWNER_MUST_EXIST');
+        await page.evaluate(()=>closePlayer({preserveHistory:true}));
+        assert.equal((await page.evaluate(()=>q1Retirement)).settled,true,'NATIVE_ABORT_MUST_ACTUALLY_SETTLE_SW_FETCH');
+        await held.fulfill({status:401,contentType:'application/json',body:'{}'}).catch(()=>{});held=null;
+        await page.waitForTimeout(100);
+        const owners=await worker.evaluate(()=>({active:q1TransportOwners.size,uncertain:q1CleanupFences.size,tokens:tokenRequests.size}));
+        assert.deepEqual(owners,{active:0,uncertain:0,tokens:0});assert.equal(authCalls,0);
+        results.push({mode,passed:true,initial,owners,calls});
+      }else if(mode.startsWith('foreground-')){
         await page.evaluate(mode=>{
           el.videoPlayer.pause();window.qaReturnTime=el.videoPlayer.currentTime;
           clearTimeout(tokenRenewalTimer);tokenRenewalTimer=null;state.expiresAt=Date.now()-1000;
@@ -176,13 +206,18 @@ const results=[];let browser;
         results.push({mode,passed:true,authCalls,initial,stats,calls,workerBytes});
       }
       assert.equal(previews,0);assert.deepEqual(errors,[]);
+      if(retirementRun){
+        const worker=context.serviceWorkers()[0];assert.ok(worker);
+        const owners=await worker.evaluate(()=>({active:q1TransportOwners.size,uncertain:q1CleanupFences.size,tokens:tokenRequests.size}));
+        assert.deepEqual(owners,{active:0,uncertain:0,tokens:0});results.at(-1).owners=owners;
+      }
     }catch(error){results.push({mode,passed:false,error:error.message,calls,authCalls,stats:await page.evaluate(()=>window.testPlayer?.stats()).catch(()=>null)});throw error;}
     finally{await held?.abort().catch(()=>{});await context.close();}
   }
   assert.deepEqual(sourceHashes(),sources,'PRODUCERS_CHANGED_DURING_RUN');
 })().catch(error=>{console.error(error.message);process.exitCode=1;}).finally(async()=>{
-  await browser?.close();await new Promise(resolve=>server.close(resolve));const out=path.join(__dirname,'q1-auth');fs.mkdirSync(out,{recursive:true});
-  fs.writeFileSync(path.join(out,`${baseline?'before':'results'}${selected?'-'+selected:''}.json`),JSON.stringify({passed:!process.exitCode,
-    syntheticOnly:true,baseline,baselineSource,sources,fixtureSha256:hash(bytes),recordedAt:new Date().toISOString(),results},null,2)+'\n');
+  await browser?.close();await new Promise(resolve=>server.close(resolve));const out=path.join(__dirname,retirementRun?'q1-auth-cleanup':'q1-auth');fs.mkdirSync(out,{recursive:true});
+  fs.writeFileSync(path.join(out,retirementRun?'actual-retirement.json':`${baseline?'before':'results'}${selected?'-'+selected:''}.json`),JSON.stringify({passed:!process.exitCode,
+    syntheticOnly:true,baseline,baselineSource,sources,fixtureSha256:hash(tsBytes),nativeFixtureSha256:hash(alignedMp4),recordedAt:new Date().toISOString(),results},null,2)+'\n');
   console.log(JSON.stringify({baseline,passed:!process.exitCode,cases:results.length}));
 });

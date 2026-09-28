@@ -27,7 +27,8 @@ export async function buildBrowserFunction() {
       normalize: normalizeAccountMediaState, merge: mergeAccountMediaStates,
       location, navigator, document,
       mediaIdle: () => state.mediaAttempt === 'idle' && !q1Playback && !state.mediaAbortController
-        && !state.mediaBlobUrl && !state.mediaTempStorage && !state.pendingOriginalBuffer,
+        && !state.mediaBlobUrl && !state.mediaTempStorage && !state.pendingOriginalBuffer
+        && q1RetirementResult?.settled === true,
       readLocalReplica: () => {
         const raw = localStorage.getItem(accountStateCacheKey());
         if (raw === null) return null;
