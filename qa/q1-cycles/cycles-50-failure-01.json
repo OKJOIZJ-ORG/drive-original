@@ -1,0 +1,805 @@
+{
+  "syntheticOnly": true,
+  "passed": false,
+  "recordedAt": "2026-09-28T01:34:05.431Z",
+  "sources": {
+    "qa/q1-product-audit.cjs": "b4af3182f6db2d2bad0c961b00e4f05bc66e7d5dd87a296f9c61420344b881b0",
+    "index.html": "4e6fd1dd65caa1f6951aaab7026045d7d6a3ffe713b0815d2e53efa0fc9c0b1b",
+    "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
+    "app.js": "996b059b924f5f8b34313ab247714b67aa0ff6c913df51f61b493931d676f6ea",
+    "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
+    "sw.js": "6536fc3fe2e84c6eaf86ee079f6d9a5ee971a49033e785503f67023525ac75d5",
+    "version.json": "5e158f0b550734409237352bd2e17dd7bb525254819a8c424fea393fcba1a135",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+  },
+  "fixtures": {
+    "ts": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+    "mp4": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079"
+  },
+  "limits": "Local synthetic Chrome app/SW lifecycle only; owned counters and CDP DOM listeners, not total JS heap/device memory or real Drive/device acceptance.",
+  "results": [
+    {
+      "mode": "cycles-50",
+      "passed": false,
+      "error": "CLOSED_DOM_LISTENERS_STABLE\n\n698 !== 470\n",
+      "errors": [],
+      "calls": [
+        {
+          "kind": "metadata",
+          "sequence": 1
+        },
+        {
+          "kind": "metadata",
+          "sequence": 2
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939
+        },
+        {
+          "kind": "metadata",
+          "sequence": 3
+        },
+        {
+          "kind": "metadata",
+          "sequence": 4
+        },
+        {
+          "kind": "metadata",
+          "sequence": 5
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 6
+        },
+        {
+          "kind": "metadata",
+          "sequence": 7
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 8
+        },
+        {
+          "kind": "metadata",
+          "sequence": 9
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 10
+        },
+        {
+          "kind": "metadata",
+          "sequence": 11
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 12
+        },
+        {
+          "kind": "metadata",
+          "sequence": 13
+        },
+        {
+          "kind": "media",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707
+        },
+        {
+          "kind": "metadata",
+          "sequence": 14
+        },
+        {
+          "kind": "metadata",
+          "sequence": 15
+        },
+        {
+          "kind": "media",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851
+        },
+        {
+          "kind": "metadata",
+          "sequence": 16
+        },
+        {
+          "kind": "metadata",
+          "sequence": 17
+        },
+        {
+          "kind": "metadata",
+          "sequence": 18
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 19
+        },
+        {
+          "kind": "metadata",
+          "sequence": 20
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 21
+        },
+        {
+          "kind": "metadata",
+          "sequence": 22
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 23
+        },
+        {
+          "kind": "metadata",
+          "sequence": 24
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 25
+        },
+        {
+          "kind": "metadata",
+          "sequence": 26
+        },
+        {
+          "kind": "media",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707
+        },
+        {
+          "kind": "metadata",
+          "sequence": 27
+        },
+        {
+          "kind": "metadata",
+          "sequence": 28
+        },
+        {
+          "kind": "media",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851
+        },
+        {
+          "kind": "metadata",
+          "sequence": 29
+        },
+        {
+          "kind": "metadata",
+          "sequence": 30
+        },
+        {
+          "kind": "media",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995
+        },
+        {
+          "kind": "metadata",
+          "sequence": 31
+        },
+        {
+          "kind": "metadata",
+          "sequence": 32
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 33
+        },
+        {
+          "kind": "metadata",
+          "sequence": 34
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 35
+        },
+        {
+          "kind": "metadata",
+          "sequence": 36
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 37
+        },
+        {
+          "kind": "metadata",
+          "sequence": 38
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 39
+        },
+        {
+          "kind": "metadata",
+          "sequence": 40
+        },
+        {
+          "kind": "media",
+          "range": "bytes=322044-584187",
+          "start": 322044,
+          "end": 584187
+        },
+        {
+          "kind": "metadata",
+          "sequence": 41
+        },
+        {
+          "kind": "metadata",
+          "sequence": 42
+        },
+        {
+          "kind": "media",
+          "range": "bytes=584188-846331",
+          "start": 584188,
+          "end": 846331
+        },
+        {
+          "kind": "metadata",
+          "sequence": 43
+        },
+        {
+          "kind": "metadata",
+          "sequence": 44
+        },
+        {
+          "kind": "media",
+          "range": "bytes=846332-958799",
+          "start": 846332,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 45
+        },
+        {
+          "kind": "metadata",
+          "sequence": 46
+        },
+        {
+          "kind": "metadata",
+          "sequence": 47
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 48
+        },
+        {
+          "kind": "metadata",
+          "sequence": 49
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 50
+        },
+        {
+          "kind": "metadata",
+          "sequence": 51
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 52
+        },
+        {
+          "kind": "metadata",
+          "sequence": 53
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 54
+        },
+        {
+          "kind": "metadata",
+          "sequence": 55
+        },
+        {
+          "kind": "media",
+          "range": "bytes=800692-958799",
+          "start": 800692,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 56
+        },
+        {
+          "kind": "metadata",
+          "sequence": 57
+        },
+        {
+          "kind": "metadata",
+          "sequence": 58
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-939",
+          "start": 0,
+          "end": 939
+        },
+        {
+          "kind": "metadata",
+          "sequence": 59
+        },
+        {
+          "kind": "metadata",
+          "sequence": 60
+        },
+        {
+          "kind": "metadata",
+          "sequence": 61
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 62
+        },
+        {
+          "kind": "metadata",
+          "sequence": 63
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 64
+        },
+        {
+          "kind": "metadata",
+          "sequence": 65
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 66
+        },
+        {
+          "kind": "metadata",
+          "sequence": 67
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 68
+        },
+        {
+          "kind": "metadata",
+          "sequence": 69
+        },
+        {
+          "kind": "media",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707
+        },
+        {
+          "kind": "metadata",
+          "sequence": 70
+        },
+        {
+          "kind": "metadata",
+          "sequence": 71
+        },
+        {
+          "kind": "media",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851
+        },
+        {
+          "kind": "metadata",
+          "sequence": 72
+        },
+        {
+          "kind": "metadata",
+          "sequence": 73
+        },
+        {
+          "kind": "metadata",
+          "sequence": 74
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 75
+        },
+        {
+          "kind": "metadata",
+          "sequence": 76
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 77
+        },
+        {
+          "kind": "metadata",
+          "sequence": 78
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 79
+        },
+        {
+          "kind": "metadata",
+          "sequence": 80
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 81
+        },
+        {
+          "kind": "metadata",
+          "sequence": 82
+        },
+        {
+          "kind": "media",
+          "range": "bytes=564-262707",
+          "start": 564,
+          "end": 262707
+        },
+        {
+          "kind": "metadata",
+          "sequence": 83
+        },
+        {
+          "kind": "metadata",
+          "sequence": 84
+        },
+        {
+          "kind": "media",
+          "range": "bytes=262708-524851",
+          "start": 262708,
+          "end": 524851
+        },
+        {
+          "kind": "metadata",
+          "sequence": 85
+        },
+        {
+          "kind": "metadata",
+          "sequence": 86
+        },
+        {
+          "kind": "media",
+          "range": "bytes=524852-786995",
+          "start": 524852,
+          "end": 786995
+        },
+        {
+          "kind": "metadata",
+          "sequence": 87
+        },
+        {
+          "kind": "metadata",
+          "sequence": 88
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 89
+        },
+        {
+          "kind": "metadata",
+          "sequence": 90
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 91
+        },
+        {
+          "kind": "metadata",
+          "sequence": 92
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 93
+        },
+        {
+          "kind": "metadata",
+          "sequence": 94
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 95
+        },
+        {
+          "kind": "metadata",
+          "sequence": 96
+        },
+        {
+          "kind": "media",
+          "range": "bytes=322044-584187",
+          "start": 322044,
+          "end": 584187
+        },
+        {
+          "kind": "metadata",
+          "sequence": 97
+        },
+        {
+          "kind": "metadata",
+          "sequence": 98
+        },
+        {
+          "kind": "media",
+          "range": "bytes=584188-846331",
+          "start": 584188,
+          "end": 846331
+        },
+        {
+          "kind": "metadata",
+          "sequence": 99
+        },
+        {
+          "kind": "metadata",
+          "sequence": 100
+        },
+        {
+          "kind": "media",
+          "range": "bytes=846332-958799",
+          "start": 846332,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 101
+        },
+        {
+          "kind": "metadata",
+          "sequence": 102
+        },
+        {
+          "kind": "metadata",
+          "sequence": 103
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-524143",
+          "start": 0,
+          "end": 524143
+        },
+        {
+          "kind": "metadata",
+          "sequence": 104
+        },
+        {
+          "kind": "metadata",
+          "sequence": 105
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 106
+        },
+        {
+          "kind": "metadata",
+          "sequence": 107
+        },
+        {
+          "kind": "media",
+          "range": "bytes=0-65423",
+          "start": 0,
+          "end": 65423
+        },
+        {
+          "kind": "metadata",
+          "sequence": 108
+        },
+        {
+          "kind": "metadata",
+          "sequence": 109
+        },
+        {
+          "kind": "media",
+          "range": "bytes=434656-958799",
+          "start": 434656,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 110
+        },
+        {
+          "kind": "metadata",
+          "sequence": 111
+        },
+        {
+          "kind": "media",
+          "range": "bytes=800692-958799",
+          "start": 800692,
+          "end": 958799
+        },
+        {
+          "kind": "metadata",
+          "sequence": 112
+        }
+      ],
+      "app": {
+        "attempt": "idle",
+        "error": "원본 스트림을 준비하지 못했습니다."
+      }
+    }
+  ]
+}

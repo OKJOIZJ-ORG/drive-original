@@ -28,9 +28,22 @@ const results=[];let browser;
   browser=await chromium.launch({channel:'chrome',headless:true});
   for(const mode of ['native-to-q1','resume-to-q1','postflight-content-change','close-pending','seek-watchdog',
     'early-to-q1','early-resume','early-revision-drift','early-permission-denied','early-close-pending',
-    'early-mp4','early-mp4-no-revision','early-mp4-unaligned','native-capability','early-double-pending','early-checksum-drift']){
+    'early-mp4','early-mp4-no-revision','early-mp4-unaligned','native-capability','early-double-pending','early-checksum-drift',
+    ...(process.argv[2]==='cycles-50'?['cycles-50']:[])]){
     if(process.argv[2]&&mode!==process.argv[2])continue;
     const context=await browser.newContext(),page=await context.newPage(),errors=[],calls=[];
+    if(mode==='cycles-50')await context.addInitScript(()=>{
+      const metrics={workersCreated:0,workersTerminated:0,urlsCreated:0,urlsRevoked:0};
+      const workers=new WeakSet(),urls=new Set(),NativeWorker=Worker;
+      window.Worker=class extends NativeWorker{
+        constructor(...args){super(...args);workers.add(this);metrics.workersCreated++;}
+        terminate(){if(workers.delete(this))metrics.workersTerminated++;return super.terminate();}
+      };
+      const create=URL.createObjectURL,revoke=URL.revokeObjectURL;
+      URL.createObjectURL=function(value){const url=create.call(this,value);urls.add(url);metrics.urlsCreated++;return url;};
+      URL.revokeObjectURL=function(url){if(urls.delete(url))metrics.urlsRevoked++;return revoke.call(this,url);};
+      window.q1CycleResources=()=>({...metrics,activeWorkers:metrics.workersCreated-metrics.workersTerminated,activeUrls:urls.size});
+    });
     const early=mode.startsWith('early-'),nativeControl=mode.startsWith('early-mp4');
     const bytes=nativeControl?(mode==='early-mp4-unaligned'?mp4Bytes:alignedMp4):tsBytes;
     let metadataReads=0,previews=0,held=null;
@@ -50,7 +63,7 @@ const results=[];let browser;
       if(url.searchParams.get('alt')!=='media'){
         metadataReads++;calls.push({kind:'metadata',sequence:metadataReads});
         if((mode==='close-pending'&&metadataReads===5)||(mode==='early-close-pending'&&metadataReads===2)){held=route;return;}
-        return reply({...file,version:String(metadataReads),
+        return reply({...file,id:mode==='cycles-50'?decodeURIComponent(url.pathname.split('/').at(-1)):file.id,version:String(metadataReads),
           sha256Checksum:mode==='early-checksum-drift'?(metadataReads===1?undefined:metadataReads<=3?hash(bytes):'a'.repeat(64)):file.sha256Checksum,
           headRevisionId:mode==='early-mp4-no-revision'?undefined
             :((mode==='postflight-content-change'&&metadataReads>=6)||(mode==='early-revision-drift'&&metadataReads>=4))?'source-revision-2':file.headRevisionId,
@@ -73,6 +86,87 @@ const results=[];let browser;
       await page.evaluate(()=>navigator.serviceWorker.ready);
       if(!await page.evaluate(()=>Boolean(navigator.serviceWorker.controller)))await page.reload();
       await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
+      if(mode==='cycles-50'){
+        await page.evaluate(file=>{
+          state.demo=false;state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
+          state.authAccountKey='synthetic-account';state.accountId='synthetic-account';state.tokenRevision=1;
+          state.files=[];state.populationComplete=true;state.mediaFiles=[];el.videoPlayer.muted=true;sendTokenToWorker();
+        },file);
+        const cdp=await context.newCDPSession(page),cycles=[];let baselineListeners=null,baselineRetainedDom=null;
+        for(let cycle=1;cycle<=50;cycle++){
+          const cycleFile={...file,id:cycle%2?'synthetic-ts-a':'synthetic-ts-b'};
+          await page.evaluate(file=>openPlayer(file),cycleFile);
+          await page.waitForFunction(()=>state.mediaAttempt==='q1'&&state.mediaTransportVerified&&state.mediaDecodeVerified
+            &&q1Playback?.player?.stats().frames>0&&el.videoPlayer.videoWidth===360,{},{timeout:20000});
+          const firstFrame=await page.evaluate(()=>({time:q1Playback.player.stats().lastMediaTime,
+            width:el.videoPlayer.videoWidth,height:el.videoPlayer.videoHeight,duration:q1Playback.player.stats().duration}));
+          const seeks=[];
+          for(const fraction of [.1,.5,.9]){
+            await page.evaluate(fraction=>{
+              el.videoPlayer.pause();window.q1PreviousGeneration=q1Playback.player.stats().generation;
+              setPlayerCurrentTime(el.videoPlayer,q1Playback.player.stats().duration*fraction,'qa-cycle-controls');
+            },fraction);
+            await page.waitForFunction(()=>q1Playback?.player?.stats().generation>window.q1PreviousGeneration
+              &&q1Playback.player.stats().frames>0&&state.mediaTransportVerified
+              &&Math.abs(q1Playback.player.stats().lastMediaTime-q1Playback.player.stats().target)<1/30+.0001,{},{timeout:15000});
+            const presented=await page.evaluate(()=>({target:q1Playback.player.stats().target,
+              mediaTime:q1Playback.player.stats().lastMediaTime,frames:q1Playback.player.stats().frames,
+              generation:q1Playback.player.stats().generation,width:el.videoPlayer.videoWidth,paused:el.videoPlayer.paused}));
+            assert.equal(presented.width,360);assert.equal(presented.paused,true);seeks.push({fraction,...presented});
+          }
+          // Retain only this cycle's owner until its real retirement settles; return JSON scalars, then release it.
+          const cleanup=await page.evaluate(async()=>{
+            const owner=q1Playback;closePlayer();const retirement=await q1Retirement;
+            return {retirement,player:owner.player.stats(),resources:q1CycleResources(),closed:{
+              q1:q1Playback===null,hidden:el.playerSheet.hidden,src:el.videoPlayer.getAttribute('src'),
+              controller:state.mediaAbortController===null,temp:state.mediaTempStorage===null,blob:state.mediaBlobUrl===null,
+              seekWatchdog:mediaSeekWatchdog===null,frameWatchdog:mediaFrameWatchdog===null,seekCleanup:activeSeekCleanup===null,
+              frameCallback:state.frameCallbackId===null}};
+          });
+          assert.equal(cleanup.retirement.settled,true,'ACTUAL_RETIREMENT_SETTLED');
+          assert.equal(cleanup.player.disposed,true);assert.equal(cleanup.player.urlRevoked,true);
+          assert.equal(cleanup.player.failure,null);assert.equal(cleanup.player.cleanupFailure,undefined);
+          assert.equal(cleanup.player.sourceCleanup.settled,true);
+          for(const key of ['pendingCallbacks','cleanupPending'])assert.equal(cleanup.player.sourceCleanup[key],0);
+          assert.equal(cleanup.player.source.state,'aborted');assert.equal(cleanup.player.source.busy,false);assert.equal(cleanup.player.source.cleanupSettled,true);
+          for(const key of ['retainedBytes','pendingCallbacks','cleanupPending'])assert.equal(cleanup.player.source[key],0);
+          assert.equal(cleanup.player.source.cleanupFailed,false);assert.equal(cleanup.player.bootstrap.retainedBytes,0);
+          const worker=cleanup.player.worker;assert.equal(worker.terminated,true);assert.equal(worker.fragmentBusy,false);
+          assert.equal(worker.failure,null);assert.ok(['aborted','finished'].includes(worker.status));
+          assert.equal(worker.worker.muxReleased,true);assert.equal(worker.worker.awaitingFragment,null);
+          for(const key of ['retainedInputBytes','retainedOutputBytes','outstandingOutputBytes','configBytes','initBytes',
+            'muxCachedGops','muxCachedNalBytes','muxCachedBufferBytes'])assert.equal(worker.worker[key],0);
+          assert.equal(worker.worker.owner.retainedBytes,0);
+          assert.deepEqual(cleanup.closed,{q1:true,hidden:true,src:null,controller:true,temp:true,blob:true,
+            seekWatchdog:true,frameWatchdog:true,seekCleanup:true,frameCallback:true});
+          assert.equal(cleanup.resources.activeWorkers,0);assert.equal(cleanup.resources.activeUrls,0);
+          assert.equal(cleanup.resources.workersCreated,cleanup.resources.workersTerminated);
+          assert.equal(cleanup.resources.urlsCreated,cleanup.resources.urlsRevoked);
+          // Global DOM counters also count unreachable/transient targets until GC. Assert the
+          // connected app inventory through supported CDP command-line getEventListeners instead.
+          await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+          await cdp.send('HeapProfiler.collectGarbage');
+          const dom=await cdp.send('Memory.getDOMCounters');
+          if(baselineRetainedDom===null)baselineRetainedDom=dom;
+          assert.deepEqual(dom,baselineRetainedDom,'CLOSED_AFTER_GC_DOM_COUNTERS_STABLE');
+          const inventory=await cdp.send('Runtime.evaluate',{includeCommandLineAPI:true,returnByValue:true,
+            expression:`(()=>{const counts={};let total=0,targets=0;for(const target of [window,document,...document.querySelectorAll('*')]){
+              const listeners=getEventListeners(target);if(Object.keys(listeners).length)targets++;
+              for(const [type,rows] of Object.entries(listeners)){counts[type]=(counts[type]||0)+rows.length;total+=rows.length;}}
+              return {total,targets,counts};})()`});
+          assert.equal(inventory.exceptionDetails,undefined,'CDP_LISTENER_INVENTORY_SUPPORTED');
+          const listeners=inventory.result.value;
+          if(baselineListeners===null)baselineListeners=listeners;
+          assert.deepEqual(listeners,baselineListeners,'CLOSED_CONNECTED_DOM_LISTENERS_STABLE');
+          cycles.push({cycle,fileId:cycleFile.id,firstFrame,seeks,cleanup,dom,listeners});
+        }
+        assert.equal(previews,0);assert.deepEqual(errors,[]);
+        assert.ok(calls.filter(row=>row.kind==='media').every(row=>row.end-row.start+1<=1048576));
+        results.push({mode,passed:true,completedCycles:cycles.length,seekCount:cycles.reduce((n,row)=>n+row.seeks.length,0),
+          metadataReads,mediaReads:calls.filter(row=>row.kind==='media').length,previews,errors,baselineListeners,baselineRetainedDom,
+          gc:'Supported CDP HeapProfiler.collectGarbage before every closed-state counter sample; no heap size measurement.',cycles});
+        await cdp.detach();continue;
+      }
       await page.evaluate(({file,mode,early})=>{
         state.demo=false;state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
         state.authAccountKey='synthetic-account';state.accountId='synthetic-account';state.tokenRevision=1;
@@ -193,7 +287,10 @@ const results=[];let browser;
   }
   assert.deepEqual(sourceHashes(),sources,'PRODUCT_CHANGED_DURING_VERIFICATION');
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{
-  const out=path.join(__dirname,'q1-product');fs.mkdirSync(out,{recursive:true});
-  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({syntheticOnly:true,passed:!process.exitCode,recordedAt:new Date().toISOString(),sources,results},null,2)+'\n');
+  const cycleReport=process.argv[2]==='cycles-50',separateNormal=process.env.Q1_AUDIT_REPORT==='cycles-normal16';
+  const out=path.join(__dirname,cycleReport||separateNormal?'q1-cycles':'q1-product');fs.mkdirSync(out,{recursive:true});
+  const reportName=cycleReport?'cycles-50-results.json':separateNormal?'normal16-results.json':'results.json';
+  fs.writeFileSync(path.join(out,reportName),JSON.stringify({syntheticOnly:true,passed:!process.exitCode,recordedAt:new Date().toISOString(),
+    sources,fixtures:{ts:hash(tsBytes),mp4:hash(mp4Bytes)},limits:'Local synthetic Chrome app/SW lifecycle only; owned counters and CDP DOM listeners, not total JS heap/device memory or real Drive/device acceptance.',results},null,2)+'\n');
   if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));
 });

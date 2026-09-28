@@ -307,3 +307,7 @@ Collector/comparator13synthetic cases pass; adapter11cases pass after independen
 ## 2026-09-28 — bounded Q1 rejected-body cleanup
 
 Baseline rc.8 reproduces rejected cancel becoming generic502/false-success source retirement and nonsettling cancel ignoring caller abort. Q1-only2s termination plus sticky uncertainty and client completion fence fixes later Q1 owner starts, even when old marker is abandoned; concurrent success cannot erase failure. Focused4, SW/source91, fullNode348, actual-app auth17 and functional22 pass. QA before/after pinned; Q1-CLEANUP-20260928.md retains limits, including pending generic/direct-buffer cross-route discriminator. Normal16/50cycle work active. No physical/real Google resource-release claim, production/data write or push.
+
+## 2026-09-28 — actual-app50cycle cleanup
+
+Child extended only the existing QA product driver. Normal16 and same-context50cycles/150seeks pass, with actualWorker/objectURL200created/200terminated-or-revoked and active0 at eachclose; source/worker/bootstrap/appwatchdogs clear. Initial raw listener growth470to698 retained as failed evidence, final supported CDPGC samples stable5documents/1630nodes/220listeners plus connected218listeners/108targets. Root reviewed assertions and independently recomputed all producer hashes, no mismatch. Q1-CYCLES-20260928.md and four exact qa/q1-cycles reports preserve evidence. No native heap/device memory or live account claim. Cross-route ownership investigation continues; no product edits by this child.
