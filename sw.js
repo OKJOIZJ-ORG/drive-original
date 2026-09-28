@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.7';
+const VERSION = '1.22.0-rc.8';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -180,6 +180,7 @@ async function proxyDriveMedia(request, url, clientId) {
     fileId,
     sessionId: url.searchParams.get('mediaSession') || url.searchParams.get('session'),
     accountGeneration: Number(url.searchParams.get('accountGeneration')),
+    requireCurrentMedia: url.searchParams.get('mediaOwner') === 'q1',
     requestedRange: request.headers.get('range'),
     traceId: normalizeMediaTraceId(url.searchParams.get('_trace')),
     ...(sourceGeneration == null ? {} : { sourceGeneration })
@@ -263,6 +264,14 @@ async function proxyDriveMedia(request, url, clientId) {
     let upstreamFetch = await fetchMedia();
     let upstream = upstreamFetch.response;
     if (upstream.status === 401) {
+      // A page fetch abort does not reliably cancel an intercepted SW fetch.
+      // Release the rejected body before the final Q1 owner handshake; a close
+      // during cleanup or credential refresh must never authorize a new Range.
+      if (context.requireCurrentMedia) {
+        await upstream.body?.cancel();
+        upstreamFetch.release();
+        upstream = new Response(null, { status: upstream.status, statusText: upstream.statusText, headers: upstream.headers });
+      }
       const rejectedCredential = credential;
       const cached = clientCredentials.get(clientId);
       // The server revision, not the token string, fences concurrent refreshes.
@@ -271,7 +280,11 @@ async function proxyDriveMedia(request, url, clientId) {
         && isUsableCredential(cached)
         && cached.account === rejectedCredential.account
         && cached.revision > rejectedCredential.revision) {
-        credential = cached;
+        credential = context.requireCurrentMedia ? await getUsableCredential(context, {
+          rejectedRevision: rejectedCredential.revision,
+          expectedAccount: rejectedCredential.account,
+          signal: request.signal
+        }) : cached;
       } else {
         if (sameCredential(clientCredentials.get(clientId), rejectedCredential)) {
           clientCredentials.delete(clientId);
@@ -286,7 +299,7 @@ async function proxyDriveMedia(request, url, clientId) {
       if (credential
         && credential.account === rejectedCredential.account
         && credential.revision > rejectedCredential.revision) {
-        await upstream.body?.cancel();
+        if (!context.requireCurrentMedia) await upstream.body?.cancel();
         upstreamFetch.release();
         upstreamFetch = await fetchMedia();
         upstream = upstreamFetch.response;
@@ -845,7 +858,7 @@ async function getUsableCredential(context, {
 } = {}) {
   const cached = clientCredentials.get(context.clientId);
   const scopedContext = { ...context, expectedAccount: expectedAccount || context.expectedAccount || null };
-  if (!forceRefresh && credentialMatchesContext(cached, scopedContext) && isUsableCredential(cached)) return cached;
+  if (!context.requireCurrentMedia && !forceRefresh && credentialMatchesContext(cached, scopedContext) && isUsableCredential(cached)) return cached;
   return requestTokenFromClient(scopedContext, { forceRefresh, rejectedRevision, signal });
 }
 
@@ -866,6 +879,9 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
       tokenRequests.delete(requestId);
       channel.port1.close();
       channel.port2.close();
+      // SET_TOKEN updates the shared account cache, not this media lease. An
+      // owner-required request needs an affirmative reply for its exact id.
+      if (context.requireCurrentMedia && data?.requestCurrent !== true) { resolve(null); return; }
       const received = normalizeCredential(data);
       if (received && credentialMatchesContext(received, context)
         && (!Number.isSafeInteger(rejectedRevision) || received.revision > rejectedRevision)) {
@@ -898,6 +914,9 @@ async function requestTokenFromClient(context, { forceRefresh, rejectedRevision 
         type: 'TOKEN_REQUEST', requestId, forceRefresh,
         clientId: context.clientId,
         fileId: context.fileId,
+        requireCurrentMedia: context.requireCurrentMedia === true,
+        mediaSession: context.sessionId,
+        sourceGeneration: context.sourceGeneration,
         accountGeneration: context.accountGeneration,
         expectedAccount: context.expectedAccount || null,
         rejectedRevision: Number.isSafeInteger(rejectedRevision) ? rejectedRevision : null

@@ -1,0 +1,198 @@
+{
+  "passed": false,
+  "syntheticOnly": true,
+  "baseline": true,
+  "baselineSource": "bc6a9aa",
+  "sources": {
+    "qa/q1-auth-audit.cjs": "0188a4917586c7651954a01eda0c625728baca007300322fb596c83b17500919",
+    "index.html": "8ae458782ffc8efa4b6b76b4c3c9a32071142b65abf4d3f295850686284527fa",
+    "runtime-config.js": "0e9508753693974e9629f4ad7b809ffc0438adee3d62d6d075a87d18f030ed95",
+    "app.js": "fc49a29662c47892c9366d91a2fd0678b8e1bec05c67d113215d59bc3bb2f705",
+    "styles.css": "b1a67b1301fb163ba25141f4306abd098342eb9ead8656b42e20529eee1c4597",
+    "sw.js": "e35a94faad8311ea59e399e76a1ab5f64704fe1989617304cb21d9fd61c764d0",
+    "version.json": "cb56c0397d5c0143d8eea19b8c989ff138ec3f8bcbc9442de6a6e4bb2454dc35",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "8cc28c88bfc41d66232fb330fab333e65b4b06c18a6e75b524188169bab6f9c1",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "86c480abff6781a1e6add43523e5ea151ce48f1a5734e2ce7f7f1078cc954e7e",
+    "media/transmux-worker.mjs": "4b1b0d32ddc98a7d3ab37126df2b1146aaa6c526289e33e9fb0445826c0fdead",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+  },
+  "fixtureSha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+  "recordedAt": "2026-09-28T00:51:58.182Z",
+  "results": [
+    {
+      "mode": "foreground-pageshow",
+      "passed": false,
+      "error": "FOREGROUND_MUST_RECHECK_WALL_CLOCK_EXPIRY\n\n0 !== 1\n",
+      "calls": [
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-939",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=434656-958799",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-65423",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=0-524143",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=564-262707",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "range",
+          "range": "bytes=262708-524851",
+          "status": 206,
+          "credentialRevision": 1
+        },
+        {
+          "kind": "metadata",
+          "range": null,
+          "status": 200,
+          "credentialRevision": 1
+        }
+      ],
+      "authCalls": 0,
+      "stats": {
+        "generation": 1,
+        "phase": "ready",
+        "failure": null,
+        "target": 0.2713333333333333,
+        "appends": 3,
+        "frames": 1,
+        "lastMediaTime": 0.271333,
+        "window": {
+          "waits": 5,
+          "removals": 0,
+          "peakAhead": 6.101333,
+          "peakSpan": 6.101333
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": null,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.7';
+const APP_VERSION = '1.22.0-rc.8';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -1363,6 +1363,7 @@ function bindEvents() {
   });
   [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
+    refreshForegroundCredential();
     updateConnectionBadge();
     updateAccountSyncStatus();
     if (state.accountId && state.accountStateSyncError) queueAccountStateSync();
@@ -1380,6 +1381,7 @@ function bindEvents() {
   });
   window.addEventListener('pagehide', stopAccountStateRefresh);
   window.addEventListener('pageshow', () => {
+    refreshForegroundCredential();
     resumeMediaViewObservation();
     scheduleAccountStateRefresh(0);
     markStandaloneAuthorizationReturned({ pageshow: true });
@@ -1387,6 +1389,7 @@ function bindEvents() {
   });
   window.addEventListener('blur', markStandaloneAuthorizationHidden);
   window.addEventListener('focus', () => {
+    refreshForegroundCredential();
     markStandaloneAuthorizationReturned();
     resumeStandaloneAuthorization();
   });
@@ -1415,22 +1418,9 @@ function bindEvents() {
       resumeMediaViewObservation();
       markStandaloneAuthorizationReturned();
       resumeStandaloneAuthorization();
-      sendTokenToWorker();
+      refreshForegroundCredential();
       checkForAppUpdate({ manual: false });
       scheduleAccountStateRefresh(0);
-      // 모바일 백그라운드 복귀 시 setTimeout 타이머가 정지되어
-      // 토큰 갱신이 누락될 수 있으므로 즉시 검사·보정한다.
-      if (state.token && state.expiresAt) {
-        const remaining = state.expiresAt - Date.now();
-        if (remaining <= 0) {
-          requestSessionCredential({ background: true, force: true });
-        } else if (remaining < 5 * 60 * 1000) {
-          requestSessionCredential({ background: true, force: true });
-        } else {
-          // 타이머가 드리프트됐을 수 있으므로 재스케줄
-          scheduleTokenRenewal();
-        }
-      }
       syncMediaSeekWatchdog();
       syncMediaFrameWatchdog();
     } else {
@@ -1772,11 +1762,16 @@ async function handleWorkerMessage(event) {
   if (data.type === 'TOKEN_REQUEST' && event.ports && event.ports[0]) {
     const port = event.ports[0];
     const requestGeneration = Number(data.accountGeneration);
+    const mediaMatches = () => data.requireCurrentMedia !== true || Boolean(
+      q1Playback && !q1Playback.controller.signal.aborted && state.mediaAttempt.startsWith('q1')
+      && state.selected?.id === data.fileId && String(state.mediaSession) === data.mediaSession
+      && Number.isSafeInteger(data.sourceGeneration) && data.sourceGeneration === mediaSourceGeneration
+    );
     const accountMatches = !data.expectedAccount || data.expectedAccount === state.authAccountKey;
     const generationMatches = Number.isInteger(requestGeneration)
       && requestGeneration === state.driveSessionGeneration;
-    let available = generationMatches && accountMatches && hasUsableToken();
-    if (generationMatches && accountMatches && (!available || data.forceRefresh)) {
+    let available = generationMatches && accountMatches && mediaMatches() && hasUsableToken();
+    if (generationMatches && accountMatches && mediaMatches() && (!available || data.forceRefresh)) {
       available = await requestSessionCredential({
         background: true,
         force: true,
@@ -1788,10 +1783,12 @@ async function handleWorkerMessage(event) {
     const stillCurrent = generationMatches
       && requestGeneration === state.driveSessionGeneration
       && accountMatches
-      && (!data.expectedAccount || data.expectedAccount === state.authAccountKey);
+      && (!data.expectedAccount || data.expectedAccount === state.authAccountKey)
+      && mediaMatches();
     port.postMessage({
       type: 'TOKEN_RESPONSE',
       requestId: data.requestId,
+      requestCurrent: stillCurrent,
       credentialProtocol: AUTH_PROTOCOL,
       token: available && stillCurrent && hasUsableToken() ? state.token : null,
       expiresAt: available && stillCurrent && hasUsableToken() ? state.expiresAt : 0,
@@ -2133,6 +2130,20 @@ function scheduleTokenRenewal() {
       requestSessionCredential({ background: true, force: true });
     }, Math.max(1_000, secondRemaining - TOKEN_SKEW_MS));
   }, firstTryMs);
+}
+
+function refreshForegroundCredential() {
+  if (document.visibilityState === 'hidden' || !navigator.onLine) return;
+  // Timers may have stopped during suspension or a history restore. All return
+  // events share the existing auth owner; none opens a login popup or a player.
+  if (state.token && state.expiresAt) {
+    if (state.expiresAt - Date.now() < 5 * 60 * 1000) {
+      requestSessionCredential({ background: true, force: true });
+    } else {
+      scheduleTokenRenewal();
+    }
+  }
+  sendTokenToWorker();
 }
 
 function isIOSStandaloneWebApp() {
@@ -3610,6 +3621,21 @@ function assertDriveRequestOwner(generation, signal, dataGeneration = state.driv
   }
 }
 
+function requestDriveCredential(options, signal) {
+  if (signal?.aborted) return Promise.reject(new DOMException('Drive request cancelled', 'AbortError'));
+  const pending = requestSessionCredential(options);
+  if (!signal) return pending;
+  // A media consumer can leave without cancelling the shared account refresh.
+  // Settle its callback promptly so a closed source can prove its cleanup.
+  return new Promise((resolve, reject) => {
+    const cleanup = () => signal.removeEventListener('abort', abort);
+    const abort = () => { cleanup(); reject(new DOMException('Drive request cancelled', 'AbortError')); };
+    signal.addEventListener('abort', abort, { once: true });
+    pending.then(value => { cleanup(); resolve(value); }, error => { cleanup(); reject(error); });
+    if (signal.aborted) abort();
+  });
+}
+
 async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0, generation = state.authGeneration, dataGeneration = state.driveSessionGeneration) {
   const assertOwner = () => assertDriveRequestOwner(generation, options.signal, dataGeneration);
   assertOwner();
@@ -3626,7 +3652,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   }
   if (!hasUsableToken()) {
     if (!_retried) {
-      await requestSessionCredential({ background: true, force: true });
+      await requestDriveCredential({ background: true, force: true }, options.signal);
       assertOwner();
       if (hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
     }
@@ -3656,11 +3682,11 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
       if (((state.tokenRevision || 0) !== requestTokenRevision || state.token !== requestToken) && hasUsableToken()) {
         return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       }
-      const refreshed = await requestSessionCredential({
+      const refreshed = await requestDriveCredential({
         background: true,
         force: true,
         rejectedRevision: requestTokenRevision
-      });
+      }, options.signal);
       assertOwner();
       if (refreshed && hasUsableToken()) return driveFetch(url, options, true, _rateAttempt, generation, dataGeneration);
       if ((state.tokenRevision || 0) === requestTokenRevision && state.token === requestToken) clearToken(true);
@@ -7368,8 +7394,11 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
         sourceMetadata = await response.json();
         return sourceMetadata;
       },
-      readRange: ({ range, signal }) => fetch(buildMediaUrl({ ...file, size: sourceMetadata.size, mimeType: sourceMetadata.mimeType }),
-        { signal, cache: 'no-store', headers: { Range: range } })
+      readRange: ({ range, signal }) => {
+        const url = new URL(buildMediaUrl({ ...file, size: sourceMetadata.size, mimeType: sourceMetadata.mimeType }), location.href);
+        url.searchParams.set('mediaOwner', 'q1');
+        return fetch(url.href, { signal, cache: 'no-store', headers: { Range: range } });
+      }
       });
       // A new generation may not silently switch revisions after admission.
       // files.version remains a metadata counter, not a content-only fence.

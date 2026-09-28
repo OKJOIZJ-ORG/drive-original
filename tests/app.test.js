@@ -745,6 +745,94 @@ test('concurrent credential waiters share one failed request without starting an
   assert.equal(calls, 1);
 });
 
+test('cancelling a Drive credential waiter releases it while the shared refresh serves another request', async () => {
+  for (const phase of ['expired', 'rejected']) {
+    const context = loadAppContext();
+    installAuthUi(context);
+    let release, credentialCalls = 0, metadataCalls = 0, authSignal;
+    context.fetch = async (url, options) => {
+      if (String(url).includes('/api/session/credential')) {
+        credentialCalls++; authSignal = options.signal;
+        await new Promise(resolve => { release = resolve; });
+        return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+          account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
+      }
+      metadataCalls++;
+      return options.headers.Authorization === 'Bearer old'
+        ? new Response('{}', { status: 401, headers: { 'Content-Type': 'application/json' } })
+        : new Response('{}', { headers: { 'Content-Type': 'application/json' } });
+    };
+    run(context, `state.authAccountKey='account-A';state.token='old';state.tokenRevision=1;
+      state.expiresAt=${phase === 'expired' ? '0' : 'Date.now()+3600000'};
+      scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};`);
+    context.consumerController = new AbortController();
+    const cancelled = run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/fixture', {signal:consumerController.signal})`);
+    // Attach the rejection before cancelling; no unhandled async work in test.
+    const ended = assert.rejects(cancelled, { name: 'AbortError' });
+    for (let attempt = 0; !release && attempt < 20; attempt++) await new Promise(resolve => setImmediate(resolve));
+    assert.equal(typeof release, 'function', phase);
+    const continuing = run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/fixture')`);
+    context.consumerController.abort();
+    await ended;
+    assert.equal(authSignal.aborted, false, phase);
+    assert.equal(credentialCalls, 1);
+    release();
+    assert.equal((await continuing).status, 200);
+    assert.equal(credentialCalls, 1);
+    assert.equal(metadataCalls, phase === 'expired' ? 1 : 3);
+    assert.equal(run(context, 'state.tokenRevision'), 2);
+  }
+});
+
+test('foreground rechecks use wall-clock expiry and one shared refresh while hidden/offline stay idle', async () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  let release, calls = 0;
+  context.fetch = async () => {
+    calls++;
+    await new Promise(resolve => { release = resolve; });
+    return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+      account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
+  };
+  run(context, `state.authAccountKey='account-A';state.token='expired';state.expiresAt=Date.now()-1;state.tokenRevision=1;
+    scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};
+    document.visibilityState='hidden';refreshForegroundCredential();
+    document.visibilityState='visible';navigator.onLine=false;refreshForegroundCredential();`);
+  assert.equal(calls, 0);
+  run(context, `navigator.onLine=true;refreshForegroundCredential();refreshForegroundCredential();refreshForegroundCredential();`);
+  assert.equal(calls, 1);
+  release();
+  assert.equal(await run(context, 'credentialRequestPromise'), true);
+  assert.equal(run(context, 'state.tokenRevision'), 2);
+});
+
+test('a Q1 token reply authorizes only the same player source that survived the shared refresh', async () => {
+  for (const replacement of ['none', 'close', 'seek']) {
+    const context = loadAppContext(); installAuthUi(context);
+    let release, reply;
+    context.fetch = async () => {
+      await new Promise(resolve => { release = resolve; });
+      return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+        account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
+    };
+    run(context, `state.authAccountKey='account-A';state.token='old';state.expiresAt=Date.now()+3600000;state.tokenRevision=1;
+      state.selected={id:'fixture'};state.mediaSession=7;state.driveSessionGeneration=3;mediaSourceGeneration=5;
+      state.mediaAttempt='q1-probing';q1Playback={controller:new AbortController()};
+      scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};`);
+    context.tokenEvent = { data: { type: 'TOKEN_REQUEST', requestId: 'media-lease', forceRefresh: true,
+      expectedAccount: 'account-A', accountGeneration: 3, rejectedRevision: 1,
+      requireCurrentMedia: true, fileId: 'fixture', mediaSession: '7', sourceGeneration: 5 },
+      ports: [{ postMessage(value) { reply = value; }, close() {} }] };
+    const pending = run(context, 'handleWorkerMessage(tokenEvent)');
+    if (replacement === 'close') run(context, 'q1Playback=null');
+    if (replacement === 'seek') run(context, 'mediaSourceGeneration++');
+    release(); await pending;
+    assert.equal(reply.requestCurrent, replacement === 'none');
+    assert.equal(reply.token, replacement === 'none' ? 'fresh' : null);
+    assert.equal(run(context, 'state.tokenRevision'), 2, 'global refresh can still serve current consumers');
+  }
+});
+
 test('a credential response parsed after its account generation changes cannot install', async () => {
   const context = loadAppContext(); let release;
   context.fetch = async () => ({

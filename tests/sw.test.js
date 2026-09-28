@@ -98,18 +98,19 @@ function createWorker(fetchImpl, {
     request(clientId, {
       fileId = 'fileA', range = 'bytes=100-199', signal, method = 'GET',
       sessionParam = 'mediaSession', acknowledgeAbuse = false, size = '1000', traceId = '',
-      accountGeneration = 1, sourceGeneration = null
+      accountGeneration = 1, sourceGeneration = null, mediaOwner = null
     } = {}) {
       const abuseQuery = acknowledgeAbuse ? '&acknowledgeAbuse=1' : '';
       const sizeQuery = size == null ? '' : `&size=${encodeURIComponent(size)}`;
       const traceQuery = traceId ? `&_trace=${encodeURIComponent(traceId)}` : '';
+      const ownerQuery = mediaOwner ? `&mediaOwner=${encodeURIComponent(mediaOwner)}` : '';
       const generationQuery = accountGeneration == null ? '' : `&accountGeneration=${encodeURIComponent(accountGeneration)}`;
       const sourceGenerationQuery = sourceGeneration == null
         ? ''
         : `&sourceGeneration=${encodeURIComponent(sourceGeneration)}`;
       const headers = new Headers();
       if (range != null) headers.set('Range', range);
-      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sourceGenerationQuery}${sizeQuery}${abuseQuery}${traceQuery}`, {
+      const request = new Request(`https://app.test/__drive_media/${fileId}?mime=video%2Fmp4&resourceKey=raw-key&${sessionParam}=7${generationQuery}${sourceGenerationQuery}${sizeQuery}${abuseQuery}${traceQuery}${ownerQuery}`, {
         method, headers, signal
       });
       let response;
@@ -193,6 +194,42 @@ test('401 refresh retries once with identical Range/resource key and fresh autho
     rangeSatisfied: true,
     playbackMode: 'original-range'
   });
+});
+
+test('Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache', async () => {
+  for (const advancedBeforeReply of [false, true]) {
+    const worker = createWorker(() => {
+      if (advancedBeforeReply) worker.setToken('A', 'fresh', { revision: 2 });
+      return errorResponse(401);
+    });
+    let replies = 0;
+    const messages = worker.addClient('A', (message, port) => {
+      replies++;
+      if (replies === 1) port.postMessage({ ...tokenResponse(message, 'old'), requestCurrent: true });
+      else {
+        worker.setToken('A', 'fresh', { revision: 2 });
+        port.postMessage({ ...tokenResponse(message, 'fresh', { revision: 2 }), requestCurrent: false });
+      }
+    });
+    worker.setToken('A', 'old');
+    const result = await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response;
+    assert.equal(result.status, 401);
+    assert.equal(worker.calls.length, 1, 'closed media must not replay with a fresh shared credential');
+    const requests = messages.filter(message => message.type === 'TOKEN_REQUEST');
+    assert.equal(requests.length, 2);
+    assert.equal(requests[1].forceRefresh, !advancedBeforeReply);
+    assert.equal(requests[1].mediaSession, '7');
+    assert.equal(requests[1].sourceGeneration, 3);
+    assert.equal(vm.runInContext('tokenRequests.size', worker.context), 0);
+  }
+});
+
+test('Q1 media cannot substitute a cached token for a missing affirmative owner response', async () => {
+  const worker = createWorker(() => { throw new Error('must not fetch'); });
+  worker.setToken('A', 'cached');
+  worker.addClient('A', (message, port) => port.postMessage(tokenResponse(message, 'fresh')));
+  assert.equal((await worker.request('A', { mediaOwner: 'q1', sourceGeneration: 3 }).response).status, 401);
+  assert.equal(worker.calls.length, 0);
 });
 
 test('acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay', async () => {
