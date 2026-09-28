@@ -107,6 +107,20 @@ test('identity and catalog drift invalidate completion',async()=>{
   const r=await f.make().run();assert.equal(r.complete,false);assert.equal(media(f).length,2);assert.equal(r.failure,'POSTFLIGHT_FAILED');
   const g=fixture({compareInventory:()=>{throw new Error('private catalog drift');}}),s=await g.make().run();assert.equal(s.failure,'CATALOG_DRIFT');assert.equal(s.catalogStable,false);
 });
+test('catalog comparator code survives diagnostic failure and injected results remain redacted',async()=>{
+  for(const diagnosticThrows of [true,false]) {
+    const f=fixture({compareInventory:()=>{throw Object.assign(new Error('PRIVATE_ERROR'),{code:'REPEAT_MISMATCH'});}});
+    f.dependencies.comparisonDiagnostics=()=>{
+      if(diagnosticThrows)throw new Error('PRIVATE_DIAGNOSTIC');
+      return {diagnosticAvailable:true,rootBeforeChanged:false,rootAfterChanged:false,accountBeforeChanged:false,accountAfterChanged:false,
+        traversedFolderCountChanged:false,duplicateReferenceCountChanged:false,unresolvedShortcutTargetCountChanged:false,staleShortcutTargetMimeCountChanged:false,
+        itemsAdded:0,itemsRemoved:0,itemsChanged:1,shortcutTargetsAdded:0,shortcutTargetsRemoved:0,shortcutTargetsChanged:0,rawId:'PRIVATE_FILE',message:'PRIVATE_ERROR'};
+    };
+    const result=await f.make().run();assert.equal(result.failure,'CATALOG_DRIFT');assert.equal(result.complete,false);assert.equal(result.catalogStable,false);
+    assert.equal(result.catalogComparison.comparatorCode,'REPEAT_MISMATCH');assert.equal(result.catalogComparison.diagnosticAvailable,!diagnosticThrows);
+    assert.equal(JSON.stringify(result).includes('PRIVATE_ERROR'),false);assert.equal(JSON.stringify(result).includes('PRIVATE_FILE'),false);
+  }
+});
 test('total metadata request ceiling fails closed at 512 dispatches',async()=>{
   const f=fixture({inventoryRunner:async({driveFetch})=>{for(let i=0;i<513;i++)await(await driveFetch('https://www.googleapis.com/drive/v3/about')).json();}}),r=await f.make().run();
   assert.equal(r.failure,'REQUEST_LIMIT');assert.equal(r.dispatches,512);assert.equal(r.mediaRequests,0);

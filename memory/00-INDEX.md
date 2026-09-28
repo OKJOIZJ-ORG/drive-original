@@ -45,6 +45,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `STATE-RECOVERY-20260928.md`: actual raw-state private disk backup, flush/reread reconstruction, preserved legacy/pending state, restricted ACL and exact producers; persistence/device/release remain separate.
 - `OWN-WRITER-20260928.md`: one restricted canonical own-writer POST, preserved failed403/readback, later full raw confirmation and private recovery; historical D-058 closeout superseded by D-059 continuation.
 - `STATE-NORMAL-20260928.md`: rc.11 scoped normal state-write transport, stable-ID CREATE, independent readback and strict preservation tests; live acceptance recorded separately.
+- `CATALOG-DIAGNOSTICS-20260928.md`: redacted comparator causes and a separate metadata-only diagnostic driver; local preparation, historical failure not retrospectively resolved.
 
 - `architecture/V2-04A-AUTH-CONTRACT.md`: local same-origin session/auth implementation at `ed8b619`, deterministic security/concurrency evidence and explicit V2-04B live boundary.
 - `IMMERSIVE-20260919.md`: v1.21.0 implementation, nine requested fixes, observed tests and physical-device boundaries. Production publication is recorded separately in the current checkpoint/release record.

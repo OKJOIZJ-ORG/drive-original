@@ -1,8 +1,8 @@
 # Checkpoint — WP-08 normal sync and fresh reconstruction resumed — 2026-09-28
 
 Repo C:\extensions\Drive-Original\source, branch codex/v2-kickoff-diagnostics.
-Own-writer closeout commit is current HEAD; parent10b346a. Use git log -1 for its hash.
-Product8187121/app+SW1.22.0-rc.10, Worker85904e0a-ba28-4939-95d1-1375a626339b.
+Normal state implementation7f2e467/app+SW1.22.0-rc.11 is committed locally.
+Deployed product8187121/app+SWrc.10, Worker85904e0a-ba28-4939-95d1-1375a626339b.
 Candidate https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
 Productionv1.21.0/global writes=false/automation paused unchanged. No push/main,
 production replacement, credential grant/billing/sharing/delete/volume action.
@@ -66,3 +66,9 @@ Existing user Chrome candidate account remains; no login/volume task pending.
 Next CUA after compaction rewriteDocumentation; reacquire only needed fresh guards.
 Own-writer and drive-normal-state-backup groups released. No private browser
 handle is required for resume; protected disk envelopes remain the recovery sink.
+CATALOG-DIAGNOSTICS-20260928.md owns the ancillary local metadata diagnostic
+preparation:11+3+1 focused checks pass; historical bundle/results preserved.
+No actual metadata-only rerun yet; its explicit runtime fence is still rc.10.
+Android inventory found no tools/devices in inspected paths; registry could not
+be queried. This is bounded absence evidence, not exhaustive absence. Emulator
+installation/terms/login remain unstarted; desktop touch/UA tests stay distinct.

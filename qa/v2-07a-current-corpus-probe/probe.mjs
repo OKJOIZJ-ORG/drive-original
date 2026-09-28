@@ -4,6 +4,7 @@ import { selectRiskRepresentatives } from '../v2-07a-representative-selection/re
 import { runBoundedProbe, createBatchBudget, normalizeProbeIdentity, FAILURE_CODES } from '../v2-07a-bounded-probe/bounded-probe.mjs';
 import { probeMpegTs } from '../v2-07a-container-probe/mpeg-ts-probe.mjs';
 import { summarizeMpegTs, TS_OUTCOMES } from './ts-summary.mjs';
+import { diagnoseComparisonFailure, emptyComparisonDiagnostic, sanitizeComparisonDiagnostic } from './comparison-diagnostics.mjs';
 
 export const ORIGIN = 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev';
 export const VERSION = '1.22.0-rc.10';
@@ -36,7 +37,7 @@ function emptySummary() {
     failure:null,selected:0,processed:0,skippedSmall:0,tsPrefixOnly:0,routes:count(ROUTES),
     tsOutcomes:count(OUTCOMES),tsPrograms:0,tsStreams:0,tsEvidence:tsEvidenceCounts(),priorityTsEvidence:tsEvidenceCounts(),videoSignalling:count(['h264','hevc','other']),
     audioSignalling:count(['aac','other']),dispatches:0,mediaRequests:0,receivedBytes:0,metadataReceivedBytes:0,
-    catalogStable:false,released:false,nativeQ1RetirementProven:false,
+    catalogStable:false,catalogComparison:null,released:false,nativeQ1RetirementProven:false,
     genericUpstreamCleanup:'unknown',decoded:0,physicalDevicePlayback:0};
 }
 
@@ -44,6 +45,7 @@ export function createCurrentCorpusProbe(runtime, dependencies = {}) {
   const inventoryRunner = dependencies.inventoryRunner ?? runAuthenticatedRootInventory;
   const selector = dependencies.selector ?? selectRiskRepresentatives;
   const compare = dependencies.compareInventory ?? summarizeRepeatedInventory;
+  const diagnose = dependencies.comparisonDiagnostics ?? ((cause,before,after)=>diagnoseComparisonFailure(cause,before,after,dependencies.canonicalNormalizers));
   const parser = dependencies.parser ?? probeMpegTs;
   const metadataTimeoutMs = Math.min(25000,Math.max(1,dependencies.metadataTimeoutMs ?? 25000));
   const setMetadataTimeout = dependencies.setMetadataTimeoutFn ?? globalThis.setTimeout;
@@ -326,7 +328,11 @@ export function createCurrentCorpusProbe(runtime, dependencies = {}) {
       if (!summary.failure) {
         final=await readInventory();
         try { compare({firstPass:initial.privatePasses.secondPass,secondPass:final.privatePasses.secondPass,
-          canonicalRootResolvedFromPriorityParent:true,priorityFileId:context.priorityFileId}); } catch { throw error('CATALOG_DRIFT'); }
+          canonicalRootResolvedFromPriorityParent:true,priorityFileId:context.priorityFileId}); } catch(cause) {
+          try {summary.catalogComparison=sanitizeComparisonDiagnostic(diagnose(cause,initial.privatePasses.secondPass,final.privatePasses.secondPass),cause);}
+          catch {summary.catalogComparison=emptyComparisonDiagnostic(cause);}
+          throw error('CATALOG_DRIFT');
+        }
         assertOwner();summary.catalogStable=true;summary.complete=rows.length>0&&summary.processed===rows.length;
       }
       }

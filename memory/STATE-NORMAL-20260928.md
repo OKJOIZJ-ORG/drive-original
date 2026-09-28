@@ -46,7 +46,11 @@ writer body and invalid/unsaved local cache preserve state and block writes.
   PATCH404, fixed payload/readback, local follow-up, stale owner and writer union.
 - Related suite157/157 and final full product suite368/368 pass. Initial full run
   had367/368 because the pinned static release expectation still saidrc.10; the
-  test pin was updated to rc.11 and the failure output is retained separately.
+  test pin was updated to rc.11 and the original failure output is retained as
+  full-node-first-version-failure.txt.gz without changing its bytes. Raw spacer
+  whitespace had failed the staged format check; compressed preservation removes
+  that artifact-only conflict. Source and test line endings are materialized
+  from the staged Git inputs before the final368/368 run and hash verification.
   App/SW syntax and diff checks pass. Independent gpt-6-sol/medium review found
   no material issue in this scoped transport/version change.
 
