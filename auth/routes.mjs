@@ -1,3 +1,4 @@
+import { hasFullCapabilities } from './scope-policy.mjs';
 import { AuthError, ERROR_STATUS, fail, opaqueId } from './session-owner.mjs';
 
 export const SESSION_COOKIE = '__Host-drive_original_session';
@@ -97,12 +98,17 @@ export function createAuthHandler({ origin, resolveSession, transactions,
         if (!/^[A-Za-z0-9_-]{32,256}$/.test(result?.sessionId) || typeof result?.account !== 'string' || !result.account) fail('auth_unavailable');
         return json({ authenticated: true, account: result.account }, 200, [expire(PREAUTH_COOKIE), cookie(SESSION_COOKIE, result.sessionId, 90 * 86400)]);
       }
-      fields(body, url.pathname === '/api/session/credential' ? ['expectedAccount', 'rejectedRevision'] : url.pathname === '/api/account/disconnect' ? ['expectedAccount'] : []);
+      fields(body, url.pathname === '/api/session/credential' ? ['expectedAccount', 'rejectedRevision', 'credentialProtocol'] : url.pathname === '/api/account/disconnect' ? ['expectedAccount'] : []);
       const sessionId = readCookie(request, SESSION_COOKIE);
       if (!sessionId) fail('unauthorized');
       const owner = await resolveSession(sessionId);
       if (!owner) fail('unauthorized');
-      if (url.pathname === '/api/session/credential') return json(await owner.credential({ sessionId, expectedAccount: body.expectedAccount, rejectedRevision: body.rejectedRevision }));
+      if (url.pathname === '/api/session/credential') {
+        if (body.credentialProtocol !== undefined && body.credentialProtocol !== 2) fail('client_update_required');
+        const credential = await owner.credential({ sessionId, expectedAccount: body.expectedAccount, rejectedRevision: body.rejectedRevision });
+        if (body.credentialProtocol !== 2 && !hasFullCapabilities(credential.capabilities)) fail('client_update_required');
+        return json(credential);
+      }
       if (url.pathname === '/api/session/logout') return json(await owner.logout({ sessionId }), 200, [expire(SESSION_COOKIE)]);
       return json(await owner.disconnect({ sessionId, expectedAccount: body.expectedAccount }), 200, [expire(SESSION_COOKIE)]);
     } catch (error) {

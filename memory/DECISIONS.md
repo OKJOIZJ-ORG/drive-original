@@ -390,3 +390,16 @@ D-056의 pause-without-overlay, D-057의 Android 대안, D-050의 기존 권한
 해석하지 않는다. 실제 증거가 없는 기기/형식 인수는 미검증으로 남긴다.
 
 sweep: checkpoint/goal execution resumed; consumed single-use handoff removed (2026-09-29)
+
+## D-062 · 수면 중 자율 진행과 전체 품질 개선 — 2026-09-29 (User-confirmed)
+
+사용자는 자러 가므로 찾지 말고 스스로 진행해 끝까지 완료하라고 명시했고,
+지적한 문제 외에도 능동적으로 미흡한 점을 찾아 품질과 완성도를 높이는 것을
+목적으로 삼으라고 추가했다. 기존 핵심 계획의 구현·검증을 이어가며 새 결함도
+같은 목표에서 재현→수정→검증한다. D-059의 기존 핵심 작업 우선/후속 UI 순서,
+D-056의 일시정지와 chrome 독립, D-057의 Android 대안과 증거 구분은 유지한다.
+사용자 답변을 기다리지 않는 것은 기존 D-050/D-051의 후보·로컬·허용된 상태 작업
+범위를 확대하지 않는다. 운영/main/push, 새 권한·약관·결제, 원본 파괴, 자동화
+재개 등 남은 외부 경계는 실제 완료로 보고하지 않는다.
+
+sweep: active core investigation and queued product polish aligned to autonomous quality scope.

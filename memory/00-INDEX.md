@@ -60,3 +60,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `../qa/`: reproducible local-only browser fixture drivers.
 
 - [ACCEPTANCE-20260917.md](ACCEPTANCE-20260917.md): v1.20.0 follow-up, reproduced foreground/edge defects, v1.20.1 candidate evidence and open physical-device gates.
+
+- `CORE-REPAIRS-20260929.md`: local AUTH05 capability/regrant and delayed-frame seek fixes; actual rc11 WebM/largeISO and MKV clock failures, baseline contract/package scope.

@@ -217,3 +217,7 @@ producer/record hashes and recorded-assertion validation). Earlier output failur
 longer reproduced after user reboot, cause unknown, no settings changed. Actual30s
 hidden return remains not-run: supported actions produced no native hidden signal.
 No full traffic/duration/EOF/all-format/physical-device/audio-audibility claim.
+
+## 2026-09-29 — local core repairs and current real-file limits
+
+Confirmed local AUTH05 capability propagation and delayed sampled-frame seek matcher, with scoped tests in CORE-REPAIRS-20260929.md. Not yet deployed. Observed candidate rc11 WebM normal Range/midpoint/EOF/close and largeISO avc1/mp4a initial decode/10%seek;50/90% exposed false recovery, no post-fix live claim. Observed declaredMKV/AVI fail beforedecode strict clockphase. Q2/Q3 general runtime remains absent; an isolated common-container packet prototype is in progress, not product support. Physical/iOS/real partial grant/full formats/production gates remain distinct.

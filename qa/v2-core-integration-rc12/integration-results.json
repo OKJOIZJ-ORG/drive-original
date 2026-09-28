@@ -1,0 +1,38 @@
+{
+  "schema": "drive-original.core-integration/1",
+  "localProductOnly": true,
+  "deployedCandidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "priorFullSuite": {
+    "tests": 381,
+    "passed": 381,
+    "failed": 0,
+    "exitCode": 0,
+    "scope": "AUTH05 and delayed-seek before subsequent one verified-regrant repair",
+    "outputCapture": "tool output truncated; terminal summary retained in session"
+  },
+  "afterReviewRepair": {
+    "focusedAuthSessionTests": 30,
+    "passed": 30,
+    "scope": "verified regrant repairs old-Worker overwritten access; ordinary access still fails closed",
+    "evidence": "../auth-scope-review/"
+  },
+  "hashesAtEvidenceCapture": {
+    "app.js": "a0a2867a3a60d076be3f25e968bc692300139976e8bb3c2f6499a7389cf05e7d",
+    "auth/scope-policy.mjs": "86e3e7c587c22032345644dc92ec9f1107126e201ff451883a39de131ec03f98",
+    "auth/routes.mjs": "843d381d3cd545aeb8721688aef967ff48ac279f7ca8d7e99aae0af5e6f4962d",
+    "auth/session-owner.mjs": "a29a5ffc578ecfd65fb30dd98cdda07a1fcea5e02e423c27f4fa4ca750c30ced",
+    "worker/google.mjs": "5b77097b5a6447eeedb9a4515c71bdd9fd96556b79a0293390f100edd22f5344",
+    "worker/index.mjs": "8e38a215966f98956657f7b81982be64af59f1791e0104fe4ac834c25d795bbf",
+    "tests/auth-scopes.test.mjs": "bdf57f086b84db080a460978795cffe2573d73ce9c33ad510676dc18605981b4",
+    "tests/auth-session.test.mjs": "1b4af85b1161ee640bc194482954641803358fc210f249ecf334006d27f8bec9",
+    "tests/cloudflare-auth-worker.test.mjs": "978c012fab9fe7afbc963cfc19b6ba3e36730e1e16bf50b5c904853587d46eec",
+    "tests/app.test.js": "98eb0be7d05ce214218ed456ef416cd1d7e962dfc219a842f594733d02bff6f2",
+    "tests/account-state.test.js": "29bb726d9da74bdb87d90016d9fe46b6a1c911380e17c889d7883b5a21277522",
+    "tests/acceptance.test.js": "ea6c23e3979b712a890493658684ef8028014fdc981cab7f4a0d4daff2baa56b",
+    "tests/mutations.test.js": "371490025e8a7dc3e4368c709ca2a2ce345b0b933e0c9160422a7346a03e20ff",
+    "tests/audit.test.js": "f87ad89f625fb2979573aba9969b03787d612f487779079e490853e74bc69299",
+    "tests/immersive.test.js": "f946db7fa298bee5233b832d43a5e0104b9f616c9c43e2d9db7934d3a569361a"
+  },
+  "fullReleaseSuiteAfterAllChanges": "pending",
+  "actualPostFixCandidatePlayback": "pending"
+}

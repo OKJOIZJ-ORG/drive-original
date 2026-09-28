@@ -1,3 +1,4 @@
+import { REQUESTED_GOOGLE_SCOPES } from '../auth/scope-policy.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { AccountCredentialOwner, DAY, RECOVERY_GRACE_MS, AuthError } from '../auth/session-owner.mjs';
@@ -42,7 +43,7 @@ function setup(overrides = {}) {
   const owner = new AccountCredentialOwner(options);
   return { owner, storage, options, alarms, now: () => now, advance: ms => { now += ms; },
     refreshCount: () => refreshCount, revokeCount: () => revokeCount,
-    establish: (extra = {}) => owner.establishVerifiedSession({ account: options.account, accessToken: 'access', expiresAt: now + 3600_000, refreshToken: 'refresh-secret', ...extra }),
+    establish: (extra = {}) => owner.establishVerifiedSession({ account: options.account, accessToken: 'access', expiresAt: now + 3600_000, refreshToken: 'refresh-secret', grantedScopes: REQUESTED_GOOGLE_SCOPES, ...extra }),
   };
 }
 const code = expected => error => error instanceof AuthError && error.code === expected;
@@ -57,7 +58,7 @@ test('20 callers across two owners share exactly one persisted refresh and revis
   assert.equal(new Set(results.map(r => r.revision)).size, 1);
   assert.equal(results[0].revision, credential.revision + 1);
   assert.equal(results[0].accessToken, credential.accessToken, 'same token string still gets a new revision');
-  assert.deepEqual(Object.keys(results[0]).sort(), ['accessToken', 'account', 'expiresAt', 'revision']);
+  assert.deepEqual(Object.keys(results[0]).sort(), ['accessToken', 'account', 'capabilities', 'expiresAt', 'revision']);
 });
 
 test('restart waits for persisted dead lease then recovers; late revision cannot replace current', async () => {
@@ -290,7 +291,7 @@ test('simultaneous failed establishments each remove their own session and final
       account: f.options.account,
       accessToken: 'second-access',
       expiresAt: f.now() + 3600_000,
-      refreshToken: 'second-refresh',
+      refreshToken: 'second-refresh', grantedScopes: REQUESTED_GOOGLE_SCOPES,
     }),
   ]);
   assert.ok(results.every(result => result.status === 'rejected' && result.reason.code === 'auth_unavailable'));
@@ -417,7 +418,7 @@ test('routes require exact origin, CSRF and Fetch Metadata and return no-store r
   const good = await handler(request('/api/session/credential', sessionId, { expectedAccount: f.options.account }));
   assert.equal(good.status, 200);
   assert.equal(good.headers.get('Cache-Control'), 'no-store');
-  assert.deepEqual(Object.keys(await good.json()).sort(), ['accessToken', 'account', 'expiresAt', 'revision']);
+  assert.deepEqual(Object.keys(await good.json()).sort(), ['accessToken', 'account', 'capabilities', 'expiresAt', 'revision']);
   for (const headers of [{ Origin: 'https://evil.example' }, { Origin: `${origin}/` }, { 'X-Drive-Original-CSRF': '' }, { 'Sec-Fetch-Site': 'same-site' }, { 'Sec-Fetch-Mode': 'navigate' }, { 'Sec-Fetch-Dest': 'document' }]) {
     const response = await handler(request('/api/session/credential', sessionId, {}, headers));
     assert.equal(response.status, 403);
@@ -480,4 +481,70 @@ test('transaction callback cleanup also covers unknown input and unavailable exc
     assert.deepEqual(f.storage.state, {});
     assert.match(result.headers.get('Set-Cookie'), /Max-Age=0/);
   }
+});
+
+
+test('partial grants survive refresh omission and explicit reductions replace authority', async () => {
+  let next;
+  const f = setup({ refresh: async () => next });
+  const { sessionId } = await f.establish({ grantedScopes: ['openid', 'https://www.googleapis.com/auth/drive.readonly'] });
+  assert.deepEqual((await f.owner.credential({ sessionId })).capabilities,
+    { version: 1, driveRead: true, driveWrite: false, appData: false });
+  f.advance(3600_000);
+  next = { accessToken: 'renewed', expiresAt: f.now() + 3600_000 };
+  assert.equal((await f.owner.credential({ sessionId })).capabilities.driveRead, true);
+  f.advance(3600_000);
+  next = { accessToken: 'reduced', expiresAt: f.now() + 3600_000, grantedScopes: ['openid', 'https://www.googleapis.com/auth/drive.appdata'] };
+  assert.deepEqual((await f.owner.credential({ sessionId })).capabilities,
+    { version: 1, driveRead: false, driveWrite: false, appData: true });
+  f.advance(3600_000);
+  next = { accessToken: 'invalid', expiresAt: f.now() + 3600_000, grantedScopes: null };
+  await assert.rejects(f.owner.credential({ sessionId }), code('auth_unavailable'));
+  assert.equal(f.storage.state.access.accessToken, 'reduced');
+});
+
+test('legacy all-scope durable access migrates explicitly and unknown scope versions fail closed', async () => {
+  const f = setup();
+  const { sessionId } = await f.establish();
+  delete f.storage.state.scopePolicyVersion;
+  delete f.storage.state.access.scopeVersion;
+  delete f.storage.state.access.grantedScopes;
+  assert.equal((await f.owner.credential({ sessionId })).capabilities.appData, true);
+  assert.equal(f.storage.state.access.scopeVersion, 1);
+  f.storage.state.access.scopeVersion = 9;
+  await assert.rejects(f.owner.credential({ sessionId }), code('auth_unavailable'));
+});
+
+
+test('partial credentials require capability-aware clients and reject unknown protocols', async () => {
+  const f = setup();
+  const { sessionId } = await f.establish({ grantedScopes: ['openid', 'https://www.googleapis.com/auth/drive'] });
+  const handler = createAuthHandler({ origin, resolveSession: async () => f.owner });
+  for (const credentialProtocol of [undefined, 1, 3]) {
+    const response = await handler(request('/api/session/credential', sessionId, { credentialProtocol }));
+    assert.equal(response.status, 409);
+    assert.deepEqual(await response.json(), { error: { code: 'client_update_required', retryable: false } });
+  }
+  const response = await handler(request('/api/session/credential', sessionId, { credentialProtocol: 2 }));
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).capabilities.appData, false);
+  // An old Worker overwriting only access cannot re-enable the legacy migration.
+  f.storage.state.access = { accessToken: 'old-worker-result', expiresAt: f.now() + 3600_000 };
+  await assert.rejects(f.owner.credential({ sessionId }), code('auth_unavailable'));
+});
+
+
+test('a new verified grant repairs an old-Worker overwrite without authorizing ordinary access', async () => {
+  const f = setup();
+  const first = await f.establish({ grantedScopes: ['openid', 'https://www.googleapis.com/auth/drive.readonly'] });
+  f.storage.state.access = { accessToken: 'old-worker', expiresAt: f.now() + 3600_000 };
+  await assert.rejects(f.owner.credential({ sessionId: first.sessionId }), code('auth_unavailable'));
+  await assert.rejects(f.establish({ grantedScopes: undefined }), code('bad_request'));
+  assert.equal(f.storage.state.access.accessToken, 'old-worker');
+  const replacement = await f.establish({ refreshToken: undefined, accessToken: 'fresh-verified', grantedScopes: ['openid', 'https://www.googleapis.com/auth/drive.appdata'] });
+  assert.ok(replacement.credential.revision > first.credential.revision);
+  assert.equal(f.storage.state.encryptedRefresh, 'encrypted:refresh-secret');
+  assert.deepEqual((await f.owner.credential({ sessionId: first.sessionId })).capabilities,
+    {version:1,driveRead:false,driveWrite:false,appData:true});
+  assert.equal((await f.owner.credential({sessionId:replacement.sessionId})).accessToken, 'fresh-verified');
 });

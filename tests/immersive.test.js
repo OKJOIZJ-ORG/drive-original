@@ -22,6 +22,8 @@ function client() {
   vm.createContext(c); vm.runInContext(source,c);
   c.run=s=>vm.runInContext(s,c); c.timers=timers;
   c.run(`function classes(){const s=new Set();return {add:(...n)=>n.forEach(x=>s.add(x)),remove:(...n)=>n.forEach(x=>s.delete(x)),contains:n=>s.has(n),toggle:(n,v)=>{if(v)s.add(n);else s.delete(n);}};}`);
+  // Synthetic credentials in these fixtures represent verified full grants.
+  c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');
   return c;
 }
 
@@ -56,7 +58,7 @@ test('same-account session credential renewal preserves listing and session gene
   c.run(`state.authAccountKey='account-A';state.token='old';state.tokenRevision=2;state.accountId='account-A';state.accountStateLoaded=true;state.accountIdentityPending=false;
     let invalidations=0;invalidateDriveSessionData=()=>invalidations++;
     scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};`);
-  assert.equal(c.run(`installSessionCredential({accessToken:'new',expiresAt:Date.now()+3600000,account:'account-A',revision:3},
+  assert.equal(c.run(`installSessionCredential({capabilities:{version:1,driveRead:true,driveWrite:true,appData:true},accessToken:'new',expiresAt:Date.now()+3600000,account:'account-A',revision:3},
     {generation:state.authGeneration})`),true);
   assert.equal(c.run('invalidations'),0);
 });
@@ -104,7 +106,7 @@ test('account-mismatched session credential preserves the current account instea
   const c=client();
   c.run(`state.authAccountKey='account-A';state.token='valid-A';state.tokenRevision=4;
     scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};`);
-  assert.equal(c.run(`installSessionCredential({accessToken:'unverified',expiresAt:Date.now()+3600000,account:'account-B',revision:5},
+  assert.equal(c.run(`installSessionCredential({capabilities:{version:1,driveRead:true,driveWrite:true,appData:true},accessToken:'unverified',expiresAt:Date.now()+3600000,account:'account-B',revision:5},
     {generation:state.authGeneration})`),false);
   assert.equal(c.run('state.authAccountKey'),'account-A');assert.equal(c.run('state.token'),'valid-A');
 });

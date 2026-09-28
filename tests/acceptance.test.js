@@ -25,6 +25,8 @@ function client() {
   c.run(`state.token='fixture-token';state.expiresAt=Date.now()+3600000;
     state.accountId='same-account';state.accountIdentityPending=false;
     resolveDriveAccountId=async()=> 'same-account';`);
+  // Synthetic credentials in these fixtures represent verified full grants.
+  c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');
   return c;
 }
 
@@ -164,7 +166,7 @@ test('verified same-account session credential renewal restarts polling for an a
     state.accountStateLoaded=true;state.accountIdentityPending=false;state.files=[{id:'existing'}];
     scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};
     let refreshes=0;scheduleAccountStateRefresh=()=>{refreshes++};`);
-  assert.equal(c.run(`installSessionCredential({accessToken:'renewed',expiresAt:Date.now()+3600000,account:'same-account',revision:3},
+  assert.equal(c.run(`installSessionCredential({capabilities:{version:1,driveRead:true,driveWrite:true,appData:true},accessToken:'renewed',expiresAt:Date.now()+3600000,account:'same-account',revision:3},
     {generation:state.authGeneration})`), true);
   const callback = [...c.timers.values()].find(timer => timer.delay === 0);
   assert.ok(callback);

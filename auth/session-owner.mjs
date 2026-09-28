@@ -1,3 +1,4 @@
+import { REQUESTED_GOOGLE_SCOPES, normalizeGrantedScopes, capabilitiesForScopes } from './scope-policy.mjs';
 // Local B-auth contract. The host must supply durable, serializable transactions;
 // an eventually consistent KV or a per-process mutex is not a valid adapter.
 export const DAY = 86_400_000;
@@ -7,7 +8,7 @@ export const RECOVERY_GRACE_MS = 7 * DAY;
 export const ERROR_STATUS = Object.freeze({
   bad_request: 400, forbidden: 403, unauthorized: 401, account_mismatch: 409,
   stale_revision: 409, reconnect_required: 401, reauthorization_required: 401,
-  transaction_invalid: 400, auth_unavailable: 503, not_found: 404,
+  client_update_required: 409, transaction_invalid: 400, auth_unavailable: 503, not_found: 404,
 });
 export class AuthError extends Error {
   constructor(code) {
@@ -26,7 +27,7 @@ export async function digest(value) {
 }
 const sleepDefault = ms => new Promise(resolve => setTimeout(resolve, ms));
 const sessionEnd = s => Math.min(s.createdAt + SESSION_ABSOLUTE_MS, s.lastSeenAt + SESSION_IDLE_MS);
-const publicCredential = s => ({ accessToken: s.access.accessToken, expiresAt: s.access.expiresAt, account: s.account, revision: s.revision });
+const publicCredential = s => ({ accessToken: s.access.accessToken, expiresAt: s.access.expiresAt, account: s.account, revision: s.revision, capabilities: capabilitiesForScopes(s.access.grantedScopes) });
 
 export class AccountCredentialOwner {
   #flight = null;
@@ -39,13 +40,32 @@ export class AccountCredentialOwner {
   }
   // transaction(fn): atomically reads one mutable state object, commits changes
   // only if fn returns, and returns a detached fn result. fn is synchronous.
-  async transact(fn) {
+  async transact(fn, { verifiedAccessReplacement = false } = {}) {
     try {
       const result = await this.storage.transaction(s => {
         s.account ??= this.account;
         if (s.account !== this.account) fail('account_mismatch');
         s.revision ??= 0;
         s.sessions ??= {};
+        // Only a newly verified exchange may repair an old Worker overwrite.
+        // Discard the unusable access snapshot, preserving account/revision and
+        // encrypted-refresh ownership. Ordinary credentials never take this path.
+        if (verifiedAccessReplacement && s.scopePolicyVersion === 1 && s.access
+          && s.access.scopeVersion === undefined
+          && Object.keys(s.access).sort().join(',') === 'accessToken,expiresAt') delete s.access;
+        // v1 durable records were admitted only by the mandatory all-scope validator.
+        // Migrate that exact legacy shape once; unknown/new shapes fail closed.
+        if (s.access && s.access.scopeVersion === undefined) {
+          if (s.scopePolicyVersion !== undefined || Object.keys(s.access).sort().join(',') !== 'accessToken,expiresAt'
+            || !s.encryptedRefresh || !Number.isSafeInteger(s.revision) || s.revision < 1) fail('auth_unavailable');
+          s.access = { ...s.access, scopeVersion: 1, grantedScopes: [...REQUESTED_GOOGLE_SCOPES] };
+        }
+        if (s.scopePolicyVersion !== undefined && s.scopePolicyVersion !== 1) fail('auth_unavailable');
+        s.scopePolicyVersion = 1;
+        if (s.access) {
+          if (s.access.scopeVersion !== 1) fail('auth_unavailable');
+          s.access.grantedScopes = normalizeGrantedScopes(s.access.grantedScopes);
+        }
         return fn(s);
       });
       return result;
@@ -95,10 +115,11 @@ export class AccountCredentialOwner {
   }
   // Called only after the host has verified Google's signed OIDC identity,
   // nonce and granted scopes. Browser input must never call this directly.
-  async establishVerifiedSession({ account, accessToken, expiresAt, refreshToken }) {
+  async establishVerifiedSession({ account, accessToken, expiresAt, refreshToken, grantedScopes }) {
     if (account !== this.account) fail('account_mismatch');
     if (typeof accessToken !== 'string' || !accessToken || !Number.isFinite(expiresAt) || expiresAt <= this.clock()) fail('bad_request');
     if (refreshToken != null && (typeof refreshToken !== 'string' || !refreshToken)) fail('bad_request');
+    try { grantedScopes = normalizeGrantedScopes(grantedScopes); } catch { fail('bad_request'); }
     const encrypted = refreshToken == null ? undefined : await this.encrypt(refreshToken);
     const sessionId = this.random();
     const key = await this.hash(sessionId);
@@ -114,7 +135,7 @@ export class AccountCredentialOwner {
       };
       if (encrypted !== undefined) s.encryptedRefresh = encrypted;
       s.revision++;
-      s.access = { accessToken, expiresAt };
+      s.access = { accessToken, expiresAt, scopeVersion: 1, grantedScopes };
       s.reconnect = false;
       delete s.lease; delete s.failureUntil; delete s.recoveryAt;
       s.sessions[key] = { createdAt: now, lastSeenAt: now };
@@ -125,7 +146,7 @@ export class AccountCredentialOwner {
         nextAlarmAt: s.nextAlarmAt,
         previous,
       };
-    });
+    }, { verifiedAccessReplacement: true });
     if (!await this.reconcileAlarm(result.nextAlarmAt)) {
       // A session is not usable until its retention alarm is installed. Undo
       // this establishment's own session even if a newer establishment already
@@ -192,7 +213,7 @@ export class AccountCredentialOwner {
         if (s.lease?.expiresAt > now) return { wait: Math.min(50, s.lease.expiresAt - now) };
         const lease = { id: this.random(), revision: s.revision, expiresAt: now + this.leaseMs };
         s.lease = lease;
-        return { lease, encryptedRefresh: s.encryptedRefresh };
+        return { lease, encryptedRefresh: s.encryptedRefresh, grantedScopes: s.access?.grantedScopes };
       });
       if (action.alarm !== undefined) await this.reconcileAlarm(action.alarm);
       if (action.error) fail(action.error);
@@ -209,7 +230,7 @@ export class AccountCredentialOwner {
     }
     fail('auth_unavailable');
   }
-  async performRefresh({ lease, encryptedRefresh }) {
+  async performRefresh({ lease, encryptedRefresh, grantedScopes }) {
     const abort = new AbortController();
     let timer;
     let response;
@@ -228,6 +249,7 @@ export class AccountCredentialOwner {
       ]);
       if (response?.error === 'invalid_grant') fail('reconnect_required');
       if (!response || typeof response.accessToken !== 'string' || !response.accessToken || !Number.isFinite(response.expiresAt) || response.expiresAt <= this.clock() + this.skewMs) fail('auth_unavailable');
+      grantedScopes = normalizeGrantedScopes(Object.hasOwn(response, 'grantedScopes') ? response.grantedScopes : grantedScopes);
       if (response.refreshToken != null) {
         if (typeof response.refreshToken !== 'string' || !response.refreshToken) fail('auth_unavailable');
         encrypted = await this.encrypt(response.refreshToken);
@@ -243,7 +265,7 @@ export class AccountCredentialOwner {
         return;
       }
       if (encrypted !== undefined) s.encryptedRefresh = encrypted;
-      s.access = { accessToken: response.accessToken, expiresAt: response.expiresAt };
+      s.access = { accessToken: response.accessToken, expiresAt: response.expiresAt, scopeVersion: 1, grantedScopes };
       s.revision++;
       delete s.failureUntil;
     });

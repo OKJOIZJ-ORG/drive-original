@@ -61,6 +61,8 @@ function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEna
   vm.createContext(context);
   const appPath = path.join(__dirname, '..', 'app.js');
   vm.runInContext(fs.readFileSync(appPath, 'utf8'), context, { filename: appPath });
+  // Existing fixtures represent a verified full-grant credential. Partial/unknown tests override this explicitly.
+  vm.runInContext('state.authCapabilities = { version: 1, driveRead: true, driveWrite: true, appData: true };', context);
   return context;
 }
 
@@ -329,13 +331,13 @@ test('session credentials are strict, memory-only, and remove legacy browser art
     resumeAfterCredential = () => {};
     removeLegacyCredentialStorage();
     const expiresAt = Date.now() + 60_000;
-    const installed = installSessionCredential({ accessToken: 'session-token', expiresAt, account: 'account-A', revision: 7, sessionMarker: 's'.repeat(43) }, { generation: state.authGeneration });
+    const installed = installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'session-token', expiresAt, account: 'account-A', revision: 7, sessionMarker: 's'.repeat(43) }, { generation: state.authGeneration });
     const rejected = [
-      installSessionCredential({ accessToken: '', expiresAt, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
-      installSessionCredential({ accessToken: 'near-expiry', expiresAt: Date.now() + TOKEN_SKEW_MS, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
-      installSessionCredential({ accessToken: 'bad-account', expiresAt, account: 'bad account', revision: 8 }, { generation: state.authGeneration }),
-      installSessionCredential({ accessToken: 'string-numbers', expiresAt: String(expiresAt), account: 'account-A', revision: '8' }, { generation: state.authGeneration }),
-      installSessionCredential({ accessToken: 'bad-marker', expiresAt, account: 'account-A', revision: 8, sessionMarker: 'not valid' }, { generation: state.authGeneration })
+      installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: '', expiresAt, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'near-expiry', expiresAt: Date.now() + TOKEN_SKEW_MS, account: 'account-A', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'bad-account', expiresAt, account: 'bad account', revision: 8 }, { generation: state.authGeneration }),
+      installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'string-numbers', expiresAt: String(expiresAt), account: 'account-A', revision: '8' }, { generation: state.authGeneration }),
+      installSessionCredential({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'bad-marker', expiresAt, account: 'account-A', revision: 8, sessionMarker: 'not valid' }, { generation: state.authGeneration })
     ];
     return JSON.stringify({ installed, rejected, token: state.token, expiresAt: state.expiresAt, account: state.authAccountKey, revision: state.tokenRevision,
       sessionMarker: sessionCredentialMarker,
@@ -366,7 +368,7 @@ test('same-origin credential requests are single-flight and send the account fen
     request = { url: String(url), options };
     await new Promise((resolve) => { release = resolve; });
     return new Response(JSON.stringify({
-      accessToken: 'renewed-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 4,
+      capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'renewed-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 4,
       sessionMarker: 'm'.repeat(43)
     }), {
       headers: { 'Content-Type': 'application/json' }
@@ -382,7 +384,7 @@ test('same-origin credential requests are single-flight and send the account fen
   assert.deepEqual(await Promise.all([first, second]), [true, true]);
   assert.equal(calls, 1);
   assert.equal(request.url, 'https://example.test/api/session/credential');
-  assert.deepEqual(JSON.parse(request.options.body), { expectedAccount: 'account-A', rejectedRevision: null });
+  assert.deepEqual(JSON.parse(request.options.body), { expectedAccount: 'account-A', rejectedRevision: null, credentialProtocol: 2 });
   assert.equal(request.options.credentials, 'same-origin');
   assert.equal(request.options.cache, 'no-store');
   assert.equal(request.options.mode, 'same-origin');
@@ -688,7 +690,7 @@ test('standalone deadline generation-fences a real credential response that reso
     calls += 1;
     await new Promise((resolve) => { release = resolve; });
     return new Response(JSON.stringify({
-      accessToken: 'must-not-install', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 1,
+      capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'must-not-install', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 1,
       sessionMarker: 'l'.repeat(43)
     }), { headers: { 'Content-Type': 'application/json' } });
   };
@@ -754,7 +756,7 @@ test('cancelling a Drive credential waiter releases it while the shared refresh 
       if (String(url).includes('/api/session/credential')) {
         credentialCalls++; authSignal = options.signal;
         await new Promise(resolve => { release = resolve; });
-        return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+        return new Response(JSON.stringify({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'fresh', expiresAt: Date.now() + 3600000,
           account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
       }
       metadataCalls++;
@@ -791,7 +793,7 @@ test('foreground rechecks use wall-clock expiry and one shared refresh while hid
   context.fetch = async () => {
     calls++;
     await new Promise(resolve => { release = resolve; });
-    return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+    return new Response(JSON.stringify({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'fresh', expiresAt: Date.now() + 3600000,
       account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
   };
   run(context, `state.authAccountKey='account-A';state.token='expired';state.expiresAt=Date.now()-1;state.tokenRevision=1;
@@ -812,7 +814,7 @@ test('a Q1 token reply authorizes only the same player source that survived the 
     let release, reply;
     context.fetch = async () => {
       await new Promise(resolve => { release = resolve; });
-      return new Response(JSON.stringify({ accessToken: 'fresh', expiresAt: Date.now() + 3600000,
+      return new Response(JSON.stringify({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'fresh', expiresAt: Date.now() + 3600000,
         account: 'account-A', revision: 2 }), { headers: { 'Content-Type': 'application/json' } });
     };
     run(context, `state.authAccountKey='account-A';state.token='old';state.expiresAt=Date.now()+3600000;state.tokenRevision=1;
@@ -840,7 +842,7 @@ test('a credential response parsed after its account generation changes cannot i
     headers: new Headers({ 'Content-Type': 'application/json' }),
     json: async () => {
       await new Promise((resolve) => { release = resolve; });
-      return { accessToken: 'late-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 2 };
+      return { capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'late-token', expiresAt: Date.now() + 60_000, account: 'account-A', revision: 2 };
     }
   });
   run(context, `state.authAccountKey='account-A';state.token='current-token';state.expiresAt=Date.now()+60_000;state.tokenRevision=1;
@@ -861,10 +863,10 @@ test('account and revision fences reject stale credentials without replacing the
     scheduleTokenRenewal=()=>{};clearAuthError=()=>{};sendTokenToWorker=()=>{};updateConnectionBadge=()=>{};resumeAfterCredential=()=>{};
     state.authAccountKey='account-A';state.token='current';state.expiresAt=Date.now()+60_000;state.tokenRevision=5;
     const results = [
-      installSessionCredential({accessToken:'other-account',expiresAt:Date.now()+60_000,account:'account-B',revision:6},{generation:state.authGeneration}),
-      installSessionCredential({accessToken:'stale',expiresAt:Date.now()+60_000,account:'account-A',revision:4},{generation:state.authGeneration}),
-      installSessionCredential({accessToken:'changed-same-revision',expiresAt:Date.now()+60_000,account:'account-A',revision:5},{generation:state.authGeneration}),
-      installSessionCredential({accessToken:'same-text',expiresAt:Date.now()+60_000,account:'account-A',revision:6},{generation:state.authGeneration})
+      installSessionCredential({capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken:'other-account',expiresAt:Date.now()+60_000,account:'account-B',revision:6},{generation:state.authGeneration}),
+      installSessionCredential({capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken:'stale',expiresAt:Date.now()+60_000,account:'account-A',revision:4},{generation:state.authGeneration}),
+      installSessionCredential({capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken:'changed-same-revision',expiresAt:Date.now()+60_000,account:'account-A',revision:5},{generation:state.authGeneration}),
+      installSessionCredential({capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken:'same-text',expiresAt:Date.now()+60_000,account:'account-A',revision:6},{generation:state.authGeneration})
     ];
     return JSON.stringify({results,account:state.authAccountKey,token:state.token,revision:state.tokenRevision});
   })()`));
@@ -2745,6 +2747,109 @@ test('seek completion requires seeked plus a decoded frame at each requested tar
   assert.equal(frameFirstCompletion.confidence, 'decoded-frame');
 });
 
+function installDelayedSeekFixture(context, playbackRate = 1) {
+  run(context, `(() => {
+    globalThis.delayedSeekFrames = [];
+    globalThis.delayedSeekEvents = [];
+    globalThis.delayedSeekRecoveries = [];
+    globalThis.__driveOriginalMediaTraceSink = event => delayedSeekEvents.push(event);
+    state.selected = { id: 'delayed-frame-video', mimeType: 'video/mp4' };
+    state.mediaSession = 71;
+    state.playbackSession = 13;
+    state.mediaAttempt = 'range';
+    state.mediaPlaybackMode = PLAYBACK_MODE.RANGE;
+    state.mediaTransportVerified = true;
+    state.mediaTransportStarted = true;
+    el.videoPlayer = {
+      hidden: false, paused: false, ended: false, seeking: true,
+      currentTime: 50, duration: 100, playbackRate: ${playbackRate},
+      dataset: { mediaSession: '71' },
+      requestVideoFrameCallback(callback) {
+        delayedSeekFrames.push(callback); return delayedSeekFrames.length;
+      },
+      cancelVideoFrameCallback() {}
+    };
+    el.playerSheet = { hidden: false };
+    recoverFromMediaProxyError = async failure => delayedSeekRecoveries.push(failure);
+    beginMediaDiagnosticTrace(state.selected, 71, mediaDiagnosticTimestamp());
+    beginMediaSeekIntent(el.videoPlayer, 50, 'delayed-presentation');
+    el.videoPlayer.seeking = false;
+    handleVideoSeeked({ currentTarget: el.videoPlayer });
+  })()`);
+}
+
+test('a delayed owned decoded frame completes a playing seek at its advancing playhead', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  installDelayedSeekFixture(context);
+  clock.advance(886);
+  run(context, `el.videoPlayer.currentTime=50.818;
+    delayedSeekFrames[0](0, { mediaTime: 50.831528 });`);
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+  assert.equal(run(context, 'mediaFrameWatchdog !== null'), true);
+  const frames = JSON.parse(run(context, `JSON.stringify(delayedSeekEvents.filter(e => e.stage === 'seek-frame'))`));
+  assert.equal(frames.length, 1);
+  assert.equal(frames[0].targetTime, 50);
+  assert.equal(frames[0].presentedMediaTime, 50.831528);
+  assert.equal(run(context, 'delayedSeekRecoveries.length'), 0);
+});
+
+test('delayed seek presentation rejects stale, unrelated, implausible and paint-only frames', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  installDelayedSeekFixture(context);
+  clock.advance(1000);
+  run(context, 'el.videoPlayer.currentTime=51');
+  for (const expression of [
+    'noteMediaSeekFrameProgress(el.videoPlayer, 10)',
+    'noteMediaSeekFrameProgress(el.videoPlayer, 51, "decoded-frame", mediaSourceGeneration, mediaSeekGeneration-1)',
+    'noteMediaSeekFrameProgress(el.videoPlayer, 51, "decoded-frame", mediaSourceGeneration+1)',
+    'noteMediaSeekFrameProgress(el.videoPlayer, 51, "paint-only")'
+  ]) assert.equal(run(context, expression), false);
+  run(context, 'el.videoPlayer.currentTime=80');
+  assert.equal(run(context, 'noteMediaSeekFrameProgress(el.videoPlayer, 80)'), false,
+    'matching currentTime is insufficient for an impossible scene jump');
+  assert.equal(run(context, 'mediaSeekWatchdog.frameSeen'), false);
+  run(context, 'el.videoPlayer.currentTime=51;delayedSeekFrames[0](0, {mediaTime:51})');
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+  assert.equal(run(context, 'delayedSeekRecoveries.length'), 0);
+});
+
+test('delayed seek timeline accounts for rate changes, paused time and hidden playback separately', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  installDelayedSeekFixture(context, 2);
+  clock.advance(1000);
+  run(context, 'el.videoPlayer.currentTime=52;el.videoPlayer.playbackRate=0.5;syncMediaSeekWatchdog()');
+  clock.advance(1000);
+  run(context, 'el.videoPlayer.currentTime=52.5;el.videoPlayer.paused=true;syncMediaSeekWatchdog()');
+  const remaining = run(context, 'mediaSeekWatchdog.remainingMs');
+  clock.advance(4000);
+  assert.equal(run(context, 'noteMediaSeekFrameProgress(el.videoPlayer, 52.5)'), false,
+    'paused seek still requires the exact target frame');
+  run(context, 'el.videoPlayer.paused=false;syncMediaSeekWatchdog();el.videoPlayer.currentTime=54');
+  assert.equal(run(context, 'noteMediaSeekFrameProgress(el.videoPlayer, 54)'), false,
+    'paused elapsed time cannot authorize playback advancement');
+  run(context, 'document.visibilityState="hidden";syncMediaSeekWatchdog()');
+  clock.advance(2000);
+  assert.equal(run(context, 'mediaSeekWatchdog.remainingMs'), remaining);
+  run(context, 'document.visibilityState="visible";syncMediaSeekWatchdog();el.videoPlayer.currentTime=53.5');
+  run(context, 'delayedSeekFrames[0](0, { mediaTime:53.5 })');
+  assert.equal(run(context, 'mediaSeekWatchdog'), null,
+    'hidden playing time can advance the scene while timeout spending remains suspended');
+  assert.equal(run(context, 'delayedSeekRecoveries.length'), 0);
+});
+
+test('advancing currentTime without an owned decoded frame still reaches seek recovery once', () => {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  installDelayedSeekFixture(context);
+  run(context, 'el.videoPlayer.currentTime=60');
+  clock.advance(15_000);
+  assert.equal(run(context, 'delayedSeekRecoveries.length'), 1);
+  assert.equal(run(context, 'mediaSeekWatchdog'), null);
+});
+
 test('seek completion times out once at 15 seconds and delegates to existing Range recovery', async () => {
   const context = loadAppContext();
   const clock = installFakeClock(context);
@@ -3871,4 +3976,72 @@ test('same-session initial calls have one route owner and cannot bypass an activ
   await Promise.resolve();assert.equal(run(context,'aborted'),1);assert.equal(run(context,'calls'),0);
   run(context,'finishSetup();finishCleanup({settled:true})');await Promise.all([first,second]);
   assert.equal(run(context,'calls'),1);
+});
+
+
+test('AUTH-05 missing appData preserves playback and local pending state while allowing Drive reads', async () => {
+  const context = loadAppContext();
+  let calls = 0;
+  context.fetch = async () => { calls++; return new Response('{}'); };
+  run(context, `
+    state.token='old';state.expiresAt=Date.now()+3600000;state.authAccountKey='account-A';state.tokenRevision=1;
+    state.accountId='permission-A';state.accountStateLoaded=true;state.accountIdentityPending=false;
+    state.accountMediaState={version:1,viewed:{file:123},favorites:{},updatedAt:123};
+    state.accountStateRevision=7;state.selected={id:'file'};state.mediaSession=9;state.playbackSession=10;
+    state.accountStateAbortController=new AbortController();
+    globalThis.previousStateController=state.accountStateAbortController;
+    el.connectionBadge={dataset:{},querySelector(){return null}};
+    el.authHint={textContent:'',classList:{add(){},remove(){}}};
+    scheduleTokenRenewal=()=>{};resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};
+  `);
+  assert.equal(run(context, `installSessionCredential({accessToken:'partial',expiresAt:Date.now()+3600000,
+    account:'account-A',revision:2,capabilities:{version:1,driveRead:true,driveWrite:true,appData:false}},
+    {generation:state.authGeneration})`), true);
+  assert.deepEqual(JSON.parse(run(context, `JSON.stringify({token:state.token,viewed:state.accountMediaState.viewed,
+    revision:state.accountStateRevision,selected:state.selected.id,media:state.mediaSession,playback:state.playbackSession,
+    aborted:previousStateController.signal.aborted,loaded:state.accountStateLoaded})`)),
+    {token:'partial',viewed:{file:123},revision:7,selected:'file',media:9,playback:10,aborted:true,loaded:false});
+  await run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/file?alt=media')`);
+  assert.equal(calls, 1);
+  await assert.rejects(run(context, `readAccountStateFile('state-file')`), error => error.code === 'insufficient_scope' && error.feature === 'appData');
+  await run(context, 'flushAccountMediaState()');
+  run(context, 'queueAccountStateSync()');
+  assert.equal(calls, 1);
+  assert.equal(run(context, 'state.accountStateSyncTimer'), null);
+  assert.equal(run(context, `canRefreshAccountState()`), false);
+});
+
+test('AUTH-05 appData-only grants can read state but cannot read ordinary files or authorize old credentials', async () => {
+  const context = loadAppContext();
+  let calls = 0;
+  context.fetch = async () => { calls++; return new Response(JSON.stringify({schemaVersion:2,writerId:'fixture',viewed:{},favorites:{},updatedAt:0})); };
+  run(context, `state.token='partial';state.expiresAt=Date.now()+3600000;
+    state.authCapabilities={version:1,driveRead:false,driveWrite:false,appData:true};`);
+  await run(context, `driveFetch('https://www.googleapis.com/drive/v3/about?fields=user(permissionId)')`);
+  await run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/state-file?alt=media',{[ACCOUNT_STATE_READ]:true})`);
+  assert.equal(calls, 2);
+  await assert.rejects(run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/media?alt=media')`), error => error.feature === 'driveRead');
+  assert.equal(calls, 2);
+  assert.equal(run(context, `normalizeSessionCredential({accessToken:'legacy',expiresAt:Date.now()+3600000,account:'A',revision:1})`), null);
+  assert.equal(run(context, `normalizeAuthCapabilities({version:99,driveRead:true,driveWrite:true,appData:true})`), null);
+  run(context, `state.authCapabilities={version:1,driveRead:true,driveWrite:false,appData:true};`);
+  await assert.rejects(run(context, `driveFetch('https://www.googleapis.com/drive/v3/files/media',{method:'PATCH'})`), error => error.feature === 'driveWrite');
+  assert.equal(calls, 2);
+});
+
+
+test('AUTH-05 ordinary media worker receives no token without Drive read capability', async () => {
+  const context = loadAppContext();
+  const messages = [];
+  context.navigator.serviceWorker = { controller: { postMessage: message => messages.push(message) } };
+  context.port = { postMessage: message => messages.push(message), close() {} };
+  run(context, `state.token='appData-only';state.expiresAt=Date.now()+3600000;state.authAccountKey='A';state.tokenRevision=4;
+    state.authCapabilities={version:1,driveRead:false,driveWrite:false,appData:true};sendTokenToWorker();`);
+  assert.equal(messages[0].type, 'CLEAR_TOKEN');
+  assert.equal(Object.hasOwn(messages[0], 'token'), false);
+  await run(context, `handleWorkerMessage({data:{type:'TOKEN_REQUEST',requestId:'r',accountGeneration:state.driveSessionGeneration,
+    expectedAccount:'A'},ports:[port]})`);
+  assert.equal(messages.at(-1).type, 'TOKEN_RESPONSE');
+  assert.equal(messages.at(-1).token, null);
+  assert.equal(run(context, 'state.token'), 'appData-only');
 });

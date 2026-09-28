@@ -19,6 +19,8 @@ function app() {
   c.matchMedia = c.window.matchMedia;
   vm.createContext(c); vm.runInContext(appSource, c);
   c.run = s => vm.runInContext(s, c);
+  // Synthetic credentials in these fixtures represent verified full grants.
+  c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');
   return c;
 }
 
@@ -272,7 +274,7 @@ test('a background credential from a different account cannot replace the curren
   const c=app();
   c.run(`state.accountId='original';state.authAccountKey='account-A';state.tokenRevision=7;
     state.token='original-token';state.expiresAt=Date.now()+60000;`);
-  const changed=c.run(`installSessionCredential({accessToken:'other-token',expiresAt:Date.now()+3600000,
+  const changed=c.run(`installSessionCredential({capabilities:{version:1,driveRead:true,driveWrite:true,appData:true},accessToken:'other-token',expiresAt:Date.now()+3600000,
     account:'account-B',revision:8},{generation:state.authGeneration})`);
   assert.equal(changed,false);assert.equal(c.run('state.token'),'original-token');
   assert.equal(c.run('state.authAccountKey'),'account-A');

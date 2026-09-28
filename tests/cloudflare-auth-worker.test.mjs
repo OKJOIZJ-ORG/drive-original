@@ -115,7 +115,7 @@ test('Google ID token verifies signature and every identity/time/nonce claim, ca
   }), error => error.code === 'auth_unavailable');
 });
 
-test('code exchange sends verifier and rejects a token response missing any granted scope', async () => {
+test('code exchange sends verifier and accepts partial feature grants after OIDC verification', async () => {
   const fixture = await signingFixture();
   const transaction = { state: 's'.repeat(64), pkceVerifier: 'v'.repeat(64), nonce: fixture.claims.nonce };
   let tokenRequests = 0;
@@ -141,7 +141,7 @@ test('code exchange sends verifier and rejects a token response missing any gran
   assert.equal(tokenRequests, 1);
 
   const diagnostics = [];
-  await assert.rejects(exchangeGoogleAuthorizationCode({
+  const partial = await exchangeGoogleAuthorizationCode({
     code: 'code', transaction, clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET,
     redirectUri: `${origin}/auth/google/callback`, clock: () => fixedNow, jwks: fixture.jwks,
     diagnostic: stage => diagnostics.push(stage),
@@ -149,8 +149,9 @@ test('code exchange sends verifier and rejects a token response missing any gran
       access_token: 'access', expires_in: 3600, refresh_token: 'refresh', token_type: 'Bearer',
       scope: REQUIRED_GOOGLE_SCOPES.slice(0, -1).join(' '), id_token: fixture.token,
     }),
-  }), error => error.code === 'auth_unavailable');
-  assert.deepEqual(diagnostics, ['google_token_payload_invalid']);
+  });
+  assert.deepEqual(diagnostics, []);
+  assert.deepEqual(partial.grantedScopes, [...REQUIRED_GOOGLE_SCOPES.slice(0, -1)].sort());
 });
 
 test('code exchange reports only fixed diagnostic stages for rejected Google responses', async () => {
@@ -321,7 +322,7 @@ async function workerFlowFixture({
     if (payload.kind === 'account' && payload.operation === 'logout') return { loggedOut: true };
     if (payload.kind === 'account' && payload.operation === 'credential') {
       if (payload.args.input.expectedAccount !== payload.args.account) throw new AuthError('account_mismatch');
-      return { accessToken: 'short', expiresAt: fixedNow + 3600_000, account: payload.args.account, revision: 1 };
+      return { capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true }, accessToken: 'short', expiresAt: fixedNow + 3600_000, account: payload.args.account, revision: 1 };
     }
     throw new Error(`Unexpected operation ${payload.kind}/${payload.operation}`);
   };
@@ -489,4 +490,19 @@ test('callback config and origin failures stay JSON failures instead of redirect
   assert.equal(originFailure.status, 403);
   assert.equal(originFailure.headers.get('Location'), null);
   assert.equal((await originFailure.json()).error.code, 'forbidden');
+});
+
+
+test('refresh accepts partial scopes but rejects malformed or non-OIDC scope claims', async () => {
+  const base = { access_token: 'fixture', expires_in: 3600, token_type: 'Bearer' };
+  const run = body => refreshGoogleAccess({ refreshToken: 'fixture-refresh', clientId: 'fixture-client', clientSecret: 'fixture-secret',
+    clock: () => fixedNow, fetchImpl: async () => Response.json(body) });
+  const omitted = await run(base);
+  assert.equal(Object.hasOwn(omitted, 'grantedScopes'), false);
+  for (const scope of ['openid', 'openid https://www.googleapis.com/auth/drive.readonly', 'openid https://www.googleapis.com/auth/drive.appdata']) {
+    assert.deepEqual((await run({ ...base, scope })).grantedScopes, scope.split(' ').sort());
+  }
+  for (const scope of [null, [], '', 'openid\tfoo', 'https://www.googleapis.com/auth/drive', 'openid  foo']) {
+    await assert.rejects(run({ ...base, scope }), error => error.code === 'auth_unavailable');
+  }
 });

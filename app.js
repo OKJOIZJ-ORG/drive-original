@@ -5,6 +5,7 @@ const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMuta
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
 const ACCOUNT_STATE_WRITE = Symbol('account-state-write');
+const ACCOUNT_STATE_READ = Symbol('account-state-read');
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -20,7 +21,7 @@ const LEGACY_TOKEN_STORAGE_KEY = 'drive-original.oauth-token';
 const LEGACY_CLIENT_ID_STORAGE_KEY = 'drive-original.oauth-client-id';
 const AUTH_ERROR_CODES = new Set([
   'account_mismatch', 'stale_revision', 'reconnect_required', 'auth_unavailable',
-  'unauthorized', 'forbidden', 'bad_request'
+  'unauthorized', 'forbidden', 'bad_request', 'client_update_required'
 ]);
 const AUTH_CALLBACK_ERROR_MESSAGES = Object.freeze({
   transaction_invalid: 'Google 로그인 요청이 만료되었거나 확인되지 않았습니다. 다시 연결해 주세요.',
@@ -495,6 +496,7 @@ const state = {
   expiresAt: 0,
   tokenRevision: 0,
   authAccountKey: null,
+  authCapabilities: null,
   authStatus: 'anonymous',
   folders: [],
   files: [],
@@ -1545,7 +1547,10 @@ function bindEvents() {
     if (isCurrentMediaEvent(event.currentTarget)) updateVolumeUI();
   });
   el.videoPlayer.addEventListener('ratechange', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) updateSpeedUI();
+    if (isCurrentMediaEvent(event.currentTarget)) {
+      syncMediaSeekWatchdog();
+      updateSpeedUI();
+    }
   });
   el.videoPlayer.addEventListener('resize', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) updateQualityDisplay();
@@ -1830,10 +1835,10 @@ async function handleWorkerMessage(event) {
       requestCurrent: stillCurrent,
       q1RetirementProtocol: data.requireCurrentMedia === true ? Q1_RETIRE_PROTOCOL : undefined,
       credentialProtocol: AUTH_PROTOCOL,
-      token: available && stillCurrent && hasUsableToken() ? state.token : null,
-      expiresAt: available && stillCurrent && hasUsableToken() ? state.expiresAt : 0,
-      account: available && stillCurrent && hasUsableToken() ? state.authAccountKey : null,
-      revision: available && stillCurrent && hasUsableToken() ? state.tokenRevision : 0,
+      token: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.token : null,
+      expiresAt: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.expiresAt : 0,
+      account: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.authAccountKey : null,
+      revision: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.tokenRevision : 0,
       accountGeneration: state.driveSessionGeneration
     });
     port.close?.();
@@ -2051,10 +2056,9 @@ async function recoverFromMediaProxyError(data) {
 function sendTokenToWorker() {
   if (!hasUsableToken() || !state.authAccountKey || !navigator.serviceWorker) return;
   const message = {
-    type: 'SET_TOKEN',
+    type: hasAuthCapability('driveRead') ? 'SET_TOKEN' : 'CLEAR_TOKEN',
     credentialProtocol: AUTH_PROTOCOL,
-    token: state.token,
-    expiresAt: state.expiresAt,
+    ...(hasAuthCapability('driveRead') ? { token: state.token, expiresAt: state.expiresAt } : {}),
     account: state.authAccountKey,
     revision: state.tokenRevision,
     accountGeneration: state.driveSessionGeneration
@@ -2071,8 +2075,28 @@ function removeLegacyCredentialStorage() {
   } catch (_) {}
 }
 
+function normalizeAuthCapabilities(value) {
+  if (!value || value.version !== 1 || ['driveRead', 'driveWrite', 'appData'].some(key => typeof value[key] !== 'boolean')
+    || (value.driveWrite && !value.driveRead)) return null;
+  return { version: 1, driveRead: value.driveRead, driveWrite: value.driveWrite, appData: value.appData };
+}
+function hasAuthCapability(feature) {
+  return state.authCapabilities?.version === 1 && state.authCapabilities[feature] === true;
+}
+function missingScopeError(feature) {
+  const error = new Error(feature === 'appData'
+    ? '기록 동기화 권한이 필요합니다. 다시 연결해 주세요.'
+    : '이 Drive 기능의 권한이 필요합니다. 다시 연결해 주세요.');
+  error.code = 'insufficient_scope';
+  error.feature = feature;
+  error.status = 403;
+  return error;
+}
+
 function normalizeSessionCredential(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const capabilities = normalizeAuthCapabilities(value.capabilities);
+  if (!capabilities) return null;
   const accessToken = typeof value.accessToken === 'string' ? value.accessToken : '';
   const expiresAt = value.expiresAt;
   const account = typeof value.account === 'string' ? value.account : '';
@@ -2083,7 +2107,7 @@ function normalizeSessionCredential(value) {
   if (!account || account.length > 256 || /[\s\x00-\x1f\x7f]/.test(account)) return null;
   if (!Number.isSafeInteger(revision) || revision < 1) return null;
   if (sessionMarker != null && (typeof sessionMarker !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(sessionMarker))) return null;
-  return { accessToken, expiresAt, account, revision, sessionMarker };
+  return { accessToken, expiresAt, account, revision, sessionMarker, capabilities };
 }
 
 function authErrorCode(value, fallback = 'auth_unavailable') {
@@ -2105,7 +2129,20 @@ function installSessionCredential(value, { generation, rejectedRevision = null }
   if (Number.isSafeInteger(rejectedRevision) && credential.revision <= rejectedRevision) return false;
   if (credential.account === state.authAccountKey && credential.revision < state.tokenRevision) return false;
   if (credential.account === state.authAccountKey && credential.revision === state.tokenRevision
-    && state.token && credential.accessToken !== state.token) return false;
+    && state.token && (credential.accessToken !== state.token
+      || JSON.stringify(credential.capabilities) !== JSON.stringify(state.authCapabilities))) return false;
+  state.authCapabilities = credential.capabilities;
+  if (!hasAuthCapability('appData')) {
+    state.accountStateAbortController?.abort();
+    state.accountStateAbortController = null;
+    stopAccountStateRefresh();
+    clearTimeout(state.accountStateSyncTimer);
+    clearTimeout(state.accountStateSyncRetryTimer);
+    state.accountStateSyncTimer = state.accountStateSyncRetryTimer = null;
+    state.accountStateLoaded = false;
+    state.accountStateSyncError = missingScopeError('appData');
+    updateAccountSyncStatus();
+  }
   state.authAccountKey = credential.account;
   state.token = credential.accessToken;
   state.expiresAt = credential.expiresAt;
@@ -2129,8 +2166,9 @@ function resumeAfterCredential(generation) {
       });
     }
     if (generation !== state.authGeneration || state.accountIdentityPending) return;
-    state.accountStateRefreshBlocked = false;
+    state.accountStateRefreshBlocked = !hasAuthCapability('appData');
     scheduleAccountStateRefresh(0);
+    if (!hasAuthCapability('driveRead')) return;
     const retryContext = state.authRetryContext;
     if (
       state.retryAfterAuth && retryContext && state.selected?.id === retryContext.fileId
@@ -2401,7 +2439,7 @@ function requestSessionCredential({ background = false, force = false, rejectedR
           'Content-Type': 'application/json',
           [AUTH_CSRF_HEADER]: '1'
         },
-        body: JSON.stringify({ expectedAccount: state.authAccountKey, rejectedRevision: rejected }),
+        body: JSON.stringify({ expectedAccount: state.authAccountKey, rejectedRevision: rejected, credentialProtocol: 2 }),
         signal: controller.signal
       });
       if (generation !== state.authGeneration) return false;
@@ -2418,7 +2456,8 @@ function requestSessionCredential({ background = false, force = false, rejectedR
         if (!background && code !== 'unauthorized') {
           setAuthError(code === 'reconnect_required' || code === 'account_mismatch'
             ? 'Google 계정을 다시 연결해야 합니다.'
-            : '인증 서비스에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+            : code === 'client_update_required' ? '앱을 새로 고친 뒤 다시 시도해 주세요.'
+              : '인증 서비스에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');
         }
         return false;
       }
@@ -3683,6 +3722,8 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
   delete requestOptions.driveNoRetry;
+  const accountStateRead = requestOptions[ACCOUNT_STATE_READ] === true;
+  delete requestOptions[ACCOUNT_STATE_READ];
   const accountStateWrite = requestOptions[ACCOUNT_STATE_WRITE];
   delete requestOptions[ACCOUNT_STATE_WRITE];
   const requestMethod = String(requestOptions.method || 'GET').toUpperCase();
@@ -3703,6 +3744,9 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     error.status = 401;
     throw error;
   }
+  const aboutRequest = new URL(url, location.href).pathname === '/drive/v3/about' && requestMethod === 'GET';
+  const feature = accountStateWrite || accountStateRead ? 'appData' : ['GET', 'HEAD'].includes(requestMethod) ? 'driveRead' : 'driveWrite';
+  if (!(aboutRequest && (hasAuthCapability('driveRead') || hasAuthCapability('appData'))) && !hasAuthCapability(feature)) throw missingScopeError(feature);
   const requestToken = state.token;
   const requestTokenRevision = state.tokenRevision || 0;
   const response = await fetch(url, {
@@ -3867,7 +3911,7 @@ async function reserveAccountStateFileId(options) {
     if (!valid(entry)) throw accountStateError('invalid_account_state_reservation');
     return entry.fileId;
   }
-  const response = await driveFetch(`${DRIVE_API}/files/generateIds?count=1&space=appDataFolder&type=files`, options);
+  const response = await driveFetch(`${DRIVE_API}/files/generateIds?count=1&space=appDataFolder&type=files`, { ...options, [ACCOUNT_STATE_READ]: true });
   const data = await response.json();
   const entry = { schemaVersion: 1, accountId, writerId, fileId: data?.ids?.length === 1 ? data.ids[0] : null };
   if (!valid(entry) || data.space !== 'appDataFolder' || state.accountId !== accountId
@@ -3883,7 +3927,7 @@ async function reserveAccountStateFileId(options) {
 
 async function confirmAccountStateWrite(fileId, expected, options) {
   const params = new URLSearchParams({ fields: 'id,name,modifiedTime,trashed,spaces' });
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params}`, options);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params}`, { ...options, [ACCOUNT_STATE_READ]: true });
   const metadata = await response.json();
   if (metadata?.id !== fileId || metadata.name !== accountStateWriterFileName() || metadata.trashed !== false
     || !Array.isArray(metadata.spaces) || !metadata.spaces.includes('appDataFolder')) throw accountStateError('account_state_readback_owner');
@@ -3931,7 +3975,7 @@ function applyMergedAccountMediaState(merged) {
 
 function canRefreshAccountState() {
   return !state.demo && Boolean(state.accountId) && !state.accountIdentityPending
-    && hasUsableToken() && navigator.onLine !== false && document.visibilityState === 'visible';
+    && hasUsableToken() && hasAuthCapability('appData') && navigator.onLine !== false && document.visibilityState === 'visible';
 }
 
 function stopAccountStateRefresh() {
@@ -3989,7 +4033,7 @@ async function findAccountStateFile(options = {}) {
       fields: 'nextPageToken,incompleteSearch,files(id,name,modifiedTime)'
     });
     if (pageToken) params.set('pageToken', pageToken);
-    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, options);
+    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { ...options, [ACCOUNT_STATE_READ]: true });
     const page = await response.json();
     if (!page || !Array.isArray(page.files)
       || (page.nextPageToken != null && typeof page.nextPageToken !== 'string')
@@ -4013,7 +4057,7 @@ async function findAccountStateFile(options = {}) {
 
 async function readAccountStateFile(fileId, options = {}, legacy = false) {
   if (!fileId) return createEmptyAccountMediaState();
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, options);
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, { ...options, [ACCOUNT_STATE_READ]: true });
   return normalizeAccountMediaState(validateRawAccountMediaState(await response.json(), legacy));
 }
 
@@ -4119,6 +4163,13 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
       state.accountMediaState = createEmptyAccountMediaState();
       state.accountMediaState = readCachedAccountMediaState(accountId);
     }
+    if (!hasAuthCapability('appData')) {
+      state.accountStateSyncError = missingScopeError('appData');
+      state.accountStateRefreshBlocked = true;
+      refreshFavoritePresentation();
+      updateAccountSyncStatus();
+      return state.accountMediaState;
+    }
     const catalog = await findAccountStateFile(owner.options);
     owner.assert();
     state.accountStateFileId = catalog?.id || null;
@@ -4165,7 +4216,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
 }
 
 async function flushAccountMediaState() {
-  if (state.demo || !hasUsableToken() || !state.accountId || !state.accountStateLoaded || state.accountIdentityPending) return;
+  if (state.demo || !hasUsableToken() || !hasAuthCapability('appData') || !state.accountId || !state.accountStateLoaded || state.accountIdentityPending) return;
   if (state.accountStateSyncPromise) return state.accountStateSyncPromise;
   const revisionAtStart = state.accountStateRevision;
   const accountId = state.accountId;
@@ -4241,7 +4292,7 @@ async function flushAccountMediaState() {
 function scheduleAccountStateSyncRetry(error) {
   const status = Number(error?.status) || 0;
   const retryable = !navigator.onLine || status === 0 || status === 408 || status === 429 || status >= 500;
-  if (!retryable || state.accountStateSyncRetryCount >= 3 || !state.accountId) return;
+  if (!hasAuthCapability('appData') || !retryable || state.accountStateSyncRetryCount >= 3 || !state.accountId) return;
   state.accountStateSyncRetryCount += 1;
   const delay = Math.max(Number(error?.retryAfterMs) || 0, 1_000 * (2 ** (state.accountStateSyncRetryCount - 1)));
   clearTimeout(state.accountStateSyncRetryTimer);
@@ -4254,6 +4305,11 @@ function scheduleAccountStateSyncRetry(error) {
 function queueAccountStateSync() {
   persistAccountMediaState();
   if (state.demo || !state.accountId) return;
+  if (!hasAuthCapability('appData')) {
+    state.accountStateSyncError = missingScopeError('appData');
+    updateAccountSyncStatus();
+    return;
+  }
   clearTimeout(state.accountStateSyncRetryTimer);
   state.accountStateSyncRetryTimer = null;
   clearTimeout(state.accountStateSyncTimer);
@@ -4271,7 +4327,10 @@ function updateAccountSyncStatus() {
   el.accountSyncStatus.hidden = state.demo || !state.accountId || !waiting;
   el.accountSyncStatus.dataset.state = waiting ? 'pending' : pending ? 'syncing' : 'synced';
   el.accountSyncStatus.textContent = waiting ? (state.accountLocalStorageError
-    ? '기록을 저장하지 못했습니다. 저장 공간을 확인해 주세요.' : '기록 동기화 대기 · 연결을 확인해 주세요.')
+    ? '기록을 저장하지 못했습니다. 저장 공간을 확인해 주세요.'
+    : state.accountStateSyncError?.code === 'insufficient_scope'
+      ? '기록은 이 기기에 보관 중 · 동기화하려면 다시 연결해 주세요.'
+      : '기록 동기화 대기 · 연결을 확인해 주세요.')
     : '';
 }
 
@@ -5461,6 +5520,7 @@ function syncMediaSeekWatchdog() {
     clearMediaSeekWatchdog('stale-owner');
     return false;
   }
+  updateMediaSeekPresentationTimeline(owner);
   if (!canRunMediaSeekWatchdog(owner)) {
     suspendMediaSeekWatchdog(owner);
     return false;
@@ -5491,6 +5551,9 @@ function beginMediaSeekIntent(video, targetTime, origin = 'native') {
       origin,
       targetTime: numericTarget,
       effectiveTarget: null,
+      presentationTimelineAt: null,
+      presentationTimelineRate: 0,
+      presentationAdvance: 0,
       tolerance: mediaSeekTargetTolerance(),
       seekedSeen: false,
       frameSeen: false,
@@ -5554,6 +5617,35 @@ function setPlayerCurrentTime(video, targetTime, origin = 'app') {
   return true;
 }
 
+function updateMediaSeekPresentationTimeline(owner) {
+  if (!owner?.seekedSeen) return;
+  const now = mediaDiagnosticTimestamp();
+  if (Number.isFinite(owner.presentationTimelineAt)) {
+    owner.presentationAdvance += Math.max(0, now - owner.presentationTimelineAt)
+      / 1000 * owner.presentationTimelineRate;
+  }
+  owner.presentationTimelineAt = now;
+  const rate = Number(owner.video.playbackRate);
+  owner.presentationTimelineRate = owner.video.paused || owner.video.ended
+    ? 0 : (Number.isFinite(rate) && rate > 0 ? rate : 1);
+}
+
+function mediaSeekPresentationMatches(owner, mediaTime) {
+  const target = Number.isFinite(owner.effectiveTarget) ? owner.effectiveTarget : owner.targetTime;
+  if (mediaSeekTimesMatch(mediaTime, target, owner.tolerance)) return true;
+  // A playing seek can advance before the first sampled decoded frame arrives.
+  // Preserve both scene identity and a plausible timeline; currentTime alone
+  // is never displayed-frame proof. Paused seeks still require the target frame.
+  if (!owner.seekedSeen || !canRunMediaSeekWatchdog(owner)
+    || state.isSeeking || owner.video.seeking === true) return false;
+  updateMediaSeekPresentationTimeline(owner);
+  const frameTime = Number(mediaTime);
+  return Number.isFinite(frameTime)
+    && mediaSeekTimesMatch(frameTime, owner.video.currentTime, owner.tolerance)
+    && frameTime >= target - owner.tolerance
+    && frameTime <= target + owner.presentationAdvance + owner.tolerance;
+}
+
 function completeMediaSeekWatchdog(owner) {
   if (
     !isCurrentMediaSeekOwner(owner)
@@ -5561,8 +5653,7 @@ function completeMediaSeekWatchdog(owner) {
     || owner.frameConfidence !== 'decoded-frame'
     || state.isSeeking || owner.video.seeking === true
   ) return false;
-  const target = Number.isFinite(owner.effectiveTarget) ? owner.effectiveTarget : owner.targetTime;
-  if (!mediaSeekTimesMatch(owner.presentedMediaTime, target, owner.tolerance)) return false;
+  if (!mediaSeekPresentationMatches(owner, owner.presentedMediaTime)) return false;
 
   const activeElapsedMs = Math.max(
     0,
@@ -5601,8 +5692,11 @@ function noteMediaSeeked(
     || video !== owner.video || video.seeking === true
     || !mediaSeekTimesMatch(video.currentTime, owner.targetTime, owner.tolerance)
   ) return false;
-  owner.seekedSeen = true;
-  owner.effectiveTarget = Number(video.currentTime);
+  if (!owner.seekedSeen) {
+    owner.seekedSeen = true;
+    owner.effectiveTarget = Number(video.currentTime);
+    updateMediaSeekPresentationTimeline(owner);
+  }
   if (!deferCompletion) completeMediaSeekWatchdog(owner);
   syncMediaSeekWatchdog();
   return true;
@@ -5651,7 +5745,7 @@ function noteMediaSeekFrameProgress(
     || video !== owner.video
   ) return false;
   const presentedMediaTime = Number(mediaTime);
-  if (!mediaSeekTimesMatch(presentedMediaTime, owner.targetTime, owner.tolerance)) return false;
+  if (!mediaSeekPresentationMatches(owner, presentedMediaTime)) return false;
   if (confidence !== 'decoded-frame') {
     if (owner.seekedSeen && !owner.fallbackSeen) {
       owner.fallbackSeen = true;
@@ -10065,6 +10159,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
   credentialRequestGeneration = -1;
   sessionCredentialMarker = null;
   state.token = null;
+  state.authCapabilities = null;
   state.expiresAt = 0;
   if (!preserveAccount) {
     state.authAccountKey = null;
@@ -10184,7 +10279,10 @@ function setBootstrapAuthPending(pending) {
 
 function updateConnectionBadge(forcedState) {
   const reconnect = document.getElementById?.('reconnectButton');
-  if (reconnect) reconnect.hidden = Boolean(state.demo || hasUsableToken() || !state.accountId);
+  if (reconnect) {
+    const partial = state.authCapabilities && ['driveRead', 'driveWrite', 'appData'].some(feature => !hasAuthCapability(feature));
+    reconnect.hidden = Boolean(state.demo || (hasUsableToken() && !partial) || (!state.accountId && !partial));
+  }
   const badgeState = forcedState || (!navigator.onLine ? 'offline' : hasUsableToken() || state.demo ? 'online' : 'offline');
   el.connectionBadge.dataset.state = badgeState;
   const label = el.connectionBadge.querySelector('.badge-text') || el.connectionBadge.querySelector('span:last-child');
@@ -10438,6 +10536,7 @@ function clearLibraryStatus() {
 }
 
 function humanizeDriveError(error) {
+  if (error?.code === 'insufficient_scope') return error.message;
   if (error?.code === 'candidate_read_only') return '현재 검증 후보는 계정 상태 비교가 끝날 때까지 Drive 변경을 잠시 막습니다.';
   if (error.status === 401) return '인증이 만료됐습니다.';
   if (error.status === 403) {
@@ -10445,8 +10544,8 @@ function humanizeDriveError(error) {
     if (reasons.some((reason) => /accessNotConfigured|serviceDisabled/i.test(reason))) {
       return 'Google Cloud 프로젝트에서 Drive API를 사용 설정해 주세요.';
     }
-    if (reasons.some((reason) => /insufficientPermissions|forbidden|authError/i.test(reason))) {
-      return '필요한 Drive 및 앱 상태 동기화 권한이 없습니다. 다시 연결해 주세요.';
+    if (reasons.some((reason) => /^insufficientPermissions$/i.test(reason))) {
+      return '이 기능의 Google 권한이 부족합니다. 다시 연결해 주세요.';
     }
     return '현재 계정에서 이 Drive 항목에 접근할 권한이 없습니다.';
   }

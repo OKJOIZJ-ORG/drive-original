@@ -33,6 +33,8 @@ function client(provider, { storage = new Map(), writer = 'device-a', config = {
   c.run(`state.token='synthetic';state.expiresAt=Date.now()+3600000;state.accountId='account-a';
     state.accountStateWriterId=${JSON.stringify(writer)};state.accountStateLoaded=true;state.accountIdentityPending=false;
     state.accountMediaState=normalizeAccountMediaState(${JSON.stringify(local())});`);
+  // Synthetic credentials in these fixtures represent verified full grants.
+  c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');
   return c;
 }
 
@@ -218,4 +220,17 @@ test('fresh origin reconstructs complete writer union, unlike tie and maximum vi
   assert.equal(d.writes().length, 2, 'reconstruction only reads and preserves the legacy document');
   for (const c of [a, b]) { await c.run('initializeAccountMediaState({refresh:true})'); await c.run('flushAccountMediaState()'); }
   for (const file of [...d.files.values()].filter(file => file.id !== 'legacy')) assert.deepEqual(file.data, projection);
+});
+
+
+test('AUTH-05 appData-only token retains scoped state writes under the ordinary Drive write lock', async () => {
+  const provider = drive();
+  const c = client(provider.request);
+  c.run('state.authCapabilities={version:1,driveRead:false,driveWrite:false,appData:true}');
+  await c.run('flushAccountMediaState()');
+  assert.equal(provider.calls.filter(call => call.method === 'POST').length, 1);
+  assert.equal(c.run('state.accountStateSyncError'), null);
+  assert.ok(c.run('state.accountStateFileId'));
+  await assert.rejects(c.run(`driveFetch('https://www.googleapis.com/drive/v3/files/media',{method:'PATCH'})`),
+    error => error.code === 'candidate_read_only');
 });

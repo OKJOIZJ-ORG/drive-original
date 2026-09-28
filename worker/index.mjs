@@ -168,7 +168,7 @@ export function createWorkerHandler(env, {
       established = await object(`account:${account}`, {
         kind: 'account', operation: 'establish', args: {
           account,
-          verified: { account, accessToken: verified.accessToken, expiresAt: verified.expiresAt, refreshToken: verified.refreshToken },
+          verified: { account, accessToken: verified.accessToken, expiresAt: verified.expiresAt, refreshToken: verified.refreshToken, grantedScopes: verified.grantedScopes },
         },
       });
     } catch (error) {

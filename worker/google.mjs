@@ -1,3 +1,4 @@
+import { REQUESTED_GOOGLE_SCOPES, parseGrantedScopes } from '../auth/scope-policy.mjs';
 import { AuthError } from '../auth/session-owner.mjs';
 import { base64urlDecode, sha256Base64url } from './crypto.mjs';
 
@@ -5,11 +6,7 @@ export const GOOGLE_AUTHORIZATION_ENDPOINT = 'https://accounts.google.com/o/oaut
 export const GOOGLE_TOKEN_ENDPOINT = 'https://oauth2.googleapis.com/token';
 export const GOOGLE_REVOKE_ENDPOINT = 'https://oauth2.googleapis.com/revoke';
 export const GOOGLE_JWKS_ENDPOINT = 'https://www.googleapis.com/oauth2/v3/certs';
-export const REQUIRED_GOOGLE_SCOPES = Object.freeze([
-  'openid',
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.appdata',
-]);
+export const REQUIRED_GOOGLE_SCOPES = REQUESTED_GOOGLE_SCOPES;
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder('utf-8', { fatal: true });
@@ -133,8 +130,9 @@ export async function buildGoogleAuthorizationUrl({ clientId, redirectUri, trans
 }
 
 function validateTokenResponse(body, clock) {
-  const granted = typeof body.scope === 'string' ? new Set(body.scope.split(/\s+/u).filter(Boolean)) : new Set();
-  if (!REQUIRED_GOOGLE_SCOPES.every(scope => granted.has(scope)) || body.token_type !== 'Bearer' ||
+  let grantedScopes;
+  try { grantedScopes = parseGrantedScopes(body.scope); } catch { fail('auth_unavailable'); }
+  if (body.token_type !== 'Bearer' ||
     typeof body.access_token !== 'string' || !body.access_token || body.access_token.length > 8192 ||
     !Number.isSafeInteger(body.expires_in) || body.expires_in < 60 || body.expires_in > 86_400 ||
     typeof body.id_token !== 'string' || !body.id_token ||
@@ -146,6 +144,7 @@ function validateTokenResponse(body, clock) {
     expiresAt: clock() + body.expires_in * 1000,
     refreshToken: body.refresh_token,
     idToken: body.id_token,
+    grantedScopes,
   };
 }
 
@@ -200,7 +199,7 @@ export async function exchangeGoogleAuthorizationCode({
       report(diagnostic, 'google_id_token_invalid');
       throw error;
     }
-    return { ...identity, accessToken: tokens.accessToken, expiresAt: tokens.expiresAt, refreshToken: tokens.refreshToken };
+    return { ...identity, accessToken: tokens.accessToken, expiresAt: tokens.expiresAt, refreshToken: tokens.refreshToken, grantedScopes: tokens.grantedScopes };
   } finally { clearTimeout(timer); }
 }
 
@@ -216,12 +215,14 @@ export async function refreshGoogleAccess({ refreshToken, clientId, clientSecret
   if (isRedirectResponse(response) || response.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('auth_unavailable');
   const body = await readBoundedJson(response);
   if (!response.ok) return body.error === 'invalid_grant' ? { error: 'invalid_grant' } : fail('auth_unavailable');
-  const granted = body.scope == null ? null : typeof body.scope === 'string' ? new Set(body.scope.split(/\s+/u).filter(Boolean)) : new Set();
+  let grantedScopes;
+  if (Object.hasOwn(body, 'scope')) {
+    try { grantedScopes = parseGrantedScopes(body.scope); } catch { fail('auth_unavailable'); }
+  }
   if (body.token_type !== 'Bearer' || typeof body.access_token !== 'string' || !body.access_token || body.access_token.length > 8192 ||
     !Number.isSafeInteger(body.expires_in) || body.expires_in < 60 || body.expires_in > 86_400 ||
-    (granted && !REQUIRED_GOOGLE_SCOPES.every(scope => granted.has(scope))) ||
     (body.refresh_token != null && (typeof body.refresh_token !== 'string' || !body.refresh_token || body.refresh_token.length > 8192))) fail('auth_unavailable');
-  return { accessToken: body.access_token, expiresAt: clock() + body.expires_in * 1000, refreshToken: body.refresh_token };
+  return { accessToken: body.access_token, expiresAt: clock() + body.expires_in * 1000, refreshToken: body.refresh_token, ...(grantedScopes ? { grantedScopes } : {}) };
 }
 
 export async function revokeGoogleRefresh({ refreshToken, signal, fetchImpl = fetch }) {

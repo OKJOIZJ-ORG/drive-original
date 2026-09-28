@@ -32,6 +32,8 @@ function client(storage = new Map(), locks = new Map()) {
   c.storage = storage;
   c.entries = () => [...storage.entries()].filter(([key]) => key.startsWith('drive-original.mutation.')).map(([, value]) => JSON.parse(value));
   c.run('showToast=()=>{};');
+  // Synthetic credentials in these fixtures represent verified full grants.
+  c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');
   return c;
 }
 

@@ -541,3 +541,7 @@ Pointer controls-entry pause/nochrome and successful keyboard Tab are recorded f
 UI; no pause-overlay patch. Lower pre-reboot output cause still unknown. Product/candidate/
 production/automation unchanged. Independent Sol reviews qualification; Astra medium
 identified executable remaining format gates and prepares a scoped ISO track QA leaf.
+
+## 2026-09-29 — autonomous core quality continuation
+
+Observed WebM original playback/midpoint/EOF/close pass, largeISO Q0 decode/10% pass and50/90% false recovery. Passive1Hz frame proof identified fixed-target seek window. Local AUTH05 feature capability and seek fix integrated; root381 tests pass before one verified-regrant repair, auth30 pass after it. Actual MKV/AVI fail strict global phase; bounded MKV source shows3003-tick cadence with5-tick phase shift. Core original-clock extension in progress; UI queue preserved. D062 records proactive/asleep scope; production, grants, originals, volume and paused automation unchanged.
