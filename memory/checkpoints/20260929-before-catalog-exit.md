@@ -1,4 +1,4 @@
-# Checkpoint — WP-08 and current catalog exit; WP-06 startup/return active — 2026-09-29
+# Checkpoint — WP-08 scoped exit complete; existing core A-012 next — 2026-09-29
 
 Repo C:\extensions\Drive-Original\source; branch codex/v2-kickoff-diagnostics.
 Requery Git HEAD/status for current documentation savepoint; deployed source is
@@ -11,15 +11,10 @@ Productionv1.21.0/global writes=false/automation paused unchanged.
 
 D-059 resumes existing plan; do not replace it with new queued UI requests.
 WP-08 normal sync local368 tests/independent review and actual scoped exit pass.
-Current rc.11 metadata-only two complete repeated inventories/final comparator
-PASS124GET22774540bytes/owned media0writes0; catalogStable/completetrue, released.
-qa/v2-07a-current-corpus-probe/metadata-catalog-rc11-live-results.json owns actual
-source/provenance/scope. Historical A-012 cause unknown; current pass is not cause.
-Next WP-06 actualPC30sbackground test encountered first-frame startupfailed:0frames,
-ready0, original-repackaged transportverifiedtrue/credentialonline. First reason
-unknown (inert sink absent); QA firstfailure retained. Root installed bounded
-redacted documented media trace hook and clicked actual retry to discriminate.
-qa/v2-pc-return-rc11/ owns current run. Do not claim background test performed yet.
+Next: execute prepared rc.11 metadata-only two complete root inventories for A-012,
+using actual supplied priority parent/account identity. No media body replay/write.
+qa/v2-07a-current-corpus-probe/metadata-catalog-rc11-* are prepared locally, not run.
+Historical collapsed CATALOG_DRIFT cause remains unknown; new run is not its cause.
 New PC cursor/overlay, loading/player polish/general UI remain QUEUED/unstarted;
 D-056 pause-without-overlay intentional, designated reveal-only area preserves play.
 D-057 allows Android alternative; no Android runtime found in bounded inventory.

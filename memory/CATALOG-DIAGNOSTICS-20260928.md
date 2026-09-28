@@ -29,6 +29,28 @@ the distinct diagnostic name and the historical artifact restored before commit.
 Existing live reports/frozen producers were preserved. No actual result is
 inferred from these local checks; the historical A-012 cause remains unknown.
 
+## Actual rc.11 metadata-only exit — 2026-09-29 KST
+
+The separate five-leaf rc.11 producer pins exactly one VERSION constant without
+changing the rc.10 artifacts. Seven local provider checks pass. Actual Chrome
+uses the one exactly named supplied priority file in its loaded folder, with
+canonical priority-parent resolution verified by the maintained inventory.
+The owned driver completes two inventories, each with complete repeated passes,
+then compares them:124GET/22774540metadata bytes, catalogStable/complete=true,
+owned media0/writes0, released=true. Active controller/account/credential and
+write-quiescence fences hold; equal normal read-refresh is explicitly allowed.
+No fresh SW VERSION, physical device or media codec/body claim is made.
+
+metadata-catalog-rc11-live-results.json and provenance.json in
+qa/v2-07a-current-corpus-probe/ pin bundle SHA
+7d2a35b59afcca28173d642701abe28c3319788072486819250f94913b02c760.
+The actual candidate remains sourceb9d8739/app+SW1.22.0-rc.11; documentation
+savepointb8de6ed does not change runtime bytes. Private context/object group are
+released. Unrelated gallery thumbnail requests are outside the owned-driver
+count. Historical A-012's collapsed cause remains unknown; current success does
+not rewrite it or promote earlier36per-file media evidence to full device/codec
+acceptance. Next existing core check is actual PC30sbackground/foreground Q1.
+
 State-test first-failure output is preserved byte-for-byte as gzip, compared with
 the original7f2e467 Git blob. This avoids the raw log's two whitespace-only spacer
 lines conflicting with git diff --check; the original plain text also remains
