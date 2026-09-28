@@ -61,6 +61,85 @@ test('pending candidate local state is separate from unchanged remote evidence',
   assert.equal(result.comparison.candidate.liked, 0); assert.equal(result.legacyLocalReplicaVerified, false);
 });
 
+test('foreground remote read in flight is permitted only while owner/projection/cache remain equivalent', async () => {
+  for (const when of ['before', 'during']) {
+    const loading = new Promise(() => {});
+    const f = fixture(({ context, calls }) => {
+      if (calls.length === 1) {
+        context.state.accountStateLoadingPromise = loading;
+        // Poll application may replace objects and persist the same replica.
+        context.state.accountMediaState = normalize(raw);
+        f.setLocal(structuredClone(raw));
+      }
+    });
+    f.setLocal(structuredClone(raw));
+    if (when === 'before') f.context.state.accountStateLoadingPromise = loading;
+    const result = await createBrowserStateAudit(f.context).run();
+    assert.equal(result.passed, true);
+    assert.equal(result.capture.requests, 10);
+    assert.equal(result.comparison.remoteEquivalent, true);
+    assert.equal(result.runtimeReconstructionMatches, true);
+    assert.equal(f.context.state.accountStateLoadingPromise, loading, 'audit neither waits for nor clears the product read');
+    assert.equal(result.writeAuthorization, false); assert.equal(result.legacyLocalReplicaVerified, false);
+    assert.equal(result.deviceVerified, false);
+    assert.ok(f.calls.every(call => call.options.method === 'GET' && !call.options.body));
+  }
+});
+
+test('write-sync ownership stays excluded before and during an audit even alongside benign read polling', async () => {
+  const writing = new Promise(() => {});
+  for (const when of ['before', 'during']) {
+    const f = fixture(({ context }) => { context.state.accountStateSyncPromise = writing; });
+    f.context.state.accountStateLoadingPromise = new Promise(() => {});
+    if (when === 'before') f.context.state.accountStateSyncPromise = writing;
+    const result = await createBrowserStateAudit(f.context).run();
+    assert.equal(result.passed, false);
+    assert.equal(result.failure, when === 'before' ? 'media_busy' : 'stale_owner');
+    assert.equal(f.calls.length, when === 'before' ? 0 : 1);
+    assert.equal(f.context.state.accountStateSyncPromise, writing);
+  }
+});
+
+test('concurrent read polling cannot mask applied identity, projection, controller, readiness or lifecycle changes', async () => {
+  const changes = [
+    ({ context }) => { context.state.accountId = 'changed-account'; },
+    ({ context }) => { context.state.authAccountKey = 'changed-auth'; },
+    ({ context }) => { context.state.authGeneration++; },
+    ({ context }) => { context.state.driveSessionGeneration++; },
+    ({ context }) => { context.state.accountIdentityPending = true; },
+    ({ context }) => { context.state.accountStateLoaded = false; },
+    ({ context }) => { context.state.accountMediaState = normalize({}); },
+    ({ context }) => { context.navigator.serviceWorker.controller = {}; },
+    ({ context }) => { context.document.visibilityState = 'hidden'; },
+    ({ setMediaActive }) => { setMediaActive(); },
+    ({ handlers }) => { handlers.get('pagehide')(); }
+  ];
+  for (const change of changes) {
+    let idle = true;
+    const f = fixture(data => {
+      data.context.state.accountStateLoadingPromise = new Promise(() => {});
+      change({ ...data, setMediaActive: () => { idle = false; } });
+    });
+    f.context.mediaIdle = () => idle;
+    const result = await createBrowserStateAudit(f.context).run();
+    assert.equal(result.passed, false);
+    assert.ok(['stale_owner', 'cancelled'].includes(result.failure));
+    assert.equal(f.calls.length, 1); assert.equal(f.handlers.size, 0);
+  }
+});
+
+test('concurrent poll changing the local replica alone fails final equality without exposing its contents', async () => {
+  const f = fixture(({ context, calls }) => {
+    context.state.accountStateLoadingPromise = new Promise(() => {});
+    if (calls.length === 1) f.setLocal({ ...raw, viewed: { privateChangedCache: 30 } });
+  });
+  f.setLocal(structuredClone(raw));
+  const result = await createBrowserStateAudit(f.context).run();
+  assert.equal(result.passed, false); assert.equal(result.failure, 'stale_owner');
+  assert.equal(f.calls.length, 10, 'cache fence remains a final equality check');
+  assert.equal(JSON.stringify(result).includes('privateChangedCache'), false);
+});
+
 test('stale or incorrect runtime projection cannot pass a remote-only comparison', async () => {
   const f = fixture(); f.context.state.accountMediaState = normalize({});
   const result = await createBrowserStateAudit(f.context).run();
@@ -135,7 +214,8 @@ test('generated authenticated function uses raw GET once and returns only safe a
   const f = fixture(), headers = [];
   const context = vm.createContext({ AbortController, setTimeout, clearTimeout, URL, URLSearchParams, Response,
     TextDecoder, Uint8Array, APP_VERSION: JSON.parse(fs.readFileSync(new URL('../../version.json', import.meta.url))).version,
-    DRIVE_MUTATIONS_ENABLED: false, state: { ...f.context.state, mediaAttempt: 'idle' }, q1Playback: null,
+    DRIVE_MUTATIONS_ENABLED: false, state: { ...f.context.state, mediaAttempt: 'idle',
+      accountStateLoadingPromise: new Promise(() => {}) }, q1Playback: null,
     q1RetirementResult: { settled: true },
     normalizeAccountMediaState: normalize, mergeAccountMediaStates: merge, hasUsableToken: () => true,
     fetch: (url, options) => { headers.push(options); return f.context.readDriveResponse(url, options); },

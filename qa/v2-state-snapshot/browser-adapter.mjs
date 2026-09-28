@@ -36,14 +36,17 @@ export function createBrowserStateAudit(context, { milliseconds = 30_000 } = {})
       if (!state?.accountId || !state.authAccountKey || state.demo || !state.accountStateLoaded
         || state.accountIdentityPending || !state.token || !credentialUsable() || navigator.onLine === false
         || document?.visibilityState !== 'visible') error('account_not_ready');
-      if (!mediaIdle() || state.accountStateLoadingPromise || state.accountStateSyncPromise) error('media_busy');
+      // initializeAccountMediaState's foreground poll owns LoadingPromise.
+      // A read in flight is not an owner change: fence its applied identity and
+      // projection instead. SyncPromise owns flush/write and remains excluded.
+      if (!mediaIdle() || state.accountStateSyncPromise) error('media_busy');
       const owner = { accountId: state.accountId, authAccountKey: state.authAccountKey,
         authGeneration: state.authGeneration, driveSessionGeneration: state.driveSessionGeneration,
         controller: navigator.serviceWorker.controller, projection: canonical(normalize(state.accountMediaState)) };
       const current = () => !controller.signal.aborted && state.accountId === owner.accountId
         && state.authAccountKey === owner.authAccountKey && state.authGeneration === owner.authGeneration
         && state.driveSessionGeneration === owner.driveSessionGeneration && !state.accountIdentityPending
-        && state.accountStateLoaded && !state.accountStateLoadingPromise && !state.accountStateSyncPromise
+        && state.accountStateLoaded && !state.accountStateSyncPromise
         && canonical(normalize(state.accountMediaState)) === owner.projection
         && navigator.serviceWorker.controller === owner.controller && navigator.onLine !== false
         && document.visibilityState === 'visible' && mediaIdle();

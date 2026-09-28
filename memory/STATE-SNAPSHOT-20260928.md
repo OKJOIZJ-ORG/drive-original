@@ -56,3 +56,48 @@ q1RetirementResult.settled=true before declaring media idle. Pending, false and
 missing results fail as media_busy with zero Drive reads. Collector13 and
 adapter12 tests pass together25/25; qa/v2-state-snapshot/adapter-tests-rc10.txt
 preserves this follow-up without replacing the original11-case adapter evidence.
+
+## Actual user-profile readback — 2026-09-28 18:14
+
+The user reported candidate login and playback. The managed test Chrome still
+had no account, but opening the same candidate in the connected user Chrome
+profile restored an existing session without another login. Actual rc.10,
+ready account, active SW, idle/settled media and read-only mode were observed.
+The earlier login blocker applied to the isolated profile, not the user's session.
+
+Actual failed capture reports are retained in qa/v2-state-snapshot/live-rc10-results.json.
+A discriminator found the normal 15-second remote read's LoadingPromise caused
+stale_owner despite unchanged identity/projection/cache. The QA adapter now
+fences the applied owner/projection instead of rejecting that read promise;
+write SyncPromise remains excluded. Focused16 tests pass, including concurrent
+benign polling, real owner/projection/cache/lifecycle changes and write sync.
+No product, schema, version or candidate assets changed. The prior frozen
+verification-rc10.json still identifies the older QA adapter; it is historical
+evidence, not a claim that every current QA byte has that old hash.
+
+The candidate's pending local viewed state also queues a flush. Its non-GET is
+blocked by the immutable read-only gate, but that active SyncPromise correctly
+stops the strict collector. A reviewed developer window temporarily held only
+this page's account-state timers, awaited active operations within a total30s,
+passed the remaining budget to the maintained collector and restored eligible
+timers for the same owner in finally. It did not cancel auth/media owners or
+change storage, caches, credentials, revision, errors or backoff. The actual
+window held/restored only the refresh timer; sync/retry restoration branches
+were reviewed, not exercised in this passing run. Original timer deadlines are
+not claimed to be restored exactly. Public wrapper quiescent-window-rc10.js and
+the report retain exact execution/source hashes; generated syntax passes.
+
+Observed controlled capture passed in29995ms:20GETs/102048consumed bytes/0retries,
+two complete six-document reads, identical raw documents/catalog/remote union,
+liked8/unliked48/viewed130 and matching actual runtime reconstruction. Candidate
+local replica is present and has pending state; it is preserved, not uploaded.
+Post-window readback confirms account/read-only/media readiness and restored
+refresh scheduling. No private snapshot, identifier or credential was exported.
+
+This closes current candidate visibility/projection evidence only. Legacy-origin
+pending local replica, fresh-origin reconstruction, real two-device propagation
+and rollback remain open; writeAuthorization/legacyLocalReplicaVerified/deviceVerified
+stay false. Candidate writes remain disabled. Natural provider expiry, sleep/wake,
+actual priority/full-format media and physical iPhone gates are separate.
+The user requested simple device-wide silence: Windows default playback volume
+was set7%to0% and independently read back0; no per-video mute loop is needed.

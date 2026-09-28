@@ -91,3 +91,23 @@ unsynced local replica, a newly created origin, physical devices or complete
 migration acceptance. Those need their own approved private capture/provenance.
 `legacyLocalReplicaVerified` and `deviceVerified` stay false, and no result grants
 Drive write authorization.
+
+## Actual rc.10 continuation
+
+live-rc10-results.json records the connected user Chrome session and both failed
+normal-poll captures and the passing controlled read. LoadingPromise represents
+ordinary remote polling and no longer independently vetoes an unchanged owner;
+SyncPromise remains excluded. Six remote documents were read twice, the actual
+runtime reconstruction matched, and the separate candidate local replica still
+had pending state. Writes and legacy/device acceptance remain false.
+
+quiescent-window-rc10.js is the exact public developer wrapper from that capture,
+not a product entrypoint. Execute it in the candidate main world with an audit
+function accepting the remaining millisecond budget. It holds only this page's
+state refresh/sync/retry timers, awaits existing operations without cancelling
+them, runs the strict collector within one total30-second window and restores
+eligible reservations for the same owner in finally. Do not use a default30s
+collector after an additional unbudgeted wait. No credential/media owner or
+storage is changed by the wrapper. The actual passing run held only refresh;
+sync/retry restoration is reviewed logic, not separately proven live behavior.
+The result is controlled read evidence, not ordinary concurrent write acceptance.

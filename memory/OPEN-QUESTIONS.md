@@ -33,5 +33,13 @@ counterexamples are tested;50actual-app cycles leave SW owners/fences0. See
 Q1-RETIREMENT-20260928.md. Real expiry/duration, generic Q0 network-resource
 release, total heap/device memory and historic299s READ_FAILED remain open.
 
+2026-09-28 user-profile continuation: the already authenticated normal Chrome
+candidate is accessible and restores without another login; isolated managed
+Chrome's anonymous state is not a user login blocker. Controlled actual complete
+remote snapshots and runtime reconstruction pass (STATE-SNAPSHOT-20260928.md),
+but candidate-local pending state remains and legacy-origin/device/fresh-origin
+migration is not verified. Candidate writes stay disabled. Natural expiry/sleep-wake
+and exact live priority/full-format playback remain separate open evidence.
+
 | ID | User's words (verbatim) | Our reading (`assumed`) | Breaks if wrong | Ends when | Relied on in |
 |---|---|---|---|---|---|

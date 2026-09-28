@@ -1,0 +1,153 @@
+{
+  "observedOn": "2026-09-28",
+  "scope": "Actual existing user Chrome session; controlled GET-only state comparison. No legacy/device migration or natural token-expiry acceptance.",
+  "version": "1.22.0-rc.10",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "workerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "login": {
+    "userReportedLoginAndPlayback": true,
+    "existingUserProfileSessionRestored": true,
+    "additionalLoginRequired": false,
+    "connected": true,
+    "stateLoaded": true,
+    "controlled": true,
+    "readOnly": true
+  },
+  "priorRuns": [
+    {
+      "adapter": "frozen rc10",
+      "failure": "stale_owner"
+    },
+    {
+      "adapter": "frozen rc10",
+      "failure": "media_busy",
+      "syncing": true
+    },
+    {
+      "adapter": "frozen rc10",
+      "failure": "stale_owner",
+      "elapsedSecondsApprox": 7,
+      "accountGenerationsControllerProjectionLocalUnchanged": true
+    },
+    {
+      "adapter": "frozen rc10 traced",
+      "failure": "stale_owner",
+      "loadingPromiseTrueReads": 1,
+      "syncPromiseTrueReads": 0
+    },
+    {
+      "adapter": "read-poll compatible",
+      "failure": "stale_owner"
+    },
+    {
+      "adapter": "read-poll compatible traced",
+      "failure": "media_busy",
+      "loadingPromiseTrueReads": 0,
+      "syncPromiseTrueReads": 1,
+      "projectionLocalUnchanged": true,
+      "writeGateDisabled": true
+    }
+  ],
+  "qaChanges": {
+    "benignLoadingPromiseIsNotAnOwnerChange": true,
+    "writeSyncPromiseStillExcluded": true,
+    "focusedAdapterTests": 16,
+    "generatedSyntaxPassed": true,
+    "productChanged": false
+  },
+  "execution": {
+    "method": "Verified old minifier output with exactly the two reviewed loading-promise guards removed; canonical new adapter minifier differs in identifier allocation",
+    "originalMinifiedSha256": "2a4c2c2d37bfc34e0123774a19a3843f9e1909eaceed9c0da914b15fdf3cb0fe",
+    "reviewedExecutionSha256": "0e068401c4aea2f70dc6ef15d9545a968a267d057e36c7ac6028abc452612284",
+    "canonicalNewMinifiedSha256": "10590eb832a7217a9202b09d1cae577fdba83e2eee81efd9aaa51b4667935618",
+    "millisecondsBoundToRemainingWholeWindowBudget": true,
+    "windowFunctionSha256": "a8b0042ef2cf6fc9483c0068dfcdbf28de7e27d16cc03886d115e8d9dae00909",
+    "controlledWholeExpressionSha256": "b33270fb8ff5a176758f6d3b9dd1fca62c5b047cbaf42510b480ac81fa1ed33d"
+  },
+  "controlledWindow": {
+    "elapsedMs": 29995,
+    "paused": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "restored": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "result": {
+      "candidateLocalReplicaRead": true,
+      "capture": {
+        "bytes": 102048,
+        "requests": 20,
+        "retries": 0
+      },
+      "comparison": {
+        "baseline": {
+          "files": 6,
+          "liked": 8,
+          "unliked": 48,
+          "viewed": 130
+        },
+        "candidate": {
+          "files": 6,
+          "liked": 8,
+          "unliked": 48,
+          "viewed": 130
+        },
+        "localPending": true,
+        "localReplicaPresent": true,
+        "remoteEquivalent": true,
+        "sameDocuments": true,
+        "sameFiles": true,
+        "sameRemote": true,
+        "writeAuthorization": false
+      },
+      "deviceVerified": false,
+      "legacyLocalReplicaVerified": false,
+      "passed": true,
+      "runtimeReconstructionMatches": true,
+      "scope": "Repeated candidate remote reads and current runtime projection only",
+      "writeAuthorization": false
+    },
+    "writeGateDisabled": true
+  },
+  "restorationReadback": {
+    "connected": true,
+    "readOnly": true,
+    "refreshTimerRestored": true,
+    "mediaIdle": true,
+    "retirementSettled": true
+  },
+  "privacy": {
+    "privateSnapshotsExported": false,
+    "credentialsOrIdsIncluded": false,
+    "driveWritesByAudit": 0
+  },
+  "audio": {
+    "userRequestedDeviceVolumeZero": true,
+    "defaultOutputBeforePercent": 7,
+    "defaultOutputAfterPercent": 0,
+    "readbackVerified": true
+  },
+  "remaining": [
+    "legacy-origin pending local replica",
+    "fresh-origin reconstruction",
+    "two physical devices",
+    "actual token-expiry and sleep/wake",
+    "priority live duration and full formats",
+    "production approval"
+  ],
+  "sources": {
+    "app.js": "43ba2889b349c29e35e6075600d09886089361cf40549b374ac3541cd0e5aedc",
+    "sw.js": "a0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478",
+    "version.json": "41d1909a1226f59b12f4dd072ab9b0ddb689ab0ba500c890a838bedfb02ebefe",
+    "qa/v2-state-snapshot/snapshot.mjs": "917ce8ea19aa33870daece97824f625d0b1bcb252a4d908c3efe8fb1e48e40d3",
+    "qa/v2-state-snapshot/browser-adapter.mjs": "6fe8ca1067b7e5248be8b4cc13dc8168600707cd59eb2e8ceb8886b039d8d227",
+    "qa/v2-state-snapshot/browser-adapter.test.mjs": "4b93962b63957a8411ea0fbf06a07f0b8133863f1d5c1217289df3436ee5ce3f",
+    "qa/v2-state-snapshot/build-browser-adapter.mjs": "091a625bc928792714a2e83e5c12f31aca5bc4c96733679235da267d8aa07992",
+    "qa/v2-state-snapshot/quiescent-window-rc10.js": "906166b90a1c1ae710a820f70cc464e4c58cb6340f17fbdc6b56282c774b5a36"
+  },
+  "recordedAt": "2026-09-28T09:17:21.775Z"
+}
