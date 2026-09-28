@@ -206,3 +206,14 @@ Observed2026-09-28 restricted canonical own-writer persistence: one POST, initia
 
 - `verified bounded structural scope`: actualrc.11 freshselection36 findsfirstISO afterone routedobject,3strict206GET/956bytes;4logicalheaders32bytes/3boxes,ftyp+one moov beforemdat,declaredchainEOF.126metadataGET22775004bytes/finalcatalogstable; extra1staticGET actualruntimecachewrite proof. No finalpayloadbyte/track/codec/whole-container/decode/audio/device inference.
 - `verified scoped QA`:11producerchecks/syntaxpass, independentSolmedium materialfindings0, exactbundlef9ce8cca…9deb. Actualhelpers cleared/playeridle; genericupstreamcleanupunknown. ISO-HEADERS-RC11-20260929.md/qa/v2-07a-isobmff-rc11/live-results.json/review.json ownscope. Product/originals/settings/production unchanged.
+
+### 2026-09-29 — current candidate post-reboot PC observation
+
+Observed: unchanged b9d8739/rc.11 actual user Chrome passes generated PCM end/noerror,
+supplied original Q1 first-decoded-frame13.503s,90 presented callbacks with visible
+progress, normal+5s keyseek/resume and close/settled retirement. Evidence:
+PC-POSTREBOOT-20260929.md and qa/v2-pc-return-postreboot-rc11/results.json (exact
+producer/record hashes and recorded-assertion validation). Earlier output failure no
+longer reproduced after user reboot, cause unknown, no settings changed. Actual30s
+hidden return remains not-run: supported actions produced no native hidden signal.
+No full traffic/duration/EOF/all-format/physical-device/audio-audibility claim.

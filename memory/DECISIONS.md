@@ -376,3 +376,17 @@ D-057의 Android 대안, D-050의 권한 경계는 유지한다. 자동화는 PA
 이 종료 요청은 운영 반영이나 OS 재부팅 실행 권한으로 해석하지 않는다.
 
 sweep: checkpoint/goal/handoff/session closeout aligned to WAIT; current verified ISO unit preserved.
+
+→ superseded in continuation by D-061 (2026-09-29)
+
+## D-061 · 재부팅 후 기존 목표 끝까지 재개 — 2026-09-29 (User-confirmed; supersedes D-060 waiting)
+
+사용자는 "재부팅했어. 다시 끝까지 진행해."라고 명시해 재부팅 대기를 해제했다.
+기존 계획의 남은 구현·검증·후보 인수 작업을 이어간다. 먼저 재부팅 전의
+PC 출력 오류와 우선 영상을 새 브라우저 세션에서 재확인하고, 재생이 안정되면
+30초 배경 복귀 검증을 수행한다. D-059의 기존 핵심 작업 우선과 새 UI 대기열,
+D-056의 pause-without-overlay, D-057의 Android 대안, D-050의 기존 권한
+경계는 유지한다. 운영 전환·main/push·자동화 재개·볼륨 설정 변경 권한으로
+해석하지 않는다. 실제 증거가 없는 기기/형식 인수는 미검증으로 남긴다.
+
+sweep: checkpoint/goal execution resumed; consumed single-use handoff removed (2026-09-29)

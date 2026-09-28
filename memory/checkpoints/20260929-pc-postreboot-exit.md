@@ -10,10 +10,9 @@ https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.
 Production v1.21.0/e08989a, general Drive writes=false, automation PAUSED.
 Normal state7docs/6writers9/48/140 and full preservation/reload/scoped empty-cache/read-old
 schema, metadata124GET stability and first ISO top-level3mediaGET956bytes are saved.
-Post-reboot actual PCM/Q1 first frame13.503s/visible presentation/keyseek/resume/close pass;
-PC-POSTREBOOT-20260929.md owns exact scope. Actual30s return unperformed: supported tab
-actions produced no native hidden state. Independent WP10 review and ISO track QA leaf
-are running; no package built. Full formats/devices/two-device/offline/normalUI/G5/G6
+PC startup and fresh generated PCM both failed AUDIO_RENDERER_ERROR before reboot;
+actual30s return unperformed. Recheck that boundary now. Independent WP10 matrix review
+is running; no package built. Full formats/devices/two-device/offline/normalUI/G5/G6
 remain separate. Details in STATE-NORMAL/CANDIDATE-RC11/PC-OUTPUT/ISO-HEADERS records;
 outgoing checkpoint archived as checkpoints/20260929-resume-after-reboot.md.
 
@@ -36,8 +35,8 @@ approval remains beyond this continuation; missing physical iOS/device proof is 
 
 ## Next first action
 
-Inspect current state.files aggregate/pagination in actual candidate tab275137375; select
-a current ISO candidate for the scoped track facade once its independent local checks finish.
+Open rc.11 candidate in the discovered actual user Chrome profile and run the existing
+click-started PCM discriminator without settings changes; stable output permits PC30s return.
 
 ## Tried
 

@@ -1,0 +1,39 @@
+{
+  "recordedAt": "2026-09-28T17:00:10.571Z",
+  "source": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "version": "1.22.0-rc.11",
+  "producerSha256": "ea83bebd4e65ceb3f13e846bf85a15d136f79c1b7bc25e90b7f00f64d436f13d",
+  "result": {
+    "done": true,
+    "events": [
+      {
+        "elapsedMs": 70,
+        "errorCode": null,
+        "event": "loadedmetadata",
+        "time": 0
+      },
+      {
+        "elapsedMs": 254,
+        "errorCode": null,
+        "event": "canplay",
+        "time": 0
+      },
+      {
+        "elapsedMs": 254,
+        "errorCode": null,
+        "event": "playing",
+        "time": 0
+      },
+      {
+        "elapsedMs": 800,
+        "errorCode": null,
+        "event": "ended",
+        "time": 0.5
+      }
+    ],
+    "passed": true,
+    "revoked": true,
+    "scope": "Generated half-second stereo48k PCM silence in fresh candidate document; source assigned inside actual click; no original media or output setting changes",
+    "started": true
+  }
+}

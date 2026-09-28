@@ -1,0 +1,46 @@
+{
+  "schema": "drive-original.pc-postreboot-rc11/1",
+  "recordedAt": "2026-09-28T17:08:46.548Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "version": "1.22.0-rc.11",
+  "scope": "Actual intended user Chrome; post-reboot PCM and original Q1 playback/keyseek/close; real hidden-return unperformed",
+  "pcmPassed": true,
+  "q1StartupPassed": true,
+  "firstDecodedFrameMs": 13503,
+  "presentedFrameCallbacks": 90,
+  "visibleProgress": {
+    "from": 77.954667,
+    "to": 166.821333
+  },
+  "keyboardSeekPassed": true,
+  "closePassed": true,
+  "actual30sBackgroundReturn": "not-run: hidden state never observed",
+  "lowerPreRebootAudioCause": "unknown",
+  "outputSettingsChanged": false,
+  "originalMediaChanged": false,
+  "productChanged": false,
+  "scopeLimits": [
+    "One priority MPEG-TS/H264/AAC file; no whole format/audio-output audibility/physical-device claims",
+    "No actual OS sleep/wake or hidden return",
+    "Initial invalid field projections excluded; corrected samples own conclusions",
+    "Trace max512 events and180s ownership; no full traffic/continuous walltime or historic299s claim"
+  ],
+  "producerSHA256": {
+    "pcm.expression.js": "ea83bebd4e65ceb3f13e846bf85a15d136f79c1b7bc25e90b7f00f64d436f13d",
+    "native-events.expression.js": "fcc6d7058700dc75d364490180b6904921eb4179c62c1f7ed22230a0321aeec8",
+    "trace.expression.js": "8b807e067b89d1d2d271051af0a6a5c7a36fe79779f397419918eed497e1bbe7",
+    "sample.expression.js": "d79b4e29decc497b252df2b8249ca94abddfb6a8e1eac812d8937852e4050590",
+    "sample-corrected.expression.js": "e769b6d81bd88b5f4fc218c5f03d06941025b2570053f849517e50d00d688125",
+    "background-observer.expression.js": "c0024dcf7a5cfcfb15559c2439089b7d3f1bb01670edcb88ffd35ee7a20828ca",
+    "validate.mjs": "b1e19c557ea2a6632b1385fd746dc89cd01f50d5d95abd281bdcd401619a88fa"
+  },
+  "recordSHA256": {
+    "pcm-results.json": "28f1cdb05be7f3ca0f78cb3a5c66f9b2bc0b435a25f196496ea48e43aaf2bbb1",
+    "startup-and-progress-results.json": "3e137b3441cbae096034f3e9189ed3f4303b97b7be82245b56455aafd9ebe731",
+    "trace-results.json": "157812efca8c4abf31ae1dedc38f497e71a87dbd85bfe28c1549ba9ce7e03bb0",
+    "background-attempt-results.json": "3f9af1c3f1b89d2821d7bf659c53ca5b952d70c0b377003c27652328afb2cf1d",
+    "keyboard-seek-result.json": "228d07172592bff7bb522581bbd8e7ed062be8fe05bcdc29c24519e71be0bd7e",
+    "close-results.json": "b408ef9af5a680cb8d8ed94841a323cf42070828dba0d3781860b36a8a2fd391",
+    "native-before-seek.json": "1a159295a226398138e9570eabaa15931c3c76c9e874c44a89985c23289261fa"
+  }
+}

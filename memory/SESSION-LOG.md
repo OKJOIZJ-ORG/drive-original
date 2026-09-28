@@ -529,3 +529,15 @@ handles and objectgroups cleared, player idle; known read-only exec sessions ret
 finished/absent. Existing five private recovery envelopes and paused automation
 remain. CHECKPOINT/HANDOFF/goal now WAIT for explicit resume. Production/candidate
 product source unchanged; user performs OS reboot. Local savepoint commits only.
+
+### 2026-09-29 — reboot resume and current PC scoped playback exit
+
+D-061 consumes the single-use reboot handoff and resumes original core before queued UI.
+Fresh actual click-started PCM passes without settings changes. Current rc.11 priority
+Q1 first frame13.503s,90 callback presentations/visible progression, normal+5s keyseek/
+resume and close retirement pass; exact producers/records under qa/v2-pc-return-postreboot-rc11/.
+Native hidden state never occurred via available tab actions, so30s-return stays unperformed.
+Pointer controls-entry pause/nochrome and successful keyboard Tab are recorded for queued
+UI; no pause-overlay patch. Lower pre-reboot output cause still unknown. Product/candidate/
+production/automation unchanged. Independent Sol reviews qualification; Astra medium
+identified executable remaining format gates and prepares a scoped ISO track QA leaf.
