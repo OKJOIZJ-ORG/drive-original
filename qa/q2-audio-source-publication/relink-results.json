@@ -1,0 +1,24 @@
+{
+  "method": "Extract publication package, relink supplied bridge object/static libraries with hash-verified existing Emscripten; no FFmpeg compile or compiler installation.",
+  "compilerVersion": "4.0.15",
+  "compilerExecutables": {
+    "upstream/bin/clang.exe": "c6d657e4526ee468c92b253aa1e0c2680b286547b2c70aeffe527ba300053cd7",
+    "upstream/bin/wasm-ld.exe": "e263d154b50a49622f50a74436e300afaf6b82f45a3a290f79348692ffc28bb8",
+    "upstream/bin/wasm-opt.exe": "01bc21a3f43563a932905cfb15c04035fe5df6de759c3702694c9d5e8acbc5d2",
+    "upstream/emscripten/emcc.py": "b568f029fb754df5fbe247237f5e14296f485c73c515f67029514571b103a353"
+  },
+  "frozenCache": true,
+  "cacheFileCount": 1563,
+  "cacheUnchanged": true,
+  "wasm": {
+    "bytes": 502740,
+    "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "exact": true
+  },
+  "generatedGlue": {
+    "bytes": 15181,
+    "sha256": "85847e223dd71b9eb671bdb5292a583a43d48ab5da0fe6710a32ecb845b632e9",
+    "productMatchesAfterTwoFilenameReferences": true
+  },
+  "scope": "Local same verified Windows toolchain only. No cross-host, browser/device, patent clearance or public source-access claim."
+}

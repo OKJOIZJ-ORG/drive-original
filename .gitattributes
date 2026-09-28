@@ -41,3 +41,8 @@
 /tests/sw.test.js text eol=lf
 /scripts/materialize-committed-pages.cjs text eol=lf
 /scripts/public-files.cjs text eol=lf
+# Corresponding-source archives and their verified producer records are exact bytes.
+/licenses/*.tgz -text
+/licenses/audio-source-* -text whitespace=cr-at-eol
+/qa/q2-audio-source-publication/** -text whitespace=cr-at-eol
+/scripts/package-audio-source.cjs -text whitespace=cr-at-eol

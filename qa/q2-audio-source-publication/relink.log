@@ -1,0 +1,14 @@
+emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 4.0.15 (09f52557f0d48b65b8c724853ed8f4e8bf80e669)
+Exception ignored in atexit callback <function get_emscripten_temp_dir.<locals>.prepare_to_clean_temp.<locals>.clean_temp at 0x0000029EF0622340>:
+Traceback (most recent call last):
+  File "C:\extensions\Drive-Original\source\qa\q2-audio-compatibility\build-investigation\work\emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1\upstream\emscripten\tools\shared.py", line 531, in clean_temp
+    utils.delete_dir(d)
+  File "C:\extensions\Drive-Original\source\qa\q2-audio-compatibility\build-investigation\work\emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1\upstream\emscripten\tools\utils.py", line 97, in delete_dir
+    shutil.rmtree(dirname)
+  File "C:\extensions\Drive-Original\source\qa\q2-audio-compatibility\build-investigation\work\emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1\python\3.13.3_64bit\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\extensions\Drive-Original\source\qa\q2-audio-compatibility\build-investigation\work\emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1\python\3.13.3_64bit\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+  File "C:\extensions\Drive-Original\source\qa\q2-audio-compatibility\build-investigation\work\emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1\python\3.13.3_64bit\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+PermissionError: [WinError 5] �׼����� �źεǾ����ϴ�: 'C:\\extensions\\Drive-Original\\source\\qa\\q2-audio-source-publication\\tmp\\emscripten_temp_c33276ss'

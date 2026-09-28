@@ -1,0 +1,88 @@
+{
+  "sourcePackage": {
+    "bytes": 53597911,
+    "sha256": "e596d3e61c8e8a2e816ebf9c735eada6bd24868a6aaf75e0610bf16889d44e64",
+    "parts": 7,
+    "partLimitBytes": 8388608,
+    "materialFiles": 43
+  },
+  "deterministicRegeneration": true,
+  "reconstructedArchiveHash": true,
+  "extractedInventoryVerified": true,
+  "exactRelinkedWasmVerified": true,
+  "publicFiles": [
+    {
+      "path": "licenses/audio-source-NOTICE.md",
+      "bytes": 3332,
+      "sha256": "2f33f25af2f24e9162e8d5f2b7cde656cd0866b765bd80f581cc8cf218c02518"
+    },
+    {
+      "path": "licenses/audio-source-manifest.json",
+      "bytes": 8661,
+      "sha256": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6"
+    },
+    {
+      "path": "licenses/audio-source-reconstruct.cjs",
+      "bytes": 958,
+      "sha256": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part001",
+      "bytes": 8388608,
+      "sha256": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part002",
+      "bytes": 8388608,
+      "sha256": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part003",
+      "bytes": 8388608,
+      "sha256": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part004",
+      "bytes": 8388608,
+      "sha256": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part005",
+      "bytes": 8388608,
+      "sha256": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part006",
+      "bytes": 8388608,
+      "sha256": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part007",
+      "bytes": 3266263,
+      "sha256": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+    }
+  ],
+  "explicitInputSelection": true,
+  "privateCredentialPatternMatches": 0,
+  "allowedBuildTreeInputs": [
+    "configuration/avconfig.h",
+    "configuration/ffversion.h",
+    "toolchain/emscripten-releases-tags.json",
+    "toolchain/emsdk_manifest.json"
+  ],
+  "historicalManifests": [
+    {
+      "path": "qa/q2-audio-compatibility/sourcebuilt-evidence-manifest.json",
+      "bytes": 15070,
+      "sha256": "8c72c39c757b01445cbce95ef41e4d0dffcf441e0be3848d652b18b6b0cdd451"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/evidence-manifest.json",
+      "bytes": 26028,
+      "sha256": "b69a12db534a0dcddd75511b718bde5c2ffbe6103e91ab12ef998910b4662b37"
+    }
+  ],
+  "upstreamEmsdkManifestsMatchFullPinnedArchive": true,
+  "distributionReadyUnchanged": true,
+  "scope": "No public access/deployment, browser/device or patent clearance claim. Audit does not change product logic or allowlists."
+}
