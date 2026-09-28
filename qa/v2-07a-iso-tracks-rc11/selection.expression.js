@@ -1,0 +1,1 @@
+state.files.filter(file=>/^video\/(mp4|quicktime)$/.test(file.mimeType||'')&&Number.isSafeInteger(Number(file.size))&&Number(file.size)>940&&!file.trashed).sort((a,b)=>Number(b.size)-Number(a.size)||String(a.id).localeCompare(String(b.id)))[0]

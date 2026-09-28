@@ -1,0 +1,105 @@
+{
+  "schema": "drive-original.iso-tracks-seed/1",
+  "seed": "qa/faststart-h264-aac.mp4",
+  "seedSHA256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+  "parserSHA256": "9a620a12b9d1080c78aaec30cb8709fa130729c8ae38192508d9b27d9393e5f2",
+  "moovBytes": 5542,
+  "nativeStreamFields": [
+    {
+      "codec_type": "video",
+      "codec_tag_string": "avc1",
+      "width": 320,
+      "height": 180
+    },
+    {
+      "codec_type": "audio",
+      "codec_tag_string": "mp4a",
+      "sample_rate": "48000",
+      "channels": 1
+    }
+  ],
+  "parsed": {
+    "schema": "drive-original.iso-tracks/1",
+    "status": "parsed",
+    "code": "STRUCTURAL_METADATA_ONLY",
+    "fragmented": false,
+    "tracks": [
+      {
+        "type": "vide",
+        "width": 320,
+        "height": 180,
+        "identityMatrix": true,
+        "timescale": 15360,
+        "descriptions": [
+          {
+            "codec": "avc1",
+            "encrypted": false,
+            "dataReferenceIndex": 1,
+            "width": 320,
+            "height": 180,
+            "config": {
+              "avcC": {
+                "present": true,
+                "bytes": 41,
+                "profile": 66,
+                "compatibility": 192,
+                "level": 30,
+                "lengthSize": 4
+              },
+              "pasp": {
+                "present": true,
+                "bytes": 8
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "soun",
+        "width": 0,
+        "height": 0,
+        "identityMatrix": true,
+        "timescale": 48000,
+        "descriptions": [
+          {
+            "codec": "mp4a",
+            "encrypted": false,
+            "dataReferenceIndex": 1,
+            "soundVersion": 0,
+            "channels": 1,
+            "sampleSize": 16,
+            "sampleRate": 48000,
+            "config": {
+              "esds": {
+                "present": true,
+                "bytes": 46,
+                "objectTypeIndication": 64,
+                "audioSpecificConfig": {
+                  "objectType": 2,
+                  "freqIndex": 3,
+                  "channelConfig": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "boxesParsed": 43,
+    "limitations": [
+      "sample-tables-unparsed",
+      "sample-payloads-unread",
+      "decode-and-capability-unproven",
+      "hdr-vfr-subtitles-unqualified",
+      "edit-list-unparsed",
+      "avcc-parameter-sets-unparsed",
+      "unknown-sample-entry-child",
+      "audio-specific-config-extension-bits-unparsed"
+    ],
+    "containerValidityProven": false,
+    "decode": false,
+    "playback": false
+  },
+  "pass": true,
+  "scope": "local-public-fixture-structural-crosscheck-no-live-decode"
+}

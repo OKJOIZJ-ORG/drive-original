@@ -1,0 +1,2269 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-29",
+  "reviewer": "gpt-6-sol medium",
+  "scope": "Full69row fixed rc11 evidence/contract qualification review; owned matrix/report and local QA leaf producers/results only; no product/testfiles/browser/private evidence mutation or commit.",
+  "basisHead": "e31711288b040c459d85ec9a91176c590bba4198",
+  "candidate": {
+    "source": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+    "appSwVersion": "1.22.0-rc.11",
+    "worker": "fe556d43-9251-40c7-82bf-d138f35ebccd"
+  },
+  "specification": {
+    "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+    "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564",
+    "acceptanceSections": [
+      "20",
+      "22"
+    ],
+    "expectedSha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564"
+  },
+  "matrix": {
+    "path": "qa/candidate-rc11-package/qualification-matrix.md",
+    "sha256": "38bcc464ba8d93c5c5a5e1a44324d9279640edd254fc093478763ec7b3bacc4f"
+  },
+  "coverage": {
+    "expected": 69,
+    "original": 60,
+    "additional": 9,
+    "actual": 69,
+    "missing": [],
+    "extra": [],
+    "duplicates": [],
+    "statusCounts": {
+      "not-run": 39,
+      "passed": 24,
+      "blocked": 4,
+      "not-applicable": 2
+    }
+  },
+  "pointers": [
+    {
+      "path": "app.js",
+      "exists": true
+    },
+    {
+      "path": "media/README.md",
+      "exists": true
+    },
+    {
+      "path": "media/ts-player.mjs",
+      "exists": true
+    },
+    {
+      "path": "memory/00-INDEX.md",
+      "exists": true
+    },
+    {
+      "path": "memory/CANDIDATE-RC11-20260929.md",
+      "exists": true
+    },
+    {
+      "path": "memory/CATALOG-DIAGNOSTICS-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/CORPUS-RC10-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/DECISIONS.md",
+      "exists": true
+    },
+    {
+      "path": "memory/DISPOSABLE-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/ISO-HEADERS-RC11-20260929.md",
+      "exists": true
+    },
+    {
+      "path": "memory/PC-OUTPUT-20260929.md",
+      "exists": true
+    },
+    {
+      "path": "memory/PC-POSTREBOOT-20260929.md",
+      "exists": true
+    },
+    {
+      "path": "memory/Q1-AUTH-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/Q1-CYCLES-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/Q1-LIVE-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/Q1-RETIREMENT-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/Q1-ROUTING-20260927.md",
+      "exists": true
+    },
+    {
+      "path": "memory/STATE-NORMAL-20260928.md",
+      "exists": true
+    },
+    {
+      "path": "memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md",
+      "exists": true
+    },
+    {
+      "path": "memory/architecture/V2-04A-AUTH-CONTRACT.md",
+      "exists": true
+    },
+    {
+      "path": "memory/goal/commercial-player-stability.md",
+      "exists": true
+    },
+    {
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "exists": true
+    },
+    {
+      "path": "qa/acceptance-audit.cjs",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-rc11-delivery/results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-rc11-package/build-static-package.py",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-rc11-package/contract-acceptance-audit.mjs",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-rc11-package/contract-acceptance-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-rc11-package/package-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/q1-auth-cleanup/verification-rc10.json",
+      "exists": true
+    },
+    {
+      "path": "qa/q1-cycles/cycles-50-rc10-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/q1-live-rc10/",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-07a-isobmff-rc11/README.md",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-07a-isobmff-rc11/live-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-07a-isobmff-rc11/provenance.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-disposable-live/live-rc10-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-mutations-integration/",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/background-attempt-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/close-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/keyboard-seek-result.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/native-before-seek.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/pcm-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-postreboot-rc11/results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-pc-return-rc11/",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-state-normal-sync/",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-state-normal-sync/full-node-results.txt",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-state-normal-sync/local-results.json",
+      "exists": true
+    },
+    {
+      "path": "qa/v2-ui-audit.cjs",
+      "exists": true
+    },
+    {
+      "path": "scripts/build-pages.cjs",
+      "exists": true
+    },
+    {
+      "path": "tests/acceptance.test.js",
+      "exists": true
+    },
+    {
+      "path": "tests/app.test.js",
+      "exists": true
+    },
+    {
+      "path": "tests/audit.test.js",
+      "exists": true
+    },
+    {
+      "path": "tests/auth-session.test.mjs",
+      "exists": true
+    },
+    {
+      "path": "tests/cloudflare-auth-worker.test.mjs",
+      "exists": true
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "exists": true
+    },
+    {
+      "path": "tests/sw.test.js",
+      "exists": true
+    },
+    {
+      "path": "worker/google.mjs",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-contract-completion-rc11/contract-completion.mjs",
+      "exists": true
+    },
+    {
+      "path": "qa/candidate-contract-completion-rc11/results.json",
+      "exists": true
+    }
+  ],
+  "reviewedDocumentHashes": [
+    {
+      "path": "media/README.md",
+      "sha256": "8c9586aca716e26323098fa2fc068759ed7703479b1b5bb23a2f575c91262968"
+    },
+    {
+      "path": "memory/00-INDEX.md",
+      "sha256": "ec49fb00d07effa08a0b066c05df8f89afe57302ca989ec734aa1d027afd61a5"
+    },
+    {
+      "path": "memory/CANDIDATE-RC11-20260929.md",
+      "sha256": "ce72a04aa80a1413f01f4e353a4511eada0866962b33dfd64e5ca02ed4ce1c92"
+    },
+    {
+      "path": "memory/CATALOG-DIAGNOSTICS-20260928.md",
+      "sha256": "904232a29b9a002a1b2326352dd57d2d8aeea587cf232976fa0b121fd4f6da6e"
+    },
+    {
+      "path": "memory/CORPUS-RC10-20260928.md",
+      "sha256": "569d293e5f05ec043840a53e0eaa9f9c156b6fa821caa03c00717bc1c8724cee"
+    },
+    {
+      "path": "memory/DECISIONS.md",
+      "sha256": "45072cc0001aa1f7a6ade4782062fb5ca8be37294cb9c5d7865c6321a76d6a85"
+    },
+    {
+      "path": "memory/DISPOSABLE-20260928.md",
+      "sha256": "bd82ada7466b5a39e7c306818c737e42f9b51de543144f7d522401cc1b3c2798"
+    },
+    {
+      "path": "memory/ISO-HEADERS-RC11-20260929.md",
+      "sha256": "bb9e4fd05f9e6bd643e4cea35663ec3bf855fb2766b215063c83df2fa0a1817a"
+    },
+    {
+      "path": "memory/PC-OUTPUT-20260929.md",
+      "sha256": "041912b71383d17200cd6b8f103c63641d33ec9d1e5eeb728366945df6a7b78a"
+    },
+    {
+      "path": "memory/PC-POSTREBOOT-20260929.md",
+      "sha256": "acf08a07429acbce8c971dd40a142fbb0fb761c17cc4f03f56373d058624358f"
+    },
+    {
+      "path": "memory/Q1-AUTH-20260928.md",
+      "sha256": "60cfd261648a5c310cec168606e03b2d0a222c4548e758b376f6a0d6bb6aaab2"
+    },
+    {
+      "path": "memory/Q1-CYCLES-20260928.md",
+      "sha256": "19434b6708b3c8aefed6f7e2574d39f0d7d5b60a6f5966c4e03fedb5eda84d15"
+    },
+    {
+      "path": "memory/Q1-LIVE-20260928.md",
+      "sha256": "11f9bf9330b0835ec593cd15c5d498bc5b706daa81511871a640be75d2941ae5"
+    },
+    {
+      "path": "memory/Q1-RETIREMENT-20260928.md",
+      "sha256": "100b5e5d42dfdd74ca54bb8ba53eb00bd0afd11997d5088463afbf9b6a40b718"
+    },
+    {
+      "path": "memory/Q1-ROUTING-20260927.md",
+      "sha256": "b2299ddfed50db50b69bc88dddbb54510d285833a2a56c4144ca67c668c051e9"
+    },
+    {
+      "path": "memory/STATE-NORMAL-20260928.md",
+      "sha256": "87054a30719cb8c566cec05e71bf0d3bf7779836005f07c9d38dcaf305564d53"
+    },
+    {
+      "path": "memory/architecture/V2-03C-AUTH-DATA-OWNERSHIP.md",
+      "sha256": "c929e5975f5be957b9da4672e51228512be029f7902901c788f4767733f3e486"
+    },
+    {
+      "path": "memory/architecture/V2-04A-AUTH-CONTRACT.md",
+      "sha256": "0d009aea609ee4c7de0ca533b2fb490c1aeed939b82552d96af84f8726e723d9"
+    },
+    {
+      "path": "memory/goal/commercial-player-stability.md",
+      "sha256": "b4995500522105a6a75ce7212a0b7822ebad578e2872673762223fcfb76e6e41"
+    },
+    {
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564"
+    },
+    {
+      "path": "qa/v2-07a-isobmff-rc11/README.md",
+      "sha256": "8975e47c5ea2d546650864b75219914f5ce0f2a4114c5cb4263a15f72b87e289"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "QA-TR-01",
+      "specLine": 1695,
+      "matrixLine": 70,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E7"
+      ]
+    },
+    {
+      "id": "QA-TR-02",
+      "specLine": 1696,
+      "matrixLine": 71,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E7"
+      ]
+    },
+    {
+      "id": "QA-TR-03",
+      "specLine": 1697,
+      "matrixLine": 72,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E3",
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-TR-04",
+      "specLine": 1698,
+      "matrixLine": 73,
+      "status": "passed",
+      "evidenceKeys": [
+        "E13",
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-TR-05",
+      "specLine": 1699,
+      "matrixLine": 74,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-TR-06",
+      "specLine": 1700,
+      "matrixLine": 75,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-TR-07",
+      "specLine": 1701,
+      "matrixLine": 76,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-TR-08",
+      "specLine": 1702,
+      "matrixLine": 77,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-TR-09",
+      "specLine": 1703,
+      "matrixLine": 78,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-TR-10",
+      "specLine": 1704,
+      "matrixLine": 79,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-TR-11",
+      "specLine": 1705,
+      "matrixLine": 80,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-TR-12",
+      "specLine": 1706,
+      "matrixLine": 81,
+      "status": "blocked",
+      "evidenceKeys": [
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-FM-01",
+      "specLine": 1712,
+      "matrixLine": 82,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E6",
+        "E7"
+      ]
+    },
+    {
+      "id": "QA-FM-02",
+      "specLine": 1713,
+      "matrixLine": 83,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-FM-03",
+      "specLine": 1714,
+      "matrixLine": 84,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-FM-04",
+      "specLine": 1715,
+      "matrixLine": 85,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-FM-05",
+      "specLine": 1716,
+      "matrixLine": 86,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E7"
+      ]
+    },
+    {
+      "id": "QA-FM-06",
+      "specLine": 1717,
+      "matrixLine": 87,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-FM-07",
+      "specLine": 1718,
+      "matrixLine": 88,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E6"
+      ]
+    },
+    {
+      "id": "QA-FM-08",
+      "specLine": 1719,
+      "matrixLine": 89,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E6"
+      ]
+    },
+    {
+      "id": "QA-FM-09",
+      "specLine": 1720,
+      "matrixLine": 90,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-FM-10",
+      "specLine": 1721,
+      "matrixLine": 91,
+      "status": "not-applicable",
+      "evidenceKeys": [
+        "E12"
+      ]
+    },
+    {
+      "id": "QA-AU-01",
+      "specLine": 1727,
+      "matrixLine": 92,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E3",
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-AU-02",
+      "specLine": 1728,
+      "matrixLine": 93,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-AU-03",
+      "specLine": 1729,
+      "matrixLine": 94,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-AU-04",
+      "specLine": 1730,
+      "matrixLine": 95,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-AU-05",
+      "specLine": 1731,
+      "matrixLine": 96,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-AU-06",
+      "specLine": 1732,
+      "matrixLine": 97,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-AU-07",
+      "specLine": 1733,
+      "matrixLine": 98,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-AU-08",
+      "specLine": 1734,
+      "matrixLine": 99,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E13"
+      ]
+    },
+    {
+      "id": "QA-AU-09",
+      "specLine": 1735,
+      "matrixLine": 100,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-AU-10",
+      "specLine": 1736,
+      "matrixLine": 101,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E1"
+      ]
+    },
+    {
+      "id": "QA-ST-01",
+      "specLine": 1737,
+      "matrixLine": 102,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E1"
+      ]
+    },
+    {
+      "id": "QA-ST-02",
+      "specLine": 1738,
+      "matrixLine": 103,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15"
+      ]
+    },
+    {
+      "id": "QA-ST-03",
+      "specLine": 1739,
+      "matrixLine": 104,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-MU-01",
+      "specLine": 1745,
+      "matrixLine": 105,
+      "status": "blocked",
+      "evidenceKeys": [
+        "E8"
+      ]
+    },
+    {
+      "id": "QA-MU-02",
+      "specLine": 1746,
+      "matrixLine": 106,
+      "status": "blocked",
+      "evidenceKeys": [
+        "E8"
+      ]
+    },
+    {
+      "id": "QA-MU-03",
+      "specLine": 1747,
+      "matrixLine": 107,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E8"
+      ]
+    },
+    {
+      "id": "QA-MU-04",
+      "specLine": 1748,
+      "matrixLine": 108,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-MU-05",
+      "specLine": 1749,
+      "matrixLine": 109,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15",
+        "E8"
+      ]
+    },
+    {
+      "id": "QA-MU-06",
+      "specLine": 1750,
+      "matrixLine": 110,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11"
+      ]
+    },
+    {
+      "id": "QA-MU-07",
+      "specLine": 1751,
+      "matrixLine": 111,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15"
+      ]
+    },
+    {
+      "id": "QA-MU-08",
+      "specLine": 1752,
+      "matrixLine": 112,
+      "status": "passed",
+      "evidenceKeys": [
+        "E11",
+        "E13"
+      ]
+    },
+    {
+      "id": "QA-MU-09",
+      "specLine": 1753,
+      "matrixLine": 113,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-MU-10",
+      "specLine": 1754,
+      "matrixLine": 114,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E8"
+      ]
+    },
+    {
+      "id": "QA-UI-01",
+      "specLine": 1760,
+      "matrixLine": 115,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-02",
+      "specLine": 1761,
+      "matrixLine": 116,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-03",
+      "specLine": 1762,
+      "matrixLine": 117,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-UI-04",
+      "specLine": 1763,
+      "matrixLine": 118,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-05",
+      "specLine": 1764,
+      "matrixLine": 119,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-06",
+      "specLine": 1765,
+      "matrixLine": 120,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-UI-07",
+      "specLine": 1766,
+      "matrixLine": 121,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-08",
+      "specLine": 1767,
+      "matrixLine": 122,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10"
+      ]
+    },
+    {
+      "id": "QA-UI-09",
+      "specLine": 1768,
+      "matrixLine": 123,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-UI-10",
+      "specLine": 1769,
+      "matrixLine": 124,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E10",
+        "E1"
+      ]
+    },
+    {
+      "id": "QA-LF-01",
+      "specLine": 1770,
+      "matrixLine": 125,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E4"
+      ]
+    },
+    {
+      "id": "QA-SE-01",
+      "specLine": 1771,
+      "matrixLine": 126,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15",
+        "E2",
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-SE-02",
+      "specLine": 1772,
+      "matrixLine": 127,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E15",
+        "E2",
+        "E14"
+      ]
+    },
+    {
+      "id": "QA-SE-03",
+      "specLine": 1773,
+      "matrixLine": 128,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15"
+      ]
+    },
+    {
+      "id": "QA-SW-01",
+      "specLine": 1774,
+      "matrixLine": 129,
+      "status": "passed",
+      "evidenceKeys": [
+        "E15",
+        "E2"
+      ]
+    },
+    {
+      "id": "QA-RP-01",
+      "specLine": 1789,
+      "matrixLine": 135,
+      "status": "blocked",
+      "evidenceKeys": [
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "QA-SL-01",
+      "specLine": 1790,
+      "matrixLine": 136,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E3",
+        "E1",
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-SL-02",
+      "specLine": 1791,
+      "matrixLine": 137,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-SL-03",
+      "specLine": 1792,
+      "matrixLine": 138,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E9",
+        "E2"
+      ]
+    },
+    {
+      "id": "QA-SL-04",
+      "specLine": 1793,
+      "matrixLine": 139,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-SL-05",
+      "specLine": 1794,
+      "matrixLine": 140,
+      "status": "not-run",
+      "evidenceKeys": []
+    },
+    {
+      "id": "QA-SL-06",
+      "specLine": 1795,
+      "matrixLine": 141,
+      "status": "not-applicable",
+      "evidenceKeys": [
+        "E9"
+      ]
+    },
+    {
+      "id": "QA-SL-07",
+      "specLine": 1796,
+      "matrixLine": 142,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E1"
+      ]
+    },
+    {
+      "id": "QA-SL-08",
+      "specLine": 1797,
+      "matrixLine": 143,
+      "status": "not-run",
+      "evidenceKeys": [
+        "E2"
+      ]
+    }
+  ],
+  "materialFixes": [
+    "Removed interrupted-DRAFT/stop language while retaining WP10 BLOCKED/PARTIAL and package/acceptance distinction.",
+    "Corrected nonexistent auth test path; added actual rc10 cycle/SW-retirement and restricted live disposable result owners.",
+    "Expanded ISO provenance/README paths and record owner; reviewed all exact acceptance IDs against specification.",
+    "Preserved historical pre-reboot PCM/Q1 failure; integrated actual post-reboot silent PCM progress pass without promoting Q1, audibility or30s-return acceptance.",
+    "Added explicit G0-G7 boundaries and remaining section22.3 handoff coverage.",
+    "Proportionate followup: five exact contract rows passed; conditional HLS delivery N/A; no fabricated Google faults or blanket physical-matrix obligation.",
+    "Maintained literal AU08 fixture, new exact SW edge and403 ordinary-file readback cases10/10; mapped18 passing contract rows clause by clause to retained368run without imposing unrequested real Google faults.",
+    "MU03 current ordinary-file response-loss/read-only recovery contract accepted separately from normalUI delivery; existing actual restricted proof retained.",
+    "Withheld AU05 pass after checking AUTH05: preserved passing permission/rate/network subsets, explicit scope continuation/reconsent remains executable gap.",
+    "FixedGit rc11 focused28/28 closes six exact contract rows ST02/MU05/MU07/SE01/SE03/SW01 without blanket live-fault/device requirements; physical ST01, process/log SE02 and explicit residual pre-state MU10 remain scoped gaps."
+  ],
+  "unknowns": [
+    {
+      "owner": "WP06/root",
+      "nextCheck": "Current priority Q1 progress/normal5s seek/resume/close passes scoped evidence; actual hidden transition/30s return blocked; full seek/audio/duration matrix pending."
+    },
+    {
+      "owner": "WP07",
+      "nextCheck": "Parse selected actual ISO tracks/codecs/index; qualify real format/Q0-Q3 and timeline variants."
+    },
+    {
+      "owner": "WP04/WP08/WP09",
+      "nextCheck": "Required actual device contexts, two-device/offline propagation, expiry/revocation/session/migration matrix."
+    },
+    {
+      "owner": "WP05",
+      "nextCheck": "Securely fenced normal-UI disposable round trip and API/web/G comparison; retain general writes=false."
+    },
+    {
+      "owner": "WP10/root",
+      "nextCheck": "Package allowlist/blob/hash manifest, final report coverage and rollback review; production remains separately unapproved."
+    }
+  ],
+  "verification": {
+    "exactIdCoverage": true,
+    "allExplicitPointersExist": true,
+    "specHashMatches": true,
+    "historicalFailedResultsRetained": true,
+    "browserActions": false,
+    "privateFilesRead": false,
+    "packageBuilt": true,
+    "commitMade": false,
+    "packageBuiltByThisReview": false,
+    "focusedContractAuditPassed": 10,
+    "fullProductSuiteRerun": false,
+    "existingProductSuiteRerun": false,
+    "maintainedContractScriptExecutedOnce": true,
+    "sourceClauseMappedPassedRows": 18
+  },
+  "overallQualification": "BLOCKED/PARTIAL",
+  "matrixReview": "complete-with-open-acceptance-gates",
+  "postRebootPcm": {
+    "path": "qa/v2-pc-return-postreboot-rc11/pcm-results.json",
+    "sha256": "28f1cdb05be7f3ca0f78cb3a5c66f9b2bc0b435a25f196496ea48e43aaf2bbb1",
+    "producer": "qa/v2-pc-return-postreboot-rc11/pcm.expression.js",
+    "producerSha256": "ea83bebd4e65ceb3f13e846bf85a15d136f79c1b7bc25e90b7f00f64d436f13d",
+    "source": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+    "version": "1.22.0-rc.11",
+    "passed": true,
+    "scope": "Generated half-second stereo48k PCM silence in fresh candidate document; source assigned inside actual click; no original media or output setting changes",
+    "notProofOf": [
+      "audibility",
+      "Q1 playback",
+      "seek audio",
+      "30-second background return",
+      "physical-device matrix"
+    ]
+  },
+  "proportionateFollowup": {
+    "date": "2026-09-29",
+    "firstPreparationFailure": "Fixture initially omitted required revoke adapter; no cases ran; fixed fixture only.",
+    "partialProviderToActualOwnerFixture": {
+      "scope": "Local actual production Google refresh adapter plus account owner, synthetic provider; no network/session/browser mutation",
+      "cases": [
+        {
+          "case": "omitted-refresh",
+          "passed": true,
+          "refreshCredentialPreserved": true,
+          "providerCalls": 1,
+          "incompleteClassified": false
+        },
+        {
+          "case": "missing-access",
+          "passed": true,
+          "refreshCredentialPreserved": true,
+          "providerCalls": 1,
+          "incompleteClassified": true
+        },
+        {
+          "case": "missing-expiry",
+          "passed": true,
+          "refreshCredentialPreserved": true,
+          "providerCalls": 1,
+          "incompleteClassified": true
+        },
+        {
+          "case": "missing-type",
+          "passed": true,
+          "refreshCredentialPreserved": true,
+          "providerCalls": 1,
+          "incompleteClassified": true
+        },
+        {
+          "case": "empty-refresh",
+          "passed": true,
+          "refreshCredentialPreserved": true,
+          "providerCalls": 1,
+          "incompleteClassified": true
+        }
+      ],
+      "passed": 5,
+      "failed": 0,
+      "sourceHashes": {
+        "auth/session-owner.mjs": "33bfb488b00f9fd151740a2687467023db2ad9b982b6e3fe3469e78a2ed4ee22",
+        "worker/google.mjs": "1ea3d37b50954b977c8e20163cca1938038ea992fa42124e10ebff0dc3ba532d"
+      }
+    },
+    "fixedSourceChecks": [
+      {
+        "path": "tests/sw.test.js",
+        "sha256": "460b7241c4d309fc2b0a77dad7e629f969772430992326f0a24bf41a27023499",
+        "fixedGitSha256": "5f22d1b8b6cfef9c37b03b52672a80cdba18670ec5619be188d64da9597e7623",
+        "gitBlobEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/app.test.js",
+        "sha256": "cb14082239a416cf201e85069e96c881397f08b388bba32116cf29eb84cc1a23",
+        "fixedGitSha256": "cb14082239a416cf201e85069e96c881397f08b388bba32116cf29eb84cc1a23",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/auth-session.test.mjs",
+        "sha256": "a20e7e1313590a0c3f3e5789429bd6b75e0b9575d398f022c48ff870dc35d3a4",
+        "fixedGitSha256": "a20e7e1313590a0c3f3e5789429bd6b75e0b9575d398f022c48ff870dc35d3a4",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "auth/session-owner.mjs",
+        "sha256": "33bfb488b00f9fd151740a2687467023db2ad9b982b6e3fe3469e78a2ed4ee22",
+        "fixedGitSha256": "33bfb488b00f9fd151740a2687467023db2ad9b982b6e3fe3469e78a2ed4ee22",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "worker/google.mjs",
+        "sha256": "1ea3d37b50954b977c8e20163cca1938038ea992fa42124e10ebff0dc3ba532d",
+        "fixedGitSha256": "1ea3d37b50954b977c8e20163cca1938038ea992fa42124e10ebff0dc3ba532d",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "app.js",
+        "sha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+        "fixedGitSha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "sw.js",
+        "sha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8",
+        "fixedGitSha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "media/ts-player.mjs",
+        "sha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+        "fixedGitSha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+        "gitBlobEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "scripts/build-pages.cjs",
+        "sha256": "b9f6e914d8925fa4c168f7299c903e18ecc5623d5ce7e636d5b3911f704e06f0",
+        "fixedGitSha256": "c150206c76e23b7e701c2aef247f21c5d58f74fb1945919337f3d0f76772dd66",
+        "gitBlobEqual": false,
+        "lfNormalizedEqual": true
+      }
+    ],
+    "existingRun": {
+      "path": "qa/v2-state-normal-sync/full-node-results.txt",
+      "sha256": "55e91daa47866b5f7ac0b066e60f19a100a1689eafc0a18e147e4707ccd8deb8",
+      "matchesRecordedHash": true,
+      "tests": 368,
+      "passed": 368
+    },
+    "passingContractRows": [
+      {
+        "id": "QA-TR-04",
+        "source": {
+          "line": 1698,
+          "condition": "`0-1`, 열린 범위, suffix, 끝바이트",
+          "expected": "상태·헤더·본문 정합성"
+        },
+        "mappedClauses": [
+          "all four exact requested edge forms",
+          "206/status/header equality",
+          "entire received bytes equal expected; one request"
+        ],
+        "retainedTests": [
+          {
+            "name": "hidden Content-Range reconstruction supports open-ended and suffix ranges",
+            "logLine": 331
+          },
+          {
+            "name": "hidden range reconstruction handles file edges and rejects unsafe numeric evidence",
+            "logLine": 332
+          }
+        ],
+        "supplementalCases": [
+          "exact0-1",
+          "open",
+          "suffix",
+          "last-byte"
+        ],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-05",
+        "source": {
+          "line": 1699,
+          "condition": "유효 부분 206 / 잘못된 206 / 416",
+          "expected": "유효 응답 허용, 잘못된 바이트 fail closed, 무한 재시도 없음"
+        },
+        "mappedClauses": [
+          "valid206 accepted",
+          "malformed206 fails closed",
+          "416 status/size preserved",
+          "bounded recovery/no endless retry"
+        ],
+        "retainedTests": [
+          {
+            "name": "a visible mismatched or unprovable hidden Content-Range on 206 fails closed",
+            "logLine": 334
+          },
+          {
+            "name": "open-ended and suffix byte ranges accept valid contained 206 responses",
+            "logLine": 335
+          },
+          {
+            "name": "416 preserves the unsatisfied size and reports structured range metadata",
+            "logLine": 336
+          },
+          {
+            "name": "other statuses, malformed206 and spoofed metadata/callback errors never gain recovery advice",
+            "logLine": 247
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-06",
+        "source": {
+          "line": 1700,
+          "condition": "Range에 upstream 200",
+          "expected": "가짜 범위 응답 없이 사실대로 처리"
+        },
+        "mappedClauses": [
+          "upstream200 remains200/sequential",
+          "no invented206/Content-Range/Accept-Ranges"
+        ],
+        "retainedTests": [
+          {
+            "name": "a Range request answered with 200 is reported as original sequential playback without synthetic range support",
+            "logLine": 329
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-07",
+        "source": {
+          "line": 1701,
+          "condition": "2 GiB·4 GiB 이상 size/offset",
+          "expected": "overflow·부호 전환·메모리 전량 할당 없음"
+        },
+        "mappedClauses": [
+          "safe2GiB/4GiB+ offset arithmetic",
+          "no signed overflow",
+          "HEAD/tiny-prefix without full allocation"
+        ],
+        "retainedTests": [
+          {
+            "name": "2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies",
+            "logLine": 325
+          },
+          {
+            "name": "large hidden full-span HEAD ranges are proven without allocating their bodies",
+            "logLine": 326
+          },
+          {
+            "name": "a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation",
+            "logLine": 327
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-08",
+        "source": {
+          "line": 1702,
+          "condition": "헤더 무응답/첫바이트 지연/body stall",
+          "expected": "구분된 watchdog, 유한 복구, 취소 가능"
+        },
+        "mappedClauses": [
+          "headers/first-byte/body stalls have distinct watchdogs",
+          "finite single-owner recovery",
+          "cancel/late timer/byte outcomes terminalized"
+        ],
+        "retainedTests": [
+          {
+            "name": "upstream headers timeout is finite and distinct from caller cancellation",
+            "logLine": 342
+          },
+          {
+            "name": "first-byte timeout starts on downstream demand and reports one classified failure",
+            "logLine": 343
+          },
+          {
+            "name": "body no-progress timeout exists only while downstream is waiting after the first byte",
+            "logLine": 348
+          },
+          {
+            "name": "consumer cancellation before the first byte clears the deadline without a proxy failure",
+            "logLine": 355
+          },
+          {
+            "name": "body terminal outcomes beat a captured stale no-progress callback",
+            "logLine": 353
+          },
+          {
+            "name": "stream timeouts have one app retry owner and block a competing media fallback",
+            "logLine": 106
+          },
+          {
+            "name": "open and per-read deadlines settle even when injected callbacks ignore abort",
+            "logLine": 265
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-09",
+        "source": {
+          "line": 1703,
+          "condition": "닫기·다른 영상·빠른 seek",
+          "expected": "이전 응답이 새 media state를 변경하지 않음"
+        },
+        "mappedClauses": [
+          "close/source replacement invalidates old work",
+          "new seek invalidates old callbacks",
+          "late response cannot commit across session/account/source"
+        ],
+        "retainedTests": [
+          {
+            "name": "a newer seek fences stale seeked events, frame callbacks, and timers",
+            "logLine": 96
+          },
+          {
+            "name": "source replacement, session replacement, and source clearing make old seek work inert",
+            "logLine": 98
+          },
+          {
+            "name": "a native sniff fallback retirement reply cannot mutate a later file, session, account or source",
+            "logLine": 119
+          },
+          {
+            "name": "abort during body/postflight and account staleness cancel owners and suppress completion",
+            "logLine": 266
+          },
+          {
+            "name": "Q1 retirement is client and generation scoped and cannot cancel newer media",
+            "logLine": 314
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-TR-11",
+        "source": {
+          "line": 1705,
+          "condition": "제한 cache/quota",
+          "expected": "비호환 코덱으로 오판하지 않음"
+        },
+        "mappedClauses": [
+          "policy/Blob/OPFS quota injected",
+          "storage-limited rather than codec",
+          "no automatic lower-quality route"
+        ],
+        "retainedTests": [
+          {
+            "name": "QA-TR-11 local storage limits stay explicit and never auto-select compatibility",
+            "logLine": 67
+          },
+          {
+            "name": "QA-TR-11 a native memory Blob allocation failure stays storage-limited",
+            "logLine": 68
+          },
+          {
+            "name": "QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited",
+            "logLine": 69
+          },
+          {
+            "name": "QA-TR-11 a superseded buffer failure cannot replace the newer source",
+            "logLine": 70
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-02",
+        "source": {
+          "line": 1728,
+          "condition": "동시 401 다수",
+          "expected": "계정별 한 번의 갱신, 유한 재시도"
+        },
+        "mappedClauses": [
+          "same-account concurrent callers one persisted refresh/revision",
+          "page request single-flight",
+          "one newer SW replay; failed refresh no replay"
+        ],
+        "retainedTests": [
+          {
+            "name": "20 callers across two owners share exactly one persisted refresh and revision",
+            "logLine": 158
+          },
+          {
+            "name": "same-origin credential requests are single-flight and send the account fence",
+            "logLine": 28
+          },
+          {
+            "name": "concurrent credential waiters share one failed request without starting another fetch",
+            "logLine": 40
+          },
+          {
+            "name": "failed refresh does not retry the rejected token",
+            "logLine": 338
+          },
+          {
+            "name": "a rejected token is replayed once when the same token arrives at a higher revision",
+            "logLine": 339
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-03",
+        "source": {
+          "line": 1729,
+          "condition": "늦은 401·같은 문자열 새 revision",
+          "expected": "새 credential이 삭제되지 않음"
+        },
+        "mappedClauses": [
+          "late401 uses newest revision",
+          "same token text still newer revision",
+          "late clear cannot erase newest credential"
+        ],
+        "retainedTests": [
+          {
+            "name": "a late 401 uses the newer revision even when token text is identical",
+            "logLine": 214
+          },
+          {
+            "name": "a rejected token is replayed once when the same token arrives at a higher revision",
+            "logLine": 339
+          },
+          {
+            "name": "a late CLEAR_TOKEN cannot erase a newer credential revision",
+            "logLine": 363
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-04",
+        "source": {
+          "line": 1730,
+          "condition": "실제/가상 다른 계정 선택",
+          "expected": "이전 파일·쓰기·state 격리"
+        },
+        "mappedClauses": [
+          "virtual account branch explicitly allowed",
+          "old file HTTP/JSON not committed",
+          "old writes not dispatched/replayed",
+          "state/credential remains correct account"
+        ],
+        "retainedTests": [
+          {
+            "name": "late Drive HTTP responses are rejected after the account generation changes",
+            "logLine": 135
+          },
+          {
+            "name": "late Drive JSON bodies cannot commit into a new account generation",
+            "logLine": 136
+          },
+          {
+            "name": "account switch and request abort during catalog cannot dispatch a state write or install old state",
+            "logLine": 20
+          },
+          {
+            "name": "a background credential from a different account cannot replace the current token",
+            "logLine": 150
+          },
+          {
+            "name": "account switch after submission preserves origin uncertainty and never reads it with new account",
+            "logLine": 223
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-07",
+        "source": {
+          "line": 1733,
+          "condition": "팝업 취소·콜백 누락·state 오류",
+          "expected": "한 번의 안전한 실패·재시도 가능, 기존 데이터 보존"
+        },
+        "mappedClauses": [
+          "blocked/cancelled/abandoned popup missing-callback path reaches bounded failure",
+          "usable prior session preserved",
+          "state error terminal",
+          "callback error consumed once and retry action released"
+        ],
+        "retainedTests": [
+          {
+            "name": "callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely",
+            "logLine": 25
+          },
+          {
+            "name": "a blocked standalone OAuth window fails closed and releases the connect action",
+            "logLine": 31
+          },
+          {
+            "name": "standalone popup and deadline failures preserve an already usable session",
+            "logLine": 32
+          },
+          {
+            "name": "standalone recovery expires at the OAuth transaction deadline and stale completion cannot revive it",
+            "logLine": 37
+          },
+          {
+            "name": "wrong cookie, wrong state, expiry and abandoned-flow alarm delete transaction secrets",
+            "logLine": 179
+          },
+          {
+            "name": "recoverable callback failures expire pre-auth and redirect to one allowlisted root query without callback data",
+            "logLine": 195
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-08",
+        "source": {
+          "line": 1734,
+          "condition": "refresh 응답에 token 필드 일부 없음",
+          "expected": "기존 refresh token 보존, 불완전 응답 분류"
+        },
+        "mappedClauses": [
+          "valid omitted refresh keeps encrypted refresh",
+          "missing mandatory fields classified auth_unavailable",
+          "old encrypted refresh remains; no repeated provider call"
+        ],
+        "retainedTests": [
+          {
+            "name": "missing refresh field preserves encrypted secret on refresh and verified exchange",
+            "logLine": 161
+          }
+        ],
+        "supplementalCases": [
+          "omitted-refresh",
+          "missing-access",
+          "missing-expiry",
+          "missing-type",
+          "empty-refresh"
+        ],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-AU-09",
+        "source": {
+          "line": 1735,
+          "condition": "브로커 재시작/세션 갱신",
+          "expected": "안전한 세션 복구 또는 명확한 재연결"
+        },
+        "mappedClauses": [
+          "restart reads persisted session/lease",
+          "one renewal, stale lease result rejected",
+          "host transaction rollback",
+          "session/SW failures bounded explicit reconnect"
+        ],
+        "retainedTests": [
+          {
+            "name": "restart waits for persisted dead lease then recovers; late revision cannot replace current",
+            "logLine": 159
+          },
+          {
+            "name": "SQLite adapter commits atomically and rolls back thrown mutations",
+            "logLine": 192
+          },
+          {
+            "name": "worker restart resolves only the requesting client and requires the correlated response",
+            "logLine": 320
+          },
+          {
+            "name": "initial session recovery keeps the reconnect action inert until the credential probe settles",
+            "logLine": 29
+          },
+          {
+            "name": "offline and non-JSON credential failures are bounded and preserve the current memory credential",
+            "logLine": 39
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-ST-03",
+        "source": {
+          "line": 1739,
+          "condition": "실패한 영상 open",
+          "expected": "시청 성공 기록으로 잘못 확정되는지 검사, STATE-07 정책 적용"
+        },
+        "mappedClauses": [
+          "failed open cannot record success",
+          "presentation required",
+          "stale/failure/seek/paused-only observations excluded",
+          "STATE07 ownership/generation preservation"
+        ],
+        "retainedTests": [
+          {
+            "name": "video viewed requires presentation progress, not an open, paused frame or seek",
+            "logLine": 238
+          },
+          {
+            "name": "hidden, failed, stale-session and account-switched videos cannot write viewed state",
+            "logLine": 239
+          },
+          {
+            "name": "source and seek generations cannot combine presentation observations",
+            "logLine": 240
+          },
+          {
+            "name": "image viewed waits for decode and paint, and rejects stale decode completion",
+            "logLine": 241
+          },
+          {
+            "name": "broken or replaced images and rejected decoding never become viewed",
+            "logLine": 242
+          },
+          {
+            "name": "automatic original retry rebinds viewed ownership without double-recording",
+            "logLine": 243
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-MU-03",
+        "source": {
+          "line": 1747,
+          "condition": "응답 손실 뒤 remote commit",
+          "expected": "readback으로 confirmed, 중복 위험 없음"
+        },
+        "mappedClauses": [
+          "applied response-loss confirmed by independent GET",
+          "one PATCH for trash/move; no replay",
+          "uncertain-before-apply persists/reloads, recovery only reads",
+          "separate actual restricted controller commit/readback retained"
+        ],
+        "retainedTests": [
+          {
+            "name": "trash: applied before lost response confirms by GET without replay",
+            "logLine": 217
+          },
+          {
+            "name": "move: applied before lost response confirms by GET without replay",
+            "logLine": 218
+          },
+          {
+            "name": "lost before apply stays uncertain through repeat/reload; recovery only reads",
+            "logLine": 219
+          }
+        ],
+        "supplementalCases": [],
+        "additionalHistoricalActualEvidence": "memory/DISPOSABLE-20260928.md, qa/v2-disposable-live/live-rc10-results.json",
+        "scope": "Current-source ordinary-file reconciliation contract plus bounded historical actual controller proof; normalUI not qualified"
+      },
+      {
+        "id": "QA-MU-04",
+        "source": {
+          "line": 1748,
+          "condition": "요청 전 실패",
+          "expected": "원격 불변, 적합한 failed/pending 처리"
+        },
+        "mappedClauses": [
+          "pre-dispatch failure zero PATCH",
+          "refusal propagated, no success",
+          "synthetic remote unchanged"
+        ],
+        "retainedTests": [
+          {
+            "name": "storage failure before submit and unsupported locking prevent all PATCHes",
+            "logLine": 224
+          },
+          {
+            "name": "stale snapshot, denied capabilities and unverified metadata stop before PATCH",
+            "logLine": 226
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-MU-06",
+        "source": {
+          "line": 1750,
+          "condition": "중복 operationId·payload 변경",
+          "expected": "같은 작업 결과 재사용 또는 충돌 거부"
+        },
+        "mappedClauses": [
+          "operationID payload bound",
+          "same confirmed proof retained/no automatic repeat",
+          "different payload/external restore conflict"
+        ],
+        "retainedTests": [
+          {
+            "name": "operation ID is payload-bound; repeated confirmed operation never replays even after external restore",
+            "logLine": 222
+          },
+          {
+            "name": "lost before apply stays uncertain through repeat/reload; recovery only reads",
+            "logLine": 219
+          }
+        ],
+        "supplementalCases": [],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      },
+      {
+        "id": "QA-MU-08",
+        "source": {
+          "line": 1752,
+          "condition": "readback 404·권한 변화",
+          "expected": "삭제 성공으로 단정하지 않음"
+        },
+        "mappedClauses": [
+          "404/unreadable readback uncertain",
+          "applied write followed403 never guessed success",
+          "recovery no repeated PATCH/no forged metadata"
+        ],
+        "retainedTests": [
+          {
+            "name": "repeated 404 or unreadable readback stays uncertain without null/stale observation retry",
+            "logLine": 234
+          },
+          {
+            "name": "trash response parse failure never substitutes for an independent GET",
+            "logLine": 215
+          }
+        ],
+        "supplementalCases": [
+          "permission-loss403"
+        ],
+        "scope": "Current actual-source deterministic owner contract, not physical/live scenario substitution"
+      }
+    ],
+    "hlsApplicability": {
+      "status": "not-applicable",
+      "sourceCondition": "MEDIA-03 HLS when chosen, lines954-966",
+      "delivery": "Q0 native/direct and TS->MP4 Q1 MSE worker",
+      "scannedFixedSources": [
+        "app.js",
+        "media/ts-player.mjs",
+        "scripts/build-pages.cjs",
+        "index.html"
+      ],
+      "noHlsRouteOrEngine": true,
+      "reopenWhenHlsAdopted": true,
+      "fullFormatGoalsPreserved": true
+    },
+    "remainingExecutableCore": [
+      "AU05: AUTH05 scope-shortage feature-only restriction/explicit reconsent and preserved available read/playback path is unqualified; generic scope rejection is insufficient.",
+      "TR10: map/discriminate actual source change plus full cached/nativeQ0 recovery; Q1reader drift rejection alone is insufficient.",
+      "FM01-09: actual tracks/codecs/index, Q0/Q1/Q2/Q3 paths and animation/image/track/timing/HDR combinations; native diagnostic is not Q3 app acceptance.",
+      "MU05/07/10: normalUI routing plus both expiry/account partial-batch result preservation, all target classes and full approved pre-state recovery remain separate from passed refusal/ledger contracts.",
+      "ST02: exact offline-edit/remote-unchanged/reconnection merge integration remains distinct from initial offline-cache merge.",
+      "SE/SW/UI: finish clause-specific retained current-source audit/integration without assuming all require physical faults; physical VoiceOver/fullscreen/context gates stay explicit.",
+      "WP10: full source/evidence/rollback/report review; root staticbaselineZIP passed its narrower fixed19entry scope."
+    ],
+    "trueExternalGates": [
+      "Actual hidden document transition unavailable with tried controls:30s return not executed.",
+      "Physical iPhone Chrome tab/PWA/Safari and two authenticated-device/offline propagation.",
+      "Required actual expiry/revocation/runtime conditions remain distinct.",
+      "Separate main/push/production approval and served proof."
+    ],
+    "currentPostRebootQ1": {
+      "evidencePaths": [
+        "qa/v2-pc-return-postreboot-rc11/native-before-seek.json",
+        "qa/v2-pc-return-postreboot-rc11/keyboard-seek-result.json",
+        "qa/v2-pc-return-postreboot-rc11/close-results.json",
+        "qa/v2-pc-return-postreboot-rc11/background-attempt-results.json"
+      ],
+      "qualifiedScope": "Priority Q1 progress, normal5s keyboard seek/resume/close only",
+      "actualHiddenReturn": "NOTPERFORMED"
+    },
+    "verificationPreparationFailure": "Initial exact-file compare found only LF/CRLF materialization in tests/sw.test.js and scripts/build-pages.cjs; fixed Git/current text is LF-normalized equal; no product/source edits.",
+    "range01Lookup": {
+      "searched": [
+        "tests/sw.test.js",
+        "qa/functional-audit.cjs",
+        "qa/v2-state-normal-sync/full-node-results.txt"
+      ],
+      "result": "Prior bounded lookup found no exact success; maintained actualSW fixture now proves exact0-1/open/suffix/final-byte together,10case producer run passes.",
+      "next": "No additional TR04 live-fault check required; retained provider/device/playback gates separate.",
+      "suiteCount": 368
+    },
+    "supplementalFixtureReproduction": {
+      "node": "24.18.0",
+      "imports": [
+        "AccountCredentialOwner from auth/session-owner.mjs",
+        "refreshGoogleAccess from worker/google.mjs"
+      ],
+      "storage": "Per-case isolated clone/commit transaction in memory",
+      "clock": 1000000,
+      "initialCredential": {
+        "access": "synthetic",
+        "expiry": 4600000,
+        "refresh": "synthetic"
+      },
+      "refreshTrigger": "owner.credential with initial rejectedRevision",
+      "syntheticProviderCases": [
+        "valid Bearer/access_token/expires_in with omitted refresh_token",
+        "missing access_token",
+        "missing expires_in",
+        "missing token_type",
+        "empty refresh_token"
+      ],
+      "assertions": [
+        "one synthetic fetch call",
+        "encryptedRefresh identical after every case",
+        "no retained lease",
+        "valid missing-refresh returns newer access/revision",
+        "four malformed cases reject auth_unavailable"
+      ],
+      "networkRequests": 0,
+      "productFilesChanged": 0,
+      "testFilesAdded": 0,
+      "literalSourceOwner": "qa/candidate-rc11-package/contract-acceptance-audit.mjs"
+    },
+    "maintainedContractAudit": {
+      "path": "qa/candidate-rc11-package/contract-acceptance-results.json",
+      "sha256": "57a18d37e14fb78f24a4bd3911ad3528b31605d6774bc3f5782507f301b958b1",
+      "producer": {
+        "path": "qa/candidate-rc11-package/contract-acceptance-audit.mjs",
+        "sha256": "c1e9202f37becf9a62f04c2e11785a0fd28f6a13d2f1ad340ed1ed2d066fe127"
+      },
+      "producerHashMatches": true,
+      "passed": 10,
+      "failed": 0,
+      "runCount": 1
+    },
+    "additionalFixedSources": [
+      {
+        "path": "tests/audit.test.js",
+        "sha256": "0c44f52d1f5312656269e3c5c20bd5d9cab9db2e81b44ed973497e40ebe225c5",
+        "fixedGitSha256": "0c44f52d1f5312656269e3c5c20bd5d9cab9db2e81b44ed973497e40ebe225c5",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/account-state.test.js",
+        "sha256": "07e812fb07cfe7c9dce211e179c24ef2e1d34ff3d10225921a0c193ab592dc5e",
+        "fixedGitSha256": "07e812fb07cfe7c9dce211e179c24ef2e1d34ff3d10225921a0c193ab592dc5e",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/presentation-state.test.js",
+        "sha256": "0070a4ef9cb90742637765f065485088a9017bf0111f8622d18899a17123b7d3",
+        "fixedGitSha256": "0070a4ef9cb90742637765f065485088a9017bf0111f8622d18899a17123b7d3",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/immersive.test.js",
+        "sha256": "f6541684caa2d93468226840298d368312309a6304765405241d3b5a23328d95",
+        "fixedGitSha256": "79f96de44e4e1ba6417353eabac2ee256f20f3543d3d6184ea45e5ba0b3f2af5",
+        "byteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/cloudflare-auth-worker.test.mjs",
+        "sha256": "c13939bf7ae90fb4563c76a5b1f821c38b7182cc89b7c1ccead635b0a82ea4e7",
+        "fixedGitSha256": "c13939bf7ae90fb4563c76a5b1f821c38b7182cc89b7c1ccead635b0a82ea4e7",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/mutations.test.js",
+        "sha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874",
+        "fixedGitSha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "path": "tests/q1-source.test.mjs",
+        "sha256": "290f8c9a23e644fdef736a9b4fc5afe31775c3363cb49c9364fa6deaf0bb4592",
+        "fixedGitSha256": "290f8c9a23e644fdef736a9b4fc5afe31775c3363cb49c9364fa6deaf0bb4592",
+        "byteEqual": true,
+        "lfNormalizedEqual": true
+      }
+    ],
+    "withheldContractPromotion": {
+      "id": "QA-AU-05",
+      "source": "AUTH-05 lines734-746, QA row1731",
+      "retainedPassingSubsets": [
+        "permissions/rate reasons and Retry-After",
+        "network healthy credential preservation",
+        "storage quota classified storage-limited",
+        "missing granted-scope rejection"
+      ],
+      "missingClause": "Scope shortage feature restriction, explicit reconsent and preservation of still-permitted read/playback path",
+      "observedSource": "worker/google.mjs validateTokenResponse/refreshGoogleAccess ->auth_unavailable; code exchange diagnostic google_token_payload_invalid",
+      "qualification": "not-run for whole row; rejection alone is not complete acceptance",
+      "nextCheck": "Synthetic partial-scope response against actual owner/app: prove precise feature/reconsent/read continuation or implement responsible contract layer; do not downgrade real grant."
+    }
+  },
+  "packageBaseline": {
+    "path": "qa/candidate-rc11-package/package-results.json",
+    "recordSha256": "395414c6dd41d275b6c8566dad002bec224a2e0e40ee1aadfed1ecd25f73ffbb",
+    "source": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+    "scope": "Public static assets only; evidence package, not production acceptance or deployed rollback",
+    "zipBytes": 860165,
+    "zipSha256": "8170e862392a3efcc64334767927754cee89d394ad4cae0e82cb9028b9ba01bc",
+    "entryCount": 19,
+    "entryChecksPerformedBy": "coordinator",
+    "entryChecksRepeatedByThisReview": false
+  },
+  "fixedBaselineContractCompletion": {
+    "path": "qa/candidate-contract-completion-rc11/results.json",
+    "sha256": "bc53046d9d861c926534ada67ecfa2701ad9aa5e9079962ce1da85ce28020d3e",
+    "producer": {
+      "path": "qa/candidate-contract-completion-rc11/contract-completion.mjs",
+      "sha256": "cb197dbb8bd234057b796fc171dbac4c441619719481a5548a0e94d1d37d75e9"
+    },
+    "candidate": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+    "passed": 28,
+    "failed": 0,
+    "selectedRetainedTests": 23,
+    "newDiscriminators": 5,
+    "sourceScope": "Fixed Git baseline actual app/SW VM behavior with synthetic providers only; no physical device, Google, normal mutation UI, production or mutable AUTH qualification.",
+    "sourceHashes": [
+      {
+        "path": "tests/app.test.js",
+        "fixedGitSha256": "cb14082239a416cf201e85069e96c881397f08b388bba32116cf29eb84cc1a23"
+      },
+      {
+        "path": "app.js",
+        "fixedGitSha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb"
+      },
+      {
+        "path": "tests/acceptance.test.js",
+        "fixedGitSha256": "7b0712dd50e9eb78a3b53dc714a0a0c2f9e37cf6250df8391c8dad92ed3204b1"
+      },
+      {
+        "path": "tests/account-state.test.js",
+        "fixedGitSha256": "07e812fb07cfe7c9dce211e179c24ef2e1d34ff3d10225921a0c193ab592dc5e"
+      },
+      {
+        "path": "tests/audit.test.js",
+        "fixedGitSha256": "0c44f52d1f5312656269e3c5c20bd5d9cab9db2e81b44ed973497e40ebe225c5"
+      },
+      {
+        "path": "tests/sw.test.js",
+        "fixedGitSha256": "5f22d1b8b6cfef9c37b03b52672a80cdba18670ec5619be188d64da9597e7623"
+      },
+      {
+        "path": "sw.js",
+        "fixedGitSha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8"
+      },
+      {
+        "path": "tests/shell.test.js",
+        "fixedGitSha256": "0e60df50b3e6ebe1660e3efdf901751528aba1c5e042eb8068f99eebef6b7017"
+      },
+      {
+        "path": "tests/mutations.test.js",
+        "fixedGitSha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874"
+      }
+    ],
+    "fullSuiteRepeated": false,
+    "mutableAuthAccepted": false,
+    "passingRows": [
+      {
+        "id": "QA-ST-02",
+        "source": {
+          "id": "QA-ST-02",
+          "fields": [
+            "offline edit → 재연결",
+            "offline 동안 원격 불변, 이후 안전 병합",
+            ""
+          ],
+          "line": 1738
+        },
+        "mappedClauses": [
+          "offline like/unlike/viewed edits preserved locally",
+          "remote unchanged while transport is offline",
+          "reconnect merges concurrent writer and unlike tombstone",
+          "independent readback confirms own writer; other writer unchanged"
+        ],
+        "cases": [
+          {
+            "name": "fresh origin reconstructs complete writer union, unlike tie and maximum viewed; normal two-writer writes converge",
+            "source": "tests/account-state.test.js"
+          },
+          {
+            "name": "offline like/unlike/viewed survives failed transport and merges concurrent writer on reconnect",
+            "source": null,
+            "observation": {
+              "offlineAttempts": 1,
+              "offlineRemoteWrites": 0,
+              "reconnectWrites": 1,
+              "unlikeTombstone": true,
+              "otherWriterUnchanged": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "QA-MU-05",
+        "source": {
+          "id": "QA-MU-05",
+          "fields": [
+            "부분 성공 뒤 만료·계정 전환",
+            "파일별 결과 보존, 새 계정 재실행 금지",
+            ""
+          ],
+          "line": 1749
+        },
+        "mappedClauses": [
+          "earlier per-file confirmed result survives later expiry",
+          "origin ledger survives account switch",
+          "remaining items reject and new account recovery does not replay origin operations"
+        ],
+        "cases": [
+          {
+            "name": "batch preserves earlier confirmed origin items when a later submission changes account",
+            "source": "tests/mutations.test.js"
+          },
+          {
+            "name": "expiry after one confirmed item retains results and later account cannot replay origin batch",
+            "source": null,
+            "observation": {
+              "patches": 1,
+              "results": [
+                "fulfilled",
+                "rejected",
+                "rejected"
+              ],
+              "originRecordPreserved": true,
+              "replayByNewAccount": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "QA-MU-07",
+        "source": {
+          "id": "QA-MU-07",
+          "fields": [
+            "동명 파일·shortcut·공유 드라이브",
+            "대상 ID/의도 정확, 잘못된 파일 수정 0",
+            ""
+          ],
+          "line": 1751
+        },
+        "mappedClauses": [
+          "same-name siblings are distinguished by exact ID",
+          "shortcut target is never followed for mutation",
+          "shared-drive supportsAllDrives and verified parents used",
+          "zero sibling/target modifications"
+        ],
+        "cases": [
+          {
+            "name": "shortcut mutation stays on selected ID, and move removes verified parents only",
+            "source": "tests/mutations.test.js"
+          },
+          {
+            "name": "same-name shared-drive shortcut moves selected ID only, preserving sibling and shortcut target",
+            "source": null,
+            "observation": {
+              "selectedId": "synthetic-file",
+              "patchCount": 1,
+              "siblingAndTargetUnchanged": true,
+              "supportsAllDrives": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "QA-SE-01",
+        "source": {
+          "id": "QA-SE-01",
+          "fields": [
+            "임의 fileId·타 계정·path/URL 주입",
+            "권한 밖 자원 접근 거부",
+            ""
+          ],
+          "line": 1771
+        },
+        "mappedClauses": [
+          "path/URL injected IDs fail before credential/provider access",
+          "arbitrary unauthorized ID preserves denial and no-store",
+          "foreign client/account credential cannot be borrowed",
+          "ordinary/foreign state write outside capability never transmits"
+        ],
+        "cases": [
+          {
+            "name": "separate state gate permits canonical own PATCH and CREATE while generic, fake marker and foreign PATCH never transmit a mutation",
+            "source": "tests/account-state.test.js"
+          },
+          {
+            "name": "credentials and CLEAR_TOKEN are scoped to the source client",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "missing client identity fails closed without borrowing another client token",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "unsafe or malformed media ranges are rejected before credential and Drive access",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "path/URL injection fails before provider; arbitrary unauthorized ID remains denied",
+            "source": null,
+            "observation": {
+              "injectedPathsDenied": 3,
+              "unauthorizedIdStatus": 403,
+              "provider": "synthetic authorization denial"
+            }
+          }
+        ]
+      },
+      {
+        "id": "QA-SE-03",
+        "source": {
+          "id": "QA-SE-03",
+          "fields": [
+            "malformed media·storage full",
+            "제한된 실패, 원본·다른 앱 cache 보존",
+            ""
+          ],
+          "line": 1773
+        },
+        "mappedClauses": [
+          "malformed/truncated/oversized media responses fail closed",
+          "codec failure and bounded original recovery remain explicit",
+          "Blob/OPFS quota failures remain storage-limited with owned cleanup",
+          "original state and sibling cache/worker preserved"
+        ],
+        "cases": [
+          {
+            "name": "QA-TR-11 a native memory Blob allocation failure stays storage-limited",
+            "source": "tests/app.test.js"
+          },
+          {
+            "name": "QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited",
+            "source": "tests/app.test.js"
+          },
+          {
+            "name": "video playback failures distinguish retryable network errors from codec failures",
+            "source": "tests/app.test.js"
+          },
+          {
+            "name": "invalid cache, quota persistence failure, unsafe raw schema/catalog and missing writer body block writes and preserve local data",
+            "source": "tests/account-state.test.js"
+          },
+          {
+            "name": "cache reset leaves sibling application caches and workers intact",
+            "source": "tests/audit.test.js"
+          },
+          {
+            "name": "truncated 206 EOF is a body-length error, never a first-byte timeout",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "an oversized 206 chunk is rejected before any byte reaches the consumer",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "cache quota errors do not discard valid network bytes",
+            "source": "tests/shell.test.js"
+          }
+        ]
+      },
+      {
+        "id": "QA-SW-01",
+        "source": {
+          "id": "QA-SW-01",
+          "fields": [
+            "old/new shell·worker·offline reload",
+            "호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음",
+            ""
+          ],
+          "line": 1774
+        },
+        "mappedClauses": [
+          "old page lacking retirement capability cannot start Q1 transport",
+          "new/restarted worker requires correlated requesting owner",
+          "install/activate retains current cache and removes old owned cache only",
+          "offline old query resolves canonical installed shell",
+          "API/media/private/sibling routes cannot mix into shell cache"
+        ],
+        "cases": [
+          {
+            "name": "an old page affirmative Q1 token reply without retirement capability cannot start upstream transport",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "worker restart resolves only the requesting client and requires the correlated response",
+            "source": "tests/sw.test.js"
+          },
+          {
+            "name": "shell cache normalizes versioned asset URLs but excludes version checks and sibling routes",
+            "source": "tests/shell.test.js"
+          },
+          {
+            "name": "offline first launch resolves canonical preinstalled assets",
+            "source": "tests/shell.test.js"
+          },
+          {
+            "name": "temporary server failures use the owned cached shell instead of an error document",
+            "source": "tests/shell.test.js"
+          },
+          {
+            "name": "new worker activation removes old owned cache only; old-version offline shell and API/media exclusion remain safe",
+            "source": null,
+            "observation": {
+              "installedPublicAssets": 18,
+              "deleted": [
+                "drive-original-shell-old"
+              ],
+              "siblingPreserved": true,
+              "offlineOldVersionQuery": true,
+              "apiMediaCacheEntries": 0
+            }
+          }
+        ]
+      }
+    ],
+    "retainedPartial": [
+      {
+        "id": "QA-ST-01",
+        "tested": "actual app two continuously foreground VM clients and schedule stops; historical current actual one-device sync",
+        "missing": "required actual two-device like/unlike/viewed bidirectional foreground propagation"
+      },
+      {
+        "id": "QA-SE-02",
+        "tested": "actual SW trace privacy and fixed public allowlist/ZIP",
+        "missing": "current auth/app log producer plus credential-handling process args/transport boundary audit"
+      },
+      {
+        "id": "QA-MU-10",
+        "tested": "actual restricted historical file restore and recovery final reads; permanent DELETE excluded",
+        "missing": "explicit approved final pre-state comparison for recoverableTrash file and two retained tagged folders"
+      }
+    ],
+    "actualUnimplementedBehaviorFound": [],
+    "decision": "No new product defect established by this fixed-baseline unit. SE02/MU10 are evidence gaps, not automatically unimplemented behavior. Current AUTH scope defect belongs to separate coordinator unit."
+  }
+}

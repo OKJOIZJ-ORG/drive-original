@@ -64,3 +64,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `CORE-REPAIRS-20260929.md`: local AUTH05 capability/regrant and delayed-frame seek fixes; actual rc11 WebM/largeISO and MKV clock failures, baseline contract/package scope.
 
 - `FORMAT-PLAYBACK-20260929.md` — actual WebM/large-ISO/TS clock discriminants and local original-clock repair, with live boundaries.
+
+- `QUALIFICATION-BASELINE-20260929.md` — fixed rc.11 acceptance review, focused contracts and public ZIP.
+
+- `ISO-TRACKS-20260929.md` — actual4.6GB sparse track metadata without whole-moov reads.

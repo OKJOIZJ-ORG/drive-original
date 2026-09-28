@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-28T17:16:57.835Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "version": "1.22.0-rc.11",
+  "node": "v24.18.0",
+  "platform": "win32",
+  "scope": "Local actual-source contract fixtures; synthetic providers and file revisions only; no physical or live Google proof",
+  "producer": {
+    "path": "qa/candidate-rc11-package/contract-acceptance-audit.mjs",
+    "sha256": "c1e9202f37becf9a62f04c2e11785a0fd28f6a13d2f1ad340ed1ed2d066fe127"
+  },
+  "sources": [
+    {
+      "path": "sw.js",
+      "sha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8",
+      "fixedGitSha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8",
+      "byteEqual": true,
+      "lfNormalizedEqual": true
+    },
+    {
+      "path": "app.js",
+      "sha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+      "fixedGitSha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+      "byteEqual": true,
+      "lfNormalizedEqual": true
+    },
+    {
+      "path": "auth/session-owner.mjs",
+      "sha256": "33bfb488b00f9fd151740a2687467023db2ad9b982b6e3fe3469e78a2ed4ee22",
+      "fixedGitSha256": "33bfb488b00f9fd151740a2687467023db2ad9b982b6e3fe3469e78a2ed4ee22",
+      "byteEqual": true,
+      "lfNormalizedEqual": true
+    },
+    {
+      "path": "worker/google.mjs",
+      "sha256": "1ea3d37b50954b977c8e20163cca1938038ea992fa42124e10ebff0dc3ba532d",
+      "fixedGitSha256": "1ea3d37b50954b977c8e20163cca1938038ea992fa42124e10ebff0dc3ba532d",
+      "byteEqual": true,
+      "lfNormalizedEqual": true
+    },
+    {
+      "path": "tests/sw.test.js",
+      "sha256": "460b7241c4d309fc2b0a77dad7e629f969772430992326f0a24bf41a27023499",
+      "fixedGitSha256": "5f22d1b8b6cfef9c37b03b52672a80cdba18670ec5619be188d64da9597e7623",
+      "byteEqual": false,
+      "lfNormalizedEqual": true
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "sha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874",
+      "fixedGitSha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874",
+      "byteEqual": true,
+      "lfNormalizedEqual": true
+    }
+  ],
+  "helperProvenance": [
+    {
+      "path": "tests/sw.test.js",
+      "prefixSha256": "84bdc29976122b9cdd3b8f3e54f06f84464842daa0fe7eb397d2c3007e6dc155",
+      "boundaryCharacter": 6533,
+      "exported": [
+        "createWorker"
+      ]
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "prefixSha256": "9b59c59e4b59e863cb9f4d79fadb8b398e8e05806528e15ff50279900d5d9cc3",
+      "boundaryCharacter": 4124,
+      "exported": [
+        "client",
+        "remote"
+      ]
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "id": "QA-TR-04/exact0-1",
+      "passed": true,
+      "range": "bytes=0-1",
+      "contentRange": "bytes 0-1/16",
+      "bytes": 2,
+      "syntheticProviderCalls": 1
+    },
+    {
+      "id": "QA-TR-04/open",
+      "passed": true,
+      "range": "bytes=4-",
+      "contentRange": "bytes 4-15/16",
+      "bytes": 12,
+      "syntheticProviderCalls": 1
+    },
+    {
+      "id": "QA-TR-04/suffix",
+      "passed": true,
+      "range": "bytes=-3",
+      "contentRange": "bytes 13-15/16",
+      "bytes": 3,
+      "syntheticProviderCalls": 1
+    },
+    {
+      "id": "QA-TR-04/last-byte",
+      "passed": true,
+      "range": "bytes=15-15",
+      "contentRange": "bytes 15-15/16",
+      "bytes": 1,
+      "syntheticProviderCalls": 1
+    },
+    {
+      "id": "QA-AU-08/omitted-refresh",
+      "passed": true,
+      "refreshPreserved": true,
+      "syntheticProviderCalls": 1,
+      "incompleteClassified": false
+    },
+    {
+      "id": "QA-AU-08/missing-access",
+      "passed": true,
+      "refreshPreserved": true,
+      "syntheticProviderCalls": 1,
+      "incompleteClassified": true
+    },
+    {
+      "id": "QA-AU-08/missing-expiry",
+      "passed": true,
+      "refreshPreserved": true,
+      "syntheticProviderCalls": 1,
+      "incompleteClassified": true
+    },
+    {
+      "id": "QA-AU-08/missing-type",
+      "passed": true,
+      "refreshPreserved": true,
+      "syntheticProviderCalls": 1,
+      "incompleteClassified": true
+    },
+    {
+      "id": "QA-AU-08/empty-refresh",
+      "passed": true,
+      "refreshPreserved": true,
+      "syntheticProviderCalls": 1,
+      "incompleteClassified": true
+    },
+    {
+      "id": "QA-MU-08/permission-loss403",
+      "passed": true,
+      "remoteApplied": true,
+      "state": "uncertain",
+      "patches": 1,
+      "recoveryReplayed": false
+    }
+  ],
+  "networkRequests": 0,
+  "browserActions": 0,
+  "privateFilesRead": 0,
+  "realMutations": 0
+}

@@ -1,0 +1,143 @@
+{
+  "schema": "drive-original.iso-tracks-actual-rc11/1",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "bundleSHA256": "f66e54e701d9ec74670cef33e830881d961436b76c70b3673d1fa673ba6870be",
+  "selectionSHA256": "d328f53215b88b541e73c49c332c6b7871f3020301596727ffc1fba7c6e28cbd",
+  "swRuntime": {
+    "accepted": true,
+    "controllerActivated": true,
+    "done": true,
+    "mediaGET": 0,
+    "metadataGET": 0,
+    "sameController": true,
+    "staticAssetGET": 1,
+    "version": "1.22.0-rc.11"
+  },
+  "summary": {
+    "actualIsoMagic": true,
+    "complete": true,
+    "decoded": false,
+    "failure": null,
+    "fragmentHeaderObserved": false,
+    "freshSWRuntimeVersionVerified": true,
+    "genericUpstreamCleanup": "unknown",
+    "headersComplete": true,
+    "identityPostflight": true,
+    "identityPreflight": true,
+    "localReferencesReleased": true,
+    "mediaBytes": 1375,
+    "mediaRequests": 38,
+    "metadataBytes": 790,
+    "metadataCleanup": "body-consumed",
+    "metadataRequests": 2,
+    "moovBytes": 23452114,
+    "playback": false,
+    "privateSelectionRetained": true,
+    "released": true,
+    "schema": "drive-original.iso-tracks-rc11/1",
+    "scope": "single-file-structural-moov",
+    "sparseMoov": {
+      "code": "SPARSE_STRUCTURAL_METADATA",
+      "derivedStructuralMetadata": true,
+      "metrics": {
+        "boxes": 43,
+        "derivedBytes": 701,
+        "descriptions": 2,
+        "fixedLeafSuffixesSkipped": 2,
+        "originalBoundsValidated": true,
+        "receivedBytes": 837,
+        "requests": 62,
+        "sampleTableBoxesSkipped": 12,
+        "tracks": 2,
+        "unknownPayloadsSkipped": 10
+      },
+      "originalSampleTablesRead": false,
+      "status": "complete"
+    },
+    "tracks": {
+      "boxesParsed": 26,
+      "code": "STRUCTURAL_METADATA_ONLY",
+      "containerValidityProven": false,
+      "decode": false,
+      "fragmented": false,
+      "limitations": [
+        "sample-tables-unparsed",
+        "sample-payloads-unread",
+        "decode-and-capability-unproven",
+        "hdr-vfr-subtitles-unqualified",
+        "edit-list-unparsed",
+        "avcc-parameter-sets-unparsed",
+        "unknown-sample-entry-child",
+        "audio-specific-config-extension-bits-unparsed",
+        "derived-metadata-tree-original-sample-tables-unread",
+        "data-reference-boxes-unparsed"
+      ],
+      "playback": false,
+      "schema": "drive-original.iso-tracks/1",
+      "status": "parsed",
+      "tracks": [
+        {
+          "descriptions": [
+            {
+              "codec": "avc1",
+              "config": {
+                "avcC": {
+                  "bytes": 44,
+                  "compatibility": 0,
+                  "lengthSize": 4,
+                  "level": 50,
+                  "present": true,
+                  "profile": 100
+                },
+                "pasp": {
+                  "bytes": 8,
+                  "present": true
+                }
+              },
+              "dataReferenceIndex": 1,
+              "encrypted": false,
+              "height": 1080,
+              "width": 1920
+            }
+          ],
+          "height": 1080,
+          "identityMatrix": true,
+          "timescale": 9000000,
+          "type": "vide",
+          "width": 1920
+        },
+        {
+          "descriptions": [
+            {
+              "channels": 2,
+              "codec": "mp4a",
+              "config": {
+                "esds": {
+                  "audioSpecificConfig": {
+                    "channelConfig": 2,
+                    "freqIndex": 3,
+                    "objectType": 2
+                  },
+                  "bytes": 43,
+                  "objectTypeIndication": 64,
+                  "present": true
+                }
+              },
+              "dataReferenceIndex": 1,
+              "encrypted": false,
+              "sampleRate": 48000,
+              "sampleSize": 16,
+              "soundVersion": 0
+            }
+          ],
+          "height": 0,
+          "identityMatrix": true,
+          "timescale": 48000,
+          "type": "soun",
+          "width": 0
+        }
+      ]
+    },
+    "version": "1.22.0-rc.11"
+  }
+}

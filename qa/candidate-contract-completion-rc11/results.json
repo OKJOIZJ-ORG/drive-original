@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-28T17:39:39.801Z",
+  "candidate": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "scope": "Fixed Git baseline actual app/SW VM behavior with synthetic providers only; no physical device, Google, normal mutation UI, production or mutable AUTH qualification.",
+  "producer": {
+    "path": "qa/candidate-contract-completion-rc11/contract-completion.mjs",
+    "sha256": "cb197dbb8bd234057b796fc171dbac4c441619719481a5548a0e94d1d37d75e9"
+  },
+  "sources": [
+    {
+      "path": "tests/app.test.js",
+      "fixedGitSha256": "cb14082239a416cf201e85069e96c881397f08b388bba32116cf29eb84cc1a23"
+    },
+    {
+      "path": "app.js",
+      "fixedGitSha256": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb"
+    },
+    {
+      "path": "tests/acceptance.test.js",
+      "fixedGitSha256": "7b0712dd50e9eb78a3b53dc714a0a0c2f9e37cf6250df8391c8dad92ed3204b1"
+    },
+    {
+      "path": "tests/account-state.test.js",
+      "fixedGitSha256": "07e812fb07cfe7c9dce211e179c24ef2e1d34ff3d10225921a0c193ab592dc5e"
+    },
+    {
+      "path": "tests/audit.test.js",
+      "fixedGitSha256": "0c44f52d1f5312656269e3c5c20bd5d9cab9db2e81b44ed973497e40ebe225c5"
+    },
+    {
+      "path": "tests/sw.test.js",
+      "fixedGitSha256": "5f22d1b8b6cfef9c37b03b52672a80cdba18670ec5619be188d64da9597e7623"
+    },
+    {
+      "path": "sw.js",
+      "fixedGitSha256": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8"
+    },
+    {
+      "path": "tests/shell.test.js",
+      "fixedGitSha256": "0e60df50b3e6ebe1660e3efdf901751528aba1c5e042eb8068f99eebef6b7017"
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "fixedGitSha256": "3a32f8f6a0946789400d791430765267ddd949cb0bdbbfff65c818e94f08c874"
+    }
+  ],
+  "selectedRetainedTests": 23,
+  "results": [
+    {
+      "id": "QA-SE-03",
+      "name": "QA-TR-11 a native memory Blob allocation failure stays storage-limited",
+      "passed": true,
+      "source": "tests/app.test.js",
+      "durationMs": 59
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited",
+      "passed": true,
+      "source": "tests/app.test.js",
+      "durationMs": 5
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "video playback failures distinguish retryable network errors from codec failures",
+      "passed": true,
+      "source": "tests/app.test.js",
+      "durationMs": 3
+    },
+    {
+      "id": "QA-ST-01",
+      "name": "two continuously visible clients receive independent concurrent edits without refocus or reload",
+      "passed": true,
+      "source": "tests/acceptance.test.js",
+      "durationMs": 21
+    },
+    {
+      "id": "QA-ST-01",
+      "name": "foreground polling stops for hidden, offline, expired, demo and unverified sessions",
+      "passed": true,
+      "source": "tests/acceptance.test.js",
+      "durationMs": 9
+    },
+    {
+      "id": "QA-SE-01",
+      "name": "separate state gate permits canonical own PATCH and CREATE while generic, fake marker and foreign PATCH never transmit a mutation",
+      "passed": true,
+      "source": "tests/account-state.test.js",
+      "durationMs": 11
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "invalid cache, quota persistence failure, unsafe raw schema/catalog and missing writer body block writes and preserve local data",
+      "passed": true,
+      "source": "tests/account-state.test.js",
+      "durationMs": 15
+    },
+    {
+      "id": "QA-ST-02",
+      "name": "fresh origin reconstructs complete writer union, unlike tie and maximum viewed; normal two-writer writes converge",
+      "passed": true,
+      "source": "tests/account-state.test.js",
+      "durationMs": 13
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "cache reset leaves sibling application caches and workers intact",
+      "passed": true,
+      "source": "tests/audit.test.js",
+      "durationMs": 2
+    },
+    {
+      "id": "QA-SE-01",
+      "name": "credentials and CLEAR_TOKEN are scoped to the source client",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 6
+    },
+    {
+      "id": "QA-SE-01",
+      "name": "missing client identity fails closed without borrowing another client token",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 1
+    },
+    {
+      "id": "QA-SE-01",
+      "name": "unsafe or malformed media ranges are rejected before credential and Drive access",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 10
+    },
+    {
+      "id": "QA-SE-02",
+      "name": "opt-in media trace correlates credential, headers, first byte and body completion without secrets",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 4
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "truncated 206 EOF is a body-length error, never a first-byte timeout",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 2
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "an oversized 206 chunk is rejected before any byte reaches the consumer",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 2
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "an old page affirmative Q1 token reply without retirement capability cannot start upstream transport",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 1
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "worker restart resolves only the requesting client and requires the correlated response",
+      "passed": true,
+      "source": "tests/sw.test.js",
+      "durationMs": 1
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "shell cache normalizes versioned asset URLs but excludes version checks and sibling routes",
+      "passed": true,
+      "source": "tests/shell.test.js",
+      "durationMs": 2
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "offline first launch resolves canonical preinstalled assets",
+      "passed": true,
+      "source": "tests/shell.test.js",
+      "durationMs": 1
+    },
+    {
+      "id": "QA-SE-03",
+      "name": "cache quota errors do not discard valid network bytes",
+      "passed": true,
+      "source": "tests/shell.test.js",
+      "durationMs": 2
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "temporary server failures use the owned cached shell instead of an error document",
+      "passed": true,
+      "source": "tests/shell.test.js",
+      "durationMs": 1
+    },
+    {
+      "id": "QA-MU-05",
+      "name": "batch preserves earlier confirmed origin items when a later submission changes account",
+      "passed": true,
+      "source": "tests/mutations.test.js",
+      "durationMs": 5
+    },
+    {
+      "id": "QA-MU-07",
+      "name": "shortcut mutation stays on selected ID, and move removes verified parents only",
+      "passed": true,
+      "source": "tests/mutations.test.js",
+      "durationMs": 3
+    },
+    {
+      "id": "QA-ST-02",
+      "name": "offline like/unlike/viewed survives failed transport and merges concurrent writer on reconnect",
+      "passed": true,
+      "source": null,
+      "observation": {
+        "offlineAttempts": 1,
+        "offlineRemoteWrites": 0,
+        "reconnectWrites": 1,
+        "unlikeTombstone": true,
+        "otherWriterUnchanged": true
+      },
+      "durationMs": 5
+    },
+    {
+      "id": "QA-MU-05",
+      "name": "expiry after one confirmed item retains results and later account cannot replay origin batch",
+      "passed": true,
+      "source": null,
+      "observation": {
+        "patches": 1,
+        "results": [
+          "fulfilled",
+          "rejected",
+          "rejected"
+        ],
+        "originRecordPreserved": true,
+        "replayByNewAccount": 0
+      },
+      "durationMs": 5
+    },
+    {
+      "id": "QA-MU-07",
+      "name": "same-name shared-drive shortcut moves selected ID only, preserving sibling and shortcut target",
+      "passed": true,
+      "source": null,
+      "observation": {
+        "selectedId": "synthetic-file",
+        "patchCount": 1,
+        "siblingAndTargetUnchanged": true,
+        "supportsAllDrives": true
+      },
+      "durationMs": 3
+    },
+    {
+      "id": "QA-SE-01",
+      "name": "path/URL injection fails before provider; arbitrary unauthorized ID remains denied",
+      "passed": true,
+      "source": null,
+      "observation": {
+        "injectedPathsDenied": 3,
+        "unauthorizedIdStatus": 403,
+        "provider": "synthetic authorization denial"
+      },
+      "durationMs": 5
+    },
+    {
+      "id": "QA-SW-01",
+      "name": "new worker activation removes old owned cache only; old-version offline shell and API/media exclusion remain safe",
+      "passed": true,
+      "source": null,
+      "observation": {
+        "installedPublicAssets": 18,
+        "deleted": [
+          "drive-original-shell-old"
+        ],
+        "siblingPreserved": true,
+        "offlineOldVersionQuery": true,
+        "apiMediaCacheEntries": 0
+      },
+      "durationMs": 3
+    }
+  ],
+  "passed": 28,
+  "failed": 0
+}
