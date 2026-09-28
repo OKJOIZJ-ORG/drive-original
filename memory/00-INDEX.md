@@ -43,6 +43,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `DISPOSABLE-20260928.md`: restricted actual canonical-controller disposable move/trash/restore, independent final reads, private recovery, folder-version correction and later unexplained cache drift; normal UI/appData/device gates remain open.
 - `CORPUS-RC10-20260928.md`: current36representative byte/TS checks, historical-count discriminator, bounded read evidence and unresolved final comparator rejection; all-format/device/catalog acceptance remains partial.
 - `STATE-RECOVERY-20260928.md`: actual raw-state private disk backup, flush/reread reconstruction, preserved legacy/pending state, restricted ACL and exact producers; persistence/device/release remain separate.
+- `OWN-WRITER-20260928.md`: one restricted canonical own-writer POST, preserved failed403/readback, later full raw confirmation and private recovery; current unit closed/WAIT by D-058.
 
 - `architecture/V2-04A-AUTH-CONTRACT.md`: local same-origin session/auth implementation at `ed8b619`, deterministic security/concurrency evidence and explicit V2-04B live boundary.
 - `IMMERSIVE-20260919.md`: v1.21.0 implementation, nine requested fixes, observed tests and physical-device boundaries. Production publication is recorded separately in the current checkpoint/release record.

@@ -1,0 +1,44 @@
+{
+  "startedAt": "2026-09-28T12:50:05.591Z",
+  "elapsedMs": 1224,
+  "paused": {
+    "refresh": true,
+    "retry": false,
+    "sync": false
+  },
+  "restored": {
+    "refresh": true,
+    "retry": false,
+    "sync": false
+  },
+  "result": {
+    "done": true,
+    "gets": 2,
+    "ownerCurrent": true,
+    "posts": 0,
+    "summary": {
+      "cause": "read_failed",
+      "confirmedByIndependentRawRead": false,
+      "failure": "invalid_contract",
+      "passed": false,
+      "stage": "before_capture",
+      "writeAttempts": 0
+    }
+  },
+  "scope": "Pre-submit failure: two helper GET attempts and zero POST/journal claim. Later independent about/catalog diagnostic both HTTP200; original HTTP status or transport cause not retained.",
+  "writeGateDisabled": true,
+  "diagnostic": {
+    "elapsedMs": 1104,
+    "ownerCurrent": true,
+    "requests": [
+      {
+        "category": "about",
+        "status": 200
+      },
+      {
+        "category": "catalog",
+        "status": 200
+      }
+    ]
+  }
+}

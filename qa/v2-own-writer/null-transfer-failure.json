@@ -1,0 +1,23 @@
+{
+  "startedAt": "2026-09-28T12:42:24.217Z",
+  "passed": false,
+  "failure": "invalid_backup",
+  "phase": "factory construction before helper run",
+  "helperGets": 0,
+  "helperPosts": 0,
+  "journalAbsent": true,
+  "requiredLegacyWriterNullPresentAtHost": true,
+  "requiredLegacyWriterFieldMissingInTarget": true,
+  "cacheAndProjectionChangedSinceDiskBackup": true,
+  "producers": {
+    "migration.mjs": "21dcc43951e1bc3c8c6be15fa3501f9103a00ce560980e255d49f88e4ad36ebf",
+    "build-browser-factory.mjs": "290fe75c702f5761aa09bea1f5ac22362b87c4639823a2d28cbfeca9e8c9322f",
+    "factory.generated.js": "f89ede2e85b4bed9f8fb9865106509a02390e86be363b4c240c353fda2af9a3f",
+    "runtime-facade.function.js": "99ec44d5ae32385b250374fa8d30572da67907aeed11b3238b57304d8d7392b0",
+    "quiescent-window-rc10.js": "80c2e3c1c6cc6d7b9a269c27aee3b3d46e74971155a91c341ddf0b9fe0d264a6",
+    "quiescent-run.function.js": "c32c731b82720f2c6385a81d3b36623cfa5d9dcf53759715a332f3037091238c",
+    "migration.test.mjs": "ad3e8fa8f40e00894f8615ca76bbe3a16ed16a22d33b277a5b5f8d69a6ad8a19",
+    "runtime-facade.test.mjs": "105837c5be35067f936d913e8bb33ceb3ed79cda48a68dd35d761bfeba6b7863"
+  },
+  "scope": "Zero helper requests; normal product read owners were separately awaited. No claim about all profile traffic or the actor causing local changes."
+}

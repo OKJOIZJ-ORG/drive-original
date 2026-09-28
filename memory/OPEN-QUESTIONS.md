@@ -17,6 +17,13 @@
 
 ## Readings in force — assumed, not decided
 
+A-013 (2026-09-28, UNKNOWN): why did appData catalog return403 after one
+own-writer POST, while later same-account catalog/complete readback succeeded?
+Earlier pre-submit2GET read_failed has no retained HTTP cause. Later actual
+403 status is retained, provider reason unknown. OWN-WRITER-20260928.md records
+final raw confirmation without CREATE replay. Obtain whitelisted provider reason
+before attributing rate limit/permissions or changing retries. Deferred under D-058.
+
 Implementation follow-up (not a user-choice blocker): one priority local browser
 full run failed Q1_SOURCE_READ_FAILED near299s; final instrumented rerun passed.
 Preserved qa/q1-priority/browser-source-read-failure.redacted.json. Exact cause

@@ -464,3 +464,16 @@ because iPhone tooling is unavailable. D-057 records scope and device/simulation
 proof distinction. D-056 pause-without-overlay contract and deferred defect remain.
 Next: isolated canonical own-writer merge/save plus independent raw readback under
 existing D-050/D-051 authority, with global writes=false and recovery retained.
+
+## 2026-09-28 — restricted own-writer persistence closed; WAIT
+
+One native own-writer POST under existing writer lock; first readback catalog403
+retains submission_uncertain. Later complete read-only11GET verifies7documents,
+whole own expected body and all6old raw/metadata unchanged,9/48/133,pendingfalse.
+No create replay.9helper+7facade+5transfer checks pass; null-dropping object transfer
+fixed by JSON text parsing, failed sources preserved. Fresh/confirmed private
+backups flushed/full-reread, three ACL-restricted ignored files and journal retained.
+Exact safe reports/QA screenshot saved; private groups/references released. Original
+403 cause unknown A-013; final confirmation after lock release. No product/global
+write enablement/production/main/push/automation/volume change. D-058 requires
+current-unit close/commit/report then WAIT. No Android/mobile/next unit started.

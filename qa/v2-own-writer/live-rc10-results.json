@@ -1,0 +1,357 @@
+{
+  "schema": "drive-original.own-writer-safe/1",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "version": "1.22.0-rc.10",
+  "workerVersionId": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "nullTransferAttempt": {
+    "startedAt": "2026-09-28T12:42:24.217Z",
+    "passed": false,
+    "failure": "invalid_backup",
+    "phase": "factory construction before helper run",
+    "helperGets": 0,
+    "helperPosts": 0,
+    "journalAbsent": true,
+    "requiredLegacyWriterNullPresentAtHost": true,
+    "requiredLegacyWriterFieldMissingInTarget": true,
+    "producers": {
+      "migration.mjs": "21dcc43951e1bc3c8c6be15fa3501f9103a00ce560980e255d49f88e4ad36ebf",
+      "build-browser-factory.mjs": "290fe75c702f5761aa09bea1f5ac22362b87c4639823a2d28cbfeca9e8c9322f",
+      "factory.generated.js": "f89ede2e85b4bed9f8fb9865106509a02390e86be363b4c240c353fda2af9a3f",
+      "runtime-facade.function.js": "99ec44d5ae32385b250374fa8d30572da67907aeed11b3238b57304d8d7392b0",
+      "quiescent-window-rc10.js": "80c2e3c1c6cc6d7b9a269c27aee3b3d46e74971155a91c341ddf0b9fe0d264a6",
+      "quiescent-run.function.js": "c32c731b82720f2c6385a81d3b36623cfa5d9dcf53759715a332f3037091238c",
+      "migration.test.mjs": "ad3e8fa8f40e00894f8615ca76bbe3a16ed16a22d33b277a5b5f8d69a6ad8a19",
+      "runtime-facade.test.mjs": "105837c5be35067f936d913e8bb33ceb3ed79cda48a68dd35d761bfeba6b7863"
+    },
+    "scope": "Zero helper requests; normal product read owners were separately awaited. No claim about all profile traffic or the actor causing local changes.",
+    "cacheAndProjectionChangedSinceDiskBackup": true
+  },
+  "preSubmitReadFailure": {
+    "startedAt": "2026-09-28T12:50:05.591Z",
+    "elapsedMs": 1224,
+    "paused": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "restored": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "result": {
+      "done": true,
+      "gets": 2,
+      "ownerCurrent": true,
+      "posts": 0,
+      "summary": {
+        "cause": "read_failed",
+        "confirmedByIndependentRawRead": false,
+        "failure": "invalid_contract",
+        "passed": false,
+        "stage": "before_capture",
+        "writeAttempts": 0
+      }
+    },
+    "scope": "Pre-submit failure: two helper GET attempts and zero POST/journal claim. Later independent about/catalog diagnostic both HTTP200; original HTTP status or transport cause not retained.",
+    "writeGateDisabled": true,
+    "diagnostic": {
+      "elapsedMs": 1104,
+      "ownerCurrent": true,
+      "requests": [
+        {
+          "category": "about",
+          "status": 200
+        },
+        {
+          "category": "catalog",
+          "status": 200
+        }
+      ]
+    }
+  },
+  "freshRecovery": {
+    "startedAt": "2026-09-28T12:48:03.710Z",
+    "capture": {
+      "done": true,
+      "nativeDispatches": 10,
+      "ownerCurrent": true,
+      "summary": {
+        "candidate": {
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 133
+        },
+        "candidateIncludesLegacy": true,
+        "candidatePending": true,
+        "legacy": {
+          "liked": 7,
+          "unliked": 48,
+          "viewed": 119
+        },
+        "legacyWriterAvailable": true,
+        "passed": true,
+        "projectClientBindingVerified": false,
+        "remote": {
+          "files": 6,
+          "liked": 8,
+          "unliked": 48,
+          "viewed": 130
+        },
+        "remoteFiles": 6,
+        "remoteWriters": 5,
+        "runtimeMatchesRemoteAndCache": true,
+        "writerDistinct": true
+      }
+    },
+    "window": {
+      "elapsedMs": 9656,
+      "paused": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "writeGateDisabled": true
+    },
+    "collector": {
+      "requests": 10,
+      "bytes": 51024,
+      "retries": 0
+    },
+    "recovery": {
+      "passed": true,
+      "remoteFiles": 6,
+      "remoteWriters": 5,
+      "remote": {
+        "files": 6,
+        "liked": 8,
+        "unliked": 48,
+        "viewed": 130
+      },
+      "candidate": {
+        "liked": 9,
+        "unliked": 48,
+        "viewed": 133
+      },
+      "legacy": {
+        "viewed": 119,
+        "liked": 7,
+        "unliked": 48
+      },
+      "candidatePending": true,
+      "candidateIncludesLegacy": true,
+      "legacyWriterAvailable": true,
+      "writerDistinct": true,
+      "runtimeMatchesRemoteAndCache": true,
+      "projectClientBindingVerified": false,
+      "rereadEquivalent": true
+    },
+    "privateBytes": 103099,
+    "flushed": true,
+    "completeEnvelopeRereadEqual": true,
+    "innerHashVerified": true
+  },
+  "oneCreateAttempt": {
+    "startedAt": "2026-09-28T12:53:38.313Z",
+    "elapsedMs": 25699,
+    "paused": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "restored": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "result": {
+      "done": true,
+      "gets": 12,
+      "ownerCurrent": true,
+      "posts": 1,
+      "readPolicyRejects": {
+        "about": 0,
+        "body": 0,
+        "catalog": 0,
+        "other": 0
+      },
+      "readStatuses": [
+        {
+          "category": "about",
+          "status": 200
+        },
+        {
+          "category": "catalog",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "body",
+          "status": 200
+        },
+        {
+          "category": "catalog",
+          "status": 200
+        },
+        {
+          "category": "about",
+          "status": 200
+        },
+        {
+          "category": "about",
+          "status": 200
+        },
+        {
+          "category": "catalog",
+          "status": 403
+        }
+      ],
+      "summary": {
+        "cause": "read_failed",
+        "confirmedByIndependentRawRead": false,
+        "failure": "submission_uncertain",
+        "passed": false,
+        "stage": "after_capture",
+        "writeAttempts": 1
+      }
+    },
+    "scope": "Controlled same-page state timers paused and restored; one own-writer create only",
+    "writeGateDisabled": true
+  },
+  "laterCatalogDiagnostic": {
+    "status": 200
+  },
+  "readOnlyReconciliation": {
+    "startedAt": "2026-09-28T12:56:54.255Z",
+    "capture": {
+      "done": true,
+      "nativeDispatches": 11,
+      "ownerCurrent": true,
+      "summary": {
+        "candidate": {
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 133
+        },
+        "candidateIncludesLegacy": true,
+        "candidatePending": false,
+        "legacy": {
+          "liked": 7,
+          "unliked": 48,
+          "viewed": 119
+        },
+        "legacyWriterAvailable": true,
+        "passed": true,
+        "projectClientBindingVerified": false,
+        "remote": {
+          "files": 7,
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 133
+        },
+        "remoteFiles": 7,
+        "remoteWriters": 6,
+        "runtimeMatchesRemoteAndCache": true,
+        "writerDistinct": true
+      }
+    },
+    "window": {
+      "elapsedMs": 8930,
+      "paused": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "writeGateDisabled": true
+    },
+    "collector": {
+      "requests": 11,
+      "bytes": 62665,
+      "retries": 0
+    }
+  },
+  "final": {
+    "passed": true,
+    "confirmedByLaterCompleteReadOnlyCapture": true,
+    "oneNativeCreateAttempt": true,
+    "noCreateReplay": true,
+    "beforeFiles": 6,
+    "afterFiles": 7,
+    "exactOwnBody": true,
+    "allOtherRawDocumentsAndMetadataUnchanged": true,
+    "remoteEqualsExpected": true,
+    "projection": {
+      "liked": 9,
+      "unliked": 48,
+      "viewed": 133
+    },
+    "candidatePendingAfter": false,
+    "legacyIncluded": true,
+    "privateJournalConfirmationRereadEqual": true
+  },
+  "privateRecovery": {
+    "confirmedEnvelopeBytes": 268128,
+    "flushed": true,
+    "wholeEnvelopeReread": true,
+    "actualProductReconstruction": true,
+    "journalReread": true,
+    "threeFilesRetained": true,
+    "aclRestricted": true,
+    "gitIgnored": true,
+    "gitTrackedFiles": 0,
+    "encrypted": false
+  },
+  "checks": {
+    "helper": 9,
+    "facade": 7,
+    "transfer": 5
+  },
+  "producers": {
+    "migration.mjs": "21dcc43951e1bc3c8c6be15fa3501f9103a00ce560980e255d49f88e4ad36ebf",
+    "build-browser-factory.mjs": "290fe75c702f5761aa09bea1f5ac22362b87c4639823a2d28cbfeca9e8c9322f",
+    "factory.generated.js": "f89ede2e85b4bed9f8fb9865106509a02390e86be363b4c240c353fda2af9a3f",
+    "runtime-facade.function.js": "fa5cf82f23db009f4c9151a5cdc8cfbf8c22e3e1fee455edf26f003279641125",
+    "quiescent-window-rc10.js": "80c2e3c1c6cc6d7b9a269c27aee3b3d46e74971155a91c341ddf0b9fe0d264a6",
+    "quiescent-run.function.js": "fe1bf8ec428cab80d97d57cc7b982b59f3eef4a9f0b0ef379c250ab56713bc33",
+    "migration.test.mjs": "ad3e8fa8f40e00894f8615ca76bbe3a16ed16a22d33b277a5b5f8d69a6ad8a19",
+    "runtime-facade.test.mjs": "105837c5be35067f936d913e8bb33ceb3ed79cda48a68dd35d761bfeba6b7863",
+    "transfer.test.mjs": "61ffb1cd59222d5bc12d8007354ecd7aa97193164c641a5a4309457529e4b3a0",
+    "quiescent-run-null-transfer-failed.function.js": "c32c731b82720f2c6385a81d3b36623cfa5d9dcf53759715a332f3037091238c",
+    "runtime-facade-read-failed.function.js": "99ec44d5ae32385b250374fa8d30572da67907aeed11b3238b57304d8d7392b0"
+  },
+  "limitations": [
+    "Primary same-lock readback failed403; final confirmation came from later complete read-only capture after lock release.",
+    "403 provider reason and initial read_failed cause remain unknown. No CREATE replay.",
+    "Global writes false; normal flag-enabled sync/UI, fresh-origin/device convergence and production release remain unverified.",
+    "Helper request counts do not cover all Chrome/upstream activity."
+  ]
+}
