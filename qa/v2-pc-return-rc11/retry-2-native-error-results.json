@@ -1,0 +1,95 @@
+{
+  "capturedAt": "2026-09-28T15:48:09.532Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "observed": {
+    "events": [
+      {
+        "currentTime": 0,
+        "elapsedMs": 831,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 2984,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 10873,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13460,
+        "errorCode": null,
+        "event": "loadedmetadata",
+        "frames": 0,
+        "readyState": 1
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13554,
+        "errorCode": null,
+        "event": "loadeddata",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13554,
+        "errorCode": null,
+        "event": "canplay",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13684,
+        "errorCode": 3,
+        "errorMessage": "PipelineStatus::AUDIO_RENDERER_ERROR: audio render error",
+        "event": "error",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13690,
+        "errorCode": null,
+        "event": "abort",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 13690,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      }
+    ],
+    "videoId": "videoPlayer"
+  },
+  "deviceInventory": {
+    "audioInputs": 1,
+    "audioOutputs": 1,
+    "hasDefaultOutput": false,
+    "scope": "Existing browser device inventory only; no permission request or settings change"
+  },
+  "services": {
+    "AudioSrv": "RUNNING",
+    "AudioEndpointBuilder": "RUNNING"
+  },
+  "classification": "Confirmed native MediaError3 with AUDIO_RENDERER_ERROR after four decoded frames; cause of output failure requires discriminator",
+  "volumeOrDeviceSettingsChanged": false,
+  "backgroundPerformed": false
+}

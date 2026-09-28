@@ -1,0 +1,32 @@
+{
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "version": "1.22.0-rc.11",
+  "actualPcBackgroundPerformed": false,
+  "nativeFailure": "AUDIO_RENDERER_ERROR",
+  "independentFreshPcmAlsoFails": true,
+  "exactLowerStageOrDriverCause": "unknown",
+  "volumeOutputSettingsChanged": false,
+  "productSourceChanged": false,
+  "localProducerChecks": {
+    "command": "node --test qa/v2-pc-return-rc11/probe.test.mjs",
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0,
+    "scope": "QA fixture and retained-record integrity, not extra real playback"
+  },
+  "producerAndObservationSha256": {
+    "cleanup-results.json": "1b02d43817f6ac57deae4db2c712f605b7a9a3be7c73793e9874a70dee541206",
+    "first-startup-failure.json": "295c9becfda4b72c2661b907b0e32e37b01d13c5f7c402648d935c4c6fdc1b52",
+    "native-error-probe.expression.js": "fdaa2e43ca761e32ed656b36c3363f65a9e1818f58a932c8674113ab0de3e3dc",
+    "pcm-output-after-reload-results.json": "424396ebfd2e20b48df85c71a670dcd6112dcf4bfc06abe7b4a3cbf6ad648e99",
+    "pcm-output-after-reload.expression.js": "ea83bebd4e65ceb3f13e846bf85a15d136f79c1b7bc25e90b7f00f64d436f13d",
+    "pcm-output-discriminator.expression.js": "3661adfbddc5b5ed106fb6dbe2ef558211ea49353afc559b2796a3e956106840",
+    "pcm-output-results.json": "201fbcb552253a7d18c5b11400801d28caae04cc4ec09fa1f688ccc1967942ca",
+    "probe.test.mjs": "349920eab4d5ec81bcdf9c416418dbf079ced400fff1458035ce47e528da2efc",
+    "retry-1-trace-results.json": "3f1efdb1472d434f33567b8ea4c290d5fb3111d5bc423fe93b8ba0606b15fc16",
+    "retry-2-native-error-results.json": "40368cd93bd6ae87044cedf774179210aaad24b7eccba193c0820360270a1127",
+    "trace-hook.expression.js": "8b807e067b89d1d2d271051af0a6a5c7a36fe79779f397419918eed497e1bbe7",
+    "windows-endpoint-read.py": "1d523d72530049a27831e330416599f4de0d8ba0a07dc120fd597c5f6ea52ade",
+    "windows-endpoint-results.json": "8326d717cc03dea957a8021147f5d075fd4f6399e38135129b0f7b9e4760409f"
+  }
+}

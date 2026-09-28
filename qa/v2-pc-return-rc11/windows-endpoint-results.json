@@ -1,0 +1,45 @@
+{
+  "producer": "windows-endpoint-read.py",
+  "execution": "Agent gpt_6_sol_medium_state_migration_audit executed this exact source via ASCII Base64 python -c through cmd.exe/login:false, before root archival; not reexecuted.",
+  "runtime": "C:/Users/jbs/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+  "runtimeExecutableHashMeasured": false,
+  "wallSeconds": 0.418,
+  "timeoutSeconds": 5,
+  "result": {
+    "endpointRead": "completed",
+    "comInitHr": "0x0",
+    "enumeratorHr": "0x0",
+    "activeEnumerationHr": "0x0",
+    "activeRenderCount": 1,
+    "defaults": {
+      "console": {
+        "hr": "0x0",
+        "present": true,
+        "stateHr": "0x0",
+        "active": true
+      },
+      "multimedia": {
+        "hr": "0x0",
+        "present": true,
+        "stateHr": "0x0",
+        "active": true
+      },
+      "communications": {
+        "hr": "0x0",
+        "present": true,
+        "stateHr": "0x0",
+        "active": true
+      }
+    }
+  },
+  "privateEndpointNameIdOrVolumeRead": false,
+  "clientActivatedOrSettingsChanged": false,
+  "histogramStageRead": {
+    "available": false,
+    "method": "Browser.getHistograms",
+    "query": "Media.Audio.Output.Win",
+    "failure": "This method is not supported through raw CDP.",
+    "actualStageOrHRESULT": "unknown"
+  },
+  "producerSha256": "1d523d72530049a27831e330416599f4de0d8ba0a07dc120fd597c5f6ea52ade"
+}

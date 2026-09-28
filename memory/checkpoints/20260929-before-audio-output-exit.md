@@ -1,4 +1,4 @@
-# Checkpoint — WP-06 output blocker recorded; WP-07 ISO structure active — 2026-09-29
+# Checkpoint — WP-08 and current catalog exit; WP-06 startup/return active — 2026-09-29
 
 Repo C:\extensions\Drive-Original\source; branch codex/v2-kickoff-diagnostics.
 Requery Git HEAD/status for current documentation savepoint; deployed source is
@@ -15,21 +15,11 @@ Current rc.11 metadata-only two complete repeated inventories/final comparator
 PASS124GET22774540bytes/owned media0writes0; catalogStable/completetrue, released.
 qa/v2-07a-current-corpus-probe/metadata-catalog-rc11-live-results.json owns actual
 source/provenance/scope. Historical A-012 cause unknown; current pass is not cause.
-WP-06 actualPC30sbackground was not performed: startupfailed first. Retry trace
-receives six complete206 bodies; native video decodes4frames then MediaError3
-AUDIO_RENDERER_ERROR/currentTime0. Independent generatedPCM in a freshly reloaded
-candidate under actual click fails the same error; no Drive/MSE/original data needed.
-Windows read-only defaults exist/active, audio services running; exact lower stage
-and drivercause unknown. RawCDP histogram lookup unsupported. PC-OUTPUT-20260929.md
-and qa/v2-pc-return-rc11/ own evidence, failed first capture and cleanup scopes.
-No volume/output/browser/service settings changed; no source fix from this evidence.
-Next authorized core: first actual ISO-BMFF top-level structure under bounded fresh
-selection/Range/identity fences. New QA leaf qa/v2-07a-isobmff-rc11/; actual activated
-SW fresh uniqueasset cache-write proof pins rc.11, staticGET1/media0metadata0.
-Existing local tests and historical corpus results are not full-format/device pass.
-Normal disposable UI remains pending behind intentional general-write lock; prior
-restricted controller proof is valid in its own scope. Do not unlock general writes
-or publish private test-ID manifests merely for a QA pass.
+Next WP-06 actualPC30sbackground test encountered first-frame startupfailed:0frames,
+ready0, original-repackaged transportverifiedtrue/credentialonline. First reason
+unknown (inert sink absent); QA firstfailure retained. Root installed bounded
+redacted documented media trace hook and clicked actual retry to discriminate.
+qa/v2-pc-return-rc11/ owns current run. Do not claim background test performed yet.
 New PC cursor/overlay, loading/player polish/general UI remain QUEUED/unstarted;
 D-056 pause-without-overlay intentional, designated reveal-only area preserves play.
 D-057 allows Android alternative; no Android runtime found in bounded inventory.

@@ -1,0 +1,403 @@
+{
+  "capturedAt": "2026-09-28T15:45:46.316Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "scope": "Actual user-gesture retry, bounded inert app/worker trace; no media-policy/source edits",
+  "observed": {
+    "media": {
+      "attempt": "failed",
+      "authStatus": "online",
+      "credentialUsable": true,
+      "decodeVerified": false,
+      "duration": null,
+      "error": null,
+      "frames": 0,
+      "mode": "original-repackaged",
+      "paused": true,
+      "q1Active": false,
+      "readyState": 0,
+      "time": 0,
+      "transportVerified": true,
+      "version": "1.22.0-rc.11"
+    },
+    "trace": {
+      "events": [
+        {
+          "elapsedMs": 1,
+          "stage": "intent"
+        },
+        {
+          "elapsedMs": 1,
+          "stage": "route-selecting"
+        },
+        {
+          "elapsedMs": 2,
+          "reason": "bounded-ts-admission",
+          "stage": "route-selected"
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 984,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 986,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 986,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 1738,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 940
+        },
+        {
+          "bytes": 940,
+          "elapsedMs": 1740,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 940
+        },
+        {
+          "bytes": 940,
+          "elapsedMs": 1741,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 940
+        },
+        {
+          "bytes": 940,
+          "elapsedMs": 1741,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 940
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 3108,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 3110,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 3110,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 4019,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 4744,
+          "elapsedMs": 4020,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 4216,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 4216,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 5176,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 5177,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 5177,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 6097,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 14569,
+          "elapsedMs": 6097,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 6230,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 6230,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 7136,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 7137,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 7138,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 7823,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 65424
+        },
+        {
+          "bytes": 4743,
+          "elapsedMs": 7823,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 65424
+        },
+        {
+          "bytes": 65424,
+          "elapsedMs": 7864,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 65424
+        },
+        {
+          "bytes": 65424,
+          "elapsedMs": 7864,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 65424
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 8794,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 8796,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 8797,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 9533,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 14574,
+          "elapsedMs": 9534,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 9738,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 524144,
+          "elapsedMs": 9738,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 524144
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 11386,
+          "stage": "credential-requested",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 11387,
+          "stage": "credential-ready",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 11387,
+          "stage": "request-start",
+          "status": 0,
+          "terminal": false,
+          "totalBytes": 0
+        },
+        {
+          "bytes": 0,
+          "elapsedMs": 12107,
+          "stage": "headers",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 262144
+        },
+        {
+          "bytes": 14578,
+          "elapsedMs": 12107,
+          "stage": "first-byte",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 262144
+        },
+        {
+          "bytes": 262144,
+          "elapsedMs": 12203,
+          "stage": "body-progress",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 262144
+        },
+        {
+          "bytes": 262144,
+          "elapsedMs": 12203,
+          "stage": "body-complete",
+          "status": 206,
+          "terminal": false,
+          "totalBytes": 262144
+        },
+        {
+          "currentTime": 0,
+          "elapsedMs": 12701,
+          "stage": "media-metadata"
+        },
+        {
+          "elapsedMs": 12809,
+          "stage": "media-loaded-data"
+        },
+        {
+          "elapsedMs": 12809,
+          "stage": "canplay"
+        },
+        {
+          "elapsedMs": 12929,
+          "reason": "Q1_MEDIA_ERROR",
+          "stage": "q1-failed",
+          "terminal": true
+        },
+        {
+          "elapsedMs": 12932,
+          "stage": "original-playback-unavailable",
+          "terminal": true
+        }
+      ],
+      "ownsSink": true
+    }
+  },
+  "classification": "Confirmed Q1_MEDIA_ERROR after completed206 bodies and canplay; native MediaError detail not retained on disposal",
+  "backgroundPerformed": false
+}

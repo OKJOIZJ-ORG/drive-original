@@ -502,3 +502,13 @@ Candidate b9d8739/1.22.0-rc.11/Workerfe556d43 delivered; public19/cache17 Git-by
 ## 2026-09-29 — Current catalog discriminator passes; WP-06 continues
 
 New rc11 metadata-only producer7localchecks, preservedrc10artifacthashes. Actual sameaccount from supplied priorityloadedparent completes2repeatedfullinventories and finalcomparator:124GET22,774,540metadata bytes, ownedmedia0writes0, currentcatalogstable/completetrue, releasedtrue. No SW VERSION/device/codec claim; historicalA012causeunknown retained. WP06actualPC30sbackground plannednext, but uninstrumentedpriorityopen firstframefails beforebackground (ready0/0frames, original-repackaged transportverified, onlinecredential), reasonunknown. Failurepreserved and existing bounded inert trace installed foroneUIretry; rootdiagnosesresponsiblecorelayer. NewlyreportedUI stillQUEUED.
+
+## 2026-09-29 — WP06 output blocker scoped exit; original plan continues
+
+- Metadata comparator unit committedcf8a011; preceding actualstate/cache/oldschema unit committedb8de6ed. Candidate product sourceb9d8739 unchanged.
+- Actualpriority PC-return startup fails before stableplay; retry trace6complete206/1900940bytes, exactnativevideo4decodedframes then MediaError3 AUDIO_RENDERER_ERROR. No actualbackgroundstep.
+- Freshdoc independently generatedPCM assignedinside actualbuttonclick also fails exacterror; settings unchanged, ownprobes/blobs/listeners cleared. Existing firstpreload producer didnotprove clicktiming and isretainedwithitslimits.
+- IndependentSolmedium read-only WindowsCOM finds active/default endpoints, so browserprivacyIDs do not establishmissingoutput. SupportedrawCDP histogram unavailable; exactlowercauseunknown, no sourcefix justified. Probechecks6/6pass. SeePC-OUTPUT-20260929.md.
+- User requested Astra medium/high for blockers. SpawnAstrahigh attempted; runtimeagent-threadlimit rejected, existingindependentSolmedium reused. Do not claimAstrareview.
+- WP05 normalUI remainsblockedbyintentional immutableglobalwritefalse, and existingtextfixture notgallerymedia. No authority/filters/stateinjection introduced solelyforQA.
+- ContinueWP07 firstactualISO top-levelstructuralprobe; observedfreshuniqueassetGET underactualcontroller provesruntimewritesrc11shellcache. QueuedUI untouched; production/automation unchanged.

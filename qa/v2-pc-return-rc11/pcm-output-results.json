@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-09-28T15:56:29.871Z",
+  "candidateVersion": "1.22.0-rc.11",
+  "result": {
+    "done": true,
+    "events": [
+      {
+        "elapsedMs": null,
+        "errorCode": null,
+        "event": "loadedmetadata",
+        "time": 0
+      },
+      {
+        "elapsedMs": null,
+        "errorCode": null,
+        "event": "canplay",
+        "time": 0
+      },
+      {
+        "elapsedMs": null,
+        "errorCode": 3,
+        "errorMessage": "PipelineStatus::AUDIO_RENDERER_ERROR: audio render error",
+        "event": "error",
+        "time": 0
+      }
+    ],
+    "passed": false,
+    "revoked": true,
+    "scope": "Generated half-second stereo48k PCM silence; same browser user gesture, no original media or volume setting changes"
+  },
+  "interpretation": "The generated PCM sample fails with the same native audio-renderer error as Q1; the exact OS or Chrome endpoint cause is unproven."
+}
