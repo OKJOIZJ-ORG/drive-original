@@ -328,3 +328,13 @@ sweep: checkpoint, active-goal continuation and this session record reflect expl
 패치하지는 마"가 명시적 제약이다. D-048의 pause-independent 제어 소유권을
 유지하고 V2-02C/A-010은 전용 영역의 hit-test/event routing 재현으로 다룬다.
 D-055의 현재 작업 계속·나중 해결 순서는 그대로다.
+
+## D-057 · 모바일 검증은 가용 Android 환경을 먼저 사용 — 2026-09-28 (User-confirmed)
+
+사용자는 앞으로 iPhone 도구 제약을 이유로 모바일 검증을 곧바로 사용자에게
+넘기지 말고, Android에서 가능하다면 Android 모바일로 직접 테스트하도록
+명시했다. 모바일 검증 착수 시 사용 가능한 Android 장치/에뮬레이터와 도구를
+확인해 직접 진행한다. PC의 화면 크기·터치 모의 검증, Android 장치/에뮬레이터,
+실제 iPhone 결과는 각각의 증거 범위를 기록한다. Android 결과가 iOS 전용
+Safari/standalone/OS 동작을 입증하지는 않는다. D-056의 제어 계약과 현재
+작업 계속·모바일 문제 후속 대기열은 유지한다.

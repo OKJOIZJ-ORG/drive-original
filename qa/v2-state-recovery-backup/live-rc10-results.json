@@ -1,0 +1,147 @@
+{
+  "schema": "drive-original.state-recovery-backup-safe/1",
+  "capturedAt": "2026-09-28T12:12:27.664Z",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "appVersion": "1.22.0-rc.10",
+  "workerVersionId": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "candidateOrigin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+  "legacyOrigin": "https://okjoizj-org.github.io",
+  "legacyPath": "/drive-original/version.json",
+  "capture": {
+    "done": true,
+    "nativeDispatches": 10,
+    "ownerCurrent": true,
+    "summary": {
+      "candidate": {
+        "liked": 8,
+        "unliked": 48,
+        "viewed": 133
+      },
+      "candidateIncludesLegacy": true,
+      "candidatePending": true,
+      "legacy": {
+        "liked": 7,
+        "unliked": 48,
+        "viewed": 119
+      },
+      "legacyWriterAvailable": true,
+      "passed": true,
+      "projectClientBindingVerified": false,
+      "remote": {
+        "files": 6,
+        "liked": 8,
+        "unliked": 48,
+        "viewed": 130
+      },
+      "remoteFiles": 6,
+      "remoteWriters": 5,
+      "runtimeMatchesRemoteAndCache": true,
+      "writerDistinct": true
+    }
+  },
+  "controlledWindow": {
+    "elapsedMs": 15925,
+    "paused": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "restored": {
+      "refresh": true,
+      "retry": false,
+      "sync": false
+    },
+    "scope": "Controlled same-page state timers paused and restored; no writes authorized",
+    "writeGateDisabled": true
+  },
+  "collector": {
+    "requests": 10,
+    "bytes": 51024,
+    "retries": 0
+  },
+  "recovery": {
+    "passed": true,
+    "remoteFiles": 6,
+    "remoteWriters": 5,
+    "remote": {
+      "files": 6,
+      "liked": 8,
+      "unliked": 48,
+      "viewed": 130
+    },
+    "candidate": {
+      "liked": 8,
+      "unliked": 48,
+      "viewed": 133
+    },
+    "legacy": {
+      "viewed": 119,
+      "liked": 7,
+      "unliked": 48
+    },
+    "candidatePending": true,
+    "candidateIncludesLegacy": true,
+    "legacyWriterAvailable": true,
+    "writerDistinct": true,
+    "runtimeMatchesRemoteAndCache": true,
+    "projectClientBindingVerified": false,
+    "rereadEquivalent": true
+  },
+  "namespace": {
+    "legacyWriterVisibleRemotely": true,
+    "candidateOwnWriterVisibleRemotely": false
+  },
+  "postRestore": {
+    "accountReady": true,
+    "cacheUnchanged": true,
+    "controllerStillProved": true,
+    "mediaIdle": true,
+    "projectionUnchanged": true,
+    "readOnly": true,
+    "refreshScheduled": true,
+    "sameAccount": true,
+    "sameWriter": true,
+    "version": "1.22.0-rc.10"
+  },
+  "privateSink": {
+    "workspaceRelativeDirectory": "qa/v2-state-recovery-backup/private",
+    "bytes": 102758,
+    "createdExclusively": true,
+    "fileSynced": true,
+    "completeEnvelopeRereadEqual": true,
+    "innerHashVerified": true,
+    "inheritedAclDisabledOnDirectory": true,
+    "allowedAclPrincipalsOnly": [
+      "current user",
+      "SYSTEM",
+      "Administrators"
+    ],
+    "gitIgnored": true,
+    "gitTrackedFiles": 0,
+    "encrypted": false
+  },
+  "producers": {
+    "backup.mjs": "a6051d7d0ce9fe3814f795d3d5ad4606083ddeb03ebe7d8dd7b24d73b208afda",
+    "handle.mjs": "a230162b8f9778b35d48b54822f0deaf4acc6745316f5387c5d018bd77684f08",
+    "build-browser-factory.mjs": "46432de9e8d710f4ec6a6a71d28791bc4bab2d9301f29fc10c5ba6772e54fb9d",
+    "backup.test.mjs": "f215080c1cbb581c94faed6018e9be7ef19eed5343bec7671182aaccf9b44976",
+    "runtime-facade.test.mjs": "7cb63eebed0e95873b7d011755ece7c0277ced95d74e427293a8805ebb658b20",
+    "runtime-facade.function.js": "319d8c62616e72400b70fae16f3aae933f7c8391d15436ded935b79af8856b91",
+    "quiescent-capture.function.js": "5811a2aaafb9118a2fc0760da2e217a1e86a97f3a1107a61ffaed6ae9c0fc777",
+    "factory.generated.js": "035f6482b2cbe3730c14412fa5bcd56915f87e0bcf3684c25eece336281449bb",
+    "../v2-state-snapshot/legacy-read.generated.js": "157994b8b98a44932a1605876fa8fe7d83d1b8e5bde6f0921a11202e3a584843",
+    "../v2-state-snapshot/quiescent-window-rc10.js": "906166b90a1c1ae710a820f70cc464e4c58cb6340f17fbdc6b56282c774b5a36"
+  },
+  "checks": {
+    "backupHelper": 11,
+    "runtimeFacade": 8
+  },
+  "limitations": [
+    "Remote documents preserve parsed raw JSON and metadata, not original HTTP whitespace.",
+    "Local cache and writer text are exact.",
+    "Disk comparison uses actual product normalize/merge on an immutable captured original; it does not prove live submit-time freshness.",
+    "Configured OAuth client is recorded privately from local configuration; actual Google Console project/client binding remains unknown.",
+    "No appData write, full runtime restore, fresh-origin reconstruction, device convergence or release acceptance.",
+    "Helper counts are scoped, not whole browser or upstream traffic."
+  ]
+}

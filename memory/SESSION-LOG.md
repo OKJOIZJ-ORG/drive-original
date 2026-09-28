@@ -443,3 +443,24 @@ failure. Independent audit gives a later coordinates/event/visibility/playback
 discriminator without a causal patch. Next independent scope is recoverable raw
 state backup, not global write enablement. Child implements new QA helper/factory
 and11focused checks; root has not yet executed private sink or migration writes.
+
+## 2026-09-28 — private recovery backup closed; own-writer persistence next
+
+Root executes maintained helper/facade and actual product merge under controlled
+same-page15925ms timer window. Fresh old-origin exact replica and complete six
+remote raw documents pass10GET/51024bytes/0retries; legacy included, candidate
+pending retained, distinct writers. Private102758-byte envelope written with wx,
+synced, fully reread and compared against retained original using actual app merge.
+Restricted ACL/ignored/tracked0 verified; no token/cookie/media in sink. Public safe
+aggregates and exact executed producers preserved.11helper+8facade checks pass;
+post-restore account/cache/projection/writer/controller/idle/readOnly pass.
+Remote private group/transferred payload copies released; private file retained.
+No appData/product/deployment/main/push/automation/volume change. Legacy writer
+visible and own writer absent; configured client recorded privately with local
+provenance, Console binding remains unknown. Fresh submit-time checks still required.
+
+User directs future mobile tests to available Android instead of handing off just
+because iPhone tooling is unavailable. D-057 records scope and device/simulation
+proof distinction. D-056 pause-without-overlay contract and deferred defect remain.
+Next: isolated canonical own-writer merge/save plus independent raw readback under
+existing D-050/D-051 authority, with global writes=false and recovery retained.
