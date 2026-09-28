@@ -1,7 +1,10 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.10';
+const APP_VERSION = '1.22.0-rc.11';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
+const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
+  || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
+const ACCOUNT_STATE_WRITE = Symbol('account-state-write');
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -1429,7 +1432,9 @@ function bindEvents() {
   });
   window.addEventListener('storage', (event) => {
     if (!state.accountId || state.accountIdentityPending || event.key !== accountStateCacheKey()) return;
-    const cached = readCachedAccountMediaState(state.accountId);
+    let cached;
+    try { cached = readCachedAccountMediaState(state.accountId); }
+    catch (error) { state.accountStateSyncError = error; updateAccountSyncStatus(); return; }
     const merged = mergeAccountMediaStates(cached, state.accountMediaState);
     if (accountMediaStatesEqual(merged, state.accountMediaState)) return;
     applyMergedAccountMediaState(merged);
@@ -3678,8 +3683,11 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const requestOptions = { ...options };
   delete requestOptions.driveMaxRateAttempts;
   delete requestOptions.driveNoRetry;
+  const accountStateWrite = requestOptions[ACCOUNT_STATE_WRITE];
+  delete requestOptions[ACCOUNT_STATE_WRITE];
   const requestMethod = String(requestOptions.method || 'GET').toUpperCase();
-  if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod)) {
+  const stateWriteAllowed = isAccountStateWriteRequest(url, requestMethod, accountStateWrite);
+  if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod) && !stateWriteAllowed) {
     const error = new Error('Candidate Drive mutations are disabled until state verification completes.');
     error.code = 'candidate_read_only';
     error.status = 423;
@@ -3769,9 +3777,12 @@ function readCachedAccountMediaState(accountId) {
   const key = accountStateCacheKey(accountId);
   if (!key) return createEmptyAccountMediaState();
   try {
-    return normalizeAccountMediaState(JSON.parse(localStorage.getItem(key) || '{}'));
+    const text = localStorage.getItem(key);
+    if (text === null) return createEmptyAccountMediaState();
+    return normalizeAccountMediaState(validateRawAccountMediaState(JSON.parse(text), true));
   } catch (_) {
-    return createEmptyAccountMediaState();
+    state.accountLocalStorageError = true;
+    throw accountStateError('invalid_account_state_cache');
   }
 }
 
@@ -3807,6 +3818,80 @@ function getAccountStateWriterId() {
 
 function accountStateWriterFileName() {
   return `${ACCOUNT_STATE_WRITER_PREFIX}${getAccountStateWriterId()}.json`;
+}
+
+function accountStateError(code, status = 409) {
+  return Object.assign(new Error('기록 동기화를 확인하지 못했습니다. 기존 기록은 보존됩니다.'), { code, status });
+}
+
+function validateRawAccountMediaState(value, legacy = false) {
+  const record = v => v !== null && typeof v === 'object' && !Array.isArray(v);
+  const timestamp = v => Number.isSafeInteger(v) && v >= 0;
+  if (!record(value) || !record(value.viewed) || !record(value.favorites)) throw accountStateError('malformed_account_state');
+  if (value.schemaVersion !== ACCOUNT_STATE_SCHEMA_VERSION
+    && !(legacy && !Object.prototype.hasOwnProperty.call(value, 'schemaVersion'))) throw accountStateError('unsupported_account_state');
+  if (Object.prototype.hasOwnProperty.call(value, 'updatedAt') && !timestamp(value.updatedAt)) throw accountStateError('malformed_account_state');
+  if (Object.entries(value.viewed).some(([id, time]) => !id || !timestamp(time) || time === 0)
+    || Object.entries(value.favorites).some(([id, entry]) => !id || (typeof entry !== 'boolean'
+      && (!record(entry) || typeof entry.liked !== 'boolean' || !timestamp(entry.updatedAt))))) throw accountStateError('malformed_account_state');
+  return value;
+}
+
+function isAccountStateWriteRequest(address, method, scope) {
+  if (!ACCOUNT_STATE_WRITES_ENABLED || !scope || state.demo || !state.accountId || !state.accountStateLoaded || state.accountIdentityPending
+    || scope.accountId !== state.accountId || scope.writerId !== getAccountStateWriterId()) return false;
+  let url;
+  try { url = new URL(address); } catch (_) { return false; }
+  if (url.origin !== 'https://www.googleapis.com' || url.username || url.password || url.hash
+    || url.searchParams.get('fields') !== 'id,modifiedTime'
+    || [...url.searchParams.keys()].sort().join(',') !== 'fields,uploadType') return false;
+  if (method === 'POST') return scope.kind === 'create'
+    && typeof scope.fileId === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(scope.fileId)
+    && url.pathname === '/upload/drive/v3/files' && url.searchParams.get('uploadType') === 'multipart';
+  return method === 'PATCH' && scope.kind === 'update' && scope.fileId === state.accountStateFileId
+    && url.pathname === `/upload/drive/v3/files/${encodeURIComponent(scope.fileId)}`
+    && url.searchParams.get('uploadType') === 'media';
+}
+
+async function reserveAccountStateFileId(options) {
+  const accountId = state.accountId;
+  const writerId = getAccountStateWriterId();
+  if (!accountId || state.accountIdentityPending) throw accountStateError('account_state_owner_missing');
+  const key = `drive-original.account-state-file.${accountId}.${writerId}`;
+  const stored = localStorage.getItem(key);
+  const valid = entry => entry?.schemaVersion === 1 && entry.accountId === accountId && entry.writerId === writerId
+    && typeof entry.fileId === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(entry.fileId);
+  if (stored) {
+    let entry;
+    try { entry = JSON.parse(stored); } catch (_) { throw accountStateError('invalid_account_state_reservation'); }
+    if (!valid(entry)) throw accountStateError('invalid_account_state_reservation');
+    return entry.fileId;
+  }
+  const response = await driveFetch(`${DRIVE_API}/files/generateIds?count=1&space=appDataFolder&type=files`, options);
+  const data = await response.json();
+  const entry = { schemaVersion: 1, accountId, writerId, fileId: data?.ids?.length === 1 ? data.ids[0] : null };
+  if (!valid(entry) || data.space !== 'appDataFolder' || state.accountId !== accountId
+    || state.accountIdentityPending || getAccountStateWriterId() !== writerId) throw accountStateError('invalid_account_state_reservation');
+  const text = JSON.stringify(entry);
+  // A stable server-generated ID makes response-loss retries refer to one file,
+  // including after a reload or delayed catalog visibility. Never POST if the
+  // reservation cannot be durably retained and reread for this account/writer.
+  localStorage.setItem(key, text);
+  if (localStorage.getItem(key) !== text) throw accountStateError('account_state_reservation_not_saved');
+  return entry.fileId;
+}
+
+async function confirmAccountStateWrite(fileId, expected, options) {
+  const params = new URLSearchParams({ fields: 'id,name,modifiedTime,trashed,spaces' });
+  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params}`, options);
+  const metadata = await response.json();
+  if (metadata?.id !== fileId || metadata.name !== accountStateWriterFileName() || metadata.trashed !== false
+    || !Array.isArray(metadata.spaces) || !metadata.spaces.includes('appDataFolder')) throw accountStateError('account_state_readback_owner');
+  const confirmed = await readAccountStateFile(fileId, options);
+  if (!accountMediaStatesEqual(mergeAccountMediaStates(expected, confirmed), confirmed)) {
+    throw accountStateError('account_state_readback_unconfirmed', 503);
+  }
+  return { id: fileId, modifiedTime: metadata.modifiedTime };
 }
 
 function captureAccountStateRequest() {
@@ -3901,22 +3986,35 @@ async function findAccountStateFile(options = {}) {
       pageSize: '1000',
       orderBy: 'modifiedTime desc',
       q: `(name = '${ACCOUNT_STATE_FILE_NAME}' or name contains '${ACCOUNT_STATE_WRITER_PREFIX}') and trashed = false`,
-      fields: 'nextPageToken,files(id,name,modifiedTime)'
+      fields: 'nextPageToken,incompleteSearch,files(id,name,modifiedTime)'
     });
     if (pageToken) params.set('pageToken', pageToken);
     const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, options);
-    return response.json();
+    const page = await response.json();
+    if (!page || !Array.isArray(page.files)
+      || (page.nextPageToken != null && typeof page.nextPageToken !== 'string')
+      || page.files.some(file => typeof file?.name !== 'string' || typeof file?.id !== 'string')) {
+      throw accountStateError('malformed_account_state_catalog');
+    }
+    if (page.incompleteSearch === true) throw accountStateError('account_state_catalog_incomplete');
+    return page;
   }, options);
-  const files = result.items.filter((file) => file?.id && (file.name === ACCOUNT_STATE_FILE_NAME
-    || /^drive-original-account-state-v2-[A-Za-z0-9_-]+\.json$/.test(file.name)));
+  const files = result.items.filter((file) => file?.name === ACCOUNT_STATE_FILE_NAME
+    || String(file?.name || '').startsWith(ACCOUNT_STATE_WRITER_PREFIX));
+  if (files.some(file => typeof file.id !== 'string' || !/^[A-Za-z0-9_-]{1,200}$/.test(file.id)
+    || (file.name !== ACCOUNT_STATE_FILE_NAME && !/^drive-original-account-state-v2-[A-Za-z0-9_-]+\.json$/.test(file.name)))) {
+    throw accountStateError('malformed_account_state_catalog');
+  }
   const ownFile = files.find((file) => file.name === accountStateWriterFileName());
+  if (new Set(files.map(file => file.id)).size !== files.length
+    || new Set(files.map(file => file.name)).size !== files.length) throw accountStateError('account_state_duplicate_writer');
   return { id: ownFile?.id || null, files };
 }
 
-async function readAccountStateFile(fileId, options = {}) {
+async function readAccountStateFile(fileId, options = {}, legacy = false) {
   if (!fileId) return createEmptyAccountMediaState();
   const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, options);
-  return normalizeAccountMediaState(await response.json());
+  return normalizeAccountMediaState(validateRawAccountMediaState(await response.json(), legacy));
 }
 
 async function readRemoteAccountMediaState(catalog, options = {}) {
@@ -3927,12 +4025,12 @@ async function readRemoteAccountMediaState(catalog, options = {}) {
     const cached = cache.get(file.id);
     if (file.modifiedTime && cached?.modifiedTime === file.modifiedTime) return cached.data;
     try {
-      const data = await readAccountStateFile(file.id, options);
+      const data = await readAccountStateFile(file.id, options, file.name === ACCOUNT_STATE_FILE_NAME);
       if (options.signal?.aborted) throw new DOMException('Account request aborted', 'AbortError');
       cache.set(file.id, { modifiedTime: file.modifiedTime, data });
       return data;
     } catch (error) {
-      if (error?.status === 404) { cache.delete(file.id); return createEmptyAccountMediaState(); }
+      if (error?.status === 404) cache.delete(file.id);
       throw error;
     }
   }, 4);
@@ -3942,25 +4040,42 @@ async function readRemoteAccountMediaState(catalog, options = {}) {
 }
 
 async function createAccountStateFile(accountState, options = {}) {
+  if (!ACCOUNT_STATE_WRITES_ENABLED) throw accountStateError('candidate_read_only', 423);
+  const fileId = await reserveAccountStateFileId(options);
   const boundary = `drive_original_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-  const metadata = JSON.stringify({ name: accountStateWriterFileName(), mimeType: 'application/json', parents: ['appDataFolder'] });
-  const payload = JSON.stringify(normalizeAccountMediaState(accountState));
+  const metadata = JSON.stringify({ id: fileId, name: accountStateWriterFileName(), mimeType: 'application/json', parents: ['appDataFolder'] });
+  const expected = normalizeAccountMediaState(accountState);
+  const payload = JSON.stringify(expected);
   const body = [
     `--${boundary}`, 'Content-Type: application/json; charset=UTF-8', '', metadata,
     `--${boundary}`, 'Content-Type: application/json', '', payload, `--${boundary}--`, ''
   ].join('\r\n');
-  const response = await driveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime', {
-    ...options, method: 'POST', headers: { 'Content-Type': `multipart/related; boundary=${boundary}` }, body
-  });
-  return response.json();
+  let failure = null;
+  try {
+    const response = await driveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime', {
+      ...options, driveNoRetry: true, method: 'POST', headers: { 'Content-Type': `multipart/related; boundary=${boundary}` }, body,
+      [ACCOUNT_STATE_WRITE]: { kind: 'create', accountId: state.accountId, writerId: getAccountStateWriterId(), fileId }
+    });
+    await response.body?.cancel();
+  } catch (error) { failure = error; }
+  try { return await confirmAccountStateWrite(fileId, expected, options); }
+  catch (error) { throw failure || error; }
 }
 
 async function updateAccountStateFile(fileId, accountState, options = {}) {
-  const response = await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(fileId)}?uploadType=media&fields=id,modifiedTime`, {
-    ...options, method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(normalizeAccountMediaState(accountState))
-  });
-  return response.json();
+  if (!ACCOUNT_STATE_WRITES_ENABLED) throw accountStateError('candidate_read_only', 423);
+  const expected = normalizeAccountMediaState(accountState);
+  let failure = null;
+  try {
+    const response = await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(fileId)}?uploadType=media&fields=id,modifiedTime`, {
+      ...options, driveNoRetry: true, method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(expected),
+      [ACCOUNT_STATE_WRITE]: { kind: 'update', accountId: state.accountId, writerId: getAccountStateWriterId(), fileId }
+    });
+    await response.body?.cancel();
+  } catch (error) { failure = error; }
+  try { return await confirmAccountStateWrite(fileId, expected, options); }
+  catch (error) { throw failure || error; }
 }
 
 async function initializeAccountMediaState({ refresh = false } = {}) {
@@ -4001,6 +4116,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
       state.accountId = accountId;
       state.accountStateFileId = null;
       state.accountStateReadCache.clear();
+      state.accountMediaState = createEmptyAccountMediaState();
       state.accountMediaState = readCachedAccountMediaState(accountId);
     }
     const catalog = await findAccountStateFile(owner.options);
@@ -4018,6 +4134,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
     state.accountStateRefreshNotBefore = 0;
     state.accountStateRefreshBlocked = false;
     persistAccountMediaState();
+    if (state.accountLocalStorageError) throw accountStateError('account_state_cache_not_saved');
     refreshFavoritePresentation();
     updateAccountSyncStatus();
     // Recovery only reads the origin account's submitted operations. It never
@@ -4048,7 +4165,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
 }
 
 async function flushAccountMediaState() {
-  if (state.demo || !hasUsableToken() || !state.accountId) return;
+  if (state.demo || !hasUsableToken() || !state.accountId || !state.accountStateLoaded || state.accountIdentityPending) return;
   if (state.accountStateSyncPromise) return state.accountStateSyncPromise;
   const revisionAtStart = state.accountStateRevision;
   const accountId = state.accountId;
@@ -4064,14 +4181,25 @@ async function flushAccountMediaState() {
     // Read local changes inside the writer lock. Devices never PATCH each
     // other's files; the legacy document is a read-only migration input.
     persistAccountMediaState();
-    const merged = mergeAccountMediaStates(remote, state.accountMediaState);
+    if (state.accountLocalStorageError) throw accountStateError('account_state_cache_not_saved');
+    let merged = mergeAccountMediaStates(remote, state.accountMediaState);
     applyMergedAccountMediaState(merged);
     persistAccountMediaState();
+    if (state.accountLocalStorageError) throw accountStateError('account_state_cache_not_saved');
     if (fileId) {
       try { await updateAccountStateFile(fileId, merged, owner.options); }
       catch (error) {
         if (error?.status !== 404) throw error;
         owner.assert();
+        const fresh = await findAccountStateFile(owner.options);
+        owner.assert();
+        if (fresh.id) throw error;
+        const freshRemote = await readRemoteAccountMediaState(fresh, owner.options);
+        owner.assert();
+        merged = mergeAccountMediaStates(freshRemote, state.accountMediaState);
+        applyMergedAccountMediaState(merged);
+        persistAccountMediaState();
+        if (state.accountLocalStorageError) throw accountStateError('account_state_cache_not_saved');
         const created = await createAccountStateFile(merged, owner.options);
         owner.assert();
         state.accountStateFileId = created?.id || null;

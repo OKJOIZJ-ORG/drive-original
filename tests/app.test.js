@@ -1089,9 +1089,18 @@ test('account state upload creates a private appDataFolder JSON file', async () 
   const context = loadAppContext();
   const result = JSON.parse(await run(context, `(async () => {
     let captured = null;
+    let stored = null;
+    state.accountId = 'account-a'; state.accountStateWriterId = 'fixture-writer';
+    state.accountStateLoaded = true; state.accountIdentityPending = false;
     driveFetch = async (url, options) => {
-      captured = { url, options };
-      return { json: async () => ({ id: 'state-file' }) };
+      if (url.includes('/generateIds?')) return { json: async () => ({ ids: ['state-file'], space: 'appDataFolder' }) };
+      if (options?.method === 'POST') {
+        captured = { url, options };
+        stored = JSON.parse(options.body.split('\\r\\n\\r\\n').slice(2)[0].split('\\r\\n--')[0]);
+        return { body: { cancel: async () => {} } };
+      }
+      if (url.includes('alt=media')) return { json: async () => stored };
+      return { json: async () => ({ id: 'state-file', name: accountStateWriterFileName(), modifiedTime: 'confirmed', trashed: false, spaces: ['appDataFolder'] }) };
     };
     const created = await createAccountStateFile({
       viewed: { watched: 12 },
@@ -1109,7 +1118,7 @@ test('account state upload creates a private appDataFolder JSON file', async () 
   })()`));
   assert.match(result.contentType, /^multipart\/related; boundary=drive_original_/);
   assert.deepEqual({ ...result, contentType: 'multipart' }, {
-    created: { id: 'state-file' },
+    created: { id: 'state-file', modifiedTime: 'confirmed' },
     url: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,modifiedTime',
     method: 'POST',
     contentType: 'multipart',

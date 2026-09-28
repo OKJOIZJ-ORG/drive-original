@@ -29,12 +29,13 @@ function client() {
 }
 
 function driveFixture() {
-  const files = new Map(); let revision = 0;
+  const files = new Map(); let revision = 0; let generated = 0;
   const request = async (address, options = {}) => {
     const url = new URL(address); const id = url.pathname.split('/').pop();
+    if (id === 'generateIds') return new Response(JSON.stringify({ ids: [`writer-${++generated}`], space: 'appDataFolder' }));
     if (options.method === 'POST') {
       const parts = options.body.split('\r\n\r\n').slice(1).map(p => p.split('\r\n--')[0]);
-      const meta = JSON.parse(parts[0]); const data = JSON.parse(parts[1]); const created = `writer-${++revision}`;
+      const meta = JSON.parse(parts[0]); const data = JSON.parse(parts[1]); const created = meta.id; ++revision;
       files.set(created, { ...meta, id: created, data, modifiedTime: String(revision) });
       return new Response(JSON.stringify({ id: created }));
     }
@@ -43,6 +44,7 @@ function driveFixture() {
       return new Response(JSON.stringify({ id }));
     }
     if (url.searchParams.get('alt') === 'media') return new Response(JSON.stringify(files.get(id).data));
+    if (url.pathname !== '/drive/v3/files') return new Response(JSON.stringify({ ...files.get(id), trashed: false, spaces: ['appDataFolder'] }));
     return new Response(JSON.stringify({ files: [...files.values()].map(({ data, ...meta }) => meta) }));
   };
   return { request, files };

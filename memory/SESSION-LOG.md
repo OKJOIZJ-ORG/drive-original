@@ -477,3 +477,20 @@ Exact safe reports/QA screenshot saved; private groups/references released. Orig
 403 cause unknown A-013; final confirmation after lock release. No product/global
 write enablement/production/main/push/automation/volume change. D-058 requires
 current-unit close/commit/report then WAIT. No Android/mobile/next unit started.
+
+## 2026-09-28 — D-059 continuation; normal state transport locally verified
+
+User resumed the complete existing plan and clarified that newly reported PC
+cursor/overlay/loading/general UI work belongs in the later queue. D-059 supersedes
+D-058 WAIT; D-056/D-057/D-050 boundaries remain. WP-08 continues first.
+Fresh actual read-only11GET backup preserves7remote documents/6writers, remote
+9/48/133 and candidate9/48/140 pending state. Fourth private recovery envelope is
+flushed/fully reread/reconstructed; exact new producer provenance and safe report
+saved. ACL remains current user/SYSTEM/Admin, private tracked0; handles released.
+rc.11 separates own appData sync from general Drive mutations, reserves durable
+server IDs for response-loss-safe CREATE, independently verifies metadata/body
+after writes, and rejects incomplete/unknown/duplicate state before mutation.
+10focused/157related/368full tests and syntax/diff pass; first full run's stale
+rc.10 version assertion retained and corrected. Independent Sol/medium review
+has no material finding. Production/general writes/automation unchanged. Next
+fixed-source commit/free candidate delivery, actual normal sync/fresh execution.

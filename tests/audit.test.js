@@ -163,14 +163,15 @@ test('simultaneous device writes preserve both edits without overwriting the leg
   const devices = [app(), app()];
   const seed = { schemaVersion: 1, updatedAt: 1, viewed: {}, favorites: { original: { liked: true, updatedAt: 1 } } };
   const files = new Map([['legacy', { id: 'legacy', name: 'drive-original-account-state.json', modifiedTime: '2026-01-01', data: seed }]]);
-  let readers = 0; let unblock;
+  let readers = 0; let unblock; let generated = 0;
   const barrier = new Promise(resolve => { unblock = resolve; });
   const request = async (address, options = {}) => {
     const url = new URL(address); const id = url.pathname.split('/').pop();
+    if (id === 'generateIds') return new Response(JSON.stringify({ ids: [`created-${++generated}`], space: 'appDataFolder' }));
     if (options.method === 'POST') {
       const sections = options.body.split('\r\n\r\n').slice(1).map(part => part.split('\r\n--')[0]);
       const metadata = JSON.parse(sections[0]); const data = JSON.parse(sections[1]);
-      const id = 'created-' + files.size;
+      const id = metadata.id;
       files.set(id, { id, name: metadata.name, data, modifiedTime: String(Date.now()) });
       return new Response(JSON.stringify({ id }));
     }
@@ -183,12 +184,14 @@ test('simultaneous device writes preserve both edits without overwriting the leg
       if (id === 'legacy') { if (++readers === 2) unblock(); await barrier; }
       return new Response(snapshot);
     }
+    if (url.pathname !== '/drive/v3/files') return new Response(JSON.stringify({ ...files.get(id), trashed: false, spaces: ['appDataFolder'] }));
     return new Response(JSON.stringify({ files: [...files.values()].map(({data, ...metadata}) => metadata) }));
   };
   devices.forEach((c, index) => {
     c.mockDrive = request;
     c.run(`driveFetch = mockDrive; state.accountId = 'shared-account'; state.accountStateWriterId = 'device-${index}';
       state.token = 'fixture-token'; state.expiresAt = Date.now() + 60000;
+      state.accountStateLoaded = true; state.accountIdentityPending = false;
       state.accountMediaState = normalizeAccountMediaState({updatedAt:10, favorites:{'device-edit-${index}':{liked:true,updatedAt:10}}});`);
   });
   await Promise.all(devices.map(c => c.run('flushAccountMediaState()')));
@@ -216,7 +219,8 @@ test('deleted writer file is recreated without patching another device file', as
   c.patch = async id=>{patched.push(id);throw Object.assign(new Error('gone'),{status:404});};
   c.create = async()=>{created++;return {id:'replacement'};};
   c.run(`state.token='fixture';state.expiresAt=Date.now()+60000;state.accountId='account';
-    findAccountStateFile=async()=>({id:'own-file',files:[]});
+    state.accountStateLoaded=true;state.accountIdentityPending=false;
+    let catalogs=0;findAccountStateFile=async()=>({id:++catalogs===1?'own-file':null,files:[]});
     updateAccountStateFile=patch;createAccountStateFile=create;`);
   await c.run('flushAccountMediaState()');
   assert.deepEqual(patched,['own-file']);assert.equal(created,1);

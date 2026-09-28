@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "scope": "local actual-app synthetic transport",
+  "version": "1.22.0-rc.11",
+  "tests": 368,
+  "passed": 368,
+  "failed": 0,
+  "sourceHashes": {
+    "app.js": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+    "sw.js": "0b20c2b671f8c55c56f30952e60a5043395a48276ba006757248432126657fd8",
+    "index.html": "e2317d1f3bbf57c1c09d26f24badbfa79cae9c845e54907f09f34e7d552d348a",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "version.json": "5ce91e40ecde3cff902655e3fa34a0e177424a0ef69bddf22631d9d4b8c78812",
+    "tests/account-state.test.js": "07e812fb07cfe7c9dce211e179c24ef2e1d34ff3d10225921a0c193ab592dc5e",
+    "tests/app.test.js": "cb14082239a416cf201e85069e96c881397f08b388bba32116cf29eb84cc1a23",
+    "tests/audit.test.js": "0c44f52d1f5312656269e3c5c20bd5d9cab9db2e81b44ed973497e40ebe225c5",
+    "tests/acceptance.test.js": "7b0712dd50e9eb78a3b53dc714a0a0c2f9e37cf6250df8391c8dad92ed3204b1",
+    "tests/static.test.js": "697892ccfe426ac93a86f236f4e1ee4efd45d7b1443876ac07c8c3bc041ff0fb"
+  },
+  "rawResultSha256": "55e91daa47866b5f7ac0b066e60f19a100a1689eafc0a18e147e4707ccd8deb8",
+  "focusedTests": 10,
+  "relatedTests": 157,
+  "independentReview": {
+    "model": "gpt-6-sol",
+    "effort": "medium",
+    "materialFindings": 0,
+    "scope": "state transport and public version"
+  },
+  "recovery": {
+    "privateFiles": 4,
+    "privateTrackedFiles": 0,
+    "privateNamesOmitted": true
+  },
+  "actualAccountNormalSyncVerified": false
+}

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "unit": "WP-08 normal sync recovery preflight",
+  "runtimeVersion": "1.22.0-rc.10",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "workerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "scope": {
+    "stateOnly": true,
+    "freshServiceWorkerRuntimeVersionInspected": false,
+    "activeControllerRequired": true,
+    "legacyBaseline": "previous protected capture",
+    "configuredProjectBindingVerified": false,
+    "priorConfirmationJournal": "previous own-writer confirmation"
+  },
+  "producerPaths": {
+    "factory": "qa/v2-state-normal-sync/recovery-factory.generated.js",
+    "runtimeFacade": "qa/v2-state-normal-sync/recovery-facade.function.js",
+    "quiescentCapture": "qa/v2-state-recovery-backup/quiescent-capture.function.js",
+    "maintainedQuiescentWindow": "qa/v2-state-snapshot/quiescent-window-rc10.js",
+    "backupVerifier": "qa/v2-state-normal-sync/recovery-verifier.generated.js",
+    "sourceBuilder": "qa/v2-state-normal-sync/build-preflight.mjs"
+  },
+  "producerHashes": {
+    "factory": "035f6482b2cbe3730c14412fa5bcd56915f87e0bcf3684c25eece336281449bb",
+    "runtimeFacade": "b207d70e187402ebdb51ce87e3670b26c4a8cc8db0471ea28619cd2ba9376ba5",
+    "quiescentCapture": "5811a2aaafb9118a2fc0760da2e217a1e86a97f3a1107a61ffaed6ae9c0fc777",
+    "maintainedQuiescentWindow": "906166b90a1c1ae710a820f70cc464e4c58cb6340f17fbdc6b56282c774b5a36",
+    "backupVerifier": "2a114d6981f4b5810bd66c83223d5be179cab89301b2e807f9814172d01de79b",
+    "sourceBuilder": "3487af00b1b3df4b8521a0c7dd91e9d5ffbbbe73c5249238e9361b28a19a1cf2",
+    "actualAppMergeSource": "43ba2889b349c29e35e6075600d09886089361cf40549b374ac3541cd0e5aedc"
+  },
+  "capture": {
+    "poll": {
+      "done": true,
+      "nativeDispatches": 11,
+      "ownerCurrent": true,
+      "summary": {
+        "candidate": {
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 140
+        },
+        "candidateIncludesLegacy": true,
+        "candidatePending": true,
+        "legacy": {
+          "liked": 7,
+          "unliked": 48,
+          "viewed": 119
+        },
+        "legacyWriterAvailable": true,
+        "passed": true,
+        "projectClientBindingVerified": false,
+        "remote": {
+          "files": 7,
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 133
+        },
+        "remoteFiles": 7,
+        "remoteWriters": 6,
+        "runtimeMatchesRemoteAndCache": true,
+        "writerDistinct": true
+      }
+    },
+    "window": {
+      "elapsedMs": 14237,
+      "paused": {
+        "refresh": true,
+        "retry": true,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": true,
+        "sync": false
+      },
+      "writeGateDisabled": true
+    }
+  },
+  "privateEnvelope": {
+    "fullReread": true,
+    "innerPayloadHashMatched": true,
+    "reconstruction": {
+      "candidate": {
+        "liked": 9,
+        "unliked": 48,
+        "viewed": 140
+      },
+      "candidateIncludesLegacy": true,
+      "candidatePending": true,
+      "legacy": {
+        "liked": 7,
+        "unliked": 48,
+        "viewed": 119
+      },
+      "legacyWriterAvailable": true,
+      "passed": true,
+      "projectClientBindingVerified": false,
+      "remote": {
+        "files": 7,
+        "liked": 9,
+        "unliked": 48,
+        "viewed": 133
+      },
+      "remoteFiles": 7,
+      "remoteWriters": 6,
+      "rereadEquivalent": true,
+      "runtimeMatchesRemoteAndCache": true,
+      "writerDistinct": true
+    },
+    "privateNamesOmitted": true,
+    "provenanceUpdated": true
+  }
+}

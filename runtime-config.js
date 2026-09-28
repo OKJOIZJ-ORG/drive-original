@@ -1,6 +1,7 @@
-// Candidate safety gate. V2-04B begins read-only until the same-account
-// appData snapshot/read/compare gate has been recorded.
+// Candidate gate: ordinary Drive files remain read-only. Verified own appData
+// state writes use a separate, account/writer-scoped transport capability.
 globalThis.__DRIVE_ORIGINAL_RUNTIME__ = Object.freeze({
   candidate: true,
-  driveMutationsEnabled: false
+  driveMutationsEnabled: false,
+  accountStateWritesEnabled: true
 });
