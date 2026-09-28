@@ -4,7 +4,7 @@
 
 Bring Drive Original's mobile and desktop media-library experience to a commercially credible level across gesture navigation, playback controls, dialogs, authentication, streaming, thumbnails, bulk actions, performance, and latent-defect recovery.
 
-**Execution state — 2026-09-28:** D-054 resumes the authorized work and permits evidence-based changes to implementation order and means. Local rc.10 whole Q1 retirement passes358Node,17auth,4retirement,16product,22functional and50cycles/150seeks; read-only state QA25 passes. The next action is fixed-source candidate delivery/readback, followed by authenticated read-only state/corpus/duration checks when login is available. The overall goal and live/device gates remain open. Candidate writes stay disabled, production remains v1.21.0, and D-050 governs external authority.
+**Execution state — 2026-09-28:** D-054 resumes the authorized work and permits evidence-based changes to implementation order and means. Local rc.10 whole Q1 retirement passes358Node,17auth,4retirement,16product,22functional and50cycles/150seeks; read-only state QA25 passes. Fixed-source candidate delivery/readback is verified at Worker85904e0a; next are authenticated read-only state/corpus/duration checks when login is available. The overall goal and live/device gates remain open. Candidate writes stay disabled, production remains v1.21.0, and D-050 governs external authority.
 
 ## Definition of done
 
@@ -420,3 +420,7 @@ D-054 resumes authorized work and permits evidence-based plan changes. Product c
 ### 2026-09-28 — local rc.10 whole Q1 retirement
 
 Q1-RETIREMENT-20260928.md records pre-header/credential ownership, scoped SW cancellation and cutoff, matching page readiness and capability/update classification. Independent review closed late native fallback and pending downstream reads. Frozen rc.10 passes358Node/17auth/4retirement/16product/22functional/50cycles150seeks, SWowners0/fences0/cutoff1 each close, Worker/URL200/200 and stable post-GC retained DOM/listeners. Read-only snapshot13+adapter12 pass and refuse pending retirement before Drive reads. Root verified all producers and every50-cycle assertion. V2-06B real duration and historic299s failure, V2-07 full corpus/formats/devices, V2-08 actual origin/local replica and V2-09 physical/two-device gates remain open. No writes, production transition, merge, push or automation restart.
+
+### 2026-09-28 — candidate rc.10 delivery exit
+
+CANDIDATE-RC10-20260928.md records product8187121, publish checkpoint7aa4bc2 and exactWorker85904e0a/readOnly binding readback.19public/17cachedGit-equal files,4private404,cold/offline and managed runtime/protocol/control smoke pass. Actual state capture is blocked by account_not_ready; login remains pending. Local50cycle integration evidence is recorded without relabeling V2-09 real/device/format gates as done. Existing read-only state/corpus adapters are next after authenticated readiness; candidate writes remain disabled and production unchanged.

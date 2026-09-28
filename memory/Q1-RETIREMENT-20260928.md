@@ -64,8 +64,9 @@ across108targets remain stable. Normal/cycle producer maps agree and root
 recomputed every current producer and assertion without mismatch.
 
 qa/q1-auth-cleanup/verification-rc10.json pins the final producers and evidence;
-the rc.8/rc.9 and failed QA reports remain separate. Candidate still serves rc.8
-until the separately recorded rc.10 delivery/readback pass.
+the rc.8/rc.9 and failed QA reports remain separate. The approved free candidate
+now serves these rc.10 bytes; CANDIDATE-RC10-20260928.md owns exact Worker identity,
+19public/17cached Git equality, cold/offline smoke and the anonymous live gate.
 
 ## Evidence boundaries and recovery
 
