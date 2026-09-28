@@ -1,0 +1,51 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "producerSha256": "9d37720018030d7304d17ff7debb34d5df1fa8ab2a4d38879d73cfb4574e867c",
+  "observed": {
+    "done": true,
+    "summary": {
+      "complete": true,
+      "conditionalSupported": false,
+      "etagExposed": false,
+      "failure": null,
+      "genericUpstreamCleanup": "unknown",
+      "localReferencesReleased": true,
+      "mediaBytes": 6,
+      "mediaRequests": 3,
+      "metadataBytes": 2370,
+      "metadataCleanup": "body-consumed",
+      "metadataRequests": 6,
+      "results": [
+        {
+          "bodyBytes": 2,
+          "rejected": false,
+          "stage": "baseline",
+          "status": 206
+        },
+        {
+          "bodyBytes": 2,
+          "rejected": false,
+          "stage": "matching",
+          "status": 206
+        },
+        {
+          "bodyBytes": 2,
+          "rejected": false,
+          "stage": "nonmatching",
+          "status": 206
+        }
+      ],
+      "schema": "drive-original.q0-conditional-v2-rc13/1",
+      "sourceCleanup": {
+        "scope": "local fetch/body callbacks only",
+        "settled": true
+      },
+      "strongEtag": true,
+      "v2EtagPresent": true,
+      "v2MetadataBytes": 84,
+      "v2MetadataRequests": 1,
+      "validatorOrigin": "v2-json-unproven"
+    }
+  }
+}

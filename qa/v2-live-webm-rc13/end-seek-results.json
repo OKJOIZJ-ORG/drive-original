@@ -1,0 +1,82 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "fraction": 0.9,
+  "input": "trusted native slider press/release",
+  "trace": {
+    "disposed": true,
+    "rows": [
+      {
+        "currentTime": 3.5442,
+        "elapsedMs": 143,
+        "frames": 80,
+        "kind": "seeking",
+        "lastPresentedMediaTime": null,
+        "mediaTime": null,
+        "paused": true,
+        "readyState": 1,
+        "seeking": true,
+        "watchdog": {
+          "effectiveTarget": null,
+          "frameSeen": false,
+          "seekedSeen": false,
+          "target": 3.5442000642664295
+        }
+      },
+      {
+        "currentTime": 3.5442,
+        "elapsedMs": 1531,
+        "frames": 119,
+        "kind": "seeked",
+        "lastPresentedMediaTime": null,
+        "mediaTime": null,
+        "paused": true,
+        "readyState": 4,
+        "seeking": false,
+        "watchdog": {
+          "effectiveTarget": 3.5442,
+          "frameSeen": false,
+          "seekedSeen": true,
+          "target": 3.5442000642664295
+        }
+      },
+      {
+        "currentTime": 3.5442,
+        "elapsedMs": 2259,
+        "frames": 119,
+        "kind": "presented",
+        "lastPresentedMediaTime": null,
+        "mediaTime": 3.5,
+        "paused": true,
+        "readyState": 4,
+        "seeking": false,
+        "watchdog": {
+          "effectiveTarget": 3.5442,
+          "frameSeen": false,
+          "seekedSeen": true,
+          "target": 3.5442000642664295
+        }
+      }
+    ]
+  },
+  "sample": {
+    "app": "1.22.0-rc.13",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 119,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 4,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 3.5442,
+    "transportVerified": true,
+    "width": 338
+  }
+}

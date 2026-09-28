@@ -72,3 +72,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `PLAYER-QUALITY-20260929.md` — reproduced player entry/cursor/poster/status repair and rc.12 integration evidence.
 
 - `SAR-AND-LIBRARY-20260929.md` — actual valid non-square SAR discriminator, preserved-original repair, successful large-ISO50/90% replay and proactive library/update quality.
+- `CANDIDATE-RC13-20260929.md` — fixed rc.13 delivery/package, actual MKV/AVI replay and separate local privacy repair.
+- `Q0-AND-PRIVACY-20260929.md` — actual rejected content-validator discriminator, current short WebM replay, reproduced console canary repair and source-fence continuation.

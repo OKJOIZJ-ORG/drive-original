@@ -1,0 +1,26 @@
+'use strict';
+// Bounded record-only qualification; no browser, media reads or private pixels.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../..'),source='570f9c38506d1e426c33cf65b73836d32bf872c0',version='1.22.0-rc.13';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const read=(name,hasSourceProvenance=true)=>{const bytes=fs.readFileSync(path.join(__dirname,name+'-results.json')),value=JSON.parse(bytes);if(hasSourceProvenance)assert.equal(value.source,source);return{value,sha256:hash(bytes)};};
+const sample=s=>{assert.equal(s.app,version);assert.equal(s.mediaAttempt,'q1');assert.equal(s.errorCode,null);assert.equal(s.readyState,4);assert.ok(s.decodedFrames>0);assert.ok(s.decodedAudioBytes>0);assert.equal(s.blobSource,false);assert.equal(s.temporaryStorageActive,false);return{time:s.time,duration:s.duration,paused:s.paused,decodedFrames:s.decodedFrames,decodedAudioBytes:s.decodedAudioBytes,width:s.width,height:s.height,originalRoute:s.mediaAttempt};};
+const rows=[];
+for(const name of ['mkv-start','avi-start','mkv-resume-eof','avi-seek50-resume']){const record=read(name),safe=sample(record.value.sample);if(name.endsWith('eof')||name==='avi-start'){assert.ok(Math.abs(safe.time-safe.duration)<0.1);assert.equal(safe.paused,true);}if(name==='avi-seek50-resume'){assert.equal(safe.paused,false);assert.ok(safe.time>safe.duration*.5);}rows.push({name,sha256:record.sha256,sample:safe});}
+for(const [name,fraction] of [['mkv-seek50',.5],['mkv-seek90',.9],['avi-seek50',.5],['avi-seek90',.9]]){
+ const record=read(name),data=record.value,observed=data.presentation||data.observation,list=observed.rows,after=sample(data.after||data.sample),target=after.duration*fraction;
+ const seeking=list.find(r=>r.kind==='seeking'&&Math.abs(r.currentTime-target)<.1),seeked=list.find(r=>r.kind==='seeked'&&Math.abs(r.currentTime-target)<.1);
+ assert.ok(seeking&&seeked,'owned target seeking/seeked observations');
+ assert.equal(seeking.frames,0,'Q1 reconstruction resets decoded-frame count before fresh target presentation');
+ const frame=list.find(r=>r.kind==='presented'&&r.elapsedMs>=seeking.elapsedMs&&r.frames>0&&Number.isFinite(r.mediaTime)&&Math.abs(r.mediaTime-target)<.25);
+ assert.ok(frame,'presented target frame, not currentTime alone');assert.ok(frame.elapsedMs>1000&&frame.elapsedMs<60000,'bounded observer latency, not a fast-seek claim');
+ if(name==='mkv-seek50'||name==='avi-seek90'){assert.ok(Math.abs(after.time-after.duration)<.1);assert.equal(after.paused,true);assert.ok(after.decodedFrames>frame.frames);}
+ rows.push({name,sha256:record.sha256,sample:after,target,seekedObserverElapsedMs:seeked.elapsedMs,targetFrameObserverElapsedMs:frame.elapsedMs,targetPresentedMediaTime:frame.mediaTime,targetFrameCount:frame.frames,targetFrameDifferenceSeconds:frame.mediaTime-target});
+}
+for(const [resumeName,seekName] of [['avi-seek50-resume','avi-seek50'],['mkv-resume-eof','mkv-seek90']]){const resume=rows.find(r=>r.name===resumeName).sample,seek=rows.find(r=>r.name===seekName).sample;assert.ok(resume.decodedFrames>seek.decodedFrames);assert.ok(resume.decodedAudioBytes>seek.decodedAudioBytes);}
+const mkv=read('mkv-close',false);assert.equal(mkv.value.q1,false);assert.equal(mkv.value.selected,false);assert.equal(mkv.value.readyState,0);assert.equal(mkv.value.retirementSettled,true);assert.equal(mkv.value.src,false);assert.equal(mkv.value.source,false);
+const avi=read('avi-close');assert.equal(avi.value.normalClose,true);assert.equal(avi.value.result.q1,false);assert.equal(avi.value.result.selected,false);assert.equal(avi.value.result.readyState,0);assert.equal(avi.value.result.retirementSettled,true);assert.equal(avi.value.result.srcAttributePresent,false);assert.equal(avi.value.result.sourceChildren,0);assert.equal(avi.value.allTemporaryHelpersCleared,true);assert.equal(avi.value.allObjectGroupsReleased,true);
+const producers=fs.readdirSync(__dirname).filter(n=>n.endsWith('.expression.js')).map(n=>{const current=fs.readFileSync(path.join(__dirname,n)),original=fs.readFileSync(path.join(root,'qa/v2-live-format-playback-rc12',n));assert.equal(hash(current),hash(original));return{file:n,sha256:hash(current),copiedFrom:'qa/v2-live-format-playback-rc12/'+n,exactCopy:true};});
+assert.equal(producers.length,5);
+fs.writeFileSync(path.join(__dirname,'qualification-summary.json'),JSON.stringify({source,version,producerSha256:hash(fs.readFileSync(__filename)),records:rows,normalClose:{mkv:{sha256:mkv.sha256,sourceCleared:true,retirementSettled:true,helperCleanupFieldsPresent:false,sourceProvenance:'Surrounding rc13 records and root handoff; close source field is a boolean'},avi:{sha256:avi.sha256,sourceCleared:true,retirementSettled:true,allTemporaryHelpersCleared:true,allObjectGroupsReleased:true}},passiveProducers:producers,limits:['Observer elapsed time is not exact pointer-to-frame latency','No audio audibility','No physical device','No full uninterrupted run of all files','MKV helper release is root handoff attestation, not an explicit close-JSON field']},null,2));
+console.log(JSON.stringify({records:rows.length,producers:producers.length,normalCloses:2,targetFrameObserverMs:rows.filter(r=>r.targetFrameObserverElapsedMs).map(r=>r.targetFrameObserverElapsedMs)}));

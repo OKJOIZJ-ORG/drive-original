@@ -1,0 +1,208 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "base": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "passed": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 50670,
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 453509,
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "bytes": 84359,
+      "gitEqual": true
+    },
+    {
+      "file": "sw.js",
+      "bytes": 53638,
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "bytes": 335,
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 14557,
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 16476,
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 50885,
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42098,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "gitEqual": true
+    },
+    {
+      "file": ".nojekyll",
+      "bytes": 0,
+      "gitEqual": true
+    }
+  ],
+  "privateRoutes": [
+    {
+      "file": "memory/CHECKPOINT.md",
+      "status": 404
+    },
+    {
+      "file": "qa/package.json",
+      "status": 404
+    },
+    {
+      "file": "media/build.json",
+      "status": 404
+    },
+    {
+      "file": "worker/index.mjs",
+      "status": 404
+    }
+  ],
+  "scope": "Public delivery and fresh unauthenticated Chrome shell only; no actual Drive/media/device acceptance",
+  "cold": {
+    "version": "1.22.0-rc.13",
+    "controlled": true,
+    "accountPresent": false,
+    "candidate": true,
+    "writes": false,
+    "shells": [
+      "drive-original-shell-1.22.0-rc.13"
+    ]
+  },
+  "cached": [
+    {
+      "file": "index.html",
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "gitEqual": true
+    }
+  ],
+  "offline": {
+    "version": "1.22.0-rc.13",
+    "controlled": true
+  },
+  "pageErrors": 0,
+  "recordedAt": "2026-09-28T19:01:19.373Z"
+}

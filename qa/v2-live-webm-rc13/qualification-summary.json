@@ -1,0 +1,21 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "scope": "Saved actual short WebM observations; no new browser/device/integrity proof",
+  "passed": true,
+  "producers": {
+    "trace.expression.js": "8b807e067b89d1d2d271051af0a6a5c7a36fe79779f397419918eed497e1bbe7",
+    "native.expression.js": "fcc6d7058700dc75d364490180b6904921eb4179c62c1f7ed22230a0321aeec8",
+    "sample.expression.js": "e17b50d4d24c8e1834a52ddd5382159112e289e1fc818567dfd5ddd24176c85e",
+    "seek.expression.js": "e18372f6c00a109063e0bd4ba7ae68540d376a4f5f6169424226a03911a12532"
+  },
+  "producerSha256": "cefe9e5ef22eb3f8990e5a1d19d7bfed082c3b090f5a510027eb2b1e7eb287bb",
+  "startupFirstFrameMs": 1276,
+  "duration": 3.938,
+  "checks": [
+    "native original startup and EOF",
+    "trusted50%target frame and resumedEOF",
+    "trusted90%target frame and resumedEOF",
+    "normalclose and root helper release attestation"
+  ]
+}

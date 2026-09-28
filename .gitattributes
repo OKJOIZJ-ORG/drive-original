@@ -15,3 +15,6 @@
 /qa/v2-07b-ts-q1/*-probe.cjs text eol=lf
 /qa/v2-07a-bounded-probe/bounded-probe.mjs text eol=lf
 /qa/v2-07a-container-probe/mpeg-ts-probe.mjs text eol=lf
+# Preserve the exact already-executed diagnostic expressions, including CRLF.
+/qa/q0-conditional-read-rc13/facade.expression.js -text whitespace=cr-at-eol
+/qa/q0-conditional-v2-rc13/facade.expression.js -text whitespace=cr-at-eol

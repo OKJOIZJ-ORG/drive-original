@@ -736,6 +736,25 @@ function getMediaDiagnosticSink() {
     : null;
 }
 
+function reportAppFailure(stage, error, level = 'error') {
+  // Provider messages, stacks and attached objects can contain private IDs/URLs.
+  const status = Number(error?.status);
+  const detail = {
+    category: error?.name === 'AbortError' ? 'cancelled'
+      : error?.name === 'TypeError' ? 'network-or-type'
+      : status === 401 ? 'authentication'
+      : status === 403 ? 'permission'
+      : status === 404 ? 'missing'
+      : status === 429 ? 'rate-limit'
+      : status >= 500 && status <= 599 ? 'server' : 'failure'
+  };
+  if (Number.isInteger(status) && status >= 100 && status <= 599) detail.status = status;
+  const codes = ['candidate_read_only', 'insufficient_scope', 'account_mismatch',
+    'reconnect_required', 'reauthorization_required', 'auth_unavailable', 'stale_revision'];
+  if (codes.includes(error?.code)) detail.code = error.code;
+  console[level === 'warn' ? 'warn' : 'error'](`[drive-original] ${stage}`, detail);
+}
+
 function mediaDiagnosticTimestamp() {
   return Date.now();
 }
@@ -1617,7 +1636,7 @@ async function setupServiceWorker() {
     setTimeout(() => checkForAppUpdate({ manual: false }), 2000);
     setInterval(() => checkForAppUpdate({ manual: false }), 5 * 60 * 1000);
   } catch (error) {
-    console.warn('Service worker registration failed', error);
+    reportAppFailure('service-worker-registration', error, 'warn');
     if (!state.demo) showToast('원본 스트리밍 준비가 지연됩니다. 연결 상태를 확인한 뒤 새로고침하세요.');
   }
 }
@@ -1763,7 +1782,7 @@ async function checkForAppUpdate({ manual = false } = {}) {
     return { hasUpdate: false, version: APP_VERSION };
   } catch (err) {
     if (!stillCurrent()) return { hasUpdate: false, superseded: true };
-    console.error('Update check failed:', err);
+    reportAppFailure('update-check', err);
     if (manualFeedback) {
       if (el.updateStatusText) el.updateStatusText.textContent = '업데이트 확인 중 오류가 발생했습니다.';
       showToast('업데이트 확인 실패: 네트워크를 확인하세요.');
@@ -1812,7 +1831,7 @@ async function forceReloadApp() {
   try {
     await clearAppShellStorage();
   } catch (e) {
-    console.error('Force clear error', e);
+    reportAppFailure('shell-storage-clear', e);
   }
   window.location.reload(true);
 }
@@ -2178,7 +2197,7 @@ function resumeAfterCredential(generation) {
     if (generation !== state.authGeneration || !hasUsableToken()) return;
     if (!state.accountStateLoaded) {
       await initializeAccountMediaState().catch((error) => {
-        console.warn('Account media state sync was unavailable:', error);
+        reportAppFailure('account-state-sync', error, 'warn');
       });
     }
     if (generation !== state.authGeneration || state.accountIdentityPending) return;
@@ -2672,7 +2691,7 @@ function processThumbnailQueue() {
         return;
       }
     } catch (err) {
-      console.warn('Canvas frame capture warning:', err);
+      reportAppFailure('canvas-frame-capture', err, 'warn');
     }
     finish();
   };
@@ -2745,7 +2764,7 @@ async function loadFiles({ append, statusToken = null }) {
     if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.listGeneration) {
       return false;
     }
-    console.error(error);
+    reportAppFailure('library-list', error);
     updateLibraryStatus(requestStatusToken, `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearRejectedToken(error);
@@ -3380,7 +3399,7 @@ async function collectTreeCache() {
       applyFolderView();
       return;
     }
-    console.error(error);
+    reportAppFailure('library-tree', error);
     updateLibraryStatus(statusToken, `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearRejectedToken(error);
@@ -3554,7 +3573,7 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
       if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.favoriteLoadGeneration) return;
       syncError = error;
       state.accountStateSyncError = error;
-      console.warn('Account media state refresh was unavailable; using the device cache:', error);
+      reportAppFailure('account-state-refresh', error, 'warn');
     }
     if (controller.signal.aborted || generation !== state.favoriteLoadGeneration || state.filter !== 'favorites') return;
     const favoriteIds = accountFavoriteIds(state.accountMediaState);
@@ -3589,7 +3608,7 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
     }
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.favoriteLoadGeneration) return;
-    console.error('Favorite files could not be loaded:', error);
+    reportAppFailure('favorite-files-load', error);
     nextStatus = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
   } finally {
     if (generation === state.favoriteLoadGeneration && state.filter === 'favorites') {
@@ -4294,7 +4313,7 @@ async function flushAccountMediaState() {
   catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
     state.accountStateSyncError = error;
-    console.warn('Account media state could not be synced:', error);
+    reportAppFailure('account-state-sync', error, 'warn');
     scheduleAccountStateSyncRetry(error);
   } finally {
     if (state.accountStateSyncPromise === operation) state.accountStateSyncPromise = null;
@@ -5533,7 +5552,7 @@ function failMediaSeekWatchdog(owner) {
     driveReason: 'seekNoProgress',
     seekGeneration: owner.seekGeneration,
     targetTime: owner.targetTime
-  }).catch((error) => console.warn('Seek completion recovery failed:', error));
+  }).catch((error) => reportAppFailure('seek-recovery', error, 'warn'));
 }
 
 function scheduleMediaSeekWatchdog(owner) {
@@ -5897,7 +5916,7 @@ function scheduleMediaFrameWatchdog(owner) {
       category: 'timeout',
       driveReason: 'frameNoProgress',
       frameReason: reason
-    }).catch((error) => console.warn('Frame progress recovery failed:', error));
+    }).catch((error) => reportAppFailure('frame-recovery', error, 'warn'));
   }, remaining);
 }
 
@@ -6330,7 +6349,7 @@ function toggleFullscreen() {
     const target = previewActive ? (el.playerModal || el.mediaStage) : (el.mediaStage || el.videoPlayer);
     if (target.requestFullscreen) {
       target.requestFullscreen().catch((err) => {
-        console.warn('requestFullscreen error', err);
+        reportAppFailure('fullscreen-request', err, 'warn');
         if (!previewActive && el.videoPlayer.webkitEnterFullscreen) el.videoPlayer.webkitEnterFullscreen();
       });
     } else if (target.webkitRequestFullscreen) {
@@ -6370,7 +6389,7 @@ async function togglePictureInPicture() {
       await el.videoPlayer.requestPictureInPicture();
     }
   } catch (err) {
-    console.warn('PiP error', err);
+    reportAppFailure('picture-in-picture', err, 'warn');
   }
 }
 
@@ -6547,7 +6566,7 @@ function warmPlaybackNeighborhood(file = state.selected, { loadPopulation = fals
         warmPlaybackNeighborhood(state.selected);
       })
       .catch((error) => {
-        if (error?.name !== 'AbortError') console.warn('Playback pool warmup failed:', error);
+        if (error?.name !== 'AbortError') reportAppFailure('playback-pool-warmup', error, 'warn');
       })
       .finally(() => { playbackPopulationWarmPromise = null; });
   }
@@ -6858,7 +6877,7 @@ let singleTapTimer = null;
 function trackSwipeCommit(navigationPromise) {
   swipeCommitPending = true;
   Promise.resolve(navigationPromise)
-    .catch((error) => console.warn('Swipe navigation failed:', error))
+    .catch((error) => reportAppFailure('swipe-navigation', error, 'warn'))
     .finally(() => {
       swipeCommitPending = false;
       if (!el.playerSheet?.hidden) restoreDraggedMediaPosition();
@@ -7588,7 +7607,7 @@ async function attemptCurrentPlayback(session) {
       updatePlayPauseUI();
       return;
     }
-    if (error?.name !== 'AbortError') console.warn('Immediate playback was not available:', error);
+    if (error?.name !== 'AbortError') reportAppFailure('immediate-playback', error, 'warn');
   }
 }
 
@@ -8387,7 +8406,7 @@ async function startOriginalBlobFallback(
       cleanupOriginalTempStorage(session, bufferSourceGeneration);
       return;
     }
-    console.error('Original buffer fallback failed', error);
+    reportAppFailure('original-buffer-fallback', error);
     cleanupOriginalTempStorage(session, bufferSourceGeneration);
     if (rangeFallbackOnFailure && resolvedPolicy.mode === 'disk' && isLocalOriginalStorageError(error)) {
       state.mediaExhaustedOriginalModes.add(PLAYBACK_MODE.OPFS);
@@ -9254,7 +9273,7 @@ async function performDeleteFile() {
     }
   } catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
-    console.error('Bulk delete failed', error);
+    reportAppFailure('bulk-delete', error);
     if (el.deleteDialog?.open) el.deleteDialog.close();
     settleSelectionAfterBulk(files);
     if (error?.status === 401) {
@@ -9321,7 +9340,7 @@ async function requestMoveFile() {
     if (el.moveDialog?.open) renderMoveFolderList(el.moveSearchInput?.value || '');
   } catch (error) {
     if (generation !== moveRequestGeneration || parentsController.signal.aborted || error?.name === 'AbortError') return;
-    console.error('Move dialog failed', error);
+    reportAppFailure('move-dialog', error);
     if (el.moveDialog?.open) el.moveDialog.close();
     state.pendingActionFiles = [];
     if (error?.status === 401) {
@@ -9516,7 +9535,7 @@ async function resolveRootFolderId() {
     }
   } catch (err) {
     if (err?.name === 'AbortError' || err?.status === 401) throw err;
-    console.warn('resolveRootFolderId failed, falling back to root alias:', err);
+    reportAppFailure('root-folder-resolution', err, 'warn');
   }
   if (!state.rootFolderId) state.rootFolderId = 'root';
   return state.rootFolderId;
@@ -9712,7 +9731,7 @@ async function performMoveFile() {
     }
   } catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
-    console.error('Bulk move failed', error);
+    reportAppFailure('bulk-move', error);
     if (el.moveDialog?.open) el.moveDialog.close();
     settleSelectionAfterBulk(files);
     if (error?.status === 401) {
@@ -10547,7 +10566,7 @@ function processGifThumbnailQueue() {
         );
         finish(true);
       } catch (error) {
-        console.warn('GIF static thumbnail capture failed:', error);
+        reportAppFailure('gif-thumbnail-capture', error, 'warn');
         entry.canvas.width = 1;
         entry.canvas.height = 1;
         finish(false);

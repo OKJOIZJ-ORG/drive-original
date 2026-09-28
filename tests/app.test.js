@@ -202,6 +202,41 @@ test('a stale update deadline cannot clear the newer automatic check manual load
   assert.equal(timers.size, 0);
 });
 
+test('real listing failure logs fixed status classification without upstream private identifiers or credentials', async () => {
+  const context = loadAppContext(), logs = [];
+  context.console = { error: (...args) => logs.push(args), warn: (...args) => logs.push(args), log() {} };
+  const canary = 'QA_PRIVATE_CANARY';
+  context.fetch = async () => new Response(JSON.stringify({ error: {
+    message: `File not found: ${canary}; https://private.invalid/${canary}; Bearer ${canary}`,
+    errors: [{ reason: 'notFound' }]
+  } }), { status: 404 });
+  run(context, `
+    state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
+    el.refreshButton={disabled:false};el.libraryStatus={textContent:''};
+    showLibrary=()=>{};updateLibrarySummary=()=>{};updateConnectionBadge=()=>{};
+  `);
+  assert.equal(await run(context, 'loadFiles({append:false})'), false);
+  assert.deepEqual(JSON.parse(JSON.stringify(logs)), [['[drive-original] library-list', { category: 'missing', status: 404 }]]);
+  assert.doesNotMatch(JSON.stringify(logs), /QA_PRIVATE_CANARY|private\.invalid|Bearer/);
+  assert.doesNotMatch(run(context, 'el.libraryStatus.textContent'), /QA_PRIVATE_CANARY/);
+});
+
+test('app failure records preserve auth/network/fixed codes but discard raw message stack and attached payload', () => {
+  const context = loadAppContext(), logs = [];
+  context.console = { error: (...args) => logs.push(args), warn: (...args) => logs.push(args) };
+  run(context, `
+    reportAppFailure('update-check', Object.assign(new TypeError('QA_SECRET_CANARY'), {stack:'QA_STACK_CANARY',url:'QA_URL_CANARY',token:'QA_TOKEN_CANARY'}));
+    reportAppFailure('account-state-sync', {status:401,code:'auth_unavailable',message:'QA_REFRESH_CANARY',body:{privateId:'QA_ID_CANARY'}}, 'warn');
+    reportAppFailure('library-list', {status:403,code:'QA_CODE_CANARY',name:'QA_NAME_CANARY',message:'QA_COOKIE_CANARY'});
+  `);
+  assert.equal(JSON.stringify(logs), JSON.stringify([
+    ['[drive-original] update-check', {category:'network-or-type'}],
+    ['[drive-original] account-state-sync', {category:'authentication',status:401,code:'auth_unavailable'}],
+    ['[drive-original] library-list', {category:'permission',status:403}]
+  ]));
+  assert.doesNotMatch(JSON.stringify(logs), /CANARY/);
+});
+
 test('a new service worker reconnects only a pre-byte Range source without consuming its retry', () => {
   const context = loadAppContext();
   run(context, `(() => {

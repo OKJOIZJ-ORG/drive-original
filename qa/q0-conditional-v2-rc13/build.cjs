@@ -1,0 +1,38 @@
+'use strict';
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const input=fs.readFileSync(path.join(__dirname,'../q0-conditional-read-rc13/facade.expression.js'),'utf8');
+if(sha(input)!=='c389c14d4dcb049a7842b206efbe5d44a0a373702282c8ae51fb1eab8e6e5768')throw Error('BASE_HASH_CHANGED');
+function once(s,a,b){if(s.split(a).length!==2)throw Error('REPLACEMENT_NOT_UNIQUE');return s.replace(a,b);}
+let output=input;
+let v2=input.slice(input.indexOf('  async function metadataBody'),input.indexOf('  const metadata=args'));
+v2=once(v2,'metadataBody','v2Metadata');
+v2=once(v2,'++summary.metadataRequests>6','++summary.v2MetadataRequests>1');
+v2=once(v2,'/drive/v3/files/','/drive/v2/files/');
+v2=once(v2,'id,version,headRevisionId,sha256Checksum,size,mimeType,modifiedTime,trashed,resourceKey,capabilities(canDownload)','id,etag');
+v2=v2.replaceAll('summary.metadataBytes','summary.v2MetadataBytes').replace('>32768','>2048');
+const start=v2.indexOf('      if(data.id!==fileSnapshot.id'),end=v2.indexOf('      return data;',start);
+if(start<0||end<start)throw Error('IDENTITY_SECTION_MISSING');
+v2=v2.slice(0,start)+`      if(data.id!==fileSnapshot.id)throw fail('LIST_IDENTITY_MISMATCH');
+      summary.v2EtagPresent=typeof data.etag==='string';
+      summary.strongEtag=typeof data.etag==='string'&&data.etag.length<=512&&/^"[\\x21\\x23-\\x7e]+"$/.test(data.etag);
+      if(summary.strongEtag)etag=data.etag;
+`+v2.slice(end);
+v2=v2.replaceAll("'METADATA_","'V2_METADATA_");
+v2=once(v2,'    }finally{',`    }catch(error){
+      if(child.signal.aborted)throw child.signal.reason;
+      if(error?.name==='TypeError')throw fail('V2_METADATA_CORS_OR_NETWORK');
+      throw error;
+    }finally{`);
+output=once(output,'  let etag=null;','  let etag=null;\n'+v2);
+output=once(output,'drive-original.q0-conditional-read-rc13/1','drive-original.q0-conditional-v2-rc13/1');
+output=once(output,'results:[],etagExposed:false','results:[],v2MetadataRequests:0,v2MetadataBytes:0,v2EtagPresent:false,validatorOrigin:"v2-json-unproven",etagExposed:false');
+output=once(output,`        summary.strongEtag=typeof observed==='string'&&observed.length<=512&&/^"[\\x21\\x23-\\x7e]*"$/.test(observed);
+        if(summary.strongEtag)etag=observed;`,'        // Response ETag visibility is evidence only; the candidate stays the v2 JSON value.');
+output=once(output,"}else if(observed!==null&&observed!==etag)throw fail('MEDIA_ETAG_CHANGED');",'}');
+output=once(output,"await metadata({signal:abort.signal});await media('baseline');", "await metadata({signal:abort.signal});await v2Metadata({signal:abort.signal});await media('baseline');");
+output=once(output,'(?:METADATA|LIST_IDENTITY|MEDIA|CLEANUP|OWNER|RUN|CANCELLED)','(?:V2_METADATA|METADATA|LIST_IDENTITY|MEDIA|CLEANUP|OWNER|RUN|CANCELLED)');
+output=output.replaceAll("catch{cleanupFailed='CLEANUP_FAILED';}","catch{cleanupFailed='CLEANUP_FAILED';throw fail(cleanupFailed);}");
+fs.writeFileSync(path.join(__dirname,'facade.expression.js'),output);
+fs.writeFileSync(path.join(__dirname,'provenance.json'),JSON.stringify({fixedGitSHA:'570f9c38506d1e426c33cf65b73836d32bf872c0',baseSHA256:sha(input),producerSHA256:sha(fs.readFileSync(__filename)),outputSHA256:sha(output),outputBytes:Buffer.byteLength(output)},null,2)+'\n');
+console.log(sha(output));

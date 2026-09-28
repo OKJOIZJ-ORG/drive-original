@@ -1,0 +1,199 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "trace": {
+    "events": [
+      {
+        "elapsedMs": 0,
+        "stage": "intent"
+      },
+      {
+        "elapsedMs": 1,
+        "stage": "route-selecting"
+      },
+      {
+        "elapsedMs": 1,
+        "reason": "direct-original-first",
+        "stage": "route-selected"
+      },
+      {
+        "elapsedMs": 2,
+        "stage": "range-source-assigned"
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 84,
+        "stage": "media-waiting"
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 153,
+        "stage": "credential-requested",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 153,
+        "stage": "credential-ready",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 153,
+        "stage": "request-start",
+        "status": 0,
+        "terminal": false,
+        "totalBytes": 0
+      },
+      {
+        "bytes": 0,
+        "elapsedMs": 1049,
+        "stage": "headers",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "elapsedMs": 1049,
+        "reason": "first-frame-required",
+        "stage": "frame-watchdog-armed"
+      },
+      {
+        "bytes": 14553,
+        "elapsedMs": 1049,
+        "stage": "first-byte",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 1059,
+        "stage": "media-metadata"
+      },
+      {
+        "elapsedMs": 1103,
+        "stage": "media-loaded-data"
+      },
+      {
+        "elapsedMs": 1103,
+        "stage": "canplay"
+      },
+      {
+        "currentTime": 0.001159,
+        "elapsedMs": 1103,
+        "stage": "playing"
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 1157,
+        "stage": "body-progress",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "bytes": 318571,
+        "elapsedMs": 1157,
+        "stage": "body-complete",
+        "status": 206,
+        "terminal": false,
+        "totalBytes": 318571
+      },
+      {
+        "currentTime": 0.173587,
+        "elapsedMs": 1276,
+        "stage": "first-decoded-frame"
+      },
+      {
+        "currentTime": 0.236252,
+        "elapsedMs": 1339,
+        "stage": "playback-progress"
+      }
+    ],
+    "ownsSink": true
+  },
+  "native": {
+    "events": [
+      {
+        "currentTime": 0,
+        "elapsedMs": 367,
+        "errorCode": null,
+        "event": "emptied",
+        "frames": 0,
+        "readyState": 0
+      },
+      {
+        "currentTime": 0,
+        "elapsedMs": 1344,
+        "errorCode": null,
+        "event": "loadedmetadata",
+        "frames": 0,
+        "readyState": 1
+      },
+      {
+        "currentTime": 0.000338,
+        "elapsedMs": 1387,
+        "errorCode": null,
+        "event": "loadeddata",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0.000672,
+        "elapsedMs": 1388,
+        "errorCode": null,
+        "event": "canplay",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 0.001092,
+        "elapsedMs": 1388,
+        "errorCode": null,
+        "event": "playing",
+        "frames": 4,
+        "readyState": 4
+      },
+      {
+        "currentTime": 3.938,
+        "elapsedMs": 5329,
+        "errorCode": null,
+        "event": "pause",
+        "frames": 40,
+        "readyState": 4
+      }
+    ],
+    "videoId": "videoPlayer"
+  },
+  "sample": {
+    "app": "1.22.0-rc.13",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 40,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 4,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 3.938,
+    "transportVerified": true,
+    "width": 338
+  },
+  "ended": {
+    "duration": 3.938,
+    "ended": true,
+    "errorCode": null,
+    "time": 3.938
+  }
+}

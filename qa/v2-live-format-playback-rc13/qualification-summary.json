@@ -1,0 +1,198 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "producerSha256": "373d6f59355ba958970b188eb658f2c30d99e4b018b062d95ad512dd15a0da90",
+  "records": [
+    {
+      "name": "mkv-start",
+      "sha256": "686b9c2197b1158404c37a9898564340a4c21f1aebae0bc8d4727d942ff9596c",
+      "sample": {
+        "time": 11.357683,
+        "duration": 55.87718888888889,
+        "paused": false,
+        "decodedFrames": 345,
+        "decodedAudioBytes": 8281,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      }
+    },
+    {
+      "name": "avi-start",
+      "sha256": "b737f4cfc0b92f1c608e291504202e369c98908edddd14db7fb62ed808b896ac",
+      "sample": {
+        "time": 159.164188,
+        "duration": 159.164188,
+        "paused": true,
+        "decodedFrames": 3342,
+        "decodedAudioBytes": 2597308,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      }
+    },
+    {
+      "name": "mkv-resume-eof",
+      "sha256": "dec3dbd8d92aaadb96b144207049f0a5bd2e629e448d54053eae1cef467f6508",
+      "sample": {
+        "time": 55.877188,
+        "duration": 55.877188,
+        "paused": true,
+        "decodedFrames": 168,
+        "decodedAudioBytes": 3410,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      }
+    },
+    {
+      "name": "avi-seek50-resume",
+      "sha256": "0f20370381d0c774e82c7596426114a1fe34c8fd93e2a745539b8075db04885b",
+      "sample": {
+        "time": 136.744306,
+        "duration": 159.1641888888889,
+        "paused": false,
+        "decodedFrames": 1209,
+        "decodedAudioBytes": 942053,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      }
+    },
+    {
+      "name": "mkv-seek50",
+      "sha256": "94e25dc23ba95956c69b90e85fe5b693dea4d2c13ff279c1a7096af0952c8d26",
+      "sample": {
+        "time": 55.877188,
+        "duration": 55.877188,
+        "paused": true,
+        "decodedFrames": 838,
+        "decodedAudioBytes": 17102,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      },
+      "target": 27.938594,
+      "seekedObserverElapsedMs": 16510,
+      "targetFrameObserverElapsedMs": 14826,
+      "targetPresentedMediaTime": 27.9159,
+      "targetFrameCount": 2,
+      "targetFrameDifferenceSeconds": -0.02269399999999777
+    },
+    {
+      "name": "mkv-seek90",
+      "sha256": "2b1c8120ab8bffabc8aec2eace87a6c858e3e1c1d5f5d18206ac123743c7a4fe",
+      "sample": {
+        "time": 50.28947,
+        "duration": 55.877188,
+        "paused": true,
+        "decodedFrames": 4,
+        "decodedAudioBytes": 143,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      },
+      "target": 50.2894692,
+      "seekedObserverElapsedMs": 12869,
+      "targetFrameObserverElapsedMs": 13098,
+      "targetPresentedMediaTime": 50.271588,
+      "targetFrameCount": 4,
+      "targetFrameDifferenceSeconds": -0.017881199999997932
+    },
+    {
+      "name": "avi-seek50",
+      "sha256": "62fa3b469ac4ed2d7cf6245f0e3a908be3366cb76298a51fb17c78651ce4dbc0",
+      "sample": {
+        "time": 79.582094,
+        "duration": 159.1641888888889,
+        "paused": true,
+        "decodedFrames": 4,
+        "decodedAudioBytes": 3854,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      },
+      "target": 79.58209444444445,
+      "seekedObserverElapsedMs": 14792,
+      "targetFrameObserverElapsedMs": 15454,
+      "targetPresentedMediaTime": 79.545144,
+      "targetFrameCount": 4,
+      "targetFrameDifferenceSeconds": -0.036950444444457275
+    },
+    {
+      "name": "avi-seek90",
+      "sha256": "6dd2626cf4f8d2f9e6ca1596adfdab4355e85c57e7749db5ce4d27fa9738937a",
+      "sample": {
+        "time": 159.164188,
+        "duration": 159.164188,
+        "paused": true,
+        "decodedFrames": 335,
+        "decodedAudioBytes": 258280,
+        "width": 360,
+        "height": 640,
+        "originalRoute": "q1"
+      },
+      "target": 143.2477692,
+      "seekedObserverElapsedMs": 15667,
+      "targetFrameObserverElapsedMs": 15714,
+      "targetPresentedMediaTime": 143.211811,
+      "targetFrameCount": 4,
+      "targetFrameDifferenceSeconds": -0.035958199999981844
+    }
+  ],
+  "normalClose": {
+    "mkv": {
+      "sha256": "7881687a685323612ed275f6fb6146909002ccd0fad2d6cd07d8d1506b48b793",
+      "sourceCleared": true,
+      "retirementSettled": true,
+      "helperCleanupFieldsPresent": false,
+      "sourceProvenance": "Surrounding rc13 records and root handoff; close source field is a boolean"
+    },
+    "avi": {
+      "sha256": "743335aef726c6f9ce23d2b662a6582a738985735bf8b49274c63b8f58f006f1",
+      "sourceCleared": true,
+      "retirementSettled": true,
+      "allTemporaryHelpersCleared": true,
+      "allObjectGroupsReleased": true
+    }
+  },
+  "passiveProducers": [
+    {
+      "file": "native-events.expression.js",
+      "sha256": "fcc6d7058700dc75d364490180b6904921eb4179c62c1f7ed22230a0321aeec8",
+      "copiedFrom": "qa/v2-live-format-playback-rc12/native-events.expression.js",
+      "exactCopy": true
+    },
+    {
+      "file": "sample.expression.js",
+      "sha256": "e17b50d4d24c8e1834a52ddd5382159112e289e1fc818567dfd5ddd24176c85e",
+      "copiedFrom": "qa/v2-live-format-playback-rc12/sample.expression.js",
+      "exactCopy": true
+    },
+    {
+      "file": "seek-presentation.expression.js",
+      "sha256": "e18372f6c00a109063e0bd4ba7ae68540d376a4f5f6169424226a03911a12532",
+      "copiedFrom": "qa/v2-live-format-playback-rc12/seek-presentation.expression.js",
+      "exactCopy": true
+    },
+    {
+      "file": "trace.expression.js",
+      "sha256": "8b807e067b89d1d2d271051af0a6a5c7a36fe79779f397419918eed497e1bbe7",
+      "copiedFrom": "qa/v2-live-format-playback-rc12/trace.expression.js",
+      "exactCopy": true
+    },
+    {
+      "file": "worker-errors.expression.js",
+      "sha256": "438c5cfa55060e7fc7c94e3a55e59fe533d3b07719f0d09c3fb781db79da61d2",
+      "copiedFrom": "qa/v2-live-format-playback-rc12/worker-errors.expression.js",
+      "exactCopy": true
+    }
+  ],
+  "limits": [
+    "Observer elapsed time is not exact pointer-to-frame latency",
+    "No audio audibility",
+    "No physical device",
+    "No full uninterrupted run of all files",
+    "MKV helper release is root handoff attestation, not an explicit close-JSON field"
+  ]
+}

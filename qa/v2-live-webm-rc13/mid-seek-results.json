@@ -1,0 +1,82 @@
+{
+  "source": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+  "version": "1.22.0-rc.13",
+  "fraction": 0.5,
+  "input": "trusted native slider press/release",
+  "trace": {
+    "disposed": false,
+    "rows": [
+      {
+        "currentTime": 1.969,
+        "elapsedMs": 149,
+        "frames": 40,
+        "kind": "seeking",
+        "lastPresentedMediaTime": null,
+        "mediaTime": null,
+        "paused": true,
+        "readyState": 1,
+        "seeking": true,
+        "watchdog": {
+          "effectiveTarget": null,
+          "frameSeen": false,
+          "seekedSeen": false,
+          "target": 1.969
+        }
+      },
+      {
+        "currentTime": 1.969,
+        "elapsedMs": 1320,
+        "frames": 63,
+        "kind": "seeked",
+        "lastPresentedMediaTime": null,
+        "mediaTime": null,
+        "paused": true,
+        "readyState": 4,
+        "seeking": false,
+        "watchdog": {
+          "effectiveTarget": 1.969,
+          "frameSeen": false,
+          "seekedSeen": true,
+          "target": 1.969
+        }
+      },
+      {
+        "currentTime": 1.969,
+        "elapsedMs": 1837,
+        "frames": 63,
+        "kind": "presented",
+        "lastPresentedMediaTime": null,
+        "mediaTime": 1.875,
+        "paused": true,
+        "readyState": 4,
+        "seeking": false,
+        "watchdog": {
+          "effectiveTarget": 1.969,
+          "frameSeen": false,
+          "seekedSeen": true,
+          "target": 1.969
+        }
+      }
+    ]
+  },
+  "sample": {
+    "app": "1.22.0-rc.13",
+    "blobSource": false,
+    "decodeVerified": true,
+    "decodedAudioBytes": 0,
+    "decodedFrames": 63,
+    "duration": 3.938,
+    "errorCode": null,
+    "height": 600,
+    "mediaAttempt": "range",
+    "paused": true,
+    "playbackMode": "original-range",
+    "q1": false,
+    "readyState": 4,
+    "selected": true,
+    "temporaryStorageActive": false,
+    "time": 1.969,
+    "transportVerified": true,
+    "width": 338
+  }
+}
