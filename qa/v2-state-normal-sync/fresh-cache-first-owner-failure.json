@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-09-28T15:15:33.522Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "observed": {
+    "done": true,
+    "error": null,
+    "result": {
+      "elapsedMs": 435,
+      "paused": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "result": {
+        "actualCacheUnchanged": true,
+        "actualWriterUnchanged": true,
+        "bytes": 0,
+        "code": "stale_owner",
+        "documents": 0,
+        "done": true,
+        "emptyStorageStart": true,
+        "liked": 0,
+        "nativeGets": 1,
+        "ownerCurrent": false,
+        "passed": false,
+        "reads": 1,
+        "sourceHash": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+        "timersCleared": true,
+        "unliked": 0,
+        "viewed": 0,
+        "writes": 0
+      },
+      "scope": "Controlled same-page state timers paused and restored; no writes authorized",
+      "writeGateDisabled": true
+    }
+  },
+  "facadeHash": "9fe44ea7c8e793e7f3eb455100ff0b74eb532a00be02584aea30c43e03efe724",
+  "scope": "Read-only first fresh-cache attempt; stopped after one GET on owner fence; cause unknown at capture, no success inferred"
+}

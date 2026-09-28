@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-28T15:02:55.934Z",
+  "scope": "Actual same-account normal app sync and independent complete read-only appData recovery; not fresh origin or physical device",
+  "version": "1.22.0-rc.11",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "workerVersion": "fe556d43-9251-40c7-82bf-d138f35ebccd",
+  "retainedReadback": {
+    "done": true,
+    "error": null,
+    "summary": {
+      "done": true,
+      "nativeDispatches": 11,
+      "ownerCurrent": true,
+      "summary": {
+        "candidate": {
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 140
+        },
+        "candidateIncludesLegacy": true,
+        "candidatePending": false,
+        "legacy": {
+          "liked": 7,
+          "unliked": 48,
+          "viewed": 119
+        },
+        "legacyWriterAvailable": true,
+        "passed": true,
+        "projectClientBindingVerified": false,
+        "remote": {
+          "files": 7,
+          "liked": 9,
+          "unliked": 48,
+          "viewed": 140
+        },
+        "remoteFiles": 7,
+        "remoteWriters": 6,
+        "runtimeMatchesRemoteAndCache": true,
+        "writerDistinct": true
+      }
+    },
+    "window": {
+      "elapsedMs": 9781,
+      "paused": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "scope": "Controlled same-page state timers paused and restored; no writes authorized",
+      "writeGateDisabled": true
+    }
+  },
+  "validation": {
+    "lastSyncAt": 1790607845549,
+    "ownBodyEqualsExpectedProjection": true,
+    "ownBodyIncludesExpectedProjection": true,
+    "ownFiles": 1,
+    "runtimeEqualsReadback": true,
+    "syncError": null,
+    "version": "1.22.0-rc.11"
+  },
+  "otherDocuments": 6,
+  "allOtherRawAndMetadataUnchanged": true,
+  "disk": {
+    "fullEnvelopeEqual": true,
+    "bytes": 270440,
+    "reread": {
+      "candidate": {
+        "liked": 9,
+        "unliked": 48,
+        "viewed": 140
+      },
+      "candidateIncludesLegacy": true,
+      "candidatePending": false,
+      "legacy": {
+        "liked": 7,
+        "unliked": 48,
+        "viewed": 119
+      },
+      "legacyWriterAvailable": true,
+      "passed": true,
+      "projectClientBindingVerified": false,
+      "remote": {
+        "files": 7,
+        "liked": 9,
+        "unliked": 48,
+        "viewed": 140
+      },
+      "remoteFiles": 7,
+      "remoteWriters": 6,
+      "rereadEquivalent": true,
+      "runtimeMatchesRemoteAndCache": true,
+      "writerDistinct": true
+    },
+    "privateSinkTracked": false
+  },
+  "producerHashes": {
+    "qa/v2-state-normal-sync/live-readback-facade.function.js": "2023eb850b6d3e60ff7ba1c561cf62cb9da63b99f3d33179f9a3d42e701b32c4",
+    "qa/v2-state-normal-sync/recovery-factory.generated.js": "035f6482b2cbe3730c14412fa5bcd56915f87e0bcf3684c25eece336281449bb",
+    "qa/v2-state-snapshot/quiescent-window-rc10.js": "906166b90a1c1ae710a820f70cc464e4c58cb6340f17fbdc6b56282c774b5a36",
+    "qa/v2-state-recovery-backup/quiescent-capture.function.js": "5811a2aaafb9118a2fc0760da2e217a1e86a97f3a1107a61ffaed6ae9c0fc777",
+    "qa/v2-state-normal-sync/recovery-verifier.generated.js": "2a114d6981f4b5810bd66c83223d5be179cab89301b2e807f9814172d01de79b",
+    "app.js": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb"
+  },
+  "limits": {
+    "nativeNormalWriteCounts": "not captured: Network event buffer empty/truncated",
+    "firstReadbackAttempt": "CDP await timeout; accepted only separately retained second capture",
+    "firstCaptureOutcome": "unknown",
+    "liveServiceWorkerVersionProof": false,
+    "googleProjectClientAudit": false,
+    "physicalDevice": false,
+    "freshOrigin": false
+  },
+  "actualFreshReload": {
+    "capturedAt": "2026-09-28T15:05:57.217Z",
+    "authStatus": "online",
+    "credentialUsable": true,
+    "globalWrites": false,
+    "identityPending": false,
+    "lastSyncAt": 1790607943257,
+    "liked": 9,
+    "loading": false,
+    "ready": true,
+    "stateWrites": true,
+    "syncError": null,
+    "syncing": false,
+    "unliked": 48,
+    "version": "1.22.0-rc.11",
+    "viewed": 140,
+    "cacheState": "Existing per-account cache retained; new document execution"
+  },
+  "freshEmptyCache": {
+    "schemaVersion": 1,
+    "capturedAt": "2026-09-28T15:18:22.203Z",
+    "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+    "version": "1.22.0-rc.11",
+    "scope": "Actual authenticated account; exact current app source in isolated empty-cache runtime, read-only transport and actual-owner fences",
+    "observed": {
+      "done": true,
+      "error": null,
+      "result": {
+        "elapsedMs": 5627,
+        "paused": {
+          "refresh": true,
+          "retry": false,
+          "sync": false
+        },
+        "restored": {
+          "refresh": true,
+          "retry": false,
+          "sync": false
+        },
+        "result": {
+          "actualCacheUnchanged": true,
+          "actualWriterUnchanged": true,
+          "bytes": 61085,
+          "code": null,
+          "documents": 7,
+          "done": true,
+          "emptyStorageStart": true,
+          "guardFailures": [],
+          "liked": 9,
+          "nativeGets": 9,
+          "ownerCurrent": true,
+          "passed": true,
+          "reads": 9,
+          "sourceHash": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+          "timersCleared": true,
+          "unliked": 48,
+          "viewed": 140,
+          "writes": 0
+        },
+        "scope": "Controlled same-page state timers paused and restored; no writes authorized",
+        "writeGateDisabled": true
+      }
+    },
+    "fullProjectionCompared": true,
+    "comparisonBaseline": "Independently retained complete appData raw recovery",
+    "factoryHash": "8c016a372f4c57225ea52b5e20404e0653d82907ed0c5e4c3461b949bf11df97",
+    "facadeHash": "f6af618617a053b7ad33c7825991649c6cbc8ce592a516e6d30dd452a9cfcd52",
+    "limits": {
+      "ordinaryAppReload": "Separately verified with existing actual cache",
+      "freshOriginOAuth": false,
+      "physicalDevice": false,
+      "remoteAtomicSnapshot": false,
+      "firstFailure": "Preserved; stopped on owner fence after one GET, cause unknown; guard conditions unchanged"
+    }
+  },
+  "privateRecovery": {
+    "files": 5,
+    "trackedFiles": 0,
+    "acl": "Current user, SYSTEM, Administrators only; inherited folder ACL verified",
+    "encrypted": false
+  }
+}

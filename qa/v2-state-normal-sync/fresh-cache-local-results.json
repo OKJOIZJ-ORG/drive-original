@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-09-28T15:25:54.746Z",
+  "appHash": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+  "factoryChecks": {
+    "passed": 6,
+    "scope": "Delegated gpt-6-sol medium actual-source provider checks",
+    "command": "node --test qa/v2-state-normal-sync/fresh-cache-test.mjs"
+  },
+  "facadeChecks": {
+    "passed": 5,
+    "scope": "Independent initial review plus coordinator rerun after guard diagnostics addition",
+    "command": "node --test qa/v2-state-normal-sync/fresh-cache-facade-test.mjs"
+  },
+  "producerHashes": {
+    "fresh-cache-runtime.mjs": "d24899a3b871e29ecc48f8d843bcf549fff7d5a807bc91e814609318ec59bea7",
+    "fresh-cache-build.mjs": "aa7a58dc694be71b5af6952b05c73b7a5abf00ce85d8c0c856673aae2746e9dc",
+    "fresh-cache-test.mjs": "0cb65938512843f1c454869f8b9dabd9a7c1317f3a07fd04b4c6368ec9a5def1",
+    "fresh-cache-factory.generated.js": "8c016a372f4c57225ea52b5e20404e0653d82907ed0c5e4c3461b949bf11df97",
+    "fresh-cache-facade.function.js": "f6af618617a053b7ad33c7825991649c6cbc8ce592a516e6d30dd452a9cfcd52",
+    "fresh-cache-facade-test.mjs": "420105c136a79e81fc8c2c194d198d1de1ec15859d53feac5277d8ef57f7dbb6",
+    "rollback-schema-check.mjs": "273658c31c70813db28364fa05826c08dac936a6f6bcb7527ca376ac6624357d"
+  },
+  "preArchiveBuilderHash": "a8e61a054028b1f7e7e57d91d01a5322b21dbcd707f5ca74f0a82ed3b6113f7c",
+  "factoryArchive": {
+    "appHash": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+    "characters": 443320,
+    "factoryHash": "8c016a372f4c57225ea52b5e20404e0653d82907ed0c5e4c3461b949bf11df97",
+    "archiveBytes": 110033,
+    "archiveHash": "7ce5bfd92cd7df4b1b6926d6d730276d73c3151132e380288f1f0bfd8d8a97e7",
+    "roundTripEqual": true,
+    "scope": "Exact complete-app producer archived without trimming inherited source whitespace",
+    "equalsExecutedFactory": true
+  }
+}

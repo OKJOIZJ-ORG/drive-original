@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-28T15:18:22.203Z",
+  "candidateSource": "b9d873926e894bb89a9faa8e638f7f0a80c0eb7e",
+  "version": "1.22.0-rc.11",
+  "scope": "Actual authenticated account; exact current app source in isolated empty-cache runtime, read-only transport and actual-owner fences",
+  "observed": {
+    "done": true,
+    "error": null,
+    "result": {
+      "elapsedMs": 5627,
+      "paused": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "restored": {
+        "refresh": true,
+        "retry": false,
+        "sync": false
+      },
+      "result": {
+        "actualCacheUnchanged": true,
+        "actualWriterUnchanged": true,
+        "bytes": 61085,
+        "code": null,
+        "documents": 7,
+        "done": true,
+        "emptyStorageStart": true,
+        "guardFailures": [],
+        "liked": 9,
+        "nativeGets": 9,
+        "ownerCurrent": true,
+        "passed": true,
+        "reads": 9,
+        "sourceHash": "8b1dfbaee12eefbd03f88aec03b1aaa4c0b984b47205fed780078f256e5670bb",
+        "timersCleared": true,
+        "unliked": 48,
+        "viewed": 140,
+        "writes": 0
+      },
+      "scope": "Controlled same-page state timers paused and restored; no writes authorized",
+      "writeGateDisabled": true
+    }
+  },
+  "fullProjectionCompared": true,
+  "comparisonBaseline": "Independently retained complete appData raw recovery",
+  "factoryHash": "8c016a372f4c57225ea52b5e20404e0653d82907ed0c5e4c3461b949bf11df97",
+  "facadeHash": "f6af618617a053b7ad33c7825991649c6cbc8ce592a516e6d30dd452a9cfcd52",
+  "limits": {
+    "ordinaryAppReload": "Separately verified with existing actual cache",
+    "freshOriginOAuth": false,
+    "physicalDevice": false,
+    "remoteAtomicSnapshot": false,
+    "firstFailure": "Preserved; stopped on owner fence after one GET, cause unknown; guard conditions unchanged"
+  }
+}

@@ -1,74 +1,54 @@
-# Checkpoint — WP-08 normal sync and fresh reconstruction resumed — 2026-09-28
+# Checkpoint — WP-08 scoped exit complete; existing core A-012 next — 2026-09-29
 
-Repo C:\extensions\Drive-Original\source, branch codex/v2-kickoff-diagnostics.
-Normal state implementation7f2e467/app+SW1.22.0-rc.11 is committed locally.
-Deployed product8187121/app+SWrc.10, Worker85904e0a-ba28-4939-95d1-1375a626339b.
-Candidate https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
-Productionv1.21.0/global writes=false/automation paused unchanged. No push/main,
-production replacement, credential grant/billing/sharing/delete/volume action.
+Repo C:\extensions\Drive-Original\source; branch codex/v2-kickoff-diagnostics.
+Requery Git HEAD/status for current documentation savepoint; deployed source is
+b9d873926e894bb89a9faa8e638f7f0a80c0eb7e, app/SW1.22.0-rc.11, Worker
+fe556d43-9251-40c7-82bf-d138f35ebccd. Candidate:
+https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
+Productionv1.21.0/global writes=false/automation paused unchanged.
 
-## Active — existing plan first, new UI requests queued
+## Active and next
 
-D-059 supersedes D-058 waiting: finish the remaining existing plan in coherent units.
-rc.11 local app separates only own appData state writes from general Drive writes,
-requires complete valid catalog/state, reserves a durable pre-generated file ID
-for response-loss-safe CREATE, and verifies metadata plus whole body after writes.
-Ten focused,157 related and368 full product tests pass; syntax/diff and independent
-Sol/medium scoped review pass. STATE-NORMAL-20260928.md/qa/v2-state-normal-sync/
-pin source hashes/recovery and limits. Local runtime enables only account-state;
-deployed product is still rc.10/global writes=false. Next: fixed-source commit,
-free candidate delivery and actual normal sync/fresh-execution proof.
-Fresh read-only11GET capture preserved pending local140viewed vs remote133;
-fourth private recovery file fully flushed/reread/reconstructed. Provenance and
-safe report closed; private handles released. Retain all four ignored files.
-New PC cursor/overlay, loading-thumbnail/player polish and general UI polish are
-queued after the current core work; do not replace WP-08 with those requests.
-D-056 pause-without-overlay remains intentional;
-overlay-only region must preserve playback. D-057 prefers available Android tests
-before user handoff. Quick PATH/known SDK-path probe found no adb/emulator, not an
-exhaustive inventory or reason to hand off. Future setup/test remains unstarted.
+D-059 resumes existing plan; do not replace it with new queued UI requests.
+WP-08 normal sync local368 tests/independent review and actual scoped exit pass.
+Next: execute prepared rc.11 metadata-only two complete root inventories for A-012,
+using actual supplied priority parent/account identity. No media body replay/write.
+qa/v2-07a-current-corpus-probe/metadata-catalog-rc11-* are prepared locally, not run.
+Historical collapsed CATALOG_DRIFT cause remains unknown; new run is not its cause.
+New PC cursor/overlay, loading/player polish/general UI remain QUEUED/unstarted;
+D-056 pause-without-overlay intentional, designated reveal-only area preserves play.
+D-057 allows Android alternative; no Android runtime found in bounded inventory.
+Do available mobile tests directly and label desktop touch/emulator/physical scopes.
 
-## Closed unit
+## Latest actual evidence
 
-OWN-WRITER-20260928.md and qa/v2-own-writer/live-rc10-results.json pin actual scope.
-Exact unchanged canonical3function text in bounded shadow closure, real existing
-writer/Web Lock, private durable attempt before fetch, exact own-name/body POST only.
-9helper+7facade+5transfer pass. Null-dropping CDP object input failed constructor
-before requests; JSON-text target parsing fixes fidelity without schema weakening.
-Exact failed producers retained. Candidate local changed; fresh10GET/51024bytes
-backup preserves9liked/48unliked/133viewed, full disk reread/actual merge pass.
+STATE-NORMAL-20260928.md/CANDIDATE-RC11-20260929.md and
+qa/v2-state-normal-sync/live-rc11-results.json own exact hashes/scopes.
+Public19/cache17 fixed-Git equality, anonymous cold/offline/private404 pass.
+Actual normal Chrome sync no423, full11GET readback7docs/6writers9/48/140,
+pendingfalse; unique own body equals expected; all6other whole raw/meta unchanged.
+Real cache-retaining reload9/48/140 pass. Exact current app empty-cache shadow +
+actual read-only owner-fenced9GET61085bytes restores full union, actual storage
+untouched and cleanup pass. First1GET owner-fence failure retained, cause unknown;
+no guard weakened. Local factory6/facade5 pass. Exact old production code local
+protected-snapshot9providerGET/0network/0writes restores full union: schema/read
+compatibility, not deployed rollback/device/new OAuth-origin proof. Native normal
+write count unobserved (empty/truncated Network buffer); do not fabricate it.
+Five protected raw JSON recovery envelopes + private actual screenshot/deploy log
+under qa/v2-state-recovery-backup/private/; ACL=current user/SYSTEM/Admins only,
+ignored/tracked0, not encrypted. Never force-stage/delete those recovery artifacts.
+Browser private groups cleared; protected disk pointers are the recovery owner.
 
-Pre-submit2GET failure cause unknown. Canonical12GET/1POST attempt gets catalog403
-at readback, so initial result stays submission_uncertain. No create replay.
-Later maintained complete read-only11GET capture succeeds:7docs/6writers,
-whole own body equals expected merge, all6older raw documents+metadata unchanged,
-remote9/48/133/candidate pendingfalse/legacy included. Final confirmation is after
-original Web Lock release, not atomic remote or full same-lock acceptance.
-Private confirmation journal reread and268128-byte recovery envelope flushed,
-whole-original/actual-product reconstruction pass. Three private files under
-qa/v2-state-recovery-backup/private/ ACL=current user/SYSTEM/Administrators only,
-Git ignored/tracked0; keep them and browser QA journal through cleanup, not encrypted.
-All eligible refresh reservations restored; private groups/references released.
-QA report screenshot saved. A-013403/provider reason and initial read cause unknown.
-Normal flag-enabled sync/UI/fresh origin/devices/rollback/release remain open.
+## Remaining boundaries and retained evidence
 
-## Resume references
-
-STATE-RECOVERY-20260928.md owns earlier complete raw backup10b346a.
-CORPUS-RC10-20260928.md/d413e5d:36 per-file byte/15TS success; final comparator
-cause unknown A-012; later metadata-only discriminator, no body replay.
-DISPOSABLE-20260928.md/a24c434:3new items, file recoverably trashed/2folders retained,
-private ledger kept; normal UI/broad matrix pending; viewed drift A-011 unknown.
-Q1-LIVE-20260928.md:actual priority frames/seeks/close and natural PC renewal pass,
-physical/sleep-wake/full-format/old299s cause limits retained. Frozen358Node/
-17auth/4retirement/16product/22functional/50cycles150seeks need no ritual rerun.
-Existing user Chrome candidate account remains; no login/volume task pending.
-Next CUA after compaction rewriteDocumentation; reacquire only needed fresh guards.
-Own-writer and drive-normal-state-backup groups released. No private browser
-handle is required for resume; protected disk envelopes remain the recovery sink.
-CATALOG-DIAGNOSTICS-20260928.md owns the ancillary local metadata diagnostic
-preparation:11+3+1 focused checks pass; historical bundle/results preserved.
-No actual metadata-only rerun yet; its explicit runtime fence is still rc.10.
-Android inventory found no tools/devices in inspected paths; registry could not
-be queried. This is bounded absence evidence, not exhaustive absence. Emulator
-installation/terms/login remain unstarted; desktop touch/UA tests stay distinct.
+Physical/two-device/offline propagation, broad duration/sleep-wake/full formats,
+normal disposable UI matrix/integration/release gates remain distinct.
+Existing Q1 actual priority frames/seeks/close and one PC natural-renewal pass;
+local50cycles150seeks/cleanup and earlier358Node/auth/functional passes retained.
+CORPUS-RC10-20260928.md:36 representative/51media15completeTS bounded probes;
+A-012 final comparator unknown. DISPOSABLE-20260928.md:3new items/8writes,
+file recoverably trashed/2test folders retained, independent reads; broad UI pending.
+No main merge/push/production replacement, new grants/billing/terms/original media
+change/permanent delete/automation resume/Notion/volume actions authorized.
+Next CUA after compaction rewriteDocumentation; existing browser2/candidate tab
+275136719 intended authenticated user Chrome, no cookies/profile copying.

@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checkedAt": "2026-09-28T15:12:43.581Z",
+  "rollbackCommit": "e08989a6caecc51bc2fdd37f538619fa8ed5900d",
+  "rollbackAppHash": "2d8d8f02eb611832bfd12e21765d0e495256a97f208be7806365044fb81bf948",
+  "scope": "Exact production v1.21.0 app code, isolated empty storage, local protected rc.11 snapshot provider",
+  "liveNetworkRequests": 0,
+  "writes": 0,
+  "providerReads": 9,
+  "summary": {
+    "done": true,
+    "passed": true,
+    "code": null,
+    "reads": 9,
+    "writes": 0,
+    "bytes": 60819,
+    "documents": 7,
+    "liked": 9,
+    "unliked": 48,
+    "viewed": 140,
+    "emptyStorageStart": true,
+    "timersCleared": true
+  },
+  "comparison": "Full current private remote projection; identity equality, not count-only",
+  "transportAdapter": "Local-only GET field fence pinned to the exact older reader without incompleteSearch; product source untouched",
+  "limits": {
+    "productionDeployment": false,
+    "oldOriginOAuthFlow": false,
+    "physicalDevice": false
+  }
+}
