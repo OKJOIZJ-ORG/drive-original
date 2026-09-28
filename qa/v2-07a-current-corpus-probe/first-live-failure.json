@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-09-28T11:28:09.835Z",
+  "identity": {
+    "version": "1.22.0-rc.10",
+    "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+    "workerVersion": "85904e0a-ba28-4939-95d1-1375a626339b"
+  },
+  "producers": {
+    "probeSha256": "65e2fe33344eb7f597a7d1d579b79cb541af5ed9b7105ab628a0417dad75f68d",
+    "bundleSha256": "dc231c904fe42843cc3edb1f0691ca6827801631e0d70b845c78458136493e92"
+  },
+  "localTests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "preflight": {
+    "page": {
+      "accountReady": true,
+      "authReady": true,
+      "idle": true,
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "q1RetirementSettled": true,
+      "readOnly": true,
+      "swActivated": true,
+      "swScript": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/sw.js",
+      "topLevel": true,
+      "version": "1.22.0-rc.10"
+    },
+    "activeSw": {
+      "activeVersion": "1.22.0-rc.10",
+      "controllerSame": true,
+      "matchingCacheCount": 1,
+      "method": "Unique public runtime-config query observed in activated worker normal network-first cache",
+      "publicBytes": 240,
+      "publicGetRequests": 1
+    },
+    "publicSw": {
+      "bytes": 53638,
+      "sha256": "a0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478",
+      "status": 200
+    },
+    "privateAnchor": {
+      "bytes": 528,
+      "canonicalSingleParent": true,
+      "matchingAccount": true,
+      "originalWrites": 0,
+      "requests": 3,
+      "rootListable": true,
+      "uniquePriority": true
+    }
+  },
+  "attempt": {
+    "owner": {
+      "accountStable": true,
+      "controllerStable": true,
+      "idle": true,
+      "mediaOwnerStable": true,
+      "readOnly": true,
+      "writerEqual": true
+    },
+    "progress": {
+      "claimed": true,
+      "dispatches": 62,
+      "done": true,
+      "mediaRequests": 0,
+      "processed": 0,
+      "receivedBytes": 0
+    },
+    "result": {
+      "done": true,
+      "summary": {
+        "audioSignalling": {
+          "aac": 0,
+          "other": 0
+        },
+        "catalogStable": false,
+        "complete": false,
+        "decoded": 0,
+        "dispatches": 62,
+        "failure": "SELECTION_FAILED",
+        "genericUpstreamCleanup": "unknown",
+        "mediaRequests": 0,
+        "metadataReceivedBytes": 11387268,
+        "nativeQ1RetirementProven": false,
+        "physicalDevicePlayback": 0,
+        "priorityTsEvidence": {
+          "audioProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "audioSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 0
+          },
+          "videoFormatEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "videoProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "videoSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 0
+          }
+        },
+        "processed": 0,
+        "receivedBytes": 0,
+        "released": true,
+        "routes": {
+          "avi": 0,
+          "bmp": 0,
+          "ebml": 0,
+          "error-payload": 0,
+          "gif": 0,
+          "iso-bmff": 0,
+          "jpeg": 0,
+          "matroska": 0,
+          "mpeg-ts": 0,
+          "png": 0,
+          "unknown": 0,
+          "webm": 0,
+          "webp": 0
+        },
+        "schema": "drive-original.v2-07a-current-corpus-aggregate/1",
+        "selected": 0,
+        "skippedSmall": 0,
+        "tsEvidence": {
+          "audioProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "audioSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 0
+          },
+          "videoFormatEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "videoProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 0
+          },
+          "videoSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 0
+          }
+        },
+        "tsOutcomes": {
+          "BYTE_LIMIT_EXCEEDED": 0,
+          "INPUT_TYPE_INVALID": 0,
+          "MALFORMED_MPEG_TS": 0,
+          "MPEG_TS_STRUCTURE_COMPLETE": 0,
+          "PARSER_RESULT_INVALID": 0,
+          "PROBE_LIMIT_REACHED": 0,
+          "PSI_NOT_COMPLETE": 0,
+          "TRUNCATED_MPEG_TS": 0,
+          "TS_SYNC_NOT_FOUND": 0,
+          "UNSUPPORTED_TS_FEATURE": 0
+        },
+        "tsPrefixOnly": 0,
+        "tsPrograms": 0,
+        "tsStreams": 0,
+        "version": "1.22.0-rc.10",
+        "videoSignalling": {
+          "h264": 0,
+          "hevc": 0,
+          "other": 0
+        }
+      }
+    }
+  },
+  "limits": {
+    "actualMediaRead": false,
+    "sourceSelectionFailureDimension": "unknown before diagnostic",
+    "wholePageNetworkCaptured": false,
+    "productCodeChanged": false,
+    "driveWrites": 0
+  },
+  "privacyOmissionCheck": true
+}

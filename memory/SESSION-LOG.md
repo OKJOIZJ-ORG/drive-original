@@ -418,3 +418,28 @@ reuse identity/38cover/TS parser,940-byte prefix reuse and TS-only continuation,
 no small full-object read, strict stop after body failure, no fake Q1 ownership/
 maximal-generation retirement. Historical rc.4 assets remain unchanged. Close
 this evidence commit before implementing the next independent slice.
+
+## 2026-09-28 — current bounded corpus unit, accepted per-file / rejected final batch
+
+New QA-only rc.10 factory reuses canonical inventory/selector/bounded core/TS
+parser. Root reviewed streaming metadata budgets/deadlines, owner/signal/online/
+idle/SW fences, no Q1 generation poisoning and940-byte prefix reuse/TS-only
+nonoverlapping continuation. First live selection failure preserved before any
+media. Fresh metadata-only diagnostic62GET/11387268bytes isolates36current
+complete-cover rows versus historical exact38. Root-approved1..38 correction
+keeps all upper budgets/coverage/fences;23focused tests and exact hashes pass.
+
+Actual36/36 per-file pre/post identity and bounded reads use51media/1002780bytes,
+247helper dispatches/22791300metadata bytes.15complete bounded TS structures;
+priority target details pass. Final comparator rejects CATALOG_DRIFT; wrapper
+loses original cause/dimension, so complete remains false/A-012 unknown. Read-only
+independent audit finds no deterministic compare/interface/isolation defect.
+Preserve valid per-file evidence; no body replay or silent acceptance weakening.
+Safe reports/frozen sources saved, private corpus group released, public SW guard
+retained for next QA. No product/production/data/automation/volume change.
+
+D-056 explicitly keeps pause without overlay and queues overlay-only hit-area
+failure. Independent audit gives a later coordinates/event/visibility/playback
+discriminator without a causal patch. Next independent scope is recoverable raw
+state backup, not global write enablement. Child implements new QA helper/factory
+and11focused checks; root has not yet executed private sink or migration writes.

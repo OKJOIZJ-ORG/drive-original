@@ -1,0 +1,240 @@
+{
+  "schema": "drive-original.current-corpus-live-evidence/1",
+  "startedAt": "2026-09-28T11:42:34.339Z",
+  "capturedAt": "2026-09-28T11:48:38.920Z",
+  "candidateProductCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "candidateWorkerVersion": "85904e0a-ba28-4939-95d1-1375a626339b",
+  "runtimeVersion": "1.22.0-rc.10",
+  "producers": {
+    "probeSHA256": "900be2bc96047320bb18a321b86600b58a8502e96ebe1be508a1d9aef1b9eccf",
+    "bundleSHA256": "4d3bc9686682c0b7ef6522ec7461e71b7b56d74a0d4135c434d04f6262dd6a04",
+    "facadeSHA256": "373f77264670c5f5551865822d421551d8c190e17f9f96abf96f44fca6552e1a"
+  },
+  "localTests": {
+    "command": "node --test qa/v2-07a-current-corpus-probe/probe.test.mjs",
+    "passed": 23,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "scope": "focused real-selector/canonical-inventory integration, bounded streams and actual maintained app/SW contracts"
+  },
+  "publicPreflight": {
+    "serviceWorkerVersion": {
+      "activeVersion": "1.22.0-rc.10",
+      "controllerSame": true,
+      "matchingCacheCount": 1,
+      "method": "Unique public runtime-config query observed in activated worker normal network-first cache",
+      "publicBytes": 240,
+      "publicGetRequests": 1
+    },
+    "publicServiceWorkerSource": {
+      "bytes": 53638,
+      "sha256": "a0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478",
+      "status": 200
+    },
+    "privateRootPreflight": {
+      "bytes": 528,
+      "canonicalSingleParent": true,
+      "matchingAccount": true,
+      "originalWrites": 0,
+      "requests": 3,
+      "rootListable": true,
+      "uniquePriority": true
+    }
+  },
+  "credentialPreflight": {
+    "firstRejectedBeforeDispatch": true,
+    "firstMinimumMs": 650000,
+    "actualStartRemainingMs": 466566,
+    "forcedRenewal": false
+  },
+  "result": {
+    "owner": {
+      "accountStable": true,
+      "controllerStable": true,
+      "idle": true,
+      "mediaOwnerStable": true,
+      "readOnly": true,
+      "writerEqual": true
+    },
+    "progress": {
+      "claimed": true,
+      "dispatches": 247,
+      "done": true,
+      "mediaRequests": 51,
+      "processed": 36,
+      "receivedBytes": 1002780
+    },
+    "result": {
+      "done": true,
+      "summary": {
+        "audioSignalling": {
+          "aac": 15,
+          "other": 0
+        },
+        "catalogStable": false,
+        "complete": false,
+        "decoded": 0,
+        "dispatches": 247,
+        "failure": "CATALOG_DRIFT",
+        "genericUpstreamCleanup": "unknown",
+        "mediaRequests": 51,
+        "metadataReceivedBytes": 22791300,
+        "mode": "bounded-corpus",
+        "nativeQ1RetirementProven": false,
+        "physicalDevicePlayback": 0,
+        "priorityTsEvidence": {
+          "audioProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 1
+          },
+          "audioSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 1
+          },
+          "videoFormatEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 1
+          },
+          "videoProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 1
+          },
+          "videoSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 1
+          }
+        },
+        "processed": 36,
+        "receivedBytes": 1002780,
+        "released": true,
+        "routes": {
+          "avi": 0,
+          "bmp": 0,
+          "ebml": 0,
+          "error-payload": 0,
+          "gif": 2,
+          "iso-bmff": 6,
+          "jpeg": 7,
+          "matroska": 0,
+          "mpeg-ts": 15,
+          "png": 2,
+          "unknown": 2,
+          "webm": 1,
+          "webp": 1
+        },
+        "schema": "drive-original.v2-07a-current-corpus-aggregate/1",
+        "selected": 36,
+        "selectionPreflight": {
+          "bodyEligible": true,
+          "coverageComplete": true,
+          "duplicateFree": true,
+          "historicalCountMatch": false,
+          "identityComplete": true,
+          "priorityMatch": true,
+          "resourceKeyReferencesValid": true,
+          "schemaMatch": true,
+          "selectedCount": 36,
+          "selectedCountWithinLimit": true,
+          "selectorSucceeded": true
+        },
+        "selectionPreflightComplete": true,
+        "skippedSmall": 0,
+        "tsEvidence": {
+          "audioProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 0,
+            "target-confirmed": 15
+          },
+          "audioSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 15
+          },
+          "videoFormatEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 14,
+            "target-confirmed": 1
+          },
+          "videoProfileEvidence": {
+            "inconclusive": 0,
+            "not-applicable": 0,
+            "other-parsed": 2,
+            "target-confirmed": 13
+          },
+          "videoSignalling": {
+            "mixed": 0,
+            "none": 0,
+            "other-only": 0,
+            "target-only": 15
+          }
+        },
+        "tsOutcomes": {
+          "BYTE_LIMIT_EXCEEDED": 0,
+          "INPUT_TYPE_INVALID": 0,
+          "MALFORMED_MPEG_TS": 0,
+          "MPEG_TS_STRUCTURE_COMPLETE": 15,
+          "PARSER_RESULT_INVALID": 0,
+          "PROBE_LIMIT_REACHED": 0,
+          "PSI_NOT_COMPLETE": 0,
+          "TRUNCATED_MPEG_TS": 0,
+          "TS_SYNC_NOT_FOUND": 0,
+          "UNSUPPORTED_TS_FEATURE": 0
+        },
+        "tsPrefixOnly": 0,
+        "tsPrograms": 15,
+        "tsStreams": 30,
+        "version": "1.22.0-rc.10",
+        "videoSignalling": {
+          "h264": 15,
+          "hevc": 0,
+          "other": 0
+        }
+      }
+    }
+  },
+  "perFileCompletion": true,
+  "batchCatalogAcceptance": false,
+  "fullFormatOrPlaybackAcceptance": false,
+  "mediaReadPattern": {
+    "prefixBytes": 940,
+    "tsContinuationStart": 940,
+    "tsContinuationEnd": 65535,
+    "nonTsContinuationRequests": 0,
+    "prefixRequests": 36,
+    "tsContinuationRequests": 15,
+    "wholeObjectsRead": 0,
+    "lastByteOrEofRequests": 0
+  },
+  "limits": {
+    "files": 38,
+    "mediaRequests": 76,
+    "mediaBytes": 2490368,
+    "dispatches": 512,
+    "metadataResponseBytes": 2097152,
+    "metadataBytes": 67108864,
+    "runMs": 600000
+  },
+  "limitations": {
+    "finalCatalogComparison": "CATALOG_DRIFT with dimension and cause unknown",
+    "genericUpstreamCleanup": "unknown",
+    "helperCountsNotWholeProfileOrUpstreamCounts": true,
+    "decoded": 0,
+    "physicalDevicePlayback": 0,
+    "exactActiveWorkerSourceHashNotProven": true
+  },
+  "privateRowsIdentifiersTokensOmitted": true
+}

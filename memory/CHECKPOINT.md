@@ -1,97 +1,108 @@
-# Checkpoint — actual disposable QA closed, current-corpus follow-up — 2026-09-28 20:03
+# Checkpoint — bounded corpus closed, private state backup next — 2026-09-28 20:52
 
 ## The story so far
 
-Canonical repo C:\extensions\Drive-Original\source, branch
-codex/v2-kickoff-diagnostics. Product818712102d739eb68047913ad61e7afdae2cc0eb,
-app/SW1.22.0-rc.10, candidate Worker85904e0a-ba28-4939-95d1-1375a626339b.
-Production Pagesv1.21.0 and paused automation remain unchanged.
-Candidate: https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
+Canonical repo C:\extensions\Drive-Original\source, branch codex/v2-kickoff-diagnostics.
+HEAD a24c434 before pending corpus evidence commit. Product818712102d739eb68047913ad61e7afdae2cc0eb,
+app/SW1.22.0-rc.10, Worker85904e0a-ba28-4939-95d1-1375a626339b. Candidate
+https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/.
+Production Pagesv1.21.0/global Drive writes=false/automation paused stay fixed.
+D-054 continues independent approved work; D-050/D-051 constrain side effects.
+No main/push/production deployment, new grant, billing, sharing or permanent DELETE.
+The user revoked temporary silence; do not adjust/check/restore volume.
 
-Connected user Chrome browser2/profile 내 Chrome, handoff tab275136719 restores
-the existing candidate session. No PC login action is pending; the anonymous
-managed Chrome profile is separate. QA-only state read adapter16tests and actual
-controlled20GET/102048byte complete six-document comparison/runtime reconstruction
-pass, preserving pending candidate-local state. See STATE-SNAPSHOT-20260928.md.
+Existing same-account user Chrome session is ready, browser2/profile 내 Chrome,
+handoff candidateTab275136719/candidateCdp. Do not reselect browser for recovery.
+Anonymous managed Chrome is a separate profile; no PC login task is pending.
+After compaction first CUA invocation must rewriteDocumentation().
 
-Actual supplied208001508-byte Q1 video presents frames and10/50/90% UI seeks
-within13–20ms of targets. Private same-owner pre/post metadata equality and
-protocol-confirmed Escape retirement pass; all checked app source/temp/pending
-owners clear. Q1-LIVE-20260928.md/qa/q1-live-rc10/results.json own exact values,
-producer hashes and scope. Truncated14-response206 tail is not a complete trace.
-Frozen358Node/50cycles150seeks remain separate fixed-source local evidence.
+Frozen rc.10 product checks358Node/17auth/4retirement/16product/22functional and
+50cycles150seeks remain valid and distinct. Actual priority208001508-byte Q1
+frames/10,50,90% UI seeks/strict retirement pass; one natural PC renewal across
+old expiry passes392samples/6min1x plus presented310.888s frame/seek/close.
+Q1-LIVE-20260928.md owns exact scope; sleep/wake/hour/EOF/devices and old299s
+failure cause stay unknown. Do not repeat passing frozen checks without a change.
 
-One actual natural credential renewal now passes during about6min1x Q1 playback:
-392samples keep ownership/readOnly,106active samples cross old expiry, a real
-310.888s frame and postrenewal50% seek pass; retirement clears again. Observer
-changes no clock/credential/product timer and is stopped/released. See the later
-section of Q1-LIVE-20260928.md and qa/q1-live-rc10/renewal-results.json.
-This does not explain the old299s failure or prove sleep/wake/iPhone/hour-long runs.
+STATE-SNAPSHOT-20260928.md: controlled actual20GET/102048bytes/six remote docs
+twice/raw+catalog+union+runtime equality; pending candidate-local state preserved.
+Actual same-profile inert old-origin cache7liked/48unliked/119viewed is included
+in candidate8/48/131 with distinct writer IDs/no copied writer. These are not
+recoverable raw disk backup, remote migration write, fresh origin or device proof.
 
-Same user Chrome's old production origin account cache is read through inert
-version.json, without running the old app/sync. Legacy7liked/48unliked/119viewed
-is fully included in candidate8/48/131; two raw/writer captures stay equal,
-writer IDs differ, and no write/copy occurs. New QA helper/builder11tests and
-exact executed public source hashes pass. Private references/group and inert tab
-are removed. See STATE-SNAPSHOT-20260928.md/legacy-live-rc10-results.json.
+DISPOSABLE-20260928.md committed a24c434: actual restricted canonical-controller
+35requests/3new items, A→B/trash/restore/B→A/final trash, deliberately hidden
+successful response independently confirms without replay. Recovery4GET/0write;
+corrected final6GET/1834bytes stable twice/file final-version strict.13guard and
+12final tests pass. New file recoverably trashed/2new folders retained/private
+recovery ledger retained; no existing file/appData/sharing/permanent delete.
+Immediate cache/projection equality passes; later2viewed added/1changed has
+unknown origin A-011, baseline retained/no QA IDs/runtime-cache equal. Do not
+claim whole-interval cache equality or a cause. QA report screenshot saved.
 
-## Decided
+## Current corpus unit closed with partial batch acceptance
 
-D-054 continues approved work by evidence; D-050 authority is unchanged.
-Candidate writes remain false. Verified same-profile legacy-local inclusion does
-not close remote persistence/fresh-origin/two-device migration or authorize
-original/appData writes.
-No main merge/push, production transition, billing or automation restart.
-The user revoked temporary silence; do not adjust volume further.
-D-055 queues the reported physical-iPhone control-overlay failure after the
-current unit; do not interrupt disposable QA to redesign mobile controls.
+CORPUS-RC10-20260928.md/qa/v2-07a-current-corpus-probe/live-rc10-results.json pin
+sources and actual scope. First62metadata/11387268byte selection failure before
+any media preserved. Fresh metadata-only diagnostic proves36complete risk rows;
+only QA exact historical38 gate failed.1..38 correction retains38files/76media/
+2490368bytes and all coverage/identity/owner/Range gates.23focused tests pass;
+real selector/canonical inventory1/36/38 success and39/0 before-body rejection.
 
-## Waiting on the user
+Actual start2026-09-28T11:42:34.339Z:36/36 per-file identity/bounded reads pass,
+51media/1002780bytes/247all helper dispatches/22791300metadata bytes.15TS complete
+bounded structures/H264+AAC; priority target profile/format/audio match. No full
+object/EOF/non-TS continuation, no duplicate prefix. Final cross-inventory
+comparator rejects; complete=false/catalogStable=false. Original comparator cause
+or differing dimension unknown because wrapper collapses all exceptions to
+CATALOG_DRIFT. Both internal repeated inventories independently passed; independent
+read-only audit found no deterministic invocation/isolation bug. A-012 owns later
+metadata-only cause/count discriminator. Do not replay verified bodies or claim
+full-catalog/ISO tracks/all-format/decode/device/native cleanup/total memory proof.
 
-No PC login step is pending. The user's later iPhone report confirms the requested
-rc.10 version and supplied-video playback. D-056 clarifies that pause without
-controls is intended; the separate overlay-only touch area fails. Do not patch
-pause to reveal controls. Exact touch coordinates/browser mode are unknown. Mid/end
-seeks and30s home/return playback remain unverified. Registered A-010/deferred
-V2-02C; do not repeat the prior device request or treat playback as full acceptance.
-Production approval remains a later boundary.
+Probe900be2bc96047320bb18a321b86600b58a8502e96ebe1be508a1d9aef1b9eccf;
+bundle4d3bc9686682c0b7ef6522ec7461e71b7b56d74a0d4135c434d04f6262dd6a04;
+facade373f77264670c5f5551865822d421551d8c190e17f9f96abf96f44fca6552e1a.
+Failed/diagnostic exact sources frozen separately. Active rc.10 SW behavior proved
+via one public240byte unique-query cache capture; public sw.js53638bytes SHAa0440e04f10448387110728b1047d2e3d29b377af5b2b0642c7cd6f8f0da9478 equals source.
+Public proof is not exact active worker source hashing. Credential first650s gate
+rejected before dispatch; actual stable466566ms window sufficed, no force/timer/
+clock changes and strict current-token/revision fences retained. Generic SW own
+upstream retries/cleanup and total profile traffic remain outside helper counts.
 
 ## Next first action
 
-Restricted canonical-controller QA completed on the actual account:35requests
-(27GET,3POST,5PATCH), three new tagged items, four canonical operations confirmed
-without replay after deliberate response suppression. File is recoverably trashed,
-two folders retained. Recovery4GET/0writes and corrected final6GET/1834bytes pass;
-all three final snapshots stable twice, file recorded-final-version strict.
-Guard13/13 and final-verifier12/12 pass. DISPOSABLE-20260928.md and
-qa/v2-disposable-live/live-rc10-results.json own exact producers/scope.
-The failed folder creation-version baseline and diagnostic are preserved; cause
-of folder version advancement remains unknown. No further test writes needed.
+Finish scoped corpus docs/diff/exact-leaf stage and producer blob hash check;
+create local evidence commit, no push. All corpus remote private objects released.
+CUA stateBackupSwProof is now in drive-state-recovery-backup-rc10 with .get()
+returning the same activated controller+rc.10 or null. Reuse public guard for next
+unit; do not reuse released currentCorpus* factory/job/context handles.
 
-Immediate post-run cache/projection equality passed. Later viewed2added/1changed,
-favorites unchanged/baseline retained/runtime matches cache; no QA IDs in maps.
-The whole delta is not in current remote read cache. Originating writer/device/
-action unknown; whole-interval cache equality is false. A-011 records this limit.
-Account/controller/writer/readOnly/idle final checks pass. Private handles/group
-released; ledger retained for recovery. Safe QA-result report tab closed.
+Child /root/gpt_6_sol_medium_state_migration_audit (Sol medium) completed only
+qa/v2-state-recovery-backup/{backup.mjs,handle.mjs,build-browser-factory.mjs,
+backup.test.mjs,README.md}.11focused tests pass; actual maintained collector/app
+merge, raw data retention/equality, owner/cancel/failure/private output contracts,
+builder deterministic/VM/no-global checks. Factory18807chars SHA035f6482b2cbe3730c14412fa5bcd56915f87e0bcf3684c25eece336281449bb.
+Read/review before wiring. No browser/network/sink/write/commit performed.
 
-Close the owned evidence/docs commit before a new unit. The completed read-only
-audit recommends a fresh rc.10-only current corpus QA adapter, preserving old
-rc.4 reports. Reuse maintained identity inventory/38 deterministic cover/TS parser;
-collect940-byte prefix once and reuse it, TS-only nonoverlapping continuation
-through byte65535. Skip small full-object/EOF reads. Strict stop after first body
-failure; maximum2requests/64KiB per file,76requests/2,490,368bytes for38 samples.
-Do not falsely attach mediaOwner=q1 or retire a synthetic maximal generation:
-those require the actual product owner and could poison later playback. No public
-QA redeploy is needed: exact local public bundle can be read via CUA node:fs/CDP.
-Use existing candidateCdp/tab275136719, leave global writes=false and original
-media read-only. ISO-BMFF tracks are a later slice; old walker only locates moov.
-The mobile overlay-only defect remains queued, with pause-hidden contract intact.
+Root next: fresh complete raw remote catalog+writer/legacy docs, candidate exact
+cache/runtime/pending/writer, fresh inert legacy cache/writer inclusion. Save a
+recoverable private JSON only inside ignored qa/v2-state-recovery-backup/private/;
+re-read/structural+canonical+actual merge equality and fixed public summary.
+No credential/token/OPFS backup. Root owns safe candidate/legacy CDP wiring/sink,
+not child. Preserve globalfalse and reject write SyncPromise/owner/projection/cache
+drift; benign foreground read LoadingPromise alone is not an owner change.
+Project/client link evidence must distinguish actual verified from unknown.
+D-050 authorizes non-destructive same-account migration; durable backup and fresh
+submit-time complete same-account proof precede own-new-writer-only transport.
+No migration write started. Physical/fresh-origin/release gates remain separate.
 
-## Tried
+## User device issue / later discriminator
 
-- Actual connected profile resolved the earlier managed-profile login mismatch.
-- Controlled state read resolves visibility only; ordinary read-only blocked flush remains distinct.
-- Actual priority UI playback/seeks/close pass; no first-frame latency, EOF or uninterrupted299s discriminator was measured.
-- One actual PC natural renewal passes; sleep/wake/devices, historic299s cause, full formats, generic Q0 native release and total memory stay open.
-- User reports physical-iPhone rc.10 and supplied playback pass; overlay-only touch area failure is queued, seeks/home-return remain unknown. Pause must keep controls hidden.
+User-reported rc.10 version and supplied iPhone playback pass; seeks/30s home-return
+unknown. D-055/D-056 queue A-010/V2-02C. Pause without overlay is intentional;
+never show controls merely because playback pauses. The missing function is the
+separate overlay-only region revealing controls without changing playback.
+Read-only audit: bottom max24px,safe-bottom+16px predicate; current rc.10 did not
+change that policy frome08989a. Exact physical mode/touch coordinates unknown.
+Future single failed touch: coords/predicate→target/path→reveal/visibility→playback.
+No mobile product patch or repeated physical-device request now.
