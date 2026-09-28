@@ -354,3 +354,16 @@ and qa/q1-live-rc10/renewal-results.json pin scope/provenance. Sleep/wake/iPhone
 hour-long/formats and historic299s cause remain open; production/data/volume unchanged.
 Independent QA legacy helper/builder now11tests pass; inert production version.json
 confirms1.21.0 and product app absent. Private legacy read/compare is next.
+
+## 2026-09-28 — actual old-origin private replica readback
+
+Read only exact same-account old-origin cache via inert production version.json,
+never starting its app/sync. Maintained QA helper/builder11tests pass; root checks
+critical fences and exact public execution source hashes.10303-byte raw replica
+is stable across two captures; legacy7/48/119 is fully included in candidate8/48/131,
+merge adds/changes0, writer distinct. No ID/raw state/digest or credential printed
+or saved. CUA private references/group cleared and inert tab closed; no writes.
+STATE-SNAPSHOT-20260928.md/legacy-live-rc10-results.json retain actual scope.
+The user says iPhone verification is unavailable now; desktop independent work
+continues. A bounded audit checks source-owned pre-write versus later device/release
+requirements before opening any global switch or introducing needless dependencies.

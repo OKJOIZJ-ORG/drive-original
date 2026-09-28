@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-28T10:04:32.721Z",
+  "scope": "Same Chrome profile's exact old-origin account cache compared privately to current candidate projection",
+  "candidateVersion": "1.22.0-rc.10",
+  "productCommit": "818712102d739eb68047913ad61e7afdae2cc0eb",
+  "legacyVersion": "1.21.0",
+  "focusedTestsPassed": 11,
+  "inert": {"originMatches": true, "pathMatches": true, "productAppAbsent": true, "versionMatches": true},
+  "comparison": {
+    "passed": true, "candidateProjectionIncludesLegacy": true, "mergeAddsOrChanges": false,
+    "legacy": {"liked": 7, "unliked": 48, "viewed": 119},
+    "candidate": {"liked": 8, "unliked": 48, "viewed": 131},
+    "merged": {"liked": 8, "unliked": 48, "viewed": 131},
+    "viewedAdded": 0, "viewedChanged": 0, "favoritesAdded": 0, "favoritesChanged": 0,
+    "legacyWriterAvailable": true, "candidateWriterAvailable": true, "writerDistinct": true,
+    "writeAuthorization": false, "remoteVerified": false, "deviceVerified": false
+  },
+  "postCapture": {"privateReaderPassed": true, "rawCacheUnchanged": true, "writerUnchanged": true, "accountMatched": true, "replicaUtf8Bytes": 10303, "candidateOwnerStillCurrent": true},
+  "executionSha256": {
+    "read": "157994b8b98a44932a1605876fa8fe7d83d1b8e5bde6f0921a11202e3a584843",
+    "compare": "325f15b7a29f554fcf69840ea686bffe17929b2cb06e52082374638e722d19e7"
+  },
+  "producerFileSha256": {
+    "legacy-replica.mjs": "e1709ce60e2c181323d5bfd000454207fff9f9fefb15c92f8f4ad86e21ad1fd0",
+    "legacy-browser-builder.mjs": "0edeb1d5170cb9ac63038aee94664f270a06bbdc708557374252cdb49ee7183a",
+    "legacy-replica.test.mjs": "20b2c7251005fbbf505642ded863d55c6663639aa3ea0b61ea069f0b5bcb84e9",
+    "snapshot.mjs": "917ce8ea19aa33870daece97824f625d0b1bcb252a4d908c3efe8fb1e48e40d3"
+  },
+  "cleanup": {"privatePayloadReferencesCleared": true, "privateObjectGroupReleased": true, "inertLegacyTabClosed": true, "storageWritten": false, "driveWritten": false, "writerCopied": false},
+  "limits": {"otherProfilesChecked": false, "remoteLegacyInclusionIndependentlyProvenByThisComparison": false, "newWriterUploaded": false, "freshOriginVerified": false, "physicalDeviceVerified": false, "productionAppExecuted": false, "productionChanged": false},
+  "deviceAvailability": {"userReportedIPhoneUnavailableNow": true, "deviceTrialPerformed": false}
+}

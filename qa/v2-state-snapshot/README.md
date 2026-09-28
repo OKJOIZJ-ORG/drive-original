@@ -111,3 +111,31 @@ collector after an additional unbudgeted wait. No credential/media owner or
 storage is changed by the wrapper. The actual passing run held only refresh;
 sync/retry restoration is reviewed logic, not separately proven live behavior.
 The result is controlled read evidence, not ordinary concurrent write acceptance.
+
+## Old-origin local replica
+
+`legacy-replica.mjs` and `legacy-browser-builder.mjs` provide separate read-only
+private transport and safe comparison functions;11focused tests pass. The builder
+tree-shakes maintained named imports with the project's existing esbuild, keeping
+the original validator and excluding the remote collector. No dependency is added.
+
+Build public sources with `buildLegacyReadFunction()`/`buildLegacyCompareFunction()`.
+Reader requires the exact inert production `/drive-original/version.json` path,
+known candidate Drive permissionId and trusted current/readOnly fence. It reads
+only that account cache plus optional writer key, twice, validates8MiB/schema/raw
+types and rejects absence instead of normalizing it to empty success. Its return
+is PRIVATE: keep raw text/IDs only in CUA memory, with no log/file/hash/export.
+
+Comparator runs locally in the current candidate main world, even in background.
+It reuses actual app normalizer/merge with candidate account/generation/controller,
+readOnly/loaded/idle/retirement/projection/cache/writer fences and returns aggregates
+only. `passed` means valid comparison; `candidateProjectionIncludesLegacy` is the
+preservation verdict. Neither flag grants writes or proves a remote upload.
+
+`legacy-live-rc10-results.json` records the actual matching-account old cache:
+7liked/48unliked/119viewed are fully included in candidate8/48/131, adding/changing
+no semantic entry or updatedAt. Writer IDs exist and differ, without copying them.
+Both private captures are raw/writer equal; candidate owner stays current. Only
+the10303-byte payload size is exported, not raw state/digests. Temporary references
+and remote object group are cleared and inert tab closed. Other profiles, fresh
+origin, remote persistence and physical-device acceptance remain distinct.

@@ -101,3 +101,30 @@ stay false. Candidate writes remain disabled. Natural provider expiry, sleep/wak
 actual priority/full-format media and physical iPhone gates are separate.
 The user requested simple device-wide silence: Windows default playback volume
 was set7%to0% and independently read back0; no per-video mute loop is needed.
+
+## Actual old-origin cache comparison — 2026-09-28 19:05
+
+The same connected user Chrome profile opens only production version.json;
+1.21.0 and absent product app bindings confirm an inert read surface. A private
+expected candidate account/owner fence supplies exactly one account cache key
+and optional writer key. Two capture calls each validate repeated raw cache/writer
+reads, strict schema/types/8MiB. The10303UTF8-byte legacy replica stays unchanged
+through comparison, and candidate account/auth/data/SW/readOnly/retirement ownership
+remains current. No other account keys, credentials or installed-app files are read.
+
+Actual candidate normalize/merge finds legacy7liked/48unliked/119viewed fully
+included in candidate8/48/131, with0added/changed entries and no updatedAt change.
+Both writer IDs are present and different, but neither is copied. Eleven tests
+cover unchanged storage, absent cache, owner pre-read exclusion, raw validation,
+unlike tie/latest-view semantics and generated background/controller/cache fences.
+Root reviewed critical guards and confirmed exact executed public source hashes.
+Builder tree-shakes maintained imports with existing esbuild, avoiding unrelated
+remote collector code in the inert page. Evidence legacy-live-rc10-results.json.
+
+Only safe aggregates leave CUA: raw payload/account/writer remain in memory during
+transport, then references are cleared; remote owner group released and inert tab
+closed. No product, storage, Drive/appData or production writes. This proves this
+profile's legacy-local inclusion, not independently remote legacy persistence,
+new/fresh origin, other profiles, physical devices or complete migration.
+writeAuthorization/remoteVerified/deviceVerified stay false. User cannot perform
+an iPhone trial now; preserve that gate without blocking independent desktop work.

@@ -1,4 +1,4 @@
-# Checkpoint — old-origin replica preserved — 2026-09-28 19:06
+# Checkpoint — actual natural credential renewal — 2026-09-28 18:56
 
 ## The story so far
 
@@ -28,13 +28,6 @@ changes no clock/credential/product timer and is stopped/released. See the later
 section of Q1-LIVE-20260928.md and qa/q1-live-rc10/renewal-results.json.
 This does not explain the old299s failure or prove sleep/wake/iPhone/hour-long runs.
 
-Same user Chrome's old production origin account cache is read through inert
-version.json, without running the old app/sync. Legacy7liked/48unliked/119viewed
-is fully included in candidate8/48/131; two raw/writer captures stay equal,
-writer IDs differ, and no write/copy occurs. New QA helper/builder11tests and
-exact executed public source hashes pass. Private references/group and inert tab
-are removed. See STATE-SNAPSHOT-20260928.md/legacy-live-rc10-results.json.
-
 ## Decided
 
 D-054 continues approved work by evidence; D-050 authority is unchanged.
@@ -45,18 +38,19 @@ The user revoked temporary silence; do not adjust volume further.
 
 ## Waiting on the user
 
-No PC login step is pending. User explicitly reports iPhone verification is not
-available now; leave actual device acceptance unverified and continue independent
-desktop work. Do not immediately repeat the same device request.
+No PC login step is pending. Physical iPhone/second-device acceptance is outside
+these desktop tools; prepare a concrete device trial after independent work.
 Production approval remains a later boundary.
 
 ## Next first action
 
-Read the bounded dependency audit of actual D-050/D-051 state/write gates, then
-select the smallest independent authorized next unit. Separate disposable file
-operations from appData synchronization; do not open a global write switch merely
-to run a test. Additional remote/fresh-state provenance or current corpus reads
-remain possible without physical iPhone. Candidate write gate stays false.
+Privately inspect old-origin account-local state through a verified inert same-
+origin asset, without starting the production application or its sync. Compare
+account/projection/pending provenance in-browser and export only safe aggregates;
+retain the write gate until full migration conditions are actually met.
+The connected inert legacy tab275136804 confirms1.21.0/product app absent.
+New QA-only legacy helper/builder tests11pass; its private read/compare execution
+is next, using expected candidate account/owner without printing raw payload.
 
 ## Tried
 
