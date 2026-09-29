@@ -1,0 +1,502 @@
+{
+  "passed": 5,
+  "observations": [
+    {
+      "name": "ack-backpressure",
+      "elapsedMs": 1158.9003,
+      "result": {
+        "generation": 1,
+        "duration": 13.671333333333333,
+        "sourcePacketOrigin": 1.4,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 1.4,
+        "policy": null,
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 924,
+        "outputBytes": 850520,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 149604,
+        "encodersCreated": 0,
+        "inputFormat": "MPEG Transport Stream",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 10521,
+          "requests": 30,
+          "bytes": 1917600,
+          "cacheHits": 10519,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            }
+          ],
+          "failure": null
+        }
+      },
+      "acks": 56,
+      "active": 0,
+      "peak": 1
+    },
+    {
+      "name": "packet-buffer-cap",
+      "elapsedMs": 151.135,
+      "error": {
+        "message": "GENERAL_PACKET_BUFFER_LIMIT",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 5648,
+          "requests": 16,
+          "bytes": 1024336,
+          "cacheHits": 5646,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            }
+          ],
+          "failure": null
+        }
+      },
+      "acks": 1,
+      "active": 0,
+      "peak": 1
+    },
+    {
+      "name": "ack-timeout",
+      "elapsedMs": 177.23929999999996,
+      "error": {
+        "message": "GENERAL_ACK_TIMEOUT",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 6439,
+          "requests": 18,
+          "bytes": 1155408,
+          "cacheHits": 6437,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "acks": 1,
+      "active": 0,
+      "peak": 1
+    },
+    {
+      "name": "pending-ack-cancel",
+      "elapsedMs": 129.33230000000003,
+      "error": {
+        "message": "GENERAL_ACK_CANCELLED",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 6439,
+          "requests": 18,
+          "bytes": 1155408,
+          "cacheHits": 6437,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "acks": 1,
+      "active": 0,
+      "peak": 1
+    },
+    {
+      "name": "read-deadline",
+      "elapsedMs": 53.836900000000014,
+      "error": {
+        "message": "GENERAL_TIME_LIMIT",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 1,
+          "requests": 1,
+          "bytes": 65536,
+          "cacheHits": 0,
+          "peakRetained": 0,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            }
+          ],
+          "failure": "GENERAL_TIME_LIMIT"
+        }
+      },
+      "acks": 0,
+      "active": 0,
+      "peak": 1
+    }
+  ]
+}

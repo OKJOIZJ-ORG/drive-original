@@ -1,0 +1,46 @@
+{
+  "recordedAt": "2026-09-28T21:04:55.827Z",
+  "scope": "Source packaging and rebuild only; no media trials repeated, no Git/publication/deployment changes",
+  "archive": {
+    "path": "licenses/mediabunny-q1-preferred-source.tgz",
+    "sha256": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "bytes": 457141,
+    "files": 82,
+    "runtime": {
+      "path": "media/mediabunny-q1.mjs",
+      "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+      "bytes": 686739
+    },
+    "sourceCoverage": {
+      "upstreamSrcFiles": 66,
+      "modifiedFiles": 8,
+      "sharedFiles": 5,
+      "unmodifiedSourceMatchesPinnedArchive": true,
+      "allModifiedSourceMatchesManifest": true
+    },
+    "deterministicHeaders": true
+  },
+  "rebuild": {
+    "passed": true,
+    "runtimeSha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "runtimeBytes": 686739,
+    "checkedSourceFiles": 81,
+    "preferredSourceVersion": "mediabunny-1.60.0-drive-original-q1",
+    "buildToolBinarySha256": "25ada918ce6f8bd4d9f6ee1dff59ba5985197df6123f2cb468f06c102c074949"
+  },
+  "verification": {
+    "all66UpstreamSourceFilesAccountedFor": true,
+    "eightModifiedSourceHashesMatched": true,
+    "fiveSharedSourceHashesMatched": true,
+    "unmodifiedSourcesAndUpstreamLicenseMatched": true,
+    "directExtractedSourceRebuildMatchedTestedRuntime": true,
+    "deterministicRepackMatchedIdenticalArchiveBytes": true
+  },
+  "excludedFromSourceDownload": [
+    "compiled runtime duplicate",
+    "upstream dist bundles",
+    "esbuild executable or SDK cache",
+    "QA fixture media",
+    "private or account data"
+  ]
+}

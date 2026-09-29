@@ -1,0 +1,84 @@
+[
+  {
+    "name": "qa/v2-07b-ts-q1/synthetic-bframes-audiolead.ts",
+    "output": "qa/q1-general-product-preparation/product-ts.mp4",
+    "clocks": [
+      {
+        "type": "video",
+        "packets": 360,
+        "ptsExact": true,
+        "dtsExact": true,
+        "sourceEdit": [
+          "0",
+          "1"
+        ],
+        "outputEdit": [
+          "0",
+          "1"
+        ]
+      },
+      {
+        "type": "audio",
+        "packets": 564,
+        "ptsExact": true,
+        "dtsExact": true,
+        "sourceEdit": [
+          "0",
+          "1"
+        ],
+        "outputEdit": [
+          "0",
+          "1"
+        ]
+      }
+    ],
+    "coded": {
+      "codedPictureNalsEqual": true,
+      "nonParameterNalsEqual": true,
+      "parameterSetPopulationEqual": true,
+      "aacPayloadsEqual": true
+    },
+    "passed": true
+  },
+  {
+    "name": "qa/q1-clock-color-integrity/b-negative-cto.mp4",
+    "output": "qa/q1-general-product-preparation/product-signed-cto.mp4",
+    "clocks": [
+      {
+        "type": "video",
+        "packets": 144,
+        "ptsExact": true,
+        "dtsExact": true,
+        "sourceEdit": [
+          "191",
+          "750"
+        ],
+        "outputEdit": [
+          "0",
+          "1"
+        ]
+      },
+      {
+        "type": "audio",
+        "packets": 283,
+        "ptsExact": true,
+        "dtsExact": true,
+        "sourceEdit": [
+          "0",
+          "1"
+        ],
+        "outputEdit": [
+          "0",
+          "1"
+        ]
+      }
+    ],
+    "coded": {
+      "codedPictureNalsEqual": true,
+      "nonParameterNalsEqual": true,
+      "parameterSetPopulationEqual": true,
+      "aacPayloadsEqual": true
+    },
+    "passed": true
+  }
+]

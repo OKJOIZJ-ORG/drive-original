@@ -1,0 +1,46 @@
+Failed to load resource: the server responded with a status of 404 (Not Found)
+COLOR {"matrix":"bt709","fullRange":false}
+Failed to load resource: net::ERR_INSUFFICIENT_RESOURCES
+result false {
+  audioMetrics: {
+    opened: 1,
+    closed: 1,
+    liveContexts: 0,
+    pendingOpens: 0,
+    inFlightDecode: 0,
+    decodedPackets: 106,
+    decodedFrames: 162816,
+    transferredPcmBytes: 1302528,
+    failures: 0,
+    peakPacketBytes: 2560,
+    peakPcmBytes: 12288,
+    peakHeapBytes: 33554432,
+    moduleLoading: false,
+    heapBytes: 33554432
+  },
+  audioCleanup: {
+    settled: true,
+    liveContexts: 0,
+    pendingOpens: 0,
+    moduleLoading: false
+  },
+  message: 'Q1_SOURCE_READ_FAILED',
+  cleanup: {
+    settled: true,
+    pendingCallbacks: 0,
+    cleanupPending: 0,
+    cleanupFailed: false
+  },
+  reads: {
+    requests: 7,
+    bytes: 458752,
+    logicalReads: 169,
+    cacheHits: 175,
+    peakCache: 262144,
+    inFlight: 0,
+    peakInFlight: 1,
+    peakQueued: 1,
+    discoveryBytes: 65536,
+    discoveryRequests: 1
+  }
+}

@@ -1,0 +1,2 @@
+const fs=require('node:fs'),path=require('node:path');let s=fs.readFileSync(path.join(__dirname,'capture.cjs'),'utf8');
+s=s.replace('[false,true]','[true]').replace('sb.appendWindowEnd=6','sb.appendWindowEnd=6+312/48000').replace("(bounded?'bounded':'baseline')","'compensated'").replace("'capture-results.json'","'capture-compensated-results.json'");fs.writeFileSync(path.join(__dirname,'capture-compensated.cjs'),s);

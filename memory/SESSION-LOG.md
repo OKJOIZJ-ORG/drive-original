@@ -565,3 +565,11 @@ Observed WebM original playback/midpoint/EOF/close pass, largeISO Q0 decode/10% 
 - Local rc.14 uses a page-retained immutable revision for native Range and full-original recovery. The first bounded acquisition is acknowledged before bytes; restart/refresh/retry cannot adopt latest. Explicit source/consumer retirement blocks unknown cleanup.
 - Independent actual app/SW tests and native Chrome decode/90% seek/close pass their recorded scope. Cold-controller account-key and stale resource-key/header findings were reproduced and fixed. Exact raw attempts are preserved in qa/q0-provider-product; the full rc.14 suite and candidate evidence remain separately owned.
 - Candidate remains rc.13 until the new committed assets and deployment are verified. Q1 general packet copy and Q2 source-built stereo audio preparations continue with corresponding-source publication and app integration. Physical devices, broad formats, production and paused automation stay explicit.
+
+
+## 2026-09-30 - Final local Q1/Q2 integration and synthetic Q3 feasibility
+
+- Continued the directly authorized handoff in the 6.1 Sol chat. Q3 bounded synthetic build/browser3/3/native oracle2/2 is saved at5af7cdf, with lossy VP9 and actual corpus/product/device limits.
+- Independent discriminators found early probe retirement, Q2-budget poisoning native AAC, HTML/WebCodecs support conflation and pending capability cancellation. Their responsible layers are fixed; final narrow review is clean. Current stable product Node557/557 and final synthetic-provider Chrome3/3 pass; prior failures/raw source hashes remain retained.
+- Exact source preparation checks81Q1 materials/seven Q2 parts/current readable adapters,51public/40cached/eight uncached source archives and license links. The fixed candidate publication/readback is next; distribution readiness remains gated on that HTTP evidence.
+- Actual account Chrome bridge focus operations time out. Known ADB paths and present-device inventory yielded no usable Android path. Current account/device/background/full69 acceptance stays open. Production/main/push/automation/original media/volume remain unchanged.

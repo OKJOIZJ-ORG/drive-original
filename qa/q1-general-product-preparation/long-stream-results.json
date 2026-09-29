@@ -1,0 +1,47 @@
+{
+  "size": 37684600,
+  "maxRead": 65536,
+  "closed": true,
+  "result": {
+    "generation": 1,
+    "duration": 361.46666666666664,
+    "sourcePacketOrigin": 1.4453333333333334,
+    "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+    "targetTime": 0,
+    "windowOrigin": 1.4453333333333334,
+    "policy": null,
+    "videoCodec": "avc",
+    "audioCodec": "aac",
+    "packets": 27676,
+    "outputBytes": 34199140,
+    "peakPendingAcks": 1,
+    "peakBufferedPacketBytes": 204986,
+    "admission": {
+      "kind": "ts",
+      "packetStride": 188
+    },
+    "muxRetention": {
+      "bytes": 0,
+      "samples": 0,
+      "peakBytes": 213312,
+      "peakSamples": 157
+    },
+    "encodersCreated": 0,
+    "inputFormat": "MPEG Transport Stream",
+    "cleanup": {
+      "settled": true
+    },
+    "reads": {
+      "requests": 596,
+      "bytes": 38931184,
+      "logicalReads": 206234,
+      "cacheHits": 206217,
+      "peakCache": 262144,
+      "inFlight": 0,
+      "peakInFlight": 1,
+      "peakQueued": 1,
+      "discoveryBytes": 1312120,
+      "discoveryRequests": 21
+    }
+  }
+}

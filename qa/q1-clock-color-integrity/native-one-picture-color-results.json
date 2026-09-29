@@ -1,0 +1,245 @@
+{
+  "recordedAt": "2026-09-28T20:21:20.462Z",
+  "scope": "isolated native Chrome local synthetic fixtures only",
+  "browserVersion": "153.0.8010.54",
+  "sourceHashes": {
+    "native.mjs": "1861b20e1b1b445735863f919abe2158bc0e04f09e58959a6e4cbb309aca7061",
+    "q1-pipeline.mjs": "a955f3fcd1086bf4d00404850a6092cd84f61b079b3fae915f5c658b7b3712b2",
+    "common-source.mjs": "1ef8b487aad7422e6672ea49393626951f00fbf6407a5122135d5aba28286ada",
+    "vendor/mediabunny.min.mjs": "dd8606477694cb6cc64b15d3eb3fbb1501991ef414a7b809561c5c1c874bff26"
+  },
+  "observations": [
+    {
+      "name": "one-picture-color",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "windowOrigin": -0.021333333333333333,
+        "sourceEndTimestamp": 6,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": -0.021333333333333333,
+        "elementStart": 0.021333333333333333,
+        "elementEnd": 6.021333333333334,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": -0.021333333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 284,
+        "outputBytes": 61228,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 57801,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 60360,
+          "logicalReads": 287,
+          "requests": 1,
+          "bytes": 60360,
+          "cacheHits": 289,
+          "peakRetained": 60360,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 60359
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [],
+      "appends": 8,
+      "acks": 8,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 0.8313333333333334,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 3.131333333333333,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 5.131333333333334,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "name": "one-picture-color",
+      "start": 0,
+      "end": 60359
+    }
+  ]
+}

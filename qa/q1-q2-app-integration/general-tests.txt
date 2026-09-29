@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: preflight rejects expanded stts and ctts counts before worker window or packet reads
+ok 1 - preflight rejects expanded stts and ctts counts before worker window or packet reads
+  ---
+  duration_ms: 3.6511
+  type: 'test'
+  ...
+# Subtest: strict admission rejects changed codec and external data reference
+ok 2 - strict admission rejects changed codec and external data reference
+  ---
+  duration_ms: 0.2603
+  type: 'test'
+  ...
+# Subtest: bounded original bytes seek from RAP and chunk batches preserve source clocks without encoders
+ok 3 - bounded original bytes seek from RAP and chunk batches preserve source clocks without encoders
+  ---
+  duration_ms: 23.6579
+  type: 'test'
+  ...
+# Subtest: read timeout closes source and drain; consumer cancellation terminates exactly one worker
+ok 4 - read timeout closes source and drain; consumer cancellation terminates exactly one worker
+  ---
+  duration_ms: 164.41
+  type: 'test'
+  ...
+# Subtest: original source fault settles worker and does not leak private error text
+ok 5 - original source fault settles worker and does not leak private error text
+  ---
+  duration_ms: 49.3609
+  type: 'test'
+  ...
+# Subtest: streaming throughput exceeds former lifetime caps with bounded fragment retention
+ok 6 - streaming throughput exceeds former lifetime caps with bounded fragment retention
+  ---
+  duration_ms: 1167.8062
+  type: 'test'
+  ...
+# Subtest: in-band AVC configuration change is rejected while original parameter bytes pass
+ok 7 - in-band AVC configuration change is rejected while original parameter bytes pass
+  ---
+  duration_ms: 0.8066
+  type: 'test'
+  ...
+# Subtest: duplicate allocation-driving tables reject before expansion
+ok 8 - duplicate allocation-driving tables reject before expansion
+  ---
+  duration_ms: 0.3103
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1524.6219

@@ -1,0 +1,649 @@
+{
+  "scope": "EAC3 stereo QA only; new explicit codec bridge with preserved historical evidence",
+  "excluded": [
+    "local tmp/**",
+    "parent build-investigation/work/** tool/cache tree"
+  ],
+  "files": [
+    {
+      "path": "media/drive-source.mjs",
+      "bytes": 14557,
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "path": "qa/faststart-h264-aac.mp4",
+      "bytes": 202253,
+      "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079"
+    },
+    {
+      "path": "qa/media-general-routing/common-source.mjs",
+      "bytes": 4858,
+      "sha256": "1ef8b487aad7422e6672ea49393626951f00fbf6407a5122135d5aba28286ada"
+    },
+    {
+      "path": "qa/media-general-routing/timeline-policy.mjs",
+      "bytes": 11401,
+      "sha256": "78bd49c320fcd5838e926664b62bbb4c12142015f45d68f014ddaa6cce36147a"
+    },
+    {
+      "path": "qa/media-general-routing/vendor/mediabunny-1.60.0.tgz",
+      "bytes": 2162162,
+      "sha256": "c08cb56b40af19fc02e7aa9fccd814d19ff614f22349a0275f6c5aea982fa266"
+    },
+    {
+      "path": "qa/media-general-routing/vendor/mediabunny.min.mjs",
+      "bytes": 684785,
+      "sha256": "ea3f1a537e64aa99e1e5af7d066977d4fac90bc6d71617200b4ab8147fb17f5a"
+    },
+    {
+      "path": "qa/media-general-routing/worker-owner.mjs",
+      "bytes": 6396,
+      "sha256": "c1f1c39be0dd54be6ebcd8e634d4510f0310ebd6df2419eca2ca9324250d3e7b"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/build-investigation/sources/emscripten-09f52557f0d48b65b8c724853ed8f4e8bf80e669.tar.gz",
+      "bytes": 34336891,
+      "sha256": "b6d77005685756a5ba3cfcddadc217782edf6fa4ec8fd645786ee3ad63e6060f"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/build-investigation/sources/emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1.tar.gz",
+      "bytes": 203172,
+      "sha256": "cdaa3bc973c609d9b0b1dab72de52f0b60427e6b95e30eecf9ec014514dddc67"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/build-investigation/sources/ffmpeg-140fd653aed8cad774f991ba083e2d01e86420c7.tar.gz",
+      "bytes": 16424114,
+      "sha256": "5c4a9e51e706b8deba835f02ea70e1e1101187f601adae72b36ec2b17b6f15be"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/build-investigation/sources/make-4.4.1-3-x86_64.pkg.tar.zst",
+      "bytes": 514683,
+      "sha256": "af0bdba17f06fe037f0194069adaa31a8fe45f1a11381501896aea1fae37bd5d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/attempt-corrupt-serializer/browser-audit.cjs",
+      "bytes": 7563,
+      "sha256": "257bef141542ce49087d851e635ef9e467877d4f46881f2d55183f8b7a5e5908"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/attempt-corrupt-serializer/browser-results.json",
+      "bytes": 91395,
+      "sha256": "efbd4241caeb54d75cf6866d7c6b7c3321be0bd4525c01487a1399a0ae4e4a68"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/attempt-corrupt-serializer/decoder.mjs",
+      "bytes": 3877,
+      "sha256": "94eb48a68472cfa9f08d775c2a74da5b21c067070496c8f1fbe2dea6c203cdef"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/attempt-corrupt-serializer/pipeline.mjs",
+      "bytes": 12125,
+      "sha256": "08fab70dd3ad17610353d61532321ed04071647f3d73d62c630998214665dab9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/attempt-corrupt-serializer/worker.mjs",
+      "bytes": 2974,
+      "sha256": "ab9f2d5f5e3c9e48fa4825b72a961622416ca9865e12bb6b6ce8a04444b9e8af"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/bridge.c",
+      "bytes": 3593,
+      "sha256": "ed20ca8a05f1511117354fe136086243b857130152ec0544bebbae8e12f0ccbc"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/bridge.o",
+      "bytes": 10504,
+      "sha256": "a27bd1531b208d95639ff031cd3df568ed1ed1fad88f22eca7f84ffbd00eb2f9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/browser-audit.cjs",
+      "bytes": 7965,
+      "sha256": "ea47372cfd25c2a6357d072036cc63c324a267a5497e4506c731a66a26044b5a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/browser-initial-11.json",
+      "bytes": 85488,
+      "sha256": "f0f919780019ddb48ef8f0fa5057c93e09efbd618097d27df1bf7dd382a4ff13"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/browser-results.json",
+      "bytes": 93701,
+      "sha256": "fd34107dbf6d79d61b24cae7882657b2524b6645061f3f596f00d794bb01fffa"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/build-1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/build-2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/build-before.json",
+      "bytes": 387,
+      "sha256": "ff621c082ca7011b72b09b68a884e9a64f6dc8080fb42c58f1982daa0aa479e7"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/build.sh",
+      "bytes": 977,
+      "sha256": "8ad8d9b3e8cabcbb9d420afa69df2104a810857e5ba0cd571f06841ddfece241"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/capabilities.cjs",
+      "bytes": 2005,
+      "sha256": "701375c17d6e0050f0f7a80e77b7084d4bd189a7a0d319862aa70151b7f451bc"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/capability-results.json",
+      "bytes": 1946,
+      "sha256": "8bb5341650a97820feed62ab713f60ffe49e39b1dd2f6226375af7237f5a78f0"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/codec.mjs",
+      "bytes": 15181,
+      "sha256": "85847e223dd71b9eb671bdb5292a583a43d48ab5da0fe6710a32ecb845b632e9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/codec.wasm",
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/corrupt-fixture-provenance.json",
+      "bytes": 329,
+      "sha256": "2f331604c54118e46aa4bd02c96c8ae964ab360e4d92e82af68907f660b25cb1"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/custom-coder.ts",
+      "bytes": 8694,
+      "sha256": "f06bcf33388e1e65d457c1acab95778e2f82366657508b4e0f5daa53fe1cb3ea"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/decoder.mjs",
+      "bytes": 4192,
+      "sha256": "6eaa196c6968620abd0e00f289d68e122819a3fcf20b1919ee298dd69197705f"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/development-observations.json",
+      "bytes": 1373,
+      "sha256": "f673bb7a2dfdd8a69744ffc18875993f8bf383ebc4555165267863cd1b65ed7e"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fault-debug-results.json",
+      "bytes": 7386,
+      "sha256": "497796600e52daa21b68fb754490bf1fcf60f805eb78345c2ef150e47bba0dcb"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fault-debug.cjs",
+      "bytes": 7763,
+      "sha256": "d0f49ceba7e90781e47b52f23afdcdb40c25b5f3140abe9a366e25752ecc1ce6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/finalize.py",
+      "bytes": 1911,
+      "sha256": "9cbd6a4570952f3a948e2cd17423d04a8c34065fe9e37555fe2f2459122f11ac"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/first-build/bridge.o",
+      "bytes": 10504,
+      "sha256": "a27bd1531b208d95639ff031cd3df568ed1ed1fad88f22eca7f84ffbd00eb2f9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/first-build/codec.mjs",
+      "bytes": 15181,
+      "sha256": "85847e223dd71b9eb671bdb5292a583a43d48ab5da0fe6710a32ecb845b632e9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/first-build/codec.wasm",
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fixture-provenance.json",
+      "bytes": 2495,
+      "sha256": "b2dc1711a78f9d6166de4f3be5dc916613c8d34609f3fb82efb161fc6f7c6875"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fixture.html",
+      "bytes": 120,
+      "sha256": "1ed7ad7b160b55d0c8478bdb9b4c307afeb8aec506c3cd67f5041a07c4545590"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fixture.mjs",
+      "bytes": 10158,
+      "sha256": "68b768b480f56af0cb113fd4594375e7ceb9c52f82681f4d357507e58e2f41f6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/fixtures.py",
+      "bytes": 1208,
+      "sha256": "1383fe48cbae912d89f1f8974d85380144af91cf2dc8dcd29b326c01970a1fe1"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/historical-integrity.json",
+      "bytes": 276,
+      "sha256": "f97b588446e6193f130f70727cb69d603b4a32d4a635a58e80412d1fada4e6d1"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/inspect-wasm.cjs",
+      "bytes": 920,
+      "sha256": "23970dc85df50047a8559ae9f60b2ff15719c229356878c47157178c163669f9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/media-sink.ts",
+      "bytes": 89525,
+      "sha256": "e2026a5a3e31ae45ce64429c9b81a4377fa87dc0102fccbf9c903fe31e7141b2"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/memory-audit.cjs",
+      "bytes": 5719,
+      "sha256": "b0f300527379332675e6968f23422cd430166740ac245997c49d647ab91dc3d4"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/memory-fixture.html",
+      "bytes": 97,
+      "sha256": "07650c925f4ad5c6be1b5b5411bfe138deb5c3ae2dfdeb81ce3c6a38d8954601"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/memory-fixture.mjs",
+      "bytes": 6334,
+      "sha256": "5540519f7f7bfb3bea3f7148d2421a7373427e276c78733fc537940822802989"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/memory-initial-2.json",
+      "bytes": 32549,
+      "sha256": "df6171b971515700d6debe75b5e1ab36cde979f026377b55cfc33d3ddfdcca01"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/memory-results.json",
+      "bytes": 33708,
+      "sha256": "663da3c4732608544830335bea33ded1ee22bbf43a421bcbe8dbeba34ceb4061"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/notices/compiler-rt-LICENSE.txt",
+      "bytes": 16708,
+      "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/notices/Emscripten-LICENSE.txt",
+      "bytes": 5093,
+      "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/notices/FFmpeg-LGPL-2.1.txt",
+      "bytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/notices/MPL-2.0.txt",
+      "bytes": 16726,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/notices/musl-COPYRIGHT.txt",
+      "bytes": 6204,
+      "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/oracle-ac3-results.json",
+      "bytes": 3628,
+      "sha256": "73bf3f52e19c6bccca032658c20231bd2b26199ed726cf46abb5267474786965"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/oracle-ac3.log",
+      "bytes": 2728,
+      "sha256": "3e7bfb61f489d59b2a8ada7e0fe0ea0bdd4a6df610c4af446d472f1b7d1a7190"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/oracle-eac3-results.json",
+      "bytes": 3630,
+      "sha256": "f396bdc1e2841ce9160eec7dade6bb1cc66ffadd6832d4933b44f22e50809e6b"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/oracle-eac3.log",
+      "bytes": 2730,
+      "sha256": "fb84b0a6ed3e1514e0bbb1729cd3fa4649466ffa17a239208b52d835897ef8c1"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/oracle.py",
+      "bytes": 4295,
+      "sha256": "0a2aa471507a07ea0c7e424c1927186c26e1fb451efd3d2fb8e6dd4c45656794"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-ac3-0.mp4",
+      "bytes": 444270,
+      "sha256": "7584e9d937e8980ac72c9df460be0c047c6b4d6848246c14213f62fc3c021003"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-eac3-0.mp4",
+      "bytes": 444270,
+      "sha256": "cde312ec600b54e63f91fb90f7f0027a15002fab345960dabd5851c75b69c296"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-eac3-2.4.mp4",
+      "bytes": 300092,
+      "sha256": "7a89a2b7ad1fb604feb9c12e368f7d53629e3c3d990773cf0bb8dc79a7220384"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-eac3-5.4.mp4",
+      "bytes": 75326,
+      "sha256": "c905b2d491196145752a11480fe9b5a37b658be13b2551c92039980c62e40794"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-sparse-3.3.mp4",
+      "bytes": 227180,
+      "sha256": "86a8576e3366a2ff25b5b5c970db8ae5c30b37c9177440fda24722d7b160279f"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/output-sparse-5.4.mp4",
+      "bytes": 75326,
+      "sha256": "c905b2d491196145752a11480fe9b5a37b658be13b2551c92039980c62e40794"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/pipeline.mjs",
+      "bytes": 12166,
+      "sha256": "3496997d8d85f5a1d90f4e0bf554d56079c3a44be6cdf0d4a8d1425de9ef59b5"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/post.js",
+      "bytes": 81,
+      "sha256": "b8fea44ab4cc9bcf71ac68c8f8ee3c59b252053449a9cac2864cd2446233b386"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/preparation-history/add-guards.py",
+      "bytes": 4209,
+      "sha256": "0048487d0cfd17beabb55ad65ed6748685b0f16bcc42083d2cb6b1b7d6f8efea"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/preparation-history/prepare-harness.py",
+      "bytes": 3456,
+      "sha256": "fdd60dadff629af0cdf5217db7e553b568be526946f3901c15b5d97c6e78dc27"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/preparation-history/prepare.py",
+      "bytes": 3284,
+      "sha256": "78b4e6c2256904e0adaf10dc192a022289f92b06f5908b7745f8eab08a187e0e"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/preparation-history/README.md",
+      "bytes": 288,
+      "sha256": "b93ac2b5a8fff472548d50fe5ad6f4bac751459264ef538ea508615bbc004399"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/README.md",
+      "bytes": 9751,
+      "sha256": "04a9203872b45332bc082276edf01cefeaff9459834b578246f2a0e2b17f94cb"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/reproduction.json",
+      "bytes": 1124,
+      "sha256": "5f1ee0a788b35e38b6181f0c65ed6a9c7a8081a2a6cce57894e19af4fe944363"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-51.mp4",
+      "bytes": 683128,
+      "sha256": "01763388875e773994396a49ded1b12374f8a6295b848e9f9888798e19265e1e"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-stereo.mp4",
+      "bytes": 683128,
+      "sha256": "40ce156ee1a209d87e81c227fa2aaf7fa54558f31708d52bdbae3714e879796f"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/synthetic-corrupt-eac3.mp4",
+      "bytes": 683128,
+      "sha256": "664bb4d9b79afde01029859e52826dcd4f1b4567ea2a28a20aebd5fd8ba579f5"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/wasm-contract.json",
+      "bytes": 2765,
+      "sha256": "e7816ef869a754fbf2eed1638eecd40cf702dda0edba10875fc29996f84ec561"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/worker.mjs",
+      "bytes": 3008,
+      "sha256": "80c32daa0f0a6b9d98db26c4cc41669e161886d601707e3d8bfa39b044fc2485"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/ac3-source-build.mjs",
+      "bytes": 15110,
+      "sha256": "75c7abc9e3dcda8a610be5663f2181c315b7d30bddde20ccb59bc09d82d08a98"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/ac3-source-build.wasm",
+      "bytes": 502674,
+      "sha256": "fcc7f35e62b051ee7d418cf2abb6a99b770ca620f6702d533b1ca21c6d5492c5"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/activate.log",
+      "bytes": 3487,
+      "sha256": "2cdf0a03b736293f76a20a7b22a54cc768802c2492c04946e48d7f5b82ca7dc6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/bin/emar",
+      "bytes": 83,
+      "sha256": "2e32f1a8dff8b9b0194e608befe895171a26d1a0cbe7112ae6bda76036fba58e"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/bin/emconfigure",
+      "bytes": 90,
+      "sha256": "d182e389633a076b3c47e33fd0174099c2af0b3bd150c75b8e7696dbc528e863"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/bin/emmake",
+      "bytes": 85,
+      "sha256": "f5d37ac1b8794ac5903062fed55805e1d675ea665e12b48fcb3fe19b4ebb5ea9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/bin/emranlib",
+      "bytes": 87,
+      "sha256": "d9f3716e15bcadcaae3cb079b160754cff2b1eff59440512e1097ae53bb99a4a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/bootstrap.py",
+      "bytes": 1902,
+      "sha256": "3239b21712125370fd7e85c890ed33ea292fae5f306d1fff60ca95ee80ebf581"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/build-attempt-1.log",
+      "bytes": 4596,
+      "sha256": "64aedac01c4e81694b1a960296f88577aeb4648674ea3df13e04b5b7cdf75ba6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/build-failures.json",
+      "bytes": 1214,
+      "sha256": "426b0f6c407c10ca650195575770cc32127decae402c29dbbb359e1c2f8ac7e6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/build.sh",
+      "bytes": 1337,
+      "sha256": "e7b3b1327fc22d8aa8a3dce956cd28ceb7b7031958dfc964e4258859a87e9538"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/config.h",
+      "bytes": 23010,
+      "sha256": "52b592a4767e9de8e9011a4b321712c04107ef05e396c0885280670ec1955c34"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/config.log",
+      "bytes": 683997,
+      "sha256": "5ff3911d4d4bd1311feed60af40a80a7f8a280ded2ebf9378140c9b1b2a2b5c7"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/config.mak",
+      "bytes": 86007,
+      "sha256": "913aa6c09aad20f351823f0f37aa0a963fbd5ef46cd63ce89abbd72a5550df5f"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/config_components.h",
+      "bytes": 74588,
+      "sha256": "698b19d354f26c38e38805db5e7316502c8b12bc318339a92904fa7bb545e5c6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/configure-attempt-1.log",
+      "bytes": 3784,
+      "sha256": "fbb4dae6b75c6cc0ac293ea32d8df09127cd90e006c4953fbcc80e5088020f4d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/configure-attempt-3.log",
+      "bytes": 2096,
+      "sha256": "d0bdac68685de5647a42cfb7e1b59b2d09846607b57b2cc467623f050e4bd1ea"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/configure-attempt-4.log",
+      "bytes": 2653,
+      "sha256": "5c7d79bee1489d002128e1b7542c54cd324c8ba3715da4b67da8672128132cc4"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/configure.sh",
+      "bytes": 1220,
+      "sha256": "024e3d90ea223a33084bac573fddfb7c57090075abb9bd5ff31f51a59931eb08"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/emscripten-source.json",
+      "bytes": 414,
+      "sha256": "503a25095dfda9978c0de00481d8e522ea73bd3718d66c3d70313b9760ce02ad"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/finalize-evidence.py",
+      "bytes": 2917,
+      "sha256": "a706850989d986a9f7845667ee5a171d0326a0ff6b4c39fb8bfa9f450108312a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/historical-evidence-integrity.json",
+      "bytes": 180,
+      "sha256": "e5a3cd52863be2863e773786bef259d0402bafe49243f64900bbef50b3da6a6a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/inspect-build.cjs",
+      "bytes": 1624,
+      "sha256": "c174f68a91ea590755d4722848abad166bd38fe644785816394bcd46c6fe7487"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/libavcodec.a",
+      "bytes": 797840,
+      "sha256": "c2def1ce372127e21758dabec25e8dc749898a693ce225e0085983d370abbef6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/libavutil.a",
+      "bytes": 1442750,
+      "sha256": "2a88e626810c58c1aceb2cc366e0296723a055ee692398a22beba95f58390933"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/notices/compiler-rt-LICENSE.txt",
+      "bytes": 16708,
+      "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/notices/Emscripten-LICENSE.txt",
+      "bytes": 5093,
+      "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/notices/FFmpeg-LGPL-2.1.txt",
+      "bytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/notices/MPL-2.0.txt",
+      "bytes": 16726,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/notices/musl-COPYRIGHT.txt",
+      "bytes": 6204,
+      "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/oracle-run.log",
+      "bytes": 2728,
+      "sha256": "5f13d3684f2bf0d4ee824ba2a0ee8343e1c8f2fee45661aa6ab1560a860d76b8"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/post.js",
+      "bytes": 81,
+      "sha256": "b8fea44ab4cc9bcf71ac68c8f8ee3c59b252053449a9cac2864cd2446233b386"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/prepare-harness.py",
+      "bytes": 2238,
+      "sha256": "7bd0d7d12e9c056c6f9079fef1de6119ec20082517d40f317c6f5b115cbd2a7c"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/prepare-notices.py",
+      "bytes": 656,
+      "sha256": "af7eedaacc29d3a1cdf67b06fefd6d954fd41c07289e2171b2e5f21cd96f1c7a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/process-cleanup.json",
+      "bytes": 326,
+      "sha256": "cfb48e5440fce19ab020d5e59ed9cfe528a95a175a3dbacda7adef8b67dfc63d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/README.md",
+      "bytes": 10052,
+      "sha256": "ec4d1da393aac1bc0c831974e8c400527e8cdd40755a5864e06fdb0b316c64f6"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/record-tool-provenance.py",
+      "bytes": 1508,
+      "sha256": "1717ec7ef933e1ded887066c62d75f5fb7749ba65a0b500bbf92070dd9701d63"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/reproduce.sh",
+      "bytes": 1371,
+      "sha256": "2f1b954adb2620ab3e5e748be734a47139c688f49011a23025ca9b580158cee9"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/reproduction-before.json",
+      "bytes": 369,
+      "sha256": "7f6601727c118c9fcd8be18907c2204a911cb716f97dbd4e599b13cba2c670ec"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/reproduction-build.log",
+      "bytes": 3886,
+      "sha256": "87e59b4efb76ee06f5e12c2255a4a33fbc8fa51d80573333ec0232cb749ce075"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/tool-provenance.json",
+      "bytes": 184926,
+      "sha256": "496138c629bdf28059565d328b98985ac8b3e1b4d81fc33bbf94b15004f1f395"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/toolchain-version.txt",
+      "bytes": 336,
+      "sha256": "3617ef1e7078a56fbf53c761b445837e40355da44a5055a092bed8c0e7f991dc"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/source-build/wasm-and-reproduction.json",
+      "bytes": 3672,
+      "sha256": "dd670032f1f399ebee0b1175f15b707cb2fc20ccb3eb8ac245faa2d24be3e241"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/sourcebuilt-evidence-manifest.json",
+      "bytes": 15070,
+      "sha256": "8c72c39c757b01445cbce95ef41e4d0dffcf441e0be3848d652b18b6b0cdd451"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+      "bytes": 490614,
+      "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/synthetic-bframes-unspecified-color.mp4",
+      "bytes": 483786,
+      "sha256": "77b12047e0e9b1d7192e08a8d7d513e175a3a3aebba303afa698c53f04f9484a"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/vendor/ac3-1.60.0.tgz",
+      "bytes": 1501643,
+      "sha256": "7d8ae667f6da2ffaa2c1c6d0a5e8aa144c412ed685fba503cb646ac4a697639b"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/vendor/bridge.c",
+      "bytes": 6958,
+      "sha256": "d1b10a4c2e6be514cd9adc44bbbb85f9809d22d0d5b717f4bceabc05179c772c"
+    }
+  ]
+}

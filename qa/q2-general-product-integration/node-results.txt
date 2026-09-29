@@ -1,0 +1,34 @@
+✔ Q2 ac-3 admission requires explicit opt-in and preserves allocation guards (3.3754ms)
+✔ Q2 ec-3 admission requires explicit opt-in and preserves allocation guards (0.5467ms)
+✔ default AAC admission unchanged; unknown audio entries never become opt-in (0.4453ms)
+✔ Q2 container failure drains source without producing a window or output (2.1819ms)
+✔ fixed stereo profile and copied immutable source-window clock (1.5315ms)
+✔ cancel during delayed module open allocates no late native context (7.7965ms)
+✔ decode failure frees actual owned context exactly once; timestamps unchanged (1.4415ms)
+✔ concurrent native context rejected; cumulative PCM may exceed 8MiB (14.7658ms)
+✔ packet bound failure closes; rejected decode never changes channel count (0.5377ms)
+✔ Mediabunny adapter reports corrupt packet without poisoning serialized close (0.9775ms)
+✔ adapter disposal while init is delayed cancels late native open (0.4762ms)
+✔ Worker transfer preserves source buffer; PCM ACK follows consumption (3.2026ms)
+✔ Worker close during PCM consumption waits for abort-aware consumer and native close (21.6975ms)
+✔ Worker delayed-open cancellation never allocates a late native context (1.9222ms)
+✔ uncooperative PCM consumer fails cleanup visibly without inventing drain (60.9975ms)
+✔ close drains decode already waiting for a delayed module without late allocation (0.7257ms)
+✔ Worker module-open failure automatically drains and terminates (0.5696ms)
+✔ cancel on arriving PCM prevents a stale consumer callback (0.6002ms)
+✔ preflight rejects expanded stts and ctts counts before worker window or packet reads (5.8833ms)
+✔ strict admission rejects changed codec and external data reference (0.7866ms)
+✔ bounded original bytes seek from RAP and chunk batches preserve source clocks without encoders (31.9097ms)
+✔ read timeout closes source and drain; consumer cancellation terminates exactly one worker (175.7867ms)
+✔ original source fault settles worker and does not leak private error text (67.5921ms)
+✔ streaming throughput exceeds former lifetime caps with bounded fragment retention (1359.3537ms)
+✔ in-band AVC configuration change is rejected while original parameter bytes pass (1.1145ms)
+✔ duplicate allocation-driving tables reject before expansion (0.3888ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1831.3737

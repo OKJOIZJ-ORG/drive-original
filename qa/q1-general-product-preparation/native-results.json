@@ -1,0 +1,3221 @@
+{
+  "browser": "153.0.8010.54",
+  "results": [
+    {
+      "name": "seed",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": -0.021333333333333333,
+            "targetSource": 0,
+            "targetElement": 0.021333333333333333,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 10,
+              "commonShift": -0.021333333333333333,
+              "targetSource": 0,
+              "targetElement": 0.021333333333333333,
+              "timestampOffset": 0
+            },
+            "appends": 11,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 9.941332666666668,
+            "peakRetainedAppendBytes": 202082,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 202253,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 11,
+              "acks": 11,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 1,
+              "duration": 10,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0,
+              "windowOrigin": -0.021333333333333333,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 10,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 620,
+              "outputBytes": 202082,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 56608,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  150,
+                  470
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 44742,
+                "peakSamples": 125
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 202253,
+                "logicalReads": 306,
+                "cacheHits": 312,
+                "peakCache": 202253,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 0.2,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 0.2,
+            "targetElement": 0.2,
+            "timestampOffset": 0
+          },
+          "frame": {
+            "mediaTime": 0.266666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 10,
+              "commonShift": 0,
+              "targetSource": 0.2,
+              "targetElement": 0.2,
+              "timestampOffset": 0
+            },
+            "appends": 11,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 8.780265,
+            "peakRetainedAppendBytes": 202139,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 202253,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 11,
+              "acks": 11,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 10,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.2,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 10,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 619,
+              "outputBytes": 202139,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 37257,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  150,
+                  470
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 25256,
+                "peakSamples": 64
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 202253,
+                "logicalReads": 306,
+                "cacheHits": 312,
+                "peakCache": 202253,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 5,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 5,
+            "targetElement": 5,
+            "timestampOffset": 4.992
+          },
+          "frame": {
+            "mediaTime": 5.066666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 10,
+              "commonShift": 0,
+              "targetSource": 5,
+              "targetElement": 5,
+              "timestampOffset": 4.992
+            },
+            "appends": 6,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.9999990000000007,
+            "peakRetainedAppendBytes": 103665,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 202253,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 6,
+              "acks": 6,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 3,
+              "duration": 10,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 5,
+              "windowOrigin": 4.992,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 10,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 310,
+              "outputBytes": 103665,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 37257,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  150,
+                  470
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 25391,
+                "peakSamples": 64
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 202253,
+                "logicalReads": 156,
+                "cacheHits": 162,
+                "peakCache": 202253,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 131072,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 9.3,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 9.3,
+            "targetElement": 9.3,
+            "timestampOffset": 8.981333333333334
+          },
+          "frame": {
+            "mediaTime": 9.333333,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 10,
+              "commonShift": 0,
+              "targetSource": 9.3,
+              "targetElement": 9.3,
+              "timestampOffset": 8.981333333333334
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0.683999,
+            "peakRetainedAppendBytes": 20521,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 136717,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 3,
+              "acks": 3,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 10,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 9.3,
+              "windowOrigin": 8.981333333333334,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 10,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 63,
+              "outputBytes": 20521,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 12495,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  150,
+                  470
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 18850,
+                "peakSamples": 63
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 136717,
+                "logicalReads": 37,
+                "cacheHits": 42,
+                "peakCache": 136717,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 131072,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 0,
+          "sourceEnd": 10,
+          "commonShift": -0.021333333333333333,
+          "targetSource": 0,
+          "targetElement": 0.021333333333333333,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 0,
+          "duration": 10,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": -0.021333333333333333,
+            "targetSource": 0,
+            "targetElement": 0.021333333333333333,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 0.2
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 0,
+          "sourceEnd": 10,
+          "commonShift": 0,
+          "targetSource": 0.2,
+          "targetElement": 0.2,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 0.2,
+          "duration": 10,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 0.2,
+            "targetElement": 0.2,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 2
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 5
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 0,
+          "sourceEnd": 10,
+          "commonShift": 0,
+          "targetSource": 5,
+          "targetElement": 5,
+          "timestampOffset": 4.992
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 5,
+          "duration": 10,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 5,
+            "targetElement": 5,
+            "timestampOffset": 4.992
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 3
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 9.3
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 0,
+          "sourceEnd": 10,
+          "commonShift": 0,
+          "targetSource": 9.3,
+          "targetElement": 9.3,
+          "timestampOffset": 8.981333333333334
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 9.3,
+          "duration": 10,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 10,
+            "commonShift": 0,
+            "targetSource": 9.3,
+            "targetElement": 9.3,
+            "timestampOffset": 8.981333333333334
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "ts",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 1.6713333333333333,
+              "targetElement": 0.2713333333333334,
+              "timestampOffset": 0
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 139841,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 1.5999999999999999,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0.256
+          },
+          "frame": {
+            "mediaTime": 0.304666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 1.6713333333333333,
+              "targetElement": 0.2713333333333334,
+              "timestampOffset": 0.256
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 1.960218,
+            "peakRetainedAppendBytes": 286743,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 7.535666666666666,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 7.535666666666666,
+            "targetElement": 6.1356666666666655,
+            "timestampOffset": 4.2666666666666675
+          },
+          "frame": {
+            "mediaTime": 6.137999,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 7.535666666666666,
+              "targetElement": 6.1356666666666655,
+              "timestampOffset": 4.2666666666666675
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0.1149983333333342,
+            "peakRetainedAppendBytes": 285556,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 12.971333333333334,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 12.971333333333334,
+            "targetElement": 11.571333333333333,
+            "timestampOffset": 10.261333333333333
+          },
+          "frame": {
+            "mediaTime": 11.604666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 12.971333333333334,
+              "targetElement": 11.571333333333333,
+              "timestampOffset": 10.261333333333333
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 139165,
+            "disposed": false,
+            "worker": {
+              "reads": 46,
+              "bytes": 2941936,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 2,
+              "acks": 2,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 46,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 13.671333333333333,
+              "sourcePacketOrigin": 1.4,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 12.971333333333334,
+              "windowOrigin": 11.661333333333333,
+              "policy": null,
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 143,
+              "outputBytes": 139165,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114843,
+              "admission": {
+                "kind": "ts",
+                "packetStride": 188
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 136976,
+                "peakSamples": 143
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MPEG Transport Stream",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 46,
+                "bytes": 2941936,
+                "logicalReads": 15888,
+                "cacheHits": 15885,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 2835104,
+                "discoveryRequests": 44
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 1.6713333333333333,
+          "targetElement": 0.2713333333333334,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 1.6713333333333333,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 1.5999999999999999
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 1.6713333333333333,
+          "targetElement": 0.2713333333333334,
+          "timestampOffset": 0.256
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 1.6713333333333333,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0.256
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 7.535666666666666
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 7.535666666666666,
+          "targetElement": 6.1356666666666655,
+          "timestampOffset": 4.2666666666666675
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 7.535666666666666,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 7.535666666666666,
+            "targetElement": 6.1356666666666655,
+            "timestampOffset": 4.2666666666666675
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 12.971333333333334
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 12.971333333333334,
+          "targetElement": 11.571333333333333,
+          "timestampOffset": 10.261333333333333
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 12.971333333333334,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 12.971333333333334,
+            "targetElement": 11.571333333333333,
+            "timestampOffset": 10.261333333333333
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "vfr",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.254666666666667,
+              "commonShift": 0,
+              "targetSource": 0.25466666666666665,
+              "targetElement": 0.25466666666666665,
+              "timestampOffset": 0
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.9693323333333335,
+            "peakRetainedAppendBytes": 256175,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 259047,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 4,
+              "acks": 4,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 1,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 6.254666666666667,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 427,
+              "outputBytes": 256175,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 68097,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  283
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 155
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 259047,
+                "logicalReads": 284,
+                "cacheHits": 290,
+                "peakCache": 259047,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 0.2,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.23466666666666666
+          },
+          "frame": {
+            "mediaTime": 0.321332,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.254666666666667,
+              "commonShift": 0,
+              "targetSource": 0.25466666666666665,
+              "targetElement": 0.25466666666666665,
+              "timestampOffset": 0.23466666666666666
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.9693323333333335,
+            "peakRetainedAppendBytes": 253413,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 259047,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 4,
+              "acks": 4,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.2,
+              "windowOrigin": 0.23466666666666666,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 6.254666666666667,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 416,
+              "outputBytes": 253413,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 68097,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  283
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 144
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 259047,
+                "logicalReads": 281,
+                "cacheHits": 287,
+                "peakCache": 259047,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 3.1273333333333335,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 3.1273333333333335,
+            "targetElement": 3.1273333333333335,
+            "timestampOffset": 2.24
+          },
+          "frame": {
+            "mediaTime": 3.188,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.254666666666667,
+              "commonShift": 0,
+              "targetSource": 3.1273333333333335,
+              "targetElement": 3.1273333333333335,
+              "timestampOffset": 2.24
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 1.0966656666666665,
+            "peakRetainedAppendBytes": 172435,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 259047,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 3,
+              "acks": 3,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 3,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 3.1273333333333335,
+              "windowOrigin": 2.24,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 6.254666666666667,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 274,
+              "outputBytes": 172435,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 68097,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  283
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 144
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 259047,
+                "logicalReads": 187,
+                "cacheHits": 193,
+                "peakCache": 259047,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 131072,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 5.554666666666667,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 5.554666666666667,
+            "targetElement": 5.554666666666667,
+            "timestampOffset": 4.245333333333333
+          },
+          "frame": {
+            "mediaTime": 5.587999,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.254666666666667,
+              "commonShift": 0,
+              "targetSource": 5.554666666666667,
+              "targetElement": 5.554666666666667,
+              "timestampOffset": 4.245333333333333
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 81979,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 193511,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 2,
+              "acks": 2,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 5.554666666666667,
+              "windowOrigin": 4.245333333333333,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 6.254666666666667,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 132,
+              "outputBytes": 81979,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 68097,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  283
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 79678,
+                "peakSamples": 132
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 193511,
+                "logicalReads": 93,
+                "cacheHits": 98,
+                "peakCache": 193511,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 131072,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.254666666666667,
+          "commonShift": 0,
+          "targetSource": 0.25466666666666665,
+          "targetElement": 0.25466666666666665,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 0.25466666666666665,
+          "duration": 6.254666666666667,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 0.2
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.254666666666667,
+          "commonShift": 0,
+          "targetSource": 0.25466666666666665,
+          "targetElement": 0.25466666666666665,
+          "timestampOffset": 0.23466666666666666
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 0.25466666666666665,
+          "duration": 6.254666666666667,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.23466666666666666
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 2
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 3.1273333333333335
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.254666666666667,
+          "commonShift": 0,
+          "targetSource": 3.1273333333333335,
+          "targetElement": 3.1273333333333335,
+          "timestampOffset": 2.24
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 3.1273333333333335,
+          "duration": 6.254666666666667,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 3.1273333333333335,
+            "targetElement": 3.1273333333333335,
+            "timestampOffset": 2.24
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 3
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 5.554666666666667
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.254666666666667,
+          "commonShift": 0,
+          "targetSource": 5.554666666666667,
+          "targetElement": 5.554666666666667,
+          "timestampOffset": 4.245333333333333
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 5.554666666666667,
+          "duration": 6.254666666666667,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.254666666666667,
+            "commonShift": 0,
+            "targetSource": 5.554666666666667,
+            "targetElement": 5.554666666666667,
+            "timestampOffset": 4.245333333333333
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "trim",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": -0.25066666666666665,
+            "targetSource": 0,
+            "targetElement": 0.25066666666666665,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 5.888,
+              "commonShift": -0.25066666666666665,
+              "targetSource": 0,
+              "targetElement": 0.25066666666666665,
+              "timestampOffset": 0
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.823999333333333,
+            "peakRetainedAppendBytes": 254435,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 257295,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 4,
+              "acks": 4,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 1,
+              "duration": 5.888,
+              "sourcePacketOrigin": -0.25066666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0,
+              "windowOrigin": -0.25066666666666665,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 5.888,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 22080,
+                    "firstPacketTimestamp": -0.14533333333333334
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 12032,
+                    "firstPacketTimestamp": -0.25066666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 420,
+              "outputBytes": 254435,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 123621,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  276
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 148
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 257295,
+                "logicalReads": 286,
+                "cacheHits": 296,
+                "peakCache": 257295,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 126223,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 0.2,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": -0.16533333333333333,
+            "targetSource": 0.2,
+            "targetElement": 0.36533333333333334,
+            "timestampOffset": 0
+          },
+          "frame": {
+            "mediaTime": 0.42,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 5.888,
+              "commonShift": -0.16533333333333333,
+              "targetSource": 0.2,
+              "targetElement": 0.36533333333333334,
+              "timestampOffset": 0
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.6239996666666663,
+            "peakRetainedAppendBytes": 253413,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 257295,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 4,
+              "acks": 4,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 5.888,
+              "sourcePacketOrigin": -0.25066666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.2,
+              "windowOrigin": -0.16533333333333333,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 5.888,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 22080,
+                    "firstPacketTimestamp": -0.14533333333333334
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 12032,
+                    "firstPacketTimestamp": -0.25066666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 416,
+              "outputBytes": 253413,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 123621,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  276
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 144
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 257295,
+                "logicalReads": 283,
+                "cacheHits": 293,
+                "peakCache": 257295,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 126223,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 2.944,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": 0,
+            "targetSource": 2.944,
+            "targetElement": 2.944,
+            "timestampOffset": 1.84
+          },
+          "frame": {
+            "mediaTime": 2.954666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 5.888,
+              "commonShift": 0,
+              "targetSource": 2.944,
+              "targetElement": 2.944,
+              "timestampOffset": 1.84
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0.8799990000000002,
+            "peakRetainedAppendBytes": 172435,
+            "disposed": false,
+            "worker": {
+              "reads": 4,
+              "bytes": 257295,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 3,
+              "acks": 3,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 4,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 3,
+              "duration": 5.888,
+              "sourcePacketOrigin": -0.25066666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 2.944,
+              "windowOrigin": 1.84,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 5.888,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 22080,
+                    "firstPacketTimestamp": -0.14533333333333334
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 12032,
+                    "firstPacketTimestamp": -0.25066666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 274,
+              "outputBytes": 172435,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 123621,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  276
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 94040,
+                "peakSamples": 144
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 4,
+                "bytes": 257295,
+                "logicalReads": 189,
+                "cacheHits": 199,
+                "peakCache": 257295,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 191759,
+                "discoveryRequests": 3
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 5.188,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": 0,
+            "targetSource": 5.188,
+            "targetElement": 5.188,
+            "timestampOffset": 3.8453333333333335
+          },
+          "frame": {
+            "mediaTime": 5.254666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 5.888,
+              "commonShift": 0,
+              "targetSource": 5.188,
+              "targetElement": 5.188,
+              "timestampOffset": 3.8453333333333335
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 81979,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 191759,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 2,
+              "acks": 2,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 5.888,
+              "sourcePacketOrigin": -0.25066666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 5.188,
+              "windowOrigin": 3.8453333333333335,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 5.888,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 22080,
+                    "firstPacketTimestamp": -0.14533333333333334
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 12032,
+                    "firstPacketTimestamp": -0.25066666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 132,
+              "outputBytes": 81979,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 79678,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  144,
+                  276
+                ],
+                "boxes": 46
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 79678,
+                "peakSamples": 132
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 191759,
+                "logicalReads": 95,
+                "cacheHits": 104,
+                "peakCache": 191759,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 191759,
+                "discoveryRequests": 3
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 0,
+          "sourceEnd": 5.888,
+          "commonShift": -0.25066666666666665,
+          "targetSource": 0,
+          "targetElement": 0.25066666666666665,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 0,
+          "duration": 5.888,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": -0.25066666666666665,
+            "targetSource": 0,
+            "targetElement": 0.25066666666666665,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 0.2
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 0,
+          "sourceEnd": 5.888,
+          "commonShift": -0.16533333333333333,
+          "targetSource": 0.2,
+          "targetElement": 0.36533333333333334,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 0.2,
+          "duration": 5.888,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": -0.16533333333333333,
+            "targetSource": 0.2,
+            "targetElement": 0.36533333333333334,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 2
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 2.944
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 0,
+          "sourceEnd": 5.888,
+          "commonShift": 0,
+          "targetSource": 2.944,
+          "targetElement": 2.944,
+          "timestampOffset": 1.84
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 2.944,
+          "duration": 5.888,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": 0,
+            "targetSource": 2.944,
+            "targetElement": 2.944,
+            "timestampOffset": 1.84
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 3
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 5.188
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 0,
+          "sourceEnd": 5.888,
+          "commonShift": 0,
+          "targetSource": 5.188,
+          "targetElement": 5.188,
+          "timestampOffset": 3.8453333333333335
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 5.188,
+          "duration": 5.888,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 5.888,
+            "commonShift": 0,
+            "targetSource": 5.188,
+            "targetElement": 5.188,
+            "timestampOffset": 3.8453333333333335
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "long",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 1.4666666666666666,
+            "targetElement": 0.021333333333333204,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 1.4666666666666666,
+              "targetElement": 0.021333333333333204,
+              "timestampOffset": 0
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 180425,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "paused31seconds",
+          "before": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 1.4666666666666666,
+              "targetElement": 0.021333333333333204,
+              "timestampOffset": 0
+            },
+            "appends": 17,
+            "removals": 0,
+            "waits": 1,
+            "peakAhead": 31.978666,
+            "peakRetainedAppendBytes": 3063686,
+            "disposed": false
+          },
+          "after": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 1.4666666666666666,
+              "targetElement": 0.021333333333333204,
+              "timestampOffset": 0
+            },
+            "appends": 17,
+            "removals": 0,
+            "waits": 1,
+            "peakAhead": 31.978666,
+            "peakRetainedAppendBytes": 3063686,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 1.6453333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 1.6453333333333333,
+            "targetElement": 0.19999999999999996,
+            "timestampOffset": 0.021333333333333204
+          },
+          "frame": {
+            "mediaTime": 0.221333,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 1.6453333333333333,
+              "targetElement": 0.19999999999999996,
+              "timestampOffset": 0.021333333333333204
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.77818,
+            "peakRetainedAppendBytes": 568808,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 181.456,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 181.456,
+            "targetElement": 180.01066666666665,
+            "timestampOffset": 178.00533333333334
+          },
+          "frame": {
+            "mediaTime": 180.021333,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 181.456,
+              "targetElement": 180.01066666666665,
+              "timestampOffset": 178.00533333333334
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 1.9824389999999994,
+            "peakRetainedAppendBytes": 566692,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 360.76666666666665,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 360.76666666666665,
+            "targetElement": 359.3213333333333,
+            "timestampOffset": 358.016
+          },
+          "frame": {
+            "mediaTime": 359.354666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4453333333333334,
+              "sourceEnd": 361.46666666666664,
+              "commonShift": 1.4453333333333334,
+              "targetSource": 360.76666666666665,
+              "targetElement": 359.3213333333333,
+              "timestampOffset": 358.016
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0.6786656666666886,
+            "peakRetainedAppendBytes": 184743,
+            "disposed": false,
+            "worker": {
+              "reads": 122,
+              "bytes": 7867120,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 3,
+              "acks": 3,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 122,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 361.46666666666664,
+              "sourcePacketOrigin": 1.4453333333333334,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 360.76666666666665,
+              "windowOrigin": 359.46133333333336,
+              "policy": null,
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 154,
+              "outputBytes": 184743,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 157686,
+              "admission": {
+                "kind": "ts",
+                "packetStride": 188
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 182436,
+                "peakSamples": 154
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MPEG Transport Stream",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 122,
+                "bytes": 7867120,
+                "logicalReads": 40955,
+                "cacheHits": 40943,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 7734648,
+                "discoveryRequests": 119
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 1.4453333333333334,
+          "sourceEnd": 361.46666666666664,
+          "commonShift": 1.4453333333333334,
+          "targetSource": 1.4666666666666666,
+          "targetElement": 0.021333333333333204,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 1.4666666666666666,
+          "duration": 360.0213333333333,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 1.4666666666666666,
+            "targetElement": 0.021333333333333204,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 1.6453333333333333
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 1.4453333333333334,
+          "sourceEnd": 361.46666666666664,
+          "commonShift": 1.4453333333333334,
+          "targetSource": 1.6453333333333333,
+          "targetElement": 0.19999999999999996,
+          "timestampOffset": 0.021333333333333204
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 1.6453333333333333,
+          "duration": 360.0213333333333,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 1.6453333333333333,
+            "targetElement": 0.19999999999999996,
+            "timestampOffset": 0.021333333333333204
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 181.456
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 1.4453333333333334,
+          "sourceEnd": 361.46666666666664,
+          "commonShift": 1.4453333333333334,
+          "targetSource": 181.456,
+          "targetElement": 180.01066666666665,
+          "timestampOffset": 178.00533333333334
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 181.456,
+          "duration": 360.0213333333333,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 181.456,
+            "targetElement": 180.01066666666665,
+            "timestampOffset": 178.00533333333334
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 360.76666666666665
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 1.4453333333333334,
+          "sourceEnd": 361.46666666666664,
+          "commonShift": 1.4453333333333334,
+          "targetSource": 360.76666666666665,
+          "targetElement": 359.3213333333333,
+          "timestampOffset": 358.016
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 360.76666666666665,
+          "duration": 360.0213333333333,
+          "mapping": {
+            "sourceOrigin": 1.4453333333333334,
+            "sourceEnd": 361.46666666666664,
+            "commonShift": 1.4453333333333334,
+            "targetSource": 360.76666666666665,
+            "targetElement": 359.3213333333333,
+            "timestampOffset": 358.016
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "video",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.25466666666666665
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.288,
+              "commonShift": 0,
+              "targetSource": 0.25466666666666665,
+              "targetElement": 0.25466666666666665,
+              "timestampOffset": 0.25466666666666665
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.9999983333333335,
+            "peakRetainedAppendBytes": 182056,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 0.2,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.25466666666666665
+          },
+          "frame": {
+            "mediaTime": 0.321332,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.288,
+              "commonShift": 0,
+              "targetSource": 0.25466666666666665,
+              "targetElement": 0.25466666666666665,
+              "timestampOffset": 0.25466666666666665
+            },
+            "appends": 4,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 3.9999983333333335,
+            "peakRetainedAppendBytes": 182056,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 182300,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 4,
+              "acks": 4,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0.25466666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.2,
+              "windowOrigin": 0.25466666666666665,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0.25466666666666665,
+                "declaredEnd": 6.288,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": null,
+              "packets": 144,
+              "outputBytes": 182056,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 113853,
+              "admission": {
+                "kind": "iso",
+                "tracks": 1,
+                "samples": [
+                  144
+                ],
+                "boxes": 25
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 69674,
+                "peakSamples": 49
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 182300,
+                "logicalReads": 150,
+                "cacheHits": 160,
+                "peakCache": 182300,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 116764,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 3.144,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 3.144,
+            "targetElement": 3.144,
+            "timestampOffset": 2.2546666666666666
+          },
+          "frame": {
+            "mediaTime": 3.187999,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.288,
+              "commonShift": 0,
+              "targetSource": 3.144,
+              "targetElement": 3.144,
+              "timestampOffset": 2.2546666666666666
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 1.110665,
+            "peakRetainedAppendBytes": 125666,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 182300,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 3,
+              "acks": 3,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 3,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0.25466666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 3.144,
+              "windowOrigin": 2.2546666666666666,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0.25466666666666665,
+                "declaredEnd": 6.288,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": null,
+              "packets": 96,
+              "outputBytes": 125666,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 113853,
+              "admission": {
+                "kind": "iso",
+                "tracks": 1,
+                "samples": [
+                  144
+                ],
+                "boxes": 25
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 69674,
+                "peakSamples": 49
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 182300,
+                "logicalReads": 102,
+                "cacheHits": 112,
+                "peakCache": 182300,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 116764,
+                "discoveryRequests": 2
+              }
+            }
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 5.588,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 5.588,
+            "targetElement": 5.588,
+            "timestampOffset": 4.254666666666667
+          },
+          "frame": {
+            "mediaTime": 5.654666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6.288,
+              "commonShift": 0,
+              "targetSource": 5.588,
+              "targetElement": 5.588,
+              "timestampOffset": 4.254666666666667
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 59767,
+            "disposed": false,
+            "worker": {
+              "reads": 3,
+              "bytes": 182300,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 2,
+              "acks": 2,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 3,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 6.288,
+              "sourcePacketOrigin": 0.25466666666666665,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 5.588,
+              "windowOrigin": 4.254666666666667,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0.25466666666666665,
+                "declaredEnd": 6.288,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0.25466666666666665,
+                    "contentEntries": 1,
+                    "entryCount": 2,
+                    "mediaTime": 9000,
+                    "firstPacketTimestamp": 0.25466666666666665
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": null,
+              "packets": 48,
+              "outputBytes": 59767,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 58332,
+              "admission": {
+                "kind": "iso",
+                "tracks": 1,
+                "samples": [
+                  144
+                ],
+                "boxes": 25
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 58332,
+                "peakSamples": 48
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 3,
+                "bytes": 182300,
+                "logicalReads": 54,
+                "cacheHits": 64,
+                "peakCache": 182300,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 182300,
+                "discoveryRequests": 3
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.288,
+          "commonShift": 0,
+          "targetSource": 0.25466666666666665,
+          "targetElement": 0.25466666666666665,
+          "timestampOffset": 0.25466666666666665
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 0.25466666666666665,
+          "duration": 6.288,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.25466666666666665
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 0.2
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.288,
+          "commonShift": 0,
+          "targetSource": 0.25466666666666665,
+          "targetElement": 0.25466666666666665,
+          "timestampOffset": 0.25466666666666665
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 0.25466666666666665,
+          "duration": 6.288,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 0.25466666666666665,
+            "targetElement": 0.25466666666666665,
+            "timestampOffset": 0.25466666666666665
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 2
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 3.144
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.288,
+          "commonShift": 0,
+          "targetSource": 3.144,
+          "targetElement": 3.144,
+          "timestampOffset": 2.2546666666666666
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 3.144,
+          "duration": 6.288,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 3.144,
+            "targetElement": 3.144,
+            "timestampOffset": 2.2546666666666666
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 3
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 5.588
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 0,
+          "sourceEnd": 6.288,
+          "commonShift": 0,
+          "targetSource": 5.588,
+          "targetElement": 5.588,
+          "timestampOffset": 4.254666666666667
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 5.588,
+          "duration": 6.288,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.288,
+            "commonShift": 0,
+            "targetSource": 5.588,
+            "targetElement": 5.588,
+            "timestampOffset": 4.254666666666667
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    },
+    {
+      "name": "immediateCancel",
+      "passed": true,
+      "immediateCancel": true,
+      "cleanup": {
+        "settled": true
+      },
+      "opens": 0,
+      "aborts": 0,
+      "peakSources": 0
+    }
+  ]
+}

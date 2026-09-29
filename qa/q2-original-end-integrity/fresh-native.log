@@ -1,0 +1,127 @@
+worker ac3 true undefined
+worker eac3 true undefined
+worker sar true undefined
+worker long true undefined
+worker bframes true {
+  audioMetrics: {
+    opened: 0,
+    closed: 0,
+    liveContexts: 0,
+    pendingOpens: 0,
+    inFlightDecode: 0,
+    decodedPackets: 0,
+    decodedFrames: 0,
+    transferredPcmBytes: 0,
+    failures: 0,
+    peakPacketBytes: 0,
+    peakPcmBytes: 0,
+    peakHeapBytes: 0,
+    moduleLoading: false,
+    heapBytes: 0
+  },
+  audioCleanup: undefined,
+  message: 'AUDIO_REORDERED_VIDEO_UNQUALIFIED',
+  cleanup: {
+    settled: true,
+    pendingCallbacks: 0,
+    cleanupPending: 0,
+    cleanupFailed: false
+  },
+  reads: {
+    requests: 2,
+    bytes: 109241,
+    logicalReads: 8,
+    cacheHits: 12,
+    peakCache: 109241,
+    inFlight: 0,
+    peakInFlight: 1,
+    peakQueued: 1,
+    discoveryBytes: 109241,
+    discoveryRequests: 2
+  }
+}
+worker surround true {
+  audioMetrics: {
+    opened: 0,
+    closed: 0,
+    liveContexts: 0,
+    pendingOpens: 0,
+    inFlightDecode: 0,
+    decodedPackets: 0,
+    decodedFrames: 0,
+    transferredPcmBytes: 0,
+    failures: 0,
+    peakPacketBytes: 0,
+    peakPcmBytes: 0,
+    peakHeapBytes: 0,
+    moduleLoading: false,
+    heapBytes: 0
+  },
+  audioCleanup: undefined,
+  message: 'AUDIO_STEREO_48K_REQUIRED',
+  cleanup: {
+    settled: true,
+    pendingCallbacks: 0,
+    cleanupPending: 0,
+    cleanupFailed: false
+  },
+  reads: {
+    requests: 1,
+    bytes: 65536,
+    logicalReads: 5,
+    cacheHits: 8,
+    peakCache: 65536,
+    inFlight: 0,
+    peakInFlight: 1,
+    peakQueued: 1,
+    discoveryBytes: 65536,
+    discoveryRequests: 1
+  }
+}
+worker corrupt true {
+  audioMetrics: {
+    opened: 1,
+    closed: 1,
+    liveContexts: 0,
+    pendingOpens: 0,
+    inFlightDecode: 0,
+    decodedPackets: 0,
+    decodedFrames: 0,
+    transferredPcmBytes: 0,
+    failures: 1,
+    peakPacketBytes: 2560,
+    peakPcmBytes: 0,
+    peakHeapBytes: 0,
+    moduleLoading: false,
+    heapBytes: 33554432
+  },
+  audioCleanup: {
+    settled: true,
+    liveContexts: 0,
+    pendingOpens: 0,
+    moduleLoading: false
+  },
+  message: 'AUDIO_DECODE_FAILED',
+  cleanup: {
+    settled: true,
+    pendingCallbacks: 0,
+    cleanupPending: 0,
+    cleanupFailed: false
+  },
+  reads: {
+    requests: 1,
+    bytes: 65536,
+    logicalReads: 5,
+    cacheHits: 11,
+    peakCache: 65536,
+    inFlight: 0,
+    peakInFlight: 1,
+    peakQueued: 1,
+    discoveryBytes: 65536,
+    discoveryRequests: 1
+  }
+}
+player ac3 true undefined
+player eac3 true undefined
+player sar true undefined
+

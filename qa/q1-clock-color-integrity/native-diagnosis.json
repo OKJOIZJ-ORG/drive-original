@@ -1,0 +1,521 @@
+{
+  "scope": "Bounded causal trial; distinguish container preservation, FFmpeg timestamp rewriting, native playback, native frame selection, and native color interpretation.",
+  "containerCasesPassed": 13,
+  "containerCasesFailed": 0,
+  "rawClockArithmetic": "Independent stts/ctts/elst and tfdt/trun parser uses rational integer comparisons; no tolerance. MPEG-TS source clocks independently read by FFprobe.",
+  "defaultFfprobeMovieClockDisagreements": [
+    "b-trim-negative",
+    "b-negative-cto"
+  ],
+  "nativePlaybackCases": 9,
+  "nativeUnsupported": [
+    {
+      "name": "bAc3",
+      "error": "NATIVE_CODEC_UNSUPPORTED:video/mp4; codecs=\"avc1.64000c,ac-3\""
+    }
+  ],
+  "singlePicture": {
+    "encodedPictureCount": 1,
+    "encodedPictureIndex": 0,
+    "sourceDeclaredColor": {
+      "matrix": "bt709",
+      "primaries": "bt709",
+      "transfer": "bt709",
+      "fullRange": false
+    },
+    "rawDecodedPixelsEqual": true,
+    "originalNativeColor": {
+      "fullRange": false,
+      "matrix": "smpte170m",
+      "primaries": "smpte170m",
+      "transfer": "smpte170m"
+    },
+    "remuxNativeColor": {
+      "fullRange": false,
+      "matrix": "bt709",
+      "primaries": "bt709",
+      "transfer": "bt709"
+    },
+    "mappedPtsError": -3.3333333333135373e-7,
+    "originalRgbSha256": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6",
+    "remuxRgbSha256": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79",
+    "pixelError": {
+      "meanAbsolute": 4.956693989071038,
+      "differingFraction": 0.5541699193338537
+    },
+    "directVersusDirect": {
+      "control": "direct-versus-direct",
+      "samePixels": true,
+      "sourcePtsDifference": 0
+    }
+  },
+  "cases": [
+    {
+      "name": "b-vfr-rotate",
+      "comparisonKind": "native direct original versus native MSE; canvas pixels captured within rVFC",
+      "samples": [
+        {
+          "movieTarget": 0.81,
+          "originalReportedMediaTime": 0.754667,
+          "remuxedReportedMediaTime": 0.821333,
+          "mappedOriginalClock": 0.821333,
+          "originalTimestampCandidate": {
+            "decodeIndex": 13,
+            "sourcePts": 0.7546666666666666,
+            "sourceDts": 0.7213333333333334,
+            "codedPacketHash": "SHA256:8b4504194a7c230a5f10a5ee6545c845b4248fa1df970e96da1f9a2734bd4375",
+            "reportedPtsError": 3.33333333379926e-7,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 11,
+            "sourcePts": 0.8213333333333332,
+            "sourceDts": 0.6546666666666667,
+            "codedPacketHash": "SHA256:5f2538cfbb54bd87a584b938277834ed612c123dc089663f06e6cf0c2e6541c2",
+            "reportedPtsError": -3.333333332689037e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          }
+        },
+        {
+          "movieTarget": 3.11,
+          "originalReportedMediaTime": 3.088,
+          "remuxedReportedMediaTime": 3.088,
+          "mappedOriginalClock": 3.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.0879999999999996,
+            "sourceDts": 2.988,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 4.440892098500626e-16,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.0879999999999996,
+            "sourceDts": 2.988,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 4.440892098500626e-16,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          }
+        },
+        {
+          "movieTarget": 5.11,
+          "originalReportedMediaTime": 5.088,
+          "remuxedReportedMediaTime": 5.088,
+          "mappedOriginalClock": 5.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.054666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.054666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          }
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ],
+      "identityLimit": "Dynamic timestamp candidates are not independent decoded picture identity. Only the one-picture fixture has an unambiguous encoded picture index (0)."
+    },
+    {
+      "name": "b-trim-negative",
+      "comparisonKind": "native direct original versus native MSE; canvas pixels captured within rVFC",
+      "samples": [
+        {
+          "movieTarget": 0.81,
+          "originalReportedMediaTime": 0.8,
+          "remuxedReportedMediaTime": 1.005333,
+          "mappedOriginalClock": 0.7546663333333334,
+          "originalTimestampCandidate": {
+            "decodeIndex": 23,
+            "sourcePts": 0.7880000000000001,
+            "sourceDts": 0.7546666666666667,
+            "codedPacketHash": "SHA256:6d48673af74c733949d42a59e4b3461b5ca52b5c177e7d569fa8397325255cf2",
+            "reportedPtsError": 0.0119999999999999,
+            "exactWithinMicrosecond": false
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 22,
+            "sourcePts": 0.7546666666666667,
+            "sourceDts": 0.6880000000000001,
+            "codedPacketHash": "SHA256:eae58f682d3ca291a18697323b8d44217ebd9eef4506f9941dccebd4a913b8ef",
+            "reportedPtsError": -3.333333332689037e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.172960577673692,
+            "differingFraction": 0.5641523549310434
+          }
+        },
+        {
+          "movieTarget": 3.11,
+          "originalReportedMediaTime": 3.1,
+          "remuxedReportedMediaTime": 3.338666,
+          "mappedOriginalClock": 3.0879993333333333,
+          "originalTimestampCandidate": {
+            "decodeIndex": 78,
+            "sourcePts": 3.088,
+            "sourceDts": 3.021333333333333,
+            "codedPacketHash": "SHA256:782029d0c5a89cf74ddf2ad1262db6afd701c80c221fba2aef570c17ed8041e7",
+            "reportedPtsError": 0.01200000000000001,
+            "exactWithinMicrosecond": false
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 78,
+            "sourcePts": 3.088,
+            "sourceDts": 3.021333333333333,
+            "codedPacketHash": "SHA256:782029d0c5a89cf74ddf2ad1262db6afd701c80c221fba2aef570c17ed8041e7",
+            "reportedPtsError": -6.66666666759852e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.236556726515744,
+            "differingFraction": 0.5539227166276347
+          }
+        },
+        {
+          "movieTarget": 5.11,
+          "originalReportedMediaTime": 5.1,
+          "remuxedReportedMediaTime": 5.338666,
+          "mappedOriginalClock": 5.087999333333333,
+          "originalTimestampCandidate": {
+            "decodeIndex": 126,
+            "sourcePts": 5.088,
+            "sourceDts": 5.021333333333334,
+            "codedPacketHash": "SHA256:24261a5b0b17c54521f6071d55b78585f4af5c69e83e093bdb5087fda41561d4",
+            "reportedPtsError": 0.011999999999999567,
+            "exactWithinMicrosecond": false
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 126,
+            "sourcePts": 5.088,
+            "sourceDts": 5.021333333333334,
+            "codedPacketHash": "SHA256:24261a5b0b17c54521f6071d55b78585f4af5c69e83e093bdb5087fda41561d4",
+            "reportedPtsError": -6.66666666759852e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.261520947176685,
+            "differingFraction": 0.5628187613843352
+          }
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ],
+      "identityLimit": "Dynamic timestamp candidates are not independent decoded picture identity. Only the one-picture fixture has an unambiguous encoded picture index (0)."
+    },
+    {
+      "name": "b-negative-cto",
+      "comparisonKind": "native direct original versus native MSE; canvas pixels captured within rVFC",
+      "samples": [
+        {
+          "movieTarget": 0.81,
+          "originalReportedMediaTime": 0.754667,
+          "remuxedReportedMediaTime": 0.821333,
+          "mappedOriginalClock": 0.821333,
+          "originalTimestampCandidate": {
+            "decodeIndex": 13,
+            "sourcePts": 0.7546666666666666,
+            "sourceDts": 0.8213333333333332,
+            "codedPacketHash": "SHA256:8b4504194a7c230a5f10a5ee6545c845b4248fa1df970e96da1f9a2734bd4375",
+            "reportedPtsError": 3.33333333379926e-7,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 11,
+            "sourcePts": 0.8213333333333332,
+            "sourceDts": 0.7546666666666666,
+            "codedPacketHash": "SHA256:5f2538cfbb54bd87a584b938277834ed612c123dc089663f06e6cf0c2e6541c2",
+            "reportedPtsError": -3.333333332689037e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          }
+        },
+        {
+          "movieTarget": 3.11,
+          "originalReportedMediaTime": 3.088,
+          "remuxedReportedMediaTime": 3.088,
+          "mappedOriginalClock": 3.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.088,
+            "sourceDts": 3.088,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.088,
+            "sourceDts": 3.088,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          }
+        },
+        {
+          "movieTarget": 5.11,
+          "originalReportedMediaTime": 5.088,
+          "remuxedReportedMediaTime": 5.088,
+          "mappedOriginalClock": 5.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.154666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.154666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          }
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ],
+      "identityLimit": "Dynamic timestamp candidates are not independent decoded picture identity. Only the one-picture fixture has an unambiguous encoded picture index (0)."
+    },
+    {
+      "name": "b-rotate90",
+      "comparisonKind": "native direct original versus native MSE; canvas pixels captured within rVFC",
+      "samples": [
+        {
+          "movieTarget": 0.81,
+          "originalReportedMediaTime": 0.754667,
+          "remuxedReportedMediaTime": 0.821333,
+          "mappedOriginalClock": 0.821333,
+          "originalTimestampCandidate": {
+            "decodeIndex": 13,
+            "sourcePts": 0.7546666666666666,
+            "sourceDts": 0.7213333333333334,
+            "codedPacketHash": "SHA256:8b4504194a7c230a5f10a5ee6545c845b4248fa1df970e96da1f9a2734bd4375",
+            "reportedPtsError": 3.33333333379926e-7,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 11,
+            "sourcePts": 0.8213333333333332,
+            "sourceDts": 0.6546666666666667,
+            "codedPacketHash": "SHA256:5f2538cfbb54bd87a584b938277834ed612c123dc089663f06e6cf0c2e6541c2",
+            "reportedPtsError": -3.333333332689037e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          }
+        },
+        {
+          "movieTarget": 3.11,
+          "originalReportedMediaTime": 3.088,
+          "remuxedReportedMediaTime": 3.088,
+          "mappedOriginalClock": 3.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.0879999999999996,
+            "sourceDts": 2.988,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 4.440892098500626e-16,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 67,
+            "sourcePts": 3.0879999999999996,
+            "sourceDts": 2.988,
+            "codedPacketHash": "SHA256:010cae5e22e70880238d2e7ef54e70ed6901091d65d899161bf53ed8bf717dd1",
+            "reportedPtsError": 4.440892098500626e-16,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          }
+        },
+        {
+          "movieTarget": 5.11,
+          "originalReportedMediaTime": 5.088,
+          "remuxedReportedMediaTime": 5.088,
+          "mappedOriginalClock": 5.088,
+          "originalTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.054666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 117,
+            "sourcePts": 5.088,
+            "sourceDts": 5.054666666666667,
+            "codedPacketHash": "SHA256:7a02481be216f8c575b9581b334ba9366b3fbffb91438eb93ec2834f4a84ba81",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          }
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ],
+      "identityLimit": "Dynamic timestamp candidates are not independent decoded picture identity. Only the one-picture fixture has an unambiguous encoded picture index (0)."
+    },
+    {
+      "name": "one-picture-color",
+      "comparisonKind": "native direct original versus native MSE; canvas pixels captured within rVFC",
+      "samples": [
+        {
+          "movieTarget": 0.81,
+          "originalReportedMediaTime": 0,
+          "remuxedReportedMediaTime": 0.021333,
+          "mappedOriginalClock": -3.3333333333135373e-7,
+          "originalTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": -3.3333333333135373e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          }
+        },
+        {
+          "movieTarget": 3.11,
+          "originalReportedMediaTime": 0,
+          "remuxedReportedMediaTime": 0.021333,
+          "mappedOriginalClock": -3.3333333333135373e-7,
+          "originalTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": -3.3333333333135373e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          }
+        },
+        {
+          "movieTarget": 5.11,
+          "originalReportedMediaTime": 0,
+          "remuxedReportedMediaTime": 0.021333,
+          "mappedOriginalClock": -3.3333333333135373e-7,
+          "originalTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": 0,
+            "exactWithinMicrosecond": true
+          },
+          "remuxTimestampCandidate": {
+            "decodeIndex": 0,
+            "sourcePts": 0,
+            "sourceDts": 0,
+            "codedPacketHash": "SHA256:b02d7a86c59ab4b3d9cfb4f1ac8196f7407a9dc411f4a1eddd3766b97be9b03e",
+            "reportedPtsError": -3.3333333333135373e-7,
+            "exactWithinMicrosecond": true
+          },
+          "rgbEqual": false,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          }
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ],
+      "identityLimit": "Dynamic timestamp candidates are not independent decoded picture identity. Only the one-picture fixture has an unambiguous encoded picture index (0)."
+    }
+  ],
+  "conclusion": "Original bytes/config/clocks are preserved in these fixtures. Direct playback resolves declared BT.709 to SMPTE170M whereas MSE resolves BT.709; matching the direct RGB by changing metadata would violate preservation. Native dynamic frame selection and cross-route color interpretation are not certified equivalent; component-level cause and broader device behavior remain unknown.",
+  "nextDiscriminator": "Replay known per-frame identity with separately decoded reference images, distinguishing MSE VFR selection from the direct demuxer edit/CTTS rewrite. Do not shift tracks independently or remove genuine color declarations."
+}

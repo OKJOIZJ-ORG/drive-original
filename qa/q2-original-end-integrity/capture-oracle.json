@@ -1,0 +1,52 @@
+{
+  "scope": "Actual Chrome MSE audio PCM captured by AudioWorklet at48kHz; graph terminates at MediaStreamDestination, never speakers",
+  "rows": [
+    {
+      "name": "baseline",
+      "captureFrames": 294400,
+      "bestOffsetFrames": 0,
+      "sourceFrames": 288000,
+      "lastNonzeroFrameExclusive": 289352,
+      "endRelativeToSourceFrames": 289352,
+      "excessFrames": 1352,
+      "alignmentSnrDb": 43.43959369789015,
+      "postSourcePeak": 0.001970388228073716,
+      "finalSourceFrame": [
+        -0.023544127121567726,
+        -0.026707325130701065
+      ]
+    },
+    {
+      "name": "bounded",
+      "captureFrames": 292992,
+      "bestOffsetFrames": 0,
+      "sourceFrames": 288000,
+      "lastNonzeroFrameExclusive": 287688,
+      "endRelativeToSourceFrames": 287688,
+      "excessFrames": -312,
+      "alignmentSnrDb": 43.43959369789015,
+      "postSourcePeak": 0.0,
+      "finalSourceFrame": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "compensated",
+      "captureFrames": 293376,
+      "bestOffsetFrames": 0,
+      "sourceFrames": 288000,
+      "lastNonzeroFrameExclusive": 288000,
+      "endRelativeToSourceFrames": 288000,
+      "excessFrames": 0,
+      "alignmentSnrDb": 43.43959369789015,
+      "postSourcePeak": 0.0,
+      "finalSourceFrame": [
+        -0.023544127121567726,
+        -0.026707325130701065
+      ]
+    }
+  ],
+  "retainedSourceWindowEqualToUnclippedNativeOutput": true,
+  "removedOnlyPostSourceWindow": true
+}

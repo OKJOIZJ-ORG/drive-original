@@ -1,0 +1,267 @@
+{
+  "recordedAt": "2026-09-29T20:18:51.023874+00:00",
+  "passed": true,
+  "scope": "Current local bytes and publication inventory; historical rebuild/relink evidence reused by exact artifact identity.",
+  "q1Archive": {
+    "path": "licenses/mediabunny-q1-preferred-source.tgz",
+    "bytes": 457141,
+    "sha256": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5"
+  },
+  "q1Runtime": {
+    "path": "media/mediabunny-q1.mjs",
+    "bytes": 686739,
+    "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "q1SourceFilesVerified": 81,
+  "q2Archive": {
+    "bytes": 53597911,
+    "sha256": "e596d3e61c8e8a2e816ebf9c735eada6bd24868a6aaf75e0610bf16889d44e64",
+    "parts": [
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part001",
+        "bytes": 8388608,
+        "sha256": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part002",
+        "bytes": 8388608,
+        "sha256": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part003",
+        "bytes": 8388608,
+        "sha256": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part004",
+        "bytes": 8388608,
+        "sha256": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part005",
+        "bytes": 8388608,
+        "sha256": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part006",
+        "bytes": 8388608,
+        "sha256": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531"
+      },
+      {
+        "path": "licenses/audio-source-v1.tar.gz.part007",
+        "bytes": 3266263,
+        "sha256": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+      }
+    ]
+  },
+  "q2RuntimeArtifacts": [
+    {
+      "path": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "path": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+    },
+    {
+      "path": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+    }
+  ],
+  "publicFiles": [
+    "index.html",
+    "runtime-config.js",
+    "app.js",
+    "styles.css",
+    "sw.js",
+    "version.json",
+    "manifest.webmanifest",
+    "icons/app-icon.svg",
+    "icons/icon-192.png",
+    "icons/icon-512.png",
+    "icons/maskable-512.png",
+    "icons/apple-touch-icon.png",
+    "media/drive-source.mjs",
+    "media/revision-pin.js",
+    "media/ts-player.mjs",
+    "media/q1-core.mjs",
+    "media/transmux-worker.mjs",
+    "media/mux-mp4.min.js",
+    "media/mux-LICENSE.txt",
+    "media/general-admission.mjs",
+    "media/general-codec.mjs",
+    "media/general-owner.mjs",
+    "media/general-pipeline.mjs",
+    "media/general-player.mjs",
+    "media/general-source.mjs",
+    "media/general-timeline.mjs",
+    "media/general-worker.mjs",
+    "media/mediabunny-q1.mjs",
+    "media/mediabunny-q1.LICENSE",
+    "media/mediabunny-q1-NOTICE.md",
+    "media/audio-runtime.mjs",
+    "media/audio-adapter.mjs",
+    "media/audio-worker-client.mjs",
+    "media/audio-worker.mjs",
+    "media/audio-codec.mjs",
+    "media/audio-codec.wasm",
+    "media/audio-codec.LICENSE.txt",
+    "media/audio-general-pipeline.mjs",
+    "media/audio-general-worker.mjs",
+    "licenses/index.html",
+    "licenses/mediabunny-q1-preferred-source.tgz",
+    "licenses/audio-source-NOTICE.md",
+    "licenses/audio-source-manifest.json",
+    "licenses/audio-source-reconstruct.cjs",
+    "licenses/audio-source-v1.tar.gz.part001",
+    "licenses/audio-source-v1.tar.gz.part002",
+    "licenses/audio-source-v1.tar.gz.part003",
+    "licenses/audio-source-v1.tar.gz.part004",
+    "licenses/audio-source-v1.tar.gz.part005",
+    "licenses/audio-source-v1.tar.gz.part006",
+    "licenses/audio-source-v1.tar.gz.part007"
+  ],
+  "cachedFiles": [
+    "index.html",
+    "styles.css",
+    "runtime-config.js",
+    "app.js",
+    "media/drive-source.mjs",
+    "media/revision-pin.js",
+    "media/ts-player.mjs",
+    "media/q1-core.mjs",
+    "media/transmux-worker.mjs",
+    "media/mux-mp4.min.js",
+    "media/mux-LICENSE.txt",
+    "media/general-admission.mjs",
+    "media/general-codec.mjs",
+    "media/general-owner.mjs",
+    "media/general-pipeline.mjs",
+    "media/general-player.mjs",
+    "media/general-source.mjs",
+    "media/general-timeline.mjs",
+    "media/general-worker.mjs",
+    "media/mediabunny-q1.mjs",
+    "media/mediabunny-q1.LICENSE",
+    "media/mediabunny-q1-NOTICE.md",
+    "media/audio-runtime.mjs",
+    "media/audio-adapter.mjs",
+    "media/audio-worker-client.mjs",
+    "media/audio-worker.mjs",
+    "media/audio-codec.mjs",
+    "media/audio-codec.wasm",
+    "media/audio-codec.LICENSE.txt",
+    "media/audio-general-pipeline.mjs",
+    "media/audio-general-worker.mjs",
+    "licenses/index.html",
+    "licenses/audio-source-NOTICE.md",
+    "version.json",
+    "manifest.webmanifest",
+    "icons/app-icon.svg",
+    "icons/icon-192.png",
+    "icons/icon-512.png",
+    "icons/maskable-512.png",
+    "icons/apple-touch-icon.png"
+  ],
+  "sourceDownloadsNotPrecached": [
+    "licenses/mediabunny-q1-preferred-source.tgz",
+    "licenses/audio-source-v1.tar.gz.part001",
+    "licenses/audio-source-v1.tar.gz.part002",
+    "licenses/audio-source-v1.tar.gz.part003",
+    "licenses/audio-source-v1.tar.gz.part004",
+    "licenses/audio-source-v1.tar.gz.part005",
+    "licenses/audio-source-v1.tar.gz.part006",
+    "licenses/audio-source-v1.tar.gz.part007"
+  ],
+  "readableCurrentAudioSource": [
+    {
+      "path": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+    },
+    {
+      "path": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+    },
+    {
+      "path": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+    },
+    {
+      "path": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+    },
+    {
+      "path": "media/audio-general-pipeline.mjs",
+      "bytes": 17504,
+      "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+    },
+    {
+      "path": "media/audio-general-worker.mjs",
+      "bytes": 3392,
+      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+    }
+  ],
+  "licensePageLinksVerified": [
+    "index.html",
+    "media/mux-LICENSE.txt",
+    "media/mediabunny-q1.LICENSE",
+    "media/mediabunny-q1-NOTICE.md",
+    "licenses/mediabunny-q1-preferred-source.tgz",
+    "media/audio-codec.LICENSE.txt",
+    "licenses/audio-source-NOTICE.md",
+    "licenses/audio-source-manifest.json",
+    "licenses/audio-source-reconstruct.cjs",
+    "media/audio-runtime.mjs",
+    "media/audio-adapter.mjs",
+    "media/audio-worker.mjs",
+    "media/audio-worker-client.mjs",
+    "media/audio-general-pipeline.mjs",
+    "media/audio-general-worker.mjs",
+    "licenses/audio-source-v1.tar.gz.part001",
+    "licenses/audio-source-v1.tar.gz.part002",
+    "licenses/audio-source-v1.tar.gz.part003",
+    "licenses/audio-source-v1.tar.gz.part004",
+    "licenses/audio-source-v1.tar.gz.part005",
+    "licenses/audio-source-v1.tar.gz.part006",
+    "licenses/audio-source-v1.tar.gz.part007"
+  ],
+  "reusedEvidence": [
+    {
+      "path": "qa/q1-general-product-preparation/publication-verification.json",
+      "bytes": 1662,
+      "sha256": "9421504273bc3d52bc10a476cb82a40b13dd3ab72f43a55fd7f3fb2ca77550a0"
+    },
+    {
+      "path": "qa/q2-audio-source-publication/relink-results.json",
+      "bytes": 1173,
+      "sha256": "aeaee1c6487d6d56ba75ca026fec996dfab23004fa6003445a5819ce10c317ab"
+    },
+    {
+      "path": "qa/q2-audio-source-publication/bridge-recompile-results.json",
+      "bytes": 1324,
+      "sha256": "acc939195638abfdf7714c8ff18e22493f5e17ac1badeb863065638703e6a449"
+    },
+    {
+      "path": "qa/q2-audio-source-publication/publication-results.json",
+      "bytes": 3038,
+      "sha256": "02afdd2cfd30aae1ef7199df6776d2cbacbcaf357150c93e6ae54967775d88d1"
+    }
+  ],
+  "limits": [
+    "No new full toolchain build or relink",
+    "No public delivery",
+    "No real account/device playback or production change"
+  ],
+  "producer": {
+    "path": "qa/q1-q2-release-integration/source-integrity.py",
+    "bytes": 6243,
+    "sha256": "90ea053f9b79715035c65021667aef39051822b550a8ca33881c1361f4d9eacc"
+  }
+}

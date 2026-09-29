@@ -1,0 +1,88 @@
+{
+  "version": "1.60.0",
+  "commit": "359e4e4eee43bf968551e03ddc7280f9c69d655a",
+  "archiveSha256": "c08cb56b40af19fc02e7aa9fccd814d19ff614f22349a0275f6c5aea982fa266",
+  "patchSha256": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+  "changes": [
+    {
+      "path": "src/codec-data.ts",
+      "beforeSha256": "5ee6dce30c7a0b7d2634b036f63c0c3abf8b0ff491d642ca01b6043af8f33ed7",
+      "afterSha256": "cc5c1d780c8d1aa0265ea1a3dde7351e1abe873a226cc19da51e8043a7c84314"
+    },
+    {
+      "path": "src/codec.ts",
+      "beforeSha256": "286dc1906663a120b25fc57df33f607fefc136bc2f278f86aa80eb4028cbcc90",
+      "afterSha256": "983486539acb6f63ee7901fa64bcd9856070b01910af2a9adb972205b5031238"
+    },
+    {
+      "path": "src/output.ts",
+      "beforeSha256": "64aceef0cac1ce51cfe1ea83e612abc80e279a7e0f56b636098935b0fe44cd46",
+      "afterSha256": "dd0c9e0c84b89df3ec08b5700d01291788249eabdbc781991f654e66c2b28f38"
+    },
+    {
+      "path": "src/packet.ts",
+      "beforeSha256": "55d19d58a9e6925f9ecf9f31a1624d57d03c64feacc35b5af4282b5b25cceb9d",
+      "afterSha256": "bbcf99bbcb3797fd126673337f5166545161bea4c46d5bfaa2ee19d88d980602"
+    },
+    {
+      "path": "src/isobmff/isobmff-boxes.ts",
+      "beforeSha256": "c03c8e7386212d2d27d03426f459ae2b160c1ca74d66be8190c2ab28deba57fd",
+      "afterSha256": "e70b3d1bb02706391eeac33b9df4f97ba5c380b0ced89598161c30fdd1bd16a6"
+    },
+    {
+      "path": "src/isobmff/isobmff-demuxer.ts",
+      "beforeSha256": "3f01217e499e7eb1ee65c38215013214b3dfd4d3ff1005793b4f6b61be6eda57",
+      "afterSha256": "c4d05fb9ee9efe3ed1239fed905eba75288957c3d0e5dfa13c986d0243f084fb"
+    },
+    {
+      "path": "src/isobmff/isobmff-muxer.ts",
+      "beforeSha256": "8a1d5cf1a9f689ed75be84397485c071c7c2f18180be8d8ccfc0f56f648eb362",
+      "afterSha256": "e0571784ad6f0490061aeb6148032d9f29768ad9caf3e49ae47a2b84c7ab0e21"
+    },
+    {
+      "path": "src/mpeg-ts/mpeg-ts-demuxer.ts",
+      "beforeSha256": "1fcf596b2e308927442a25ab2be502f74fa2f01655974dc9abf0605cdc9d6966",
+      "afterSha256": "b77b2d3b2302947bb2ac2c6c66c5bc10f0ba718983b9b4131e9480b575c8d2bb"
+    }
+  ],
+  "shared": [
+    {
+      "url": "https://raw.githubusercontent.com/Vanilagy/mediabunny/359e4e4eee43bf968551e03ddc7280f9c69d655a/shared/aac-misc.ts",
+      "sha256": "5d5cb7fd115281e20571048339d5c50acb074432514d71e7ab67f3a5b7669044"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Vanilagy/mediabunny/359e4e4eee43bf968551e03ddc7280f9c69d655a/shared/ac3-misc.ts",
+      "sha256": "843dfe3a94d751c292226b2f7775cf728fbf83e87c5ea092aaec2406634225c8"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Vanilagy/mediabunny/359e4e4eee43bf968551e03ddc7280f9c69d655a/shared/bitstream.ts",
+      "sha256": "6b380f4b02631abb36eecb3b8837c9dcf722a32702169817acd91fefa93a69d1"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Vanilagy/mediabunny/359e4e4eee43bf968551e03ddc7280f9c69d655a/shared/dts-misc.ts",
+      "sha256": "529a5e5041a7f6adccdd7e3f1b28443009c338f3705073d8c7e3e0f6a7e0a9a4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Vanilagy/mediabunny/359e4e4eee43bf968551e03ddc7280f9c69d655a/shared/mp3-misc.ts",
+      "sha256": "51f7b4178cf2de9c2a21ec5028f7bdae95f1758e262a4f7f282a10a19cd8ec72"
+    }
+  ],
+  "esbuild": {
+    "registry": {
+      "shasum": "7d79922cb2d88f9048f06393dbf62d2e4accb584",
+      "tarball": "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.25.1.tgz",
+      "fileCount": 3,
+      "integrity": "sha512-Y1EQdcfwMSeQN/ujR5VayLOJ1BHaK+ssyk0AEzPjC+t1lITgsnccPqFjb6V+LsTp/9Iov4ysfjxLaGJ9RPtkVg==",
+      "signatures": [
+        {
+          "sig": "MEQCIDbJ8RN62T6LA+CsYJT+Av8aiQPSLSd2D7uT1DzgB+BBAiA7/mY7pkBOBuZfciWApNBguZFXozvayrXd1N2V3xD6pw==",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        }
+      ],
+      "unpackedSize": 10501637
+    },
+    "version": "0.25.1",
+    "sha256": "0a52d366c12adb9ab04558fbe29d7b57f7cc7569d081d2a35527a1b6d6b0d3ea",
+    "binarySha256": "25ada918ce6f8bd4d9f6ee1dff59ba5985197df6123f2cb468f06c102c074949"
+  }
+}

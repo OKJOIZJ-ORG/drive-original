@@ -1,0 +1,55 @@
+✔ Q2 ac-3 admission requires explicit opt-in and preserves allocation guards (2.2915ms)
+✔ Q2 ec-3 admission requires explicit opt-in and preserves allocation guards (0.5401ms)
+✔ default AAC admission unchanged; unknown audio entries never become opt-in (0.3612ms)
+✔ Q2 container failure drains source without producing a window or output (1.5381ms)
+✖ bounded pinned-track admission identifies AC3 and EAC3 without whole-object input (13.475ms)
+✖ AAC stays original-native and unavailable Q2 output fails closed (5.1863ms)
+✔ AAC sample-count budget yields a clean optional-probe limit rather than source failure (1.3746ms)
+✔ HTML native file support preserves Q0 despite WebCodecs input absence (1.581ms)
+✔ WebCodecs input support does not refuse otherwise qualified Q2 output (0.2865ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 151.6328
+
+✖ failing tests:
+
+test at tests\general-audio-probe.test.mjs:18:1
+✖ bounded pinned-track admission identifies AC3 and EAC3 without whole-object input (13.475ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'native' !== 'q2'
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/tests/general-audio-probe.test.mjs:28:14)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'native',
+    expected: 'q2',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-audio-probe.test.mjs:37:1
+✖ AAC stays original-native and unavailable Q2 output fails closed (5.1863ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'native'
+  - 'unsupported'
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/tests/general-audio-probe.test.mjs:47:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'native',
+    expected: 'unsupported',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

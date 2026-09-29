@@ -1,0 +1,327 @@
+{
+  "cases": [
+    {
+      "name": "actual-feature-gate-and-no-downmix",
+      "passed": true,
+      "result": {
+        "capabilities": {
+          "eligible": true,
+          "nativeInputSupported": false,
+          "opusEncoderSupported": true,
+          "mseSupported": true,
+          "outputConfig": {
+            "codec": "opus",
+            "numberOfChannels": 2,
+            "sampleRate": 48000,
+            "bitrate": 320000
+          },
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          }
+        },
+        "rejected": "AUDIO_STEREO_48K_REQUIRED"
+      }
+    },
+    {
+      "name": "real-worker-ac3-copy-clock-ack-close",
+      "passed": true,
+      "result": {
+        "samples": 3,
+        "cleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": false,
+          "consumersSettled": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 3,
+            "decodedFrames": 4608,
+            "transferredPcmBytes": 36864,
+            "failures": 0,
+            "peakPacketBytes": 1536,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "workerTerminated": true
+        },
+        "metrics": {
+          "packets": 3,
+          "transferredInputBytes": 4608,
+          "receivedPcmBytes": 36864,
+          "peakPending": 1,
+          "peakPcmBytes": 12288,
+          "pendingPcm": 0,
+          "acks": 3,
+          "staleReplies": 0,
+          "terminated": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 3,
+            "decodedFrames": 4608,
+            "transferredPcmBytes": 36864,
+            "failures": 0,
+            "peakPacketBytes": 1536,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "pending": 0
+        }
+      }
+    },
+    {
+      "name": "real-worker-eac3-copy-clock-ack-close",
+      "passed": true,
+      "result": {
+        "samples": 3,
+        "cleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": false,
+          "consumersSettled": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 3,
+            "decodedFrames": 4608,
+            "transferredPcmBytes": 36864,
+            "failures": 0,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "workerTerminated": true
+        },
+        "metrics": {
+          "packets": 3,
+          "transferredInputBytes": 7680,
+          "receivedPcmBytes": 36864,
+          "peakPending": 1,
+          "peakPcmBytes": 12288,
+          "pendingPcm": 0,
+          "acks": 3,
+          "staleReplies": 0,
+          "terminated": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 3,
+            "decodedFrames": 4608,
+            "transferredPcmBytes": 36864,
+            "failures": 0,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "pending": 0
+        }
+      }
+    },
+    {
+      "name": "actual-worker-cancel-held-PCM-drains-consumer",
+      "passed": true,
+      "result": {
+        "cleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": false,
+          "consumersSettled": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 1,
+            "decodedFrames": 1536,
+            "transferredPcmBytes": 12288,
+            "failures": 0,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "workerTerminated": true
+        },
+        "failure": "AUDIO_WORKER_CANCELLED",
+        "metrics": {
+          "packets": 0,
+          "transferredInputBytes": 2560,
+          "receivedPcmBytes": 12288,
+          "peakPending": 1,
+          "peakPcmBytes": 12288,
+          "pendingPcm": 0,
+          "acks": 0,
+          "staleReplies": 0,
+          "terminated": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 1,
+            "decodedFrames": 1536,
+            "transferredPcmBytes": 12288,
+            "failures": 0,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "pending": 0
+        }
+      }
+    },
+    {
+      "name": "actual-worker-corrupt-packet-terminal-free",
+      "passed": true,
+      "result": {
+        "failure": "AUDIO_DECODE_FAILED:-1094995529",
+        "cleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": false,
+          "consumersSettled": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 0,
+            "decodedFrames": 0,
+            "transferredPcmBytes": 0,
+            "failures": 1,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 0,
+            "peakHeapBytes": 0,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "workerTerminated": true
+        },
+        "metrics": {
+          "packets": 0,
+          "transferredInputBytes": 2560,
+          "receivedPcmBytes": 0,
+          "peakPending": 1,
+          "peakPcmBytes": 0,
+          "pendingPcm": 0,
+          "acks": 0,
+          "staleReplies": 0,
+          "terminated": true,
+          "native": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 0,
+            "decodedFrames": 0,
+            "transferredPcmBytes": 0,
+            "failures": 1,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 0,
+            "peakHeapBytes": 0,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          },
+          "pending": 0
+        }
+      }
+    },
+    {
+      "name": "real-module-delayed-open-cancel-does-not-allocate-context",
+      "passed": true,
+      "result": {
+        "cleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": true
+        },
+        "metrics": {
+          "opened": 0,
+          "closed": 0,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "inFlightDecode": 0,
+          "decodedPackets": 0,
+          "decodedFrames": 0,
+          "transferredPcmBytes": 0,
+          "failures": 0,
+          "peakPacketBytes": 0,
+          "peakPcmBytes": 0,
+          "peakHeapBytes": 0,
+          "moduleLoading": false,
+          "heapBytes": 33554432
+        }
+      }
+    },
+    {
+      "name": "actual-core-adapter-error-callback-keeps-close-chain-fulfilled",
+      "passed": true,
+      "result": {
+        "error": "AUDIO_DECODE_FAILED:-1094995529",
+        "emitted": 1,
+        "cleanup": {
+          "settled": true,
+          "metrics": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 1,
+            "decodedFrames": 1536,
+            "transferredPcmBytes": 12288,
+            "failures": 1,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          }
+        }
+      }
+    }
+  ],
+  "passed": 7,
+  "failed": 0,
+  "browser": "153.0.8010.54",
+  "pageErrors": [],
+  "missing": []
+}

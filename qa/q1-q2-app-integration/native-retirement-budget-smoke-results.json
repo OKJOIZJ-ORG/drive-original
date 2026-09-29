@@ -1,0 +1,91 @@
+{
+  "scope": "Installed isolated Chrome, fresh browser per case, actual app/SW/players, synthetic provider only. Manual case suppresses automatic planner to isolate controlled Q1-to-Q2 fallback. Drift case changes probe metadata only. No account/device/production proof.",
+  "producerStart": {
+    "app.js": "a7de62df81a5211014aaff9f65cbba2ee0f7aca330b846be760c5d6b44b1de96",
+    "sw.js": "53dba7b09d08d4747312b2e7db32b21ba86b53c430c4fee2ffe3eca53d002379",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "5af44913a02b2edc00bae71ed4c41caafba9d9b5b32e9b4a03d51358275e6c31",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "88cd4874d123b92e0a2fec240caf7048191d62f3273d211072eecbf05e85142e",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "results": [
+    {
+      "name": "aac-native",
+      "passed": true,
+      "fixture": {
+        "path": "qa/faststart-h264-aac.mp4",
+        "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+        "bytes": 202253
+      },
+      "requests": 11,
+      "errors": [],
+      "before": {
+        "attempt": "range",
+        "mode": "original-range",
+        "probeStarted": true,
+        "pin": true,
+        "routes": [],
+        "frames": 4,
+        "hasSource": true
+      },
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "browserClosed": true
+    }
+  ],
+  "passed": true,
+  "selectedCase": "aac-native",
+  "producerEnd": {
+    "app.js": "a7de62df81a5211014aaff9f65cbba2ee0f7aca330b846be760c5d6b44b1de96",
+    "sw.js": "53dba7b09d08d4747312b2e7db32b21ba86b53c430c4fee2ffe3eca53d002379",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "5af44913a02b2edc00bae71ed4c41caafba9d9b5b32e9b4a03d51358275e6c31",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "88cd4874d123b92e0a2fec240caf7048191d62f3273d211072eecbf05e85142e",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "browser": "153.0.8010.54"
+}

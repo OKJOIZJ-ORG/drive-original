@@ -1,0 +1,31 @@
+{
+  "browser": "153.0.8010.54",
+  "results": [
+    {
+      "kind": "failedOpenUnsettled",
+      "passed": true,
+      "opens": 1,
+      "first": "GENERAL_PLAYBACK_FAILED",
+      "second": "GENERAL_CLEANUP_UNCONFIRMED",
+      "cleanup": {
+        "settled": false
+      }
+    },
+    {
+      "kind": "identityChangedOnSeek",
+      "passed": true,
+      "opens": 2,
+      "aborts": 2,
+      "code": "GENERAL_CONTENT_CHANGED",
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      }
+    }
+  ]
+}

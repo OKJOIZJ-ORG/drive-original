@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>오픈소스 라이선스 — Drive Original</title>
+  <style>
+    :root { color-scheme: dark light; font-family: system-ui, sans-serif; line-height: 1.65; }
+    body { margin: 0; background: light-dark(#fafafa, #111316); color: light-dark(#202124, #eceef1); }
+    main { max-width: 72ch; margin: auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); line-height: 1.25; }
+    h2 { font-size: 1.2rem; margin-top: 2.5rem; }
+    a { color: light-dark(#1450ad, #a3c8ff); text-underline-offset: .18em; }
+    a:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+    li { margin-block: .6rem; }
+    code { font-size: .9em; overflow-wrap: anywhere; }
+    .note { color: light-dark(#555b63, #adb5bf); }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="../">Drive Original로 돌아가기</a>
+    <h1>오픈소스 라이선스와 소스 코드</h1>
+    <p>Drive Original의 미디어 처리 구성 요소에 적용되는 라이선스, 저작권 고지와 해당 소스 코드입니다. 원본 영상이나 계정 데이터는 포함하지 않습니다.</p>
+
+    <h2>mux.js</h2>
+    <p>기존 MPEG-TS 패킷 복사 경로에 사용합니다.</p>
+    <p><a href="../media/mux-LICENSE.txt">저작권 고지 및 라이선스</a></p>
+
+    <h2>Mediabunny 1.60.0</h2>
+    <p>Vanilagy 및 기여자의 MPL-2.0 구성 요소입니다. 원본 시간축과 색상 정보를 보존하고 스트리밍 자원을 제한하는 수정이 포함됩니다.</p>
+    <ul>
+      <li><a href="../media/mediabunny-q1.LICENSE">MPL-2.0 전문</a></li>
+      <li><a href="../media/mediabunny-q1-NOTICE.md">저작권·수정·재빌드 안내</a></li>
+      <li><a href="./mediabunny-q1-preferred-source.tgz" download>해당 소스 코드와 재빌드 자료 (약 457KB)</a></li>
+    </ul>
+
+    <h2>소스에서 빌드한 AC3/EAC3 오디오 디코더</h2>
+    <p>FFmpeg n8.0의 LGPL-2.1-or-later 라이브러리, 수정한 MPL-2.0 브리지, Emscripten 4.0.15를 사용합니다. GPL 및 nonfree 기능을 제외한 빌드 구성입니다. 포함된 고지와 라이선스 전문이 각 자료에 적용됩니다.</p>
+    <ul>
+      <li><a href="../media/audio-codec.LICENSE.txt">전체 저작권 고지 및 라이선스</a></li>
+      <li><a href="./audio-source-NOTICE.md">소스·수정·재링크 권리와 안내</a></li>
+      <li><a href="./audio-source-manifest.json" download>파일 목록과 검증 해시</a></li>
+      <li><a href="./audio-source-reconstruct.cjs" download>소스 패키지 합치기 도구</a></li>
+    </ul>
+    <p>현재 배포한 JavaScript 수정본의 소스는 아래 파일입니다. 소스 패키지에 보관된 준비 당시 수정본 이후의 재생 경로 변경도 이 파일에 포함되어 있습니다.</p>
+    <ul>
+      <li><a href="../media/audio-runtime.mjs" download>오디오 실행·지원 확인 소스</a></li>
+      <li><a href="../media/audio-adapter.mjs" download>오디오 어댑터 소스</a></li>
+      <li><a href="../media/audio-worker.mjs" download>오디오 작업자 소스</a> · <a href="../media/audio-worker-client.mjs" download>작업자 연결 소스</a></li>
+      <li><a href="../media/audio-general-pipeline.mjs" download>통합 오디오 처리 소스</a> · <a href="../media/audio-general-worker.mjs" download>통합 작업자 소스</a></li>
+    </ul>
+    <p>아래 7개 파일과 합치기 도구를 같은 폴더에 받은 뒤 <code>node audio-source-reconstruct.cjs</code>를 실행하세요. 만들어진 <code>audio-source-v1.tar.gz</code>를 풀면 전체 소스, 수정 가능한 브리지, 객체·정적 라이브러리와 빌드·재링크 방법이 들어 있습니다.</p>
+    <ol>
+      <li><a href="./audio-source-v1.tar.gz.part001" download>소스 패키지 1 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part002" download>소스 패키지 2 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part003" download>소스 패키지 3 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part004" download>소스 패키지 4 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part005" download>소스 패키지 5 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part006" download>소스 패키지 6 / 7 (8MiB)</a></li>
+      <li><a href="./audio-source-v1.tar.gz.part007" download>소스 패키지 7 / 7 (약 3.12MiB)</a></li>
+    </ol>
+    <p class="note">총 53,597,911바이트입니다. 다운로드 자료에는 미디어 예제나 설치된 컴파일러가 들어 있지 않습니다. 소스 다운로드에는 인터넷 연결이 필요합니다.</p>
+  </main>
+</body>
+</html>

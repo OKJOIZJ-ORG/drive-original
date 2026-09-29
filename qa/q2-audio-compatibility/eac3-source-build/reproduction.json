@@ -1,0 +1,33 @@
+{
+  "method": "Move first bridge object/JS/WASM aside; compile bridge from source and relink using unchanged source-bound FFmpeg static libraries. No previous output artifact exists at rebuild start.",
+  "staticLibraryReuseAuthorized": true,
+  "before": {
+    "codec.wasm": {
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    "codec.mjs": {
+      "bytes": 15181,
+      "sha256": "85847e223dd71b9eb671bdb5292a583a43d48ab5da0fe6710a32ecb845b632e9"
+    },
+    "bridge.o": {
+      "bytes": 10504,
+      "sha256": "a27bd1531b208d95639ff031cd3df568ed1ed1fad88f22eca7f84ffbd00eb2f9"
+    }
+  },
+  "after": {
+    "codec.wasm": {
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    "codec.mjs": {
+      "bytes": 15181,
+      "sha256": "85847e223dd71b9eb671bdb5292a583a43d48ab5da0fe6710a32ecb845b632e9"
+    },
+    "bridge.o": {
+      "bytes": 10504,
+      "sha256": "a27bd1531b208d95639ff031cd3df568ed1ed1fad88f22eca7f84ffbd00eb2f9"
+    }
+  },
+  "byteIdentical": true
+}

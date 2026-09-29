@@ -1,0 +1,349 @@
+{
+  "browser": "153.0.8010.54",
+  "results": [
+    {
+      "name": "ts",
+      "passed": true,
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "observations": [
+        {
+          "stage": "ready",
+          "map": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0
+          },
+          "stats": {
+            "generation": 1,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 1.6713333333333333,
+              "targetElement": 0.2713333333333334,
+              "timestampOffset": 0
+            },
+            "appends": 5,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 5.979332666666666,
+            "peakRetainedAppendBytes": 574363,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 1.5999999999999999,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0.256
+          },
+          "frame": {
+            "mediaTime": 0.304666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 1.6713333333333333,
+              "targetElement": 0.2713333333333334,
+              "timestampOffset": 0.256
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 1.965422,
+            "peakRetainedAppendBytes": 286743,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 7.535666666666666,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 7.535666666666666,
+            "targetElement": 6.1356666666666655,
+            "timestampOffset": 4.2666666666666675
+          },
+          "frame": {
+            "mediaTime": 6.137999,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 3,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 7.535666666666666,
+              "targetElement": 6.1356666666666655,
+              "timestampOffset": 4.2666666666666675
+            },
+            "appends": 3,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0.1149983333333342,
+            "peakRetainedAppendBytes": 285556,
+            "disposed": false
+          }
+        },
+        {
+          "stage": "seek",
+          "target": 12.971333333333334,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 12.971333333333334,
+            "targetElement": 11.571333333333333,
+            "timestampOffset": 10.261333333333333
+          },
+          "frame": {
+            "mediaTime": 11.604666,
+            "presentedFrames": 2
+          },
+          "stats": {
+            "generation": 4,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 1.4,
+              "sourceEnd": 13.671333333333333,
+              "commonShift": 1.4,
+              "targetSource": 12.971333333333334,
+              "targetElement": 11.571333333333333,
+              "timestampOffset": 10.261333333333333
+            },
+            "appends": 2,
+            "removals": 0,
+            "waits": 0,
+            "peakAhead": 0,
+            "peakRetainedAppendBytes": 139165,
+            "disposed": false,
+            "worker": {
+              "reads": 46,
+              "bytes": 2941936,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 2,
+              "acks": 2,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 46,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 4,
+              "duration": 13.671333333333333,
+              "sourcePacketOrigin": 1.4,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 12.971333333333334,
+              "windowOrigin": 11.661333333333333,
+              "policy": null,
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 143,
+              "outputBytes": 139165,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114843,
+              "admission": {
+                "kind": "ts",
+                "packetStride": 188
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 136976,
+                "peakSamples": 143
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MPEG Transport Stream",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 46,
+                "bytes": 2941936,
+                "logicalReads": 15888,
+                "cacheHits": 15885,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 2835104,
+                "discoveryRequests": 44
+              }
+            }
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "starting",
+          "generation": 1,
+          "time": 0
+        },
+        {
+          "type": "mapping",
+          "generation": 1,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 1.6713333333333333,
+          "targetElement": 0.2713333333333334,
+          "timestampOffset": 0
+        },
+        {
+          "type": "buffered",
+          "generation": 1,
+          "time": 1.6713333333333333,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 2,
+          "time": 1.5999999999999999
+        },
+        {
+          "type": "mapping",
+          "generation": 2,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 1.6713333333333333,
+          "targetElement": 0.2713333333333334,
+          "timestampOffset": 0.256
+        },
+        {
+          "type": "buffered",
+          "generation": 2,
+          "time": 1.6713333333333333,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 1.6713333333333333,
+            "targetElement": 0.2713333333333334,
+            "timestampOffset": 0.256
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 3,
+          "time": 7.535666666666666
+        },
+        {
+          "type": "mapping",
+          "generation": 3,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 7.535666666666666,
+          "targetElement": 6.1356666666666655,
+          "timestampOffset": 4.2666666666666675
+        },
+        {
+          "type": "buffered",
+          "generation": 3,
+          "time": 7.535666666666666,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 7.535666666666666,
+            "targetElement": 6.1356666666666655,
+            "timestampOffset": 4.2666666666666675
+          }
+        },
+        {
+          "type": "starting",
+          "generation": 4,
+          "time": 12.971333333333334
+        },
+        {
+          "type": "mapping",
+          "generation": 4,
+          "sourceOrigin": 1.4,
+          "sourceEnd": 13.671333333333333,
+          "commonShift": 1.4,
+          "targetSource": 12.971333333333334,
+          "targetElement": 11.571333333333333,
+          "timestampOffset": 10.261333333333333
+        },
+        {
+          "type": "buffered",
+          "generation": 4,
+          "time": 12.971333333333334,
+          "duration": 12.271333333333333,
+          "mapping": {
+            "sourceOrigin": 1.4,
+            "sourceEnd": 13.671333333333333,
+            "commonShift": 1.4,
+            "targetSource": 12.971333333333334,
+            "targetElement": 11.571333333333333,
+            "timestampOffset": 10.261333333333333
+          }
+        },
+        {
+          "type": "buffered-to-end",
+          "generation": 4
+        }
+      ],
+      "opens": 4,
+      "aborts": 4,
+      "peakSources": 1
+    }
+  ]
+}

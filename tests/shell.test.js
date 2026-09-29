@@ -44,12 +44,27 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   const mock={existsSync:()=>false,mkdirSync(){},copyFileSync:(source,dest)=>copies.push(path.relative(root,source)),writeFileSync(){}};
   const files=require('../scripts/public-files.cjs');
   vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:name==='./public-files.cjs'?files:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
-  assert.equal(copies.length,19);assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
+  assert.deepEqual(copies.map(file=>file.replaceAll('\\','/')).sort(),[...files].sort());
+  assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
   assert(copies.includes(path.join('media','revision-pin.js')));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');
   assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);
   assert.match(publish,/publicFiles = require\('\.\/public-files\.cjs'\)/);assert.doesNotMatch(publish,/--force/);
+});
+test('corresponding-source downloads remain public but never enter the runtime cache',()=>{
+  const publicFiles=require('../scripts/public-files.cjs');
+  const w=worker();
+  const archives=publicFiles.filter(file=>/\.tgz$|\.tar\.gz\.part\d+$/.test(file));
+  assert.equal(archives.length,8);
+  for(const file of archives){
+    assert(fs.existsSync(path.join(root,file)),file);
+    assert.equal(w.c.shellAssetCacheKey(new Request('https://app.test/drive-original/'+file)),null,file);
+  }
+  const audio=JSON.parse(fs.readFileSync(path.join(root,'licenses/audio-source-manifest.json'),'utf8'));
+  const sourceFiles=audio.parts || audio.archive?.parts;
+  assert(sourceFiles,'Source manifest must enumerate the downloadable parts');
+  assert(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('href="./licenses/index.html"'));
 });
 test('candidate deployment runs committed-asset materialization before publication',()=>{
   const workerPackage=JSON.parse(fs.readFileSync(path.join(root,'worker/package.json'),'utf8'));

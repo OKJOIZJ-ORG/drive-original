@@ -1,5 +1,21 @@
 'use strict';
-// Exact public assets only: no QA source, build records, account or auth state.
-module.exports=Object.freeze(['index.html','runtime-config.js','app.js','styles.css','sw.js','version.json','manifest.webmanifest',
+// Exact public runtime and corresponding-source assets only; no QA/build/account state.
+module.exports=Object.freeze([
+  'index.html','runtime-config.js','app.js','styles.css','sw.js','version.json','manifest.webmanifest',
   'icons/app-icon.svg','icons/icon-192.png','icons/icon-512.png','icons/maskable-512.png','icons/apple-touch-icon.png',
-  'media/drive-source.mjs','media/revision-pin.js','media/ts-player.mjs','media/q1-core.mjs','media/transmux-worker.mjs','media/mux-mp4.min.js','media/mux-LICENSE.txt']);
+  'media/drive-source.mjs','media/revision-pin.js','media/ts-player.mjs','media/q1-core.mjs',
+  'media/transmux-worker.mjs','media/mux-mp4.min.js','media/mux-LICENSE.txt',
+  'media/general-admission.mjs','media/general-codec.mjs','media/general-owner.mjs',
+  'media/general-pipeline.mjs','media/general-player.mjs','media/general-source.mjs',
+  'media/general-timeline.mjs','media/general-worker.mjs',
+  'media/mediabunny-q1.mjs','media/mediabunny-q1.LICENSE','media/mediabunny-q1-NOTICE.md',
+  'media/audio-runtime.mjs','media/audio-adapter.mjs','media/audio-worker-client.mjs',
+  'media/audio-worker.mjs','media/audio-codec.mjs','media/audio-codec.wasm','media/audio-codec.LICENSE.txt',
+  'media/audio-general-pipeline.mjs','media/audio-general-worker.mjs',
+  'licenses/index.html','licenses/mediabunny-q1-preferred-source.tgz',
+  'licenses/audio-source-NOTICE.md','licenses/audio-source-manifest.json','licenses/audio-source-reconstruct.cjs',
+  'licenses/audio-source-v1.tar.gz.part001','licenses/audio-source-v1.tar.gz.part002',
+  'licenses/audio-source-v1.tar.gz.part003','licenses/audio-source-v1.tar.gz.part004',
+  'licenses/audio-source-v1.tar.gz.part005','licenses/audio-source-v1.tar.gz.part006',
+  'licenses/audio-source-v1.tar.gz.part007'
+]);

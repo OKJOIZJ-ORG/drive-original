@@ -1,0 +1,18 @@
+{
+  "status": "prior final qualification invalid for late strict-color guard; preserved historical report is not current-source proof",
+  "observationKind": "reconstructed from retained tool observation, not a complete captured machine run",
+  "error": "AUDIO_VIDEO_COLOR_UNQUALIFIED",
+  "observedColor": {
+    "matrix": "bt709",
+    "fullRange": false
+  },
+  "opened": 0,
+  "liveContexts": 0,
+  "discoveryBytes": 65536,
+  "sourceBinding": {
+    "path": "media/audio-general-pipeline.mjs",
+    "bytes": 14438,
+    "sha256": "987cdc0886ccc204f7ef54dd4ae595c2c602007a1037d444d4dabc60702a05fa"
+  },
+  "cause": "Late guard expected absent public decoderConfig primaries/transfer; failed driver aborted before updating report; prior finalizer accepted stale success"
+}

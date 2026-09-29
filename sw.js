@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.14';
+const VERSION = '1.22.0-rc.15';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
@@ -21,6 +21,28 @@ const SHELL_FILES = [
   './media/transmux-worker.mjs',
   './media/mux-mp4.min.js',
   './media/mux-LICENSE.txt',
+  './media/general-admission.mjs',
+  './media/general-codec.mjs',
+  './media/general-owner.mjs',
+  './media/general-pipeline.mjs',
+  './media/general-player.mjs',
+  './media/general-source.mjs',
+  './media/general-timeline.mjs',
+  './media/general-worker.mjs',
+  './media/mediabunny-q1.mjs',
+  './media/mediabunny-q1.LICENSE',
+  './media/mediabunny-q1-NOTICE.md',
+  './media/audio-runtime.mjs',
+  './media/audio-adapter.mjs',
+  './media/audio-worker-client.mjs',
+  './media/audio-worker.mjs',
+  './media/audio-codec.mjs',
+  './media/audio-codec.wasm',
+  './media/audio-codec.LICENSE.txt',
+  './media/audio-general-pipeline.mjs',
+  './media/audio-general-worker.mjs',
+  './licenses/index.html',
+  './licenses/audio-source-NOTICE.md',
   './version.json',
   './manifest.webmanifest',
   './icons/app-icon.svg',
@@ -29,6 +51,7 @@ const SHELL_FILES = [
   './icons/maskable-512.png',
   './icons/apple-touch-icon.png'
 ];
+// Corresponding-source archives are public downloads, not runtime/offline assets.
 
 // A worker controls several tabs/PWA windows. Credentials belong to the
 // requesting client, never to whichever window sent a message most recently.
@@ -68,6 +91,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('message', (event) => {
   const data = event.data || {};
   const clientId = event.source?.id;
+  if (data.type === 'Q0_CAPABILITY_REQUEST' && event.ports?.[0]) {
+    const operation = replyQ0Capability(event, data, clientId);
+    event.waitUntil?.(operation);
+    return;
+  }
   if (data.type === 'Q1_RETIRE_REQUEST' && event.ports?.[0]) {
     const operation = replyQ1Retirement(event, data, clientId);
     event.waitUntil?.(operation);
@@ -102,6 +130,37 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+
+async function replyQ0Capability(event, data, clientId) {
+  const port = event.ports[0];
+  const requestId = typeof data.requestId === 'string'
+    && /^[A-Za-z0-9_-]{1,80}$/.test(data.requestId) ? data.requestId : null;
+  let capable = false;
+  try {
+    if (data.protocol === DriveRevisionPin.PROTOCOL && requestId
+      && typeof clientId === 'string' && /^[A-Za-z0-9_-]{1,128}$/.test(clientId)) {
+      const client = await self.clients.get(clientId);
+      const scope = workerScopeUrl();
+      const inScope = candidate => {
+        if (candidate?.id !== clientId || candidate.type !== 'window') return false;
+        try {
+          const url = new URL(candidate.url);
+          return !url.username && !url.password && url.origin === scope.origin
+            && url.pathname.startsWith(scope.pathname);
+        } catch (_) { return false; }
+      };
+      if (inScope(client)) {
+        const controlled = await self.clients.matchAll({ type: 'window', includeUncontrolled: false });
+        capable = controlled.some(inScope);
+      }
+    }
+  } catch (_) { /* A missing or changing controller cannot authorize native bytes. */ }
+  try {
+    port.postMessage({ type: 'Q0_CAPABILITY_RESPONSE', protocol: DriveRevisionPin.PROTOCOL,
+      requestId, capable });
+  } catch (_) { /* The page may have retired this probe. */ }
+  finally { try { port.close(); } catch (_) { /* Already closed. */ } }
+}
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);

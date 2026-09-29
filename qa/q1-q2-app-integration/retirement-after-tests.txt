@@ -1,0 +1,376 @@
+✔ candidate runtime blocks Drive mutations before fetch until the state gate opens (92.4655ms)
+✔ candidate prerelease versions remain valid and compare in SemVer order (7.804ms)
+✔ update checks keep newest feedback and release manual loading across out-of-order success and errors (32.3684ms)
+✔ update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update (17.8057ms)
+✔ a stale update deadline cannot clear the newer automatic check manual loading (6.6519ms)
+✔ real listing failure logs fixed status classification without upstream private identifiers or credentials (6.881ms)
+✔ app failure records preserve auth/network/fixed codes but discard raw message stack and attached payload (4.8379ms)
+✔ a new service worker reconnects only a pre-byte Range source without consuming its retry (5.8884ms)
+✔ callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely (5.0597ms)
+✔ GIF detection covers MIME and case-insensitive filename fallback (5.468ms)
+✔ session credentials are strict, memory-only, and remove legacy browser artifacts (6.4928ms)
+✔ same-origin credential requests are single-flight and send the account fence (5.8455ms)
+✔ initial session recovery keeps the reconnect action inert until the credential probe settles (4.4349ms)
+✔ iOS standalone starts OAuth inside the web-app context while browser surfaces keep same-window navigation (24.7411ms)
+✔ a blocked standalone OAuth window fails closed and releases the connect action (6.5034ms)
+✔ standalone popup and deadline failures preserve an already usable session (27.8788ms)
+✔ standalone foreground recovery is single-owner, survives one early 401, and opens the library on credential proof (13.3538ms)
+✔ standalone recovery requires a new HttpOnly-session marker instead of any usable token or revision change (6.0997ms)
+✔ a standalone recovery timer that fires while hidden consumes no probe budget (5.3666ms)
+✔ pageshow alone can resume standalone recovery and a later return gets a fresh bounded probe epoch (8.0449ms)
+✔ standalone recovery expires at the OAuth transaction deadline and stale completion cannot revive it (15.6913ms)
+✔ standalone deadline generation-fences a real credential response that resolves late (5.5867ms)
+✔ offline and non-JSON credential failures are bounded and preserve the current memory credential (6.5099ms)
+✔ concurrent credential waiters share one failed request without starting another fetch (7.5196ms)
+✔ cancelling a Drive credential waiter releases it while the shared refresh serves another request (14.12ms)
+✔ foreground rechecks use wall-clock expiry and one shared refresh while hidden/offline stay idle (4.749ms)
+✔ a Q1 token reply authorizes only the same player source that survived the shared refresh (18.8775ms)
+✔ a credential response parsed after its account generation changes cannot install (5.6092ms)
+✔ account and revision fences reject stale credentials without replacing the current account (4.4925ms)
+✔ logout and disconnect use separate server actions and clear browser session state only after success (4.4835ms)
+✔ pagination exhausts tokens and rejects a repeated cursor (4.9633ms)
+✔ render window is row-aligned and never exceeds the hard DOM cap (3.8938ms)
+✔ move rows include roots, descendants, orphans, and cycles exactly once (5.3504ms)
+✔ breadcrumb items show the Drive root exactly once and remove stale duplicate entries (5.7916ms)
+✔ random selection uses the complete population and avoids the current item (4.966ms)
+✔ account media state merges viewed history and honors the newest favorite toggle (4.7036ms)
+✔ shorts deck exhausts unseen account media before watched candidates (4.1652ms)
+✔ double-tap reserves only narrow video edges for seek and likes everywhere else (4.7079ms)
+✔ mobile tap pairs toggle favorites once per pair and consume the gesture (4.4439ms)
+✔ mobile library edge swipe tracks from the left edge and commits one back navigation (6.8226ms)
+✔ account state upload creates a private appDataFolder JSON file (8.7737ms)
+✔ account initialization merges a newer offline cache and schedules it back to Drive (8.7168ms)
+✔ favorite catalog view spans folders and excludes folders and non-media records (6.3243ms)
+✔ favorite resolution reuses known media and identifies only unresolved file IDs (4.3907ms)
+✔ favorite view keeps cached matches and fetches missing liked files when account refresh fails (8.2267ms)
+✔ library status ownership prevents a late request from reviving stale text (6.819ms)
+✔ non-video media immediately hides stale video playback controls (5.3956ms)
+✔ vertical shorts deck preassigns two items above and below and reverses spatially (6.2471ms)
+✔ later metadata pages extend the frozen horizontal order without reshuffling it (4.2373ms)
+✔ original buffer policy prefers bounded OPFS and denies unsafe memory downloads (8.316ms)
+✔ QA-TR-11 local storage limits stay explicit and never auto-select compatibility (7.9975ms)
+✔ QA-TR-11 a native memory Blob allocation failure stays storage-limited (5.8258ms)
+✔ QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited (6.0292ms)
+✔ QA-TR-11 a superseded buffer failure cannot replace the newer source (5.1176ms)
+✔ QA-TR-11 a superseded storage-policy result cannot replace the newer source (3.8777ms)
+✔ known-clean initial Q0 assigns its source synchronously without storage policy or full download (3.6278ms)
+✔ an exhausted temporary-disk route is not selected again after Range fallback (4.4308ms)
+✔ shorts playback order ignores search and media filter subsets (6.1285ms)
+✔ move capability checks distinguish shared-drive exits from My Drive entries (4.2539ms)
+✔ resource-key headers keep raw keys and include each referenced item once (5.1521ms)
+✔ G-drive-scale render mounts at most 240 cards and uses static GIF canvases instead of animated images (26.2994ms)
+✔ GIF thumbnail loader draws one static cover frame and then releases the detached image (23.4088ms)
+✔ GIF thumbnail backing pixels exist only near the viewport and are released after exit (31.2817ms)
+✔ GIF draw failures immediately release the expanded canvas backing store (29.8889ms)
+✔ swipe commits require a dominant deliberate movement or a qualifying flick (5.5838ms)
+✔ an axis-locked swipe commits from signed distance and velocity without a second dominance test (4.4892ms)
+✔ frozen swipe navigation commits the previewed file ID even if the surrounding order changes (4.776ms)
+✔ video transition keeps the neighbour poster until a frame is actually presented (5.1309ms)
+✔ opt-in media trace is redacted, session-correlated and added to media URLs only while active (9.0517ms)
+✔ a superseded playback keeps its cancellation trace without mutating the newer file session (5.7934ms)
+✔ a superseded direct full-original request reports late bytes and cancellation to its retired trace (6.8385ms)
+✔ media trace does not call metadata a decoded frame and waits for frame presentation (5.2646ms)
+✔ media element errors remain provisional until the worker classification window closes (6.2929ms)
+✔ frame watchdog starts only after positive media bytes and keeps one recovery owner (6.2217ms)
+✔ actual frame time progress renews one watchdog lease while duplicate frames do not (4.6767ms)
+✔ timeupdate is a monotonic fallback only when frame callbacks are unavailable and no seek is active (3.8001ms)
+✔ seek completion requires seeked plus a decoded frame at each requested target (7.3669ms)
+✔ a delayed owned decoded frame completes a playing seek at its advancing playhead (5.3284ms)
+✔ delayed seek presentation rejects stale, unrelated, implausible and paint-only frames (8.5333ms)
+✔ delayed seek timeline accounts for rate changes, paused time and hidden playback separately (4.2937ms)
+✔ advancing currentTime without an owned decoded frame still reaches seek recovery once (3.972ms)
+✔ seek completion times out once at 15 seconds and delegates to existing Range recovery (4.6891ms)
+✔ a classified worker failure beats a captured seek timer and remains the sole recovery owner (4.8602ms)
+✔ a newer seek fences stale seeked events, frame callbacks, and timers (5.066ms)
+✔ seek clock spends only active foreground time across pause, hidden, offline, and pointer drag (17.1237ms)
+✔ source replacement, session replacement, and source clearing make old seek work inert (13.9575ms)
+✔ timeupdate remains fallback evidence and never replaces a decoded seek frame (12.8102ms)
+✔ frame watchdog suspends for inactive playback and rejects stale timers and frame callbacks (4.4951ms)
+✔ buffered-original frame timeout stops locally and leaves compatibility as a user choice (7.8989ms)
+✔ task pool caps concurrency and returns aligned all-settled results (48.1109ms)
+✔ Drive view, preview, and media URLs preserve required context (5.2529ms)
+✔ original-first recovery router never downgrades transient failures before retry and buffer recovery (4.0636ms)
+✔ proxy classification preserves structured range and Drive failure causes (3.9515ms)
+✔ stream timeouts have one app retry owner and block a competing media fallback (4.7899ms)
+✔ quality labels remain neutral until original byte delivery is verified (4.7856ms)
+✔ abuse acknowledgement is opt-in and scoped to the selected file (4.4664ms)
+✔ video playback failures distinguish retryable network errors from codec failures (4.0708ms)
+✔ full-original recovery retries complete transfer at most three times and rejects partial bodies (6.9279ms)
+✔ full-original permission failure refreshes once in-app before requiring reconnection (4.0454ms)
+✔ folder strip rendering obeys its hard cap (5.2832ms)
+✔ bulk move eligibility skips current items but blocks any non-current permission failure (4.1294ms)
+✔ bulk action target text is stable for empty, single, and multi-file selections (13.3433ms)
+✔ clearing a pending session credential request aborts it and permits a new generation (5.8957ms)
+✔ Q1 retirement hides no pending cleanup and carries failure across later owners (4.0724ms)
+✔ Q1 worker retirement requires a matching live controller reply and closes every port/listener (32.6047ms)
+✔ native-only initial startup assigns its source synchronously before immediate play (4.4888ms)
+✔ a native sniff fallback retirement reply cannot mutate a later file, session, account or source (63.7281ms)
+✔ native unsupported container keeps requested play intent but gesture denial clears it (4.5235ms)
+✔ native restore callback cannot reposition a later Q1 source in the same session (3.441ms)
+✔ early TS eligibility is a bounded hint and preserves native capability and unknown-size paths (5.7354ms)
+✔ early TS route chooses Q1 or Q0 only after the owned probe result (7.5373ms)
+✔ initial native replacement waits for Q1 retirement and rejects failed or stale cleanup (13.2517ms)
+✔ a stale early probe cannot assign native after an account change (3.9988ms)
+✔ same-session initial calls have one route owner and cannot bypass an active probe cleanup (5.1683ms)
+✔ AUTH-05 missing appData preserves playback and local pending state while allowing Drive reads (5.615ms)
+✔ AUTH-05 appData-only grants can read state but cannot read ordinary files or authorize old credentials (4.1707ms)
+✔ AUTH-05 ordinary media worker receives no token without Drive read capability (8.8375ms)
+✔ old controller cannot authorize native bytes; replacement needs exact correlated capability (40.1752ms)
+✔ capability cannot resume stale owner: state.authAccountKey='b' (6.7999ms)
+✔ capability cannot resume stale owner: state.driveSessionGeneration++ (7.5661ms)
+✔ capability cannot resume stale owner: state.mediaSession++ (5.338ms)
+✔ capability cannot resume stale owner: mediaSourceGeneration++ (9.338ms)
+✔ capability cannot resume stale owner: q0ControlWait.controller.abort() (6.0116ms)
+✔ capability timeout stays client-update failure without native or retry (4.6493ms)
+✔ general source clock drives movie time, seek, and original endpoint independent of MSE tail (7.3322ms)
+✔ general route admission: observed code4 with verified original and retained pin (14.8454ms)
+✔ general route admission: offline (6.4547ms)
+✔ general route admission: classified provider error (19.7989ms)
+✔ general route admission: network media code (5.7471ms)
+✔ general route admission: unverified transport (6.2038ms)
+✔ general route admission: missing retained pin (4.628ms)
+✔ general route admission: waiting for SW capability (6.158ms)
+✔ Q0 retirement joins stale audio probe and keeps unsettled source sticky: mediaSourceGeneration++ (12.8931ms)
+✔ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.authAccountKey='b' (12.6817ms)
+✔ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.driveSessionGeneration++ (9.8665ms)
+✔ Q0 retirement joins stale audio probe and keeps unsettled source sticky: navigator.serviceWorker.controller={} (10.0069ms)
+✔ Q0 retirement joins a settled skipped non-ISO probe without a false sticky failure (9.5445ms)
+✔ current ISO audio probe cleanup failure marks its owner before retirement (14.0048ms)
+✔ rejected stale probe abort fails retirement without an unhandled setup rejection (12.8825ms)
+✔ current non-ISO probe keeps exact abort outcome: true (9.5792ms)
+✔ current non-ISO probe keeps exact abort outcome: false (10.5697ms)
+✔ bounded pinned-track admission identifies AC3 and EAC3 without whole-object input (31.2225ms)
+✔ AAC stays original-native and unavailable Q2 output fails closed (9.77ms)
+✔ Opus end uses actual preSkip and common clock rather than one encoder constant (1.9722ms)
+✔ OpusHead view offset and ArrayBuffer both read exact source bytes (0.2863ms)
+✔ unknown or malformed final audio config fails before append rather than guessing padding (3.3484ms)
+✔ Q1 AAC keeps its original endpoint policy, invalid Q2 clock fails closed (0.5019ms)
+✖ actual page/SW first snapshot is private, overrides listing, and subsequent ranges remain revision A (101.9355ms)
+✖ restarted worker rebinds page-retained A without provider acquisition (15.6088ms)
+✖ 401 refresh authorizes same URI and source snapshot (6.4474ms)
+✔ drift fails before any original bytes without latest fallback (8.3089ms)
+✔ headless fails before any original bytes without latest fallback (4.4772ms)
+✔ nonpartial fails before any original bytes without latest fallback (5.9984ms)
+✔ unsafeURI fails before any original bytes without latest fallback (5.5664ms)
+✔ wrong Q0 token tuple never authorizes provider traffic (3.7483ms)
+✔ malformed private owner reply fileId cannot start provider acquisition (5.6045ms)
+✔ malformed private owner reply clientId cannot start provider acquisition (6.6064ms)
+✔ malformed private owner reply sourceGeneration cannot start provider acquisition (6.1812ms)
+✔ malformed private owner reply accountGeneration cannot start provider acquisition (3.4308ms)
+✔ malformed private owner reply accountKey cannot start provider acquisition (5.5321ms)
+✔ malformed private owner reply mediaSession cannot start provider acquisition (3.2347ms)
+✔ private owner resource key with a control character is rejected before fetch (4.1053ms)
+✖ native first abort detaches from shared acquisition and the next range receives its exact pin (28.1511ms)
+✔ source retirement joins cooperative pending metadata and forbids late page binding (7.031ms)
+✔ noncooperative metadata cleanup remains sticky and blocks successor generation (55.5376ms)
+✖ pending operation polls entire opaque name exactly once; initial done does not GET (17.0841ms)
+✔ a changed page owner (state.authAccountKey='other') rejects late pin admission (5.5035ms)
+✔ a changed page owner (state.driveSessionGeneration=2) rejects late pin admission (4.2578ms)
+✔ a changed page owner (state.mediaSession=8) rejects late pin admission (7.4562ms)
+✔ a changed page owner (mediaSourceGeneration=13) rejects late pin admission (4.705ms)
+✔ retirement cancels a pending JSON reader and waits for its real cancellation barrier (9.5045ms)
+✖ pinned body no-progress timeout cancels actual reader and status events omit private descriptor and URI (5.6974ms)
+✔ failed JSON-reader cancellation is sticky even after its read promise settles (3.9911ms)
+✔ actual application source-pin classification terminates without native rebuild or original-buffer fallback (3.1529ms)
+✖ revision HTTP 403 becomes terminal source-pin and never resamples latest (6.4908ms)
+✖ revision HTTP 404 becomes terminal source-pin and never resamples latest (4.9035ms)
+✖ revision HTTP 410 becomes terminal source-pin and never resamples latest (5.2632ms)
+✔ full-original recovery uses retained revision URI and direct read authorization after latest changes (8.4011ms)
+✔ full-original recovery without a pin fails explicitly while ordinary thumbnail reads retain their existing route (3.2128ms)
+✖ retained full-original resource-key header comes from the private descriptor rather than stale listing (7.6272ms)
+✖ absent retained resource key removes stale listing key from SW ranges and direct full-original recovery (5.6877ms)
+✔ cold first controller claim waits for correlated capability, coalesces, then begins Q0 (8.4883ms)
+✔ cold control deadline fails after bounded 12s without native assignment or compatibility fallback (6.0383ms)
+✔ cold control callback cannot resume after clearDirectMediaSources() (3.6535ms)
+✔ cold control callback cannot resume after state.authAccountKey='other' (3.6456ms)
+✔ cold control callback cannot resume after state.driveSessionGeneration=2 (3.0524ms)
+✔ cold control callback cannot resume after state.mediaSession=8 (4.6846ms)
+✔ cold control callback cannot resume after mediaSourceGeneration=13 (3.1003ms)
+✔ Q0 capability authorizes only the correlated controlled in-scope window without auth/provider reads (8.4144ms)
+✔ Q0 capability rejects an uncontrolled, disappeared or replaced client (13.0109ms)
+✔ Q0 capability rejects cross-origin, out-of-scope, credentialed and non-window clients (14.7701ms)
+✔ Q0 capability rejects invalid protocol and nonce before client lookup; bounded reply omits malformed nonce (11.6268ms)
+ℹ tests 192
+ℹ suites 0
+ℹ pass 181
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1293.2466
+
+✖ failing tests:
+
+test at tests\q0-proxy.test.js:95:1
+✖ actual page/SW first snapshot is private, overrides listing, and subsequent ranges remain revision A (101.9355ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 206
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:96:76)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 206,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:104:1
+✖ restarted worker rebinds page-retained A without provider acquisition (15.6088ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:106:49)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:108:1
+✖ 401 refresh authorizes same URI and source snapshot (6.4474ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 206
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:109:84)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 206,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:136:1
+✖ native first abort detaches from shared acquisition and the next range receives its exact pin (28.1511ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   name: 'RevisionPinError'
+  -   name: 'AbortError'
+    }
+  
+      at async TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:140:78)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: RevisionPinError: Q0_PIN_OWNER
+        at Object.error (evalmachine.<anonymous>:7:26)
+        at channel.port1.onmessage (evalmachine.<anonymous>:651:33)
+        at C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:19:35
+        at node:internal/process/task_queues:151:7
+        at AsyncResource.runInAsyncScope (node:async_hooks:227:14)
+        at AsyncResource.runMicrotask (node:internal/process/task_queues:148:8),
+    expected: { name: 'AbortError' },
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:158:1
+✖ pending operation polls entire opaque name exactly once; initial done does not GET (17.0841ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 206
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:160:43)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 206,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:182:1
+✖ pinned body no-progress timeout cancels actual reader and status events omit private descriptor and URI (5.6974ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:187:36)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:212:35
+✖ revision HTTP 403 becomes terminal source-pin and never resamples latest (6.4908ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 403
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:214:43)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 403,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:212:35
+✖ revision HTTP 404 becomes terminal source-pin and never resamples latest (4.9035ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 404
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:214:43)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 404,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:212:35
+✖ revision HTTP 410 becomes terminal source-pin and never resamples latest (5.2632ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 410
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:214:43)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 410,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\q0-proxy.test.js:232:1
+✖ retained full-original resource-key header comes from the private descriptor rather than stale listing (7.6272ms)
+  TypeError: Cannot read properties of undefined (reading 'headers')
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:235:60)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at tests\q0-proxy.test.js:240:1
+✖ absent retained resource key removes stale listing key from SW ranges and direct full-original recovery (5.6877ms)
+  TypeError: Cannot read properties of undefined (reading 'url')
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\q0-proxy.test.js:244:22)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)

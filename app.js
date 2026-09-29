@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.14';
+const APP_VERSION = '1.22.0-rc.15';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -68,6 +68,7 @@ const PLAYBACK_MODE = Object.freeze({
   OPFS: 'original-opfs',
   MEMORY: 'original-memory',
   REPACKAGED: 'original-repackaged',
+  AUDIO_COMPATIBILITY: 'original-video-audio-compatible',
   COMPATIBILITY: 'compatibility-preview'
 });
 
@@ -687,7 +688,14 @@ function q0OwnerContext(owner, clientId) {
     accountGeneration: owner.accountGeneration };
 }
 
-function waitForQ0Control(file, kind, session, message) {
+const q0CapableControllers = new WeakMap();
+function hasQ0CapableController() {
+  const worker = navigator.serviceWorker?.controller;
+  return Boolean(worker && globalThis.DriveRevisionPin?.PROTOCOL
+    && q0CapableControllers.get(worker) === DriveRevisionPin.PROTOCOL);
+}
+
+function waitForQ0Control(file, kind, session, message, onReady) {
   const serviceWorker = navigator.serviceWorker;
   if (q0ControlWait?.fileId === file.id && q0ControlWait.session === session
     && q0ControlWait.accountKey === state.authAccountKey
@@ -703,10 +711,12 @@ function waitForQ0Control(file, kind, session, message) {
   state.mediaAbortController?.abort(); state.mediaAbortController = controller;
   state.mediaAttempt = 'range-preparing';
   showMediaLoading(message);
-  let finished = false;
+  let finished = false, port = null, probedController = null;
+  const closePort = () => { if (port) { port.onmessage = null; port.close(); port = null; } };
   const finish = outcome => {
     if (finished) return;
     finished = true;
+    closePort();
     clearTimeout(timer);
     serviceWorker.removeEventListener?.('controllerchange', controlled);
     controller.signal.removeEventListener('abort', cancelled);
@@ -718,14 +728,41 @@ function waitForQ0Control(file, kind, session, message) {
     if (q0ControlWait === owner) q0ControlWait = null;
     if (state.mediaAbortController === controller) state.mediaAbortController = null;
     if (!current) return;
-    if (outcome === 'ready') startOriginalRangePlayback(file, kind, session, message);
+    if (outcome === 'ready') {
+      if (onReady) onReady();
+      else startOriginalRangePlayback(file, kind, session, message);
+    }
     else if (outcome === 'timeout') {
       state.mediaAttempt = 'failed';
       showMediaError('원본 재생 연결 준비가 지연되고 있습니다. 앱을 새로 연 뒤 다시 시도하세요.',
         { title: '재생 연결 준비 필요', showRetry: false });
     }
   };
-  const controlled = () => { if (serviceWorker.controller) finish('ready'); };
+  const controlled = () => {
+    closePort();
+    if (q0ControlWait !== owner || controller.signal.aborted
+      || state.selected?.id !== owner.fileId || state.mediaSession !== owner.session
+      || state.authAccountKey !== owner.accountKey
+      || state.driveSessionGeneration !== owner.accountGeneration
+      || mediaSourceGeneration !== owner.sourceGeneration) return finish('cancelled');
+    const worker = serviceWorker.controller, protocol = globalThis.DriveRevisionPin?.PROTOCOL;
+    probedController = worker;
+    if (hasQ0CapableController()) return finish('ready');
+    if (!worker || !protocol || typeof MessageChannel !== 'function') return;
+    const channel = new MessageChannel();
+    const requestId = `q0-cap-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    port = channel.port1;
+    port.onmessage = event => {
+      const data = event.data;
+      if (finished || controller.signal.aborted || worker !== probedController
+        || serviceWorker.controller !== worker || data?.type !== 'Q0_CAPABILITY_RESPONSE'
+        || data.protocol !== protocol || data.requestId !== requestId || data.capable !== true) return;
+      q0CapableControllers.set(worker, protocol);
+      finish('ready');
+    };
+    try { worker.postMessage({ type: 'Q0_CAPABILITY_REQUEST', protocol, requestId }, [channel.port2]); }
+    catch (_) { closePort(); channel.port2.close(); }
+  };
   const cancelled = () => finish('cancelled');
   const timer = setTimeout(() => finish('timeout'), 12000);
   controller.signal.addEventListener('abort', cancelled, { once: true });
@@ -763,6 +800,12 @@ function handleQ0PinMessage(event, data) {
         const pin = DriveRevisionPin.validatePin(data.pin, context);
         if (q0PinnedSource && !DriveRevisionPin.samePin(q0PinnedSource, pin)) throw new Error('PIN_REPLACEMENT');
         q0PinnedSource ||= Object.freeze({ ...pin, descriptor: Object.freeze({ ...pin.descriptor }) });
+        if (!owner.audioProbeStarted && state.selected?.id === owner.fileId && !el.videoPlayer.hidden) {
+          owner.audioProbeStarted = true;
+          const pinned = q0PinnedSource;
+          // Retirement must join the probe, including late source cancellation.
+          owner.setupDone = Promise.resolve().then(() => planPinnedOriginalAudio(owner, pinned));
+        }
       } else if (data.mode !== 'get') throw new Error('PROTOCOL');
     } catch (_) { error = 'PIN_REJECTED'; }
     port.postMessage({ type: 'Q0_PIN_RESPONSE', protocol, requestId: data.requestId, context,
@@ -1974,6 +2017,8 @@ async function handleWorkerMessage(event) {
       && String(q0Playback.session) === data.mediaSession
     ) : Boolean(
       q1Playback && !q1Playback.controller.signal.aborted && state.mediaAttempt.startsWith('q1')
+      && event.source === q1Playback.swController
+      && navigator.serviceWorker?.controller === q1Playback.swController
       && state.selected?.id === data.fileId && String(state.mediaSession) === data.mediaSession
       && Number.isSafeInteger(data.sourceGeneration) && data.sourceGeneration === mediaSourceGeneration
     ));
@@ -5575,8 +5620,8 @@ function updateFrameStepVisibility(show = Boolean(el.videoPlayer && !el.videoPla
 
 function seekRelative(deltaSeconds) {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
-  const duration = el.videoPlayer.duration || Infinity;
-  const target = Math.max(0, Math.min(duration, el.videoPlayer.currentTime + deltaSeconds));
+  const duration = playerTimeline().duration || Infinity;
+  const target = Math.max(0, Math.min(duration, playerTimeline().currentTime + deltaSeconds));
   setPlayerCurrentTime(el.videoPlayer, target, 'relative');
   showPlayerFeedback(deltaSeconds > 0 ? `+${deltaSeconds}S` : `${deltaSeconds}S`);
   updateVideoProgress();
@@ -5811,17 +5856,24 @@ function observeNativeMediaSeeking(video) {
   return beginMediaSeekIntent(video, targetTime, 'native');
 }
 
+function playerTimeline(video = el.videoPlayer) {
+  const mapping = q1Playback?.kind === 'general' && q1Playback.player?.stats()?.mapping;
+  const duration = mapping ? mapping.sourceEnd - mapping.sourceOrigin : Number(video?.duration);
+  const raw = mapping ? q1Playback.player.sourceTime() - mapping.sourceOrigin : Number(video?.currentTime);
+  return { mapping, duration, currentTime: Math.max(0, Math.min(Number.isFinite(duration) ? duration : Infinity, raw || 0)) };
+}
+
 function setPlayerCurrentTime(video, targetTime, origin = 'app') {
   if (!video || video.hidden || !isCurrentMediaEvent(video)) return false;
-  const duration = Number(video.duration);
+  const { duration, currentTime, mapping } = playerTimeline(video);
   const numericTarget = Number(targetTime);
   if (!Number.isFinite(numericTarget)) return false;
   const target = Number.isFinite(duration) && duration >= 0
     ? Math.max(0, Math.min(duration, numericTarget))
     : Math.max(0, numericTarget);
-  if (Math.abs((Number(video.currentTime) || 0) - target) < 0.0001) return false;
+  if (Math.abs(currentTime - target) < 0.0001) return false;
   if (state.mediaAttempt === 'q1' && q1Playback?.player) {
-    q1Playback.player.seek(target, { autoplay: !video.paused }).catch(() => {});
+    q1Playback.player.seek(mapping ? Math.min(mapping.sourceEnd - 0.000001, mapping.sourceOrigin + target) : target, { autoplay: !video.paused }).catch(() => {});
     return true;
   }
   beginMediaSeekIntent(video, target, origin);
@@ -5988,7 +6040,7 @@ function isMediaFrameWatchdogSource() {
     && [PLAYBACK_MODE.RANGE, PLAYBACK_MODE.SEQUENTIAL].includes(state.mediaPlaybackMode);
   const buffered = state.mediaAttempt === 'blob'
     && [PLAYBACK_MODE.OPFS, PLAYBACK_MODE.MEMORY].includes(state.mediaPlaybackMode);
-  const repackaged = state.mediaAttempt === 'q1' && state.mediaPlaybackMode === PLAYBACK_MODE.REPACKAGED;
+  const repackaged = state.mediaAttempt === 'q1' && [PLAYBACK_MODE.REPACKAGED, PLAYBACK_MODE.AUDIO_COMPATIBILITY].includes(state.mediaPlaybackMode);
   return direct || buffered || repackaged;
 }
 
@@ -6217,14 +6269,14 @@ function beginVideoFrameSampling() {
 
 function stepVideoFrame(direction) {
   const video = el.videoPlayer;
-  if (!video || video.hidden || !Number.isFinite(video.currentTime)) return;
+  if (!video || video.hidden || !Number.isFinite(playerTimeline(video).currentTime)) return;
   video.pause();
   state.pendingPlay = false;
-  const duration = Number.isFinite(video.duration) ? video.duration : Infinity;
+  const duration = Number.isFinite(playerTimeline(video).duration) ? playerTimeline(video).duration : Infinity;
   const frameDuration = Math.min(1 / 10, Math.max(1 / 240, state.frameDuration || DEFAULT_FRAME_DURATION));
   setPlayerCurrentTime(
     video,
-    Math.max(0, Math.min(duration, video.currentTime + Math.sign(direction || 1) * frameDuration)),
+    Math.max(0, Math.min(duration, playerTimeline(video).currentTime + Math.sign(direction || 1) * frameDuration)),
     'frame-step'
   );
   updateVideoProgress();
@@ -6364,11 +6416,12 @@ function onVideoTimeUpdate() {
 
 function onVideoProgressUpdate() {
   if (!el.videoPlayer || !el.seekBarBuffered) return;
-  const duration = el.videoPlayer.duration;
+  const duration = playerTimeline().duration;
   if (!duration || duration <= 0) return;
   const buffered = el.videoPlayer.buffered;
   if (buffered.length > 0) {
-    const end = buffered.end(buffered.length - 1);
+    const mapping = playerTimeline().mapping;
+    const end = buffered.end(buffered.length - 1) + (mapping ? mapping.commonShift - mapping.sourceOrigin : 0);
     const bufferedRatio = Math.min(1, Math.max(0, end / duration));
     el.seekBarBuffered.style.transform = `scaleX(${bufferedRatio})`;
   }
@@ -6376,8 +6429,8 @@ function onVideoProgressUpdate() {
 
 function updateVideoProgress() {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
-  const currentTime = el.videoPlayer.currentTime || 0;
-  const duration = Number.isFinite(el.videoPlayer.duration) ? el.videoPlayer.duration : 0;
+  const currentTime = playerTimeline().currentTime || 0;
+  const duration = Number.isFinite(playerTimeline().duration) ? playerTimeline().duration : 0;
   const ratio = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
 
   if (el.seekBarPlayed) el.seekBarPlayed.style.transform = `scaleX(${ratio})`;
@@ -6408,7 +6461,7 @@ function onSeekPointerDown(event) {
 
 function beginPointerSeek(event, track, showTooltip = false) {
   const video = el.videoPlayer;
-  const duration = video?.duration;
+  const duration = playerTimeline(video).duration;
   if (!track || !video || video.hidden || !Number.isFinite(duration) || duration <= 0
     || event.isPrimary === false || (event.button != null && event.button !== 0)) return;
   activeSeekCleanup?.();
@@ -6456,7 +6509,7 @@ function beginPointerSeek(event, track, showTooltip = false) {
 function onSeekPointerHover(event) {
   if (!el.videoPlayer || !el.seekBarTooltip || el.videoPlayer.hidden) return;
   const ratio = getSeekRatio(event);
-  const duration = el.videoPlayer.duration || 0;
+  const duration = playerTimeline().duration || 0;
   const hoverTime = ratio * duration;
   el.seekBarTooltip.textContent = formatPlayerTime(hoverTime);
   el.seekBarTooltip.style.left = `${ratio * 100}%`;
@@ -7441,11 +7494,11 @@ function handlePlayerKeyboard(event) {
 
     if (code && code.startsWith('Digit') && !event.ctrlKey && !event.altKey && !event.metaKey) {
       const digit = Number(code.replace('Digit', ''));
-      if (!isNaN(digit) && el.videoPlayer.duration) {
+      if (!isNaN(digit) && playerTimeline().duration) {
         event.preventDefault();
         setPlayerCurrentTime(
           el.videoPlayer,
-          (digit / 10) * el.videoPlayer.duration,
+          (digit / 10) * playerTimeline().duration,
           'digit-shortcut'
         );
         showPlayerFeedback(`SEEK ${digit * 10}%`);
@@ -7500,7 +7553,7 @@ function capturePlaybackSnapshot() {
   const video = el.videoPlayer;
   if (!video || video.hidden) return null;
   return {
-    time: Number.isFinite(video.currentTime) ? video.currentTime : 0,
+    time: Number.isFinite(playerTimeline(video).currentTime) ? playerTimeline(video).currentTime : 0,
     paused: Boolean(video.paused) && !state.pendingPlay,
     volume: Number.isFinite(video.volume) ? video.volume : 1,
     muted: Boolean(video.muted),
@@ -7689,7 +7742,7 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
     return false;
   }
-  if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
+  if (navigator.serviceWorker && !hasQ0CapableController()) {
     return waitForQ0Control(file, kind, session, message);
   }
   state.mediaAbortController?.abort();
@@ -7799,11 +7852,11 @@ function buildPinnedMediaUrl(file) {
 function onSeekKeyDown(event) {
   if (event.ctrlKey || event.metaKey || event.altKey) return;
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
-  const duration = el.videoPlayer.duration || 0;
+  const duration = playerTimeline().duration || 0;
   if (!Number.isFinite(duration) || duration <= 0) return;
   let target = null;
-  if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') target = el.videoPlayer.currentTime - 5;
-  if (event.key === 'ArrowRight' || event.key === 'ArrowUp') target = el.videoPlayer.currentTime + 5;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') target = playerTimeline().currentTime - 5;
+  if (event.key === 'ArrowRight' || event.key === 'ArrowUp') target = playerTimeline().currentTime + 5;
   if (event.key === 'Home') target = 0;
   if (event.key === 'End') target = duration;
   if (target == null) return;
@@ -7852,7 +7905,80 @@ function decideUnsupportedFormatRecovery({
   return 'buffer-original';
 }
 
-async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
+async function planPinnedOriginalAudio(owner, pin) {
+  const current = () => isCurrentQ0Playback(owner, owner.fileId, owner.swGeneration)
+    && navigator.serviceWorker?.controller === owner.swController && q0PinnedSource === pin;
+  if (!current()) return;
+  let source, cleanup;
+  const closeSource = async () => {
+    const closing = source;
+    source = null;
+    try {
+      const result = await closing.abort();
+      if (result?.settled !== true) owner.cleanupOk = false;
+      return result || { settled: false };
+    } catch (_) {
+      owner.cleanupOk = false;
+      return { settled: false };
+    }
+  };
+  try {
+    const [{openDriveQ1Source}, {probePinnedGeneralAudio}] = await Promise.all([
+      import('./media/drive-source.mjs'), import('./media/audio-general-pipeline.mjs')]);
+    if (!current()) return;
+    const file = state.selected, metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
+    metadataUrl.searchParams.set('supportsAllDrives', 'true');
+    source = await openDriveQ1Source({fileId:file.id, accountKey:owner.account,
+      accountGeneration:owner.accountGeneration, signal:owner.controller.signal, isCurrent:current,
+      readMetadata:async ({signal}) => {
+        const headers=file.resourceKey ? {'X-Goog-Drive-Resource-Keys':`${file.id}/${file.resourceKey}`} : {};
+        const response=await driveFetch(metadataUrl.href,{signal,headers});
+        return response.json();
+      },
+      readRange:({range,signal}) => {
+        return fetch(buildPinnedMediaUrl(file),{signal,cache:'no-store',headers:{Range:range}});
+      }});
+    if (['headRevisionId','size','mimeType','modifiedTime','sha256Checksum']
+      .some(key => source.identity[key] !== pin.descriptor[key])) throw new Error('Q1_SOURCE_CONTENT_DRIFT');
+    // Only an actual ISO ftyp header admits this Q2-specific inspection.
+    // WebM/other original-native formats keep their existing path.
+    const signature=await source.read({start:0,end:11});
+    if (!current()) { await closeSource(); return; }
+    if (signature.length!==12 || String.fromCharCode(...signature.subarray(4,8))!=='ftyp') {
+      cleanup=await closeSource();
+      if (!cleanup.settled) throw Object.assign(new Error('GENERAL_PROBE_CLEANUP_UNSETTLED'),{cleanup});
+      return;
+    }
+    const decision=await probePinnedGeneralAudio(source,{signal:owner.controller.signal,isCurrent:current});
+    cleanup={settled:true}; source=null;
+    if (!current() || decision.route==='native') return;
+    if (decision.route==='unsupported') throw new Error('AUDIO_NATIVE_GATE_UNAVAILABLE');
+    const snapshot=capturePlaybackSnapshot();
+    emitMediaDiagnosticStage('route-selected',{route:'q2',reason:decision.reason},owner.session);
+    void tryOriginalTsPlayback(file,owner.session,{general:true,audioCompatibility:true,snapshotOverride:snapshot});
+  } catch (error) {
+    if (error?.cleanup && error.cleanup.settled !== true) owner.cleanupOk = false;
+    cleanup=source ? await closeSource() : error?.cleanup;
+    if (!current()) return;
+    // A bounded optional Q2 inspection cannot disqualify native Q0 merely
+    // because its metadata/index exceeds the stricter general-player budget.
+    // Source, malformed-input and uncertain-cleanup errors remain terminal.
+    if (cleanup?.settled===true && ['GENERAL_CONTAINER_UNQUALIFIED','GENERAL_CODEC_UNQUALIFIED',
+      'GENERAL_ISO_FEATURE_UNQUALIFIED','GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
+      'GENERAL_FRAGMENTED_INPUT_UNQUALIFIED','GENERAL_EXPANDED_INDEX_LIMIT',
+      'GENERAL_TABLE_ENTRIES_LIMIT','GENERAL_BOX_COUNT','GENERAL_DISCOVERY_LIMIT',
+      'GENERAL_PACKET_LIMIT','GENERAL_METADATA_LIMIT','GENERAL_INPUT_SPAN_LIMIT'].includes(error?.message)) return;
+    emitMediaDiagnosticStage('q1-failed',{reason:/^(?:GENERAL|Q1_SOURCE|AUDIO)_[A-Z0-9_]+$/.test(error?.message)
+      ? error.message : 'GENERAL_AUDIO_PROBE_FAILED',terminal:true},owner.session);
+    clearDirectMediaSources();
+    state.mediaAttempt='failed';
+    showMediaError('원본 음성 형식을 안전하게 확인하지 못했습니다. 앱을 새로 연 뒤 다시 시도하세요.',
+      {title:'원본 음성 확인 필요',showRetry:false});
+  }
+}
+
+async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, snapshotOverride = null } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
   retireQ0Playback();
   const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
@@ -7869,7 +7995,9 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   q1Playback = owner;
   const current = () => q1Playback === owner && !controller.signal.aborted
     && state.selected?.id === file.id && state.mediaSession === session
-    && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration;
+    && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration
+    && owner.swController === navigator.serviceWorker?.controller
+    && owner.swGeneration === mediaSourceGeneration;
   const resumeNative = async () => {
     const sourceGeneration = mediaSourceGeneration, routeGeneration = initialMediaRouteGeneration;
     q1Playback = null; controller.abort(); state.mediaAbortController = null;
@@ -7889,12 +8017,18 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
   const stopFailure = code => {
     if (!current()) return;
     emitMediaDiagnosticStage('q1-failed', { reason: code, terminal: true }, session);
-    showDrivePreview(file, '원본 스트림 재포장 경로에서 안전하게 재생을 이어가지 못했습니다.');
+    retireQ1Playback(owner);
+    state.mediaAttempt = 'failed';
+    showMediaError('원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다.',
+      { title: '원본 재생 확인 필요', showRetry: false });
   };
   try {
     const retired = await previousRetirement;
     if (!current()) return true;
     if (!retired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
+    // Retirement makes the previous generation permanently unavailable in SW.
+    mediaSourceGeneration += 1;
+    owner.swGeneration = mediaSourceGeneration;
     const { openDriveQ1Source } = await import('./media/drive-source.mjs');
     if (!current()) return true;
     const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
@@ -7944,17 +8078,21 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
     if (!current()) return true;
     const ts = Number(sniff.identity.size) % 188 === 0 && head.length >= 188 * 5
       && [0,188,376,564,752].every(offset => head[offset] === 0x47);
-    if (!ts) return resumeNative();
+    if (!ts && !general) return resumeNative();
     routeIdentity = sniff.identity;
-    const { createTsPlayer } = await import('./media/ts-player.mjs');
+    const createPlayer = ts
+      ? (await import('./media/ts-player.mjs')).createTsPlayer
+      : (await import('./media/general-player.mjs')).createGeneralPlayer;
+    owner.kind = ts ? 'ts' : 'general';
     if (!current()) return true;
     const resume = initial && state.resumePosition?.fileId === file.id ? state.resumePosition : null;
-    const snapshot = resume ? (resume.snapshot || { ...capturePlaybackSnapshot(), time: resume.time })
+    const snapshot = snapshotOverride || (resume ? (resume.snapshot || { ...capturePlaybackSnapshot(), time: resume.time })
       : pendingPlaybackRestore?.fileId === file.id && pendingPlaybackRestore.session === session
-        ? pendingPlaybackRestore.snapshot : capturePlaybackSnapshot();
+        ? pendingPlaybackRestore.snapshot : capturePlaybackSnapshot());
     if (resume) state.resumePosition = null;
     // Retire native Q0 without disposing this newly selected owner.
     q1Playback = null; clearDirectMediaSources(); q1Playback = owner;
+    owner.swGeneration = mediaSourceGeneration;
     state.mediaAttempt = 'q1'; state.mediaPlaybackMode = PLAYBACK_MODE.REPACKAGED;
     state.mediaTransportVerified = false; state.mediaTransportStarted = false; state.mediaDecodeVerified = false;
     setNativeVideoActionsAvailable(true);
@@ -7962,13 +8100,13 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
     const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id);
     if (poster) { el.videoPlayer.poster = poster; el.videoPlayer.classList.add('has-poster'); }
     if (snapshot) {
-      if (Number.isFinite(snapshot.volume)) el.videoPlayer.volume = snapshot.volume;
-      if (typeof snapshot.muted === 'boolean') el.videoPlayer.muted = snapshot.muted;
       if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) el.videoPlayer.playbackRate = snapshot.playbackRate;
     }
-    owner.player = createTsPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
-      initialTime: Number.isFinite(snapshot?.time) ? snapshot.time : 0,
-      autoplay: resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
+    owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
+      ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
+      initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
+      autoplay: !ts && snapshot?.time > 0 ? false
+        : resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
       onEvent(event) {
         if (!current()) return;
         if (event.type === 'starting') {
@@ -7979,12 +8117,46 @@ async function tryOriginalTsPlayback(file, session, { initial = false } = {}) {
           state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
           showMediaLoading('원본 스트림 재포장 준비 중'); updateQualityDisplay();
         } else if (event.type === 'buffered') {
+          if (!ts && !owner.restoredPosition && snapshot?.time > 0 && event.mapping) {
+            owner.restoredPosition = true;
+            const target = Math.min(event.mapping.sourceEnd - 0.000001, event.mapping.sourceOrigin + snapshot.time);
+            owner.player.seek(target, { autoplay: state.pendingPlay || snapshot.paused === false }).catch(() => {});
+            return;
+          }
           state.mediaTransportVerified = true; state.mediaTransportStarted = true;
           state.pendingPlay = false;
-          el.codecNote.textContent = '원본 영상·음성 스트림을 재인코딩 없이 재포장합니다. 실제 표시와 탐색은 별도로 확인합니다.';
+          el.codecNote.textContent = owner.audioTransformed
+            ? '영상 원본 스트림을 유지하고 음성을 Opus로 호환 변환합니다. 음성은 무손실이 아닙니다.'
+            : '원본 영상·음성 스트림을 재인코딩 없이 재포장합니다. 실제 표시와 탐색은 별도로 확인합니다.';
           updateQualityDisplay(); beginVideoFrameSampling(); syncMediaFrameWatchdog();
+        } else if (event.type === 'mapping') {
+          owner.audioTransformed = event.status?.bitPerfectAudio === false;
+          if (owner.audioTransformed) state.mediaPlaybackMode = PLAYBACK_MODE.AUDIO_COMPATIBILITY;
+          updateQualityDisplay();
+        } else if (event.type === 'source-ended') {
+          updateVideoProgress();
         } else if (event.type === 'gesture-required') showPlayerFeedback('화면을 눌러 재생');
-        else if (event.type === 'error') stopFailure(event.code);
+        else if (event.type === 'error') {
+          if (!ts && general && !audioCompatibility && event.code === 'GENERAL_CODEC_UNQUALIFIED') {
+            // Only codec admission can probe the independently qualified Q2 worker.
+            // No transport, permission, identity, cleanup or decode failure enters it.
+            const routeGeneration = initialMediaRouteGeneration;
+            const sourceGeneration = mediaSourceGeneration;
+            q1Playback = null; setupFinished();
+            void retireQ1Playback(owner).then(retired => {
+              if (q1Playback || state.selected?.id !== file.id || state.mediaSession !== session
+                || state.authAccountKey !== account || state.driveSessionGeneration !== accountGeneration
+                || mediaSourceGeneration !== sourceGeneration
+                || initialMediaRouteGeneration !== routeGeneration) return;
+              if (!retired.settled) {
+                state.mediaAttempt = 'failed';
+                showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+                return;
+              }
+              void tryOriginalTsPlayback(file, session, { general: true, audioCompatibility: true, snapshotOverride: snapshot });
+            });
+          } else stopFailure(event.code);
+        }
       }
     });
     owner.player.ready.catch(() => {});
@@ -8010,7 +8182,7 @@ async function handleMediaElementError(kind) {
   if (!element.getAttribute('src') || !state.selected) return;
   if (!q0Playback && !q1RetirementResult && ['range','range-retry'].includes(state.mediaAttempt)) return;
   if (
-    state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'buffer-evaluating'
+    state.mediaAttempt === 'range-preparing' || state.mediaAttempt === 'blob-loading' || state.mediaAttempt === 'buffer-evaluating'
     || state.mediaAttempt === 'auth-refresh' || state.mediaAttempt === 'retry-wait'
     || state.mediaAttempt.startsWith('drive-preview') || state.mediaAttempt.startsWith('q1')
   ) return;
@@ -8086,7 +8258,8 @@ async function handleMediaElementError(kind) {
       });
       if (unsupportedAction === 'retry-range') {
         retryOriginalStream(file, session, '원본 응답을 다시 검증한 뒤 형식 호환성을 확인하는 중');
-      } else if (await tryOriginalTsPlayback(file, session)) {
+      } else if (unsupportedAction === 'compatibility' && q0PinnedSource
+        && await tryOriginalTsPlayback(file, session, { general: true })) {
         // The Q1 owner controls source identity, append/decode and recovery.
       } else if (unsupportedAction === 'compatibility') {
         showDrivePreview(file, describeVideoPlaybackFailure(mediaErrorCode));
@@ -8168,6 +8341,11 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     state.mediaAttempt = 'failed';
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
     return false;
+  }
+
+  if (navigator.serviceWorker && !hasQ0CapableController()) {
+    return waitForQ0Control(file, 'video', expectedSession, message,
+      () => retryOriginalStream(file, expectedSession, message, { consumeRetry, afterRetirement: true }));
   }
 
   clearMediaSeekWatchdog('range-retry');
@@ -10045,6 +10223,7 @@ function getResolutionCategory(width, height) {
 function getPlaybackQualityLabel(mode, verified) {
   if (mode === PLAYBACK_MODE.COMPATIBILITY) return 'Google 호환 재생 · 원본 화질 미확인';
   if (!verified) return '원본 확인 중';
+  if (mode === PLAYBACK_MODE.AUDIO_COMPATIBILITY) return '영상 원본 · 음성 호환 변환';
   if (mode === PLAYBACK_MODE.REPACKAGED) return '원본 스트림 · 재포장';
   if (mode === PLAYBACK_MODE.SEQUENTIAL) return 'Drive 원본 파일 · 연속 전송';
   if (mode === PLAYBACK_MODE.OPFS) return 'Drive 원본 파일 · 임시 디스크';
@@ -10133,7 +10312,8 @@ function updateQualityDisplay() {
     );
     if (el.qualityBadge) {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
-      el.qualityBadge.dataset.quality = state.mediaTransportVerified ? 'original' : 'pending';
+      el.qualityBadge.dataset.quality = !state.mediaTransportVerified ? 'pending'
+        : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
       el.qualityBadge.textContent = `· ${qualityLabel}`;
     }
     if (el.mediaResolution) {

@@ -1,0 +1,417 @@
+--- a/src/packet.ts
++++ b/src/packet.ts
+@@ -24,6 +24,9 @@
+  * @public
+  */
+ export type EncodedPacketSideData = {
++	/** QA-only: source decode clock, carried through clone; never infer from sorted PTS. */
++	q1Dts?: number;
++	q1DecodeDuration?: number;
+ 	/**
+ 	 * An encoded alpha frame, encoded with the same codec as the packet. Typically used for transparent videos, where
+ 	 * the alpha information is stored separately from the color information.
+--- a/src/isobmff/isobmff-demuxer.ts
++++ b/src/isobmff/isobmff-demuxer.ts
+@@ -156,6 +156,7 @@
+ 		type: 'video';
+ 		width: number;
+ 		height: number;
++		q1Sar?: { num: number; den: number };
+ 		squarePixelWidth: number;
+ 		squarePixelHeight: number;
+ 		codec: VideoCodec | null;
+@@ -264,6 +265,8 @@
+ };
+ 
+ type FragmentTrackSample = {
++	decodeTimestamp: number;
++	decodeDuration: number;
+ 	presentationTimestamp: number;
+ 	duration: number;
+ 	byteOffset: number;
+@@ -1535,6 +1538,7 @@
+ 
+ 				const num = readU32Be(slice);
+ 				const den = readU32Be(slice);
++				track.info.q1Sar = { num, den };
+ 
+ 				// https://github.com/Vanilagy/mediabunny/issues/362
+ 				if (num > 0 && den > 0) {
+@@ -2401,6 +2405,8 @@
+ 
+ 					trackData.samples.push({
+ 						presentationTimestamp: trackData.currentTimestamp + sampleCompositionTimeOffset,
++						decodeTimestamp: trackData.currentTimestamp,
++						decodeDuration: sampleDuration,
+ 						duration: sampleDuration,
+ 						byteOffset: trackData.currentOffset,
+ 						byteSize: sampleSize,
+@@ -3219,6 +3225,7 @@
+ 			duration,
+ 			sampleIndex,
+ 			sampleInfo.sampleSize,
++			{ q1Dts: (sampleInfo.decodeTimestamp - this.internalTrack.editListOffset) / this.internalTrack.timescale, q1DecodeDuration: sampleInfo.decodeDuration / this.internalTrack.timescale },
+ 		);
+ 
+ 		this.packetToSampleIndex.set(packet, sampleIndex);
+@@ -3269,6 +3276,7 @@
+ 			duration,
+ 			fragment.moofOffset + sampleIndex,
+ 			fragmentSample.byteSize,
++			{ q1Dts: (fragmentSample.decodeTimestamp - this.internalTrack.editListOffset) / this.internalTrack.timescale, q1DecodeDuration: fragmentSample.decodeDuration / this.internalTrack.timescale },
+ 		);
+ 
+ 		this.packetToFragmentLocation.set(packet, { fragment, sampleIndex });
+@@ -3539,11 +3547,12 @@
+ 			};
+ 
+ 			if (
+-				this.internalTrack.info.width !== this.internalTrack.info.squarePixelWidth
++				(this.internalTrack.info.q1Sar && this.internalTrack.info.q1Sar.num !== this.internalTrack.info.q1Sar.den)
++				|| this.internalTrack.info.width !== this.internalTrack.info.squarePixelWidth
+ 				|| this.internalTrack.info.height !== this.internalTrack.info.squarePixelHeight
+ 			) {
+-				config.displayAspectWidth = this.internalTrack.info.squarePixelWidth;
+-				config.displayAspectHeight = this.internalTrack.info.squarePixelHeight;
++				config.displayAspectWidth = this.internalTrack.info.q1Sar ? this.internalTrack.info.width * this.internalTrack.info.q1Sar.num : this.internalTrack.info.squarePixelWidth;
++				config.displayAspectHeight = this.internalTrack.info.q1Sar ? this.internalTrack.info.height * this.internalTrack.info.q1Sar.den : this.internalTrack.info.squarePixelHeight;
+ 			}
+ 
+ 			return config;
+@@ -3664,6 +3673,8 @@
+ };
+ 
+ type SampleInfo = {
++	decodeTimestamp: number;
++	decodeDuration: number;
+ 	presentationTimestamp: number;
+ 	duration: number;
+ 	sampleOffset: number;
+@@ -3737,6 +3748,8 @@
+ 
+ 	return {
+ 		presentationTimestamp,
++		decodeTimestamp,
++		decodeDuration: timingEntry.delta,
+ 		duration,
+ 		sampleOffset,
+ 		sampleSize,
+@@ -3763,6 +3776,7 @@
+ 
+ 	for (const sample of trackData.samples) {
+ 		sample.presentationTimestamp += timestamp;
++		sample.decodeTimestamp += timestamp;
+ 	}
+ 	for (const entry of trackData.presentationTimestamps) {
+ 		entry.presentationTimestamp += timestamp;
+--- a/src/mpeg-ts/mpeg-ts-demuxer.ts
++++ b/src/mpeg-ts/mpeg-ts-demuxer.ts
+@@ -133,6 +133,7 @@
+ 		colorSpace: VideoColorSpaceInit;
+ 		width: number;
+ 		height: number;
++		q1Sar?: { num: number; den: number };
+ 		squarePixelWidth: number;
+ 		squarePixelHeight: number;
+ 		reorderSize: number;
+@@ -570,6 +571,7 @@
+ 									const spsUnit = elementaryStream.info.avcCodecInfo.sequenceParameterSets[0];
+ 									assert(spsUnit);
+ 									const spsInfo = parseAvcSps(spsUnit)!;
++ elementaryStream.info.q1Sar = spsInfo.pixelAspectRatio;
+ 
+ 									elementaryStream.info.width = spsInfo.displayWidth;
+ 									elementaryStream.info.height = spsInfo.displayHeight;
+@@ -601,7 +603,7 @@
+ 										matrix:
+ 											MATRIX_COEFFICIENTS_MAP_INVERSE[spsInfo.matrixCoefficients] as
+ 											VideoMatrixCoefficients | undefined,
+-										fullRange: !!spsInfo.fullRangeFlag,
++										fullRange: spsInfo.fullRangeFlag == null ? undefined : !!spsInfo.fullRangeFlag,
+ 									};
+ 									elementaryStream.info.reorderSize = spsInfo.maxDecFrameBuffering;
+ 
+@@ -654,7 +656,7 @@
+ 										matrix:
+ 											MATRIX_COEFFICIENTS_MAP_INVERSE[spsInfo.matrixCoefficients] as
+ 											VideoMatrixCoefficients | undefined,
+-										fullRange: !!spsInfo.fullRangeFlag,
++										fullRange: spsInfo.fullRangeFlag == null ? undefined : !!spsInfo.fullRangeFlag,
+ 									};
+ 									elementaryStream.info.reorderSize = spsInfo.maxDecFrameBuffering;
+ 
+@@ -684,13 +686,14 @@
+ 							};
+ 
+ 							if (
+-								elementaryStream.info.width !== elementaryStream.info.squarePixelWidth
++								(elementaryStream.info.q1Sar && elementaryStream.info.q1Sar.num !== elementaryStream.info.q1Sar.den)
++ || elementaryStream.info.width !== elementaryStream.info.squarePixelWidth
+ 								|| elementaryStream.info.height !== elementaryStream.info.squarePixelHeight
+ 							) {
+ 								elementaryStream.info.decoderConfig.displayAspectWidth
+-									= elementaryStream.info.squarePixelWidth;
++									= elementaryStream.info.q1Sar ? elementaryStream.info.width * elementaryStream.info.q1Sar.num : elementaryStream.info.squarePixelWidth;
+ 								elementaryStream.info.decoderConfig.displayAspectHeight
+-									= elementaryStream.info.squarePixelHeight;
++									= elementaryStream.info.q1Sar ? elementaryStream.info.height * elementaryStream.info.q1Sar.den : elementaryStream.info.squarePixelHeight;
+ 							}
+ 
+ 							elementaryStream.initialized = true;
+@@ -1061,6 +1064,7 @@
+ }
+ 
+ type PesPacketHeader = {
++	dts: number | null;
+ 	sectionStartPos: number;
+ 	sectionEndPos: number | null; // null if the section wasn't read fully
+ 	pts: number | null;
+@@ -1135,7 +1139,21 @@
+ 		}
+ 	}
+ 
++	let dts = pts;
++	if (ptsDtsFlags === 0b11) {
++		bitstream.skipBits(1); // final PTS marker
++		bitstream.skipBits(4);
++		dts = bitstream.readBits(3) * 2 ** 30;
++		bitstream.skipBits(1);
++		dts += bitstream.readBits(15) * 2 ** 15;
++		bitstream.skipBits(1);
++		dts += bitstream.readBits(15);
++		// Preserve the signed modulo distance from PTS across the 33-bit wrap.
++		const modulus = 2 ** 33;
++		dts = pts! + ((dts - pts! + modulus / 2) % modulus + modulus) % modulus - modulus / 2;
++	}
+ 	return {
++		dts,
+ 		sectionStartPos: section.startPos,
+ 		sectionEndPos: section.endPos,
+ 		pts,
+@@ -1298,6 +1316,7 @@
+ 			Math.max(duration / TIMESCALE, 0),
+ 			suppliedPacket.sequenceNumber,
+ 			suppliedPacket.data.byteLength,
++			{ q1Dts: suppliedPacket.dts / TIMESCALE },
+ 		);
+ 	}
+ 
+@@ -1938,6 +1957,7 @@
+ };
+ 
+ type SuppliedPacket = {
++	dts: number;
+ 	pts: number;
+ 	data: Uint8Array;
+ 	sequenceNumber: number;
+@@ -2560,6 +2580,11 @@
+ 			maybeInsertReferencePacket(this.elementaryStream, currentPesPacket as TimestampedPesPacket);
+ 		}
+ 
++		if (this.elementaryStream.info.type === 'video' && this.lastSuppliedPesPacket === currentPesPacket) {
++			throw new Error('Q1_SOURCE_DTS_AMBIGUOUS_MULTI_AU_PES');
++		}
++		const dts = this.elementaryStream.info.type === 'audio' ? pts : currentPesPacket.dts;
++		if (dts === null) throw new Error('Q1_SOURCE_DTS_MISSING');
+ 		this.lastSuppliedPesPacket = currentPesPacket;
+ 		this.nextPts = pts + intrinsicDuration;
+ 
+@@ -2590,6 +2615,7 @@
+ 		}
+ 
+ 		this.suppliedPacket = {
++			dts,
+ 			pts,
+ 			data,
+ 			sequenceNumber,
+--- a/src/codec-data.ts
++++ b/src/codec-data.ts
+@@ -521,7 +521,7 @@
+ 	colourPrimaries: number;
+ 	transferCharacteristics: number;
+ 	matrixCoefficients: number;
+-	fullRangeFlag: number;
++	fullRangeFlag: number | undefined;
+ 	numReorderFrames: number;
+ 	maxDecFrameBuffering: number;
+ 	vuiParametersFlagBitOffset: number;
+@@ -680,7 +680,7 @@
+ 		let colourPrimaries = 2;
+ 		let transferCharacteristics = 2;
+ 		let matrixCoefficients = 2;
+-		let fullRangeFlag = 0;
++		let fullRangeFlag: number | undefined = undefined;
+ 		let pixelAspectRatio: Rational = { num: 1, den: 1 };
+ 
+ 		let numReorderFrames: number | null = null;
+@@ -935,7 +935,7 @@
+ 	colourPrimaries: number;
+ 	transferCharacteristics: number;
+ 	matrixCoefficients: number;
+-	fullRangeFlag: number;
++	fullRangeFlag: number | undefined;
+ 	maxDecFrameBuffering: number;
+ 	spsMaxSubLayersMinus1: number;
+ 	spsTemporalIdNestingFlag: number;
+@@ -1092,7 +1092,7 @@
+ 		let colourPrimaries = 2;
+ 		let transferCharacteristics = 2;
+ 		let matrixCoefficients = 2;
+-		let fullRangeFlag = 0;
++		let fullRangeFlag: number | undefined = undefined;
+ 		let minSpatialSegmentationIdc = 0;
+ 		let pixelAspectRatio: Rational = { num: 1, den: 1 };
+ 
+@@ -1392,7 +1392,7 @@
+ 	let colourPrimaries = 2;
+ 	let transferCharacteristics = 2;
+ 	let matrixCoefficients = 2;
+-	let fullRangeFlag = 0;
++	let fullRangeFlag: number | undefined = undefined;
+ 	let minSpatialSegmentationIdc = 0;
+ 	let pixelAspectRatio: Rational = { num: 1, den: 1 };
+ 
+--- a/src/codec.ts
++++ b/src/codec.ts
+@@ -616,7 +616,7 @@
+ 						matrix:
+ 							MATRIX_COEFFICIENTS_MAP_INVERSE[spsInfo.matrixCoefficients] as
+ 							VideoMatrixCoefficients | undefined,
+-						fullRange: !!spsInfo.fullRangeFlag,
++						fullRange: spsInfo.fullRangeFlag == null ? undefined : !!spsInfo.fullRangeFlag,
+ 					};
+ 				}
+ 			}
+@@ -643,7 +643,7 @@
+ 						matrix:
+ 							MATRIX_COEFFICIENTS_MAP_INVERSE[spsInfo.matrixCoefficients] as
+ 							VideoMatrixCoefficients | undefined,
+-						fullRange: !!spsInfo.fullRangeFlag,
++						fullRange: spsInfo.fullRangeFlag == null ? undefined : !!spsInfo.fullRangeFlag,
+ 					};
+ 				}
+ 			}
+--- a/src/output.ts
++++ b/src/output.ts
+@@ -214,6 +214,8 @@
+  * @public
+  */
+ export type BaseTrackMetadata = {
++	/** QA-only exact common clock timescale, validated by the Q1 owner. */
++	q1Timescale?: number;
+ 	/** The three-letter, ISO 639-2/T language code specifying the language of this track. */
+ 	languageCode?: string;
+ 	/** A user-defined name for this track, like "English" or "Director Commentary". */
+--- a/src/isobmff/isobmff-muxer.ts
++++ b/src/isobmff/isobmff-muxer.ts
+@@ -58,6 +58,7 @@
+ export type Sample = {
+ 	timestamp: number;
+ 	decodeTimestamp: number;
++	sourceDts?: number;
+ 	duration: number;
+ 	data: Uint8Array | null;
+ 	size: number;
+@@ -460,7 +461,7 @@
+ 		// The frame rate set by the user may not be an integer. Since timescale is an integer, we'll approximate the
+ 		// frame time (inverse of frame rate) with a rational number, then use that approximation's denominator
+ 		// as the timescale.
+-		const timescale = computeRationalApproximation(
++		const timescale = track.metadata.q1Timescale ?? computeRationalApproximation(
+ 			1 / (track.metadata.frameRate ?? GLOBAL_TIMESCALE),
+ 			1e6,
+ 		).den;
+@@ -588,7 +589,7 @@
+ 				requiresAdtsStripping,
+ 				primingPacket: packet,
+ 			},
+-			timescale: decoderConfig.sampleRate,
++			timescale: track.metadata.q1Timescale ?? decoderConfig.sampleRate,
+ 			samples: [],
+ 			sampleQueue: [],
+ 			timestampProcessingQueue: [],
+@@ -699,6 +700,8 @@
+ 				packet.timestamp,
+ 				packet.duration,
+ 				packet.type,
++				packet.sideData.q1Dts,
++				packet.sideData.q1DecodeDuration,
+ 			);
+ 
+ 			await this.registerSample(trackData, internalSample);
+@@ -770,6 +773,8 @@
+ 				timestamp,
+ 				duration,
+ 				packet.type,
++				packet.sideData.q1Dts,
++				packet.sideData.q1DecodeDuration,
+ 			);
+ 
+ 			await this.registerSample(trackData, internalSample);
+@@ -922,15 +927,18 @@
+ 		timestamp: number,
+ 		duration: number,
+ 		type: PacketType,
++		sourceDts?: number,
++		sourceDecodeDuration?: number,
+ 	) {
+ 		const sample: Sample = {
+ 			timestamp,
+-			decodeTimestamp: timestamp, // This may be refined later
++			decodeTimestamp: sourceDts ?? timestamp,
++			sourceDts,
+ 			duration,
+ 			data,
+ 			size: data.byteLength,
+ 			type,
+-			timescaleUnitsToNextSample: intoTimescale(duration, trackData.timescale), // Will be refined
++			timescaleUnitsToNextSample: intoTimescale(sourceDecodeDuration ?? duration, trackData.timescale), // Will be refined
+ 		};
+ 
+ 		return sample;
+@@ -975,7 +983,7 @@
+ 		const sortedTimestamps = trackData.timestampProcessingQueue.map(x => x.timestamp).sort((a, b) => a - b);
+ 
+ 		if (this.isFragmented) {
+-			trackData.startTimestampOffset ??= Math.min(sortedTimestamps[0]!, 0);
++			trackData.startTimestampOffset ??= Math.min(trackData.timestampProcessingQueue[0]!.sourceDts ?? sortedTimestamps[0]!, 0);
+ 		} else {
+ 			trackData.startTimestampOffset ??= sortedTimestamps[0]!;
+ 		}
+@@ -987,7 +995,7 @@
+ 			// that a sensible decode timestamp. The notion of a decode timestamp doesn't really make sense
+ 			// (presentation timestamp & decode order are all you need), but it is a concept in ISOBMFF so we need to
+ 			// model it.
+-			sample.decodeTimestamp = sortedTimestamps[i]!;
++			sample.decodeTimestamp = sample.sourceDts ?? sortedTimestamps[i]!;
+ 
+ 			const sampleCompositionTimeOffset
+ 				= intoTimescale(sample.timestamp - sample.decodeTimestamp, trackData.timescale);
+@@ -1078,14 +1086,14 @@
+ 		assert(trackData.lastSample);
+ 		assert(trackData.lastTimescaleUnits !== null);
+ 
+-		if (nextSample !== undefined && trackData.lastSample.timescaleUnitsToNextSample === 0) {
++		if (nextSample !== undefined && (nextSample.sourceDts !== undefined || trackData.lastSample.timescaleUnitsToNextSample === 0)) {
+ 			assert(nextSample.type === 'key');
+ 
+ 			// Given the next sample, we can make a guess about the duration of the last sample. This avoids having
+ 			// the last sample's duration in each fragment be "0" for fragmented files. The guess we make here is
+ 			// actually correct most of the time, since typically, no delta frame with a lower timestamp follows the key
+ 			// frame (although it can happen).
+-			const timescaleUnits = intoTimescale(nextSample.timestamp, trackData.timescale, false);
++			const timescaleUnits = intoTimescale(nextSample.sourceDts ?? nextSample.timestamp, trackData.timescale, false);
+ 			const delta = Math.round(timescaleUnits - trackData.lastTimescaleUnits);
+ 			trackData.lastSample.timescaleUnitsToNextSample = delta;
+ 		}
+--- a/src/isobmff/isobmff-boxes.ts
++++ b/src/isobmff/isobmff-boxes.ts
+@@ -1460,7 +1460,7 @@
+ 	assert(trackData.currentChunk);
+ 
+ 	return fullBox('tfdt', 1, 0, [
+-		u64(intoTimescale(trackData.currentChunk.startTimestamp, trackData.timescale)), // Base Media Decode Time
++		u64(intoTimescale(trackData.currentChunk.samples[0]!.decodeTimestamp, trackData.timescale)), // Source decode time; presentation minima are not DTS
+ 	]);
+ };
+ 

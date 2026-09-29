@@ -1,0 +1,130 @@
+{
+  "scope": "Local product module preparation only; public distribution gate closed",
+  "sourceBuiltWasmSha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+  "tests": {
+    "nodeOwnershipFault": 14,
+    "nativeBrowser": 7
+  },
+  "files": [
+    {
+      "path": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+    },
+    {
+      "path": "media/audio-codec-build.json",
+      "bytes": 4992,
+      "sha256": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f"
+    },
+    {
+      "path": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+    },
+    {
+      "path": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+    },
+    {
+      "path": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "path": "media/audio-runtime.mjs",
+      "bytes": 9104,
+      "sha256": "88cd4874d123b92e0a2fec240caf7048191d62f3273d211072eecbf05e85142e"
+    },
+    {
+      "path": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+    },
+    {
+      "path": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/evidence-manifest.json",
+      "bytes": 26028,
+      "sha256": "b69a12db534a0dcddd75511b718bde5c2ffbe6103e91ab12ef998910b4662b37"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/sourcebuilt-evidence-manifest.json",
+      "bytes": 15070,
+      "sha256": "8c72c39c757b01445cbce95ef41e4d0dffcf441e0be3848d652b18b6b0cdd451"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/README.md",
+      "bytes": 9346,
+      "sha256": "2edd0cfa4ea65118b0409cc96409e7d772a9f5116d68a57104a22578808c3465"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/finalize.cjs",
+      "bytes": 1750,
+      "sha256": "6b70791d862909dcc10bba7bcbee712a86e3354191b21179c8edb55ba44af981"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/historical-integrity.json",
+      "bytes": 190,
+      "sha256": "9d8dbce010e16b8f89f69a50330b02b2c28f2cf57e2595a2d81a545100c2a081"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/native-audit.cjs",
+      "bytes": 1969,
+      "sha256": "8ba2499034ec3a0185bff8785400ea8fa1755ec062f9c8f869c17e8e6eadf041"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/native-fixture.html",
+      "bytes": 138,
+      "sha256": "9d527c09e8d893d05c334246e3a9d5e06024a6ef1ce88f135b796693080a50a1"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/native-fixture.mjs",
+      "bytes": 5232,
+      "sha256": "c1cd6b2afec1d2549fef29330025844f9abc63a93d84120455410281a7ee1ac9"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/native-results.json",
+      "bytes": 9114,
+      "sha256": "4e14fe034c715b4df5c53b58d664e58b53d035185f7b73743bcd43f4cd2b7a33"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/native-run.log",
+      "bytes": 5301,
+      "sha256": "ee96ba5b74b8b95d347f231834e82d22626a4a758f5e7e0fbcf512969b721c03"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/node-results.txt",
+      "bytes": 1333,
+      "sha256": "e3e06709844df5fe85186f99fbcd4b808631cdffda5bedb231708cea334de608"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/packets.json",
+      "bytes": 50091,
+      "sha256": "d0ca5a969c4eea406cea630a42c20e2ca18e58c1fd49c74490bae7e3e8804388"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/prepare-packets.py",
+      "bytes": 709,
+      "sha256": "41625709810cd06875d0078ff982384287c19aa8246601c3a5bcb27eecd0e550"
+    },
+    {
+      "path": "qa/q2-audio-product-preparation/process-cleanup.json",
+      "bytes": 166,
+      "sha256": "5b37e75ad2932e278ca8f9ffda41526ddc52c78462ea2690de8a2623fded1ecc"
+    },
+    {
+      "path": "scripts/build-audio-compat.cjs",
+      "bytes": 3479,
+      "sha256": "b19c107426c8639f3b5d01878855e56124eccabb49a769a7f04eb818a7642286"
+    },
+    {
+      "path": "tests/audio-compat-lifecycle.mjs",
+      "bytes": 10119,
+      "sha256": "51164b2f31b25d4218fc7aeb13f1086f6304145b64a734103567f4ad28ed88fc"
+    }
+  ]
+}

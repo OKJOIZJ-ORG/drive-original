@@ -1,0 +1,141 @@
+{
+  "checks": {
+    "videoPacketCount": true,
+    "videoEncodedPayload": true,
+    "videoParameters": true,
+    "videoClock": true,
+    "decodedVideoPixels": true,
+    "audioTransformed": true,
+    "audioRateChannels": true,
+    "audioSignal": true
+  },
+  "passed": 8,
+  "failed": 0,
+  "sourceSha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+  "outputSha256": "7ab45b431f74eae1e7c6281a1cdebe6d1c878b9466c7b45984c2bce2ef8ce0fa",
+  "videoPacketCount": 144,
+  "decodedFrames": 144,
+  "videoTimingMaxSeconds": {
+    "pts_time": 0.0,
+    "dts_time": 0.0,
+    "duration_time": 0.0
+  },
+  "videoParameters": {
+    "codec_name": {
+      "source": "h264",
+      "output": "h264"
+    },
+    "profile": {
+      "source": "High",
+      "output": "High"
+    },
+    "width": {
+      "source": 320,
+      "output": 320
+    },
+    "height": {
+      "source": 180,
+      "output": 180
+    },
+    "coded_width": {
+      "source": 320,
+      "output": 320
+    },
+    "coded_height": {
+      "source": 180,
+      "output": 180
+    },
+    "sample_aspect_ratio": {
+      "source": "1:1",
+      "output": "1:1"
+    },
+    "display_aspect_ratio": {
+      "source": "16:9",
+      "output": "16:9"
+    },
+    "pix_fmt": {
+      "source": "yuv420p",
+      "output": "yuv420p"
+    },
+    "level": {
+      "source": 12,
+      "output": 12
+    },
+    "color_range": {
+      "source": "tv",
+      "output": "tv"
+    },
+    "color_space": {
+      "source": "bt709",
+      "output": "bt709"
+    },
+    "color_transfer": {
+      "source": null,
+      "output": null
+    },
+    "color_primaries": {
+      "source": null,
+      "output": null
+    },
+    "chroma_location": {
+      "source": "left",
+      "output": "left"
+    },
+    "extradata_hash": {
+      "source": "SHA256:63d1279c6d8f479f25a2754657129a5790921d0712379cceff3c0e32f9a3bb5e",
+      "output": "SHA256:63d1279c6d8f479f25a2754657129a5790921d0712379cceff3c0e32f9a3bb5e"
+    }
+  },
+  "audio": {
+    "source": {
+      "codec_name": "ac3",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "start_time": "0.000000",
+      "duration": "6.000000"
+    },
+    "output": {
+      "codec_name": "opus",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "start_time": "-0.005333",
+      "duration": "6.040000"
+    },
+    "outputPrerollFramesRemovedByPresentationClock": 256,
+    "comparisonWindowSeconds": [
+      0,
+      6
+    ],
+    "sourceDecodedFrames": 288000,
+    "outputDecodedFrames": 288000,
+    "channels": [
+      {
+        "channel": 0,
+        "bestResidualLagSamples": 0,
+        "bestResidualLagSeconds": 0.0,
+        "snrDb": 44.988631250505755,
+        "alignedSnrDb": 44.988631250505755,
+        "fullPresentationSnrDb": 45.04392992875082,
+        "fullPresentationFramesCompared": 288000,
+        "rmse": 0.0006014898687605538,
+        "samplesCompared": 235200,
+        "sourceRms": 0.10682179690582841
+      },
+      {
+        "channel": 1,
+        "bestResidualLagSamples": 0,
+        "bestResidualLagSeconds": 0.0,
+        "snrDb": 43.20393687986005,
+        "alignedSnrDb": 43.20393687986005,
+        "fullPresentationSnrDb": 43.03563638798015,
+        "fullPresentationFramesCompared": 288000,
+        "rmse": 0.000492587125241756,
+        "samplesCompared": 235200,
+        "sourceRms": 0.07123278108357022
+      }
+    ]
+  },
+  "oracle": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+}

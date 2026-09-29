@@ -1,0 +1,49 @@
+✔ bounded pinned-track admission identifies AC3 and EAC3 without whole-object input (16.0351ms)
+✔ AAC stays original-native and unavailable Q2 output fails closed (5.0598ms)
+✔ AAC sample-count budget yields a clean optional-probe limit rather than source failure (2.3172ms)
+✖ HTML native file support preserves Q0 despite WebCodecs input absence (3.1357ms)
+✖ WebCodecs input support does not refuse otherwise qualified Q2 output (0.4044ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135.7911
+
+✖ failing tests:
+
+test at tests\general-audio-probe.test.mjs:65:1
+✖ HTML native file support preserves Q0 despite WebCodecs input absence (3.1357ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'q2' !== 'native'
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/tests/general-audio-probe.test.mjs:70:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'q2',
+    expected: 'native',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-audio-probe.test.mjs:74:1
+✖ WebCodecs input support does not refuse otherwise qualified Q2 output (0.4044ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/tests/general-audio-probe.test.mjs:77:60)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

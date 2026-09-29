@@ -1,8 +1,8 @@
-# Checkpoint — restart handoff, Q2/Q3 integration pending — 2026-09-30 04:18
+# Checkpoint — Q1/Q2 integration and Q3 browser qualification — 2026-09-30
 
 ## The story so far
 
-Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics, HEAD before this handoff 329ffe5bc26a02795d50a0e33c13e0e53efc0d19. Candidate rc.14 stays deployed from 067bcb9/Worker e8f5f5c7, 20 public/18 cached Git-equal assets; production v1.21.0/e08989a and automation PAUSED are unchanged. Signed-in desktop rc.14 WebM/4.6GB ISO first frame, 50/90% seek, reveal-without-pause and close are recorded; no 30-second background/physical-device/transfer-body proof. Its historical ZIP matches all 20 Git blobs, but fresh local compression differs in 11 members; the revised builder verifies/preserves the historical SHA rather than overwriting it. HEAD saves Q2 exact seven-part LGPL/MPL source/relink package, not yet published. Uncommitted Q1/Q2 routing, Q0 old-worker capability guard, 51-asset public allowlist/license page and tests remain. A Sol Q2 unit added bounded pinned ISO track/native-audio-capability selection: 21/21 Node, isolated Chrome synthetic-provider automatic AC3 10/10, EAC3 1/1, AAC native 1/1, instrumented manual 10/10. Its last ftyp/cleanup edits are Node-only and need native smoke; previous 1/4 cold GENERAL_PIPELINE_FAILED cause remains unknown. An unsettled abort after Q0 owner change may not be sticky in global q1Retirement: inspect before release. Q3 synthetic BT.709 fixture/scripts are prepared; build was safely stopped in configure for restart, with no browser/oracle. Original 69-row/real device/broad format/production gates remain open. User is restarting Codex to expose 6.1 Sol; no other active project process was left by this handoff.
+Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Q3 synthetic feasibility is committed at5af7cdf; product/corpus/device Q3 acceptance remains open. Local rc.15 Q1/Q2/Q0 integration passes final557/557 stable-source Node checks, final3/3 synthetic-provider Chrome routes and independent review of ownership, native preference and pending-capability cancellation. Source/license preparation verifies51public/40cache/eight-uncached-source files. Integrating this exact savepoint and candidate delivery are next. Candidate rc.14/067bcb9/Worker e8f5f5c7, production v1.21.0/e08989a and automation PAUSED remain. Personal Chrome focus operations time out; Android inspection found no usable path. Full69 corpus/device/account/background gates and historical cold failures remain unclaimed. Q1-Q2-INTEGRATION-20260930.md owns final evidence.
 
 ## Decided
 
@@ -12,7 +12,7 @@ Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-di
 - D-057: Android alternatives are allowed; desktop touch is separate from physical Android/iOS proof.
 - D-050/D-051: local commits, free candidate, own appData, bounded new disposable QA are authorized. Main/push/production, original-media changes, new grants/terms/payment/permanent delete and automation restart are outside current authority.
 - Volume/output settings stay untouched.
-- D-063: prefer 6 Sol children, Astra only for hard blockers; after restart verify 6.1 Sol Extra High runtime access, then create a new 6.1 Sol Extra High coordinator chat and use 6.1 Sol children by default. Official rollout was observed, but this host's `create_thread` rejected `gpt-6.1-sol`/`xhigh` at model-effort validation before creating a chat.
+- D-063: this chat is the user-authorized 6.1 Sol coordinator; use 6.1 Sol children, Astra only for a hard blocker. The earlier pre-restart model validation failure is historical.
 
 ## Waiting on the user
 
@@ -20,7 +20,7 @@ None for executable work. Device-only and separate production-authority gates st
 
 ## Next first action
 
-After Codex restart, try creating the requested new project chat with model `gpt-6.1-sol` and thinking `xhigh`; if the runtime still rejects it, inspect `app.js` Q2 probe retirement and run its missing final native smoke before integrating the product unit.
+Run `python qa/q1-q2-release-integration/prepare-savepoint.py` in canonical source, then stage only its verified exact paths for the local integration commit.
 
 ## Tried
 
@@ -37,7 +37,11 @@ After Codex restart, try creating the requested new project chat with model `gpt
 - Bare node --test tests is invalid on Node24; use the explicit product test-file list.
 - Historical 299-second/A-012/A-013 causes remain unknown.
 - A completed synthetic Q2 end-window trial does not close intermittent cold-worker failure or silent AC3 detection; keep those as separate gates.
-- Q3 preflight reports `mp4v.20.9` unsupported in installed Chrome, but prepared browser prototype has no successful build/execution proof yet.
+- Q3's first fixture codec string was incorrect; the unchanged Simple Profile 1 bytes require mp4v.20.1. Exact decoder support is now checked against that string.
 - This host rejected `create_thread` with model `gpt-6.1-sol`, thinking `xhigh` before creating a chat; official rollout alone did not prove local availability.
-- Q3 -j1 build reached configure and was stopped with only its verified descendant process tree for the user's app restart; no compiled WASM, Chrome or oracle result exists.
+- The pre-restart Q3 configure attempt was stopped with only its verified descendants. The resumed -j1 build now succeeds; that is compilation proof, not playback/oracle proof.
 - rc.14 fresh ZIP compression differs from the retained artifact by 69 bytes across 11 members despite identical Git contents; retain the historical archive and its pinned SHA.
+- A pinned ISO admission sample budget also blocked native AAC; seven specific benign probe-budget codes may continue Q0 only after settled cleanup. Malformed, transport, ownership and uncertain cleanup failures remain terminal.
+- The first local rc.15 full test run failed one version consistency check after a partial encoding-sensitive edit; it is retained, metadata was corrected, and the final 532/532 suite passes.
+- Personal Chrome tab creation succeeded but all focus-dependent operations timed out; no account/session or playback state was read. Do not repeat the same bridge call without a changed condition or kill the personal browser.
+- Q3 normal WebM muxing uses positional backpatch writes; treating every write as append-only incorrectly raised Q3_OUTPUT_BUDGET. Preserve the first failure and qualify bounded positional assembly.

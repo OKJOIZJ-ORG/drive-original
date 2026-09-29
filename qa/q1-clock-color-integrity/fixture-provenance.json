@@ -1,0 +1,191 @@
+{
+  "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "fixtures": [
+    {
+      "name": "b-vfr-audiolead.ts",
+      "args": [
+        "-f",
+        "lavfi",
+        "-i",
+        "testsrc2=size=320x180:rate=30:duration=6",
+        "-f",
+        "lavfi",
+        "-i",
+        "sine=frequency=700:sample_rate=48000:duration=6",
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-vf",
+        "select=not(eq(mod(n\\,5)\\,1)),setpts=PTS+0.25/TB,setsar=4/3",
+        "-fps_mode",
+        "vfr",
+        "-c:v",
+        "libx264",
+        "-threads:v",
+        "1",
+        "-preset",
+        "veryfast",
+        "-g",
+        "48",
+        "-bf",
+        "2",
+        "-x264-params",
+        "aud=1:repeat-headers=1",
+        "-color_range",
+        "tv",
+        "-colorspace",
+        "bt709",
+        "-color_primaries",
+        "bt709",
+        "-color_trc",
+        "bt709",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "96k",
+        "-ar",
+        "48000",
+        "-ac",
+        "2",
+        "-f",
+        "mpegts"
+      ],
+      "bytes": 300612,
+      "sha256": "a3309d09b0c82e71d88afa284fc8595fb3b6358c984cd369eddb63b653969229"
+    },
+    {
+      "name": "b-vfr-aac.mp4",
+      "args": [
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-audiolead.ts",
+        "-map",
+        "0",
+        "-c",
+        "copy",
+        "-movflags",
+        "+faststart"
+      ],
+      "bytes": 259047,
+      "sha256": "a650ca2811e8faed3f07bd76a5159613eb64f3ddcc44c4901ae39c8cb6098220"
+    },
+    {
+      "name": "b-vfr-rotate.mp4",
+      "args": [
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-aac.mp4",
+        "-map",
+        "0",
+        "-c",
+        "copy",
+        "-metadata:s:v:0",
+        "rotate=90"
+      ],
+      "bytes": 259047,
+      "sha256": "019ad4840cf3007ef8a0eae7c70d3fdb70f789441fd7ea2b58aec4944502ac81"
+    },
+    {
+      "name": "b-trim-negative.mp4",
+      "args": [
+        "-ss",
+        "0.4",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-aac.mp4",
+        "-map",
+        "0",
+        "-c",
+        "copy",
+        "-avoid_negative_ts",
+        "disabled"
+      ],
+      "bytes": 257295,
+      "sha256": "47539af2bc3b1d440eca3289672a8e231de6942a2c8e83a0e46e899007f1a19f"
+    },
+    {
+      "name": "b-empty-edit.mp4",
+      "args": [
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-aac.mp4",
+        "-map",
+        "0",
+        "-c",
+        "copy",
+        "-output_ts_offset",
+        "7"
+      ],
+      "bytes": 259059,
+      "sha256": "943c3c60af78a08c9a77e025b17def68589a7a1e8c5c718251bb446072f5dfbf"
+    },
+    {
+      "name": "b-negative-cto.mp4",
+      "args": [
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-aac.mp4",
+        "-map",
+        "0",
+        "-c",
+        "copy",
+        "-movflags",
+        "+negative_cts_offsets"
+      ],
+      "bytes": 259051,
+      "sha256": "7f0130589f7f7785a7cb46d1ff52ad952deb2eb2eb92a87c0ee69d5e694387c8"
+    },
+    {
+      "name": "b-rotate90.mp4",
+      "args": [
+        "-display_rotation:v:0",
+        "90",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\q1-clock-color-integrity\\b-vfr-aac.mp4",
+        "-map",
+        "0",
+        "-c",
+        "copy"
+      ],
+      "bytes": 259047,
+      "sha256": "8bd8996ef82d17b691a21a2805d2b0a40ef902f34b991286f35ac3c053e17f5c"
+    },
+    {
+      "name": "one-picture-color.mp4",
+      "args": [
+        "-f",
+        "lavfi",
+        "-i",
+        "testsrc2=size=320x180:rate=1/6:duration=6",
+        "-f",
+        "lavfi",
+        "-i",
+        "sine=frequency=700:sample_rate=48000:duration=6",
+        "-vf",
+        "setsar=4/3",
+        "-c:v",
+        "libx264",
+        "-threads:v",
+        "1",
+        "-bf",
+        "0",
+        "-color_range",
+        "tv",
+        "-colorspace",
+        "bt709",
+        "-color_primaries",
+        "bt709",
+        "-color_trc",
+        "bt709",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "+faststart"
+      ],
+      "bytes": 60360,
+      "sha256": "fd250b8b4c5a9fdad61f62072fd29b6bd4ed61d7a8d6ea2c80afaea2489b1527"
+    },
+    {
+      "name": "b-subpixel-sar.mp4",
+      "method": "copy original b-vfr-aac MP4 and replace its one 4:3 pasp box with exact 2600:2601; coded SPS and pictures unchanged, container aspect declaration owns display ratio",
+      "sha256": "22030a68e910c0faa25728e11b41e6956459a241c32269f8e513961180f382fc",
+      "bytes": 259047
+    }
+  ]
+}

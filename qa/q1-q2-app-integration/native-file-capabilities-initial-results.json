@@ -1,0 +1,368 @@
+{
+  "scope": "Installed isolated Chrome, three fresh browsers, unmodified product app/SW/players and synthetic provider. Exact combined native file and WebCodecs/Opus capabilities observed from parsed AVC+AC3/EAC3/AAC fixtures before automatic route. Expected route follows observed native file support; no real account/device/production proof.",
+  "producerStart": {
+    "app.js": "7f99e5de990fd1aabfaa0a37cf7081ac23ac283f20f41de15c46afe78b21d88c",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "ada79b657bdda4f6629dc226daf604d3ea168f1e3da36811a64a6bf3ee9a22ff",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "2d3e6488a243f78006be63ca9665c07029bc13a95720c030981ff01789413b1c",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "results": [
+    {
+      "name": "ac3-native-capability-route",
+      "passed": true,
+      "fixture": {
+        "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+        "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+        "bytes": 490614
+      },
+      "requests": 59,
+      "errors": [],
+      "capabilities": {
+        "nativeFile": {
+          "supported": false,
+          "authority": "html-can-play-type",
+          "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+          "answer": ""
+        },
+        "webCodecsInput": false,
+        "opusOutput": true,
+        "mseOpus": true,
+        "video": {
+          "codec": "avc1.64000c",
+          "codedWidth": 320,
+          "codedHeight": 180
+        },
+        "audio": {
+          "codec": "ac-3",
+          "numberOfChannels": 2,
+          "sampleRate": 48000
+        }
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "probeStarted": false,
+        "pin": true,
+        "routes": [
+          {
+            "general": true,
+            "audioCompatibility": true
+          }
+        ],
+        "frames": 4,
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.097804,
+            "targetElement": 0.097804,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 4,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 1.902195,
+          "peakRetainedAppendBytes": 220876,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        },
+        "hasSource": true
+      },
+      "end": {
+        "time": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96
+      },
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "eac3-native-capability-route",
+      "passed": true,
+      "fixture": {
+        "path": "qa/q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-stereo.mp4",
+        "sha256": "40ce156ee1a209d87e81c227fa2aaf7fa54558f31708d52bdbae3714e879796f",
+        "bytes": 683128
+      },
+      "requests": 67,
+      "errors": [],
+      "capabilities": {
+        "nativeFile": {
+          "supported": false,
+          "authority": "html-can-play-type",
+          "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+          "answer": ""
+        },
+        "webCodecsInput": false,
+        "opusOutput": true,
+        "mseOpus": true,
+        "video": {
+          "codec": "avc1.64000c",
+          "codedWidth": 320,
+          "codedHeight": 180
+        },
+        "audio": {
+          "codec": "ec-3",
+          "numberOfChannels": 2,
+          "sampleRate": 48000
+        }
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "probeStarted": false,
+        "pin": true,
+        "routes": [
+          {
+            "general": true,
+            "audioCompatibility": true
+          }
+        ],
+        "frames": 4,
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.034467,
+            "targetElement": 0.034467,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 3,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 0.960199,
+          "peakRetainedAppendBytes": 146819,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        },
+        "hasSource": true
+      },
+      "end": {
+        "time": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96
+      },
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "aac-native-capability-route",
+      "passed": true,
+      "fixture": {
+        "path": "qa/faststart-h264-aac.mp4",
+        "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+        "bytes": 202253
+      },
+      "requests": 11,
+      "errors": [],
+      "capabilities": {
+        "nativeFile": {
+          "supported": true,
+          "authority": "html-can-play-type",
+          "contentType": "video/mp4; codecs=\"avc1.42c01e,mp4a.40.2\"",
+          "answer": "probably"
+        },
+        "webCodecsInput": true,
+        "opusOutput": true,
+        "mseOpus": true,
+        "video": {
+          "codec": "avc1.42c01e",
+          "codedWidth": 320,
+          "codedHeight": 180
+        },
+        "audio": {
+          "codec": "mp4a.40.2",
+          "numberOfChannels": 1,
+          "sampleRate": 48000
+        }
+      },
+      "before": {
+        "attempt": "range",
+        "mode": "original-range",
+        "probeStarted": true,
+        "pin": true,
+        "routes": [],
+        "frames": 4,
+        "hasSource": true
+      },
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "browserClosed": true
+    }
+  ],
+  "passed": true,
+  "harness": {
+    "base": "native-retirement-smoke.cjs",
+    "baseSha256": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "adapterSha256": "3a2018357122f6ff142dfa37746042db5e28fc99dd8adb013a38004ca1bd0a9a"
+  },
+  "producerEnd": {
+    "app.js": "7f99e5de990fd1aabfaa0a37cf7081ac23ac283f20f41de15c46afe78b21d88c",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "ada79b657bdda4f6629dc226daf604d3ea168f1e3da36811a64a6bf3ee9a22ff",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "2d3e6488a243f78006be63ca9665c07029bc13a95720c030981ff01789413b1c",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "browser": "153.0.8010.54"
+}

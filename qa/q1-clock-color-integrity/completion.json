@@ -1,0 +1,170 @@
+{
+  "recordedAt": "2026-09-28T20:22:10.155489+00:00",
+  "scope": "QA-only provisional preferred-source fork; no product integration/deployment",
+  "containerCasesPassed": 13,
+  "containerCasesFailed": 0,
+  "boundsControlsPassed": 5,
+  "nativeThreePositionPlaybackCases": 9,
+  "nativeBrowser": "153.0.8010.54",
+  "nativeCrossRoutePresentationQualified": false,
+  "boundedTotalHeapQualified": false,
+  "genericProductQualified": false,
+  "containerDecodedPictures": 1951,
+  "nativeColorDiscriminator": {
+    "encodedPictureCount": 1,
+    "encodedPictureIndex": 0,
+    "sourceDeclaredColor": {
+      "matrix": "bt709",
+      "primaries": "bt709",
+      "transfer": "bt709",
+      "fullRange": false
+    },
+    "rawDecodedPixelsEqual": true,
+    "originalNativeColor": {
+      "fullRange": false,
+      "matrix": "smpte170m",
+      "primaries": "smpte170m",
+      "transfer": "smpte170m"
+    },
+    "remuxNativeColor": {
+      "fullRange": false,
+      "matrix": "bt709",
+      "primaries": "bt709",
+      "transfer": "bt709"
+    },
+    "mappedPtsError": -3.3333333333135373e-07,
+    "originalRgbSha256": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6",
+    "remuxRgbSha256": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79",
+    "pixelError": {
+      "meanAbsolute": 4.956693989071038,
+      "differingFraction": 0.5541699193338537
+    },
+    "directVersusDirect": {
+      "control": "direct-versus-direct",
+      "samePixels": true,
+      "sourcePtsDifference": 0
+    }
+  },
+  "limitations": [
+    "Native direct vs MSE interpretation differs; only fixture container-level clocks/config/pixels have exact preservation proof.",
+    "VFR exact native presented sample identity remains unqualified; dynamic rVFC timestamps alone are insufficient.",
+    "AC-3 copied unchanged but not supported by native Chrome MSE; no audio reencoding performed.",
+    "Input/library expanded sample tables and total native/JS heap are not measured by owner buffer counters.",
+    "TS multi-access-unit PES with ambiguous DTS is rejected; no generic Matroska/HEVC/other codec support claim.",
+    "Common movie-axis translation is QA-only; it has not been integrated with app controls/worker/seeks."
+  ],
+  "files": {
+    "README.md": {
+      "bytes": 5875,
+      "sha256": "e25a91e1f0ac521dfdf1d84d24c0ab64cfd2d1049cdb94fea63cdf4aabc01d90"
+    },
+    "patch.py": {
+      "bytes": 11403,
+      "sha256": "a30dd726e4dc41702edbd6c045be8f9a06cbd697d8b5b0801ba7b466a2546c22"
+    },
+    "build.py": {
+      "bytes": 1598,
+      "sha256": "261d4fbc48ba3b373e3e34f3ace828ae35070c09457c90e0d074de0402a9ee07"
+    },
+    "generate-fixtures.py": {
+      "bytes": 2708,
+      "sha256": "9254e4e3a0c7d3e1da42084712206957d0345aefd94e7265519a3a0833d59055"
+    },
+    "q1-pipeline.mjs": {
+      "bytes": 10080,
+      "sha256": "a955f3fcd1086bf4d00404850a6092cd84f61b079b3fae915f5c658b7b3712b2"
+    },
+    "common-source.mjs": {
+      "bytes": 4858,
+      "sha256": "1ef8b487aad7422e6672ea49393626951f00fbf6407a5122135d5aba28286ada"
+    },
+    "timeline-policy.mjs": {
+      "bytes": 11401,
+      "sha256": "78bd49c320fcd5838e926664b62bbb4c12142015f45d68f014ddaa6cce36147a"
+    },
+    "preferred-source.patch": {
+      "bytes": 14967,
+      "sha256": "6545211256b74287789830f93a53f15354d7e70867351efeb50c3c63550778e7"
+    },
+    "preferred-source-patched.tgz": {
+      "bytes": 450584,
+      "sha256": "a3ffced99f1f1f32d0afe892d71fa7de999a2813ec40eadb4a4287735cc3ed1f"
+    },
+    "vendor/mediabunny.min.mjs": {
+      "bytes": 684818,
+      "sha256": "dd8606477694cb6cc64b15d3eb3fbb1501991ef414a7b809561c5c1c874bff26"
+    },
+    "vendor/LICENSE": {
+      "bytes": 16726,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    "oracle.mjs": {
+      "bytes": 8345,
+      "sha256": "6d27e2b263725cdf216f5231d2ec88b7c26cf046cf1481765512cc7d604f2a39"
+    },
+    "independent.mjs": {
+      "bytes": 8134,
+      "sha256": "17ed6c8c8e2d75504c30ce391da01d1e3efe9155f7bda67be914c3aa2f9fc07d"
+    },
+    "oracle-results.json": {
+      "bytes": 2208111,
+      "sha256": "523f47a6fbb80d07e699f5565e6b5de37803ec4630b3b8db103598121548300d"
+    },
+    "bounds.mjs": {
+      "bytes": 3025,
+      "sha256": "26c2c00a3a1dea552a4ab1a2cb7cbcddafc310dbcb44b339324214463ef24519"
+    },
+    "bounds-results.json": {
+      "bytes": 11387,
+      "sha256": "a6b536d5ca7e8c88e360085306810c408b4e3aa4c84e1a1585aa73564c599fc8"
+    },
+    "native.mjs": {
+      "bytes": 7805,
+      "sha256": "1861b20e1b1b445735863f919abe2158bc0e04f09e58959a6e4cbb309aca7061"
+    },
+    "native-broad-producer.mjs": {
+      "bytes": 7805,
+      "sha256": "1861b20e1b1b445735863f919abe2158bc0e04f09e58959a6e4cbb309aca7061"
+    },
+    "native.cjs": {
+      "bytes": 4033,
+      "sha256": "69e8dd7da6bdc200e879819c547fb610d84a1595ba32db512d0a1534d662c704"
+    },
+    "native-results.json": {
+      "bytes": 81720,
+      "sha256": "f5b5316a993a0ac33c8792439ee5c31ace2731d7b238b0573e8ca0e61cb719e0"
+    },
+    "native-one-picture-color-results.json": {
+      "bytes": 7692,
+      "sha256": "14c2f1e1a56efe0f1346c247a10e4e81b10887590e8404eec6e81cc7b828e6c1"
+    },
+    "diagnosis.mjs": {
+      "bytes": 4516,
+      "sha256": "825b4920171e8f789dcef43371080f56dd6588d2cb96a4015fb56dcfb2a4a4e0"
+    },
+    "native-diagnosis.json": {
+      "bytes": 20814,
+      "sha256": "973857fc32bc7857d605081ad1d3591955d6ce308d35348af69bd84bcf502389"
+    },
+    "fixture-provenance.json": {
+      "bytes": 4910,
+      "sha256": "7aa71a58689a852a19c2b8f289199e51b39db87935668e9a68f5983a744ff7f1"
+    },
+    "patch-provenance.json": {
+      "bytes": 2080,
+      "sha256": "53582c445abf03468639daf5a4a8571eaf4a9c93da42f92cac2b1ab2576bce83"
+    },
+    "build-provenance.json": {
+      "bytes": 2278,
+      "sha256": "599235db6346cdd7037ed00b9a5301c39aaa6bd9f5fede97dd2d3c81fcf1e7c0"
+    },
+    "shared-source-provenance.json": {
+      "bytes": 1114,
+      "sha256": "18536a2984586df8bd925dccf1484dabd608c3cbae5fcf7b622e15697770cdcb"
+    },
+    "build-tool-provenance.json": {
+      "bytes": 767,
+      "sha256": "e5811214d53cf27d003725d4be8d7811a46f156f8c4009fe059cb28a1c23ebb1"
+    }
+  }
+}

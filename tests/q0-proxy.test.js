@@ -42,7 +42,8 @@ function fixture(options = {}) {
   page.window={addEventListener(){},removeEventListener(){},isSecureContext:true,location:page.location,matchMedia:()=>({matches:false}),setTimeout};
   page.matchMedia=page.window.matchMedia;
   vm.createContext(page);vm.runInContext(helper,page);vm.runInContext(appSource,page);
-  run(page,`state.authCapabilities={version:1,driveRead:true,driveWrite:false,appData:false};
+  run(page,`el.videoPlayer={hidden:true};
+    state.authCapabilities={version:1,driveRead:true,driveWrite:false,appData:false};
     state.token='synthetic-1';state.expiresAt=Date.now()+3600000;state.tokenRevision=1;state.authAccountKey='account';
     state.driveSessionGeneration=1;state.mediaSession=7;mediaSourceGeneration=12;state.mediaAttempt='range';
     state.selected={id:'fixture',size:'9999',mimeType:'video/wrong'};beginQ0Playback(state.selected,7);
@@ -53,7 +54,7 @@ function fixture(options = {}) {
     AbortController,DOMException,MessageChannel:Channel,setTimeout:timer,clearTimeout,
     importScripts(name){assert.equal(name,'./media/revision-pin.js');vm.runInContext(helper,worker);},
     self:{location:{origin:'https://app.test',href:'https://app.test/sw.js'},registration:{scope:'https://app.test/'},
-      addEventListener:(type,handler)=>listeners.set(type,handler),clients:{async get(id){return id==='client'?client:null;}}},
+      addEventListener:(type,handler)=>listeners.set(type,handler),clients:{async get(id){return id==='client'?client:null;},async matchAll(){return [client];}}},
     async fetch(target,init){
       const url=new URL(target), headers=new Headers(init.headers);
       const call={url:url.href,method:init.method,headers,signal:init.signal};calls.push(call);
@@ -68,7 +69,7 @@ function fixture(options = {}) {
       if(!options.hiddenRange)h['content-range']=`bytes ${start}-${end}/16`;
       return new Response(new Uint8Array(end-start+1).fill(url.pathname.includes('/revisions/A')?65:66),{status:206,headers:h});
     }};
-  const client={id:'client',postMessage(data,ports=[]){
+  const client={id:'client',type:'window',url:'https://app.test/',postMessage(data,ports=[]){
     messages.push(data);
     if(['Q0_OWNER_REQUEST','Q0_PIN_REQUEST','TOKEN_REQUEST'].includes(data.type)) {
       if(options.modifyMessage)data=options.modifyMessage({...data});
@@ -266,11 +267,11 @@ function coldFixture() {
   return {...f,video,events,begin:()=>run(f.page,"startOriginalRangePlayback(state.selected,'video',7)"),
     expire:()=>deadline(),claim:()=>{f.page.navigator.serviceWorker.controller=f.controller;for(const fn of [...events])fn();}};
 }
-test('cold first controller claim waits without assigning native source, coalesces, then begins actual Q0 synchronously',()=>{
+test('cold first controller claim waits for correlated capability, coalesces, then begins Q0',async()=>{
   const f=coldFixture();assert.equal(f.begin(),true);const waiting=run(f.page,'q0ControlWait');
   assert.equal(f.video.src,undefined);assert.equal(run(f.page,'state.mediaAttempt'),'range-preparing');
   f.begin();assert.equal(run(f.page,'q0ControlWait'),waiting);assert.equal(f.events.size,1);
-  f.claim();assert.ok(f.video.src.includes('mediaOwner=q0'));assert.equal(run(f.page,'q0Playback.swController'),f.controller);
+  f.claim();assert.equal(f.video.src,undefined);await tick();assert.ok(f.video.src.includes('mediaOwner=q0'));assert.equal(run(f.page,'q0Playback.swController'),f.controller);
   assert.equal(f.events.size,0);assert.equal(run(f.page,'q0ControlWait'),null);
 });
 test('cold control deadline fails after bounded 12s without native assignment or compatibility fallback',()=>{

@@ -1,0 +1,46 @@
+✔ Q2 ac-3 admission requires explicit opt-in and preserves allocation guards (3.0409ms)
+✔ Q2 ec-3 admission requires explicit opt-in and preserves allocation guards (0.4267ms)
+✔ default AAC admission unchanged; unknown audio entries never become opt-in (0.3464ms)
+✔ Q2 container failure drains source without producing a window or output (1.84ms)
+✔ fixed stereo profile and copied immutable source-window clock (1.5467ms)
+✔ cancel during delayed module open allocates no late native context (5.7717ms)
+✔ decode failure frees actual owned context exactly once; timestamps unchanged (1.4294ms)
+✔ concurrent native context rejected; cumulative PCM may exceed 8MiB (13.4749ms)
+✔ packet bound failure closes; rejected decode never changes channel count (0.709ms)
+✔ Mediabunny adapter reports corrupt packet without poisoning serialized close (0.8589ms)
+✔ adapter disposal while init is delayed cancels late native open (0.4216ms)
+✔ Worker transfer preserves source buffer; PCM ACK follows consumption (4.7997ms)
+✔ Worker close during PCM consumption waits for abort-aware consumer and native close (26.9355ms)
+✔ Worker delayed-open cancellation never allocates a late native context (1.079ms)
+✔ uncooperative PCM consumer fails cleanup visibly without inventing drain (60.6899ms)
+✔ close drains decode already waiting for a delayed module without late allocation (0.6973ms)
+✔ Worker module-open failure automatically drains and terminates (0.5785ms)
+✔ cancel on arriving PCM prevents a stale consumer callback (0.5278ms)
+✔ bounded pinned-track admission identifies AC3 and EAC3 without whole-object input (15.5017ms)
+✔ AAC stays original-native and unavailable Q2 output fails closed (3.9494ms)
+✔ AAC sample-count budget yields a clean optional-probe limit rather than source failure (1.5148ms)
+✔ HTML native file support preserves Q0 despite WebCodecs input absence (1.9211ms)
+✔ WebCodecs input support does not refuse otherwise qualified Q2 output (0.2603ms)
+✔ native file positive preserves Q0 without missing Opus output (1.9551ms)
+✔ native file positive preserves Q0 without rejecting Opus output (1.3622ms)
+✔ native file positive preserves Q0 without unsupported Opus output (2.0363ms)
+✔ HTML file unsupported plus WebCodecs input supported still selects qualified Q2 (1.4593ms)
+✔ unknown native file capability preserves Q0: maybe (1.3347ms)
+✔ unknown native file capability preserves Q0: unexpected (1.2056ms)
+✔ unknown native file capability preserves Q0: missing-document (1.0599ms)
+✔ unknown native file capability preserves Q0: missing-method (1.0402ms)
+✔ unknown native file capability preserves Q0: element-rejection (1.2091ms)
+✔ unknown native file capability preserves Q0: query-rejection (1.7719ms)
+✔ missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioDecoder (1.3049ms)
+✔ missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioEncoder (1.4495ms)
+✔ missing codec API yields diagnostic or qualified-output refusal without TypeError: MediaSource (1.5111ms)
+✔ rejecting WebCodecs input is diagnostic only; rejecting output is ineligible (2.1481ms)
+✔ exact combined HTML query uses actual QTFF container and treats malformed config as unknown (0.168ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 227.6903

@@ -1,0 +1,140 @@
+{
+  "scope": "Actual isolated Chrome full app/SW with synthetic provider. AAC derived entry is controlled after real Q0 success; AC3 uses real native failure; TS initial priority.",
+  "browser": "153.0.8010.54",
+  "hashes": {
+    "app.js": "39575344b81cfdeb62f1da87f804a6703224dbdff2b424425a57927187ddd0d3",
+    "sw.js": "6a238c845e7f0f32b24566050fc938b0bd87249ea45cc7c502650f3bf15d72a0",
+    "media/general-player.mjs": "9dd2e7edc66c7171dab9669664910d946d06dd13e4c6e93f878c7cc8a8751ffb"
+  },
+  "results": [
+    {
+      "name": "aac",
+      "native": {
+        "attempt": "range",
+        "pin": true,
+        "frames": 36,
+        "trace": []
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "kind": "general",
+        "timeline": {
+          "duration": null,
+          "currentTime": 0
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 0
+      },
+      "after": {
+        "timeline": {
+          "duration": null,
+          "currentTime": 2
+        },
+        "frames": 0,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 8,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "range",
+        "pin": true,
+        "frames": 63,
+        "trace": []
+      },
+      "before": {
+        "attempt": "range",
+        "mode": "original-range",
+        "timeline": {
+          "mapping": false,
+          "duration": 6,
+          "currentTime": 6
+        },
+        "trace": [],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 144
+      },
+      "after": {
+        "timeline": {
+          "mapping": false,
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 144,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 4,
+      "errors": []
+    },
+    {
+      "name": "ts",
+      "native": {
+        "attempt": "q1",
+        "pin": false,
+        "frames": 0,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "initial": true
+            },
+            "attempt": "idle"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "kind": "ts",
+        "timeline": {
+          "mapping": false,
+          "duration": null,
+          "currentTime": 0
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "initial": true
+            },
+            "attempt": "idle"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 0
+      },
+      "after": {
+        "timeline": {
+          "mapping": false,
+          "duration": null,
+          "currentTime": 0
+        },
+        "frames": 0,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 4,
+      "errors": []
+    }
+  ]
+}

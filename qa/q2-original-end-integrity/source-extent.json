@@ -1,0 +1,155 @@
+{
+  "streams": [
+    {
+      "index": 1,
+      "codec_name": "eac3",
+      "codec_long_name": "ATSC A/52B (AC-3, E-AC-3)",
+      "codec_type": "audio",
+      "codec_tag_string": "ec-3",
+      "codec_tag": "0x332d6365",
+      "mime_codec_string": "ec-3",
+      "sample_fmt": "fltp",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "bits_per_sample": 0,
+      "initial_padding": 256,
+      "dmix_mode": "0",
+      "ltrt_cmixlev": "0.000000",
+      "ltrt_surmixlev": "0.000000",
+      "loro_cmixlev": "0.000000",
+      "loro_surmixlev": "0.000000",
+      "id": "0x2",
+      "r_frame_rate": "0/0",
+      "avg_frame_rate": "0/0",
+      "time_base": "1/48000",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 288000,
+      "duration": "6.000000",
+      "bit_rate": "640000",
+      "nb_frames": "188",
+      "nb_read_packets": "188",
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      },
+      "tags": {
+        "language": "und",
+        "handler_name": "SoundHandler"
+      },
+      "side_data_list": [
+        {
+          "side_data_type": "Audio Service Type",
+          "service_type": 0
+        }
+      ]
+    }
+  ],
+  "first": [
+    {
+      "codec_type": "audio",
+      "stream_index": 1,
+      "pts": -256,
+      "pts_time": "-0.005333",
+      "dts": -256,
+      "dts_time": "-0.005333",
+      "duration": 1536,
+      "duration_time": "0.032000",
+      "size": "2560",
+      "pos": "4116",
+      "flags": "K__",
+      "side_data_list": [
+        {
+          "side_data_type": "Skip Samples",
+          "skip_samples": 256,
+          "discard_padding": 0,
+          "skip_reason": 0,
+          "discard_reason": 0
+        }
+      ]
+    },
+    {
+      "codec_type": "audio",
+      "stream_index": 1,
+      "pts": 1280,
+      "pts_time": "0.026667",
+      "dts": 1280,
+      "dts_time": "0.026667",
+      "duration": 1536,
+      "duration_time": "0.032000",
+      "size": "2560",
+      "pos": "10872",
+      "flags": "K__"
+    }
+  ],
+  "last": [
+    {
+      "codec_type": "audio",
+      "stream_index": 1,
+      "pts": 283904,
+      "pts_time": "5.914667",
+      "dts": 283904,
+      "dts_time": "5.914667",
+      "duration": 1536,
+      "duration_time": "0.032000",
+      "size": "2560",
+      "pos": "673236",
+      "flags": "K__"
+    },
+    {
+      "codec_type": "audio",
+      "stream_index": 1,
+      "pts": 285440,
+      "pts_time": "5.946667",
+      "dts": 285440,
+      "dts_time": "5.946667",
+      "duration": 1536,
+      "duration_time": "0.032000",
+      "size": "2560",
+      "pos": "677059",
+      "flags": "K__"
+    },
+    {
+      "codec_type": "audio",
+      "stream_index": 1,
+      "pts": 286976,
+      "pts_time": "5.978667",
+      "dts": 286976,
+      "dts_time": "5.978667",
+      "duration": 1536,
+      "duration_time": "0.032000",
+      "size": "2560",
+      "pos": "680568",
+      "flags": "K__",
+      "side_data_list": [
+        {
+          "side_data_type": "Skip Samples",
+          "skip_samples": 0,
+          "discard_padding": 512,
+          "skip_reason": 0,
+          "discard_reason": 0
+        }
+      ]
+    }
+  ],
+  "packets": 188,
+  "decodedFrames": 288000
+}

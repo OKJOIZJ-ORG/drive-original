@@ -1,5 +1,6 @@
 # Public bytes and their maintained Q1 producers must survive a Windows checkout
 # unchanged so producer manifests and committed candidate verification agree.
+/.gitattributes text eol=lf
 /app.js text eol=lf
 /index.html text eol=lf
 /styles.css text eol=lf
@@ -46,7 +47,42 @@
 /licenses/audio-source-* -text whitespace=cr-at-eol
 /qa/q2-audio-source-publication/** -text whitespace=cr-at-eol
 /scripts/package-audio-source.cjs -text whitespace=cr-at-eol
-# Q3 synthetic proof producers, raw logs and output are exact bytes.
+# Preserve hash-bound Q1/Q2 product preparation and original synthetic evidence.
+/media/general-* -text whitespace=cr-at-eol
+/media/audio-* -text whitespace=cr-at-eol
+/media/mediabunny-q1* -text whitespace=cr-at-eol
+/tests/general-* -text whitespace=cr-at-eol
+/tests/audio-compat-* -text whitespace=cr-at-eol
+/scripts/build-general-q1.cjs -text whitespace=cr-at-eol
+/scripts/build-audio-compat.cjs -text whitespace=cr-at-eol
+/licenses/index.html text eol=lf
+/qa/q1-clock-color-integrity/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q1-general-product-preparation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q1-q2-app-integration/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-audio-product-preparation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-general-product-integration/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-original-end-integrity/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-player-end-window/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-audio-compatibility/eac3-source-build/* -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-audio-compatibility/eac3-source-build/notices/* -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q2-audio-compatibility/source-build/* -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q1-q2-release-integration/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-rc15-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-delivery-audit.cjs text eol=lf
+/tests/sw-capability.test.js text eol=lf
 /qa/q3-browser-execution/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/host-resource-snapshot.py -text whitespace=cr-at-eol
 /qa/media-general-routing/vendor/mediabunny.min.mjs -text whitespace=cr-at-eol
+# Preserve executed/public source fingerprints and upstream notice/patch syntax.
+# Patch context prefixes before tabs and retained EOF blanks are artifact data.
+/media/audio-codec.LICENSE.txt whitespace=cr-at-eol,-blank-at-eol
+/media/audio-general-pipeline.mjs whitespace=cr-at-eol,-blank-at-eol
+/media/audio-general-worker.mjs whitespace=cr-at-eol,-blank-at-eol
+/media/general-pipeline.mjs whitespace=cr-at-eol,-blank-at-eol
+/media/general-worker.mjs whitespace=cr-at-eol,-blank-at-eol
+/media/mediabunny-q1-source.patch whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof,-space-before-tab
+/qa/q1-clock-color-integrity/preferred-source.patch whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof,-space-before-tab
+/qa/q2-audio-compatibility/eac3-source-build/notices/Emscripten-LICENSE.txt whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+/qa/q2-general-product-integration/README.md whitespace=cr-at-eol,-blank-at-eof
+/qa/q2-original-end-integrity/fresh-native.log whitespace=cr-at-eol,-blank-at-eof
+/scripts/build-audio-compat.cjs whitespace=cr-at-eol,-blank-at-eof

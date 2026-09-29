@@ -1,0 +1,3442 @@
+{
+  "scope": "Actual isolated Chrome full app/SW with synthetic provider. Ten fresh-context AC3 automatic Q2 cold routes after Q0 pin; no manual route or real Drive account.",
+  "browser": "153.0.8010.54",
+  "producerStart": {
+    "app.js": "7bc92ca2987e259dc8f44270af7e3d39fc7968317c00a42f910e58506ca9ab71",
+    "sw.js": "53dba7b09d08d4747312b2e7db32b21ba86b53c430c4fee2ffe3eca53d002379",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "5af44913a02b2edc00bae71ed4c41caafba9d9b5b32e9b4a03d51358275e6c31",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "88cd4874d123b92e0a2fec240caf7048191d62f3273d211072eecbf05e85142e",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "producerEnd": {
+    "app.js": "7bc92ca2987e259dc8f44270af7e3d39fc7968317c00a42f910e58506ca9ab71",
+    "sw.js": "53dba7b09d08d4747312b2e7db32b21ba86b53c430c4fee2ffe3eca53d002379",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "8954bbd984c4bc9912a7ac5b1c1daec592574b90fd7b3f49ef45af3b2eee354f",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "5af44913a02b2edc00bae71ed4c41caafba9d9b5b32e9b4a03d51358275e6c31",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "88cd4874d123b92e0a2fec240caf7048191d62f3273d211072eecbf05e85142e",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "results": [
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 46,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.051288,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": false
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.051288,
+            "targetElement": 0.051288,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.911213,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.051288,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 83
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.051288,
+            "targetElement": 0.051288,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 1.770229
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.051288,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": false
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 46
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 52,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.073248,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.073248,
+            "targetElement": 0.073248,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.850655,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.073248,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 81
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.073248,
+            "targetElement": 0.073248,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.055713
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.073248,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 52
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 53,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.067021,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.067021,
+            "targetElement": 0.067021,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.898409,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.067021,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 82
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.067021,
+            "targetElement": 0.067021,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.056183
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.067021,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 53
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 52,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.055685,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.055685,
+            "targetElement": 0.055685,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.886324,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.055685,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 83
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.055685,
+            "targetElement": 0.055685,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.038548
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.055685,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 52
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 50,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.084504,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.084504,
+            "targetElement": 0.084504,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.867526,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.084504,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 91473,
+              "peakSamples": 83
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.084504,
+            "targetElement": 0.084504,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.006194
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.084504,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 50
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 51,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.070811,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.070811,
+            "targetElement": 0.070811,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.886892,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.070811,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 82
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.070811,
+            "targetElement": 0.070811,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 1.998384
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.070811,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 51
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 51,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.063255,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.063255,
+            "targetElement": 0.063255,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.896872,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.063255,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 82
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.063255,
+            "targetElement": 0.063255,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.004816
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.063255,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 51
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 66,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 53,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.055715,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.055715,
+            "targetElement": 0.055715,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.889009,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.055715,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 82
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.055715,
+            "targetElement": 0.055715,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.081631
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.055715,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 53
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 52,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.053921,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.053921,
+            "targetElement": 0.053921,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.888866,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.053921,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 83
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.053921,
+            "targetElement": 0.053921,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.033904
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.053921,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 52
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 67,
+      "errors": []
+    },
+    {
+      "name": "ac3",
+      "native": {
+        "attempt": "q1",
+        "pin": true,
+        "frames": 52,
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.066892,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ]
+      },
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "kind": "general",
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.066892,
+            "targetElement": 0.066892,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 8,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 5.893002,
+          "peakRetainedAppendBytes": 443834,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 8,
+            "bytes": 490614,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 8,
+            "acks": 8,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.066892,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "ac3",
+            "packets": 332,
+            "outputBytes": 443834,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 125330,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                144,
+                188
+              ],
+              "boxes": 43
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 90233,
+              "peakSamples": 82
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 490614,
+              "logicalReads": 292,
+              "cacheHits": 298,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 188,
+              "decodedFrames": 288768,
+              "transferredPcmBytes": 2310144,
+              "failures": 0,
+              "peakPacketBytes": 1536,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.066892,
+            "targetElement": 0.066892,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 2.041252
+        },
+        "trace": [
+          {
+            "name": "tryOriginalTsPlayback",
+            "args": {
+              "general": true,
+              "audioCompatibility": true,
+              "snapshotOverride": {
+                "time": 0.066892,
+                "paused": false,
+                "volume": 1,
+                "muted": false,
+                "playbackRate": 1,
+                "fullscreen": false,
+                "decoded": true
+              }
+            },
+            "attempt": "range"
+          }
+        ],
+        "errorText": "원본 스트림을 준비하지 못했습니다.",
+        "frames": 52
+      },
+      "logicalEnd": {
+        "elementTime": 6.0065,
+        "elementDuration": 6.0065,
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "paused": true
+      },
+      "after": {
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "duration": 6,
+          "currentTime": 6
+        },
+        "frames": 96,
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false
+      },
+      "requests": 66,
+      "errors": []
+    }
+  ]
+}

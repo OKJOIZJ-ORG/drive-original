@@ -1,0 +1,116 @@
+✔ old controller cannot authorize native bytes; replacement needs exact correlated capability (24.7946ms)
+✔ capability cannot resume stale owner: state.authAccountKey='b' (3.6708ms)
+✔ capability cannot resume stale owner: state.driveSessionGeneration++ (4.9833ms)
+✔ capability cannot resume stale owner: state.mediaSession++ (5.4387ms)
+✔ capability cannot resume stale owner: mediaSourceGeneration++ (4.4773ms)
+✔ capability cannot resume stale owner: q0ControlWait.controller.abort() (3.4357ms)
+✔ capability timeout stays client-update failure without native or retry (3.8128ms)
+✔ general source clock drives movie time, seek, and original endpoint independent of MSE tail (4.9814ms)
+✔ general route admission: observed code4 with verified original and retained pin (9.3812ms)
+✔ general route admission: offline (6.239ms)
+✔ general route admission: classified provider error (6.855ms)
+✔ general route admission: network media code (3.9931ms)
+✔ general route admission: unverified transport (11.0458ms)
+✔ general route admission: missing retained pin (14.949ms)
+✔ general route admission: waiting for SW capability (3.5002ms)
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: mediaSourceGeneration++ (10.5436ms)
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.authAccountKey='b' (8.2498ms)
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.driveSessionGeneration++ (6.9566ms)
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: navigator.serviceWorker.controller={} (7.5311ms)
+✔ Q0 retirement joins a settled skipped non-ISO probe without a false sticky failure (6.2613ms)
+✖ current ISO audio probe cleanup failure marks its owner before retirement (9.5727ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 16
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 279.1288
+
+✖ failing tests:
+
+test at tests\general-app-routing.test.js:60:1
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: mediaSourceGeneration++ (10.5436ms)
+  AssertionError [ERR_ASSERTION]: retirement cannot resolve while the probe abort is pending
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\general-app-routing.test.js:64:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-app-routing.test.js:60:1
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.authAccountKey='b' (8.2498ms)
+  AssertionError [ERR_ASSERTION]: retirement cannot resolve while the probe abort is pending
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\general-app-routing.test.js:64:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-app-routing.test.js:60:1
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.driveSessionGeneration++ (6.9566ms)
+  AssertionError [ERR_ASSERTION]: retirement cannot resolve while the probe abort is pending
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\general-app-routing.test.js:64:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-app-routing.test.js:60:1
+✖ Q0 retirement joins stale audio probe and keeps unsettled source sticky: navigator.serviceWorker.controller={} (7.5311ms)
+  AssertionError [ERR_ASSERTION]: retirement cannot resolve while the probe abort is pending
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\general-app-routing.test.js:64:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\general-app-routing.test.js:76:1
+✖ current ISO audio probe cleanup failure marks its owner before retirement (9.5727ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\general-app-routing.test.js:79:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

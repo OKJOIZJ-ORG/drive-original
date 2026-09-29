@@ -1,0 +1,338 @@
+{
+  "scope": "Local end-boundary investigation; no product padding fix promoted",
+  "currentSourceDifferencesSinceFresh13CaseSnapshot": [
+    "media/audio-general-pipeline.mjs",
+    "media/audio-general-worker.mjs",
+    "media/general-player.mjs"
+  ],
+  "freshSnapshotValid": true,
+  "currentSnapshotFullyBrowserRequalified": false,
+  "checks": {
+    "node": 26,
+    "freshSnapshotNative": 13,
+    "actualMsePcmTrials": 3,
+    "compensatedWindowFrames": 288000
+  },
+  "remaining": [
+    "Root/app-owner consumer integration and logical-end policy",
+    "Cold decoder initialization app investigation",
+    "Additional target/AC3/seek window boundary qualification"
+  ],
+  "files": [
+    {
+      "path": "qa/q2-original-end-integrity/audio_discard_helper.cc",
+      "bytes": 10462,
+      "sha256": "a3e62b7ee8ceeb9bd9c84818c3af44894de886aa6d7186d73c15d1091b0f9ef2"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/baseline-extent.json",
+      "bytes": 3099,
+      "sha256": "c61442253f14a9762cdfdd223f977916a1ea224913f308b7d00043fb1223a2b6"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/baseline.py",
+      "bytes": 746,
+      "sha256": "aa50426cfd9fb5e330327cb1be375cc46df572599fce1f9386e611b0eeaf1b5f"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/candidate-short-sample.mp4",
+      "bytes": 443125,
+      "sha256": "aeb2b4a2ab776bac53abf153a98721bd5f7a922ec94320f9ec4dffef61145089"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-baseline.f32",
+      "bytes": 2355200,
+      "sha256": "a864d521624e6c4cd3a372cf5479f8d9f66d7a26a375ed14cb97af74240e8f18"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-bounded.f32",
+      "bytes": 2343936,
+      "sha256": "7e8a666da1499422a7782a3218c5164e15d9113a114f2d59e9aa51c43aa0b7a9"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-compensated-results.json",
+      "bytes": 245,
+      "sha256": "d837ab4d7021ac26793ef7e1b16fa29aba9887b2ccb43a76069f563f92194e43"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-compensated.cjs",
+      "bytes": 3468,
+      "sha256": "1eae7c61e0eca34313b0794fd14881ea0125599a339a4009f7b38d23ec563104"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-compensated.f32",
+      "bytes": 2347008,
+      "sha256": "4dff46f74b3776fd6ff0c297d557044814350b561c98519c664d1f60a3440481"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-oracle.json",
+      "bytes": 1521,
+      "sha256": "f15e215099b20f24aac6470d80da1de46773cf386c1a264d05ddca6cdb26aba8"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-oracle.py",
+      "bytes": 1787,
+      "sha256": "707708437e0138a54afce994ad6de682eaeacce417710c94ceca0064b63b4aab"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-results.json",
+      "bytes": 437,
+      "sha256": "8ccacb3ba3f9525fbe88c35864a138cb4631a08a4b6d439b9681d7f0340bc944"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture-worklet.mjs",
+      "bytes": 251,
+      "sha256": "e6524e6bdd3e1742bd44baf787042255c7298b8139f006e1347a90b68c063069"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/capture.cjs",
+      "bytes": 3469,
+      "sha256": "671a6483d57bba39b820b56dc4201f02093b0fccc54ad589964462c67e23ffd8"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/correct-edit-probe.json",
+      "bytes": 289,
+      "sha256": "5b297982800ad37958663d6b036edd142c17d7416396f4d4561273d76d6acba8"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/correct-edit-probe.py",
+      "bytes": 746,
+      "sha256": "b6fbe9b493e4be23ac0b5114e6abca79cc78fbf9270c662ec69c275478617283"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/debug.py",
+      "bytes": 660,
+      "sha256": "dccebc8487033b7cfb92e384865a3cdef3bb90858cdbcf4738049c5609dd691c"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/duration-field-trial.log",
+      "bytes": 337,
+      "sha256": "49e30447357c6cc277452730cca8f8ff91efd6b2f36dee27c38fc05a2f1640d2"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/duration-trial.log",
+      "bytes": 1075,
+      "sha256": "572a6de81bf4d0cb6ff35b38659cf0222a8b2c87e69b2bb62ffd9538c130c537"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/edit-duration-correct.mp4",
+      "bytes": 443834,
+      "sha256": "74cb7a6319ecb6cc3a0a3db26801c7d098c08ad19da053d911263163b040347e"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/edit-duration.mp4",
+      "bytes": 443125,
+      "sha256": "3ea61c7af6ff7b3f5b3fa38bd3cfd9e5e24e7d1280311a7fed1bfd14a8b3e3fb"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/edit-duration.py",
+      "bytes": 790,
+      "sha256": "fb1863b9f58ad30d35d806d909f30089bbbd31c43666e3cb50cbba3a43871aa0"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fetch-frame.py",
+      "bytes": 248,
+      "sha256": "9b09509134e838b9618b6cf327a20d597e808da26a505cfafe495c7a9b184f83"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/finalize.cjs",
+      "bytes": 2711,
+      "sha256": "6925ac96aae054da6e8e6088a3e63e666ab6bd13db3f4aa7a32f6ae9e90be4fe"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fix-color.py",
+      "bytes": 433,
+      "sha256": "9941027cd37be36ac242d0d9584dddbd7bfcb28b3af1c802dda36a7fe8d52e69"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/frame_processor.cc",
+      "bytes": 52909,
+      "sha256": "16d342a4a7715432dcd6f20cc15ffcf71a6ac7f25f3431aaa1407874dbe4b116"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fresh-native-results.json",
+      "bytes": 162850,
+      "sha256": "1bad584fdab51470729c84b8015866eb1443f91620da17b084da9646f1e1de50"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fresh-native.cjs",
+      "bytes": 3809,
+      "sha256": "6b37707b22c91a52676c595dc529c7306aab56eff5efbd247982f996e5beefa5"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fresh-native.log",
+      "bytes": 2503,
+      "sha256": "223e77611a2428a9c29e4dc35cbf35a4bada10766ece89c2f10e495efe5dbe3d"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/fresh-validation.json",
+      "bytes": 3469,
+      "sha256": "cfa5c9c376f77b41cdb66e7ea7b3f7067a5854a40c5ddbade01e23f1a3026ec2"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/get-decoder.py",
+      "bytes": 355,
+      "sha256": "2e0a886e77a70ec5304f7d722cda8438b677c011ad162b19e2887ddc1fe17bed"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/get-primary.py",
+      "bytes": 282,
+      "sha256": "d427257399fb16e96ca1fc7ca040f595d303b1182b5f0e4e0c901124972c4282"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/inspect-trun.py",
+      "bytes": 936,
+      "sha256": "fb4d00648656552d84e5fd105b20c42e2808fe36ab5d580055d21d5e8fb80089"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/mp4_stream_parser.cc",
+      "bytes": 51759,
+      "sha256": "35b11330ae2b15b92660c9ee4d82fc86a1cdc2f30ab5315d663b439dac2a4ec6"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/native-extents.cjs",
+      "bytes": 2587,
+      "sha256": "82a3f177f46f38150d84e0ce06cd01ef0a2df074f1661ac2759d89a9e881be40"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/native-extents.json",
+      "bytes": 1006,
+      "sha256": "4bf855273119e53c0b2908b4d3f16c49606802796f21e0f31060eb3cfb6f8678"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/native-results.json",
+      "bytes": 11119,
+      "sha256": "939228c3770744d244c06adb4ce5c9b1491547eb7912845867c998a05785675b"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/native.cjs",
+      "bytes": 3085,
+      "sha256": "ea51d6fb907b070a71a2e8d01deb39d46c838b77f6a80eb6eafdbed6406c8de3"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/native.mjs",
+      "bytes": 7211,
+      "sha256": "0e40455f0ec62fe4236aebe9939b764f35dd2d8c0e5ed4eae9443f18bb4f5261"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/node-results.txt",
+      "bytes": 2430,
+      "sha256": "99b06df4f9fa1b9abefe854959980738ca73fa7b5b38aebe067064f146305195"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/opus_audio_decoder.cc",
+      "bytes": 15828,
+      "sha256": "fab41404a152207cb96740623d1a035469c91956db90968164909210d54f8b2e"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/pipeline.mjs",
+      "bytes": 15117,
+      "sha256": "8ad91b851ce089d9be73e9c727cdbf6df943a14325c33adc487c2b491c230f99"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/prepare-compensated.cjs",
+      "bytes": 419,
+      "sha256": "82a073131d2a692b04beeea35b52b544b3cc36eb9e91655909396a1623810096"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/prepare-fresh.cjs",
+      "bytes": 1327,
+      "sha256": "e2b4dfb4c602531de7c6967bbc9464d4e70054cb96914fb1feaf5cca3eb39737"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/prepare.py",
+      "bytes": 1726,
+      "sha256": "feb56614df46c41d5bd4e7f27f43c5a0fb2c66ccaa72e4e1cc246b82b6b2270e"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/process-cleanup.json",
+      "bytes": 465,
+      "sha256": "ac75a0fc01bdc2b5dca7d1325e48b1e9ea9536e2cba5ab6ff357d076ea558994"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/product-native.mjs",
+      "bytes": 7284,
+      "sha256": "5ef70a03250df02d3376424a5a336cadeb5f6efe35274e96913b857157a93935"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/README.md",
+      "bytes": 7534,
+      "sha256": "be174af30fe49b3f016e241516630daefb3f70bc75064b6676ed5e7e13aa7147"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/rejected-current-source.json",
+      "bytes": 764,
+      "sha256": "c942611450099a55524876b64e0239f7432adeadd4b4ed6f4650313a70b0772b"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/restore-trial-artifact.py",
+      "bytes": 226,
+      "sha256": "52e5dd7d7f8101a987a8b01bcfce053036366bdea35807574ff85b2da9444bd0"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/run-fresh.cjs",
+      "bytes": 1738,
+      "sha256": "a7374e7535bc0139833044577ca6b5f7d28498f0087ce3043b4de874c2e3c580"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/source-extent.json",
+      "bytes": 3766,
+      "sha256": "83d28b77faf843c3c8eb9619036ef6ca130ad1e6adb4d26dfca3a796500d8ae0"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/track_run_iterator.cc",
+      "bytes": 34063,
+      "sha256": "51c42924e15bc64e9b5ed39837b9c3573ac56fdc65458c7ebc00c69fbd94ce2a"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/trial.log",
+      "bytes": 321,
+      "sha256": "3cb6f7b33095b956f07824be0d3436398a58ba43516364237141fc61e7a6bc2f"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/trim-duration-field.py",
+      "bytes": 351,
+      "sha256": "8a946e65f52f45bcbd3b95c4247af9effe906f111fcf0c57c5efb17a96522429"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/trim-duration.py",
+      "bytes": 356,
+      "sha256": "786488169277a9e0acf0cf07d5d24672578061de624d01ea15f52c087aae8cb5"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/trun-report.json",
+      "bytes": 1137,
+      "sha256": "1e69c87c952ce3f15a25ef329e01a0f3f7f1714e26d2baccd79604c068b37894"
+    },
+    {
+      "path": "qa/q2-original-end-integrity/worker.mjs",
+      "bytes": 3343,
+      "sha256": "b96f2e7badff76c1f63eab9e1449a4b4ea22695f93cc1a373e584bce8236d6b6"
+    },
+    {
+      "path": "media/audio-general-pipeline.mjs",
+      "bytes": 15311,
+      "sha256": "b7401254007611d1c8bd95a8fd3a18eda2b373c6e0b5d61c2a62ac0031867637"
+    },
+    {
+      "path": "media/audio-general-worker.mjs",
+      "bytes": 3392,
+      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+    },
+    {
+      "path": "tests/audio-compat-general.mjs",
+      "bytes": 2255,
+      "sha256": "041df531b4827620c594847f45ffdd85cb48d03f28a9ab6f6f96f9fdeda3f8ce"
+    },
+    {
+      "path": "qa/q2-general-product-integration/output-eac3.mp4",
+      "bytes": 443834,
+      "sha256": "db5c89370d723f37d6b91c0f41651ba32134212179854c7826907ea7c76f3640"
+    },
+    {
+      "path": "qa/q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-stereo.mp4",
+      "bytes": 683128,
+      "sha256": "40ce156ee1a209d87e81c227fa2aaf7fa54558f31708d52bdbae3714e879796f"
+    }
+  ]
+}

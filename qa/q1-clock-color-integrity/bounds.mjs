@@ -1,0 +1,15 @@
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import assert from 'node:assert/strict';
+import {openDriveQ1Source} from '../../media/drive-source.mjs';import {remuxQ1} from './q1-pipeline.mjs';
+const leaf=path.dirname(fileURLToPath(import.meta.url)),file=path.resolve(leaf,'../v2-07b-ts-q1/synthetic-bframes-audiolead.ts'),size=fs.statSync(file).size,rows=[];
+async function run(name,{limits={},stallAck=false,abortAck=false,stallRead=false}={}){
+ const c=new AbortController();let active=0,peak=0,acks=0,staleAckIgnored=false;
+ const source=await openDriveQ1Source({fileId:name,accountKey:'q1-bounds',accountGeneration:1,isCurrent:()=>true,signal:c.signal,readMetadata:async()=>({id:name,size:String(size),mimeType:'video/mp2t',headRevisionId:'fixed',modifiedTime:'2026-09-29T00:00:00Z',trashed:false,capabilities:{canDownload:true}}),readRange:async({start,end,signal})=>{active++;peak=Math.max(peak,active);try{if(stallRead)await new Promise((resolve,reject)=>{const stop=()=>reject(new Error('READ_ABORTED'));signal.addEventListener('abort',stop,{once:true});if(signal.aborted)stop();});const b=Buffer.alloc(end-start+1),fd=fs.openSync(file,'r');try{fs.readSync(fd,b,0,b.length,start);}finally{fs.closeSync(fd);}return new Response(b,{status:206,headers:{'Content-Range':`bytes ${start}-${end}/${size}`,'Content-Length':String(b.length)}});}finally{active--;}}});
+ let result,error;const started=performance.now();try{result=await remuxQ1({source,signal:c.signal,limits,onChunk:async()=>{acks++;if(abortAck){setTimeout(()=>c.abort(),10);return new Promise(()=>{});}if(stallAck)return new Promise(()=>{});await new Promise(r=>setTimeout(r,2));}});}catch(e){error={message:e.message,cleanup:e.cleanup,reads:e.reads};}
+ await source.abort();assert.equal(active,0);const cleanup=result?.cleanup??error?.cleanup;assert.equal(cleanup?.settled,true);assert.equal((result?.reads??error?.reads).inFlight,0);assert.ok(peak<=1);rows.push({name,elapsedMs:performance.now()-started,result,error,acks,active,peak});return rows.at(-1);
+}
+const success=await run('ack-backpressure',{limits:{maxOutputChunk:16384}});assert.ok(success.result);assert.equal(success.result.peakPendingAcks,1);assert.ok(success.result.reads.peakRetained<=256*1024);assert.ok(success.result.peakBufferedPacketBytes<=4*1024*1024);
+assert.match((await run('packet-buffer-cap',{limits:{maxBufferedPacketBytes:8192}})).error.message,/PACKET_BUFFER_LIMIT/);
+assert.match((await run('ack-timeout',{stallAck:true,limits:{ackTimeoutMs:30}})).error.message,/ACK_TIMEOUT/);
+assert.match((await run('pending-ack-cancel',{abortAck:true})).error.message,/ACK_CANCELLED/);
+assert.match((await run('read-deadline',{stallRead:true,limits:{maxMs:40}})).error.message,/TIME_LIMIT/);
+fs.writeFileSync(path.join(leaf,'bounds-results.json'),JSON.stringify({passed:rows.length,observations:rows},null,2));console.log(JSON.stringify({passed:rows.length,cases:rows.map(r=>({name:r.name,error:r.error?.message,elapsedMs:r.elapsedMs}))}));

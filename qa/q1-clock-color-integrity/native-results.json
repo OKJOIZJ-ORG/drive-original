@@ -1,0 +1,3128 @@
+{
+  "recordedAt": "2026-09-28T20:21:18.756Z",
+  "scope": "isolated native Chrome local synthetic fixtures only",
+  "browserVersion": "153.0.8010.54",
+  "sourceHashes": {
+    "native.mjs": "1861b20e1b1b445735863f919abe2158bc0e04f09e58959a6e4cbb309aca7061",
+    "q1-pipeline.mjs": "a955f3fcd1086bf4d00404850a6092cd84f61b079b3fae915f5c658b7b3712b2",
+    "common-source.mjs": "1ef8b487aad7422e6672ea49393626951f00fbf6407a5122135d5aba28286ada",
+    "vendor/mediabunny.min.mjs": "dd8606477694cb6cc64b15d3eb3fbb1501991ef414a7b809561c5c1c874bff26"
+  },
+  "observations": [
+    {
+      "name": "ts",
+      "passed": true,
+      "playbackPassed": true,
+      "presentationComparisonPassed": null,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 1.4,
+        "windowOrigin": 1.4,
+        "sourceEndTimestamp": 13.671333333333333,
+        "policy": false,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 1.4,
+        "elementStart": 0,
+        "elementEnd": 12.271333333333333,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 13.671333333333333,
+        "sourcePacketOrigin": 1.4,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 1.4,
+        "policy": null,
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 924,
+        "outputBytes": 850520,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 175321,
+        "encodersCreated": 0,
+        "inputFormat": "MPEG Transport Stream",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 10521,
+          "requests": 30,
+          "bytes": 1917600,
+          "cacheHits": 10519,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.34607,
+          "movieTime": 1.74607,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.271333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.304666,
+              "presentedFrames": 3
+            },
+            {
+              "mediaTime": 0.338,
+              "presentedFrames": 4
+            }
+          ]
+        },
+        {
+          "target": 6.135666666666666,
+          "elementTime": 6.275165,
+          "movieTime": 7.675165,
+          "frames": 10,
+          "presented": [
+            {
+              "mediaTime": 6.104666,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 6.138,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 6.171333,
+              "presentedFrames": 7
+            },
+            {
+              "mediaTime": 6.204666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 6.238,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 6.271333,
+              "presentedFrames": 10
+            }
+          ]
+        },
+        {
+          "target": 11.771333333333333,
+          "elementTime": 11.913456,
+          "movieTime": 13.313456,
+          "frames": 10,
+          "presented": [
+            {
+              "mediaTime": 11.771333,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 11.804666,
+              "presentedFrames": 12
+            },
+            {
+              "mediaTime": 11.838,
+              "presentedFrames": 13
+            },
+            {
+              "mediaTime": 11.871333,
+              "presentedFrames": 14
+            },
+            {
+              "mediaTime": 11.904666,
+              "presentedFrames": 15
+            }
+          ]
+        }
+      ],
+      "appends": 7,
+      "acks": 7,
+      "errors": []
+    },
+    {
+      "name": "seed",
+      "passed": true,
+      "playbackPassed": true,
+      "presentationComparisonPassed": null,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "windowOrigin": -0.021333333333333333,
+        "sourceEndTimestamp": 10,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 10,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": -0.021333333333333333,
+        "elementStart": 0.021333333333333333,
+        "elementEnd": 10.021333333333333,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 10,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": -0.021333333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 10,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 620,
+        "outputBytes": 202686,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 56608,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 202253,
+          "logicalReads": 306,
+          "requests": 4,
+          "bytes": 202253,
+          "cacheHits": 308,
+          "peakRetained": 202253,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 202252
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.12133333333333333,
+          "elementTime": 0.260372,
+          "movieTime": 0.23903866666666665,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.088,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.154666,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.221333,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 5.021333333333334,
+          "elementTime": 5.164376,
+          "movieTime": 5.143042666666666,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 5.021333,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 5.088,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 5.154666,
+              "presentedFrames": 6
+            }
+          ]
+        },
+        {
+          "target": 9.521333333333333,
+          "elementTime": 9.665409,
+          "movieTime": 9.644075666666668,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 9.488,
+              "presentedFrames": 7
+            },
+            {
+              "mediaTime": 9.554666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 9.621333,
+              "presentedFrames": 9
+            }
+          ]
+        }
+      ],
+      "appends": 11,
+      "acks": 11,
+      "errors": []
+    },
+    {
+      "name": "bAc3",
+      "passed": false,
+      "failure": {
+        "message": "NATIVE_CODEC_UNSUPPORTED:video/mp4; codecs=\"avc1.64000c,ac-3\"",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 483786,
+          "logicalReads": 6,
+          "requests": 1,
+          "bytes": 65536,
+          "cacheHits": 8,
+          "peakRetained": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            }
+          ],
+          "failure": null
+        }
+      },
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": -0.005333333333333333,
+        "windowOrigin": -0.005333333333333333,
+        "sourceEndTimestamp": 6,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 256,
+              "firstPacketTimestamp": -0.005333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "ac3",
+        "commonShift": -0.005333333333333333,
+        "elementStart": 0.005333333333333333,
+        "elementEnd": 6.005333333333334,
+        "timestampOffset": 0
+      },
+      "appends": 0,
+      "acks": 0,
+      "errors": []
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "passed": true,
+      "playbackPassed": true,
+      "presentationComparisonPassed": null,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 1.4,
+        "windowOrigin": 1.4,
+        "sourceEndTimestamp": 7.6546666666666665,
+        "policy": false,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 1.4,
+        "elementStart": 0,
+        "elementEnd": 6.254666666666667,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 7.6546666666666665,
+        "sourcePacketOrigin": 1.4,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 1.4,
+        "policy": null,
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 102186,
+        "encodersCreated": 0,
+        "inputFormat": "MPEG Transport Stream",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 300612,
+          "logicalReads": 3313,
+          "requests": 10,
+          "bytes": 601224,
+          "cacheHits": 3311,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 300611
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 300611
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.374881,
+          "movieTime": 1.774881,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.254666,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.321333,
+              "presentedFrames": 3
+            },
+            {
+              "mediaTime": 0.354666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 0.388,
+              "presentedFrames": 5
+            }
+          ]
+        },
+        {
+          "target": 3.1273333333333335,
+          "elementTime": 3.268371,
+          "movieTime": 4.6683710000000005,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 3.154666,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.188,
+              "presentedFrames": 7
+            },
+            {
+              "mediaTime": 3.221333,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 3.254666,
+              "presentedFrames": 9
+            }
+          ]
+        },
+        {
+          "target": 5.754666666666667,
+          "elementTime": 5.893333,
+          "movieTime": 7.2933330000000005,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 5.754666,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 5.821333,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 5.854666,
+              "presentedFrames": 12
+            },
+            {
+              "mediaTime": 5.888,
+              "presentedFrames": 13
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": []
+    },
+    {
+      "name": "b-vfr-aac",
+      "passed": true,
+      "playbackPassed": true,
+      "presentationComparisonPassed": null,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 0,
+        "windowOrigin": 0,
+        "sourceEndTimestamp": 6.254666666666667,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.254666666666667,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 0,
+        "elementStart": 0,
+        "elementEnd": 6.254666666666667,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6.288,
+        "sourcePacketOrigin": 0,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.254666666666667,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 68097,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 259047,
+          "logicalReads": 284,
+          "requests": 4,
+          "bytes": 259047,
+          "cacheHits": 286,
+          "peakRetained": 259047,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 259046
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.369021,
+          "movieTime": 0.369021,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.254666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.321333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.354666,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 3.1273333333333335,
+          "elementTime": 3.268275,
+          "movieTime": 3.268275,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 3.154666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 3.188,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 3.221333,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.254666,
+              "presentedFrames": 7
+            }
+          ]
+        },
+        {
+          "target": 5.754666666666667,
+          "elementTime": 5.897733,
+          "movieTime": 5.897733,
+          "frames": 9,
+          "presented": [
+            {
+              "mediaTime": 5.754666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 5.821333,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 5.854666,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 5.888,
+              "presentedFrames": 11
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": []
+    },
+    {
+      "name": "b-vfr-rotate",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 0,
+        "windowOrigin": 0,
+        "sourceEndTimestamp": 6.288,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 0,
+        "elementStart": 0,
+        "elementEnd": 6.288,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6.288,
+        "sourcePacketOrigin": 0,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 124377,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 259047,
+          "logicalReads": 286,
+          "requests": 4,
+          "bytes": 259047,
+          "cacheHits": 290,
+          "peakRetained": 259047,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 196608,
+              "end": 259046
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.366236,
+          "movieTime": 0.366236,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.254666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.321333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.354666,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 3.144,
+          "elementTime": 3.285028,
+          "movieTime": 3.285028,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.388,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 3.154666,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 3.188,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.221333,
+              "presentedFrames": 7
+            },
+            {
+              "mediaTime": 3.254666,
+              "presentedFrames": 8
+            }
+          ]
+        },
+        {
+          "target": 5.788,
+          "elementTime": 5.928039,
+          "movieTime": 5.928039,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 5.754666,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 5.821333,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 5.854666,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 5.888,
+              "presentedFrames": 12
+            },
+            {
+              "mediaTime": 5.921333,
+              "presentedFrames": 13
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0.754667,
+            "width": 427,
+            "height": 180,
+            "hash": "f2d264306c321b97cb88ef8b61887ed00d9d5b19cd3e5f386f2f92ca037868ab"
+          },
+          "remuxed": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.821333,
+            "width": 427,
+            "height": 180,
+            "hash": "3aae7abf84be810a56852d4300814ede80612005df55fe837230467bb1b3a8a7"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0.066666
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 3.088,
+            "width": 427,
+            "height": 180,
+            "hash": "8001d921b864317f77b99dede9cf29da107aa4b81787daa65a28669e33432d63"
+          },
+          "remuxed": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 3.088,
+            "width": 427,
+            "height": 180,
+            "hash": "3c26c2b7af976b76dded1b63988dd4cef88e3f9ad0f974dd19a1db6a8cbf65dc"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 5.088,
+            "width": 427,
+            "height": 180,
+            "hash": "1f956404ad57fc3026c16089a54e8fc1ba9d0fc92a274a9ebffdf0b66f96fd97"
+          },
+          "remuxed": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 5.088,
+            "width": 427,
+            "height": 180,
+            "hash": "39c9eb5ce651dcfb65048fc652d50e9ceef5afa5415543b57427cce0cc7d4725"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    },
+    {
+      "name": "b-trim-negative",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": -0.25066666666666665,
+        "windowOrigin": -0.25066666666666665,
+        "sourceEndTimestamp": 5.888,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 5.888,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 22080,
+              "firstPacketTimestamp": -0.14533333333333334
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 12032,
+              "firstPacketTimestamp": -0.25066666666666665
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": -0.25066666666666665,
+        "elementStart": 0.25066666666666665,
+        "elementEnd": 6.1386666666666665,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 5.888,
+        "sourcePacketOrigin": -0.25066666666666665,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": -0.25066666666666665,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 5.888,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 22080,
+              "firstPacketTimestamp": -0.14533333333333334
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 12032,
+              "firstPacketTimestamp": -0.25066666666666665
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 420,
+        "outputBytes": 254675,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 123621,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 257295,
+          "logicalReads": 286,
+          "requests": 4,
+          "bytes": 257295,
+          "cacheHits": 290,
+          "peakRetained": 257295,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 196608,
+              "end": 257294
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.3506666666666667,
+          "elementTime": 0.489657,
+          "movieTime": 0.23899033333333336,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 0.338666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.372,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.405333,
+              "presentedFrames": 3
+            },
+            {
+              "mediaTime": 0.438666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 0.505333,
+              "presentedFrames": 5
+            }
+          ]
+        },
+        {
+          "target": 3.1946666666666665,
+          "elementTime": 3.335722,
+          "movieTime": 3.0850553333333335,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 3.172,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.238666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 3.272,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 3.338666,
+              "presentedFrames": 10
+            }
+          ]
+        },
+        {
+          "target": 5.6386666666666665,
+          "elementTime": 5.776925,
+          "movieTime": 5.526258333333334,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 5.605333,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 5.672,
+              "presentedFrames": 12
+            },
+            {
+              "mediaTime": 5.705333,
+              "presentedFrames": 13
+            },
+            {
+              "mediaTime": 5.738666,
+              "presentedFrames": 14
+            },
+            {
+              "mediaTime": 5.772,
+              "presentedFrames": 15
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 9.172960577673692,
+            "differingFraction": 0.5641523549310434
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0.8,
+            "width": 427,
+            "height": 180,
+            "hash": "e10e7ef6165bee4c4ab9511196dd5d545b9e68e5275485e6c8fd35da1392d5eb"
+          },
+          "remuxed": {
+            "target": 1.0606666666666666,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 1.005333,
+            "width": 427,
+            "height": 180,
+            "hash": "084817afb7b0bb06827172fbac625b38d966b3ea15c36ca99722bc8538b3dbf0"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -0.045333666666666605
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 9.236556726515744,
+            "differingFraction": 0.5539227166276347
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 3.1,
+            "width": 427,
+            "height": 180,
+            "hash": "3864e570f1ba0aaa41c62f2b82d59f3dc8f9c61463e0813f9c60d7d846870092"
+          },
+          "remuxed": {
+            "target": 3.3606666666666665,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 3.338666,
+            "width": 427,
+            "height": 180,
+            "hash": "d27a429aebba4c5852ada0b72a543a9e69f0de4810b5c5b1904469075bf3c61a"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -0.01200066666666677
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 9.261520947176685,
+            "differingFraction": 0.5628187613843352
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 5.1,
+            "width": 427,
+            "height": 180,
+            "hash": "b32e327dedd931cf1e3dedb0aa13b4f1ef4b5c1f30d6333cbedab70bc8a60681"
+          },
+          "remuxed": {
+            "target": 5.360666666666667,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 5.338666,
+            "width": 427,
+            "height": 180,
+            "hash": "a7f2b91700a4b277761e45493a5176fa803045d1d3ea6b92802f40a7180097ef"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -0.012000666666666326
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    },
+    {
+      "name": "b-empty-edit",
+      "passed": true,
+      "playbackPassed": true,
+      "presentationComparisonPassed": null,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 7,
+        "windowOrigin": 7,
+        "sourceEndTimestamp": 13.288,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 7,
+          "declaredEnd": 13.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 7.254666666666667,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 7.254666666666667
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 7,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 7
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 0,
+        "elementStart": 7,
+        "elementEnd": 13.288,
+        "timestampOffset": 7
+      },
+      "result": {
+        "generation": 1,
+        "duration": 13.288,
+        "sourcePacketOrigin": 7,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 7,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 7,
+          "declaredEnd": 13.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 7.254666666666667,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 7.254666666666667
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 7,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 7
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 124377,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 259059,
+          "logicalReads": 286,
+          "requests": 4,
+          "bytes": 259059,
+          "cacheHits": 290,
+          "peakRetained": 259059,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 196608,
+              "end": 259058
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 7.1,
+          "elementTime": 7.366035,
+          "movieTime": 7.366035,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 7.254666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 7.321333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 7.354666,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 10.144,
+          "elementTime": 10.283924,
+          "movieTime": 10.283924,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 10.154666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 10.188,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 10.221333,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 10.254666,
+              "presentedFrames": 7
+            }
+          ]
+        },
+        {
+          "target": 12.788,
+          "elementTime": 12.93013,
+          "movieTime": 12.93013,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 12.754666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 12.821333,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 12.854666,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 12.888,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 12.921333,
+              "presentedFrames": 12
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": []
+    },
+    {
+      "name": "b-negative-cto",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 0,
+        "windowOrigin": 0,
+        "sourceEndTimestamp": 6.288,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 0,
+        "elementStart": 0,
+        "elementEnd": 6.288,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6.288,
+        "sourcePacketOrigin": 0,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 124377,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 259051,
+          "logicalReads": 286,
+          "requests": 4,
+          "bytes": 259051,
+          "cacheHits": 290,
+          "peakRetained": 259051,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 196608,
+              "end": 259050
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.367044,
+          "movieTime": 0.367044,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.254666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.321333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.354666,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 3.144,
+          "elementTime": 3.286058,
+          "movieTime": 3.286058,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 3.154666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 3.188,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 3.221333,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.254666,
+              "presentedFrames": 7
+            }
+          ]
+        },
+        {
+          "target": 5.788,
+          "elementTime": 5.929081,
+          "movieTime": 5.929081,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 5.754666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 5.821333,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 5.854666,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 5.888,
+              "presentedFrames": 11
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0.754667,
+            "width": 427,
+            "height": 180,
+            "hash": "f2d264306c321b97cb88ef8b61887ed00d9d5b19cd3e5f386f2f92ca037868ab"
+          },
+          "remuxed": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.821333,
+            "width": 427,
+            "height": 180,
+            "hash": "3aae7abf84be810a56852d4300814ede80612005df55fe837230467bb1b3a8a7"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0.066666
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 3.088,
+            "width": 427,
+            "height": 180,
+            "hash": "8001d921b864317f77b99dede9cf29da107aa4b81787daa65a28669e33432d63"
+          },
+          "remuxed": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 3.088,
+            "width": 427,
+            "height": 180,
+            "hash": "3c26c2b7af976b76dded1b63988dd4cef88e3f9ad0f974dd19a1db6a8cbf65dc"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 5.088,
+            "width": 427,
+            "height": 180,
+            "hash": "1f956404ad57fc3026c16089a54e8fc1ba9d0fc92a274a9ebffdf0b66f96fd97"
+          },
+          "remuxed": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 5.088,
+            "width": 427,
+            "height": 180,
+            "hash": "39c9eb5ce651dcfb65048fc652d50e9ceef5afa5415543b57427cce0cc7d4725"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    },
+    {
+      "name": "b-rotate90",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 0,
+        "windowOrigin": 0,
+        "sourceEndTimestamp": 6.288,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 0,
+        "elementStart": 0,
+        "elementEnd": 6.288,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6.288,
+        "sourcePacketOrigin": 0,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6.288,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0.25466666666666665,
+              "contentEntries": 1,
+              "entryCount": 2,
+              "mediaTime": 9000,
+              "firstPacketTimestamp": 0.25466666666666665
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 256415,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 124377,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 259047,
+          "logicalReads": 286,
+          "requests": 4,
+          "bytes": 259047,
+          "cacheHits": 290,
+          "peakRetained": 259047,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 196608,
+              "end": 259046
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [
+        {
+          "target": 0.1,
+          "elementTime": 0.369614,
+          "movieTime": 0.369614,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 0.254666,
+              "presentedFrames": 1
+            },
+            {
+              "mediaTime": 0.321333,
+              "presentedFrames": 2
+            },
+            {
+              "mediaTime": 0.354666,
+              "presentedFrames": 3
+            }
+          ]
+        },
+        {
+          "target": 3.144,
+          "elementTime": 3.285106,
+          "movieTime": 3.285106,
+          "frames": 7,
+          "presented": [
+            {
+              "mediaTime": 3.154666,
+              "presentedFrames": 4
+            },
+            {
+              "mediaTime": 3.188,
+              "presentedFrames": 5
+            },
+            {
+              "mediaTime": 3.221333,
+              "presentedFrames": 6
+            },
+            {
+              "mediaTime": 3.254666,
+              "presentedFrames": 7
+            }
+          ]
+        },
+        {
+          "target": 5.788,
+          "elementTime": 5.928035,
+          "movieTime": 5.928035,
+          "frames": 8,
+          "presented": [
+            {
+              "mediaTime": 5.754666,
+              "presentedFrames": 8
+            },
+            {
+              "mediaTime": 5.821333,
+              "presentedFrames": 9
+            },
+            {
+              "mediaTime": 5.854666,
+              "presentedFrames": 10
+            },
+            {
+              "mediaTime": 5.888,
+              "presentedFrames": 11
+            },
+            {
+              "mediaTime": 5.921333,
+              "presentedFrames": 12
+            }
+          ]
+        }
+      ],
+      "appends": 4,
+      "acks": 4,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 9.201518995576373,
+            "differingFraction": 0.5606524850377309
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0.754667,
+            "width": 180,
+            "height": 427,
+            "hash": "9b2b4c911fa8bf164cbe221ed85722e6a47d9d933c72efcc8282f851a1139b25"
+          },
+          "remuxed": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.821333,
+            "width": 180,
+            "height": 427,
+            "hash": "e2105614d10443567fcdebb018de2638a6af9c8ba7369dcf484b8ae23e315998"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0.066666
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 4.825214676034348,
+            "differingFraction": 0.5549700754618787
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 3.088,
+            "width": 180,
+            "height": 427,
+            "hash": "a4a634efc71770aa451740e8f4f75c7e3a21714a0a8cc48cc26b8a5066b649f6"
+          },
+          "remuxed": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 3.088,
+            "width": 180,
+            "height": 427,
+            "hash": "50116c1ba10a37c94f20e3e8633cbc10d1640440fe5bf2a63c06b23fb9eaa22b"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 4.859875097580016,
+            "differingFraction": 0.5501788966952902
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 5.088,
+            "width": 180,
+            "height": 427,
+            "hash": "16b8630d4cb2265ec326c5ef4fb91cbb19c9071f83561099158c91d029cc509b"
+          },
+          "remuxed": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 5.088,
+            "width": 180,
+            "height": 427,
+            "hash": "7132aff8260f81c24b69513e29e8b9b6a79d628fe53b83db4340ab33699460fa"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": 0
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    },
+    {
+      "name": "one-picture-color",
+      "passed": false,
+      "playbackPassed": true,
+      "presentationComparisonPassed": false,
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "windowOrigin": -0.021333333333333333,
+        "sourceEndTimestamp": 6,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": -0.021333333333333333,
+        "elementStart": 0.021333333333333333,
+        "elementEnd": 6.021333333333334,
+        "timestampOffset": 0
+      },
+      "result": {
+        "generation": 1,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": -0.021333333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "timingResolution": null,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 284,
+        "outputBytes": 61228,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 57801,
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 60360,
+          "logicalReads": 287,
+          "requests": 1,
+          "bytes": 60360,
+          "cacheHits": 289,
+          "peakRetained": 60360,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 60359
+            }
+          ],
+          "failure": null
+        }
+      },
+      "decoded": [],
+      "appends": 8,
+      "acks": 8,
+      "errors": [],
+      "nativeOriginalComparison": [
+        {
+          "movieTime": 0.81,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 0.81,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 0.8313333333333334,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "movieTime": 3.11,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 3.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 3.131333333333333,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "movieTime": 5.11,
+          "pixelError": {
+            "meanAbsolute": 4.956693989071038,
+            "differingFraction": 0.5541699193338537
+          },
+          "original": {
+            "target": 5.11,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "smpte170m",
+              "primaries": "smpte170m",
+              "transfer": "smpte170m"
+            },
+            "mediaTime": 0,
+            "width": 427,
+            "height": 180,
+            "hash": "e8fed6707186b99b344f7c36d6e700eb5f9d1715db8562ad76bd5d68f6e75ca6"
+          },
+          "remuxed": {
+            "target": 5.131333333333334,
+            "nativeColor": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "mediaTime": 0.021333,
+            "width": 427,
+            "height": 180,
+            "hash": "3684cb41dccfe67d3e8dbbb0e27d3ab94254d311a81b9fe63659563083f02d79"
+          },
+          "samePixels": false,
+          "sourcePtsDifference": -3.3333333333135373e-7
+        },
+        {
+          "control": "direct-versus-direct",
+          "samePixels": true,
+          "sourcePtsDifference": 0
+        }
+      ]
+    },
+    {
+      "name": "ts",
+      "passed": true,
+      "failure": {
+        "message": "GENERAL_STALE_GENERATION",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "generation": 1,
+          "size": 958800,
+          "logicalReads": 6439,
+          "requests": 18,
+          "bytes": 1155408,
+          "cacheHits": 6437,
+          "peakRetained": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "ranges": [
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            },
+            {
+              "start": 196608,
+              "end": 262143
+            },
+            {
+              "start": 262144,
+              "end": 327679
+            },
+            {
+              "start": 327680,
+              "end": 393215
+            },
+            {
+              "start": 393216,
+              "end": 458751
+            },
+            {
+              "start": 458752,
+              "end": 524287
+            },
+            {
+              "start": 524288,
+              "end": 589823
+            },
+            {
+              "start": 589824,
+              "end": 655359
+            },
+            {
+              "start": 655360,
+              "end": 720895
+            },
+            {
+              "start": 720896,
+              "end": 786431
+            },
+            {
+              "start": 786432,
+              "end": 851967
+            },
+            {
+              "start": 851968,
+              "end": 917503
+            },
+            {
+              "start": 917504,
+              "end": 958799
+            },
+            {
+              "start": 0,
+              "end": 65535
+            },
+            {
+              "start": 65536,
+              "end": 131071
+            },
+            {
+              "start": 131072,
+              "end": 196607
+            }
+          ],
+          "failure": null
+        }
+      },
+      "window": {
+        "generation": 1,
+        "sourcePacketOrigin": 1.4,
+        "windowOrigin": 1.4,
+        "sourceEndTimestamp": 13.671333333333333,
+        "policy": false,
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "commonShift": 1.4,
+        "elementStart": 0,
+        "elementEnd": 12.271333333333333,
+        "timestampOffset": 0
+      },
+      "appends": 2,
+      "acks": 1,
+      "errors": []
+    }
+  ],
+  "requests": [
+    {
+      "name": "ts",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "ts",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "ts",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "ts",
+      "start": 196608,
+      "end": 262143
+    },
+    {
+      "name": "ts",
+      "start": 262144,
+      "end": 327679
+    },
+    {
+      "name": "ts",
+      "start": 327680,
+      "end": 393215
+    },
+    {
+      "name": "ts",
+      "start": 393216,
+      "end": 458751
+    },
+    {
+      "name": "ts",
+      "start": 458752,
+      "end": 524287
+    },
+    {
+      "name": "ts",
+      "start": 524288,
+      "end": 589823
+    },
+    {
+      "name": "ts",
+      "start": 589824,
+      "end": 655359
+    },
+    {
+      "name": "ts",
+      "start": 655360,
+      "end": 720895
+    },
+    {
+      "name": "ts",
+      "start": 720896,
+      "end": 786431
+    },
+    {
+      "name": "ts",
+      "start": 786432,
+      "end": 851967
+    },
+    {
+      "name": "ts",
+      "start": 851968,
+      "end": 917503
+    },
+    {
+      "name": "ts",
+      "start": 917504,
+      "end": 958799
+    },
+    {
+      "name": "ts",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "ts",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "ts",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "ts",
+      "start": 196608,
+      "end": 262143
+    },
+    {
+      "name": "ts",
+      "start": 262144,
+      "end": 327679
+    },
+    {
+      "name": "ts",
+      "start": 327680,
+      "end": 393215
+    },
+    {
+      "name": "ts",
+      "start": 393216,
+      "end": 458751
+    },
+    {
+      "name": "ts",
+      "start": 458752,
+      "end": 524287
+    },
+    {
+      "name": "ts",
+      "start": 524288,
+      "end": 589823
+    },
+    {
+      "name": "ts",
+      "start": 589824,
+      "end": 655359
+    },
+    {
+      "name": "ts",
+      "start": 655360,
+      "end": 720895
+    },
+    {
+      "name": "ts",
+      "start": 720896,
+      "end": 786431
+    },
+    {
+      "name": "ts",
+      "start": 786432,
+      "end": 851967
+    },
+    {
+      "name": "ts",
+      "start": 851968,
+      "end": 917503
+    },
+    {
+      "name": "ts",
+      "start": 917504,
+      "end": 958799
+    },
+    {
+      "name": "seed",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "seed",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "seed",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "seed",
+      "start": 196608,
+      "end": 202252
+    },
+    {
+      "name": "bAc3",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 196608,
+      "end": 262143
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 262144,
+      "end": 300611
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 196608,
+      "end": 262143
+    },
+    {
+      "name": "b-vfr-audiolead",
+      "start": 262144,
+      "end": 300611
+    },
+    {
+      "name": "b-vfr-aac",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-vfr-aac",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-vfr-aac",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-vfr-aac",
+      "start": 196608,
+      "end": 259046
+    },
+    {
+      "name": "b-vfr-rotate",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-vfr-rotate",
+      "start": 196608,
+      "end": 259046
+    },
+    {
+      "name": "b-vfr-rotate",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-vfr-rotate",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-trim-negative",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-trim-negative",
+      "start": 196608,
+      "end": 257294
+    },
+    {
+      "name": "b-trim-negative",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-trim-negative",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-empty-edit",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-empty-edit",
+      "start": 196608,
+      "end": 259058
+    },
+    {
+      "name": "b-empty-edit",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-empty-edit",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-negative-cto",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-negative-cto",
+      "start": 196608,
+      "end": 259050
+    },
+    {
+      "name": "b-negative-cto",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-negative-cto",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "b-rotate90",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "b-rotate90",
+      "start": 196608,
+      "end": 259046
+    },
+    {
+      "name": "b-rotate90",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "b-rotate90",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "one-picture-color",
+      "start": 0,
+      "end": 60359
+    },
+    {
+      "name": "ts",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "ts",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "ts",
+      "start": 131072,
+      "end": 196607
+    },
+    {
+      "name": "ts",
+      "start": 196608,
+      "end": 262143
+    },
+    {
+      "name": "ts",
+      "start": 262144,
+      "end": 327679
+    },
+    {
+      "name": "ts",
+      "start": 327680,
+      "end": 393215
+    },
+    {
+      "name": "ts",
+      "start": 393216,
+      "end": 458751
+    },
+    {
+      "name": "ts",
+      "start": 458752,
+      "end": 524287
+    },
+    {
+      "name": "ts",
+      "start": 524288,
+      "end": 589823
+    },
+    {
+      "name": "ts",
+      "start": 589824,
+      "end": 655359
+    },
+    {
+      "name": "ts",
+      "start": 655360,
+      "end": 720895
+    },
+    {
+      "name": "ts",
+      "start": 720896,
+      "end": 786431
+    },
+    {
+      "name": "ts",
+      "start": 786432,
+      "end": 851967
+    },
+    {
+      "name": "ts",
+      "start": 851968,
+      "end": 917503
+    },
+    {
+      "name": "ts",
+      "start": 917504,
+      "end": 958799
+    },
+    {
+      "name": "ts",
+      "start": 0,
+      "end": 65535
+    },
+    {
+      "name": "ts",
+      "start": 65536,
+      "end": 131071
+    },
+    {
+      "name": "ts",
+      "start": 131072,
+      "end": 196607
+    }
+  ]
+}
