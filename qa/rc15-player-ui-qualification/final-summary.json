@@ -1,0 +1,230 @@
+{
+  "version": "1.22.0-rc.16",
+  "passed": true,
+  "cases": [
+    {
+      "name": "ac3-desktop",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 3,
+          "sourceTime": 3,
+          "target": 3,
+          "sourceGeneration": 7,
+          "seekGeneration": 2
+        },
+        {
+          "mediaTime": 5.375,
+          "sourceTime": 5.375,
+          "target": 5.4,
+          "sourceGeneration": 8,
+          "seekGeneration": 3
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0.030068,
+        "duration": 6,
+        "frames": 4,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    },
+    {
+      "name": "ac3-touch-emulated",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 3,
+          "sourceTime": 3,
+          "target": 3,
+          "sourceGeneration": 7,
+          "seekGeneration": 2
+        },
+        {
+          "mediaTime": 5.375,
+          "sourceTime": 5.375,
+          "target": 5.4,
+          "sourceGeneration": 8,
+          "seekGeneration": 3
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0.033976,
+        "duration": 6,
+        "frames": 5,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    },
+    {
+      "name": "eac3-desktop",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 3,
+          "sourceTime": 3,
+          "target": 3,
+          "sourceGeneration": 7,
+          "seekGeneration": 2
+        },
+        {
+          "mediaTime": 5.375,
+          "sourceTime": 5.375,
+          "target": 5.4,
+          "sourceGeneration": 8,
+          "seekGeneration": 3
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0.045119,
+        "duration": 6,
+        "frames": 5,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    },
+    {
+      "name": "eac3-touch-emulated",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 3,
+          "sourceTime": 3,
+          "target": 3,
+          "sourceGeneration": 7,
+          "seekGeneration": 2
+        },
+        {
+          "mediaTime": 5.375,
+          "sourceTime": 5.375,
+          "target": 5.4,
+          "sourceGeneration": 8,
+          "seekGeneration": 3
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0.044174,
+        "duration": 6,
+        "frames": 4,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    },
+    {
+      "name": "aac-desktop",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 5,
+          "sourceTime": 5,
+          "target": 5,
+          "sourceGeneration": 2,
+          "seekGeneration": 1
+        },
+        {
+          "mediaTime": 9,
+          "sourceTime": 9,
+          "target": 9,
+          "sourceGeneration": 2,
+          "seekGeneration": 2
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0,
+        "duration": 10,
+        "frames": 4,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    },
+    {
+      "name": "aac-touch-emulated",
+      "passed": true,
+      "targetFrames": [
+        {
+          "mediaTime": 5,
+          "sourceTime": 5,
+          "target": 5,
+          "sourceGeneration": 2,
+          "seekGeneration": 1
+        },
+        {
+          "mediaTime": 9,
+          "sourceTime": 9,
+          "target": 9,
+          "sourceGeneration": 2,
+          "seekGeneration": 2
+        }
+      ],
+      "loading": [
+        false,
+        false
+      ],
+      "settled": true,
+      "reopen": {
+        "paused": false,
+        "hidden": true,
+        "cursor": "auto",
+        "time": 0.030541,
+        "duration": 10,
+        "frames": 6,
+        "poster": false,
+        "loading": false
+      },
+      "errors": []
+    }
+  ],
+  "producerStable": true,
+  "hashes": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "tests/player-presentation-owner.test.js": "ad6ce9674e96d9b7291770ea51006e47abc76e4a25d0a9b84e021b828f654989"
+  }
+}

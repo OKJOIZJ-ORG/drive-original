@@ -1,0 +1,626 @@
+{
+  "runId": "2026-09-29T23-14-21-095Z",
+  "mode": "trend-q1",
+  "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+  "producerStart": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "harness": {
+    "qualify.cjs": "ccbc9b698f4253947c0ec3f5016cd5e98acf6763278243a23dfde092e8f224bf",
+    "resource-snapshot.py": "55cf30c22a9f0000efd036a3705d76a230ee8aac004a7a4ff7f0526004a9fc45",
+    "fixtures.py": "c29ea22c64059c7863a40df4b9d49da99cd4fa2cafe21ffcf8d1f287d96eb3cc",
+    "../q1-q2-app-integration/native-retirement-smoke.cjs": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "../q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45"
+  },
+  "results": [
+    {
+      "cycle": 1,
+      "route": "q1",
+      "passed": false,
+      "start": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "frames": 4,
+        "time": 0.021333,
+        "duration": 10.021333333333333,
+        "paused": true,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            6.015999
+          ]
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "opening",
+          "failure": null,
+          "mapping": null,
+          "appends": 0,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 0,
+          "peakRetainedAppendBytes": 0,
+          "disposed": false
+        },
+        "resources": {
+          "workersCreated": 1,
+          "workersTerminated": 0,
+          "urlsCreated": 1,
+          "urlsRevoked": 0,
+          "activeWorkers": 1,
+          "activeUrls": 1
+        }
+      },
+      "seeks": []
+    }
+  ],
+  "resources": [
+    {
+      "phase": "before-launch",
+      "host": {
+        "observedAt": "2026-09-29T23:14:21.363617+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.799,
+        "memoryLoadPercent": 75,
+        "commitUsedGiB": 13.894,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.808,
+        "processCount": 295,
+        "threadCount": 3927,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    },
+    {
+      "phase": "launched",
+      "host": {
+        "observedAt": "2026-09-29T23:14:21.791947+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.765,
+        "memoryLoadPercent": 76,
+        "commitUsedGiB": 13.985,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.717,
+        "processCount": 301,
+        "threadCount": 4056,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 14140,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 22290432,
+          "workingSetBytes": 84017152,
+          "peakWorkingSetBytes": 84017152
+        },
+        {
+          "pid": 15124,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 33837056,
+          "workingSetBytes": 52527104,
+          "peakWorkingSetBytes": 112459776
+        },
+        {
+          "pid": 8756,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 11526144,
+          "workingSetBytes": 37896192,
+          "peakWorkingSetBytes": 37896192
+        },
+        {
+          "pid": 3560,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8052736,
+          "workingSetBytes": 18784256,
+          "peakWorkingSetBytes": 18784256
+        }
+      ],
+      "chromePrivateBytes": 75706368,
+      "chromeWorkingSetBytes": 193224704
+    },
+    {
+      "phase": "failure-live",
+      "host": {
+        "observedAt": "2026-09-29T23:14:43.005558+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.523,
+        "memoryLoadPercent": 77,
+        "commitUsedGiB": 14.296,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.406,
+        "processCount": 306,
+        "threadCount": 4137,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 14140,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 50401280,
+          "workingSetBytes": 146407424,
+          "peakWorkingSetBytes": 147210240
+        },
+        {
+          "pid": 8568,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15732736,
+          "workingSetBytes": 34242560,
+          "peakWorkingSetBytes": 34594816
+        },
+        {
+          "pid": 21464,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 80834560,
+          "workingSetBytes": 146755584,
+          "peakWorkingSetBytes": 148201472
+        },
+        {
+          "pid": 16804,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 46628864,
+          "workingSetBytes": 90517504,
+          "peakWorkingSetBytes": 91660288
+        },
+        {
+          "pid": 15124,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 193789952,
+          "workingSetBytes": 237342720,
+          "peakWorkingSetBytes": 312492032
+        },
+        {
+          "pid": 8756,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13688832,
+          "workingSetBytes": 42180608,
+          "peakWorkingSetBytes": 42180608
+        },
+        {
+          "pid": 3560,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8302592,
+          "workingSetBytes": 20398080,
+          "peakWorkingSetBytes": 20398080
+        },
+        {
+          "pid": 440,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8425472,
+          "workingSetBytes": 21905408,
+          "peakWorkingSetBytes": 21905408
+        }
+      ],
+      "chromePrivateBytes": 417804288,
+      "chromeWorkingSetBytes": 739749888
+    },
+    {
+      "phase": "failure",
+      "host": {
+        "observedAt": "2026-09-29T23:14:43.246402+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.65,
+        "memoryLoadPercent": 76,
+        "commitUsedGiB": 14.132,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.569,
+        "processCount": 303,
+        "threadCount": 4074,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 14140,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 45559808,
+          "workingSetBytes": 143257600,
+          "peakWorkingSetBytes": 147685376
+        },
+        {
+          "pid": 15124,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 188284928,
+          "workingSetBytes": 232624128,
+          "peakWorkingSetBytes": 312492032
+        },
+        {
+          "pid": 8756,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13373440,
+          "workingSetBytes": 42704896,
+          "peakWorkingSetBytes": 42704896
+        },
+        {
+          "pid": 3560,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8237056,
+          "workingSetBytes": 20680704,
+          "peakWorkingSetBytes": 20746240
+        },
+        {
+          "pid": 440,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8425472,
+          "workingSetBytes": 21905408,
+          "peakWorkingSetBytes": 21905408
+        }
+      ],
+      "chromePrivateBytes": 263880704,
+      "chromeWorkingSetBytes": 461172736
+    },
+    {
+      "phase": "after-owned-browser-close",
+      "host": {
+        "observedAt": "2026-09-29T23:14:43.588234+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.826,
+        "memoryLoadPercent": 75,
+        "commitUsedGiB": 13.928,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.773,
+        "processCount": 299,
+        "threadCount": 3954,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    }
+  ],
+  "passed": false,
+  "fixtures": {
+    "aac": {
+      "path": "qa/faststart-h264-aac.mp4",
+      "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+      "bytes": 202253
+    },
+    "ac3": {
+      "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+      "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+      "bytes": 490614
+    },
+    "longaac": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-aac.mp4",
+      "sha256": "80c64670be760a1b181dbf7c2f0efa120087601b34ad66c92efb2d9a56caa469",
+      "bytes": 4337220
+    },
+    "longac3": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-ac3.mp4",
+      "sha256": "a522be18a65e09fb8e5b7227b4906910a8b48bd65f715008c9686d2cc20de73c",
+      "bytes": 6048943
+    }
+  },
+  "browser": "154.0.8037.58",
+  "failureObservation": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "frames": 150,
+    "time": 10,
+    "duration": 10,
+    "paused": true,
+    "ended": false,
+    "width": 320,
+    "buffered": [
+      [
+        0,
+        10
+      ]
+    ],
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 10,
+        "commonShift": 0,
+        "targetSource": 0.052271,
+        "targetElement": 0.052271,
+        "timestampOffset": 0,
+        "audioEnd": null
+      },
+      "appends": 11,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 8.935834000000002,
+      "peakRetainedAppendBytes": 202139,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 4,
+        "bytes": 202253,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 11,
+        "acks": 11,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 4,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 10,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0.052271,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 10,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 619,
+        "outputBytes": 202139,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 37257,
+        "admission": {
+          "kind": "iso",
+          "tracks": 2,
+          "samples": [
+            150,
+            470
+          ],
+          "boxes": 45
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 25256,
+          "peakSamples": 64
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 4,
+          "bytes": 202253,
+          "logicalReads": 306,
+          "cacheHits": 312,
+          "peakCache": 202253,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "resources": {
+      "workersCreated": 2,
+      "workersTerminated": 2,
+      "urlsCreated": 2,
+      "urlsRevoked": 1,
+      "activeWorkers": 0,
+      "activeUrls": 1
+    }
+  },
+  "failedSeek": {
+    "target": null,
+    "prior": 2,
+    "frames": [
+      {
+        "mediaTime": 9.466666,
+        "presentedFrames": 143,
+        "elementTime": 9.449735,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.533333,
+        "presentedFrames": 144,
+        "elementTime": 9.533164,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.6,
+        "presentedFrames": 145,
+        "elementTime": 9.599422,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.666666,
+        "presentedFrames": 146,
+        "elementTime": 9.666822,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.733333,
+        "presentedFrames": 147,
+        "elementTime": 9.716178,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.8,
+        "presentedFrames": 148,
+        "elementTime": 9.799013,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.866666,
+        "presentedFrames": 149,
+        "elementTime": 9.86726,
+        "seekingAtFrame": false
+      },
+      {
+        "mediaTime": 9.933333,
+        "presentedFrames": 150,
+        "elementTime": 9.916615,
+        "seekingAtFrame": false
+      }
+    ],
+    "time": 10,
+    "seeking": false,
+    "paused": true,
+    "readyState": 4,
+    "totalFrames": 150
+  },
+  "failureNetwork": {
+    "media": 11,
+    "metadata": 26,
+    "downloads": 1,
+    "bytes": 667602,
+    "swMedia": 11,
+    "externalBlocked": 1
+  },
+  "failureEngineErrors": [],
+  "failure": {
+    "name": "Error",
+    "code": "QA_SEEK_FRAME_TIMEOUT"
+  },
+  "browserClosed": true,
+  "producerEnd": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  }
+}

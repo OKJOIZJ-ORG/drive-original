@@ -1,0 +1,2929 @@
+{
+  "runId": "2026-09-29T23-08-49-924Z",
+  "mode": "long",
+  "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+  "producerStart": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "harness": {
+    "qualify.cjs": "4f227ee6e420acc09ce8b1b0c2088dbf7c25234fc040afca9d9f089a83fd8571",
+    "resource-snapshot.py": "55cf30c22a9f0000efd036a3705d76a230ee8aac004a7a4ff7f0526004a9fc45",
+    "fixtures.py": "c29ea22c64059c7863a40df4b9d49da99cd4fa2cafe21ffcf8d1f287d96eb3cc",
+    "../q1-q2-app-integration/native-retirement-smoke.cjs": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "../q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45"
+  },
+  "results": [
+    {
+      "route": "q1",
+      "passed": false,
+      "samples": [
+        {
+          "elapsedMs": 4016,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 101,
+          "time": 4.011635,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              0,
+              30.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 32,
+            "removals": 0,
+            "waits": 15,
+            "peakAhead": 30.537530999999998,
+            "peakRetainedAppendBytes": 1864034,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 8242,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 202,
+          "time": 8.237137,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              0,
+              30.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 32,
+            "removals": 0,
+            "waits": 31,
+            "peakAhead": 30.537530999999998,
+            "peakRetainedAppendBytes": 1864034,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 12245,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 298,
+          "time": 12.241156,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              4,
+              30.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 32,
+            "removals": 4,
+            "waits": 46,
+            "peakAhead": 30.537530999999998,
+            "peakRetainedAppendBytes": 1864034,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 16254,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 394,
+          "time": 16.249683,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              8,
+              30.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 32,
+            "removals": 8,
+            "waits": 61,
+            "peakAhead": 30.537530999999998,
+            "peakRetainedAppendBytes": 1864034,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 20264,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 491,
+          "time": 20.259334,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              12,
+              49.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 51,
+            "removals": 12,
+            "waits": 76,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2405214,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 24277,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 587,
+          "time": 24.271642,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              16,
+              49.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 51,
+            "removals": 16,
+            "waits": 91,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2405214,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 28511,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 689,
+          "time": 28.50532,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              20,
+              49.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 51,
+            "removals": 20,
+            "waits": 107,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2405214,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 32517,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 785,
+          "time": 32.513622,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              24,
+              49.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 51,
+            "removals": 24,
+            "waits": 122,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2405214,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 36536,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 881,
+          "time": 36.531766,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              28,
+              49.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 51,
+            "removals": 28,
+            "waits": 137,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2405214,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 40545,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 977,
+          "time": 40.54051,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              32,
+              68.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 70,
+            "removals": 32,
+            "waits": 152,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 44560,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1074,
+          "time": 44.555055,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              36,
+              68.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 70,
+            "removals": 36,
+            "waits": 167,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 48817,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1176,
+          "time": 48.812651,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              41,
+              68.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 70,
+            "removals": 41,
+            "waits": 183,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 52833,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1272,
+          "time": 52.828035,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              45,
+              68.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 70,
+            "removals": 45,
+            "waits": 199,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 56845,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1369,
+          "time": 56.840244,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              68.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 70,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 60863,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1465,
+          "time": 60.858009,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 64882,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1561,
+          "time": 64.877608,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 69101,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1663,
+          "time": 69.096468,
+          "duration": 72,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 73117,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 77132,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 81146,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 85151,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 89360,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 93373,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 97381,
+          "attempt": "q1",
+          "mode": "original-repackaged",
+          "frames": 1728,
+          "time": 71.999999,
+          "duration": 72,
+          "paused": true,
+          "ended": true,
+          "width": 320,
+          "buffered": [
+            [
+              49,
+              71.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "buffered-to-end",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 72,
+              "commonShift": 0,
+              "targetSource": 0.02,
+              "targetElement": 0.02,
+              "timestampOffset": 0,
+              "audioEnd": null
+            },
+            "appends": 73,
+            "removals": 49,
+            "waits": 214,
+            "peakAhead": 30.642784000000002,
+            "peakRetainedAppendBytes": 2413332,
+            "disposed": false,
+            "status": null,
+            "capability": null,
+            "worker": {
+              "reads": 67,
+              "bytes": 4337220,
+              "activeReads": 0,
+              "peakReads": 1,
+              "chunks": 73,
+              "acks": 73,
+              "pendingChunks": 0,
+              "peakPendingChunks": 1,
+              "detachedReadBuffers": 67,
+              "invalidMessages": 0,
+              "staleRepliesSuppressed": 0,
+              "pendingWindows": 0,
+              "terminated": true
+            },
+            "pipeline": {
+              "generation": 2,
+              "duration": 72,
+              "sourcePacketOrigin": -0.021333333333333333,
+              "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+              "targetTime": 0.02,
+              "windowOrigin": 0,
+              "policy": {
+                "kind": "isobmff-movie-axis",
+                "presentationOrigin": 0,
+                "validPresentationStart": 0,
+                "declaredEnd": 72,
+                "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                "tracks": [
+                  {
+                    "id": 1,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 0,
+                    "firstPacketTimestamp": 0
+                  },
+                  {
+                    "id": 2,
+                    "leadingEmptySeconds": 0,
+                    "contentEntries": 1,
+                    "entryCount": 1,
+                    "mediaTime": 1024,
+                    "firstPacketTimestamp": -0.021333333333333333
+                  }
+                ]
+              },
+              "videoCodec": "avc",
+              "audioCodec": "aac",
+              "packets": 5103,
+              "outputBytes": 4334073,
+              "peakPendingAcks": 1,
+              "peakBufferedPacketBytes": 114613,
+              "admission": {
+                "kind": "iso",
+                "tracks": 2,
+                "samples": [
+                  1728,
+                  3376
+                ],
+                "boxes": 45
+              },
+              "muxRetention": {
+                "bytes": 0,
+                "samples": 0,
+                "peakBytes": 70307,
+                "peakSamples": 73
+              },
+              "encodersCreated": 0,
+              "inputFormat": "MP4",
+              "cleanup": {
+                "settled": true,
+                "pendingCallbacks": 0,
+                "cleanupPending": 0,
+                "cleanupFailed": false
+              },
+              "reads": {
+                "requests": 67,
+                "bytes": 4337220,
+                "logicalReads": 3460,
+                "cacheHits": 3466,
+                "peakCache": 262144,
+                "inFlight": 0,
+                "peakInFlight": 1,
+                "peakQueued": 1,
+                "discoveryBytes": 65536,
+                "discoveryRequests": 1
+              }
+            },
+            "failureDiagnostic": null
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 2,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 0,
+            "activeUrls": 1
+          }
+        }
+      ],
+      "start": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "frames": 4,
+        "time": 0.03329,
+        "duration": 72,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            2.999999
+          ]
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 72,
+            "commonShift": 0,
+            "targetSource": 0.02,
+            "targetElement": 0.02,
+            "timestampOffset": 0,
+            "audioEnd": null
+          },
+          "appends": 4,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 1.979999,
+          "peakRetainedAppendBytes": 174667,
+          "disposed": false,
+          "status": null,
+          "capability": null
+        },
+        "resources": {
+          "workersCreated": 2,
+          "workersTerminated": 1,
+          "urlsCreated": 2,
+          "urlsRevoked": 1,
+          "activeWorkers": 1,
+          "activeUrls": 1
+        }
+      },
+      "end": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "frames": 1728,
+        "time": 71.999999,
+        "duration": 72,
+        "paused": true,
+        "ended": true,
+        "width": 320,
+        "buffered": [
+          [
+            49,
+            71.999999
+          ]
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 72,
+            "commonShift": 0,
+            "targetSource": 0.02,
+            "targetElement": 0.02,
+            "timestampOffset": 0,
+            "audioEnd": null
+          },
+          "appends": 73,
+          "removals": 49,
+          "waits": 214,
+          "peakAhead": 30.642784000000002,
+          "peakRetainedAppendBytes": 2413332,
+          "disposed": false,
+          "status": null,
+          "capability": null,
+          "worker": {
+            "reads": 67,
+            "bytes": 4337220,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 73,
+            "acks": 73,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 67,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 72,
+            "sourcePacketOrigin": -0.021333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 0.02,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 72,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 1024,
+                  "firstPacketTimestamp": -0.021333333333333333
+                }
+              ]
+            },
+            "videoCodec": "avc",
+            "audioCodec": "aac",
+            "packets": 5103,
+            "outputBytes": 4334073,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 114613,
+            "admission": {
+              "kind": "iso",
+              "tracks": 2,
+              "samples": [
+                1728,
+                3376
+              ],
+              "boxes": 45
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 70307,
+              "peakSamples": 73
+            },
+            "encodersCreated": 0,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 67,
+              "bytes": 4337220,
+              "logicalReads": 3460,
+              "cacheHits": 3466,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "resources": {
+          "workersCreated": 2,
+          "workersTerminated": 2,
+          "urlsCreated": 2,
+          "urlsRevoked": 1,
+          "activeWorkers": 0,
+          "activeUrls": 1
+        }
+      },
+      "elapsedMs": 97384
+    }
+  ],
+  "resources": [
+    {
+      "phase": "before-launch",
+      "host": {
+        "observedAt": "2026-09-29T23:08:50.233072+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.09,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 14.338,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.363,
+        "processCount": 310,
+        "threadCount": 4144,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    },
+    {
+      "phase": "launched",
+      "host": {
+        "observedAt": "2026-09-29T23:08:50.938666+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.122,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 14.342,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.359,
+        "processCount": 318,
+        "threadCount": 4305,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 22056960,
+          "workingSetBytes": 83230720,
+          "peakWorkingSetBytes": 83230720
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 33787904,
+          "workingSetBytes": 52477952,
+          "peakWorkingSetBytes": 111968256
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 11640832,
+          "workingSetBytes": 38440960,
+          "peakWorkingSetBytes": 38440960
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8138752,
+          "workingSetBytes": 18890752,
+          "peakWorkingSetBytes": 18890752
+        }
+      ],
+      "chromePrivateBytes": 75624448,
+      "chromeWorkingSetBytes": 193040384
+    },
+    {
+      "phase": "long-q1-0",
+      "host": {
+        "observedAt": "2026-09-29T23:08:56.937458+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.95,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 14.502,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.199,
+        "processCount": 303,
+        "threadCount": 4235,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 59273216,
+          "workingSetBytes": 153366528,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 6900,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16084992,
+          "workingSetBytes": 34631680,
+          "peakWorkingSetBytes": 34631680
+        },
+        {
+          "pid": 20440,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 135921664,
+          "workingSetBytes": 198082560,
+          "peakWorkingSetBytes": 198082560
+        },
+        {
+          "pid": 4992,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 45326336,
+          "workingSetBytes": 89210880,
+          "peakWorkingSetBytes": 89210880
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 252108800,
+          "workingSetBytes": 275369984,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13615104,
+          "workingSetBytes": 42053632,
+          "peakWorkingSetBytes": 42053632
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8323072,
+          "workingSetBytes": 20316160,
+          "peakWorkingSetBytes": 20316160
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8396800,
+          "workingSetBytes": 21872640,
+          "peakWorkingSetBytes": 21872640
+        }
+      ],
+      "chromePrivateBytes": 539049984,
+      "chromeWorkingSetBytes": 834904064
+    },
+    {
+      "phase": "long-q1-5",
+      "host": {
+        "observedAt": "2026-09-29T23:09:17.206267+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.074,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 14.338,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.363,
+        "processCount": 303,
+        "threadCount": 4190,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 59498496,
+          "workingSetBytes": 153690112,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 6900,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15773696,
+          "workingSetBytes": 34336768,
+          "peakWorkingSetBytes": 34643968
+        },
+        {
+          "pid": 20440,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 161951744,
+          "workingSetBytes": 224681984,
+          "peakWorkingSetBytes": 224681984
+        },
+        {
+          "pid": 4992,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 43737088,
+          "workingSetBytes": 87937024,
+          "peakWorkingSetBytes": 89235456
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 191934464,
+          "workingSetBytes": 234184704,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 14028800,
+          "workingSetBytes": 42500096,
+          "peakWorkingSetBytes": 42500096
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8380416,
+          "workingSetBytes": 20500480,
+          "peakWorkingSetBytes": 20500480
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8396800,
+          "workingSetBytes": 21880832,
+          "peakWorkingSetBytes": 21880832
+        }
+      ],
+      "chromePrivateBytes": 503701504,
+      "chromeWorkingSetBytes": 819712000
+    },
+    {
+      "phase": "long-q1-10",
+      "host": {
+        "observedAt": "2026-09-29T23:09:37.512322+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.472,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 15.122,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.579,
+        "processCount": 315,
+        "threadCount": 4491,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 60846080,
+          "workingSetBytes": 156368896,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 6900,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15773696,
+          "workingSetBytes": 34336768,
+          "peakWorkingSetBytes": 34643968
+        },
+        {
+          "pid": 20440,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 127623168,
+          "workingSetBytes": 195330048,
+          "peakWorkingSetBytes": 228847616
+        },
+        {
+          "pid": 4992,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 36007936,
+          "workingSetBytes": 82296832,
+          "peakWorkingSetBytes": 90415104
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 191692800,
+          "workingSetBytes": 234790912,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13996032,
+          "workingSetBytes": 42618880,
+          "peakWorkingSetBytes": 42688512
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8278016,
+          "workingSetBytes": 20447232,
+          "peakWorkingSetBytes": 20500480
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8482816,
+          "workingSetBytes": 21958656,
+          "peakWorkingSetBytes": 21958656
+        }
+      ],
+      "chromePrivateBytes": 462700544,
+      "chromeWorkingSetBytes": 788148224
+    },
+    {
+      "phase": "long-q1-15",
+      "host": {
+        "observedAt": "2026-09-29T23:09:57.796780+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.2,
+        "memoryLoadPercent": 79,
+        "commitUsedGiB": 14.27,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.431,
+        "processCount": 303,
+        "threadCount": 4159,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 56365056,
+          "workingSetBytes": 152141824,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 6900,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15671296,
+          "workingSetBytes": 34304000,
+          "peakWorkingSetBytes": 34643968
+        },
+        {
+          "pid": 20440,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 108679168,
+          "workingSetBytes": 178536448,
+          "peakWorkingSetBytes": 228847616
+        },
+        {
+          "pid": 4992,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 36007936,
+          "workingSetBytes": 82309120,
+          "peakWorkingSetBytes": 90415104
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 190472192,
+          "workingSetBytes": 234475520,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13418496,
+          "workingSetBytes": 42307584,
+          "peakWorkingSetBytes": 42688512
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8179712,
+          "workingSetBytes": 20410368,
+          "peakWorkingSetBytes": 20500480
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8343552,
+          "workingSetBytes": 21950464,
+          "peakWorkingSetBytes": 21962752
+        }
+      ],
+      "chromePrivateBytes": 437137408,
+      "chromeWorkingSetBytes": 766435328
+    },
+    {
+      "phase": "long-q1-20",
+      "host": {
+        "observedAt": "2026-09-29T23:10:18.050172+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.209,
+        "memoryLoadPercent": 79,
+        "commitUsedGiB": 14.263,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.438,
+        "processCount": 303,
+        "threadCount": 4156,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 56061952,
+          "workingSetBytes": 151838720,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 6900,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15671296,
+          "workingSetBytes": 34304000,
+          "peakWorkingSetBytes": 34643968
+        },
+        {
+          "pid": 20440,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 100528128,
+          "workingSetBytes": 171274240,
+          "peakWorkingSetBytes": 228847616
+        },
+        {
+          "pid": 4992,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 36007936,
+          "workingSetBytes": 82309120,
+          "peakWorkingSetBytes": 90415104
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 190464000,
+          "workingSetBytes": 234491904,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13479936,
+          "workingSetBytes": 42471424,
+          "peakWorkingSetBytes": 42688512
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8179712,
+          "workingSetBytes": 20410368,
+          "peakWorkingSetBytes": 20500480
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8343552,
+          "workingSetBytes": 21950464,
+          "peakWorkingSetBytes": 21962752
+        }
+      ],
+      "chromePrivateBytes": 428736512,
+      "chromeWorkingSetBytes": 759050240
+    },
+    {
+      "phase": "failure",
+      "host": {
+        "observedAt": "2026-09-29T23:10:30.317951+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.34,
+        "memoryLoadPercent": 78,
+        "commitUsedGiB": 14.108,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.594,
+        "processCount": 300,
+        "threadCount": 4076,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7312,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 53456896,
+          "workingSetBytes": 150704128,
+          "peakWorkingSetBytes": 163061760
+        },
+        {
+          "pid": 7368,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 184057856,
+          "workingSetBytes": 228044800,
+          "peakWorkingSetBytes": 306757632
+        },
+        {
+          "pid": 15272,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13414400,
+          "workingSetBytes": 43016192,
+          "peakWorkingSetBytes": 43016192
+        },
+        {
+          "pid": 8712,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8183808,
+          "workingSetBytes": 20754432,
+          "peakWorkingSetBytes": 20754432
+        },
+        {
+          "pid": 13260,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8343552,
+          "workingSetBytes": 21950464,
+          "peakWorkingSetBytes": 21962752
+        }
+      ],
+      "chromePrivateBytes": 267456512,
+      "chromeWorkingSetBytes": 464470016
+    },
+    {
+      "phase": "after-owned-browser-close",
+      "host": {
+        "observedAt": "2026-09-29T23:10:30.663462+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.579,
+        "memoryLoadPercent": 77,
+        "commitUsedGiB": 13.799,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.902,
+        "processCount": 294,
+        "threadCount": 3950,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    }
+  ],
+  "passed": false,
+  "fixtures": {
+    "aac": {
+      "path": "qa/faststart-h264-aac.mp4",
+      "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+      "bytes": 202253
+    },
+    "ac3": {
+      "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+      "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+      "bytes": 490614
+    },
+    "longaac": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-aac.mp4",
+      "sha256": "80c64670be760a1b181dbf7c2f0efa120087601b34ad66c92efb2d9a56caa469",
+      "bytes": 4337220
+    },
+    "longac3": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-ac3.mp4",
+      "sha256": "a522be18a65e09fb8e5b7227b4906910a8b48bd65f715008c9686d2cc20de73c",
+      "bytes": 6048943
+    }
+  },
+  "browser": "154.0.8037.58",
+  "failure": {
+    "name": "AssertionError",
+    "code": "ASSERTION_OR_HARNESS_FAILURE"
+  },
+  "browserClosed": true,
+  "producerEnd": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  }
+}

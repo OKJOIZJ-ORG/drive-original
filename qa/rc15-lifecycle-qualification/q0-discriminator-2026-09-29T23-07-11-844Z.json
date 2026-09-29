@@ -1,0 +1,2388 @@
+{
+  "runId": "2026-09-29T23-07-11-844Z",
+  "mode": "q0-discriminator",
+  "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+  "producerStart": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "harness": {
+    "qualify.cjs": "4f227ee6e420acc09ce8b1b0c2088dbf7c25234fc040afca9d9f089a83fd8571",
+    "resource-snapshot.py": "55cf30c22a9f0000efd036a3705d76a230ee8aac004a7a4ff7f0526004a9fc45",
+    "fixtures.py": "c29ea22c64059c7863a40df4b9d49da99cd4fa2cafe21ffcf8d1f287d96eb3cc",
+    "../q1-q2-app-integration/native-retirement-smoke.cjs": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "../q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45"
+  },
+  "results": [
+    {
+      "cycle": 1,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.01572,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3417480,
+          "totalSize": 3706880,
+          "embedderHeapUsedSize": 1816816,
+          "backingStorageSize": 1234024
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 2,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.02,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3619012,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 2131944,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 3,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.013183,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3728124,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 2187272,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 4,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.00485,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3747688,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 2096288,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 5,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.002598,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3827988,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 2076480,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 6,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.018799,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3844624,
+          "totalSize": 4755456,
+          "embedderHeapUsedSize": 2070984,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 7,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.017275,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3848796,
+          "totalSize": 4755456,
+          "embedderHeapUsedSize": 2183464,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 8,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.004933,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3863588,
+          "totalSize": 4755456,
+          "embedderHeapUsedSize": 2172760,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 9,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.018074,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 3993284,
+          "totalSize": 4755456,
+          "embedderHeapUsedSize": 2243904,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 10,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.016625,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 4000836,
+          "totalSize": 4755456,
+          "embedderHeapUsedSize": 2177672,
+          "backingStorageSize": 1234207
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 11,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.001813,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 4016108,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 1802392,
+          "backingStorageSize": 1234321
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    },
+    {
+      "cycle": 12,
+      "route": "q0",
+      "passed": true,
+      "start": {
+        "attempt": "range",
+        "mode": "original-range",
+        "frames": 4,
+        "time": 0.011724,
+        "duration": 10,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "buffered": [
+          [
+            0,
+            10
+          ]
+        ],
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        }
+      },
+      "seeks": [
+        {
+          "mediaTime": 1,
+          "presentedFrames": 2,
+          "elementTime": 1,
+          "seekingAtFrame": false,
+          "target": 1,
+          "time": 1,
+          "generation": null
+        },
+        {
+          "mediaTime": 5,
+          "presentedFrames": 3,
+          "elementTime": 5,
+          "seekingAtFrame": false,
+          "target": 5,
+          "time": 5,
+          "generation": null
+        },
+        {
+          "mediaTime": 9,
+          "presentedFrames": 4,
+          "elementTime": 9,
+          "seekingAtFrame": false,
+          "target": 9,
+          "time": 9,
+          "generation": null
+        }
+      ],
+      "after": {
+        "retirement": {
+          "settled": true
+        },
+        "resources": {
+          "workersCreated": 0,
+          "workersTerminated": 0,
+          "urlsCreated": 0,
+          "urlsRevoked": 0,
+          "activeWorkers": 0,
+          "activeUrls": 0
+        },
+        "closed": {
+          "q1": true,
+          "q0": true,
+          "hidden": true,
+          "src": null,
+          "controller": true,
+          "temp": true,
+          "blob": true,
+          "seekWatchdog": true,
+          "frameWatchdog": true,
+          "seekCleanup": true,
+          "frameCallback": true
+        },
+        "sw": {
+          "activeOwners": 0,
+          "cleanupFences": 0,
+          "retiredThrough": 1,
+          "q0Pins": 0,
+          "q0Acquisitions": 0,
+          "controlledWindows": 1
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 1551,
+          "jsEventListeners": 192
+        },
+        "heap": {
+          "usedSize": 4016260,
+          "totalSize": 4493312,
+          "embedderHeapUsedSize": 1787872,
+          "backingStorageSize": 1234321
+        },
+        "listeners": {
+          "total": 190,
+          "targets": 100,
+          "counts": {
+            "DOMContentLoaded": 1,
+            "online": 1,
+            "offline": 1,
+            "pagehide": 1,
+            "pageshow": 1,
+            "blur": 3,
+            "focus": 1,
+            "storage": 1,
+            "scroll": 1,
+            "resize": 3,
+            "popstate": 1,
+            "__playwright_global_listeners_check__": 1,
+            "mousemove": 1,
+            "pointerdown": 9,
+            "pointerup": 2,
+            "touchstart": 3,
+            "touchend": 3,
+            "touchcancel": 3,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 91,
+            "auxclick": 1,
+            "dblclick": 2,
+            "contextmenu": 1,
+            "webkitfullscreenchange": 1,
+            "fullscreenchange": 1,
+            "keydown": 10,
+            "visibilitychange": 3,
+            "pointercancel": 5,
+            "touchmove": 2,
+            "input": 3,
+            "change": 1,
+            "pointermove": 2,
+            "pointerleave": 2,
+            "focusin": 1,
+            "focusout": 1,
+            "playing": 1,
+            "pause": 1,
+            "volumechange": 1,
+            "loadedmetadata": 1,
+            "timeupdate": 1,
+            "play": 1,
+            "seeking": 1,
+            "seeked": 1,
+            "error": 3,
+            "waiting": 1,
+            "progress": 1,
+            "loadeddata": 1,
+            "canplay": 1,
+            "stalled": 1,
+            "ended": 1,
+            "ratechange": 1,
+            "load": 2,
+            "toggle": 1,
+            "cancel": 2,
+            "close": 1
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "phase": "before-launch",
+      "host": {
+        "observedAt": "2026-09-29T23:07:12.135743+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.933,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 13.605,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 4.096,
+        "processCount": 295,
+        "threadCount": 4045,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    },
+    {
+      "phase": "launched",
+      "host": {
+        "observedAt": "2026-09-29T23:07:12.615037+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.877,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 13.732,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.969,
+        "processCount": 300,
+        "threadCount": 4161,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 21668,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 21942272,
+          "workingSetBytes": 82857984,
+          "peakWorkingSetBytes": 82857984
+        },
+        {
+          "pid": 12552,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 33878016,
+          "workingSetBytes": 52568064,
+          "peakWorkingSetBytes": 111206400
+        },
+        {
+          "pid": 13448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 11497472,
+          "workingSetBytes": 38240256,
+          "peakWorkingSetBytes": 38240256
+        },
+        {
+          "pid": 8356,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8073216,
+          "workingSetBytes": 18812928,
+          "peakWorkingSetBytes": 18812928
+        }
+      ],
+      "chromePrivateBytes": 75390976,
+      "chromeWorkingSetBytes": 192479232
+    },
+    {
+      "phase": "cycle-5-closed",
+      "host": {
+        "observedAt": "2026-09-29T23:07:14.397189+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.511,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 14.231,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.47,
+        "processCount": 306,
+        "threadCount": 4309,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 21668,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 43659264,
+          "workingSetBytes": 131366912,
+          "peakWorkingSetBytes": 132395008
+        },
+        {
+          "pid": 11404,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 18878464,
+          "workingSetBytes": 37277696,
+          "peakWorkingSetBytes": 37277696
+        },
+        {
+          "pid": 14848,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 68186112,
+          "workingSetBytes": 133193728,
+          "peakWorkingSetBytes": 135639040
+        },
+        {
+          "pid": 19968,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 45998080,
+          "workingSetBytes": 89878528,
+          "peakWorkingSetBytes": 89878528
+        },
+        {
+          "pid": 12552,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 267304960,
+          "workingSetBytes": 267194368,
+          "peakWorkingSetBytes": 297680896
+        },
+        {
+          "pid": 13448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12365824,
+          "workingSetBytes": 40366080,
+          "peakWorkingSetBytes": 40992768
+        },
+        {
+          "pid": 8356,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8265728,
+          "workingSetBytes": 20107264,
+          "peakWorkingSetBytes": 20107264
+        },
+        {
+          "pid": 12720,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8454144,
+          "workingSetBytes": 21848064,
+          "peakWorkingSetBytes": 21848064
+        }
+      ],
+      "chromePrivateBytes": 473112576,
+      "chromeWorkingSetBytes": 741232640
+    },
+    {
+      "phase": "cycle-10-closed",
+      "host": {
+        "observedAt": "2026-09-29T23:07:15.387299+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.37,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 14.409,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.292,
+        "processCount": 309,
+        "threadCount": 4354,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 21668,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 44019712,
+          "workingSetBytes": 131735552,
+          "peakWorkingSetBytes": 132395008
+        },
+        {
+          "pid": 11404,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 18878464,
+          "workingSetBytes": 37277696,
+          "peakWorkingSetBytes": 37277696
+        },
+        {
+          "pid": 14848,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 77295616,
+          "workingSetBytes": 142106624,
+          "peakWorkingSetBytes": 144900096
+        },
+        {
+          "pid": 19968,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 45998080,
+          "workingSetBytes": 89882624,
+          "peakWorkingSetBytes": 89882624
+        },
+        {
+          "pid": 12552,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 268070912,
+          "workingSetBytes": 268038144,
+          "peakWorkingSetBytes": 297680896
+        },
+        {
+          "pid": 13448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12451840,
+          "workingSetBytes": 40448000,
+          "peakWorkingSetBytes": 40992768
+        },
+        {
+          "pid": 8356,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8265728,
+          "workingSetBytes": 20107264,
+          "peakWorkingSetBytes": 20107264
+        },
+        {
+          "pid": 12720,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8458240,
+          "workingSetBytes": 21852160,
+          "peakWorkingSetBytes": 21852160
+        }
+      ],
+      "chromePrivateBytes": 483438592,
+      "chromeWorkingSetBytes": 751448064
+    },
+    {
+      "phase": "after-owned-browser-close",
+      "host": {
+        "observedAt": "2026-09-29T23:07:16.681624+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.459,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 14.268,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 3.433,
+        "processCount": 306,
+        "threadCount": 4306,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    }
+  ],
+  "passed": true,
+  "fixtures": {
+    "aac": {
+      "path": "qa/faststart-h264-aac.mp4",
+      "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+      "bytes": 202253
+    },
+    "ac3": {
+      "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+      "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+      "bytes": 490614
+    },
+    "longaac": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-aac.mp4",
+      "sha256": "80c64670be760a1b181dbf7c2f0efa120087601b34ad66c92efb2d9a56caa469",
+      "bytes": 4337220
+    },
+    "longac3": {
+      "path": "qa/rc15-lifecycle-qualification/synthetic-72s-ac3.mp4",
+      "sha256": "a522be18a65e09fb8e5b7227b4906910a8b48bd65f715008c9686d2cc20de73c",
+      "bytes": 6048943
+    }
+  },
+  "browser": "154.0.8037.58",
+  "network": {
+    "media": 36,
+    "metadata": 84,
+    "downloads": 12,
+    "bytes": 3213612,
+    "swMedia": 36,
+    "externalBlocked": 1
+  },
+  "producerEnd": {
+    "index.html": "2b68a1d5409bc2e2d967f7db621e3d46fda9cb245b842847dd50f204d79bfff0",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "89315d95f5623b24e4ac37d34bb4d6a4cce5dc08ddbc24531bc44859ba789dba",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9878d7b3bbd2b89a9131493b997dc6e3771998d0461f5487e2896990c9bf2ac9",
+    "version.json": "f7e7d4c68a05c334d317c756125b5073596ee17bf689a626294072d54e0ac3a2",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "browserClosed": true
+}

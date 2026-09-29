@@ -1,0 +1,146 @@
+{
+  "rawReport": "long-2026-09-29T23-08-49-924Z.json",
+  "rawSha256": "c950f1aece0140b384f634bf3c7521d5935889f192b955a13246fe75bea3a1e6",
+  "reviewProducerSha256": "0a78aaaf56859666fa2d879d5042b83535ccb4ac8e6f3f0e90fe643a313c94e2",
+  "reviewScope": "Read-only review of preserved Q1 native-end evidence. First literal-float harness failure retained. No independently observed app/SW retirement after this long run; owned browser close observed and50cycle cleanup proof separately bound.",
+  "endpointPolicy": "For this finite72-second fixture require native ended and paused, source-clock endpoint within one48kHz sample, all1728video frames. This does not change a product acceptance criterion.",
+  "observedSourceEnd": {
+    "elapsedMs": 73117,
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "frames": 1728,
+    "time": 71.999999,
+    "duration": 72,
+    "paused": true,
+    "ended": true,
+    "width": 320,
+    "buffered": [
+      [
+        49,
+        71.999999
+      ]
+    ],
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 72,
+        "commonShift": 0,
+        "targetSource": 0.02,
+        "targetElement": 0.02,
+        "timestampOffset": 0,
+        "audioEnd": null
+      },
+      "appends": 73,
+      "removals": 49,
+      "waits": 214,
+      "peakAhead": 30.642784000000002,
+      "peakRetainedAppendBytes": 2413332,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 67,
+        "bytes": 4337220,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 73,
+        "acks": 73,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 67,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 72,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0.02,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 72,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 5103,
+        "outputBytes": 4334073,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 114613,
+        "admission": {
+          "kind": "iso",
+          "tracks": 2,
+          "samples": [
+            1728,
+            3376
+          ],
+          "boxes": 45
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 70307,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 67,
+          "bytes": 4337220,
+          "logicalReads": 3460,
+          "cacheHits": 3466,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "resources": {
+      "workersCreated": 2,
+      "workersTerminated": 2,
+      "urlsCreated": 2,
+      "urlsRevoked": 1,
+      "activeWorkers": 0,
+      "activeUrls": 1
+    }
+  },
+  "originalHarnessFailed": true,
+  "passed": true
+}

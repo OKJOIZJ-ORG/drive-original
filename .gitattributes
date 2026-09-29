@@ -72,6 +72,13 @@
 /tests/sw-capability.test.js text eol=lf
 /qa/q3-browser-execution/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/host-resource-snapshot.py -text whitespace=cr-at-eol
+# Preserve exact rc.15/rc.16 QA producers, failed raw records and test hashes.
+/qa/rc15-lifecycle-qualification/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc15-player-ui-qualification/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc15-player-ui-qualification/ui-checks.txt whitespace=cr-at-eol,-blank-at-eof
+/qa/rc15-actual-account/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-rc16-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
+/tests/player-presentation-owner.test.js -text whitespace=cr-at-eol
 /qa/media-general-routing/vendor/mediabunny.min.mjs -text whitespace=cr-at-eol
 # Preserve executed/public source fingerprints and upstream notice/patch syntax.
 # Patch context prefixes before tabs and retained EOF blanks are artifact data.

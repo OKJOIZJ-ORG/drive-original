@@ -554,3 +554,22 @@ full disk reread/actual-product reconstruction pass. A-013 keeps the intermitten
 read causes unknown. Global writes=false, normal sync/UI/fresh-origin/devices and
 production release remain separate. D-058 closes this unit with records/commit/
 report, then WAIT; Android/mobile and next units require an explicit resume.
+
+### 2026-09-30 — whole-goal continuation and rc.16 presentation repair
+
+D-061/D-062 resume the whole approved goal; verified units are savepoints and do
+not terminate that continuation. PLAYER-PRESENTATION-20260930.md records a real
+same-session source-rebuild loading deadlock and its minimal source-owned key
+repair. Complete current Node558/558 and native synthetic6/6 desktop/touch cases
+pass, with twelve target-frame seeks and exact before/after producers. Actual
+rc.15 priority TS also reproduced loading residue after a settled50% paused seek.
+Current rc.16 candidate replay remains separate until delivered and observed.
+
+New fixed-rc.15 lifecycle proof covers3cold Q2 starts,50mixed cycles/150 native
+target seeks,12Q0 frame-order checks,16Q1 and16Q2 resource checks and72s native
+Q0/Q2 ends. Q1's finite endpoint is separately adjudicated from its retained strict
+float failure, without inventing post-long app/SW retirement. These are bounded
+synthetic observations. Renderer private-memory growth remains unqualified despite
+zero owned workers/URLs/SW transports and stable post-GC JS/DOM/listeners. Native
+resource investigation, corpus/format coverage, actual return/device/two-device
+and production-authority gates remain open. Continue executable work autonomously.

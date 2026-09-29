@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.15';
+const APP_VERSION = '1.22.0-rc.16';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -10138,7 +10138,7 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
   const sourceAttempt = state.mediaAttempt;
   const sourceGeneration = mediaSourceGeneration;
   const seekGeneration = mediaSeekGeneration;
-  const presentationKey = String(session);
+  const presentationKey = `${session}:${sourceAttempt}:${sourceGeneration}`;
   if (video.dataset.presentationSession === presentationKey) return;
   video.dataset.presentationSession = presentationKey;
   let presented = false;
