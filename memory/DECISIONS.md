@@ -403,3 +403,9 @@ D-056의 일시정지와 chrome 독립, D-057의 Android 대안과 증거 구분
 재개 등 남은 외부 경계는 실제 완료로 보고하지 않는다.
 
 sweep: active core investigation and queued product polish aligned to autonomous quality scope.
+
+## D-063 · 후속 에이전트 모델과 새 채팅 전환 — 2026-09-30 (User-confirmed)
+
+사용자는 현재 작업을 계속하되 Astra 하위 에이전트는 실제로 막히거나 어려운 경우에만 선택적으로 사용하고, 일반 하위 작업은 6 Sol을 우선하라고 했다. 6.1 Sol이 실제로 사용 가능해지면 이 프로젝트에 새 채팅을 만들고 상위 에이전트를 6.1 Sol Extra High로, 하위 에이전트도 원칙적으로 6.1 Sol로 운영한다. 하위 에이전트 추론량은 작업에 맞춰 선택하고 어려운 병목에서만 6 Astra를 쓴다. 모델 출시나 현재 계정의 사용 가능 여부를 추정으로 확정하지 않는다.
+
+sweep: 현재 진행과 다음 위임에 적용; 6.1 Sol 새 채팅은 실제 런타임 노출 확인 후 생성한다 (2026-09-30).

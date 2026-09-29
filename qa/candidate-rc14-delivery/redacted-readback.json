@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "source": "067bcb94329a99f6dcec78657ca3882dbf9d8aad",
+  "workerVersion": "e8f5f5c7-5f09-46c5-919a-faacfa4d02ac",
+  "publicFlags": {
+    "AUTH_ENABLED": "true",
+    "AUTH_DIAGNOSTICS": "true",
+    "CANDIDATE_DRIVE_WRITES_ENABLED": "false"
+  },
+  "bindings": [
+    {
+      "name": "ACCOUNT_KEY",
+      "type": "secret_text",
+      "secretConfigured": true
+    },
+    {
+      "name": "ASSETS",
+      "type": "assets"
+    },
+    {
+      "name": "AUTH_DIAGNOSTICS",
+      "type": "plain_text"
+    },
+    {
+      "name": "AUTH_ENABLED",
+      "type": "plain_text"
+    },
+    {
+      "name": "AUTH_HMAC_KEY",
+      "type": "secret_text",
+      "secretConfigured": true
+    },
+    {
+      "name": "AUTH_OBJECTS",
+      "type": "durable_object_namespace"
+    },
+    {
+      "name": "CANDIDATE_DRIVE_WRITES_ENABLED",
+      "type": "plain_text"
+    },
+    {
+      "name": "CREDENTIAL_ENCRYPTION_KEY_V1",
+      "type": "secret_text",
+      "secretConfigured": true
+    },
+    {
+      "name": "GOOGLE_CLIENT_ID",
+      "type": "plain_text"
+    },
+    {
+      "name": "GOOGLE_CLIENT_SECRET",
+      "type": "secret_text",
+      "secretConfigured": true
+    },
+    {
+      "name": "PUBLIC_ORIGIN",
+      "type": "plain_text"
+    }
+  ],
+  "rawInputSha256": "fac7e3f6fde38e750f165aa0ae6d5062b888279cb0b48acaede3014d0cc4faa7",
+  "producerSha256": "295b29b09c668021b31a63c228dc24c54e76720fd74dd40d95aecbc9e5e88389",
+  "omitted": [
+    "account and namespace identifiers",
+    "author metadata",
+    "client ID and origin binding values",
+    "secret values",
+    "raw deployment logs"
+  ],
+  "hostedLogContentsRead": false
+}

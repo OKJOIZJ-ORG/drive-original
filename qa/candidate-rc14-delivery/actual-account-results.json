@@ -1,0 +1,116 @@
+{
+  "version": "1.22.0-rc.14",
+  "sourceCommit": "067bcb94329a99f6dcec78657ca3882dbf9d8aad",
+  "scope": "Actual signed-in desktop Chrome read-only original-media playback; own appData viewing history may sync. No physical mobile, broad format/audio fidelity, full-body hash or memory endurance claim.",
+  "webm": {
+    "close": {
+      "currentSrcPresent": true,
+      "networkState": 0,
+      "paused": true,
+      "pin": false,
+      "q0": false,
+      "retirementSettled": true,
+      "selected": false,
+      "sheetHidden": true,
+      "srcAttributePresent": false
+    },
+    "endSeek": {
+      "error": null,
+      "frames": 102,
+      "pinUnchanged": true,
+      "seeking": false,
+      "time": 3.5442
+    },
+    "firstFrame": {
+      "elapsedMs": 2439,
+      "frames": 1,
+      "pinned": true,
+      "time": 0
+    },
+    "mid": {
+      "error": null,
+      "frames": 63,
+      "pinUnchanged": true,
+      "seeking": false,
+      "time": 1.969
+    },
+    "replayEnd": {
+      "duration": 3.938,
+      "ended": true,
+      "error": null,
+      "frames": 103,
+      "pinUnchanged": true,
+      "time": 3.938
+    }
+  },
+  "largeMp4": {
+    "bytes": 4607107537,
+    "endSeek": {
+      "afterFrame": {
+        "frames": 28658,
+        "time": 8620.780975
+      },
+      "elapsedMs": 20631,
+      "error": null,
+      "frames": 28656,
+      "pinUnchanged": true,
+      "seeking": false,
+      "time": 8620.761756
+    },
+    "finalBeforeClose": {
+      "attempt": "range",
+      "error": null,
+      "frames": 32784,
+      "nativeURLQueryKeys": [
+        "mediaOwner",
+        "sourceGeneration"
+      ],
+      "pinUnchanged": true,
+      "time": 8689.598496
+    },
+    "firstFrame": {
+      "elapsedMs": 3637,
+      "frames": 4,
+      "pinned": true,
+      "time": 0
+    },
+    "mid": {
+      "elapsedMs": 1554,
+      "error": null,
+      "frames": 8246,
+      "pinUnchanged": true,
+      "seeking": false,
+      "time": 4789.312
+    },
+    "reveal": {
+      "paused": false,
+      "seekVisible": true
+    },
+    "network": {
+      "mediaResponseCount": 0,
+      "statuses": [],
+      "observedResponseTotals": [],
+      "eventsTruncated": true,
+      "scope": "Observed response headers only; no full-body hash or total-native-memory claim."
+    },
+    "close": {
+      "bufferedRanges": 0,
+      "currentSrcPresent": true,
+      "networkState": 0,
+      "paused": true,
+      "pin": false,
+      "q0": false,
+      "retirementSettled": true,
+      "selected": false,
+      "sheetHidden": true,
+      "srcAttributePresent": false,
+      "temporaryQaRemoved": true
+    }
+  },
+  "observationalLimits": [
+    "The90%elapsed timer starts before the pointer command and includes tool/preparation delay; it is not qualified seek latency.",
+    "Network event observer was truncated and returned zero media response records; it proves no header/body delivery metric.",
+    "currentSrc retained its last URL after close, while src attribute, buffered ranges and transport ownership were cleared with NETWORK_EMPTY and settled retirement."
+  ],
+  "recordedAt": "2026-09-28T22:04:29.095Z"
+}
