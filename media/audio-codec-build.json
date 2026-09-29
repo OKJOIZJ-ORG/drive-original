@@ -1,8 +1,6 @@
 {
-  "distributionReady": false,
-  "blockingDistributionRequirements": [
-    "Verify same-candidate public source, runtime and notice delivery before asserting distribution readiness."
-  ],
+  "distributionReady": true,
+  "blockingDistributionRequirements": [],
   "sourceRightsReview": "memory/Q2-SOURCE-PUBLICATION-20260929.md",
   "correspondingSource": {
     "archiveManifest": {
@@ -160,5 +158,27 @@
       "path": "media/audio-general-worker.mjs",
       "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
     }
-  ]
+  ],
+  "distributionEvidence": {
+    "sourceCommit": "ee0ac8449e37a982ab2204b5b65e472a6e04b6f4",
+    "workerVersion": "23c63fba-9845-443d-9c8a-9bd454d2b394",
+    "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+    "deliveryReport": {
+      "path": "qa/candidate-rc15-delivery/results.json",
+      "sha256": "70864683cdd75d3e7ac381ac521fd61e5488a99154208ea8bfe39376bfa418af"
+    },
+    "deploymentRecord": {
+      "path": "qa/candidate-rc15-delivery/deployment.json",
+      "sha256": "5bb0bd8efdc33209275142f5623fd5bb5e2c18b53af6655bacbdf64839f5ccc3"
+    },
+    "controlPlaneRecord": {
+      "path": "qa/candidate-rc15-delivery/redacted-readback.json",
+      "sha256": "4c5b8f22c276d37dd677dca64969f1e34aee00f515e298c448786444ebeb41e6"
+    },
+    "auditProducer": {
+      "path": "qa/candidate-delivery-audit.cjs",
+      "sha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
+    },
+    "scope": "Technical same-candidate runtime/notice/preferred-source delivery only; no production, patent, device or broad-format qualification"
+  }
 }

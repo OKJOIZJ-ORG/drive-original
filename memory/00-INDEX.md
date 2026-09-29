@@ -80,3 +80,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `Q3-FEASIBILITY-20260930.md` — synthetic MPEG4 Part 2 to lossy VP9 build/browser/oracle proof; corpus necessity, product integration and physical devices remain open.
 - `Q1-Q2-INTEGRATION-20260930.md` — rc.15 local app/source/lifetime/capability integration, final557 Node and3 native routes, source rights/delivery preparation and explicit remaining gates.
 - `Q2-SOURCE-PUBLICATION-20260929.md` — exact seven-part source/relink package and same-toolchain bridge/WASM reproduction; public delivery is recorded separately.
+- `CANDIDATE-RC15-20260930.md` — fixed rc.15 source/Worker/52 public/40 cached/source-readiness/package evidence, retained materializer uncertainty and open account/device gates.

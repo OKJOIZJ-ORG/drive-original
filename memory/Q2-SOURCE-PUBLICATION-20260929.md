@@ -9,3 +9,12 @@ Supplied-object relinking and preferred bridge-source recompilation both reprodu
 Root reviewed the supplied full source, modification/relink rights, absence of GPL/nonfree configuration, retained copyright/notices and concrete object-based relink route against the [FFmpeg guidance](https://ffmpeg.org/legal.html) and [MPL source requirements](https://www.mozilla.org/en-US/MPL/2.0/FAQ/). The notice explicitly permits debugging modifications by reverse engineering and imposes no additional license restrictions. Technical source arrangement does not establish general patent clearance.
 
 `qa/q2-audio-source-publication/curated-commit-manifest.json` selects the exact maintained paths. Root checks working and staged bytes against it. Source parts are excluded from service-worker precaching. Actual same-candidate public source URLs and matching runtime/notice delivery must pass before distribution readiness is asserted; application/audio end-window acceptance is a separate unit.
+
+## 2026-09-30 — separate matching candidate delivery
+
+The later rc.15 candidate at fixed ee0ac84/Worker23c63fba delivers the unchanged
+seven-part codec/relink package together with matching runtime/notices and six
+current readable adaptations. CANDIDATE-RC15-20260930.md and its52-file HTTP audit
+own the separate source-readiness completion. The private build flag is true with
+exact evidence bindings; this does not broaden the earlier relink proof or imply
+production, patents, broad formats or physical-device qualification.

@@ -1,8 +1,9 @@
 # Q1/Q2 local integration — 2026-09-30
 
 Local rc.15 integration, not production or complete device/corpus acceptance.
-Production v1.21.0/e08989a, candidate rc.14 and automation PAUSED remain until
-the separately recorded candidate delivery succeeds.
+The local integration is committed at ee0ac8449e37a982ab2204b5b65e472a6e04b6f4.
+The later verified rc.15 candidate delivery is separately recorded in
+CANDIDATE-RC15-20260930.md; production v1.21.0/e08989a and automation PAUSED remain.
 
 The actual app now connects its bounded general Q1 packet-copy and Q2 stereo
 AC3/EAC3 audio path to the exact Q0 revision snapshot. Q2 retains encoded AVC
@@ -49,7 +50,8 @@ Final current-source verification:
   all **seven** Q2 parts/53,597,911 combined bytes and exact codec artifacts,
   six current readable adaptations and every license-page link. The public
   manifest has **51** files, **40** shell entries and **eight** uncached source
-  archives. Build metadata remains private and public delivery is still required.
+  archives. Build metadata remains private. Later matching public delivery and technical
+  source readiness are owned by CANDIDATE-RC15-20260930.md.
 
 The Q2 archive is an unchanged codec/relink target and preparation-time wrapper
 snapshot. Current modified readable JavaScript is delivered directly at the six

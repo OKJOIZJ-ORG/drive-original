@@ -2,7 +2,7 @@
 
 ## The story so far
 
-Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Q1/Q2/Q0 rc.15 core is saved at ee0ac84: final557/557 Node, final3/3 synthetic-provider Chrome, clean independent ownership/capability review. The free candidate serves that fixed source as Worker23c63fba-9845-443d-9c8a-9bd454d2b394;52 public/40 cached Git-equal assets, eight uncached source archives, six private404 routes and cold/offline anonymous shell pass. The52-entry54,778,547-byte fixed-Git ZIP is current-host byte-equal. Matching source/runtime/notice delivery now has a narrowly bound private source-readiness flag. CANDIDATE-RC15-20260930.md owns delivery/limits. Q3 synthetic feasibility is saved at5af7cdf; product/corpus need stays open. Actual rc.15 account replay is blocked by the personal Chrome focus bridge even after CUA reset; no usable Android path was observed. Full69 matrix remains25passed/38not-run/4blocked/2conditionalN/A. Productionv1.21.0/e08989a, global Drive writes disabled and automationPAUSED stay unchanged. This separate evidence/private-metadata unit is ready for its local commit; fixed delivery source remains ee0ac84.
+Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics. Q1/Q2/Q0 rc.15 is committed at ee0ac8449e37a982ab2204b5b65e472a6e04b6f4: final557/557 Node, final3/3 synthetic-provider Chrome and clean independent ownership/capability review. The free candidate now serves that fixed source as Worker23c63fba-9845-443d-9c8a-9bd454d2b394. HTTP52public/40cache/eight uncached source archives/six private404/cold-offline anonymous shell pass; the fixed52-entry ZIP is byte-equal to Git. Safe control-plane/source-readiness records and the evidence commit remain. Q3 synthetic prototype is saved at5af7cdf. Productionv1.21.0/e08989a and automationPAUSED stay unchanged. Personal Chrome focus still times out after an isolated CUA runtime reset; actual rc.15 account, physical devices/background/broad formats/two-device and the full69 acceptance gates remain open.
 
 ## Decided
 
@@ -20,7 +20,7 @@ None for executable work. Device-only and separate production-authority gates st
 
 ## Next first action
 
-Run `Get-Content qa/candidate-rc13-qualification/qualification-matrix.md` in canonical source to choose the next unclosed evidence gate; resume actual rc.15 account replay only after the personal Chrome focus bridge becomes usable, without repeating the same failing call or promoting older/synthetic proof.
+Create and run qa/candidate-rc15-delivery/redact-readback.cjs against the retained private Worker-version readback, validating exact public flags and binding types without printing private values.
 
 ## Tried
 
