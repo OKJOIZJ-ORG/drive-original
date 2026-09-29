@@ -1,0 +1,106 @@
+{
+  "schema": "drive-original.q3-feasibility-inspection/1",
+  "capturedAt": "2026-09-29T19:33:48.513Z",
+  "scope": "Local synthetic QA preflight only; no product, browser, corpus-read or distribution execution",
+  "toolPreflight": {
+    "exit": 0,
+    "compile": false,
+    "configure": false,
+    "link": false,
+    "log": "build-preflight.log"
+  },
+  "invalidArgument": {
+    "exit": 1,
+    "expectedError": true
+  },
+  "host": {
+    "observedAt": "2026-09-29T19:33:48.774977+00:00",
+    "physicalTotalGiB": 15.701,
+    "physicalAvailableGiB": 1.459,
+    "memoryLoadPercent": 90,
+    "commitUsedGiB": 18.419,
+    "commitLimitGiB": 19.459,
+    "commitAvailableGiB": 1.039,
+    "processCount": 373,
+    "threadCount": 5290,
+    "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+  },
+  "buildStarted": false,
+  "buildPeakMemory": "unmeasured",
+  "browserExecuted": false,
+  "nativeOracleExecuted": false,
+  "realCorpusQ3Requirement": "unknown; no MPEG4 Part2 established in inspected aggregate/actual records",
+  "outputs": [
+    {
+      "path": "codec.mjs",
+      "exists": false
+    },
+    {
+      "path": "codec.wasm",
+      "exists": false
+    },
+    {
+      "path": "browser-results.json",
+      "exists": false
+    },
+    {
+      "path": "output-0.webm",
+      "exists": false
+    },
+    {
+      "path": "output-2.2.webm",
+      "exists": false
+    },
+    {
+      "path": "oracle-results.json",
+      "exists": false
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6757,
+      "sha256": "04d209b5727b2d527f98fa69df2f6b429ebc9a6cbc65ce339ecd038e3580b809"
+    },
+    {
+      "path": "build.sh",
+      "bytes": 2360,
+      "sha256": "23f9899316aed32b6ea19266fa191243be4cbece0a925def7ef9bb1c33faaeba"
+    },
+    {
+      "path": "launch-build.cjs",
+      "bytes": 801,
+      "sha256": "c5e8186f42fc0db22ac6803b929ddc047cfe03379a1eca0fa83403909270baef"
+    },
+    {
+      "path": "build-preflight.log",
+      "bytes": 803,
+      "sha256": "a3cd6ef1cb57ee7785cd81fa98fa95fe494153c220ac04c8317587c6514bff56"
+    },
+    {
+      "path": "build-configure-interrupted.log",
+      "bytes": 574,
+      "sha256": "430ffa560bf45397942e8de937ab764b44ce416b038353c4fe84ace9184149ef"
+    },
+    {
+      "path": "capabilities.json",
+      "bytes": 609,
+      "sha256": "bacdb4063558dc77eca0288e4f7b7a0bba6277d4b45abebe66779329d1b01e8c"
+    },
+    {
+      "path": "fixture.json",
+      "bytes": 11085,
+      "sha256": "384b81b23f533315384c2e3b36bb87d4004bf61ac676f5fac72b161f138e4490"
+    },
+    {
+      "path": "fixture-provenance.json",
+      "bytes": 730,
+      "sha256": "e0472921a8dc17d5c200edc5675a037e524b7a0cedaae121c145d75533fd84a3"
+    },
+    {
+      "path": "synthetic-mpeg4.mp4",
+      "bytes": 510811,
+      "sha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da"
+    }
+  ]
+}

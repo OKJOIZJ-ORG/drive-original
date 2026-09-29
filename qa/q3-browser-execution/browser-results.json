@@ -1,0 +1,569 @@
+{
+  "fixtureSha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da",
+  "cases": [
+    {
+      "start": 0,
+      "cancelAfter": 0,
+      "observed": {
+        "failure": null,
+        "metrics": {
+          "decoded": 72,
+          "encoded": 72,
+          "inputBytes": 509601,
+          "outputBytes": 472469,
+          "outputWriteBytes": 472572,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 500.90000000596046,
+          "sourceSeconds": 3,
+          "processingRate": 5.989219404999604,
+          "firstTimestamp": 0,
+          "lastTimestamp": 2958333,
+          "config": {
+            "codec": "vp09.00.10.08",
+            "width": 320,
+            "height": 180,
+            "bitrate": 4000000,
+            "framerate": 24,
+            "latencyMode": "realtime",
+            "hardwareAcceleration": "prefer-software"
+          },
+          "colorSpace": {
+            "primaries": "bt709",
+            "transfer": "bt709",
+            "matrix": "bt709",
+            "fullRange": false
+          }
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 472469,
+        "playback": {
+          "frames": 6,
+          "width": 320,
+          "height": 180,
+          "duration": 3,
+          "seeks": [
+            {
+              "target": 0.4,
+              "actual": 0.420573,
+              "frames": 4
+            },
+            {
+              "target": 1.5,
+              "actual": 1.521027,
+              "frames": 5
+            },
+            {
+              "target": 2.5,
+              "actual": 2.520628,
+              "frames": 6
+            }
+          ],
+          "error": null
+        },
+        "urlRevoked": true
+      },
+      "pass": true
+    },
+    {
+      "start": 2.2,
+      "cancelAfter": 0,
+      "observed": {
+        "failure": null,
+        "metrics": {
+          "decoded": 24,
+          "encoded": 24,
+          "inputBytes": 185343,
+          "outputBytes": 122205,
+          "outputWriteBytes": 122298,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 179.79999999701977,
+          "sourceSeconds": 1,
+          "processingRate": 5.5617352614937445,
+          "firstTimestamp": 2000000,
+          "lastTimestamp": 2958333,
+          "config": {
+            "codec": "vp09.00.10.08",
+            "width": 320,
+            "height": 180,
+            "bitrate": 4000000,
+            "framerate": 24,
+            "latencyMode": "realtime",
+            "hardwareAcceleration": "prefer-software"
+          },
+          "colorSpace": {
+            "primaries": "bt709",
+            "transfer": "bt709",
+            "matrix": "bt709",
+            "fullRange": false
+          }
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 122205,
+        "playback": {
+          "frames": 4,
+          "width": 320,
+          "height": 180,
+          "duration": 3,
+          "seeks": [
+            {
+              "target": 2.4,
+              "actual": 2.400269,
+              "frames": 4
+            }
+          ],
+          "error": null
+        },
+        "urlRevoked": true
+      },
+      "pass": true
+    },
+    {
+      "start": 0,
+      "cancelAfter": 5,
+      "observed": {
+        "failure": "Q3_CANCELLED",
+        "metrics": {
+          "decoded": 5,
+          "encoded": 5,
+          "inputBytes": 37718,
+          "outputBytes": 15947,
+          "outputWriteBytes": 15947,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 78.3999999910593,
+          "sourceSeconds": 3,
+          "processingRate": 38.26530612681274
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 15947
+      },
+      "pass": true
+    }
+  ],
+  "requests": [
+    {
+      "start": 1210,
+      "end": 14041
+    },
+    {
+      "start": 14042,
+      "end": 20606
+    },
+    {
+      "start": 20607,
+      "end": 25718
+    },
+    {
+      "start": 25719,
+      "end": 32762
+    },
+    {
+      "start": 32763,
+      "end": 38927
+    },
+    {
+      "start": 38928,
+      "end": 46487
+    },
+    {
+      "start": 46488,
+      "end": 52524
+    },
+    {
+      "start": 52525,
+      "end": 59824
+    },
+    {
+      "start": 59825,
+      "end": 66594
+    },
+    {
+      "start": 66595,
+      "end": 71567
+    },
+    {
+      "start": 71568,
+      "end": 79448
+    },
+    {
+      "start": 79449,
+      "end": 84918
+    },
+    {
+      "start": 84919,
+      "end": 92211
+    },
+    {
+      "start": 92212,
+      "end": 99256
+    },
+    {
+      "start": 99257,
+      "end": 104607
+    },
+    {
+      "start": 104608,
+      "end": 111723
+    },
+    {
+      "start": 111724,
+      "end": 116617
+    },
+    {
+      "start": 116618,
+      "end": 124813
+    },
+    {
+      "start": 124814,
+      "end": 131263
+    },
+    {
+      "start": 131264,
+      "end": 137969
+    },
+    {
+      "start": 137970,
+      "end": 145763
+    },
+    {
+      "start": 145764,
+      "end": 151049
+    },
+    {
+      "start": 151050,
+      "end": 158643
+    },
+    {
+      "start": 158644,
+      "end": 163922
+    },
+    {
+      "start": 163923,
+      "end": 177659
+    },
+    {
+      "start": 177660,
+      "end": 184559
+    },
+    {
+      "start": 184560,
+      "end": 190234
+    },
+    {
+      "start": 190235,
+      "end": 197820
+    },
+    {
+      "start": 197821,
+      "end": 202419
+    },
+    {
+      "start": 202420,
+      "end": 208946
+    },
+    {
+      "start": 208947,
+      "end": 214232
+    },
+    {
+      "start": 214233,
+      "end": 221310
+    },
+    {
+      "start": 221311,
+      "end": 227763
+    },
+    {
+      "start": 227764,
+      "end": 232725
+    },
+    {
+      "start": 232726,
+      "end": 240233
+    },
+    {
+      "start": 240234,
+      "end": 246072
+    },
+    {
+      "start": 246073,
+      "end": 253180
+    },
+    {
+      "start": 253181,
+      "end": 261007
+    },
+    {
+      "start": 261008,
+      "end": 267005
+    },
+    {
+      "start": 267006,
+      "end": 274113
+    },
+    {
+      "start": 274114,
+      "end": 279786
+    },
+    {
+      "start": 279787,
+      "end": 286874
+    },
+    {
+      "start": 286875,
+      "end": 291875
+    },
+    {
+      "start": 291876,
+      "end": 298663
+    },
+    {
+      "start": 298664,
+      "end": 305430
+    },
+    {
+      "start": 305431,
+      "end": 311514
+    },
+    {
+      "start": 311515,
+      "end": 319172
+    },
+    {
+      "start": 319173,
+      "end": 325467
+    },
+    {
+      "start": 325468,
+      "end": 339954
+    },
+    {
+      "start": 339955,
+      "end": 347825
+    },
+    {
+      "start": 347826,
+      "end": 355765
+    },
+    {
+      "start": 355766,
+      "end": 364412
+    },
+    {
+      "start": 364413,
+      "end": 371280
+    },
+    {
+      "start": 371281,
+      "end": 379548
+    },
+    {
+      "start": 379549,
+      "end": 386135
+    },
+    {
+      "start": 386136,
+      "end": 393542
+    },
+    {
+      "start": 393543,
+      "end": 400923
+    },
+    {
+      "start": 400924,
+      "end": 407115
+    },
+    {
+      "start": 407116,
+      "end": 414722
+    },
+    {
+      "start": 414723,
+      "end": 420865
+    },
+    {
+      "start": 420866,
+      "end": 428716
+    },
+    {
+      "start": 428717,
+      "end": 437285
+    },
+    {
+      "start": 437286,
+      "end": 442963
+    },
+    {
+      "start": 442964,
+      "end": 451399
+    },
+    {
+      "start": 451400,
+      "end": 457377
+    },
+    {
+      "start": 457378,
+      "end": 466222
+    },
+    {
+      "start": 466223,
+      "end": 472612
+    },
+    {
+      "start": 472613,
+      "end": 481856
+    },
+    {
+      "start": 481857,
+      "end": 489788
+    },
+    {
+      "start": 489789,
+      "end": 496179
+    },
+    {
+      "start": 496180,
+      "end": 504213
+    },
+    {
+      "start": 504214,
+      "end": 510810
+    },
+    {
+      "start": 325468,
+      "end": 339954
+    },
+    {
+      "start": 339955,
+      "end": 347825
+    },
+    {
+      "start": 347826,
+      "end": 355765
+    },
+    {
+      "start": 355766,
+      "end": 364412
+    },
+    {
+      "start": 364413,
+      "end": 371280
+    },
+    {
+      "start": 371281,
+      "end": 379548
+    },
+    {
+      "start": 379549,
+      "end": 386135
+    },
+    {
+      "start": 386136,
+      "end": 393542
+    },
+    {
+      "start": 393543,
+      "end": 400923
+    },
+    {
+      "start": 400924,
+      "end": 407115
+    },
+    {
+      "start": 407116,
+      "end": 414722
+    },
+    {
+      "start": 414723,
+      "end": 420865
+    },
+    {
+      "start": 420866,
+      "end": 428716
+    },
+    {
+      "start": 428717,
+      "end": 437285
+    },
+    {
+      "start": 437286,
+      "end": 442963
+    },
+    {
+      "start": 442964,
+      "end": 451399
+    },
+    {
+      "start": 451400,
+      "end": 457377
+    },
+    {
+      "start": 457378,
+      "end": 466222
+    },
+    {
+      "start": 466223,
+      "end": 472612
+    },
+    {
+      "start": 472613,
+      "end": 481856
+    },
+    {
+      "start": 481857,
+      "end": 489788
+    },
+    {
+      "start": 489789,
+      "end": 496179
+    },
+    {
+      "start": 496180,
+      "end": 504213
+    },
+    {
+      "start": 504214,
+      "end": 510810
+    },
+    {
+      "start": 1210,
+      "end": 14041
+    },
+    {
+      "start": 14042,
+      "end": 20606
+    },
+    {
+      "start": 20607,
+      "end": 25718
+    },
+    {
+      "start": 25719,
+      "end": 32762
+    },
+    {
+      "start": 32763,
+      "end": 38927
+    }
+  ],
+  "errors": [],
+  "browser": "153.0.8010.54",
+  "native": {
+    "error": 4,
+    "readyState": 0,
+    "width": 0
+  },
+  "sourceCapability": {
+    "codec": "mp4v.20.1",
+    "decoder": false
+  },
+  "pass": true
+}

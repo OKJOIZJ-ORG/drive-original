@@ -1,0 +1,18 @@
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),crypto=require('node:crypto');
+const {chromium}=require('playwright');
+const root=path.resolve(__dirname,'../..'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const allowed=new Set(['fixture.html','fixture.mjs','pipeline.mjs','worker.mjs','codec.mjs','codec.wasm']);
+(async()=>{const fixture=fs.readFileSync(path.join(__dirname,'synthetic-mpeg4.mp4')),manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'fixture.json')));if(sha(fixture)!==manifest.inputSha256)throw Error('Q3_INPUT_HASH');
+ const requests=[],errors=[],result={fixtureSha256:sha(fixture),cases:[],requests,errors};let browser;
+ const server=http.createServer((req,res)=>{if(req.method!=='GET'||req.headers.host!==`127.0.0.1:${server.address().port}`)return res.writeHead(403).end();const u=new URL(req.url,'http://localhost');
+  if(u.pathname==='/fixture.json')return res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify(manifest));
+  if(u.pathname==='/fixture.mp4'){const m=/^bytes=(\d+)-(\d+)$/.exec(req.headers.range||'');if(!m)return res.writeHead(200,{'Content-Type':'video/mp4','Content-Length':fixture.length}).end(fixture);let a=+m[1],b=+m[2];if(a<0||b<a||b>=fixture.length||b-a+1>1048576)return res.writeHead(416).end();requests.push({start:a,end:b});return res.writeHead(206,{'Content-Type':'video/mp4','Content-Range':`bytes ${a}-${b}/${fixture.length}`,'Content-Length':b-a+1}).end(fixture.subarray(a,b+1));}
+  const rel=u.pathname.replace(/^\/qa\/q3-browser-execution\//,'');let file;if(allowed.has(rel))file=path.join(__dirname,rel);else if(u.pathname==='/qa/media-general-routing/vendor/mediabunny.min.mjs')file=path.join(root,u.pathname);else return res.writeHead(404).end();
+  res.writeHead(200,{'Content-Type':file.endsWith('.wasm')?'application/wasm':file.endsWith('.html')?'text/html':'text/javascript','Cache-Control':'no-store'}).end(fs.readFileSync(file));
+ });await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ try{browser=await chromium.launch({channel:'chrome',headless:true});result.browser=browser.version();const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));await page.exposeFunction('saveQ3Output',(start,a)=>fs.writeFileSync(path.join(__dirname,`output-${start}.webm`),Buffer.from(a)));await page.goto(`http://127.0.0.1:${server.address().port}/qa/q3-browser-execution/fixture.html`);
+  result.native=await page.evaluate(()=>window.nativeFailure());
+  result.sourceCapability=await page.evaluate(async()=>({codec:'mp4v.20.1',decoder:(await VideoDecoder.isConfigSupported({codec:'mp4v.20.1',codedWidth:320,codedHeight:180})).supported}));
+  for(const [start,cancelAfter]of [[0,0],[2.2,0],[0,5]]){const c={start,cancelAfter};try{c.observed=await page.evaluate(([s,c])=>window.runQ3(s,c),[start,cancelAfter]);c.pass=cancelAfter?c.observed.failure==='Q3_CANCELLED'&&c.observed.metrics.closed:c.observed.playback?.width===320&&c.observed.playback?.height===180&&c.observed.metrics.decoded===(start?24:72)&&!c.observed.failure;c.pass&&=c.observed.closed&&c.observed.workerCount===0}catch(e){c.error=e.message;c.pass=false}result.cases.push(c)}
+ }catch(e){result.fatal=e.message}finally{await browser?.close();await new Promise(r=>server.close(r));result.pass=result.native?.error===4&&result.sourceCapability?.decoder===false&&result.cases.length===3&&result.cases.every(c=>c.pass)&&!errors.length;fs.writeFileSync(path.join(__dirname,'browser-results.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({pass:result.pass,native:result.native,sourceCapability:result.sourceCapability,cases:result.cases,fatal:result.fatal}));if(!result.pass)process.exitCode=1}
+})();

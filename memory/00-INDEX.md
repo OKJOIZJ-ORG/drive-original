@@ -77,3 +77,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `Q0-REVISION-SNAPSHOT-20260929.md` — actual disposable A/B revision pin proof, preserved failed baseline and bounded consumer-drain repair; product integration remains separate.
 - `Q0-PRODUCT-20260929.md` — actual app/SW immutable revision, cold-control and full-original ownership, independent protocol/native proof and candidate delivery boundary.
 - `CANDIDATE-RC14-20260930.md` — fixed rc.14 public/cache/Worker and package identity, signed-in desktop WebM/large-ISO playback, and explicit transfer/device limits.
+- `Q3-FEASIBILITY-20260930.md` — synthetic MPEG4 Part 2 to lossy VP9 build/browser/oracle proof; corpus necessity, product integration and physical devices remain open.

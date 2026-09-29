@@ -1,0 +1,31 @@
+{
+  "command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc2=size=320x180:rate=24:duration=3",
+    "-vf",
+    "setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv",
+    "-c:v",
+    "mpeg4",
+    "-q:v",
+    "2",
+    "-bf",
+    "0",
+    "-g",
+    "24",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "-y",
+    "synthetic-mpeg4.mp4"
+  ],
+  "version": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r",
+  "inputSha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da",
+  "producerSha256": "98ffa11c2dfba08374381d910e7d2ba11244c6bea7be155043c5353d3c8f3d42"
+}

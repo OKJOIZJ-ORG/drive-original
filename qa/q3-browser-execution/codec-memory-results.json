@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "method": "Actual WASM memory-section inspection; no runtime allocation",
+  "sha256": "83ee07e7ca450271c5c380c8d76ff42473d2ac4cfb5b3916bf5b2b5c02a7740b",
+  "bytes": 614111,
+  "memory": {
+    "flags": 1,
+    "initialPages": 512,
+    "maximumPages": 1024,
+    "initialBytes": 33554432,
+    "maximumBytes": 67108864
+  },
+  "scope": "Engine memory only; not Chrome/encoder/JS/build total memory",
+  "producerSha256": "59ab41efb49c0cebda1714af028793567d3a745454af25446e466e2e3d9480f4"
+}

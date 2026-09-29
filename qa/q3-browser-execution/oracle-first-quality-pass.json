@@ -1,0 +1,44 @@
+{
+  "pass": true,
+  "method": "Independent native FFmpeg raw I420 decode; full three-plane MSE, aligned native-source frame48 for seek2.2s. Synthetic SDR only; thresholds qualify this fixture, not perceptual equivalence or HDR.",
+  "rows": [
+    {
+      "name": "output-0.webm",
+      "sha256": "5cd1c99acbcca5e7f0784228aa4305fb1f6e56ba59ce14b89a20d21d9fd85887",
+      "decodedFrames": 72,
+      "sourceDecodedFrames": 72,
+      "psnrAllYuv": 52.5422381909618,
+      "minimumFramePsnr": 47.17450990150989,
+      "width": 320,
+      "height": 180,
+      "pixelFormat": "yuv420p",
+      "codec": "vp9",
+      "colorSpace": "bt709",
+      "colorPrimaries": "bt709",
+      "colorTransfer": "bt709",
+      "colorRange": "tv",
+      "avgFrameRate": "24/1",
+      "pass": true
+    },
+    {
+      "name": "output-2.2.webm",
+      "sha256": "8f41650db437cff8775c9f5d4391a6f579f4710fc38778c1203be7e9765cf35f",
+      "decodedFrames": 24,
+      "sourceDecodedFrames": 72,
+      "psnrAllYuv": 49.742248959209974,
+      "minimumFramePsnr": 46.45383635574401,
+      "width": 320,
+      "height": 180,
+      "pixelFormat": "yuv420p",
+      "codec": "vp9",
+      "colorSpace": "bt709",
+      "colorPrimaries": "bt709",
+      "colorTransfer": "bt709",
+      "colorRange": "tv",
+      "avgFrameRate": "24/1",
+      "pass": true
+    }
+  ],
+  "producerSha256": "c0953ac4575ca8f4adf720403d548787d5c87166b307d56d8b9e0b1a4b92303c",
+  "sourceSha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da"
+}

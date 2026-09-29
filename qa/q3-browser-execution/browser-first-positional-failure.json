@@ -1,0 +1,304 @@
+{
+  "fixtureSha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da",
+  "cases": [
+    {
+      "start": 0,
+      "cancelAfter": 0,
+      "observed": {
+        "failure": "Q3_OUTPUT_BUDGET",
+        "metrics": {
+          "decoded": 25,
+          "encoded": 25,
+          "inputBytes": 176450,
+          "outputBytes": 108815,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 197.3999999910593,
+          "sourceSeconds": 3,
+          "processingRate": 15.197568389746083
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 108815
+      },
+      "pass": false
+    },
+    {
+      "start": 2.2,
+      "cancelAfter": 0,
+      "observed": {
+        "failure": "Q3_OUTPUT_BUDGET",
+        "metrics": {
+          "decoded": 24,
+          "encoded": 24,
+          "inputBytes": 185343,
+          "outputBytes": 122177,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 196,
+          "sourceSeconds": 1,
+          "processingRate": 5.1020408163265305
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 122177
+      },
+      "pass": false
+    },
+    {
+      "start": 0,
+      "cancelAfter": 5,
+      "observed": {
+        "failure": "Q3_CANCELLED",
+        "metrics": {
+          "decoded": 5,
+          "encoded": 5,
+          "inputBytes": 37718,
+          "outputBytes": 15947,
+          "peakQueue": 1,
+          "peakWasmBytes": 33554432,
+          "closed": true,
+          "elapsedMs": 55.79999999701977,
+          "sourceSeconds": 3,
+          "processingRate": 53.763440863086515
+        },
+        "closed": true,
+        "workerCount": 0,
+        "outputBytes": 15947
+      },
+      "pass": true
+    }
+  ],
+  "requests": [
+    {
+      "start": 1210,
+      "end": 14041
+    },
+    {
+      "start": 14042,
+      "end": 20606
+    },
+    {
+      "start": 20607,
+      "end": 25718
+    },
+    {
+      "start": 25719,
+      "end": 32762
+    },
+    {
+      "start": 32763,
+      "end": 38927
+    },
+    {
+      "start": 38928,
+      "end": 46487
+    },
+    {
+      "start": 46488,
+      "end": 52524
+    },
+    {
+      "start": 52525,
+      "end": 59824
+    },
+    {
+      "start": 59825,
+      "end": 66594
+    },
+    {
+      "start": 66595,
+      "end": 71567
+    },
+    {
+      "start": 71568,
+      "end": 79448
+    },
+    {
+      "start": 79449,
+      "end": 84918
+    },
+    {
+      "start": 84919,
+      "end": 92211
+    },
+    {
+      "start": 92212,
+      "end": 99256
+    },
+    {
+      "start": 99257,
+      "end": 104607
+    },
+    {
+      "start": 104608,
+      "end": 111723
+    },
+    {
+      "start": 111724,
+      "end": 116617
+    },
+    {
+      "start": 116618,
+      "end": 124813
+    },
+    {
+      "start": 124814,
+      "end": 131263
+    },
+    {
+      "start": 131264,
+      "end": 137969
+    },
+    {
+      "start": 137970,
+      "end": 145763
+    },
+    {
+      "start": 145764,
+      "end": 151049
+    },
+    {
+      "start": 151050,
+      "end": 158643
+    },
+    {
+      "start": 158644,
+      "end": 163922
+    },
+    {
+      "start": 163923,
+      "end": 177659
+    },
+    {
+      "start": 325468,
+      "end": 339954
+    },
+    {
+      "start": 339955,
+      "end": 347825
+    },
+    {
+      "start": 347826,
+      "end": 355765
+    },
+    {
+      "start": 355766,
+      "end": 364412
+    },
+    {
+      "start": 364413,
+      "end": 371280
+    },
+    {
+      "start": 371281,
+      "end": 379548
+    },
+    {
+      "start": 379549,
+      "end": 386135
+    },
+    {
+      "start": 386136,
+      "end": 393542
+    },
+    {
+      "start": 393543,
+      "end": 400923
+    },
+    {
+      "start": 400924,
+      "end": 407115
+    },
+    {
+      "start": 407116,
+      "end": 414722
+    },
+    {
+      "start": 414723,
+      "end": 420865
+    },
+    {
+      "start": 420866,
+      "end": 428716
+    },
+    {
+      "start": 428717,
+      "end": 437285
+    },
+    {
+      "start": 437286,
+      "end": 442963
+    },
+    {
+      "start": 442964,
+      "end": 451399
+    },
+    {
+      "start": 451400,
+      "end": 457377
+    },
+    {
+      "start": 457378,
+      "end": 466222
+    },
+    {
+      "start": 466223,
+      "end": 472612
+    },
+    {
+      "start": 472613,
+      "end": 481856
+    },
+    {
+      "start": 481857,
+      "end": 489788
+    },
+    {
+      "start": 489789,
+      "end": 496179
+    },
+    {
+      "start": 496180,
+      "end": 504213
+    },
+    {
+      "start": 504214,
+      "end": 510810
+    },
+    {
+      "start": 1210,
+      "end": 14041
+    },
+    {
+      "start": 14042,
+      "end": 20606
+    },
+    {
+      "start": 20607,
+      "end": 25718
+    },
+    {
+      "start": 25719,
+      "end": 32762
+    },
+    {
+      "start": 32763,
+      "end": 38927
+    }
+  ],
+  "errors": [],
+  "browser": "153.0.8010.54",
+  "native": {
+    "error": 4,
+    "readyState": 0,
+    "width": 0
+  },
+  "sourceCapability": {
+    "codec": "mp4v.20.1",
+    "decoder": false
+  },
+  "pass": false
+}
