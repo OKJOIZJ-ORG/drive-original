@@ -1,0 +1,34 @@
+{
+  "schema": "drive-original.rc21-sql-usage/1",
+  "recordedAt": "2026-09-30T07:17:46.371Z",
+  "producerSHA256": "e05bb7949b71aef8dcb858bbca26a03365fe7458e109c64946d7085b1bc834f4",
+  "readOnly": true,
+  "logsRead": false,
+  "settingsWrites": 0,
+  "window": {
+    "start": "2026-09-30T00:00:00.000Z",
+    "end": "2026-09-30T07:17:47.533Z"
+  },
+  "endpoint": {
+    "category": "sql-row-and-namespace-usage",
+    "status": 200,
+    "bytes": 277,
+    "rawSHA256": "c266508ed0ae6609ccb67e86774aa202bc9ae4e200a7eb554687f90aa364f958",
+    "success": true
+  },
+  "rows": [
+    {
+      "exceededCpuErrors": 0,
+      "rowsRead": 116,
+      "rowsWritten": 58
+    }
+  ],
+  "storage": {
+    "namespaceGroupCount": 1,
+    "limit": 100,
+    "limitReached": false,
+    "sumOfNamespaceMaxStoredBytes": 425984,
+    "interpretation": "sum of namespace maximum stored bytes within UTC day; not an exact instantaneous or billing usage measurement"
+  },
+  "complete": true
+}

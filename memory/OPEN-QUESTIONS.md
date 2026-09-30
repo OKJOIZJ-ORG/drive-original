@@ -57,3 +57,23 @@ and exact live priority/full-format playback remain separate open evidence.
 ## 2026-09-30 — actual worker replacement and remaining reload chain
 
 Actual19→20 SWreplacement cancelsQ1 silently andmakesoldworkerretirementunconfirmed.21boundedrepair showsreloadrecovery andkeepsfalsebarrier. Six isolatedsame-scope replacement→reload→reopen aggregates stayfailed; v3-v6observeanothercontrollerchange/safeerror innewdoc despitefixedmain-script hash/canonicalupdatewait. Importedscript/cache/activationcontinuity cause remainsUNKNOWN. Separate stable21current-owner decode/close ispassing, notintegrationchainclosure. WORKER-UPDATE-RECOVERY-20260930.md/qa/rc21-controller-change ownpreciserecords. Natural19credentialdeadlineadvance/postdeadline20frame observed; uninterruptedbefore/afterposition criterion remainsopen.
+
+## 2026-09-30 — environment-only preparation, D-064
+
+Product execution is waiting for the human's explicit nighttime start. Android
+connection is explicitly deferred; portable scrcpy/ADB is prepared, with no ADB
+device detected. Existing Cloudflare account-home login is observed in normal
+Chrome. Corpus extension file-URL permission/manual toggle remains unanswered
+and unverified; no setting changed. Codexon shutdown was explicitly authorized,
+performed and followed by a passing memory readiness check. No physical/iOS or
+full-goal acceptance is inferred. NIGHT-ENVIRONMENT-20260930.md owns prerequisites.
+
+Before the scope change, new controller continuity evidence showed equal compiled
+main/imported script bodies through four actual activations and stable no-media
+routed/unrouted controls. Fixed Buffer serving is the prepared next discriminator;
+its two existing attempts stopped at the old memory floor before browser launch.
+Preserve those failed records and execute a new attempt only after explicit resume.
+Current memory recovery removes that launch blocker without establishing the
+replacement/reload/reopen behavior. qa/rc21-hosting-security records actual official
+aggregate analytics and local synthetic security; exact plan/billing safety and
+null/omitted effective observability still need narrow logged-in dashboard reads.

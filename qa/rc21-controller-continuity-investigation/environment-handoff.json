@@ -1,0 +1,88 @@
+{
+  "state": "Stopped at explicit environment-only human scope; no later task execution authorized",
+  "productEdits": false,
+  "oldEvidenceModified": false,
+  "ownedNativeBrowsersClosed": true,
+  "ownedServersClosed": true,
+  "prelaunchFirstServer": "idle owned session interrupted after memory guard failed; note retained",
+  "sourceBoundChecks": [
+    {
+      "producer": "diagnostic.cjs",
+      "record": "diagnostic-results.json",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "source": {
+        "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+        "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+        "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+        "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+        "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+      }
+    },
+    {
+      "producer": "routing-control.cjs",
+      "record": "routing-control-results.json",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "source": {
+        "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+        "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+        "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+        "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+        "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+      }
+    },
+    {
+      "producer": "stored-script.cjs",
+      "record": "stored-script-results.json",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "source": {
+        "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+        "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+        "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+        "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+        "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+      }
+    },
+    {
+      "producer": "fixed-body.cjs",
+      "record": "fixed-body-results.json",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "source": {
+        "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+        "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+        "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+        "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+        "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+      }
+    },
+    {
+      "producer": "fixed-body-v2.cjs",
+      "record": "fixed-body-v2-results.json",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "source": {
+        "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+        "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+        "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+        "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+        "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+      }
+    }
+  ],
+  "lastSafeMemoryReadbackKiB": {
+    "FreePhysicalMemory": 1595564,
+    "FreeVirtualMemory": 1153940
+  },
+  "existingLaunchFloorKiB": {
+    "FreePhysicalMemoryGreaterThan": 1048576,
+    "FreeVirtualMemoryGreaterThan": 1572864
+  },
+  "readyForNativeLaunch": false,
+  "chromeMcp": "attempted list_pages; managed-profile-in-use boundary; no other browser/process touched",
+  "installedNativeBrowserObserved": "Chrome154.0.8037.58",
+  "dependencies": "existing qa/node_modules/playwright reused; no addition",
+  "nextWorkRequiresLaterExplicitResume": true
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "drive-original.rc21-metric-schema/1",
+  "recordedAt": "2026-09-30T07:15:19.038Z",
+  "producerSHA256": "2012564c682acff0610474d6ca9644237881bb9a4b961d689320d99229770084",
+  "endpoints": [
+    {
+      "category": "billing-usage-info",
+      "status": 403,
+      "bytes": 221,
+      "rawSHA256": "e1ae075d33a483720961431ea92acb68953ada258e8822e5259adbaad6eb4ca4",
+      "success": false,
+      "errorCodes": [
+        10000
+      ]
+    },
+    {
+      "category": "metric-type-schema",
+      "status": 200,
+      "bytes": 120670,
+      "rawSHA256": "67796ddfea1cb39b3fd5b0b39ab56b488fee25c3ef99390d8862b6162859ba5f",
+      "success": true,
+      "errorCodes": []
+    }
+  ],
+  "schemaTypeNames": [
+    "AccountDurableObjectsPeriodicGroups",
+    "AccountDurableObjectsPeriodicGroupsAvg",
+    "AccountDurableObjectsPeriodicGroupsConfidence",
+    "AccountDurableObjectsPeriodicGroupsDimensions",
+    "AccountDurableObjectsPeriodicGroupsFilter_InputObject",
+    "AccountDurableObjectsPeriodicGroupsMax",
+    "AccountDurableObjectsPeriodicGroupsOrderBy",
+    "AccountDurableObjectsPeriodicGroupsQuantiles",
+    "AccountDurableObjectsPeriodicGroupsSum",
+    "AccountDurableObjectsPeriodicGroupsSumConfidence",
+    "AccountDurableObjectsSqlStorageGroups",
+    "AccountDurableObjectsSqlStorageGroupsDimensions",
+    "AccountDurableObjectsSqlStorageGroupsFilter_InputObject",
+    "AccountDurableObjectsSqlStorageGroupsMax",
+    "AccountDurableObjectsSqlStorageGroupsOrderBy",
+    "AccountDurableObjectsStorageGroups",
+    "AccountDurableObjectsStorageGroupsDimensions",
+    "AccountDurableObjectsStorageGroupsFilter_InputObject",
+    "AccountDurableObjectsStorageGroupsMax",
+    "AccountDurableObjectsStorageGroupsOrderBy",
+    "AccountWorkersInvocationsAdaptiveQuantiles",
+    "account"
+  ],
+  "readOnly": true,
+  "logsRead": false,
+  "settingsWrites": 0,
+  "complete": true
+}

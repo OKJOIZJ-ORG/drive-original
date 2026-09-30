@@ -1,0 +1,259 @@
+{
+  "schema": "drive-original.rc21-hosting-security/1",
+  "recordedAt": "2026-09-30T07:13:24.787Z",
+  "HEAD": "0fcb50bfe7ff7beec3c9469a0f759ccd41e27872",
+  "publicSource": "3ebd97df80144fb8ebbaf1f945394a796d4425b8",
+  "workerVersion": "b1021a42-fb32-47d5-92be-7fd92736faf7",
+  "producerSHA256": "6a4f0fe643da132e2e85c30c890bb013f9212435174b00f8c733c5547d61daee",
+  "configSHA256": "8e114319544b690f25d14a512e684722f9cf96810095cd0f57125c907b8a6502",
+  "readOnly": true,
+  "logsRead": false,
+  "candidateRequests": 0,
+  "settingsWrites": 0,
+  "grantWrites": 0,
+  "endpoints": [
+    {
+      "category": "active-before",
+      "method": "GET",
+      "status": 200,
+      "bytes": 748,
+      "rawSHA256": "31740d54ccf9b3902400b75aaed68f95bad939a2b1be5dc348d7bfacf71523a1",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "deployments"
+      ]
+    },
+    {
+      "category": "script-settings",
+      "method": "GET",
+      "status": 200,
+      "bytes": 169,
+      "rawSHA256": "d6e106036c63cb6c7f0e3486dff3abf5d06f517356721c62dd1d3b0c8226f1a4",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "logpush",
+        "tail_consumers",
+        "observability"
+      ]
+    },
+    {
+      "category": "combined-settings",
+      "method": "GET",
+      "status": 200,
+      "bytes": 1633,
+      "rawSHA256": "708a50b1638381bd6b153ca85628e68a153c843ec3326ad93824ddb2aaee3309",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "usage_model",
+        "tail_consumers",
+        "logpush",
+        "bindings"
+      ]
+    },
+    {
+      "category": "fixed-version-settings",
+      "method": "GET",
+      "status": 200,
+      "bytes": 3103,
+      "rawSHA256": "9015c480ccf5565dc6c4b24420a327fb126a7f4507d2955942e3c5cef6260747",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "id",
+        "metadata",
+        "resources"
+      ]
+    },
+    {
+      "category": "worker-account-settings",
+      "method": "GET",
+      "status": 200,
+      "bytes": 141,
+      "rawSHA256": "d542afb22b50f36b93b9a92e2080f2fe29adec24431702f94eb3ee4dd2488b68",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "default_usage_model",
+        "green_compute"
+      ]
+    },
+    {
+      "category": "account-subscriptions",
+      "method": "GET",
+      "status": 403,
+      "bytes": 223,
+      "rawSHA256": "a5b2a281241b93616e78c82514678cdbcd91c5e6fc7f0840814c62e06ed5f62c",
+      "success": false,
+      "errorCodes": [
+        10000
+      ],
+      "responseFields": []
+    },
+    {
+      "category": "aggregate-analytics",
+      "method": "POST(read-only-query)",
+      "status": 200,
+      "bytes": 404,
+      "rawSHA256": "64a39867ad9e0e101b87e8f2a6da1cf2751263acc9f43cdcfccc910f0b2f3d20",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "viewer"
+      ]
+    },
+    {
+      "category": "active-after",
+      "method": "GET",
+      "status": 200,
+      "bytes": 748,
+      "rawSHA256": "31740d54ccf9b3902400b75aaed68f95bad939a2b1be5dc348d7bfacf71523a1",
+      "success": true,
+      "errorCodes": [],
+      "responseFields": [
+        "deployments"
+      ]
+    }
+  ],
+  "settings": {
+    "script": {
+      "observabilityFieldPresent": true,
+      "observabilityExplicitNull": true,
+      "enabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "logpush": false,
+      "tailConsumersPresent": null,
+      "cpuLimitMs": null,
+      "usageModel": null
+    },
+    "combined": {
+      "observabilityFieldPresent": false,
+      "observabilityExplicitNull": false,
+      "enabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "logpush": false,
+      "tailConsumersPresent": false,
+      "cpuLimitMs": null,
+      "usageModel": "standard"
+    },
+    "version": {
+      "observabilityFieldPresent": false,
+      "observabilityExplicitNull": false,
+      "enabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "logpush": null,
+      "tailConsumersPresent": null,
+      "cpuLimitMs": null,
+      "usageModel": null
+    },
+    "versionResourcesFields": [
+      "script",
+      "script_runtime",
+      "bindings"
+    ]
+  },
+  "account": {
+    "readSucceeded": true,
+    "defaultUsageModel": "standard",
+    "greenCompute": false
+  },
+  "subscriptions": {
+    "readSucceeded": false,
+    "returnedCount": null,
+    "workerPlans": null
+  },
+  "analytics": {
+    "readSucceeded": true,
+    "totals": [
+      {
+        "accountWorkers": [
+          {
+            "sum": {
+              "errors": 0,
+              "requests": 70,
+              "subrequests": 76
+            }
+          }
+        ],
+        "candidateWorkers": [
+          {
+            "quantiles": {
+              "cpuTimeP50": 1192,
+              "cpuTimeP99": 6029
+            },
+            "sum": {
+              "errors": 0,
+              "requests": 70,
+              "subrequests": 76
+            }
+          }
+        ],
+        "durableRequests": [
+          {
+            "sum": {
+              "requests": 48
+            }
+          }
+        ],
+        "durableCPU": [
+          {
+            "sum": {
+              "cpuTime": 93146
+            }
+          }
+        ],
+        "durableStorage": []
+      }
+    ]
+  },
+  "complete": true,
+  "auth": {
+    "wranglerDiskLogging": false,
+    "wranglerMetrics": false,
+    "credentialPassedInArguments": false,
+    "newLogin": false,
+    "credentialStoreUnchanged": false
+  },
+  "analyticsWindow": {
+    "start": "2026-09-30T00:00:00.000Z",
+    "end": "2026-09-30T07:13:29.098Z",
+    "scope": "account totals + candidate worker, current UTC day"
+  },
+  "identity": {
+    "activeVersionMatched": true,
+    "activeDeploymentStable": true,
+    "HEADStable": true,
+    "configStable": true
+  },
+  "finishedAt": "2026-09-30T07:13:30.825Z",
+  "responseBytes": 7169
+}

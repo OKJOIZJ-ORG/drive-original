@@ -4,7 +4,7 @@
 
 Bring Drive Original's mobile and desktop media-library experience to a commercially credible level across gesture navigation, playback controls, dialogs, authentication, streaming, thumbnails, bulk actions, performance, and latent-defect recovery.
 
-**Execution state — 2026-09-30:** ACTIVE under D-061/D-062. Fixed rc18 f6749c1/Worker7eb9f9d7-c072-4095-bc94-d6776c69ad4b passes563 Node, native4image,52/40 delivery/source-readiness/ZIP and actual normal existing-account update. Fixed rc17 actual paused TS10/50/90/repeat50 and native Q0/Q2 six seeks remain accepted. One actual18 paused50% frame13.3749s; serial13metadata+6Ranges consume10.7381s before sampled buffering. Bounded within-generation probe reuse is being evaluated; correctness fences retained. Automatic synthetic420s Q2 ended and observer-qualified50/150/170 lifecycle pass in their scopes. Actual corpus file-URL permission/manual toggle, physical/expiry/return/two-device/full-format/Q3/production gates remain open. Actual hosted settings prove Logpush=false/no Tail Worker; observability null/omitted leaves collection/sampling/persistence unknown. CANDIDATE-RC18-20260930.md owns fixed delivery/evidence limits. Productionv1.21.0/e08989a; global Drive mutationsfalse; automationPAUSED.
+**Execution state — 2026-09-30:** ENVIRONMENT ONLY / WAIT under D-064. Fixed public source3ebd97d/runtime1.22.0-rc.21/Workerb1021a42-fb32-47d5-92be-7fd92736faf7 and committed624local/delivery/actual normalPC evidence are preserved; CANDIDATE-RC21-20260930.md owns scope. Codexon shutdown and memory recovery, portable Android tools, actual Chrome MCP and existing Cloudflare dashboard login are prepared. Android connection is explicitly deferred. Product/media/acceptance execution requires the human's later nighttime start; no automation/wakeup was created. Corpus file-URL permission, full SW recovery, uninterrupted expiry/position, real devices/OSreturn/two-device/full formats, exact plan/effective observability and separate production authority remain open. NIGHT-ENVIRONMENT-20260930.md owns preparation. Whole goal incomplete; productionv1.21.0/e08989a/global Drive mutationsfalse/automationPAUSED.
 
 ## Definition of done
 
@@ -597,3 +597,25 @@ Confirmed892722c/Worker553d8644 delivery52/cache40/source26/six/package,605stabl
 ### 2026-09-30 — rc.21 bounded worker recovery and honest delivery boundary
 
 D-061/D-062 continuation produced source3ebd97d/runtime21/Workerb1021a42. A real old-controller Q1 silent cancellation is replaced by visible explicit document-reload guidance while retaining the unconfirmed retirement barrier and file/account/lifetime fences.19focused+5existing/624stableNode/read-only independent review and separate exact21 stable native TS/current-owner/frame/settledclose pass. Six complete real replacement/reload/reopen chains remain failed with additional controller replacement after reload; cause unknown, no fullSW01/REL02 promotion.52public/40cache/source26/six/exactZIP and actual same-account normal21update/knownfolder458/nativeframe/settledclose pass. Remaining corpus permission, full replacement chain, uninterrupted expiry/position, physical/two-device/OSreturn, authenticatedsecurity/explicitobservability and production-authority gates remain open. Goal incomplete; no production/main/push/original/automation changes. CANDIDATE-RC21-20260930.md owns final scope.
+
+### 2026-09-30 — environment-only preparation, explicit nighttime resume pending
+
+D-064 replaces current execution with environment preparation and WAIT; earlier
+continuation entries are historical. Codexon shutdown was explicitly authorized
+and verified, allowing the existing native-launch memory floor to pass. Official
+portable scrcpy4.1/ADB1.0.41 archive/hash/version checks pass. Android connection
+is deferred by the human; no device or mobile acceptance is claimed. Actual
+managed Chrome MCP list/evaluate and native Windows inventory were observed
+callable; normal Chrome's existing Cloudflare account-home login is ready.
+Prepared local preflight and zero-context resume guide are environment outputs,
+not product tests or whole-goal closure. No product code/deployment/media/state
+write/permission expansion/automation resume took place during preparation.
+
+Prior-scope new controller/hosting/Android discovery evidence is curated as a
+savepoint without changing old results. Preserve six failed full recovery chains
+and two memory-gated fixed-body attempts; only a new named attempt may run after
+explicit resume. Read-only official analytics now inform the security/hosting
+gates, but exact Free/plan/billing safety and effective null/omitted observability
+remain unknown. Corpus transport failed before factory execution; extension
+file-URL approval/manual setup remains pending. NIGHT-ENVIRONMENT-20260930.md
+and qa/night-environment-20260930 own the preparation evidence and boundaries.

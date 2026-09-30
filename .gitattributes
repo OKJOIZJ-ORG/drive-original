@@ -128,3 +128,10 @@
 /qa/rc21-independent-review/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/candidate-rc21-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
 /tests/controller-change.test.js -text whitespace=cr-at-eol,-blank-at-eol
+
+# Preserve environment-preparation and prior-scope rc21 evidence bytes.
+/qa/rc21-controller-continuity-investigation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc21-hosting-security/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc21-android-qualification/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc21-actual-corpus/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/night-environment-20260930/** -text whitespace=cr-at-eol,-blank-at-eol

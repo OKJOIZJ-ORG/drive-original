@@ -1,0 +1,682 @@
+{
+  "scope": "Native exact app/SW one fixed update and repeated same-byte check/reload, routing vs no-routing, no media/account/auth injection; isolates harness lifecycle behavior only",
+  "producerStart": {
+    "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+    "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "producerSha256": "b2bc80b8796f6581f8893cc6fd65882c84e5267e4c7a97bcad0abc99ffa0f6a1",
+  "cases": [
+    {
+      "routing": true,
+      "scriptResponses": [
+        {
+          "ms": 594,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 753,
+          "category": "main-worker",
+          "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+          "replacement": false,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 810,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 878,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "empty"
+        },
+        {
+          "ms": 3529,
+          "category": "main-worker",
+          "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+          "replacement": false,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 3538,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 4003,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 4022,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 4052,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "empty"
+        },
+        {
+          "ms": 5312,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 5317,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 8003,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "empty"
+        },
+        {
+          "ms": 9737,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 9740,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 10068,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 10071,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        }
+      ],
+      "versions": [
+        {
+          "ms": 740,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 762,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 768,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 768,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 821,
+          "worker": "worker-1",
+          "status": "installing",
+          "running": "starting"
+        },
+        {
+          "ms": 821,
+          "worker": "worker-1",
+          "status": "installing",
+          "running": "running"
+        },
+        {
+          "ms": 1300,
+          "worker": "worker-1",
+          "status": "installed",
+          "running": "running"
+        },
+        {
+          "ms": 1300,
+          "worker": "worker-1",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 1300,
+          "worker": "worker-1",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 1300,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 4008,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 4008,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 4008,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 4014,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 4027,
+          "worker": "worker-2",
+          "status": "installing",
+          "running": "starting"
+        },
+        {
+          "ms": 4027,
+          "worker": "worker-2",
+          "status": "installing",
+          "running": "running"
+        },
+        {
+          "ms": 4265,
+          "worker": "worker-2",
+          "status": "installed",
+          "running": "running"
+        },
+        {
+          "ms": 4266,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "stopping"
+        },
+        {
+          "ms": 4269,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "stopped"
+        },
+        {
+          "ms": 4269,
+          "worker": "worker-1",
+          "status": "redundant",
+          "running": "stopped"
+        },
+        {
+          "ms": 4269,
+          "worker": "worker-2",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 4269,
+          "worker": "worker-2",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 5282,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 7941,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 7966,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        }
+      ],
+      "stages": [
+        {
+          "stage": "initial-startup-check-complete",
+          "ms": 3991,
+          "versions": 1,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "one-fixed-update",
+          "ms": 5295,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "same-bytes-explicit-check",
+          "ms": 7932,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "same-bytes-reload-startup-check",
+          "ms": 11595,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        }
+      ],
+      "completed": true,
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "routing": false,
+      "scriptResponses": [
+        {
+          "ms": 617,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 772,
+          "category": "main-worker",
+          "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+          "replacement": false,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 793,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 823,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "empty"
+        },
+        {
+          "ms": 3641,
+          "category": "main-worker",
+          "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+          "replacement": false,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 3653,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": false,
+          "destination": "script"
+        },
+        {
+          "ms": 3769,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 3788,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 3805,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "empty"
+        },
+        {
+          "ms": 5047,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 5049,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 7719,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "empty"
+        },
+        {
+          "ms": 9672,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 9675,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        },
+        {
+          "ms": 9784,
+          "category": "main-worker",
+          "sha256": "fcbe10b47122539c52db255bb2fbb6b71e9fb0e450c5453de80d76178002a55d",
+          "replacement": true,
+          "destination": "serviceworker"
+        },
+        {
+          "ms": 9787,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "replacement": true,
+          "destination": "script"
+        }
+      ],
+      "versions": [
+        {
+          "ms": 770,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 776,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 780,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 780,
+          "worker": "worker-1",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 798,
+          "worker": "worker-1",
+          "status": "installing",
+          "running": "starting"
+        },
+        {
+          "ms": 799,
+          "worker": "worker-1",
+          "status": "installing",
+          "running": "running"
+        },
+        {
+          "ms": 1043,
+          "worker": "worker-1",
+          "status": "installed",
+          "running": "running"
+        },
+        {
+          "ms": 1043,
+          "worker": "worker-1",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 1044,
+          "worker": "worker-1",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 1044,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 3774,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "stopped"
+        },
+        {
+          "ms": 3774,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 3774,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 3778,
+          "worker": "worker-2",
+          "status": "new",
+          "running": "starting"
+        },
+        {
+          "ms": 3792,
+          "worker": "worker-2",
+          "status": "installing",
+          "running": "starting"
+        },
+        {
+          "ms": 3792,
+          "worker": "worker-2",
+          "status": "installing",
+          "running": "running"
+        },
+        {
+          "ms": 4016,
+          "worker": "worker-2",
+          "status": "installed",
+          "running": "running"
+        },
+        {
+          "ms": 4017,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "stopping"
+        },
+        {
+          "ms": 4022,
+          "worker": "worker-1",
+          "status": "activated",
+          "running": "stopped"
+        },
+        {
+          "ms": 4022,
+          "worker": "worker-1",
+          "status": "redundant",
+          "running": "stopped"
+        },
+        {
+          "ms": 4022,
+          "worker": "worker-2",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 4022,
+          "worker": "worker-2",
+          "status": "activating",
+          "running": "running"
+        },
+        {
+          "ms": 5033,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 7669,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        },
+        {
+          "ms": 7693,
+          "worker": "worker-2",
+          "status": "activated",
+          "running": "running"
+        }
+      ],
+      "stages": [
+        {
+          "stage": "initial-startup-check-complete",
+          "ms": 3760,
+          "versions": 1,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "one-fixed-update",
+          "ms": 5036,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "same-bytes-explicit-check",
+          "ms": 7656,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        },
+        {
+          "stage": "same-bytes-reload-startup-check",
+          "ms": 11319,
+          "versions": 2,
+          "controllerState": "activated",
+          "activeState": "activated",
+          "installing": false,
+          "waiting": false,
+          "selected": false,
+          "q1": false,
+          "cleanup": {
+            "settled": true
+          }
+        }
+      ],
+      "completed": true,
+      "browserClosed": true,
+      "serverClosed": true
+    }
+  ],
+  "browser": "154.0.8037.58",
+  "producerEnd": {
+    "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+    "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "completed": true
+}

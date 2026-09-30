@@ -391,6 +391,8 @@ D-056의 pause-without-overlay, D-057의 Android 대안, D-050의 기존 권한
 
 sweep: checkpoint/goal execution resumed; consumed single-use handoff removed (2026-09-29)
 
+→ execution temporarily superseded by D-064 (2026-09-30); objective and authority boundaries remain.
+
 ## D-062 · 수면 중 자율 진행과 전체 품질 개선 — 2026-09-29 (User-confirmed)
 
 사용자는 자러 가므로 찾지 말고 스스로 진행해 끝까지 완료하라고 명시했고,
@@ -404,8 +406,18 @@ D-056의 일시정지와 chrome 독립, D-057의 Android 대안과 증거 구분
 
 sweep: active core investigation and queued product polish aligned to autonomous quality scope.
 
+→ execution temporarily superseded by D-064 (2026-09-30); objective and authority boundaries remain.
+
 ## D-063 · 후속 에이전트 모델과 새 채팅 전환 — 2026-09-30 (User-confirmed)
 
 사용자는 현재 작업을 계속하되 Astra 하위 에이전트는 실제로 막히거나 어려운 경우에만 선택적으로 사용하고, 일반 하위 작업은 6 Sol을 우선하라고 했다. 6.1 Sol이 실제로 사용 가능해지면 이 프로젝트에 새 채팅을 만들고 상위 에이전트를 6.1 Sol Extra High로, 하위 에이전트도 원칙적으로 6.1 Sol로 운영한다. 하위 에이전트 추론량은 작업에 맞춰 선택하고 어려운 병목에서만 6 Astra를 쓴다. 모델 출시나 현재 계정의 사용 가능 여부를 추정으로 확정하지 않는다.
 
 sweep: 현재 진행과 다음 위임에 적용; 6.1 Sol 새 채팅은 실제 런타임 노출 확인 후 생성한다 (2026-09-30).
+
+## D-064 · 지금은 환경 준비만, 본 작업은 밤의 명시적 재개 후 — 2026-09-30 (User-confirmed; temporarily supersedes D-061/D-062 execution)
+
+사용자는 "너가 작업할 수 있는데까지만 환경 조성해줄게. 작업실행은 이따 밤에 내가 잘 때 쭈욱 시킬게. 지금은 니가 밤에 전체 작업 나 없이 완료할 수 있게 환경조성까지만 하자."라고 범위를 변경했다. 지금은 사용 가능한 도구·연결·로그인·자원·재개 기록과 환경 사전 점검만 준비한다. 제품 수정과 실제 미디어/인수 작업은 중단하고 밤의 명시적 시작 지시를 기다린다. 남은 전체 목표와 기존 인수 기준은 유지하며 환경 준비를 제품 전체 완료로 보고하지 않는다. 자동화 재개나 예약 실행을 요청한 것은 아니다.
+
+추가로 사용자는 "Codexon 종료 허용"을 명시했다. 설치 경로가 확인된 Codexon 프로세스만 종료하고 메모리 회복을 확인한다. Android 준비 질문에는 처음 "123 다 가능"이라고 답했지만, 이어 "지금 안드로이드 기기가 준비가 안돼서 나중에 연결하겠습니다. 먼저 할 수 있는데까지만 다 준비해주세요"라고 현재 장치 연결을 유예했다. 지금은 PC 제어 도구까지 준비하며 장치가 연결됐다고 추정하거나 모바일 인수를 실행하지 않는다. 기존 D-050/D-051의 후보·상태·운영·원본·권한·비용 경계는 그대로다.
+
+sweep: current checkpoint, goal execution header, session log and NIGHT-ENVIRONMENT-20260930.md aligned to environment-only/WAIT; existing completed evidence and failed probes preserved (2026-09-30).

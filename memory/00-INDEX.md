@@ -11,6 +11,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `SESSION-LOG.md` | What happened, per working session | Append, dated |
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
+| `NIGHT-ENVIRONMENT-20260930.md` | Environment-only readiness, deferred human prerequisites and explicit nighttime resume procedure | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |
 | `goal/drive-scale-stability.md` | Canonical structure and evidence for the completed large-library stability goal | Version cuts; never silently overwrite superseded structure |
@@ -106,3 +107,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - WORKER-UPDATE-RECOVERY-20260930.md — bounded visible Q1 recovery with strict false barrier,19+5 checks/624integrated/normal21native; six fullreload aggregates remain failed and preserved.
 
 - [CANDIDATE-RC21-20260930](CANDIDATE-RC21-20260930.md) — fixed21 delivery/624checks/actual normal account startup and settled original close; six full worker-reload chains remain failed.
+
+- [Night environment preparation](NIGHT-ENVIRONMENT-20260930.md) — portable Android tooling, memory recovery, actual browser/login readiness and explicit environment-only WAIT; existing acceptance gates remain open.

@@ -1,0 +1,110 @@
+{
+  "schema": "drive-original.rc21-synthetic-owner/1",
+  "recordedAt": "2026-09-30T07:19:34.528Z",
+  "producerSHA256": "5a637c89b7bed4468a7de7876c76cab49f6b341648f9feb695819bf95a9a3447",
+  "scope": "local synthetic integrated Worker route + actual AccountCredentialOwner; not hosted authenticated proof",
+  "networkRequests": 0,
+  "realSessionWrites": 0,
+  "cases": [
+    {
+      "name": "authenticated-positive-control",
+      "status": 200,
+      "errorCode": null,
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-wrong-account",
+      "status": 409,
+      "errorCode": "account_mismatch",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-invalid-protocol",
+      "status": 409,
+      "errorCode": "client_update_required",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-future-revision",
+      "status": 409,
+      "errorCode": "stale_revision",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-wrong-origin",
+      "status": 403,
+      "errorCode": "forbidden",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-wrong-csrf",
+      "status": 403,
+      "errorCode": "forbidden",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "authenticated-cross-site-context",
+      "status": 403,
+      "errorCode": "forbidden",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "unknown-session",
+      "status": 401,
+      "errorCode": "unauthorized",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "expired-idle-session",
+      "status": 401,
+      "errorCode": "unauthorized",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "expired-absolute-session",
+      "status": 401,
+      "errorCode": "unauthorized",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "logged-out-session",
+      "status": 401,
+      "errorCode": "unauthorized",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "storage-quota-failure",
+      "status": 503,
+      "errorCode": "auth_unavailable",
+      "noStore": true,
+      "passed": true
+    },
+    {
+      "name": "provider-unavailable",
+      "status": 503,
+      "errorCode": "auth_unavailable",
+      "noStore": true,
+      "passed": true
+    }
+  ],
+  "providerRefreshAttempts": 1,
+  "providerRevokeCalls": 0,
+  "complete": true,
+  "sourceHashes": {
+    "auth/session-owner.mjs": "a29a5ffc578ecfd65fb30dd98cdda07a1fcea5e02e423c27f4fa4ca750c30ced",
+    "auth/routes.mjs": "843d381d3cd545aeb8721688aef967ff48ac279f7ca8d7e99aae0af5e6f4962d",
+    "worker/index.mjs": "8e38a215966f98956657f7b81982be64af59f1791e0104fe4ac834c25d795bbf",
+    "worker/crypto.mjs": "ce95ee4106ad976be6859c95ef03cb2d6b99a63538164a97e0893d96ffda4831"
+  }
+}

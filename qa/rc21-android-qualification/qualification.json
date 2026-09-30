@@ -1,0 +1,56 @@
+{
+  "recordedDate": "2026-09-30",
+  "scope": "Bounded Windows-host actual Android environment discovery; pre-existing Phone Link inspection",
+  "sourceCommit": "3ebd97d",
+  "evidenceBaselineHead": "0fcb50b",
+  "candidate": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "androidRuntimeExecuted": false,
+  "physicalAndroidExecuted": false,
+  "androidEmulatorExecuted": false,
+  "nox": { "directoryExists": true, "childCountIncludingHidden": 0, "executableFound": false },
+  "tooling": {
+    "uninstallMatches": 0,
+    "runningEmulatorAdbProcesses": 0,
+    "androidAppxPackages": 0,
+    "androidSdkEnvironmentNames": 0,
+    "adbEmulatorListenerPorts": [],
+    "executableSearchRoots": ["C:\\Users\\jbs", "C:\\extensions", "C:\\Temp", "C:\\Program Files", "C:\\Program Files (x86)"],
+    "matchingExecutables": 0,
+    "deniedSearchSubtrees": ["C:\\Program Files\\WindowsApps", "C:\\Program Files\\Windows Defender Advanced Threat Protection\\Classification\\Configuration"]
+  },
+  "positiveDeviceDiscovery": {
+    "friendlyName": "SamsungFlowNoti",
+    "transportEnumeration": "Bluetooth",
+    "reportedClass": null,
+    "adbTransportEstablished": false,
+    "androidScreenEstablished": false,
+    "samsungFlowAppOrProcessFound": false
+  },
+  "nativeComputerUse": {
+    "inventoryCallable": true,
+    "androidEmulatorAppFound": false,
+    "phoneLinkVersion": "0.26072.257.0",
+    "phoneLinkLaunched": true,
+    "phoneLinkObservedState": "Device connection confirmation explicitly mentioning iPhone; Cancel and Connect controls",
+    "pairingOrGrantActionTaken": false,
+    "pairingCodeRetained": false,
+    "cleanupCloseSucceeded": false,
+    "cleanupError": "user input was detected in this window; call get_window_state before continuing",
+    "coordinatorNotified": true
+  },
+  "qualification": {
+    "anonymousCandidateShell": "not executed on Android",
+    "dedicatedOverlayWithoutPause": "not executed on Android",
+    "revealDismiss": "not executed on Android",
+    "gestureCancelLongPress": "not executed on Android",
+    "rotationFullscreen": "not executed on Android",
+    "backgroundReturn": "not executed on Android",
+    "keyboardAccessibility": "not executed on Android",
+    "iPhoneSafariStandaloneVoiceOver": "independent unqualified gate"
+  },
+  "softwareInstalled": false,
+  "settingsChanged": false,
+  "accountCopied": false,
+  "productionChanged": false,
+  "limits": "Does not prove physical-device absence or exhaust custom paths, denied WindowsApps contents, or remote Android providers. An empty Nox directory, Bluetooth service, and Phone Link pairing flow are not an executable Android runtime."
+}

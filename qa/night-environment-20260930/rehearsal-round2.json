@@ -1,0 +1,53 @@
+{
+  "schema": "drive-original.environment-rehearsal/2",
+  "recordedAt": "2026-09-30T08:14:59.499Z",
+  "persona": "Later Windows Codex agent; initial source was NIGHT-ENVIRONMENT-20260930.md only",
+  "initialDocument": "memory/NIGHT-ENVIRONMENT-20260930.md",
+  "preflightRuns": 1,
+  "preflightExitCode": 0,
+  "preflightResult": "qa/night-environment-20260930/preflight-result.json",
+  "sequence": [
+    "Read initial environment handoff",
+    "Ran local preflight once",
+    "Read checkpoint and decisions; inspected Git status",
+    "Read current goal execution header and D-064",
+    "Recorded safe results and stopped"
+  ],
+  "observed": {
+    "branch": "codex/v2-kickoff-diagnostics",
+    "head": "0fcb50bfe7ff7beec3c9469a0f759ccd41e27872",
+    "pcToolingReady": true,
+    "existingLaunchFloorPassed": true,
+    "codexonProcesses": 0,
+    "androidToolingReady": true,
+    "authorizedAndroidDevices": 0,
+    "deviceReady": false
+  },
+  "recordsAgreeWithEnvironmentOnlyWait": true,
+  "authority": "D-064 temporarily supersedes D-061/D-062 execution; explicit nighttime start required",
+  "stalls": [],
+  "ambiguities": [],
+  "pendingHumanPrerequisites": [
+    "Explicit nighttime start",
+    "Deferred Android connection, USB debugging and PC authorization",
+    "Corpus file-URL permission remains unanswered"
+  ],
+  "scopeHonored": {
+    "productEdits": false,
+    "acceptanceTests": false,
+    "mediaTests": false,
+    "browsersStarted": false,
+    "settingsChanged": false,
+    "authControls": false,
+    "deviceControls": false,
+    "fixedBodyExecuted": false,
+    "gitWrites": false,
+    "privateCredentialDirectoriesRead": false,
+    "otherAgents": false
+  },
+  "result": "PASS: prepared local environment and consistent environment-only WAIT; product goal remains incomplete",
+  "changedPaths": [
+    "qa/night-environment-20260930/preflight-result.json",
+    "qa/night-environment-20260930/rehearsal-round2.json"
+  ]
+}
