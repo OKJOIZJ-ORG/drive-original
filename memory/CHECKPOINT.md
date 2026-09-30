@@ -1,8 +1,8 @@
-# Checkpoint — active whole-queue continuation — 2026-10-01 00:09
+# Checkpoint — active whole-queue continuation — 2026-10-01 01:01
 
 ## The story so far
 
-D-066 keeps the whole queue ACTIVE on codex/v2-kickoff-diagnostics; commits are savepoints. Public3ebd97d/rc21 is unchanged; local rc22 gesture reservation/summary guard has629 Node checks, trusted Android renderer and independent review. Actual Android proves34.107s hidden return, paused10/50/90 seeks, horizontal navigation and native two-pointer cancellation. Root PC ongoing priority Q1 TS fails before old14:59:09Z expiry:323 callbacks then frame timeout; real Q1 failed/read error, auth-unavailable and expired revision57. Android normal bootstrap independently sees credential503. Separate canonical PC recovery15:04:16Z succeeds200/revision58/new expiry, not uninterrupted proof. Auth investigator owns only new QA diagnosis until source savepoint. Corpus v1 times out; v2 reaches all8 then final cleanup fails. V3 metadata-only diagnostics and v4 denominators are prepared. Local exact-product SW continuity passes; hosting Free/no card/logs-off verified. Whole goal incomplete.
+D-066 keeps the whole queue ACTIVE on codex/v2-kickoff-diagnostics; commits are savepoints. HEAD9cd94b8/rc22 is published to the free candidate, Worker e3217cbb-8c9c-49f1-b6ed-b462a836cb72, with629 Node checks and exact-source delivery/cache/package proof. Actual Android22 proves native8px-to32px horizontal/vertical transitions with presented frames, summary touch, D056 and two-pointer cancellation. Earlier actual34.107s hidden return and10/50/90 seeks remain scoped evidence. Priority PC Q1 natural-boundary attempt failed with323 callbacks/Q1_SOURCE_READ_FAILED; original HTTP cause is unknown. Separate recovery returned200/revision58, not uninterrupted proof. Narrow app.js/tests auth correction now passes130 app,54 related and17 native synthetic checks; ownership is returned and independent review pending before23. Corpus v3/v4 metadata-only passes each124 GET/22,823,068B with matching repeated inventories:8596 physical files,2185 MIME videos. Whole-header child is preparing bounded private continuity, unbound to a candidate until23. Local exact-product SW continuity passes; hosting Free/no card/logs-off verified. Whole goal incomplete.
 
 ## Decided
 
@@ -14,7 +14,7 @@ None for current PC/Android execution. G6 separate publication authority remains
 
 ## Next first action
 
-Commit the already staged629-tested rc22 gesture source after verifying index bytes, then close the failed PC player normally and run `qa/rc21-corpus-night/factory-v3-diagnostic.expression.js` in metadata-only mode before replacing public21.
+Review `git diff -- app.js tests/app.test.js` and obtain the independent auth review, then pin23, run the full current Node suite, commit exact owned source and publish only the authorized free candidate. Install a fresh source-bound natural-renewal observer before a future expiry; retain the previous failed attempt. Android owns the physical device and finishes its current22 Q1 seek/hidden-return unit before updating.
 
 ## Tried
 
@@ -23,4 +23,4 @@ Android Home tests under an attached inspector stayed visible because ChromeMCP 
 Corpus v1 exhausts per-file time at file3. Coalesced v2 reaches all8 but CLEANUP_FAILED after100 metadata requests; final inventory remains incomplete and catalog equality unproven.
 Earlier loopback file delivery was blocked; existing PC filechooser delivers exact QA source bytes/hash. Native fullscreen QA18 targeted a hidden control and is being corrected without attributing a product defect.
 PC natural-renewal observer stops at5s frame timeout before old deadline; later actual Q1 failure confirms unsuccessful run. Original PC HTTP cause was not retained by the filled Resource Timing buffer; separate200 recovery proves current service recovery only.
-Renewal starts at expiry-35s while server caches until expiry-30s; source inspection finds cached-reinstall churn and no timer after two failures. Local causal discriminator is in progress; actual sole cause remains unknown.
+Baseline renewal starts at expiry-35s while server caches until expiry-30s; actual owner/client synthetic tests reproduce cached-reinstall churn and no timer after two failures. The pending client fix requires newer revision at expiry-90s and bounds three transient attempts within the existing55s deadline, with generation/account/timer fences. Actual sole cause remains unknown and uninterrupted fixed-candidate proof is still required.

@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.22';
+const APP_VERSION = '1.22.0-rc.23';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -631,6 +631,7 @@ let filteredPopulationCache = null;
 let credentialRequestPromise = null;
 let credentialRequestGeneration = -1;
 let credentialRequestAbortController = null;
+let credentialRequestOutcome = null;
 let sessionCredentialMarker = null;
 let standaloneAuthAttempt = null;
 let playerReturnFocus = null;
@@ -2451,23 +2452,33 @@ function resumeAfterCredential(generation) {
 }
 
 function scheduleTokenRenewal() {
-  if (tokenRenewalTimer) {
-    clearTimeout(tokenRenewalTimer);
-    tokenRenewalTimer = null;
-  }
+  if (tokenRenewalTimer !== null) clearTimeout(tokenRenewalTimer);
+  tokenRenewalTimer = null;
   if (!state.token || !state.expiresAt) return;
-  const remainingMs = state.expiresAt - Date.now();
-  const firstTryMs = Math.max(1_000, remainingMs - TOKEN_SKEW_MS - 5_000);
-  tokenRenewalTimer = setTimeout(async () => {
-    const expiresAtBeforeAttempt = state.expiresAt;
-    const refreshed = await requestSessionCredential({ background: true, force: true });
-    if (refreshed || state.expiresAt !== expiresAtBeforeAttempt) return;
-    const secondRemaining = expiresAtBeforeAttempt - Date.now();
-    if (secondRemaining <= 0) return;
-    tokenRenewalTimer = setTimeout(() => {
-      requestSessionCredential({ background: true, force: true });
-    }, Math.max(1_000, secondRemaining - TOKEN_SKEW_MS));
-  }, firstTryMs);
+  const generation = state.authGeneration;
+  const account = state.authAccountKey;
+  const revision = state.tokenRevision;
+  const expiresAt = state.expiresAt;
+  const current = () => generation === state.authGeneration && account === state.authAccountKey
+    && revision === state.tokenRevision && expiresAt === state.expiresAt && Boolean(state.token);
+  const schedule = (delay, retry = false) => {
+    const timer = setTimeout(async () => {
+      if (tokenRenewalTimer !== timer) return;
+      tokenRenewalTimer = null;
+      if (!current() || (retry && (!navigator.onLine || document.visibilityState === 'hidden'))) return;
+      // A cached success is not renewal. Require the existing owner to advance
+      // its revision while leaving enough runway for the entire bounded flight.
+      const request = requestSessionCredential({ background: true, force: true, rejectedRevision: revision });
+      const outcome = credentialRequestOutcome;
+      const refreshed = await request;
+      if (refreshed || !current() || outcome !== credentialRequestOutcome
+        || outcome?.generation !== generation || !outcome.retryable || tokenRenewalTimer !== null
+        || !navigator.onLine || document.visibilityState === 'hidden') return;
+      schedule(15_000, true);
+    }, delay);
+    tokenRenewalTimer = timer;
+  };
+  schedule(Math.max(1_000, expiresAt - Date.now() - TOKEN_SKEW_MS - AUTH_CREDENTIAL_TIMEOUT_MS - 5_000));
 }
 
 function refreshForegroundCredential() {
@@ -2533,6 +2544,7 @@ function expireStandaloneAuthorization(attempt) {
     credentialRequestAbortController = null;
     credentialRequestPromise = null;
     credentialRequestGeneration = -1;
+    credentialRequestOutcome = null;
   }
   return failStandaloneAuthorization(
     attempt,
@@ -2652,9 +2664,50 @@ function beginAuthorization() {
   location.assign(target.href);
 }
 
+async function fetchSessionCredentialWithRetry(url, options, outcome) {
+  const delays = [1_250, 2_500];
+  const ensureCurrent = () => {
+    options.signal.throwIfAborted();
+    if (outcome.generation !== state.authGeneration || outcome.account !== state.authAccountKey) {
+      throw new DOMException('Credential owner changed', 'AbortError');
+    }
+  };
+  for (let attempt = 0; ; attempt++) {
+    ensureCurrent();
+    let response, failure;
+    try { response = await fetch(url, options); }
+    catch (error) { failure = error; }
+    ensureCurrent();
+    const payload = response?.status === 503 ? await readAuthJson(response.clone()) : null;
+    ensureCurrent();
+    outcome.retryable = failure?.name === 'TypeError'
+      || (response?.status === 503 && authErrorCode(payload) === 'auth_unavailable');
+    if (!outcome.retryable || attempt >= delays.length || !navigator.onLine) {
+      if (failure) throw failure;
+      return response;
+    }
+    // Only the same-origin auth POST retries; Drive reads and mutations retain
+    // their own owners. All attempts share the caller's original total deadline.
+    void response?.body?.cancel()?.catch(() => {});
+    await new Promise((resolve, reject) => {
+      let timer;
+      const finish = (error) => {
+        clearTimeout(timer);
+        options.signal.removeEventListener('abort', onAbort);
+        error ? reject(error) : resolve();
+      };
+      const onAbort = () => finish(options.signal.reason || new DOMException('Aborted', 'AbortError'));
+      options.signal.addEventListener('abort', onAbort, { once: true });
+      timer = setTimeout(() => finish(), delays[attempt]);
+      if (options.signal.aborted) onAbort();
+    });
+  }
+}
+
 function requestSessionCredential({ background = false, force = false, rejectedRevision = null } = {}) {
   if (!force && hasUsableToken()) return Promise.resolve(true);
   if (!navigator.onLine) {
+    credentialRequestOutcome = { generation: state.authGeneration, retryable: true };
     state.authStatus = 'auth-unavailable';
     updateConnectionBadge();
     return Promise.resolve(false);
@@ -2686,9 +2739,11 @@ function requestSessionCredential({ background = false, force = false, rejectedR
   const operation = (async () => {
     const controller = new AbortController();
     credentialRequestAbortController = controller;
+    const outcome = { generation, account: state.authAccountKey, retryable: true };
+    credentialRequestOutcome = outcome;
     const timeout = setTimeout(() => controller.abort(), AUTH_CREDENTIAL_TIMEOUT_MS);
     try {
-      const response = await fetch(new URL(AUTH_CREDENTIAL_PATH, location.origin), {
+      const response = await fetchSessionCredentialWithRetry(new URL(AUTH_CREDENTIAL_PATH, location.origin), {
         method: 'POST',
         credentials: 'same-origin',
         cache: 'no-store',
@@ -2701,7 +2756,7 @@ function requestSessionCredential({ background = false, force = false, rejectedR
         },
         body: JSON.stringify({ expectedAccount: state.authAccountKey, rejectedRevision: rejected, credentialProtocol: 2 }),
         signal: controller.signal
-      });
+      }, outcome);
       if (generation !== state.authGeneration) return false;
       const payload = await readAuthJson(response);
       if (generation !== state.authGeneration) return false;
@@ -10822,6 +10877,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
   credentialRequestAbortController = null;
   credentialRequestPromise = null;
   credentialRequestGeneration = -1;
+  credentialRequestOutcome = null;
   sessionCredentialMarker = null;
   state.token = null;
   state.authCapabilities = null;

@@ -850,25 +850,31 @@ test('standalone deadline generation-fences a real credential response that reso
 
 test('offline and non-JSON credential failures are bounded and preserve the current memory credential', async () => {
   const context = loadAppContext(); let calls = 0;
+  const clock = installFakeClock(context);
   context.fetch = async () => {
     calls += 1;
     return new Response('temporarily unavailable', { status: 503, headers: { 'Content-Type': 'text/plain' } });
   };
   run(context, `state.authAccountKey='account-A';state.token='still-valid';state.expiresAt=Date.now()+60_000;state.tokenRevision=5;
     el.connectionBadge={dataset:{},querySelector(){return null}};el.authHint={textContent:'',classList:{add(){},remove(){}}};`);
-  assert.equal(await run(context, 'requestSessionCredential({background:true,force:true})'), false);
+  const pending = run(context, 'requestSessionCredential({background:true,force:true})');
+  await flushCredentialTasks();
+  clock.advance(1_250); await flushCredentialTasks();
+  clock.advance(2_500); await flushCredentialTasks();
+  assert.equal(await pending, false);
   assert.equal(run(context, 'state.token'), 'still-valid');
   run(context, 'navigator.onLine=false');
   assert.equal(await run(context, 'requestSessionCredential({background:true,force:true})'), false);
-  assert.equal(calls, 1);
+  assert.equal(calls, 3);
   assert.equal(run(context, 'state.token'), 'still-valid');
 });
 
-test('concurrent credential waiters share one failed request without starting another fetch', async () => {
+test('concurrent credential waiters share one bounded failed flight without parallel fetches', async () => {
   const context = loadAppContext(); let calls = 0; let release;
+  const clock = installFakeClock(context);
   context.fetch = async () => {
     calls += 1;
-    await new Promise((resolve) => { release = resolve; });
+    if (calls === 1) await new Promise((resolve) => { release = resolve; });
     return new Response(JSON.stringify({ error: { code: 'auth_unavailable' } }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' }
@@ -878,8 +884,204 @@ test('concurrent credential waiters share one failed request without starting an
   const first = run(context, 'requestSessionCredential({background:true,force:true})');
   const second = run(context, 'requestSessionCredential({background:true,force:true})');
   release();
+  await flushCredentialTasks();
+  clock.advance(1_250); await flushCredentialTasks();
+  clock.advance(2_500); await flushCredentialTasks();
   assert.deepEqual(await Promise.all([first, second]), [false, false]);
-  assert.equal(calls, 1);
+  assert.equal(calls, 3);
+});
+
+async function flushCredentialTasks() {
+  for (let attempt = 0; attempt < 8; attempt++) await new Promise(resolve => setImmediate(resolve));
+}
+
+function renewalFixture() {
+  const context = loadAppContext();
+  const clock = installFakeClock(context);
+  context.Date = class extends Date { static now() { return clock.now(); } };
+  run(context, `document.visibilityState='visible';
+    state.authAccountKey='account-A';state.token='old';state.expiresAt=Date.now()+120000;state.tokenRevision=7;
+    resumeAfterCredential=()=>{};sendTokenToWorker=()=>{};clearAuthError=()=>{};updateConnectionBadge=()=>{};`);
+  const fresh = () => new Response(JSON.stringify({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true },
+    account: 'account-A', accessToken: 'fresh', revision: 8, expiresAt: clock.now() + 3600000 }),
+  { headers: { 'Content-Type': 'application/json' } });
+  const error = (code = 'auth_unavailable', status = 503) => new Response(JSON.stringify({ error: { code } }),
+    { status, headers: { 'Content-Type': 'application/json' } });
+  const advance = async ms => { clock.advance(ms); await flushCredentialTasks(); };
+  return { context, clock, fresh, error, advance };
+}
+
+test('natural renewal has total-flight runway and forces one atomic newer owner revision before its cache window', async () => {
+  const { AccountCredentialOwner } = await import('../auth/session-owner.mjs');
+  const { REQUESTED_GOOGLE_SCOPES } = await import('../auth/scope-policy.mjs');
+  const f = renewalFixture();
+  let stored = {}, refreshes = 0, sequence = 0;
+  const owner = new AccountCredentialOwner({
+    storage: { async transaction(fn) { const next = structuredClone(stored), result = fn(next); stored = next; return structuredClone(result); } },
+    account: 'account-A', clock: f.clock.now, hash: async value => value, random: () => String(++sequence),
+    encrypt: async value => value, decrypt: async value => value, revoke: async () => true,
+    refresh: async () => { refreshes++; return { accessToken: 'fresh', expiresAt: f.clock.now() + 3600000 }; }
+  });
+  const established = await owner.establishVerifiedSession({ account: 'account-A', accessToken: 'old',
+    expiresAt: f.clock.now() + 120000, refreshToken: 'fixture', grantedScopes: REQUESTED_GOOGLE_SCOPES });
+  run(f.context, `state.tokenRevision=${established.credential.revision}`);
+  const calls = [];
+  f.context.fetch = async (_, init) => {
+    const body = JSON.parse(init.body); calls.push({ at: f.clock.now(), body });
+    const credential = await owner.credential({ sessionId: established.sessionId, ...body });
+    return new Response(JSON.stringify(credential), { headers: { 'Content-Type': 'application/json' } });
+  };
+  run(f.context, 'scheduleTokenRenewal()');
+  const first = f.clock.captured.at(-1);
+  assert.equal(first.delay, 30000, '120s lifetime leaves90s including30s skew,55s flight and5s margin');
+  await f.advance(30000);
+  assert.equal(calls.length, 1); assert.equal(calls[0].body.rejectedRevision, established.credential.revision);
+  assert.equal(refreshes, 1); assert.equal(run(f.context, 'state.tokenRevision'), established.credential.revision + 1);
+  assert.equal(f.clock.scheduled.size, 1, 'only the next credential renewal owns a timer');
+});
+
+test('natural renewal retains one visible online retry after a bounded transient flight and then recovers', async () => {
+  const f = renewalFixture(); let calls = 0;
+  f.context.fetch = async () => ++calls <= 3 ? f.error() : f.fresh();
+  run(f.context, 'scheduleTokenRenewal()');
+  await f.advance(30000); await f.advance(1250); await f.advance(2500);
+  assert.equal(calls, 3); assert.equal(f.clock.scheduled.size, 1);
+  assert.equal(f.clock.captured.at(-1).delay, 15000);
+  await f.advance(15000);
+  assert.equal(calls, 4); assert.equal(run(f.context, 'state.tokenRevision'), 8);
+  assert.equal(f.clock.scheduled.size, 1);
+});
+
+test('a long transient outage retains one serialized renewal timer beyond expiry and recovers', async () => {
+  const f = renewalFixture(); let calls = 0;
+  const originalExpiry = run(f.context, 'state.expiresAt');
+  f.context.fetch = async () => ++calls <= 18 ? f.error() : f.fresh();
+  run(f.context, 'scheduleTokenRenewal()');
+  await f.advance(30000);
+  for (let flight = 0; flight < 6; flight++) {
+    await f.advance(1250); await f.advance(2500);
+    assert.equal(calls, (flight + 1) * 3);
+    assert.equal(f.clock.scheduled.size, 1, 'one successor, no parallel flight or accumulated timers');
+    assert.equal(run(f.context, 'credentialRequestPromise'), null);
+    assert.equal(f.clock.captured.at(-1).delay, 15000);
+    if (flight < 5) await f.advance(15000);
+  }
+  assert.ok(f.clock.now() > originalExpiry, 'recovery remains possible after the old credential expires');
+  assert.equal(run(f.context, 'state.tokenRevision'), 7);
+  await f.advance(15000);
+  assert.equal(calls, 19); assert.equal(run(f.context, 'state.tokenRevision'), 8);
+  assert.equal(f.clock.scheduled.size, 1, 'fresh owner now holds only its normal renewal timer');
+  run(f.context, 'clearToken(false)');
+  assert.equal(f.clock.scheduled.size, 0);
+});
+
+test('natural retry suppresses hidden/offline and stale account, generation, revision or expiry owners', async () => {
+  for (const invalidation of ["document.visibilityState='hidden'", 'navigator.onLine=false',
+    "state.authAccountKey='account-B'", 'state.authGeneration++', 'state.tokenRevision++', 'state.expiresAt++']) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async () => { calls++; return f.error(); };
+    run(f.context, 'scheduleTokenRenewal()');
+    await f.advance(30000); await f.advance(1250); await f.advance(2500);
+    run(f.context, invalidation); await f.advance(15000);
+    assert.equal(calls, 3, invalidation); assert.equal(f.clock.scheduled.size, 0, invalidation);
+  }
+  const f = renewalFixture();
+  f.context.fetch = async () => { throw new Error('stale callback cannot fetch'); };
+  run(f.context, 'scheduleTokenRenewal()');
+  const oldCallback = f.clock.captured.at(-1).callback;
+  run(f.context, 'scheduleTokenRenewal()');
+  const newOwner = run(f.context, 'tokenRenewalTimer');
+  await oldCallback();
+  assert.equal(run(f.context, 'tokenRenewalTimer'), newOwner);
+  assert.equal(f.clock.scheduled.size, 1);
+});
+
+test('credential retry does not retry terminal outcomes or misleading terminal503 payloads', async () => {
+  for (const [code, status] of [['unauthorized',401], ['reconnect_required',401], ['account_mismatch',409],
+    ['client_update_required',409], ['forbidden',403], ['stale_revision',409], ['client_update_required',503], ['auth_unavailable',500]]) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async () => { calls++; return f.error(code, status); };
+    run(f.context, 'scheduleTokenRenewal()'); await f.advance(30000);
+    assert.equal(calls, 1, code); assert.equal(f.clock.scheduled.size, 0, code);
+  }
+});
+
+test('credential network and503 retries share the original55s total deadline across attempts', async () => {
+  const f = renewalFixture(); let calls = 0;
+  f.context.fetch = async (_, { signal }) => {
+    calls++;
+    if (calls === 1) return f.error();
+    return new Promise((resolve, reject) => signal.addEventListener('abort', () => reject(signal.reason), { once: true }));
+  };
+  const pending = run(f.context, 'requestSessionCredential({background:true,force:true})');
+  await flushCredentialTasks(); await f.advance(1250); await f.advance(53750);
+  assert.equal(await pending, false); assert.equal(calls, 2); assert.equal(f.clock.scheduled.size, 0);
+  const network = renewalFixture(); let attempts = 0;
+  network.context.fetch = async () => {
+    if (++attempts === 1) throw new TypeError('synthetic network loss');
+    return attempts === 2 ? network.error() : network.fresh();
+  };
+  const recovered = run(network.context, 'requestSessionCredential({background:true,force:true})');
+  await flushCredentialTasks(); await network.advance(1250); await network.advance(2500);
+  assert.equal(await recovered, true); assert.equal(attempts, 3);
+});
+
+test('clearing during credential retry delay prevents another attempt and isolates the next generation outcome', async () => {
+  const f = renewalFixture(); let calls = 0;
+  f.context.fetch = async () => { calls++; return f.error(); };
+  const pending = run(f.context, 'requestSessionCredential({background:true,force:true})');
+  await flushCredentialTasks();
+  const oldOutcome = run(f.context, 'credentialRequestOutcome');
+  run(f.context, 'clearToken(false)');
+  assert.equal(await pending, false); assert.equal(f.clock.scheduled.size, 0);
+  f.context.fetch = async () => { calls++; return f.error('forbidden',403); };
+  const next = run(f.context, 'requestSessionCredential({background:true,force:true})');
+  assert.equal(await next, false);
+  const nextOutcome = run(f.context, 'credentialRequestOutcome');
+  assert.notEqual(oldOutcome, nextOutcome); assert.equal(nextOutcome.retryable, false);
+  await f.advance(60000); assert.equal(calls, 2); assert.equal(f.clock.scheduled.size, 0);
+});
+
+test('a competing same-generation credential flight cannot inherit an older renewal callback', async () => {
+  const f = renewalFixture(); let calls = 0, release;
+  f.context.fetch = async () => {
+    if (++calls <= 3) return f.error();
+    return new Promise(resolve => { release = () => resolve(f.error('forbidden',403)); });
+  };
+  run(f.context, `const originalCredentialRequest=requestSessionCredential;
+    let launchCompeting=true;
+    requestSessionCredential=(options)=>{
+      const pending=originalCredentialRequest(options);
+      if(launchCompeting){launchCompeting=false;pending.then(()=>originalCredentialRequest({background:true,force:true}));}
+      return pending;
+    };scheduleTokenRenewal();`);
+  await f.advance(30000); await f.advance(1250); await f.advance(2500);
+  assert.equal(calls, 4); assert.equal(run(f.context, 'tokenRenewalTimer'), null);
+  assert.equal(f.clock.scheduled.size, 1, 'only the competing flight total deadline remains');
+  release(); await flushCredentialTasks();
+  assert.equal(f.clock.scheduled.size, 0);
+});
+
+test('an active Q1 lease shares two503 recovery while a retiring lease receives no token', async () => {
+  for (const retire of [false, true]) {
+    const f = renewalFixture(); let calls = 0, reply;
+    f.context.fetch = async () => ++calls <= 2 ? f.error() : f.fresh();
+    run(f.context, `state.selected={id:'fixture'};state.mediaSession=7;state.driveSessionGeneration=3;mediaSourceGeneration=5;
+      state.mediaAttempt='q1-playing';globalThis.currentWorker={};navigator.serviceWorker={controller:currentWorker};
+      q1Playback={controller:new AbortController(),swController:currentWorker};`);
+    f.context.tokenEvent = { source: run(f.context, 'currentWorker'),
+      data: { type: 'TOKEN_REQUEST', requestId: 'lease', forceRefresh: true, rejectedRevision: 7,
+        expectedAccount: 'account-A', accountGeneration: 3, requireCurrentMedia: true,
+        fileId: 'fixture', mediaSession: '7', sourceGeneration: 5 },
+      ports: [{ postMessage(value) { reply = value; }, close() {} }] };
+    const pending = run(f.context, 'handleWorkerMessage(tokenEvent)');
+    await flushCredentialTasks();
+    if (retire) run(f.context, 'q1Playback.controller.abort()');
+    await f.advance(1250); await f.advance(2500); await pending;
+    assert.equal(calls, 3); assert.equal(reply.requestCurrent, !retire);
+    assert.equal(reply.token, retire ? null : 'fresh');
+    assert.equal(run(f.context, 'state.tokenRevision'), 8);
+  }
 });
 
 test('cancelling a Drive credential waiter releases it while the shared refresh serves another request', async () => {

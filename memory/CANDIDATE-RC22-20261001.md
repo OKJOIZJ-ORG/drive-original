@@ -1,0 +1,5 @@
+# Candidate rc.22 — fixed source and scoped actual checks
+
+Confirmed: source9cd94b8caae8f0e5269bf1df7d413b4e8bbdd303, Worker e3217cbb-8c9c-49f1-b6ed-b462a836cb72, free candidate only. qa/candidate-rc22-delivery owns52 HTTP Git-equal/40 cache/8 uncached source/6 private404 checks,629 stable Node checks and exact52-entry ZIP SHAeeafb94807e20b5773ca1e41cb4090aa18f113e6c78c6c1ad87d144b1f887568. NormalPC cached app/index plus public worker script match source; compiled live controller bytes are not claimed.
+
+Observed actual Android33–42: correct22 cached/public bodies, native first-small-move horizontal/vertical transitions with requestVideoFrameCallback, D056, native summary touch and two-pointer cancellation. Declared WebM source usesQ0; smallest MOV/MKV/AVI-labelled objects admit strictTS Q1 and present360×640. Declared extensions do not establish true QuickTime/Matroska/AVI decoder support. Actual43 Q1 midseek fails with oldrevision58;45 same10/50 targets pass with naturally newer59.43 original machinecode unavailable, so sole cause unknown. Whole queue continues; no goal completion or publication authority inferred. Productionv1.21.0 remains unchanged.

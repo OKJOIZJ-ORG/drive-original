@@ -1,0 +1,382 @@
+[
+  {
+    "scenario": "baseline cached-before-skew success",
+    "calls": [
+      {
+        "atBeforeExpiry": -35000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -34000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -33000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -32000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -31000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 2,
+      "timers": 1,
+      "refreshes": 1,
+      "authStatus": "online",
+      "usable": true
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "baseline two temporary failures abandon timer",
+    "calls": [
+      {
+        "atBeforeExpiry": -35000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -34000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -33000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -32000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -31000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -27096,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": 5000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 1,
+      "timers": 0,
+      "refreshes": 2,
+      "authStatus": "auth-unavailable",
+      "usable": false
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "prototype renewal requires newer revision",
+    "calls": [
+      {
+        "atBeforeExpiry": -35000,
+        "rejectedRevision": 1,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 2,
+      "timers": 1,
+      "refreshes": 1,
+      "authStatus": "online",
+      "usable": true
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "prototype first failure recovers on second attempt",
+    "calls": [
+      {
+        "atBeforeExpiry": -35000,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": 1,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 2,
+      "timers": 1,
+      "refreshes": 2,
+      "authStatus": "online",
+      "usable": true
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "resilient prototype retries two503s inside shared flight",
+    "calls": [
+      {
+        "atBeforeExpiry": -59000,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -55846,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -51442,
+        "rejectedRevision": 1,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 2,
+      "timers": 1,
+      "refreshes": 3,
+      "authStatus": "online",
+      "usable": true
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "resilient prototype returns to scheduler after full failed flight",
+    "calls": [
+      {
+        "atBeforeExpiry": -59000,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -55846,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -51442,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -34538,
+        "rejectedRevision": 1,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -31384,
+        "rejectedRevision": 1,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "beforeManual": {
+      "revision": 2,
+      "timers": 1,
+      "refreshes": 5,
+      "authStatus": "online",
+      "usable": true
+    },
+    "afterManualRevision": 2
+  },
+  {
+    "scenario": "current active Q1 lease gets no credential after transient failure",
+    "calls": [
+      {
+        "atBeforeExpiry": -35000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -34000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -33000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -32000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -31000,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 1
+      },
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -28096,
+        "rejectedRevision": null,
+        "status": 503
+      }
+    ],
+    "reply": {
+      "current": true,
+      "tokenPresent": false,
+      "revision": 0
+    },
+    "accountRetained": true
+  },
+  {
+    "scenario": "two independent owners preserve atomic forced-refresh revision",
+    "refreshes": 1,
+    "revisions": [
+      2,
+      2
+    ]
+  },
+  {
+    "scenario": "resilient prototype Q1 lease shares two503 recovery",
+    "calls": [
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -26846,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -22442,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "reply": {
+      "current": true,
+      "tokenPresent": true,
+      "revision": 2
+    }
+  },
+  {
+    "scenario": "resilient prototype Q1 lease retired while waiting",
+    "calls": [
+      {
+        "atBeforeExpiry": -30000,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -26846,
+        "rejectedRevision": null,
+        "status": 503
+      },
+      {
+        "atBeforeExpiry": -22442,
+        "rejectedRevision": null,
+        "status": 200,
+        "revision": 2
+      }
+    ],
+    "reply": {
+      "current": false,
+      "tokenPresent": false,
+      "revision": 0
+    }
+  },
+  {
+    "scenario": "resilient prototype terminal reconnect_required stops",
+    "calls": 1,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype terminal client_update_required stops",
+    "calls": 1,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype terminal forbidden stops",
+    "calls": 1,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype terminal stale_revision stops",
+    "calls": 1,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype generation change aborts pending retry owner",
+    "callsBeforeClear": 2,
+    "callsAfterClear": 2,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype original55s total deadline releases hanging fetch",
+    "elapsed": 55000,
+    "calls": 1,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype later retry idles offline",
+    "callsBefore": 3,
+    "callsAfter": 3,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype later retry idles hidden",
+    "callsBefore": 3,
+    "callsAfter": 3,
+    "timers": 0
+  },
+  {
+    "scenario": "resilient prototype stale queued callback cannot mutate new timer owner",
+    "calls": 0,
+    "timers": 1,
+    "retainedReplacement": true
+  }
+]

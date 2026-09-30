@@ -1,0 +1,28 @@
+{
+  "source": "9cd94b8caae8f0e5269bf1df7d413b4e8bbdd303",
+  "version": "1.22.0-rc.22",
+  "producerSha256": "952a50767e830c64faaaaa72b6439d2f26af1bb546b06c0b5d7942a41388dc78",
+  "derived": [
+    {
+      "path": "deploy-candidate.cjs",
+      "sha256": "72bd200b502f959befdd2b1367badcc5ed3b4b8a97790fcdee3350df46d56814",
+      "inheritedSha256": "f8392c24606e6759363dd960f61527180d6c17bc27c79d3431e83d38e9b36ad8"
+    },
+    {
+      "path": "build-release.py",
+      "sha256": "375f11709c78970efc3f85b00fbb47f71295f7f674670794176acca6e0ba10fd",
+      "inheritedSha256": "19b6ddd6f87c9661d23dbfa22dd57cfeea145dd55b4e6761a88a8262b396cdcc"
+    },
+    {
+      "path": "redact-readback.cjs",
+      "sha256": "f307e5afb793ec788c25e651519142dc355c335c71873233564ef9c8384fbd06",
+      "inheritedSha256": "dabc0405e569ddd80c414d5d76e6ffb70ab4cfb05f2b82235dec586c2585f6f7"
+    },
+    {
+      "path": "finalize-source-readiness.py",
+      "sha256": "25915aa79df6c3303f91f24364a8a06d45284a068d90c47df22d4322d3c76378",
+      "inheritedSha256": "f99749b18ae9056687e068e50f07535274f1317cfd674d7fe953e8f097db4ef8"
+    }
+  ],
+  "scope": "Only newly named fixed-source free-candidate producers; no deployment run"
+}

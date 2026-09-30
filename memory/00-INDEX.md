@@ -115,3 +115,6 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - [Corpus diagnostics](../qa/rc21-corpus-night/README.md) — bounded metadata coalescing, actual v1 timeout/v2 final-cleanup failure and separate metadata-only discriminator; full corpus remains open.
 - [Gesture reservation](GESTURE-RESERVATION-20260930.md) — reproduced native subthreshold contact loss, summary guard correction, trusted local Android renderer and629 Node checks; fixed hosted/device qualification next.
 - [Natural renewal observer](../qa/rc21-renewal-night/observer.expression.js) — private-owner bounded actual PC ongoing-frame journal; results pending at source preparation.
+
+- `CANDIDATE-RC22-20261001.md`: fixed22 free delivery/public/cache/package and actual Android scope.
+- `AUTH-RENEWAL-20261001.md`: local failure mechanism, bounded recurring client recovery, independent review and unperformed actual23 boundary.
