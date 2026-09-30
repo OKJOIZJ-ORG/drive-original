@@ -444,3 +444,14 @@ sweep: checkpoint, night guide, goal header, open questions and session log upda
 D-050/D-051의 원본·비용·권한·운영 경계와 D-056 pause-without-overlay는 유지한다. 배포 후 검사라는 언급만으로 별도 main/push/production 승인·새 grant·약관·결제·자동화 재개 권한을 추가하지 않는다. Android 대기/파일 접근 준비는 이미 D-065에서 해소됐다. 실제 대기해야 하는 외부 경계가 있더라도 독립 실행 가능한 나머지 작업을 계속한다.
 
 sweep: current checkpoint/goal/night guide/open questions/session log and current acceptance overlay aligned to ACTIVE Android-current/iPhone-post-deploy; immutable historical proofs/spec retained.
+
+
+→ D-066 execution is temporarily superseded by D-067; its objective and Android/iOS acceptance decision remain.
+
+## D-067 · 자리 이동 전 현재 단위 저장 후 재개 대기 — 2026-10-01 (User-confirmed)
+
+사용자는 "하던데 까지 마저 해. 자리 이동해야해. 그리고 이어서 작업하는거 대기해."라고 지시했다. 현재 완료한 후보27/28 전달·PC 정상 업데이트·Android 소스/캐시 및 가로 설정 화면 확인을 정리하고, 소유한 임시 관찰자·브라우저 비공개 기준값·ADB/MCP 연결을 해제한 뒤 재개 지점과 검증 결과를 커밋한다. 새 재생·강제28 새로고침·corpus·오프라인·자연 갱신·후속 준비 단위는 시작하지 않는다. 이동 후 사용자의 명시적 재개 지시를 기다린다.
+
+D-066의 전체 목표와 PC+Android 현재 인수/iOS 배포 후 순서, D-050/D-051/D-056 권한·품질 경계는 유지한다. 현재 단위 저장을 전체 완료나 운영 승인으로 보고하지 않는다. 자동 재개·자동화·예약을 생성하지 않는다.
+
+sweep: checkpoint/goal/session/current candidate record and single-use handoff aligned to WAIT; actual prior failures and pending whole gates retained.

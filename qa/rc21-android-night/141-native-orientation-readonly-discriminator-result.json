@@ -1,0 +1,54 @@
+{
+  "schema": "drive-original.android-native-orientation-command-readonly/1",
+  "recordedAt": "2026-09-30T22:05:41.058Z",
+  "producerSha256": "cc11bb42b2653212c18d76ecf572e75bde47104f025910dd14f0b09d5a20329a",
+  "authorizedDevices": 1,
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "commands": [
+    {
+      "command": "wm help",
+      "status": 255,
+      "timedOut": false,
+      "documentedUserRotation": true,
+      "documentedSetUserRotation": false,
+      "rotationMode": null,
+      "numericSetting": null,
+      "permissionDenied": false,
+      "unknownCommand": false
+    },
+    {
+      "command": "wm user-rotation",
+      "status": 0,
+      "timedOut": false,
+      "documentedUserRotation": false,
+      "documentedSetUserRotation": false,
+      "rotationMode": "lock 0",
+      "numericSetting": null,
+      "permissionDenied": false,
+      "unknownCommand": false
+    },
+    {
+      "command": "settings get system user_rotation",
+      "status": 0,
+      "timedOut": false,
+      "documentedUserRotation": false,
+      "documentedSetUserRotation": false,
+      "rotationMode": null,
+      "numericSetting": 0,
+      "permissionDenied": false,
+      "unknownCommand": false
+    },
+    {
+      "command": "settings get system accelerometer_rotation",
+      "status": 0,
+      "timedOut": false,
+      "documentedUserRotation": false,
+      "documentedSetUserRotation": false,
+      "rotationMode": null,
+      "numericSetting": 0,
+      "permissionDenied": false,
+      "unknownCommand": false
+    }
+  ]
+}

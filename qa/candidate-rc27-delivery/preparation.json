@@ -1,0 +1,35 @@
+{
+  "schema": "drive-original.candidate27-producer-preparation/1",
+  "source": "05661e05774b723246fe652914b393f279f019df",
+  "version": "1.22.0-rc.27",
+  "changed": "Fixed source/version/owned evidence leaf only; generic fresh audit unchanged.",
+  "files": [
+    {
+      "name": "audit-with-memory-guard.cjs",
+      "sha256": "51389ba9eba404df4db882460823929ba8fa3a67e884ec9c0171130aa5032b3d"
+    },
+    {
+      "name": "build-release.py",
+      "sha256": "c53b0634a2711d701188e901d755841c30f27f4bd715cfba1efa4fba794f73d4"
+    },
+    {
+      "name": "deploy-candidate.cjs",
+      "sha256": "8551203760abf1c4e88dffb1bdb18307f0b300419bee3b3f44dba88ffb4649a0"
+    },
+    {
+      "name": "finalize-source-readiness.py",
+      "sha256": "b49e36d0ad90b7f9921d140df16d5a2130a80b2fe0eac0b06223b8f8cb7dfaea"
+    },
+    {
+      "name": "readback-candidate.cjs",
+      "sha256": "985ef77d96160364a70302811a3f7229e3936b5d458dfe69ffcf7544f4996216"
+    },
+    {
+      "name": "redact-readback.cjs",
+      "sha256": "177adc6ef7bb069e3e0a870d2c5059d715d79ea37f5207322935cd9c357d804c"
+    }
+  ],
+  "productEqualTo": "b0f57396d7d8e2b37f13da4f70969155110ca490",
+  "attributeOnlySavepoint": true,
+  "fullLocalTests": 665
+}

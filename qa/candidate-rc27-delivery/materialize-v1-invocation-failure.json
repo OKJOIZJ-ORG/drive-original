@@ -1,0 +1,10 @@
+{
+  "schema": "drive-original.guarded-materializer-invocation-failure/1",
+  "at": "2026-09-30T21:44:31.269Z",
+  "source": "b0f57396d7d8e2b37f13da4f70969155110ca490",
+  "error": "Committed candidate publication inputs must be clean (public/build/worker paths).",
+  "dirtyInput": ".gitattributes",
+  "reason": "Exact preserved QA EOF whitespace attributes added after product commit; cleanliness guard blocked before materialization.",
+  "repair": "Commit only exact QA whitespace attributes and retry; public product bytes unchanged.",
+  "failurePreserved": true
+}

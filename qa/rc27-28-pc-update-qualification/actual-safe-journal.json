@@ -1,0 +1,193 @@
+{
+  "schema": "drive-original.actual-update-safe-rows/1",
+  "capture": "Manual reconstruction from actual tool-returned rows; canonical JSON SHA exactly equals live browser journal cleanup digest.",
+  "fullSafeRowsSHA256": "1399bf3966385defa071c91525da0abb3747bb7b3ca567b342a89ab638e1c5e7",
+  "rows": [
+    {
+      "stage": "document-start",
+      "visible": true,
+      "fromDocumentStart": false,
+      "document": 1,
+      "at": 1790805227900,
+      "ms": 389419,
+      "attachKind": "late-attach"
+    },
+    {
+      "stage": "worker-observed",
+      "document": 1,
+      "at": 1790805227902,
+      "ms": 389421,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "controller": true,
+      "rootScope": true,
+      "controllerScriptMatches": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "accountPresent": true,
+      "authOnline": true,
+      "playerClosed": true,
+      "visible": true,
+      "document": 1,
+      "at": 1790805227903,
+      "ms": 389422,
+      "controllerOrdinal": 1,
+      "registrations": 1,
+      "cacheCount": 1,
+      "controllerState": "activated",
+      "version": "1.22.0-rc.27",
+      "shellVersions": [
+        "1.22.0-rc.27"
+      ],
+      "activeStates": [
+        "activated"
+      ]
+    },
+    {
+      "stage": "cache-parity",
+      "sourceExpected": true,
+      "cacheParity": true,
+      "document": 1,
+      "at": 1790805242176,
+      "ms": 403694,
+      "matched": 40,
+      "missing": 0,
+      "mismatch": 0,
+      "version": "1.22.0-rc.27"
+    },
+    {
+      "stage": "trusted-force-refresh-click",
+      "document": 1,
+      "at": 1790805243388,
+      "ms": 404907
+    },
+    {
+      "stage": "pagehide",
+      "document": 1,
+      "at": 1790805244409,
+      "ms": 405927
+    },
+    {
+      "stage": "document-start",
+      "visible": true,
+      "fromDocumentStart": false,
+      "document": 2,
+      "at": 1790805474851,
+      "ms": 230619,
+      "attachKind": "late-attach"
+    },
+    {
+      "stage": "worker-observed",
+      "document": 2,
+      "at": 1790805474853,
+      "ms": 230621,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "controller": true,
+      "rootScope": true,
+      "controllerScriptMatches": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "accountPresent": true,
+      "authOnline": true,
+      "playerClosed": true,
+      "visible": true,
+      "document": 2,
+      "at": 1790805474854,
+      "ms": 230622,
+      "controllerOrdinal": 1,
+      "registrations": 1,
+      "cacheCount": 1,
+      "controllerState": "activated",
+      "version": "1.22.0-rc.27",
+      "shellVersions": [
+        "1.22.0-rc.28"
+      ],
+      "activeStates": [
+        "activated"
+      ]
+    },
+    {
+      "stage": "trusted-normal-version-check-click",
+      "document": 2,
+      "at": 1790805835708,
+      "ms": 591460
+    },
+    {
+      "stage": "trusted-banner-update-click",
+      "document": 2,
+      "at": 1790806045253,
+      "ms": 800995
+    },
+    {
+      "stage": "pagehide",
+      "document": 2,
+      "at": 1790806045595,
+      "ms": 801337
+    },
+    {
+      "stage": "document-start",
+      "visible": true,
+      "fromDocumentStart": false,
+      "document": 3,
+      "at": 1790806082587,
+      "ms": 37328,
+      "attachKind": "late-attach"
+    },
+    {
+      "stage": "worker-observed",
+      "document": 3,
+      "at": 1790806082589,
+      "ms": 37330,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "controller": true,
+      "rootScope": true,
+      "controllerScriptMatches": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "accountPresent": true,
+      "authOnline": true,
+      "playerClosed": true,
+      "visible": true,
+      "document": 3,
+      "at": 1790806082590,
+      "ms": 37332,
+      "controllerOrdinal": 1,
+      "registrations": 1,
+      "cacheCount": 1,
+      "controllerState": "activated",
+      "version": "1.22.0-rc.28",
+      "shellVersions": [
+        "1.22.0-rc.28"
+      ],
+      "activeStates": [
+        "activated"
+      ]
+    },
+    {
+      "stage": "cache-parity",
+      "sourceExpected": true,
+      "cacheParity": true,
+      "document": 3,
+      "at": 1790806082715,
+      "ms": 37457,
+      "matched": 40,
+      "missing": 0,
+      "mismatch": 0,
+      "version": "1.22.0-rc.28"
+    }
+  ]
+}

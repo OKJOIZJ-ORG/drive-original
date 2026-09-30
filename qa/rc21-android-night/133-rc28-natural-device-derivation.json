@@ -1,0 +1,214 @@
+{
+  "schema": "drive-original.android-natural-device-derivation/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "version": "1.22.0-rc.28",
+  "actualExecution": false,
+  "deviceActions": false,
+  "credentialForced": false,
+  "offlineOrCanonicalWrites": false,
+  "scope": "Existing actual Android tablet original Q1 natural owner continuity, coordinator-governed PC overlap; synthetic proof separate",
+  "binding": {
+    "sourceCommit": "944f00607cf05e586b1c88e2876dd796ce114e82",
+    "version": "1.22.0-rc.28",
+    "sourceSHA256": {
+      "app.js": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+      "sw.js": "22e01aebb62f35033560fe9edc5696b8b797e9c8b3f26bdda4606c2e19761518",
+      "version.json": "1de99c21f5d32cb36f0396ea823a2885f981fc60b11720fb52f240c268745f1b"
+    }
+  },
+  "expressionSha256": "acb4aaab21e1407539ca184364e6a368a3425fedbcf27e4c21c221b5db3a83c1",
+  "derivations": [
+    {
+      "base": "android-common-rc26.cjs",
+      "baseSha256": "101a121e72d712793dee9886b6b5bfa56c823c1ed761043e64c853ba795f515e",
+      "producer": "android-common-rc28.cjs",
+      "producerSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+      "changes": [
+        [
+          "1.22.0-rc.26",
+          "1.22.0-rc.28"
+        ]
+      ]
+    },
+    {
+      "base": "android-transition-common-26.cjs",
+      "baseSha256": "b9972456880c904bc25c879ffcd14eba7f9c85bb8ef698a717be28d621d6bb35",
+      "producer": "android-transition-common-28.cjs",
+      "producerSha256": "6d1d872c0042bb1184726a5b1026a0995b21c5f4170b0a11a0f1c6d9a60ae720",
+      "changes": [
+        [
+          "['1.22.0-rc.25','1.22.0-rc.26']",
+          "['1.22.0-rc.26','1.22.0-rc.27','1.22.0-rc.28']"
+        ]
+      ]
+    },
+    {
+      "base": "121-rc26-device-update-identity.cjs",
+      "baseSha256": "15797063336b118c3ef2b58495f3aaa105e367c7ec77d3380bdb98a4e8dd1b3c",
+      "producer": "134-rc28-normal-reload-identity.cjs",
+      "producerSha256": "1635c4c3a5f22c2265d1b9db2e5fa922e67a393177c9f56c5180f3f766ff0eb1",
+      "changes": [
+        [
+          "android-transition-common-26.cjs",
+          "android-transition-common-28.cjs"
+        ],
+        [
+          "121-rc26-device-update-identity-result.json",
+          "134-rc28-normal-reload-identity-result.json"
+        ],
+        [
+          "1.22.0-rc.26",
+          "1.22.0-rc.28"
+        ],
+        [
+          "rc26 settled startup",
+          "rc28 settled startup"
+        ],
+        [
+          "old banner fallback",
+          "removed: ordinary reload only, no update button action"
+        ]
+      ]
+    },
+    {
+      "base": "122-rc26-current-source-controller-proof.cjs",
+      "baseSha256": "e0c317ec32657473f7796eb107bfe902ee75e6aa987eb6031f2e40a1e51e32ae",
+      "producer": "135-rc28-current-source-controller-proof.cjs",
+      "producerSha256": "fe138860b1caf5106da0d5bdad90a4d3e6980eeddaef6ceeb0fffa9dd8c1c0a9",
+      "changes": [
+        [
+          "3eea49a4853052275582979ab205eee8026c4691",
+          "944f00607cf05e586b1c88e2876dd796ce114e82"
+        ],
+        [
+          "android-common-rc26.cjs",
+          "android-common-rc28.cjs"
+        ],
+        [
+          "122-rc26-current-source-controller-proof-result.json",
+          "135-rc28-current-source-controller-proof-result.json"
+        ],
+        [
+          "1.22.0-rc.26",
+          "1.22.0-rc.28"
+        ],
+        [
+          "public26",
+          "public28"
+        ]
+      ]
+    },
+    {
+      "base": "127-rc26-current-core-cache-alias-proof.cjs",
+      "baseSha256": "ae3559a90ee59b78974843e54b4b3731b304e3d37ad44d691f5b3d375ddcfc8b",
+      "producer": "136-rc28-current-core-cache-proof.cjs",
+      "producerSha256": "ef99cf86359945de1fa3985847aa54e69b9a20948ec590ba38d68d777a94ba8c",
+      "changes": [
+        [
+          "3eea49a4853052275582979ab205eee8026c4691",
+          "944f00607cf05e586b1c88e2876dd796ce114e82"
+        ],
+        [
+          "android-common-rc26.cjs",
+          "android-common-rc28.cjs"
+        ],
+        [
+          "127-rc26-current-core-cache-alias-proof-result.json",
+          "136-rc28-current-core-cache-proof-result.json"
+        ],
+        [
+          "Android26",
+          "Android28"
+        ]
+      ]
+    },
+    {
+      "base": "android-renewal-discriminator-rc24-v2.expression.js",
+      "baseSha256": "fb82921316fd76b323e5536c86653c6f16b3c072ec607c71eb03f687dbfc2b6b",
+      "producer": "android-renewal-discriminator-rc28.expression.js",
+      "producerSha256": "acb4aaab21e1407539ca184364e6a368a3425fedbcf27e4c21c221b5db3a83c1",
+      "changes": [
+        [
+          "{\"sourceCommit\":\"8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7\",\"version\":\"1.22.0-rc.24\",\"sourceSHA256\":{\"app.js\":\"933a77e5cbbf8acb823e079db63e37de1102de24d4c97618c5747be006fc112d\",\"sw.js\":\"73325d0ddcb042a44f8f25a1fa3403ebba6626254a9499008eaf2342085f52af\",\"version.json\":\"1aa1a433dd8be82164c694e765e454ce16c6440fb149ff16580d7b458a5f5bd7\"}}",
+          "{\"sourceCommit\":\"944f00607cf05e586b1c88e2876dd796ce114e82\",\"version\":\"1.22.0-rc.28\",\"sourceSHA256\":{\"app.js\":\"2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377\",\"sw.js\":\"22e01aebb62f35033560fe9edc5696b8b797e9c8b3f26bdda4606c2e19761518\",\"version.json\":\"1de99c21f5d32cb36f0396ea823a2885f981fc60b11720fb52f240c268745f1b\"}}"
+        ]
+      ]
+    },
+    {
+      "base": "100-rc24-original-revision61-prepare.cjs",
+      "baseSha256": "797fd9f655144c5c1cfbdf817b6801bc1d74ffb345416fdb618ba1410af7a460",
+      "producer": "137-rc28-original-natural-prepare.cjs",
+      "producerSha256": "4cf43f4e9bf8257a44b94a7fd1553ca66b6ffbf883618e0fd4dab6bd55e54f49",
+      "changes": [
+        [
+          "79-android-renewal-binding.json",
+          "133-rc28-natural-binding.json"
+        ],
+        [
+          "android-common-rc24.cjs",
+          "android-common-rc28.cjs"
+        ],
+        [
+          "100-rc24-original-revision61-prepare-result.json",
+          "137-rc28-original-natural-prepare-result.json"
+        ],
+        [
+          "public24",
+          "public28"
+        ]
+      ]
+    },
+    {
+      "base": "101-rc24-android-revision61-natural-watch.cjs",
+      "baseSha256": "c7fe3859cd32baffed8ef6b8dd9966a21fbd795878aff7c06e0e8a560591274c",
+      "producer": "138-rc28-android-current-natural-watch.cjs",
+      "producerSha256": "ae8911b47a06c5f4ed35059f8f2797b60be1aec921b34621f81a25c23c17b8f3",
+      "changes": [
+        [
+          "android-renewal-discriminator-rc24-v2.expression.js",
+          "android-renewal-discriminator-rc28.expression.js"
+        ],
+        [
+          "parent=JSON.parse(fs.readFileSync(path.join(__dirname,'79-android-renewal-binding.json'))),telemetry=JSON.parse(fs.readFileSync(path.join(__dirname,'97-renewal-observer-key-allowlist-binding.json')))",
+          "parent=JSON.parse(fs.readFileSync(path.join(__dirname,'133-rc28-natural-binding.json'))),telemetry={producerSha256:parent.expressionSha256}"
+        ],
+        [
+          "android-common-rc24.cjs",
+          "android-common-rc28.cjs"
+        ],
+        [
+          "101-rc24-android-revision61-natural-watch-result.json",
+          "138-rc28-android-current-natural-watch-result.json"
+        ],
+        [
+          "revision61",
+          "current-revision"
+        ],
+        [
+          "baseline.revision===61",
+          "Number.isSafeInteger(baseline.revision)&&baseline.revision>0"
+        ],
+        [
+          "parent.parentExpressionSha256",
+          "parent.reviewedParentExpressionSha256"
+        ]
+      ]
+    },
+    {
+      "base": "82-rc24-post-renewal-native-seek-close.cjs",
+      "baseSha256": "8060c34bfe335ef0c6cd6c8756eac81968ad1ea5d2ea07a4909774e90da8f5c4",
+      "producer": "139-rc28-post-renewal-native-seek-close.cjs",
+      "producerSha256": "b91be704cc4e042b0f40c734d26e42833795bc739141021877fec647242089f9",
+      "changes": [
+        [
+          "android-common-rc24.cjs",
+          "android-common-rc28.cjs"
+        ],
+        [
+          "82-rc24-post-renewal-native-seek-close-result.json",
+          "139-rc28-post-renewal-native-seek-close-result.json"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "drive-original.source-change-error-adapter/1",
+  "scope": "Controlled current exact app adapter only. Saved Q0/Q1/Q2 source readers prove byte isolation separately; no successful latest-version restart/browser/device claim.",
+  "producerSHA256": "f7478e8ad4bc701dd57a6e888d60c8e528545ea4dba39d8b49d1a771f15be009",
+  "appSHA256": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+  "adapterSHA256": "fe0b4568b788f05c2bdc9dcbd4aa114dbd3198bb9f00a75a1f0e41a8e8e0e97a",
+  "adapterLine": 8296,
+  "dispatcherNonCodecElseVerified": true,
+  "rows": [
+    {
+      "route": "Q1",
+      "code": "Q1_SOURCE_CONTENT_DRIFT",
+      "isCurrent": true,
+      "passed": true,
+      "attempt": "failed",
+      "retirements": 1,
+      "panels": 1,
+      "automaticRetry": false
+    },
+    {
+      "route": "Q2",
+      "code": "GENERAL_CONTENT_CHANGED",
+      "isCurrent": true,
+      "passed": true,
+      "attempt": "failed",
+      "retirements": 1,
+      "panels": 1,
+      "automaticRetry": false
+    },
+    {
+      "route": "Q1-stale",
+      "code": "Q1_SOURCE_CONTENT_DRIFT",
+      "isCurrent": false,
+      "passed": true,
+      "attempt": "q1",
+      "retirements": 0,
+      "panels": 0,
+      "automaticRetry": false
+    }
+  ],
+  "passed": true,
+  "network": false,
+  "browser": false,
+  "modulesImported": false
+}

@@ -666,3 +666,23 @@ Android agent was pending_init after user restart; a queued message alone did no
 Normal update fix native one/two-controlled-client passes full40hash/controller/sibling retention; adjacent force-reset native two-client reproduces baseline failure. Root authorizes coherent registered-worker atomic41-shell refresh and removes unused destructive reset. Author owns exact five product/test paths; independent shell reviewer discriminates pending-fetch abort from uncancellable post-fetch cache batch commit. Native pending-response AbortError preserves old bytes; local late atomic complete-batch counterexample retained. Literal byte identity for every timeout was root's inferred stronger implementation rule, not user acceptance; corrected to no destructive clearing/unregister, atomic complete batch, no reload on timeout/failure, explicit possible late complete commit.
 
 Fixed26 safe metadata47hashes/48exactpaths ready, corpus19/performance11/remaining-plan5 prepared, long actual work waits stable nextsource. Original69/42 mapping retained with no row promotions; SW01 separately reopened. Offline conflict helper reviewed next before finalbinding/privatejointGO; no state writes. Whole goal remains ACTIVE with no candidate/milestone stop or production/main/push/automation change.
+
+
+## 2026-10-01 07:15 — corrected27/28 and user-move WAIT
+
+Confirmed shell correction independent review/14focused/7native/full27 local665
+plus version-only28 static20. Fixed27/28 public52/cache40/eight source archives
+excluded/six private404/control11/source26+6/ZIP52 pass. Current28 source944f006/
+Worker99252c7f/ZIP54784062B/cb115db7. Actual PC27→28 ONE trusted normal click
+preserves account/writer/full projection/current controller/cache40;16 safe rows
+match live canonicalSHA1399bf39, late gaps explicit. Force27 partial scope only;
+actualforce28/reopen pending. Own PC observer/storage/globals/listeners removed.
+Android28 core/cache41 pass;142 OS-forced landscape settings and exact restore
+pass, own transports cleaned. Earlier124 synthetic420s endpoint/EOS/86ACK/19prunes
+saved without realAC3/audibility claim. Android delta143 selects23+2 exact paths.
+Final28 corpus19/performance11 prepared unrun; finite six contracts13comparisons/
+16bindings/currentadapter3 pass, no whole-row promotions. Earlier failures retained.
+User requests save current unit and wait for move: D067 temporarily supersedes
+D066 execution. Checkpoint/goal/index/current record/handoff align WAIT. Root exact
+safe curation/local commit, no new product/device/corpus/offline/renewal unit or
+timer. Production1.21.0/e08989a/main/push/generalwritesfalse/PAUSED unchanged.

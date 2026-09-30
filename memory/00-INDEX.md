@@ -11,6 +11,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `SESSION-LOG.md` | What happened, per working session | Append, dated |
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
+| `HANDOFF.md` | Single-use instructions after explicit user resume | Consume/delete on resume; D-067 WAIT remains until then |
 | `NIGHT-ENVIRONMENT-20260930.md` | Environment-only PC/Android readiness and explicit nighttime resume procedure | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |
@@ -27,6 +28,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 5. Register unresolved items instead of remembering them informally.
 
 ## Current audit and release records
+
+- `CANDIDATE-RC28-20261001.md`: fixed27/28 shell delivery, actual PC normal update and Android source/cache/landscape evidence; D-067 saved WAIT and remaining gates.
 
 - `CANDIDATE-RC26-20261001.md`: fixed3ee free candidate26/655/delivery/audio-tail correction; actual PC normal update failure and partial reload recovery retained.
 

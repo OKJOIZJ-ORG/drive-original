@@ -1,0 +1,20 @@
+{
+  "schema": "drive-original.exact-output-guard-failure/1",
+  "at": "2026-09-30T21:56:55.759Z",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "beforeWranglerInvocation": true,
+  "observed": {
+    "path": "_site/index.html",
+    "isFile": true,
+    "symbolicLink": false,
+    "nlink": 2,
+    "byteEqual": true
+  },
+  "laterReadback": {
+    "all52NlinkOne": true,
+    "hardlinkListOnlyIndex": true
+  },
+  "cause": "UNKNOWN transient hard-link count; no owned operation intentionally created or removed a link.",
+  "retryPolicy": "Rerun unchanged full output guard; never weaken linked-output refusal.",
+  "retained": true
+}

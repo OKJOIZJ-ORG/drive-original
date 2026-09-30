@@ -1,0 +1,771 @@
+{
+  "schema": "drive-original.rc27-saved-contract-reconciliation/1",
+  "generatedUtc": "2026-09-30T21:52:13.278Z",
+  "gitHead": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "branch": "codex/v2-kickoff-diagnostics",
+  "currentRuntime": {
+    "app.js": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+    "sw.js": "22e01aebb62f35033560fe9edc5696b8b797e9c8b3f26bdda4606c2e19761518",
+    "index.html": "4c06809575a2b0c5246647ed701ffd39e241930b06f8a85476b09551f0948a2d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "version.json": "1de99c21f5d32cb36f0396ea823a2885f981fc60b11720fb52f240c268745f1b"
+  },
+  "execution": "File/JSON/hash/Git source inspection plus one controlled VM adapter discriminator3/3. Root owns current665 broad test proof and account/browser/device evidence; no broad rerun claimed.",
+  "original69Count": 69,
+  "baselineStatusCounts": {
+    "not-run": 38,
+    "passed": 25,
+    "blocked": 4,
+    "not-applicable": 2
+  },
+  "wholeRowPromotions": 0,
+  "rows": [
+    {
+      "id": "QA-TR-10",
+      "clauses": [
+        {
+          "clause": "cache 혼합 금지",
+          "assessment": "saved controlled adopted-route proof retained",
+          "sources": [
+            {
+              "path": "tests/q0-proxy.test.js",
+              "line": 219,
+              "needle": "full-original recovery uses retained revision URI"
+            },
+            {
+              "path": "tests/q1-source.test.mjs",
+              "line": 185,
+              "needle": "content changes and permission loss"
+            },
+            {
+              "path": "tests/q1-source.test.mjs",
+              "line": 197,
+              "needle": "postflight drift"
+            },
+            {
+              "path": "qa/q2-general-product-integration/native.mjs",
+              "line": 27,
+              "needle": "identityChangedOnSeek"
+            }
+          ]
+        },
+        {
+          "clause": "변경 복구",
+          "assessment": "Q0 continues retained revision A including full-original recovery; unavailable revision produces explicit terminal source-pin. Q1 fails before/discards changed bytes without replacing baseline; Q2 changed seek aborts both owners and settles. Current exact controlled app error adapter3/3 retires the current Q1/Q2 owner and shows terminal explicit recovery without automatic retry; stale errors do nothing. These are safe recovery modes, not automatic adoption of latest.",
+          "sources": [
+            {
+              "path": "tests/q0-proxy.test.js",
+              "line": 219,
+              "needle": "full-original recovery uses retained revision URI"
+            },
+            {
+              "path": "tests/q0-proxy.test.js",
+              "line": 202,
+              "needle": "actual application source-pin classification"
+            },
+            {
+              "path": "qa/q2-general-product-integration/native.mjs",
+              "line": 27,
+              "needle": "identityChangedOnSeek"
+            },
+            {
+              "path": "app.js",
+              "line": 8296,
+              "needle": "  const stopFailure = code => {"
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Adopted Q0/native/full-original/Q1/Q2 controlled source-change ledger. Successful newest-version playback after user reopen is not inferred or added to the original no-mix/safe-recovery criterion.",
+      "original": {
+        "scenario": "재생 중 source 변경",
+        "expected": "cache 혼합 금지, 변경 복구",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1704,
+        "id": "QA-TR-10",
+        "verbatim": "| QA-TR-10 | 재생 중 source 변경 | cache 혼합 금지, 변경 복구 |",
+        "baselineStatus": "not-run"
+      }
+    },
+    {
+      "id": "QA-FM-09",
+      "clauses": [
+        {
+          "clause": "원인 분류",
+          "assessment": "HTML/JSON/truncated PNG native actual-app controls reach failed state; corrupt EAC3 is separately bounded with zero append and decoder close.",
+          "sources": [
+            {
+              "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+              "line": 13,
+              "needle": "\"name\": \"html\""
+            }
+          ]
+        },
+        {
+          "clause": "전체 앱 오류/무한 작업 없음",
+          "assessment": "three malformed native controls have empty page-error sets, no image/viewed/iframe, bounded failed state and settled close; saved native corrupt EAC3 zero append/opened=closed.",
+          "sources": [
+            {
+              "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+              "line": 13,
+              "needle": "\"name\": \"html\""
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Controlled malformed-source acceptance only. Real-corpus coverage is FM01/G5 and cannot be inferred. Original FM09 does not require deliberate real private media corruption.",
+      "original": {
+        "scenario": "손상 또는 불완전 파일",
+        "expected": "원인 분류, 전체 앱 오류/무한 작업 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1720,
+        "id": "QA-FM-09",
+        "verbatim": "| QA-FM-09 | 손상 또는 불완전 파일 | 원인 분류, 전체 앱 오류/무한 작업 없음 |",
+        "baselineStatus": "not-run"
+      }
+    },
+    {
+      "id": "QA-UI-02",
+      "clauses": [
+        {
+          "clause": "중앙 hidden, 하단 reveal, 이탈 후 hide",
+          "assessment": "Saved trusted actual Chrome move-only record observes hidden→revealed→hidden in331.7ms, zero click/key/play/pause/seek and unchanged owner/position. Timer/move/leave implementation compared with exact rc19.",
+          "sources": [
+            {
+              "path": "qa/rc19-actual-account/pointer-only-summary.json",
+              "line": 14,
+              "needle": "\"hiddenAfterCenterMs\""
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Finite PC clause satisfied; no new Android clause added to this PC row.",
+      "original": {
+        "scenario": "PC 중앙 움직임 / 하단 진입·이탈",
+        "expected": "중앙 hidden, 하단 reveal, 이탈 후 hide",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1761,
+        "id": "QA-UI-02",
+        "verbatim": "| QA-UI-02 | PC 중앙 움직임 / 하단 진입·이탈 | 중앙 hidden, 하단 reveal, 이탈 후 hide |",
+        "baselineStatus": "not-run"
+      }
+    },
+    {
+      "id": "QA-UI-04",
+      "clauses": [
+        {
+          "clause": "닫을 수 없는 별도 아일랜드 없음",
+          "assessment": "Saved native6/6 exhausted-original presentation injection: one visible recovery, no separate iframe/source, trusted close button clears selection and settles. Preview actions share chrome owner in saved2/2 UI fixture; explicit external button uses user-invoked noopener/noreferrer browser action.",
+          "sources": [
+            {
+              "path": "qa/rc15-player-ui-qualification/qualification.cjs",
+              "line": 69,
+              "needle": "result.errorDismiss="
+            },
+            {
+              "path": "app.js",
+              "line": 9544,
+              "needle": "function openSelectedInDrive("
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Saved finite owner/dismissibility proof plus current source inspection. Actual exhausted network induction/physical external-action matrix is not an extra clause in original1763.",
+      "original": {
+        "scenario": "fallback/오류/외부 열기 경로",
+        "expected": "닫을 수 없는 별도 아일랜드 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1763,
+        "id": "QA-UI-04",
+        "verbatim": "| QA-UI-04 | fallback/오류/외부 열기 경로 | 닫을 수 없는 별도 아일랜드 없음 |",
+        "baselineStatus": "not-run"
+      }
+    },
+    {
+      "id": "QA-UI-05",
+      "clauses": [
+        {
+          "clause": "버튼 click 후 Space → playback, 중복 없음",
+          "assessment": "Trusted desktop click pause once then Space play once; mobile-sized rotate stays once while Space pauses once.",
+          "sources": [
+            {
+              "path": "qa/player-input-quality-audit.cjs",
+              "line": 121,
+              "needle": "await page.locator('#ctrlPlayPause').click();await page.keyboard.press('Space')"
+            }
+          ]
+        },
+        {
+          "clause": "Tab button Space → native button 동작, 중복 없음",
+          "assessment": "Trusted Tab reveals native controls, focused native button Space executes exactly once; four saved viewports. No mock DOM keyboard event is relabeled trusted.",
+          "sources": [
+            {
+              "path": "qa/player-input-quality-audit.cjs",
+              "line": 111,
+              "needle": "native button Space runs once"
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Finite trusted browser keyboard clauses satisfied; G5 current device-wide focus remains separately owned.",
+      "original": {
+        "scenario": "버튼 click 후 Space / Tab button Space",
+        "expected": "각각 playback / native button 동작, 중복 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1764,
+        "id": "QA-UI-05",
+        "verbatim": "| QA-UI-05 | 버튼 click 후 Space / Tab button Space | 각각 playback / native button 동작, 중복 없음 |",
+        "baselineStatus": "not-run"
+      }
+    },
+    {
+      "id": "QA-AU-04",
+      "clauses": [
+        {
+          "clause": "이전 파일·쓰기·state 격리",
+          "assessment": "Retain original passed virtual-account branch: catalog/old owner completion cannot dispatch/install old state; submitted mutation remains with origin account and cannot be read/replayed by new account.",
+          "sources": [
+            {
+              "path": "tests/account-state.test.js",
+              "line": 200,
+              "needle": "account switch and request abort"
+            },
+            {
+              "path": "tests/mutations.test.js",
+              "line": 130,
+              "needle": "account switch after submission"
+            }
+          ]
+        }
+      ],
+      "remainingCriticalUnknowns": [],
+      "wholeRowPromotion": false,
+      "scope": "Original1730 explicitly 실제/가상. Real other-account selection is optional branch, not an added requirement.",
+      "original": {
+        "scenario": "실제/가상 다른 계정 선택",
+        "expected": "이전 파일·쓰기·state 격리",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1730,
+        "id": "QA-AU-04",
+        "verbatim": "| QA-AU-04 | 실제/가상 다른 계정 선택 | 이전 파일·쓰기·state 격리 |",
+        "baselineStatus": "passed"
+      }
+    }
+  ],
+  "pointers": {
+    "q0": {
+      "path": "tests/q0-proxy.test.js",
+      "line": 219,
+      "needle": "full-original recovery uses retained revision URI"
+    },
+    "q0Terminal": {
+      "path": "tests/q0-proxy.test.js",
+      "line": 202,
+      "needle": "actual application source-pin classification"
+    },
+    "q1": {
+      "path": "tests/q1-source.test.mjs",
+      "line": 185,
+      "needle": "content changes and permission loss"
+    },
+    "q1Discard": {
+      "path": "tests/q1-source.test.mjs",
+      "line": 197,
+      "needle": "postflight drift"
+    },
+    "q2": {
+      "path": "qa/q2-general-product-integration/native.mjs",
+      "line": 27,
+      "needle": "identityChangedOnSeek"
+    },
+    "adapter": {
+      "path": "app.js",
+      "line": 8296,
+      "needle": "  const stopFailure = code => {"
+    },
+    "malformed": {
+      "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+      "line": 13,
+      "needle": "\"name\": \"html\""
+    },
+    "pointer": {
+      "path": "qa/rc19-actual-account/pointer-only-summary.json",
+      "line": 14,
+      "needle": "\"hiddenAfterCenterMs\""
+    },
+    "keyboard": {
+      "path": "qa/player-input-quality-audit.cjs",
+      "line": 111,
+      "needle": "native button Space runs once"
+    },
+    "clickSpace": {
+      "path": "qa/player-input-quality-audit.cjs",
+      "line": 121,
+      "needle": "await page.locator('#ctrlPlayPause').click();await page.keyboard.press('Space')"
+    },
+    "errorClose": {
+      "path": "qa/rc15-player-ui-qualification/qualification.cjs",
+      "line": 69,
+      "needle": "result.errorDismiss="
+    },
+    "external": {
+      "path": "app.js",
+      "line": 9544,
+      "needle": "function openSelectedInDrive("
+    },
+    "account": {
+      "path": "tests/account-state.test.js",
+      "line": 200,
+      "needle": "account switch and request abort"
+    },
+    "mutationAccount": {
+      "path": "tests/mutations.test.js",
+      "line": 130,
+      "needle": "account switch after submission"
+    }
+  },
+  "evidence": [
+    {
+      "path": "qa/rc27-saved-contract-reconciliation/source-change-discriminator.cjs",
+      "sha256": "f7478e8ad4bc701dd57a6e888d60c8e528545ea4dba39d8b49d1a771f15be009",
+      "bytes": 2857
+    },
+    {
+      "path": "qa/rc27-saved-contract-reconciliation/source-change-discriminator.json",
+      "sha256": "eb3abdae288bf0fdf3a5413cc901991ad02e8706c6b26f7eb452c029907a725a",
+      "bytes": 1336
+    },
+    {
+      "path": "qa/rc26-remaining-acceptance-plan/plan.json",
+      "sha256": "bdb984c0ad04f084ba7a08be2ef7adbb837d1115aaa9d8e884c703258abaf2d2",
+      "bytes": 88837
+    },
+    {
+      "path": "qa/candidate-rc13-qualification/report.json",
+      "sha256": "73ab0ac4d71e8f377155a95859ae7d5ffb857d84f78a90b94433726d4004c4a6",
+      "bytes": 63635
+    },
+    {
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564",
+      "bytes": 198996
+    },
+    {
+      "path": "qa/player-input-quality-audit.cjs",
+      "sha256": "81bd436aed98be284c77d7bdbe402d25252aa4355af27d3ff490ef962621b209",
+      "bytes": 17373
+    },
+    {
+      "path": "qa/player-input-quality/after/results.json",
+      "sha256": "b667389062ea16d7eeac4d8d887fe7918ef450ad65c98b300047ae16efadf94a",
+      "bytes": 5468
+    },
+    {
+      "path": "qa/rc19-actual-account/pointer-only.expression.js",
+      "sha256": "5a2656396645a34628173111986ff70072e2a4ce2c5a9692ad663e0bf4513da5",
+      "bytes": 2072
+    },
+    {
+      "path": "qa/rc19-actual-account/pointer-only-summary.json",
+      "sha256": "63b19ec0acc7dd9742424c9d7d92aab647f70c393359ae03358610be9cad2edf",
+      "bytes": 1032
+    },
+    {
+      "path": "qa/rc19-actual-account/pointer-only-safe-record.json",
+      "sha256": "6b4dc370733e286ad840211e5a9effcfdac1353273684b8fce1e364f5c44e9f2",
+      "bytes": 767
+    },
+    {
+      "path": "qa/rc15-player-ui-qualification/qualification.cjs",
+      "sha256": "764f08f0fc721da87ac872cbd80393c3afa9579dc001eec096e2ad15f034dc71",
+      "bytes": 16012
+    },
+    {
+      "path": "qa/rc15-player-ui-qualification/results.json",
+      "sha256": "f24e610699a767f0e17e1b0bcd8f0c7546967b52c1ec69b7680419f81b63ab7c",
+      "bytes": 48269
+    },
+    {
+      "path": "qa/v2-ui-audit.cjs",
+      "sha256": "e2b1d38fc2e9a2f7d1639a43ba2a8337a5f4f7966e79d7aa52f84b3a3cc5a2e1",
+      "bytes": 6839
+    },
+    {
+      "path": "qa/v2-ui/after/results.json",
+      "sha256": "814548b25d3c6c30c007ad70a31e5fef95c8a3f24c07bf23554888a20cb70bd5",
+      "bytes": 446
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-controls.cjs",
+      "sha256": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+      "bytes": 8997
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+      "sha256": "7f4d9a8997c09f355d79b5de12b8d5cca0663ea6030c8d79f4386dcfc2e6356c",
+      "bytes": 8881
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/checks.json",
+      "sha256": "b6384c97669ac17f78605d5f3b37596a9b50d43ba6927c2e4f60286466c36e25",
+      "bytes": 3022
+    },
+    {
+      "path": "qa/q0-provider-product/native-results-manifest.json",
+      "sha256": "c5ff6486e6bbc5fb99238e8bd4c285d2bab3d2f7cfb85bcc4d5e9b62880c3339",
+      "bytes": 4321
+    },
+    {
+      "path": "qa/q0-provider-product/native-results-node.json",
+      "sha256": "6f90ded7567053afe61c3bc51eb0ba05fdb73b85e2ce4ed73eb9ce9b5d2b0251",
+      "bytes": 4770
+    },
+    {
+      "path": "qa/q0-provider-product/native-audit.cjs",
+      "sha256": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+      "bytes": 9011
+    },
+    {
+      "path": "qa/q0-provider-product/native-results.json",
+      "sha256": "7377a20df24a87ad2c6f6a43ec11fdec50bc1d202bb089f5e698ea9bce87094f",
+      "bytes": 3470
+    },
+    {
+      "path": "qa/q2-general-product-integration/evidence-manifest.json",
+      "sha256": "5586c1595f10290ff225075f8159b208a47d8a308664a196c6b89d7f5e9c8d6e",
+      "bytes": 16560
+    },
+    {
+      "path": "qa/q2-general-product-integration/native.cjs",
+      "sha256": "07b20aa8aab088bf13f4904d6976c7eaa2d84f6ff5d041c52bad080a7a0f9a8b",
+      "bytes": 3622
+    },
+    {
+      "path": "qa/q2-general-product-integration/native.mjs",
+      "sha256": "a65234779bc763370086898db87fc4683d8610c2eff0c0184ab38a6c0e79db38",
+      "bytes": 7175
+    },
+    {
+      "path": "qa/q2-general-product-integration/native-results.json",
+      "sha256": "814150a58b03c773ea157f53939312633a4cc04b87eac56e1215cb45d257190e",
+      "bytes": 135324
+    },
+    {
+      "path": "qa/candidate-rc13-qualification/selected-6.tap",
+      "sha256": "c34b424a7ec3e27ba4529e6ee3e4e5b55968e93b7ca8c262cf8a4d7ded897995",
+      "bytes": 1578
+    },
+    {
+      "path": "tests/q0-proxy.test.js",
+      "sha256": "fb96f26b979defae3121d9db5caec61d23ac1095c5abe02d219c1bfbc3b5ad3d",
+      "bytes": 24515
+    },
+    {
+      "path": "tests/q1-source.test.mjs",
+      "sha256": "290f8c9a23e644fdef736a9b4fc5afe31775c3363cb49c9364fa6deaf0bb4592",
+      "bytes": 29382
+    },
+    {
+      "path": "tests/account-state.test.js",
+      "sha256": "29bb726d9da74bdb87d90016d9fe46b6a1c911380e17c889d7883b5a21277522",
+      "bytes": 17800
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "sha256": "371490025e8a7dc3e4368c709ca2a2ce345b0b933e0c9160422a7346a03e20ff",
+      "bytes": 17053
+    },
+    {
+      "path": "tests/image-owner-dispatch.test.js",
+      "sha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7",
+      "bytes": 10478
+    }
+  ],
+  "bindings": [
+    {
+      "path": "qa/rc27-saved-contract-reconciliation/source-change-discriminator.cjs",
+      "expected": "f7478e8ad4bc701dd57a6e888d60c8e528545ea4dba39d8b49d1a771f15be009",
+      "actual": "f7478e8ad4bc701dd57a6e888d60c8e528545ea4dba39d8b49d1a771f15be009",
+      "matched": true,
+      "meaning": "exact current controlled adapter producer"
+    },
+    {
+      "path": "app.js",
+      "expected": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+      "actual": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+      "matched": true,
+      "meaning": "current discriminator source freeze"
+    },
+    {
+      "path": "qa/player-input-quality-audit.cjs",
+      "expected": "81bd436aed98be284c77d7bdbe402d25252aa4355af27d3ff490ef962621b209",
+      "actual": "81bd436aed98be284c77d7bdbe402d25252aa4355af27d3ff490ef962621b209",
+      "matched": true,
+      "meaning": "exact executed trusted DOM producer"
+    },
+    {
+      "path": "qa/rc19-actual-account/pointer-only.expression.js",
+      "expected": "72e4ba5bf37807932c99abd0704a577cf46ea18fe61dcaa09a348614252697e1",
+      "actual": "5a2656396645a34628173111986ff70072e2a4ce2c5a9692ad663e0bf4513da5",
+      "matched": true,
+      "meaning": "trimmed executed expression; raw comparison retained separately",
+      "actualTrimmed": "72e4ba5bf37807932c99abd0704a577cf46ea18fe61dcaa09a348614252697e1"
+    },
+    {
+      "path": "qa/rc19-actual-account/pointer-only-safe-record.json",
+      "expected": "6b4dc370733e286ad840211e5a9effcfdac1353273684b8fce1e364f5c44e9f2",
+      "actual": "6b4dc370733e286ad840211e5a9effcfdac1353273684b8fce1e364f5c44e9f2",
+      "matched": true,
+      "meaning": "exact safe record"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-controls.cjs",
+      "expected": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+      "actual": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+      "matched": true,
+      "meaning": "exact malformed control producer"
+    },
+    {
+      "path": "qa/q0-provider-product/native-audit.cjs",
+      "expected": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+      "actual": "b87e8c4fceb7c0f64177257cc321d4b1a27d5ca46c3cbeee26ca9b18f10fd0ae",
+      "matched": true,
+      "meaning": "Q0 saved manifest binding"
+    },
+    {
+      "path": "qa/q0-provider-product/native-results.json",
+      "expected": "7377a20df24a87ad2c6f6a43ec11fdec50bc1d202bb089f5e698ea9bce87094f",
+      "actual": "7377a20df24a87ad2c6f6a43ec11fdec50bc1d202bb089f5e698ea9bce87094f",
+      "matched": true,
+      "meaning": "Q0 saved manifest binding"
+    },
+    {
+      "path": "qa/q0-provider-product/native-results-node.json",
+      "expected": "6f90ded7567053afe61c3bc51eb0ba05fdb73b85e2ce4ed73eb9ce9b5d2b0251",
+      "actual": "6f90ded7567053afe61c3bc51eb0ba05fdb73b85e2ce4ed73eb9ce9b5d2b0251",
+      "matched": true,
+      "meaning": "Q0 saved manifest binding"
+    },
+    {
+      "path": "tests/q0-proxy.test.js",
+      "expected": "57bf6f0079c62533af91bd8a8defb425fb43921307714a48699025e6b0b964e3",
+      "actual": "fb96f26b979defae3121d9db5caec61d23ac1095c5abe02d219c1bfbc3b5ad3d",
+      "matched": true,
+      "meaning": "Q0 saved manifest binding",
+      "currentProducerMatches": false,
+      "historicalGitRef": "067bcb9",
+      "historicalGitSha256": "57bf6f0079c62533af91bd8a8defb425fb43921307714a48699025e6b0b964e3",
+      "delta": "ee0ac84 adds fixture video/client matchAll/type/url and changes cold controller claim to wait for correlated capability. Source-change test assertions are preserved; no current cold-controller proof inferred from old output."
+    },
+    {
+      "path": "qa/q2-general-product-integration/native.cjs",
+      "expected": "07b20aa8aab088bf13f4904d6976c7eaa2d84f6ff5d041c52bad080a7a0f9a8b",
+      "actual": "07b20aa8aab088bf13f4904d6976c7eaa2d84f6ff5d041c52bad080a7a0f9a8b",
+      "matched": true,
+      "meaning": "Q2 saved manifest binding"
+    },
+    {
+      "path": "qa/q2-general-product-integration/native.mjs",
+      "expected": "a65234779bc763370086898db87fc4683d8610c2eff0c0184ab38a6c0e79db38",
+      "actual": "a65234779bc763370086898db87fc4683d8610c2eff0c0184ab38a6c0e79db38",
+      "matched": true,
+      "meaning": "Q2 saved manifest binding"
+    },
+    {
+      "path": "qa/q2-general-product-integration/native-results.json",
+      "expected": "814150a58b03c773ea157f53939312633a4cc04b87eac56e1215cb45d257190e",
+      "actual": "814150a58b03c773ea157f53939312633a4cc04b87eac56e1215cb45d257190e",
+      "matched": true,
+      "meaning": "Q2 saved manifest binding"
+    },
+    {
+      "path": "qa/candidate-rc13-qualification/selected-6.tap",
+      "expected": "c34b424a7ec3e27ba4529e6ee3e4e5b55968e93b7ca8c262cf8a4d7ded897995",
+      "actual": "c34b424a7ec3e27ba4529e6ee3e4e5b55968e93b7ca8c262cf8a4d7ded897995",
+      "matched": true,
+      "meaning": "exact Q1 content-change proof output"
+    },
+    {
+      "path": "tests/account-state.test.js",
+      "expected": "29bb726d9da74bdb87d90016d9fe46b6a1c911380e17c889d7883b5a21277522",
+      "actual": "29bb726d9da74bdb87d90016d9fe46b6a1c911380e17c889d7883b5a21277522",
+      "matched": true,
+      "meaning": "dated AU04 test producer; unchanged producer is not whole app equivalence"
+    },
+    {
+      "path": "tests/mutations.test.js",
+      "expected": "371490025e8a7dc3e4368c709ca2a2ce345b0b933e0c9160422a7346a03e20ff",
+      "actual": "371490025e8a7dc3e4368c709ca2a2ce345b0b933e0c9160422a7346a03e20ff",
+      "matched": true,
+      "meaning": "dated AU04 test producer; unchanged producer is not whole app equivalence"
+    }
+  ],
+  "implementationComparisons": [
+    {
+      "scope": "UI02 timer/reveal owner",
+      "reference": "df1f94a",
+      "path": "app.js",
+      "start": "function resetControlsTimer(",
+      "end": "function setupPlayerChrome(",
+      "oldSha256": "464be65da0dc1b45fceae9c4ffc68f71f5cdd579a1fe3cdbcc8ded442d8d9209",
+      "currentSha256": "464be65da0dc1b45fceae9c4ffc68f71f5cdd579a1fe3cdbcc8ded442d8d9209",
+      "same": true,
+      "currentLine": 5601
+    },
+    {
+      "scope": "UI02 move/leave route",
+      "reference": "df1f94a",
+      "path": "app.js",
+      "start": "  el.playerModal.addEventListener('pointermove'",
+      "end": "  el.playerModal.addEventListener('pointerdown'",
+      "oldSha256": "e360b2bc540e26827f4eb9e64012ade81a7cdbc85b12aa7da0bb0fed45b3e66d",
+      "currentSha256": "e360b2bc540e26827f4eb9e64012ade81a7cdbc85b12aa7da0bb0fed45b3e66d",
+      "same": true,
+      "currentLine": 5646
+    },
+    {
+      "scope": "UI05 pointer-button release/focus owner",
+      "reference": "eb8b6a5",
+      "path": "app.js",
+      "start": "  el.playerModal.addEventListener('click'",
+      "end": "  el.playerModal.addEventListener('focusin'",
+      "oldSha256": "5636035055b85869fa6a47ba3661512ac781880d988fabcff0ce75502cfb6bc9",
+      "currentSha256": "5636035055b85869fa6a47ba3661512ac781880d988fabcff0ce75502cfb6bc9",
+      "same": true,
+      "currentLine": 5677
+    },
+    {
+      "scope": "UI05 modality/native keyboard owner",
+      "reference": "eb8b6a5",
+      "path": "app.js",
+      "start": "function playerHasKeyboardFocus(",
+      "end": "function setPlayerChromeVisible(",
+      "oldSha256": "1cb745b648c8e62fdba691d1be2a5fdffd594f6cba5cb8ab5340656727fdca42",
+      "currentSha256": "1cb745b648c8e62fdba691d1be2a5fdffd594f6cba5cb8ab5340656727fdca42",
+      "same": true,
+      "currentLine": 5570
+    },
+    {
+      "scope": "UI05 global Space playback branch",
+      "reference": "eb8b6a5",
+      "path": "app.js",
+      "start": "    if (event.key === ' ' || key === 'k')",
+      "end": "    if (key === 'm')",
+      "oldSha256": "53218e5512a1e6152c7a9a4de74f5633cbeabeecb756473ac31d45cb8518a2b9",
+      "currentSha256": "53218e5512a1e6152c7a9a4de74f5633cbeabeecb756473ac31d45cb8518a2b9",
+      "same": true,
+      "currentLine": 7615
+    },
+    {
+      "scope": "UI05 normal Tab boundary/focus branch",
+      "reference": "eb8b6a5",
+      "path": "app.js",
+      "start": "    if (index < 0 || (!event.shiftKey",
+      "end": "  window.addEventListener('blur'",
+      "oldSha256": "8d61ab6289fd8c4706bd8d0c1d27b4218aae23f4be92dae899ac76a028035ec4",
+      "currentSha256": "8d61ab6289fd8c4706bd8d0c1d27b4218aae23f4be92dae899ac76a028035ec4",
+      "same": true,
+      "currentLine": 5718
+    },
+    {
+      "scope": "UI04 explicit preview/fallback owner",
+      "reference": "e57d7b5",
+      "path": "app.js",
+      "start": "function clearDrivePreviewTimers(",
+      "end": "function handleDrivePreviewLoad(",
+      "oldSha256": "d4d27a3eb98aa074c058c8e4067536564a8a6baf68c8b7f314dea489124f33a1",
+      "currentSha256": "d4d27a3eb98aa074c058c8e4067536564a8a6baf68c8b7f314dea489124f33a1",
+      "same": true,
+      "currentLine": 9402
+    },
+    {
+      "scope": "UI04 explicit external action",
+      "reference": "e57d7b5",
+      "path": "app.js",
+      "start": "function openSelectedInDrive(",
+      "end": "function ",
+      "oldSha256": "3bce946a693ddb1bdcf95332bef06a4a13e486680093c7e99b95d05a1f5c66e2",
+      "currentSha256": "3bce946a693ddb1bdcf95332bef06a4a13e486680093c7e99b95d05a1f5c66e2",
+      "same": true,
+      "currentLine": 9544
+    },
+    {
+      "scope": "FM09 raster admission and verified image ownership",
+      "reference": "892722c",
+      "path": "app.js",
+      "start": "function sniffOriginalImageType(",
+      "end": "async function tryOriginalTsPlayback(",
+      "oldSha256": "ad77bff4600c5ef83debf43376ea03eae052deccb89b5d54f744384d31db5815",
+      "currentSha256": "ad77bff4600c5ef83debf43376ea03eae052deccb89b5d54f744384d31db5815",
+      "same": true,
+      "currentLine": 8169
+    },
+    {
+      "scope": "TR10 Q0 terminal safe-recovery branch",
+      "reference": "067bcb9",
+      "path": "app.js",
+      "start": "  if (classifyMediaProxyFailure(data) === 'source-pin')",
+      "end": "  if (isDriveSecurityRestriction(data)",
+      "oldSha256": "fa07bfce8308e727f8f8aea4c8acd7bc9faf1d500a44f9f2b3015f27a97b31cb",
+      "currentSha256": "fa07bfce8308e727f8f8aea4c8acd7bc9faf1d500a44f9f2b3015f27a97b31cb",
+      "same": true,
+      "currentLine": 2239
+    },
+    {
+      "scope": "TR10 source identity/cache/read ownership",
+      "reference": "067bcb9",
+      "path": "media/revision-pin.js",
+      "oldSha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+      "currentSha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+      "same": true
+    },
+    {
+      "scope": "TR10 source identity/cache/read ownership",
+      "reference": "ee0ac84",
+      "path": "media/drive-source.mjs",
+      "oldSha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+      "currentSha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+      "same": true
+    },
+    {
+      "scope": "TR10 source identity/cache/read ownership",
+      "reference": "ee0ac84",
+      "path": "media/general-source.mjs",
+      "oldSha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+      "currentSha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+      "same": true
+    }
+  ],
+  "assertions": {
+    "original69Preserved": true,
+    "uiFourViewports": true,
+    "pointerFiniteClause": true,
+    "malformedAllPassed": true,
+    "nativeUISixClosed": true,
+    "corruptClassifiedAndClosed": true,
+    "q2SourceChanged": true,
+    "allBoundProducerChecks": true,
+    "currentControlledAdapter": true
+  },
+  "counterevidence": [
+    "rc20 initial post-review aggregate=false was a retained QA original-mode assertion failure; final negative controls are distinct passing record.",
+    "Native Q2 noncooperative cleanup scenario remains GENERAL_CLEANUP_UNCONFIRMED with settled=false; this is a tested safe refusal, not successful cleanup.",
+    "Prior UI02 overlay required pointer-only leave observation; rc19 later supplies it.",
+    "Prior overlays added actual-corruption/full-device/exhausted-network requirements beyond these finite original rows; those stay broader corpus/G5 work, not silent changes to original acceptance."
+  ],
+  "limits": [
+    "No real-account/device/whole-format/p95/production promotion.",
+    "Whole app/source equality is not claimed. Exact scoped comparisons are evidence; changed enclosing code cannot be blanket-promoted.",
+    "Immutable spec/baseline/prior evidence untouched. Only this new leaf is task-owned."
+  ]
+}

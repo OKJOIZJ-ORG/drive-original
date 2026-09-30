@@ -1,0 +1,8 @@
+'use strict';
+const fs = require('node:fs');
+const path = require('node:path');
+const file = path.resolve(__dirname, '../../memory/SESSION-LOG.md');
+const heading = '## 2026-10-01 07:15 — corrected27/28 and user-move WAIT';
+if (fs.readFileSync(file,'utf8').includes(heading)) throw new Error('Already appended');
+fs.appendFileSync(file, `\n\n${heading}\n\nConfirmed shell correction independent review/14focused/7native/full27 local665\nplus version-only28 static20. Fixed27/28 public52/cache40/eight source archives\nexcluded/six private404/control11/source26+6/ZIP52 pass. Current28 source944f006/\nWorker99252c7f/ZIP54784062B/cb115db7. Actual PC27→28 ONE trusted normal click\npreserves account/writer/full projection/current controller/cache40;16 safe rows\nmatch live canonicalSHA1399bf39, late gaps explicit. Force27 partial scope only;\nactualforce28/reopen pending. Own PC observer/storage/globals/listeners removed.\nAndroid28 core/cache41 pass;142 OS-forced landscape settings and exact restore\npass, own transports cleaned. Earlier124 synthetic420s endpoint/EOS/86ACK/19prunes\nsaved without realAC3/audibility claim. Android delta143 selects23+2 exact paths.\nFinal28 corpus19/performance11 prepared unrun; finite six contracts13comparisons/\n16bindings/currentadapter3 pass, no whole-row promotions. Earlier failures retained.\nUser requests save current unit and wait for move: D067 temporarily supersedes\nD066 execution. Checkpoint/goal/index/current record/handoff align WAIT. Root exact\nsafe curation/local commit, no new product/device/corpus/offline/renewal unit or\ntimer. Production1.21.0/e08989a/main/push/generalwritesfalse/PAUSED unchanged.\n`);
+console.log('Session WAIT appended');

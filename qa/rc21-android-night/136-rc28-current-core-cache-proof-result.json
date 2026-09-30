@@ -1,0 +1,515 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T22:01:20.483Z",
+  "producerSha256": "ef99cf86359945de1fa3985847aa54e69b9a20948ec590ba38d68d777a94ba8c",
+  "commonSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "actual Android28 cached core hashes without refresh",
+      "at": "2026-09-30T22:01:22.172Z",
+      "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+      "version": "1.22.0-rc.28",
+      "cacheEntries": 41,
+      "coreAssets": 41,
+      "present": 41,
+      "matching": 41,
+      "extraEntries": 0,
+      "extraIsOnlyOwnSw": true,
+      "rows": [
+        {
+          "path": "./",
+          "present": true,
+          "bytes": 50974,
+          "match": true,
+          "sha256": "4c06809575a2b0c5246647ed701ffd39e241930b06f8a85476b09551f0948a2d"
+        },
+        {
+          "path": "./index.html",
+          "present": true,
+          "bytes": 50974,
+          "match": true,
+          "sha256": "4c06809575a2b0c5246647ed701ffd39e241930b06f8a85476b09551f0948a2d"
+        },
+        {
+          "path": "./styles.css",
+          "present": true,
+          "bytes": 84359,
+          "match": true,
+          "sha256": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc"
+        },
+        {
+          "path": "./runtime-config.js",
+          "present": true,
+          "bytes": 300,
+          "match": true,
+          "sha256": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a"
+        },
+        {
+          "path": "./app.js",
+          "present": true,
+          "bytes": 494705,
+          "match": true,
+          "sha256": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377"
+        },
+        {
+          "path": "./media/drive-source.mjs",
+          "present": true,
+          "bytes": 14557,
+          "match": true,
+          "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+        },
+        {
+          "path": "./media/revision-pin.js",
+          "present": true,
+          "bytes": 10050,
+          "match": true,
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+        },
+        {
+          "path": "./media/ts-player.mjs",
+          "present": true,
+          "bytes": 17049,
+          "match": true,
+          "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+        },
+        {
+          "path": "./media/q1-core.mjs",
+          "present": true,
+          "bytes": 51322,
+          "match": true,
+          "sha256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8"
+        },
+        {
+          "path": "./media/transmux-worker.mjs",
+          "present": true,
+          "bytes": 42098,
+          "match": true,
+          "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+        },
+        {
+          "path": "./media/mux-mp4.min.js",
+          "present": true,
+          "bytes": 85985,
+          "match": true,
+          "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+        },
+        {
+          "path": "./media/mux-LICENSE.txt",
+          "present": true,
+          "bytes": 11342,
+          "match": true,
+          "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+        },
+        {
+          "path": "./media/general-admission.mjs",
+          "present": true,
+          "bytes": 5082,
+          "match": true,
+          "sha256": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d"
+        },
+        {
+          "path": "./media/general-codec.mjs",
+          "present": true,
+          "bytes": 1666,
+          "match": true,
+          "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+        },
+        {
+          "path": "./media/general-owner.mjs",
+          "present": true,
+          "bytes": 6692,
+          "match": true,
+          "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2"
+        },
+        {
+          "path": "./media/general-pipeline.mjs",
+          "present": true,
+          "bytes": 9976,
+          "match": true,
+          "sha256": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055"
+        },
+        {
+          "path": "./media/general-player.mjs",
+          "present": true,
+          "bytes": 20187,
+          "match": true,
+          "sha256": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d"
+        },
+        {
+          "path": "./media/general-source.mjs",
+          "present": true,
+          "bytes": 3765,
+          "match": true,
+          "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec"
+        },
+        {
+          "path": "./media/general-timeline.mjs",
+          "present": true,
+          "bytes": 6090,
+          "match": true,
+          "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+        },
+        {
+          "path": "./media/general-worker.mjs",
+          "present": true,
+          "bytes": 3228,
+          "match": true,
+          "sha256": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43"
+        },
+        {
+          "path": "./media/mediabunny-q1.mjs",
+          "present": true,
+          "bytes": 686739,
+          "match": true,
+          "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+        },
+        {
+          "path": "./media/mediabunny-q1.LICENSE",
+          "present": true,
+          "bytes": 16726,
+          "match": true,
+          "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+        },
+        {
+          "path": "./media/mediabunny-q1-NOTICE.md",
+          "present": true,
+          "bytes": 2955,
+          "match": true,
+          "sha256": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9"
+        },
+        {
+          "path": "./media/audio-runtime.mjs",
+          "present": true,
+          "bytes": 11482,
+          "match": true,
+          "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+        },
+        {
+          "path": "./media/audio-adapter.mjs",
+          "present": true,
+          "bytes": 2790,
+          "match": true,
+          "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+        },
+        {
+          "path": "./media/audio-worker-client.mjs",
+          "present": true,
+          "bytes": 6213,
+          "match": true,
+          "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+        },
+        {
+          "path": "./media/audio-worker.mjs",
+          "present": true,
+          "bytes": 3268,
+          "match": true,
+          "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+        },
+        {
+          "path": "./media/audio-codec.mjs",
+          "present": true,
+          "bytes": 15193,
+          "match": true,
+          "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+        },
+        {
+          "path": "./media/audio-codec.wasm",
+          "present": true,
+          "bytes": 502740,
+          "match": true,
+          "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+        },
+        {
+          "path": "./media/audio-codec.LICENSE.txt",
+          "present": true,
+          "bytes": 71576,
+          "match": true,
+          "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+        },
+        {
+          "path": "./media/audio-general-pipeline.mjs",
+          "present": true,
+          "bytes": 17504,
+          "match": true,
+          "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+        },
+        {
+          "path": "./media/audio-general-worker.mjs",
+          "present": true,
+          "bytes": 3392,
+          "match": true,
+          "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+        },
+        {
+          "path": "./licenses/index.html",
+          "present": true,
+          "bytes": 4852,
+          "match": true,
+          "sha256": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829"
+        },
+        {
+          "path": "./licenses/audio-source-NOTICE.md",
+          "present": true,
+          "bytes": 4212,
+          "match": true,
+          "sha256": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0"
+        },
+        {
+          "path": "./version.json",
+          "present": true,
+          "bytes": 262,
+          "match": true,
+          "sha256": "1de99c21f5d32cb36f0396ea823a2885f981fc60b11720fb52f240c268745f1b"
+        },
+        {
+          "path": "./manifest.webmanifest",
+          "present": true,
+          "bytes": 639,
+          "match": true,
+          "sha256": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2"
+        },
+        {
+          "path": "./icons/app-icon.svg",
+          "present": true,
+          "bytes": 443,
+          "match": true,
+          "sha256": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1"
+        },
+        {
+          "path": "./icons/icon-192.png",
+          "present": true,
+          "bytes": 707,
+          "match": true,
+          "sha256": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99"
+        },
+        {
+          "path": "./icons/icon-512.png",
+          "present": true,
+          "bytes": 2091,
+          "match": true,
+          "sha256": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f"
+        },
+        {
+          "path": "./icons/maskable-512.png",
+          "present": true,
+          "bytes": 2068,
+          "match": true,
+          "sha256": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7"
+        },
+        {
+          "path": "./icons/apple-touch-icon.png",
+          "present": true,
+          "bytes": 656,
+          "match": true,
+          "sha256": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061"
+        }
+      ],
+      "networkReadsPerformed": false,
+      "cacheRefillPerformed": false,
+      "privateOrMediaEntriesExported": false
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.28",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "completed": true,
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}

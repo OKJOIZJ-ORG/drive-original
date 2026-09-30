@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "browserExecuted": false,
+  "checks": [
+    "all generated and factory expressions parse",
+    "wrong origin and iframe remain inert",
+    "missing cache fails without caches.open",
+    "only trusted normal controls recorded; account data excluded",
+    "cleanup removes owned storage and listeners; later reads refused",
+    "missing cached bodies cannot pass parity"
+  ],
+  "source27": "05661e05774b723246fe652914b393f279f019df",
+  "source28": "944f00607cf05e586b1c88e2876dd796ce114e82"
+}
