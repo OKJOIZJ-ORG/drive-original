@@ -1,0 +1,596 @@
+{
+  "source": "7591044adc1149391265b0e56a93a47252088a47",
+  "version": "1.22.0-rc.23",
+  "base": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "workerVersion": "1cb22ad7-f866-444a-9401-402187a37fc6",
+  "passed": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 50974,
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 490789,
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "bytes": 84359,
+      "gitEqual": true
+    },
+    {
+      "file": "sw.js",
+      "bytes": 69233,
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "bytes": 267,
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 14557,
+      "gitEqual": true
+    },
+    {
+      "file": "media/revision-pin.js",
+      "bytes": 10050,
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 17049,
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 51322,
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42098,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "bytes": 5082,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "bytes": 1666,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "bytes": 6692,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "bytes": 9976,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-player.mjs",
+      "bytes": 13328,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-source.mjs",
+      "bytes": 3765,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "bytes": 6090,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "bytes": 3228,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "bytes": 686739,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "bytes": 16726,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "bytes": 2955,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "bytes": 17504,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "bytes": 3392,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/index.html",
+      "bytes": 4852,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "bytes": 457141,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "bytes": 4212,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-manifest.json",
+      "bytes": 8661,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-reconstruct.cjs",
+      "bytes": 958,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part004",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part005",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part006",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part007",
+      "bytes": 3266263,
+      "gitEqual": true
+    },
+    {
+      "file": ".nojekyll",
+      "bytes": 0,
+      "gitEqual": true
+    }
+  ],
+  "privateRoutes": [
+    {
+      "file": "memory/CHECKPOINT.md",
+      "status": 404
+    },
+    {
+      "file": "qa/package.json",
+      "status": 404
+    },
+    {
+      "file": "media/build.json",
+      "status": 404
+    },
+    {
+      "file": "worker/index.mjs",
+      "status": 404
+    },
+    {
+      "file": "media/audio-codec-build.json",
+      "status": 404
+    },
+    {
+      "file": "media/mediabunny-q1-build.json",
+      "status": 404
+    }
+  ],
+  "cold": {
+    "version": "1.22.0-rc.23",
+    "controlled": true,
+    "controller": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/sw.js",
+    "registrations": [
+      {
+        "scope": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+        "active": "activated"
+      }
+    ],
+    "shells": [
+      "drive-original-shell-1.22.0-rc.23"
+    ],
+    "cacheCounts": [
+      {
+        "key": "drive-original-shell-1.22.0-rc.23",
+        "count": 41
+      }
+    ],
+    "accountPresent": false,
+    "candidate": true,
+    "writes": false
+  },
+  "cached": [
+    {
+      "file": "index.html",
+      "gitEqual": true,
+      "sha256": "5d4656281454f2df9e9561eda2ae0511015b37d49b0d2e78f2093ac597b702e1"
+    },
+    {
+      "file": "styles.css",
+      "gitEqual": true,
+      "sha256": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc"
+    },
+    {
+      "file": "runtime-config.js",
+      "gitEqual": true,
+      "sha256": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a"
+    },
+    {
+      "file": "app.js",
+      "gitEqual": true,
+      "sha256": "ee10b3740adb32e88da46719aa1f4d7b38bb209242d4d328b70334d3c072bb2b"
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "gitEqual": true,
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "file": "media/revision-pin.js",
+      "gitEqual": true,
+      "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "gitEqual": true,
+      "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "gitEqual": true,
+      "sha256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8"
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "gitEqual": true,
+      "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "gitEqual": true,
+      "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "gitEqual": true,
+      "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "gitEqual": true,
+      "sha256": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d"
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "gitEqual": true,
+      "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "gitEqual": true,
+      "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2"
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "gitEqual": true,
+      "sha256": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055"
+    },
+    {
+      "file": "media/general-player.mjs",
+      "gitEqual": true,
+      "sha256": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59"
+    },
+    {
+      "file": "media/general-source.mjs",
+      "gitEqual": true,
+      "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec"
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "gitEqual": true,
+      "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "gitEqual": true,
+      "sha256": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43"
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "gitEqual": true,
+      "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "gitEqual": true,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "gitEqual": true,
+      "sha256": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9"
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "gitEqual": true,
+      "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "gitEqual": true,
+      "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "gitEqual": true,
+      "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "gitEqual": true,
+      "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "gitEqual": true,
+      "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "gitEqual": true,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "gitEqual": true,
+      "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "gitEqual": true,
+      "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "gitEqual": true,
+      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+    },
+    {
+      "file": "licenses/index.html",
+      "gitEqual": true,
+      "sha256": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829"
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "gitEqual": true,
+      "sha256": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0"
+    },
+    {
+      "file": "version.json",
+      "gitEqual": true,
+      "sha256": "abf96cc0e625e0572939d645a68af1460999e8fd79deedf655a40c0db4667a10"
+    },
+    {
+      "file": "manifest.webmanifest",
+      "gitEqual": true,
+      "sha256": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2"
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "gitEqual": true,
+      "sha256": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1"
+    },
+    {
+      "file": "icons/icon-192.png",
+      "gitEqual": true,
+      "sha256": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99"
+    },
+    {
+      "file": "icons/icon-512.png",
+      "gitEqual": true,
+      "sha256": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f"
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "gitEqual": true,
+      "sha256": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7"
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "gitEqual": true,
+      "sha256": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061"
+    }
+  ],
+  "uncachedSourceDownloads": [
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part004",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part005",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part006",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part007",
+      "cached": false
+    }
+  ],
+  "offline": {
+    "version": "1.22.0-rc.23",
+    "controlled": true,
+    "controller": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/sw.js",
+    "registrations": [
+      {
+        "scope": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+        "active": "activated"
+      }
+    ],
+    "shells": [
+      "drive-original-shell-1.22.0-rc.23"
+    ],
+    "cacheCounts": [
+      {
+        "key": "drive-original-shell-1.22.0-rc.23",
+        "count": 41
+      }
+    ],
+    "accountPresent": false,
+    "candidate": true,
+    "writes": false
+  },
+  "pageErrors": 0,
+  "originalColdFailureRetained": true,
+  "originalColdCause": "unknown",
+  "evidenceInputs": [
+    {
+      "path": "qa/candidate-rc23-delivery/results.json",
+      "sha256": "9db3eb920008907c6e902c6da500681f78366402a8d81991479a19d1a2ff9f7e"
+    },
+    {
+      "path": "qa/rc23-cold-delivery-diagnosis/results.json",
+      "sha256": "e8f3524cddd82d40a2d71b47f211ebe5732802453240e8522fea6050390263ec"
+    },
+    {
+      "path": "qa/candidate-rc23-delivery/redacted-readback.json",
+      "sha256": "331763b3b5d0fd6c3d8613baa473c50877a4ee1d835798e8429023ab87ca56be"
+    }
+  ],
+  "producerSha256": "d4bf9adc4657006953bb9c91092974096004367a3bb3b6a232565818fc7f5dbe",
+  "scope": "Composition of same fixed-source public HTTP/404 and independent nominal45s cold/cache/offline checks; retained original cold timeout is not retrospectively passed"
+}

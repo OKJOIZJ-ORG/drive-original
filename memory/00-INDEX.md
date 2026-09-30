@@ -118,3 +118,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 - `CANDIDATE-RC22-20261001.md`: fixed22 free delivery/public/cache/package and actual Android scope.
 - `AUTH-RENEWAL-20261001.md`: local failure mechanism, bounded recurring client recovery, independent review and unperformed actual23 boundary.
+
+- `AUTH-BODY-DEADLINE-20261001.md`: successful auth body timeout/transport recovery and terminal/cancel distinctions, local24 qualification.

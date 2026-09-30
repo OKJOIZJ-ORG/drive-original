@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.23';
+const APP_VERSION = '1.22.0-rc.24';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -2376,11 +2376,14 @@ function authErrorCode(value, fallback = 'auth_unavailable') {
   return AUTH_ERROR_CODES.has(code) ? code : fallback;
 }
 
-async function readAuthJson(response) {
+async function readAuthJson(response, { onTransportFailure } = {}) {
   const contentType = response.headers?.get?.('Content-Type') || '';
   if (!contentType.toLowerCase().includes('application/json')) return null;
   try { return await response.json(); }
-  catch (_) { return null; }
+  catch (error) {
+    if (error?.name === 'AbortError' || error?.name === 'TypeError') onTransportFailure?.();
+    return null;
+  }
 }
 
 function installSessionCredential(value, { generation, rejectedRevision = null } = {}) {
@@ -2741,7 +2744,12 @@ function requestSessionCredential({ background = false, force = false, rejectedR
     credentialRequestAbortController = controller;
     const outcome = { generation, account: state.authAccountKey, retryable: true };
     credentialRequestOutcome = outcome;
-    const timeout = setTimeout(() => controller.abort(), AUTH_CREDENTIAL_TIMEOUT_MS);
+    const timeout = setTimeout(() => {
+      // Headers alone do not complete a credential flight. Preserve recovery
+      // for its total deadline, including a stalled successful response body.
+      if (outcome.responseOk !== false) outcome.retryable = true;
+      controller.abort();
+    }, AUTH_CREDENTIAL_TIMEOUT_MS);
     try {
       const response = await fetchSessionCredentialWithRetry(new URL(AUTH_CREDENTIAL_PATH, location.origin), {
         method: 'POST',
@@ -2758,7 +2766,10 @@ function requestSessionCredential({ background = false, force = false, rejectedR
         signal: controller.signal
       }, outcome);
       if (generation !== state.authGeneration) return false;
-      const payload = await readAuthJson(response);
+      outcome.responseOk = response.ok;
+      const payload = await readAuthJson(response, {
+        onTransportFailure: () => { if (response.ok) outcome.retryable = true; }
+      });
       if (generation !== state.authGeneration) return false;
       if (!response.ok) {
         const code = authErrorCode(payload);

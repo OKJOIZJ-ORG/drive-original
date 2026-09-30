@@ -1,0 +1,608 @@
+{
+  "passed": true,
+  "syntheticOnly": true,
+  "revision": "7591044adc1149391265b0e56a93a47252088a47",
+  "appSha256": "ee10b3740adb32e88da46719aa1f4d7b38bb209242d4d328b70334d3c072bb2b",
+  "driverSha256": "37cb686d1f238a155d183c571dbe33fadcb1c32afaadc808c6d7f9e4c0989a59",
+  "scope": "Actual fixed23 page auth functions plus controlled Response stream and clock. No product/browser/account mutation.",
+  "results": [
+    {
+      "name": "HTTP200 body stalls until existing deadline",
+      "status": 200,
+      "body": "hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP200 valid JSON completes",
+      "status": 200,
+      "body": "valid",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 2,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 3510000,
+            "remaining": 3510000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 2,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 3510000,
+            "remaining": 3455000
+          }
+        ]
+      }
+    },
+    {
+      "name": "HTTP200 valid JSON body40s delay completes before deadline",
+      "status": 200,
+      "body": "valid-delayed",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          },
+          {
+            "delay": 40000,
+            "remaining": 40000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 2,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 3470000,
+            "remaining": 3455000
+          }
+        ]
+      }
+    },
+    {
+      "name": "HTTP200 completed malformed JSON remains terminal",
+      "status": 200,
+      "body": "invalid-json",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP409 completed terminal JSON remains terminal",
+      "status": 409,
+      "body": "terminal-json",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP503 completed terminal JSON remains terminal",
+      "status": 503,
+      "body": "terminal-json",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP200 body cancellation via clearToken remains stopped",
+      "status": 200,
+      "body": "hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 2,
+        "accountRetained": true,
+        "tokenPresent": false,
+        "usable": false,
+        "authStatus": "reconnect-required",
+        "retryable": null,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP200 body cancellation via generation change remains stopped",
+      "status": 200,
+      "body": "hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 2,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "HTTP503 clone body stalls until existing deadline",
+      "status": 503,
+      "body": "hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": true,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": true,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 15000,
+            "remaining": 15000
+          }
+        ]
+      }
+    },
+    {
+      "name": "HTTP503 clone body cancellation via clearToken remains stopped",
+      "status": 503,
+      "body": "hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": true,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 2,
+        "accountRetained": true,
+        "tokenPresent": false,
+        "usable": false,
+        "authStatus": "reconnect-required",
+        "retryable": null,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "Fetch headers stall until existing deadline retains recovery",
+      "status": 200,
+      "body": "headers-hang",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": true,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": true,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 15000,
+            "remaining": 15000
+          }
+        ]
+      }
+    },
+    {
+      "name": "HTTP200 body transport error before deadline shares invalid-json result",
+      "status": 200,
+      "body": "transport-error",
+      "markDeadline": false,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          },
+          {
+            "delay": 5000,
+            "remaining": 5000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "VM deadline-mark proposal retains HTTP200 timeout recovery",
+      "status": 200,
+      "body": "hang",
+      "markDeadline": true,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": true,
+        "pending": false,
+        "timers": [
+          {
+            "delay": 15000,
+            "remaining": 15000
+          }
+        ]
+      }
+    },
+    {
+      "name": "VM deadline-mark proposal still stops completed malformed JSON",
+      "status": 200,
+      "body": "invalid-json",
+      "markDeadline": true,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "auth-unavailable",
+        "retryable": false,
+        "pending": false,
+        "timers": []
+      }
+    },
+    {
+      "name": "VM deadline-mark proposal still stops explicit generation clear",
+      "status": 200,
+      "body": "hang",
+      "markDeadline": true,
+      "headers": {
+        "elapsed": 30000,
+        "calls": 1,
+        "bodyAborts": 0,
+        "revision": 1,
+        "authGeneration": 1,
+        "accountRetained": true,
+        "tokenPresent": true,
+        "usable": true,
+        "authStatus": "online",
+        "retryable": false,
+        "pending": true,
+        "timers": [
+          {
+            "delay": 55000,
+            "remaining": 55000
+          }
+        ]
+      },
+      "deadline": {
+        "elapsed": 85000,
+        "calls": 1,
+        "bodyAborts": 1,
+        "revision": 1,
+        "authGeneration": 2,
+        "accountRetained": true,
+        "tokenPresent": false,
+        "usable": false,
+        "authStatus": "reconnect-required",
+        "retryable": null,
+        "pending": false,
+        "timers": []
+      }
+    }
+  ]
+}

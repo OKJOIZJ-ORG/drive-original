@@ -1084,6 +1084,112 @@ test('an active Q1 lease shares two503 recovery while a retiring lease receives 
   }
 });
 
+function streamingCredentialResponse(f, signal, { mode = 'hang', status = 200 } = {}) {
+  const bytes = new TextEncoder().encode(mode === 'syntax' ? '{"accessToken":'
+    : mode === 'schema' ? JSON.stringify({ accessToken: 'incomplete' })
+      : JSON.stringify({ capabilities: { version: 1, driveRead: true, driveWrite: true, appData: true },
+        account: 'account-A', accessToken: 'fresh', revision: 8, expiresAt: f.clock.now() + 3600000 }));
+  const stream = new ReadableStream({ start(controller) {
+    let finished = false;
+    const onAbort = () => {
+      if (finished) return;
+      finished = true; signal.removeEventListener('abort', onAbort); controller.error(signal.reason);
+    };
+    signal.addEventListener('abort', onAbort, { once: true });
+    if (mode === 'hang') return;
+    const finish = () => {
+      if (finished) return;
+      finished = true; signal.removeEventListener('abort', onAbort);
+      if (mode === 'transport') controller.error(new TypeError('synthetic body transport loss'));
+      else { controller.enqueue(bytes); controller.close(); }
+    };
+    if (mode === 'delayed' || mode === 'transport') f.context.setTimeout(finish, mode === 'delayed' ? 40000 : 5000);
+    else finish();
+  } });
+  return new Response(stream, { status, headers: { 'Content-Type': 'application/json' } });
+}
+
+test('successful credential headers retain one renewal successor for body timeout or transport TypeError', async () => {
+  for (const mode of ['hang', 'transport']) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async (_, { signal }) => {
+      calls++;
+      return calls === 1 ? streamingCredentialResponse(f, signal, { mode }) : f.fresh();
+    };
+    run(f.context, 'scheduleTokenRenewal()'); await f.advance(30000);
+    assert.equal(run(f.context, 'credentialRequestOutcome.retryable'), false, 'headers alone remain unclassified as transport failure');
+    await f.advance(mode === 'hang' ? 55000 : 5000);
+    assert.equal(calls, 1, 'ambiguous body failure must not add in-flight HTTP replay');
+    assert.equal(run(f.context, 'credentialRequestPromise'), null);
+    assert.equal(run(f.context, 'credentialRequestOutcome.retryable'), true);
+    assert.equal(run(f.context, 'state.tokenRevision'), 7);
+    assert.equal(f.clock.scheduled.size, 1); assert.equal(f.clock.captured.at(-1).delay, 15000);
+    await f.advance(15000);
+    assert.equal(calls, 2); assert.equal(run(f.context, 'state.tokenRevision'), 8);
+  }
+});
+
+test('delayed valid credential bodies complete normally while malformed syntax and schema remain terminal', async () => {
+  for (const mode of ['valid', 'delayed', 'syntax', 'schema']) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async (_, { signal }) => { calls++; return streamingCredentialResponse(f, signal, { mode }); };
+    run(f.context, 'scheduleTokenRenewal()'); await f.advance(30000);
+    if (mode === 'delayed') await f.advance(40000);
+    assert.equal(calls, 1);
+    assert.equal(run(f.context, 'credentialRequestOutcome.retryable'), false);
+    const valid = mode === 'valid' || mode === 'delayed';
+    assert.equal(run(f.context, 'state.tokenRevision'), valid ? 8 : 7);
+    assert.equal(f.clock.scheduled.size, valid ? 1 : 0);
+  }
+});
+
+test('terminal credential status headers remain stopped even if their body stalls to the deadline', async () => {
+  for (const status of [401, 403, 409]) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async (_, { signal }) => { calls++; return streamingCredentialResponse(f, signal, { status }); };
+    run(f.context, 'scheduleTokenRenewal()'); await f.advance(30000); await f.advance(55000);
+    assert.equal(calls, 1); assert.equal(run(f.context, 'credentialRequestOutcome.retryable'), false);
+    assert.equal(f.clock.scheduled.size, 0);
+  }
+});
+
+test('body cancellation cannot revive cleared generation or overwrite its new credential outcome', async () => {
+  for (const cancellation of ['clear', 'generation']) {
+    const f = renewalFixture(); let calls = 0;
+    f.context.fetch = async (_, { signal }) => { calls++; return streamingCredentialResponse(f, signal); };
+    run(f.context, 'scheduleTokenRenewal()'); await f.advance(30000);
+    const oldOutcome = run(f.context, 'credentialRequestOutcome');
+    run(f.context, cancellation === 'clear' ? 'clearToken(false,{preserveAccount:true})'
+      : 'state.authGeneration++;credentialRequestAbortController.abort()');
+    let next, newer;
+    if (cancellation === 'clear') {
+      f.context.fetch = async () => { calls++; return f.error('forbidden',403); };
+      next = run(f.context, 'requestSessionCredential({background:true,force:true})');
+      newer = run(f.context, 'credentialRequestOutcome');
+    }
+    await flushCredentialTasks(); await f.advance(55000);
+    assert.equal(calls, cancellation === 'clear' ? 2 : 1); assert.equal(f.clock.scheduled.size, 0);
+    if (cancellation === 'clear') {
+      assert.equal(await next, false);
+      assert.notEqual(newer, oldOutcome); assert.equal(newer.retryable, false);
+      assert.equal(oldOutcome.retryable, true, 'old body abort still completes after the new owner started');
+      assert.equal(run(f.context, 'credentialRequestOutcome.retryable'), false);
+    }
+  }
+});
+
+test('readAuthJson keeps its default null contract and transport callback excludes SyntaxError', async () => {
+  const context = loadAppContext();
+  let transportCallbacks = 0;
+  context.noteTransport = () => { transportCallbacks++; };
+  for (const [error, callback] of [[new TypeError('body transport'),false], [new TypeError('body transport'),true],
+    [new DOMException('aborted','AbortError'),true], [new SyntaxError('malformed JSON'),true]]) {
+    context.response = { headers: new Headers({ 'Content-Type': 'application/json' }), async json() { throw error; } };
+    assert.equal(await run(context, callback ? 'readAuthJson(response,{onTransportFailure:noteTransport})' : 'readAuthJson(response)'), null);
+  }
+  assert.equal(transportCallbacks, 2);
+});
+
 test('cancelling a Drive credential waiter releases it while the shared refresh serves another request', async () => {
   for (const phase of ['expired', 'rejected']) {
     const context = loadAppContext();

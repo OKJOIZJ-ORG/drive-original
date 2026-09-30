@@ -1,0 +1,5 @@
+# Auth response-body recovery
+
+Confirmed synthetic fixed23 actual appfunctions/Response streams15cases:200headers set retryablefalse, body55sdeadline abort then readAuthJson returnsnull, leaving no successor; completed malformedJSON/terminalerrors correctly stop. Narrow implemented correction opts successful-response AbortError/TypeError into the captured per-flight outcome; total55sdeadline marks its own outcome unless terminal HTTP headers are known. Default readAuthJson callers keep null behavior. No ambiguous in-flight HTTP replay, backend/SW/lease changes.
+
+Independent gpt-6.1-sol/medium read-only review is clean on terminalHTTP/malformedSyntax/schema/manualclear/generation/newoutcome fences. Five meaningful product streaming/defaultparser cases and app136/136 pass before24pin; full final24 product643/643 stable. qa/rc23-auth-body-deadline preserves fixed23 baseline15cases, accepted implementation and exact check hashes. This proves eventual scheduler recovery, not uninterrupted playback through55s outage, and does not identify original real PC HTTPcause.

@@ -1,0 +1,33 @@
+{
+  "scope": "Local auth-only transport body correction after fixed23; no version, backend, SW, browser, grant or deployment change",
+  "baseRevision": "7591044adc1149391265b0e56a93a47252088a47",
+  "sourceHashes": {
+    "app.js": "e6fbd7dc6341aaf9292d69c361d398ee1990a59a178ab1366f9fbc3f24ddfe39",
+    "tests/app.test.js": "9c6bc4a0df0f6dd4a6bbebebea5bca7ba44cce54da6625155a3c168ef5035642"
+  },
+  "checks": [
+    {
+      "command": "node --test --test-name-pattern='successful credential headers|delayed valid credential bodies|terminal credential status|body cancellation|readAuthJson' tests/app.test.js",
+      "passed": 5,
+      "failed": 0,
+      "description": "5 new streaming body/default parser cases"
+    },
+    {
+      "command": "node --test tests/app.test.js",
+      "passed": 136,
+      "failed": 0
+    },
+    {
+      "command": "node --check app.js",
+      "passed": true
+    },
+    {
+      "command": "git diff --check -- app.js tests/app.test.js",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Actual original PC HTTP response remains unknown",
+    "Eventual timer recovery does not prove seamless55s auth outage playback"
+  ]
+}

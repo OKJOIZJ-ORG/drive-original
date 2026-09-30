@@ -1,0 +1,25 @@
+{
+  "recordedAt": "2026-09-30T16:11:11.229Z",
+  "source": "7591044adc1149391265b0e56a93a47252088a47",
+  "passed": false,
+  "phase": "before-wrangler",
+  "code": "CANDIDATE_OUTPUT_MISMATCH",
+  "observation": {
+    "file": "index.html",
+    "isFile": true,
+    "symbolicLink": false,
+    "nlink": 2,
+    "byteEqual": true
+  },
+  "followup": {
+    "sourceAndOutputNlink": 1,
+    "distinctInodes": true,
+    "fsutilListedOnlyOutputPath": true,
+    "publicBytesEqual": true
+  },
+  "cause": "unknown transient link observation",
+  "guardChanged": false,
+  "deploymentStarted": false,
+  "producerSha256": "ed03fe5ab4b1423e676ef7677c6c48443d1572bf345afab7db9a984e74f72395",
+  "scope": "Failure transcript reconstructed from exact first tool output; no successful deployment claim"
+}
