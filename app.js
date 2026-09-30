@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.19';
+const APP_VERSION = '1.22.0-rc.20';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -655,6 +655,8 @@ let q0Playback = null;
 let q0ControlWait = null;
 // Private, immutable for this selected file lifetime; never persist or log.
 let q0PinnedSource = null;
+// One verified raster kind for this selected immutable source, never a catalog cache.
+let verifiedOriginalImage = null;
 let q1Retirement = Promise.resolve({ settled: true });
 let q1RetirementResult = { settled: true };
 let q1RetirementSequence = 0;
@@ -804,8 +806,13 @@ function handleQ0PinMessage(event, data) {
         if (!owner.audioProbeStarted && state.selected?.id === owner.fileId && !el.videoPlayer.hidden) {
           owner.audioProbeStarted = true;
           const pinned = q0PinnedSource;
+          owner.formatDecision = new Promise(resolve => { owner.resolveFormatDecision = resolve; });
           // Retirement must join the probe, including late source cancellation.
           owner.setupDone = Promise.resolve().then(() => planPinnedOriginalAudio(owner, pinned));
+          // The handoff may retire this owner, so it must run outside setupDone.
+          void owner.setupDone.then(async mimeType => {
+            if (mimeType) return presentPinnedOriginalImage(owner, pinned, mimeType);
+          }).catch(() => {}).finally(() => owner.resolveFormatDecision());
         }
       } else if (data.mode !== 'get') throw new Error('PROTOCOL');
     } catch (_) { error = 'PIN_REJECTED'; }
@@ -2144,7 +2151,7 @@ async function recoverFromMediaProxyError(data) {
   if (!retryFile) return;
   const retrySession = state.mediaSession;
   const retrySourceGeneration = mediaSourceGeneration;
-  const isVideo = retryFile.mimeType?.startsWith('video/');
+  const isVideo = isVideoPresentation(retryFile);
   if (classifyMediaProxyFailure(data) === 'source-pin') {
     retireQ0Playback();
     clearDirectMediaSources();
@@ -5359,7 +5366,7 @@ function openPlayer(file) {
   el.codecNote.textContent = state.demo
     ? '데모 화면은 저장 파일 정보를 예시로 보여 주며 실제 원본 바이트를 재생하지 않습니다.'
     : 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
-  const isVideo = file.mimeType?.startsWith('video/');
+  const isVideo = isVideoPresentation(file);
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !isVideo;
   if (el.ctrlFramePrev) el.ctrlFramePrev.hidden = !isVideo;
@@ -7954,10 +7961,25 @@ async function planPinnedOriginalAudio(owner, pin) {
       }});
     if (['headRevisionId','size','mimeType','modifiedTime','sha256Checksum']
       .some(key => source.identity[key] !== pin.descriptor[key])) throw new Error('Q1_SOURCE_CONTENT_DRIFT');
-    // Only an actual ISO ftyp header admits this Q2-specific inspection.
-    // WebM/other original-native formats keep their existing path.
+    // Reuse the native-format probe for raster ownership; only an actual ISO
+    // ftyp header admits Q2 audio inspection. Other native formats keep Q0.
     const signature=await source.read({start:0,end:11});
     if (!current()) { await closeSource(); return; }
+    const imageMime = sniffOriginalImageType(signature);
+    // An ISO/non-raster decision need not await optional audio capability work
+    // before the native code4 recovery can proceed.
+    if (!imageMime) owner.resolveFormatDecision?.();
+    if (imageMime) {
+      // Only a recognized raster prefix gets this extra bounded header read.
+      // Valid video retains the existing 12-byte/ftyp probe and reads.
+      const header = await source.read({start:0,end:Math.min(Number(source.identity.size),64)-1});
+      const valid = isValidOriginalImageHeader(header, Number(source.identity.size), imageMime);
+      cleanup = await closeSource();
+      if (!cleanup.settled) throw Object.assign(new Error('GENERAL_PROBE_CLEANUP_UNSETTLED'),{cleanup});
+      if (current() && valid) return imageMime;
+      if (current()) throw new Error('GENERAL_IMAGE_HEADER_UNQUALIFIED');
+      return;
+    }
     if (signature.length!==12 || String.fromCharCode(...signature.subarray(4,8))!=='ftyp') {
       cleanup=await closeSource();
       if (!cleanup.settled) throw Object.assign(new Error('GENERAL_PROBE_CLEANUP_UNSETTLED'),{cleanup});
@@ -7986,8 +8008,98 @@ async function planPinnedOriginalAudio(owner, pin) {
       ? error.message : 'GENERAL_AUDIO_PROBE_FAILED',terminal:true},owner.session);
     clearDirectMediaSources();
     state.mediaAttempt='failed';
-    showMediaError('원본 음성 형식을 안전하게 확인하지 못했습니다. 앱을 새로 연 뒤 다시 시도하세요.',
-      {title:'원본 음성 확인 필요',showRetry:false});
+    showMediaError('원본 형식을 안전하게 확인하지 못했습니다. 앱을 새로 연 뒤 다시 시도하세요.',
+      {title:'원본 형식 확인 필요',showRetry:false});
+  }
+}
+
+function sniffOriginalImageType(bytes) {
+  if (!ArrayBuffer.isView(bytes) || bytes.BYTES_PER_ELEMENT !== 1) return null;
+  const matches = (offset, pattern) => bytes.length >= offset + pattern.length
+    && pattern.every((value, index) => bytes[offset + index] === value);
+  if (matches(0,[137,80,78,71,13,10,26,10])) return 'image/png';
+  if (matches(0,[255,216,255])) return 'image/jpeg';
+  if (matches(0,[71,73,70,56,55,97]) || matches(0,[71,73,70,56,57,97])) return 'image/gif';
+  if (matches(0,[82,73,70,70]) && matches(8,[87,69,66,80])) return 'image/webp';
+  if (matches(0,[66,77])) return 'image/bmp';
+  return null; // Never HTML, JSON, SVG or a metadata/filename-only inference.
+}
+
+function isValidOriginalImageHeader(bytes, size, mimeType) {
+  if (!ArrayBuffer.isView(bytes) || bytes.BYTES_PER_ELEMENT !== 1
+    || !Number.isSafeInteger(size) || size < bytes.length || bytes.length > 64
+    || sniffOriginalImageType(bytes) !== mimeType) return false;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  if (mimeType === 'image/png') {
+    if (bytes.length < 33 || view.getUint32(8) !== 13
+      || String.fromCharCode(...bytes.subarray(12,16)) !== 'IHDR') return false;
+    const width=view.getUint32(16), height=view.getUint32(20), depth=bytes[24], color=bytes[25];
+    const depths={0:[1,2,4,8,16],2:[8,16],3:[1,2,4,8],4:[8,16],6:[8,16]};
+    return width>0 && width<=0x7fffffff && height>0 && height<=0x7fffffff
+      && depths[color]?.includes(depth) === true && bytes[26]===0 && bytes[27]===0 && bytes[28]<=1;
+  }
+  if (mimeType === 'image/gif') return bytes.length>=13 && size>13
+    && view.getUint16(6,true)>0 && view.getUint16(8,true)>0;
+  if (mimeType === 'image/webp') return bytes.length>=20 && size>=20
+    && view.getUint32(4,true)+8===size
+    && ['VP8 ','VP8L','VP8X'].includes(String.fromCharCode(...bytes.subarray(12,16)))
+    && view.getUint32(16,true)>0 && view.getUint32(16,true)<=size-20;
+  if (mimeType === 'image/bmp') {
+    if (bytes.length<26) return false;
+    const dib=view.getUint32(14,true), offset=view.getUint32(10,true);
+    return [12,40,52,56,64,108,124].includes(dib) && offset>=14+dib && offset<size
+      && view.getUint32(2,true)<=size && view.getUint32(2,true)>offset
+      && (dib===12 ? view.getUint16(18,true)>0 && view.getUint16(20,true)>0
+        : bytes.length>=30 && view.getInt32(18,true)>0 && view.getInt32(22,true)!==0);
+  }
+  return mimeType === 'image/jpeg' && bytes.length>=4 && size>3
+    && bytes[3]!==0 && bytes[3]!==255;
+}
+
+function currentVerifiedOriginalImage(file = state.selected) {
+  const image = verifiedOriginalImage;
+  return image && state.selected?.id === file?.id && image.fileId === file?.id
+    && image.session === state.mediaSession && image.playbackSession === state.playbackSession
+    && image.accountId === state.accountId && image.account === state.authAccountKey
+    && image.accountGeneration === state.driveSessionGeneration && image.pin === q0PinnedSource
+    ? image : null;
+}
+
+function isVideoPresentation(file = state.selected) {
+  return Boolean(file?.mimeType?.startsWith('video/') && !currentVerifiedOriginalImage(file));
+}
+
+async function presentPinnedOriginalImage(owner, pin, mimeType) {
+  if (!isCurrentQ0Playback(owner, owner.fileId, owner.swGeneration)
+    || navigator.serviceWorker?.controller !== owner.swController || q0PinnedSource !== pin) return;
+  const file=state.selected, session=state.mediaSession, playbackSession=state.playbackSession,
+    accountId=state.accountId, routeGeneration=++initialMediaRouteGeneration;
+  clearDirectMediaSources();
+  const sourceGeneration=mediaSourceGeneration;
+  const current=()=>state.selected?.id===file.id && state.mediaSession===session
+    && state.playbackSession===playbackSession && state.accountId===accountId
+    && state.authAccountKey===owner.account && state.driveSessionGeneration===owner.accountGeneration
+    && mediaSourceGeneration===sourceGeneration && initialMediaRouteGeneration===routeGeneration
+    && navigator.serviceWorker?.controller===owner.swController && q0PinnedSource===pin
+    && q0Playback===null && q1Playback===null && el.playerSheet?.hidden!==true;
+  state.mediaAttempt='image-routing';
+  try {
+    const cleanup=await q1Retirement;
+    if (!current()) return;
+    if (!cleanup.settled) throw new Error('GENERAL_IMAGE_CLEANUP_UNSETTLED');
+    verifiedOriginalImage=Object.freeze({fileId:file.id,session,playbackSession,accountId,
+      account:owner.account,accountGeneration:owner.accountGeneration,pin,mimeType});
+    beginMediaViewObservation({previousSession:session});
+    setNativeVideoActionsAvailable(false);
+    updatePlayPauseUI();
+    emitMediaDiagnosticStage('route-selected',{route:'range',kind:'image',reason:'original-image-signature'},session);
+    startOriginalRangePlayback(file,'image',session,'Drive 원본 이미지 준비 중');
+  } catch (_) {
+    if (!current()) return;
+    verifiedOriginalImage=null;
+    state.mediaAttempt='failed';
+    showMediaError('원본 이미지 연결 정리가 확인되지 않았습니다. 앱을 새로 연 뒤 다시 시도하세요.',
+      {title:'원본 이미지 확인 필요',showRetry:false});
   }
 }
 
@@ -8217,6 +8329,15 @@ async function handleMediaElementError(kind) {
   // queues. Give the classified HTTP error a brief chance to arrive first so
   // a 401/403/429/5xx response is not mislabeled as an unsupported codec.
   await new Promise((resolve) => window.setTimeout(resolve, MEDIA_ERROR_CLASSIFY_DELAY_MS));
+  const formatOwner = kind === 'video' && mediaErrorCode === 4 ? q0Playback : null;
+  if (formatOwner?.audioProbeStarted
+    && isCurrentQ0Playback(formatOwner, file.id, sourceGeneration)) {
+    // Native decode failure may precede the bounded pinned-format probe. Join
+    // its decision before a video retry can retire a verified raster handoff.
+    await (formatOwner.formatDecision || formatOwner.setupDone);
+    if (!isCurrentQ0Playback(formatOwner, file.id, sourceGeneration)
+      || navigator.serviceWorker?.controller !== formatOwner.swController) return;
+  }
   if (
     state.selected?.id !== file.id || state.mediaSession !== session
     || mediaSourceGeneration !== sourceGeneration
@@ -8354,6 +8475,16 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     state.mediaAttempt = 'failed';
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
     return false;
+  }
+
+  if (currentVerifiedOriginalImage(file)) {
+    if (consumeRetry) state.mediaRetryCount += 1;
+    state.lastProxyError = null;
+    clearDirectMediaSources();
+    beginMediaViewObservation({ previousSession: expectedSession });
+    setNativeVideoActionsAvailable(false);
+    updatePlayPauseUI();
+    return startOriginalRangePlayback(file, 'image', expectedSession, message);
   }
 
   if (navigator.serviceWorker && !hasQ0CapableController()) {
@@ -10274,7 +10405,7 @@ function updateQualityDisplay() {
   const attempt = state.mediaAttempt;
   const playbackMode = state.mediaPlaybackMode;
   const qualityLabel = getPlaybackQualityLabel(playbackMode, state.mediaTransportVerified);
-  const isVideo = file.mimeType?.startsWith('video/');
+  const isVideo = isVideoPresentation(file);
   const meta = file.videoMediaMetadata || file.imageMediaMetadata;
   const metaW = Number(meta?.width) || 0;
   const metaH = Number(meta?.height) || 0;
@@ -10296,7 +10427,7 @@ function updateQualityDisplay() {
 
   if (el.mediaFileSizeType) {
     const sizeStr = formatBytes(file.size);
-    const mimeStr = friendlyMime(file.mimeType);
+    const mimeStr = friendlyMime(currentVerifiedOriginalImage(file)?.mimeType || file.mimeType);
     el.mediaFileSizeType.textContent = [sizeStr, mimeStr].filter(Boolean).join(' · ') || '정보 없음';
   }
 
@@ -10482,6 +10613,7 @@ function clearDirectMediaSources() {
 
 function resetMediaElements() {
   q0PinnedSource = null;
+  verifiedOriginalImage = null;
   mediaViewObservation = null;
   state.mediaSession += 1;
   clearMediaSeekWatchdog('session-reset');

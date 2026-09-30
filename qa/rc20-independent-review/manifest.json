@@ -1,0 +1,69 @@
+{
+  "format": 1,
+  "reviewer": "gpt-6.1-sol high",
+  "scope": "Unit20 independent read-only source/maintained assertions/saved evidence review; no reviewer test/browser/network execution",
+  "gitBase": "e712954b96c96b73432c864e5f833d204e4121ae",
+  "verdict": "no remaining confirmed material finding in reviewed scope",
+  "resolvedFindings": [
+    "classified worker recovery used declared video kind for verified image",
+    "range retry recreated video owner for verified image",
+    "already-visible custom video controls required explicit image-handoff refresh"
+  ],
+  "files": [
+    {
+      "path": "app.js",
+      "sha256": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+      "bytes": 485452
+    },
+    {
+      "path": "tests/image-owner-dispatch.test.js",
+      "sha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7",
+      "bytes": 10478
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/focused-tests.txt",
+      "sha256": "4492c2e55bae6c651282832bc5ade600216a8852a661b86bdd1fabe77c013343",
+      "bytes": 7442
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-qualification.cjs",
+      "sha256": "198d5aad1a7496712db99b702c3d987caabd816f9cdb6f6dc6cc26d395fe210a",
+      "bytes": 15976
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-initial-producer.cjs",
+      "sha256": "cafbff63429e8fdbf3327267bc32d26c21bc7678d15e10c1b33248d294915bdd",
+      "bytes": 15880
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-controls.cjs",
+      "sha256": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+      "bytes": 8997
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-results.json",
+      "sha256": "121b898bb3f507211992eae97b0be15cbf9de933177a50fe9971967aa247a0f9",
+      "bytes": 48275
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-png-worker-recovery-results.json",
+      "sha256": "831eef62f1c46faf6540f13c476c56154cfed20d552a4142c06489afe2763282",
+      "bytes": 8236
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-video-after-results.json",
+      "sha256": "586640a9af61a3925b304f98332ceb47d72e5134dde7a5e61c0db8ab03fe6b1c",
+      "bytes": 3630
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+      "sha256": "7f4d9a8997c09f355d79b5de12b8d5cca0663ea6030c8d79f4386dcfc2e6356c",
+      "bytes": 8881
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/video-baseline-results.json",
+      "sha256": "de3d2dd3961e25aab8422c007b87c686f9e319e3b88d0a814a536e48078de5a4",
+      "bytes": 3646
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "scope": "safe exact stage allowlist; evidence source freeze separate from later root version integration",
+  "testedProductFreezeSha256": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+  "testedTestFreezeSha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7",
+  "files": [
+    {
+      "path": "app.js",
+      "bytes": 485452,
+      "sha256": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31"
+    },
+    {
+      "path": "tests/image-owner-dispatch.test.js",
+      "bytes": 10478,
+      "sha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/README.md",
+      "bytes": 9323,
+      "sha256": "c3552eb42a1a065875837777799c368116e37c82e50313c24a2a4a68cb084322"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/preparation.json",
+      "bytes": 568,
+      "sha256": "1b5e796f0712b703a5207c89a785d2a5499d4ed51082405decdd373d4d1eec01"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/baseline.cjs",
+      "bytes": 13262,
+      "sha256": "953fd363c2c525421451d958237ba2b5d5e9dc281e6f06650cb9d302319bcb33"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/baseline-results.json",
+      "bytes": 4831,
+      "sha256": "fda620eb2c30e44437a5524d9a7296419f95512d17c2484f08fcb54866030ac0"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/ordering-failure-producer.cjs",
+      "bytes": 13569,
+      "sha256": "104f2a0bce5f691588f77cd2754dca15920a2c1f423aee01cff7c2c0766a2eb4"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/draft-native-ordering-failure.json",
+      "bytes": 3795,
+      "sha256": "5409d08c26c7d2e324d5b45de76026c4c0ca7a2ddb705e4dfffe4bc7649461a8"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/ordering-failure-product.patch",
+      "bytes": 10142,
+      "sha256": "dc67bf2785d883cd743fad3ac1324ff4d20186ac4d5e90189eb701f3ba97e471"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/qualification.cjs",
+      "bytes": 14316,
+      "sha256": "2c3720a491ed124e52f62e2cdfdcf92975561cf8cd1df3b265c4472c9d88fa29"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/results.json",
+      "bytes": 44259,
+      "sha256": "15101e72a83c778591eca3cf2562fb5030956647762991349dd40478ecb21121"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/controls.cjs",
+      "bytes": 8961,
+      "sha256": "460dbd372f931d5d0eecb1f0e3ec60c55b7f13c2a588581e50646f1c921f9ef7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/video-baseline-results.json",
+      "bytes": 3646,
+      "sha256": "de3d2dd3961e25aab8422c007b87c686f9e319e3b88d0a814a536e48078de5a4"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/video-after-results.json",
+      "bytes": 3625,
+      "sha256": "37d95a9c46a5e2b395f2477219b753638a8ade270514c41d3ccfa45b59d7602e"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/negative-results.json",
+      "bytes": 8881,
+      "sha256": "73899757c61212e2094210fca9a612605851ace9a48bd7b23f100791052b3bd4"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/focused-tests.txt",
+      "bytes": 7442,
+      "sha256": "4492c2e55bae6c651282832bc5ade600216a8852a661b86bdd1fabe77c013343"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/checks.json",
+      "bytes": 3022,
+      "sha256": "b6384c97669ac17f78605d5f3b37596a9b50d43ba6927c2e4f60286466c36e25"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/png-wrong-video-mime.png",
+      "bytes": 4837,
+      "sha256": "8628f71677aff16115118b27e2dad88a1678844378300300fc40d0d6b5d393b7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/png-delayed-probe.png",
+      "bytes": 4837,
+      "sha256": "8628f71677aff16115118b27e2dad88a1678844378300300fc40d0d6b5d393b7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/animated-webp-wrong-video-mime.png",
+      "bytes": 4837,
+      "sha256": "42bdc8e74affe5a268eafc259fe6c59633b5dd8f200832d12814b578ea17ae8e"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-initial-producer.cjs",
+      "bytes": 15880,
+      "sha256": "cafbff63429e8fdbf3327267bc32d26c21bc7678d15e10c1b33248d294915bdd"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-results.json",
+      "bytes": 48275,
+      "sha256": "121b898bb3f507211992eae97b0be15cbf9de933177a50fe9971967aa247a0f9"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-qualification.cjs",
+      "bytes": 15976,
+      "sha256": "198d5aad1a7496712db99b702c3d987caabd816f9cdb6f6dc6cc26d395fe210a"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-png-worker-recovery-results.json",
+      "bytes": 8236,
+      "sha256": "831eef62f1c46faf6540f13c476c56154cfed20d552a4142c06489afe2763282"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-controls.cjs",
+      "bytes": 8997,
+      "sha256": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-video-after-results.json",
+      "bytes": 3630,
+      "sha256": "586640a9af61a3925b304f98332ceb47d72e5134dde7a5e61c0db8ab03fe6b1c"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-negative-results.json",
+      "bytes": 8881,
+      "sha256": "7f4d9a8997c09f355d79b5de12b8d5cca0663ea6030c8d79f4386dcfc2e6356c"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-png-wrong-video-mime.png",
+      "bytes": 4837,
+      "sha256": "8628f71677aff16115118b27e2dad88a1678844378300300fc40d0d6b5d393b7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-png-delayed-probe.png",
+      "bytes": 4837,
+      "sha256": "8628f71677aff16115118b27e2dad88a1678844378300300fc40d0d6b5d393b7"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-animated-webp-wrong-video-mime.png",
+      "bytes": 4837,
+      "sha256": "42bdc8e74affe5a268eafc259fe6c59633b5dd8f200832d12814b578ea17ae8e"
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/post-review-png-worker-recovery.png",
+      "bytes": 4838,
+      "sha256": "b24cfdb3d83db4d3ac34242db81553063bdf252b5240c02d30ae7946a1cc9f17"
+    }
+  ],
+  "excluded": [
+    "per-case intermediate result JSON duplicates",
+    "modern-web-security-guidance.txt",
+    "reused existing fixtures/dependencies",
+    "profiles credentials original media"
+  ],
+  "curationSelf": "qa/rc20-image-owner-dispatch/curation.json"
+}

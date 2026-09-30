@@ -1,0 +1,115 @@
+{
+  "scope": "Unit20 native isolated valid-video ownership/read control and malformed originals; synthetic provider only",
+  "producerStart": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+  "results": [
+    {
+      "name": "video-after",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3173456,
+        "FreeVirtualMemory": 2643612
+      },
+      "fixture": {
+        "source": "qa/faststart-h264-aac.mp4",
+        "bytes": 202253,
+        "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+        "declaredMime": "video/mp4"
+      },
+      "providerRequests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "pin-download",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-65535"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "presentation": {
+        "videoHidden": false,
+        "imageHidden": true,
+        "width": 320,
+        "mode": "original-range",
+        "attempt": "range",
+        "frame": 0.266667,
+        "iframe": null,
+        "verifiedImage": null
+      },
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "selected": null,
+        "verifiedImage": null
+      },
+      "browserClosed": true
+    }
+  ],
+  "servedSource": "working unit20 on rc19",
+  "servedRuntime": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "producerEnd": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "completed": true,
+  "passed": true
+}

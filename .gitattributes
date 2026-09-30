@@ -116,3 +116,10 @@
 /qa/q2-general-product-integration/README.md whitespace=cr-at-eol,-blank-at-eof
 /qa/q2-original-end-integrity/fresh-native.log whitespace=cr-at-eol,-blank-at-eof
 /scripts/build-audio-compat.cjs whitespace=cr-at-eol,-blank-at-eof
+
+# Preserve unit20 producer/result/source freeze evidence bytes.
+/qa/rc20-image-owner-dispatch/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc20-independent-review/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-rc20-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc20-runtime-boundaries/** -text whitespace=cr-at-eol,-blank-at-eol
+/tests/image-owner-dispatch.test.js -text whitespace=cr-at-eol

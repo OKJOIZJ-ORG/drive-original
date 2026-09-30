@@ -1,0 +1,64 @@
+{
+  "generatedUtc": "2026-09-30T02:39:19.523Z",
+  "scope": "unit20 final post-review local synthetic-provider native proof only",
+  "gitEvidenceBase": "e712954b96c96b73432c864e5f833d204e4121ae",
+  "testedRuntimeVersion": "1.22.0-rc.19",
+  "finalProductFreezeSha256": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+  "finalTestFreezeSha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7",
+  "runtimeSourceSha256": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "firstPassRuntimeSourceSha256": {
+    "app.js": "169799d0e90ddd02cff9d07a70d69c3990931defd2760abc195b3aad558de14f",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "focusedTests": {
+    "command": "node --test tests/general-app-routing.test.js tests/image-owner-dispatch.test.js",
+    "passed": 80,
+    "failed": 0,
+    "outputSha256": "4492c2e55bae6c651282832bc5ade600216a8852a661b86bdd1fabe77c013343"
+  },
+  "syntaxAndDiffChecks": true,
+  "finalNativeScopes": [
+    {
+      "record": "post-review-results.json",
+      "verdict": "3 viewer cases passed; initial worker row retained failed QA assertion of permitted original mode",
+      "producer": "post-review-initial-producer.cjs"
+    },
+    {
+      "record": "post-review-png-worker-recovery-results.json",
+      "verdict": "worker503 original image OPFS recovery and same-pin one retry passed",
+      "producer": "post-review-qualification.cjs"
+    },
+    {
+      "record": "post-review-negative-results.json",
+      "verdict": "HTML JSON truncated PNG passed",
+      "producer": "post-review-controls.cjs"
+    },
+    {
+      "record": "post-review-video-after-results.json",
+      "verdict": "native video and normalized request equality passed",
+      "producer": "post-review-controls.cjs"
+    }
+  ],
+  "finalFunctionalNativeCasesPassed": 8,
+  "rawInitialPostReviewAggregatePassed": false,
+  "allNativeProducersVerified": true,
+  "allNativeSourceBeforeAfterEqual": true,
+  "allIsolatedBrowsersClosed": true,
+  "videoFullNormalizedRequestsEqual": true,
+  "visibleCustomControlsForcedByExecutedProducer": true,
+  "visibleCustomControlsAfterHandoffHidden": true,
+  "formatDecisionResolvedBeforeOptionalIsoAudioWork": true,
+  "imageProbeAdditionalMaximumBytes": 64,
+  "firstProbeBytesReused": 12,
+  "personalAccountEvidence": false,
+  "productionEvidence": false
+}

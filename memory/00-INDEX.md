@@ -98,3 +98,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - [TS-PROBE-REUSE-20260930](TS-PROBE-REUSE-20260930.md) — bounded admitted within-generation input reuse,43focused/nativeQ1/569full local proof; candidate/actual comparison next.
 
 - CANDIDATE-RC19-20260930.md — fixed rc19 delivery/package, actual one-case request-count/targetframe/settlement and pointer-only clause; remaining whole-goal gates.
+
+- IMAGE-OWNER-20260930.md — positive pinned raster owner correction, retained failures,80focused/8native/independent review and605full/two rc20 integration cases; whole goal remains open.

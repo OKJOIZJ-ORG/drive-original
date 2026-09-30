@@ -1,0 +1,100 @@
+{
+  "recordedAt": "2026-09-30T02:42:34.126Z",
+  "version": "1.22.0-rc.20",
+  "baseCommit": "e712954b96c96b73432c864e5f833d204e4121ae",
+  "reviewedPreVersionAppSha256": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+  "onlyAppVersionDiffersFromReviewedFreeze": true,
+  "completeNodeChecks": 605,
+  "completeNodeStable": true,
+  "integratedNativeCases": 2,
+  "integratedNativeSourceStable": true,
+  "videoRequestsEqualImmutableRc19Baseline": true,
+  "proofScope": "Reviewed bounded original-image owner unit plus rc20 namespace integration; local synthetic native only; no actual corpus/device/hosted/production acceptance",
+  "files": [
+    {
+      "path": "app.js",
+      "sha256": "6faf38b92b8f8611046a15fb55bf1139301caa118117b94806c0cda08682ab8c",
+      "bytes": 485452
+    },
+    {
+      "path": "sw.js",
+      "sha256": "ae857a5cc4876a92147f9304a709441780d2a68469db7ede06cc471df7337a9d",
+      "bytes": 69233
+    },
+    {
+      "path": "index.html",
+      "sha256": "da260bb094c93659fcfeec90f1771b9924337bce32a06bd147b9ab25af439534",
+      "bytes": 50974
+    },
+    {
+      "path": "version.json",
+      "sha256": "59d2027ae74674605d4328ae7688f059669776e255fece32b8f4513e18683e70",
+      "bytes": 283
+    },
+    {
+      "path": "tests/static.test.js",
+      "sha256": "29d2d569be8b2767b5483f91d7e24ed99772275b128e40514d2d79a7ba463778",
+      "bytes": 22461
+    },
+    {
+      "path": "tests/image-owner-dispatch.test.js",
+      "sha256": "7efb2f87ccfcce881ae95781c42fd94149d42053df1b9edd61122ebf79f97fc7",
+      "bytes": 10478
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/run-product-tests.cjs",
+      "sha256": "9ba3f1832d24d0c74811cc4e533769ba397b6a0e7720e707b31b22e9934c5002",
+      "bytes": 2213
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/product-tests.json",
+      "sha256": "bcdc549db955648a472c10969d47a434dbfb16fd0f70c29032ac674433ff4fcc",
+      "bytes": 25532
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/product-tests.log",
+      "sha256": "05d5eb3b57e0cc9f7e1de8955cda29467cbbfd13c59ed17317cf41f2ef03811b",
+      "bytes": 58312
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/integrated-image-smoke.cjs",
+      "sha256": "832e2884675393b4c229d04998abb20aebe957b7be92e0e18c11bd2ec589abdb",
+      "bytes": 15968
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/integrated-video-smoke.cjs",
+      "sha256": "4e565e1dfca12b5eca75889cdbf82af4f71ce5419955be1fd299e24dfc2160a0",
+      "bytes": 9002
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/integrated-png-wrong-video-mime-results.json",
+      "sha256": "1911b02391d787a150b4c2cba7425a2acb79a2273bb8fea8e5b2449edfb53aa8",
+      "bytes": 7777
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/integrated-png-wrong-video-mime.png",
+      "sha256": "8628f71677aff16115118b27e2dad88a1678844378300300fc40d0d6b5d393b7",
+      "bytes": 4837
+    },
+    {
+      "path": "qa/candidate-rc20-delivery/integrated-video-after-results.json",
+      "sha256": "293bec01c703e7f3f0ad6083ff464d5c76c45a4e38f3f88559ea696367959b21",
+      "bytes": 3633
+    },
+    {
+      "path": "qa/rc20-independent-review/README.md",
+      "sha256": "1178cf898508da2367b53971562693ea0fc05bdc637365985f0be34a39d2b98f",
+      "bytes": 5601
+    },
+    {
+      "path": "qa/rc20-independent-review/manifest.json",
+      "sha256": "23f96798bc6855cf62a4094ca931e0f16f991337de79b50cc61fc9ecd9ef0b3d",
+      "bytes": 2647
+    },
+    {
+      "path": "qa/rc20-image-owner-dispatch/curation.json",
+      "sha256": "6f9213a50839fbdcca8f0cb1577b44ce07a61fc7f8c2af7899b8c9c7c3e762db",
+      "bytes": 6407
+    }
+  ]
+}

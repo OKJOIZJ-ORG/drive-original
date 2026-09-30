@@ -236,3 +236,7 @@ Verified locally: synthetic upstream404 private-ID message reaches fixed app con
 ## Q0 local product, separate from candidate — 2026-09-29
 
 Verified local app/SW: immutable revision admission before original bytes, private first-pin reuse across worker restart/401/native retry, terminal source-pin failure, full-original URI/header ownership and bounded cold-control account/session/source fencing. Independent app/SW contract tests plus real Chrome/synthetic-provider MP4 decode,90% seek and settled close pass. Exact counts/producers and retained failed attempts are in qa/q0-provider-product. Current candidate deployment/actual Google replay are separate; no physical-device or whole-format claim. Source and consumer retirement reuse the product's existing barrier rather than the earlier QA-only copy. Evidence: Q0-PRODUCT-20260929.md.
+
+## Local original-image owner — 2026-09-30
+
+Confirmed synthetic native source: supported PNG/WebP declared video is admitted by original pinned raster bytes and retains image ownership across early native error, worker503 originalOPFS recovery and one same-pin retry. OriginalSHA/alpha/WebP animation/postdecode viewed/settled close-reopen and validvideo request equality pass.80focused/8native plus605integratedNode/two rc20 namespace native cases/independent review. IMAGE-OWNER-20260930.md owns exact scope. Actual corpus/device/hosted/production acceptance is not established by this record.

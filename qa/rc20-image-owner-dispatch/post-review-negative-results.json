@@ -1,0 +1,357 @@
+{
+  "scope": "Unit20 native isolated valid-video ownership/read control and malformed originals; synthetic provider only",
+  "producerStart": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "6ab6e2459461a7bc7f35b5717da01804e77000519512d093893b5a1a519ecf5e",
+  "results": [
+    {
+      "name": "html",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3112440,
+        "FreeVirtualMemory": 2594208
+      },
+      "fixture": {
+        "source": "inline negative",
+        "bytes": 37,
+        "sha256": "2d720b7882b9c1309d37f5604177e3a87af4aa71ec051996b82f0f7507ba11f6",
+        "declaredMime": "video/mp4"
+      },
+      "providerRequests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "pin-download",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-36"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-36"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "presentation": {
+        "attempt": "failed",
+        "viewed": false,
+        "imageHidden": true,
+        "imageWidth": 0,
+        "iframe": null,
+        "verifiedImage": null
+      },
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "selected": null,
+        "verifiedImage": null
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "json",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3118028,
+        "FreeVirtualMemory": 2576068
+      },
+      "fixture": {
+        "source": "inline negative",
+        "bytes": 21,
+        "sha256": "343675994ef5d3d8d74fe9043af9b0f3b56af3d077b55eba3c44ae9630175fb9",
+        "declaredMime": "video/mp4"
+      },
+      "providerRequests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "pin-download",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-20"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-20"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "presentation": {
+        "attempt": "failed",
+        "viewed": false,
+        "imageHidden": true,
+        "imageWidth": 0,
+        "iframe": null,
+        "verifiedImage": null
+      },
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "selected": null,
+        "verifiedImage": null
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "truncated-png",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3054452,
+        "FreeVirtualMemory": 2484476
+      },
+      "fixture": {
+        "source": "inline negative",
+        "bytes": 16,
+        "sha256": "02a3e298f1533f62558c58e4c70edcab9af5a50d62d925fd5390942020fb0fb8",
+        "declaredMime": "video/mp4"
+      },
+      "providerRequests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "pin-download",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-11"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-15"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "presentation": {
+        "attempt": "failed",
+        "viewed": false,
+        "imageHidden": true,
+        "imageWidth": 0,
+        "iframe": null,
+        "verifiedImage": null
+      },
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "selected": null,
+        "verifiedImage": null
+      },
+      "browserClosed": true
+    }
+  ],
+  "servedSource": "working unit20 on rc19",
+  "servedRuntime": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "producerEnd": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "completed": true,
+  "passed": true
+}

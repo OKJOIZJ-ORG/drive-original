@@ -1,0 +1,2179 @@
+{
+  "scope": "Unit20 draft on rc19 runtime, exact saved PNG and animated WebP declared video, actual app/SW/native synthetic provider. No account/device/full-corpus evidence.",
+  "producerStart": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "cafbff63429e8fdbf3327267bc32d26c21bc7678d15e10c1b33248d294915bdd",
+  "results": [
+    {
+      "name": "png-wrong-video-mime",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3226960,
+        "FreeVirtualMemory": 2705716
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642228
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735642232
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642237
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735642244,
+          "fulfilled": 1790735642351
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642292
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642297
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735642306,
+          "fulfilled": 1790735642415
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642421
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642424
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735642428,
+          "fulfilled": 1790735642541
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642545
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735642554,
+          "fulfilled": 1790735642666
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735642708,
+          "fulfilled": 1790735642810
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642963
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735642965
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642971
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642977
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735642978,
+          "fulfilled": 1790735643078
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735642983
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735642991,
+          "fulfilled": 1790735643094
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735643099
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735643105
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735643111,
+          "fulfilled": 1790735643222
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735643227
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735643234,
+          "fulfilled": 1790735643347
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "native-video-error",
+            "t": 619.6999999992549,
+            "wall": 1790735642356,
+            "code": 4
+          },
+          {
+            "type": "load",
+            "t": 934.5
+          },
+          {
+            "type": "viewed",
+            "t": 963.3999999985099,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "video/mp4",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "ownership": {
+        "verifiedMime": "image/png",
+        "videoPresentation": false,
+        "videoHidden": true,
+        "imageHidden": false,
+        "progressHidden": true,
+        "customControlsHidden": true,
+        "framePrevHidden": true,
+        "status": "197 B · PNG",
+        "declaredMime": "video/mp4"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.09999999962747097,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "verifiedImage": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-delayed-probe",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3167560,
+        "FreeVirtualMemory": 2584148
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "delayed-disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735645030
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735645035
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735645039
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735645049,
+          "fulfilled": 1790735645160
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735645114
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735645123
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735645132,
+          "fulfilled": 1790735647643
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735647648
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735647653
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735647660,
+          "fulfilled": 1790735647770
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735647777
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735647794,
+          "fulfilled": 1790735647895
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735647927,
+          "fulfilled": 1790735648034
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735648197
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735648201
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735648204
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735648212
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735648213,
+          "fulfilled": 1790735648312
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735648218
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735648225,
+          "fulfilled": 1790735650730
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735650739
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735650743
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735650750,
+          "fulfilled": 1790735650855
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735650859
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735650870,
+          "fulfilled": 1790735650980
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "native-video-error",
+            "t": 645.0999999996275,
+            "wall": 1790735645166,
+            "code": 4
+          },
+          {
+            "type": "load",
+            "t": 3377.699999999255
+          },
+          {
+            "type": "viewed",
+            "t": 3395.199999999255,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "video/mp4",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "ownership": {
+        "verifiedMime": "image/png",
+        "videoPresentation": false,
+        "videoHidden": true,
+        "imageHidden": false,
+        "progressHidden": true,
+        "customControlsHidden": true,
+        "framePrevHidden": true,
+        "status": "197 B · PNG",
+        "declaredMime": "video/mp4"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.2000000011175871,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "verifiedImage": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-worker-recovery",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 3161308,
+        "FreeVirtualMemory": 2586764
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "worker-disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652598
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735652604
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652609
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735652618,
+          "fulfilled": 1790735652722
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652676
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652683
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735652690,
+          "fulfilled": 1790735652798
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652806
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652809
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735652814,
+          "fulfilled": 1790735652923
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735652927
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735652938,
+          "fulfilled": 1790735652938
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735652946,
+          "fulfilled": 1790735653048
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "injected503": true,
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-opfs",
+        "attempt": "blob",
+        "ready": true,
+        "events": [
+          {
+            "type": "native-video-error",
+            "t": 672.4000000003725,
+            "wall": 1790735652731,
+            "code": 4
+          },
+          {
+            "type": "load",
+            "t": 997.5999999996275
+          },
+          {
+            "type": "viewed",
+            "t": 1023.0999999996275,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "failure": {
+        "name": "AssertionError",
+        "message": "The expression evaluated to a falsy value:",
+        "actual": false,
+        "expected": true,
+        "stack": [
+          "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+          "",
+          "  assert.ok(['original-range','original-sequential'].includes(r.presentation.mode))",
+          ""
+        ]
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "animated-webp-wrong-video-mime",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3165336,
+        "FreeVirtualMemory": 2591352
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/animated.webp",
+        "bytes": 184,
+        "sha256": "555148731e8ef1c3e10ec875c371931988e99ed5c841b177eb50c6313b5e11fe",
+        "declaredMime": "video/mp4",
+        "fileName": "animated-disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657159
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735657164
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657170
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735657180,
+          "fulfilled": 1790735657282
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657262
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657269
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735657278,
+          "fulfilled": 1790735657390
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657396
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657403
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735657412,
+          "fulfilled": 1790735657514
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735657520
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735657533,
+          "fulfilled": 1790735657638
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735657675,
+          "fulfilled": 1790735657778
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662295
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null,
+          "started": 1790735662297
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662301
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662308
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-",
+          "started": 1790735662308,
+          "fulfilled": 1790735662410
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662312
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11",
+          "started": 1790735662321,
+          "fulfilled": 1790735662425
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662429
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662433
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63",
+          "started": 1790735662438,
+          "fulfilled": 1790735662548
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null,
+          "started": 1790735662554
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null,
+          "started": 1790735662561,
+          "fulfilled": 1790735662673
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false,
+        "canvasSamples": [
+          {
+            "t": 18.699999999254942,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "samples": [
+          {
+            "t": 37,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 136,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 237,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 346,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 440,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 519,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 612,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 708,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 815,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+          },
+          {
+            "t": 912,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+          },
+          {
+            "t": 1005,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+          },
+          {
+            "t": 1128,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1224,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1302,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1412,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1505,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1584,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1679,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1772,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 1868,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+          },
+          {
+            "t": 1963,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+          },
+          {
+            "t": 2071,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          },
+          {
+            "t": 2180,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+          }
+        ],
+        "uniqueColors": [
+          "0,0,255,255",
+          "255,0,0,255"
+        ],
+        "static": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "native-video-error",
+            "t": 3127.800000000745,
+            "wall": 1790735657288,
+            "code": 4
+          },
+          {
+            "type": "load",
+            "t": 3480.7000000011176
+          },
+          {
+            "type": "viewed",
+            "t": 3504.9000000003725,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "video/mp4",
+        "bytes": 184,
+        "sha256": "555148731e8ef1c3e10ec875c371931988e99ed5c841b177eb50c6313b5e11fe"
+      },
+      "ownership": {
+        "verifiedMime": "image/webp",
+        "videoPresentation": false,
+        "videoHidden": true,
+        "imageHidden": false,
+        "progressHidden": true,
+        "customControlsHidden": true,
+        "framePrevHidden": true,
+        "status": "184 B · WebP",
+        "declaredMime": "video/mp4"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.10000000149011612,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 55.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 117.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 179.40000000037253,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 243.2000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 305.90000000037253,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 369.2000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 432.40000000037253,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 494.7000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 558.8000000007451,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 620.7000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 684.1000000014901,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 746.8000000007451,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 809.1000000014901,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 862.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 918.3000000007451,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 981,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1044.2000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1105.300000000745,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1167.2000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1230.300000000745,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1293.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1344.7000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1401.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1464.1000000014901,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1527.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1591.6000000014901,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1654.7000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1717.1000000014901,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1777.800000000745,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1839,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1900.7000000011176,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1962.4000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2024.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2087.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2148.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "viewerPaintedSamples": [
+        {
+          "t": 23,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 102,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 211,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 302,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 394,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 490,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 568,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 677,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 774,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 867,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 960,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1055,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1149,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1243,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1353,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1461,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1557,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 1666,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 1761,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 1870,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "pngSha256": "21d4c9c5ba54a0938e5545bbec6a4be219317e0e9b2c1063f3796567c87fd127"
+        },
+        {
+          "t": 1994,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 2090,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        },
+        {
+          "t": 2171,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "pngSha256": "0ba8c2519bfbdbb8c656fe9659faacd23149c8c5d7f52cef484de6061da63f0a"
+        }
+      ],
+      "viewerPaintedColors": [
+        "0,0,255,255",
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "verifiedImage": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    }
+  ],
+  "producerEnd": {
+    "app.js": "03d25a5875df65003c427127c1be50a4a6ceae790ebd66eadff54cab4da94a31",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "completed": true,
+  "passed": false
+}

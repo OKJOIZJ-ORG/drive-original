@@ -1,0 +1,121 @@
+{
+  "scope": "Unit20 draft on rc19 runtime, exact saved PNG and animated WebP declared video, actual app/SW/native synthetic provider. No account/device/full-corpus evidence.",
+  "producerStart": {
+    "app.js": "c4b3c059c8807804ed04cba90df8334b22718b934483ef4b498ef0447fdfabe3",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "104f2a0bce5f691588f77cd2754dca15920a2c1f423aee01cff7c2c0766a2eb4",
+  "results": [
+    {
+      "name": "png-wrong-video-mime",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 3385936,
+        "FreeVirtualMemory": 2983116
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-63"
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "displayFailure": {
+        "attempt": "failed",
+        "mode": "original-range",
+        "viewed": false,
+        "imageHidden": true,
+        "naturalWidth": 0,
+        "videoHidden": false,
+        "error": true,
+        "iframeSrc": null
+      },
+      "failedClose": {
+        "cleanup": {
+          "settled": false
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "preview": null,
+        "viewed": false,
+        "selected": null
+      },
+      "failure": {
+        "name": "TimeoutError",
+        "message": "page.waitForFunction: Timeout 12000ms exceeded.",
+        "stack": [
+          "page.waitForFunction: Timeout 12000ms exceeded.",
+          "    at C:\\extensions\\Drive-Original\\source\\qa\\rc20-image-owner-dispatch\\qualification.cjs:30:13"
+        ]
+      },
+      "browserClosed": true
+    }
+  ],
+  "producerEnd": {
+    "app.js": "c4b3c059c8807804ed04cba90df8334b22718b934483ef4b498ef0447fdfabe3",
+    "sw.js": "c1af3e4a9504f72eef9de3bf722be8f353bd7f88d1d2a48583405ad89757a0eb",
+    "index.html": "a3bc2bd83cce23777309a07c7e70574d128c5c979d73816068598cf839866e7b",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "completed": true,
+  "passed": false
+}
