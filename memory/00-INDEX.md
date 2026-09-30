@@ -82,3 +82,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `Q2-SOURCE-PUBLICATION-20260929.md` — exact seven-part source/relink package and same-toolchain bridge/WASM reproduction; public delivery is recorded separately.
 - `CANDIDATE-RC15-20260930.md` — fixed rc.15 source/Worker/52 public/40 cached/source-readiness/package evidence, retained materializer uncertainty and open account/device gates.
 - `PLAYER-PRESENTATION-20260930.md` — rc.16 source-owned frame handoff, reproduced loading residue, retained QA ordering failures,558 Node and6 native UI cases; full goal continues.
+
+- CANDIDATE-RC16-20260930.md — fixed rc.16 delivery/package, actual paused TS failure, observer-qualified native resources and remaining42-row acceptance map.

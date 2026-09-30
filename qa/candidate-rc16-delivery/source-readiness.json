@@ -1,0 +1,245 @@
+{
+  "passed": true,
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "workerVersion": "cbbafb96-b39b-4cf7-bbf8-888ed3856370",
+  "publicAssets": 52,
+  "cacheAssets": 40,
+  "uncachedSourceArchives": 8,
+  "private404": 6,
+  "preferredSourceHashesChecked": 26,
+  "currentReadableAdaptations": 6,
+  "distributionEvidence": {
+    "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+    "workerVersion": "cbbafb96-b39b-4cf7-bbf8-888ed3856370",
+    "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+    "deliveryReport": {
+      "path": "qa/candidate-rc16-delivery/results.json",
+      "sha256": "567c3ba0065a675082335a00ffa4fb5d7d3849272405cf16f617c6b71dd256a6"
+    },
+    "deploymentRecord": {
+      "path": "qa/candidate-rc16-delivery/deployment.json",
+      "sha256": "d8b1a0a84a0505ac7b56e80a4d8c8594cbfc861a76fa347f0d43ebc78cd9556d"
+    },
+    "controlPlaneRecord": {
+      "path": "qa/candidate-rc16-delivery/redacted-readback.json",
+      "sha256": "2e72e094ab32ef2138722733b1facd263dc3a635b2e10b64bd23e2af7ab66a5c"
+    },
+    "auditProducer": {
+      "path": "qa/candidate-delivery-audit.cjs",
+      "sha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
+    },
+    "scope": "Technical same-candidate runtime/notice/preferred-source delivery only; no production, patent, device or broad-format qualification"
+  },
+  "buildRecordSha256": "29956b2df92b200725ee23e01c59f2195ad564a0aa2a60f7e8bc99b741cb6d8b",
+  "producerSha256": "d878c1a5d40ee23162416662cc6121d44ac4cdd36722ded1b35487cfa98f050a",
+  "fixedSourceAssetBindings": [
+    {
+      "path": "index.html",
+      "sha256": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367"
+    },
+    {
+      "path": "runtime-config.js",
+      "sha256": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a"
+    },
+    {
+      "path": "app.js",
+      "sha256": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d"
+    },
+    {
+      "path": "styles.css",
+      "sha256": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc"
+    },
+    {
+      "path": "sw.js",
+      "sha256": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169"
+    },
+    {
+      "path": "version.json",
+      "sha256": "e0967cec51720bf73c65387a01fcb2442c276d21ef4c0fecfae09228069b655f"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2"
+    },
+    {
+      "path": "icons/app-icon.svg",
+      "sha256": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1"
+    },
+    {
+      "path": "icons/icon-192.png",
+      "sha256": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99"
+    },
+    {
+      "path": "icons/icon-512.png",
+      "sha256": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f"
+    },
+    {
+      "path": "icons/maskable-512.png",
+      "sha256": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7"
+    },
+    {
+      "path": "icons/apple-touch-icon.png",
+      "sha256": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061"
+    },
+    {
+      "path": "media/drive-source.mjs",
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "path": "media/revision-pin.js",
+      "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+    },
+    {
+      "path": "media/ts-player.mjs",
+      "sha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9"
+    },
+    {
+      "path": "media/q1-core.mjs",
+      "sha256": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080"
+    },
+    {
+      "path": "media/transmux-worker.mjs",
+      "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "path": "media/mux-mp4.min.js",
+      "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+    },
+    {
+      "path": "media/mux-LICENSE.txt",
+      "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+    },
+    {
+      "path": "media/general-admission.mjs",
+      "sha256": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d"
+    },
+    {
+      "path": "media/general-codec.mjs",
+      "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+    },
+    {
+      "path": "media/general-owner.mjs",
+      "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2"
+    },
+    {
+      "path": "media/general-pipeline.mjs",
+      "sha256": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055"
+    },
+    {
+      "path": "media/general-player.mjs",
+      "sha256": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59"
+    },
+    {
+      "path": "media/general-source.mjs",
+      "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec"
+    },
+    {
+      "path": "media/general-timeline.mjs",
+      "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+    },
+    {
+      "path": "media/general-worker.mjs",
+      "sha256": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43"
+    },
+    {
+      "path": "media/mediabunny-q1.mjs",
+      "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+    },
+    {
+      "path": "media/mediabunny-q1.LICENSE",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "path": "media/mediabunny-q1-NOTICE.md",
+      "sha256": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9"
+    },
+    {
+      "path": "media/audio-runtime.mjs",
+      "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+    },
+    {
+      "path": "media/audio-adapter.mjs",
+      "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+    },
+    {
+      "path": "media/audio-worker-client.mjs",
+      "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+    },
+    {
+      "path": "media/audio-worker.mjs",
+      "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+    },
+    {
+      "path": "media/audio-codec.mjs",
+      "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+    },
+    {
+      "path": "media/audio-codec.wasm",
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "path": "media/audio-codec.LICENSE.txt",
+      "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+    },
+    {
+      "path": "media/audio-general-pipeline.mjs",
+      "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+    },
+    {
+      "path": "media/audio-general-worker.mjs",
+      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+    },
+    {
+      "path": "licenses/index.html",
+      "sha256": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829"
+    },
+    {
+      "path": "licenses/mediabunny-q1-preferred-source.tgz",
+      "sha256": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5"
+    },
+    {
+      "path": "licenses/audio-source-NOTICE.md",
+      "sha256": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0"
+    },
+    {
+      "path": "licenses/audio-source-manifest.json",
+      "sha256": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6"
+    },
+    {
+      "path": "licenses/audio-source-reconstruct.cjs",
+      "sha256": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part001",
+      "sha256": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part002",
+      "sha256": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part003",
+      "sha256": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part004",
+      "sha256": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part005",
+      "sha256": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part006",
+      "sha256": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531"
+    },
+    {
+      "path": "licenses/audio-source-v1.tar.gz.part007",
+      "sha256": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+    },
+    {
+      "path": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

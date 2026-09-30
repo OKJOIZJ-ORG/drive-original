@@ -1,0 +1,471 @@
+{
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "scope": "rc16 unchanged product bytes, actual app/SW/native image with synthetic provider only. Installed isolated Chrome serial cases; no account/device/full-corpus evidence.",
+  "driverSha256": "aff07f1b2398fa571b51231ba5d28203797c6a8fccefbcb8f3f23ab5858e5c8a",
+  "sourceStable": true,
+  "producerMap": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "nativeDisplayPassed": 7,
+  "completeContractPassed": 6,
+  "results": [
+    {
+      "name": "png-alpha",
+      "presentationPassed": true,
+      "cardKind": "IMG",
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 653.5
+        },
+        {
+          "type": "viewed",
+          "t": 696.6000000000931,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "png-large",
+      "presentationPassed": true,
+      "cardKind": "IMG",
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 29512,
+        "sha256": "bbaad5c00cf17e2f3d64f765daa7b939281568e2e255171dd436fb0437232d50"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 584.2999999998137
+        },
+        {
+          "type": "viewed",
+          "t": 680.1999999997206,
+          "complete": true,
+          "width": 4096,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 4096,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "bmp",
+      "presentationPassed": true,
+      "cardKind": "IMG",
+      "originalResponse": {
+        "mime": "image/bmp",
+        "bytes": 18486,
+        "sha256": "bea1b5a0e54fb14f9f89b233a2bed414fd5b38248ccdb5543d4dc98c37a03bc9"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 604.5
+        },
+        {
+          "type": "viewed",
+          "t": 645.8999999999069,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "animated-webp",
+      "presentationPassed": true,
+      "listStatic": false,
+      "cardKind": "IMG",
+      "cardTransitions": [
+        {
+          "t": 53,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 728
+        },
+        {
+          "t": 781,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 327
+        },
+        {
+          "t": 1108,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 698
+        },
+        {
+          "t": 1806,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 202
+        },
+        {
+          "t": 2008,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": null
+        }
+      ],
+      "viewerTransitions": [
+        {
+          "t": 22,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 697
+        },
+        {
+          "t": 719,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 220
+        },
+        {
+          "t": 939,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 778
+        },
+        {
+          "t": 1717,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 218
+        },
+        {
+          "t": 1935,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": null
+        }
+      ],
+      "originalResponse": {
+        "mime": "image/webp",
+        "bytes": 184,
+        "sha256": "555148731e8ef1c3e10ec875c371931988e99ed5c841b177eb50c6313b5e11fe"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 3283.1999999997206
+        },
+        {
+          "type": "viewed",
+          "t": 3311.399999999907,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "animated-gif",
+      "presentationPassed": true,
+      "listStatic": true,
+      "cardKind": "CANVAS",
+      "cardTransitions": [
+        {
+          "t": 55,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": null
+        }
+      ],
+      "viewerTransitions": [
+        {
+          "t": 21,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 624
+        },
+        {
+          "t": 645,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 309
+        },
+        {
+          "t": 954,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": 713
+        },
+        {
+          "t": 1667,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "nextDuration": 217
+        },
+        {
+          "t": 1884,
+          "pixel": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "nextDuration": null
+        }
+      ],
+      "originalResponse": {
+        "mime": "image/gif",
+        "bytes": 547,
+        "sha256": "006c145e26241b8d36cc40285406e60e4ccd8c04e5ecd9cd9c657e334b61f044"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 3167.5
+        },
+        {
+          "type": "viewed",
+          "t": 3201.7999999998137,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "png-wrong-image-mime",
+      "presentationPassed": true,
+      "cardKind": "IMG",
+      "originalResponse": {
+        "mime": "image/jpeg",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 668.2999999998137
+        },
+        {
+          "type": "viewed",
+          "t": 749.8999999999069,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "png-video-extension-image-mime",
+      "presentationPassed": true,
+      "cardKind": "IMG",
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewedEvents": [
+        {
+          "type": "load",
+          "t": 722.1999999997206
+        },
+        {
+          "type": "viewed",
+          "t": 792.6999999997206,
+          "complete": true,
+          "width": 96,
+          "visible": true,
+          "document": "visible"
+        }
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      }
+    },
+    {
+      "name": "png-wrong-video-mime",
+      "presentationPassed": false,
+      "cardKind": "IMG",
+      "displayFailure": {
+        "attempt": "failed",
+        "mode": "original-repackaged",
+        "viewed": false,
+        "imageHidden": true,
+        "naturalWidth": 0,
+        "videoHidden": false,
+        "error": true,
+        "iframeSrc": null
+      }
+    }
+  ],
+  "wrongMajorMimeFailureClose": {
+    "cleanup": {
+      "settled": true
+    },
+    "imageSource": null,
+    "videoSource": null,
+    "preview": null,
+    "viewed": false,
+    "selected": null
+  }
+}

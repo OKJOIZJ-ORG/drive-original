@@ -1,0 +1,4051 @@
+{
+  "scope": "rc16 unchanged product bytes, actual app/SW/native image with synthetic provider only. Installed isolated Chrome serial cases; no account/device/full-corpus evidence.",
+  "producerStart": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "ecbfc71398e1584d292c0e08683f317e5da4d9bdaeb4e69e25d119a3f2304d83",
+  "results": [
+    {
+      "name": "png-alpha",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3927856,
+        "FreeVirtualMemory": 3370704
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "image/png",
+        "fileName": "alpha.png"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 717.5
+          },
+          {
+            "type": "viewed",
+            "t": 762.2999999998137,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.6999999997206032,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-large",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3937548,
+        "FreeVirtualMemory": 3351968
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/large.png",
+        "bytes": 29512,
+        "sha256": "bbaad5c00cf17e2f3d64f765daa7b939281568e2e255171dd436fb0437232d50",
+        "declaredMime": "image/png",
+        "fileName": "large.png"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 4096,
+        "height": 2048,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 621.6000000000931
+          },
+          {
+            "type": "viewed",
+            "t": 698.6000000000931,
+            "complete": true,
+            "width": 4096,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 0,
+          "y": 80,
+          "width": 1280,
+          "height": 640,
+          "top": 80,
+          "right": 1280,
+          "bottom": 720,
+          "left": 0
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 29512,
+        "sha256": "bbaad5c00cf17e2f3d64f765daa7b939281568e2e255171dd436fb0437232d50"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.5,
+          "pixel": [
+            30,
+            60,
+            90,
+            255
+          ],
+          "alpha": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "corner": [
+            255,
+            0,
+            0,
+            255
+          ]
+        }
+      ],
+      "viewerColors": [
+        "30,60,90,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 4096,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "bmp",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3910880,
+        "FreeVirtualMemory": 3304516
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/raster.bmp",
+        "bytes": 18486,
+        "sha256": "bea1b5a0e54fb14f9f89b233a2bed414fd5b38248ccdb5543d4dc98c37a03bc9",
+        "declaredMime": "image/bmp",
+        "fileName": "raster.bmp"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 581.1000000000931
+          },
+          {
+            "type": "viewed",
+            "t": 628,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/bmp",
+        "bytes": 18486,
+        "sha256": "bea1b5a0e54fb14f9f89b233a2bed414fd5b38248ccdb5543d4dc98c37a03bc9"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.6000000000931323,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            255
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            255
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "animated-webp",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 3884340,
+        "FreeVirtualMemory": 3295692
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/animated.webp",
+        "bytes": 184,
+        "sha256": "555148731e8ef1c3e10ec875c371931988e99ed5c841b177eb50c6313b5e11fe",
+        "declaredMime": "image/webp",
+        "fileName": "animated.webp"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false,
+        "samples": [
+          {
+            "t": 2.1000000000931323,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 202.70000000018626,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 265.10000000009313,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 326.70000000018626,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 388.20000000018626,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 449.10000000009313,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 509.70000000018626,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 573.1000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 635.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 697.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 760,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 821.2000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 884.1000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 945.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1009,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1070.2000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1132.7000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1194.3000000002794,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1256.7000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1320.8000000002794,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1383.2000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1443.3999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1505.7000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1568.6000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1630.7000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1692.1000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1754.8000000002794,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1818,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1881.1000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 1941.8000000002794,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 2004.2000000001863,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 2065.600000000093,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 2128.600000000093,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "t": 2189.600000000093,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "uniqueColors": [
+          "255,0,0,255"
+        ],
+        "static": true
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 2850.899999999907
+          },
+          {
+            "type": "viewed",
+            "t": 2870.399999999907,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/webp",
+        "bytes": 184,
+        "sha256": "555148731e8ef1c3e10ec875c371931988e99ed5c841b177eb50c6313b5e11fe"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.20000000018626451,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 55.89999999990687,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 118.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 180.20000000018626,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 241.60000000009313,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 305.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 367.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 428.8000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 490.60000000009313,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 552.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 613.8999999999069,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 676.1000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 738.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 801,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 863.8999999999069,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 926.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 989.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1051.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1114.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1175.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1237.8000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1300.3999999999069,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1362.3999999999069,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1424.2000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1486.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1548,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1610.8000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1671.1000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1726.1000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1781.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1844.3999999999069,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1906,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1956.8000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2007.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2061.100000000093,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2123.399999999907,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2185.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "failure": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly equal:",
+        "actual": 1,
+        "expected": 2
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "animated-gif",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 4010288,
+        "FreeVirtualMemory": 3231640
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/animated.gif",
+        "bytes": 547,
+        "sha256": "006c145e26241b8d36cc40285406e60e4ccd8c04e5ecd9cd9c657e334b61f044",
+        "declaredMime": "image/gif",
+        "fileName": "animated.gif"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "CANVAS",
+        "isGif": true,
+        "samples": [
+          {
+            "t": 0.19999999972060323,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 197.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 254.39999999990687,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 321.79999999981374,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 382.89999999990687,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 444.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 506.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 567.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 629.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 692.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 753.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 815.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 877.3999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 938.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 999.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1060.2999999998137,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1123.6000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1184.6000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1248.5,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1312.2999999998137,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1374.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1436.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1499.6000000000931,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1561.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1624.1999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1687.2999999998137,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1749.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1813.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1875.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 1939.8999999999069,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 2001.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 2063.100000000093,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 2115.6999999997206,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "t": 2167.600000000093,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "alpha": [
+              212,
+              0,
+              0,
+              255
+            ],
+            "corner": [
+              0,
+              0,
+              0,
+              255
+            ]
+          }
+        ],
+        "uniqueColors": [
+          "255,0,0,255"
+        ],
+        "static": true
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 2810.899999999907
+          },
+          {
+            "type": "viewed",
+            "t": 2834.8000000002794,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/gif",
+        "bytes": 547,
+        "sha256": "006c145e26241b8d36cc40285406e60e4ccd8c04e5ecd9cd9c657e334b61f044"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.10000000009313226,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 58.10000000009313,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 121.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 183.10000000009313,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 244.20000000018626,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 306.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 368.60000000009313,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 431.20000000018626,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 492.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 555.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 616.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 677.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 739.8000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 803.2000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 865.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 916.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 973.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1035.4000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1098.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1149.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1205.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1268.2000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1330.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1392.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1455.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1518.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1580.9000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1643.2000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1704.2000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1764,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1824.6000000000931,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1887,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 1948.4000000003725,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2011.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2074.3000000002794,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2136.7000000001863,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 2197.5,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "failure": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly equal:",
+        "actual": 1,
+        "expected": 2
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-wrong-image-mime",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 4159200,
+        "FreeVirtualMemory": 3331172
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "image/jpeg",
+        "fileName": "disguised.jpg"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 622.1000000000931
+          },
+          {
+            "type": "viewed",
+            "t": 670.6000000000931,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/jpeg",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.7000000001862645,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-video-extension-image-mime",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 4147484,
+        "FreeVirtualMemory": 3322440
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "image/png",
+        "fileName": "disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "presentation": {
+        "width": 96,
+        "height": 64,
+        "mode": "original-sequential",
+        "attempt": "range",
+        "ready": true,
+        "events": [
+          {
+            "type": "load",
+            "t": 582.5
+          },
+          {
+            "type": "viewed",
+            "t": 611.5999999996275,
+            "complete": true,
+            "width": 96,
+            "visible": true,
+            "document": "visible"
+          }
+        ],
+        "rect": {
+          "x": 592,
+          "y": 368,
+          "width": 96,
+          "height": 64,
+          "top": 368,
+          "right": 688,
+          "bottom": 432,
+          "left": 592
+        },
+        "iframe": null
+      },
+      "originalResponse": {
+        "mime": "image/png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81"
+      },
+      "viewerSamples": [
+        {
+          "t": 0.7000000001862645,
+          "pixel": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "corner": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "viewerColors": [
+        "255,0,0,255"
+      ],
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSrc": null,
+        "blob": null,
+        "selected": null,
+        "preview": null
+      },
+      "reopen": {
+        "width": 96,
+        "mode": "original-sequential"
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "png-wrong-video-mime",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 4124264,
+        "FreeVirtualMemory": 3306872
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": "bytes=0-196"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": "bytes=0-196"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "displayFailure": {
+        "attempt": "failed",
+        "mode": "original-repackaged",
+        "viewed": false,
+        "imageHidden": true,
+        "naturalWidth": 0,
+        "videoHidden": false,
+        "error": true,
+        "iframeSrc": null
+      },
+      "failure": {
+        "name": "TimeoutError",
+        "message": "page.waitForFunction: Timeout 12000ms exceeded."
+      },
+      "browserClosed": true
+    }
+  ],
+  "producerEnd": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "completed": true,
+  "passed": false
+}

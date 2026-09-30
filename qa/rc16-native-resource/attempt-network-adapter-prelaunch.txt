@@ -1,0 +1,8 @@
+Attempt: node qa/rc16-native-resource/network-shed.cjs trend-q2 8
+2026-09-29 UTC; Node v24.18.0.
+ReferenceError: probePath is not defined
+The dynamic Module compiled the wrapper in a new module scope, so the adapter's
+outer probePath binding was unavailable. Failure occurred before the async
+browser/server block: no Chrome was launched and no product test ran.
+Fixed the dependency lookup to path.join(__dirname,'probe.cjs'). This attempt
+is preserved as a QA producer failure, never a product/native-memory failure.

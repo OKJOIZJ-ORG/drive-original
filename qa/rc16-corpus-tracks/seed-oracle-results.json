@@ -1,0 +1,93 @@
+{
+  "schema": "drive-original.rc16-ebml-seed-oracle/1",
+  "fixtureSHA256": "863933374b104e2e7204894f2080645d65bef33d3638e1b9c7805ecb0c2972bc",
+  "fixtureBytes": 29576,
+  "ffmpegVersion": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "ffprobeVersion": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers",
+  "ffmpegArgs": [
+    "-v",
+    "error",
+    "-nostdin",
+    "-y",
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc2=size=160x90:rate=12",
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=frequency=400:sample_rate=48000",
+    "-t",
+    "1",
+    "-c:v",
+    "libvpx-vp9",
+    "-threads",
+    "1",
+    "-c:a",
+    "libopus",
+    "-ac",
+    "2"
+  ],
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "vp9",
+        "codec_type": "video",
+        "width": 160,
+        "height": 90
+      },
+      {
+        "codec_name": "opus",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2
+      }
+    ]
+  },
+  "sparse": {
+    "status": "parsed",
+    "code": "EBML_STRUCTURAL_METADATA",
+    "tracks": [
+      {
+        "type": "video",
+        "codec": "vp9",
+        "width": 160,
+        "height": 90,
+        "displayWidth": null,
+        "displayHeight": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitDepth": null,
+        "colorMetadataPresent": true,
+        "codecPrivatePresent": false,
+        "defaultDurationPresent": true
+      },
+      {
+        "type": "audio",
+        "codec": "opus",
+        "width": null,
+        "height": null,
+        "displayWidth": null,
+        "displayHeight": null,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitDepth": 16,
+        "colorMetadataPresent": false,
+        "codecPrivatePresent": true,
+        "defaultDurationPresent": true
+      }
+    ],
+    "limitations": [
+      "structural-metadata-only",
+      "codec-private-unparsed",
+      "packets-cues-timing-unread",
+      "hdr-vfr-decoder-capability-unqualified"
+    ],
+    "docType": "webm",
+    "headers": 6
+  },
+  "sparseRequests": 0,
+  "passed": true
+}

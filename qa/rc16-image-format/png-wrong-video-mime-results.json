@@ -1,0 +1,165 @@
+{
+  "scope": "rc16 unchanged product bytes, actual app/SW/native image with synthetic provider only. Installed isolated Chrome serial cases; no account/device/full-corpus evidence.",
+  "producerStart": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "d1352a7ea25d5d11dff3b555fc41b488a68ee3b5a0000889443d9d6cb77d33dd",
+  "results": [
+    {
+      "name": "png-wrong-video-mime",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 4057900,
+        "FreeVirtualMemory": 3411916
+      },
+      "fixture": {
+        "path": "qa/rc16-image-format/alpha.png",
+        "bytes": 197,
+        "sha256": "94910737562283c82b3e555b872fbdb7159e4402ac6573ed4ef5cf5f300a1f81",
+        "declaredMime": "video/mp4",
+        "fileName": "disguised.mp4"
+      },
+      "providerRequests": [
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/download",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture/revisions/A",
+          "range": "bytes=0-11"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": "bytes=0-196"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": "bytes=0-196"
+        },
+        {
+          "path": "/drive/v3/files/fixture",
+          "range": null
+        }
+      ],
+      "blockedExternal": [
+        "https://fonts.googleapis.com"
+      ],
+      "errors": [],
+      "card": {
+        "kind": "IMG",
+        "isGif": false
+      },
+      "beforeDecode": {
+        "viewed": false,
+        "loading": true
+      },
+      "displayFailure": {
+        "attempt": "failed",
+        "mode": "original-repackaged",
+        "viewed": false,
+        "imageHidden": true,
+        "naturalWidth": 0,
+        "videoHidden": false,
+        "error": true,
+        "iframeSrc": null
+      },
+      "failedClose": {
+        "cleanup": {
+          "settled": true
+        },
+        "imageSource": null,
+        "videoSource": null,
+        "preview": null,
+        "viewed": false,
+        "selected": null
+      },
+      "failure": {
+        "name": "TimeoutError",
+        "message": "page.waitForFunction: Timeout 12000ms exceeded.",
+        "stack": [
+          "page.waitForFunction: Timeout 12000ms exceeded.",
+          "    at C:\\extensions\\Drive-Original\\source\\qa\\rc16-image-format\\qualification.cjs:30:13"
+        ]
+      },
+      "browserClosed": true
+    }
+  ],
+  "producerEnd": {
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "browser": "154.0.8037.58",
+  "completed": true,
+  "passed": false
+}

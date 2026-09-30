@@ -16,11 +16,11 @@ Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-di
 
 ## Waiting on the user
 
-Only Chrome ChatGPT extension Allow access to file URLs permission is pending for actual bounded corpus code loading. No setting changed;2metadata parent checks passed and private context/input cleared. Independent work continues. Device-only and separate production-authority gates stay unclaimed.
+None for executable work. Device-only and separate production-authority gates stay unclaimed.
 
 ## Next first action
 
-Poll full-suite session18489, integrate independent review of paused presentation patch, then commit only the verified rc17 code unit and deploy the authorized free candidate for actual TS paused10/50/90 replay.
+Read qa/rc16-corpus-tracks/README.md; recover canonical priority parent privately from current actual Drive metadata, load the exact generated probe through supported local filechooser, and run only after idle/state/SW preflight passes.
 
 ## Tried
 

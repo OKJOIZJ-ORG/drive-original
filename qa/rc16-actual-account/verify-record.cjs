@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),cp=require('node:child_process'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const base=__dirname,repo=path.resolve(base,'../..'),r=JSON.parse(fs.readFileSync(path.join(base,'results.json'))),sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+assert.equal(r.publicSource,'e57d7b5b3154a2a838d01f631cf71fa063044280');
+assert.equal(r.version,'1.22.0-rc.16');
+for(const [file,hash] of [['app.js',r.appCacheSha256],['index.html',r.indexCacheSha256]])assert.equal(sha(cp.execFileSync('git',['show',`${r.publicSource}:${file}`],{cwd:repo})),hash);
+for(const [i,s] of r.pausedSeeks.entries()){assert.equal(s.percent,[10,50,90][i]);assert(Math.abs(s.frameTime-s.target)<=r.seekInput.pausedTargetToleranceSeconds);assert(Math.abs(s.target-r.duration*s.percent/100)<1e-9);assert.equal(s.loading,[false,true,false][i]);assert.equal(s.ownerCurrent,true);assert.equal(s.paused,true);assert.equal(s.seeking,false);assert.equal(s.watchdog,false);assert.equal(s.ready,4);}
+assert.equal(r.repeat50.loading,true);assert.equal(r.repeat50.presentationKey,`${r.repeat50.mediaSession}:q1:${r.repeat50.sourceGeneration}`);assert.equal(r.resumeContrast.loading,false);assert.equal(r.resumeContrast.sameSourceGeneration,r.repeat50.sourceGeneration);assert.equal(r.resumeContrast.sameSeekGeneration,r.repeat50.seekGeneration);assert(r.resumeContrast.decodedFrames>r.repeat50.decodedFrames);assert.equal(r.passed,false);assert.equal(r.close.retirementSettled,true);assert.equal(r.temporarySeekObserverClearedAndDeleted,true);
+const oldObserver=fs.readFileSync(path.join(repo,'qa/rc15-actual-account/seek-observer.expression.js'),'utf8');assert(oldObserver.endsWith('\n'));const executed=oldObserver.replaceAll('__rc15SeekQA','__rc16SeekQA').slice(0,-1);
+const manifest={schema:'drive-original.rc16-actual-record-verification/1',recordIntegrity:true,actualAcceptance:false,publicSource:r.publicSource,executedSeekObserverSHA256:sha(executed),files:Object.fromEntries(['results.json','README.md','verify-record.cjs'].map(p=>[p,sha(fs.readFileSync(path.join(base,p)))])),replayPerformed:false};
+fs.writeFileSync(path.join(base,'evidence-manifest.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({recordIntegrity:true,actualAcceptance:false,replayPerformed:false}));

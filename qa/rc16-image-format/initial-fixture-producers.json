@@ -1,0 +1,72 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "pillow": "12.3.0",
+  "webp": "1.6.0",
+  "fixtures": {
+    "alpha.png": {
+      "sha256": "5295759331636f3e07c701db3a93c3cc529cddcb47aa7be3702fd6ec8ef951ea",
+      "bytes": 180,
+      "format": "PNG",
+      "size": [
+        96,
+        64
+      ],
+      "frames": 1,
+      "duration": null,
+      "loop": null,
+      "mode": "RGBA"
+    },
+    "raster.bmp": {
+      "sha256": "8f96ca6bf39ab992c6f1b3efc34c32360a1b502c7baa7a82b8edfa7997a33229",
+      "bytes": 18486,
+      "format": "BMP",
+      "size": [
+        96,
+        64
+      ],
+      "frames": 1,
+      "duration": null,
+      "loop": null,
+      "mode": "RGB"
+    },
+    "animated.webp": {
+      "sha256": "1dd38f8dfbbc90f69027147a22e6750c7c8bcf4bdb731b24a9160cfd9223f5a9",
+      "bytes": 140,
+      "format": "WEBP",
+      "size": [
+        96,
+        64
+      ],
+      "frames": 2,
+      "duration": null,
+      "loop": 0,
+      "mode": "RGB"
+    },
+    "animated.gif": {
+      "sha256": "e44ea99bd437c861d9f78575ae5df11b2916bcff12d7b2c33e3dc28d18ccbcb3",
+      "bytes": 507,
+      "format": "GIF",
+      "size": [
+        96,
+        64
+      ],
+      "frames": 2,
+      "duration": 250,
+      "loop": 0,
+      "mode": "P"
+    },
+    "large.png": {
+      "sha256": "bbaad5c00cf17e2f3d64f765daa7b939281568e2e255171dd436fb0437232d50",
+      "bytes": 29512,
+      "format": "PNG",
+      "size": [
+        4096,
+        2048
+      ],
+      "frames": 1,
+      "duration": null,
+      "loop": null,
+      "mode": "RGB"
+    }
+  }
+}

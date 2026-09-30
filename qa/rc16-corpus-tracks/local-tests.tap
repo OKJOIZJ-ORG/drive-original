@@ -1,0 +1,23 @@
+✔ pure private plan caps5ISO/1WebM/2unknown and defers unproven largest without old magic assertions (3.7585ms)
+✔ exact private account/root/content identity excludes proven ISO and known TS; wrong-account map fails before read (2.2811ms)
+✔ structural WebM Tracks reports safe codecs/dimensions/audio and no arbitrary CodecID/name/UID (1.1038ms)
+✔ EBML malformed nested bounds, duplicate scalar, unknown nested size and oversize Tracks fail bounded (1.0381ms)
+✔ actual existing reader+ISO sparse and new EBML wrapper only reads planned files and fully redacts output (58.7925ms)
+✔ metadata-only reconstructs and compares full inventory but reads zero media and preserves unknown continuity (1.9759ms)
+✔ catalog comparison rejection and content identity drift never publish complete (21.5688ms)
+✔ stale app/SW/account, unsettled retirement or foreground ownership rejects before body; owner changes stop all later files (9.0485ms)
+✔ metadata dispatch cap512 and response/batch limits are not waived by inventory reconstruction (84.9089ms)
+✔ exact per-file metadata retains32KiB response cap before any media read (2.3988ms)
+✔ cancel waits for late metadata cancellation; rejected/unknown cleanup is terminal (5.7377ms)
+✔ standalone bundle is deterministic, lexical and rejects absent private inputs without global mutation (17.9351ms)
+✔ strict actual lexical facade retains equal read refresh but refuses projection/writer/token/controller/foreground changes (9.8321ms)
+✔ EBML sparse scan skips a multi-MiB known Cluster and never requests its whole payload (10.3908ms)
+✔ new EBML sparse parser independently agrees with FFprobe on generated VP9/Opus seed (301.5287ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 637.4279

@@ -1,0 +1,13 @@
+--- app.js
++++ app.js
+@@ createFileCard
+   const isGif = isGifFile(file);
++  const isWebp = String(file.mimeType || '').toLowerCase() === 'image/webp'
++    || /\.webp$/i.test(String(file.name || ''));
++  const useStaticImageThumbnail = isGif || isWebp;
+@@
+-  if (isGif) {
++  if (useStaticImageThumbnail) {
+@@ placeholder.innerHTML trailing label (full executable function is proposed-card-function.js)
+-<span>GIF</span>
++<span>${isGif ? 'GIF' : 'WEBP'}</span>

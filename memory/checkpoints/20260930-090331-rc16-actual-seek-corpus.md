@@ -2,7 +2,7 @@
 
 ## The story so far
 
-Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics HEADe57d7b5. rc.16 public source/Worker cbbafb96 and ZIP/public-source-readiness verified; delivery private metadata/doc savepoint remains uncommitted. Composite source-owned presentation fix is committed with558/558 Node and6/6 native UI fixtures, but ACTUAL TS paused50% seek still leaves loadertrue after a decoded owned frame, native seek settlement and ready4. Repeat50% reproduced; same owner/source/seek resumed with Space, one additional frame immediately cleared loader. Actual video now closed; clear temporary __rc16SeekQA and retain safe failed proof before new corpus probe. Personal Chrome browser3, root tab275138839, CUA bindings freshDriveQaTab/actualDriveCdp. Native observer-reset50/150 passed;170 MediaSources/SourceBuffers/Workers each finalized, capped resource measurements are observer-qualified only. Prepared card-only animatedWebP static-list fix is held while paused TS defect is investigated. Bounded actual corpus ISO/EBML probe ready at qa/rc16-corpus-tracks; private priority/root context must be independently reconstructed inside page, not exported. A child prepares >360s Q2 automatic source-clock/end run. Whole goal continues; actual/device/formats/Q3 and production gates are not complete. Productionv1.21.0/e08989a, global Drive writesfalse, own-statewritestrue and automationPAUSED.
+Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-diagnostics HEAD4e69a79. Fixed free rc.15 candidate ee0ac84/Worker23c63fba delivery and private source-readiness/package evidence are saved. The whole goal continues; savepoints do not mean completion. After prior ephemeral tab cleanup, a fresh personal Chrome task tab now restores the existing account with no new login/grant. Actual designated priority TS/Q1 currently presents frames and progresses under rc.15; first background-tab trial produced no hidden visibility event, so it is not native30s proof. Root owns temporary window.__rc15ActualQA observer in the live personal candidate tab (auto-clears at10min; explicitly clear/delete before close). Two distinct Sol children own NEW rc15-lifecycle-qualification and rc15-player-ui-qualification leaves; both exposed paused AAC rVFC QA ordering false negatives, now discriminated before any product edit. Their current cycle/resource/UI evidence is pending, not complete. Physical/mobile/two-device/full formats/production gates remain separate. Productionv1.21.0/e08989a, global Drive writes disabled and automationPAUSED remain.
 
 ## Decided
 
@@ -16,11 +16,11 @@ Canonical source C:/extensions/Drive-Original/source, branch codex/v2-kickoff-di
 
 ## Waiting on the user
 
-Only Chrome ChatGPT extension Allow access to file URLs permission is pending for actual bounded corpus code loading. No setting changed;2metadata parent checks passed and private context/input cleared. Independent work continues. Device-only and separate production-authority gates stay unclaimed.
+None for executable work. Device-only and separate production-authority gates stay unclaimed.
 
 ## Next first action
 
-Poll full-suite session18489, integrate independent review of paused presentation patch, then commit only the verified rc17 code unit and deploy the authorized free candidate for actual TS paused10/50/90 replay.
+Read the live rc.15 observer's safe current/visibility state, then test whether temporarily disabling the browser automation focus override permits a genuine native hidden-tab interval before30-second return; do not spoof document visibility or relabel the already-visible first attempt.
 
 ## Tried
 
@@ -51,6 +51,3 @@ Poll full-suite session18489, integrate independent review of paused presentatio
 
 - The stopped ephemeral tab was unavailable on the later task inventory; a fresh same-profile tab restored existing account and control successfully. Earlier focus errors retain unknown cause.
 - The first current background-tab trial stayed visible for over140s despite other-tab UI navigation; actual hidden return remains unperformed at this checkpoint.
-
-- rc.16 composite presentation owner fixed stale-source coalescing, but actual paused target-frame-before-late-presentation callback still leaves loader; additional playing frame clears it. Do not claim all seek loading fixed.
-- rc.16 native resource growth was dominated by retained DevTools Network response records; observer resets qualify isolated measurements, not uninstrumented account/device ceilings.

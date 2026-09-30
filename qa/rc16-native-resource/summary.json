@@ -1,0 +1,7089 @@
+{
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "publicFileCount": 51,
+  "browserVersions": [
+    "154.0.8037.58"
+  ],
+  "runs": [
+    {
+      "file": "cycles-2026-09-29T23-46-21-754Z.json",
+      "producer": "producer-capped-network-control-count-failure.cjs",
+      "browser": "154.0.8037.58",
+      "passed": false,
+      "passedCycles": 6,
+      "passedNativeSeeks": 18,
+      "routeCounts": {
+        "q1": 2,
+        "q2": 2,
+        "q0": 2
+      },
+      "failure": {
+        "name": "AssertionError",
+        "code": "ASSERTION_OR_HARNESS_FAILURE"
+      },
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 22,
+        "mediaMetadataEvents": 190,
+        "mediaLoadingFinished": 190,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 65536
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9633792
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 27656192
+        },
+        {
+          "phase": "cycle-6-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 37486592
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 37683200
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 37486592
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.219,
+          "physicalHeadroomGiB": 3.746
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.25,
+          "renderers": [],
+          "commitHeadroomGiB": 3.134,
+          "physicalHeadroomGiB": 3.747
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 257.08203125,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 18.0234375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 44.390625
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 46.07421875
+            }
+          ],
+          "commitHeadroomGiB": 2.928,
+          "physicalHeadroomGiB": 3.574
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 467.47265625,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 18.0234375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 72.04296875
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 46.07421875
+            }
+          ],
+          "commitHeadroomGiB": 2.703,
+          "physicalHeadroomGiB": 3.407
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 486.5078125,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 18.0234375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 102.8828125
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 46.07421875
+            }
+          ],
+          "commitHeadroomGiB": 2.635,
+          "physicalHeadroomGiB": 3.323
+        },
+        {
+          "phase": "cycle-6-closed",
+          "totalPrivateMiB": 499.1171875,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 18.0234375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 115.234375
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 46.07421875
+            }
+          ],
+          "commitHeadroomGiB": 2.611,
+          "physicalHeadroomGiB": 3.303
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 448.50390625,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 17.71484375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 113.77734375
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 44.78125
+            }
+          ],
+          "commitHeadroomGiB": 2.683,
+          "physicalHeadroomGiB": 3.357
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 448.50390625,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 17.71484375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 113.77734375
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 44.78125
+            }
+          ],
+          "commitHeadroomGiB": 2.745,
+          "physicalHeadroomGiB": 3.403
+        },
+        {
+          "phase": "failure-live",
+          "totalPrivateMiB": 448.50390625,
+          "renderers": [
+            {
+              "pid": 20824,
+              "privateMiB": 17.71484375
+            },
+            {
+              "pid": 4620,
+              "privateMiB": 113.77734375
+            },
+            {
+              "pid": 19220,
+              "privateMiB": 44.78125
+            }
+          ],
+          "commitHeadroomGiB": 2.744,
+          "physicalHeadroomGiB": 3.416
+        },
+        {
+          "phase": "failure",
+          "totalPrivateMiB": 265.4609375,
+          "renderers": [],
+          "commitHeadroomGiB": 2.915,
+          "physicalHeadroomGiB": 3.556
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.198,
+          "physicalHeadroomGiB": 3.767
+        }
+      ]
+    },
+    {
+      "file": "cycles-2026-09-29T23-47-19-120Z.json",
+      "producer": "capped-network.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 3,
+      "passedNativeSeeks": 9,
+      "routeCounts": {
+        "q1": 1,
+        "q2": 1,
+        "q0": 1
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 12,
+        "mediaMetadataEvents": 94,
+        "mediaLoadingFinished": 94,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 131072
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9502720
+        },
+        {
+          "phase": "cycle-3-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20250624
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 19791872
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 19791872
+        },
+        {
+          "phase": "capped-network-final",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 19791872
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.192,
+          "physicalHeadroomGiB": 3.745
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.30859375,
+          "renderers": [],
+          "commitHeadroomGiB": 3.126,
+          "physicalHeadroomGiB": 3.751
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 254.5,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 44.6015625
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 44.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.913,
+          "physicalHeadroomGiB": 3.572
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 463.765625,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 72.671875
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 44.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.699,
+          "physicalHeadroomGiB": 3.417
+        },
+        {
+          "phase": "cycle-3-closed",
+          "totalPrivateMiB": 494.609375,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 92.05078125
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 44.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.616,
+          "physicalHeadroomGiB": 3.359
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 418.89453125,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.015625
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 89.41015625
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 42.8203125
+            }
+          ],
+          "commitHeadroomGiB": 2.817,
+          "physicalHeadroomGiB": 3.484
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 417.3515625,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.015625
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 87.8671875
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 42.8203125
+            }
+          ],
+          "commitHeadroomGiB": 2.825,
+          "physicalHeadroomGiB": 3.491
+        },
+        {
+          "phase": "capped-network-final",
+          "totalPrivateMiB": 417.37109375,
+          "renderers": [
+            {
+              "pid": 9988,
+              "privateMiB": 15.015625
+            },
+            {
+              "pid": 20824,
+              "privateMiB": 87.88671875
+            },
+            {
+              "pid": 5212,
+              "privateMiB": 42.8203125
+            }
+          ],
+          "commitHeadroomGiB": 2.82,
+          "physicalHeadroomGiB": 3.489
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 264.34765625,
+          "renderers": [],
+          "commitHeadroomGiB": 2.976,
+          "physicalHeadroomGiB": 3.615
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.27,
+          "physicalHeadroomGiB": 3.825
+        }
+      ]
+    },
+    {
+      "file": "cycles-2026-09-29T23-49-54-936Z.json",
+      "producer": "producer-reset-network-owner-race.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 3,
+      "passedNativeSeeks": 9,
+      "routeCounts": {
+        "q1": 1,
+        "q2": 1,
+        "q0": 1
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": true,
+      "disabledSettleMs": 0,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 12,
+        "mediaMetadataEvents": 96,
+        "mediaLoadingFinished": 96,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 262144
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9633792
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9502720
+        },
+        {
+          "phase": "cycle-3-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20250624
+        },
+        {
+          "phase": "cycle-3-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20185088
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20185088
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20185088
+        },
+        {
+          "phase": "capped-network-final",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20185088
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.211,
+          "physicalHeadroomGiB": 3.753
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.0546875,
+          "renderers": [],
+          "commitHeadroomGiB": 3.125,
+          "physicalHeadroomGiB": 3.73
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 249.99609375,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 41.90625
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 43.19140625
+            }
+          ],
+          "commitHeadroomGiB": 2.847,
+          "physicalHeadroomGiB": 3.51
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "totalPrivateMiB": 453.79296875,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 70.34765625
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 43.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.67,
+          "physicalHeadroomGiB": 3.382
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 453.359375,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 69.9140625
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 43.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.669,
+          "physicalHeadroomGiB": 3.383
+        },
+        {
+          "phase": "cycle-3-before-observer-reset",
+          "totalPrivateMiB": 488.0703125,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 90.21875
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 43.19921875
+            }
+          ],
+          "commitHeadroomGiB": 2.619,
+          "physicalHeadroomGiB": 3.319
+        },
+        {
+          "phase": "cycle-3-closed",
+          "totalPrivateMiB": 486.85546875,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 89.7265625
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 43.19921875
+            }
+          ],
+          "commitHeadroomGiB": 2.616,
+          "physicalHeadroomGiB": 3.309
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 408.6640625,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.046875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 86.984375
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 41.9296875
+            }
+          ],
+          "commitHeadroomGiB": 2.788,
+          "physicalHeadroomGiB": 3.432
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 408.66796875,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.046875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 86.98828125
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 41.9296875
+            }
+          ],
+          "commitHeadroomGiB": 2.78,
+          "physicalHeadroomGiB": 3.43
+        },
+        {
+          "phase": "capped-network-final",
+          "totalPrivateMiB": 408.67578125,
+          "renderers": [
+            {
+              "pid": 19920,
+              "privateMiB": 15.046875
+            },
+            {
+              "pid": 22252,
+              "privateMiB": 86.99609375
+            },
+            {
+              "pid": 1724,
+              "privateMiB": 41.9296875
+            }
+          ],
+          "commitHeadroomGiB": 2.781,
+          "physicalHeadroomGiB": 3.435
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 258.64453125,
+          "renderers": [],
+          "commitHeadroomGiB": 2.939,
+          "physicalHeadroomGiB": 3.561
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.21,
+          "physicalHeadroomGiB": 3.766
+        }
+      ]
+    },
+    {
+      "file": "cycles-2026-09-29T23-50-43-097Z.json",
+      "producer": "producer-reset-network-owner-race.cjs",
+      "browser": "154.0.8037.58",
+      "passed": false,
+      "passedCycles": 9,
+      "passedNativeSeeks": 27,
+      "routeCounts": {
+        "q1": 3,
+        "q2": 3,
+        "q0": 3
+      },
+      "failure": {
+        "name": "AssertionError",
+        "code": "ASSERTION_OR_HARNESS_FAILURE"
+      },
+      "publicBytesVerified": true,
+      "observerReset": true,
+      "disabledSettleMs": 0,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 33,
+        "mediaMetadataEvents": 296,
+        "mediaLoadingFinished": 296,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 262144
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10158080
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10027008
+        },
+        {
+          "phase": "cycle-4-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 26935296
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 26935296
+        },
+        {
+          "phase": "cycle-8-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 30,
+              "alive": 1,
+              "collected": 29,
+              "finalized": 29
+            },
+            "sourceBuffer": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "worker": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 54329344
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 30,
+              "alive": 1,
+              "collected": 29,
+              "finalized": 29
+            },
+            "sourceBuffer": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "worker": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 54198272
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.218,
+          "physicalHeadroomGiB": 3.731
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 71.328125,
+          "renderers": [],
+          "commitHeadroomGiB": 3.147,
+          "physicalHeadroomGiB": 3.726
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 250.18359375,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.30859375
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 41.8515625
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44
+            }
+          ],
+          "commitHeadroomGiB": 2.917,
+          "physicalHeadroomGiB": 3.561
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "totalPrivateMiB": 461.25,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.30859375
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 69.609375
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44.00390625
+            }
+          ],
+          "commitHeadroomGiB": 2.676,
+          "physicalHeadroomGiB": 3.382
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 460.88671875,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.30859375
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 69.17578125
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44.00390625
+            }
+          ],
+          "commitHeadroomGiB": 2.674,
+          "physicalHeadroomGiB": 3.385
+        },
+        {
+          "phase": "cycle-4-before-observer-reset",
+          "totalPrivateMiB": 468.80078125,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.30859375
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 100.83203125
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44.00390625
+            }
+          ],
+          "commitHeadroomGiB": 2.652,
+          "physicalHeadroomGiB": 3.31
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 465.171875,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.30859375
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 97.12890625
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44.00390625
+            }
+          ],
+          "commitHeadroomGiB": 2.656,
+          "physicalHeadroomGiB": 3.319
+        },
+        {
+          "phase": "cycle-8-before-observer-reset",
+          "totalPrivateMiB": 505.00390625,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.36328125
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 138.00390625
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 44.046875
+            }
+          ],
+          "commitHeadroomGiB": 2.599,
+          "physicalHeadroomGiB": 3.255
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 500.9140625,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.0625
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 137.50390625
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 42.71484375
+            }
+          ],
+          "commitHeadroomGiB": 2.603,
+          "physicalHeadroomGiB": 3.26
+        },
+        {
+          "phase": "failure-live",
+          "totalPrivateMiB": 503.265625,
+          "renderers": [
+            {
+              "pid": 2572,
+              "privateMiB": 15.0625
+            },
+            {
+              "pid": 13972,
+              "privateMiB": 140.44140625
+            },
+            {
+              "pid": 20452,
+              "privateMiB": 42.71484375
+            }
+          ],
+          "commitHeadroomGiB": 2.602,
+          "physicalHeadroomGiB": 3.264
+        },
+        {
+          "phase": "failure",
+          "totalPrivateMiB": 298.1171875,
+          "renderers": [],
+          "commitHeadroomGiB": 2.813,
+          "physicalHeadroomGiB": 3.427
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.125,
+          "physicalHeadroomGiB": 3.689
+        }
+      ]
+    },
+    {
+      "file": "cycles-2026-09-29T23-52-59-024Z.json",
+      "producer": "reset-network.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 3,
+      "passedNativeSeeks": 9,
+      "routeCounts": {
+        "q1": 1,
+        "q2": 1,
+        "q0": 1
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": true,
+      "disabledSettleMs": 5000,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 12,
+        "mediaMetadataEvents": 96,
+        "mediaLoadingFinished": 96,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 327680
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9961472
+        },
+        {
+          "phase": "cycle-1-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9961472
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10027008
+        },
+        {
+          "phase": "cycle-3-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20709376
+        },
+        {
+          "phase": "cycle-3-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20512768
+        },
+        {
+          "phase": "cycle-3-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 20512768
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 1,
+              "collected": 9,
+              "finalized": 9
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 2555904
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 2490368
+        },
+        {
+          "phase": "capped-network-final",
+          "counts": {
+            "mediaSource": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "sourceBuffer": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "worker": {
+              "created": 10,
+              "alive": 0,
+              "collected": 10,
+              "finalized": 10
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 2621440
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.168,
+          "physicalHeadroomGiB": 3.767
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.29296875,
+          "renderers": [],
+          "commitHeadroomGiB": 3.096,
+          "physicalHeadroomGiB": 3.753
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 251.859375,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 41.8359375
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 43.1875
+            }
+          ],
+          "commitHeadroomGiB": 2.894,
+          "physicalHeadroomGiB": 3.58
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "totalPrivateMiB": 461.51953125,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 69.8359375
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 43.1875
+            }
+          ],
+          "commitHeadroomGiB": 2.632,
+          "physicalHeadroomGiB": 3.399
+        },
+        {
+          "phase": "cycle-1-observer-disabled-settled",
+          "totalPrivateMiB": 458.52734375,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 68.28125
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 43.1953125
+            }
+          ],
+          "commitHeadroomGiB": 2.218,
+          "physicalHeadroomGiB": 3.11
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 414.99609375,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.3203125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 67.8828125
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 43.1953125
+            }
+          ],
+          "commitHeadroomGiB": 1.989,
+          "physicalHeadroomGiB": 2.926
+        },
+        {
+          "phase": "cycle-3-before-observer-reset",
+          "totalPrivateMiB": 438.98046875,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 86.390625
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 42.05859375
+            }
+          ],
+          "commitHeadroomGiB": 2.373,
+          "physicalHeadroomGiB": 3.159
+        },
+        {
+          "phase": "cycle-3-observer-disabled-settled",
+          "totalPrivateMiB": 430.3125,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 86.53125
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 42.05859375
+            }
+          ],
+          "commitHeadroomGiB": 2.502,
+          "physicalHeadroomGiB": 3.239
+        },
+        {
+          "phase": "cycle-3-closed",
+          "totalPrivateMiB": 429.53125,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 86.5390625
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 42.05859375
+            }
+          ],
+          "commitHeadroomGiB": 2.499,
+          "physicalHeadroomGiB": 3.238
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 381.2421875,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 14.91796875
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 62.3203125
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 34.546875
+            }
+          ],
+          "commitHeadroomGiB": 2.565,
+          "physicalHeadroomGiB": 3.297
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 381.26953125,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 14.91796875
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 62.3203125
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 34.546875
+            }
+          ],
+          "commitHeadroomGiB": 2.552,
+          "physicalHeadroomGiB": 3.296
+        },
+        {
+          "phase": "capped-network-final",
+          "totalPrivateMiB": 381.328125,
+          "renderers": [
+            {
+              "pid": 7768,
+              "privateMiB": 14.91796875
+            },
+            {
+              "pid": 9044,
+              "privateMiB": 62.34765625
+            },
+            {
+              "pid": 16388,
+              "privateMiB": 34.546875
+            }
+          ],
+          "commitHeadroomGiB": 2.558,
+          "physicalHeadroomGiB": 3.301
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 258.671875,
+          "renderers": [],
+          "commitHeadroomGiB": 2.686,
+          "physicalHeadroomGiB": 3.397
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 2.975,
+          "physicalHeadroomGiB": 3.625
+        }
+      ]
+    },
+    {
+      "file": "cycles-2026-09-29T23-54-18-342Z.json",
+      "producer": "reset-network.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 50,
+      "passedNativeSeeks": 150,
+      "routeCounts": {
+        "q1": 17,
+        "q2": 17,
+        "q0": 16
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": true,
+      "disabledSettleMs": 5000,
+      "networkCap": {
+        "maxTotalBufferSize": 0,
+        "maxResourceBufferSize": 0,
+        "sessions": 172,
+        "mediaMetadataEvents": 1572,
+        "mediaLoadingFinished": 1572,
+        "bodyProbes": [
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          },
+          {
+            "owner": "service_worker",
+            "bodyAvailable": false,
+            "errorKind": "Error"
+          }
+        ]
+      },
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 131072
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9830400
+        },
+        {
+          "phase": "cycle-1-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9764864
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 9764864
+        },
+        {
+          "phase": "cycle-4-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 27459584
+        },
+        {
+          "phase": "cycle-4-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 27394048
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 15,
+              "alive": 1,
+              "collected": 14,
+              "finalized": 14
+            },
+            "sourceBuffer": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "worker": {
+              "created": 15,
+              "alive": 0,
+              "collected": 15,
+              "finalized": 15
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 27394048
+        },
+        {
+          "phase": "cycle-8-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 30,
+              "alive": 1,
+              "collected": 29,
+              "finalized": 29
+            },
+            "sourceBuffer": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "worker": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13172736
+        },
+        {
+          "phase": "cycle-8-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 30,
+              "alive": 1,
+              "collected": 29,
+              "finalized": 29
+            },
+            "sourceBuffer": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "worker": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13238272
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 30,
+              "alive": 1,
+              "collected": 29,
+              "finalized": 29
+            },
+            "sourceBuffer": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "worker": {
+              "created": 30,
+              "alive": 0,
+              "collected": 30,
+              "finalized": 30
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13238272
+        },
+        {
+          "phase": "cycle-12-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10420224
+        },
+        {
+          "phase": "cycle-12-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10420224
+        },
+        {
+          "phase": "cycle-12-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10420224
+        },
+        {
+          "phase": "cycle-16-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 55,
+              "alive": 1,
+              "collected": 54,
+              "finalized": 54
+            },
+            "sourceBuffer": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "worker": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6619136
+        },
+        {
+          "phase": "cycle-16-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 55,
+              "alive": 1,
+              "collected": 54,
+              "finalized": 54
+            },
+            "sourceBuffer": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "worker": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6619136
+        },
+        {
+          "phase": "cycle-16-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 55,
+              "alive": 1,
+              "collected": 54,
+              "finalized": 54
+            },
+            "sourceBuffer": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "worker": {
+              "created": 55,
+              "alive": 0,
+              "collected": 55,
+              "finalized": 55
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6356992
+        },
+        {
+          "phase": "cycle-20-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 70,
+              "alive": 1,
+              "collected": 69,
+              "finalized": 69
+            },
+            "sourceBuffer": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "worker": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 14680064
+        },
+        {
+          "phase": "cycle-20-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 70,
+              "alive": 1,
+              "collected": 69,
+              "finalized": 69
+            },
+            "sourceBuffer": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "worker": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 14876672
+        },
+        {
+          "phase": "cycle-20-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 70,
+              "alive": 1,
+              "collected": 69,
+              "finalized": 69
+            },
+            "sourceBuffer": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "worker": {
+              "created": 70,
+              "alive": 0,
+              "collected": 70,
+              "finalized": 70
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 14680064
+        },
+        {
+          "phase": "cycle-24-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 80,
+              "alive": 1,
+              "collected": 79,
+              "finalized": 79
+            },
+            "sourceBuffer": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "worker": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13959168
+        },
+        {
+          "phase": "cycle-24-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 80,
+              "alive": 1,
+              "collected": 79,
+              "finalized": 79
+            },
+            "sourceBuffer": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "worker": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13762560
+        },
+        {
+          "phase": "cycle-24-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 80,
+              "alive": 1,
+              "collected": 79,
+              "finalized": 79
+            },
+            "sourceBuffer": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "worker": {
+              "created": 80,
+              "alive": 0,
+              "collected": 80,
+              "finalized": 80
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13762560
+        },
+        {
+          "phase": "cycle-28-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 95,
+              "alive": 1,
+              "collected": 94,
+              "finalized": 94
+            },
+            "sourceBuffer": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "worker": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 8716288
+        },
+        {
+          "phase": "cycle-28-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 95,
+              "alive": 1,
+              "collected": 94,
+              "finalized": 94
+            },
+            "sourceBuffer": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "worker": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 8781824
+        },
+        {
+          "phase": "cycle-28-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 95,
+              "alive": 1,
+              "collected": 94,
+              "finalized": 94
+            },
+            "sourceBuffer": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "worker": {
+              "created": 95,
+              "alive": 0,
+              "collected": 95,
+              "finalized": 95
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 8716288
+        },
+        {
+          "phase": "cycle-32-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 110,
+              "alive": 1,
+              "collected": 109,
+              "finalized": 109
+            },
+            "sourceBuffer": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "worker": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6094848
+        },
+        {
+          "phase": "cycle-32-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 110,
+              "alive": 1,
+              "collected": 109,
+              "finalized": 109
+            },
+            "sourceBuffer": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "worker": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6094848
+        },
+        {
+          "phase": "cycle-32-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 110,
+              "alive": 1,
+              "collected": 109,
+              "finalized": 109
+            },
+            "sourceBuffer": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "worker": {
+              "created": 110,
+              "alive": 0,
+              "collected": 110,
+              "finalized": 110
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6029312
+        },
+        {
+          "phase": "cycle-36-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 120,
+              "alive": 1,
+              "collected": 119,
+              "finalized": 119
+            },
+            "sourceBuffer": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "worker": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 15400960
+        },
+        {
+          "phase": "cycle-36-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 120,
+              "alive": 1,
+              "collected": 119,
+              "finalized": 119
+            },
+            "sourceBuffer": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "worker": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 15400960
+        },
+        {
+          "phase": "cycle-36-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 120,
+              "alive": 1,
+              "collected": 119,
+              "finalized": 119
+            },
+            "sourceBuffer": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "worker": {
+              "created": 120,
+              "alive": 0,
+              "collected": 120,
+              "finalized": 120
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 15269888
+        },
+        {
+          "phase": "cycle-40-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 135,
+              "alive": 1,
+              "collected": 134,
+              "finalized": 134
+            },
+            "sourceBuffer": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "worker": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10289152
+        },
+        {
+          "phase": "cycle-40-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 135,
+              "alive": 1,
+              "collected": 134,
+              "finalized": 134
+            },
+            "sourceBuffer": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "worker": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10158080
+        },
+        {
+          "phase": "cycle-40-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 135,
+              "alive": 1,
+              "collected": 134,
+              "finalized": 134
+            },
+            "sourceBuffer": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "worker": {
+              "created": 135,
+              "alive": 0,
+              "collected": 135,
+              "finalized": 135
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10289152
+        },
+        {
+          "phase": "cycle-44-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 150,
+              "alive": 1,
+              "collected": 149,
+              "finalized": 149
+            },
+            "sourceBuffer": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "worker": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6946816
+        },
+        {
+          "phase": "cycle-44-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 150,
+              "alive": 1,
+              "collected": 149,
+              "finalized": 149
+            },
+            "sourceBuffer": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "worker": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 7012352
+        },
+        {
+          "phase": "cycle-44-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 150,
+              "alive": 1,
+              "collected": 149,
+              "finalized": 149
+            },
+            "sourceBuffer": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "worker": {
+              "created": 150,
+              "alive": 0,
+              "collected": 150,
+              "finalized": 150
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 6946816
+        },
+        {
+          "phase": "cycle-48-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 160,
+              "alive": 1,
+              "collected": 159,
+              "finalized": 159
+            },
+            "sourceBuffer": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "worker": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 4980736
+        },
+        {
+          "phase": "cycle-48-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 160,
+              "alive": 1,
+              "collected": 159,
+              "finalized": 159
+            },
+            "sourceBuffer": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "worker": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 4915200
+        },
+        {
+          "phase": "cycle-48-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 160,
+              "alive": 1,
+              "collected": 159,
+              "finalized": 159
+            },
+            "sourceBuffer": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "worker": {
+              "created": 160,
+              "alive": 0,
+              "collected": 160,
+              "finalized": 160
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 4849664
+        },
+        {
+          "phase": "cycle-50-before-observer-reset",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 1,
+              "collected": 169,
+              "finalized": 169
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13500416
+        },
+        {
+          "phase": "cycle-50-observer-disabled-settled",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 1,
+              "collected": 169,
+              "finalized": 169
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13565952
+        },
+        {
+          "phase": "cycle-50-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 1,
+              "collected": 169,
+              "finalized": 169
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13434880
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 1,
+              "collected": 169,
+              "finalized": 169
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13303808
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13434880
+        },
+        {
+          "phase": "capped-network-final",
+          "counts": {
+            "mediaSource": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "sourceBuffer": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "worker": {
+              "created": 170,
+              "alive": 0,
+              "collected": 170,
+              "finalized": 170
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 13828096
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 2.906,
+          "physicalHeadroomGiB": 3.537
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 71.66796875,
+          "renderers": [],
+          "commitHeadroomGiB": 2.832,
+          "physicalHeadroomGiB": 3.518
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 248.046875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.33984375
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 41.8046875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 42.7734375
+            }
+          ],
+          "commitHeadroomGiB": 2.613,
+          "physicalHeadroomGiB": 3.357
+        },
+        {
+          "phase": "cycle-1-before-observer-reset",
+          "totalPrivateMiB": 456.765625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.33984375
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.4765625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 42.77734375
+            }
+          ],
+          "commitHeadroomGiB": 2.364,
+          "physicalHeadroomGiB": 3.178
+        },
+        {
+          "phase": "cycle-1-observer-disabled-settled",
+          "totalPrivateMiB": 447.26171875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.33984375
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.28125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 42.77734375
+            }
+          ],
+          "commitHeadroomGiB": 2.378,
+          "physicalHeadroomGiB": 3.179
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 413.0703125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.33984375
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.8828125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 42.77734375
+            }
+          ],
+          "commitHeadroomGiB": 2.41,
+          "physicalHeadroomGiB": 3.191
+        },
+        {
+          "phase": "cycle-4-before-observer-reset",
+          "totalPrivateMiB": 450.8203125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 97.9453125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 41.5234375
+            }
+          ],
+          "commitHeadroomGiB": 2.386,
+          "physicalHeadroomGiB": 3.149
+        },
+        {
+          "phase": "cycle-4-observer-disabled-settled",
+          "totalPrivateMiB": 446.55078125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 97.6953125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 41.5234375
+            }
+          ],
+          "commitHeadroomGiB": 2.485,
+          "physicalHeadroomGiB": 3.216
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 441.13671875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 97.203125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 41.5234375
+            }
+          ],
+          "commitHeadroomGiB": 2.491,
+          "physicalHeadroomGiB": 3.216
+        },
+        {
+          "phase": "cycle-8-before-observer-reset",
+          "totalPrivateMiB": 427.484375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 83.47265625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.496,
+          "physicalHeadroomGiB": 3.241
+        },
+        {
+          "phase": "cycle-8-observer-disabled-settled",
+          "totalPrivateMiB": 425.25,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 82.89453125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.497,
+          "physicalHeadroomGiB": 3.232
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 421.234375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.03125
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 82.39453125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.5,
+          "physicalHeadroomGiB": 3.243
+        },
+        {
+          "phase": "cycle-12-before-observer-reset",
+          "totalPrivateMiB": 418.0234375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 72.43359375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.506,
+          "physicalHeadroomGiB": 3.237
+        },
+        {
+          "phase": "cycle-12-observer-disabled-settled",
+          "totalPrivateMiB": 404.8828125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.04296875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.548,
+          "physicalHeadroomGiB": 3.265
+        },
+        {
+          "phase": "cycle-12-closed",
+          "totalPrivateMiB": 403.6328125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.04296875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.54,
+          "physicalHeadroomGiB": 3.264
+        },
+        {
+          "phase": "cycle-16-before-observer-reset",
+          "totalPrivateMiB": 412.76953125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.93359375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.462,
+          "physicalHeadroomGiB": 3.186
+        },
+        {
+          "phase": "cycle-16-observer-disabled-settled",
+          "totalPrivateMiB": 405.515625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.28515625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.498,
+          "physicalHeadroomGiB": 3.221
+        },
+        {
+          "phase": "cycle-16-closed",
+          "totalPrivateMiB": 405.109375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 67.78515625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.501,
+          "physicalHeadroomGiB": 3.221
+        },
+        {
+          "phase": "cycle-20-before-observer-reset",
+          "totalPrivateMiB": 425.2578125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 80.0546875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.412,
+          "physicalHeadroomGiB": 3.152
+        },
+        {
+          "phase": "cycle-20-observer-disabled-settled",
+          "totalPrivateMiB": 415.6484375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 78.24609375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.436,
+          "physicalHeadroomGiB": 3.168
+        },
+        {
+          "phase": "cycle-20-closed",
+          "totalPrivateMiB": 413.87890625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 77.74609375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.445,
+          "physicalHeadroomGiB": 3.181
+        },
+        {
+          "phase": "cycle-24-before-observer-reset",
+          "totalPrivateMiB": 419.9453125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 75.296875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.243,
+          "physicalHeadroomGiB": 3.013
+        },
+        {
+          "phase": "cycle-24-observer-disabled-settled",
+          "totalPrivateMiB": 407.31640625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 71.3125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.248,
+          "physicalHeadroomGiB": 3.004
+        },
+        {
+          "phase": "cycle-24-closed",
+          "totalPrivateMiB": 406.75390625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 71.3125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 34.58984375
+            }
+          ],
+          "commitHeadroomGiB": 2.235,
+          "physicalHeadroomGiB": 2.996
+        },
+        {
+          "phase": "cycle-28-before-observer-reset",
+          "totalPrivateMiB": 415.07421875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 72.60546875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.214,
+          "physicalHeadroomGiB": 2.983
+        },
+        {
+          "phase": "cycle-28-observer-disabled-settled",
+          "totalPrivateMiB": 407.265625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 70.75390625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.224,
+          "physicalHeadroomGiB": 2.989
+        },
+        {
+          "phase": "cycle-28-closed",
+          "totalPrivateMiB": 404.44921875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 70.25390625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.197,
+          "physicalHeadroomGiB": 2.961
+        },
+        {
+          "phase": "cycle-32-before-observer-reset",
+          "totalPrivateMiB": 415.99609375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 69.0390625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.114,
+          "physicalHeadroomGiB": 2.905
+        },
+        {
+          "phase": "cycle-32-observer-disabled-settled",
+          "totalPrivateMiB": 405.7890625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.7890625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.146,
+          "physicalHeadroomGiB": 2.934
+        },
+        {
+          "phase": "cycle-32-closed",
+          "totalPrivateMiB": 403.49609375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.2890625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.103,
+          "physicalHeadroomGiB": 2.902
+        },
+        {
+          "phase": "cycle-36-before-observer-reset",
+          "totalPrivateMiB": 421.1015625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 77.796875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.318,
+          "physicalHeadroomGiB": 3.04
+        },
+        {
+          "phase": "cycle-36-observer-disabled-settled",
+          "totalPrivateMiB": 412.796875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 76.28515625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.377,
+          "physicalHeadroomGiB": 3.075
+        },
+        {
+          "phase": "cycle-36-closed",
+          "totalPrivateMiB": 411.984375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 75.78515625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.356,
+          "physicalHeadroomGiB": 3.076
+        },
+        {
+          "phase": "cycle-40-before-observer-reset",
+          "totalPrivateMiB": 417.4375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 74.43359375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.281,
+          "physicalHeadroomGiB": 3.026
+        },
+        {
+          "phase": "cycle-40-observer-disabled-settled",
+          "totalPrivateMiB": 412.09765625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 74.20703125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.275,
+          "physicalHeadroomGiB": 3.024
+        },
+        {
+          "phase": "cycle-40-closed",
+          "totalPrivateMiB": 409.56640625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 73.70703125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.261,
+          "physicalHeadroomGiB": 3.017
+        },
+        {
+          "phase": "cycle-44-before-observer-reset",
+          "totalPrivateMiB": 416.390625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 73.1484375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.288,
+          "physicalHeadroomGiB": 3.028
+        },
+        {
+          "phase": "cycle-44-observer-disabled-settled",
+          "totalPrivateMiB": 406.60546875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.98046875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.258,
+          "physicalHeadroomGiB": 3.004
+        },
+        {
+          "phase": "cycle-44-closed",
+          "totalPrivateMiB": 404.28515625,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.48046875
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34375
+            }
+          ],
+          "commitHeadroomGiB": 2.286,
+          "physicalHeadroomGiB": 3.029
+        },
+        {
+          "phase": "cycle-48-before-observer-reset",
+          "totalPrivateMiB": 411.2109375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 68.4140625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34765625
+            }
+          ],
+          "commitHeadroomGiB": 2.33,
+          "physicalHeadroomGiB": 3.057
+        },
+        {
+          "phase": "cycle-48-observer-disabled-settled",
+          "totalPrivateMiB": 404.4609375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 66.8515625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34765625
+            }
+          ],
+          "commitHeadroomGiB": 2.406,
+          "physicalHeadroomGiB": 3.125
+        },
+        {
+          "phase": "cycle-48-closed",
+          "totalPrivateMiB": 403.3671875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 14.9296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 66.4140625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.34765625
+            }
+          ],
+          "commitHeadroomGiB": 2.39,
+          "physicalHeadroomGiB": 3.101
+        },
+        {
+          "phase": "cycle-50-before-observer-reset",
+          "totalPrivateMiB": 425.05859375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 77.80859375
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.312,
+          "physicalHeadroomGiB": 3.041
+        },
+        {
+          "phase": "cycle-50-observer-disabled-settled",
+          "totalPrivateMiB": 414.6953125,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 75.66015625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.357,
+          "physicalHeadroomGiB": 3.067
+        },
+        {
+          "phase": "cycle-50-closed",
+          "totalPrivateMiB": 412.44921875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 75.16015625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.287,
+          "physicalHeadroomGiB": 3.016
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 390.66796875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 71.4140625
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.387,
+          "physicalHeadroomGiB": 3.098
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 390.69921875,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 71.4453125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.39,
+          "physicalHeadroomGiB": 3.106
+        },
+        {
+          "phase": "capped-network-final",
+          "totalPrivateMiB": 391.43359375,
+          "renderers": [
+            {
+              "pid": 13980,
+              "privateMiB": 15.04296875
+            },
+            {
+              "pid": 1108,
+              "privateMiB": 71.953125
+            },
+            {
+              "pid": 11996,
+              "privateMiB": 33.453125
+            }
+          ],
+          "commitHeadroomGiB": 2.394,
+          "physicalHeadroomGiB": 3.118
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 282.95703125,
+          "renderers": [],
+          "commitHeadroomGiB": 2.497,
+          "physicalHeadroomGiB": 3.181
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 2.813,
+          "physicalHeadroomGiB": 3.437
+        }
+      ]
+    },
+    {
+      "file": "trend-q1-2026-09-29T23-43-36-837Z.json",
+      "producer": "network-shed.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 8,
+      "passedNativeSeeks": 24,
+      "routeCounts": {
+        "q1": 8
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": null,
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 10000000
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 17798784
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 57841280
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 111515264
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 111384192
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 111449728
+        },
+        {
+          "phase": "after-exact-playwright-network-disable",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 98932352
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.182,
+          "physicalHeadroomGiB": 3.758
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.30078125,
+          "renderers": [],
+          "commitHeadroomGiB": 3.159,
+          "physicalHeadroomGiB": 3.787
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 248.921875,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.34765625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 41.875
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 43.43359375
+            }
+          ],
+          "commitHeadroomGiB": 2.954,
+          "physicalHeadroomGiB": 3.625
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 468.9609375,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.34765625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 78.73828125
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 43.43359375
+            }
+          ],
+          "commitHeadroomGiB": 2.701,
+          "physicalHeadroomGiB": 3.42
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 502.546875,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.34765625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 132.0625
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 43.4375
+            }
+          ],
+          "commitHeadroomGiB": 2.622,
+          "physicalHeadroomGiB": 3.341
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 574.30859375,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.34765625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 199.21484375
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 43.4375
+            }
+          ],
+          "commitHeadroomGiB": 2.553,
+          "physicalHeadroomGiB": 3.265
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 529.84375,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.0625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 196.7265625
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 42.1796875
+            }
+          ],
+          "commitHeadroomGiB": 2.683,
+          "physicalHeadroomGiB": 3.368
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 529.8515625,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.0625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 196.734375
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 42.1796875
+            }
+          ],
+          "commitHeadroomGiB": 2.68,
+          "physicalHeadroomGiB": 3.367
+        },
+        {
+          "phase": "after-exact-playwright-network-disable",
+          "totalPrivateMiB": 392.5234375,
+          "renderers": [
+            {
+              "pid": 20172,
+              "privateMiB": 15.0625
+            },
+            {
+              "pid": 5944,
+              "privateMiB": 76.765625
+            },
+            {
+              "pid": 10496,
+              "privateMiB": 36.57421875
+            }
+          ],
+          "commitHeadroomGiB": 2.775,
+          "physicalHeadroomGiB": 3.439
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 257.86328125,
+          "renderers": [],
+          "commitHeadroomGiB": 2.912,
+          "physicalHeadroomGiB": 3.548
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.186,
+          "physicalHeadroomGiB": 3.755
+        }
+      ]
+    },
+    {
+      "file": "trend-q2-2026-09-29T23-33-10-980Z.json",
+      "producer": "probe.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 8,
+      "passedNativeSeeks": 24,
+      "routeCounts": {
+        "q2": 8
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": null,
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 196608
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 26476544
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 91226112
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 108658688
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 108462080
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 108462080
+        },
+        {
+          "phase": "after-isolated-moderate-notification",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 96468992
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.251,
+          "physicalHeadroomGiB": 3.687
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 71.83203125,
+          "renderers": [],
+          "commitHeadroomGiB": 3.103,
+          "physicalHeadroomGiB": 3.627
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 252.4375,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 18.00390625
+            },
+            {
+              "pid": 900,
+              "privateMiB": 41.6953125
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 43.7109375
+            }
+          ],
+          "commitHeadroomGiB": 2.94,
+          "physicalHeadroomGiB": 3.494
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 485.625,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 18.00390625
+            },
+            {
+              "pid": 900,
+              "privateMiB": 92.40625
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 43.71484375
+            }
+          ],
+          "commitHeadroomGiB": 2.662,
+          "physicalHeadroomGiB": 3.281
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 564.875,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 18.00390625
+            },
+            {
+              "pid": 900,
+              "privateMiB": 175.5625
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 43.71875
+            }
+          ],
+          "commitHeadroomGiB": 2.542,
+          "physicalHeadroomGiB": 3.147
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 570.19921875,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 17.6875
+            },
+            {
+              "pid": 900,
+              "privateMiB": 205.3828125
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 42.609375
+            }
+          ],
+          "commitHeadroomGiB": 2.334,
+          "physicalHeadroomGiB": 3.023
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 537.0859375,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 17.6875
+            },
+            {
+              "pid": 900,
+              "privateMiB": 202.66015625
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 42.609375
+            }
+          ],
+          "commitHeadroomGiB": 2.061,
+          "physicalHeadroomGiB": 2.832
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 537.0859375,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 17.6875
+            },
+            {
+              "pid": 900,
+              "privateMiB": 202.66015625
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 42.609375
+            }
+          ],
+          "commitHeadroomGiB": 2.47,
+          "physicalHeadroomGiB": 3.082
+        },
+        {
+          "phase": "after-isolated-moderate-notification",
+          "totalPrivateMiB": 522,
+          "renderers": [
+            {
+              "pid": 21048,
+              "privateMiB": 17.92578125
+            },
+            {
+              "pid": 900,
+              "privateMiB": 193.71875
+            },
+            {
+              "pid": 1600,
+              "privateMiB": 35.1640625
+            }
+          ],
+          "commitHeadroomGiB": 2.666,
+          "physicalHeadroomGiB": 3.245
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 268.4140625,
+          "renderers": [],
+          "commitHeadroomGiB": 2.932,
+          "physicalHeadroomGiB": 3.462
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.179,
+          "physicalHeadroomGiB": 3.655
+        }
+      ]
+    },
+    {
+      "file": "trend-q2-2026-09-29T23-40-39-752Z.json",
+      "producer": "producer-network-shed-bridge-failure.cjs",
+      "browser": "154.0.8037.58",
+      "passed": false,
+      "passedCycles": 8,
+      "passedNativeSeeks": 24,
+      "routeCounts": {
+        "q2": 8
+      },
+      "failure": {
+        "name": "TypeError",
+        "code": "ASSERTION_OR_HARNESS_FAILURE"
+      },
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": null,
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 327680
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 26542080
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 92143616
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 110886912
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 110624768
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 110690304
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.176,
+          "physicalHeadroomGiB": 3.76
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 71.8671875,
+          "renderers": [],
+          "commitHeadroomGiB": 3.1,
+          "physicalHeadroomGiB": 3.774
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 250.359375,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.33203125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 40.84765625
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 43.0390625
+            }
+          ],
+          "commitHeadroomGiB": 2.905,
+          "physicalHeadroomGiB": 3.608
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 482.84765625,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.33203125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 93.35546875
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 43.04296875
+            }
+          ],
+          "commitHeadroomGiB": 2.678,
+          "physicalHeadroomGiB": 3.429
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 560,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.33203125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 174.84765625
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 43.046875
+            }
+          ],
+          "commitHeadroomGiB": 2.599,
+          "physicalHeadroomGiB": 3.343
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 561.12109375,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 203.765625
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 41.8046875
+            }
+          ],
+          "commitHeadroomGiB": 2.559,
+          "physicalHeadroomGiB": 3.342
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 530.36328125,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 201.05078125
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 41.8046875
+            }
+          ],
+          "commitHeadroomGiB": 2.682,
+          "physicalHeadroomGiB": 3.386
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 530.36328125,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 201.05078125
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 41.8046875
+            }
+          ],
+          "commitHeadroomGiB": 2.667,
+          "physicalHeadroomGiB": 3.379
+        },
+        {
+          "phase": "failure-live",
+          "totalPrivateMiB": 530.36328125,
+          "renderers": [
+            {
+              "pid": 6940,
+              "privateMiB": 15.01953125
+            },
+            {
+              "pid": 21596,
+              "privateMiB": 201.05078125
+            },
+            {
+              "pid": 6860,
+              "privateMiB": 41.8046875
+            }
+          ],
+          "commitHeadroomGiB": 2.673,
+          "physicalHeadroomGiB": 3.383
+        },
+        {
+          "phase": "failure",
+          "totalPrivateMiB": 266.33203125,
+          "renderers": [],
+          "commitHeadroomGiB": 2.93,
+          "physicalHeadroomGiB": 3.593
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.212,
+          "physicalHeadroomGiB": 3.819
+        }
+      ]
+    },
+    {
+      "file": "trend-q2-2026-09-29T23-41-55-264Z.json",
+      "producer": "network-shed.cjs",
+      "browser": "154.0.8037.58",
+      "passed": true,
+      "passedCycles": 8,
+      "passedNativeSeeks": 24,
+      "routeCounts": {
+        "q2": 8
+      },
+      "failure": null,
+      "publicBytesVerified": true,
+      "observerReset": false,
+      "disabledSettleMs": 0,
+      "networkCap": null,
+      "weakSnapshots": [
+        {
+          "phase": "before-cycles",
+          "counts": {
+            "mediaSource": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "sourceBuffer": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "worker": {
+              "created": 0,
+              "alive": 0,
+              "collected": 0,
+              "finalized": 0
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 131072
+        },
+        {
+          "phase": "cycle-1-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 5,
+              "alive": 1,
+              "collected": 4,
+              "finalized": 4
+            },
+            "sourceBuffer": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "worker": {
+              "created": 5,
+              "alive": 0,
+              "collected": 5,
+              "finalized": 5
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 27000832
+        },
+        {
+          "phase": "cycle-4-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 20,
+              "alive": 1,
+              "collected": 19,
+              "finalized": 19
+            },
+            "sourceBuffer": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "worker": {
+              "created": 20,
+              "alive": 0,
+              "collected": 20,
+              "finalized": 20
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 93323264
+        },
+        {
+          "phase": "cycle-8-closed",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 97976320
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 1,
+              "collected": 39,
+              "finalized": 39
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": true,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 98041856
+        },
+        {
+          "phase": "strong-control-released",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 97976320
+        },
+        {
+          "phase": "after-exact-playwright-network-disable",
+          "counts": {
+            "mediaSource": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "sourceBuffer": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "worker": {
+              "created": 40,
+              "alive": 0,
+              "collected": 40,
+              "finalized": 40
+            },
+            "inert": {
+              "created": 1,
+              "alive": 0,
+              "collected": 1,
+              "finalized": 1
+            }
+          },
+          "strongControlHeld": false,
+          "liveWorkers": 0,
+          "targetCounts": {
+            "service_worker": 1,
+            "page": 1,
+            "browser_ui": 2
+          },
+          "sampledEstimatedBytes": 3080192
+        }
+      ],
+      "resource": [
+        {
+          "phase": "before-launch",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 2.871,
+          "physicalHeadroomGiB": 3.566
+        },
+        {
+          "phase": "launched",
+          "totalPrivateMiB": 72.11328125,
+          "renderers": [],
+          "commitHeadroomGiB": 2.858,
+          "physicalHeadroomGiB": 3.576
+        },
+        {
+          "phase": "before-cycles",
+          "totalPrivateMiB": 251.08984375,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 41.8984375
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 42.703125
+            }
+          ],
+          "commitHeadroomGiB": 2.638,
+          "physicalHeadroomGiB": 3.396
+        },
+        {
+          "phase": "cycle-1-closed",
+          "totalPrivateMiB": 479.1171875,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 92.22265625
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 42.70703125
+            }
+          ],
+          "commitHeadroomGiB": 2.412,
+          "physicalHeadroomGiB": 3.234
+        },
+        {
+          "phase": "cycle-4-closed",
+          "totalPrivateMiB": 559.27734375,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.35546875
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 174.67578125
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 42.7109375
+            }
+          ],
+          "commitHeadroomGiB": 2.264,
+          "physicalHeadroomGiB": 3.079
+        },
+        {
+          "phase": "cycle-8-closed",
+          "totalPrivateMiB": 558.97265625,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.05078125
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 202.2734375
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 41.32421875
+            }
+          ],
+          "commitHeadroomGiB": 2.258,
+          "physicalHeadroomGiB": 3.072
+        },
+        {
+          "phase": "idle-15s-control-held",
+          "totalPrivateMiB": 526.66015625,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.05078125
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 198.765625
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 41.32421875
+            }
+          ],
+          "commitHeadroomGiB": 2.466,
+          "physicalHeadroomGiB": 3.221
+        },
+        {
+          "phase": "strong-control-released",
+          "totalPrivateMiB": 522.01953125,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.05078125
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 198.953125
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 36.4765625
+            }
+          ],
+          "commitHeadroomGiB": 2.504,
+          "physicalHeadroomGiB": 3.246
+        },
+        {
+          "phase": "after-exact-playwright-network-disable",
+          "totalPrivateMiB": 394.44140625,
+          "renderers": [
+            {
+              "pid": 10720,
+              "privateMiB": 15.05078125
+            },
+            {
+              "pid": 2060,
+              "privateMiB": 73.6796875
+            },
+            {
+              "pid": 3948,
+              "privateMiB": 34.140625
+            }
+          ],
+          "commitHeadroomGiB": 2.647,
+          "physicalHeadroomGiB": 3.348
+        },
+        {
+          "phase": "trend-context-closed",
+          "totalPrivateMiB": 265.28515625,
+          "renderers": [],
+          "commitHeadroomGiB": 2.772,
+          "physicalHeadroomGiB": 3.444
+        },
+        {
+          "phase": "after-owned-browser-close",
+          "totalPrivateMiB": 0,
+          "renderers": [],
+          "commitHeadroomGiB": 3.057,
+          "physicalHeadroomGiB": 3.685
+        }
+      ]
+    }
+  ],
+  "final50": {
+    "file": "cycles-2026-09-29T23-54-18-342Z.json",
+    "routeCounts": {
+      "q1": 17,
+      "q2": 17,
+      "q0": 16
+    },
+    "nativeSeeks": 150,
+    "mainRendererPid": 1108,
+    "closedSamples": [
+      {
+        "cycle": 1,
+        "privateMiB": 68.8828125,
+        "totalPrivateMiB": 413.0703125
+      },
+      {
+        "cycle": 4,
+        "privateMiB": 97.203125,
+        "totalPrivateMiB": 441.13671875
+      },
+      {
+        "cycle": 8,
+        "privateMiB": 82.39453125,
+        "totalPrivateMiB": 421.234375
+      },
+      {
+        "cycle": 12,
+        "privateMiB": 69.04296875,
+        "totalPrivateMiB": 403.6328125
+      },
+      {
+        "cycle": 16,
+        "privateMiB": 67.78515625,
+        "totalPrivateMiB": 405.109375
+      },
+      {
+        "cycle": 20,
+        "privateMiB": 77.74609375,
+        "totalPrivateMiB": 413.87890625
+      },
+      {
+        "cycle": 24,
+        "privateMiB": 71.3125,
+        "totalPrivateMiB": 406.75390625
+      },
+      {
+        "cycle": 28,
+        "privateMiB": 70.25390625,
+        "totalPrivateMiB": 404.44921875
+      },
+      {
+        "cycle": 32,
+        "privateMiB": 68.2890625,
+        "totalPrivateMiB": 403.49609375
+      },
+      {
+        "cycle": 36,
+        "privateMiB": 75.78515625,
+        "totalPrivateMiB": 411.984375
+      },
+      {
+        "cycle": 40,
+        "privateMiB": 73.70703125,
+        "totalPrivateMiB": 409.56640625
+      },
+      {
+        "cycle": 44,
+        "privateMiB": 68.48046875,
+        "totalPrivateMiB": 404.28515625
+      },
+      {
+        "cycle": 48,
+        "privateMiB": 66.4140625,
+        "totalPrivateMiB": 403.3671875
+      },
+      {
+        "cycle": 50,
+        "privateMiB": 75.16015625,
+        "totalPrivateMiB": 412.44921875
+      }
+    ],
+    "finalWeakCounts": {
+      "mediaSource": {
+        "created": 170,
+        "alive": 0,
+        "collected": 170,
+        "finalized": 170
+      },
+      "sourceBuffer": {
+        "created": 170,
+        "alive": 0,
+        "collected": 170,
+        "finalized": 170
+      },
+      "worker": {
+        "created": 170,
+        "alive": 0,
+        "collected": 170,
+        "finalized": 170
+      },
+      "inert": {
+        "created": 1,
+        "alive": 0,
+        "collected": 1,
+        "finalized": 1
+      }
+    },
+    "minCommitHeadroomGiB": 2.103,
+    "minPhysicalHeadroomGiB": 2.902
+  },
+  "limits": [
+    "Synthetic local actual-app/SW proof; no Google/account/device/audible/production acceptance.",
+    "Network observer reset and closed-cycle5s dwell change instrumentation and cadence; this is not a normal-runtime native-memory ceiling.",
+    "Unsymbolized native sampling totals are estimates, not full process native memory; Q1 profile and Windows PID reclaim disagree.",
+    "Historical cold decoder-open failure remains unexplained; preserved old rc15 records are not erased."
+  ]
+}
