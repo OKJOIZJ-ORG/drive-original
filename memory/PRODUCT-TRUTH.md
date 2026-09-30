@@ -248,3 +248,7 @@ Confirmed892722c/Worker553d8644 public52/cache40/source26/six/exactZIP/605Node d
 ## Local bounded Q1 update recovery — 2026-09-30
 
 Verifiedsource/current21 integration: visible safe reload guidance replaces silent cancellation when a capturedQ1SWisreplaced; false cleanup barrier remains.19+5focused/624stableNode andseparate21current-owner native TS/frame/settledclose pass. Six real syntheticSWreplacement→reload→reopen aggregates remainfailed; no full updatecontinuity/device/account/corpus/production claim. WORKER-UPDATE-RECOVERY-20260930.md owns scope.
+
+## Fixed candidate21 and actual normal startup — 2026-09-30
+
+Confirmed3ebd97d/Workerb1021a42/624stableNode/52public/40cache/source26/six/ZIP delivery. Actual sameexistingaccount normalUIreload cache hashes matchGit; knownfolder458/currentTSnativeframe/ready4/loadingfalse/trustedpause/settledclose pass. Six full controller-replacement/reload/reopen chains remainfailed andcauseunknown; no wholeSW01/REL02/uninterruptedexpiry/device/corpus/security/observability/production acceptance. CANDIDATE-RC21-20260930.md owns scope.

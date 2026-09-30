@@ -1,0 +1,105 @@
+{
+  "recordedAt": "2026-09-30T03:50:46.352Z",
+  "source": "3ebd97df80144fb8ebbaf1f945394a796d4425b8",
+  "worker": "b1021a42-fb32-47d5-92be-7fd92736faf7",
+  "version": "1.22.0-rc.21",
+  "scope": "Existing personal Chrome profile3 authenticated candidate normal UI reload, known existing folder/original TS, current native frame and settled close; not live controller-replacement recovery-chain qualification",
+  "pre": {
+    "version": "1.22.0-rc.20",
+    "selected": false,
+    "q0": false,
+    "q1": false,
+    "retirement": true,
+    "knownOriginalMatches": 1,
+    "folderPresent": true
+  },
+  "normalReload": {
+    "trusted": true,
+    "sameAccount": true,
+    "sameAuthAccount": true,
+    "rootFolders": 13,
+    "selected": false,
+    "q0": false,
+    "q1": false,
+    "retirement": true,
+    "cacheAppSha256": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "cacheIndexSha256": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1"
+  },
+  "canonicalUpdateCheck": {
+    "hasUpdate": false,
+    "error": false,
+    "superseded": false
+  },
+  "knownFolder": {
+    "trustedUiOpen": true,
+    "sameFolder": true,
+    "files": 458,
+    "knownOriginalPresent": true,
+    "retirement": true,
+    "matchingControl": 1
+  },
+  "originalStartup": {
+    "trustedUiOpen": true,
+    "attempt": "q1",
+    "kind": "ts",
+    "phase": "ready",
+    "ready": 4,
+    "loading": false,
+    "error": false,
+    "currentSW": true
+  },
+  "frame": {
+    "passed": true,
+    "mediaTime": 18.054667,
+    "presentedFrames": 542,
+    "kind": "ts",
+    "phase": "ready",
+    "appends": 22,
+    "frames": 542,
+    "ready": 4,
+    "loading": false,
+    "paused": false,
+    "width": 360,
+    "height": 640,
+    "sourceCurrent": true,
+    "iframePresent": false
+  },
+  "pause": {
+    "trustedSpace": true,
+    "paused": true,
+    "time": 60.005536,
+    "ready": 4,
+    "loading": false
+  },
+  "close": {
+    "trustedEscape": true,
+    "selected": false,
+    "q0": false,
+    "q1": false,
+    "seek": false,
+    "proof": false,
+    "srcAttribute": null,
+    "ready": 0,
+    "buffers": 0,
+    "retirement": true,
+    "sameAccount": true,
+    "sameAuthAccount": true
+  },
+  "observer": {
+    "expression": "qa/candidate-rc21-delivery/actual-frame.expression.js",
+    "exactTrimSha256": "80b49562ffa85ef598ab317ff90f1772bdcc807dc627bf2e2c7902e7aa664cb9",
+    "browserCryptoMatched": true,
+    "awaitPromise": true,
+    "cdpCommandTimeoutMs": 10000,
+    "frameDeadlineMs": 5000,
+    "cancelsTimerAndFrameCallback": true
+  },
+  "privateReferencesCleared": true,
+  "scopeLimits": [
+    "No new login/OAuth grant or forced credential refresh",
+    "No whole corpus inventory, physical device, two-device, OS background or uninterrupted-expiry/position claim",
+    "Normal startup pass is separate from six failed replacement/reload/reopen chains",
+    "No production/main/push/automation/original media changes"
+  ],
+  "observationCorrection": "Initial shell probe conditionally awaited an absent appUpdateCheckPromise and did not prove startup update completion; the subsequent actual canonical checkForAppUpdate({manual:false}) promise was awaited to completion before opening the original."
+}

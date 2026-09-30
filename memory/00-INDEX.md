@@ -104,3 +104,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - CANDIDATE-RC20-20260930.md — fixed image-owner20 delivery/actual normal update/postdeadline frame; real controller-transition silent cancellation preserved for21 and whole-goal gates remain open.
 
 - WORKER-UPDATE-RECOVERY-20260930.md — bounded visible Q1 recovery with strict false barrier,19+5 checks/624integrated/normal21native; six fullreload aggregates remain failed and preserved.
+
+- [CANDIDATE-RC21-20260930](CANDIDATE-RC21-20260930.md) — fixed21 delivery/624checks/actual normal account startup and settled original close; six full worker-reload chains remain failed.
