@@ -1,0 +1,9 @@
+# Fixed rc20 candidate delivery
+
+Confirmed source892722cc9a15177637417a862a91abf49e1f84c4/runtime1.22.0-rc.20/Worker553d8644-005e-43fc-ba38-2e0cc3351f8f. Node605/605 stable, reviewed image-owner freeze80focused/8native plus two integrated20 native PNG/video controls pass. Sourcefreeze and previous failed native/QA aggregates remain preserved; only corrected worker-specific native rerun is passing. IMAGE-OWNER-20260930.md owns scope.
+
+Guardeddeploy passes first attempt with same52regular/nonlink/singlelink/exactGit safety predicates.52public and40cache entries equal exactGit;8source archives uncached/6private404/cold+offline freshanonymous controlledshells/zeroerrors.11safe bindingtypes/authtrue/diagnosticstrue/Drive mutationsfalse,26preferred hashes/six readable adaptations and private codec deliverybinding pass. ZIPreleases/candidates/Drive-Original-1.22.0-rc.20-892722c.zip/54778500bytes/SHAe447def20e30069a5cb0a354e284705d6282a29758cea63b7ca3f96161be9088,52entries/noextra/Git-equal. Raw deployment/readback/error logs are private and excluded fromGit.
+
+Actual normalreload restores20/sameexistingaccount/13rootfolders/knownfolder458files/knownoriginal; cacheapp6faf38b... andindexda260b... equalGit. Afteroriginalcredentialdeadline a new currentTSowner showsnativeframe165.254667s, ready4/loadingfalse/noiframe and complete trustedclose. qa/rc20-runtime-boundaries owns naturalcredentialdeadlineadvancement and interrupted19→newSWcounterexample: cancelledQ1/noerror/closedretirementfalse. That failure createsnecessaryunit21; it is not uninterruptedexpiry/position acceptance.1690is internalpopulation, notfullcorpusinventory.
+
+Productionv1.21.0/e08989a/main/push/automationPAUSED remain unchanged. Corpus permission/manualtoggle, physical/two-device/nativeOSreturn/authenticatedsecurity/explicitobservability/wholeexpiryposition/productionauthority remain open.

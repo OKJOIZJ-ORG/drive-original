@@ -1,0 +1,118 @@
+{
+  "recordedAt": "2026-09-30T03:05:26.208Z",
+  "scope": "Actual normal credential-deadline advancement without QA forced refresh/new login/grant; post-old-deadline original frame occurs after normal rc20 reload recovery. Not uninterrupted expiry/position acceptance.",
+  "capturedVersion": "1.22.0-rc.19",
+  "oldExpiryRemainingSecondsAtCapture": 1577,
+  "privateFence": "Exact original expiry/account identity retained privately in live REPL only and later cleared; no token value read/exported",
+  "before": {
+    "sameAccount": true,
+    "credentialDeadlineAdvanced": false,
+    "originalDeadlinePassed": false,
+    "secondsToOriginalDeadline": 702
+  },
+  "naturalAdvanceBeforeReload": {
+    "version": "1.22.0-rc.19",
+    "sameAccount": true,
+    "credentialDeadlineAdvanced": true,
+    "originalDeadlinePassed": true,
+    "secondsToOriginalDeadline": -39,
+    "usable": true,
+    "stateFilesCount": 1690
+  },
+  "firstPlayerInterrupted": {
+    "appVersion": "1.22.0-rc.19",
+    "backendWorker": "553d8644-005e-43fc-ba38-2e0cc3351f8f",
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "kind": "ts",
+    "phase": "cancelled",
+    "failure": null,
+    "ownerAborted": false,
+    "capturedControllerCurrent": false,
+    "sourceGenerationCurrent": true,
+    "ready": 0,
+    "loading": false,
+    "paused": true,
+    "visibleError": false,
+    "afterTrustedClose": {
+      "selected": false,
+      "q1": false,
+      "q0": false,
+      "ready": 0,
+      "srcAttributePresent": false,
+      "settled": false
+    }
+  },
+  "recovery": {
+    "normalReload": true,
+    "version": "1.22.0-rc.20",
+    "sameAccount": true,
+    "usable": true,
+    "driveRead": true,
+    "rootFolders": 13,
+    "initialRootFiles": 0,
+    "retirement": true,
+    "knownFolderFilesOnNormalOpen": 458,
+    "knownOriginalPresent": true,
+    "parentMetadataStatus": 200,
+    "appSha256": "6faf38b92b8f8611046a15fb55bf1139301caa118117b94806c0cda08682ab8c",
+    "indexSha256": "da260bb094c93659fcfeec90f1771b9924337bce32a06bd147b9ab25af439534"
+  },
+  "executedFrameExpressionTrimSha256": "80b49562ffa85ef598ab317ff90f1772bdcc807dc627bf2e2c7902e7aa664cb9",
+  "nativeFrame": {
+    "version": "1.22.0-rc.20",
+    "frame": {
+      "passed": true,
+      "mediaTime": 165.254667,
+      "presentedFrames": 4957,
+      "kind": "ts",
+      "phase": "ready",
+      "appends": 170,
+      "frames": 4957,
+      "ready": 4,
+      "loading": false,
+      "paused": false,
+      "width": 360,
+      "height": 640,
+      "sourceCurrent": true,
+      "iframePresent": false
+    }
+  },
+  "afterTrustedPause": {
+    "paused": true,
+    "time": 183.155112,
+    "ready": 4,
+    "loading": false,
+    "sourceCurrent": true
+  },
+  "finalClose": {
+    "version": "1.22.0-rc.20",
+    "selected": false,
+    "q1": false,
+    "q0": false,
+    "settled": true,
+    "ready": 0,
+    "buffered": 0,
+    "srcAttributePresent": false,
+    "seek": false,
+    "proof": false,
+    "sameAccount": true,
+    "originalDeadlinePassed": true,
+    "credentialDeadlineAdvanced": true,
+    "usable": true,
+    "capable": true,
+    "stateFilesCountAfterClose": 1690
+  },
+  "qaReadLimitations": [
+    "Initial read referred to an unavailable root-folder field; corrected read-only query",
+    "Initial frame command hit default3s CDP wait; bounded observer cleans itself; subsequent response assignment failed from a non-existing REPL binding",
+    "Final5s single-callback observer uses explicit10s CDP wait, resolves native frame and leaves no global observer"
+  ],
+  "forcedQaRefresh": false,
+  "clockOrCredentialStateChangedByQa": false,
+  "newLoginOrGrant": false,
+  "temporaryPrivateReferencesCleared": true,
+  "wholeQaAu01Accepted": false,
+  "uninterruptedPositionRetentionObserved": false,
+  "fullCorpusCountClaimed": false
+}

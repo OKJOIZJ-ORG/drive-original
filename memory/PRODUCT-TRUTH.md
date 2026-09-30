@@ -240,3 +240,7 @@ Verified local app/SW: immutable revision admission before original bytes, priva
 ## Local original-image owner — 2026-09-30
 
 Confirmed synthetic native source: supported PNG/WebP declared video is admitted by original pinned raster bytes and retains image ownership across early native error, worker503 originalOPFS recovery and one same-pin retry. OriginalSHA/alpha/WebP animation/postdecode viewed/settled close-reopen and validvideo request equality pass.80focused/8native plus605integratedNode/two rc20 namespace native cases/independent review. IMAGE-OWNER-20260930.md owns exact scope. Actual corpus/device/hosted/production acceptance is not established by this record.
+
+## Fixed candidate20 and actual controller boundary — 2026-09-30
+
+Confirmed892722c/Worker553d8644 public52/cache40/source26/six/exactZIP/605Node delivery and actualnormal20update. Actual same-account credentialdeadline advances without QAforcedrefresh/login/newgrant; afterolddeadline current20TSnativeframe/ready4/loadingfalse/settledclose pass afterreload. First19/newSWtrial silentlycancelsQ1 withretirementfalse; uninterruptedexpiry/position and safeautomaticSWtransition are unqualified. Necessary21counterexample retained; CANDIDATE-RC20-20260930.md/qa/rc20-runtime-boundaries own limits. Wholegoal/production/device/fullcorpus unqualified.
