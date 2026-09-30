@@ -1,0 +1,24 @@
+{
+  "schema": "drive-original.rc24-telemetry-independent-review/1",
+  "expressionPath": "qa/rc21-android-night/android-renewal-discriminator-rc24-v2.expression.js",
+  "expressionSHA256": "fb82921316fd76b323e5536c86653c6f16b3c072ec607c71eb03f687dbfc2b6b",
+  "fixture98ProducerAndCurrentIdentityVerified": true,
+  "newFixtureExecution": false,
+  "review": {
+    "trustedOnly": true,
+    "fixedEventAndZoneNames": true,
+    "keyboardMapUnknownAndPrototypeKeysNull": true,
+    "journalMax128": true,
+    "fixedCountKeysCapped1000000": true,
+    "fenceMismatchNamesOnly": true,
+    "noPrivateOwnerOrDOMValuesReturned": true,
+    "documentCaptureListenersRemoved": 9,
+    "mediaListenersRemoved": 8,
+    "fetchRestoredOnlyIfWrapperStillOwnsIt": true,
+    "frameAndIntervalTimersCancelled": true
+  },
+  "limits": ["clone-body cancellation remains inherited best effort; synchronous network drain is not asserted", "no actual Android/browser execution by reviewer"],
+  "productEdits": false,
+  "browserRequests": 0,
+  "criticalFindings": 0
+}
