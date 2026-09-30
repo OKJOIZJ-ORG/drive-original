@@ -1,0 +1,12 @@
+{
+  "schema": "drive-original.qa-coordination-failure/1",
+  "stage": "root-local-expression-hash-guard",
+  "failureCode": "QA_HASH",
+  "reportedByRoot": true,
+  "cause": "Child changed generated expressions after telling root they were stable and safe to load; root loaded files while last passive CacheStorage.match hardening changed bytes.",
+  "scriptInstalled": false,
+  "scriptExecuted": false,
+  "localInputRemoved": true,
+  "productFailure": false,
+  "recovery": "Root verifies definitive on-disk hashes and reloads exact files. Child relinquishes generated-expression ownership until actual update completes."
+}

@@ -1,0 +1,163 @@
+{
+  "source25": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "source26": "3eea49a4853052275582979ab205eee8026c4691",
+  "passed": false,
+  "actualNormalUIClicks": 1,
+  "fullPersistentInitInstalled": false,
+  "observedAfterClickMs": 207632,
+  "firstPoll": {
+    "ready": false,
+    "elapsedMs": 30204,
+    "version": "1.22.0-rc.26",
+    "revision": 63,
+    "accountPresent": true,
+    "cache": [],
+    "controller": null
+  },
+  "final": {
+    "version": "1.22.0-rc.26",
+    "revision": 64,
+    "accountPresent": true,
+    "authStatus": "online",
+    "controller": null,
+    "caches": [],
+    "registrations": [
+      {
+        "rootScope": true,
+        "activeState": "activated",
+        "installing": false,
+        "waiting": false,
+        "scriptPathMatches": true
+      }
+    ]
+  },
+  "journal": [
+    {
+      "stage": "document-start",
+      "document": 1,
+      "at": 1790801594728,
+      "ms": 1503121,
+      "attachKind": "late-attach",
+      "fromDocumentStart": false,
+      "visible": true
+    },
+    {
+      "stage": "worker-observed",
+      "document": 1,
+      "at": 1790801594730,
+      "ms": 1503123,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "document": 1,
+      "at": 1790801594731,
+      "ms": 1503124,
+      "accountPresent": true,
+      "activeMatchesController": true,
+      "activeStates": [
+        "activated"
+      ],
+      "authOnline": true,
+      "cacheCount": 1,
+      "controller": true,
+      "controllerOrdinal": 1,
+      "controllerScriptMatches": true,
+      "controllerState": "activated",
+      "installing": false,
+      "playerClosed": true,
+      "registrations": 1,
+      "rootScope": true,
+      "shellVersions": [
+        "1.22.0-rc.26"
+      ],
+      "version": "1.22.0-rc.25",
+      "visible": true,
+      "waiting": false
+    },
+    {
+      "stage": "trusted-banner-update-click",
+      "document": 1,
+      "at": 1790801654692,
+      "ms": 1563085
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "document": 1,
+      "at": 1790801654731,
+      "ms": 1563124,
+      "accountPresent": true,
+      "activeMatchesController": false,
+      "activeStates": [],
+      "authOnline": true,
+      "cacheCount": 0,
+      "controller": true,
+      "controllerOrdinal": 1,
+      "controllerScriptMatches": true,
+      "controllerState": "activated",
+      "installing": false,
+      "playerClosed": true,
+      "registrations": 0,
+      "rootScope": false,
+      "shellVersions": [],
+      "version": "1.22.0-rc.25",
+      "visible": true,
+      "waiting": false
+    },
+    {
+      "stage": "pagehide",
+      "document": 1,
+      "at": 1790801655083,
+      "ms": 1563476
+    },
+    {
+      "stage": "document-start",
+      "document": 2,
+      "at": 1790801681589,
+      "ms": 26879,
+      "attachKind": "late-attach",
+      "fromDocumentStart": false,
+      "visible": true
+    },
+    {
+      "stage": "worker-observed",
+      "document": 2,
+      "at": 1790801681591,
+      "ms": 26880,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "document": 2,
+      "at": 1790801681592,
+      "ms": 26881,
+      "accountPresent": true,
+      "activeMatchesController": false,
+      "activeStates": [
+        "activated"
+      ],
+      "authOnline": true,
+      "cacheCount": 0,
+      "controller": false,
+      "controllerScriptMatches": false,
+      "controllerState": null,
+      "installing": false,
+      "playerClosed": true,
+      "registrations": 1,
+      "rootScope": true,
+      "shellVersions": [],
+      "version": "1.22.0-rc.26",
+      "visible": true,
+      "waiting": false
+    }
+  ],
+  "limits": [
+    "Initial registration/activation before late attachment unknown",
+    "New document automatic hook unsupported; gap until26.879s",
+    "Executing worker script hash unknown; script path and published bytes separate",
+    "No original media/personal IDs/tokens/cookies exported"
+  ],
+  "scope": "Actual same-account PC normal25→26 one trusted banner action; failure remains failure. Root manually transcribed exact safe returned fields and9 journal rows."
+}

@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "actualBrowserExecuted": true,
+  "error": "QA_HASH",
+  "scope": "Local file read admission only; no script installed or executed, no network/account/media operation",
+  "expectedInit": "da3c4bc261bb5fe64d8e939958647c9fc8c6a1855204cedf33ff0274d9d2d661",
+  "expectedLate": "7915c9f94a2d612dc81ad013264815380a519cb1585169525948ed13dfcda2a2",
+  "reason": "Child hardened source after final-safe-to-load handoff; hash guard rejected changed bytes",
+  "inputRemoved": true
+}

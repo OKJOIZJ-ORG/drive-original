@@ -1,36 +1,36 @@
-# Checkpoint — ACTIVE whole queue — 2026-10-01 05:38
+# Checkpoint — ACTIVE whole queue — 2026-10-01 06:32
 
 ## The story so far
 
-Continue D066 whole queue. Branch codex/v2-kickoff-diagnostics, HEAD 7ba8e654fa38def8c8e00efcbf1600a4c8730c53. Free rc.25/Worker ef1d3975-4530-4721-acc1-a2be201afc1b: 650 local tests, exact 52-entry ZIP, public 52 bytes, cache 40 hashes/eight archives excluded/six private404, eleven control bindings and source-readiness passed. Browser audit reused an existing managed context; offline reload proved by blocked uncached fetch then restored200, not navigator.onLine or fresh-context proof. Exact curation in qa/candidate-rc25-delivery/curated-savepoint.json; not staged yet.
+Continue D066 whole queue. Branch codex/v2-kickoff-diagnostics. Metadata b871524 and product3eea49a4853052275582979ab205eee8026c4691 saved. Free rc.26/Worker1abeb485-f26d-4341-b191-b8940c034a09 passed655 stable local checks,52public/40cached/eight archives excluded/sixprivate404, fresh anonymous online/offline audit,control11,source-readiness26+6 and52-entry ZIP54782433B/SHAddc50a47. Android124 actual-renderer synthetic420s now PASS: endedtrue/native420.0065/lastframe419.916666/5039frames/19safeprunes/maxgap173ms/86chunks and86ACK/oneEOS/settlednormalBack and all ownersreleased. Not real Drive AC3/audibility evidence. Android127 cache-only all41 request-key hashes (40unique assets) pass; earlier local40-vs41 precondition failure retained.
 
-Observed Android105 retains current native buffer through19 safe prunes/4832 frames but fails GENERAL_OUTPUT_FRAGMENT near404s of420s. Android107 proves a valid final known-audio-only fragment was rejected. Narrow general-player.mjs/general-README.md/general-retention.test.mjs correction is independently reviewed; author24 focused checks reported, independent append-error/cleanup discriminator archived. Root owns these three pending paths. Next rc.26/full suite/device420s completion remains required. Actual PC and Android natural same-Q1 renewals passed120s after old expiry; earlier failures remain separate.
+Actual PC normal25→26 ONEtrustedbanner failed: accountonline/controllernull/cache[] after207632ms, one root active registration. Ordinaryreload restoresaccount64/control but hashesmatch6/40,missing34. Native one/two-client normal-update fix PASSES full40hash/controller/sibling retention. Adjacent force button reproduces same failure; author owns app.js/sw.js/tests/app.test.js/tests/audit.test.js/tests/sw.test.js for registered-worker refresh of the known41 shell requests, bounded/coalesced ACK, exact-root active-worker fallback, no destructive clearing. Independent shell_refresh_review checks failure/timeout/late-commit contract. Native pending-fetch abort preserves old cache; post-fetch atomic Cache API commit can complete after timeout. Root corrected its inferred stronger byte-identity rule: complete late atomic batch acceptable, no partial clear/unregister/reload on timeout. Product/test paths MOVING; do not stage them before frozen review/full suite.
 
-Actual25 hosted session twelve denied requests (diagnostic plus eleven cases) passed with27 owner fences unchanged. Actual Android library long press, native edge cancellation/commit and input editing passed scoped checks; reduced-motion emulation passed, physical rotation unknown. No whole-row promotion. Old24 video-prefix counts151/2186 and failed/retry/next64 compact facts saved; fresh25 corpus/performance prepared but unexecuted. Local native normal24→25 UI update v3 passed289ms/current-controller/40 hashes, with earlier invocation/iframe-journal QA failures retained; actual signed-in first25 update failure remains unattributed.
+Root actual CUA Chrome4/envPcTab275139260/envPcCdp:26/account64/currentactivatedcontroller/closedplayer,6cachedbodies. No currenthelpers. Oldcandidate tabs remain, interrupted cleanup unconfirmed; no profile/cache/cookie alteration by QA. Actual sessioncookie metadata Secure/HttpOnly/Lax/root/exactdomain/persistent, rawobjects cleared/no valueexport.
 
-User confirmed Codex force quit/restart. Saved source/QA survived; running local server and tool stores did not. Root managed MCP page reset blank. CUA Chrome4 fresh tab275139260/envPcTab/envPcCdp restored: actual25/account present/revision63/current activated controller/closed player. Old two tabs and their interrupted helper cleanup remain unconfirmed. No new helpers in current tab. Child Android idle public25; release26 GO only after fixed publication.
-
-Whole/deeper corpus, formats, two-device offline/conflict/reconnect, hosted SW replacement, disposable normal UI/recovery, performance/resources/accessibility and final69/G0–G5/G7 remain active. Production v1.21.0/e08989a, main/push/general Drive writes and PAUSED automation unchanged.
+Exact26 corpus19/performance11 prepared with changedbindingchecks5/9 and hash-reused23/139+11 logic evidence, actualunrun. Read-only69-row plan completed:25passed/38not-run/4blocked/2conditionalN/A,42mapping retained/SW01 separately reopened/whole promotions0. Wait for stable next candidate before long corpus/performance. Android worker was pending_init after restart; root explicitly resumed it, now deviceidle after124/127. Android offline helper9236ae0c... prepared/unexecuted: finalsourcebinding plus root private owner/review/jointGO required; no state writes yet. Fixed26 metadata curation47hashes/48paths ready to save separately from pending product. Whole corpus/formats/offlineconflict/disposableUI/SWreplacement/performance/resources/final69 gates remain ACTIVE. Productionv1.21.0/e08989a/main/push/generalwritesfalse/automationPAUSED unchanged.
 
 ## Decided
 
-- D066 active whole queue; current Android gate, iOS after deployment. A savepoint never ends remaining authorized work.
-- D050/D051 local/code/free candidate/scoped own-state/disposable QA; concrete G6 approval after executable queue completion.
-- Preserve original bytes, strict source/account/corpus owner guards, unchanged resource/deployment floors and prior failed evidence.
+- D066 Android current gate/iOS afterdeployment; savepoints never stop executable whole queue.
+- D050/D051 local/code/freecandidate/scoped ownstate/disposable QA; G6 concrete approval after remaining executable work.
+- Preserve originalbytes, strict owner/source/corpus/retirement guards, unchanged launch/deployment floors and prior failures.
 
 ## Waiting on the user
 
-None during executable work. G6 only when a concrete release is ready.
+None during executable work.
 
 ## Next first action
 
-Verify every hash in qa/candidate-rc25-delivery/curated-savepoint.json, stage its exact safe paths plus owned records, and commit metadata while retaining the three pending rc.26 product paths unstaged.
+Verify the 47 hashes in qa/candidate-rc26-delivery/curated-savepoint.json and stage only its exact48 metadata paths, excluding the five moving product/test paths.
 
 ## Tried
 
-- CurrentTime-minus8 eviction deleted current native GOP; rc.25 safe pruning fixed that failure, with separate audio-only endpoint failure now corrected locally.
-- New Chrome audit failed unchanged virtual-memory floor; reused existing managed context with explicit freshness limit.
-- First actual25 normal update lacked controller/cache; ordinary reload recovered, cause unknown. Local success does not resolve it.
-- Local update v1 failed QA function invocation; v2 lost journal to inherited iframe; v3 guarded top-level loopback journal passes.
-- Force quit/restart destroyed transient server/tool stores; persist results to disk and restore fresh browser control without altering personal profile.
-- First old24 video64 final owner/cleanup failed; retry64/next64 pass separately, no invalid carry or across-version count.
+- Fixed25 currentbuffer safeprune passes, finalaudio-only fragment failed; actual26 synthetic420s now closes that precise defect.
+- Actualnormal25/26 update loses controller/cache; ordinaryreload is only partial40hash recovery.
+- One-tab localupdate PASS missed multi-client reuse; native two-tab baseline now reproduces.
+- CUA Page.addScriptToEvaluateOnNewDocument unsupported beforeinstall; supported late observer has explicit gaps.
+- Source handoff changed aftersafe-to-load; localhashguard blockedscript execution, originalfailurepreserved.
+- Userreportedforcequit/restart lost transientserver/stores; disk/Git preserved, actualbrowser restored.
+- Android pending_init did not resume from send_message; explicit followup_task resumed actual work.
+- Abortable addAll network test does not prove post-fetch commit cancellation; preserve explicit late atomic batch limitation.

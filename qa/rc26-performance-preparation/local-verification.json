@@ -1,0 +1,88 @@
+{
+  "schema": "drive-original.rc26-performance-binding-verification/1",
+  "binding": {
+    "sourceCommit": "3eea49a4853052275582979ab205eee8026c4691",
+    "version": "1.22.0-rc.26",
+    "sourceSHA256": {
+      "app.js": "1e8a447146672532da076fbe01175d3c18f6f2a1ad6376e68e5f50cc0973d45e",
+      "sw.js": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7",
+      "version.json": "f5c0df56929181b1b23d7eb27c644e5701b3f4cbf93ac15c0c50f1a7f3f55160"
+    }
+  },
+  "observerSHA256": "6ec4351ee1e9f6c1b69bfd8cf2bfe8c6e6bd9d4c18e80f7eb63d07bbc5a4d597",
+  "files": {
+    "bind.cjs": "342a36532cb8cf3a234e6205f014cee36abe7f3ba4912a7da03df8a2e91227c2",
+    "binding.json": "9edc949253e9590f2345942fafcd9fa09622da6e37c952be3b845ae51696c8f9",
+    "observer.expression.js": "6ec4351ee1e9f6c1b69bfd8cf2bfe8c6e6bd9d4c18e80f7eb63d07bbc5a4d597",
+    "observer.function.js": "e6438a0fa8112b945e36d95b6a7d167442977ff93c2443ff702ee76af6996233",
+    "README.md": "5b60abb11fc0539866b00f7a27e458a822e5195300bbc4ef9ff96caac9a21dc7",
+    "summarize.cjs": "d3d3457e8fbd1e1bc180ad6aad0e04f53350333da503b97a1eb1ddb4bd9cee44",
+    "verify.cjs": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06",
+    "verify-binding.cjs": "2c587402f89407b417042658dc47e8b133af44178643ba1cb9ce820a43db90f5",
+    "provenance.json": "ffc2d7538b786d3c5766eb367d4c632da5cdb4a256de1f7a9bbeaa289c5fd0fa"
+  },
+  "changedBindingCases": [
+    {
+      "name": "correct",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-app",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-proof",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-commit",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-hash",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "existing-observer",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "live-controller-proof-change-stops-owner",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-version-binding-rejected",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-commit-binding-rejected",
+      "passed": true,
+      "actualRequests": 0
+    }
+  ],
+  "prior11": {
+    "reusedPassed": 11,
+    "executedThisUnit": false,
+    "source": "qa/rc25-performance-preparation/verify.cjs",
+    "testSHA256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06",
+    "previousRecordSHA256": "a22f837ef62f8d3fe9c43d2628c7e0012286a17316102a55969e66174dcb983e"
+  },
+  "runtimeLogicUnchanged": true,
+  "limits": {
+    "selectedFiles": 10,
+    "requiredAttempts": 30,
+    "startupAttempts": 20,
+    "pausedSeekAttempts": 10
+  },
+  "actualExecution": false,
+  "actualRequests": 0,
+  "productChanges": false
+}

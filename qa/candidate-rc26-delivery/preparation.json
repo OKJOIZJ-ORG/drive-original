@@ -1,0 +1,43 @@
+{
+  "source": "3eea49a4853052275582979ab205eee8026c4691",
+  "version": "1.22.0-rc.26",
+  "derived": [
+    {
+      "file": "deploy-candidate.cjs",
+      "sha256": "2e3d8ae4e1bfb0faaf9fa43634212a7d237bcdceaaf52f6947b79dfd0abd5b94",
+      "inheritedPath": "qa/candidate-rc25-delivery/deploy-candidate.cjs",
+      "inheritedSha256": "2ad4bb96cdce5054085c72cea896b09c636aa6c6469dc762e5f489121149aa8b"
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "8326c609416c88b45380fe13e43502bb087b5704678fd8709d7a32c3f0803a5b",
+      "inheritedPath": "qa/candidate-rc25-delivery/build-release.py",
+      "inheritedSha256": "eb45398d2a1bec81d72c0800c2527912390be9c22d1d1366e592b2dca5942510"
+    },
+    {
+      "file": "redact-readback.cjs",
+      "sha256": "10661f11f68069a31511ed51f538b4523242a3d69cd3c6bcc2c5ca665e5e4567",
+      "inheritedPath": "qa/candidate-rc25-delivery/redact-readback.cjs",
+      "inheritedSha256": "6209f36aadbfe4307d4ae160682f404a8acb4711c8d56594bbd2486ed64f9286"
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "sha256": "66795551b44b463f380fbad63f2d5663327ab624ecac14c1059554267b82fb15",
+      "inheritedPath": "qa/candidate-rc25-delivery/readback-candidate.cjs",
+      "inheritedSha256": "d2a4a5e56677d48ad13fc450ef81d862eab0645ea400caa73d1c159675c27137"
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "sha256": "5eeab67fb5ac1a84793f71ec26c874fb3bd81b86da2a9ba273a35b6259eee4d4",
+      "inheritedPath": "qa/candidate-rc25-delivery/audit-with-memory-guard.cjs",
+      "inheritedSha256": "e76156a38c546657dbcd6d7ad26bf43e4e455665adc96a5773baf6cceb4073ac"
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "sha256": "7851d88c95ed49bdf7c225ce678500cd2d3feb8ef778c6770614de129ee21506",
+      "inheritedPath": "qa/candidate-rc24-delivery/finalize-source-readiness.py",
+      "inheritedSha256": "346ff4615bb28453b552bfde3a1b6f45a0b27a29cb2a334a5df77f77d22d8a1b"
+    }
+  ],
+  "scope": "Exact free candidate26 only; no production/main/push/automation/original media changes"
+}

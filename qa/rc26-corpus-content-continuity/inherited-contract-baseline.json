@@ -1,0 +1,36 @@
+{
+  "schema": "drive-original.rc26-exact-proof-reuse/1",
+  "previousScope": "qa/rc25-corpus-content-continuity",
+  "focused23": {
+    "reusedPassed": 23,
+    "executedThisUnit": false,
+    "source": "qa/rc25-corpus-content-continuity/local-tests.tap",
+    "tapSHA256": "d57fa5c261633cc5f335afa93221aec34582f3795387c44a829350c94685a1e1",
+    "producerTestsSHA256": "cabfae5695af582249336c9151eb2f6164fa66c3e2cacdf3b44b19e947397a32"
+  },
+  "inherited139": {
+    "reusedPassed": 139,
+    "executedThisUnit": false,
+    "source": "qa/rc22-corpus-headers/affected-contract-tests.tap",
+    "tapSHA256": "1dddc37edd2c7b09e73087091e40f78960263de35057fc4aa7b1066bd5c84c28",
+    "priorRecordSHA256": "07dd2c23ca3656e977c07a42d1eb4eb29f41b26d5c9fbed1ecde3589123eb34d"
+  },
+  "priorProvenanceSHA256": "304e3e9ef6e081517f76ee27ab36a3fa66ea07d1849766c7e0986c8a5cbeb811",
+  "unchangedOwnedLogic": {
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+    "probe.mjs": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2"
+  },
+  "unchangedImportedLogic": {
+    "../v2-07a-root-inventory/root-inventory.mjs": "cd51c75d6f1e9aaad9295ca2a7a84810951dc9293b916a84a9a1b770c94cbbbd",
+    "../v2-07a-root-inventory/drive-browser-adapter.mjs": "d23083d2df55f8dada924bb93527133222ea9ace68533b38fc8e0c5d8a605810",
+    "../v2-07a-representative-selection/representative-selector.mjs": "fe3e463608fb842b139a4d0b12ade4b2c3ad3d52c1d36f21ea7ebdc1fede3868",
+    "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000",
+    "../rc21-corpus-night/inventory-denominators.mjs": "2e4c614225e40589b4381f8d5e3b34d4eb6fc63422b45f3d496b8f3bdbee5a6f"
+  },
+  "buildAndBindChangesOnlyExplicit26Pin": true,
+  "actualExecution": false
+}

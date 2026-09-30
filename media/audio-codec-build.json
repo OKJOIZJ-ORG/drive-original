@@ -160,26 +160,25 @@
     }
   ],
   "distributionEvidence": {
-    "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
-    "workerVersion": "ef1d3975-4530-4721-acc1-a2be201afc1b",
+    "sourceCommit": "3eea49a4853052275582979ab205eee8026c4691",
+    "workerVersion": "1abeb485-f26d-4341-b191-b8940c034a09",
     "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
     "deliveryReport": {
-      "path": "qa/candidate-rc25-delivery/results.json",
-      "sha256": "82e44a93ed6fe285baf353beb5b9881acd69a3189781772839a64ddf3173c303"
+      "path": "qa/candidate-rc26-delivery/results.json",
+      "sha256": "7d0820ab957f2781c8c4d0bcd7735bad5bac4169665e7d5649998fb71587f77c"
     },
     "deploymentRecord": {
-      "path": "qa/candidate-rc25-delivery/deployment.json",
-      "sha256": "ee16e13d7fe000618b2fe8a90c5cf2ffff96ee767e8fee1e64375397d28f107c"
+      "path": "qa/candidate-rc26-delivery/deployment.json",
+      "sha256": "ed0f50f23712926a843e851fb761c2eb18ddcc3ecccc81e1cf1089644b1cd31b"
     },
     "controlPlaneRecord": {
-      "path": "qa/candidate-rc25-delivery/redacted-readback.json",
-      "sha256": "4b94372d0628d1127782f757492e278728031c5a3aa893c6c685a7c73ad94a63"
+      "path": "qa/candidate-rc26-delivery/redacted-readback.json",
+      "sha256": "20a77c916402374ced093c5a6d5081a6f583133be01b56d9a231dd53178bbddb"
     },
     "auditProducer": {
-      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-merge.cjs",
-      "sha256": "089d119634189fa1c7796b7bcee4ef5e0c347192d01aca9f657369a46005b0e9"
+      "path": "qa/candidate-delivery-audit.cjs",
+      "sha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
     },
-    "freshContextProved": false,
-    "scope": "Technical same-candidate runtime/notice/preferred-source delivery with reused anonymous MCP context and discriminated blocked-network reload; no fresh-context, production, patent, device or broad-format qualification"
+    "scope": "Technical same-candidate runtime/notice/preferred-source delivery only; no production, patent, device or broad-format qualification"
   }
 }
