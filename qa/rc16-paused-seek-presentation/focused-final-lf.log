@@ -1,0 +1,19 @@
+✔ GIF detection covers MIME and case-insensitive filename fallback (36.3345ms)
+✔ seek completion requires seeked plus a decoded frame at each requested target (7.2045ms)
+✔ a delayed owned decoded frame completes a playing seek at its advancing playhead (5.4476ms)
+✔ delayed seek presentation rejects stale, unrelated, implausible and paint-only frames (3.4767ms)
+✔ delayed seek timeline accounts for rate changes, paused time and hidden playback separately (3.8777ms)
+✔ seek completion times out once at 15 seconds and delegates to existing Range recovery (5.916ms)
+✔ paused decoded target before late presentation registration clears loading only after seeked and reuses proof (4.8977ms)
+✔ paused presentation rejects paint-only and stale-source target proof (7.0781ms)
+✔ completed paused presentation is fenced by account/source/attempt and cleared with seek retirement (13.7371ms)
+✔ ordinary and sampler paused target callbacks keep loading until owned seeked settlement (7.996ms)
+✔ same-session source replacement schedules a new presentation while stale frames cannot clear its loader (1.737ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 187.2534

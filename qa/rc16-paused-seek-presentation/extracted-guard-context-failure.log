@@ -1,0 +1,33 @@
+✔ GIF detection covers MIME and case-insensitive filename fallback (40.7405ms)
+✔ seek completion requires seeked plus a decoded frame at each requested target (7.17ms)
+✔ a delayed owned decoded frame completes a playing seek at its advancing playhead (6.3464ms)
+✔ delayed seek presentation rejects stale, unrelated, implausible and paint-only frames (3.5726ms)
+✔ delayed seek timeline accounts for rate changes, paused time and hidden playback separately (3.8631ms)
+✔ seek completion times out once at 15 seconds and delegates to existing Range recovery (7.0168ms)
+✔ paused decoded target before late presentation registration clears loading only after seeked and reuses proof (4.1025ms)
+✔ paused presentation rejects paint-only and stale-source target proof (8.3056ms)
+✔ completed paused presentation is fenced by account/source/attempt and cleared with seek retirement (17.0279ms)
+✔ ordinary and sampler paused target callbacks keep loading until owned seeked settlement (8.0817ms)
+✖ same-session source replacement schedules a new presentation while stale frames cannot clear its loader (1.9195ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 207.8887
+
+✖ failing tests:
+
+test at tests\player-presentation-owner.test.js:16:1
+✖ same-session source replacement schedules a new presentation while stale frames cannot clear its loader (1.9195ms)
+  ReferenceError: isCurrentMediaSeekOwner is not defined
+      at completeVideoFramePresentation (evalmachine.<anonymous>:13:3)
+      at reveal (evalmachine.<anonymous>:58:5)
+      at Array.<anonymous> (evalmachine.<anonymous>:71:7)
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\player-presentation-owner.test.js:48:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)

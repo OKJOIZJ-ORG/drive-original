@@ -1,0 +1,265 @@
+{
+  "path": "synthetic-420s-ac3.mp4",
+  "bytes": 35308089,
+  "sha256": "7004b0fc3b45673450e96a1852d2ee858b7af888e10cd21baa8a138e55e2f692",
+  "generationCommand": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc2=size=320x180:rate=24:duration=420",
+    "-f",
+    "lavfi",
+    "-i",
+    "aevalsrc=0.15*sin(2*PI*(440*t+2*t*t))|0.10*sin(2*PI*(880*t+3*t*t)):s=48000:d=420",
+    "-c:v",
+    "libx264",
+    "-threads",
+    "1",
+    "-preset",
+    "fast",
+    "-pix_fmt",
+    "yuv420p",
+    "-g",
+    "24",
+    "-bf",
+    "0",
+    "-color_range",
+    "tv",
+    "-colorspace",
+    "bt709",
+    "-color_primaries",
+    "bt709",
+    "-color_trc",
+    "bt709",
+    "-c:a",
+    "ac3",
+    "-b:a",
+    "384k",
+    "-movflags",
+    "+faststart",
+    "-y",
+    "C:\\extensions\\Drive-Original\\source\\qa\\rc16-q2-longrun\\synthetic-420s-ac3.mp4"
+  ],
+  "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "ffprobeCommand": [
+    "ffprobe",
+    "-v",
+    "error",
+    "-show_streams",
+    "-show_format",
+    "-of",
+    "json",
+    "C:\\extensions\\Drive-Original\\source\\qa\\rc16-q2-longrun\\synthetic-420s-ac3.mp4"
+  ],
+  "packetCommand": [
+    "ffprobe",
+    "-v",
+    "error",
+    "-select_streams",
+    "a:0",
+    "-show_packets",
+    "-show_entries",
+    "packet=pts_time,dts_time,duration_time",
+    "-of",
+    "json",
+    "C:\\extensions\\Drive-Original\\source\\qa\\rc16-q2-longrun\\synthetic-420s-ac3.mp4"
+  ],
+  "originalProbe": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.64000c",
+        "width": 320,
+        "height": 180,
+        "coded_width": 320,
+        "coded_height": 180,
+        "has_b_frames": 0,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "16:9",
+        "pix_fmt": "yuv420p",
+        "level": 12,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "24/1",
+        "avg_frame_rate": "24/1",
+        "time_base": "1/12288",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 5160960,
+        "duration": "420.000000",
+        "bit_rate": "284782",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "10080",
+        "extradata_size": 50,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc63.1.101 libx264"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "ac3",
+        "codec_long_name": "ATSC A/52A (AC-3)",
+        "codec_type": "audio",
+        "codec_tag_string": "ac-3",
+        "codec_tag": "0x332d6361",
+        "mime_codec_string": "ac-3",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 256,
+        "dmix_mode": "0",
+        "ltrt_cmixlev": "0.000000",
+        "ltrt_surmixlev": "0.000000",
+        "loro_cmixlev": "0.000000",
+        "loro_surmixlev": "0.000000",
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 20159744,
+        "duration": "419.994667",
+        "bit_rate": "384000",
+        "nb_frames": "13125",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "Audio Service Type",
+            "service_type": 0
+          }
+        ]
+      }
+    ],
+    "format": {
+      "filename": "C:\\extensions\\Drive-Original\\source\\qa\\rc16-q2-longrun\\synthetic-420s-ac3.mp4",
+      "nb_streams": 2,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "420.000000",
+      "size": "35308089",
+      "bit_rate": "672535",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomdby1iso2avc1mp41",
+        "encoder": "Lavf63.1.101"
+      }
+    }
+  },
+  "audioPackets": {
+    "count": 13125,
+    "first": [
+      {
+        "pts_time": "-0.005333",
+        "dts_time": "-0.005333",
+        "duration_time": "0.032000",
+        "side_data_list": [
+          {
+            "side_data_type": "Skip Samples",
+            "skip_samples": 256,
+            "discard_padding": 0,
+            "skip_reason": 0,
+            "discard_reason": 0
+          }
+        ]
+      },
+      {
+        "pts_time": "0.026667",
+        "dts_time": "0.026667",
+        "duration_time": "0.032000"
+      },
+      {
+        "pts_time": "0.058667",
+        "dts_time": "0.058667",
+        "duration_time": "0.032000"
+      }
+    ],
+    "last": [
+      {
+        "pts_time": "419.898667",
+        "dts_time": "419.898667",
+        "duration_time": "0.032000"
+      },
+      {
+        "pts_time": "419.930667",
+        "dts_time": "419.930667",
+        "duration_time": "0.032000"
+      },
+      {
+        "pts_time": "419.962667",
+        "dts_time": "419.962667",
+        "duration_time": "0.032000"
+      }
+    ]
+  },
+  "scope": "Finite synthetic original only; no source/account media."
+}

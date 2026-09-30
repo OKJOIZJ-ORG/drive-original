@@ -1,0 +1,2132 @@
+{
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "immutableSnapshot": true,
+  "publicFileCount": 51,
+  "attempts": [
+    {
+      "file": "long-2026-09-30T00-12-06-970Z.json",
+      "producer": "producer-first-worker-filter.cjs",
+      "gate": "producer-first-worker-gate.js",
+      "passed": false,
+      "browser": "154.0.8037.58",
+      "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+      "publicFiles": 51,
+      "publicBytesVerified": true,
+      "failure": {
+        "name": "Error",
+        "code": "ASSERTION_OR_HARNESS_FAILURE"
+      },
+      "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+      "lastSourceClock": 153.955874
+    },
+    {
+      "file": "long-2026-09-30T00-14-50-135Z.json",
+      "producer": "longrun.cjs",
+      "gate": "worker-gate.js",
+      "passed": true,
+      "browser": "154.0.8037.58",
+      "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+      "publicFiles": 51,
+      "publicBytesVerified": true,
+      "failure": null,
+      "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+      "lastSourceClock": 420
+    }
+  ],
+  "fixture": {
+    "sha256": "7004b0fc3b45673450e96a1852d2ee858b7af888e10cd21baa8a138e55e2f692",
+    "bytes": 35308089,
+    "movieDuration": "420.000000",
+    "streams": [
+      {
+        "codec": "h264",
+        "type": "video",
+        "duration": "420.000000",
+        "frames": "10080"
+      },
+      {
+        "codec": "ac3",
+        "type": "audio",
+        "duration": "419.994667",
+        "sampleRate": "48000",
+        "channels": 2,
+        "frames": "13125"
+      }
+    ],
+    "audioPackets": {
+      "count": 13125,
+      "first": [
+        {
+          "pts_time": "-0.005333",
+          "dts_time": "-0.005333",
+          "duration_time": "0.032000",
+          "side_data_list": [
+            {
+              "side_data_type": "Skip Samples",
+              "skip_samples": 256,
+              "discard_padding": 0,
+              "skip_reason": 0,
+              "discard_reason": 0
+            }
+          ]
+        },
+        {
+          "pts_time": "0.026667",
+          "dts_time": "0.026667",
+          "duration_time": "0.032000"
+        },
+        {
+          "pts_time": "0.058667",
+          "dts_time": "0.058667",
+          "duration_time": "0.032000"
+        }
+      ],
+      "last": [
+        {
+          "pts_time": "419.898667",
+          "dts_time": "419.898667",
+          "duration_time": "0.032000"
+        },
+        {
+          "pts_time": "419.930667",
+          "dts_time": "419.930667",
+          "duration_time": "0.032000"
+        },
+        {
+          "pts_time": "419.962667",
+          "dts_time": "419.962667",
+          "duration_time": "0.032000"
+        }
+      ]
+    }
+  },
+  "result": {
+    "file": "long-2026-09-30T00-14-50-135Z.json",
+    "browser": "154.0.8037.58",
+    "elapsedMs": 420094,
+    "initialSourceClock": 0.206808,
+    "endSourceClock": 420,
+    "endNativeTime": 420.0065,
+    "endNativeDuration": 420.0065,
+    "presentedCallbacks": 10075,
+    "totalNativeFrames": 10076,
+    "frameCheckpoints": {
+      "1": {
+        "mediaTime": 1,
+        "sourceTime": 1,
+        "presentedFrames": 21,
+        "now": 2628.100000000559
+      },
+      "295": {
+        "mediaTime": 295,
+        "sourceTime": 295,
+        "presentedFrames": 7077,
+        "now": 296645
+      },
+      "299": {
+        "mediaTime": 299,
+        "sourceTime": 299,
+        "presentedFrames": 7173,
+        "now": 300628.10000000056
+      },
+      "301": {
+        "mediaTime": 301,
+        "sourceTime": 301,
+        "presentedFrames": 7221,
+        "now": 302644.7000000002
+      },
+      "360": {
+        "mediaTime": 360,
+        "sourceTime": 360,
+        "presentedFrames": 8637,
+        "now": 361641.2999999998
+      },
+      "419": {
+        "mediaTime": 419,
+        "sourceTime": 419,
+        "presentedFrames": 10053,
+        "now": 420637.7999999998
+      }
+    },
+    "lastFrame": {
+      "mediaTime": 419.958333,
+      "sourceTime": 419.958333,
+      "presentedFrames": 10076,
+      "now": 421588.2999999998
+    },
+    "motionEvents": [
+      {
+        "type": "pause",
+        "time": 420.0065,
+        "now": 421660.5
+      },
+      {
+        "type": "ended",
+        "time": 420.0065,
+        "now": 421660.5
+      }
+    ],
+    "audioEnd": {
+      "reason": "closed",
+      "workerId": 2,
+      "encoderId": 1,
+      "configured": {
+        "codec": "opus",
+        "sampleRate": 48000,
+        "numberOfChannels": 2,
+        "bitrate": 320000
+      },
+      "inputCount": 13125,
+      "inputFrames": 20160000,
+      "outputCount": 21001,
+      "firstInput": {
+        "timestamp": -5333,
+        "frames": 1536,
+        "sampleRate": 48000
+      },
+      "lastInput": {
+        "timestamp": 419962666,
+        "frames": 1536,
+        "sampleRate": 48000
+      },
+      "firstOutput": {
+        "timestamp": -5333,
+        "duration": 20000,
+        "bytes": 1276
+      },
+      "lastOutput": {
+        "timestamp": 419994667,
+        "duration": 20000,
+        "bytes": 1239
+      },
+      "inputBackwards": 0,
+      "outputBackwards": 0,
+      "outputGaps": 0,
+      "closed": true
+    },
+    "audioWorkers": [
+      {
+        "id": 1,
+        "generation": 1,
+        "queued": 1,
+        "installed": true,
+        "workerId": 1,
+        "nativeAudioEncoder": true
+      },
+      {
+        "id": 2,
+        "generation": 2,
+        "queued": 1,
+        "installed": true,
+        "workerId": 2,
+        "nativeAudioEncoder": true
+      }
+    ],
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 420,
+        "commonShift": 0,
+        "targetSource": 0.187713,
+        "targetElement": 0.187713,
+        "timestampOffset": 0,
+        "audioEnd": {
+          "preSkip": 312,
+          "sampleRate": 48000,
+          "appendWindowEnd": 420.0065
+        }
+      },
+      "appends": 421,
+      "removals": 392,
+      "waits": 1483,
+      "peakAhead": 30.866401,
+      "peakRetainedAppendBytes": 3045062,
+      "disposed": false,
+      "status": {
+        "level": "Q2",
+        "video": "original-encoded-copy",
+        "audio": "lossy-transformed",
+        "codec": "opus",
+        "bitrate": 320000,
+        "bitPerfectAudio": false
+      },
+      "capability": {
+        "eligible": true,
+        "nativeInputSupported": false,
+        "opusEncoderSupported": true,
+        "mseSupported": true,
+        "outputConfig": {
+          "codec": "opus",
+          "numberOfChannels": 2,
+          "sampleRate": 48000,
+          "bitrate": 320000
+        },
+        "status": {
+          "level": "Q2",
+          "video": "original-encoded-copy",
+          "audio": "lossy-transformed",
+          "codec": "opus",
+          "bitrate": 320000,
+          "bitPerfectAudio": false
+        }
+      },
+      "worker": {
+        "reads": 539,
+        "bytes": 35308089,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 421,
+        "acks": 421,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 539,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 420,
+        "sourcePacketOrigin": -0.005333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0.187713,
+        "windowOrigin": 0,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 420,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 2,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 256,
+              "firstPacketTimestamp": -0.005333333333333333
+            }
+          ]
+        },
+        "videoCodec": "avc",
+        "audioCodec": "ac3",
+        "packets": 23205,
+        "outputBytes": 31933133,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 186336,
+        "admission": {
+          "kind": "iso",
+          "tracks": 2,
+          "samples": [
+            10080,
+            13125
+          ],
+          "boxes": 43
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 96212,
+          "peakSamples": 83
+        },
+        "encodersCreated": 1,
+        "videoEncodersCreated": 0,
+        "status": {
+          "level": "Q2",
+          "video": "original-encoded-copy",
+          "audio": "lossy-transformed",
+          "codec": "opus",
+          "bitrate": 320000,
+          "bitPerfectAudio": false
+        },
+        "capability": {
+          "eligible": true,
+          "nativeInputSupported": false,
+          "opusEncoderSupported": true,
+          "mseSupported": true,
+          "outputConfig": {
+            "codec": "opus",
+            "numberOfChannels": 2,
+            "sampleRate": 48000,
+            "bitrate": 320000
+          },
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          }
+        },
+        "finalAudioConfig": {
+          "codec": "opus",
+          "description": {
+            "0": 79,
+            "1": 112,
+            "2": 117,
+            "3": 115,
+            "4": 72,
+            "5": 101,
+            "6": 97,
+            "7": 100,
+            "8": 1,
+            "9": 2,
+            "10": 56,
+            "11": 1,
+            "12": 128,
+            "13": 187,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "numberOfChannels": 2,
+          "sampleRate": 48000
+        },
+        "peakPrefixBytes": 28,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 539,
+          "bytes": 35308089,
+          "logicalReads": 20164,
+          "cacheHits": 20176,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 262144,
+          "discoveryRequests": 4
+        },
+        "audioCleanup": {
+          "settled": true,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "moduleLoading": false
+        },
+        "audioMetrics": {
+          "opened": 1,
+          "closed": 1,
+          "liveContexts": 0,
+          "pendingOpens": 0,
+          "inFlightDecode": 0,
+          "decodedPackets": 13125,
+          "decodedFrames": 20160000,
+          "transferredPcmBytes": 161280000,
+          "failures": 0,
+          "peakPacketBytes": 1536,
+          "peakPcmBytes": 12288,
+          "peakHeapBytes": 33554432,
+          "moduleLoading": false,
+          "heapBytes": 33554432
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "settledClose": {
+      "retirement": {
+        "settled": true
+      },
+      "player": {
+        "generation": 2,
+        "phase": "buffered-to-end",
+        "failure": null,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 420,
+          "commonShift": 0,
+          "targetSource": 0.187713,
+          "targetElement": 0.187713,
+          "timestampOffset": 0,
+          "audioEnd": {
+            "preSkip": 312,
+            "sampleRate": 48000,
+            "appendWindowEnd": 420.0065
+          }
+        },
+        "appends": 421,
+        "removals": 392,
+        "waits": 1483,
+        "peakAhead": 30.866401,
+        "peakRetainedAppendBytes": 3045062,
+        "disposed": true,
+        "status": {
+          "level": "Q2",
+          "video": "original-encoded-copy",
+          "audio": "lossy-transformed",
+          "codec": "opus",
+          "bitrate": 320000,
+          "bitPerfectAudio": false
+        },
+        "capability": {
+          "eligible": true,
+          "nativeInputSupported": false,
+          "opusEncoderSupported": true,
+          "mseSupported": true,
+          "outputConfig": {
+            "codec": "opus",
+            "numberOfChannels": 2,
+            "sampleRate": 48000,
+            "bitrate": 320000
+          },
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          }
+        },
+        "worker": {
+          "reads": 539,
+          "bytes": 35308089,
+          "activeReads": 0,
+          "peakReads": 1,
+          "chunks": 421,
+          "acks": 421,
+          "pendingChunks": 0,
+          "peakPendingChunks": 1,
+          "detachedReadBuffers": 539,
+          "invalidMessages": 0,
+          "staleRepliesSuppressed": 0,
+          "pendingWindows": 0,
+          "terminated": true
+        },
+        "pipeline": {
+          "generation": 2,
+          "duration": 420,
+          "sourcePacketOrigin": -0.005333333333333333,
+          "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+          "targetTime": 0.187713,
+          "windowOrigin": 0,
+          "policy": {
+            "kind": "isobmff-movie-axis",
+            "presentationOrigin": 0,
+            "validPresentationStart": 0,
+            "declaredEnd": 420,
+            "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+            "tracks": [
+              {
+                "id": 1,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 0,
+                "firstPacketTimestamp": 0
+              },
+              {
+                "id": 2,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 256,
+                "firstPacketTimestamp": -0.005333333333333333
+              }
+            ]
+          },
+          "videoCodec": "avc",
+          "audioCodec": "ac3",
+          "packets": 23205,
+          "outputBytes": 31933133,
+          "peakPendingAcks": 1,
+          "peakBufferedPacketBytes": 186336,
+          "admission": {
+            "kind": "iso",
+            "tracks": 2,
+            "samples": [
+              10080,
+              13125
+            ],
+            "boxes": 43
+          },
+          "muxRetention": {
+            "bytes": 0,
+            "samples": 0,
+            "peakBytes": 96212,
+            "peakSamples": 83
+          },
+          "encodersCreated": 1,
+          "videoEncodersCreated": 0,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "finalAudioConfig": {
+            "codec": "opus",
+            "description": {
+              "0": 79,
+              "1": 112,
+              "2": 117,
+              "3": 115,
+              "4": 72,
+              "5": 101,
+              "6": 97,
+              "7": 100,
+              "8": 1,
+              "9": 2,
+              "10": 56,
+              "11": 1,
+              "12": 128,
+              "13": 187,
+              "14": 0,
+              "15": 0,
+              "16": 0,
+              "17": 0,
+              "18": 0
+            },
+            "numberOfChannels": 2,
+            "sampleRate": 48000
+          },
+          "peakPrefixBytes": 28,
+          "inputFormat": "MP4",
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "reads": {
+            "requests": 539,
+            "bytes": 35308089,
+            "logicalReads": 20164,
+            "cacheHits": 20176,
+            "peakCache": 262144,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 262144,
+            "discoveryRequests": 4
+          },
+          "audioCleanup": {
+            "settled": true,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "moduleLoading": false
+          },
+          "audioMetrics": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 13125,
+            "decodedFrames": 20160000,
+            "transferredPcmBytes": 161280000,
+            "failures": 0,
+            "peakPacketBytes": 1536,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          }
+        },
+        "failureDiagnostic": null,
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "resources": {
+        "workersCreated": 2,
+        "workersTerminated": 2,
+        "urlsCreated": 2,
+        "urlsRevoked": 2,
+        "activeWorkers": 0,
+        "activeUrls": 0
+      },
+      "closed": {
+        "q1": true,
+        "q0": true,
+        "hidden": true,
+        "src": null,
+        "controller": true,
+        "temp": true,
+        "blob": true,
+        "seekWatchdog": true,
+        "frameWatchdog": true,
+        "seekCleanup": true,
+        "frameCallback": true
+      },
+      "sw": {
+        "activeOwners": 0,
+        "cleanupFences": 0,
+        "retiredThrough": 1,
+        "q0Pins": 0,
+        "q0Acquisitions": 0,
+        "controlledWindows": 1
+      },
+      "dom": {
+        "documents": 2,
+        "nodes": 1552,
+        "jsEventListeners": 198
+      },
+      "heap": {
+        "usedSize": 3719180,
+        "totalSize": 4231168,
+        "embedderHeapUsedSize": 3060432,
+        "backingStorageSize": 1253851
+      },
+      "listeners": {
+        "total": 196,
+        "targets": 100,
+        "counts": {
+          "DOMContentLoaded": 1,
+          "online": 1,
+          "offline": 1,
+          "pagehide": 1,
+          "pageshow": 1,
+          "blur": 3,
+          "focus": 1,
+          "storage": 1,
+          "scroll": 1,
+          "resize": 3,
+          "popstate": 1,
+          "__playwright_global_listeners_check__": 1,
+          "mousemove": 1,
+          "pointerdown": 9,
+          "pointerup": 2,
+          "touchstart": 3,
+          "touchend": 3,
+          "touchcancel": 3,
+          "mousedown": 1,
+          "mouseup": 1,
+          "click": 91,
+          "auxclick": 1,
+          "dblclick": 2,
+          "contextmenu": 1,
+          "webkitfullscreenchange": 1,
+          "fullscreenchange": 1,
+          "keydown": 10,
+          "visibilitychange": 3,
+          "pointercancel": 5,
+          "touchmove": 2,
+          "input": 3,
+          "change": 1,
+          "pointermove": 2,
+          "pointerleave": 2,
+          "focusin": 1,
+          "focusout": 1,
+          "playing": 2,
+          "pause": 2,
+          "volumechange": 1,
+          "loadedmetadata": 1,
+          "timeupdate": 1,
+          "play": 1,
+          "seeking": 2,
+          "seeked": 2,
+          "error": 3,
+          "waiting": 1,
+          "progress": 1,
+          "loadeddata": 1,
+          "canplay": 1,
+          "stalled": 1,
+          "ended": 2,
+          "ratechange": 2,
+          "load": 2,
+          "toggle": 1,
+          "cancel": 2,
+          "close": 1
+        }
+      }
+    },
+    "network": {
+      "media": 551,
+      "metadata": 1107,
+      "downloads": 1,
+      "bytes": 71206954,
+      "swMedia": 551,
+      "externalBlocked": 1
+    },
+    "networkCap": {
+      "maxTotalBufferSize": 0,
+      "maxResourceBufferSize": 0,
+      "sessions": 4
+    },
+    "nativeObservations": [
+      {
+        "phase": "long-started",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-10s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-21s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-31s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-41s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-51s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-62s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-72s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-82s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-92s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-102s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-113s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-123s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-133s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-143s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-154s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-164s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-174s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-184s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-195s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-205s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-215s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-225s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-236s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-246s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-256s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-266s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-277s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-287s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-297s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-307s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-317s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-328s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-338s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-348s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-358s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-369s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-379s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-389s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-400s",
+        "targetCounts": {
+          "service_worker": 1,
+          "worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 1
+      },
+      {
+        "phase": "long-410s",
+        "targetCounts": {
+          "service_worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 0
+      },
+      {
+        "phase": "long-420s",
+        "targetCounts": {
+          "service_worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 0
+      },
+      {
+        "phase": "long-native-ended-app-sw-closed",
+        "targetCounts": {
+          "service_worker": 1,
+          "page": 1,
+          "browser_ui": 2
+        },
+        "liveWorkers": 0
+      }
+    ],
+    "resource": [
+      {
+        "phase": "before-launch",
+        "totalPrivateMiB": 0,
+        "renderers": [],
+        "commitHeadroomGiB": 2.965,
+        "physicalHeadroomGiB": 3.463
+      },
+      {
+        "phase": "launched",
+        "totalPrivateMiB": 71.984375,
+        "renderers": [],
+        "commitHeadroomGiB": 2.885,
+        "physicalHeadroomGiB": 3.441
+      },
+      {
+        "phase": "long-started",
+        "totalPrivateMiB": 616.17578125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.3515625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 159.75390625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 42.9375
+          }
+        ],
+        "commitHeadroomGiB": 2.213,
+        "physicalHeadroomGiB": 2.902
+      },
+      {
+        "phase": "long-10s",
+        "totalPrivateMiB": 561.53125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0390625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 150.44140625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 41.578125
+          }
+        ],
+        "commitHeadroomGiB": 2.41,
+        "physicalHeadroomGiB": 3.049
+      },
+      {
+        "phase": "long-21s",
+        "totalPrivateMiB": 565.171875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0390625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 159.03515625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 41.578125
+          }
+        ],
+        "commitHeadroomGiB": 2.416,
+        "physicalHeadroomGiB": 3.055
+      },
+      {
+        "phase": "long-31s",
+        "totalPrivateMiB": 523.68359375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 123.59375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.91796875
+          }
+        ],
+        "commitHeadroomGiB": 2.431,
+        "physicalHeadroomGiB": 3.086
+      },
+      {
+        "phase": "long-41s",
+        "totalPrivateMiB": 534.515625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 134.96875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.91796875
+          }
+        ],
+        "commitHeadroomGiB": 2.396,
+        "physicalHeadroomGiB": 3.046
+      },
+      {
+        "phase": "long-51s",
+        "totalPrivateMiB": 532.0234375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 132.45703125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.91796875
+          }
+        ],
+        "commitHeadroomGiB": 2.397,
+        "physicalHeadroomGiB": 3.029
+      },
+      {
+        "phase": "long-62s",
+        "totalPrivateMiB": 521.03125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 129.01953125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.91796875
+          }
+        ],
+        "commitHeadroomGiB": 2.448,
+        "physicalHeadroomGiB": 3.087
+      },
+      {
+        "phase": "long-72s",
+        "totalPrivateMiB": 515.06640625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 124.2109375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.91796875
+          }
+        ],
+        "commitHeadroomGiB": 2.451,
+        "physicalHeadroomGiB": 3.087
+      },
+      {
+        "phase": "long-82s",
+        "totalPrivateMiB": 519.52734375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 129.5390625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.46,
+        "physicalHeadroomGiB": 3.097
+      },
+      {
+        "phase": "long-92s",
+        "totalPrivateMiB": 518.31640625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 128.54296875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.407,
+        "physicalHeadroomGiB": 3.055
+      },
+      {
+        "phase": "long-102s",
+        "totalPrivateMiB": 517.15234375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 127.34765625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.459,
+        "physicalHeadroomGiB": 3.105
+      },
+      {
+        "phase": "long-113s",
+        "totalPrivateMiB": 516.9921875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 127.17578125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.48,
+        "physicalHeadroomGiB": 3.113
+      },
+      {
+        "phase": "long-123s",
+        "totalPrivateMiB": 521.62890625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 130.65234375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.497,
+        "physicalHeadroomGiB": 3.131
+      },
+      {
+        "phase": "long-133s",
+        "totalPrivateMiB": 521.75390625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 130.9296875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.478,
+        "physicalHeadroomGiB": 3.112
+      },
+      {
+        "phase": "long-143s",
+        "totalPrivateMiB": 524.40625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 133.65625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.478,
+        "physicalHeadroomGiB": 3.076
+      },
+      {
+        "phase": "long-154s",
+        "totalPrivateMiB": 527.125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 135.52734375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.52,
+        "physicalHeadroomGiB": 3.131
+      },
+      {
+        "phase": "long-164s",
+        "totalPrivateMiB": 524.0546875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 133.19140625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.539,
+        "physicalHeadroomGiB": 3.145
+      },
+      {
+        "phase": "long-174s",
+        "totalPrivateMiB": 527.3671875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 136.6875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.522,
+        "physicalHeadroomGiB": 3.125
+      },
+      {
+        "phase": "long-184s",
+        "totalPrivateMiB": 521.95703125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 130.96875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.537,
+        "physicalHeadroomGiB": 3.146
+      },
+      {
+        "phase": "long-195s",
+        "totalPrivateMiB": 528.01953125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 137.046875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.516,
+        "physicalHeadroomGiB": 3.123
+      },
+      {
+        "phase": "long-205s",
+        "totalPrivateMiB": 524.6015625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 133.65625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.5,
+        "physicalHeadroomGiB": 3.098
+      },
+      {
+        "phase": "long-215s",
+        "totalPrivateMiB": 529.28125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 138.32421875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.527,
+        "physicalHeadroomGiB": 3.126
+      },
+      {
+        "phase": "long-225s",
+        "totalPrivateMiB": 529.79296875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 138.82421875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.514,
+        "physicalHeadroomGiB": 3.118
+      },
+      {
+        "phase": "long-236s",
+        "totalPrivateMiB": 526.484375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 135.515625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.362,
+        "physicalHeadroomGiB": 3.005
+      },
+      {
+        "phase": "long-246s",
+        "totalPrivateMiB": 527.1875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 136.09765625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.429,
+        "physicalHeadroomGiB": 3.054
+      },
+      {
+        "phase": "long-256s",
+        "totalPrivateMiB": 528.71875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 137.70703125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.438,
+        "physicalHeadroomGiB": 3.061
+      },
+      {
+        "phase": "long-266s",
+        "totalPrivateMiB": 528.15625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 137.50390625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.471,
+        "physicalHeadroomGiB": 3.051
+      },
+      {
+        "phase": "long-277s",
+        "totalPrivateMiB": 531.70703125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 140.7578125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.492,
+        "physicalHeadroomGiB": 3.088
+      },
+      {
+        "phase": "long-287s",
+        "totalPrivateMiB": 533.328125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 140.9140625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.481,
+        "physicalHeadroomGiB": 3.08
+      },
+      {
+        "phase": "long-297s",
+        "totalPrivateMiB": 526.76953125,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.9375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 135.05859375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 32.99609375
+          }
+        ],
+        "commitHeadroomGiB": 2.528,
+        "physicalHeadroomGiB": 3.12
+      },
+      {
+        "phase": "long-307s",
+        "totalPrivateMiB": 533.2890625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 140.640625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.476,
+        "physicalHeadroomGiB": 3.074
+      },
+      {
+        "phase": "long-317s",
+        "totalPrivateMiB": 529.41015625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 136.85546875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.512,
+        "physicalHeadroomGiB": 3.106
+      },
+      {
+        "phase": "long-328s",
+        "totalPrivateMiB": 530.84375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 138.23828125
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.512,
+        "physicalHeadroomGiB": 3.1
+      },
+      {
+        "phase": "long-338s",
+        "totalPrivateMiB": 529.640625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 137.0234375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.476,
+        "physicalHeadroomGiB": 3.062
+      },
+      {
+        "phase": "long-348s",
+        "totalPrivateMiB": 534.3515625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 141.6171875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.437,
+        "physicalHeadroomGiB": 3.047
+      },
+      {
+        "phase": "long-358s",
+        "totalPrivateMiB": 533.7734375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 141.34765625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.523,
+        "physicalHeadroomGiB": 3.108
+      },
+      {
+        "phase": "long-369s",
+        "totalPrivateMiB": 531.7734375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 139
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.515,
+        "physicalHeadroomGiB": 3.11
+      },
+      {
+        "phase": "long-379s",
+        "totalPrivateMiB": 532.7109375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 139.94921875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.398,
+        "physicalHeadroomGiB": 2.977
+      },
+      {
+        "phase": "long-389s",
+        "totalPrivateMiB": 534.3046875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 141.35546875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.376,
+        "physicalHeadroomGiB": 2.949
+      },
+      {
+        "phase": "long-400s",
+        "totalPrivateMiB": 531.9765625,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 15.0625
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 139.06640625
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.23828125
+          }
+        ],
+        "commitHeadroomGiB": 2.283,
+        "physicalHeadroomGiB": 2.868
+      },
+      {
+        "phase": "long-410s",
+        "totalPrivateMiB": 489.52734375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.99609375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 96.99609375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.140625
+          }
+        ],
+        "commitHeadroomGiB": 2.306,
+        "physicalHeadroomGiB": 3.094
+      },
+      {
+        "phase": "long-420s",
+        "totalPrivateMiB": 481.13671875,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.99609375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 88.59375
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.140625
+          }
+        ],
+        "commitHeadroomGiB": 2.434,
+        "physicalHeadroomGiB": 3.197
+      },
+      {
+        "phase": "long-native-ended-app-sw-closed",
+        "totalPrivateMiB": 501.71484375,
+        "renderers": [
+          {
+            "pid": 10396,
+            "privateMiB": 14.99609375
+          },
+          {
+            "pid": 7536,
+            "privateMiB": 81.16796875
+          },
+          {
+            "pid": 5068,
+            "privateMiB": 33.46484375
+          }
+        ],
+        "commitHeadroomGiB": 2.418,
+        "physicalHeadroomGiB": 3.195
+      },
+      {
+        "phase": "long-context-closed",
+        "totalPrivateMiB": 362.1484375,
+        "renderers": [],
+        "commitHeadroomGiB": 2.573,
+        "physicalHeadroomGiB": 3.289
+      },
+      {
+        "phase": "after-owned-browser-close",
+        "totalPrivateMiB": 0,
+        "renderers": [],
+        "commitHeadroomGiB": 2.953,
+        "physicalHeadroomGiB": 3.514
+      }
+    ],
+    "minCommitHeadroomGiB": 2.213,
+    "minPhysicalHeadroomGiB": 2.868
+  },
+  "limits": [
+    "One synthetic admitted AVC+AC3 profile in installed isolated desktop Chrome; no account/device/corpus-wide/production acceptance.",
+    "AudioEncoder timestamps prove native encoded audio clocks, not audible speaker output or exact PCM fidelity.",
+    "QA adds only an initial owned-worker inspector handshake; product bytes/messages/native calls unchanged.",
+    "Zero Network response budgets do not guarantee all instrumentation/native caching is absent.",
+    "The old cold decoder-open failure remains separate and unexplained."
+  ]
+}

@@ -1,0 +1,50 @@
+✖ paused decoded target before late presentation registration clears loading only after seeked and reuses proof (39.7372ms)
+✔ paused presentation rejects paint-only and stale-source target proof (6.0464ms)
+✖ completed paused presentation is fenced by account/source/attempt and cleared with seek retirement (3.3775ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.5792
+
+✖ failing tests:
+
+test at tests\app.test.js:4206:1
+✖ paused decoded target before late presentation registration clears loading only after seeked and reuses proof (39.7372ms)
+  AssertionError [ERR_ASSERTION]: settled owned decoded seek does not need another paused frame
+  
+  false !== true
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\app.test.js:4213:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\app.test.js:4231:1
+✖ completed paused presentation is fenced by account/source/attempt and cleared with seek retirement (3.3775ms)
+  evalmachine.<anonymous>:1
+  completedMediaSeekPresentation
+  ^
+  
+  ReferenceError: completedMediaSeekPresentation is not defined
+      at evalmachine.<anonymous>:1:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at run (C:\extensions\Drive-Original\source\tests\app.test.js:322:13)
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\app.test.js:4237:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)

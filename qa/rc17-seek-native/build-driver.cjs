@@ -1,0 +1,21 @@
+'use strict';
+const fs=require('fs'),path=require('path'),crypto=require('crypto');const base=path.join(__dirname,'../q1-q2-app-integration/native-retirement-smoke.cjs');let s=fs.readFileSync(base,'utf8').replace(/\r\n/g,'\n');
+const replace=(a,b)=>{if(!s.includes(a))throw Error('missing native driver anchor '+a.slice(0,40));s=s.replace(a,b);};
+replace("const producerPaths=['app.js','sw.js'","const producerPaths=['app.js','sw.js','index.html','styles.css','version.json'");
+replace("const selectedName=process.argv[2];",`const expectedCommit=process.env.QA_RC17_PIN;
+assert.match(expectedCommit||'',/^[a-f0-9]{40}$/,'Root must provide fixed rc17 commit before launch');
+const execFileSync=require('node:child_process').execFileSync;
+assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),expectedCommit);
+for(const name of producerPaths)assert.equal(crypto.createHash('sha256').update(execFileSync('git',['show',expectedCommit+':'+name],{cwd:root,maxBuffer:64*1024*1024})).digest('hex'),report.producerStart[name],'current bytes differ from fixed Git '+name);
+report.commit=expectedCommit;report.harness={path:'qa/q1-q2-app-integration/native-retirement-smoke.cjs',sha256:'${crypto.createHash('sha256').update(fs.readFileSync(base)).digest('hex')}',driverSha256:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex')};
+function memory(){const m=JSON.parse(execFileSync('powershell',['-NoProfile','-Command','Get-CimInstance Win32_OperatingSystem | Select-Object FreePhysicalMemory,FreeVirtualMemory | ConvertTo-Json -Compress'],{encoding:'utf8'}));assert.ok(m.FreePhysicalMemory>1024*1024,'physical below1GiB');assert.ok(m.FreeVirtualMemory>1.5*1024*1024,'available virtual below1.5GiB');return m;}
+const selectedName=undefined;`);
+replace("'native-retirement-smoke-results.json'","'results.json'");
+replace("const cases=[{name:'ac3-auto',fixture:'ac3',q2:true},{name:'eac3-auto',fixture:'eac3',q2:true},{name:'aac-native',fixture:'aac'},{name:'webm-skip-native',fixture:'webm'},{name:'ac3-manual-q1-q2',fixture:'ac3',q2:true,manual:true},{name:'probe-drift-cleanup',fixture:'aac',drift:true}];", "const cases=[{name:'ac3-q2-paused-seeks',fixture:'ac3',q2:true},{name:'aac-q0-paused-seeks',fixture:'aac'}];");
+replace("const result={name:trial.name,passed:false};", "const result={name:trial.name,passed:false,memory:memory()};");
+replace("startInitialOriginalPlayback(state.selected,'video',state.mediaSession);", "openMediaSource(state.selected);el.mediaStage.focus();");
+replace("   if(trial.q2){assert.equal(result.before.mode", "   if(trial.q2){assert.equal(result.before.mode");
+const a=s.indexOf("   if(trial.q2){assert.equal(result.before.mode"),b=s.indexOf("   result.after=",a);if(a<0||b<0)throw Error('missing seek block');s=s.slice(0,a)+fs.readFileSync(path.join(__dirname,'checks.txt'),'utf8')+'\n'+s.slice(b);
+replace("   result.after=await page.evaluate(async()=>{state.authAccountKey='other-account';state.driveSessionGeneration++;clearDirectMediaSources();await q1Retirement;return {cleanup:q1RetirementResult,hasSource:el.videoPlayer.hasAttribute('src')};});", "   await page.keyboard.press('Escape');await page.waitForFunction(()=>el.playerSheet.hidden);result.after=await page.evaluate(async()=>{await q1Retirement;return {cleanup:q1RetirementResult,hasSource:el.videoPlayer.hasAttribute('src'),selected:state.selected,frameCallback:state.frameCallbackId,proof:completedMediaSeekPresentation};});assert.equal(result.after.selected,null);assert.equal(result.after.frameCallback,null);assert.equal(result.after.proof,null);");
+replace("Installed isolated Chrome, fresh browser per case, actual app/SW/players, synthetic provider only. Manual case suppresses automatic planner to isolate controlled Q1-to-Q2 fallback. Drift case changes probe metadata only. No account/device/production proof.", "Fixed root-pinned rc17 Git bytes, synthetic provider and original AAC/Q0 plus AC3/Q2 fixtures, trusted paused10/50/90% seek input. Native target decoded rVFC joins later seeked/settled/watchdog/loader hidden without requiring another paused frame. Serial owned installed Chrome and hostmemory gates. No Q1/device/account/audibility/full-duration proof.");
+fs.writeFileSync(path.join(__dirname,'qualification.cjs'),s);

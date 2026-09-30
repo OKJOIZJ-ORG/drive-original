@@ -1,0 +1,23 @@
+{
+  "schema": "drive-original.rc16-hosted-security-curation/1",
+  "exactOwnedFiles": [
+    "qa/rc16-hosted-security/README.md",
+    "qa/rc16-hosted-security/probe-executed.mjs",
+    "qa/rc16-hosted-security/probe.mjs",
+    "qa/rc16-hosted-security/settings.json",
+    "qa/rc16-hosted-security/live-results.json",
+    "qa/rc16-hosted-security/verify.mjs",
+    "qa/rc16-hosted-security/local-transport-verification.json",
+    "qa/rc16-hosted-security/local-verification.json",
+    "qa/rc16-hosted-security/curated-savepoint.json"
+  ],
+  "excluded": [
+    "private version readback",
+    "raw response bodies/provider errors",
+    "customer IDs/account secrets",
+    "originals",
+    "product/global settings",
+    "prior source/evidence leaves"
+  ],
+  "commitOwner": "root"
+}

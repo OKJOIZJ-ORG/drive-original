@@ -86,3 +86,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - CANDIDATE-RC16-20260930.md — fixed rc.16 delivery/package, actual paused TS failure, observer-qualified native resources and remaining42-row acceptance map.
 
 - PAUSED-SEEK-PRESENTATION-20260930.md — rc.17 owned decoded target/seeked handoff, independent early-reveal counterexample and562 local tests; actual replay pending.
+
+- CANDIDATE-RC17-20260930.md — fixed rc.17 delivery/package and actual four paused TS seeks, native Q0/Q2, retained long-Q2/security scopes; G5 remains open.

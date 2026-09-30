@@ -1,0 +1,4021 @@
+{
+  "runId": "2026-09-30T00-12-06-970Z",
+  "mode": "long",
+  "scope": "Current byte-for-byte local app/SW, installed isolated Chrome, synthetic provider; no actual account, device, audible output, production or all-format proof.",
+  "producerStart": {
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "version.json": "e0967cec51720bf73c65387a01fcb2442c276d21ef4c0fecfae09228069b655f",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "immutableSnapshot": true,
+  "snapshotProvenanceSha256": "d521c3d31763365ebc6c5c81214257b2b4d123d07f1ad785b85adff794816ab6",
+  "fixtureProvenanceSha256": "85355db912e64acd4094ca3db30e3335ac5e7fa7a7b602ce19b195fc17ea59f4",
+  "adapterSha256": "41eb0eacd2205b94c112047c03da2c3bdea6269a24a92b71b20b6390b53fae1e",
+  "workerGateSha256": "bcb0aa9f2c0f3dbb46c0efabfb05e3d75f9493a4b8d3a81ed52cd104e73edb8d",
+  "audioObserverSha256": "b423e7735053bf372329c0473a9fd017597d051959ca52c6796da6a7cebabaf2",
+  "audioWorkers": [],
+  "audioEvents": [],
+  "nativeObservations": [
+    {
+      "phase": "long-started",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-10s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-21s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-31s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-41s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-51s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-62s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-72s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-82s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-92s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-103s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-113s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-123s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-133s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-144s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    },
+    {
+      "phase": "long-154s",
+      "targetCounts": {
+        "service_worker": 1,
+        "worker": 1,
+        "page": 1,
+        "browser_ui": 2
+      },
+      "liveWorkers": 1
+    }
+  ],
+  "harness": {
+    "../rc15-lifecycle-qualification/qualify.cjs": "1ea7b42e5b213e3fd7514d717c95157efd0a7395c7ff078f80be10458600d6ec",
+    "../rc15-lifecycle-qualification/resource-snapshot.py": "55cf30c22a9f0000efd036a3705d76a230ee8aac004a7a4ff7f0526004a9fc45",
+    "fixtures.py": "b49cccfeee86614415cf906582c19d52d5855b0994ad7304f500e68d3715c567",
+    "../q1-q2-app-integration/native-retirement-smoke.cjs": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "../q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45"
+  },
+  "results": [
+    {
+      "route": "q2-auto-420s",
+      "passed": false,
+      "samples": [
+        {
+          "elapsedMs": 10309,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 251,
+          "time": 10.460235,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 10.460235,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              2,
+              31.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 33,
+            "removals": 2,
+            "waits": 35,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 2435913,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 20547,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 497,
+          "time": 20.698588,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 20.698588,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              13,
+              50.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 52,
+            "removals": 13,
+            "waits": 73,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 2956688,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 30784,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 743,
+          "time": 30.934567,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 30.934567,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              23,
+              50.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 52,
+            "removals": 23,
+            "waits": 111,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 2956688,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 41027,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 989,
+          "time": 41.176427,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 41.176427,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              33,
+              69.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 71,
+            "removals": 33,
+            "waits": 149,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 2961364,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 51311,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 1235,
+          "time": 51.462451,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 51.462451,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              43,
+              69.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 71,
+            "removals": 43,
+            "waits": 188,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 2961364,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 61546,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 1481,
+          "time": 61.696179,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 61.696179,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              53,
+              88.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 90,
+            "removals": 53,
+            "waits": 225,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3039839,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 71808,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 1727,
+          "time": 71.959245,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 71.959245,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              64,
+              88.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 90,
+            "removals": 64,
+            "waits": 264,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3039839,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 82041,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 1973,
+          "time": 82.191384,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 82.191384,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              74,
+              107.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 109,
+            "removals": 74,
+            "waits": 301,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3039839,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 92283,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 2219,
+          "time": 92.433502,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 92.433502,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              84,
+              107.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 109,
+            "removals": 84,
+            "waits": 340,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3039839,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 102540,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 2465,
+          "time": 102.691011,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 102.691011,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              95,
+              126.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 128,
+            "removals": 95,
+            "waits": 378,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 112807,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 2711,
+          "time": 112.957727,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 112.957727,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              105,
+              126.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 128,
+            "removals": 105,
+            "waits": 416,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 123059,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 2957,
+          "time": 123.21009,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 123.21009,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              115,
+              145.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 147,
+            "removals": 115,
+            "waits": 454,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 133298,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 3203,
+          "time": 133.448508,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 133.448508,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              125,
+              145.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 147,
+            "removals": 125,
+            "waits": 492,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 143545,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 3449,
+          "time": 143.69517,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 143.69517,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              136,
+              164.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 166,
+            "removals": 136,
+            "waits": 530,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        },
+        {
+          "elapsedMs": 153805,
+          "attempt": "q1",
+          "mode": "original-video-audio-compatible",
+          "frames": 3695,
+          "time": 153.955874,
+          "duration": 420,
+          "paused": false,
+          "ended": false,
+          "width": 320,
+          "nativeTime": 153.955874,
+          "nativeDuration": 420.0065,
+          "rate": 1,
+          "seeking": false,
+          "selectedId": "synthetic-1",
+          "session": 1,
+          "buffered": [
+            [
+              146,
+              183.999999
+            ]
+          ],
+          "stats": {
+            "generation": 2,
+            "phase": "ready",
+            "failure": null,
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 420,
+              "commonShift": 0,
+              "targetSource": 0.176944,
+              "targetElement": 0.176944,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 420.0065
+              }
+            },
+            "appends": 185,
+            "removals": 146,
+            "waits": 567,
+            "peakAhead": 30.810001,
+            "peakRetainedAppendBytes": 3045062,
+            "disposed": false,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            }
+          },
+          "resources": {
+            "workersCreated": 2,
+            "workersTerminated": 1,
+            "urlsCreated": 2,
+            "urlsRevoked": 1,
+            "activeWorkers": 1,
+            "activeUrls": 1
+          }
+        }
+      ],
+      "start": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "frames": 4,
+        "time": 0.186691,
+        "duration": 420,
+        "paused": false,
+        "ended": false,
+        "width": 320,
+        "nativeTime": 0.186691,
+        "nativeDuration": 420.0065,
+        "rate": 1,
+        "seeking": false,
+        "selectedId": "synthetic-1",
+        "session": 1,
+        "buffered": [
+          [
+            0,
+            2.999999
+          ]
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 420,
+            "commonShift": 0,
+            "targetSource": 0.176944,
+            "targetElement": 0.176944,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 420.0065
+            }
+          },
+          "appends": 4,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 1.823055,
+          "peakRetainedAppendBytes": 224946,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        },
+        "resources": {
+          "workersCreated": 2,
+          "workersTerminated": 1,
+          "urlsCreated": 2,
+          "urlsRevoked": 1,
+          "activeWorkers": 1,
+          "activeUrls": 1
+        }
+      },
+      "frames": {
+        "count": 3691,
+        "first": {
+          "mediaTime": 0.208333,
+          "sourceTime": 0.208333,
+          "presentedFrames": 2,
+          "now": 1906.4000000003725
+        },
+        "last": {
+          "mediaTime": 153.958333,
+          "sourceTime": 153.958333,
+          "presentedFrames": 3692,
+          "now": 155663.2999999998
+        },
+        "backwards": 0,
+        "seconds": [
+          {
+            "mediaTime": 0.208333,
+            "sourceTime": 0.208333,
+            "presentedFrames": 2,
+            "now": 1906.4000000003725
+          },
+          {
+            "mediaTime": 1,
+            "sourceTime": 1,
+            "presentedFrames": 21,
+            "now": 2705.2999999998137
+          },
+          {
+            "mediaTime": 2,
+            "sourceTime": 2,
+            "presentedFrames": 45,
+            "now": 3722.2000000001863
+          },
+          {
+            "mediaTime": 3,
+            "sourceTime": 3,
+            "presentedFrames": 69,
+            "now": 4721.799999999814
+          },
+          {
+            "mediaTime": 4,
+            "sourceTime": 4,
+            "presentedFrames": 93,
+            "now": 5705.200000000186
+          },
+          {
+            "mediaTime": 5,
+            "sourceTime": 5,
+            "presentedFrames": 117,
+            "now": 6722
+          },
+          {
+            "mediaTime": 6,
+            "sourceTime": 6,
+            "presentedFrames": 141,
+            "now": 7705.200000000186
+          },
+          {
+            "mediaTime": 7,
+            "sourceTime": 7,
+            "presentedFrames": 165,
+            "now": 8721.799999999814
+          },
+          {
+            "mediaTime": 8,
+            "sourceTime": 8,
+            "presentedFrames": 189,
+            "now": 9721.700000000186
+          },
+          {
+            "mediaTime": 9,
+            "sourceTime": 9,
+            "presentedFrames": 213,
+            "now": 10705.299999999814
+          },
+          {
+            "mediaTime": 10,
+            "sourceTime": 10,
+            "presentedFrames": 237,
+            "now": 11721.5
+          },
+          {
+            "mediaTime": 11,
+            "sourceTime": 11,
+            "presentedFrames": 261,
+            "now": 12704.900000000373
+          },
+          {
+            "mediaTime": 12,
+            "sourceTime": 12,
+            "presentedFrames": 285,
+            "now": 13705
+          },
+          {
+            "mediaTime": 13,
+            "sourceTime": 13,
+            "presentedFrames": 309,
+            "now": 14704.600000000559
+          },
+          {
+            "mediaTime": 14,
+            "sourceTime": 14,
+            "presentedFrames": 333,
+            "now": 15704.600000000559
+          },
+          {
+            "mediaTime": 15,
+            "sourceTime": 15,
+            "presentedFrames": 357,
+            "now": 16704.5
+          },
+          {
+            "mediaTime": 16,
+            "sourceTime": 16,
+            "presentedFrames": 381,
+            "now": 17721
+          },
+          {
+            "mediaTime": 17,
+            "sourceTime": 17,
+            "presentedFrames": 405,
+            "now": 18704.299999999814
+          },
+          {
+            "mediaTime": 18,
+            "sourceTime": 18,
+            "presentedFrames": 429,
+            "now": 19721.200000000186
+          },
+          {
+            "mediaTime": 19,
+            "sourceTime": 19,
+            "presentedFrames": 453,
+            "now": 20720.900000000373
+          },
+          {
+            "mediaTime": 20,
+            "sourceTime": 20,
+            "presentedFrames": 477,
+            "now": 21721
+          },
+          {
+            "mediaTime": 21,
+            "sourceTime": 21,
+            "presentedFrames": 501,
+            "now": 22720.900000000373
+          },
+          {
+            "mediaTime": 22,
+            "sourceTime": 22,
+            "presentedFrames": 525,
+            "now": 23721
+          },
+          {
+            "mediaTime": 23,
+            "sourceTime": 23,
+            "presentedFrames": 549,
+            "now": 24704.200000000186
+          },
+          {
+            "mediaTime": 24,
+            "sourceTime": 24,
+            "presentedFrames": 573,
+            "now": 25720.799999999814
+          },
+          {
+            "mediaTime": 25,
+            "sourceTime": 25,
+            "presentedFrames": 597,
+            "now": 26720.700000000186
+          },
+          {
+            "mediaTime": 26,
+            "sourceTime": 26,
+            "presentedFrames": 621,
+            "now": 27720.5
+          },
+          {
+            "mediaTime": 27,
+            "sourceTime": 27,
+            "presentedFrames": 645,
+            "now": 28703.900000000373
+          },
+          {
+            "mediaTime": 28,
+            "sourceTime": 28,
+            "presentedFrames": 669,
+            "now": 29704.400000000373
+          },
+          {
+            "mediaTime": 29,
+            "sourceTime": 29,
+            "presentedFrames": 693,
+            "now": 30720.400000000373
+          },
+          {
+            "mediaTime": 30,
+            "sourceTime": 30,
+            "presentedFrames": 717,
+            "now": 31704
+          },
+          {
+            "mediaTime": 31,
+            "sourceTime": 31,
+            "presentedFrames": 741,
+            "now": 32703.60000000056
+          },
+          {
+            "mediaTime": 32,
+            "sourceTime": 32,
+            "presentedFrames": 765,
+            "now": 33703.90000000037
+          },
+          {
+            "mediaTime": 33,
+            "sourceTime": 33,
+            "presentedFrames": 789,
+            "now": 34703.60000000056
+          },
+          {
+            "mediaTime": 34,
+            "sourceTime": 34,
+            "presentedFrames": 813,
+            "now": 35703.5
+          },
+          {
+            "mediaTime": 35,
+            "sourceTime": 35,
+            "presentedFrames": 837,
+            "now": 36720
+          },
+          {
+            "mediaTime": 36,
+            "sourceTime": 36,
+            "presentedFrames": 861,
+            "now": 37703.90000000037
+          },
+          {
+            "mediaTime": 37,
+            "sourceTime": 37,
+            "presentedFrames": 885,
+            "now": 38719.90000000037
+          },
+          {
+            "mediaTime": 38,
+            "sourceTime": 38,
+            "presentedFrames": 909,
+            "now": 39703.40000000037
+          },
+          {
+            "mediaTime": 39,
+            "sourceTime": 39,
+            "presentedFrames": 933,
+            "now": 40720.10000000056
+          },
+          {
+            "mediaTime": 40,
+            "sourceTime": 40,
+            "presentedFrames": 957,
+            "now": 41719.799999999814
+          },
+          {
+            "mediaTime": 41,
+            "sourceTime": 41,
+            "presentedFrames": 981,
+            "now": 42719.799999999814
+          },
+          {
+            "mediaTime": 42,
+            "sourceTime": 42,
+            "presentedFrames": 1005,
+            "now": 43719.700000000186
+          },
+          {
+            "mediaTime": 43,
+            "sourceTime": 43,
+            "presentedFrames": 1029,
+            "now": 44703
+          },
+          {
+            "mediaTime": 44,
+            "sourceTime": 44,
+            "presentedFrames": 1053,
+            "now": 45702.799999999814
+          },
+          {
+            "mediaTime": 45,
+            "sourceTime": 45,
+            "presentedFrames": 1077,
+            "now": 46703.200000000186
+          },
+          {
+            "mediaTime": 46,
+            "sourceTime": 46,
+            "presentedFrames": 1101,
+            "now": 47719.40000000037
+          },
+          {
+            "mediaTime": 47,
+            "sourceTime": 47,
+            "presentedFrames": 1125,
+            "now": 48719.40000000037
+          },
+          {
+            "mediaTime": 48,
+            "sourceTime": 48,
+            "presentedFrames": 1149,
+            "now": 49702.799999999814
+          },
+          {
+            "mediaTime": 49,
+            "sourceTime": 49,
+            "presentedFrames": 1173,
+            "now": 50719.200000000186
+          },
+          {
+            "mediaTime": 50,
+            "sourceTime": 50,
+            "presentedFrames": 1197,
+            "now": 51719.299999999814
+          },
+          {
+            "mediaTime": 51,
+            "sourceTime": 51,
+            "presentedFrames": 1221,
+            "now": 52719.200000000186
+          },
+          {
+            "mediaTime": 52,
+            "sourceTime": 52,
+            "presentedFrames": 1245,
+            "now": 53719.10000000056
+          },
+          {
+            "mediaTime": 53,
+            "sourceTime": 53,
+            "presentedFrames": 1269,
+            "now": 54719.200000000186
+          },
+          {
+            "mediaTime": 54,
+            "sourceTime": 54,
+            "presentedFrames": 1293,
+            "now": 55702.40000000037
+          },
+          {
+            "mediaTime": 55,
+            "sourceTime": 55,
+            "presentedFrames": 1317,
+            "now": 56718.90000000037
+          },
+          {
+            "mediaTime": 56,
+            "sourceTime": 56,
+            "presentedFrames": 1341,
+            "now": 57719
+          },
+          {
+            "mediaTime": 57,
+            "sourceTime": 57,
+            "presentedFrames": 1365,
+            "now": 58718.90000000037
+          },
+          {
+            "mediaTime": 58,
+            "sourceTime": 58,
+            "presentedFrames": 1389,
+            "now": 59718.700000000186
+          },
+          {
+            "mediaTime": 59,
+            "sourceTime": 59,
+            "presentedFrames": 1413,
+            "now": 60702.200000000186
+          },
+          {
+            "mediaTime": 60,
+            "sourceTime": 60,
+            "presentedFrames": 1437,
+            "now": 61702.299999999814
+          },
+          {
+            "mediaTime": 61,
+            "sourceTime": 61,
+            "presentedFrames": 1461,
+            "now": 62701.90000000037
+          },
+          {
+            "mediaTime": 62,
+            "sourceTime": 62,
+            "presentedFrames": 1485,
+            "now": 63702.200000000186
+          },
+          {
+            "mediaTime": 63,
+            "sourceTime": 63,
+            "presentedFrames": 1509,
+            "now": 64718.5
+          },
+          {
+            "mediaTime": 64,
+            "sourceTime": 64,
+            "presentedFrames": 1533,
+            "now": 65701.70000000019
+          },
+          {
+            "mediaTime": 65,
+            "sourceTime": 65,
+            "presentedFrames": 1557,
+            "now": 66701.90000000037
+          },
+          {
+            "mediaTime": 66,
+            "sourceTime": 66,
+            "presentedFrames": 1581,
+            "now": 67701.70000000019
+          },
+          {
+            "mediaTime": 67,
+            "sourceTime": 67,
+            "presentedFrames": 1605,
+            "now": 68701.79999999981
+          },
+          {
+            "mediaTime": 68,
+            "sourceTime": 68,
+            "presentedFrames": 1629,
+            "now": 69701.70000000019
+          },
+          {
+            "mediaTime": 69,
+            "sourceTime": 69,
+            "presentedFrames": 1653,
+            "now": 70718.29999999981
+          },
+          {
+            "mediaTime": 70,
+            "sourceTime": 70,
+            "presentedFrames": 1677,
+            "now": 71718.20000000019
+          },
+          {
+            "mediaTime": 71,
+            "sourceTime": 71,
+            "presentedFrames": 1701,
+            "now": 72718.10000000056
+          },
+          {
+            "mediaTime": 72,
+            "sourceTime": 72,
+            "presentedFrames": 1725,
+            "now": 73717.90000000037
+          },
+          {
+            "mediaTime": 73,
+            "sourceTime": 73,
+            "presentedFrames": 1749,
+            "now": 74717.90000000037
+          },
+          {
+            "mediaTime": 74,
+            "sourceTime": 74,
+            "presentedFrames": 1773,
+            "now": 75701.20000000019
+          },
+          {
+            "mediaTime": 75,
+            "sourceTime": 75,
+            "presentedFrames": 1797,
+            "now": 76717.70000000019
+          },
+          {
+            "mediaTime": 76,
+            "sourceTime": 76,
+            "presentedFrames": 1821,
+            "now": 77717.79999999981
+          },
+          {
+            "mediaTime": 77,
+            "sourceTime": 77,
+            "presentedFrames": 1845,
+            "now": 78701.29999999981
+          },
+          {
+            "mediaTime": 78,
+            "sourceTime": 78,
+            "presentedFrames": 1869,
+            "now": 79701
+          },
+          {
+            "mediaTime": 79,
+            "sourceTime": 79,
+            "presentedFrames": 1893,
+            "now": 80717.5
+          },
+          {
+            "mediaTime": 80,
+            "sourceTime": 80,
+            "presentedFrames": 1917,
+            "now": 81717.40000000037
+          },
+          {
+            "mediaTime": 81,
+            "sourceTime": 81,
+            "presentedFrames": 1941,
+            "now": 82701
+          },
+          {
+            "mediaTime": 82,
+            "sourceTime": 82,
+            "presentedFrames": 1965,
+            "now": 83700.90000000037
+          },
+          {
+            "mediaTime": 83,
+            "sourceTime": 83,
+            "presentedFrames": 1989,
+            "now": 84701
+          },
+          {
+            "mediaTime": 84,
+            "sourceTime": 84,
+            "presentedFrames": 2013,
+            "now": 85700.5
+          },
+          {
+            "mediaTime": 85,
+            "sourceTime": 85,
+            "presentedFrames": 2037,
+            "now": 86700.70000000019
+          },
+          {
+            "mediaTime": 86,
+            "sourceTime": 86,
+            "presentedFrames": 2061,
+            "now": 87700.79999999981
+          },
+          {
+            "mediaTime": 87,
+            "sourceTime": 87,
+            "presentedFrames": 2085,
+            "now": 88717.10000000056
+          },
+          {
+            "mediaTime": 88,
+            "sourceTime": 88,
+            "presentedFrames": 2109,
+            "now": 89717.20000000019
+          },
+          {
+            "mediaTime": 89,
+            "sourceTime": 89,
+            "presentedFrames": 2133,
+            "now": 90716.90000000037
+          },
+          {
+            "mediaTime": 90,
+            "sourceTime": 90,
+            "presentedFrames": 2157,
+            "now": 91717
+          },
+          {
+            "mediaTime": 91,
+            "sourceTime": 91,
+            "presentedFrames": 2181,
+            "now": 92700.5
+          },
+          {
+            "mediaTime": 92,
+            "sourceTime": 92,
+            "presentedFrames": 2205,
+            "now": 93700.29999999981
+          },
+          {
+            "mediaTime": 93,
+            "sourceTime": 93,
+            "presentedFrames": 2229,
+            "now": 94700.29999999981
+          },
+          {
+            "mediaTime": 94,
+            "sourceTime": 94,
+            "presentedFrames": 2253,
+            "now": 95700
+          },
+          {
+            "mediaTime": 95,
+            "sourceTime": 95,
+            "presentedFrames": 2277,
+            "now": 96716.79999999981
+          },
+          {
+            "mediaTime": 96,
+            "sourceTime": 96,
+            "presentedFrames": 2301,
+            "now": 97716.60000000056
+          },
+          {
+            "mediaTime": 97,
+            "sourceTime": 97,
+            "presentedFrames": 2325,
+            "now": 98716.5
+          },
+          {
+            "mediaTime": 98,
+            "sourceTime": 98,
+            "presentedFrames": 2349,
+            "now": 99716.40000000037
+          },
+          {
+            "mediaTime": 99,
+            "sourceTime": 99,
+            "presentedFrames": 2373,
+            "now": 100699.90000000037
+          },
+          {
+            "mediaTime": 100,
+            "sourceTime": 100,
+            "presentedFrames": 2397,
+            "now": 101700
+          },
+          {
+            "mediaTime": 101,
+            "sourceTime": 101,
+            "presentedFrames": 2421,
+            "now": 102699.70000000019
+          },
+          {
+            "mediaTime": 102,
+            "sourceTime": 102,
+            "presentedFrames": 2445,
+            "now": 103699.60000000056
+          },
+          {
+            "mediaTime": 103,
+            "sourceTime": 103,
+            "presentedFrames": 2469,
+            "now": 104716.20000000019
+          },
+          {
+            "mediaTime": 104,
+            "sourceTime": 104,
+            "presentedFrames": 2493,
+            "now": 105700
+          },
+          {
+            "mediaTime": 105,
+            "sourceTime": 105,
+            "presentedFrames": 2517,
+            "now": 106699.5
+          },
+          {
+            "mediaTime": 106,
+            "sourceTime": 106,
+            "presentedFrames": 2541,
+            "now": 107699.40000000037
+          },
+          {
+            "mediaTime": 107,
+            "sourceTime": 107,
+            "presentedFrames": 2565,
+            "now": 108699.5
+          },
+          {
+            "mediaTime": 108,
+            "sourceTime": 108,
+            "presentedFrames": 2589,
+            "now": 109716
+          },
+          {
+            "mediaTime": 109,
+            "sourceTime": 109,
+            "presentedFrames": 2613,
+            "now": 110715.70000000019
+          },
+          {
+            "mediaTime": 110,
+            "sourceTime": 110,
+            "presentedFrames": 2637,
+            "now": 111715.90000000037
+          },
+          {
+            "mediaTime": 111,
+            "sourceTime": 111,
+            "presentedFrames": 2661,
+            "now": 112715.79999999981
+          },
+          {
+            "mediaTime": 112,
+            "sourceTime": 112,
+            "presentedFrames": 2685,
+            "now": 113699
+          },
+          {
+            "mediaTime": 113,
+            "sourceTime": 113,
+            "presentedFrames": 2709,
+            "now": 114715.70000000019
+          },
+          {
+            "mediaTime": 114,
+            "sourceTime": 114,
+            "presentedFrames": 2733,
+            "now": 115715.70000000019
+          },
+          {
+            "mediaTime": 115,
+            "sourceTime": 115,
+            "presentedFrames": 2757,
+            "now": 116698.90000000037
+          },
+          {
+            "mediaTime": 116,
+            "sourceTime": 116,
+            "presentedFrames": 2781,
+            "now": 117699
+          },
+          {
+            "mediaTime": 117,
+            "sourceTime": 117,
+            "presentedFrames": 2805,
+            "now": 118699.20000000019
+          },
+          {
+            "mediaTime": 118,
+            "sourceTime": 118,
+            "presentedFrames": 2829,
+            "now": 119698.79999999981
+          },
+          {
+            "mediaTime": 119,
+            "sourceTime": 119,
+            "presentedFrames": 2853,
+            "now": 120698.79999999981
+          },
+          {
+            "mediaTime": 120,
+            "sourceTime": 120,
+            "presentedFrames": 2877,
+            "now": 121715.60000000056
+          },
+          {
+            "mediaTime": 121,
+            "sourceTime": 121,
+            "presentedFrames": 2901,
+            "now": 122698.79999999981
+          },
+          {
+            "mediaTime": 122,
+            "sourceTime": 122,
+            "presentedFrames": 2925,
+            "now": 123698.5
+          },
+          {
+            "mediaTime": 123,
+            "sourceTime": 123,
+            "presentedFrames": 2949,
+            "now": 124715.10000000056
+          },
+          {
+            "mediaTime": 124,
+            "sourceTime": 124,
+            "presentedFrames": 2973,
+            "now": 125715.10000000056
+          },
+          {
+            "mediaTime": 125,
+            "sourceTime": 125,
+            "presentedFrames": 2997,
+            "now": 126715.20000000019
+          },
+          {
+            "mediaTime": 126,
+            "sourceTime": 126,
+            "presentedFrames": 3021,
+            "now": 127715
+          },
+          {
+            "mediaTime": 127,
+            "sourceTime": 127,
+            "presentedFrames": 3045,
+            "now": 128714.90000000037
+          },
+          {
+            "mediaTime": 128,
+            "sourceTime": 128,
+            "presentedFrames": 3069,
+            "now": 129698.29999999981
+          },
+          {
+            "mediaTime": 129,
+            "sourceTime": 129,
+            "presentedFrames": 3093,
+            "now": 130698.10000000056
+          },
+          {
+            "mediaTime": 130,
+            "sourceTime": 130,
+            "presentedFrames": 3117,
+            "now": 131698.2000000002
+          },
+          {
+            "mediaTime": 131,
+            "sourceTime": 131,
+            "presentedFrames": 3141,
+            "now": 132697.90000000037
+          },
+          {
+            "mediaTime": 132,
+            "sourceTime": 132,
+            "presentedFrames": 3165,
+            "now": 133698.10000000056
+          },
+          {
+            "mediaTime": 133,
+            "sourceTime": 133,
+            "presentedFrames": 3189,
+            "now": 134697.90000000037
+          },
+          {
+            "mediaTime": 134,
+            "sourceTime": 134,
+            "presentedFrames": 3213,
+            "now": 135714.40000000037
+          },
+          {
+            "mediaTime": 135,
+            "sourceTime": 135,
+            "presentedFrames": 3237,
+            "now": 136697.90000000037
+          },
+          {
+            "mediaTime": 136,
+            "sourceTime": 136,
+            "presentedFrames": 3261,
+            "now": 137697.60000000056
+          },
+          {
+            "mediaTime": 137,
+            "sourceTime": 137,
+            "presentedFrames": 3285,
+            "now": 138714.2999999998
+          },
+          {
+            "mediaTime": 138,
+            "sourceTime": 138,
+            "presentedFrames": 3309,
+            "now": 139714.40000000037
+          },
+          {
+            "mediaTime": 139,
+            "sourceTime": 139,
+            "presentedFrames": 3333,
+            "now": 140714.2999999998
+          },
+          {
+            "mediaTime": 140,
+            "sourceTime": 140,
+            "presentedFrames": 3357,
+            "now": 141697.5
+          },
+          {
+            "mediaTime": 141,
+            "sourceTime": 141,
+            "presentedFrames": 3381,
+            "now": 142714.2000000002
+          },
+          {
+            "mediaTime": 142,
+            "sourceTime": 142,
+            "presentedFrames": 3405,
+            "now": 143714
+          },
+          {
+            "mediaTime": 143,
+            "sourceTime": 143,
+            "presentedFrames": 3429,
+            "now": 144713.90000000037
+          },
+          {
+            "mediaTime": 144,
+            "sourceTime": 144,
+            "presentedFrames": 3453,
+            "now": 145713.90000000037
+          },
+          {
+            "mediaTime": 145,
+            "sourceTime": 145,
+            "presentedFrames": 3477,
+            "now": 146697.40000000037
+          },
+          {
+            "mediaTime": 146,
+            "sourceTime": 146,
+            "presentedFrames": 3501,
+            "now": 147697.2000000002
+          },
+          {
+            "mediaTime": 147,
+            "sourceTime": 147,
+            "presentedFrames": 3525,
+            "now": 148713.60000000056
+          },
+          {
+            "mediaTime": 148,
+            "sourceTime": 148,
+            "presentedFrames": 3549,
+            "now": 149713.7999999998
+          },
+          {
+            "mediaTime": 149,
+            "sourceTime": 149,
+            "presentedFrames": 3573,
+            "now": 150697.10000000056
+          },
+          {
+            "mediaTime": 150,
+            "sourceTime": 150,
+            "presentedFrames": 3597,
+            "now": 151696.7999999998
+          },
+          {
+            "mediaTime": 151,
+            "sourceTime": 151,
+            "presentedFrames": 3621,
+            "now": 152713.5
+          },
+          {
+            "mediaTime": 152,
+            "sourceTime": 152,
+            "presentedFrames": 3645,
+            "now": 153713.5
+          },
+          {
+            "mediaTime": 153,
+            "sourceTime": 153,
+            "presentedFrames": 3669,
+            "now": 154700
+          }
+        ],
+        "checkpoints": {
+          "1": {
+            "mediaTime": 1,
+            "sourceTime": 1,
+            "presentedFrames": 21,
+            "now": 2705.2999999998137
+          }
+        },
+        "motion": []
+      }
+    }
+  ],
+  "resources": [
+    {
+      "phase": "before-launch",
+      "host": {
+        "observedAt": "2026-09-30T00:12:07.256379+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.372,
+        "memoryLoadPercent": 78,
+        "commitUsedGiB": 14.892,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.809,
+        "processCount": 316,
+        "threadCount": 4086,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    },
+    {
+      "phase": "launched",
+      "host": {
+        "observedAt": "2026-09-30T00:12:07.740936+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.304,
+        "memoryLoadPercent": 78,
+        "commitUsedGiB": 15.016,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.686,
+        "processCount": 324,
+        "threadCount": 4229,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 21630976,
+          "workingSetBytes": 82120704,
+          "peakWorkingSetBytes": 82120704
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 33886208,
+          "workingSetBytes": 52568064,
+          "peakWorkingSetBytes": 121208832
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 11485184,
+          "workingSetBytes": 37888000,
+          "peakWorkingSetBytes": 37888000
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8077312,
+          "workingSetBytes": 18821120,
+          "peakWorkingSetBytes": 18821120
+        }
+      ],
+      "chromePrivateBytes": 75079680,
+      "chromeWorkingSetBytes": 191397888
+    },
+    {
+      "phase": "long-started",
+      "host": {
+        "observedAt": "2026-09-30T00:12:10.074831+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.735,
+        "memoryLoadPercent": 82,
+        "commitUsedGiB": 15.73,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.971,
+        "processCount": 328,
+        "threadCount": 4352,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 111128576,
+          "workingSetBytes": 199856128,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16097280,
+          "workingSetBytes": 34492416,
+          "peakWorkingSetBytes": 34496512
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 167399424,
+          "workingSetBytes": 202600448,
+          "peakWorkingSetBytes": 207650816
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 47267840,
+          "workingSetBytes": 91688960,
+          "peakWorkingSetBytes": 91688960
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 280592384,
+          "workingSetBytes": 293113856,
+          "peakWorkingSetBytes": 305147904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12410880,
+          "workingSetBytes": 40411136,
+          "peakWorkingSetBytes": 41095168
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8278016,
+          "workingSetBytes": 20197376,
+          "peakWorkingSetBytes": 20201472
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8409088,
+          "workingSetBytes": 21798912,
+          "peakWorkingSetBytes": 21798912
+        }
+      ],
+      "chromePrivateBytes": 651583488,
+      "chromeWorkingSetBytes": 904159232
+    },
+    {
+      "phase": "long-10s",
+      "host": {
+        "observedAt": "2026-09-30T00:12:20.323186+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.931,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 15.491,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.21,
+        "processCount": 329,
+        "threadCount": 4358,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 119627776,
+          "workingSetBytes": 213438464,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15777792,
+          "workingSetBytes": 34267136,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 156237824,
+          "workingSetBytes": 191975424,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 46223360,
+          "workingSetBytes": 90845184,
+          "peakWorkingSetBytes": 91774976
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 219738112,
+          "workingSetBytes": 257818624,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13611008,
+          "workingSetBytes": 42213376,
+          "peakWorkingSetBytes": 42229760
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8331264,
+          "workingSetBytes": 20434944,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8409088,
+          "workingSetBytes": 21897216,
+          "peakWorkingSetBytes": 21897216
+        }
+      ],
+      "chromePrivateBytes": 587956224,
+      "chromeWorkingSetBytes": 872890368
+    },
+    {
+      "phase": "long-21s",
+      "host": {
+        "observedAt": "2026-09-30T00:12:30.557481+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.882,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 15.52,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.181,
+        "processCount": 329,
+        "threadCount": 4288,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 119726080,
+          "workingSetBytes": 213549056,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15777792,
+          "workingSetBytes": 34267136,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 166563840,
+          "workingSetBytes": 204857344,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 46223360,
+          "workingSetBytes": 90845184,
+          "peakWorkingSetBytes": 91774976
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214441984,
+          "workingSetBytes": 253059072,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13774848,
+          "workingSetBytes": 42360832,
+          "peakWorkingSetBytes": 42360832
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8331264,
+          "workingSetBytes": 20434944,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8409088,
+          "workingSetBytes": 21897216,
+          "peakWorkingSetBytes": 21897216
+        }
+      ],
+      "chromePrivateBytes": 593248256,
+      "chromeWorkingSetBytes": 881270784
+    },
+    {
+      "phase": "long-31s",
+      "host": {
+        "observedAt": "2026-09-30T00:12:40.792005+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.819,
+        "memoryLoadPercent": 82,
+        "commitUsedGiB": 15.596,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.105,
+        "processCount": 335,
+        "threadCount": 4370,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 121069568,
+          "workingSetBytes": 216162304,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34205696,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 127225856,
+          "workingSetBytes": 169582592,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84918272,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214441984,
+          "workingSetBytes": 253431808,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13713408,
+          "workingSetBytes": 42418176,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8224768,
+          "workingSetBytes": 20377600,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8454144,
+          "workingSetBytes": 21934080,
+          "peakWorkingSetBytes": 21934080
+        }
+      ],
+      "chromePrivateBytes": 547352576,
+      "chromeWorkingSetBytes": 843030528
+    },
+    {
+      "phase": "long-41s",
+      "host": {
+        "observedAt": "2026-09-30T00:12:51.073388+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.001,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.344,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.357,
+        "processCount": 321,
+        "threadCount": 4252,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 121028608,
+          "workingSetBytes": 216174592,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34205696,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 138657792,
+          "workingSetBytes": 180883456,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84918272,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 213889024,
+          "workingSetBytes": 253333504,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13713408,
+          "workingSetBytes": 42418176,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8224768,
+          "workingSetBytes": 20377600,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8454144,
+          "workingSetBytes": 21934080,
+          "peakWorkingSetBytes": 21934080
+        }
+      ],
+      "chromePrivateBytes": 558190592,
+      "chromeWorkingSetBytes": 854245376
+    },
+    {
+      "phase": "long-51s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:01.315122+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.033,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.341,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.36,
+        "processCount": 321,
+        "threadCount": 4264,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 121049088,
+          "workingSetBytes": 216195072,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34205696,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 138678272,
+          "workingSetBytes": 181293056,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84918272,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214937600,
+          "workingSetBytes": 253730816,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13713408,
+          "workingSetBytes": 42418176,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8224768,
+          "workingSetBytes": 20377600,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8454144,
+          "workingSetBytes": 21934080,
+          "peakWorkingSetBytes": 21934080
+        }
+      ],
+      "chromePrivateBytes": 559280128,
+      "chromeWorkingSetBytes": 855072768
+    },
+    {
+      "phase": "long-62s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:11.583736+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.057,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.334,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.367,
+        "processCount": 323,
+        "threadCount": 4278,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 115122176,
+          "workingSetBytes": 210370560,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 134606848,
+          "workingSetBytes": 178868224,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214085632,
+          "workingSetBytes": 253177856,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13058048,
+          "workingSetBytes": 42012672,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 547577856,
+      "chromeWorkingSetBytes": 845885440
+    },
+    {
+      "phase": "long-72s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:21.817291+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.076,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.306,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.395,
+        "processCount": 320,
+        "threadCount": 4228,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 115146752,
+          "workingSetBytes": 210530304,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 130646016,
+          "workingSetBytes": 175353856,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214085632,
+          "workingSetBytes": 253186048,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13111296,
+          "workingSetBytes": 42164224,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 543694848,
+      "chromeWorkingSetBytes": 842690560
+    },
+    {
+      "phase": "long-82s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:32.046549+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.055,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.337,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.364,
+        "processCount": 319,
+        "threadCount": 4196,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 115191808,
+          "workingSetBytes": 210567168,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 135487488,
+          "workingSetBytes": 180076544,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214085632,
+          "workingSetBytes": 253190144,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13111296,
+          "workingSetBytes": 42164224,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 548581376,
+      "chromeWorkingSetBytes": 847454208
+    },
+    {
+      "phase": "long-92s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:42.309974+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.052,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.351,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.35,
+        "processCount": 321,
+        "threadCount": 4219,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114827264,
+          "workingSetBytes": 210284544,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 135917568,
+          "workingSetBytes": 180457472,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214089728,
+          "workingSetBytes": 253186048,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13111296,
+          "workingSetBytes": 42160128,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 548651008,
+      "chromeWorkingSetBytes": 847544320
+    },
+    {
+      "phase": "long-103s",
+      "host": {
+        "observedAt": "2026-09-30T00:13:52.567243+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.073,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.311,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.39,
+        "processCount": 320,
+        "threadCount": 4207,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114843648,
+          "workingSetBytes": 210296832,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 134496256,
+          "workingSetBytes": 179277824,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214085632,
+          "workingSetBytes": 253181952,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13152256,
+          "workingSetBytes": 42160128,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 547282944,
+      "chromeWorkingSetBytes": 846372864
+    },
+    {
+      "phase": "long-113s",
+      "host": {
+        "observedAt": "2026-09-30T00:14:02.831946+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.042,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.329,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.372,
+        "processCount": 319,
+        "threadCount": 4190,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114835456,
+          "workingSetBytes": 210309120,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 134696960,
+          "workingSetBytes": 179556352,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84930560,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214089728,
+          "workingSetBytes": 253186048,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13152256,
+          "workingSetBytes": 42160128,
+          "peakWorkingSetBytes": 42442752
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8167424,
+          "workingSetBytes": 20373504,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 547479552,
+      "chromeWorkingSetBytes": 846667776
+    },
+    {
+      "phase": "long-123s",
+      "host": {
+        "observedAt": "2026-09-30T00:14:13.066748+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.052,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.314,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.387,
+        "processCount": 319,
+        "threadCount": 4209,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114950144,
+          "workingSetBytes": 210538496,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 137834496,
+          "workingSetBytes": 182902784,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84942848,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214040576,
+          "workingSetBytes": 253300736,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13238272,
+          "workingSetBytes": 42287104,
+          "peakWorkingSetBytes": 42483712
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8146944,
+          "workingSetBytes": 20353024,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 550748160,
+      "chromeWorkingSetBytes": 850477056
+    },
+    {
+      "phase": "long-133s",
+      "host": {
+        "observedAt": "2026-09-30T00:14:23.305883+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.078,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.309,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.392,
+        "processCount": 318,
+        "threadCount": 4187,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114876416,
+          "workingSetBytes": 210513920,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 137797632,
+          "workingSetBytes": 182829056,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84942848,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214003712,
+          "workingSetBytes": 253280256,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13205504,
+          "workingSetBytes": 42270720,
+          "peakWorkingSetBytes": 42483712
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8146944,
+          "workingSetBytes": 20353024,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8314880,
+          "workingSetBytes": 21925888,
+          "peakWorkingSetBytes": 21938176
+        }
+      ],
+      "chromePrivateBytes": 550567936,
+      "chromeWorkingSetBytes": 850341888
+    },
+    {
+      "phase": "long-144s",
+      "host": {
+        "observedAt": "2026-09-30T00:14:33.570654+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.99,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.406,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.295,
+        "processCount": 322,
+        "threadCount": 4224,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114864128,
+          "workingSetBytes": 210509824,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 141414400,
+          "workingSetBytes": 186793984,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84942848,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214003712,
+          "workingSetBytes": 253280256,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13246464,
+          "workingSetBytes": 42307584,
+          "peakWorkingSetBytes": 42483712
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8146944,
+          "workingSetBytes": 20353024,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8232960,
+          "workingSetBytes": 21917696,
+          "peakWorkingSetBytes": 21983232
+        }
+      ],
+      "chromePrivateBytes": 554131456,
+      "chromeWorkingSetBytes": 854331392
+    },
+    {
+      "phase": "long-154s",
+      "host": {
+        "observedAt": "2026-09-30T00:14:43.842058+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.04,
+        "memoryLoadPercent": 80,
+        "commitUsedGiB": 15.353,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.348,
+        "processCount": 319,
+        "threadCount": 4162,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 1132,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 114737152,
+          "workingSetBytes": 210370560,
+          "peakWorkingSetBytes": 408358912
+        },
+        {
+          "pid": 9168,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 15667200,
+          "workingSetBytes": 34226176,
+          "peakWorkingSetBytes": 34603008
+        },
+        {
+          "pid": 7788,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 143699968,
+          "workingSetBytes": 188153856,
+          "peakWorkingSetBytes": 231030784
+        },
+        {
+          "pid": 17932,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 38555648,
+          "workingSetBytes": 84942848,
+          "peakWorkingSetBytes": 93368320
+        },
+        {
+          "pid": 19976,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 214003712,
+          "workingSetBytes": 253128704,
+          "peakWorkingSetBytes": 311291904
+        },
+        {
+          "pid": 3448,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13246464,
+          "workingSetBytes": 42307584,
+          "peakWorkingSetBytes": 42483712
+        },
+        {
+          "pid": 1108,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8146944,
+          "workingSetBytes": 20353024,
+          "peakWorkingSetBytes": 20434944
+        },
+        {
+          "pid": 9784,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8232960,
+          "workingSetBytes": 21917696,
+          "peakWorkingSetBytes": 21983232
+        }
+      ],
+      "chromePrivateBytes": 556290048,
+      "chromeWorkingSetBytes": 855400448
+    },
+    {
+      "phase": "after-owned-browser-close",
+      "host": {
+        "observedAt": "2026-09-30T00:14:44.496610+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 3.483,
+        "memoryLoadPercent": 77,
+        "commitUsedGiB": 14.761,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.94,
+        "processCount": 308,
+        "threadCount": 3956,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    }
+  ],
+  "passed": false,
+  "fixtures": {
+    "aac": {
+      "path": "qa/faststart-h264-aac.mp4",
+      "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+      "bytes": 202253
+    },
+    "ac3": {
+      "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+      "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+      "bytes": 490614
+    },
+    "longac3": {
+      "path": "qa/rc16-q2-longrun/synthetic-420s-ac3.mp4",
+      "sha256": "7004b0fc3b45673450e96a1852d2ee858b7af888e10cd21baa8a138e55e2f692",
+      "bytes": 35308089
+    }
+  },
+  "browser": "154.0.8037.58",
+  "networkCap": {
+    "maxTotalBufferSize": 0,
+    "maxResourceBufferSize": 0,
+    "sessions": 4
+  },
+  "failure": {
+    "name": "Error",
+    "code": "ASSERTION_OR_HARNESS_FAILURE"
+  },
+  "browserClosed": true,
+  "producerEnd": {
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "version.json": "e0967cec51720bf73c65387a01fcb2442c276d21ef4c0fecfae09228069b655f",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  }
+}

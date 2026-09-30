@@ -1,0 +1,123 @@
+{
+  "schema": "drive-original.rc16-hosted-security-settings/1",
+  "source": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "version": "1.22.0-rc.16",
+  "retainedWorkerVersionMatched": true,
+  "privateReadbackIntegrityMatched": true,
+  "checkedIn": {
+    "observabilityEnabled": false,
+    "sampling": null,
+    "logsEnabled": null,
+    "invocationLogs": null,
+    "persist": null,
+    "tracesEnabled": null,
+    "publicLoggingFlag": true
+  },
+  "retainedDeployedMetadata": {
+    "observabilityFieldsPresent": false,
+    "unambiguous": true,
+    "enabled": null,
+    "sampling": null,
+    "logsEnabled": null,
+    "invocationLogs": null,
+    "persist": null,
+    "tracesEnabled": null,
+    "publicFlags": {
+      "AUTH_ENABLED": true,
+      "AUTH_DIAGNOSTICS": true,
+      "CANDIDATE_DRIVE_WRITES_ENABLED": false
+    }
+  },
+  "customerPlanVerified": false,
+  "hostedLogsRead": false,
+  "currentSettingsRead": false,
+  "historicalSecretAbsenceProven": false,
+  "sourceFiles": [
+    {
+      "path": "worker/index.mjs",
+      "sha256": "8e38a215966f98956657f7b81982be64af59f1791e0104fe4ac834c25d795bbf",
+      "fixedGitSHA256": "399eaabdccdd4072728d65df5661305a73a2b8c4503e213cea5ec95925769962",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    },
+    {
+      "path": "worker/google.mjs",
+      "sha256": "5b77097b5a6447eeedb9a4515c71bdd9fd96556b79a0293390f100edd22f5344",
+      "fixedGitSHA256": "bbfcf94a3b83d7241629373883e039296b985e1b7ce7ad10185a1c862aee1c56",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    },
+    {
+      "path": "worker/durable-object.mjs",
+      "sha256": "c691a9e2ec9289f70e9f19573ba1a18b4b2c05882cfe75c84aceddf46b6dbb18",
+      "fixedGitSHA256": "c691a9e2ec9289f70e9f19573ba1a18b4b2c05882cfe75c84aceddf46b6dbb18",
+      "exactGitBytesMatched": true,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    },
+    {
+      "path": "worker/crypto.mjs",
+      "sha256": "ce95ee4106ad976be6859c95ef03cb2d6b99a63538164a97e0893d96ffda4831",
+      "fixedGitSHA256": "ce95ee4106ad976be6859c95ef03cb2d6b99a63538164a97e0893d96ffda4831",
+      "exactGitBytesMatched": true,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    },
+    {
+      "path": "worker/wrangler.jsonc",
+      "sha256": "8e114319544b690f25d14a512e684722f9cf96810095cd0f57125c907b8a6502",
+      "fixedGitSHA256": "8e114319544b690f25d14a512e684722f9cf96810095cd0f57125c907b8a6502",
+      "exactGitBytesMatched": true,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": null
+    },
+    {
+      "path": "auth/routes.mjs",
+      "sha256": "843d381d3cd545aeb8721688aef967ff48ac279f7ca8d7e99aae0af5e6f4962d",
+      "fixedGitSHA256": "2909937c36ce650118ebcffd6fe13c1908ec15da6509c049be5e2158871195ad",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": null
+    },
+    {
+      "path": "auth/session-owner.mjs",
+      "sha256": "a29a5ffc578ecfd65fb30dd98cdda07a1fcea5e02e423c27f4fa4ca750c30ced",
+      "fixedGitSHA256": "de9a145887d9dacaafdb899d42e0ea99296b701c4fefd7db6b787dbfb55012d0",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": null
+    },
+    {
+      "path": "tests/cloudflare-auth-worker.test.mjs",
+      "sha256": "978c012fab9fe7afbc963cfc19b6ba3e36730e1e16bf50b5c904853587d46eec",
+      "fixedGitSHA256": "8be0eb3590e56aa834cbb4d7ae9c8ab998e4138dc86278d1335a19d90cb7e4b9",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    },
+    {
+      "path": "tests/auth-session.test.mjs",
+      "sha256": "1b4af85b1161ee640bc194482954641803358fc210f249ecf334006d27f8bec9",
+      "fixedGitSHA256": "06e8c5495e10aaacf06f8ffcf819a9c5b7d58044f4c60b5ab5e29e9493589d73",
+      "exactGitBytesMatched": false,
+      "sourceContentMatchedIgnoringCRLF": true,
+      "exactPriorTestSourceMatched": true
+    }
+  ],
+  "reusedLocalTests": {
+    "record": "qa/candidate-rc16-delivery/product-tests.json",
+    "recordSHA256": "e23cb6a3c3cc4110b20fea3b8e0140802d1235d88590826e024d0c17b23ddcce",
+    "counts": {
+      "tests": 558,
+      "pass": 558,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "rerun": false,
+    "scope": "Existing fixed-source worker/auth local contracts; no new full-suite run"
+  }
+}

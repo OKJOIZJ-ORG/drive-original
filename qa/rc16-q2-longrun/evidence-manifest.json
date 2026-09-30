@@ -1,0 +1,160 @@
+{
+  "sourceCommit": "e57d7b5b3154a2a838d01f631cf71fa063044280",
+  "publicSha256": {
+    "index.html": "2f3c1c2d321e9ac43b9cc661fbd0c9da34591a04f01e3711dcdc13bafc338367",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "8c0f4f4b751df5bba72cd9e8623215b618cbd81cf2ed44814b2266d31341d51d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "9f003ee9361214a78d5adf12476f818515b89904f823e0a1f016f220e1351169",
+    "version.json": "e0967cec51720bf73c65387a01fcb2442c276d21ef4c0fecfae09228069b655f",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "files": [
+    {
+      "path": "qa/rc16-q2-longrun/long-2026-09-30T00-12-06-970Z.json",
+      "sha256": "0b71b8f38714fd0a5bae53da5b66b39d1fac69fd06338ed8e2ce39455eabcf40",
+      "bytes": 120978
+    },
+    {
+      "path": "qa/rc16-q2-longrun/long-2026-09-30T00-14-50-135Z.json",
+      "sha256": "a6785a6ef4d988058be6143b83917aafd088f36bddf7f99f8a34ad39b6752e9b",
+      "bytes": 358058
+    },
+    {
+      "path": "qa/rc16-q2-longrun/longrun.cjs",
+      "sha256": "68fca92f90310d7caf17df69139362e999efe6084b01b7b3903c4f755e111be7",
+      "bytes": 11860
+    },
+    {
+      "path": "qa/rc16-q2-longrun/producer-first-worker-filter.cjs",
+      "sha256": "41eb0eacd2205b94c112047c03da2c3bdea6269a24a92b71b20b6390b53fae1e",
+      "bytes": 11815
+    },
+    {
+      "path": "qa/rc16-q2-longrun/worker-gate.js",
+      "sha256": "1054961434d3fe875b3e3b3628e85da116c63cd7799486174274b5b09c3ac4c8",
+      "bytes": 1208
+    },
+    {
+      "path": "qa/rc16-q2-longrun/producer-first-worker-gate.js",
+      "sha256": "bcb0aa9f2c0f3dbb46c0efabfb05e3d75f9493a4b8d3a81ed52cd104e73edb8d",
+      "bytes": 1164
+    },
+    {
+      "path": "qa/rc16-q2-longrun/audio-observer.js",
+      "sha256": "b423e7735053bf372329c0473a9fd017597d051959ca52c6796da6a7cebabaf2",
+      "bytes": 2163
+    },
+    {
+      "path": "qa/rc16-q2-longrun/fixtures.py",
+      "sha256": "b49cccfeee86614415cf906582c19d52d5855b0994ad7304f500e68d3715c567",
+      "bytes": 2170
+    },
+    {
+      "path": "qa/rc16-q2-longrun/snapshot-public.cjs",
+      "sha256": "c710a13ded14e7e633fb2aac7aa2af214a181e816a36fe480c36524fa9c71ba4",
+      "bytes": 1370
+    },
+    {
+      "path": "qa/rc16-q2-longrun/fixture-provenance.json",
+      "sha256": "85355db912e64acd4094ca3db30e3335ac5e7fa7a7b602ce19b195fc17ea59f4",
+      "bytes": 7079
+    },
+    {
+      "path": "qa/rc16-q2-longrun/snapshot-provenance.json",
+      "sha256": "d521c3d31763365ebc6c5c81214257b2b4d123d07f1ad785b85adff794816ab6",
+      "bytes": 8374
+    },
+    {
+      "path": "qa/rc16-q2-longrun/attempt-first-filter-stop.txt",
+      "sha256": "1ca72d4bf18efe29ec85ee810d55f9ce719992f2b2521f6775ba9f0b5765196b",
+      "bytes": 907
+    },
+    {
+      "path": "qa/rc16-q2-longrun/summarize.cjs",
+      "sha256": "750a7cc0e1e6687355763319e9ed48ed3c66b8c9606b9fa9591c702dd867a5b1",
+      "bytes": 7530
+    },
+    {
+      "path": "qa/rc16-q2-longrun/README.md",
+      "sha256": "102f2b916b2b6b82054ba45d573d201109fd8a57ea3f6f3b799c9a617978c821",
+      "bytes": 6357
+    },
+    {
+      "path": "qa/rc16-q2-longrun/summary.json",
+      "sha256": "ebf9a331e2e134896089f441b40be29a35a5bc20ba5a2750d64d360e78852f8e",
+      "bytes": 51656
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "qa/rc15-lifecycle-qualification/qualify.cjs",
+      "sha256": "1ea7b42e5b213e3fd7514d717c95157efd0a7395c7ff078f80be10458600d6ec"
+    },
+    {
+      "path": "qa/rc15-lifecycle-qualification/resource-snapshot.py",
+      "sha256": "55cf30c22a9f0000efd036a3705d76a230ee8aac004a7a4ff7f0526004a9fc45"
+    },
+    {
+      "path": "qa/host-resource-snapshot.py",
+      "sha256": "f798167e91cad22372e74270db1497267c311ed251018da40074dccec513da0c"
+    },
+    {
+      "path": "qa/q1-q2-app-integration/native-retirement-smoke.cjs",
+      "sha256": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a"
+    },
+    {
+      "path": "qa/q1-product-audit.cjs",
+      "sha256": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45"
+    }
+  ],
+  "excluded": [
+    "public snapshot (exact Git-regenerable51 files)",
+    "synthetic-420s-ac3.mp4 (35MB synthetic fixture, exact command/version/hash/probe retained)",
+    "node_modules/SDK/cache/private profiles/accounts/original media"
+  ]
+}

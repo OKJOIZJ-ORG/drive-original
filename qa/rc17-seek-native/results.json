@@ -1,0 +1,492 @@
+{
+  "scope": "Fixed root-pinned rc17 Git bytes, synthetic provider and original AAC/Q0 plus AC3/Q2 fixtures, trusted paused10/50/90% seek input. Native target decoded rVFC joins later seeked/settled/watchdog/loader hidden without requiring another paused frame. Serial owned installed Chrome and hostmemory gates. No Q1/device/account/audibility/full-duration proof.",
+  "producerStart": {
+    "app.js": "4fd4d9a81f010da2603f217430965dfee437af742d9074d0f2c205d61a4fd5f4",
+    "sw.js": "b401dd6771ae484f023ad44bdc2b211d6aef5ef6c7d21aa5b8f716295a109093",
+    "index.html": "c227190050095bc6b77155a75d468a7d8e633917de976080cd44f26e250c5afe",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "version.json": "cd984c10a48df427998bd5e00df6b168700395037181da614c703509fb0899f1",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "29956b2df92b200725ee23e01c59f2195ad564a0aa2a60f7e8bc99b741cb6d8b",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "results": [
+    {
+      "name": "ac3-q2-paused-seeks",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3768712,
+        "FreeVirtualMemory": 3342200
+      },
+      "fixture": {
+        "path": "qa/q2-audio-compatibility/synthetic-avc-ac3.mp4",
+        "sha256": "f2e59fee0507e1523942fce6cf03c0b39ae0281775fe8c0c86240ac8a6322b2d",
+        "bytes": 490614
+      },
+      "requests": 96,
+      "errors": [],
+      "before": {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "probeStarted": false,
+        "pin": true,
+        "routes": [
+          {
+            "general": true,
+            "audioCompatibility": true
+          }
+        ],
+        "frames": 4,
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 0.16403,
+            "targetElement": 0.16403,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.0065
+            }
+          },
+          "appends": 4,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 1.835969,
+          "peakRetainedAppendBytes": 220876,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        },
+        "hasSource": true
+      },
+      "seeks": [
+        {
+          "qa": {
+            "ratio": 0.1,
+            "target": 0.6000000000000001,
+            "frames": [
+              {
+                "mediaTime": 0.583333,
+                "sourceTime": 0.583333,
+                "target": 0.6000000000000001,
+                "nativeSeeking": false,
+                "appSeeking": false,
+                "sourceGeneration": 7,
+                "seekGeneration": 2
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 0.6,
+                "sourceGeneration": 7,
+                "seekGeneration": 2
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6,
+              "commonShift": 0,
+              "targetSource": 0.6000000000000001,
+              "targetElement": 0.6000000000000001,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 6.0065
+              }
+            },
+            "duration": 6,
+            "currentTime": 0.6
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3242036,
+            "FreeVirtualMemory": 2564692
+          }
+        },
+        {
+          "qa": {
+            "ratio": 0.5,
+            "target": 3,
+            "frames": [
+              {
+                "mediaTime": 3,
+                "sourceTime": 3,
+                "target": 3,
+                "nativeSeeking": false,
+                "appSeeking": false,
+                "sourceGeneration": 8,
+                "seekGeneration": 3
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 3,
+                "sourceGeneration": 8,
+                "seekGeneration": 3
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6,
+              "commonShift": 0,
+              "targetSource": 3,
+              "targetElement": 3,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 6.0065
+              }
+            },
+            "duration": 6,
+            "currentTime": 3
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3135212,
+            "FreeVirtualMemory": 2510188
+          }
+        },
+        {
+          "qa": {
+            "ratio": 0.9,
+            "target": 5.4,
+            "frames": [
+              {
+                "mediaTime": 5.375,
+                "sourceTime": 5.375,
+                "target": 5.4,
+                "nativeSeeking": false,
+                "appSeeking": false,
+                "sourceGeneration": 9,
+                "seekGeneration": 4
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 5.4,
+                "sourceGeneration": 9,
+                "seekGeneration": 4
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": {
+              "sourceOrigin": 0,
+              "sourceEnd": 6,
+              "commonShift": 0,
+              "targetSource": 5.4,
+              "targetElement": 5.4,
+              "timestampOffset": 0,
+              "audioEnd": {
+                "preSkip": 312,
+                "sampleRate": 48000,
+                "appendWindowEnd": 6.0065
+              }
+            },
+            "duration": 6,
+            "currentTime": 5.4
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3166516,
+            "FreeVirtualMemory": 2557292
+          }
+        }
+      ],
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false,
+        "selected": null,
+        "frameCallback": null,
+        "proof": null
+      },
+      "browserClosed": true
+    },
+    {
+      "name": "aac-q0-paused-seeks",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 3688500,
+        "FreeVirtualMemory": 3211800
+      },
+      "fixture": {
+        "path": "qa/faststart-h264-aac.mp4",
+        "sha256": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079",
+        "bytes": 202253
+      },
+      "requests": 11,
+      "errors": [],
+      "before": {
+        "attempt": "range",
+        "mode": "original-range",
+        "probeStarted": true,
+        "pin": true,
+        "routes": [],
+        "frames": 4,
+        "hasSource": true
+      },
+      "seeks": [
+        {
+          "qa": {
+            "ratio": 0.1,
+            "target": 1,
+            "frames": [
+              {
+                "mediaTime": 1,
+                "sourceTime": 1,
+                "target": 1,
+                "nativeSeeking": false,
+                "appSeeking": false,
+                "sourceGeneration": 2,
+                "seekGeneration": 1
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 1,
+                "sourceGeneration": 2,
+                "seekGeneration": 1
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": false,
+            "duration": 10,
+            "currentTime": 1
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3334720,
+            "FreeVirtualMemory": 2724052
+          }
+        },
+        {
+          "qa": {
+            "ratio": 0.5,
+            "target": 5,
+            "frames": [
+              {
+                "mediaTime": 5,
+                "sourceTime": 5,
+                "target": 5,
+                "nativeSeeking": false,
+                "appSeeking": true,
+                "sourceGeneration": 2,
+                "seekGeneration": 2
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 5,
+                "sourceGeneration": 2,
+                "seekGeneration": 2
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": false,
+            "duration": 10,
+            "currentTime": 5
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3222052,
+            "FreeVirtualMemory": 2610660
+          }
+        },
+        {
+          "qa": {
+            "ratio": 0.9,
+            "target": 9,
+            "frames": [
+              {
+                "mediaTime": 9,
+                "sourceTime": 9,
+                "target": 9,
+                "nativeSeeking": true,
+                "appSeeking": true,
+                "sourceGeneration": 2,
+                "seekGeneration": 3
+              }
+            ],
+            "events": [
+              {
+                "type": "seeked",
+                "time": 9,
+                "sourceGeneration": 2,
+                "seekGeneration": 3
+              }
+            ],
+            "inputTrusted": true
+          },
+          "timeline": {
+            "mapping": false,
+            "duration": 10,
+            "currentTime": 9
+          },
+          "paused": true,
+          "nativeSeeking": false,
+          "appSeeking": false,
+          "watchdog": null,
+          "loading": false,
+          "readyState": 4,
+          "proof": true,
+          "memory": {
+            "FreePhysicalMemory": 3223572,
+            "FreeVirtualMemory": 2616712
+          }
+        }
+      ],
+      "after": {
+        "cleanup": {
+          "settled": true
+        },
+        "hasSource": false,
+        "selected": null,
+        "frameCallback": null,
+        "proof": null
+      },
+      "browserClosed": true
+    }
+  ],
+  "passed": true,
+  "commit": "54654ce1efb2dbe0296a9641ed01182e9e1a8322",
+  "harness": {
+    "path": "qa/q1-q2-app-integration/native-retirement-smoke.cjs",
+    "sha256": "2252c4286874437ede9208209166b1d3bb89eef2e03fa9585bb5c120115a1e8a",
+    "driverSha256": "bf660be114e7f9c6c2b18694a69ded7bba9e44bddedff6575a6025fe36f81b42"
+  },
+  "producerEnd": {
+    "app.js": "4fd4d9a81f010da2603f217430965dfee437af742d9074d0f2c205d61a4fd5f4",
+    "sw.js": "b401dd6771ae484f023ad44bdc2b211d6aef5ef6c7d21aa5b8f716295a109093",
+    "index.html": "c227190050095bc6b77155a75d468a7d8e633917de976080cd44f26e250c5afe",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "version.json": "cd984c10a48df427998bd5e00df6b168700395037181da614c703509fb0899f1",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-codec-build.json": "29956b2df92b200725ee23e01c59f2195ad564a0aa2a60f7e8bc99b741cb6d8b",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-README.md": "63b4a05911c1e095f718fc91144d5c762edf3c154da1d92de8156fcac748d88d",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1-build.json": "745718bcdb421bbf86ad6eb31b3e81e147858d9f357a87fa1748bb78a51c203f",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/mediabunny-q1-source.patch": "0587386e768aa5ca7229843b39af6d6e75fcafe4aa76ad04e37d38925074c369",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+  },
+  "browser": "154.0.8037.58"
+}

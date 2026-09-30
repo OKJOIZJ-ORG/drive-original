@@ -1,0 +1,12 @@
+First attempt: long-2026-09-30T00-12-06-970Z.json.
+QA filters selected general-worker.mjs but automatic Q2 uses
+audio-general-worker.mjs (immutable rc16 app.js workerFactory). Thus no native
+AudioEncoder observer was installed; playback progressed normally, but this
+attempt could not fulfill its telemetry assertions. The exact adapter and gate
+are retained as producer-first-worker-filter.cjs/producer-first-worker-gate.js.
+Stopped only its own Chrome browser PID from its CDP SystemInfo census after
+verifying Get-Process named chrome. The driver caught the resulting closed-target
+failure and preserved before/after snapshot hashes and closed-browser resource
+evidence. It is an intentional QA setup stop, not a product/native-resource fault.
+The corrected QA filters include both actual public worker entrypoints. No
+product worker bytes, playback pipeline, original source or system settings changed.

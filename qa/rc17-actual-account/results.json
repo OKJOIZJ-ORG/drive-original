@@ -1,0 +1,32 @@
+{
+  "schema": "drive-original.rc17-actual-paused-seek/1",
+  "recordOrigin": "Root's safe CUA developer-runtime readbacks, transcribed; not a complete protocol/event log",
+  "scope": "Existing actual personal Chrome account, designated read-only TS/Q1 original, trusted paused seeks",
+  "version": "1.22.0-rc.17",
+  "publicSource": "54654ce1efb2dbe0296a9641ed01182e9e1a8322",
+  "workerVersion": "00020d64-40f5-4f8b-8d01-daddc7456177",
+  "appCacheSha256": "4fd4d9a81f010da2603f217430965dfee437af742d9074d0f2c205d61a4fd5f4",
+  "indexCacheSha256": "c227190050095bc6b77155a75d468a7d8e633917de976080cd44f26e250c5afe",
+  "normalUpdateApplied": true,
+  "existingAccountRestored": true,
+  "normalStateLoaded": true,
+  "newLoginOrGrant": false,
+  "controllerActivated": true,
+  "duration": 1609.408,
+  "earlyNativeProgress": {"time":28.282518,"frames":852,"attempt":"q1","kind":"ts","ready":4,"errorCode":null,"loading":false},
+  "pausedSeeks": [
+    {"percent":10,"target":160.9408,"frameTime":160.921333,"frameElapsedMs":16742,"seekingAtFrame":false,"sourceGeneration":5,"seekGeneration":1,"settledTime":160.940797,"paused":true,"seeking":false,"appSeeking":false,"watchdog":false,"ready":4,"errorCode":null,"loading":false,"frames":4,"ownerCurrent":true,"presentationKey":null,"completedDecodedProof":true},
+    {"percent":50,"target":804.704,"frameTime":804.688,"frameElapsedMs":13324,"seekingAtFrame":true,"sourceGeneration":6,"seekGeneration":2,"settledTime":804.704,"paused":true,"seeking":false,"appSeeking":false,"watchdog":false,"ready":4,"errorCode":null,"loading":false,"frames":4,"ownerCurrent":true,"presentationKey":null,"completedDecodedProof":true},
+    {"percent":90,"target":1448.4672,"frameTime":1448.454667,"frameElapsedMs":14358,"seekingAtFrame":false,"sourceGeneration":7,"seekGeneration":3,"settledTime":1448.467239,"paused":true,"seeking":false,"appSeeking":false,"watchdog":false,"ready":4,"errorCode":null,"loading":false,"frames":4,"ownerCurrent":true,"presentationKey":null,"completedDecodedProof":true},
+    {"percent":50,"repeat":true,"target":804.704,"frameTime":804.688,"frameElapsedMs":12761,"seekingAtFrame":true,"sourceGeneration":8,"seekGeneration":4,"settledTime":804.704,"paused":true,"seeking":false,"appSeeking":false,"watchdog":false,"ready":4,"errorCode":null,"loading":false,"frames":4,"ownerCurrent":true,"presentationKey":null,"completedDecodedProof":true}
+  ],
+  "pausedDwell": {"minimumAdditionalMs":250,"time":804.704,"paused":true,"loading":false,"frames":4,"sourceGeneration":8,"seekGeneration":4,"presentationKey":null},
+  "seekInput": {"method":"trusted CDP mouse input on observed current slider rectangles","x":20,"y":411.6000061035156,"width":996,"height":18,"targetToleranceSeconds":0.25},
+  "resumeRequiredAfterSeek": false,
+  "close": {"trustedEscape":true,"selectedIsNull":true,"attempt":"idle","q1IsNull":true,"pendingBufferIsNull":true,"srcAttributePresent":false,"currentSrcPresent":true,"ready":0,"buffers":0,"retirementSettled":true,"seekWatchdog":false,"completedPresentationProof":false,"presentationKey":null,"observerDeleted":true},
+  "executedSeekObserverSha256": "b1c6c99eed974800cc0bce6552a6bf98c54c0419fd69c9dcc08efcbf3b0ae715",
+  "observerExecutionTransform": "one terminal LF omitted; actual submitted expression independently hashed inside developer runtime",
+  "scopedAcceptancePassed": true,
+  "notClaimed": ["startup latency", "whole1609s or EOF", "expiry", "native background return", "audibility", "physical mobile/two devices", "normal-runtime memory ceiling", "complete corpus"],
+  "privacy": "No private account/file IDs, tokens, original names, media bytes or screenshots exported"
+}
