@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "phase": "before-zip-write",
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "code": "VERSION_ASSERTION",
+  "derivedVersion": "1.22.0-rc.23",
+  "expectedVersion": "1.22.0-rc.24",
+  "cause": "Generator inherited previous inner rc.22 replacement literal, missing rc.23 pin",
+  "packageCreated": false,
+  "productChanged": false,
+  "scope": "Exact first failure transcript; prepare-v1 producers retained"
+}

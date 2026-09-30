@@ -1,0 +1,87 @@
+{
+  "schema": "drive-original.two-foreground-state-root/1",
+  "source": "7591044adc1149391265b0e56a93a47252088a47",
+  "version": "1.22.0-rc.23",
+  "scope": "Actual normal-PC and physical-Android same-account operational challenge; raw prestate remained page-local",
+  "directIdentityFingerprintCompared": false,
+  "accountOperationalChallengeMatched": true,
+  "normalUIActions": true,
+  "forcedReloadOrRefocusForEcho": false,
+  "likeForward": {
+    "updatedAt": 1790786132242,
+    "firstAndroidReceiptAt": 1790786147169,
+    "upperBoundMs": 14927
+  },
+  "unlikeReverse": {
+    "updatedAt": 1790786282507,
+    "pcReadAt": "2026-09-30T16:39:00.302Z",
+    "upperBoundMs": 57795
+  },
+  "viewedForward": {
+    "updatedAt": 1790786378420,
+    "firstAndroidReceiptAt": 1790786394835,
+    "upperBoundMs": 16415,
+    "actualQ1Frame": {
+      "width": 360,
+      "height": 640,
+      "mediaTime": 43.154667,
+      "presentedFrames": 1295,
+      "ready": 4,
+      "paused": false,
+      "loading": false,
+      "error": false
+    }
+  },
+  "viewedReverse": {
+    "updatedAt": 1790786817110,
+    "armedAt": "2026-09-30T16:44:56.730Z",
+    "firstPcReceiptAt": "2026-09-30T16:47:11.242Z",
+    "upperBoundMs": 14132
+  },
+  "retainedFailures": [
+    {
+      "scope": "First forward observer started too late",
+      "latencyProven": false,
+      "readDelayMs": 62295
+    },
+    {
+      "scope": "PC reverse-unlike passive observer armed120s before actual change arrived",
+      "code": "BOUNDED_TIMEOUT",
+      "laterExactStateMatch": true,
+      "productFailureProven": false
+    }
+  ],
+  "finalRemoteComparison": {
+    "readAt": "2026-09-30T16:50:41.854Z",
+    "remoteDocumentsBefore": 10,
+    "remoteDocumentsAfter": 10,
+    "unalteredRawDocuments": 8,
+    "allOriginalDocumentsRetained": true,
+    "initialProjectionMatchesRawMerge": true,
+    "allNonTargetViewedAndFavoritesPreserved": true,
+    "favoriteSemanticBaselineRestored": true,
+    "finalLiked": false,
+    "finalFavoriteUpdatedAt": 1790786282507,
+    "freshReverseViewedExact": true,
+    "finalViewedAt": 1790786817110,
+    "viewedSemanticPreserved": true,
+    "accountStable": true,
+    "targetStable": true,
+    "syncIdle": true,
+    "syncError": null,
+    "rawStateExported": false
+  },
+  "cleanup": {
+    "pcPrivateOwnerRemoved": true,
+    "pcSelectedAbsent": true,
+    "pcRetirementSettled": true,
+    "pcSearchCleared": true,
+    "pcNormalRootRestored": true,
+    "androidOwnerMcpAdbForwardRemoved": true
+  },
+  "wholeRowPromoted": false,
+  "remaining": [
+    "offline/conflict/reconnect clauses",
+    "subsequent final24 renewal continuity"
+  ]
+}

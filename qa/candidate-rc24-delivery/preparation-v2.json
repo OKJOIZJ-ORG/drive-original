@@ -1,0 +1,40 @@
+{
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "version": "1.22.0-rc.24",
+  "rootDerivation": true,
+  "derived": [
+    {
+      "file": "deploy-candidate.cjs",
+      "sha256": "e89c1f0d77efb5641f7ddd36f8b41cd4eba1a763e38fd3d3125e818d36f4c705",
+      "inheritedSha256": "ed03fe5ab4b1423e676ef7677c6c48443d1572bf345afab7db9a984e74f72395"
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "0d70cda828720fb744878a8f5bda8a42c2624375f8794d5ba7b148833e2d7ed6",
+      "inheritedSha256": "1d9f65099fedb87cf801b9f3a0d82b686c88b0fa205c30e7b672c6306d37b741"
+    },
+    {
+      "file": "redact-readback.cjs",
+      "sha256": "41f8f39cf9e7d4604ca708ceb949f42115651b4b4a15eafb6a3c69355753d3b1",
+      "inheritedSha256": "c927326099980be6f21787bc349f676eea3b7b25e54b876fbe444437c2cc93fc"
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "sha256": "346ff4615bb28453b552bfde3a1b6f45a0b27a29cb2a334a5df77f77d22d8a1b",
+      "inheritedSha256": "7435dd713fa9230901cb9fec449241a3c7f42a4e7fd923e13b253a77109e9c06"
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "sha256": "c6f84f5d1fa9dbb0a91c08411006955409e8ed783617b3031c4cd353beb82acb",
+      "inheritedSha256": "0485c5b521550b8861c905fd92e12ca23aafc892f412aed904c077c667e8974a"
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "sha256": "e300bedacdf745c0618a40754cb1bb3f6a605cb50d6d34a3f6ba429985f50d79",
+      "inheritedSha256": "c36f70b5af289a5d74b61dfa7efd9442fef3ac8cba1b244a1bf5ba84fb943820"
+    }
+  ],
+  "changes": "Correct exact previous-version replacement and guard field label; preserved all prepared-v1 producers/results",
+  "before": "2026-09-30T16:51:44.489Z",
+  "scope": "Explicit safe producer transformation only; no publication yet"
+}

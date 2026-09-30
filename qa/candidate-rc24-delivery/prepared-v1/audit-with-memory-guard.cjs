@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process'),crypto=require('node:crypto');
+const root=path.resolve(__dirname,'../..'),source='8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7';
+if(cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root}).toString().trim()!==source)throw Error('SOURCE_CHANGED');
+const preflight='qa/night-environment-20260930/preflight.cjs',expected='d399de96eabbd582777b2a29bf078f5a1ce8ecd08547e34ce5253deb9fc0956f';
+if(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,preflight))).digest('hex')!==expected)throw Error('READONLY_GUARD_CHANGED');
+const probe=cp.spawnSync(process.execPath,[preflight],{cwd:root,encoding:'utf8',windowsHide:true}),report=JSON.parse(probe.stdout);
+const safe={source,recordedAt:report.recordedAt,memory:report.memory,legacyIdentityCheckIgnoredForExplicitFixed23Source:true,existingDependencies:report.playwright.existingDependency&&report.playwright.installedChrome,producerSha256:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex')};
+fs.writeFileSync(path.join(__dirname,'audit-memory-guard.json'),JSON.stringify(safe,null,2)+'\n');
+if(!safe.memory.available||safe.memory.existingLaunchFloorPassed!==true||!safe.existingDependencies)throw Error('NEW_CHROME_MEMORY_FLOOR');
+const run=cp.spawnSync(process.execPath,['qa/candidate-delivery-audit.cjs',source,'candidate-rc24-delivery'],{cwd:root,encoding:'utf8',maxBuffer:8*1024*1024,windowsHide:true});
+fs.writeFileSync(path.join(__dirname,'audit-output.log'),(run.stdout||'')+(run.stderr||''));
+if(run.status!==0||run.error||run.signal)throw Error('DELIVERY_AUDIT_FAILED');
+const result=JSON.parse(fs.readFileSync(path.join(__dirname,'results.json'),'utf8'));
+console.log(JSON.stringify({passed:result.passed,assets:result.assets.length,cache:result.cached.length,private404:result.privateRoutes.length,source,exitCode:run.status}));
