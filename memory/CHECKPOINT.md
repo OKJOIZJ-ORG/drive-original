@@ -1,21 +1,26 @@
-# Checkpoint — devices ready / environment wait — 2026-09-30 22:35
+# Checkpoint — active whole-queue continuation — 2026-10-01 00:09
 
 ## The story so far
 
-Current request remains environment preparation ONLY (D-064/D-065). Product execution awaits an explicit nighttime start. Canonical source/codex/v2-kickoff-diagnostics; fixed public source3ebd97d/runtime1.22.0-rc.21/Workerb1021a42-fb32-47d5-92be-7fd92736faf7. Existing624local tests/delivery/actual normalPC startup are preserved; whole acceptance remains incomplete. Earlier PC tools/memory/login preparation stands. Now one authorized SM-X800/Android16 is connected; real Android Chrome MCP observes signed-in rc.21 library/SW control. Personal PC Chrome filechooser reads the exact147087-byte QA factory with matching SHA. No factory execution/playback occurred. NIGHT-ENVIRONMENT-20260930.md owns current readiness and resume instructions; qa/android-environment-20260930 owns new proof.
+D-066 keeps the whole queue ACTIVE on codex/v2-kickoff-diagnostics; commits are savepoints. Public3ebd97d/rc21 is unchanged; local rc22 gesture reservation/summary guard has629 Node checks, trusted Android renderer and independent review. Actual Android proves34.107s hidden return, paused10/50/90 seeks, horizontal navigation and native two-pointer cancellation. Root PC ongoing priority Q1 TS fails before old14:59:09Z expiry:323 callbacks then frame timeout; real Q1 failed/read error, auth-unavailable and expired revision57. Android normal bootstrap independently sees credential503. Separate canonical PC recovery15:04:16Z succeeds200/revision58/new expiry, not uninterrupted proof. Auth investigator owns only new QA diagnosis until source savepoint. Corpus v1 times out; v2 reaches all8 then final cleanup fails. V3 metadata-only diagnostics and v4 denominators are prepared. Local exact-product SW continuity passes; hosting Free/no card/logs-off verified. Whole goal incomplete.
 
 ## Decided
 
-D-064 temporarily supersedes D-061/D-062 execution: prepare now, wait for the human's nighttime start. D-065 resolves Android deferral and PC file-access preparation only: the human granted USB debugging and enabled file-URL access manually. Existing local/freecandidate/ownstate/disposableQA authority and D-056/volume constraints remain. Productionv1.21.0/e08989a; automationPAUSED. No scheduled wakeup.
+D-066 supersedes environment-only WAIT and pre-release iPhone gate. Continue all executable units; commits are savepoints. D-050/D-051/D-056 and source/account/lifetime fences remain. No main/push/production/original mutations/grants/cost/automation/volume authority added.
 
 ## Waiting on the user
 
-Later explicit nighttime start only for the executable queue. Keep PC and Android powered, connected and available, with intended Chrome sessions retained. Same-account PC/Android identity has not been independently compared. Real iPhone/VoiceOver and production authorization remain separate gates. No sleep/security setting changed by the agent; setup readiness does not promise full unattended acceptance.
+None for current PC/Android execution. G6 separate publication authority remains for a concrete reviewed candidate. iPhone verification is a post-deployment followup, not a current blocker.
 
 ## Next first action
 
-Run `node qa/night-environment-20260930/preflight.cjs` in `C:\extensions\Drive-Original\source` to recheck local readiness only; unless the human explicitly starts nighttime work, stop before product/media/acceptance execution.
+Commit the already staged629-tested rc22 gesture source after verifying index bytes, then close the failed PC player normally and run `qa/rc21-corpus-night/factory-v3-diagnostic.expression.js` in metadata-only mode before replacing public21.
 
 ## Tried
 
-Six full SW replacement/reload/reopen chains remain failed; identical compiled worker/import bodies across four real activations and stable no-media routed/unrouted controls narrow the next discriminator to fixed Buffer static serving. Two fixed-body attempts stopped at the old memory floor; recovered memory does not establish behavior. Earlier loopback corpus delivery was ERR_BLOCKED_BY_CLIENT; no alternate-host bypass. New local filechooser read succeeds after the human's toggle, without executing the factory. Android readiness v1/v2 parser assumptions failed and are preserved; v3 official MCP list/evaluate passes. Only the verified MCP-owned locked Chrome root was stopped; personal Chrome remained open. Owned Android MCP client/ADB forward and temporary PC fixture were cleaned up. Chat On Steroids was not enabled. Phone Link provides no controllable iPhone test screen.
+Playwright-routed native SW attempts fail; exact-product directCDP synthetic-provider transport passes. Cache-disable and broadFetch controls also pass, so neither is an established sole cause.
+Android Home tests under an attached inspector stayed visible because ChromeMCP emulates focus; disconnecting all observers proves a real 34.107s hidden interval and playback return.
+Corpus v1 exhausts per-file time at file3. Coalesced v2 reaches all8 but CLEANUP_FAILED after100 metadata requests; final inventory remains incomplete and catalog equality unproven.
+Earlier loopback file delivery was blocked; existing PC filechooser delivers exact QA source bytes/hash. Native fullscreen QA18 targeted a hidden control and is being corrected without attributing a product defect.
+PC natural-renewal observer stops at5s frame timeout before old deadline; later actual Q1 failure confirms unsuccessful run. Original PC HTTP cause was not retained by the filled Resource Timing buffer; separate200 recovery proves current service recovery only.
+Renewal starts at expiry-35s while server caches until expiry-30s; source inspection finds cached-reinstall churn and no timer after two failures. Local causal discriminator is in progress; actual sole cause remains unknown.

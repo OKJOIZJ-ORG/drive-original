@@ -108,4 +108,10 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 - [CANDIDATE-RC21-20260930](CANDIDATE-RC21-20260930.md) — fixed21 delivery/624checks/actual normal account startup and settled original close; six full worker-reload chains remain failed.
 
-- [Night environment preparation](NIGHT-ENVIRONMENT-20260930.md) — actual Android candidate login, PC local-file delivery, portable tools and explicit environment-only WAIT; [current readiness evidence](../qa/android-environment-20260930/README.md). Existing acceptance gates remain open.
+- [Night execution prerequisites](NIGHT-ENVIRONMENT-20260930.md) — D-066 ACTIVE whole queue, actual Android candidate login, PC local-file delivery and portable tools; [readiness evidence](../qa/android-environment-20260930/README.md). iPhone-only checks are post-deployment followup.
+- [Current69-row queue](../qa/rc21-night-acceptance/README.md) — exact original ID/status mapping and current scope; no whole-row promotion.
+- [Native SW continuity](../qa/rc21-controller-continuity-night/README.md) — exact-product local native replacement/reload/reopen/close passes under direct CDP synthetic provider; prior failures retained.
+- [Actual hosting settings](../qa/rc21-hosting-night/README.md) — current dashboard Free/no payment method/effective logs and traces off; absent billing/retention controls remain unknown.
+- [Corpus diagnostics](../qa/rc21-corpus-night/README.md) — bounded metadata coalescing, actual v1 timeout/v2 final-cleanup failure and separate metadata-only discriminator; full corpus remains open.
+- [Gesture reservation](GESTURE-RESERVATION-20260930.md) — reproduced native subthreshold contact loss, summary guard correction, trusted local Android renderer and629 Node checks; fixed hosted/device qualification next.
+- [Natural renewal observer](../qa/rc21-renewal-night/observer.expression.js) — private-owner bounded actual PC ongoing-frame journal; results pending at source preparation.

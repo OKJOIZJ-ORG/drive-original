@@ -599,3 +599,16 @@ Observed WebM original playback/midpoint/EOF/close pass, largeISO Q0 decode/10% 
 - Global Chrome MCP had a managed-profile lock. Verified and stopped only the MCP-managed Chrome root with its exact profile path; a fresh real managed list call passed. Personal Chrome was left open, distinct from the managed profile.
 - Existing personal PC Chrome filechooser reads the current QA factory147087bytes/SHAed770ee121253885365914c9013c2e279504580f0be49ab376ea7f5d7b165ad1. An isolated iframe had no network-upload handler; the factory was not evaluated and the temporary fixture was removed. Candidate user tab retained for explicit nighttime work.
 - Archived the previous checkpoint and aligned current guide/ledger/goal/questions. Older17:13deviceReady=false and loopback transport failures are retained as history. No security setting, OAuth request, playback, product bytes, candidate/production deployment, automation or volume was changed by the agent.
+
+
+## 2026-09-30 22:54 — whole queue resumed with Android acceptance
+
+- Human explicitly says 지금부터 끝까지 진행 and forbids stopping at unit completion. D-066 records active whole-queue continuation; Android becomes current mobile acceptance, iPhone-only testing post-deploy followup. No iOS evidence or publication authority inferred.
+- Inspected canonical branch/clean eb11d66, current checkpoint/ledger/goal/spec and full acceptance sources. Started bounded parallel SW investigation, physical Android acceptance and exact69-row triage; root owns normalPC corpus/security/state integration.
+- Fresh preflight shows authorizedAndroid1/Codexon0 but virtualfree729596KiB below unchanged newChrome floor. Existing personalChrome/Android remain usable; no unrelated process termination or guard weakening. Official managedChromeMCP actual list passed with blank1.
+
+### 2026-10-01 00:09 — active queue progress and natural renewal failure
+
+Observed local exact-product native SW continuity passes under direct CDP synthetic transport; prior failed Playwright producers retained. Actual hosting UI Free/no payment method/effective Logs/Traces/Issues off, unavailable automatic-billing/retention controls unknown. Actual Android34.107s inspector-free hidden return,10/50/90 paused frames, horizontal navigation and native two-pointer cancellation are scoped passes. Native first11.8px move cancellation reproduced; local rc22 reservation/summary fix has629 stable Node checks, trusted Android renderer and clean independent review; hosted/device rc22 remains next.
+
+Actual PC corpus v1 times out at file3; v2 processes8 but fails final inventory cleanup. Metadata-only diagnostic exposes original trigger without weakening terminal cleanup, prepared unexecuted. Actual ongoing priority Q1 TS natural expiry fails:323 callbacks before old14:59:09Z deadline, no postdeadline frames; real Q1_SOURCE_READ_FAILED/auth-unavailable/expired revision57. Android bootstrap independently observes credential503. Separate canonical PC recovery15:04:16Z returns200/revision58/new expiry, not uninterrupted proof. Root hypothesis is renewal cache-window/retry exhaustion plus transient service failure; original PC HTTP response unavailable, local discriminator remains pending. Continue the whole queue under D-066.

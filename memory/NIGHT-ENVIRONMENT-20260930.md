@@ -1,17 +1,18 @@
 # Night work environment — 2026-09-30
 
 Audience: a later Codex agent in this Windows workspace, without this chat.
-**Current mode: ENVIRONMENT ONLY / WAIT FOR EXPLICIT NIGHTTIME START (D-064/D-065).**
-The product goal remains incomplete. Do not run media/acceptance tests, edit the
-product, deploy a candidate, or create a scheduled wakeup during this preparation.
+**Current mode: ACTIVE NIGHT WORK under D-066 (2026-09-30).**
+The human explicitly started work now. Continue implementation, real PC/Android
+checks and candidate acceptance through the entire executable queue. Preparation
+records below are historical; no scheduled wakeup or automation resume is needed.
 
 ## First action
 
 Run `node qa/night-environment-20260930/preflight.cjs` from
 `C:\extensions\Drive-Original\source`. This only checks local prerequisites and
-prints a redacted snapshot. It does not start the work. Then read current
+prints a redacted snapshot. D-066 has started the work. Then read current
 `memory/CHECKPOINT.md`, `memory/DECISIONS.md` and Git status. Preserve unrelated
-changes. After the human's explicit nighttime start, continue all executable
+changes. Continue all executable
 approved units; a verified unit/commit is a savepoint, not the whole goal.
 
 ## Fixed identity and tools
@@ -72,8 +73,9 @@ approved units; a verified unit/commit is a savepoint, not the whole goal.
   display timers all0 (never). No power/security setting was changed during
   preparation. Do not assume a lock screen is controllable.
 - Phone Link displayed an iPhone connection flow, not an Android/iOS test screen.
-  Android proof does not close physical Safari/standalone/VoiceOver requirements.
-  Any inaccessible real-device or remaining publication gate stays explicitly open.
+  D-066 moves iPhone Safari/standalone/VoiceOver verification to post-deployment
+  followup. Current mobile acceptance uses actual Android; iOS behavior is still
+  unverified. Remaining publication authority stays separate.
 
 ## Resume queue after the explicit start
 

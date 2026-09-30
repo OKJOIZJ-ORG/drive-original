@@ -433,3 +433,14 @@ observed: ADB authorized1/SM-X800/Android16, 실제 Android Chrome MCP에서 정
 D-064의 지금 환경 준비만/밤의 명시적 시작 대기는 유지한다. 이 확인은 전체 제품 인수·운영 반영·자동화 재개 권한을 추가하지 않는다. 기존 D-050/D-051/D-056 및 볼륨·원본·비용 경계를 그대로 유지한다.
 
 sweep: checkpoint, night guide, goal header, open questions and session log updated to observed device/file readiness; earlier failures and deferred snapshots preserved.
+
+
+## D-066 · Android를 이번 모바일 인수 기준으로, 지금부터 끝까지 진행 — 2026-09-30 (User-confirmed; supersedes D-064/D-065 WAIT and D-057 pre-release iPhone gate)
+
+사용자는 "아이폰이라고 별 다를건 없으니까 안드로이드 검증으로 갈음해. 아이폰 검증은 다 완료 후에 배포후에 해도 늦지 않음. 중간에 한 작업단위완료했다고 끊지 말고 끝까지 다 완료해."라고 지시했고, 시작 시점을 묻는 질문에 "지금부터 끝까지 진행"이라고 명시했다. 지금 즉시 기존 목표의 남은 구현·실제 검증·후보 인수를 재개하고, 단위 완료·커밋·후보판을 복구 지점으로만 사용하여 실행 가능한 전체 목록을 계속한다.
+
+이번 G5/모바일 인수는 실제 PC와 Android로 판정한다. iPhone Chrome/Safari/홈 화면 PWA/VoiceOver 전용 확인은 배포 후 후속 항목으로 이관하며 이번 후보 완료를 막지 않는다. 이것은 사용자가 승인한 인수 범위·순서 변경이며 Android가 iOS 동작을 입증했다는 사실 주장으로 기록하지 않는다. OS/브라우저별 확인한 증거 범위를 계속 구분한다. 기존 명세는 보존하고 이 결정이 현재 인수 기준을 우선한다.
+
+D-050/D-051의 원본·비용·권한·운영 경계와 D-056 pause-without-overlay는 유지한다. 배포 후 검사라는 언급만으로 별도 main/push/production 승인·새 grant·약관·결제·자동화 재개 권한을 추가하지 않는다. Android 대기/파일 접근 준비는 이미 D-065에서 해소됐다. 실제 대기해야 하는 외부 경계가 있더라도 독립 실행 가능한 나머지 작업을 계속한다.
+
+sweep: current checkpoint/goal/night guide/open questions/session log and current acceptance overlay aligned to ACTIVE Android-current/iPhone-post-deploy; immutable historical proofs/spec retained.

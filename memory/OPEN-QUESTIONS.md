@@ -92,3 +92,13 @@ Only these environment prerequisites are resolved. Explicit nighttime start is
 still pending. Same-account PC/Android identity, physical playback/gestures/OS
 return, iPhone/VoiceOver, full formats/SW recovery/expiry and production gates
 remain open. The agent changed no security setting or grant.
+
+
+## 2026-09-30 — D-066 resolves start and current iPhone gate
+
+The human explicitly starts the entire remaining queue now and accepts actual
+Android for current mobile acceptance. iPhone Chrome/Safari/standalone/VoiceOver
+checks move to post-deployment followup; do not label them passed or require them
+for current G5. The environment-only start wait above is superseded. Current
+independent executable work continues through savepoints. Separate G6 production
+authority, actual account/format/expiry/state/security criteria remain.

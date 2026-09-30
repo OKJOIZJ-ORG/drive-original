@@ -4,7 +4,7 @@
 
 Bring Drive Original's mobile and desktop media-library experience to a commercially credible level across gesture navigation, playback controls, dialogs, authentication, streaming, thumbnails, bulk actions, performance, and latent-defect recovery.
 
-**Execution state — 2026-09-30 22:35:** ENVIRONMENT ONLY / WAIT under D-064/D-065. Fixed public source3ebd97d/runtime1.22.0-rc.21/Workerb1021a42-fb32-47d5-92be-7fd92736faf7 and committed624local/delivery/actual normalPC evidence are preserved; CANDIDATE-RC21-20260930.md owns scope. PC tools and existing Cloudflare dashboard login are prepared. One authorized SM-X800/Android16 now has a real MCP-observed signed-in rc.21 library. Personal PC Chrome successfully reads the exact local QA factory after the human's manual file-URL toggle. No factory/playback/acceptance execution occurred. The human's later nighttime start is still required; no automation/wakeup was created. Full SW recovery, uninterrupted expiry/position, real device behavior/OSreturn/two-device/full formats, exact plan/effective observability and separate production authority remain open. NIGHT-ENVIRONMENT-20260930.md owns preparation. PC/Android same-account identity is not independently proved. Whole goal incomplete; productionv1.21.0/e08989a/global Drive mutationsfalse/automationPAUSED.
+**Execution state — 2026-09-30 22:54:** ACTIVE under D-066. The human explicitly says 지금부터 끝까지 진행; continue the whole executable queue and treat commits as savepoints. Current mobile acceptance is actual Android; iPhone Chrome/Safari/standalone/VoiceOver testing is user-deferred to post-deployment followup, not claimed proved by Android. Fixed public source3ebd97d/runtime1.22.0-rc.21 remains while new work begins from eb11d66. Existing624local/delivery/normalPC proofs remain scoped; actual Android/corpus/SW recovery/expiry/two-device/security/hosting checks and queued UI completion continue. Current newChrome memory floor is again below threshold; reuse existing PC/Android browsers rather than lower guards. Productionv1.21.0/e08989a/globalDriveMutations=false/automationPAUSED; separate G6 publication authority remains. NIGHT-ENVIRONMENT and current acceptance overlay own execution prerequisites; whole goal incomplete.
 
 ## Definition of done
 
@@ -628,3 +628,12 @@ personal PC Chrome reads the local QA factory with exact byte/hash equality.
 `qa/android-environment-20260930` preserves all readiness attempts and cleanup.
 No factory/playback/gesture/OS-return acceptance ran, and PC/Android same-account
 identity was not independently compared. D-064 environment-only WAIT remains.
+
+## 2026-09-30 — D-066 current acceptance override
+
+G5 uses actual PC/Android account, playback, input, OS-return and state evidence.
+Physical iPhone Chrome/Safari/standalone/VoiceOver clauses in the original spec
+are post-deployment followups and no longer block this candidate's acceptance.
+Historical evidence/spec rows remain unchanged; Android is never labelled iOS
+proof. Shared codec/auth/state/cleanup criteria remain required. Continue every
+executable implementation and acceptance unit without stopping at savepoints.

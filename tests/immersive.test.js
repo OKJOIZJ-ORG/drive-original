@@ -101,6 +101,70 @@ test('edge-owned touch cannot become a video-swipe even without a back destinati
   assert.equal(c.run(`navigator.userAgent='iPhone';isReservedBackStart(28)`),true);
 });
 
+function touchGestureClient() {
+  const c=client(), handlers=new Map(); c.gestureHandlers=handlers;
+  c.run(`el.playerModal={addEventListener:(name,handler)=>gestureHandlers.set(name,handler)};
+    el.playerControlsEntry={getBoundingClientRect:()=>({left:0,right:390,top:800,bottom:844})};
+    el.mediaStage={clientWidth:390,clientHeight:844,classList:classes()};
+    state.mediaAttempt='range';clearMediaTransition=()=>{};getActiveMediaElement=()=>null;
+    resolveSwipeTarget=()=>({id:'next-fixture'});snapBackSpring=()=>{};setupTouchGestures();`);
+  const event=(x=190,y=400,{interactive=false,tagName='',count=1,cancelable=true}={})=>{
+    const point={clientX:x,clientY:y};
+    return {touches:Array.from({length:count},()=>point),changedTouches:[point],cancelable,
+      target:{closest:selector=>interactive||selector.split(',').some(s=>s.trim()===tagName)?{}:null},prevented:false,preventDefault(){this.prevented=true;}};
+  };
+  return {c,handlers,event};
+}
+
+test('eligible media contact reserves before a subthreshold first move can surrender cancellation', () => {
+  const {c,handlers,event}=touchGestureClient();const start=event();
+  handlers.get('touchstart')(start);assert.equal(start.prevented,true);
+  const first=event(198,400);handlers.get('touchmove')(first);
+  assert.equal(c.run('lockedAxis'),null);assert.equal(c.run('isTouchActive'),true);
+  // Model the observed native Chrome choice: only an already reserved contact
+  // keeps the next move cancellable after an unclaimed sub-12px first move.
+  const second=event(218,400,{cancelable:start.prevented||first.prevented});
+  handlers.get('touchmove')(second);assert.equal(second.prevented,true);
+  assert.equal(c.run('lockedAxis'),'x');assert.equal(c.run('isTouchActive'),true);
+});
+
+test('gesture reservation leaves native controls and reserved OS edges untouched', () => {
+  const {c,handlers,event}=touchGestureClient();
+  for(const e of [event(190,400,{interactive:true}),event(5,400)]){
+    handlers.get('touchstart')(e);assert.equal(e.prevented,false);assert.equal(c.run('isTouchActive'),false);
+  }
+  c.run(`let reveals=0;revealPlayerChrome=()=>reveals++;`);const entry=event(190,820);
+  handlers.get('touchstart')(entry);assert.equal(entry.prevented,false);
+  assert.equal(c.run('reveals'),1);assert.equal(c.run('isTouchActive'),false);
+});
+
+test('native More summary stays outside stage tap and swipe ownership', () => {
+  const {c,handlers,event}=touchGestureClient();c.run(`let taps=0;handleStageTap=()=>taps++;`);
+  for(const tagName of ['summary','button','input','select']) {
+    const start=event(190,400,{tagName}),end=event(190,400,{tagName});
+    handlers.get('touchstart')(start);handlers.get('touchmove')(event(220,400,{tagName}));handlers.get('touchend')(end);
+    assert.equal(start.prevented,false,tagName);assert.equal(end.prevented,false,tagName);
+    assert.equal(c.run('isTouchActive'),false,tagName);assert.equal(c.run('taps'),0,tagName);
+  }
+});
+
+test('multi-contact and uncancelable starts cannot acquire the media gesture', () => {
+  const {c,handlers,event}=touchGestureClient();
+  for(const e of [event(190,400,{count:2}),event(190,400,{cancelable:false})]){
+    handlers.get('touchstart')(e);assert.equal(e.prevented,false);assert.equal(c.run('isTouchActive'),false);
+  }
+  handlers.get('touchstart')(event());assert.equal(c.run('isTouchActive'),true);
+  handlers.get('touchmove')(event(230,400,{count:2}));
+  assert.equal(c.run('isTouchActive'),false);assert.equal(c.run('lockedAxis'),null);
+});
+
+test('reserved media tap still uses one touchend action without relying on compatibility click', () => {
+  const {c,handlers,event}=touchGestureClient();c.run(`let taps=0;handleStageTap=()=>taps++;`);
+  const start=event(),end=event();handlers.get('touchstart')(start);handlers.get('touchend')(end);
+  assert.equal(start.prevented,true);assert.equal(end.prevented,true);assert.equal(c.run('taps'),1);
+  assert.equal(c.run('isTouchActive'),false);assert.equal(c.run('lockedAxis'),null);
+});
+
 test('secondary 401 handlers cannot clear a newer token or a different account', () => {
   const c=client();
   c.run(`state.tokenRevision=4;state.driveSessionGeneration=9;let cleared=0;clearToken=()=>cleared++;`);

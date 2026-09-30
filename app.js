@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.21';
+const APP_VERSION = '1.22.0-rc.22';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -7244,8 +7244,12 @@ function setupTouchGestures() {
     }
     if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
     // Don't hijack interaction on buttons, sliders, or seekbar
-    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select')) return;
+    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select, summary')) return;
 
+    // Reserve this media contact before the intent threshold. If its first
+    // move is smaller than 12px, Chrome can otherwise make later moves
+    // uncancelable before our axis recognizer gets a chance to own the drag.
+    e.preventDefault();
     clearMediaTransition();
     const activeEl = getActiveMediaElement();
     if (activeEl) {
