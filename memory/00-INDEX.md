@@ -96,3 +96,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - [rc18 hosted settings](../qa/rc18-hosted-settings/README.md) — stable actual control-plane reads; Logpushfalse/no Tail Worker, observability null/omitted remains UNKNOWN.
 
 - [TS-PROBE-REUSE-20260930](TS-PROBE-REUSE-20260930.md) — bounded admitted within-generation input reuse,43focused/nativeQ1/569full local proof; candidate/actual comparison next.
+
+- CANDIDATE-RC19-20260930.md — fixed rc19 delivery/package, actual one-case request-count/targetframe/settlement and pointer-only clause; remaining whole-goal gates.

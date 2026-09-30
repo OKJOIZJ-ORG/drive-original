@@ -1,0 +1,2324 @@
+{
+  "schema": "drive-original.rc18-original69-documentary-overlay/1",
+  "evidenceThroughGitCommit": "2a6de0be6a0cde0838dd495c5ba3a0472ee37b6a",
+  "fixedPublicCandidate": {
+    "source": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+    "version": "1.22.0-rc.18",
+    "worker": "7eb9f9d7-c072-4095-bc94-d6776c69ad4b"
+  },
+  "state": {
+    "goal": "ACTIVE",
+    "automation": "PAUSED",
+    "productionRuntime": "e08989a",
+    "rc19ResultIncluded": false
+  },
+  "baseline": {
+    "path": "qa/candidate-rc13-qualification/report.json",
+    "sha256": "73ab0ac4d71e8f377155a95859ae7d5ffb857d84f78a90b94433726d4004c4a6",
+    "fixedSource": "570f9c38506d1e426c33cf65b73836d32bf872c0",
+    "counts": {
+      "not-run": 38,
+      "passed": 25,
+      "blocked": 4,
+      "not-applicable": 2
+    }
+  },
+  "preservedRowCount": 69,
+  "wholeRowPromotions": 0,
+  "evidenceOwners": {
+    "B": {
+      "paths": [
+        "qa/candidate-rc13-qualification/report.json",
+        "qa/candidate-rc13-qualification/qualification-matrix.md"
+      ],
+      "scope": "Preserved rc13 original69 baseline; source570f9c38506d1e426c33cf65b73836d32bf872c0. Local ignored historical evidence, not a new run."
+    },
+    "C": {
+      "paths": [
+        "memory/CORPUS-RC10-20260928.md",
+        "qa/rc16-corpus-tracks/README.md",
+        "qa/rc16-corpus-tracks/runtime-boundary.json"
+      ],
+      "scope": "Dated actual36 risk representatives/15TS structures; prepared bounded new sparse facade; actual new invocation stopped before corpus code by fileURL access."
+    },
+    "I": {
+      "paths": [
+        "memory/ISO-TRACKS-20260929.md"
+      ],
+      "scope": "One actual large front-moov ISO structural track probe; sample/config/HDR/VFR proof excluded."
+    },
+    "F": {
+      "paths": [
+        "qa/v2-live-format-playback-rc12/README.md",
+        "qa/v2-live-webm-rc13/README.md"
+      ],
+      "scope": "Historical actual selected largeISO/declaredMKV/AVI/WebM desktop decode/seek/close, not full current corpus."
+    },
+    "Q0": {
+      "paths": [
+        "qa/q0-provider-product/README.md",
+        "qa/q0-revision-pin-disposable-rc13b/README.md"
+      ],
+      "scope": "Original immutable revision contract, local native path and separate actual disposable A/B revision proof."
+    },
+    "Q12": {
+      "paths": [
+        "memory/Q1-Q2-INTEGRATION-20260930.md",
+        "qa/q2-general-product-integration/README.md"
+      ],
+      "scope": "Narrow qualified Q1/Q2 packet/clock/color/pixel/audio transformation and native failure/owner contracts; not universal format admission."
+    },
+    "Q3": {
+      "paths": [
+        "memory/Q3-FEASIBILITY-20260930.md",
+        "qa/q3-browser-execution/README.md"
+      ],
+      "scope": "Synthetic unsupported MPEG4 to lossyVP9 feasibility only; actual need and product activation unproven."
+    },
+    "U12": {
+      "paths": [
+        "qa/player-input-quality/README.md",
+        "qa/player-input-quality-audit.cjs",
+        "qa/library-quality/README.md"
+      ],
+      "scope": "Trusted browser DOM mouse/touch/keyboard and4viewports; media counters/signals synthetic. Pointer-only leave-hide is not asserted."
+    },
+    "U16": {
+      "paths": [
+        "qa/rc15-player-ui-qualification/README.md",
+        "qa/rc15-player-ui-qualification/results.json"
+      ],
+      "scope": "Fixedrc16 six native actual-app synthetic Q0/AC3/EAC3 desktop/touch cases,12target seeks, closed/reopen owners."
+    },
+    "R16": {
+      "paths": [
+        "qa/rc16-native-resource/README.md",
+        "qa/rc16-native-resource/summary.json"
+      ],
+      "scope": "Fixedrc16 mixed50/150native seeks,170each wrappers finalized; explicit5second observer Network-reset cadence. Not normal-runtime native ceiling."
+    },
+    "L16": {
+      "paths": [
+        "qa/rc16-q2-longrun/README.md",
+        "qa/rc16-q2-longrun/summary.json"
+      ],
+      "scope": "Fixedrc16 synthetic420second automaticQ2 uninterrupted native end,299/360frame clocks, complete audio packet counts and settled app/SWclose; no actual expiry/audibility."
+    },
+    "A17": {
+      "paths": [
+        "qa/rc17-actual-account/README.md",
+        "qa/rc17-actual-account/results.json"
+      ],
+      "scope": "Fixedrc17 actual designated same-account TS trusted paused10/50/90/repeated50 targetframes and later seeked/loaderfalse; normalupdate and close. No audio/physical/fullrow."
+    },
+    "N17": {
+      "paths": [
+        "qa/rc17-seek-native/README.md",
+        "qa/rc17-seek-native/results.json"
+      ],
+      "scope": "Fixedrc17 synthetic Q0/AAC andQ2/AC3 six paused10/50/90seeks; frame-before-seeked retained,200mssettled, trustedclose."
+    },
+    "I16": {
+      "paths": [
+        "qa/rc16-image-format/README.md",
+        "qa/rc16-image-format/results.json",
+        "qa/rc16-image-format/png-wrong-video-mime-results.json"
+      ],
+      "scope": "Fixedrc16 native7supported image cases, original bytes/alpha/paint/close/reopen; saved WebP card failure and separate PNG-declared-video owner counterexample."
+    },
+    "W18": {
+      "paths": [
+        "qa/rc18-webp-card/README.md",
+        "qa/rc18-webp-card/results.json",
+        "memory/WEBP-CARD-20260930.md"
+      ],
+      "scope": "rc18 staticWebP card repair: focused3/native4, paintedstaticcards/animatedviewers/alpha/cleanup. No whole image corpus/profile/device promotion."
+    },
+    "D18": {
+      "paths": [
+        "memory/CANDIDATE-RC18-20260930.md",
+        "qa/candidate-rc18-delivery/results.json",
+        "qa/candidate-rc18-delivery/actual-update.json",
+        "qa/candidate-rc18-delivery/source-readiness.json"
+      ],
+      "scope": "Fixedrc18 52public/40cached,6private404,cold/offline, source/package/full563 and actual normalexisting-account update. No historical secret absence."
+    },
+    "T18": {
+      "paths": [
+        "qa/rc18-priority-latency/README.md",
+        "qa/rc18-priority-latency/actual18-summary.json",
+        "qa/rc18-priority-latency/actual18-safe-record.json"
+      ],
+      "scope": "One fixedrc18 paused50% actual TS trial13.3749s input-to-frame; serial read waits dominate observed path.300msstill-seeking correctloader, later settledtime unmeasured; notp95."
+    },
+    "H16": {
+      "paths": [
+        "qa/rc16-hosted-security/README.md",
+        "qa/rc16-hosted-security/live-results.json"
+      ],
+      "scope": "Historical actual rc.16: 12 anonymous 401/403/400 denials, no-store and fixed error redaction. Not refreshed rc.18 authenticated boundaries."
+    },
+    "H18": {
+      "paths": [
+        "qa/rc18-hosted-settings/README.md",
+        "qa/rc18-hosted-settings/results.json",
+        "qa/rc18-hosted-settings/local-verification.json"
+      ],
+      "scope": "Actual5readonlycontrol-planeGETs with activeWorker before/after100%:Logpushfalse,Tailconsumersfalse; observabilityexplicitnull/omitted, booleans/rates unresolved. No logs/customerplan read."
+    },
+    "S": {
+      "paths": [
+        "memory/STATE-NORMAL-20260928.md",
+        "memory/STATE-SNAPSHOT-20260928.md",
+        "memory/STATE-RECOVERY-20260928.md"
+      ],
+      "scope": "Historical actual same-account stateunion/legacy/ownwriter/normaldesktop sync/reload and protectedbackup; not two physicaldevices/newclient fullmigration."
+    },
+    "M": {
+      "paths": [
+        "memory/DISPOSABLE-20260928.md",
+        "qa/v2-disposable-live/README.md"
+      ],
+      "scope": "Historical actual newly-created allowlisted canonical-controller move/trash/restore/readback; normalgallery writesfalse and finalrestoration/remnantsnotfullyqualified."
+    },
+    "A": {
+      "paths": [
+        "memory/Q1-LIVE-20260928.md",
+        "memory/PC-POSTREBOOT-20260929.md"
+      ],
+      "scope": "Historical actual priority/renewal; currentexpiry/nativeOShiddenreturn not established."
+    }
+  },
+  "rows": [
+    {
+      "id": "QA-TR-01",
+      "requirement": "Large cold MP4 Q0 before whole download, progress",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "G WP06A local faststart proof; current ISO E7 has no playback/track proof. Actual target/device Q0 run remains.",
+      "originalSpec": {
+        "scenario": "큰 정상 MP4, cold cache",
+        "expected": "전체 다운로드 전 Q0 first frame, 정상 진행",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1695
+      },
+      "rc16HistoricalOverlay": "| QA-TR-01 | not-run | F actual4.6GB first frame before whole buffering; Q0/LF cold synthetic app / High | Current candidate actual cold-cache large Q0 trace, initial bytes and progress; physical matrix |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "F",
+        "Q0",
+        "R16",
+        "D18"
+      ],
+      "directScopedEvidence": "Historical actual 4.6 GB first frame and bounded local Q0/cold assets retained.",
+      "remainingGap": "Current large cold Q0 first frame/progress/body-count trace plus required devices; rc.18 TS seek is not cold MP4 proof.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-TR-02",
+      "requirement": "Tail-index MP4/MOV without needless whole download",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "G local tail-index fixture passes. E7 sampled moov-before-mdat, not tail-index or MOV playback.",
+      "originalSpec": {
+        "scenario": "tail-index MP4/MOV",
+        "expected": "뒤쪽 index 접근 가능, 불필요한 전량 선다운로드 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1696
+      },
+      "rc16HistoricalOverlay": "| QA-TR-02 | not-run | B local tail-index fixture; I actual front moov / High | Actual tail-index MP4/MOV topology and bounded first-frame/seek route, not another front-moov replay |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "I",
+        "C"
+      ],
+      "directScopedEvidence": "Local tail-index fixture qualified; actual inspected ISO is front-moov.",
+      "remainingGap": "Actual tail-index MP4/MOV topology and bounded start/seek if present; do not replay front-moov or declare absence from the old sample.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "actual-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-TR-03",
+      "requirement": "Same-file10/50/90% video/audio seek and cleanup",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E3 actual rc.10 seeks and E4 local cleanup pass; E5 current rc.11 Q1+normal5s keyboard seek/resume/close pass their scope. Current10/50/90%/audio comparison remains unqualified.",
+      "originalSpec": {
+        "scenario": "같은 파일 10/50/90% seek",
+        "expected": "위치·영상·음성 정상, 이전 seek 작업 정리",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1697
+      },
+      "rc16HistoricalOverlay": "| QA-TR-03 | not-run | F actual50/90% targets; A priority10/50/90%; UI12 decoded targets/LF150 seeks / High | Same actual file/version current source10/50/90%, independent audio and source retirement, devices |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A17",
+        "N17",
+        "T18",
+        "U16"
+      ],
+      "directScopedEvidence": "Actual rc.17 designated TS 10/50/90/repeated50 target frames, paused settlement and close; synthetic rc.17 Q0/Q2 six seeks.",
+      "remainingGap": "Actual independent audio, other selected Q routes and same-version devices. rc.19 reuse needs its own frame/owner/network discriminator.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "physical-device",
+        "rc19-in-progress"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-TR-04",
+      "requirement": "0–1/open/suffix/end ranges have correct bytes/headers",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E13 four actual-SW synthetic16-byte cases verify exact0–1/open/suffix/final-byte status206, upstream Range, Content-Range/Length/Accept-Ranges and complete byte equality, one call each. E11 retained contained/hidden range cases extend coverage. This proves the byte contract; actual playback/seek/device gates stay separate.",
+      "originalSpec": {
+        "scenario": "`0-1`, 열린 범위, suffix, 끝바이트",
+        "expected": "상태·헤더·본문 정합성",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1698
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-05",
+      "requirement": "Valid206 accepted; malformed206/416 fail closed",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual SW fixture accepts valid contained/hidden206; wrong/unprovable Content-Range and length fail closed;416 remains structured, and E9/app recovery policy is bounded. Real malformed Google responses are not required to prove this injected contract. No playback/device claim.",
+      "originalSpec": {
+        "scenario": "유효 부분 206 / 잘못된 206 / 416",
+        "expected": "유효 응답 허용, 잘못된 바이트 fail closed, 무한 재시도 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1699
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-06",
+      "requirement": "Upstream200 is represented honestly",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual SW fixture reports original-sequential/status200/no synthetic Accept-Ranges or Content-Range. This is the specified response contract, not actual fallback playback or seek acceptance.",
+      "originalSpec": {
+        "scenario": "Range에 upstream 200",
+        "expected": "가짜 범위 응답 없이 사실대로 처리",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1700
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-07",
+      "requirement": "2/4GiB offsets without overflow/full memory allocation",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual SW sparse boundary fixtures preserve exact request/header/body bytes across2/4GiB and maximum-safe offsets; large HEAD/tiny-prefix truncated GET avoid full allocation. G also retains Chrome bridge arithmetic. Full multi-GiB throughput/performance is separate from this numerical/allocation contract.",
+      "originalSpec": {
+        "scenario": "2 GiB·4 GiB 이상 size/offset",
+        "expected": "overflow·부호 전환·메모리 전량 할당 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1701
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-08",
+      "requirement": "Header/first-byte/body stalls bounded and cancellable",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual SW header/first-byte/body-demand timeout tests classify distinct stages, settle finitely, reject stale timer/byte races and release cancellation; actual app stream recovery has one retry owner and reader callbacks ignoring abort still meet deadlines. Live stalls need not be caused; long actual return remains QA-TR-12.",
+      "originalSpec": {
+        "scenario": "헤더 무응답/첫바이트 지연/body stall",
+        "expected": "구분된 watchdog, 유한 복구, 취소 가능",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1702
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-09",
+      "requirement": "Close/switch/rapid seek cannot commit stale work",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual app source/session clearing, newer seek/event/frame/timer fences and stale native-fallback tests, plus source-owner postflight/abort fences cover all stale-commit clauses. E4 historical cycles and E5 current actual close add integration scope; no total-native-memory/device endurance claim.",
+      "originalSpec": {
+        "scenario": "닫기·다른 영상·빠른 seek",
+        "expected": "이전 응답이 새 media state를 변경하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1703
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "A17",
+        "N17",
+        "R16"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-10",
+      "requirement": "Changed source cannot mix cached bytes",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Current fixed-source Q1 open/pre/post/checksum and postflight-discard checks pass (selected-6.tap). Changed content cannot enter released Q1 bytes, and a new baseline is not silently adopted. Q0/native/full-original source-change and whole-row recovery mapping remain unproven; Q1 subset is not full route acceptance.",
+      "originalSpec": {
+        "scenario": "재생 중 source 변경",
+        "expected": "cache 혼합 금지, 변경 복구",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1704
+      },
+      "rc16HistoricalOverlay": "| QA-TR-10 | not-run | Q0 immutable snapshot/local current consumer fences + actual disposable revision A/B / High | Refreshed fixed-source full Q0/Q1/Q2 route source-change/recovery ledger; keep actual provider proof distinct from original mutations |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "Q0",
+        "Q12"
+      ],
+      "directScopedEvidence": "Immutable Q0 local fences and actual disposable revision A/B; Q1/Q2 changed-source rejection/native abort evidence retained.",
+      "remainingGap": "Full changed-source route/recovery mapping remains broader than these slices. No personal-original mutation or additional product change is selected here.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "route-coverage"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-TR-11",
+      "requirement": "Cache/quota failure is not a codec verdict",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 exact QA-TR-11 actual-app tests inject policy limits, native Blob allocation and mid-write OPFS quota failure: storage-limited, no automatic compatibility/codec verdict, cleaned lease, stale failures fenced. This classification contract does not require filling a physical device's storage.",
+      "originalSpec": {
+        "scenario": "제한 cache/quota",
+        "expected": "비호환 코덱으로 오판하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1705
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-TR-12",
+      "requirement": "Long actual playback survives expiry, seek and return",
+      "baselineStatus": "blocked",
+      "baselineEvidence": "E3 one actual rc.10 natural-renewal boundary passes; E5 current rc.11 Q1/seek/resume/close subset passes. Tool attempts did not establish an actual hidden document, so30s return was not performed; the failed observer is retained. Sleep/wake/hour/device and historic299s boundary remain.",
+      "originalSpec": {
+        "scenario": "충분히 긴 실제 재생",
+        "expected": "만료 경계 이후 Range/seek·화면 복귀 정상",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1706
+      },
+      "rc16HistoricalOverlay": "| QA-TR-12 | blocked | A natural renewal; LF72s original end / High | Actual hidden30s return, current natural expiry/late seek, long duration; historic299s remains unexplained |",
+      "currentStatus": "blocked",
+      "disposition": "blocked-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A",
+        "L16",
+        "A17"
+      ],
+      "directScopedEvidence": "Native synthetic 420 s Q2 crosses 299/360 s, reaches real ended/source EOF, then full worker/app/SW close.",
+      "remainingGap": "Actual expiry, later Range/seek, hidden30s/native OS return and position/list retention; synthetic longrun does not explain the historical actual 299 s incident.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "native-os-return",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-01",
+      "requirement": "All11extensions/codec combinations inventoried/routed",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E6 inventory/byte/TS and E7 first ISO headers only. Full tracks/Q-route/decode/device inventory unaccepted.",
+      "originalSpec": {
+        "scenario": "11개 확장자와 실제 codec 조합",
+        "expected": "inventory 누락 없음, 조합별 Q 경로와 검증 상태",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1712
+      },
+      "rc16HistoricalOverlay": "| QA-FM-01 | not-run | C36 byte-risk cover,15TS structures; I1ISO tracks; F selected decode / High | Full codec/profile/track inventory, unknown2 and remaining ISO/WebM tracks, Q-route/device matrix |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "C",
+        "I",
+        "F",
+        "Q12",
+        "Q3"
+      ],
+      "directScopedEvidence": "Dated 36 representatives/15 TS and one ISO track probe; selected native playbacks retained.",
+      "remainingGap": "Fresh complete canonical catalog and stable account/version mapping, then max5 remaining ISO +1 WebM +2 metadata-directed unknowns after fileURL permission. No full36 prefix/15TS replay. Exact private version continuity is unavailable; defer largest metadata ISO without claiming identity with the prior tested version.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-02",
+      "requirement": "Unsupported container uses Q1 without video re-encode",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E3 historical actual priority/local preservation and E5 current rc.11 priority Q1 progress/5s seek/close pass their scopes. Audible output, preservation of all selected tracks and broader combination qualification remain.",
+      "originalSpec": {
+        "scenario": "영상/음성은 지원, container만 미지원",
+        "expected": "Q1, 불필요한 영상 변환 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1713
+      },
+      "rc16HistoricalOverlay": "| QA-FM-02 | not-run | F actual TS-in-MKV/AVI + priority; Q12 Q1 encoded/clock/color preservation / High | Container/track combinations outside strict Q1 admission, actual audio/selection/device evidence |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "F",
+        "Q12",
+        "A17"
+      ],
+      "directScopedEvidence": "Actual designated TS/declared MKV/AVI and strict Q1 encoded-video/clock preservation saved.",
+      "remainingGap": "Other actual container/track combinations, audio/selection and devices outside strict admission remain unqualified.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-03",
+      "requirement": "Q2 fixes incompatible audio without video re-encode",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "No actual Q2 acceptance; PCM output discriminator is not Q2 or source AAC evidence.",
+      "originalSpec": {
+        "scenario": "영상 지원·음성 비호환",
+        "expected": "Q2, 영상 재인코딩 없음·정상 음성",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1714
+      },
+      "rc16HistoricalOverlay": "| QA-FM-03 | not-run | Q12 actual app synthetic AC3/EAC3 Q2; encoded AVC/pixels unchanged, lossy Opus quality/end proof / High | Actual corpus AC3/EAC3 existence and fit to stereo48kHz/no-B/explicit-color/unfragmented profile; device/resource/audio evidence |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "Q12",
+        "L16",
+        "U16",
+        "N17"
+      ],
+      "directScopedEvidence": "Synthetic AC3/EAC3 video-copy/native Opus, quality oracles, 420 s Q2 and paused seeks qualified.",
+      "remainingGap": "Actual AC3/EAC3 presence/profile fit and audible/device proof. Stereo48kHz/no-B/explicit-color/unfragmented admission is narrow.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-04",
+      "requirement": "Unsupported video codec has approved actual Q3 path",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Native comparison/local spikes do not satisfy app acceptance; supported resource/path proof remains.",
+      "originalSpec": {
+        "scenario": "원본 영상 codec 미지원",
+        "expected": "승인된 브라우저/서비스 자원 내 실제 경로·필요 Q3 검증. native 비교를 앱 인수로 계산하지 않음; 미확보 지원은 미완료로 기록",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1715
+      },
+      "rc16HistoricalOverlay": "| QA-FM-04 | not-run | Q3 synthetic exact unsupported MPEG4 profile plus lossy output / High | Actual unsupported video evidence; product Q3 admission/owner/resource/profile integration. Corpus absence is not established |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "Q3",
+        "C"
+      ],
+      "directScopedEvidence": "Synthetic unsupported MPEG4-to-VP9 feasibility only.",
+      "remainingGap": "Independently confirm an actual unsupported codec/config, then implement required bounded product Q3 admission/owners/resources. Q3 absence and product activation are both unproven.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "conditional-product-implementation"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-05",
+      "requirement": "Multi-audio/silent/subtitle/rotation/VFR timing",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Selected TS local preservation only; full track variants/device selection/timing remain. E7 parses no tracks.",
+      "originalSpec": {
+        "scenario": "다중 음성·무음·자막·회전·VFR",
+        "expected": "선택과 타이밍·화면비 정상",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1716
+      },
+      "rc16HistoricalOverlay": "| QA-FM-05 | not-run | F actual SAR/TS clock repair; Q12 synthetic SAR/color/timeline / High | Actual multi-audio/silent/subtitle/rotation/VFR topology then selective playback; unsupported cases remain explicit |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "F",
+        "Q12"
+      ],
+      "directScopedEvidence": "Actual SAR/TS clocks and synthetic SAR/color/source-clock preservation saved.",
+      "remainingGap": "Actual multi-audio/silent/subtitle/rotation/VFR topology, track selection/timing and devices; extension does not establish these.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-06",
+      "requirement": "Existing HDR/high-depth preservation/transform labeled",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Actual HDR existence/paths not qualified; cannot infer not-applicable from unexamined corpus.",
+      "originalSpec": {
+        "scenario": "실제 HDR/고비트심도 파일 존재 시",
+        "expected": "보존 또는 필요한 변환 명시, SDR을 원본 HDR로 라벨링하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1717
+      },
+      "rc16HistoricalOverlay": "| QA-FM-06 | not-run | I explicitly leaves HDR/depth unqualified / High | Actual HDR/high-depth presence from bounded configs; cannot use N/A until corpus evidence exists |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "I",
+        "C"
+      ],
+      "directScopedEvidence": "Actual ISO track probe explicitly excludes HDR/depth/config proof.",
+      "remainingGap": "Actual HDR/high-depth presence is unknown; inspect bounded configs before conditional N/A or preservation/transform labels.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "conditional-product-implementation"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-07",
+      "requirement": "GIF/WebP list static, viewer animation/alpha/timing",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Prior local static GIF/list cases; actual viewer WebP/animation/device matrix remains. E6 signature counts are not viewer proof.",
+      "originalSpec": {
+        "scenario": "GIF·animated WebP",
+        "expected": "목록 정지, 실제 viewer 애니메이션·alpha·시간 보존",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1718
+      },
+      "rc16HistoricalOverlay": "| QA-FM-07 | not-run | B static GIF/list contract; C GIF/WebP signatures / High | Native actual-product animated WebP/GIF animation, alpha/timing plus actual selected corpus/device viewer |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "I16",
+        "W18"
+      ],
+      "directScopedEvidence": "Native painted viewer animation/alpha/original bytes; rc.18 static WebP card repair with four native cases and three focused checks.",
+      "remainingGap": "Actual corpus/device viewers and other loop/profile/timing variants remain unclaimed. The known animated-list defect is resolved; no repeat card suite is necessary.",
+      "remainingBoundaryCategories": [
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-08",
+      "requirement": "Large images/wrong MIME displayed safely without omissions",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Prior local image/GIF/error cases; bounded signatures E6 do not prove full large-image/MIME/device behavior.",
+      "originalSpec": {
+        "scenario": "큰 PNG/JPEG/BMP·잘못된 MIME",
+        "expected": "원본 표시/안전 변환, 파일 누락·iframe 영상 fallback 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1719
+      },
+      "rc16HistoricalOverlay": "| QA-FM-08 | not-run | B image/error unit cases; C JPEG/PNG signatures and rare BMP metadata / High | Native actual-product large image/wrong-MIME/BMP path, no omission or video fallback; actual corpus/devices |",
+      "currentStatus": "not-run",
+      "disposition": "partial-unresolved-supported-image-counterexample",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "I16",
+        "W18"
+      ],
+      "directScopedEvidence": "Native large PNG/BMP/alpha, wrong image subtype and filename cases display/close/reopen. Supported PNG declared video/mp4 is a saved display failure.",
+      "remainingGap": "Required local unit20: identity-fenced byte signature/owner dispatch for the PNG-declared-video case. Preserve original bytes, account/version/Range budgets; metadata alone cannot authorize fallback. Full JPEG/corpus/devices remain.",
+      "remainingBoundaryCategories": [
+        "necessary-local-product",
+        "corpus-permission",
+        "physical-device"
+      ],
+      "finiteNextAction": {
+        "owner": "root schedules required local unit20 after rc19 closure",
+        "acceptance": [
+          "QA-FM-08",
+          "TR-04",
+          "MEDIA-07"
+        ],
+        "source": {
+          "pin": "2a6de0be6a0cde0838dd495c5ba3a0472ee37b6a",
+          "path": "app.js",
+          "functions": [
+            {
+              "name": "openMediaSource",
+              "startLine": 7609,
+              "metadataIsVideoLine": 7630,
+              "kindDispatchLine": 7692
+            },
+            {
+              "name": "startInitialOriginalPlayback",
+              "startLine": 7706
+            },
+            {
+              "name": "startOriginalRangePlayback",
+              "startLine": 7743
+            },
+            {
+              "name": "openPlayer",
+              "startLine": 5336,
+              "controlsKindLine": 5362
+            },
+            {
+              "name": "updateQualityDisplay",
+              "startLine": 10270,
+              "metadataIsVideoLine": 10277
+            }
+          ]
+        },
+        "failureEvidence": "qa/rc16-image-format/png-wrong-video-mime-results.json",
+        "smallestDiscriminator": "Supported PNG bytes declared video/mp4 must enter the canonical image owner after identity-fenced byte classification, display unchanged bytes, keep video hidden, preserve presentation/viewed policy and settle close; HTML/JSON/truncated/unsupported bytes must not be rerouted from metadata alone.",
+        "persistenceEvidence": "Git app.js diff e57d7b5b3154a2a838d01f631cf71fa063044280..f6749c1a1b1a8345f8f76606786e0c1ccb48b21c changes only version, seek presentation and WebP card branch; routing persistence is source-supported inference, not new native rc18 execution."
+      },
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-09",
+      "requirement": "Damaged/incomplete media is bounded/classified",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Local malformed/range cases pass; actual corruption/format matrix remains. E5 is not corruption proof.",
+      "originalSpec": {
+        "scenario": "손상 또는 불완전 파일",
+        "expected": "원인 분류, 전체 앱 오류/무한 작업 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1720
+      },
+      "rc16HistoricalOverlay": "| QA-FM-09 | not-run | B malformed/storage contract; Q12 corrupt synthetic EAC3 zero append / High | Native actual-product truncated/unsupported image/video classification; actual corruption only after independent original evidence |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "Q12",
+        "I16"
+      ],
+      "directScopedEvidence": "Malformed Range/storage and native corrupt EAC3: zero append, decoder opened=closed. PNG/video mismatch has bounded error, no viewed mark and settled close.",
+      "remainingGap": "Unit20 needs unsafe HTML/JSON/truncated/unsupported signature controls in the same classification unit. Actual corruption requires independent exact bytes after auth/network/version exclusion.",
+      "remainingBoundaryCategories": [
+        "necessary-local-discriminator",
+        "corpus-permission"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-FM-10",
+      "requirement": "Derived HLS90% seeks directly on correct timeline",
+      "baselineStatus": "not-applicable",
+      "baselineEvidence": "E12/S MEDIA-03 condition: HLS delivery is not selected or implemented in this fixed candidate; Q1 uses MP4 fragments through MSE, not a playlist/segment route. Reopen on HLS adoption. Actual arbitrary seek and full-format goals remain in QA-TR-03/12 and QA-FM-01~09.",
+      "originalSpec": {
+        "scenario": "파생 HLS 90% seek",
+        "expected": "처음부터 생성 대기 없이 올바른 timeline 접근",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1721
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "not-applicable",
+      "disposition": "conditional-not-applicable-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "HLS notselected; reopen only on HLSadoption. Otherformat/seekgoals notwaived.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "conditional only"
+      }
+    },
+    {
+      "id": "QA-AU-01",
+      "requirement": "Real expiry recovery preserves list/position",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E3 one rc.10 natural renewal/seek and E9 local cases pass; actual rc.11/device expiry matrix remains.",
+      "originalSpec": {
+        "scenario": "실제 토큰 만료 전후",
+        "expected": "선택한 정상 갱신/명시 재연결, 목록·위치 유지",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1727
+      },
+      "rc16HistoricalOverlay": "| QA-AU-01 | not-run | A actual rc.10 natural renewal; B deterministic expiry; S reload / High | Current candidate actual renewal/position/list plus platform matrix |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A",
+        "S",
+        "D18"
+      ],
+      "directScopedEvidence": "Historical actual renewal, current existing-account update/reload and deterministic expiry qualified at their scopes.",
+      "remainingGap": "Current natural expiry/recovery with the same position/list/selection. Account presence is not renewal proof; no forced revoke/regrant.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-AU-02",
+      "requirement": "Concurrent401 has one bounded account refresh",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 twenty callers across two actual credential owners share one persisted refresh/revision; page requests and failed waiters are single-flight; SW401 replay is once/newer-revision-only, failed refresh never replays rejected token. Contract concurrency is qualified; real two-device/serverless coordination remains QA-SL-02.",
+      "originalSpec": {
+        "scenario": "동시 401 다수",
+        "expected": "계정별 한 번의 갱신, 유한 재시도",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1728
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-03",
+      "requirement": "Late401/same-token newer revision cannot delete credential",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 current actual app/SW tests cover late401/newer revision with identical token text, one newer replay, stale/conflicting revisions and late CLEAR_TOKEN; E9 owns atomic retained credentials. This race contract is discriminated by fixtures; real two-device refresh is still QA-SL-02.",
+      "originalSpec": {
+        "scenario": "늦은 401·같은 문자열 새 revision",
+        "expected": "새 credential이 삭제되지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1729
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-04",
+      "requirement": "Real/virtual account switch isolates files/write/state",
+      "baselineStatus": "passed",
+      "baselineEvidence": "S explicitly allows real/virtual selection. E11 actual-app tests fence old HTTP/JSON/catalog/credential completions and state writes; wrong-account credential cannot replace account/list state; submitted mutation stays with origin account and recovery cannot read/replay it under new account. This is the virtual-account acceptance branch, not a real-account/device switch claim.",
+      "originalSpec": {
+        "scenario": "실제/가상 다른 계정 선택",
+        "expected": "이전 파일·쓰기·state 격리",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1730
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-05",
+      "requirement": "Scope/permission/quota/network differentiated, no needless logout",
+      "baselineStatus": "passed",
+      "baselineEvidence": "Fixed-source selected AUTH-05/provider/owner tests plus extra-results.json four synthetic permission/quota/network/scope discriminators preserve credentials and classify distinct causes. Missing appData retains local pending state and Drive playback capability; missing driveRead cannot authorize ordinary media; explicit reconnect/verified regrant retains security. Contract-only acceptance, no live grant downgrade or physical-device claim.",
+      "originalSpec": {
+        "scenario": "권한·scope·quota·network 오류",
+        "expected": "서로 다른 원인으로 처리, 불필요한 logout 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1731
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-06",
+      "requirement": "Third-party cookies blocked still permits app path",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Direct-reader/B-auth architecture removes iframe dependency; actual blocked-cookie/platform scenario remains.",
+      "originalSpec": {
+        "scenario": "third-party cookies blocked",
+        "expected": "앱 원본/파생 경로 정상, Google iframe에 의존하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1732
+      },
+      "rc16HistoricalOverlay": "| QA-AU-06 | not-run | Direct reader/B-auth architecture; no Google iframe selected / Medium | A real browser blocked-third-party-cookie setting with actual app path, then iPhone contexts; architecture alone insufficient |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "D18"
+      ],
+      "directScopedEvidence": "Direct reader architecture and actual normal account restore/playback avoid the Google iframe.",
+      "remainingGap": "Actual blocked-third-party-cookie setting/session scenario and iPhone contexts; use an approved isolated context, not global security/cookie changes.",
+      "remainingBoundaryCategories": [
+        "browser-setting",
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-AU-07",
+      "requirement": "Cancel/missing callback/state error fails once, preserves data",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual app blocked/cancelled popup and missing-callback deadline preserve usable session and release action; callback error is consumed once; wrong/expired pre-auth state is terminal and callback failures use one allowlisted retry root. Stale completion cannot revive an expired attempt. Physical callback-context acceptance remains QA-SL-05.",
+      "originalSpec": {
+        "scenario": "팝업 취소·콜백 누락·state 오류",
+        "expected": "한 번의 안전한 실패·재시도 가능, 기존 데이터 보존",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1733
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-08",
+      "requirement": "Partial refresh response preserves prior refresh token",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 retained missing-refresh-field test plus E13 literal maintained five-case actual Google-adapter→account-owner fixture: valid omitted refresh retains encrypted credential; missing access/expiry/type and empty refresh reject once with auth_unavailable, preserving old refresh state. No live provider fault is needed; real expiry/revocation is QA-AU-01/QA-SL-01.",
+      "originalSpec": {
+        "scenario": "refresh 응답에 token 필드 일부 없음",
+        "expected": "기존 refresh token 보존, 불완전 응답 분류",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1734
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-09",
+      "requirement": "Broker restart/session recovery or clear reconnect",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 restarted actual credential owner uses persisted lease/session state, recovers once and rejects late old revision; actual SQLite host adapter commits/rolls back; SW restart gets only its correlated client credential; initial session recovery/failed credential probe remains bounded with explicit reconnect. Qualified deterministic owner-restart contract, not a live host outage/device sleep-wake assertion.",
+      "originalSpec": {
+        "scenario": "브로커 재시작/세션 갱신",
+        "expected": "안전한 세션 복구 또는 명확한 재연결",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1735
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-AU-10",
+      "requirement": "New origin/client preserves state/tombstones/writer identity",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E1 actual same-account legacy inclusion, own-writer sync, protected backups and empty-shadow/old-code read pass. New-origin OAuth/client binding/device migration not proven.",
+      "originalSpec": {
+        "scenario": "새 origin/OAuth client 이관",
+        "expected": "기존 state count·tombstone·writer identity 보존 또는 계획된 이관",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1736
+      },
+      "rc16HistoricalOverlay": "| QA-AU-10 | not-run | S actual legacy inclusion/raw backups/own writer/empty-shadow / High | Fixed current client/origin identity and current state readback; complete physical migration comparison |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "S",
+        "D18"
+      ],
+      "directScopedEvidence": "Actual same-account legacy union/backup/writer and current existing-client update retained.",
+      "remainingGap": "New origin/client binding and before/after counts, tombstones, writer identity and recovery across required contexts; same-client update is not migration.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "new-client-context",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-ST-01",
+      "requirement": "Two foreground devices exchange likes/unlikes/viewed automatically",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E1 maintained two-writer/provider convergence and desktop sync pass; two physical devices are unaccepted.",
+      "originalSpec": {
+        "scenario": "두 기기 계속 foreground",
+        "expected": "양방향 like/unlike/viewed 수신, 수동 reload/refocus 불필요",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1737
+      },
+      "rc16HistoricalOverlay": "| QA-ST-01 | not-run | S desktop sync and B deterministic two-writer convergence / High | Two physical foreground devices, like/unlike/viewed propagation without reload/refocus |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "S",
+        "B"
+      ],
+      "directScopedEvidence": "Writer union/desktop normal state and synthetic two-client convergence retained.",
+      "remainingGap": "Two independent physical foreground contexts receive likes/unlikes/viewed without reload/refocus, including offline/conflict cases.",
+      "remainingBoundaryCategories": [
+        "two-physical-devices"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-ST-02",
+      "requirement": "Offline edits leave remote unchanged then safely merge",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 fixed actual app+synthetic transport: offline like/unlike/viewed edits survive failed transport with remote writes0; reconnect confirms merged concurrent writer, viewed union and unlike tombstone in own document, other writer unchanged. Contract acceptance; actual two-device experience remains QA-ST-01/G5.",
+      "originalSpec": {
+        "scenario": "offline edit → 재연결",
+        "expected": "offline 동안 원격 불변, 이후 안전 병합",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1738
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-ST-03",
+      "requirement": "Failed open is not recorded as successful viewing",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual app viewed owner requires presentation progress, rejects failed/hidden/stale/account-switched videos and broken/replaced/rejected-decoding images; open/paused frame/seek alone do not record success. Generations cannot combine observations; retry cannot double-record. STATE-07 policy is tested without rewriting historical viewed data.",
+      "originalSpec": {
+        "scenario": "실패한 영상 open",
+        "expected": "시청 성공 기록으로 잘못 확정되는지 검사, STATE-07 정책 적용",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1739
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "I16",
+        "W18"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-01",
+      "requirement": "Disposable trash has independent same-ID remote confirmation",
+      "baselineStatus": "blocked",
+      "baselineEvidence": "E8 restricted controller actual pass. Normal candidate UI intentionally blocked by general writes=false.",
+      "originalSpec": {
+        "scenario": "승인된 테스트 파일 휴지통 이동",
+        "expected": "동일 ID의 remote `trashed` 확인",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1745
+      },
+      "rc16HistoricalOverlay": "| QA-MU-01 | blocked | M actual restricted disposable trash/readback / High | Normal candidate UI safe new-target write policy/test mode; global writes=false is intentional deployment state, not missing general write authority under D050 |",
+      "currentStatus": "blocked",
+      "disposition": "blocked-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "M",
+        "B"
+      ],
+      "directScopedEvidence": "Actual restricted allowlisted canonical trash/readback proof retained.",
+      "remainingGap": "Normal gallery remains intentionally writes=false. A distinct UI route requires the exact approved new-disposable allowlist; do not enable global writes or repeat a proven controller write merely to relabel the row.",
+      "remainingBoundaryCategories": [
+        "normal-ui-write-policy",
+        "disposable-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-MU-02",
+      "requirement": "Disposable folder move confirms actual parents",
+      "baselineStatus": "blocked",
+      "baselineEvidence": "E8 restricted controller actual pass; normal UI/gallery target qualification remains locked.",
+      "originalSpec": {
+        "scenario": "승인된 폴더 이동",
+        "expected": "실제 parents 확인, 요청값 추정 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1746
+      },
+      "rc16HistoricalOverlay": "| QA-MU-02 | blocked | M actual restricted move/parents readback / High | Normal candidate UI/gallery target qualification with exact new allowlisted IDs; same write-state distinction |",
+      "currentStatus": "blocked",
+      "disposition": "blocked-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "M",
+        "B"
+      ],
+      "directScopedEvidence": "Actual restricted allowlisted move and independent parents confirmation retained.",
+      "remainingGap": "Normal gallery target discovery is write-disabled/unqualified; same narrow allowlist requirement as MU01, not another proven controller write.",
+      "remainingBoundaryCategories": [
+        "normal-ui-write-policy",
+        "disposable-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-MU-03",
+      "requirement": "Lost response reconciles remote commit without duplicates",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual ordinary-file trash/move controller fixtures confirm applied-before-loss by independent GET with one PATCH; uncertain-before-apply remains read-only through repeat/reload. E8 separately retains actual restricted controller response suppression/readback without replay. This row's reconciliation contract passes; normal gallery/UI delivery is still unqualified in QA-MU-01/02/10. AppData CREATE is not substituted for file-operation proof.",
+      "originalSpec": {
+        "scenario": "응답 손실 뒤 remote commit",
+        "expected": "readback으로 confirmed, 중복 위험 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1747
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-04",
+      "requirement": "Pre-dispatch failure leaves remote unchanged and reports honestly",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual canonical controller rejects storage/lock failure, stale snapshot, wrong ID/parents and denied capabilities before PATCH; retained zero-PATCH assertions and propagated refusal prove unchanged synthetic remote state/no success. General candidate UI remains locked/unqualified in QA-MU-01/02; no real write claim from these fixtures.",
+      "originalSpec": {
+        "scenario": "요청 전 실패",
+        "expected": "원격 불변, 적합한 failed/pending 처리",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1748
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-05",
+      "requirement": "Partial success+expiry/account switch retains per-file results",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 actual canonical controller+synthetic provider proves partial batch expiry and account-switch cases: per-file fulfilled/rejected and origin confirmed/uncertain ledgers preserved, remaining items fenced, new-account recovery writes0. E8 retains separate actual restricted integration; normal gallery write route stays locked.",
+      "originalSpec": {
+        "scenario": "부분 성공 뒤 만료·계정 전환",
+        "expected": "파일별 결과 보존, 새 계정 재실행 금지",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1749
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-06",
+      "requirement": "Duplicate operationId/different payload resolves or conflicts",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual mutation ledger binds operationId to payload, conflicts on different intent, retains confirmed proof and never replays the same ID after external restore; persistent/reload uncertainty also never transparently resubmits. Stable appData CREATE IDs are not used as this row's proof. Normal UI remains separate.",
+      "originalSpec": {
+        "scenario": "중복 operationId·payload 변경",
+        "expected": "같은 작업 결과 재사용 또는 충돌 거부",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1750
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-07",
+      "requirement": "Same name/shortcut/shared-drive intent changes only right ID",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 fixed canonical controller moves selected same-name shared-drive shortcut ID only, supportsAllDrives=true, verified old/destination parents, one PATCH confirmed by independent GET; sibling and shortcut target unchanged. Retained shortcut fixture separately passes. Normal gallery target discovery/device experience is not implied.",
+      "originalSpec": {
+        "scenario": "동명 파일·shortcut·공유 드라이브",
+        "expected": "대상 ID/의도 정확, 잘못된 파일 수정 0",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1751
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-08",
+      "requirement": "Readback404/permission loss is not guessed deletion",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E11 actual ordinary-file controller repeated404/unreadable readback stays uncertain with after=null/no replay. E13 applied PATCH then403 independent readback stays uncertain through recovery, one PATCH only. Both required refusal branches are proven without guessing deletion; actual mutation UI remains separate.",
+      "originalSpec": {
+        "scenario": "readback 404·권한 변화",
+        "expected": "삭제 성공으로 단정하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1752
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-MU-09",
+      "requirement": "API/web/G: comparison separates cloud state from sync delay",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Restricted API readback alone is not web/G: comparison.",
+      "originalSpec": {
+        "scenario": "Drive API·웹·G: 비교",
+        "expected": "클라우드 상태와 desktop sync 지연 구별",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1753
+      },
+      "rc16HistoricalOverlay": "| QA-MU-09 | not-run | M API independent readback / High | The approved disposable API/web/G: comparison and explicit desktop-sync lag observation |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "M"
+      ],
+      "directScopedEvidence": "Actual API readback proves only the scoped cloud state.",
+      "remainingGap": "Compare the same approved disposable ID/state privately through Drive web and G: with timestamps, distinguishing desktop-sync delay.",
+      "remainingBoundaryCategories": [
+        "desktop-sync-access",
+        "disposable-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-MU-10",
+      "requirement": "Disposable pre-state restored, no permanent deletion",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E8 actual restricted restoration/read-only recovery preserves identities and uses no permanent DELETE, but final file is recoverably trashed and2new folders retained. No exact approved pre-state restoration comparison for all remnants is recorded. Securely inspect recovery ledger/pre-state before any further cleanup; general writes remain false.",
+      "originalSpec": {
+        "scenario": "복구·잔여 test data",
+        "expected": "승인된 pre-state로 복원, 영구 삭제 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1754
+      },
+      "rc16HistoricalOverlay": "| QA-MU-10 | not-run | M recoverable final file trash +2 retained new folders / High | Read private pre-state/recovery first; exact remnants and approved restoration cleanup. No automatic permanent delete |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "M",
+        "S"
+      ],
+      "directScopedEvidence": "Restricted restore/recovery and no permanent DELETE retained; final recoverably trashed file and two new folders remain historical remnants.",
+      "remainingGap": "Inspect private journal/pre-state/current identity/account, then restore/confirm only approved exact targets. No broad cleanup or inferred pre-state. Current private freshness was not inspected here.",
+      "remainingBoundaryCategories": [
+        "private-recovery-precondition",
+        "disposable-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-01",
+      "requirement": "Playback states do not themselves reveal chrome",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 local contract; D-056 pause-without-overlay retained. New overlay/cursor work is QUEUED, not a performed rc.11 audit. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "playing/paused/loaded/seeked",
+        "expected": "상태만으로 chrome reveal 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1760
+      },
+      "rc16HistoricalOverlay": "| QA-UI-01 | not-run | UI rc16 native Q0/Q2 paused/playing/reopen state preserves hidden chrome / High | Refresh full row ledger with UI scope; physical playback states still separate |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16",
+        "A17",
+        "N17",
+        "T18"
+      ],
+      "directScopedEvidence": "Trusted DOM/native Q0/Q2 input; actual rc.17 paused seek loader settles without another resumed frame. Later rc.18 settlement agrees.",
+      "remainingGap": "Required physical/input environments remain. rc.18 still-seeking at300ms correctly retains the loader; it is not a persistent-loader regression.",
+      "remainingBoundaryCategories": [
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-02",
+      "requirement": "PC center hidden/bottom reveal/leave hide",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Prior local UI evidence E10; new cursor behavior QUEUED/unstarted, actual rc.11 audit remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "PC 중앙 움직임 / 하단 진입·이탈",
+        "expected": "중앙 hidden, 하단 reveal, 이탈 후 hide",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1761
+      },
+      "rc16HistoricalOverlay": "| QA-UI-02 | not-run | UI trusted desktop lower reveal/center dismissal/cursor / High | Explicit desktop leave-hide timer coverage if not in rc12 owner audit; physical/current candidate observation |",
+      "currentStatus": "not-run",
+      "disposition": "partial-unobserved-pointer-only-leave-clause",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Trusted bottom reveal/hidden center/dismiss and stable44px entry. app.js timer/pointerleave owns the320ms desktop hide.",
+      "remainingGap": "One mandatory unobserved clause: trusted bottom→center movement only, wait for actual hide, with zero playback action and no hidden-state reveal. Saved audits use center click-dismiss; no defect is inferred.",
+      "remainingBoundaryCategories": [
+        "necessary-local-read-only-check"
+      ],
+      "finiteNextAction": {
+        "owner": "root trusted desktop read-only observation",
+        "acceptance": [
+          "QA-UI-02"
+        ],
+        "source": {
+          "pin": "2a6de0be6a0cde0838dd495c5ba3a0472ee37b6a",
+          "path": "app.js",
+          "functions": [
+            {
+              "name": "resetControlsTimer",
+              "startLine": 5445
+            },
+            {
+              "name": "setupPlayerChrome.pointerleave",
+              "line": 5498
+            }
+          ]
+        },
+        "smallestDiscriminator": "Start with hidden controls, move into the bottom entry, then move only to center/outside, wait past320ms and observe controls hidden with no playback action. No click/tap dismissal or synthetic timer substitute.",
+        "missingEvidence": "qa/player-input-quality-audit.cjs90–105 uses click dismissal; rc16 native cases use tap dismissal; tests/immersive.test.js40 only checks that hidden reset cannot reveal."
+      },
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-03",
+      "requirement": "Mobile bottom controls/reveal/dismiss usable",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Overlay-only touch failure user-reported; A-010 QUEUED for hit-test reproduction. Pause must not force overlay; physical acceptance remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "모바일 하단 터치·바깥 dismiss",
+        "expected": "필요한 controls 접근, 화면 방해 최소",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1762
+      },
+      "rc16HistoricalOverlay": "| QA-UI-03 | not-run | UI trusted touch-emulated44px reveal/dismiss preserves playing / High | Actual D056 reported iPhone hit area/mode; emulation cannot close report |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Native44px entry/reveal/dismiss passes desktop touch emulation and actual decoded synthetic cases.",
+      "remainingGap": "Physical mobile hit/reveal/dismiss and the iPhone user-reported boundary; simulation is not physical proof.",
+      "remainingBoundaryCategories": [
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-04",
+      "requirement": "Fallback/error/external actions have one dismissible owner",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 implemented/local owner checks pass; actual fallback/device matrix remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "fallback/오류/외부 열기 경로",
+        "expected": "닫을 수 없는 별도 아일랜드 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1763
+      },
+      "rc16HistoricalOverlay": "| QA-UI-04 | not-run | UI exhausted-original UI injection dismissible recovery with settled close / High | Real exhausted source/transport failure route + physical external action behavior, not injection relabeled as network failure |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Injected exhausted-original recovery has one dismissible owner, zero retained source/external preview and trusted close.",
+      "remainingGap": "Actual exhausted transport/explicit external action and physical recovery contexts; UI injection does not induce the real transport failure.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-05",
+      "requirement": "Click then Space/Tab-button Space have correct single action",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 local keyboard fixtures pass; full actual focus/platform behavior remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "버튼 click 후 Space / Tab button Space",
+        "expected": "각각 playback / native button 동작, 중복 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1764
+      },
+      "rc16HistoricalOverlay": "| QA-UI-05 | not-run | UI trusted Space resume/Tab reveal; B native-button fixture / High | Actual click-then-Space and Tab-button-Space explicit single-action native-input check if missing from preserved rc12; devices |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Saved audit explicitly asserts click-then-Space and native Tab/button-Space once-only actions; native cases add trusted Space/Tab.",
+      "remainingGap": "Physical platform focus behavior remains. Do not repeat the already-proven finite keyboard clauses.",
+      "remainingBoundaryCategories": [
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-06",
+      "requirement": "VoiceOver/keyboard can explicitly reveal without traps",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Local keyboard/focus only; physical VoiceOver acceptance missing. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "VoiceOver·keyboard 진입",
+        "expected": "숨긴 controls에 갇히지 않고 명시 reveal 가능",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1765
+      },
+      "rc16HistoricalOverlay": "| QA-UI-06 | not-run | UI keyboard reveal/reachable controls / High | Physical VoiceOver, focus trap and explicit reveal on actual iPhone |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Native DOM keyboard reveal/focus transfer; native Tab controls usable.",
+      "remainingGap": "Physical VoiceOver and device hidden-control traps/reentry; keyboard fixtures cannot substitute for VoiceOver.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "assistive-technology"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-07",
+      "requirement": "Long-press/move/multi-touch safely cancel or complete",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 synthetic input cases; physical gesture/OS matrix remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "long press·이동·다중 touch",
+        "expected": "selection/drag/menu 충돌 없이 취소·완료",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1766
+      },
+      "rc16HistoricalOverlay": "| QA-UI-07 | not-run | Preserved rc12 four-viewport/cancel/multitouch synthetic audit / High | Physical long-press/context-menu/drag interaction; no need to repeat identical synthetic gestures |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "B"
+      ],
+      "directScopedEvidence": "Four-viewport DOM touch cancellation/movement/second-touch and selection-owner fixtures retained.",
+      "remainingGap": "Physical long-press/context-menu/drag/callout conflicts and interruption remain; no repeated synthetic cancellation suite.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "native-os-input"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-08",
+      "requirement": "Edge/interior/cancel/re-entry have single input owner",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 local transition/generation cases; physical navigation matrix remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "edge back·interior swipe·취소·재입력",
+        "expected": "입력 하나의 owner 하나, ghost/중복 탐색 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1767
+      },
+      "rc16HistoricalOverlay": "| QA-UI-08 | not-run | Preserved rc12 edge/interior/cancel generation-owner audit / High | Actual OS edge navigation/gesture cancel/re-entry on physical devices |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "U12"
+      ],
+      "directScopedEvidence": "Edge/interior transition identity, generation, cancellation and once-only contracts retained.",
+      "remainingGap": "Physical native edge back/return, custom PWA versus Safari system gesture and delayed ghost navigation.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "native-os-input"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-09",
+      "requirement": "Rotation/fullscreen/safe-area preserve close/seek",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Viewport/native fixtures are not actual iPhone fullscreen/OS acceptance. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "세로/가로/fullscreen·native fullscreen",
+        "expected": "safe area·close·seek 접근, 실제 OS 한계 명시",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1768
+      },
+      "rc16HistoricalOverlay": "| QA-UI-09 | not-run | Preserved viewport geometry; UI two presented native sizes / High | iPhone rotation/tab/PWA/native fullscreen safe areas and accessible close/seek |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16"
+      ],
+      "directScopedEvidence": "Four-viewport app fullscreen/rotation/simulated safe area; native two-size geometry retained.",
+      "remainingGap": "Physical rotation/PWA/native OS fullscreen and safe-area close/seek access; viewport resize is not that proof.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "native-os-fullscreen"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-UI-10",
+      "requirement": "Normal sync/preparation has no persistent noisy UI",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E10 local quiet/status ownership; E1 no normal423/pending error at retained reload. New loading/general polish QUEUED/unstarted; full UI/device audit remains. Current rc12 scoped player-input-quality and library-quality DOM evidence exists; prior QUEUED wording is historical. Physical/VoiceOver/OS/device boundaries remain unchanged.",
+      "originalSpec": {
+        "scenario": "정상 sync·원본 준비",
+        "expected": "내부 장문 설명·반복 toast·영구 badge 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1769
+      },
+      "rc16HistoricalOverlay": "| QA-UI-10 | not-run | UI12 seeks loaderfalse/poster handoff; S normal sync; P quiet errors / High | Whole current candidate UI/status audit and physical preparations; no repeat of fixed presentation defect |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "U12",
+        "U16",
+        "S",
+        "A17",
+        "T18"
+      ],
+      "directScopedEvidence": "Quiet loading, newer library status ownership, native poster/reopen and actual paused seek presentation pass their scopes.",
+      "remainingGap": "Actual device sync/preparation/status cohesion. A pending current seek should show loading; no repeat of resolved presentation/WebP polish.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-LF-01",
+      "requirement": "50switch/seek/close has no accumulating jobs/owners/buffers",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E4 historical local50cycles/150seeks pass with retained failed sample. Current actual rc.11 output/device/resource endurance not qualified.",
+      "originalSpec": {
+        "scenario": "50회 전환·seek·close",
+        "expected": "decoder/job/listener/버퍼 누적 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1770
+      },
+      "rc16HistoricalOverlay": "| QA-LF-01 | not-run | LF50mixed/150 seeks, counters balanced/DOM stable / High | Native private-memory plateau: mixed renderer161→402MiB; Q2 same-route176→302→293MiB after15s idle. Product leak vs decoder/cache/high-water unknown |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "R16",
+        "L16"
+      ],
+      "directScopedEvidence": "50mixed/150seeks,170 each finalized wrappers, zero closed workers/URLs; renderer66.4–77.7MiB cycle12–50 under explicit Network reset.420s Q2 close passes.",
+      "remainingGap": "Normal-runtime total native ceiling and physical endurance remain unknown. Network observer retention was discriminated; no product leak patch is justified. Historical cold OtherError1of4 remains unexplained.",
+      "remainingBoundaryCategories": [
+        "normal-runtime-resource",
+        "physical-device",
+        "historical-unexplained-failure"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SE-01",
+      "requirement": "Foreign IDs/accounts/path/URL injection denied",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 injected path/URL IDs400/provider0; arbitrary unauthorized ID preserves synthetic provider403/no-store; actual client-scoped credential/missing-owner and foreign canonical-state capability fixtures reject outside owner. E2 current public private404/E9 retained auth routes corroborate integration. No claim of probing another real account.",
+      "originalSpec": {
+        "scenario": "임의 fileId·타 계정·path/URL 주입",
+        "expected": "권한 밖 자원 접근 거부",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1771
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "H16",
+        "D18"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-SE-02",
+      "requirement": "Logs/public build/process args expose no credentials/media",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Current fixed-source opt-in media trace and Worker fixed diagnostic code tests pass (selected-5/7.tap). This producer invokes only node/Git with public paths, fixed SHA and test patterns, no credentials. It does not inspect hosted logs, all prior process invocations, private original handles, or the forthcoming exact public distribution; whole-row privacy not claimed.",
+      "originalSpec": {
+        "scenario": "로그·public build·process args",
+        "expected": "credential/개인 원본 노출 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1772
+      },
+      "rc16HistoricalOverlay": "| QA-SE-02 | not-run | P exact console canary repair/public/cache/source isolation / High | Hosted retention/log policy and current exact artifacts; historical/all-process secrecy cannot be inferred or retroactively repaired |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "D18",
+        "H16",
+        "H18"
+      ],
+      "directScopedEvidence": "Exact public/cache/private404/package; backend before/after at100%; actual Logpush=false/Tail consumers absent; fixed diagnostic source shape.",
+      "remainingGap": "Live observability collection/enabled/sampling/persistence is null/omitted. Explicit authenticated settings visibility needed. Actual retention/history/all-process secret absence is unproven; no logs/customer-plan read.",
+      "remainingBoundaryCategories": [
+        "hosted-settings-visibility",
+        "historical-security-evidence"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SE-03",
+      "requirement": "Malformed/storage-full failures preserve originals/other cache",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 malformed Range/truncated or oversized206 fail closed before unverified bytes; actual app codec/recovery and Blob/OPFS-quota fixtures report bounded/storage-limited failure and release owned lease/reader; state quota writes0 preserves local/remote data; cache reset preserves sibling cache/worker. Originals use synthetic read-only bytes, no remote media mutation. Actual OS endurance remains separate.",
+      "originalSpec": {
+        "scenario": "malformed media·storage full",
+        "expected": "제한된 실패, 원본·다른 앱 cache 보존",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1773
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-SW-01",
+      "requirement": "Old/new shell/worker/offline safely update with public-only cache",
+      "baselineStatus": "passed",
+      "baselineEvidence": "E15 actual old-page capability/restarted-worker correlation fences and install/activate pass: old owned cache removed, current/sibling retained; old-version query offline reload uses canonical cached shell; public-only install and API/media/sibling cache exclusion. E2 actual candidate cold/offline/public-cache proof supplies integration. Mandatory installed physical-device experience remains separate.",
+      "originalSpec": {
+        "scenario": "old/new shell·worker·offline reload",
+        "expected": "호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1774
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "passed",
+      "disposition": "historical-contract-qualified-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "D18"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "No additional local contract gap identified from the inspected records. Original account/device/production exclusions remain; this does not assert every old passing contract reran onrc18 or future19.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "qualified only at original recorded contract scope"
+      }
+    },
+    {
+      "id": "QA-RP-01",
+      "requirement": "Same designated file/version across PC/iPhone tabs/PWA/Safari",
+      "baselineStatus": "blocked",
+      "baselineEvidence": "E3 historical PC priority and E5 post-reboot PCM only; required exact cross-device/version playback comparison remains unavailable/unaccepted. No iframe/native external pass substitution.",
+      "originalSpec": {
+        "scenario": "지정 MP4의 같은 실제 ID·버전, PC/iPhone Chrome 탭/PWA 및 Safari 비교",
+        "expected": "최초 실패 계층·선택 경로·first frame/진행·audio/seek·close를 기록. iframe 진입을 성공으로 계산하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1789
+      },
+      "rc16HistoricalOverlay": "| QA-RP-01 | blocked | A/F historical actual priority PC and user-reported iPhone playback / High | Exact current same version/ID cross PC/iPhoneChrome/PWA/Safari comparison, audio/seek/close |",
+      "currentStatus": "blocked",
+      "disposition": "blocked-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A17",
+        "D18",
+        "F"
+      ],
+      "directScopedEvidence": "Current actual desktop TS frame/seek/close and fixed version; historical selected formats retained.",
+      "remainingGap": "Exact same original ID/version across PC/iPhone Chrome tab/PWA/Safari, audio/progress/seek/close and first-failure layer. One browser/iframe is not acceptance.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "cross-context-account"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-01",
+      "requirement": "Session/access-token lifetimes separated; actual recovery",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E3 real renewal boundary, E1 actual reload, E9 local lifetime cases. Full actual expiry/revocation/reconnect/device matrix remains.",
+      "originalSpec": {
+        "scenario": "B-auth session과 Google access token 수명 분리",
+        "expected": "access 만료가 앱 상태 삭제로 이어지지 않음. 실제 갱신/철회·재연결 확인",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1790
+      },
+      "rc16HistoricalOverlay": "| QA-SL-01 | not-run | A token/session contract and real renewal; S reload / High | Actual current expiry/revoke/reconnect and physical context preservation |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A",
+        "S",
+        "D18"
+      ],
+      "directScopedEvidence": "Token/session contracts, historical renewal and current existing-account update retained.",
+      "remainingGap": "Current actual expiry/revocation/reconnect and state/context preservation. Natural expiry is observable without forcing grants; intentional revocation needs its own authorized user action.",
+      "remainingBoundaryCategories": [
+        "actual-account",
+        "user-controlled-revocation",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-02",
+      "requirement": "Two-device/multi-instance refresh safe, revisions atomic",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Auth single-flight/revision fixtures pass; actual two-device/serverless multi-instance proof remains.",
+      "originalSpec": {
+        "scenario": "두 기기·동시 요청·서버리스 여러 실행 인스턴스",
+        "expected": "실제 single-flight 또는 동등한 안전 조정, revision 원자성·기존 refresh token 보존",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1791
+      },
+      "rc16HistoricalOverlay": "| QA-SL-02 | not-run | B deterministic persisted lease/revision concurrency / High | Two devices/serverless instances actual concurrent refresh, no forced regrant/revoke without owner action |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Deterministic persisted lease/revision/multi-owner single-flight and partial-refresh contracts qualified.",
+      "remainingGap": "Actual two-device/serverless multi-instance concurrent refresh, atomic revisions and preserved refresh state; no credential export or forced fault.",
+      "remainingBoundaryCategories": [
+        "two-physical-devices",
+        "authenticated-security"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-03",
+      "requirement": "Short reader credential enforces session/Origin/CSRF/account/privacy",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Current fixed-source session/Origin/CSRF/account/no-store/secret-field route checks pass (selected-4.tap), capability-aware protocol and fixed-code Worker diagnostics pass (selected-5.tap). Hosted log retention and full current public/cache audit remain shared open evidence with SE02. No live negative authorization claim.",
+      "originalSpec": {
+        "scenario": "직접 reader용 짧은 credential 전달",
+        "expected": "유효 session/Origin/CSRF·계정 검사, memory/no-store, refresh/client secret 및 로그·public cache 유출 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1792
+      },
+      "rc16HistoricalOverlay": "| QA-SL-03 | not-run | B Origin/CSRF/no-store/account contracts; P current public/cache isolated / High | Hosted logging/retention plus live negative authorization boundaries; do not emit credentials in diagnostic output |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "D18",
+        "H16",
+        "H18"
+      ],
+      "directScopedEvidence": "Historical rc.16 anonymous12 denials/redaction/no-store; current backend settings identity and public cache fenced.",
+      "remainingGap": "Current authenticated session/account/revision/expiry boundaries and unresolved collection/persistence/retention. No whole authenticated-negative or historical privacy claim.",
+      "remainingBoundaryCategories": [
+        "authenticated-security",
+        "hosted-settings-visibility",
+        "historical-security-evidence"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-04",
+      "requirement": "Free-plan limits/cost/CPU/storage/exhaustion bounded",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "Adopted no-card/free architecture and local quota failures; actual operation/load/exhaustion evidence insufficient for full acceptance.",
+      "originalSpec": {
+        "scenario": "무료 사용량·저장·CPU·호출·한도 초과 시나리오",
+        "expected": "실제 선택 요금제에서 운영 가능성 증거와 유한 실패. 카드·유료 자동전환 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1793
+      },
+      "rc16HistoricalOverlay": "| QA-SL-04 | not-run | Fixed free/no-card delivery and bounded synthetic quota errors / High | Read-only current free-plan resource metrics/limits and controlled exhaustion policy; no load storm or paid switch |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "D18",
+        "H18"
+      ],
+      "directScopedEvidence": "Free/no-card architecture, bounded local quota failures and exact candidate readbacks/delivery retained.",
+      "remainingGap": "Actual selected customer plan/quota/usage/CPU/storage was not read. Bounded read-only selected-resource metrics/limits may discriminate this; no load storm or paid switch. Generic Free docs do not prove the account plan.",
+      "remainingBoundaryCategories": [
+        "account-control-plane",
+        "controlled-limit-scenario"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-05",
+      "requirement": "iPhone tab/PWA OAuth callback returns to correct context",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "G historical user-confirmed physical PWA auth return/list/relaunch; Chrome tab/PWA/Safari context matrix incomplete. Same-origin does not prove shared cookies.",
+      "originalSpec": {
+        "scenario": "iPhone 탭·PWA의 OAuth 진입/callback/앱 복귀",
+        "expected": "실행 문맥별 정상 session. 같은 origin만으로 공유된다고 추정하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1794
+      },
+      "rc16HistoricalOverlay": "| QA-SL-05 | not-run | Historical user-confirmed PWA return/relaunch / Medium | iPhone Chrome tab/PWA/Safari OAuth callback contexts; cannot infer cookie sharing from same-origin |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "A",
+        "B"
+      ],
+      "directScopedEvidence": "Historical user-confirmed PWA return and deterministic callback-error contracts retained.",
+      "remainingGap": "Actual iPhone Chrome tab/PWA/Safari entry→callback→correct session/context return; no same-origin cookie-sharing inference.",
+      "remainingBoundaryCategories": [
+        "physical-device",
+        "oauth-callback-context"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-06",
+      "requirement": "Selected B-media relay streaming/Range/cancel contract",
+      "baselineStatus": "not-applicable",
+      "baselineEvidence": "D-051/E9 adopt B-auth plus direct Drive bytes; no B-media relay selected. This does not waive Q2/Q3 or format goals.",
+      "originalSpec": {
+        "scenario": "B-media를 선택한 경우의 Range/streaming/cancel",
+        "expected": "전체 버퍼 없이 bytes·헤더 정합성·한도·보안 충족. 미선택 시 근거 있는 not-applicable",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1795
+      },
+      "rc16HistoricalOverlay": null,
+      "currentStatus": "not-applicable",
+      "disposition": "conditional-not-applicable-retained",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B"
+      ],
+      "directScopedEvidence": "Original qualified contract/conditional exclusion retained at its dated source; no complete new-row qualification was run. See baselineEvidence and evidence owners for any added corroborating slice.",
+      "remainingGap": "B-media relay notselected (B-auth/directDrivebytes); reopen onrelayadoption. Q2/Q3notwaived.",
+      "remainingBoundaryCategories": [],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "conditional only"
+      }
+    },
+    {
+      "id": "QA-SL-07",
+      "requirement": "Candidate/new client preserves old appData and recovery",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E1 same-account raw union/legacy/writer/backup/read compatibility pass; new client/origin OAuth relationship and full device migration remain unknown.",
+      "originalSpec": {
+        "scenario": "새 client/origin 후보와 기존 appData",
+        "expected": "이관 전후 counts/tombstones/writer identity·원본 state 보존·복구, 잘못된 앱/계정 접근 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1796
+      },
+      "rc16HistoricalOverlay": "| QA-SL-07 | not-run | S same-account union/writers/backups/old-code compatibility / High | Current origin/client identity plus two-context/device migration recovery proof |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "S",
+        "D18"
+      ],
+      "directScopedEvidence": "Actual legacy/appData union/backups/old-code compatibility and current existing-client update retained.",
+      "remainingGap": "New client/origin before/after counts, tombstones, writer identity and recovery across contexts; existing account restoration is not new-client visibility.",
+      "remainingBoundaryCategories": [
+        "new-client-context",
+        "actual-account",
+        "physical-device"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    },
+    {
+      "id": "QA-SL-08",
+      "requirement": "Unauthorized candidate APIs/files/diagnostics denied; old production unchanged",
+      "baselineStatus": "not-run",
+      "baselineEvidence": "E2 public private404/source isolation and unchanged production record pass; broad actual account authorization/diagnostic matrix and future production release remain separate.",
+      "originalSpec": {
+        "scenario": "후보 origin의 인가 밖 API/파일/진단 접근·기존 production",
+        "expected": "접근 거부·개인 데이터 비공개·old service 불변. 검증 배포와 운영 교체 구분",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1797
+      },
+      "rc16HistoricalOverlay": "| QA-SL-08 | not-run | P current public private404/source isolation/production unchanged record / High | Current account API/diagnostic authorization matrix; production replacement remains separate G6 authority |",
+      "currentStatus": "not-run",
+      "disposition": "partial-whole-criterion-unqualified",
+      "wholeRowPromoted": false,
+      "evidenceKeys": [
+        "B",
+        "D18",
+        "H16",
+        "H18"
+      ],
+      "directScopedEvidence": "Exact rc.18 private-public404/cache and active backend identity; historical anonymous denials and unchanged production record.",
+      "remainingGap": "Authenticated file/API/diagnostic account permission matrix remains. G6 main/push/production replacement requires separate authority and served proof; candidate verification is distinct.",
+      "remainingBoundaryCategories": [
+        "authenticated-security",
+        "production-authority"
+      ],
+      "finiteNextAction": null,
+      "confidence": {
+        "savedScopedObservation": "high",
+        "wholeRemainingCriterion": "unqualified; no partial-to-whole promotion"
+      }
+    }
+  ]
+}

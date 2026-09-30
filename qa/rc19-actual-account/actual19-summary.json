@@ -1,0 +1,69 @@
+{
+  "scope": "One actual existing-account same-original paused50% trusted UI input; not p95/device/full-corpus acceptance",
+  "source": "df1f94a3ae814e5af64f0888207b198eb28f4abf",
+  "workerVersion": "66183425-62ea-463b-8a9f-6645700a0533",
+  "version": "1.22.0-rc.19",
+  "originalBytes": 208001508,
+  "nativeDurationSeconds": 1609.408,
+  "driveMetadataDurationSeconds": 1609.233,
+  "probeInputReused": true,
+  "record": {
+    "path": "qa/rc19-actual-account/actual19-safe-record.json",
+    "fileSha256": "3627424e82d283293467109cf0e7e4e0ef6eb863344c8ba7b40df154270d9392",
+    "compactJsonSha256": "db4f4e613219370bf303a7ef38f45181361e2cb1b1d3ef5f4a27cf580218a392",
+    "browserCompactJsonSha256": "db4f4e613219370bf303a7ef38f45181361e2cb1b1d3ef5f4a27cf580218a392",
+    "rows": 34,
+    "dropped": 0
+  },
+  "producerTrimSha256": "4fb8683447312980762c676234df9f626634aa37cdb97745484c73431007cefd",
+  "cleanupProducerTrimSha256": "a4e6e56836ea2cbe0719bfe368cb87734a224ff5b6194cc99b125bfd51a56095",
+  "intentToFrameMs": 11004.3,
+  "intentToSampledSettledMs": 12978.8,
+  "target": 804.704,
+  "actualFrame": 804.688,
+  "inputToSampledBufferingMs": 8475.2,
+  "beforeSampledBuffering": {
+    "metadata": 9,
+    "ranges": 4,
+    "summedRequestMs": 8324.6,
+    "encodedRangeBytes": 2096576
+  },
+  "beforeFrame": {
+    "metadata": 11,
+    "ranges": 5,
+    "summedRequestMs": 10065.9,
+    "encodedRangeBytes": 2358720
+  },
+  "beforeSettlement": {
+    "metadata": 13,
+    "ranges": 6,
+    "summedRequestMs": 12072.5,
+    "encodedRangeBytes": 2620864
+  },
+  "comparison": {
+    "previousRc18IntentToFrameMs": 13374.9,
+    "currentRc19IntentToFrameMs": 11004.3,
+    "observedReductionMs": 2370.6,
+    "claims": "Paired one-case observation only; request counts discriminate duplicate removal, network variance prevents guaranteed latency/p95 claim",
+    "beforeBufferRc18": {
+      "metadata": 13,
+      "ranges": 6
+    },
+    "beforeBufferRc19": {
+      "metadata": 9,
+      "ranges": 4
+    }
+  },
+  "privacy": "No file/account identifiers,names,URLs,headers,tokens or original bytes exported",
+  "finalDwell": {
+    "appSeeking": false,
+    "loading": false,
+    "ms": 13308,
+    "ownerCurrent": true,
+    "paused": true,
+    "ready": 4,
+    "stage": "completed",
+    "time": 804.704,
+    "watchdog": false
+  }
+}

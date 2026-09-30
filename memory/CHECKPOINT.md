@@ -2,20 +2,22 @@
 
 ## The story so far
 
-Canonical source/codex/v2-kickoff-diagnostics. Public rc18f6749c1/Worker7eb9f9d7-c072-4095-bc94-d6776c69ad4b:563Node/four native images,52delivery/40cache/source26/ZIP and actual existing-account update pass. Actual17 paused four seeks remain accepted. Actual18 one paused50% frame13.3749s: request waits dominate; later loaderfalse/ready4 and settled close pass. See CANDIDATE-RC18-20260930.md.
+Canonical source/codex/v2-kickoff-diagnostics. Hosted rc19 df1f94a/Worker66183425-62ea-463b-8a9f-6645700a0533:569Node/native/source26/six/public52/cache40/ZIP pass. Actual same-original paused50% targetframe11.0043s/sample seeksettled12.9788s/300ms stable loaderfalse; predicted2Range+4metadata removed. Trusted close cleans owners. Pointer-only bottom→center hides331.7ms/no playback events. CANDIDATE-RC19-20260930.md owns evidence; whole goal incomplete.
 
 ## Decided
 
-Whole goal ACTIVE(D-061/062). Local/free-candidate/own-appData/disposable QA authorized. Main/push/production/original mutation/grants/terms/payment/automation resume need separate authority. D-056 and volume intact. Productionv1.21.0/e08989a; automationPAUSED.
+Whole goal ACTIVE(D-061/062), local/free-candidate/ownstate/disposable QA authorized. Main/push/production/original mutation/grants/terms/payment/automation resume require separate authority. D-056/volume intact. Productionv1.21.0/e08989a; automationPAUSED.
 
 ## Waiting on the user
 
-Corpus code loading needs pending extension file-URL permission/manual toggle; browser policy blocks internal settings. No setting changed. Physical/expiry/return/two-device/full-corpus gates unclaimed.
+Corpus fileURL permission/manualtoggle still pending; no setting changed. Physical/two-device/expiry/native-OSreturn/explicit-observability/authenticatedsecurity/full-corpus and production gates unclaimed.
 
 ## Next first action
 
-High lifecycle child evaluates bounded within-generation TS probe reuse in qa/rc19-ts-probe-reuse; root owns metadata19/fullsuite/actual/delivery. Actual settings readback: Logpushfalse/no Tail Worker, observabilitynull/omitted unresolved. Root CUA browser3/tab275138839 idle, private context/observers cleared. Curate current18 evidence before new public edits.
+Integrate the high child's bounded PNG-with-video-MIME owner repair from qa/rc20-image-owner-dispatch; root owns rc20 version/fullsuite/delivery after focused native evidence and review.
 
 ## Tried
 
-Decoded+seeked proof repairs paused presentation. One50% observer ends300ms before real seek settlement; later paused read passes, no measured settle latency. First asset-guard refusal remains unknown/preserved. DevTools retention affects isolated memory readings. Synthetic420s Q2 ended passes; actual audibility/cold history stay separate.
+First19 guard refused indexnlink2/byteequal before Wrangler; immediate singlelink and three later52-file safety checks pass; unchangedguard retry deploys. Cause unknown, older nondiagnostic failures not relabeled.
+
+Prior actual18 observer stopped before seeksettled;19 observer captures owned frame plus real settlement/dwell. Native OS background and corpus file picker remain runtime/user boundaries.

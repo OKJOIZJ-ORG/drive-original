@@ -1,0 +1,9 @@
+# rc19 fixed free candidate delivery
+
+Source df1f94a3ae814e5af64f0888207b198eb28f4abf /1.22.0-rc.19 /Worker66183425-62ea-463b-8a9f-6645700a0533. Local569/569 stable tests and independent TS reuse review are accepted; isolated synthetic five targetseeks/native end/complete cleanup are bounded proof. Actual same-original frame+settlement/cleanup and pointer-only clause are owned by qa/rc19-actual-account.
+
+Unchanged guarded candidate deploy passes. Public52 and cache40 equal exact Git;8source archives uncached;6private404; fresh anonymous cold/offline controlled shells/zero errors. Redacted11bindings/authtrue/diagnosticstrue/global Drive mutationsfalse.26preferred-source hashes/six readable adaptations and exact52-member ZIP pass; private codec delivery binding updated. ZIP releases/candidates/Drive-Original-1.22.0-rc.19-df1f94a.zip:54776298bytes, SHA256856edb798107e249256b89428396399487369f0afe9acc9eee2f87860b729ed4.
+
+First deploy stopped before Wrangler: index.html ordinary/non-symbolic/committed-byte-equal but nlink2. Immediate fsutil listed only itself; next stat nlink1. Three subsequent complete52-file read-only observations pass all predicates; retry uses identical producer/guards, no removal/link cleanup/guard weakening. Cause unknown. This precise predicate cannot assign causes to older nondiagnostic refusals. Failed first record and producer are retained.
+
+Normal actual profile reload automatically activates19 and restores existing connection/folders/same known folder458files; cached app/index hashes equal deployedGit. No banner click/new login/grant.458is not the entire corpus count. Raw Wrangler/readback files remain private and uncommitted; safe readbacks bind their hashes. Productionv1.21.0/e08989a/main/push/automationPAUSED unchanged; full goal/device/account/security and production gates remain open.

@@ -585,3 +585,7 @@ Confirmed code54654ce, final562Node, independentbothcallbackorders andnativeQ0/Q
 ### 2026-09-30 — rc18 local static WebP card unit
 
 WebP cards now reuse bounded static canvas thumbnails; original animation/bytes remain intact. Baseline regression fails, focused3/3, native4/4 and stable full563/563 pass. WEBP-CARD-20260930.md owns exact evidence. Candidate delivery is next; whole-goal gates remain open.
+
+### 2026-09-30 — rc19 TS probe reuse and actual causal observation
+
+Confirmed df1f94a/Worker66183425 delivery52/cache40/source26/six/package;569Node/focused43/syntheticfive seeks/end/independent review pass. Actual same-original paused50% currenttargetframe11.0043s/sample settled12.9788s plus300ms stable ready4/loaderfalse; predicted2Range/4metadata removal observed vs18, no p95 claim. Escape cleans all owners/observers. One pointer-only bottom→center clause hides331.7ms without playback/click events. CANDIDATE-RC19-20260930.md owns exact scope.69baseline IDs/statuses and42remaining mappings preserved in rc18-acceptance-state; zero whole-row promotions. Supported PNG declaredvideo/mp4 owner counterexample is nextnecessaryunit20; actual corpus permission/device/expiry/OSreturn/two-device/explicit hosted observability/production gates stayopen. Continue authorized executable work.
