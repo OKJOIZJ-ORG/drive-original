@@ -8,10 +8,14 @@ const vm = require('node:vm');
 
 // Execute the actual presentation owner without unrelated app startup effects.
 const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-const start = app.indexOf('function scheduleVideoFramePresentation(');
+const start = app.indexOf('function completeVideoFramePresentation(');
 const end = app.indexOf('\nfunction onMediaReady()', start);
 assert.ok(start >= 0 && end > start);
 const presentationSource = app.slice(start, end);
+const ownerStart = app.indexOf('function isCurrentMediaSeekOwner(');
+const ownerEnd = app.indexOf('\nfunction canOwnMediaSeek(', ownerStart);
+assert.ok(ownerStart >= 0 && ownerEnd > ownerStart);
+const seekOwnerSource = app.slice(ownerStart, ownerEnd);
 
 test('same-session source replacement schedules a new presentation while stale frames cannot clear its loader', () => {
   const callbacks = [];
@@ -24,11 +28,13 @@ test('same-session source replacement schedules a new presentation while stale f
     el: { videoPlayer: video, mediaLoading: { hidden: false }, mediaError: { hidden: false } },
     state: { mediaSession: 7, mediaAttempt: 'q1' },
     mediaSourceGeneration: 10, mediaSeekGeneration: 1, mediaDiagnosticTrace: null,
+    completedMediaSeekPresentation: null,
+    mediaSeekWatchdog: null,
     isCurrentMediaEvent: () => true, noteMediaFrameProgress() {},
     tryCaptureAmbientFrame() {}, updateQualityDisplay() {}, hideSwipeNeighbor() {}
   };
   vm.createContext(context);
-  vm.runInContext(presentationSource, context);
+  vm.runInContext(seekOwnerSource + '\n' + presentationSource, context);
 
   context.scheduleVideoFramePresentation(video, 7);
   context.scheduleVideoFramePresentation(video, 7);

@@ -84,3 +84,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `PLAYER-PRESENTATION-20260930.md` — rc.16 source-owned frame handoff, reproduced loading residue, retained QA ordering failures,558 Node and6 native UI cases; full goal continues.
 
 - CANDIDATE-RC16-20260930.md — fixed rc.16 delivery/package, actual paused TS failure, observer-qualified native resources and remaining42-row acceptance map.
+
+- PAUSED-SEEK-PRESENTATION-20260930.md — rc.17 owned decoded target/seeked handoff, independent early-reveal counterexample and562 local tests; actual replay pending.

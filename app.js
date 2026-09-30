@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.16';
+const APP_VERSION = '1.22.0-rc.17';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -645,6 +645,7 @@ let moveParentsAbortController = null;
 let mediaRecoveryTimer = null;
 let mediaFrameWatchdog = null;
 let mediaSeekWatchdog = null;
+let completedMediaSeekPresentation = null;
 let mediaSeekGeneration = 0;
 let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
@@ -5652,6 +5653,9 @@ function isCurrentMediaSeekOwner(owner = mediaSeekWatchdog) {
     && state.selected?.id === owner.fileId
     && state.mediaSession === owner.session
     && state.playbackSession === owner.playbackSession
+    && state.accountId === owner.accountId
+    && state.authAccountKey === owner.authAccountKey
+    && state.driveSessionGeneration === owner.accountGeneration
     && state.mediaAttempt === owner.sourceAttempt
     && mediaSourceGeneration === owner.sourceGeneration
     && isCurrentMediaEvent(owner.video)
@@ -5688,6 +5692,7 @@ function settleMediaSeekGeneration(generation = mediaSeekGeneration) {
 }
 
 function clearMediaSeekWatchdog(_reason = '') {
+  completedMediaSeekPresentation = null;
   const owner = mediaSeekWatchdog;
   mediaSeekWatchdog = null;
   if (owner) settleMediaSeekGeneration(owner.seekGeneration);
@@ -5808,6 +5813,9 @@ function beginMediaSeekIntent(video, targetTime, origin = 'native') {
       fileId: state.selected.id,
       session: state.mediaSession,
       playbackSession: state.playbackSession,
+      accountId: state.accountId,
+      authAccountKey: state.authAccountKey,
+      accountGeneration: state.driveSessionGeneration,
       sourceAttempt: state.mediaAttempt,
       sourceGeneration: mediaSourceGeneration,
       seekGeneration,
@@ -5937,6 +5945,8 @@ function completeMediaSeekWatchdog(owner) {
   owner.activeSince = null;
   settleMediaSeekGeneration(owner.seekGeneration);
   mediaSeekWatchdog = null;
+  completedMediaSeekPresentation = owner;
+  completeVideoFramePresentation(owner, 'decoded-frame');
   emitMediaDiagnosticStage('seek-frame', {
     seekGeneration: owner.seekGeneration,
     targetTime: owner.targetTime,
@@ -10133,14 +10143,53 @@ function openPermissionGuide() {
   if (el.permissionDialog && !el.permissionDialog.open) el.permissionDialog.showModal();
 }
 
+function completeVideoFramePresentation(owner, confidence = 'decoded-frame') {
+  const video = owner?.video;
+  if (!video || video.hidden || !el.mediaLoading || !isCurrentMediaEvent(video)
+    || state.selected?.id !== owner.fileId || state.mediaSession !== owner.session
+    || state.playbackSession !== owner.playbackSession
+    || state.accountId !== owner.accountId || state.authAccountKey !== owner.authAccountKey
+    || state.driveSessionGeneration !== owner.accountGeneration
+    || state.mediaAttempt !== owner.sourceAttempt || mediaSourceGeneration !== owner.sourceGeneration
+    || mediaSeekGeneration !== owner.seekGeneration) {
+    if (owner === completedMediaSeekPresentation) completedMediaSeekPresentation = null;
+    return false;
+  }
+  if (isCurrentMediaSeekOwner() || state.isSeeking || video.seeking === true) return false;
+  delete video.dataset.presentationSession;
+  if (mediaDiagnosticTrace && !mediaDiagnosticTrace.firstFrameSeen) {
+    mediaDiagnosticTrace.firstFrameSeen = true;
+    emitMediaDiagnosticStage(
+      confidence === 'decoded-frame' ? 'first-decoded-frame' : 'presentation-fallback',
+      { currentTime: Number(video.currentTime) || 0, confidence }, owner.session);
+  }
+  video.classList.add('is-ready');
+  video.classList.remove('has-poster');
+  video.removeAttribute('poster');
+  tryCaptureAmbientFrame();
+  el.mediaLoading.hidden = true;
+  el.mediaError.hidden = true;
+  updateQualityDisplay();
+  hideSwipeNeighbor({ immediate: false });
+  return true;
+}
+
 function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.mediaSession) {
   if (!video || video.hidden || !isCurrentMediaEvent(video)) return;
+  const completed = completedMediaSeekPresentation;
+  if (completed?.video === video && completed.frameConfidence === 'decoded-frame'
+    && mediaSeekTimesMatch(video.currentTime, completed.effectiveTarget ?? completed.targetTime, completed.tolerance)
+    && completeVideoFramePresentation(completed, 'decoded-frame')) return;
   const sourceAttempt = state.mediaAttempt;
   const sourceGeneration = mediaSourceGeneration;
   const seekGeneration = mediaSeekGeneration;
   const presentationKey = `${session}:${sourceAttempt}:${sourceGeneration}`;
   if (video.dataset.presentationSession === presentationKey) return;
   video.dataset.presentationSession = presentationKey;
+  const presentationOwner = { video, fileId: state.selected?.id, session,
+    playbackSession: state.playbackSession, accountId: state.accountId,
+    authAccountKey: state.authAccountKey, accountGeneration: state.driveSessionGeneration,
+    sourceAttempt, sourceGeneration, seekGeneration };
   let presented = false;
   const reveal = (confidence = 'decoded-frame') => {
     if (presented) return;
@@ -10151,23 +10200,7 @@ function scheduleVideoFramePresentation(video = el.videoPlayer, session = state.
       || mediaSourceGeneration !== sourceGeneration
       || video.dataset.presentationSession !== presentationKey
     ) return;
-    delete video.dataset.presentationSession;
-    if (mediaDiagnosticTrace && !mediaDiagnosticTrace.firstFrameSeen) {
-      mediaDiagnosticTrace.firstFrameSeen = true;
-      emitMediaDiagnosticStage(
-        confidence === 'decoded-frame' ? 'first-decoded-frame' : 'presentation-fallback',
-        { currentTime: Number(video.currentTime) || 0, confidence },
-        session
-      );
-    }
-    video.classList.add('is-ready');
-    video.classList.remove('has-poster');
-    video.removeAttribute('poster');
-    tryCaptureAmbientFrame();
-    el.mediaLoading.hidden = true;
-    el.mediaError.hidden = true;
-    updateQualityDisplay();
-    hideSwipeNeighbor({ immediate: false });
+    completeVideoFramePresentation(presentationOwner, confidence);
   };
 
   if (typeof video.requestVideoFrameCallback === 'function') {
@@ -10644,6 +10677,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
 }
 
 function invalidateDriveSessionData() {
+  completedMediaSeekPresentation = null;
   stopAccountStateRefresh();
   state.accountStateRefreshFailures = 0;
   state.accountStateRefreshNotBefore = 0;
