@@ -1,0 +1,9 @@
+# Q1 worker-update recovery — rc21 local bounded unit
+
+Confirmed actual19/newSW20 and syntheticnative20 counterexample: controller replacement makes Q1 silentlycancelled/ready0/loadingfalse/noerror; closing clearspointersbutretirementfalse becauseoldSWsettlementunconfirmed. Fixedsource5c873efa (preversion20) retiresaffectedowner immediately, keepsoldsettlementfalse, fencesfile/account/session/pin/source/route/visible lifetime, then exposesplain appreload recovery. q1ownersnowcapturefile/session/account/generation forhandoffidentity. Closingbeforeasyncsettlement cannotmutateanotherfile; its ownfalse-barriererror hasreloadlabel/action so itdoesnotloopordinaryretry. No fallbackpreview/barrierreset/oldsource restart/newpersistence/grant.
+
+19focused+5existingchecks pass. Native realSWreplacement verifies visibleerror/falsebarrier/noadditionalreads/trustedreload/freshdocumentemptybaseline. Six reload→reopen aggregates remainfailed; laterjournals showanotheractualcontrollerchange andvisibleupdaterequired, notsilentidle. Cause of isolated same-scope fixedscript additionalactivation/import/cachecontinuity remainsunknown; no policybranchsuppression andno sixcasepassclaim. All failures/producers retained, includingCP949testfailurebytes andlabeledreexecution; original loststdout isnotclaimedpreserved.
+
+Separatestablefresh-document TS/currentowner/frame/retirementtrue pass isnotfullreloadchain evidence. Rootapp291bde76 equals5c873efa exceptAPP_VERSION20→21; fullstable624/624 andnarrowexactproductSW21 stable-document native decode/settledclose pass. qa/rc21-controller-change owns25evidence+curation, qa/rc21-independent-review ownsread-onlyreview; qa/candidate-rc21-delivery/integration.json ownsnewnamespace/source bindings. Candidate delivery next.
+
+WholeSW01/REL02/expiryposition/corpus/device/two-device/security/observability/OSreturn/productionunqualified. WholegoalACTIVE; candidateonly, no main/push/production/automation/original/grant changes.

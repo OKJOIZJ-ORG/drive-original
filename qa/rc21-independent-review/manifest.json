@@ -1,0 +1,41 @@
+{
+  "reviewer": "gpt-6.1-sol high",
+  "scope": "Read-only bounded controller-change retirement, current-lifetime UI and explicit document reload integration",
+  "verdict": "No remaining confirmed source finding within bounded scope; full replacement/reload/reopen remains unqualified",
+  "nativeSourceFreeze": {
+    "app.js": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+    "tests/controller-change.test.js": "df6593f3cb1b01e7e8974ef6de3c278c3fe1fe1ff29bea94af8c13be8b30e0f5"
+  },
+  "currentVersionOnlyIntegration": {
+    "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "normalization": "Replace only const APP_VERSION = '1.22.0-rc.21'; with const APP_VERSION = '1.22.0-rc.20';",
+    "normalizedHashMatchesNativeFreeze": true,
+    "nativeExecutedCurrentVersionBytes": false
+  },
+  "evidenceBindings": [
+    {"path":"qa/rc21-controller-change/README.md","sha256":"e9813052255ddd39113a8ca2d92e6bee30376a4576ea202936a4a9891d8d0be5"},
+    {"path":"qa/rc21-controller-change/checks.json","sha256":"1fdfc3475172fe6b3fc52379a41666f61669853e896ea71bc0b3b41646532a39"},
+    {"path":"qa/rc21-controller-change/curation.json","sha256":"b2d9ff874b07cdf8eb5bfde1afaa2197c239c5d4b0e44a4ab80234505adf0ca4"},
+    {"path":"qa/rc21-controller-change/focused-tests.txt","sha256":"62909bb696366fa408f5c2d26c2f57594eb3b388e30c5647e8b255c858e3385f"},
+    {"path":"qa/rc21-controller-change/existing-contracts.txt","sha256":"f26b0fd81680903c4d19716bcc553c253a052c69d3801765617e56314f6b04f8"},
+    {"path":"qa/rc21-controller-change/qualification-v6.cjs","sha256":"61d85a33ff411a302bc091146a37366fdd7c75b8f18c6728c50ffcaa003ab429"},
+    {"path":"qa/rc21-controller-change/qualification-v6-results.json","sha256":"af81c8b6e11f42e5cfc793f4ecaa79d0dae8f73ee0f81c0ddde4693f42e2fec3"},
+    {"path":"qa/rc21-controller-change/stable-document.cjs","sha256":"fbc7eba79ee9af363a77339dd014aafc27360fcc1fc39a49eba4d20a3a8ffec1"},
+    {"path":"qa/rc21-controller-change/stable-document-results.json","sha256":"ce71facda684aafba1e443ec89cd972e1e916fe1d388d7d0455fdc4dab525c82"}
+  ],
+  "readOnlyChecks": {
+    "implementerCurationEntriesMatched": 25,
+    "finalNativeProducerHashesMatched": true,
+    "finalNativeSourceBeforeAfterStable": true,
+    "finalNativeBrowsersAndServersClosed": true
+  },
+  "recordedTestsNotRerun": {"focusedPassed":19,"existingSelectedPassed":5},
+  "nativeAcceptance": {
+    "firstReplacementVisibleRecovery": true,
+    "trustedRealReloadFreshDocumentBaseline": true,
+    "stableDocumentCurrentOwnerDecodeAndSettledClose": true,
+    "sameReplacementReloadReopenFullAggregate": false,
+    "secondReplacementCauseResolved": false
+  },
+  "reviewerExecution": {"productEdited":false,"testsRun":false,"browserRun":false,"networkRun":false,"privateAccountRead":false,"commitOrDeployment":false}
+}

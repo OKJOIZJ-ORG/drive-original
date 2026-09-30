@@ -1,0 +1,105 @@
+✖ controller replacement visibly retires ts q1 without resetting uncertainty (23.0443ms)
+✖ controller replacement visibly retires general q1 without resetting uncertainty (4.7018ms)
+✖ controller replacement visibly retires general q1-probing without resetting uncertainty (5.8535ms)
+✔ controller retirement result cannot alter changed owner: state.selected={id:'other'} (5.3419ms)
+✔ controller retirement result cannot alter changed owner: state.mediaSession++ (3.6761ms)
+✔ controller retirement result cannot alter changed owner: state.playbackSession++ (4.6703ms)
+✔ controller retirement result cannot alter changed owner: state.accountId='other' (4.276ms)
+✔ controller retirement result cannot alter changed owner: state.authAccountKey='other' (5.4899ms)
+✔ controller retirement result cannot alter changed owner: state.driveSessionGeneration++ (3.6485ms)
+✔ controller retirement result cannot alter changed owner: mediaSourceGeneration++ (3.773ms)
+✔ controller retirement result cannot alter changed owner: initialMediaRouteGeneration++ (3.6306ms)
+✔ controller retirement result cannot alter changed owner: q0PinnedSource={} (4.7176ms)
+✔ controller retirement result cannot alter changed owner: el.playerSheet.hidden=true (3.5512ms)
+✔ controller retirement result cannot alter changed owner: q1Playback={} (3.3885ms)
+✔ another controller change during retirement still exposes update recovery without transport restart (3.4823ms)
+✔ controller update action reloads before expired credential handling and preserves false barrier (5.1785ms)
+✔ controller update cannot act on a closed player selection (4.0269ms)
+✔ unchanged controller and stale Q1 account do not capture an unrelated selected lifetime (10.1181ms)
+✖ close before controller retirement preserves reload recovery for the next file behind the false barrier (4.2933ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 15
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 214.9765
+
+✖ failing tests:
+
+test at tests\controller-change.test.js:19:84
+✖ controller replacement visibly retires ts q1 without resetting uncertainty (23.0443ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '앱 다시 열기'
+  - '�� �ٽ� ����'
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\controller-change.test.js:19:1123)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '앱 다시 열기',
+    expected: '�� �ٽ� ����',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\controller-change.test.js:19:84
+✖ controller replacement visibly retires general q1 without resetting uncertainty (4.7018ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '앱 다시 열기'
+  - '�� �ٽ� ����'
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\controller-change.test.js:19:1123)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '앱 다시 열기',
+    expected: '�� �ٽ� ����',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\controller-change.test.js:19:84
+✖ controller replacement visibly retires general q1-probing without resetting uncertainty (5.8535ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '앱 다시 열기'
+  - '�� �ٽ� ����'
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\controller-change.test.js:19:1123)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '앱 다시 열기',
+    expected: '�� �ٽ� ����',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\controller-change.test.js:27:1
+✖ close before controller retirement preserves reload recovery for the next file behind the false barrier (4.2933ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '앱 다시 열기'
+  - '�� �ٽ� ����'
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\controller-change.test.js:27:724)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '앱 다시 열기',
+    expected: '�� �ٽ� ����',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

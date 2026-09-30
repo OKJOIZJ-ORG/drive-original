@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.20';
+const APP_VERSION = '1.22.0-rc.21';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -1816,6 +1816,38 @@ async function setupServiceWorker() {
 function restartPendingMediaAfterServiceWorkerChange() {
   const file = state.selected;
   const video = el.videoPlayer;
+  const owner = q1Playback;
+  if (owner && owner.swController !== navigator.serviceWorker?.controller
+    && owner.fileId === file?.id && owner.session === state.mediaSession
+    && owner.account === state.authAccountKey && owner.accountGeneration === state.driveSessionGeneration
+    && el.playerSheet?.hidden === false) {
+    const session = state.mediaSession, playbackSession = state.playbackSession,
+      accountId = state.accountId, pin = q0PinnedSource,
+      routeGeneration = ++initialMediaRouteGeneration;
+    const snapshot = capturePlaybackSnapshot();
+    if (snapshot) state.resumePosition = { fileId: file.id, time: snapshot.time, snapshot };
+    state.pendingPlay = false;
+    clearDirectMediaSources();
+    const sourceGeneration = mediaSourceGeneration;
+    state.mediaAttempt = 'worker-updating';
+    setNativeVideoActionsAvailable(false);
+    updatePlayPauseUI();
+    showMediaLoading('앱 업데이트 확인 중');
+    void q1Retirement.then(() => {
+      if (state.selected?.id !== file.id || state.mediaSession !== session
+        || state.playbackSession !== playbackSession || state.accountId !== accountId
+        || state.authAccountKey !== owner.account || state.driveSessionGeneration !== owner.accountGeneration
+        || mediaSourceGeneration !== sourceGeneration || initialMediaRouteGeneration !== routeGeneration
+        || q0PinnedSource !== pin || q0Playback || q1Playback || el.playerSheet?.hidden !== false
+        || state.mediaAttempt !== 'worker-updating') return;
+      // A replacement is not proof that the old worker's requests settled.
+      // Keep the retirement result intact; only a fresh document may recover.
+      state.mediaAttempt = 'worker-update-required';
+      showMediaError('앱이 업데이트되어 원본 연결이 종료됐습니다. 앱을 다시 열어 재생하세요.',
+        { title: '앱 다시 열기' });
+    });
+    return true;
+  }
   if (
     !file?.mimeType?.startsWith('video/')
     || !['range', 'range-retry'].includes(state.mediaAttempt)
@@ -8112,6 +8144,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
   let setupFinished;
   const previousRetirement = q1Retirement;
   const owner = { player: null, controller, cleanupOk: true, requiresSwReadiness: true,
+    fileId: file.id, session, account, accountGeneration,
     swController: navigator.serviceWorker?.controller, swGeneration: mediaSourceGeneration,
     setupDone: new Promise(resolve => { setupFinished = resolve; }) };
   state.mediaAbortController?.abort();
@@ -10512,6 +10545,8 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
   el.mediaErrorMessage.textContent = message;
   el.openDriveButton.hidden = !showDrive;
   el.retryMediaButton.hidden = !showRetry;
+  el.retryMediaButton.textContent = state.mediaAttempt === 'worker-update-required'
+    || q1RetirementResult?.settled === false ? '앱 다시 열기' : '다시 시도';
   el.bufferOriginalButton.hidden = true;
   el.bufferOriginalButton.textContent = '원본 전체 임시 저장';
   el.compatPlayerButton.hidden = true;
@@ -10521,6 +10556,10 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
 
 function retryMedia() {
   if (!state.selected) return;
+  if (state.mediaAttempt === 'worker-update-required' || q1RetirementResult?.settled === false) {
+    window.location.reload();
+    return;
+  }
   if (!hasUsableToken() && !state.demo) {
     state.retryAfterAuth = true;
     state.authRetryContext = { fileId: state.selected.id, mediaSession: state.mediaSession };

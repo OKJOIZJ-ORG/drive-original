@@ -1,0 +1,27 @@
+✔ controller replacement visibly retires ts q1 without resetting uncertainty (21.8241ms)
+✔ controller replacement visibly retires general q1 without resetting uncertainty (3.9144ms)
+✔ controller replacement visibly retires general q1-probing without resetting uncertainty (4.4906ms)
+✔ controller retirement result cannot alter changed owner: state.selected={id:'other'} (5.3229ms)
+✔ controller retirement result cannot alter changed owner: state.mediaSession++ (3.6357ms)
+✔ controller retirement result cannot alter changed owner: state.playbackSession++ (3.6527ms)
+✔ controller retirement result cannot alter changed owner: state.accountId='other' (3.9198ms)
+✔ controller retirement result cannot alter changed owner: state.authAccountKey='other' (4.6808ms)
+✔ controller retirement result cannot alter changed owner: state.driveSessionGeneration++ (3.6529ms)
+✔ controller retirement result cannot alter changed owner: mediaSourceGeneration++ (3.4765ms)
+✔ controller retirement result cannot alter changed owner: initialMediaRouteGeneration++ (4.0257ms)
+✔ controller retirement result cannot alter changed owner: q0PinnedSource={} (4.6045ms)
+✔ controller retirement result cannot alter changed owner: el.playerSheet.hidden=true (3.3999ms)
+✔ controller retirement result cannot alter changed owner: q1Playback={} (3.156ms)
+✔ another controller change during retirement still exposes update recovery without transport restart (3.9105ms)
+✔ controller update action reloads before expired credential handling and preserves false barrier (6.2447ms)
+✔ controller update cannot act on a closed player selection (3.4606ms)
+✔ unchanged controller and stale Q1 account do not capture an unrelated selected lifetime (10.3047ms)
+✔ close before controller retirement preserves reload recovery for the next file behind the false barrier (3.9198ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 192.624

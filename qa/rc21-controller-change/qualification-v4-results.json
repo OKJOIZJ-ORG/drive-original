@@ -1,0 +1,284 @@
+{
+  "scope": "Unit21 repaired actual app/SW/native TS, real controller replacement and explicit reload/reopen, synthetic provider only; no account/device/production proof.",
+  "producerStart": {
+    "app.js": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+    "sw.js": "ae857a5cc4876a92147f9304a709441780d2a68469db7ede06cc471df7337a9d",
+    "index.html": "da260bb094c93659fcfeec90f1771b9924337bce32a06bd147b9ab25af439534",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "0461db979362c63f6f6f1957d402a9be1fdf1cc9c19f8fb5f638505d05f53716",
+  "results": [
+    {
+      "name": "active-ts-controller-replacement",
+      "passed": false,
+      "memory": {
+        "FreePhysicalMemory": 3228860,
+        "FreeVirtualMemory": 2550268
+      },
+      "fixture": {
+        "path": "qa/v2-07b-ts-q1/synthetic-bframes-audiolead.ts",
+        "bytes": 958800,
+        "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4"
+      },
+      "requests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-939"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-524143"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=434656-958799"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=564-262707"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=262708-524851"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-939"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-524143"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=434656-958799"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "externalBlocked": 2,
+      "stage": "reopen",
+      "errors": [],
+      "before": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "frames": 1,
+        "phase": "ready",
+        "cleanup": {
+          "settled": true
+        },
+        "ready": 4,
+        "time": 0.210264,
+        "loading": false,
+        "error": false,
+        "sourceGeneration": 4
+      },
+      "changed": {
+        "sameController": false,
+        "oldWorkerState": "redundant",
+        "attempt": "worker-update-required",
+        "mode": "original-repackaged",
+        "sourceGeneration": 5
+      },
+      "after": {
+        "attempt": "worker-update-required",
+        "mode": "original-repackaged",
+        "phase": "cancelled",
+        "failure": null,
+        "ownerAborted": true,
+        "sameController": false,
+        "sameSourceGeneration": false,
+        "ready": 0,
+        "paused": true,
+        "time": 0,
+        "loading": false,
+        "error": true,
+        "q1Present": false,
+        "q0Capable": false,
+        "cleanup": {
+          "settled": false
+        },
+        "buttonLabel": "앱 다시 열기",
+        "pinRetained": true,
+        "selectedSame": true,
+        "snapshot": {
+          "time": 0.517771,
+          "paused": false,
+          "volume": 1,
+          "muted": true,
+          "playbackRate": 1,
+          "fullscreen": false,
+          "decoded": true
+        },
+        "customControlsHidden": true
+      },
+      "beforeReload": {
+        "requests": 17,
+        "cleanup": {
+          "settled": false
+        }
+      },
+      "fresh": {
+        "cleanup": {
+          "settled": true
+        },
+        "selected": null,
+        "q0": false,
+        "q1": false,
+        "ready": 0,
+        "hasSource": false
+      },
+      "controllerJournal": [
+        {
+          "state": "activating",
+          "time": 3814.800000000745
+        }
+      ],
+      "diagnostic": {
+        "attempt": "worker-update-required",
+        "mode": "original-repackaged",
+        "cleanup": {
+          "settled": false
+        },
+        "owner": false,
+        "ready": 0,
+        "paused": true,
+        "decode": false,
+        "loading": false,
+        "error": true,
+        "errorText": "앱이 업데이트되어 원본 연결이 종료됐습니다. 앱을 다시 열어 재생하세요.",
+        "pin": false,
+        "sameController": false,
+        "sourceGeneration": 5,
+        "accountCurrent": false,
+        "accountGenerationCurrent": false,
+        "q0Capable": false,
+        "bootstrapBusy": "false",
+        "swActive": "activated"
+      },
+      "failure": {
+        "name": "TimeoutError",
+        "message": "page.waitForFunction: Timeout 20000ms exceeded."
+      },
+      "browserClosed": true
+    }
+  ],
+  "workerServes": [
+    {
+      "replacement": false
+    },
+    {
+      "replacement": false
+    },
+    {
+      "replacement": true
+    },
+    {
+      "replacement": true
+    },
+    {
+      "replacement": true
+    },
+    {
+      "replacement": true
+    },
+    {
+      "replacement": true
+    }
+  ],
+  "browser": "154.0.8037.58",
+  "qaReplacement": {
+    "baseSha256": "ae857a5cc4876a92147f9304a709441780d2a68469db7ede06cc471df7337a9d",
+    "servedSha256": "1722772f824620896daafa2ce78d47bc00c6b373c8b9963a8c819601ac8bb4d2",
+    "transform": "append inert comment only; protocol/product SW behavior unchanged"
+  },
+  "serverClosed": true,
+  "completed": true,
+  "passed": false,
+  "producerEnd": {
+    "app.js": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+    "sw.js": "ae857a5cc4876a92147f9304a709441780d2a68469db7ede06cc471df7337a9d",
+    "index.html": "da260bb094c93659fcfeec90f1771b9924337bce32a06bd147b9ab25af439534",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  }
+}

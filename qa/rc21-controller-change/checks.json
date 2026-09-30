@@ -1,0 +1,116 @@
+{
+  "scope": "Unit21 local source/focused/native synthetic provider only; no whole QA-SW-01/REL-02, account expiry, device or production promotion",
+  "sourceFreeze": {
+    "app.js": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+    "tests/controller-change.test.js": "df6593f3cb1b01e7e8974ef6de3c278c3fe1fe1ff29bea94af8c13be8b30e0f5",
+    "runtimeVersion": "1.22.0-rc.20"
+  },
+  "focused": {
+    "newControllerAssertions": 19,
+    "passed": 19,
+    "selectedExistingLifetimeAndWorkerAssertions": 5,
+    "existingPassed": 5
+  },
+  "native": {
+    "unchangedRc20CounterexampleReproduced": true,
+    "firstReplacementVisibleRecoveryAndFalseBarrierVerified": true,
+    "trustedReloadFreshDocumentRetirementBaselineVerified": true,
+    "separateStableFreshDocumentCurrentOwnerDecodeAndClosePassed": true,
+    "sameReplacementReloadThenReopenQualified": false,
+    "finalAggregatePassed": false,
+    "decisionCriticalUnknown": "Why the isolated same-scope fixed-main-script replacement produces another controllerchange during fresh-document reopen; imported-script/cache/activation continuity is not proven."
+  },
+  "fences": [
+    {
+      "record": "baseline-results.json",
+      "producer": "baseline.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "6faf38b92b8f8611046a15fb55bf1139301caa118117b94806c0cda08682ab8c",
+      "recordPassed": true,
+      "caseStage": null,
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-first-reopen-timeout.json",
+      "producer": "qualification-first-reopen-timeout.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": null,
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-v2-results.json",
+      "producer": "qualification-v2.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": "controller-update",
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-v3-results.json",
+      "producer": "qualification-v3.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": "reopen",
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-v4-results.json",
+      "producer": "qualification-v4.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": "reopen",
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-v5-results.json",
+      "producer": "qualification-v5.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": "reopen",
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "qualification-v6-results.json",
+      "producer": "qualification-v6.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": false,
+      "caseStage": "reopen",
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    {
+      "record": "stable-document-results.json",
+      "producer": "stable-document.cjs",
+      "producerHashMatches": true,
+      "publicSourceStable": true,
+      "appSha256": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+      "recordPassed": true,
+      "caseStage": "initial-open",
+      "browserClosed": true,
+      "serverClosed": true
+    }
+  ],
+  "syntaxCheckPassed": true,
+  "diffWhitespaceCheckPassed": true,
+  "encoding": "Final focused test strictly UTF-8; exact corrupted prior producer bytes and explicitly labeled reexecution retained. Lost first stdout is not reconstructed as historical raw."
+}

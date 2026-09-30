@@ -1,0 +1,167 @@
+{
+  "scope": "Integrated rc21 exact-product-worker stable fresh-document actual app/SW/native TS current-owner decode and settled close only; no controller-change/reload continuity, account/device/production proof.",
+  "producerStart": {
+    "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+    "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  },
+  "driverSha256": "35e97560a8d7d5744754a4b81c203b649074fa543eee0723a6499aeb23ecd1f4",
+  "results": [
+    {
+      "name": "stable-fresh-document-ts",
+      "passed": true,
+      "memory": {
+        "FreePhysicalMemory": 2985824,
+        "FreeVirtualMemory": 2390084
+      },
+      "fixture": {
+        "path": "qa/v2-07b-ts-q1/synthetic-bframes-audiolead.ts",
+        "bytes": 958800,
+        "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4"
+      },
+      "requests": [
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-939"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=0-524143"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=434656-958799"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=564-262707"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "metadata",
+          "range": null
+        },
+        {
+          "category": "original-range",
+          "range": "bytes=262708-524851"
+        },
+        {
+          "category": "metadata",
+          "range": null
+        }
+      ],
+      "externalBlocked": 1,
+      "stage": "initial-open",
+      "errors": [],
+      "before": {
+        "attempt": "q1",
+        "mode": "original-repackaged",
+        "frames": 1,
+        "phase": "ready",
+        "cleanup": {
+          "settled": true
+        },
+        "ready": 4,
+        "time": 0.213779,
+        "loading": false,
+        "error": false,
+        "sourceGeneration": 4
+      },
+      "currentOwner": {
+        "kind": "ts",
+        "frames": 1,
+        "phase": "ready",
+        "ownerCurrent": true,
+        "accountCurrent": true,
+        "accountGenerationCurrent": true,
+        "sourceCurrent": true,
+        "ready": 4,
+        "decode": true
+      },
+      "closed": {
+        "cleanup": {
+          "settled": true
+        },
+        "selected": null,
+        "q0": false,
+        "q1": false,
+        "ready": 0,
+        "hasSource": false
+      },
+      "controllerJournal": [
+        {
+          "state": "activating",
+          "time": 376.19999999925494
+        }
+      ],
+      "browserClosed": true
+    }
+  ],
+  "workerServes": [
+    {
+      "replacement": false,
+      "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d"
+    },
+    {
+      "replacement": false,
+      "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d"
+    },
+    {
+      "replacement": false,
+      "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d"
+    }
+  ],
+  "browser": "154.0.8037.58",
+  "confirmedStableFreshDocumentDecode": true,
+  "serverClosed": true,
+  "completed": true,
+  "passed": true,
+  "producerEnd": {
+    "app.js": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+    "sw.js": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+    "index.html": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+  }
+}

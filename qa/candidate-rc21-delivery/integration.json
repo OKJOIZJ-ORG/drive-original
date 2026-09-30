@@ -1,0 +1,80 @@
+{
+  "recordedAt": "2026-09-30T03:34:53.562Z",
+  "version": "1.22.0-rc.21",
+  "reviewedSourceFreeze": "5c873efaaf4b9e390a6cb5b2a6057ef1aaa060e2a64d548ebfc3f6f6ffbba480",
+  "onlyAppVersionDiffersFromFreeze": true,
+  "completeStableNodeChecks": 624,
+  "integratedStableNativeCurrentOwnerDecodeClose": true,
+  "integratedNativeExactProductWorker": true,
+  "visibleOldOwnerRecoveryQualifiedInPreVersionNative": true,
+  "sameReplacementReloadThenReopenQualified": false,
+  "wholeQaSw01Passed": false,
+  "scope": "Bounded visible update recovery and exact21 metadata/normal stable native integration; retained six failed full-reload chains remain unqualified",
+  "files": [
+    {
+      "path": "app.js",
+      "sha256": "291bde76ad7f649422603e1d735766b0fcc5091fb9a9214ce2991689f48818b0",
+      "bytes": 487734
+    },
+    {
+      "path": "sw.js",
+      "sha256": "f21666a44d0c65771ecdf18764eb0e63e43decd5283ffe75db6e6b1f711c144d",
+      "bytes": 69233
+    },
+    {
+      "path": "index.html",
+      "sha256": "ac1de0052dce7c0cb220ea46d7614cb5b19619bdef6f28ddf999e283256da0c1",
+      "bytes": 50974
+    },
+    {
+      "path": "version.json",
+      "sha256": "6aa0df59baa05b9a59118c8875412099f276be1c6685b028e93d292a21cf5a13",
+      "bytes": 252
+    },
+    {
+      "path": "tests/static.test.js",
+      "sha256": "f8d00b735676dbe5fc89f1f6a47e0cd8e42da0dac11b7d0eaf1ab5cf894d40e4",
+      "bytes": 22461
+    },
+    {
+      "path": "tests/controller-change.test.js",
+      "sha256": "df6593f3cb1b01e7e8974ef6de3c278c3fe1fe1ff29bea94af8c13be8b30e0f5",
+      "bytes": 7605
+    },
+    {
+      "path": "qa/candidate-rc21-delivery/run-product-tests.cjs",
+      "sha256": "9ba3f1832d24d0c74811cc4e533769ba397b6a0e7720e707b31b22e9934c5002",
+      "bytes": 2213
+    },
+    {
+      "path": "qa/candidate-rc21-delivery/product-tests.json",
+      "sha256": "3273d6aedc71449adaf3ecd725c12674b5774cbe80f41ddbc54e0c9adbb08a90",
+      "bytes": 25861
+    },
+    {
+      "path": "qa/candidate-rc21-delivery/product-tests.log",
+      "sha256": "67b49a469240c88eec3623ba7ef23bf8afeac51acecc0ed0762a0deb6b9911eb",
+      "bytes": 60179
+    },
+    {
+      "path": "qa/candidate-rc21-delivery/integrated-stable-document.cjs",
+      "sha256": "35e97560a8d7d5744754a4b81c203b649074fa543eee0723a6499aeb23ecd1f4",
+      "bytes": 9574
+    },
+    {
+      "path": "qa/candidate-rc21-delivery/integrated-stable-document-results.json",
+      "sha256": "741ddd804d56e820a8b5ace6429f7fe8384608614e52e47b3d3ead26ad244d68",
+      "bytes": 4660
+    },
+    {
+      "path": "qa/rc21-controller-change/checks.json",
+      "sha256": "1fdfc3475172fe6b3fc52379a41666f61669853e896ea71bc0b3b41646532a39",
+      "bytes": 4534
+    },
+    {
+      "path": "qa/rc21-controller-change/curation.json",
+      "sha256": "b2d9ff874b07cdf8eb5bfde1afaa2197c239c5d4b0e44a4ab80234505adf0ca4",
+      "bytes": 4980
+    }
+  ]
+}

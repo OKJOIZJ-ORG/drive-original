@@ -244,3 +244,7 @@ Confirmed synthetic native source: supported PNG/WebP declared video is admitted
 ## Fixed candidate20 and actual controller boundary — 2026-09-30
 
 Confirmed892722c/Worker553d8644 public52/cache40/source26/six/exactZIP/605Node delivery and actualnormal20update. Actual same-account credentialdeadline advances without QAforcedrefresh/login/newgrant; afterolddeadline current20TSnativeframe/ready4/loadingfalse/settledclose pass afterreload. First19/newSWtrial silentlycancelsQ1 withretirementfalse; uninterruptedexpiry/position and safeautomaticSWtransition are unqualified. Necessary21counterexample retained; CANDIDATE-RC20-20260930.md/qa/rc20-runtime-boundaries own limits. Wholegoal/production/device/fullcorpus unqualified.
+
+## Local bounded Q1 update recovery — 2026-09-30
+
+Verifiedsource/current21 integration: visible safe reload guidance replaces silent cancellation when a capturedQ1SWisreplaced; false cleanup barrier remains.19+5focused/624stableNode andseparate21current-owner native TS/frame/settledclose pass. Six real syntheticSWreplacement→reload→reopen aggregates remainfailed; no full updatecontinuity/device/account/corpus/production claim. WORKER-UPDATE-RECOVERY-20260930.md owns scope.

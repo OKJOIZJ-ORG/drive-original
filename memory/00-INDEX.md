@@ -102,3 +102,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - IMAGE-OWNER-20260930.md — positive pinned raster owner correction, retained failures,80focused/8native/independent review and605full/two rc20 integration cases; whole goal remains open.
 
 - CANDIDATE-RC20-20260930.md — fixed image-owner20 delivery/actual normal update/postdeadline frame; real controller-transition silent cancellation preserved for21 and whole-goal gates remain open.
+
+- WORKER-UPDATE-RECOVERY-20260930.md — bounded visible Q1 recovery with strict false barrier,19+5 checks/624integrated/normal21native; six fullreload aggregates remain failed and preserved.

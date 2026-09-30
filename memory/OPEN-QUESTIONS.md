@@ -53,3 +53,7 @@ and exact live priority/full-format playback remain separate open evidence.
 
 | ID | User's words (verbatim) | Our reading (`assumed`) | Breaks if wrong | Ends when | Relied on in |
 |---|---|---|---|---|---|
+
+## 2026-09-30 — actual worker replacement and remaining reload chain
+
+Actual19→20 SWreplacement cancelsQ1 silently andmakesoldworkerretirementunconfirmed.21boundedrepair showsreloadrecovery andkeepsfalsebarrier. Six isolatedsame-scope replacement→reload→reopen aggregates stayfailed; v3-v6observeanothercontrollerchange/safeerror innewdoc despitefixedmain-script hash/canonicalupdatewait. Importedscript/cache/activationcontinuity cause remainsUNKNOWN. Separate stable21current-owner decode/close ispassing, notintegrationchainclosure. WORKER-UPDATE-RECOVERY-20260930.md/qa/rc21-controller-change ownpreciserecords. Natural19credentialdeadlineadvance/postdeadline20frame observed; uninterruptedbefore/afterposition criterion remainsopen.
