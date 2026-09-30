@@ -1,0 +1,18 @@
+{
+  "schema": "drive-original.version-only28-integration/1",
+  "at": "2026-09-30T21:51:37.021Z",
+  "previousSource": "05661e05774b723246fe652914b393f279f019df",
+  "version": "1.22.0-rc.28",
+  "runtimeUnchangedExceptVersion": true,
+  "full665Reused": {
+    "path": "qa/candidate-rc27-delivery/product-tests.json",
+    "sha256": "4ec142a4a983a28055a64acf1901c89bdad49d8dd7bc563482ae50f79f60b1a6"
+  },
+  "static20New": {
+    "path": "qa/candidate-rc28-delivery/product-tests.json",
+    "sha256": "04cfb907a2cf7bddf5cd2741665113d2f242fa85c0e6482021f62a0f83ce7f83"
+  },
+  "reason": "Actual signed-in existing fixed27 caller needs a distinct later version to exercise trusted normal update; old26 caller retains old destructive code.",
+  "privateBuildDistribution27Only": true,
+  "noMediaRuntimeChange": true
+}
