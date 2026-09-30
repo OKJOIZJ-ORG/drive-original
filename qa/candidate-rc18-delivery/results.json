@@ -1,0 +1,507 @@
+{
+  "source": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "version": "1.22.0-rc.18",
+  "base": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "passed": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 50974,
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 477849,
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "bytes": 84359,
+      "gitEqual": true
+    },
+    {
+      "file": "sw.js",
+      "bytes": 69233,
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "bytes": 250,
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 14557,
+      "gitEqual": true
+    },
+    {
+      "file": "media/revision-pin.js",
+      "bytes": 10050,
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 16476,
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 50885,
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42098,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "bytes": 5082,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "bytes": 1666,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "bytes": 6692,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "bytes": 9976,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-player.mjs",
+      "bytes": 13328,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-source.mjs",
+      "bytes": 3765,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "bytes": 6090,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "bytes": 3228,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "bytes": 686739,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "bytes": 16726,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "bytes": 2955,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "bytes": 17504,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "bytes": 3392,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/index.html",
+      "bytes": 4852,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "bytes": 457141,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "bytes": 4212,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-manifest.json",
+      "bytes": 8661,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-reconstruct.cjs",
+      "bytes": 958,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part004",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part005",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part006",
+      "bytes": 8388608,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part007",
+      "bytes": 3266263,
+      "gitEqual": true
+    },
+    {
+      "file": ".nojekyll",
+      "bytes": 0,
+      "gitEqual": true
+    }
+  ],
+  "privateRoutes": [
+    {
+      "file": "memory/CHECKPOINT.md",
+      "status": 404
+    },
+    {
+      "file": "qa/package.json",
+      "status": 404
+    },
+    {
+      "file": "media/build.json",
+      "status": 404
+    },
+    {
+      "file": "worker/index.mjs",
+      "status": 404
+    },
+    {
+      "file": "media/audio-codec-build.json",
+      "status": 404
+    },
+    {
+      "file": "media/mediabunny-q1-build.json",
+      "status": 404
+    }
+  ],
+  "scope": "Public delivery and fresh unauthenticated Chrome shell only; no actual Drive/media/device acceptance",
+  "cold": {
+    "version": "1.22.0-rc.18",
+    "controlled": true,
+    "accountPresent": false,
+    "candidate": true,
+    "writes": false,
+    "shells": [
+      "drive-original-shell-1.22.0-rc.18"
+    ]
+  },
+  "cached": [
+    {
+      "file": "index.html",
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/revision-pin.js",
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-player.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-source.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/index.html",
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "gitEqual": true
+    }
+  ],
+  "uncachedSourceDownloads": [
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part004",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part005",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part006",
+      "cached": false
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part007",
+      "cached": false
+    }
+  ],
+  "offline": {
+    "version": "1.22.0-rc.18",
+    "controlled": true
+  },
+  "pageErrors": 0,
+  "recordedAt": "2026-09-30T01:03:28.815Z"
+}

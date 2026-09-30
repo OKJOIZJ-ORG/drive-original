@@ -1,0 +1,24 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../..'),hash=x=>crypto.createHash('sha256').update(x).digest('hex'),read=p=>fs.readFileSync(path.join(__dirname,p));
+const result=JSON.parse(read('results.json'));
+assert.equal(result.complete,true);assert.equal(result.failure,null);assert.equal(result.observabilityResolved,false);assert.equal(result.unresolvedBoundary,'OFFICIAL_READBACK_EXPLICIT_NULL_OR_OMITTED');
+assert.ok(Object.values(result.identity).every(x=>x===true));assert.equal(result.auth.credentialStoreUnchanged,true);assert.equal(result.auth.stdoutExposed,false);assert.equal(result.auth.credentialFileCopied,false);assert.equal(result.auth.wranglerDiskLoggingDisabled,true);assert.equal(result.auth.wranglerMetricsDisabled,true);
+assert.equal(hash(read('read-settings.cjs')),result.initialPhase.producerSHA256);assert.equal(hash(read('finish-settings.cjs')),result.sourceFences.producerSHA256);
+assert.equal(hash(fs.readFileSync(path.join(root,'worker/wrangler.jsonc'))),result.sourceFences.wranglerConfigSHA256);assert.equal(hash(fs.readFileSync(path.join(root,'worker/node_modules/wrangler/wrangler-dist/cli.js'))),result.sourceFences.wranglerCLI_SHA256);
+assert.equal(result.endpoints.length,5);assert.ok(result.endpoints.every(x=>x.method==='GET'&&x.status===200&&x.success===true&&x.bytes<=262144));
+assert.equal(result.responseShape.scriptOnlyObservabilityFieldPresent,true);assert.equal(result.responseShape.scriptOnlyObservabilityExplicitNull,true);assert.equal(result.responseShape.combinedObservabilityFieldPresent,false);assert.equal(result.responseShape.environmentObservabilityFieldPresent,false);
+for(const item of ['logsRead','historicalSecretAbsenceProven','customerPlanRead'])assert.equal(result[item],false);
+for(const item of ['settingsWrites','deploymentsWritten','grantsWritten','anonymousProbesRepeated','fullSuiteRepeated'])assert.equal(result[item],0);
+const names=['deployment-before-private.json','script-settings-private.json','script-version-settings-private.json','default-environment-private.json','deployment-after-private.json'],forbidden=new Set();
+function collect(x){if(!x||typeof x!=='object')return;for(const [k,v] of Object.entries(x)){if(typeof v==='string'&&v.length>=16&&/^(author_email|author_id|account_id|namespace_id|client_id)$/.test(k))forbidden.add(v);if(k==='bindings'&&Array.isArray(v))for(const b of v){if(b.name==='GOOGLE_CLIENT_ID'||b.type==='secret_text')for(const name of ['text','value'])if(typeof b[name]==='string'&&b[name].length>=16)forbidden.add(b[name]);}if(typeof v==='object')collect(v);}}
+names.forEach((name,i)=>{const bytes=read('private/'+name);assert.equal(hash(bytes),result.endpoints[i].rawPrivateSHA256);collect(JSON.parse(bytes));});
+for(const source of Object.values(result.settings))for(const [key,value] of Object.entries(source)){if(/Sampling|^sampling$/.test(key))assert.ok(value===null||(typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1));else assert.ok(value===null||typeof value==='boolean');}
+assert.equal(result.settings.merged.observabilityEnabled,null);assert.equal(result.settings.merged.logpushEnabled,false);assert.equal(result.settings.merged.tailConsumersPresent,false);
+const exact=['.gitignore','README.md','read-settings.cjs','prepare-finish.cjs','finish-settings.cjs','results.json','verify.cjs'];
+for(const name of exact){const text=read(name).toString('utf8');for(const value of forbidden)assert.ok(!text.includes(value),'Private identifier must not appear in a curated artifact');}
+const files=Object.fromEntries(exact.map(name=>[name,hash(read(name))]));
+const verification={schema:'drive-original.rc18-hosted-settings-local-verification/1',source:result.source,version:result.version,files,passed:true,actualReadOnlyGETs:5,totalReadbackBytes:result.endpoints.reduce((n,x)=>n+x.bytes,0),activeDeploymentStable:true,settingsNullOrOmittedBoundaryVerified:true,privateRedactionVerified:true,networkRequests:0,credentialReads:0};
+fs.writeFileSync(path.join(__dirname,'local-verification.json'),JSON.stringify(verification,null,2)+'\n');
+fs.writeFileSync(path.join(__dirname,'curated-savepoint.json'),JSON.stringify({schema:'drive-original.rc18-hosted-settings-curation/1',exactOwnedFiles:[...exact,'local-verification.json','curated-savepoint.json'].map(p=>'qa/rc18-hosted-settings/'+p),excluded:['private/**','tokens/credentials','raw control-plane customer/account/namespace/client identifiers','other source/product/global/evidence files'],commitOwner:'root'},null,2)+'\n');
+console.log(JSON.stringify({localVerified:true,actualGETs:5,observabilityResolved:false,logpushEnabled:false,tailConsumersPresent:false,totalReadbackBytes:verification.totalReadbackBytes,curatedFiles:9,networkRequests:0}));

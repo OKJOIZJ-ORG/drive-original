@@ -1,0 +1,21 @@
+{
+  "schema": "drive-original.rc18-hosted-settings-curation/1",
+  "exactOwnedFiles": [
+    "qa/rc18-hosted-settings/.gitignore",
+    "qa/rc18-hosted-settings/README.md",
+    "qa/rc18-hosted-settings/read-settings.cjs",
+    "qa/rc18-hosted-settings/prepare-finish.cjs",
+    "qa/rc18-hosted-settings/finish-settings.cjs",
+    "qa/rc18-hosted-settings/results.json",
+    "qa/rc18-hosted-settings/verify.cjs",
+    "qa/rc18-hosted-settings/local-verification.json",
+    "qa/rc18-hosted-settings/curated-savepoint.json"
+  ],
+  "excluded": [
+    "private/**",
+    "tokens/credentials",
+    "raw control-plane customer/account/namespace/client identifiers",
+    "other source/product/global/evidence files"
+  ],
+  "commitOwner": "root"
+}

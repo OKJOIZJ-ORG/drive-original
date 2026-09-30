@@ -1,0 +1,145 @@
+{
+  "scope": "read-only pinned rc17 source audit and safe expression preparation; parent-owned actual executions, no browser/network test in child",
+  "sourceCommit": "54654ce1efb2dbe0296a9641ed01182e9e1a8322",
+  "nextActualCandidateCommit": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "sourceFiles": [
+    {
+      "file": "app.js",
+      "sha256": "4fd4d9a81f010da2603f217430965dfee437af742d9074d0f2c205d61a4fd5f4"
+    },
+    {
+      "file": "sw.js",
+      "sha256": "b401dd6771ae484f023ad44bdc2b211d6aef5ef6c7d21aa5b8f716295a109093"
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "sha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9"
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "sha256": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080"
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "sha256": "512abfceca9d529b5b9320913828cd1f397128ee9213948e247bf548b2688f95"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/worker-client.mjs",
+      "sha256": "819862ec00b4a97c58656bc0cc94cf2e7718193e916d21a1ccbb1e74aff66564"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/transmux-session.mjs",
+      "sha256": "30d2eb4ecbd41f4a1ba2fced366fd976bfa485b30d5af332117db7a593fb44dc"
+    },
+    {
+      "file": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564"
+    }
+  ],
+  "componentComparison": [
+    {
+      "file": "media/ts-player.mjs",
+      "rc17Sha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+      "rc18Sha256": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9"
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "rc17Sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+      "rc18Sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "rc17Sha256": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+      "rc18Sha256": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080"
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "rc17Sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+      "rc18Sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "rc17Sha256": "512abfceca9d529b5b9320913828cd1f397128ee9213948e247bf548b2688f95",
+      "rc18Sha256": "512abfceca9d529b5b9320913828cd1f397128ee9213948e247bf548b2688f95"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/worker-client.mjs",
+      "rc17Sha256": "819862ec00b4a97c58656bc0cc94cf2e7718193e916d21a1ccbb1e74aff66564",
+      "rc18Sha256": "819862ec00b4a97c58656bc0cc94cf2e7718193e916d21a1ccbb1e74aff66564"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "rc17Sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0",
+      "rc18Sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/transmux-session.mjs",
+      "rc17Sha256": "30d2eb4ecbd41f4a1ba2fced366fd976bfa485b30d5af332117db7a593fb44dc",
+      "rc18Sha256": "30d2eb4ecbd41f4a1ba2fced366fd976bfa485b30d5af332117db7a593fb44dc"
+    }
+  ],
+  "checks": {
+    "passed": true,
+    "checks": 6,
+    "scope": "mock syntax, privacy filter, current generation/frame ordering and full callback cleanup; no actual/browser latency evidence"
+  },
+  "qaFiles": [
+    {
+      "file": "README.md",
+      "bytes": 8615,
+      "sha256": "0b168a4a8f39bc9eadc7b12b1543141686afdb03d5bc1c3e905c055f10b97670"
+    },
+    {
+      "file": "availability.expression.js",
+      "bytes": 742,
+      "sha256": "27c95372fc169080be0792fee612ee5d69ebb1b7378e059e9cd589cb2d7f6dbc",
+      "trimmedSHA256": "c6569d6853a6df01958fb28de0e06676e9b4d0216e3088140c4f530f86937e3d"
+    },
+    {
+      "file": "future-arm.expression.js",
+      "bytes": 5427,
+      "sha256": "136e4b48ce51d57c410ddb36b403deadaba1843d9b6dbc79a7aa8f4537165cdb",
+      "trimmedSHA256": "258a55dfe3deb9734fbe59b1e1bb8706ea839a0ff195dede80000e1f2a8a1c34"
+    },
+    {
+      "file": "future-read-cleanup.expression.js",
+      "bytes": 165,
+      "sha256": "e341d13fe71410ed019dd2e028a505f4ea96723ea73bbf02c14938394df5a0c6",
+      "trimmedSHA256": "0f19c4df188a44de71438185a38f8460f6d8297a4f508a8922fcd9cdedec1878"
+    },
+    {
+      "file": "retrospective-actual17-aggregate.json",
+      "bytes": 1241,
+      "sha256": "b1c3720c15ac836e5ba504a23199f4f050a10d9d75dbe204ad7e40b923dcfe27"
+    },
+    {
+      "file": "retrospective-resources-executed-v1.expression.js",
+      "bytes": 2111,
+      "sha256": "17812eef94f174d48f01ab5670f2d47ef61ee108897fc51e8e27b3afbb412ade",
+      "trimmedSHA256": "77ed8cebcdd95ff5a3412d8bb9aeb498442a603f6081ff0d12e4ff804ae01b51"
+    },
+    {
+      "file": "retrospective-resources.expression.js",
+      "bytes": 2267,
+      "sha256": "3b875ca877301c5325988c69712d0ad0a67005e4154e65461b015336d050f45d",
+      "trimmedSHA256": "750dcac677b5d7ed6f9f822a12af78882d31e2789e3316bc4af8f2714c90bad4"
+    },
+    {
+      "file": "verify-expressions.cjs",
+      "bytes": 5836,
+      "sha256": "f81061b90f2505cbadea524de06aab81b704ff85c3072b70b676008750bbc7dc"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "schema": "drive-original.rc18-hosted-settings/1",
+  "source": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "version": "1.22.0-rc.18",
+  "expectedWorkerVersion": "7eb9f9d7-c072-4095-bc94-d6776c69ad4b",
+  "recordedAt": "2026-09-30T01:17:30.207Z",
+  "complete": true,
+  "failure": null,
+  "identity": {
+    "retainedWorkerVersionMatched": true,
+    "activeBeforeMatched": true,
+    "activeAfterMatched": true,
+    "activeDeploymentStable": true,
+    "sourceHEADStable": true
+  },
+  "auth": {
+    "existingCredentialOnly": true,
+    "unexpiredStoredCredentialChecked": true,
+    "credentialStoreUnchanged": true,
+    "stdoutExposed": false,
+    "credentialFileCopied": false,
+    "wranglerDiskLoggingDisabled": true,
+    "wranglerMetricsDisabled": true
+  },
+  "endpoints": [
+    {
+      "category": "active-deployment-before",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "bytes": 748,
+      "rawPrivateSHA256": "24818e62ba04eb4cd3677fd6513d41734ae13403eef0af3e95993778195fce76"
+    },
+    {
+      "category": "worker-script-settings",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "bytes": 169,
+      "rawPrivateSHA256": "d6e106036c63cb6c7f0e3486dff3abf5d06f517356721c62dd1d3b0c8226f1a4"
+    },
+    {
+      "category": "worker-script-and-active-version-settings",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "bytes": 1633,
+      "rawPrivateSHA256": "708a50b1638381bd6b153ca85628e68a153c843ec3326ad93824ddb2aaee3309"
+    },
+    {
+      "category": "candidate-default-environment-metadata",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "bytes": 1375,
+      "rawPrivateSHA256": "a477060664859a447092aa841e56cab58f9637248a5e9e97beeeef5a1da78afc"
+    },
+    {
+      "category": "active-deployment-after",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "bytes": 748,
+      "rawPrivateSHA256": "24818e62ba04eb4cd3677fd6513d41734ae13403eef0af3e95993778195fce76"
+    }
+  ],
+  "settings": {
+    "scriptOnly": {
+      "observabilityPresent": false,
+      "observabilityEnabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "realTimeIssuesEnabled": null,
+      "queryRedaction": null,
+      "logpushEnabled": false,
+      "tailConsumersPresent": null
+    },
+    "scriptAndActiveVersion": {
+      "observabilityPresent": false,
+      "observabilityEnabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "realTimeIssuesEnabled": null,
+      "queryRedaction": null,
+      "logpushEnabled": false,
+      "tailConsumersPresent": false
+    },
+    "defaultEnvironment": {
+      "observabilityPresent": false,
+      "observabilityEnabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "realTimeIssuesEnabled": null,
+      "queryRedaction": null,
+      "logpushEnabled": false,
+      "tailConsumersPresent": null
+    },
+    "merged": {
+      "observabilityPresent": false,
+      "observabilityEnabled": null,
+      "sampling": null,
+      "logsEnabled": null,
+      "invocationLogs": null,
+      "logSampling": null,
+      "logPersist": null,
+      "logDestinationsPresent": null,
+      "tracesEnabled": null,
+      "traceSampling": null,
+      "tracePersist": null,
+      "traceDestinationsPresent": null,
+      "realTimeIssuesEnabled": null,
+      "queryRedaction": null,
+      "logpushEnabled": false,
+      "tailConsumersPresent": false
+    }
+  },
+  "logsRead": false,
+  "historicalSecretAbsenceProven": false,
+  "customerPlanRead": false,
+  "settingsWrites": 0,
+  "deploymentsWritten": 0,
+  "grantsWritten": 0,
+  "anonymousProbesRepeated": 0,
+  "fullSuiteRepeated": 0,
+  "sourceFences": {
+    "producerSHA256": "a441f4af9115ee6dcb3e86970b6227756dc58770c4efd639176917c4ad2e75c9",
+    "wranglerConfigSHA256": "8e114319544b690f25d14a512e684722f9cf96810095cd0f57125c907b8a6502",
+    "wranglerVersion": "4.135.0",
+    "wranglerCLI_SHA256": "e080023d5f709ece8f5b8838280f24cd54b896e635fb314b9a1a3079ef01f2a1",
+    "retainedRedactedReadbackSHA256": "52881cb350f41dcd7b848e9badffc125cdaaefe14589e1976f768d63556494c5"
+  },
+  "initialPhase": {
+    "producerSHA256": "e515fa5aabb9e4de17926aedd24109bfc669f3753823d96f8a00913a77f0c4d6",
+    "recordedAt": "2026-09-30T01:14:19.811Z",
+    "finishedAt": "2026-09-30T01:14:21.848Z",
+    "requests": 3,
+    "credentialStoreUnchanged": true
+  },
+  "responseShape": {
+    "scriptOnlyObservabilityFieldPresent": true,
+    "scriptOnlyObservabilityExplicitNull": true,
+    "combinedObservabilityFieldPresent": false,
+    "environmentObservabilityFieldPresent": false,
+    "environmentObservabilityExplicitNull": false
+  },
+  "observabilityResolved": false,
+  "unresolvedBoundary": "OFFICIAL_READBACK_EXPLICIT_NULL_OR_OMITTED",
+  "finishedAt": "2026-09-30T01:17:31.754Z",
+  "elapsedMs": 1547,
+  "responseBytes": 2123
+}

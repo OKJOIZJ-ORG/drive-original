@@ -1,0 +1,82 @@
+{
+  "schema": "drive-original.actual18-one-paused-seek/1",
+  "scope": "One trusted paused50% seek on same designated original, developer passive observation; no p95/whole-goal/device/production claim",
+  "source": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "workerVersion": "7eb9f9d7-c072-4095-bc94-d6776c69ad4b",
+  "version": "1.22.0-rc.18",
+  "nativeDuration": 1609.408,
+  "metadataDuration": 1609.233,
+  "sourceBytes": 208001508,
+  "armExpressionTrimSha256": "258a55dfe3deb9734fbe59b1e1bb8706ea839a0ff195dede80000e1f2a8a1c34",
+  "rawCompactJsonSha256": "90ff58ec51f8260b2148e27dd3c14a7afb1082c3daca0c9354c04fea1e944b1b",
+  "rawOrigin": "Root transcribed safe CUA readback; compact JSON matches browser SHA; not complete network/worker protocol log",
+  "targetFrameMs": 13374.9,
+  "inputToSampledBufferingMs": 10881.7,
+  "statsSamplePeriodMs": 100,
+  "preBuffering": {
+    "metadataCount": 13,
+    "rangeCount": 6,
+    "summedRequestDurationMs": 10738.1
+  },
+  "allBeforeFrame": {
+    "metadataCount": 15,
+    "rangeCount": 7,
+    "summedRequestDurationMs": 12469.9
+  },
+  "observer300msSettlement": {
+    "ready": 1,
+    "paused": true,
+    "seeking": true,
+    "loading": true,
+    "note": "still awaiting real seek settlement, correct loader; observer ended after its prepared300ms dwell"
+  },
+  "laterSettled": {
+    "ownerCurrent": true,
+    "tsOwner": true,
+    "target": 804.704,
+    "time": 804.704,
+    "paused": true,
+    "seeking": false,
+    "appSeeking": false,
+    "watchdog": false,
+    "ready": 4,
+    "loading": false,
+    "presentationKey": null,
+    "completedDecodedProof": true,
+    "phase": "ready",
+    "elapsedToLaterReadUnmeasured": true
+  },
+  "close": {
+    "selectedClosed": true,
+    "q1Closed": true,
+    "seekWatchdogCleared": true,
+    "decodedProofCleared": true,
+    "qaObserverDeleted": true,
+    "privateContextDeleted": true,
+    "ready": 0,
+    "buffers": 0,
+    "retirementSettled": true,
+    "srcAttributeAbsent": true
+  },
+  "limits": [
+    "Metadata timing hides upstream subphases",
+    "Same-origin Range timing is end-to-end page/SW, not Google TTFB",
+    "Native/worker startup subphases not directly instrumented",
+    "Only one generation; no latency percentile"
+  ],
+  "contextRecovery": {
+    "viewedCount": 149,
+    "metadataRequests": 6,
+    "recent3ShareSingleParent": true,
+    "latestViewedDescriptorSizeMatched": true,
+    "normalFolderNavigation": true,
+    "folderListingFiles": 458,
+    "unrelatedNamesIdsOrMetadataExported": false,
+    "temporaryPrivateContextDeleted": true
+  },
+  "readoutCorrections": {
+    "failedReadOnlyExpressions": 3,
+    "cause": "wrong optional diagnostic identifier; no app action/state mutation",
+    "correctedUsingExactSourceIdentifiers": true
+  }
+}
