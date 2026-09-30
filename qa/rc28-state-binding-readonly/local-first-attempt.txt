@@ -1,0 +1,26 @@
+✔ actual complete factory + facade reconstruct seven recognized documents in nine native GETs without real storage/UI mutation (53.6782ms)
+✔ facade rejects original/arbitrary body, POST/PATCH, wrong origin/query and caller headers before native dispatch (19.0242ms)
+✖ stale source/account/revision and appData absence fail before GET (2.9254ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 200.071
+
+✖ failing tests:
+
+test at qa\rc28-state-binding-readonly\local.test.mjs:95:1
+✖ stale source/account/revision and appData absence fail before GET (2.9254ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }

@@ -1,0 +1,72 @@
+{
+  "schema": "drive-original.android-native-geometry-harness-repair/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "runtime": "1.22.0-rc.28",
+  "actualExecution": false,
+  "productChanged": false,
+  "viewportEmulated": false,
+  "preservedFailure": "146-rc28-original-native-player-landscape-fullscreen-result.json",
+  "reason": "Native stage rectangle uses fractional CSS viewport extent; integer innerWidth/Height strict containment falsely rejected pre-input. Use actual visualViewport offset+float extent with0.01px numeric roundoff allowance.",
+  "derivations": [
+    {
+      "base": "146-rc28-original-native-player-landscape-fullscreen.cjs",
+      "baseSha256": "6fd6b0edb74964d4862c6959745bf474600cab8c370464619922171a60d2e23e",
+      "producer": "148-rc28-original-player-visual-bounds.cjs",
+      "producerSha256": "3e866ffe0a8dd5dd67a718c0cba5e7bfef53cb5bd4ec402c19c26121cda709dd",
+      "changes": [
+        [
+          "146-rc28-original-native-player-landscape-fullscreen-result.json",
+          "148-rc28-original-player-visual-bounds-result.json"
+        ],
+        [
+          "r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight",
+          "r.x>=(visualViewport?.offsetLeft||0)-.01&&r.y>=(visualViewport?.offsetTop||0)-.01&&r.right<=(visualViewport?.offsetLeft||0)+(visualViewport?.width||innerWidth)+.01&&r.bottom<=(visualViewport?.offsetTop||0)+(visualViewport?.height||innerHeight)+.01"
+        ],
+        [
+          "width:innerWidth,height:innerHeight,screenHeight:screen.height",
+          "width:innerWidth,height:innerHeight,visualViewport:{width:visualViewport?.width,height:visualViewport?.height,offsetLeft:visualViewport?.offsetLeft,offsetTop:visualViewport?.offsetTop,scale:visualViewport?.scale},screenHeight:screen.height"
+        ],
+        [
+          "assert.deepEqual(restored,prior);const clean=",
+          "const restoreMatches=JSON.stringify(prior)===JSON.stringify(restored);if(!restoreMatches)success=false;const clean="
+        ],
+        [
+          "ownGlobalsRemoved:true};}`));}}",
+          "ownGlobalsRemoved:true};}`));}assert.deepEqual(restored,prior);}"
+        ]
+      ]
+    },
+    {
+      "base": "137-rc28-original-natural-prepare.cjs",
+      "baseSha256": "4cf43f4e9bf8257a44b94a7fd1553ca66b6ffbf883618e0fd4dab6bd55e54f49",
+      "producer": "149-rc28-original-os-reprepare.cjs",
+      "producerSha256": "77fcd7d0ca3d54b87f1059f5b0b613e307640a380eae663d9eff42f5b6bd1466",
+      "changes": [
+        [
+          "137-rc28-original-natural-prepare-result.json",
+          "149-rc28-original-os-reprepare-result.json"
+        ]
+      ]
+    },
+    {
+      "base": "147-rc28-original-genuine-home-return-seek-close.cjs",
+      "baseSha256": "7d67ba6b9e8266e92b35a6cd3c6a78cbe9d422edaac25fc25f05e626b6703966",
+      "producer": "150-rc28-original-home-visual-bounds.cjs",
+      "producerSha256": "865058936213d4dd6574dc56c2c724ce29daa1789bcf2e9cbb919b51269d7070",
+      "changes": [
+        [
+          "147-rc28-original-genuine-home-return-seek-close-result.json",
+          "150-rc28-original-home-visual-bounds-result.json"
+        ],
+        [
+          "r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight",
+          "r.x>=(visualViewport?.offsetLeft||0)-.01&&r.y>=(visualViewport?.offsetTop||0)-.01&&r.right<=(visualViewport?.offsetLeft||0)+(visualViewport?.width||innerWidth)+.01&&r.bottom<=(visualViewport?.offsetTop||0)+(visualViewport?.height||innerHeight)+.01"
+        ],
+        [
+          "fullscreen:false,q0:",
+          "fullscreen:!!document.fullscreenElement,q0:"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+✖ actual complete factory + facade reconstruct ten recognized documents in twelve canonical GETs without real storage/UI mutation (78.8622ms)
+✔ facade rejects original/arbitrary body, POST/PATCH, wrong origin/query and caller headers before native dispatch (28.4546ms)
+✔ revision change fails closed and capability/timer absence fails preflight (14.3171ms)
+✔ complete ten-doc raw backup retains raw metadata/local/legacy privately and no live cache write (48.6362ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 343.9349
+
+✖ failing tests:
+
+test at qa\rc28-state-binding-readonly\local.test.mjs:58:1
+✖ actual complete factory + facade reconstruct ten recognized documents in twelve canonical GETs without real storage/UI mutation (78.8622ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  5 !== 6
+  
+      at TestContext.<anonymous> (file:///C:/extensions/Drive-Original/source/qa/rc28-state-binding-readonly/local.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 5,
+    expected: 6,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -686,3 +686,13 @@ User requests save current unit and wait for move: D067 temporarily supersedes
 D066 execution. Checkpoint/goal/index/current record/handoff align WAIT. Root exact
 safe curation/local commit, no new product/device/corpus/offline/renewal unit or
 timer. Production1.21.0/e08989a/main/push/generalwritesfalse/PAUSED unchanged.
+
+
+## 2026-10-01 07:50 — user explicit resume
+
+D068 resumes D066 whole queue from cleandb2f808/fixedpublic944f00628. Handoff consumed/deleted and archived WAIT checkpoint; goal/currentcheckpoint ACTIVE. ADB authorized, personalChrome oldbrowser4 unavailable; freshinventory currentChrome3, unrelatedtab untouched. Root establishes newactualcandidate then force28/reopen; Android owner verifies currentdevice/timing before coordinated GO. Saved finite69 audit owns offline artifact review only. No production/main/push/generalwrites/automation/newgrant change.
+
+
+## 2026-10-01 08:30 — D068 actual force/reopen and Android OS unit
+
+PC source28 force39.618s/cache40/full projection and originalQ0 native2.703s frame/settled retirement pass. Android144–154 original landscape/fullscreen/pausedseek/30.366s Home return pass; harness failures retained. Fresh complete8596-file catalog repeated identically;36 representatives classified with0request failure/1unknown. Serial video job remains active under23:38Z cutoff; natural PC+Android66 overlap next. New finite69/state-binding local preparation does not promote runtime or whole rows. No product/deployment/main/push changes; continue D066 queue.

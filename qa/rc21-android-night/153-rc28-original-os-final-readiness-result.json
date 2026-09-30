@@ -1,0 +1,289 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T23:18:52.683Z",
+  "producerSha256": "3f98637b933f8d82eb5c57e16cfb6b13fe4aa2b31b5ed1999bcd9b8da4dedbde",
+  "commonSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "actual Android after move read-only owner/source/account readiness",
+      "at": "2026-09-30T23:18:53.806Z",
+      "version": "1.22.0-rc.28",
+      "accountPresent": true,
+      "authStatus": "online",
+      "revision": 66,
+      "expiry": "2026-09-30T23:53:31.785Z",
+      "expiresInMs": 2077979,
+      "libraryVisible": true,
+      "settingsClosed": true,
+      "loadingFiles": false,
+      "files": 1690,
+      "folders": 2,
+      "controllerActive": true,
+      "activeState": "activated",
+      "installing": false,
+      "waiting": false,
+      "shellVersions": [
+        "1.22.0-rc.28"
+      ],
+      "shellEntries": 41,
+      "playerClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "retirementBarrierResolved": true,
+      "lastRetirementSettled": true,
+      "foreground": true,
+      "width": 824,
+      "height": 1191,
+      "orientation": "portrait-primary",
+      "naturalObserverPresent": false,
+      "offlineHelperPresent": false,
+      "osHelperPresent": false,
+      "sourcePrepPresent": false,
+      "sourcePinPresent": false,
+      "syncPending": false,
+      "syncError": false,
+      "nativeOnline": true
+    },
+    {
+      "name": "actual after move immutable public28 app SW index readback",
+      "at": "2026-09-30T23:18:56.194Z",
+      "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+      "expected": {
+        "app.js": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+        "sw.js": "22e01aebb62f35033560fe9edc5696b8b797e9c8b3f26bdda4606c2e19761518",
+        "index.html": "4c06809575a2b0c5246647ed701ffd39e241930b06f8a85476b09551f0948a2d"
+      },
+      "assets": {
+        "app.js": {
+          "status": 200,
+          "sha256": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377"
+        },
+        "sw.js": {
+          "status": 200,
+          "sha256": "22e01aebb62f35033560fe9edc5696b8b797e9c8b3f26bdda4606c2e19761518"
+        },
+        "index.html": {
+          "status": 200,
+          "sha256": "4c06809575a2b0c5246647ed701ffd39e241930b06f8a85476b09551f0948a2d"
+        }
+      }
+    },
+    {
+      "name": "exact prior orientation mode read without mutations",
+      "at": "2026-09-30T23:18:56.523Z",
+      "mode": "lock 0",
+      "userRotation": 0,
+      "accelerometerRotation": 0,
+      "readOnly": true,
+      "playbackStarted": false,
+      "stateWrites": false,
+      "offlineEmulation": false,
+      "credentialForced": false
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.28",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "completed": true,
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}

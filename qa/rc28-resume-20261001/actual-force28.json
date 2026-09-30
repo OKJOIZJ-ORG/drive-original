@@ -1,0 +1,160 @@
+{
+  "schema": "drive-original.actual-force28/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "version": "1.22.0-rc.28",
+  "trustedClicks": 1,
+  "pagehideAt": 1790809001385,
+  "clickedAt": 1790809000260,
+  "qualifiedAt": 1790809039878,
+  "qualifiedWithin45s": true,
+  "matched": 40,
+  "missing": 0,
+  "mismatch": 0,
+  "controllerStable": true,
+  "ownerQualified": true,
+  "accountSame": true,
+  "writerSame": true,
+  "allProjectionPreserved": true,
+  "online": true,
+  "loaded": true,
+  "closed": true,
+  "lateAttachmentGaps": true,
+  "actualExecutingWorkerHashKnown": false,
+  "safeRows": [
+    {
+      "stage": "document-start",
+      "visible": true,
+      "fromDocumentStart": false,
+      "document": 1,
+      "at": 1790808906840,
+      "ms": 121666,
+      "attachKind": "late-attach"
+    },
+    {
+      "stage": "worker-observed",
+      "document": 1,
+      "at": 1790808906842,
+      "ms": 121668,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "controller": true,
+      "rootScope": true,
+      "controllerScriptMatches": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "accountPresent": true,
+      "authOnline": true,
+      "playerClosed": true,
+      "visible": true,
+      "document": 1,
+      "at": 1790808906843,
+      "ms": 121669,
+      "controllerOrdinal": 1,
+      "registrations": 1,
+      "cacheCount": 1,
+      "controllerState": "activated",
+      "version": "1.22.0-rc.28",
+      "shellVersions": [
+        "1.22.0-rc.28"
+      ],
+      "activeStates": [
+        "activated"
+      ]
+    },
+    {
+      "stage": "cache-parity",
+      "sourceExpected": true,
+      "cacheParity": true,
+      "document": 1,
+      "at": 1790808975561,
+      "ms": 190387,
+      "matched": 40,
+      "missing": 0,
+      "mismatch": 0,
+      "version": "1.22.0-rc.28"
+    },
+    {
+      "stage": "trusted-force-refresh-click",
+      "document": 1,
+      "at": 1790809000260,
+      "ms": 215086
+    },
+    {
+      "stage": "pagehide",
+      "document": 1,
+      "at": 1790809001385,
+      "ms": 216211
+    },
+    {
+      "stage": "document-start",
+      "visible": true,
+      "fromDocumentStart": false,
+      "document": 2,
+      "at": 1790809039824,
+      "ms": 38609,
+      "attachKind": "late-attach"
+    },
+    {
+      "stage": "worker-observed",
+      "document": 2,
+      "at": 1790809039826,
+      "ms": 38611,
+      "worker": 1,
+      "workerState": "activated"
+    },
+    {
+      "stage": "lifecycle-snapshot",
+      "controller": true,
+      "rootScope": true,
+      "controllerScriptMatches": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "accountPresent": true,
+      "authOnline": true,
+      "playerClosed": true,
+      "visible": true,
+      "document": 2,
+      "at": 1790809039827,
+      "ms": 38612,
+      "controllerOrdinal": 1,
+      "registrations": 1,
+      "cacheCount": 1,
+      "controllerState": "activated",
+      "version": "1.22.0-rc.28",
+      "shellVersions": [
+        "1.22.0-rc.28"
+      ],
+      "activeStates": [
+        "activated"
+      ]
+    },
+    {
+      "stage": "cache-parity",
+      "sourceExpected": true,
+      "cacheParity": true,
+      "document": 2,
+      "at": 1790809039878,
+      "ms": 38663,
+      "matched": 40,
+      "missing": 0,
+      "mismatch": 0,
+      "version": "1.22.0-rc.28"
+    }
+  ],
+  "safeRowsSHA256": "2bbf5e484687632726a8ede4756e398807ded69bb964ba9ec251cd402cb95761",
+  "dropped": 0,
+  "cleanupAt": 1790809079600,
+  "cleanup": {
+    "observerReleased": true,
+    "listenersAfter": 0,
+    "ownBaselineRemoved": true,
+    "ownJournalKeyRemoved": true,
+    "globalRemoved": true
+  },
+  "scope": "New actual same-account Chrome3 source28 caller after move; earlier27→28 normal update proof retained separately, original reopen is separate"
+}

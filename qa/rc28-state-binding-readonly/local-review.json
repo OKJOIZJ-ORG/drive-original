@@ -1,0 +1,23 @@
+{
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "actualRun": false,
+  "controlled": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "output": "local-results.txt"
+  },
+  "failureHistory": [
+    "local-first-attempt.txt",
+    "local-second-attempt.txt"
+  ],
+  "oldProducerRerun": false,
+  "exactAppEmbedded": true,
+  "canonicalWrites": 0,
+  "credentialExports": 0,
+  "implementationLimits": [
+    "Actual namespace/runtime project binding remains unrun",
+    "Root private sink durability and after-reconstruction full remote reread required",
+    "No live readRemote cache mutation; complete exact app functions exercised only isolated shadow"
+  ]
+}

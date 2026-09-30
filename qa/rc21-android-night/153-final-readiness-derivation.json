@@ -1,0 +1,14 @@
+{
+  "schema": "drive-original.android-post-os-readiness-derivation/1",
+  "base": "144-rc28-after-move-readonly-readiness.cjs",
+  "baseSha256": "d217b07f3364e30f788571fad84630e7d6fb0e30b0bfae0e12de57e7c798cef6",
+  "producer": "153-rc28-original-os-final-readiness.cjs",
+  "producerSha256": "3f98637b933f8d82eb5c57e16cfb6b13fe4aa2b31b5ed1999bcd9b8da4dedbde",
+  "actualExecution": false,
+  "onlyChanges": [
+    "freshoutputname",
+    "openedlibraryfilesorfolders readiness",
+    "owned helper absence plus normalstate syncidle/online flags"
+  ],
+  "originalStateWrites": false
+}

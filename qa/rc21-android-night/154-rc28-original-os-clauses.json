@@ -1,0 +1,159 @@
+{
+  "schema": "drive-original.android-rc28-original-os-scoped-clauses/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "runtime": "1.22.0-rc.28",
+  "actualPlatform": "Physical SM-X800 Android16 Chrome153, trusted ADB native touch/key input, portrait824x1191; OS-forced landscape1317x698",
+  "wholeRowPromotions": 0,
+  "original69AndRemaining42Unchanged": true,
+  "identity": "144-rc28-after-move-readonly-readiness-result.json",
+  "finalIdentity": "153-rc28-original-os-final-readiness-result.json",
+  "clauses": [
+    {
+      "ids": [
+        "QA-UI-01",
+        "QA-UI-03",
+        "QA-UI-09"
+      ],
+      "status": "passed-actual-original-android-tablet-clause",
+      "claim": "D056 nativepause withoutreveal, designatedentry, OSforcedlandscape accessibleclose/seek/nativeMore; browserAPI fullscreen; nativepaused25percent target frame",
+      "result": "148-rc28-original-player-visual-bounds-result.json",
+      "resultCompleted": false,
+      "retainedPassedScopeBeforeFailure": true,
+      "targetFrame": {
+        "at": 1790809928001,
+        "generation": 1,
+        "time": 402.188,
+        "width": 360,
+        "height": 640,
+        "presentedFrames": 1
+      },
+      "targetFraction": 0.25
+    },
+    {
+      "ids": [
+        "QA-UI-09"
+      ],
+      "status": "passed-actual-original-android-browser-clause",
+      "claim": "Native explicitfullscreen exit preserves selectedoriginal/currentQ1; restoredportrait/playing and exactpriorOSorientation",
+      "result": "151-rc28-original-explicit-fullscreen-exit-result.json",
+      "nativeBackLimit": "148 nativeOSBack exits fullscreen and normallyclosesplayer; no Back-retains-player contract assumed",
+      "oldSettingsOnlyReference": "142-rc28-native-forced-orientation-settings-result.json"
+    },
+    {
+      "ids": [
+        "QA-TR-12",
+        "QA-UI-09"
+      ],
+      "status": "passed-actual-original-android-background-clause",
+      "claim": "NativeHome30s genuinelyhidden thenrecentsreturn; sameaccount/currentimmutablefile/source/controller/Q1owner; position/list/order/query/filter/sort/currentselectedtarget and empty multiselection preserved; actualreturnedframe",
+      "result": "150-rc28-original-home-visual-bounds-result.json",
+      "hiddenToVisibleMs": 30366,
+      "sourceOwnerFences": {
+        "account": true,
+        "accountKey": true,
+        "file": true,
+        "contentVersion": true,
+        "contentSize": true,
+        "mediaSession": true,
+        "playbackSession": true,
+        "sourceGeneration": true,
+        "controller": true,
+        "q1Owner": true,
+        "driveGeneration": true,
+        "ownerNotAborted": true,
+        "currentMediaEvent": true
+      },
+      "list": {
+        "filesCount": 1690,
+        "filesOrderSame": true,
+        "folderSame": true,
+        "stackSame": true,
+        "querySame": true,
+        "inputQuerySame": true,
+        "filterSame": true,
+        "sortSame": true,
+        "selectionSame": true,
+        "selectionCount": 0,
+        "selectionModeSame": true,
+        "scrollDelta": 0
+      },
+      "baseline": {
+        "at": 1790810144397,
+        "time": 70.765444,
+        "frames": 2126,
+        "selectionCount": 0
+      },
+      "positionDelta": 38.652187,
+      "elapsedMs": 38653,
+      "returnedPresented": [
+        {
+          "at": 1790810183016,
+          "generation": 1,
+          "time": 109.388,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 2398
+        },
+        {
+          "at": 1790810183048,
+          "generation": 1,
+          "time": 109.421333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 2399
+        }
+      ]
+    },
+    {
+      "ids": [
+        "QA-TR-03",
+        "QA-TR-12"
+      ],
+      "status": "passed-postHome-native-presented-seek-clause",
+      "claim": "Separate nativepaused50percent seek afterbackground return presents original360x640 target; subsequentnormalBack andretirement/allowner cleanup",
+      "result": "150-rc28-original-home-visual-bounds-result.json",
+      "targetFrame": {
+        "at": 1790810195267,
+        "generation": 2,
+        "time": 804.688,
+        "width": 360,
+        "height": 640,
+        "presentedFrames": 1
+      },
+      "targetFraction": 0.5,
+      "intentionalSeekAdvancedOnlySourceGeneration": true,
+      "notSameLifetimePerformanceProof": true
+    }
+  ],
+  "failures": [
+    {
+      "result": "146-rc28-original-native-player-landscape-fullscreen-result.json",
+      "code": "NATIVE_TARGET_NOT_ACCESSIBLE",
+      "classification": "pre-input harnessinteger-versus-floatviewport containment; no nativeUI mutation;148 visualViewport numericrepair proven byactualfloatbounds"
+    },
+    {
+      "result": "148-rc28-original-player-visual-bounds-result.json",
+      "code": "OPERATION_FAILED",
+      "classification": "harnessassumed nativeOSBack retainsplayer; actualnormalclosedplayer/settledowners; nativeexitcontrol151 discriminates; no productcausalpatch"
+    }
+  ],
+  "limits": [
+    "ActualbrowserAPI fullscreenElement isproven; OSbarhiding/immersive/fullscreensensor orstandalonePWA isnotproven",
+    "OSorientation wasforced throughdocumented wm, exactprior lock0/user_rotation0/accelerometer0 restored; no hand/sensor claim",
+    "Emptyselection0 equality doesnotprove nonemptymultiselection retention",
+    "No naturalcredentialexpirycontinuity claim inthis boundedunit; current66 and23:53:31.785Z arebootstrap/ownerreadiness only",
+    "OriginalpriorityTS episode only; noallformats/audiofidelity/iPhone/Safari/VoiceOver equivalence",
+    "One normalviewedmonotonic write pernativeopen, nofavorite/offline/generalmedia mutation; PC actorsquiet bycoordination"
+  ],
+  "cleanup": {
+    "normalClosedAt": "2026-09-30T23:16:38.993Z",
+    "allOwnersAbsent": true,
+    "retirementSettled": true,
+    "ownedLifecycleListenersRemoved": true,
+    "ownedFrameObserversRemoved": true,
+    "privateGlobalsAndQueryRestored": true,
+    "ownedMcpCdpAdbForwardsRemoved": true,
+    "orientationExactPriorRestored": true,
+    "finalSyncIdleAndOnline": true
+  }
+}

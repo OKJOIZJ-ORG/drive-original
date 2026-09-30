@@ -1,0 +1,2542 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T23:11:51.756Z",
+  "producerSha256": "3e866ffe0a8dd5dd67a718c0cba5e7bfef53cb5bd4ec402c19c26121cda709dd",
+  "commonSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": true,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "actual original portrait Q1 before OS/player UI",
+      "at": "2026-09-30T23:11:53.973Z",
+      "version": "1.22.0-rc.28",
+      "width": 824,
+      "height": 1191,
+      "visualViewport": {
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 12.7736,
+      "duration": 1609.408,
+      "paused": false,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": true,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913274,
+          "generation": 0,
+          "time": 12.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 379
+        },
+        {
+          "at": 1790809913324,
+          "generation": 0,
+          "time": 12.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 380
+        },
+        {
+          "at": 1790809913357,
+          "generation": 0,
+          "time": 12.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 381
+        },
+        {
+          "at": 1790809913392,
+          "generation": 0,
+          "time": 12.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 382
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 1131.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 1107.5294189453125,
+        "width": 784.4705810546875,
+        "height": 18,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 760.4705810546875,
+        "y": 1055.051513671875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 760.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 708.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 504.4705810546875,
+        "y": 985.5294189453125,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "native pause retains hidden controls D056",
+      "at": "2026-09-30T23:11:54.704Z",
+      "version": "1.22.0-rc.28",
+      "width": 824,
+      "height": 1191,
+      "visualViewport": {
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": true,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 1131.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 1107.5294189453125,
+        "width": 784.4705810546875,
+        "height": 18,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 760.4705810546875,
+        "y": 1055.051513671875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 760.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 708.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 504.4705810546875,
+        "y": 985.5294189453125,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "portrait explicit entry close and seek accessibility",
+      "at": "2026-09-30T23:11:55.604Z",
+      "version": "1.22.0-rc.28",
+      "width": 824,
+      "height": 1191,
+      "visualViewport": {
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": false,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 1131.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 1107.5294189453125,
+        "width": 784.4705810546875,
+        "height": 18,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 760.4705810546875,
+        "y": 1055.051513671875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 760.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 708.4705810546875,
+          "y": 1131.5294189453125,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 504.4705810546875,
+        "y": 985.5294189453125,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "actual original OS-forced landscape player controls",
+      "at": "2026-09-30T23:11:56.368Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": false,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 638.3529663085938,
+        "width": 1317.6470947265625,
+        "height": 60,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 614.3529663085938,
+        "width": 1277.6470947265625,
+        "height": 18,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 1253.6470947265625,
+        "y": 561.875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 1253.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 1201.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 997.6470336914062,
+        "y": 492.3529357910156,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "native landscape More menu opened",
+      "at": "2026-09-30T23:11:57.107Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": false,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 638.3529663085938,
+        "width": 1317.6470947265625,
+        "height": 60,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 614.3529663085938,
+        "width": 1277.6470947265625,
+        "height": 18,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 1253.6470947265625,
+        "y": 561.875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 1253.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": true,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 1201.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 997.6470336914062,
+        "y": 448.3529357910156,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "actual native browser fullscreen on landscape original",
+      "at": "2026-09-30T23:11:59.254Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": true,
+      "fullscreenStage": true,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": false,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 638.3529663085938,
+        "width": 1317.6470947265625,
+        "height": 60,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 614.3529663085938,
+        "width": 1277.6470947265625,
+        "height": 18,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 1253.6470947265625,
+        "y": 561.875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 1253.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 1201.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 997.6470336914062,
+        "y": 492.3529357910156,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "fullscreen explicit exit and seek geometry",
+      "at": "2026-09-30T23:11:59.397Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": true,
+      "fullscreenStage": true,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": true,
+      "mediaSessionSameInitial": true,
+      "time": 13.299962,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": false,
+      "generation": 0,
+      "settledGeneration": 0,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913559,
+          "generation": 0,
+          "time": 12.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 387
+        },
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 638.3529663085938,
+        "width": 1317.6470947265625,
+        "height": 60,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 614.3529663085938,
+        "width": 1277.6470947265625,
+        "height": 18,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 1253.6470947265625,
+        "y": 561.875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 1253.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 1201.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": true,
+          "fullyInViewport": true,
+          "rendered": true,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 997.6470336914062,
+        "y": 492.3529357910156,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      }
+    },
+    {
+      "name": "native landscape fullscreen paused25percent presented seek",
+      "at": "2026-09-30T23:12:08.929Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": true,
+      "fullscreenStage": true,
+      "sheetOpen": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "exactPrivateTarget": true,
+      "q1SameInitial": true,
+      "sourceSameInitial": false,
+      "mediaSessionSameInitial": true,
+      "time": 402.203806,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "controlsHidden": true,
+      "generation": 1,
+      "settledGeneration": 1,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        },
+        {
+          "at": 1790809928001,
+          "generation": 1,
+          "time": 402.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 1
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 638.3529663085938,
+        "width": 1317.6470947265625,
+        "height": 60,
+        "centerHitsOwn": true,
+        "fullyInViewport": true,
+        "rendered": true,
+        "min44Both": true
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 20,
+        "y": 614.3529663085938,
+        "width": 1277.6470947265625,
+        "height": 18,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 1253.6470947265625,
+        "y": 561.875,
+        "width": 44,
+        "height": 44,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 1253.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 1201.6470947265625,
+          "y": 638.3529663085938,
+          "width": 44,
+          "height": 44,
+          "centerHitsOwn": false,
+          "fullyInViewport": true,
+          "rendered": false,
+          "min44Both": true
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 997.6470336914062,
+        "y": 492.3529357910156,
+        "width": 300,
+        "height": 180,
+        "centerHitsOwn": false,
+        "fullyInViewport": true,
+        "rendered": false,
+        "min44Both": true
+      },
+      "targetFraction": 0.25,
+      "targetFrame": {
+        "at": 1790809928001,
+        "generation": 1,
+        "time": 402.188,
+        "width": 360,
+        "height": 640,
+        "presentedFrames": 1
+      }
+    },
+    {
+      "name": "native OS Back exits browser fullscreen retains same selected original",
+      "at": "2026-09-30T23:12:09.775Z",
+      "version": "1.22.0-rc.28",
+      "width": 1317,
+      "height": 698,
+      "visualViewport": {
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "offsetLeft": 0,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "fullscreen": false,
+      "fullscreenStage": false,
+      "sheetOpen": false,
+      "q1": false,
+      "q1Kind": null,
+      "exactPrivateTarget": false,
+      "q1SameInitial": false,
+      "sourceSameInitial": false,
+      "mediaSessionSameInitial": false,
+      "time": 0,
+      "duration": null,
+      "paused": true,
+      "ready": 0,
+      "error": false,
+      "loader": true,
+      "nativeError": null,
+      "controlsHidden": true,
+      "generation": 1,
+      "settledGeneration": 1,
+      "watchdog": false,
+      "presented": [
+        {
+          "at": 1790809913592,
+          "generation": 0,
+          "time": 12.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 388
+        },
+        {
+          "at": 1790809913610,
+          "generation": 0,
+          "time": 12.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 389
+        },
+        {
+          "at": 1790809913642,
+          "generation": 0,
+          "time": 13.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 390
+        },
+        {
+          "at": 1790809913692,
+          "generation": 0,
+          "time": 13.054667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 391
+        },
+        {
+          "at": 1790809913725,
+          "generation": 0,
+          "time": 13.088,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 392
+        },
+        {
+          "at": 1790809913747,
+          "generation": 0,
+          "time": 13.121333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 393
+        },
+        {
+          "at": 1790809913777,
+          "generation": 0,
+          "time": 13.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 394
+        },
+        {
+          "at": 1790809913825,
+          "generation": 0,
+          "time": 13.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 395
+        },
+        {
+          "at": 1790809913861,
+          "generation": 0,
+          "time": 13.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 396
+        },
+        {
+          "at": 1790809913893,
+          "generation": 0,
+          "time": 13.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 397
+        },
+        {
+          "at": 1790809913911,
+          "generation": 0,
+          "time": 13.288,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 398
+        },
+        {
+          "at": 1790809928001,
+          "generation": 1,
+          "time": 402.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 1
+        }
+      ],
+      "stage": {
+        "label": "stage",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "centerHitsOwn": false,
+        "fullyInViewport": false,
+        "rendered": false,
+        "min44Both": false
+      },
+      "entry": {
+        "label": "entry",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "centerHitsOwn": false,
+        "fullyInViewport": false,
+        "rendered": false,
+        "min44Both": false
+      },
+      "seek": {
+        "label": "seek",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "centerHitsOwn": false,
+        "fullyInViewport": false,
+        "rendered": false,
+        "min44Both": false
+      },
+      "close": {
+        "label": "close",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "centerHitsOwn": false,
+        "fullyInViewport": false,
+        "rendered": false,
+        "min44Both": false
+      },
+      "more": [
+        {
+          "label": "summary",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "shortsMore",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "moreOpen": false,
+      "fullscreenButtons": [
+        {
+          "label": "ctrlFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "shortsFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        },
+        {
+          "label": "topbarFullscreen",
+          "present": true,
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "centerHitsOwn": false,
+          "fullyInViewport": false,
+          "rendered": false,
+          "min44Both": false
+        }
+      ],
+      "popover": {
+        "label": "morePopover",
+        "present": true,
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "centerHitsOwn": false,
+        "fullyInViewport": false,
+        "rendered": false,
+        "min44Both": false
+      }
+    },
+    {
+      "name": "exact native orientation restored after original player unit",
+      "at": "2026-09-30T23:12:10.691Z",
+      "prior": {
+        "mode": "lock 0",
+        "rotation": 0,
+        "accelerometer": 0
+      },
+      "restored": {
+        "mode": "lock 0",
+        "rotation": 0,
+        "accelerometer": 0
+      },
+      "match": true,
+      "orientationMethod": "OS-forced, not hand/sensor",
+      "standalonePwaTested": false
+    },
+    {
+      "name": "owned OS frame observer cleanup",
+      "at": "2026-09-30T23:12:10.814Z",
+      "ownedFrameObserverRemoved": true,
+      "preparedForHome": false,
+      "playerStillOpen": false
+    },
+    {
+      "name": "failure normal close and owner cleanup",
+      "at": "2026-09-30T23:12:11.152Z",
+      "playerClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "retirementSettled": true,
+      "ownGlobalsRemoved": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.28",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "onlyTemporaryUserRotationChanged": true,
+  "completed": false,
+  "failure": "OPERATION_FAILED",
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}

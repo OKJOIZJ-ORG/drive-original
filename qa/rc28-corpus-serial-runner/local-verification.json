@@ -1,0 +1,61 @@
+{
+  "schema": "drive-original.rc28-serial-runner-local/1",
+  "cases": [
+    {
+      "name": "fresh-representatives-private-carry-video-coverage",
+      "passed": true
+    },
+    {
+      "name": "explicit-burst-bound-and-successful-continuation",
+      "passed": true
+    },
+    {
+      "name": "failure-halts-no-bypass",
+      "passed": true
+    },
+    {
+      "name": "file-failure-halts-no-bypass",
+      "passed": true
+    },
+    {
+      "name": "deadline-cancel-drain-and-no-followup",
+      "passed": true
+    },
+    {
+      "name": "root-pause-cancel-does-not-resume",
+      "passed": true
+    },
+    {
+      "name": "cleanup-retains-pending-owner-until-released",
+      "passed": true
+    },
+    {
+      "name": "controller-change-stops-owned-job",
+      "passed": true
+    },
+    {
+      "name": "finite-burst-and-dynamic-cutoff-required",
+      "passed": true
+    },
+    {
+      "name": "missing-capsule-blocks-followup",
+      "passed": true
+    },
+    {
+      "name": "factory-throw-sanitized-and-stops",
+      "passed": true
+    }
+  ],
+  "syntax": true,
+  "fileSHA256": {
+    "runner.function.js": "6554d73d9ce280f04a4ad23c07eb027d74b7fb59b3597aeb36cdbbca42945de9",
+    "runner.expression.js": "adf6ec4f1ace0b6f19783af62ba17bf7855c427a42596b329d0802e77facca0c",
+    "build.cjs": "979bdd5df8c4035e2e16272b4c5e5c5ba801b268409b668753815f3c31a659b8",
+    "verify.cjs": "9a5b57cd34ba29d1a6db0b52167e29d292daed98076e03d8739d7b6c6387674a",
+    "README.md": "e29b428ffefa5be343b17bb4943d38d3b624273f8fb9cf51acbc00336c0dd265",
+    "provenance.json": "0175e59ec7f92ef7598c4eccd3454f5e9969fe2d85a92fb28bc37a31107fd8f3"
+  },
+  "actualExecution": false,
+  "actualRequests": 0,
+  "wholeCorpusComplete": false
+}

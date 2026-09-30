@@ -455,3 +455,12 @@ sweep: current checkpoint/goal/night guide/open questions/session log and curren
 D-066의 전체 목표와 PC+Android 현재 인수/iOS 배포 후 순서, D-050/D-051/D-056 권한·품질 경계는 유지한다. 현재 단위 저장을 전체 완료나 운영 승인으로 보고하지 않는다. 자동 재개·자동화·예약을 생성하지 않는다.
 
 sweep: checkpoint/goal/session/current candidate record and single-use handoff aligned to WAIT; actual prior failures and pending whole gates retained.
+
+
+→ D-067 WAIT superseded by D-068 (2026-10-01).
+
+## D-068 · 이동 후 전체 남은 작업 재개 — 2026-10-01 (User-confirmed; supersedes D-067 WAIT)
+
+사용자는 "이어서 진행"이라고 명시해 대기를 해제했다. db2f808의 저장 지점부터 D-066의 전체 구현·검증·후보 인수 목록을 다시 진행한다. 현재 단위/커밋을 전체 완료로 보지 않고 실행 가능한 후속 작업을 계속한다. PC+Android 현재 인수/iOS 배포 후 순서와 D-050/D-051/D-056의 기존 권한·품질 경계는 유지한다. 운영/main/push/새 grant/결제/원본 파괴/자동화 재개 권한은 추가하지 않는다.
+
+sweep: single-use handoff consumed/deleted; checkpoint/goal/session execution aligned ACTIVE. Historical WAIT/savepoint evidence retained.
