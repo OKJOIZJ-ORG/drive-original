@@ -1,0 +1,41 @@
+{
+  "schema": "drive-original.bounded-corpus-headers-local-verification/1",
+  "sourceHEAD": "7591044adc1149391265b0e56a93a47252088a47",
+  "bound": true,
+  "expectedVersion": "1.22.0-rc.23",
+  "expressionSHA256": "a34383fc2b9da472253ba044067182f1b00f0a761d23d3e4d8bb173d23d9b798",
+  "swProofSHA256": "d6dd4925388805f44a9fd6439c20a14703997ffd6490d615527bedcec67e7616",
+  "files": {
+    "binding.json": "85861345c53b312151e5cfe2a4fdefbfebacf731bc0293aaefb2f32746d49b26",
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "0c54c5c38d60f998cc02269d66bbf380c5474953f3981a977e20bf233f858fcc",
+    "probe.mjs": "ca6e345a726cd10a8168c29dd76272dc57cac8c7874a23bc90aadd8f8175e5c5",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "build.mjs": "3ae0b676960648e20a71d0eeffac0b931dbd3b0bf3b699257ee3ba89508ed543",
+    "bind-source.mjs": "bcb34e91490f063921070f07a2fcc6b4971ffd762e6f703644458c8772a923fd",
+    "probe.test.mjs": "58ce201f948c5230d3de5dbdafe4ecbc2650638f9a77e2fcfa93cd3563a55c44",
+    "factory.expression.js": "a34383fc2b9da472253ba044067182f1b00f0a761d23d3e4d8bb173d23d9b798",
+    "sw-proof.expression.js": "d6dd4925388805f44a9fd6439c20a14703997ffd6490d615527bedcec67e7616",
+    "provenance.json": "3accd298414976e6e87dd943dd27873399b1a6f57b2b0d73656f56b9b68d985b",
+    "README.md": "9342472974297df5f5aba67d0004396e4a282cb67881a6d9f0ba6c68d8687e93",
+    "verify.mjs": "19735800ad68717cc4d434745a91d26bda2a89eeaece2e4f45af53d7f21baa27",
+    "local-tests.tap": "106657674b13f1ac452b5c2fb0ef89474449dd5420fb75dafcc07db532a3993c",
+    "affected-contract-tests.tap": "9fee1b449eeb32d14701fad3f3bef380a4bf0e7d0b20d0ad88d3f9f4fb771a03"
+  },
+  "focused": {
+    "passed": 21,
+    "failed": 0
+  },
+  "affectedContracts": {
+    "passed": 139,
+    "failed": 0
+  },
+  "synthetic500ObjectProgression": true,
+  "syntheticRenewalPendingRevalidation": true,
+  "actualExecution": false,
+  "wholeCorpusComplete": false,
+  "productChanges": false,
+  "genericUpstreamCleanup": "unknown"
+}

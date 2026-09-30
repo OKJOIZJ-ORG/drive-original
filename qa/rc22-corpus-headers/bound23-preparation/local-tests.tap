@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: representative first cohort includes priority/largest,8 exact serial prefix GETs and honest20-row coverage
+ok 1 - representative first cohort includes priority/largest,8 exact serial prefix GETs and honest20-row coverage
+  ---
+  duration_ms: 54.1474
+  type: 'test'
+  ...
+# Subtest: 64-file cohort uses8 serial sub-batches, shared ledger, no deeper payload or64/file waiver
+ok 2 - 64-file cohort uses8 serial sub-batches, shared ledger, no deeper payload or64/file waiver
+  ---
+  duration_ms: 53.8491
+  type: 'test'
+  ...
+# Subtest: true video MIME OR extension union dedupes shortcut target and retains blocked/small/missing rows as ineligible
+ok 3 - true video MIME OR extension union dedupes shortcut target and retains blocked/small/missing rows as ineligible
+  ---
+  duration_ms: 0.9192
+  type: 'test'
+  ...
+# Subtest: fresh owner preserves historical proof without counting it current; bounded revalidation admits it without prefix replay
+ok 4 - fresh owner preserves historical proof without counting it current; bounded revalidation admits it without prefix replay
+  ---
+  duration_ms: 20.0766
+  type: 'test'
+  ...
+# Subtest: fresh-owner checksum/version/root/source drift cannot silently reuse prior classification
+ok 5 - fresh-owner checksum/version/root/source drift cannot silently reuse prior classification
+  ---
+  duration_ms: 26.4934
+  type: 'test'
+  ...
+# Subtest: failed second protocol read maps exact failed denominator and does not corrupt successful first coverage
+ok 6 - failed second protocol read maps exact failed denominator and does not corrupt successful first coverage
+  ---
+  duration_ms: 4.6184
+  type: 'test'
+  ...
+# Subtest: missing immutable validator prevents every prefix; postflight drift prevents coverage admission
+ok 7 - missing immutable validator prevents every prefix; postflight drift prevents coverage admission
+  ---
+  duration_ms: 10.5021
+  type: 'test'
+  ...
+# Subtest: natural token/source/controller owner change cancels active cohort and never publishes a continuity capsule
+ok 8 - natural token/source/controller owner change cancels active cohort and never publishes a continuity capsule
+  ---
+  duration_ms: 6.8103
+  type: 'test'
+  ...
+# Subtest: final reserve stops new header work when deadline budget is spent; final inventory still attempted
+ok 9 - final reserve stops new header work when deadline budget is spent; final inventory still attempted
+  ---
+  duration_ms: 3.5602
+  type: 'test'
+  ...
+# Subtest: unbound/wrong source proof rejects before any metadata/media and cannot create a capsule
+ok 10 - unbound/wrong source proof rejects before any metadata/media and cannot create a capsule
+  ---
+  duration_ms: 0.9061
+  type: 'test'
+  ...
+# Subtest: final catalog drift keeps bodies unadmitted and continuity absent
+ok 11 - final catalog drift keeps bodies unadmitted and continuity absent
+  ---
+  duration_ms: 7.5914
+  type: 'test'
+  ...
+# Subtest: generator is deterministic and preserves exact declared23 source binding without current-code fallback
+ok 12 - generator is deterministic and preserves exact declared23 source binding without current-code fallback
+  ---
+  duration_ms: 19.4649
+  type: 'test'
+  ...
+# Subtest: shared512 metadata cap also binds final inventory; no prefix is started without its reserve
+ok 13 - shared512 metadata cap also binds final inventory; no prefix is started without its reserve
+  ---
+  duration_ms: 45.194
+  type: 'test'
+  ...
+# Subtest: metadata response cap and failed cancellation are terminal, release lock and do not run later files
+ok 14 - metadata response cap and failed cancellation are terminal, release lock and do not run later files
+  ---
+  duration_ms: 5.2391
+  type: 'test'
+  ...
+# Subtest: cancelled pending media headers drain late body and retain no current continuity or further requests
+ok 15 - cancelled pending media headers drain late body and retain no current continuity or further requests
+  ---
+  duration_ms: 4.7005
+  type: 'test'
+  ...
+# Subtest: capsule carries no bytes/credential/owner; caller buffers stay unchanged and forged handles fail closed
+ok 16 - capsule carries no bytes/credential/owner; caller buffers stay unchanged and forged handles fail closed
+  ---
+  duration_ms: 3.3774
+  type: 'test'
+  ...
+# Subtest: strict lexical facade validates options and guards projection/writer/token/controller even with equal refresh
+ok 17 - strict lexical facade validates options and guards projection/writer/token/controller even with equal refresh
+  ---
+  duration_ms: 5.8241
+  type: 'test'
+  ...
+# Subtest: unbound SW proof rejects before staticGET and never starts media or metadata transport
+ok 18 - unbound SW proof rejects before staticGET and never starts media or metadata transport
+  ---
+  duration_ms: 1.6974
+  type: 'test'
+  ...
+# Subtest: 500-object progression preserves all private prior proofs and never stalls by revalidating the full growing corpus
+ok 19 - 500-object progression preserves all private prior proofs and never stalls by revalidating the full growing corpus
+  ---
+  duration_ms: 427.3098
+  type: 'test'
+  ...
+# Subtest: fixed source SW proof checks all three exact hashes and controller/cache identity before accepting
+ok 20 - fixed source SW proof checks all three exact hashes and controller/cache identity before accepting
+  ---
+  duration_ms: 34.4744
+  type: 'test'
+  ...
+# Subtest: direct invalid options reject before inventory and caller option mutation cannot broaden an active cohort
+ok 21 - direct invalid options reject before inventory and caller option mutation cannot broaden an active cohort
+  ---
+  duration_ms: 4.4794
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 846.73

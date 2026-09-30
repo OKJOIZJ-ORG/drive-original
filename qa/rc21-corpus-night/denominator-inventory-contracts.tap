@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: builds metadata-only account, root, list and shortcut-target requests
+ok 1 - builds metadata-only account, root, list and shortcut-target requests
+  ---
+  duration_ms: 2.5301
+  type: 'test'
+  ...
+# Subtest: uses shared-drive corpus only after the canonical root establishes driveId
+ok 2 - uses shared-drive corpus only after the canonical root establishes driveId
+  ---
+  duration_ms: 0.4498
+  type: 'test'
+  ...
+# Subtest: maps a rejected non-initial page token to the full-pass restart signal
+ok 3 - maps a rejected non-initial page token to the full-pass restart signal
+  ---
+  duration_ms: 1.4154
+  type: 'test'
+  ...
+# Subtest: runs two fenced passes and returns private rows separately from the redacted report
+ok 4 - runs two fenced passes and returns private rows separately from the redacted report
+  ---
+  duration_ms: 5.5676
+  type: 'test'
+  ...
+# Subtest: fails when priority preflight succeeds but both containment passes omit the anchor
+ok 5 - fails when priority preflight succeeds but both containment passes omit the anchor
+  ---
+  duration_ms: 3.4859
+  type: 'test'
+  ...
+# Subtest: fails provenance before listing for a missing priority ID or another account
+ok 6 - fails provenance before listing for a missing priority ID or another account
+  ---
+  duration_ms: 0.3116
+  type: 'test'
+  ...
+# Subtest: fails provenance before listing when the supplied root is not a priority parent
+ok 7 - fails provenance before listing when the supplied root is not a priority parent
+  ---
+  duration_ms: 0.3077
+  type: 'test'
+  ...
+# Subtest: exhausts every page, including an empty intermediate page, for more than 1000 children
+ok 8 - exhausts every page, including an empty intermediate page, for more than 1000 children
+  ---
+  duration_ms: 10.36
+  type: 'test'
+  ...
+# Subtest: rejects token cycles and incomplete-search pages
+ok 9 - rejects token cycles and incomplete-search pages
+  ---
+  duration_ms: 0.7091
+  type: 'test'
+  ...
+# Subtest: validates the canonical root before listing and validates every returned parent edge
+ok 10 - validates the canonical root before listing and validates every returned parent edge
+  ---
+  duration_ms: 0.5912
+  type: 'test'
+  ...
+# Subtest: walks a three-level real-parent tree while preserving same-name different-ID files
+ok 11 - walks a three-level real-parent tree while preserving same-name different-ID files
+  ---
+  duration_ms: 0.5936
+  type: 'test'
+  ...
+# Subtest: fails closed on duplicate IDs and list-blocked nested folders
+ok 12 - fails closed on duplicate IDs and list-blocked nested folders
+  ---
+  duration_ms: 0.4969
+  type: 'test'
+  ...
+# Subtest: classifies unique shortcut targets without traversing folder shortcuts
+ok 13 - classifies unique shortcut targets without traversing folder shortcuts
+  ---
+  duration_ms: 2.18
+  type: 'test'
+  ...
+# Subtest: uses current shortcut target metadata and leaves unresolved targets explicit
+ok 14 - uses current shortcut target metadata and leaves unresolved targets explicit
+  ---
+  duration_ms: 1.1909
+  type: 'test'
+  ...
+# Subtest: tries distinct resource keys for one shortcut target and counts target risks once
+ok 15 - tries distinct resource keys for one shortcut target and counts target risks once
+  ---
+  duration_ms: 1.0835
+  type: 'test'
+  ...
+# Subtest: rejects trashed or wrong-ID shortcut target metadata instead of classifying it
+ok 16 - rejects trashed or wrong-ID shortcut target metadata instead of classifying it
+  ---
+  duration_ms: 0.3675
+  type: 'test'
+  ...
+# Subtest: discards a token-rejected pass and restarts once from the canonical root
+ok 17 - discards a token-rejected pass and restarts once from the canonical root
+  ---
+  duration_ms: 0.5496
+  type: 'test'
+  ...
+# Subtest: fences the account within and between repeated passes
+ok 18 - fences the account within and between repeated passes
+  ---
+  duration_ms: 0.3063
+  type: 'test'
+  ...
+# Subtest: keeps the preflight account fence across a page-token restart
+ok 19 - keeps the preflight account fence across a page-token restart
+  ---
+  duration_ms: 0.2013
+  type: 'test'
+  ...
+# Subtest: requires priority-parent provenance and rechecks internal pass fences
+ok 20 - requires priority-parent provenance and rechecks internal pass fences
+  ---
+  duration_ms: 0.1351
+  type: 'test'
+  ...
+# Subtest: known priority anchor must appear as one direct child in both repeated passes
+ok 21 - known priority anchor must appear as one direct child in both repeated passes
+  ---
+  duration_ms: 0.0627
+  type: 'test'
+  ...
+# Subtest: rejects add, version, parent and capability drift between repeated passes
+ok 22 - rejects add, version, parent and capability drift between repeated passes
+  ---
+  duration_ms: 0.2614
+  type: 'test'
+  ...
+# Subtest: rejects conflicting direct and shortcut-target metadata regardless of provider order
+ok 23 - rejects conflicting direct and shortcut-target metadata regardless of provider order
+  ---
+  duration_ms: 0.2901
+  type: 'test'
+  ...
+# Subtest: treats a shortcut resource-key change as repeated-inventory drift
+ok 24 - treats a shortcut resource-key change as repeated-inventory drift
+  ---
+  duration_ms: 0.1724
+  type: 'test'
+  ...
+# Subtest: uses BigInt size bands, raw MIME families and keeps unknown metadata unknown
+ok 25 - uses BigInt size bands, raw MIME families and keeps unknown metadata unknown
+  ---
+  duration_ms: 7.3858
+  type: 'test'
+  ...
+# Subtest: redacted output omits private IDs, names, paths, tokens, keys and account values
+ok 26 - redacted output omits private IDs, names, paths, tokens, keys and account values
+  ---
+  duration_ms: 0.4181
+  type: 'test'
+  ...
+# Subtest: stable output is independent of provider item ordering
+ok 27 - stable output is independent of provider item ordering
+  ---
+  duration_ms: 0.1886
+  type: 'test'
+  ...
+# Subtest: committed evidence binds the reviewed tool and stays aggregate-only
+ok 28 - committed evidence binds the reviewed tool and stays aggregate-only
+  ---
+  duration_ms: 8.5491
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 127.5476

@@ -1,0 +1,49 @@
+{
+  "schema": "drive-original.content-continuity-local-verification/1",
+  "sourceHEAD": "ca044f7810dca723fc8eee6e99f0608691532748",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.24",
+    "sourceCommit": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+    "sourceSHA256": {
+      "app.js": "933a77e5cbbf8acb823e079db63e37de1102de24d4c97618c5747be006fc112d",
+      "sw.js": "73325d0ddcb042a44f8f25a1fa3403ebba6626254a9499008eaf2342085f52af",
+      "version.json": "1aa1a433dd8be82164c694e765e454ce16c6440fb149ff16580d7b458a5f5bd7"
+    }
+  },
+  "expressionSHA256": "d04cfd243c9767e70f622fb0370aecbad393c829f6e6a567b4ff50521219f2bc",
+  "swProofSHA256": "485320cc6ab312ba026080e7fc1540bd2a9c39fca34d8aa5261bb242b9426f30",
+  "files": {
+    "binding.json": "a6bb75edd8b09b2225a2ded3e93d6f05de6b3eb9de614c4a9c560de114fed323",
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+    "probe.mjs": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "build.mjs": "c3dd14001b748716ae3a7610530f4b8d2bac714296643661528a3a7f31b746ad",
+    "bind-source.mjs": "17a15bbe3b210a9be22553b44ae98a778dddeb79bd9bae544843f5c589abd1ae",
+    "probe.test.mjs": "cabfae5695af582249336c9151eb2f6164fa66c3e2cacdf3b44b19e947397a32",
+    "factory.expression.js": "d04cfd243c9767e70f622fb0370aecbad393c829f6e6a567b4ff50521219f2bc",
+    "sw-proof.expression.js": "485320cc6ab312ba026080e7fc1540bd2a9c39fca34d8aa5261bb242b9426f30",
+    "provenance.json": "a552625a149b83b30b93041d54bfdef952521645ee9e7d4e69addc67fd7addd7",
+    "README.md": "0c028624a8e9826f57371d1e6a91011af47aa46aa05873e796927350e2cc4909",
+    "verify.mjs": "18ce2947563a32283cbac2beed38e61263af32884e12f3b35b8c1502f2c4bfb5",
+    "local-tests.tap": "d57fa5c261633cc5f335afa93221aec34582f3795387c44a829350c94685a1e1",
+    "inherited-contract-baseline.json": "4ea43878237a1d1bfd20a58eb062f9bbc855bfa26ae5f241a44e0031f7509ab8"
+  },
+  "focused": {
+    "passed": 23,
+    "failed": 0
+  },
+  "inheritedContracts": {
+    "reusedPassed": 139,
+    "executedThisUnit": false
+  },
+  "synthetic500ObjectMultiRenewalCarry": true,
+  "freshHeadChecksForCarry": 0,
+  "actualExecution": false,
+  "wholeCorpusComplete": false,
+  "productChanges": false,
+  "genericUpstreamCleanup": "unknown"
+}

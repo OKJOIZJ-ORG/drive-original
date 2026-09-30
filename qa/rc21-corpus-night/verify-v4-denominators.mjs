@@ -1,0 +1,17 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {build} from './build-v4-denominators.mjs';
+const base=new URL('./',import.meta.url),hash=x=>createHash('sha256').update(x).digest('hex');
+const result=await build(),saved=JSON.parse(await readFile(new URL('provenance-v4-denominators.json',base),'utf8'));
+assert.deepEqual(saved,result.provenance);assert.equal(hash(await readFile(new URL('factory-v4-denominators.expression.js',base))),result.provenance.expressionSHA256);assert.equal(typeof vm.runInNewContext(result.expression,{}),'function');
+const focused=execFileSync(process.execPath,['--test','--test-reporter=tap','qa/rc21-corpus-night/denominator.test.mjs'],{encoding:'utf8',timeout:30000});
+assert.match(focused,/# tests 9/);assert.match(focused,/# pass 9/);assert.match(focused,/# fail 0/);await writeFile(new URL('denominator-tests.tap',base),focused);
+const affected=execFileSync(process.execPath,['--test','--test-reporter=tap','qa/v2-07a-root-inventory/root-inventory.test.mjs','qa/v2-07a-root-inventory/drive-browser-adapter.test.mjs'],{encoding:'utf8',timeout:30000});
+const affectedCount=Number(/# tests (\d+)/.exec(affected)[1]);assert.match(affected,/# fail 0/);await writeFile(new URL('denominator-inventory-contracts.tap',base),affected);
+const paths=['inventory-denominators.mjs','probe-v4-denominators.mjs','build-v4-denominators.mjs','factory-v4-denominators.expression.js','provenance-v4-denominators.json','denominator.test.mjs','denominator-v4-README.md','whole-header-pathway.md','verify-v4-denominators.mjs','denominator-tests.tap','denominator-inventory-contracts.tap'];
+const files=Object.fromEntries(await Promise.all(paths.map(async p=>[p,hash(await readFile(new URL(p,base)))])));
+const record={schema:'drive-original.rc21-corpus-night-denominator-verification/1',sourceHEAD:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),expressionSHA256:result.provenance.expressionSHA256,files,tests:{passed:9,failed:0},affectedInventoryContracts:{passed:affectedCount,failed:0},actualExecution:false,wholeCorpusComplete:false,productChanges:false,privateContextInArtifact:false,genericUpstreamCleanup:'unknown',unchangedV3SHA256:hash(await readFile(new URL('factory-v3-diagnostic.expression.js',base))),unchangedV2SHA256:hash(await readFile(new URL('factory-v2.expression.js',base)))};
+await writeFile(new URL('denominator-local-verification.json',base),JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify({expressionSHA256:record.expressionSHA256,tests:record.tests,affectedInventoryContracts:record.affectedInventoryContracts,unchangedV3SHA256:record.unchangedV3SHA256,unchangedV2SHA256:record.unchangedV2SHA256}));

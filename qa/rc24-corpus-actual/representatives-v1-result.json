@@ -1,0 +1,66 @@
+{
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "version": "1.22.0-rc.24",
+  "actualExecution": true,
+  "platform": "Normal PC signed-in Chrome",
+  "observedAt": "2026-09-30T17:47:49.129Z",
+  "producerSHA256": "d04cfd243c9767e70f622fb0370aecbad393c829f6e6a567b4ff50521219f2bc",
+  "sourceProof": {
+    "accepted": true,
+    "staticAssetGET": 4,
+    "sourcePinned": true,
+    "mediaGET": 0,
+    "metadataGET": 0
+  },
+  "privateContext": {
+    "metadataGET": 2,
+    "uniqueExactPriority": true,
+    "singleCurrentParent": true,
+    "canList": true,
+    "exported": false
+  },
+  "coverage": {
+    "denominator": 36,
+    "classified": 35,
+    "failed": 1,
+    "ineligible": 0,
+    "unattempted": 0,
+    "unknownSignatures": 1,
+    "carriedImmutableByCatalog": 0,
+    "freshPerFileChecked": 35,
+    "freshHeadChecksForCarry": 0,
+    "deeperMetadataProbed": 0,
+    "deeperMetadataUnprobed": 35,
+    "kindCounts": {
+      "gif": 2,
+      "iso-bmff": 6,
+      "jpeg": 7,
+      "mpeg-ts": 15,
+      "png": 2,
+      "unknown": 1,
+      "webm": 1,
+      "webp": 1
+    },
+    "dispositionsComplete": true,
+    "allEligiblePrefixesValidated": false,
+    "wholeCorpusComplete": false
+  },
+  "catalogStable": true,
+  "cohortComplete": true,
+  "released": true,
+  "metadataGET": 196,
+  "metadataBytes": 22851566,
+  "mediaGET": 36,
+  "mediaBytes": 32900,
+  "failures": [
+    {
+      "sample": "sample-23",
+      "code": "HEADER_TIMEOUT",
+      "identityPreflight": true,
+      "identityPostflight": true
+    }
+  ],
+  "writeRequests": 0,
+  "genericUpstreamCleanup": "unknown",
+  "next": "New idle owner after natural expiry; carry35 by fresh complete catalog and retry uncovered representative before all-video cohorts"
+}

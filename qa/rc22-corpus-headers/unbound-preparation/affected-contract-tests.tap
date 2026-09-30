@@ -1,0 +1,852 @@
+TAP version 13
+# Subtest: normalizes every exact identity fence without converting large sizes to Number
+ok 1 - normalizes every exact identity fence without converting large sizes to Number
+  ---
+  duration_ms: 2.2332
+  type: 'test'
+  ...
+# Subtest: plans exact inclusive BigInt ranges and never emits open or suffix syntax
+ok 2 - plans exact inclusive BigInt ranges and never emits open or suffix syntax
+  ---
+  duration_ms: 0.4605
+  type: 'test'
+  ...
+# Subtest: rejects negative, reversed, unsafe, out-of-file and over-1MiB plans
+ok 3 - rejects negative, reversed, unsafe, out-of-file and over-1MiB plans
+  ---
+  duration_ms: 0.2549
+  type: 'test'
+  ...
+# Subtest: invalid or unsafe endpoints fail before the injected reader is called
+ok 4 - invalid or unsafe endpoints fail before the injected reader is called
+  ---
+  duration_ms: 1.5349
+  type: 'test'
+  ...
+# Subtest: preflight account or file metadata mismatch prevents every body read
+ok 5 - preflight account or file metadata mismatch prevents every body read
+  ---
+  duration_ms: 3.7077
+  type: 'test'
+  ...
+# Subtest: a stable but non-downloadable identity fails before reader invocation
+ok 6 - a stable but non-downloadable identity fails before reader invocation
+  ---
+  duration_ms: 0.4662
+  type: 'test'
+  ...
+# Subtest: accepts only an exact 206 and returns page-private parser evidence
+ok 7 - accepts only an exact 206 and returns page-private parser evidence
+  ---
+  duration_ms: 25.9715
+  type: 'test'
+  ...
+# Subtest: rejects 200 and cancels the unexpected response body
+ok 8 - rejects 200 and cancels the unexpected response body
+  ---
+  duration_ms: 0.6218
+  type: 'test'
+  ...
+# Subtest: failed body read is overridden by postflight drift and publishes no private evidence
+ok 9 - failed body read is overridden by postflight drift and publishes no private evidence
+  ---
+  duration_ms: 0.8153
+  type: 'test'
+  ...
+# Subtest: failed body read is overridden by a fixed redacted postflight failure
+ok 10 - failed body read is overridden by a fixed redacted postflight failure
+  ---
+  duration_ms: 0.518
+  type: 'test'
+  ...
+# Subtest: failure postflight starts only after an active background read is aborted and settled
+ok 11 - failure postflight starts only after an active background read is aborted and settled
+  ---
+  duration_ms: 0.74
+  type: 'test'
+  ...
+# Subtest: failure postflight cannot extend the per-file hard deadline
+ok 12 - failure postflight cannot extend the per-file hard deadline
+  ---
+  duration_ms: 8.3951
+  type: 'test'
+  ...
+# Subtest: read-phase timeout preserves a bounded postflight window inside the file deadline
+ok 13 - read-phase timeout preserves a bounded postflight window inside the file deadline
+  ---
+  duration_ms: 1.3169
+  type: 'test'
+  ...
+# Subtest: rejects mismatched or wildcard Content-Range before consuming the body
+ok 14 - rejects mismatched or wildcard Content-Range before consuming the body
+  ---
+  duration_ms: 1.9971
+  type: 'test'
+  ...
+# Subtest: requires a present safe exact Content-Length
+ok 15 - requires a present safe exact Content-Length
+  ---
+  duration_ms: 1.4114
+  type: 'test'
+  ...
+# Subtest: requires byte-range and no-store response ownership headers
+ok 16 - requires byte-range and no-store response ownership headers
+  ---
+  duration_ms: 1.1192
+  type: 'test'
+  ...
+# Subtest: counts received bytes while rejecting short and oversized bodies
+ok 17 - counts received bytes while rejecting short and oversized bodies
+  ---
+  duration_ms: 0.6965
+  type: 'test'
+  ...
+# Subtest: supports a streaming body and rejects a stream overrun immediately
+ok 18 - supports a streaming body and rejects a stream overrun immediately
+  ---
+  duration_ms: 0.5058
+  type: 'test'
+  ...
+# Subtest: releases a successful stream reader lock exactly once
+ok 19 - releases a successful stream reader lock exactly once
+  ---
+  duration_ms: 0.4216
+  type: 'test'
+  ...
+# Subtest: postflight identity drift discards parsed and successful-body evidence
+ok 20 - postflight identity drift discards parsed and successful-body evidence
+  ---
+  duration_ms: 0.5223
+  type: 'test'
+  ...
+# Subtest: memory cache and in-flight dedupe issue one exact network read
+ok 21 - memory cache and in-flight dedupe issue one exact network read
+  ---
+  duration_ms: 0.4038
+  type: 'test'
+  ...
+# Subtest: different requested ranges are queued with concurrency exactly one
+ok 22 - different requested ranges are queued with concurrency exactly one
+  ---
+  duration_ms: 0.4435
+  type: 'test'
+  ...
+# Subtest: tracks received bytes separately from unioned unique byte coverage
+ok 23 - tracks received bytes separately from unioned unique byte coverage
+  ---
+  duration_ms: 1.1389
+  type: 'test'
+  ...
+# Subtest: enforces per-file request and received-byte budgets before the next reader call
+ok 24 - enforces per-file request and received-byte budgets before the next reader call
+  ---
+  duration_ms: 1.6714
+  type: 'test'
+  ...
+# Subtest: an oversized body cannot advance request, file, or batch ledgers past their hard ceilings
+ok 25 - an oversized body cannot advance request, file, or batch ledgers past their hard ceilings
+  ---
+  duration_ms: 0.7714
+  type: 'test'
+  ...
+# Subtest: batch runner is serial and stops new reads at its shared byte budget
+ok 26 - batch runner is serial and stops new reads at its shared byte budget
+  ---
+  duration_ms: 0.9067
+  type: 'test'
+  ...
+# Subtest: an unresponsive cancellation terminates the batch before another transfer starts
+ok 27 - an unresponsive cancellation terminates the batch before another transfer starts
+  ---
+  duration_ms: 3.7575
+  type: 'test'
+  ...
+# Subtest: a rejected cancellation is a redacted terminal failure and cannot overlap the next file
+ok 28 - a rejected cancellation is a redacted terminal failure and cannot overlap the next file
+  ---
+  duration_ms: 0.8983
+  type: 'test'
+  ...
+# Subtest: reader acquisition failure cancels the response before the next file starts
+ok 29 - reader acquisition failure cancels the response before the next file starts
+  ---
+  duration_ms: 0.8547
+  type: 'test'
+  ...
+# Subtest: header timeout aborts the injected reader with a fixed redacted code
+ok 30 - header timeout aborts the injected reader with a fixed redacted code
+  ---
+  duration_ms: 0.6029
+  type: 'test'
+  ...
+# Subtest: body no-progress timeout cancels a stalled stream
+ok 31 - body no-progress timeout cancels a stalled stream
+  ---
+  duration_ms: 0.6794
+  type: 'test'
+  ...
+# Subtest: a cleared stale body timer cannot terminate the current read epoch
+ok 32 - a cleared stale body timer cannot terminate the current read epoch
+  ---
+  duration_ms: 1.053
+  type: 'test'
+  ...
+# Subtest: file timeout and caller abort settle even when probe work ignores its signal
+ok 33 - file timeout and caller abort settle even when probe work ignores its signal
+  ---
+  duration_ms: 0.6408
+  type: 'test'
+  ...
+# Subtest: generation ownership is checked before read publication and before postflight
+ok 34 - generation ownership is checked before read publication and before postflight
+  ---
+  duration_ms: 0.3056
+  type: 'test'
+  ...
+# Subtest: reader exceptions never expose raw private messages
+ok 35 - reader exceptions never expose raw private messages
+  ---
+  duration_ms: 0.3267
+  type: 'test'
+  ...
+# Subtest: magic router recognizes required signatures without extension or MIME input
+ok 36 - magic router recognizes required signatures without extension or MIME input
+  ---
+  duration_ms: 0.3568
+  type: 'test'
+  ...
+# Subtest: magic router distinguishes textual error payloads from unknown binary
+ok 37 - magic router distinguishes textual error payloads from unknown binary
+  ---
+  duration_ms: 0.1588
+  type: 'test'
+  ...
+# Subtest: tracked live evidence is aggregate-only and internally consistent
+ok 38 - tracked live evidence is aggregate-only and internally consistent
+  ---
+  duration_ms: 8.977
+  type: 'test'
+  ...
+# Subtest: rejects protocol, pinned-origin, top-level and active same-origin /sw.js violations before network
+    # Subtest: protocol
+    ok 1 - protocol
+      ---
+      duration_ms: 1.49
+      type: 'test'
+      ...
+    # Subtest: origin
+    ok 2 - origin
+      ---
+      duration_ms: 0.2824
+      type: 'test'
+      ...
+    # Subtest: top-level
+    ok 3 - top-level
+      ---
+      duration_ms: 0.271
+      type: 'test'
+      ...
+    # Subtest: controller missing
+    ok 4 - controller missing
+      ---
+      duration_ms: 0.2596
+      type: 'test'
+      ...
+    # Subtest: controller inactive
+    ok 5 - controller inactive
+      ---
+      duration_ms: 0.2783
+      type: 'test'
+      ...
+    # Subtest: controller path
+    ok 6 - controller path
+      ---
+      duration_ms: 0.2381
+      type: 'test'
+      ...
+    1..6
+ok 39 - rejects protocol, pinned-origin, top-level and active same-origin /sw.js violations before network
+  ---
+  duration_ms: 4.2146
+  type: 'test'
+  ...
+# Subtest: requires the exact rc.4 read-only lexical runtime before network
+    # Subtest: version
+    ok 1 - version
+      ---
+      duration_ms: 0.2941
+      type: 'test'
+      ...
+    # Subtest: mutation gate
+    ok 2 - mutation gate
+      ---
+      duration_ms: 0.3968
+      type: 'test'
+      ...
+    # Subtest: probe session collision
+    ok 3 - probe session collision
+      ---
+      duration_ms: 0.2873
+      type: 'test'
+      ...
+    1..3
+ok 40 - requires the exact rc.4 read-only lexical runtime before network
+  ---
+  duration_ms: 1.56
+  type: 'test'
+  ...
+# Subtest: each non-idle app media-owner field rejects before inventory or body reads
+    # Subtest: selected
+    ok 1 - selected
+      ---
+      duration_ms: 0.3551
+      type: 'test'
+      ...
+    # Subtest: mediaAttempt
+    ok 2 - mediaAttempt
+      ---
+      duration_ms: 0.2367
+      type: 'test'
+      ...
+    # Subtest: mediaAbortController
+    ok 3 - mediaAbortController
+      ---
+      duration_ms: 0.2083
+      type: 'test'
+      ...
+    # Subtest: pendingOriginalBuffer
+    ok 4 - pendingOriginalBuffer
+      ---
+      duration_ms: 0.2123
+      type: 'test'
+      ...
+    # Subtest: pendingPlay
+    ok 5 - pendingPlay
+      ---
+      duration_ms: 0.21
+      type: 'test'
+      ...
+    # Subtest: mediaTransportStarted
+    ok 6 - mediaTransportStarted
+      ---
+      duration_ms: 0.1621
+      type: 'test'
+      ...
+    1..6
+ok 41 - each non-idle app media-owner field rejects before inventory or body reads
+  ---
+  duration_ms: 2.0832
+  type: 'test'
+  ...
+# Subtest: takes zero arguments and forwards only captured private provenance through fresh inventory then selector
+ok 42 - takes zero arguments and forwards only captured private provenance through fresh inventory then selector
+  ---
+  duration_ms: 58.6724
+  type: 'test'
+  ...
+# Subtest: rejects malformed or stale private context before inventory or network
+    # Subtest: extra field
+    ok 1 - extra field
+      ---
+      duration_ms: 0.3083
+      type: 'test'
+      ...
+    # Subtest: wrong account
+    ok 2 - wrong account
+      ---
+      duration_ms: 0.1958
+      type: 'test'
+      ...
+    # Subtest: wrong generation
+    ok 3 - wrong generation
+      ---
+      duration_ms: 0.1214
+      type: 'test'
+      ...
+    # Subtest: invalid root
+    ok 4 - invalid root
+      ---
+      duration_ms: 0.1082
+      type: 'test'
+      ...
+    1..4
+ok 43 - rejects malformed or stale private context before inventory or network
+  ---
+  duration_ms: 1.1822
+  type: 'test'
+  ...
+# Subtest: arbitrary public arguments are ignored and cannot select body IDs
+ok 44 - arbitrary public arguments are ignored and cannot select body IDs
+  ---
+  duration_ms: 18.2824
+  type: 'test'
+  ...
+# Subtest: inventory wrapper propagates lifecycle signal and fixed provenance
+ok 45 - inventory wrapper propagates lifecycle signal and fixed provenance
+  ---
+  duration_ms: 12.3878
+  type: 'test'
+  ...
+# Subtest: inventory, selector, generation and lifecycle failures make zero body requests
+    # Subtest: inventory
+    ok 1 - inventory
+      ---
+      duration_ms: 0.34
+      type: 'test'
+      ...
+    # Subtest: selector
+    ok 2 - selector
+      ---
+      duration_ms: 0.2814
+      type: 'test'
+      ...
+    # Subtest: generation
+    ok 3 - generation
+      ---
+      duration_ms: 0.4569
+      type: 'test'
+      ...
+    # Subtest: lifecycle
+    ok 4 - lifecycle
+      ---
+      duration_ms: 0.4475
+      type: 'test'
+      ...
+    1..4
+ok 46 - inventory, selector, generation and lifecycle failures make zero body requests
+  ---
+  duration_ms: 2.0319
+  type: 'test'
+  ...
+# Subtest: rejects malformed count, duplicate IDs, field shape and resource keys before all network
+    # Subtest: count
+    ok 1 - count
+      ---
+      duration_ms: 0.4622
+      type: 'test'
+      ...
+    # Subtest: duplicate
+    ok 2 - duplicate
+      ---
+      duration_ms: 0.3485
+      type: 'test'
+      ...
+    # Subtest: missing field
+    ok 3 - missing field
+      ---
+      duration_ms: 0.2784
+      type: 'test'
+      ...
+    # Subtest: unknown field
+    ok 4 - unknown field
+      ---
+      duration_ms: 0.2539
+      type: 'test'
+      ...
+    # Subtest: resource key
+    ok 5 - resource key
+      ---
+      duration_ms: 1.5343
+      type: 'test'
+      ...
+    # Subtest: conflicting resource keys
+    ok 6 - conflicting resource keys
+      ---
+      duration_ms: 0.7862
+      type: 'test'
+      ...
+    1..6
+ok 47 - rejects malformed count, duplicate IDs, field shape and resource keys before all network
+  ---
+  duration_ms: 4.2772
+  type: 'test'
+  ...
+# Subtest: metadata-risk null or malformed identities fail only their rows and do not block valid representatives
+ok 48 - metadata-risk null or malformed identities fail only their rows and do not block valid representatives
+  ---
+  duration_ms: 13.1771
+  type: 'test'
+  ...
+# Subtest: preflight identity mismatch makes zero body requests
+ok 49 - preflight identity mismatch makes zero body requests
+  ---
+  duration_ms: 4.2753
+  type: 'test'
+  ...
+# Subtest: runs exactly 38 one-request probes with body concurrency one
+ok 50 - runs exactly 38 one-request probes with body concurrency one
+  ---
+  duration_ms: 22.9061
+  type: 'test'
+  ...
+# Subtest: requests exact bytes=0-65535 or EOF once per file
+ok 51 - requests exact bytes=0-65535 or EOF once per file
+  ---
+  duration_ms: 14.8153
+  type: 'test'
+  ...
+# Subtest: uses only native same-origin GET with fixed options and probe-only ownership numbers
+ok 52 - uses only native same-origin GET with fixed options and probe-only ownership numbers
+  ---
+  duration_ms: 12.1041
+  type: 'test'
+  ...
+# Subtest: never calls mutation, persistence or player sentinels and never mutates player state
+ok 53 - never calls mutation, persistence or player sentinels and never mutates player state
+  ---
+  duration_ms: 12.7155
+  type: 'test'
+  ...
+# Subtest: page lifecycle abort is terminal and prevents the second file
+ok 54 - page lifecycle abort is terminal and prevents the second file
+  ---
+  duration_ms: 0.8859
+  type: 'test'
+  ...
+# Subtest: generation change is terminal and prevents publication or a second file
+ok 55 - generation change is terminal and prevents publication or a second file
+  ---
+  duration_ms: 0.6168
+  type: 'test'
+  ...
+# Subtest: media-session and exact controller ownership changes prevent publication and the next body
+    # Subtest: media session
+    ok 1 - media session
+      ---
+      duration_ms: 0.5523
+      type: 'test'
+      ...
+    # Subtest: controller replacement
+    ok 2 - controller replacement
+      ---
+      duration_ms: 0.5253
+      type: 'test'
+      ...
+    # Subtest: controller state
+    ok 3 - controller state
+      ---
+      duration_ms: 0.646
+      type: 'test'
+      ...
+    # Subtest: controller URL
+    ok 4 - controller URL
+      ---
+      duration_ms: 0.4785
+      type: 'test'
+      ...
+    1..4
+ok 56 - media-session and exact controller ownership changes prevent publication and the next body
+  ---
+  duration_ms: 2.5711
+  type: 'test'
+  ...
+# Subtest: every app media-owner transition during a probe prevents publication and the next body
+    # Subtest: selected
+    ok 1 - selected
+      ---
+      duration_ms: 1.872
+      type: 'test'
+      ...
+    # Subtest: mediaAttempt
+    ok 2 - mediaAttempt
+      ---
+      duration_ms: 0.45
+      type: 'test'
+      ...
+    # Subtest: mediaAbortController
+    ok 3 - mediaAbortController
+      ---
+      duration_ms: 0.5795
+      type: 'test'
+      ...
+    # Subtest: pendingOriginalBuffer
+    ok 4 - pendingOriginalBuffer
+      ---
+      duration_ms: 0.7271
+      type: 'test'
+      ...
+    # Subtest: pendingPlay
+    ok 5 - pendingPlay
+      ---
+      duration_ms: 0.7567
+      type: 'test'
+      ...
+    # Subtest: mediaTransportStarted
+    ok 6 - mediaTransportStarted
+      ---
+      duration_ms: 0.7635
+      type: 'test'
+      ...
+    1..6
+ok 57 - every app media-owner transition during a probe prevents publication and the next body
+  ---
+  duration_ms: 5.6658
+  type: 'test'
+  ...
+# Subtest: synchronous one-shot latch rejects concurrent and repeated public runs
+ok 58 - synchronous one-shot latch rejects concurrent and repeated public runs
+  ---
+  duration_ms: 11.3366
+  type: 'test'
+  ...
+# Subtest: postflight drift is terminal for the batch
+ok 59 - postflight drift is terminal for the batch
+  ---
+  duration_ms: 0.9262
+  type: 'test'
+  ...
+# Subtest: aggregate output has a fixed redacted shape and never serializes private sentinels
+ok 60 - aggregate output has a fixed redacted shape and never serializes private sentinels
+  ---
+  duration_ms: 10.7291
+  type: 'test'
+  ...
+# Subtest: browser bundle is deterministic and exposes only the narrow live entrypoint
+ok 61 - browser bundle is deterministic and exposes only the narrow live entrypoint
+  ---
+  duration_ms: 7.5318
+  type: 'test'
+  ...
+# Subtest: browser global is configurable, zero-argument and removes itself synchronously on its owning invocation
+ok 62 - browser global is configurable, zero-argument and removes itself synchronously on its owning invocation
+  ---
+  duration_ms: 3.7416
+  type: 'test'
+  ...
+# Subtest: keeps priority, every rare object, every >=4GiB object and the extremes mandatory
+ok 63 - keeps priority, every rare object, every >=4GiB object and the extremes mandatory
+  ---
+  duration_ms: 13.9029
+  type: 'test'
+  ...
+# Subtest: covers every requested extension and observed metadata-risk category
+ok 64 - covers every requested extension and observed metadata-risk category
+  ---
+  duration_ms: 1.5096
+  type: 'test'
+  ...
+# Subtest: selection and redacted report are byte-stable across provider ordering
+ok 65 - selection and redacted report are byte-stable across provider ordering
+  ---
+  duration_ms: 2.2796
+  type: 'test'
+  ...
+# Subtest: priority is never substituted when its ID or version fence is missing
+ok 66 - priority is never substituted when its ID or version fence is missing
+  ---
+  duration_ms: 0.8517
+  type: 'test'
+  ...
+# Subtest: same content object through direct and shortcut references is selected once
+ok 67 - same content object through direct and shortcut references is selected once
+  ---
+  duration_ms: 1.3439
+  type: 'test'
+  ...
+# Subtest: unresolved shortcut and conflicting object metadata fail closed
+ok 68 - unresolved shortcut and conflicting object metadata fail closed
+  ---
+  duration_ms: 0.5094
+  type: 'test'
+  ...
+# Subtest: exactly 256 MiB starts the large MP4/MOV category
+ok 69 - exactly 256 MiB starts the large MP4/MOV category
+  ---
+  duration_ms: 1.2999
+  type: 'test'
+  ...
+# Subtest: BigInt boundaries remain exact and unsafe numeric metadata stays missing
+ok 70 - BigInt boundaries remain exact and unsafe numeric metadata stays missing
+  ---
+  duration_ms: 0.6729
+  type: 'test'
+  ...
+# Subtest: redacted report omits every private row and unknown raw metadata sentinel
+ok 71 - redacted report omits every private row and unknown raw metadata sentinel
+  ---
+  duration_ms: 0.7262
+  type: 'test'
+  ...
+# Subtest: committed evidence binds the reviewed selector and stays aggregate-only
+ok 72 - committed evidence binds the reviewed selector and stays aggregate-only
+  ---
+  duration_ms: 14.048
+  type: 'test'
+  ...
+# Subtest: builds metadata-only account, root, list and shortcut-target requests
+ok 73 - builds metadata-only account, root, list and shortcut-target requests
+  ---
+  duration_ms: 2.7772
+  type: 'test'
+  ...
+# Subtest: uses shared-drive corpus only after the canonical root establishes driveId
+ok 74 - uses shared-drive corpus only after the canonical root establishes driveId
+  ---
+  duration_ms: 0.4778
+  type: 'test'
+  ...
+# Subtest: maps a rejected non-initial page token to the full-pass restart signal
+ok 75 - maps a rejected non-initial page token to the full-pass restart signal
+  ---
+  duration_ms: 0.7118
+  type: 'test'
+  ...
+# Subtest: runs two fenced passes and returns private rows separately from the redacted report
+ok 76 - runs two fenced passes and returns private rows separately from the redacted report
+  ---
+  duration_ms: 3.3916
+  type: 'test'
+  ...
+# Subtest: fails when priority preflight succeeds but both containment passes omit the anchor
+ok 77 - fails when priority preflight succeeds but both containment passes omit the anchor
+  ---
+  duration_ms: 4.2637
+  type: 'test'
+  ...
+# Subtest: fails provenance before listing for a missing priority ID or another account
+ok 78 - fails provenance before listing for a missing priority ID or another account
+  ---
+  duration_ms: 0.6741
+  type: 'test'
+  ...
+# Subtest: fails provenance before listing when the supplied root is not a priority parent
+ok 79 - fails provenance before listing when the supplied root is not a priority parent
+  ---
+  duration_ms: 0.4725
+  type: 'test'
+  ...
+# Subtest: exhausts every page, including an empty intermediate page, for more than 1000 children
+ok 80 - exhausts every page, including an empty intermediate page, for more than 1000 children
+  ---
+  duration_ms: 7.9914
+  type: 'test'
+  ...
+# Subtest: rejects token cycles and incomplete-search pages
+ok 81 - rejects token cycles and incomplete-search pages
+  ---
+  duration_ms: 1.6919
+  type: 'test'
+  ...
+# Subtest: validates the canonical root before listing and validates every returned parent edge
+ok 82 - validates the canonical root before listing and validates every returned parent edge
+  ---
+  duration_ms: 0.7603
+  type: 'test'
+  ...
+# Subtest: walks a three-level real-parent tree while preserving same-name different-ID files
+ok 83 - walks a three-level real-parent tree while preserving same-name different-ID files
+  ---
+  duration_ms: 0.6537
+  type: 'test'
+  ...
+# Subtest: fails closed on duplicate IDs and list-blocked nested folders
+ok 84 - fails closed on duplicate IDs and list-blocked nested folders
+  ---
+  duration_ms: 0.553
+  type: 'test'
+  ...
+# Subtest: classifies unique shortcut targets without traversing folder shortcuts
+ok 85 - classifies unique shortcut targets without traversing folder shortcuts
+  ---
+  duration_ms: 1.7885
+  type: 'test'
+  ...
+# Subtest: uses current shortcut target metadata and leaves unresolved targets explicit
+ok 86 - uses current shortcut target metadata and leaves unresolved targets explicit
+  ---
+  duration_ms: 0.7732
+  type: 'test'
+  ...
+# Subtest: tries distinct resource keys for one shortcut target and counts target risks once
+ok 87 - tries distinct resource keys for one shortcut target and counts target risks once
+  ---
+  duration_ms: 0.9593
+  type: 'test'
+  ...
+# Subtest: rejects trashed or wrong-ID shortcut target metadata instead of classifying it
+ok 88 - rejects trashed or wrong-ID shortcut target metadata instead of classifying it
+  ---
+  duration_ms: 0.389
+  type: 'test'
+  ...
+# Subtest: discards a token-rejected pass and restarts once from the canonical root
+ok 89 - discards a token-rejected pass and restarts once from the canonical root
+  ---
+  duration_ms: 0.5866
+  type: 'test'
+  ...
+# Subtest: fences the account within and between repeated passes
+ok 90 - fences the account within and between repeated passes
+  ---
+  duration_ms: 0.3138
+  type: 'test'
+  ...
+# Subtest: keeps the preflight account fence across a page-token restart
+ok 91 - keeps the preflight account fence across a page-token restart
+  ---
+  duration_ms: 0.2222
+  type: 'test'
+  ...
+# Subtest: requires priority-parent provenance and rechecks internal pass fences
+ok 92 - requires priority-parent provenance and rechecks internal pass fences
+  ---
+  duration_ms: 0.1727
+  type: 'test'
+  ...
+# Subtest: known priority anchor must appear as one direct child in both repeated passes
+ok 93 - known priority anchor must appear as one direct child in both repeated passes
+  ---
+  duration_ms: 0.0785
+  type: 'test'
+  ...
+# Subtest: rejects add, version, parent and capability drift between repeated passes
+ok 94 - rejects add, version, parent and capability drift between repeated passes
+  ---
+  duration_ms: 0.2605
+  type: 'test'
+  ...
+# Subtest: rejects conflicting direct and shortcut-target metadata regardless of provider order
+ok 95 - rejects conflicting direct and shortcut-target metadata regardless of provider order
+  ---
+  duration_ms: 0.297
+  type: 'test'
+  ...
+# Subtest: treats a shortcut resource-key change as repeated-inventory drift
+ok 96 - treats a shortcut resource-key change as repeated-inventory drift
+  ---
+  duration_ms: 0.1799
+  type: 'test'
+  ...
+# Subtest: uses BigInt size bands, raw MIME families and keeps unknown metadata unknown
+ok 97 - uses BigInt size bands, raw MIME families and keeps unknown metadata unknown
+  ---
+  duration_ms: 10.1382
+  type: 'test'
+  ...
+# Subtest: redacted output omits private IDs, names, paths, tokens, keys and account values
+ok 98 - redacted output omits private IDs, names, paths, tokens, keys and account values
+  ---
+  duration_ms: 0.57
+  type: 'test'
+  ...
+# Subtest: stable output is independent of provider item ordering
+ok 99 - stable output is independent of provider item ordering
+  ---
+  duration_ms: 0.2019
+  type: 'test'
+  ...
+# Subtest: committed evidence binds the reviewed tool and stays aggregate-only
+ok 100 - committed evidence binds the reviewed tool and stays aggregate-only
+  ---
+  duration_ms: 8.354
+  type: 'test'
+  ...
+1..100
+# tests 139
+# suites 0
+# pass 139
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 361.4296

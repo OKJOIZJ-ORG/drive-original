@@ -1,0 +1,203 @@
+{
+  "schema": "drive-original.rc21-corpus-actual-night/1",
+  "correctionNote": "Approximate execution/read timestamp removed; original wall times were not independently retained",
+  "timeNote": "Result read after completion; start/completion wall times not independently retained",
+  "scope": "Actual signed-in PC Chrome bounded structural probe; no playback or writes",
+  "producer": {
+    "factory": "qa/rc21-actual-corpus/factory.expression.js",
+    "factorySha256": "ed770ee121253885365914c9013c2e279504580f0be49ab376ea7f5d7b165ad1",
+    "swProof": "qa/rc21-actual-corpus/sw-proof.expression.js",
+    "swProofSha256": "5d2b9fa4b4ac5379435ed2ef94c3f9edc19ed848756ff7b09c1446d70d6d31d0"
+  },
+  "transport": {
+    "localFileChooser": true,
+    "sourceHashesVerifiedBeforeEvaluation": true,
+    "networkUploadHandler": false,
+    "temporaryInputRemoved": true
+  },
+  "swRuntime": {
+    "accepted": true,
+    "version": "1.22.0-rc.21",
+    "controllerActivated": true,
+    "sameController": true,
+    "staticAssetGET": 1,
+    "mediaGET": 0,
+    "metadataGET": 0
+  },
+  "context": {
+    "metadataGETs": 2,
+    "priorityExactNameUnique": true,
+    "prioritySingleParent": true,
+    "parentIsFolder": true,
+    "parentCanList": true,
+    "privateContextExported": false,
+    "historicalImmutableContinuityProven": false
+  },
+  "result": {
+    "started": true,
+    "done": true,
+    "phase": "failed",
+    "processed": 3,
+    "metadataRequests": 68,
+    "metadataBytes": 11414272,
+    "mediaRequests": 89,
+    "mediaBytes": 3639,
+    "summary": {
+      "schema": "drive-original.rc16-corpus-tracks-summary/1",
+      "version": "1.22.0-rc.21",
+      "scope": "canonical-risk-selected-bounded-structural-tracks",
+      "mode": "probe",
+      "complete": false,
+      "phase": "failed",
+      "failure": "FILE_TIMEOUT",
+      "inventoryRuns": 1,
+      "catalogStable": false,
+      "catalogComparison": null,
+      "decoded": 0,
+      "playback": 0,
+      "physicalDevice": 0,
+      "writeRequests": 0,
+      "released": true,
+      "genericUpstreamCleanup": "unknown",
+      "plan": {
+        "representatives": 36,
+        "coverageComplete": true,
+        "continuity": "unknown",
+        "priorPrivateMappingAvailable": false,
+        "deferredLargestIsoIdentityUnproven": true,
+        "exactProvenIsoExcluded": 0,
+        "all36PrefixesReplayed": false,
+        "knownTsContinuationReads": 0,
+        "isoPlanned": 5,
+        "webmPlanned": 1,
+        "unknownPlanned": 2,
+        "unknownSampleContinuity": "unknown"
+      },
+      "files": [
+        {
+          "sample": "sample-1",
+          "group": "iso",
+          "kind": "mpeg-ts",
+          "complete": false,
+          "failure": "TS_DEFERRED_NO_CONTINUATION",
+          "mediaRequests": 1,
+          "mediaBytes": 940,
+          "identityPreflight": true,
+          "identityPostflight": true,
+          "tracks": null
+        },
+        {
+          "sample": "sample-2",
+          "group": "iso",
+          "kind": "iso-bmff",
+          "complete": true,
+          "failure": null,
+          "mediaRequests": 37,
+          "mediaBytes": 1367,
+          "identityPreflight": true,
+          "identityPostflight": true,
+          "tracks": {
+            "status": "parsed",
+            "code": "ISO_STRUCTURAL_METADATA",
+            "fragmented": false,
+            "limitations": [
+              "structural-metadata-only",
+              "sample-tables-packets-unread",
+              "parameter-sets-color-hdr-vfr-subtitles-unqualified",
+              "edit-lists-data-references-unparsed",
+              "decoder-capability-unproven"
+            ],
+            "tracks": [
+              {
+                "type": "vide",
+                "width": 854,
+                "height": 480,
+                "identityMatrix": true,
+                "descriptions": [
+                  {
+                    "codec": "avc1",
+                    "encrypted": false,
+                    "configPresent": true,
+                    "width": 854,
+                    "height": 480,
+                    "channels": null,
+                    "sampleRate": null,
+                    "sampleSize": null,
+                    "avcProfile": 100,
+                    "avcLevel": 31,
+                    "hevcProfile": null,
+                    "hevcLevel": null,
+                    "bitDepthLuma": null,
+                    "bitDepthChroma": null,
+                    "aacObjectType": null,
+                    "aacFrequencyIndex": null,
+                    "aacChannelConfig": null,
+                    "sampleAspectRatioPresent": true,
+                    "colorMetadataPresent": false
+                  }
+                ]
+              },
+              {
+                "type": "soun",
+                "width": 0,
+                "height": 0,
+                "identityMatrix": true,
+                "descriptions": [
+                  {
+                    "codec": "mp4a",
+                    "encrypted": false,
+                    "configPresent": true,
+                    "width": null,
+                    "height": null,
+                    "channels": 2,
+                    "sampleRate": 44100,
+                    "sampleSize": 16,
+                    "avcProfile": null,
+                    "avcLevel": null,
+                    "hevcProfile": null,
+                    "hevcLevel": null,
+                    "bitDepthLuma": null,
+                    "bitDepthChroma": null,
+                    "aacObjectType": 2,
+                    "aacFrequencyIndex": 4,
+                    "aacChannelConfig": 2,
+                    "sampleAspectRatioPresent": false,
+                    "colorMetadataPresent": false
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "sample": "sample-3",
+          "group": "iso",
+          "kind": "iso-bmff",
+          "complete": false,
+          "failure": "FILE_TIMEOUT",
+          "mediaRequests": 51,
+          "mediaBytes": 1332,
+          "identityPreflight": true,
+          "identityPostflight": true,
+          "tracks": null
+        }
+      ]
+    }
+  },
+  "postRead": {
+    "idle": true,
+    "q1Absent": true,
+    "retirementSettled": true,
+    "quiescent": true,
+    "hasToken": true,
+    "controllerActivated": true,
+    "baselineSourceSessionCompared": false
+  },
+  "acceptance": {
+    "wholeCorpusComplete": false,
+    "finalInventoryNotRun": true,
+    "unsupportedCodecInferred": false,
+    "productDefectInferred": false,
+    "serialTinyReadLatencyHypothesis": true
+  }
+}

@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('fs'),path=require('path'),os=require('os'),crypto=require('crypto');
+const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const result={schema:'drive-original.rc24-cpu-unit/1',producerSha256:sha(fs.readFileSync(__filename)),recordedAt:new Date().toISOString(),readOnly:true,logsRead:false,individualRequestsRead:false,settingsWrites:0,rawBodiesSaved:false,authRefresh:false,complete:false};
+(async()=>{let token,bytes;try{
+ const file=[path.join(os.homedir(),'.wrangler/config/default.toml'),path.join(process.env.APPDATA||'','xdg.config/.wrangler/config/default.toml')].find(f=>fs.existsSync(f));if(!file)throw Error();bytes=fs.readFileSync(file);token=/^oauth_token\s*=\s*"([^"]+)"/m.exec(bytes.toString())?.[1];if(!token)throw Error();
+ const query='query{__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}}}';
+ const response=await fetch('https://api.cloudflare.com/client/v4/graphql',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({query}),redirect:'error',cache:'no-store',credentials:'omit',signal:AbortSignal.timeout(15000)});result.status=response.status;
+ const raw=Buffer.from(await response.arrayBuffer());if(raw.length>65536)throw Error();const j=JSON.parse(raw);raw.fill(0);result.graphqlErrorCount=j.errors?.length||0;const fields=j.data?.__type?.fields;result.cpuUnits=Array.isArray(fields)?['cpuTimeP50','cpuTimeP99'].map(name=>({name,unit:fields.some(f=>f.name===name&&/microseconds/i.test(f.description))?'microseconds':'unknown'})):[];result.complete=response.status===200&&!result.graphqlErrorCount&&result.cpuUnits.length===2&&result.cpuUnits.every(f=>f.unit==='microseconds');result.credentialStoreUnchanged=bytes.equals(fs.readFileSync(file));
+ }catch{result.failure='SCHEMA_READ_FAILED';}finally{bytes?.fill(0);token=null;fs.writeFileSync(path.join(__dirname,'cpu-schema.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));}})();

@@ -1,0 +1,149 @@
+TAP version 13
+# {"fixture":"two-track-late-moov","oldCalls":38,"newCalls":30,"oldFakeMs":41800,"newFakeMs":33000,"oldBytes":555,"newBytes":555}
+# Subtest: fake serial latency: fewer roundtrips, identical derived metadata and byte content
+ok 1 - fake serial latency: fewer roundtrips, identical derived metadata and byte content
+  ---
+  duration_ms: 9.2162
+  type: 'test'
+  ...
+# Subtest: confirmed parent clipping and copies prevent media extension or caller cache corruption
+ok 2 - confirmed parent clipping and copies prevent media extension or caller cache corruption
+  ---
+  duration_ms: 0.7484
+  type: 'test'
+  ...
+# Subtest: physical request, byte, body-length and 1MiB request bounds fail before surplus I/O
+ok 3 - physical request, byte, body-length and 1MiB request bounds fail before surplus I/O
+  ---
+  duration_ms: 0.3429
+  type: 'test'
+  ...
+# Subtest: abort and owner checks apply to cached reads and late pending I/O
+ok 4 - abort and owner checks apply to cached reads and late pending I/O
+  ---
+  duration_ms: 0.5032
+  type: 'test'
+  ...
+# Subtest: default64 request and2MiB caps cannot be raised; a changed owner rejects pending bytes before caching
+ok 5 - default64 request and2MiB caps cannot be raised; a changed owner rejects pending bytes before caching
+  ---
+  duration_ms: 1.0223
+  type: 'test'
+  ...
+# Subtest: 50MiB table and unknown payloads remain unread; coalesced spans cannot cross into them
+ok 6 - 50MiB table and unknown payloads remain unread; coalesced spans cannot cross into them
+  ---
+  duration_ms: 2.6521
+  type: 'test'
+  ...
+# Subtest: fixed version1 suffix stays parent clipped and malformed child remains incomplete
+ok 7 - fixed version1 suffix stays parent clipped and malformed child remains incomplete
+  ---
+  duration_ms: 1.3458
+  type: 'test'
+  ...
+# Subtest: actual seed sparse metadata agrees with full parser without sample-table reads
+ok 8 - actual seed sparse metadata agrees with full parser without sample-table reads
+  ---
+  duration_ms: 7.6624
+  type: 'test'
+  ...
+# Subtest: expression deterministic, lexical, current21 pins only; missing inputs reject without mutation
+ok 9 - expression deterministic, lexical, current21 pins only; missing inputs reject without mutation
+  ---
+  duration_ms: 12.1024
+  type: 'test'
+  ...
+# Subtest: pure private plan caps5ISO/1WebM/2unknown and defers unproven largest without old magic assertions
+ok 10 - pure private plan caps5ISO/1WebM/2unknown and defers unproven largest without old magic assertions
+  ---
+  duration_ms: 3.7417
+  type: 'test'
+  ...
+# Subtest: exact private account/root/content identity excludes proven ISO and known TS; wrong-account map fails before read
+ok 11 - exact private account/root/content identity excludes proven ISO and known TS; wrong-account map fails before read
+  ---
+  duration_ms: 3.4874
+  type: 'test'
+  ...
+# Subtest: structural WebM Tracks reports safe codecs/dimensions/audio and no arbitrary CodecID/name/UID
+ok 12 - structural WebM Tracks reports safe codecs/dimensions/audio and no arbitrary CodecID/name/UID
+  ---
+  duration_ms: 1.4655
+  type: 'test'
+  ...
+# Subtest: EBML malformed nested bounds, duplicate scalar, unknown nested size and oversize Tracks fail bounded
+ok 13 - EBML malformed nested bounds, duplicate scalar, unknown nested size and oversize Tracks fail bounded
+  ---
+  duration_ms: 1.055
+  type: 'test'
+  ...
+# Subtest: actual existing reader+ISO sparse and new EBML wrapper only reads planned files and fully redacts output
+ok 14 - actual existing reader+ISO sparse and new EBML wrapper only reads planned files and fully redacts output
+  ---
+  duration_ms: 50.9555
+  type: 'test'
+  ...
+# Subtest: metadata-only reconstructs and compares full inventory but reads zero media and preserves unknown continuity
+ok 15 - metadata-only reconstructs and compares full inventory but reads zero media and preserves unknown continuity
+  ---
+  duration_ms: 1.6029
+  type: 'test'
+  ...
+# Subtest: catalog comparison rejection and content identity drift never publish complete
+ok 16 - catalog comparison rejection and content identity drift never publish complete
+  ---
+  duration_ms: 21.4814
+  type: 'test'
+  ...
+# Subtest: stale app/SW/account, unsettled retirement or foreground ownership rejects before body; owner changes stop all later files
+ok 17 - stale app/SW/account, unsettled retirement or foreground ownership rejects before body; owner changes stop all later files
+  ---
+  duration_ms: 6.8844
+  type: 'test'
+  ...
+# Subtest: metadata dispatch cap512 and response/batch limits are not waived by inventory reconstruction
+ok 18 - metadata dispatch cap512 and response/batch limits are not waived by inventory reconstruction
+  ---
+  duration_ms: 68.534
+  type: 'test'
+  ...
+# Subtest: exact per-file metadata retains32KiB response cap before any media read
+ok 19 - exact per-file metadata retains32KiB response cap before any media read
+  ---
+  duration_ms: 1.9174
+  type: 'test'
+  ...
+# Subtest: cancel waits for late metadata cancellation; rejected/unknown cleanup is terminal
+ok 20 - cancel waits for late metadata cancellation; rejected/unknown cleanup is terminal
+  ---
+  duration_ms: 3.948
+  type: 'test'
+  ...
+# Subtest: standalone bundle is deterministic, lexical and rejects absent private inputs without global mutation
+ok 21 - standalone bundle is deterministic, lexical and rejects absent private inputs without global mutation
+  ---
+  duration_ms: 15.8143
+  type: 'test'
+  ...
+# Subtest: strict actual lexical facade retains equal read refresh but refuses projection/writer/token/controller/foreground changes
+ok 22 - strict actual lexical facade retains equal read refresh but refuses projection/writer/token/controller/foreground changes
+  ---
+  duration_ms: 6.4735
+  type: 'test'
+  ...
+# Subtest: EBML sparse scan skips a multi-MiB known Cluster and never requests its whole payload
+ok 23 - EBML sparse scan skips a multi-MiB known Cluster and never requests its whole payload
+  ---
+  duration_ms: 5.0236
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 302.8744

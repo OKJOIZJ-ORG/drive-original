@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "scope": "Observed metadata/aggregate usage clauses only, not whole security/scale acceptance",
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "workerVersion": "c57f634a-377d-487e-aa81-61875598dd1d",
+  "recordedAt": "2026-09-30T18:08:44.767Z",
+  "requirements": [
+    {
+      "id": "QA-SE-02",
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "line": 1772,
+      "wholeRowPassed": false
+    },
+    {
+      "id": "QA-SL-04",
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "line": 1793,
+      "wholeRowPassed": false
+    }
+  ],
+  "observed": {
+    "candidateRequests": 186,
+    "accountRequests": 186,
+    "reportedErrors": 0,
+    "cpuP50Ms": 2.177,
+    "cpuP99Ms": 6.223,
+    "rowsRead": 2950,
+    "rowsWritten": 1484,
+    "exceededDurableCpuErrors": 0,
+    "maxSqlStoredBytesAggregate": 466944,
+    "currentLogpushFalse": true,
+    "currentTailConsumerCount": 0
+  },
+  "interpretation": {
+    "window": {
+      "start": "2026-09-30T00:00:00.000Z",
+      "end": "2026-09-30T18:05:59.721Z",
+      "scope": "Current UTC day aggregate, not billing-period exact usage or version-only traffic"
+    },
+    "adaptiveMetrics": true,
+    "notVersionOnly": true,
+    "quantilesNotWorstCase": true,
+    "maxSqlStorageNotTotalBillingStorage": true,
+    "currentCustomerPlanKnownFromThisApi": false,
+    "currentEffectiveLogsTracesPersistenceKnown": false
+  },
+  "previousDirectUiEvidence": {
+    "owner": "qa/rc21-hosting-night/README.md",
+    "observedAtUtc": "2026-09-30T14:23:49Z",
+    "workersFreeActive": true,
+    "noPaymentMethod": true,
+    "notRefreshedInThisUnit": true,
+    "automaticBilling": null,
+    "automaticUpgrade": null
+  },
+  "currentOfficialRules": {
+    "checkedAtUtc": "2026-09-30T18:08:44.767Z",
+    "workers": {
+      "source": "https://developers.cloudflare.com/workers/platform/limits/",
+      "freeRequestsPerUtcDay": 100000,
+      "reset": "midnight UTC",
+      "freeHttpCpuMs": 10,
+      "freeMemoryMiB": 128,
+      "exhaustionErrorCode": 1027
+    },
+    "durableSql": {
+      "source": "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+      "freeRowsReadPerDay": 5000000,
+      "freeRowsWrittenPerDay": 100000,
+      "freeStoredGbTotal": 5
+    },
+    "apiSources": [
+      "https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/settings/methods/get/",
+      "https://developers.cloudflare.com/api/resources/workers/subresources/account_settings/methods/get/",
+      "https://developers.cloudflare.com/analytics/graphql-api/tutorials/querying-workers-metrics/"
+    ],
+    "rulesNotProofOfActualCustomerUsageOrPlan": true
+  },
+  "unknowns": [
+    "effective observability when API returns null/omitted",
+    "retention/history/provider infrastructure logging",
+    "automatic billing/automatic upgrade",
+    "exact current billing period usage",
+    "real quota-exhaustion behavior"
+  ],
+  "auth": {
+    "initialExpiredAttemptPreserved": true,
+    "sameSessionCanonicalWhoamiRefresh": true,
+    "newTokenGrantOrScopeCreated": false,
+    "credentialStoreChangedViaCanonicalOwner": true,
+    "postRefreshSchemaReadStoreUnchanged": true
+  },
+  "safeFiles": [
+    "qa/rc24-hosting-readonly/read-expired-v1.cjs",
+    "qa/rc24-hosting-readonly/results-expired-v1.json",
+    "qa/rc24-hosting-readonly/read.cjs",
+    "qa/rc24-hosting-readonly/results.json",
+    "qa/rc24-hosting-readonly/read-cpu-schema.cjs",
+    "qa/rc24-hosting-readonly/cpu-schema.json",
+    "qa/rc24-hosting-readonly/coverage.json"
+  ],
+  "hashes": [
+    {
+      "file": "qa/rc24-hosting-readonly/read-expired-v1.cjs",
+      "sha256": "5931cb512e47e7443e39bffc586f0d127f29d930966231dacb36a8e609c07811"
+    },
+    {
+      "file": "qa/rc24-hosting-readonly/results-expired-v1.json",
+      "sha256": "e6a69249b8948ec4856222e78551433ba0866de079bdff22d350f2fc869ba83a"
+    },
+    {
+      "file": "qa/rc24-hosting-readonly/read.cjs",
+      "sha256": "6663314cda6a045cc8867ed38ab876c5cead96a8f64bbb324200b70008a58bdd"
+    },
+    {
+      "file": "qa/rc24-hosting-readonly/results.json",
+      "sha256": "b8bb92b8be9ceda4fa5e9e437aeaba795008766f2fb34e627c7fd8c7bd63fe66"
+    },
+    {
+      "file": "qa/rc24-hosting-readonly/read-cpu-schema.cjs",
+      "sha256": "a19ca4b99cf1b136d2fec88c9d637df8789ae521c506dfb8bfabdd30c6a07b46"
+    },
+    {
+      "file": "qa/rc24-hosting-readonly/cpu-schema.json",
+      "sha256": "44e79d0e7ba0636edcc7dfd20df9685ee55d79b7b9f7735a5ae6f122563d668d"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "drive-original.rc21-corpus-night-diagnostic-savepoint/1",
+  "exactOwnedFiles": [
+    "qa/rc21-corpus-night/probe-v3-diagnostic.mjs",
+    "qa/rc21-corpus-night/build-v3-diagnostic.mjs",
+    "qa/rc21-corpus-night/factory-v3-diagnostic.expression.js",
+    "qa/rc21-corpus-night/provenance-v3-diagnostic.json",
+    "qa/rc21-corpus-night/diagnostic.test.mjs",
+    "qa/rc21-corpus-night/diagnostic-v3-README.md",
+    "qa/rc21-corpus-night/verify-v3-diagnostic.mjs",
+    "qa/rc21-corpus-night/diagnostic-tests.tap",
+    "qa/rc21-corpus-night/diagnostic-local-verification.json",
+    "qa/rc21-corpus-night/diagnostic-curated-savepoint.json"
+  ],
+  "commitOwner": "root",
+  "forkSource": "qa/rc21-corpus-night/probe.mjs",
+  "forkTarget": "qa/rc21-corpus-night/probe-v3-diagnostic.mjs",
+  "forkChanges": "Redacted metadata original-trigger/cancellation diagnostics only; no budget/cleanup failure semantics changes",
+  "recommendedMode": "metadata-only",
+  "excluded": [
+    "actual-v1-result.json",
+    "actual-v2-result.json",
+    "all previously executed v2 producer files",
+    "root product/docs/tests changes",
+    "private inventory/contexts/tokens"
+  ]
+}

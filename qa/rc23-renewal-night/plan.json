@@ -1,0 +1,19 @@
+{
+  "schema": "drive-original.rc23-natural-renewal-plan/1",
+  "source": "7591044adc1149391265b0e56a93a47252088a47",
+  "version": "1.22.0-rc.23",
+  "oldFailure": "qa/rc21-renewal-night/actual-v1-failure.json",
+  "oldObserverSHA256": "c489807193dc4de2eb98f3cd675c4b0510293b20677dc961a49932509a9fd587",
+  "plannedFrameDeadlineMs": 15000,
+  "postOldExpiryMs": 120000,
+  "runDeadlineMs": 900000,
+  "nativeCredentialCapture": true,
+  "successPayloadRead": false,
+  "passCriteria": "Same exact Q1/current file/content/controller/account/session owner; naturally newer revision and expiry; uninterrupted before/after-old-deadline frame/position progress; separate laterseek andsettledclose",
+  "volumeChanged": false,
+  "clockChanged": false,
+  "loopChanged": false,
+  "forcedCredential": false,
+  "executed": false,
+  "scope": "Prepared future passive owner/frame/credential-status observer; old5s failure remains failed"
+}

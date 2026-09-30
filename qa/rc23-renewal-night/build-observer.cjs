@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),cp=require('node:child_process'),vm=require('node:vm');
+const root=path.resolve(__dirname,'../..'),source=process.argv[2];if(!/^[a-f0-9]{40}$/.test(source||''))throw Error('EXACT_SOURCE_REQUIRED');
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),get=f=>cp.execFileSync('git',['show',source+':'+f],{cwd:root,maxBuffer:4*1024*1024});
+const version=JSON.parse(get('version.json')).version;if(!/^1\.22\.0-rc\.\d+$/.test(version))throw Error('CANDIDATE_VERSION_REQUIRED');
+const binding={sourceCommit:source,version,sourceSHA256:Object.fromEntries(['app.js','sw.js','version.json'].map(f=>[f,sha(get(f))]))};
+const template=fs.readFileSync(path.join(__dirname,'observer.function.js'),'utf8');vm.runInNewContext('('+template+')',{});
+const expression='(proof)=>('+template+')('+JSON.stringify(binding)+',proof)\n',destination=path.join(__dirname,'observer.expression.js');
+if(fs.existsSync(destination))throw Error('PRESERVE_EXISTING_OBSERVER');fs.writeFileSync(destination,expression);
+fs.writeFileSync(path.join(__dirname,'provenance.json'),JSON.stringify({binding,templateSha256:sha(Buffer.from(template)),producerSha256:sha(fs.readFileSync(__filename)),expressionSha256:sha(Buffer.from(expression)),actualExecution:false,successCredentialPayloadRead:false},null,2)+'\n');
+console.log(JSON.stringify({source,version,expressionSha256:sha(Buffer.from(expression)),prepared:true}));

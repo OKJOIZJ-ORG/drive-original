@@ -1,0 +1,59 @@
+{
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "scope": "Root normal Chrome QA transport only; not a product failure",
+  "first8": {
+    "classified": 7,
+    "failed": 1,
+    "failure": "HEADER_TIMEOUT",
+    "mediaGET": 8,
+    "mediaBytes": 6580,
+    "metadataGET": 140,
+    "metadataBytes": 22829456,
+    "release": true
+  },
+  "remainingRepresentatives": {
+    "classified": 36,
+    "failed": 0,
+    "unknownSignature": 1,
+    "kindCounts": {
+      "gif": 2,
+      "iso-bmff": 6,
+      "jpeg": 7,
+      "mpeg-ts": 16,
+      "png": 2,
+      "unknown": 1,
+      "webm": 1,
+      "webp": 1
+    },
+    "mediaGET": 29,
+    "mediaBytes": 27260,
+    "metadataGET": 182,
+    "release": true
+  },
+  "thirdVideoCohort": {
+    "started": true,
+    "maxFiles": 64,
+    "finalResultRecovered": false
+  },
+  "safeEvidenceBlobDownload": {
+    "attempted": true,
+    "completed": false,
+    "code": "CUA_TIMEOUT_KERNEL_RESET"
+  },
+  "originalTabReattach": {
+    "documentReloaded": false,
+    "code": "DEBUGGER_UNATTACHED",
+    "recovery": [
+      "known tab rebind",
+      "claim exact known user tab",
+      "normal AX read",
+      "same-document navigation attempt",
+      "fresh temporary tab"
+    ],
+    "allRejectedOperationsVerifiedBeforeAction": false
+  },
+  "rawStateExported": false,
+  "newExactSourceQATabReady": true,
+  "oldOpaqueRegistryImported": false,
+  "originalResultsNotRetroactivelyPromoted": true
+}

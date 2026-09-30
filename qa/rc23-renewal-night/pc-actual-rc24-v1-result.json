@@ -1,0 +1,47 @@
+{
+  "schema": "drive-original.natural-renewal-actual-savepoint/1",
+  "sourceObserver": "drive-original.natural-renewal-observer/2",
+  "producerSHA256": "4a2107c7ebab5ab8aeceb1513b0b040869b28ca62a9432d6b0430cf692c293eb",
+  "version": "1.22.0-rc.24",
+  "sourceCommit": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "workerVersion": "c57f634a-377d-487e-aa81-61875598dd1d",
+  "scope": "Actual normal PC Chrome ongoing Q1 on the user-provided long original through one natural credential renewal and 120 seconds after old expiry",
+  "startedAt": "2026-09-30T17:54:18.470Z",
+  "oldExpiry": "2026-09-30T18:02:33.031Z",
+  "baselineSecondsToExpiry": 495,
+  "baselineRevision": 60,
+  "complete": true,
+  "phase": "completed",
+  "released": true,
+  "fetchWrapperRestored": true,
+  "credentialForced": false,
+  "loopChanged": false,
+  "volumeChanged": false,
+  "frames": 613,
+  "afterOldExpiryFrames": 120,
+  "maxFrameGapMs": 2901,
+  "frameDeadlineMs": 15000,
+  "runDeadlineMs": 900000,
+  "postExpiryObservationMs": 120000,
+  "failures": [],
+  "credentialRequests": [{"elapsedMs":404602,"status":200,"code":null,"networkError":null,"durationMs":1231}],
+  "renewals": [{"elapsedMs":406018,"revisionDelta":1,"expiryAdvanced":true,"accountStable":true,"sourceStable":true}],
+  "events": [
+    {"elapsedMs":211624,"event":"waiting","ready":2,"time":253.77804},
+    {"elapsedMs":213869,"event":"playing","ready":4,"time":253.845333},
+    {"elapsedMs":561896,"event":"waiting","ready":2,"time":601.793981},
+    {"elapsedMs":563882,"event":"playing","ready":4,"time":601.856}
+  ],
+  "samples": {
+    "count":60,
+    "first":{"elapsedMs":993,"mediaTime":43.254667,"presentedFrames":1298,"ready":4,"paused":false,"loading":false,"error":false,"width":360,"height":640,"credentialRevisionDelta":0,"driveGenerationChanged":false,"ownerStable":true,"afterOldExpiry":false},
+    "last":[
+      {"elapsedMs":592032,"mediaTime":629.988,"presentedFrames":18898,"ready":4,"paused":false,"loading":false,"error":false,"width":360,"height":640,"credentialRevisionDelta":1,"driveGenerationChanged":false,"ownerStable":true,"afterOldExpiry":true},
+      {"elapsedMs":602065,"mediaTime":640.021333,"presentedFrames":19199,"ready":4,"paused":false,"loading":false,"error":false,"width":360,"height":640,"credentialRevisionDelta":1,"driveGenerationChanged":false,"ownerStable":true,"afterOldExpiry":true},
+      {"elapsedMs":613031,"mediaTime":650.954667,"presentedFrames":19527,"ready":4,"paused":false,"loading":false,"error":false,"width":360,"height":640,"credentialRevisionDelta":1,"driveGenerationChanged":false,"ownerStable":true,"afterOldExpiry":true}
+    ]
+  },
+  "terminal":{"time":652.940721,"ready":4,"paused":false,"loading":false,"error":false,"nativeErrorCode":null,"q1Failure":null,"credentialRevisionDelta":1,"authStatus":"online"},
+  "provenance":"Compact safe projection of completed browser-local result; 60 samples retained privately in the live QA document, excerpted here. Exact source and activated controller were independently pinned before installation.",
+  "limits":"One healthy natural PC renewal only. Startup latency, later seek/close, outage recovery, Android continuity, physical sound quality and whole acceptance rows remain separate. No private IDs, account fingerprints, credentials or original bytes exported."
+}

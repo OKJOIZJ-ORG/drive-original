@@ -1,0 +1,218 @@
+{
+  "schema": "drive-original.rc24-hosting-readonly/1",
+  "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "workerVersion": "c57f634a-377d-487e-aa81-61875598dd1d",
+  "producerSha256": "6663314cda6a045cc8867ed38ab876c5cead96a8f64bbb324200b70008a58bdd",
+  "startedAt": "2026-09-30T18:05:55.134Z",
+  "readOnly": true,
+  "browserUsed": false,
+  "candidateRequests": 0,
+  "logsRead": false,
+  "individualRequestsRead": false,
+  "settingsWrites": 0,
+  "authRefresh": true,
+  "rawBodiesSaved": false,
+  "endpoints": [
+    {
+      "category": "fixed-deployment-before",
+      "status": 200,
+      "success": true,
+      "bytes": 748,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "script-settings",
+      "status": 200,
+      "success": true,
+      "bytes": 169,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "combined-settings",
+      "status": 200,
+      "success": true,
+      "bytes": 1633,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "fixed-version-settings",
+      "status": 200,
+      "success": true,
+      "bytes": 3103,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "account-settings",
+      "status": 200,
+      "success": true,
+      "bytes": 141,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "subscriptions",
+      "status": 403,
+      "success": false,
+      "bytes": 223,
+      "errorCodes": [
+        10000
+      ],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "billing-usage",
+      "status": 403,
+      "success": false,
+      "bytes": 105,
+      "errorCodes": [
+        10000
+      ],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    },
+    {
+      "category": "aggregate-metrics",
+      "status": 200,
+      "success": true,
+      "bytes": 405,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": 0
+    },
+    {
+      "category": "fixed-deployment-after",
+      "status": 200,
+      "success": true,
+      "bytes": 748,
+      "errorCodes": [],
+      "readOnly": true,
+      "graphqlErrorCount": null
+    }
+  ],
+  "complete": true,
+  "existingCredentialExpired": true,
+  "canonicalRefreshCommandSucceeded": true,
+  "credentialStoreChangedViaCanonicalOwner": true,
+  "credentialExpiredAfterCanonicalOwner": false,
+  "fixedDeploymentBefore": true,
+  "settings": {
+    "script": {
+      "observabilityPresent": true,
+      "observabilityExplicitNull": true,
+      "enabled": null,
+      "logsEnabled": null,
+      "tracesEnabled": null,
+      "logsPersist": null,
+      "tracesPersist": null,
+      "logsSampling": null,
+      "tracesSampling": null,
+      "logpush": false,
+      "tailConsumerCount": null,
+      "cpuLimitMs": null,
+      "usageModel": null
+    },
+    "combined": {
+      "observabilityPresent": false,
+      "observabilityExplicitNull": false,
+      "enabled": null,
+      "logsEnabled": null,
+      "tracesEnabled": null,
+      "logsPersist": null,
+      "tracesPersist": null,
+      "logsSampling": null,
+      "tracesSampling": null,
+      "logpush": false,
+      "tailConsumerCount": 0,
+      "cpuLimitMs": null,
+      "usageModel": "standard"
+    },
+    "version": {
+      "observabilityPresent": false,
+      "observabilityExplicitNull": false,
+      "enabled": null,
+      "logsEnabled": null,
+      "tracesEnabled": null,
+      "logsPersist": null,
+      "tracesPersist": null,
+      "logsSampling": null,
+      "tracesSampling": null,
+      "logpush": null,
+      "tailConsumerCount": null,
+      "cpuLimitMs": null,
+      "usageModel": null
+    }
+  },
+  "accountSettings": {
+    "available": true,
+    "defaultUsageModel": "standard"
+  },
+  "subscription": {
+    "available": false,
+    "workersFreeActive": null
+  },
+  "billing": {
+    "available": false,
+    "currentBillingPeriodUsageKnown": false,
+    "automaticBilling": null,
+    "automaticUpgrade": null
+  },
+  "metricWindow": {
+    "start": "2026-09-30T00:00:00.000Z",
+    "end": "2026-09-30T18:05:59.721Z",
+    "scope": "Current UTC day aggregate, not billing-period exact usage or version-only traffic"
+  },
+  "metrics": {
+    "candidate": [
+      {
+        "requests": 186,
+        "errors": 0,
+        "subrequests": 269,
+        "cpuP50": 2177,
+        "cpuP99": 6223
+      }
+    ],
+    "account": [
+      {
+        "requests": 186,
+        "errors": 0,
+        "subrequests": 269
+      }
+    ],
+    "durableObjects": [
+      {
+        "rowsRead": 2950,
+        "rowsWritten": 1484,
+        "exceededCpuErrors": 0
+      }
+    ],
+    "sqlStorage": [
+      {
+        "maxStoredBytes": 466944
+      }
+    ],
+    "cpuUnits": "GraphQL schema unit must be verified; numeric metrics are not cost",
+    "adaptiveSampling": true,
+    "sqlInterpretation": "maximum storedBytes aggregate during window, not exact instantaneous billing storage"
+  },
+  "fixedDeploymentAfter": true,
+  "unknowns": [
+    "effective observability when API returns null/omitted",
+    "retention/history/provider infrastructure logging",
+    "automatic billing/automatic upgrade",
+    "exact current billing period usage",
+    "real quota-exhaustion behavior"
+  ],
+  "credentialStoreUnchanged": false,
+  "finishedAt": "2026-09-30T18:06:01.585Z",
+  "elapsedMs": 6450
+}

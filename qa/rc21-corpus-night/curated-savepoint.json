@@ -1,0 +1,39 @@
+{
+  "schema": "drive-original.rc21-corpus-night-curated-savepoint/1",
+  "exactOwnedFiles": [
+    "qa/rc21-corpus-night/metadata-read-cache.mjs",
+    "qa/rc21-corpus-night/sparse-moov.mjs",
+    "qa/rc21-corpus-night/probe.mjs",
+    "qa/rc21-corpus-night/build.mjs",
+    "qa/rc21-corpus-night/cache.test.mjs",
+    "qa/rc21-corpus-night/probe.test.mjs",
+    "qa/rc21-corpus-night/factory-v2.expression.js",
+    "qa/rc21-corpus-night/provenance.json",
+    "qa/rc21-corpus-night/README.md",
+    "qa/rc21-corpus-night/verify.mjs",
+    "qa/rc21-corpus-night/local-tests.tap",
+    "qa/rc21-corpus-night/affected-contract-tests.tap",
+    "qa/rc21-corpus-night/local-verification.json",
+    "qa/rc21-corpus-night/curated-savepoint.json"
+  ],
+  "commitOwner": "root",
+  "excluded": [
+    "all source product/shared docs",
+    "all rc16/rc21-actual historical files",
+    "private context/IDs/tokens",
+    "browsers and Google Drive"
+  ],
+  "forks": [
+    {
+      "source": "qa/v2-07a-iso-tracks-rc11/sparse-moov.mjs",
+      "target": "qa/rc21-corpus-night/sparse-moov.mjs",
+      "changes": "Bounded metadata cache, safe fixed metadata/header coalescing, every-read current fence, cache cleanup and physical/logical metrics"
+    },
+    {
+      "source": "qa/rc16-corpus-tracks/probe.mjs",
+      "target": "qa/rc21-corpus-night/probe.mjs",
+      "changes": "Current21 version pin, local sparse import, maintained rc16 EBML import, checkCurrent callback only"
+    }
+  ],
+  "factoryBytes": 150249
+}

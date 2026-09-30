@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: metadata-only136-request full before/after envelope does not stop at100 and performs zero media
+ok 1 - metadata-only136-request full before/after envelope does not stop at100 and performs zero media
+  ---
+  duration_ms: 48.7672
+  type: 'test'
+  ...
+# Subtest: body AbortError plus cancellation AbortError retains original trigger and terminal cleanup failure
+ok 2 - body AbortError plus cancellation AbortError retains original trigger and terminal cleanup failure
+  ---
+  duration_ms: 3.1366
+  type: 'test'
+  ...
+# Subtest: per-response2MiB cap is preserved and identified separately from cleanup
+ok 3 - per-response2MiB cap is preserved and identified separately from cleanup
+  ---
+  duration_ms: 6.3152
+  type: 'test'
+  ...
+# Subtest: request deadline and late cleanup rejection remain separately identifiable without more budget
+ok 4 - request deadline and late cleanup rejection remain separately identifiable without more budget
+  ---
+  duration_ms: 13.5409
+  type: 'test'
+  ...
+# Subtest: JSON parse failure is identified after finished body and does not become false cleanup success
+ok 5 - JSON parse failure is identified after finished body and does not become false cleanup success
+  ---
+  duration_ms: 1.3466
+  type: 'test'
+  ...
+# Subtest: run-wide timeout hidden by failed cancellation remains explicitly RUN_TIMEOUT/run
+ok 6 - run-wide timeout hidden by failed cancellation remains explicitly RUN_TIMEOUT/run
+  ---
+  duration_ms: 0.9502
+  type: 'test'
+  ...
+# Subtest: changed account owner remains rejected by metadata-only diagnostics before more requests
+ok 7 - changed account owner remains rejected by metadata-only diagnostics before more requests
+  ---
+  duration_ms: 0.9514
+  type: 'test'
+  ...
+# Subtest: diagnostic expression is deterministic and retains current21 owner facade and mode validation
+ok 8 - diagnostic expression is deterministic and retains current21 owner facade and mode validation
+  ---
+  duration_ms: 11.991
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 176.6688

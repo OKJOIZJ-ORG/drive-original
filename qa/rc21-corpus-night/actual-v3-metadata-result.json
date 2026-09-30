@@ -1,0 +1,14 @@
+{
+  "schema":"drive-original.rc21-corpus-actual-night/1",
+  "timeNote":"Completion/read wall times not independently retained",
+  "producer":{"factory":"qa/rc21-corpus-night/factory-v3-diagnostic.expression.js","factorySha256":"db31d4efb2451f63f30ea6d2725710c72f085842f824a1d930d5b54308a0a0ea"},
+  "transport":{"localFileChooser":true,"sourceHashesVerifiedBeforeEvaluation":true,"networkUploadHandler":false,"temporaryInputRemoved":true},
+  "context":{"metadataGETs":2,"priorityExactNameUnique":true,"prioritySingleParent":true,"parentIsFolder":true,"parentCanList":true,"privateContextExported":false,"historicalImmutableContinuityProven":false},
+  "runtime":{"version":"1.22.0-rc.21","controllerActivated":true,"swProofAccepted":true,"sameController":true,"staticAssetGET":1},
+  "result":{"started":true,"done":true,"phase":"done","processed":0,"metadataRequests":124,"metadataBytes":22823068,"mediaRequests":0,"mediaBytes":0,
+    "summary":{"schema":"drive-original.rc16-corpus-tracks-summary/1","version":"1.22.0-rc.21","scope":"canonical-risk-selected-bounded-structural-tracks","mode":"metadata-only","complete":true,"phase":"done","failure":null,"inventoryRuns":2,"catalogStable":true,"catalogComparison":null,"metadataRequests":124,"metadataBytes":22823068,"mediaRequests":0,"mediaBytes":0,
+      "metadataDiagnostic":{"completed":124,"failed":0,"maxResponseBytes":319784,"lastCleanupFailure":null,"lastFailure":null,"routeCounts":{"about":10,"file":10,"list":104}},
+      "plan":{"representatives":36,"coverageComplete":true,"priorPrivateMappingAvailable":false,"continuity":"unknown","exactProvenIsoExcluded":0,"deferredLargestIsoIdentityUnproven":true,"isoPlanned":5,"webmPlanned":1,"unknownPlanned":2,"unknownSampleContinuity":"unknown","all36PrefixesReplayed":false,"knownTsContinuationReads":0},
+      "files":[],"decoded":0,"playback":0,"physicalDevice":0,"writeRequests":0,"genericUpstreamCleanup":"unknown","released":true}},
+  "acceptance":{"repeatedCurrentMetadataInventoryStable":true,"wholeCorpusComplete":false,"headerCoverageComplete":false,"trackMetadataComplete":false,"v2SoleFailureCauseProven":false,"limits":["Four complete inventory passes; no original media read","A successful metadata-only rerun does not establish the original v2 trigger","Representative36 is selector coverage only"]}
+}

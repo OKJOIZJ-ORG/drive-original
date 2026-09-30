@@ -1,0 +1,16 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {build} from './build-v3-diagnostic.mjs';
+const base=new URL('./',import.meta.url),hash=x=>createHash('sha256').update(x).digest('hex');
+const result=await build(),expression=await readFile(new URL('factory-v3-diagnostic.expression.js',base));
+assert.equal(hash(expression),result.provenance.expressionSHA256);assert.equal(typeof vm.runInNewContext(result.expression,{}),'function');
+const saved=JSON.parse(await readFile(new URL('provenance-v3-diagnostic.json',base),'utf8'));assert.deepEqual(saved,result.provenance);
+const log=execFileSync(process.execPath,['--test','--test-reporter=tap','qa/rc21-corpus-night/diagnostic.test.mjs'],{encoding:'utf8',timeout:30000});
+assert.match(log,/# tests 8/);assert.match(log,/# pass 8/);assert.match(log,/# fail 0/);await writeFile(new URL('diagnostic-tests.tap',base),log);
+const paths=['probe-v3-diagnostic.mjs','build-v3-diagnostic.mjs','factory-v3-diagnostic.expression.js','provenance-v3-diagnostic.json','diagnostic.test.mjs','diagnostic-v3-README.md','verify-v3-diagnostic.mjs','diagnostic-tests.tap'];
+const files=Object.fromEntries(await Promise.all(paths.map(async p=>[p,hash(await readFile(new URL(p,base)))])));
+const record={schema:'drive-original.rc21-corpus-night-diagnostic-verification/1',sourceHEAD:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),expressionSHA256:result.provenance.expressionSHA256,files,tests:{passed:8,failed:0},metadataOnly136RequestsSyntheticPassed:true,zeroMediaSyntheticPassed:true,originalRunTimeoutPlusCleanupFailureReproduced:true,originalDeadlinePlusCleanupFailureReproduced:true,actualExecution:false,productChanges:false,privateContextInArtifact:false,genericUpstreamCleanup:'unknown',unchangedV2SHA256:hash(await readFile(new URL('factory-v2.expression.js',base)))};
+await writeFile(new URL('diagnostic-local-verification.json',base),JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify({expressionSHA256:record.expressionSHA256,tests:record.tests,unchangedV2SHA256:record.unchangedV2SHA256,actualExecution:false}));

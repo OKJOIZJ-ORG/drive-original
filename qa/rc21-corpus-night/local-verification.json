@@ -1,0 +1,40 @@
+{
+  "schema": "drive-original.rc21-corpus-night-verification/1",
+  "sourceHEAD": "eb11d667e0ea7c8e1e189a1562d366aabfd92da9",
+  "expressionSHA256": "8f6768b8d937be76f456266e51be36f0f6cabc1ecb5687d71480ed13eb250b86",
+  "files": {
+    "metadata-read-cache.mjs": "7859f29c678482f55244c1170182949e441954019b1e816c6e21ab18017a851d",
+    "sparse-moov.mjs": "7f9ff9342b81ef8e0748c439abea885e98b68482e6f37d758785153ea3b9cf36",
+    "probe.mjs": "fa66a01810cf5f4e8ab34c4fce6af5bb83d56a41ba1e3fb5df498e65a9986541",
+    "build.mjs": "9a7975bee1b3c68ba463de8265017a9a02524408336258d4d50e1d76ab24bf28",
+    "cache.test.mjs": "8aa7e707c85443dfd95cc0ff383c13a186ff2eb2886ecf8864decb82837442d9",
+    "probe.test.mjs": "6a6c7d95784e09be652a73f9dc12c24b821d2c6c84770c13fa81c53ec627f619",
+    "factory-v2.expression.js": "8f6768b8d937be76f456266e51be36f0f6cabc1ecb5687d71480ed13eb250b86",
+    "provenance.json": "aacd9668ecb1234af2011ab59e206ac395b276c373fcd6277e41b7de85c39824",
+    "README.md": "5b436276b308afe252cb650c0d93ebceddf583937d4b6e888960f0a3dd3dc9ef",
+    "verify.mjs": "08b3a26319902bf3253d1a6735e8cc8e89283f6149156ba27e1a949f6b1d9f45",
+    "local-tests.tap": "65b612234b38ccc89b25b9f071c02f1f0fd4e475d1320257c0c26079579c422f",
+    "affected-contract-tests.tap": "a45d7e65cf0b542c2bc9ec795d1262a8337dea762b4939f5b6238b33e2dc25a7"
+  },
+  "focusedTests": {
+    "passed": 23,
+    "failed": 0
+  },
+  "affectedContractTests": {
+    "passed": 148,
+    "failed": 0
+  },
+  "syntheticLatency": {
+    "oldRequests": 38,
+    "newRequests": 30,
+    "oldBytes": 555,
+    "newBytes": 555,
+    "perRequestFakeMs": 1100,
+    "oldFakeMs": 41800,
+    "newFakeMs": 33000
+  },
+  "actualExecution": false,
+  "privateContextInArtifact": false,
+  "productChanges": false,
+  "genericUpstreamCleanup": "unknown"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "drive-original.rc21-corpus-night-denominator-savepoint/1",
+  "exactOwnedFiles": [
+    "qa/rc21-corpus-night/inventory-denominators.mjs",
+    "qa/rc21-corpus-night/probe-v4-denominators.mjs",
+    "qa/rc21-corpus-night/build-v4-denominators.mjs",
+    "qa/rc21-corpus-night/factory-v4-denominators.expression.js",
+    "qa/rc21-corpus-night/provenance-v4-denominators.json",
+    "qa/rc21-corpus-night/denominator.test.mjs",
+    "qa/rc21-corpus-night/denominator-v4-README.md",
+    "qa/rc21-corpus-night/whole-header-pathway.md",
+    "qa/rc21-corpus-night/verify-v4-denominators.mjs",
+    "qa/rc21-corpus-night/denominator-tests.tap",
+    "qa/rc21-corpus-night/denominator-inventory-contracts.tap",
+    "qa/rc21-corpus-night/denominator-local-verification.json",
+    "qa/rc21-corpus-night/denominator-curated-savepoint.json"
+  ],
+  "commitOwner": "root",
+  "forkSource": "qa/rc21-corpus-night/probe-v3-diagnostic.mjs",
+  "forkTarget": "qa/rc21-corpus-night/probe-v4-denominators.mjs",
+  "forkChanges": "Force metadata-only before I/O; safe maintained-report denominator snapshots; current-run scheduled0/probed0/unprobed counts; wholeCorpusComplete=false",
+  "pathwayStatus": "Proposed bounded prefix/cohort design; no all-media driver implemented",
+  "excluded": [
+    "all v2/v3 source/expression/evidence",
+    "actual-v*-result.json",
+    "root product/docs/tests changes",
+    "private contexts/manifests/tokens"
+  ]
+}
