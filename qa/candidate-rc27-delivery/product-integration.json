@@ -1,0 +1,72 @@
+{
+  "schema": "drive-original.rc27-shell-refresh-integration/1",
+  "at": "2026-09-30T21:42:46.122Z",
+  "review": "qa/rc26-shell-refresh-review/acceptance.json",
+  "reviewSha256": "8ff4f7de4c25143c1ac82d103bfa00db408adcb851b32076133d607f62c89904",
+  "nativeLocal": "qa/rc26-update-multiclient/checks.json",
+  "nativeCases": 7,
+  "focused14Reused": true,
+  "fullTests": {
+    "path": "qa/candidate-rc27-delivery/product-tests.json",
+    "sha256": "4ec142a4a983a28055a64acf1901c89bdad49d8dd7bc563482ae50f79f60b1a6",
+    "counts": {
+      "tests": 665,
+      "pass": 665,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "stable": true
+  },
+  "frozenImplementationEqualExceptVersion": true,
+  "version": "1.22.0-rc.27",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "f29bccec858bad13256d6fc8d48418d5c661ae88a0a0b1643c27e09527a94e53",
+      "bytes": 11677
+    },
+    {
+      "path": "app.js",
+      "sha256": "2e5ecf15cd0ed3246c5df7fb357f18ccbab442ab7a4bcac98d4aa46ae0227eeb",
+      "bytes": 494705
+    },
+    {
+      "path": "sw.js",
+      "sha256": "0ca588765707b576e6d78d7bc3620b585cbfda0904154106f0541abb31565c48",
+      "bytes": 72666
+    },
+    {
+      "path": "index.html",
+      "sha256": "b05785213ad45458f6929bba11cb054a1a6a13da4fc22c182258681ba8d2c0f4",
+      "bytes": 50974
+    },
+    {
+      "path": "version.json",
+      "sha256": "52014b39d2c822fdaefa50a5cf0ce9498e2506c9a17c87c36e0ebd50ad0ceaef",
+      "bytes": 262
+    },
+    {
+      "path": "tests/app.test.js",
+      "sha256": "4eb72eb28eaa969eb1c311a87a3ee43687af8cfab9914535f3eb8c78b8debec1",
+      "bytes": 232172
+    },
+    {
+      "path": "tests/audit.test.js",
+      "sha256": "b8a542d01751cdd1568e89986ade89acd057719af12a8fcd4e5570fa25b7158f",
+      "bytes": 19853
+    },
+    {
+      "path": "tests/sw.test.js",
+      "sha256": "29aac1ae19c742a9bb409d7f6e3660b6299a9fc193e82e46b565b8db28f31026",
+      "bytes": 108058
+    },
+    {
+      "path": "tests/static.test.js",
+      "sha256": "64fa55bd5101398b2e9e34281b0494731c137fe80affeec2096f0585b6a68067",
+      "bytes": 22461
+    }
+  ],
+  "scope": "Local verified product integration. Actual hosted account/device update is separate; timeout never clears/unregisters/reloads but a complete late atomic cache commit is possible."
+}

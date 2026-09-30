@@ -147,18 +147,17 @@ test('old temporary file cleanup cannot delete a newer session or source generat
   });
 });
 
-test('cache reset leaves sibling application caches and workers intact', async () => {
-  const c = app(); const deleted = []; const removed = [];
+test('forced shell refresh leaves sibling caches and workers intact and reloads only after ACK', async () => {
+  const c = app(); const deleted = []; const removed = []; let reloads=0;
   c.caches = { keys: async () => ['drive-original-shell-old', 'other-app-cache'], delete: async k => deleted.push(k) };
-  c.window.caches = c.caches;
-  c.navigator.serviceWorker = { getRegistrations: async () => [
-    { scope: 'https://app.test/drive-original/', unregister: async () => removed.push('ours') },
-    { scope: 'https://app.test/other/', unregister: async () => removed.push('other') }
-  ] };
-  c.run('showToast = () => {};'); c.window.location.reload = () => {};
-  await c.run('forceReloadApp()');
-  assert.deepEqual(deleted, ['drive-original-shell-old']);
-  assert.deepEqual(removed, ['ours']);
+  c.window.caches=c.caches;
+  c.MessageChannel=class { constructor(){this.port1={close(){}};this.port2={close(){},peer:this.port1};} };
+  const worker={state:'activated',scriptURL:'https://app.test/drive-original/sw.js',postMessage(data,ports){
+    queueMicrotask(()=>ports[0].peer.onmessage({data:{type:'APP_SHELL_REFRESH_RESULT',protocol:data.protocol,requestId:data.requestId,ok:true,version:c.run('APP_VERSION')}}));}};
+  c.navigator.serviceWorker={controller:worker,getRegistration:async()=>({scope:'https://app.test/drive-original/',active:worker}),
+    getRegistrations:async()=>[{scope:'https://app.test/other/',unregister:async()=>removed.push('other')}]};
+  c.run('showToast=()=>{};');c.window.location.reload=()=>reloads++;
+  assert.equal(await c.run('forceReloadApp()'),true);assert.deepEqual(deleted,[]);assert.deepEqual(removed,[]);assert.equal(reloads,1);
 });
 
 test('simultaneous device writes preserve both edits without overwriting the legacy file', async () => {

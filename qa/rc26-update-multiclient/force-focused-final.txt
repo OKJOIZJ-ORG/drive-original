@@ -1,0 +1,22 @@
+✔ normal update preserves the active multi-client worker and complete shell while replacing only this document (43.6678ms)
+✔ force shell refresh requires matching worker ACK and preserves caches, registration, user state and retirement barrier (4.6762ms)
+✔ force shell refresh can use an exact active registration in an uncontrolled document (5.0531ms)
+✔ force shell refresh coalesces repeated clicks and rejects stale account/source/seek/controller replies (18.588ms)
+✔ force shell refresh rejects negative or wrong ACK and unsupported workers without destructive reset (9.9729ms)
+✔ force shell refresh deadline closes ports and late ACK cannot reload (4.7561ms)
+✔ update checks keep newest feedback and release manual loading across out-of-order success and errors (17.5855ms)
+✔ update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update (9.9931ms)
+✔ a stale update deadline cannot clear the newer automatic check manual loading (3.9435ms)
+✔ forced shell refresh leaves sibling caches and workers intact and reloads only after ACK (40.4597ms)
+✔ shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact (30.9265ms)
+✔ shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch (8.1518ms)
+✔ shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry (4.8727ms)
+✔ shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles (3.9862ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 207.5513

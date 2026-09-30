@@ -1,5 +1,9 @@
-const VERSION = '1.22.0-rc.26';
+const VERSION = '1.22.0-rc.27';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
+const SHELL_REFRESH_PROTOCOL = 'drive-original-shell-refresh-v1';
+const SHELL_REFRESH_TIMEOUT_MS = 15000;
+let shellRefreshTask = null;
+let shellRefreshWaiters = 0;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const CREDENTIAL_REQUEST_TIMEOUT_MS = 58_000;
@@ -88,7 +92,75 @@ self.addEventListener('activate', (event) => {
   })());
 });
 
+function refreshKnownAppShell() {
+  if (shellRefreshTask) return shellRefreshTask;
+  const controller = new AbortController();
+  let timer;
+  const deadline = new Promise(resolve => {
+    timer = setTimeout(() => {
+      controller.abort();
+      resolve({ ok: false, code: 'timeout' });
+    }, SHELL_REFRESH_TIMEOUT_MS);
+  });
+  const operation = (async () => {
+    if (self.registration.active !== self.serviceWorker) return { ok: false, code: 'owner-changed' };
+    const cache = await caches.open(SHELL_CACHE);
+    if (controller.signal.aborted) return { ok: false, code: 'timeout' };
+    // addAll commits the complete known shell as one batch. Keep the existing
+    // cache and registration if any fresh request fails; never touch media.
+    // If a deadline races the final atomic commit, a complete fresh batch may
+    // still land. Timeout never authorizes a page reload or a partial batch.
+    await cache.addAll(SHELL_FILES.map(name => new Request(new URL(name, self.registration.scope), {
+      cache: 'no-store', signal: controller.signal
+    })));
+    return self.registration.active === self.serviceWorker
+      ? { ok: true, version: VERSION } : { ok: false, code: 'owner-changed' };
+  })().catch(() => ({ ok: false, code: controller.signal.aborted ? 'timeout' : 'network' }));
+  const result = Promise.race([operation, deadline]);
+  shellRefreshTask = result;
+  // A stalled cache transaction must not permit a second overlapping batch,
+  // even after its callers have received the bounded timeout result.
+  void operation.finally(() => {
+    clearTimeout(timer);
+    if (shellRefreshTask === result) shellRefreshTask = null;
+  });
+  return result;
+}
+
+async function handleAppShellRefresh(event) {
+  const data = event.data || {}, port = event.ports?.[0];
+  if (!port) return;
+  const reply = result => port.postMessage({ type: 'APP_SHELL_REFRESH_RESULT', protocol: SHELL_REFRESH_PROTOCOL,
+    requestId: data.requestId, ...result });
+  let admitted = false, timer;
+  try {
+    if (data.protocol !== SHELL_REFRESH_PROTOCOL || typeof data.requestId !== 'string'
+      || !/^[a-z0-9-]{1,64}$/.test(data.requestId) || event.source?.type !== 'window'
+      || typeof event.source.id !== 'string' || !event.source.id || event.source.id.length > 128
+      || shellRefreshWaiters >= 8) return;
+    shellRefreshWaiters++; admitted = true;
+    const client = await Promise.race([self.clients.get(event.source.id), new Promise(resolve => {
+      timer = setTimeout(() => resolve(null), 2000);
+    })]);
+    clearTimeout(timer);
+    const scope = new URL(self.registration.scope), url = client ? new URL(client.url) : null;
+    if (client?.type !== 'window' || url?.origin !== scope.origin
+      || ![scope.pathname, new URL('index.html', scope).pathname].includes(url.pathname)
+      || self.registration.active !== self.serviceWorker) return reply({ ok: false, code: 'owner-changed' });
+    reply(await refreshKnownAppShell());
+  } catch (_) { /* Closing or replaced documents cannot receive an acknowledgement. */ }
+  finally {
+    clearTimeout(timer);
+    if (admitted) shellRefreshWaiters--;
+    try { port.close(); } catch (_) {}
+  }
+}
+
 self.addEventListener('message', (event) => {
+  if (event.data?.type === 'APP_SHELL_REFRESH') {
+    event.waitUntil(handleAppShellRefresh(event));
+    return;
+  }
   const data = event.data || {};
   const clientId = event.source?.id;
   if (data.type === 'Q0_CAPABILITY_REQUEST' && event.ports?.[0]) {

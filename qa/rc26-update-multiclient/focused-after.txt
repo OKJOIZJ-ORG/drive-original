@@ -1,0 +1,13 @@
+✔ normal update preserves the active multi-client worker and complete shell while replacing only this document (32.2879ms)
+✔ explicit force reload retains the exact app reset scope and preserves sibling registrations and user state (3.4105ms)
+✔ update checks keep newest feedback and release manual loading across out-of-order success and errors (16.7384ms)
+✔ update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update (9.6954ms)
+✔ a stale update deadline cannot clear the newer automatic check manual loading (2.7688ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 147.3218

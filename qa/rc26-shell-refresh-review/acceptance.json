@@ -1,0 +1,84 @@
+{
+  "schema": "drive-original.shell-refresh-independent-review/1",
+  "reviewedAt": "2026-09-30T21:39:55.486Z",
+  "verdict": "PASS within frozen local correction scope",
+  "frozen": {
+    "app.js": "b30abd16b181ff6f7f410094cf4048d7dae14504ad5a8d65ad604656fd3dea75",
+    "sw.js": "511bfdf4365b9a3f8e75e61c2dc9512c09c4ea68bd3be63f80cb0b1076d2d6eb",
+    "tests/app.test.js": "4eb72eb28eaa969eb1c311a87a3ee43687af8cfab9914535f3eb8c78b8debec1",
+    "tests/sw.test.js": "29aac1ae19c742a9bb409d7f6e3660b6299a9fc193e82e46b565b8db28f31026",
+    "tests/audit.test.js": "b8a542d01751cdd1568e89986ade89acd057719af12a8fcd4e5570fa25b7158f"
+  },
+  "current": {
+    "app.js": "b30abd16b181ff6f7f410094cf4048d7dae14504ad5a8d65ad604656fd3dea75",
+    "sw.js": "511bfdf4365b9a3f8e75e61c2dc9512c09c4ea68bd3be63f80cb0b1076d2d6eb",
+    "tests/app.test.js": "4eb72eb28eaa969eb1c311a87a3ee43687af8cfab9914535f3eb8c78b8debec1",
+    "tests/sw.test.js": "29aac1ae19c742a9bb409d7f6e3660b6299a9fc193e82e46b565b8db28f31026",
+    "tests/audit.test.js": "b8a542d01751cdd1568e89986ade89acd057719af12a8fcd4e5570fa25b7158f"
+  },
+  "currentMatchesFreeze": true,
+  "reusedNative": [
+    {
+      "path": "../rc26-update-multiclient/force-one-results.json",
+      "sha256": "4471d12a9a8c0a71623cafefa178b583da24d08fe599557d5dd7814bb4113f74",
+      "mode": "one",
+      "passed": true,
+      "elapsedMs": 232
+    },
+    {
+      "path": "../rc26-update-multiclient/force-two-results.json",
+      "sha256": "8962618f72e9f7f6c992dcdc622bc103d90d9fc98c1d90dc9fc8bc85efd51d62",
+      "mode": "two",
+      "passed": true,
+      "elapsedMs": 2173
+    },
+    {
+      "path": "../rc26-update-multiclient/force-partial-results.json",
+      "sha256": "ed0b551dc0c90eb98142662daa038a88dbbe720fd2dfe015afc55ca1ee7af86f",
+      "mode": "partial",
+      "passed": true,
+      "elapsedMs": 2156
+    },
+    {
+      "path": "../rc26-update-multiclient/force-network-results.json",
+      "sha256": "4b1d5dc676335dbf65e8ac4e70a30a6181c119173f66ce2bbc3c7f4c68bf5619",
+      "mode": "network",
+      "passed": true,
+      "elapsedMs": 3034
+    },
+    {
+      "path": "../rc26-update-multiclient/force-unsupported-results.json",
+      "sha256": "12fe4f2064a4659dbc8968d77345927fa6f9c23a3205082d82fb4d00125a6ac3",
+      "mode": "unsupported",
+      "passed": true,
+      "elapsedMs": 22244
+    },
+    {
+      "path": "../rc26-update-multiclient/force-timeout-results.json",
+      "sha256": "55aaa4548e426658d0027d3af0f08feb2f614e5da2de44a329ca461c3759240c",
+      "mode": "timeout",
+      "passed": true,
+      "elapsedMs": 17150
+    },
+    {
+      "path": "../rc26-update-multiclient/force-uncontrolled-results.json",
+      "sha256": "7012491176d6c0fa23003259b385efc8522f9a6331eeda28f2cbfac686e6f605",
+      "mode": "uncontrolled",
+      "passed": true,
+      "elapsedMs": 2293
+    }
+  ],
+  "scopedTests": {
+    "passed": 14,
+    "failed": 0,
+    "encoding": "utf8",
+    "path": "../rc26-update-multiclient/force-focused-final.txt",
+    "sha256": "9715412175be225c4d0fc80d3e0477418aedaebfdc750302a9f57c7857d8be5e"
+  },
+  "independent": {
+    "actualWorkerProtocolAdversary": true,
+    "lateAtomicCommitCounterexample": true
+  },
+  "findings": [],
+  "limitation": "After timeout a complete atomic fresh batch may commit; timeout/failure does not grant reload. Real signed-in hosted/device update and whole acceptance remain unproven by this local unit."
+}

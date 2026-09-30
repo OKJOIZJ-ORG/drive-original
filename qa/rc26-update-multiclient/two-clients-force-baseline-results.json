@@ -1,0 +1,1699 @@
+{
+  "schema": "drive-original.local-normal-update-native/1",
+  "passed": false,
+  "producerSha256": "69de4b000b6d935e36f7f3f751fd5f8b83a953f5e9830eca7d519854219222ca",
+  "sources": [
+    "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+    "7ba8e654fa38def8c8e00efcbf1600a4c8730c53"
+  ],
+  "scope": "Force-reset baseline with two controlled native Windows Chrome anonymous local documents, normal settings/check/banner24→25 only; no actual signed-in failure resolution/account/media/device/production proof",
+  "governed": {
+    "normal-update-server.cjs": "20b42984c215bffee5f8ced4c82e427453ebf10221f501c4cf6b93110d3bd930",
+    "force-reset-journal-init.js": "396cba9bac559fbed41e94a7dced737442710c6ea730356cfc7e8e5cef629cf3",
+    "normal-update-ready-24.function.js": "abbabdbbc5161d1920475403cd621900098f877b47b4209200f79bff2f3a037e",
+    "normal-update-ready-25.function.js": "9c726592a131d0f4d76fd26798d0de78e455411a3116fa283a8646729208e628",
+    "normal-update-switch.function.js": "66d1fef6cc52dffc3bb288e46a4c64854876d62ce7e7884d53d3cc7d5050c0ae"
+  },
+  "originalNormalPCFailureSHA256": "1695c837cba7a502ed0c6a5e7b544b6d1d3ff4bff380626f0900d2502e311326",
+  "routesInstalled": false,
+  "externalProvider": false,
+  "syntheticAccount": false,
+  "pageErrors": [],
+  "consoleCounts": {
+    "csp": 2,
+    "otherErrors": 2
+  },
+  "stages": [
+    {
+      "name": "local-server-start",
+      "at": "2026-09-30T21:12:21.015Z"
+    },
+    {
+      "name": "immediate-memory-guard",
+      "at": "2026-09-30T21:12:24.964Z"
+    },
+    {
+      "name": "native-Chrome-launch",
+      "at": "2026-09-30T21:12:25.493Z"
+    },
+    {
+      "name": "initial24-native-source-cache-qualification",
+      "at": "2026-09-30T21:12:26.129Z"
+    },
+    {
+      "name": "second-controlled24-client",
+      "at": "2026-09-30T21:12:28.428Z"
+    },
+    {
+      "name": "single-fixed-server-switch25",
+      "at": "2026-09-30T21:12:30.578Z"
+    },
+    {
+      "name": "trusted-normal-settings-check",
+      "at": "2026-09-30T21:12:30.586Z"
+    },
+    {
+      "name": "one-trusted-force-reset",
+      "at": "2026-09-30T21:12:35.738Z"
+    },
+    {
+      "name": "post-normal-update25-readiness",
+      "at": "2026-09-30T21:12:37.865Z"
+    }
+  ],
+  "currentStage": "post-normal-update25-readiness",
+  "serverBefore": {
+    "schema": "drive-original.normal-update-local-server/1",
+    "source24": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+    "source25": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+    "binding": [
+      {
+        "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+        "version": "1.22.0-rc.24",
+        "publicFiles": 52,
+        "hashes": {
+          "index.html": "fbd538197b22bb67f54dbca644d1a40b20bc8cfc6562a309e35dc836f5cc385b",
+          "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+          "app.js": "933a77e5cbbf8acb823e079db63e37de1102de24d4c97618c5747be006fc112d",
+          "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+          "sw.js": "73325d0ddcb042a44f8f25a1fa3403ebba6626254a9499008eaf2342085f52af",
+          "version.json": "1aa1a433dd8be82164c694e765e454ce16c6440fb149ff16580d7b458a5f5bd7",
+          "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+          "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+          "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+          "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+          "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+          "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+          "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+          "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+          "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+          "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+          "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+          "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+          "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+          "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+          "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+          "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+          "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+          "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+          "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+          "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+          "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+          "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+          "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+          "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+          "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+          "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+          "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+          "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+          "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+          "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+          "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+          "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+          "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+          "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+          "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+          "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+          "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+          "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+          "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+          "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+          "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+          "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+          "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+          "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170",
+          ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+        "version": "1.22.0-rc.25",
+        "publicFiles": 52,
+        "hashes": {
+          "index.html": "0932a280a5e3ec711d9324f1d36603c680d2ad2e89f750012f8551ec00d81d21",
+          "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+          "app.js": "277a2a0788271485d4b40f4ebe1d68df08173f0223466e1386ac0dabd6f49019",
+          "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+          "sw.js": "0a8a06b2254da4c36d61fb43f7ebe6d2dd28c4f6c1f01869942c97ab0ba7c3fd",
+          "version.json": "c026a5da281e5aabb06e0ca97c66d4e8cd0ff590da39cb85da15627e5301de20",
+          "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+          "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+          "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+          "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+          "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+          "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+          "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+          "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+          "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+          "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+          "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+          "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+          "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+          "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+          "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+          "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+          "media/general-player.mjs": "3d3820692114a3970e46a8ab3070df62bafa7a4f36d54b3e021a17e11833b3e7",
+          "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+          "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+          "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+          "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+          "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+          "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+          "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+          "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+          "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+          "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+          "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+          "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+          "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+          "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+          "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+          "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+          "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+          "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+          "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+          "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+          "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+          "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+          "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+          "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+          "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+          "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+          "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170",
+          ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    ],
+    "producerSha256": "20b42984c215bffee5f8ced4c82e427453ebf10221f501c4cf6b93110d3bd930",
+    "fixedBuffers": true,
+    "totalRetainedAssetBytes": 57030956,
+    "logicalAssetBytesBothVersions": 112805434,
+    "externalProvider": false,
+    "syntheticAccount": false,
+    "browserLaunched": false,
+    "port": 49716,
+    "phase": 24,
+    "switched": false,
+    "counters": {
+      "public24": 0,
+      "public25": 0,
+      "control": 0,
+      "denied": 0,
+      "worker24": 0,
+      "worker25": 0,
+      "documents24": 0,
+      "documents25": 0
+    },
+    "requests": 0,
+    "stopped": false
+  },
+  "memory": {
+    "freePhysicalKiB": 3854804,
+    "freeVirtualKiB": 3312292,
+    "physicalFloorKiBExclusive": 1048576,
+    "virtualFloorKiBExclusive": 1572864,
+    "passed": true
+  },
+  "browserVersion": "154.0.8037.58",
+  "initial24": {
+    "passed": true,
+    "binding": {
+      "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+      "version": "1.22.0-rc.24"
+    },
+    "snapshot": {
+      "version": "1.22.0-rc.24",
+      "controlled": true,
+      "controllerActivated": true,
+      "registrations": 1,
+      "rootScope": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "shells": [
+        "drive-original-shell-1.22.0-rc.24"
+      ],
+      "accountPresent": false,
+      "playerClosed": true,
+      "updateBannerVisible": false
+    },
+    "cached": [
+      {
+        "file": "index.html",
+        "gitEqual": true
+      },
+      {
+        "file": "styles.css",
+        "gitEqual": true
+      },
+      {
+        "file": "runtime-config.js",
+        "gitEqual": true
+      },
+      {
+        "file": "app.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/drive-source.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/revision-pin.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/ts-player.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/q1-core.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/transmux-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mux-mp4.min.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mux-LICENSE.txt",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-admission.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-codec.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-owner.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-pipeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-player.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-source.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-timeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1.LICENSE",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1-NOTICE.md",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-runtime.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-adapter.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-worker-client.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.wasm",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.LICENSE.txt",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-general-pipeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-general-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "licenses/index.html",
+        "gitEqual": true
+      },
+      {
+        "file": "licenses/audio-source-NOTICE.md",
+        "gitEqual": true
+      },
+      {
+        "file": "version.json",
+        "gitEqual": true
+      },
+      {
+        "file": "manifest.webmanifest",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/app-icon.svg",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/icon-192.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/icon-512.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/maskable-512.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/apple-touch-icon.png",
+        "gitEqual": true
+      }
+    ],
+    "journal": {
+      "ordinal": 1,
+      "rows": [
+        {
+          "stage": "document-start",
+          "document": 1,
+          "at": 1790802746157,
+          "ms": 22,
+          "secure": true
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746232,
+          "ms": 97,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 0,
+          "rootScope": true,
+          "active": [],
+          "activeOrdinals": [],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "worker": 1,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            null
+          ],
+          "activeOrdinals": [
+            null
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802746427,
+          "ms": 293,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746428,
+          "ms": 293,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746429,
+          "ms": 294,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        }
+      ],
+      "stopped": false
+    },
+    "scope": "Local native anonymous normal update only; no account/device/production proof"
+  },
+  "second24": {
+    "passed": true,
+    "binding": {
+      "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+      "version": "1.22.0-rc.24"
+    },
+    "snapshot": {
+      "version": "1.22.0-rc.24",
+      "controlled": true,
+      "controllerActivated": true,
+      "registrations": 1,
+      "rootScope": true,
+      "activeMatchesController": true,
+      "installing": false,
+      "waiting": false,
+      "shells": [
+        "drive-original-shell-1.22.0-rc.24"
+      ],
+      "accountPresent": false,
+      "playerClosed": true,
+      "updateBannerVisible": false
+    },
+    "cached": [
+      {
+        "file": "index.html",
+        "gitEqual": true
+      },
+      {
+        "file": "styles.css",
+        "gitEqual": true
+      },
+      {
+        "file": "runtime-config.js",
+        "gitEqual": true
+      },
+      {
+        "file": "app.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/drive-source.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/revision-pin.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/ts-player.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/q1-core.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/transmux-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mux-mp4.min.js",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mux-LICENSE.txt",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-admission.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-codec.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-owner.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-pipeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-player.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-source.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-timeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/general-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1.LICENSE",
+        "gitEqual": true
+      },
+      {
+        "file": "media/mediabunny-q1-NOTICE.md",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-runtime.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-adapter.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-worker-client.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.wasm",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-codec.LICENSE.txt",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-general-pipeline.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "media/audio-general-worker.mjs",
+        "gitEqual": true
+      },
+      {
+        "file": "licenses/index.html",
+        "gitEqual": true
+      },
+      {
+        "file": "licenses/audio-source-NOTICE.md",
+        "gitEqual": true
+      },
+      {
+        "file": "version.json",
+        "gitEqual": true
+      },
+      {
+        "file": "manifest.webmanifest",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/app-icon.svg",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/icon-192.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/icon-512.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/maskable-512.png",
+        "gitEqual": true
+      },
+      {
+        "file": "icons/apple-touch-icon.png",
+        "gitEqual": true
+      }
+    ],
+    "journal": {
+      "ordinal": 1,
+      "rows": [
+        {
+          "stage": "document-start",
+          "document": 1,
+          "at": 1790802748489,
+          "ms": 23,
+          "secure": true
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802748492,
+          "ms": 26,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802748496,
+          "ms": 30,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        }
+      ],
+      "stopped": false
+    },
+    "scope": "Local native anonymous normal update only; no account/device/production proof"
+  },
+  "switch": {
+    "switched": true,
+    "version": "1.22.0-rc.25"
+  },
+  "beforeBanner": {
+    "version": "1.22.0-rc.24",
+    "anonymous": true,
+    "playerClosed": true,
+    "controlled": true,
+    "activeMatchesController": true,
+    "shells": [
+      "drive-original-shell-1.22.0-rc.25"
+    ],
+    "journal": {
+      "ordinal": 1,
+      "rows": [
+        {
+          "stage": "document-start",
+          "document": 1,
+          "at": 1790802746157,
+          "ms": 22,
+          "secure": true
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746232,
+          "ms": 97,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 0,
+          "rootScope": true,
+          "active": [],
+          "activeOrdinals": [],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "worker": 1,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            null
+          ],
+          "activeOrdinals": [
+            null
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802746427,
+          "ms": 293,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746428,
+          "ms": 293,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746429,
+          "ms": 294,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "trusted-normal-version-check-click",
+          "document": 1,
+          "at": 1790802753717,
+          "ms": 7582
+        },
+        {
+          "stage": "updatefound",
+          "document": 1,
+          "at": 1790802753800,
+          "ms": 7665
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802753800,
+          "ms": 7665,
+          "worker": 2,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753811,
+          "ms": 7676,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753936,
+          "ms": 7801,
+          "worker": 2,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 7805,
+          "worker": 1,
+          "workerState": "redundant"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 7805,
+          "worker": 2,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802753941,
+          "ms": 7806,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753943,
+          "ms": 7808,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activating",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activating"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802754952,
+          "ms": 8817,
+          "worker": 2,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802755014,
+          "ms": 8879,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.25"
+          ]
+        }
+      ],
+      "stopped": false
+    }
+  },
+  "siblingBefore": {
+    "version": "1.22.0-rc.24",
+    "controlled": true,
+    "activeCurrent": true
+  },
+  "failure": {
+    "code": "READINESS_45S_TIMEOUT",
+    "name": "Error"
+  },
+  "failureSnapshot": {
+    "version": "1.22.0-rc.25",
+    "controller": false,
+    "registrations": [
+      {
+        "active": "activated",
+        "installing": false,
+        "waiting": false
+      }
+    ],
+    "shells": [],
+    "anonymous": true,
+    "journal": {
+      "ordinal": 2,
+      "rows": [
+        {
+          "stage": "document-start",
+          "document": 1,
+          "at": 1790802746157,
+          "ms": 22,
+          "secure": true
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746232,
+          "ms": 97,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 0,
+          "rootScope": true,
+          "active": [],
+          "activeOrdinals": [],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "worker": 1,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746315,
+          "ms": 180,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            null
+          ],
+          "activeOrdinals": [
+            null
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746424,
+          "ms": 289,
+          "worker": 1,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802746427,
+          "ms": 293,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802746428,
+          "ms": 293,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802746429,
+          "ms": 294,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "trusted-normal-version-check-click",
+          "document": 1,
+          "at": 1790802753717,
+          "ms": 7582
+        },
+        {
+          "stage": "updatefound",
+          "document": 1,
+          "at": 1790802753800,
+          "ms": 7665
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802753800,
+          "ms": 7665,
+          "worker": 2,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753811,
+          "ms": 7676,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753936,
+          "ms": 7801,
+          "worker": 2,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 7805,
+          "worker": 1,
+          "workerState": "redundant"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 7805,
+          "worker": 2,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802753941,
+          "ms": 7806,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753943,
+          "ms": 7808,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activating",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activating"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802754952,
+          "ms": 8817,
+          "worker": 2,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802755014,
+          "ms": 8879,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "trusted-force-reset-click",
+          "document": 1,
+          "at": 1790802757767,
+          "ms": 11632
+        },
+        {
+          "stage": "pagehide",
+          "document": 1,
+          "at": 1790802757832,
+          "ms": 11697
+        },
+        {
+          "stage": "document-start",
+          "document": 2,
+          "at": 1790802757840,
+          "ms": 17,
+          "secure": true
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 2,
+          "at": 1790802757855,
+          "ms": 32,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 0,
+          "rootScope": true,
+          "active": [],
+          "activeOrdinals": [],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        },
+        {
+          "stage": "worker-observed",
+          "document": 2,
+          "at": 1790802757993,
+          "ms": 170,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 2,
+          "at": 1790802757994,
+          "ms": 171,
+          "controller": false,
+          "controllerOrdinal": null,
+          "controllerState": null,
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        }
+      ],
+      "stopped": false
+    }
+  },
+  "siblingAfter": {
+    "controlled": true,
+    "sameSavedController": true,
+    "sameSavedActive": true,
+    "sameSavedRegistration": true,
+    "active": "activated",
+    "installing": false,
+    "waiting": false,
+    "shells": [],
+    "journal": {
+      "ordinal": 1,
+      "rows": [
+        {
+          "stage": "document-start",
+          "document": 1,
+          "at": 1790802748489,
+          "ms": 23,
+          "secure": true
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802748492,
+          "ms": 26,
+          "worker": 1,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802748496,
+          "ms": 30,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24"
+          ]
+        },
+        {
+          "stage": "updatefound",
+          "document": 1,
+          "at": 1790802753799,
+          "ms": 5334
+        },
+        {
+          "stage": "worker-observed",
+          "document": 1,
+          "at": 1790802753800,
+          "ms": 5334,
+          "worker": 2,
+          "workerState": "installing"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753890,
+          "ms": 5425,
+          "controller": true,
+          "controllerOrdinal": 1,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            1
+          ],
+          "installing": true,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753936,
+          "ms": 5470,
+          "worker": 2,
+          "workerState": "installed"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 5474,
+          "worker": 1,
+          "workerState": "redundant"
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802753940,
+          "ms": 5475,
+          "worker": 2,
+          "workerState": "activating"
+        },
+        {
+          "stage": "controllerchange",
+          "document": 1,
+          "at": 1790802753941,
+          "ms": 5475,
+          "controller": true,
+          "state": "activating"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802753943,
+          "ms": 5477,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activating",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activating"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.24",
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802754952,
+          "ms": 6486,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activating",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activating"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "worker-statechange",
+          "document": 1,
+          "at": 1790802754952,
+          "ms": 6486,
+          "worker": 2,
+          "workerState": "activated"
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802755091,
+          "ms": 6625,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": [
+            "1.22.0-rc.25"
+          ]
+        },
+        {
+          "stage": "lifecycle-snapshot",
+          "document": 1,
+          "at": 1790802757946,
+          "ms": 9481,
+          "controller": true,
+          "controllerOrdinal": 2,
+          "controllerState": "activated",
+          "registrations": 1,
+          "rootScope": true,
+          "active": [
+            "activated"
+          ],
+          "activeOrdinals": [
+            2
+          ],
+          "installing": false,
+          "waiting": false,
+          "shellVersions": []
+        }
+      ],
+      "stopped": false
+    }
+  },
+  "journalCleanup": {
+    "journalReleased": true
+  },
+  "ownedBrowserClosed": true,
+  "serverAfter": {
+    "schema": "drive-original.normal-update-local-server/1",
+    "source24": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+    "source25": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+    "binding": [
+      {
+        "source": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+        "version": "1.22.0-rc.24",
+        "publicFiles": 52,
+        "hashes": {
+          "index.html": "fbd538197b22bb67f54dbca644d1a40b20bc8cfc6562a309e35dc836f5cc385b",
+          "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+          "app.js": "933a77e5cbbf8acb823e079db63e37de1102de24d4c97618c5747be006fc112d",
+          "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+          "sw.js": "73325d0ddcb042a44f8f25a1fa3403ebba6626254a9499008eaf2342085f52af",
+          "version.json": "1aa1a433dd8be82164c694e765e454ce16c6440fb149ff16580d7b458a5f5bd7",
+          "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+          "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+          "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+          "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+          "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+          "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+          "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+          "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+          "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+          "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+          "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+          "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+          "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+          "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+          "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+          "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+          "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+          "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+          "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+          "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+          "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+          "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+          "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+          "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+          "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+          "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+          "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+          "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+          "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+          "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+          "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+          "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+          "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+          "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+          "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+          "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+          "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+          "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+          "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+          "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+          "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+          "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+          "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+          "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170",
+          ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+        "version": "1.22.0-rc.25",
+        "publicFiles": 52,
+        "hashes": {
+          "index.html": "0932a280a5e3ec711d9324f1d36603c680d2ad2e89f750012f8551ec00d81d21",
+          "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+          "app.js": "277a2a0788271485d4b40f4ebe1d68df08173f0223466e1386ac0dabd6f49019",
+          "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+          "sw.js": "0a8a06b2254da4c36d61fb43f7ebe6d2dd28c4f6c1f01869942c97ab0ba7c3fd",
+          "version.json": "c026a5da281e5aabb06e0ca97c66d4e8cd0ff590da39cb85da15627e5301de20",
+          "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+          "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+          "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+          "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+          "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+          "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+          "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+          "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+          "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+          "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+          "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+          "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+          "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+          "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+          "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+          "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+          "media/general-player.mjs": "3d3820692114a3970e46a8ab3070df62bafa7a4f36d54b3e021a17e11833b3e7",
+          "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+          "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+          "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+          "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+          "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+          "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+          "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+          "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+          "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+          "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+          "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+          "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+          "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+          "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+          "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+          "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+          "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+          "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+          "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+          "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+          "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+          "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+          "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+          "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+          "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+          "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+          "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170",
+          ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    ],
+    "producerSha256": "20b42984c215bffee5f8ced4c82e427453ebf10221f501c4cf6b93110d3bd930",
+    "fixedBuffers": true,
+    "totalRetainedAssetBytes": 57030956,
+    "logicalAssetBytesBothVersions": 112805434,
+    "externalProvider": false,
+    "syntheticAccount": false,
+    "browserLaunched": false,
+    "port": 49716,
+    "phase": 25,
+    "switched": true,
+    "counters": {
+      "public24": 64,
+      "public25": 55,
+      "control": 1,
+      "denied": 3,
+      "worker24": 4,
+      "worker25": 2,
+      "documents24": 4,
+      "documents25": 3
+    },
+    "requests": 123,
+    "stopped": false
+  },
+  "serverStopped": true,
+  "completedAt": "2026-09-30T21:13:20.940Z"
+}

@@ -1,0 +1,33 @@
+✖ normal update preserves the active multi-client worker and complete shell while replacing only this document (35.8643ms)
+✔ explicit force reload retains the exact app reset scope and preserves sibling registrations and user state (3.2725ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.7792
+
+✖ failing tests:
+
+test at tests\app.test.js:70:1
+✖ normal update preserves the active multi-client worker and complete shell while replacing only this document (35.8643ms)
+  AssertionError [ERR_ASSERTION]: the existing complete shell must survive the normal update
+  + actual - expected
+  
+  + [
+  +   'drive-original-shell-current'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\app.test.js:87:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'drive-original-shell-current' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

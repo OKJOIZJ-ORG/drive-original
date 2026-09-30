@@ -1,0 +1,18 @@
+{
+  "scope": "Adjacent force-reset causal diagnosis only; no force product correction authorized or performed at this point",
+  "nativeRecord": "two-clients-force-baseline-results.json",
+  "passed": false,
+  "trustedForceClicks": 1,
+  "after45Seconds": {"version":"1.22.0-rc.25","controller":false,"shellCaches":0,"rootRegistrations":1,"active":"activated","installing":false,"waiting":false},
+  "sibling": {"controlled":true,"sameSavedActive":true,"sameSavedRegistration":true},
+  "nativeFunctionExactlyMatchesCurrentProduct": true,
+  "forceFunctionSha256": "85e7184a277158d4088ed4e191caf3a125ef69e69f05edcbe77357aa124e4563",
+  "options": [
+    {"name":"Retain registration and refresh only existing cache keys in app","assessment":"Small change, but partial or empty cache does not expose the complete authoritative shell list; cannot satisfy full force-recovery40 hash guard."},
+    {"name":"Worker-owned known-shell refresh","assessment":"Use authoritative SHELL_FILES and complete cache.addAll from fresh static requests, retain registration and existing cache until completion; scoped response and timeout. Rebuilds complete shell from empty/partial cache without duplicate app list. Requires broader worker/test ownership authorization.","recommended":true},
+    {"name":"Register a query-variant worker after clearing cache","assessment":"Forces installation but later base-URL registration can create another replacement; avoiding that needs startup/persistence changes. More lifetime risk and complexity."}
+  ],
+  "browserClosed": true,
+  "serverStopped": true,
+  "actualSignedInCauseRetrospectivelyResolved": false
+}

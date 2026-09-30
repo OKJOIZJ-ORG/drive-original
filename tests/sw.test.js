@@ -2276,3 +2276,53 @@ test('opt-in response-body cancellation propagates upstream after headers and fi
   assert.equal(trace.at(-1).reason, 'consumer-cancelled');
   assert.equal(trace.some((message) => message.stage === 'body-complete'), false);
 });
+
+function shellWorkerFixture({ addAll, clientURL='https://app.test/drive-original/', timers }={}) {
+  const worker=createWorker(async()=>{throw Error('refresh must use only the cache batch');},timers||{}), batches=[], replies=[];
+  const own={};worker.context.self.registration={scope:'https://app.test/drive-original/',active:own};worker.context.self.serviceWorker=own;
+  worker.context.self.clients.get=async id=>({id,type:'window',url:clientURL});
+  worker.context.caches={open:async name=>({addAll:async requests=>{batches.push({name,requests});await addAll?.(requests);}})};
+  function send(overrides={},sourceOverrides={}) { const port={postMessage:data=>replies.push(data),close(){this.closed=true;}};
+    worker.context.refreshEvent={data:{type:'APP_SHELL_REFRESH',protocol:'drive-original-shell-refresh-v1',requestId:'shell-1',...overrides},
+      source:{id:'owned-client',type:'window',...sourceOverrides},ports:[port]};
+    const result=vm.runInContext('handleAppShellRefresh(refreshEvent)',worker.context);return{result,port}; }
+  return{worker,batches,replies,send};
+}
+
+test('shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact',async()=>{
+  let release;const pending=new Promise(resolve=>release=resolve);const f=shellWorkerFixture({addAll:()=>pending});
+  vm.runInContext("clientCredentials.set('A',{token:'fixture'});q1CleanupFences.set('A',true);",f.worker.context);
+  const first=f.send(),second=f.send({requestId:'shell-2'});await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(f.batches.length,1);const batch=f.batches[0];assert.equal(batch.requests.length,41);
+  assert.equal(new Set(batch.requests.map(r=>r.url)).size,41);assert(batch.requests.every(r=>r.cache==='no-store'&&r.signal));
+  assert(batch.requests.every(r=>r.url.startsWith('https://app.test/drive-original/')&&!r.url.includes('/__drive_media/')&&!r.url.endsWith('.tar.gz')));
+  assert(batch.requests.some(r=>r.url.endsWith('/media/audio-codec.wasm')));
+  release();await Promise.all([first.result,second.result]);assert.equal(f.replies.length,2);assert(f.replies.every(r=>r.ok===true));
+  assert(first.port.closed&&second.port.closed);assert.equal(vm.runInContext("clientCredentials.get('A').token",f.worker.context),'fixture');
+  assert.equal(vm.runInContext("q1CleanupFences.get('A')",f.worker.context),true);
+});
+
+test('shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch',async()=>{
+  for(const clientURL of ['https://other.test/drive-original/','https://app.test/drive-original-evil/','https://app.test/other/','https://app.test/drive-original/nested/']) {
+    const f=shellWorkerFixture({clientURL});const call=f.send();await call.result;assert.equal(f.batches.length,0);assert.equal(f.replies[0]?.ok,false);assert(call.port.closed);
+  }
+  const f=shellWorkerFixture();f.worker.context.self.registration.active={};await f.send().result;assert.equal(f.batches.length,0);
+  for(const [data,source] of [[{protocol:'wrong'},{}],[{requestId:'bad/secret'},{}],[{},{type:'worker'}]]){
+    const x=shellWorkerFixture();await x.send(data,source).result;assert.equal(x.batches.length,0);assert.equal(x.replies.length,0);
+  }
+});
+
+test('shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry',async()=>{
+  const stored=new Map([['old','unchanged']]);let fail=true;const f=shellWorkerFixture({addAll:async requests=>{if(fail)throw Error('HTTP503');stored.set('complete',requests.length);}});
+  await f.send().result;assert.equal(f.replies[0].ok,false);assert.equal(f.replies[0].code,'network');assert.deepEqual([...stored],[['old','unchanged']]);
+  fail=false;await f.send({requestId:'shell-2'}).result;assert.equal(f.batches.length,2);assert.equal(f.replies[1].ok,true);assert.equal(stored.get('old'),'unchanged');
+});
+
+test('shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles',async()=>{
+  const timers=[];let release;const pending=new Promise(resolve=>release=resolve);const f=shellWorkerFixture({addAll:()=>pending,
+    timers:{setTimeoutImpl:(fn,ms)=>{const t={fn,ms};timers.push(t);return t;},clearTimeoutImpl:()=>{}}});
+  const call=f.send();await new Promise(resolve=>setImmediate(resolve));const deadline=timers.find(t=>t.ms===15000);assert(deadline);deadline.fn();
+  await call.result;assert.equal(f.replies[0].code,'timeout');assert(f.batches[0].requests.every(r=>r.signal.aborted));
+  await f.send({requestId:'shell-2'}).result;assert.equal(f.batches.length,1);assert.equal(f.replies[1].code,'timeout');
+  release();await new Promise(resolve=>setImmediate(resolve));assert.equal(vm.runInContext('shellRefreshTask',f.worker.context),null);
+});

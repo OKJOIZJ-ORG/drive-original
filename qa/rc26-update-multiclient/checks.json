@@ -1,0 +1,107 @@
+{
+  "schema": "drive-original.multiclient-shell-refresh-checks/1",
+  "passed": true,
+  "productHashes": {
+    "app.js": "b30abd16b181ff6f7f410094cf4048d7dae14504ad5a8d65ad604656fd3dea75",
+    "sw.js": "511bfdf4365b9a3f8e75e61c2dc9512c09c4ea68bd3be63f80cb0b1076d2d6eb",
+    "tests/app.test.js": "4eb72eb28eaa969eb1c311a87a3ee43687af8cfab9914535f3eb8c78b8debec1",
+    "tests/sw.test.js": "29aac1ae19c742a9bb409d7f6e3660b6299a9fc193e82e46b565b8db28f31026",
+    "tests/audit.test.js": "b8a542d01751cdd1568e89986ade89acd057719af12a8fcd4e5570fa25b7158f"
+  },
+  "normalPriorAppHash": "931fc98f57273336d943ec9ddbf7fb3c78c8c44d93e4dcc4e56d6ac152fdff00",
+  "focused": {
+    "file": "force-focused-final.txt",
+    "summary": "14/14 passed; actual maintained app/worker tests, UTF-16LE raw PowerShell output retained"
+  },
+  "native": [
+    {
+      "mode": "two",
+      "file": "force-two-results.json",
+      "sha256": "8962618f72e9f7f6c992dcdc622bc103d90d9fc98c1d90dc9fc8bc85efd51d62",
+      "passed": true,
+      "elapsedMs": 2173,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "one",
+      "file": "force-one-results.json",
+      "sha256": "4471d12a9a8c0a71623cafefa178b583da24d08fe599557d5dd7814bb4113f74",
+      "passed": true,
+      "elapsedMs": 232,
+      "matched": 40,
+      "siblingOwnerUnchanged": null,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "partial",
+      "file": "force-partial-results.json",
+      "sha256": "ed0b551dc0c90eb98142662daa038a88dbbe720fd2dfe015afc55ca1ee7af86f",
+      "passed": true,
+      "elapsedMs": 2156,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "network",
+      "file": "force-network-results.json",
+      "sha256": "4b1d5dc676335dbf65e8ac4e70a30a6181c119173f66ce2bbc3c7f4c68bf5619",
+      "passed": true,
+      "elapsedMs": 3034,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "unsupported",
+      "file": "force-unsupported-results.json",
+      "sha256": "12fe4f2064a4659dbc8968d77345927fa6f9c23a3205082d82fb4d00125a6ac3",
+      "passed": true,
+      "elapsedMs": 22244,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "timeout",
+      "file": "force-timeout-results.json",
+      "sha256": "55aaa4548e426658d0027d3af0f08feb2f614e5da2de44a329ca461c3759240c",
+      "passed": true,
+      "elapsedMs": 17150,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    },
+    {
+      "mode": "uncontrolled",
+      "file": "force-uncontrolled-results.json",
+      "sha256": "7012491176d6c0fa23003259b385efc8522f9a6331eeda28f2cbfac686e6f605",
+      "passed": true,
+      "elapsedMs": 2293,
+      "matched": 40,
+      "siblingOwnerUnchanged": true,
+      "ownBrowserClosed": true
+    }
+  ],
+  "history": {
+    "normalTwoClientBaseline": "two-clients-baseline-v2-results.json",
+    "firstQaFailure": "two-clients-baseline-results.json",
+    "forceTwoClientBaseline": "two-clients-force-baseline-results.json",
+    "normalAfter": [
+      "one-client-fixed-v1-results.json",
+      "two-clients-fixed-v1-results.json"
+    ]
+  },
+  "limits": [
+    "Anonymous local Windows Chrome154 overlay, no actual signed-in PC/device/production claim",
+    "Current app and worker normalized version24/25; other50 immutable historical public files",
+    "Timeout suppresses document reload and destructive reset; complete late atomic fresh batch remains allowed",
+    "Old actual worker identity/late initialization gap remains unknown"
+  ],
+  "independentEvidence": [
+    "../rc26-shell-refresh-review/protocol-adversary-results.json",
+    "../rc26-shell-refresh-review/deadline-counterexample-results.json"
+  ]
+}

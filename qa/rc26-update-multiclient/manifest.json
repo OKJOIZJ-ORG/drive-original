@@ -1,0 +1,303 @@
+{
+  "schema": "drive-original.safe-evidence-manifest/1",
+  "owner": "gpt-6.1-sol high bounded multiclient shell refresh unit",
+  "products": {
+    "app.js": "b30abd16b181ff6f7f410094cf4048d7dae14504ad5a8d65ad604656fd3dea75",
+    "sw.js": "511bfdf4365b9a3f8e75e61c2dc9512c09c4ea68bd3be63f80cb0b1076d2d6eb",
+    "tests/app.test.js": "4eb72eb28eaa969eb1c311a87a3ee43687af8cfab9914535f3eb8c78b8debec1",
+    "tests/sw.test.js": "29aac1ae19c742a9bb409d7f6e3660b6299a9fc193e82e46b565b8db28f31026",
+    "tests/audit.test.js": "b8a542d01751cdd1568e89986ade89acd057719af12a8fcd4e5570fa25b7158f"
+  },
+  "files": [
+    {
+      "path": "qa/rc26-update-multiclient/README.md",
+      "bytes": 9071,
+      "sha256": "35cd4d9e8a195e36a624f74f71b8475428b6cacd214afc1c83604d010b409dea"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/checks.json",
+      "bytes": 3853,
+      "sha256": "d66c93d94284be53e220be940d345c815ff977f3945fe40b2d43a4ce4d606fa3"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-unit-README.md",
+      "bytes": 7159,
+      "sha256": "26d972d7b86ae07e117ace40cd67aa8e8aa0b59d89fd1f217a89bd0e31c6982a"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-unit-manifest.json",
+      "bytes": 6594,
+      "sha256": "f940b6ae1965b0a890020186b0c4600f8be8ddfd0bfbec351410c06c3b039941"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-unit-app-source.js",
+      "bytes": 491532,
+      "sha256": "931fc98f57273336d943ec9ddbf7fb3c78c8c44d93e4dcc4e56d6ac152fdff00"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/focused-before.txt",
+      "bytes": 1170,
+      "sha256": "6ff50d29dbfd0cd417622bfc2efa144609b09f8b57578a3713ed6d5dbc6b146b"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/focused-after.txt",
+      "bytes": 712,
+      "sha256": "f7ba8829e7e42b1cf5d7ed50c473c35880578236aadcaaf32e9b0e44b8c30397"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-focused-final.txt",
+      "bytes": 1751,
+      "sha256": "9715412175be225c4d0fc80d3e0477418aedaebfdc750302a9f57c7857d8be5e"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-server.cjs",
+      "bytes": 5446,
+      "sha256": "20b42984c215bffee5f8ced4c82e427453ebf10221f501c4cf6b93110d3bd930"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-journal-v2-init.js",
+      "bytes": 3567,
+      "sha256": "c34189e8c0ea6e4d1bfa5c7914cf870a10dcef0f7a15882797211d40716f2df1"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-ready-24.function.js",
+      "bytes": 6623,
+      "sha256": "abbabdbbc5161d1920475403cd621900098f877b47b4209200f79bff2f3a037e"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-ready-25.function.js",
+      "bytes": 6623,
+      "sha256": "9c726592a131d0f4d76fd26798d0de78e455411a3116fa283a8646729208e628"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-switch.function.js",
+      "bytes": 549,
+      "sha256": "66d1fef6cc52dffc3bb288e46a4c64854876d62ce7e7884d53d3cc7d5050c0ae"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-v1-result.json",
+      "bytes": 1106,
+      "sha256": "1695c837cba7a502ed0c6a5e7b544b6d1d3ff4bff380626f0900d2502e311326"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-baseline.cjs",
+      "bytes": 9580,
+      "sha256": "87e73b4036331fc5a1ae31a2bbf6943423643a57ed0fc1f86fd1f2a0abd9bade"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-baseline-results.json",
+      "bytes": 51466,
+      "sha256": "01e3a164354ba25aaf55ada8ca56e38e32ac1b8c2bb9bf7e464b9e882685dd35"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-baseline-v2.cjs",
+      "bytes": 9551,
+      "sha256": "6950c25a1782392a73d00abb5d317bb494a1fbe5822238c0e5cb3066a846f4c4"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-baseline-v2-results.json",
+      "bytes": 58025,
+      "sha256": "127ce962cd40554de1f625df6a3201edeb7c65a6c1dc6b3f0c01d83fc5988007"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/normal-update-fixed-server.cjs",
+      "bytes": 6194,
+      "sha256": "6d1dc261152b0fc48d728921556a00663b730fc9ecefb5d4e405e0cb85cb0fc6"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/fixed-ready-24.function.js",
+      "bytes": 6623,
+      "sha256": "0ef99896f63503dcde5b4335bec9191b4f18602284b5881ae38152f9757d560d"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/fixed-ready-25.function.js",
+      "bytes": 6623,
+      "sha256": "71fafbfdcb0fa60c0cc3f147ef912890f1305f7713896fbfb5e11389229af4bf"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-fixed-v1.cjs",
+      "bytes": 10465,
+      "sha256": "1df1867cb2987c2762d50db9791ebfe80b382038053059d58b9deb3156c9b1cd"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-fixed-v1-results.json",
+      "bytes": 61755,
+      "sha256": "b34e74c7b8db57ec3f8081bb805e8996a78052cefcb3cf33f5ec408f70f33012"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/one-client-fixed-v1.cjs",
+      "bytes": 8146,
+      "sha256": "983a2364783afce87f7c93b889d589bd9ca3e1eb427030116da62f35f93431af"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/one-client-fixed-v1-results.json",
+      "bytes": 51379,
+      "sha256": "cbfe44fc7547415603a57428360c55ae8bd31a128207c1c98a8cd3d12b08b5cf"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-reset-journal-init.js",
+      "bytes": 3658,
+      "sha256": "396cba9bac559fbed41e94a7dced737442710c6ea730356cfc7e8e5cef629cf3"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-force-baseline.cjs",
+      "bytes": 9530,
+      "sha256": "69de4b000b6d935e36f7f3f751fd5f8b83a953f5e9830eca7d519854219222ca"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/two-clients-force-baseline-results.json",
+      "bytes": 58591,
+      "sha256": "aad962efe3a254870608f02ce35b1a931bf589767248dba9f849283689c950c1"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-reset-options.json",
+      "bytes": 1628,
+      "sha256": "bd3efb997c2f283e91e53ed46549a9e8e46672ee8f34706352a2303630fae2ea"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/cache-addall-abort-native.cjs",
+      "bytes": 2360,
+      "sha256": "74734950d0f907180ec5877bf0314a5539ca6afcaf26674a4c128709a8eeaddd"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/cache-addall-abort-native-results.json",
+      "bytes": 463,
+      "sha256": "034a1e835d97bc7158a573f8df481b2b48c462be0541b78982a2f0243626e732"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-shell-server.cjs",
+      "bytes": 6672,
+      "sha256": "2201764f5a06c6b62162926b34abb27bfd3fd26acb80596dcefaa38b92aac316"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-shell-native.cjs",
+      "bytes": 8695,
+      "sha256": "80cbdf54a70aec0ce6d3213eb6feeef0d2248f332a9fe6ff2247635a3fa9e28d"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-ready-24.function.js",
+      "bytes": 6623,
+      "sha256": "f26a6f990cd146e0f7e69abd1238608c83d393f8d3664b3180a526a3bba0cbf8"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-ready-25.function.js",
+      "bytes": 6623,
+      "sha256": "e20b2711a55b3d63fbd603c88d568ed44568bba7c2ce9b3f85a4a912bc32d01a"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-one-results.json",
+      "bytes": 50541,
+      "sha256": "4471d12a9a8c0a71623cafefa178b583da24d08fe599557d5dd7814bb4113f74"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-two-results.json",
+      "bytes": 61153,
+      "sha256": "8962618f72e9f7f6c992dcdc622bc103d90d9fc98c1d90dc9fc8bc85efd51d62"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-partial-results.json",
+      "bytes": 65518,
+      "sha256": "ed0b551dc0c90eb98142662daa038a88dbbe720fd2dfe015afc55ca1ee7af86f"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-network-results.json",
+      "bytes": 56626,
+      "sha256": "4b1d5dc676335dbf65e8ac4e70a30a6181c119173f66ce2bbc3c7f4c68bf5619"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-unsupported-results.json",
+      "bytes": 56529,
+      "sha256": "12fe4f2064a4659dbc8968d77345927fa6f9c23a3205082d82fb4d00125a6ac3"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-timeout-results.json",
+      "bytes": 56629,
+      "sha256": "55aaa4548e426658d0027d3af0f08feb2f614e5da2de44a329ca461c3759240c"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/force-uncontrolled-results.json",
+      "bytes": 63816,
+      "sha256": "7012491176d6c0fa23003259b385efc8522f9a6331eeda28f2cbfac686e6f605"
+    },
+    {
+      "path": "qa/rc26-update-multiclient/curate-manifest.cjs",
+      "bytes": 3518,
+      "sha256": "3221aa499d8b93f2589c4cea2c75c4aeba9627b64e8320f0545245b85b1fd6f1"
+    }
+  ],
+  "references": [
+    {
+      "path": "qa/rc25-pc-update-qualification/local-normal-update-v3-results.json",
+      "sha256": "f67c1cacc36bd52959adba7c9a8c6606ddf76ee0150ac3a51ba6f0bfc57b1666",
+      "owner": "inherited/root-or-independent; not staged by author"
+    },
+    {
+      "path": "qa/rc26-pc-update-qualification/actual-normal-update-v1-failure.json",
+      "sha256": "7e8d55fa2593c7f41d6036279652dced80703bd76f0cc145aa6dbfd34a18f2d9",
+      "owner": "inherited/root-or-independent; not staged by author"
+    },
+    {
+      "path": "qa/rc26-pc-update-qualification/ordinary-reload-cache-parity.json",
+      "sha256": "fe69ced23e0951be51d7aea89a9afe456fabba93e3d06ba356d78932cfcf1b11",
+      "owner": "inherited/root-or-independent; not staged by author"
+    },
+    {
+      "path": "qa/rc26-shell-refresh-review/protocol-adversary-results.json",
+      "sha256": "1e14a97482404b5c5569b8e9d5e9e0a16842bcd9dcd428c8fb5cfc0f27025c69",
+      "owner": "inherited/root-or-independent; not staged by author"
+    },
+    {
+      "path": "qa/rc26-shell-refresh-review/deadline-counterexample-results.json",
+      "sha256": "67f8d5c49db84e9013012aa0fd70216fa897ff68823f834f2420dafece7e0bab",
+      "owner": "inherited/root-or-independent; not staged by author"
+    }
+  ],
+  "allowlistPaths": [
+    "qa/rc26-update-multiclient/README.md",
+    "qa/rc26-update-multiclient/checks.json",
+    "qa/rc26-update-multiclient/normal-unit-README.md",
+    "qa/rc26-update-multiclient/normal-unit-manifest.json",
+    "qa/rc26-update-multiclient/normal-unit-app-source.js",
+    "qa/rc26-update-multiclient/focused-before.txt",
+    "qa/rc26-update-multiclient/focused-after.txt",
+    "qa/rc26-update-multiclient/force-focused-final.txt",
+    "qa/rc26-update-multiclient/normal-update-server.cjs",
+    "qa/rc26-update-multiclient/normal-update-journal-v2-init.js",
+    "qa/rc26-update-multiclient/normal-update-ready-24.function.js",
+    "qa/rc26-update-multiclient/normal-update-ready-25.function.js",
+    "qa/rc26-update-multiclient/normal-update-switch.function.js",
+    "qa/rc26-update-multiclient/normal-update-v1-result.json",
+    "qa/rc26-update-multiclient/two-clients-baseline.cjs",
+    "qa/rc26-update-multiclient/two-clients-baseline-results.json",
+    "qa/rc26-update-multiclient/two-clients-baseline-v2.cjs",
+    "qa/rc26-update-multiclient/two-clients-baseline-v2-results.json",
+    "qa/rc26-update-multiclient/normal-update-fixed-server.cjs",
+    "qa/rc26-update-multiclient/fixed-ready-24.function.js",
+    "qa/rc26-update-multiclient/fixed-ready-25.function.js",
+    "qa/rc26-update-multiclient/two-clients-fixed-v1.cjs",
+    "qa/rc26-update-multiclient/two-clients-fixed-v1-results.json",
+    "qa/rc26-update-multiclient/one-client-fixed-v1.cjs",
+    "qa/rc26-update-multiclient/one-client-fixed-v1-results.json",
+    "qa/rc26-update-multiclient/force-reset-journal-init.js",
+    "qa/rc26-update-multiclient/two-clients-force-baseline.cjs",
+    "qa/rc26-update-multiclient/two-clients-force-baseline-results.json",
+    "qa/rc26-update-multiclient/force-reset-options.json",
+    "qa/rc26-update-multiclient/cache-addall-abort-native.cjs",
+    "qa/rc26-update-multiclient/cache-addall-abort-native-results.json",
+    "qa/rc26-update-multiclient/force-shell-server.cjs",
+    "qa/rc26-update-multiclient/force-shell-native.cjs",
+    "qa/rc26-update-multiclient/force-ready-24.function.js",
+    "qa/rc26-update-multiclient/force-ready-25.function.js",
+    "qa/rc26-update-multiclient/force-one-results.json",
+    "qa/rc26-update-multiclient/force-two-results.json",
+    "qa/rc26-update-multiclient/force-partial-results.json",
+    "qa/rc26-update-multiclient/force-network-results.json",
+    "qa/rc26-update-multiclient/force-unsupported-results.json",
+    "qa/rc26-update-multiclient/force-timeout-results.json",
+    "qa/rc26-update-multiclient/force-uncontrolled-results.json",
+    "qa/rc26-update-multiclient/curate-manifest.cjs",
+    "qa/rc26-update-multiclient/manifest.json"
+  ],
+  "excluded": "Mutable last-run server status files and implementation-authoring helpers; no profile/account/private media",
+  "nativeScope": "Owned anonymous local Windows Chrome154; normalized24/25 app+SW overlays; no actual PC/device/production claim"
+}

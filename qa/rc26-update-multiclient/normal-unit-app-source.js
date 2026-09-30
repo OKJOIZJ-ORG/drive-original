@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.27';
+const APP_VERSION = '1.22.0-rc.26';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -616,10 +616,6 @@ const el = {};
 let toastTimer = null;
 let feedbackTimer = null;
 let updatePending = false;
-const APP_SHELL_REFRESH_PROTOCOL = 'drive-original-shell-refresh-v1';
-const APP_SHELL_REFRESH_TIMEOUT_MS = 20000;
-let appShellRefreshPending = null;
-let appShellRefreshSequence = 0;
 let updateCheckGeneration = 0;
 let updateCheckManualPending = false;
 const UPDATE_CHECK_TIMEOUT_MS = 15000;
@@ -2006,6 +2002,22 @@ async function checkForAppUpdate({ manual = false } = {}) {
   }
 }
 
+async function clearAppShellStorage() {
+  // GitHub Pages hosts sibling applications on this origin. Only our shell
+  // cache and exact worker scope belong to this reset action.
+  const scope = new URL('./', location.href).href;
+  if ('caches' in window) {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((key) => key.startsWith('drive-original-shell-'))
+      .map((key) => caches.delete(key)));
+  }
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.filter((registration) => registration.scope === scope)
+      .map((registration) => registration.unregister()));
+  }
+}
+
 async function applyAppUpdate() {
   updatePending = true;
   showToast('최신 버전을 즉시 적용합니다…');
@@ -2020,76 +2032,14 @@ async function applyAppUpdate() {
   location.replace(target.href);
 }
 
-function forceReloadApp() {
-  if (appShellRefreshPending) return appShellRefreshPending;
-  const owner = { account: state.authAccountKey, accountId: state.accountId,
-    generation: state.driveSessionGeneration, mediaSession: state.mediaSession,
-    playbackSession: state.playbackSession, selected: state.selected, pin: q0PinnedSource,
-    q0: q0Playback, q1: q1Playback, sourceGeneration: mediaSourceGeneration,
-    seekGeneration: mediaSeekGeneration, routeGeneration: initialMediaRouteGeneration };
-  const current = () => !updatePending && owner.account === state.authAccountKey
-    && owner.accountId === state.accountId && owner.generation === state.driveSessionGeneration
-    && owner.mediaSession === state.mediaSession && owner.playbackSession === state.playbackSession
-    && owner.selected === state.selected && owner.pin === q0PinnedSource
-    && owner.q0 === q0Playback && owner.q1 === q1Playback
-    && owner.sourceGeneration === mediaSourceGeneration && owner.seekGeneration === mediaSeekGeneration
-    && owner.routeGeneration === initialMediaRouteGeneration;
-  showToast('앱 캐시를 최신 파일로 새로고침합니다…');
-  let timer, channel;
-  const operation = (async () => {
-    try {
-      const deadline = new Promise((_, reject) => {
-        timer = setTimeout(() => reject(new Error('shell-refresh-timeout')), APP_SHELL_REFRESH_TIMEOUT_MS);
-      });
-      const sw = navigator.serviceWorker;
-      if (!sw || typeof MessageChannel !== 'function') throw new Error('shell-refresh-unsupported');
-      const scope = new URL('./', location.href).href;
-      const controller = sw.controller;
-      const registration = await Promise.race([sw.getRegistration(scope), deadline]);
-      const worker = controller || registration?.active;
-      const workerURL = worker?.scriptURL ? new URL(worker.scriptURL) : null;
-      const expectedURL = new URL('sw.js', scope);
-      const workerCurrent = () => current() && sw.controller === controller
-        && registration?.scope === scope && registration.active === worker && worker?.state === 'activated';
-      if (!workerCurrent() || workerURL?.origin !== expectedURL.origin
-        || workerURL?.pathname !== expectedURL.pathname || workerURL.search || workerURL.hash)
-        throw new Error('shell-refresh-owner');
-      channel = new MessageChannel();
-      const requestId = `shell-${++appShellRefreshSequence}`;
-      const acknowledgement = new Promise((resolve, reject) => {
-        channel.port1.onmessage = event => {
-          const data = event.data;
-          if (!data || data.type !== 'APP_SHELL_REFRESH_RESULT' || data.protocol !== APP_SHELL_REFRESH_PROTOCOL
-            || data.requestId !== requestId || data.ok !== true || !parseAppVersion(data.version)
-            || isNewerVersion(APP_VERSION, data.version)) return reject(new Error('shell-refresh-rejected'));
-          resolve(data);
-        };
-        channel.port1.onmessageerror = () => reject(new Error('shell-refresh-message'));
-        worker.postMessage({ type: 'APP_SHELL_REFRESH', protocol: APP_SHELL_REFRESH_PROTOCOL, requestId }, [channel.port2]);
-      });
-      await Promise.race([acknowledgement, deadline]);
-      if (!workerCurrent()) return false;
-      updatePending = true;
-      window.location.reload();
-      return true;
-    } catch (error) {
-      if (current()) {
-        reportAppFailure('shell-refresh', error);
-        showToast('앱 캐시 새로고침에 실패했습니다. 네트워크를 확인하고 다시 시도하세요.');
-      }
-      return false;
-    } finally {
-      clearTimeout(timer);
-      if (channel) {
-        channel.port1.onmessage = null;
-        channel.port1.onmessageerror = null;
-        channel.port1.close(); channel.port2.close();
-      }
-    }
-  })();
-  appShellRefreshPending = operation;
-  void operation.finally(() => { if (appShellRefreshPending === operation) appShellRefreshPending = null; });
-  return operation;
+async function forceReloadApp() {
+  showToast('캐시를 삭제하고 앱을 새로고침합니다…');
+  try {
+    await clearAppShellStorage();
+  } catch (e) {
+    reportAppFailure('shell-storage-clear', e);
+  }
+  window.location.reload(true);
 }
 
 async function handleWorkerMessage(event) {

@@ -67,6 +67,93 @@ function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEna
   return context;
 }
 
+test('normal update preserves the active multi-client worker and complete shell while replacing only this document', async () => {
+  const context = loadAppContext({ 'preserved-state': 'unchanged' }), deleted = [], unregistered = [], navigations = [];
+  context.caches = context.window.caches = {
+    keys: async () => ['drive-original-shell-current', 'sibling-shell'],
+    delete: async key => deleted.push(key)
+  };
+  context.navigator.serviceWorker = { getRegistrations: async () => [
+    { scope: 'https://example.test/drive-original/', unregister: async () => unregistered.push('ours') },
+    { scope: 'https://example.test/other/', unregister: async () => unregistered.push('sibling') }
+  ] };
+  context.location.href = 'https://example.test/drive-original/?preserved=1#selection';
+  context.location.replace = value => navigations.push(value);
+  context.requestSessionCredential = () => { throw new Error('update must not request a credential'); };
+  run(context, `showToast=()=>{};state.accountId='account';state.authAccountKey='auth';state.driveSessionGeneration=7;
+    q0PinnedSource=Object.freeze({descriptor:Object.freeze({headRevisionId:'pinned'})});
+    globalThis.savedPin=q0PinnedSource;q1RetirementResult={settled:false};`);
+  await run(context, 'applyAppUpdate()');
+  assert.deepEqual(deleted, [], 'the existing complete shell must survive the normal update');
+  assert.deepEqual(unregistered, [], 'other controlled clients must retain the same registered worker');
+  assert.equal(navigations.length, 1);
+  const target = new URL(navigations[0]);
+  assert.equal(target.origin, 'https://example.test');assert.equal(target.pathname, '/drive-original/');
+  assert.equal(target.searchParams.get('preserved'), '1');assert.match(target.searchParams.get('_update'), /^\d+$/);
+  assert.equal(target.hash, '#selection');
+  assert.equal(run(context, 'updatePending'), true);
+  assert.equal(run(context, 'q0PinnedSource===savedPin'), true);
+  assert.equal(run(context, 'q1RetirementResult.settled'), false, 'reload does not waive this document retirement barrier');
+  assert.equal(run(context, 'state.authAccountKey'), 'auth');assert.equal(run(context, 'state.driveSessionGeneration'), 7);
+  assert.equal(context.localStorage.getItem('preserved-state'), 'unchanged');
+});
+
+function shellRefreshFixture({ controlled = true, reply = 'success' } = {}) {
+  const context = loadAppContext({ 'preserved-state': 'unchanged' }), deleted = [], unregistered = [], reloads = [], channels = [], requests = [];
+  context.caches = context.window.caches = { keys: async () => ['drive-original-shell-current', 'sibling-shell'], delete: async key => deleted.push(key) };
+  context.MessageChannel = class {
+    constructor() { this.port1 = { close() { this.closed = true; } }; this.port2 = { close() { this.closed = true; } }; this.port2.peer = this.port1; channels.push(this); }
+  };
+  const worker = { state: 'activated', scriptURL: 'https://example.test/drive-original/sw.js', postMessage(data, ports) {
+    requests.push(data); if (reply === 'hold') return;
+    queueMicrotask(() => ports[0].peer.onmessage?.({ data: { type: 'APP_SHELL_REFRESH_RESULT', protocol: data.protocol,
+      requestId: reply === 'wrong-id' ? 'wrong' : data.requestId, ok: reply !== 'failure', version: run(context, 'APP_VERSION') } }));
+  } };
+  const registration = { scope: 'https://example.test/drive-original/', active: worker, unregister: async () => unregistered.push('ours') };
+  context.navigator.serviceWorker = { controller: controlled ? worker : null, getRegistration: async () => registration,
+    getRegistrations: async () => { throw Error('must not enumerate/unregister siblings'); } };
+  context.window.location.reload = () => reloads.push('reload');
+  run(context, 'showToast=()=>{};reportAppFailure=()=>{};q1RetirementResult={settled:false};');
+  return { context, deleted, unregistered, reloads, channels, requests, worker, registration };
+}
+
+test('force shell refresh requires matching worker ACK and preserves caches, registration, user state and retirement barrier', async () => {
+  const f = shellRefreshFixture(); assert.equal(await run(f.context, 'forceReloadApp()'), true);
+  assert.deepEqual(f.deleted, []);assert.deepEqual(f.unregistered, []);assert.deepEqual(f.reloads, ['reload']);
+  assert.equal(f.requests.length, 1);assert.equal(f.requests[0].type, 'APP_SHELL_REFRESH');
+  assert.equal(f.context.localStorage.getItem('preserved-state'), 'unchanged');
+  assert.equal(run(f.context, 'q1RetirementResult.settled'), false);
+  assert(f.channels.every(c => c.port1.closed && c.port2.closed && c.port1.onmessage === null));
+});
+
+test('force shell refresh can use an exact active registration in an uncontrolled document', async () => {
+  const f = shellRefreshFixture({ controlled: false }); assert.equal(await run(f.context, 'forceReloadApp()'), true);
+  assert.equal(f.requests.length, 1);assert.deepEqual(f.reloads, ['reload']);
+});
+
+test('force shell refresh coalesces repeated clicks and rejects stale account/source/seek/controller replies', async () => {
+  for (const change of ["state.authAccountKey='different'", 'mediaSourceGeneration++', 'mediaSeekGeneration++', 'navigator.serviceWorker.controller=null']) {
+    const f = shellRefreshFixture({ reply: 'hold' });const first = run(f.context, 'forceReloadApp()'), second = run(f.context, 'forceReloadApp()');
+    assert.equal(first, second);await new Promise(resolve => setImmediate(resolve));assert.equal(f.requests.length, 1);
+    run(f.context, change);const data=f.requests[0];f.channels[0].port1.onmessage({ data: { type:'APP_SHELL_REFRESH_RESULT', protocol:data.protocol,requestId:data.requestId,ok:true,version:run(f.context,'APP_VERSION') } });
+    assert.equal(await first, false);assert.deepEqual(f.reloads, []);assert(f.channels[0].port1.closed);
+  }
+});
+
+test('force shell refresh rejects negative or wrong ACK and unsupported workers without destructive reset', async () => {
+  for (const reply of ['failure', 'wrong-id']) { const f=shellRefreshFixture({reply});assert.equal(await run(f.context,'forceReloadApp()'),false);
+    assert.deepEqual(f.reloads,[]);assert.deepEqual(f.deleted,[]);assert.deepEqual(f.unregistered,[]); }
+  const f=shellRefreshFixture();f.worker.scriptURL='https://example.test/other/sw.js';assert.equal(await run(f.context,'forceReloadApp()'),false);assert.equal(f.requests.length,0);
+});
+
+test('force shell refresh deadline closes ports and late ACK cannot reload', async () => {
+  const f=shellRefreshFixture({reply:'hold'});let deadline;f.context.setTimeout=fn=>{deadline=fn;return 1;};f.context.clearTimeout=()=>{};
+  const result=run(f.context,'forceReloadApp()');await new Promise(resolve=>setImmediate(resolve));const late=f.channels[0].port1.onmessage;
+  deadline();assert.equal(await result,false);assert(f.channels[0].port1.closed);const data=f.requests[0];
+  late({data:{type:'APP_SHELL_REFRESH_RESULT',protocol:data.protocol,requestId:data.requestId,ok:true,version:run(f.context,'APP_VERSION')}});
+  await Promise.resolve();assert.deepEqual(f.reloads,[]);assert.deepEqual(f.deleted,[]);
+});
+
 test('candidate runtime blocks Drive mutations before fetch until the state gate opens', async () => {
   const context = loadAppContext({}, { candidate: true, driveMutationsEnabled: false });
   let calls = 0;

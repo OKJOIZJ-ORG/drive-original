@@ -1,0 +1,30 @@
+{
+  "level": "specification-conforming VM cache-commit timing model",
+  "workerSha256": "511bfdf4365b9a3f8e75e61c2dc9512c09c4ea68bd3be63f80cb0b1076d2d6eb",
+  "result": {
+    "ok": false,
+    "code": "timeout"
+  },
+  "repeatedResult": {
+    "ok": false,
+    "code": "timeout"
+  },
+  "batches": 1,
+  "cachedAfterTimeout": "fresh-complete-shell",
+  "events": [
+    {
+      "kind": "open",
+      "name": "drive-original-shell-1.22.0-rc.26"
+    },
+    {
+      "kind": "addAll",
+      "count": 41,
+      "noStore": true
+    },
+    {
+      "kind": "commit",
+      "aborted": true
+    }
+  ],
+  "finding": "An already pending atomic cache commit can finish after timeout and aborted Request signals. The coalescing latch prevents overlap but does not preserve previous bytes on every timeout."
+}
