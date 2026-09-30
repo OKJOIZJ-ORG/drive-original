@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.17';
+const VERSION = '1.22.0-rc.18';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const MEDIA_MARKER = '/__drive_media/';
 const AUTH_PROTOCOL = 'drive-original-auth-v1';

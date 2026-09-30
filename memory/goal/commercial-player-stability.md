@@ -581,3 +581,7 @@ Confirmed fixed publice57d7b5/Workercbbafb96 delivery:52 delivered (51allowliste
 ### 2026-09-30 — rc.17 actual paused-seek closure and remaining quality work
 
 Confirmed code54654ce, final562Node, independentbothcallbackorders andnativeQ0/Q2 sixpausedseeks. Candidate17Worker00020d64 delivery52public/40cached/26preferred/package passes. Actualsame-accountTS10/50/90/repeated50 frames+seeked complete withpaused loaderfalse/keynull/currentdecodedproof; no resumerequired,250msstable4frames, Escapeclearsseek/proof/selectedowners ready0/buffers0/retirementtrue. CurrentSrcstickyboolean retained, notemptinessproof. Native16 synthetic420sQ2 nowpasses true299/360 framecheckpoints+nativeended/sourceEOF/completeworker/SWclose; actualaudibility/expiry/device remainseparate. Hosted16anonymous12negativecases pass butactualobservability/historyunknown. G5actualseekframes12.8-16.7s warrantscausal investigation, notthresholdweakening. WebPcard18local/native4cases andfocused3 pass, rootfinal563Nodepasses; code/deliverysavepointpending. CorpusfileURLmanualpermissionpending; independentworkcontinues. SeeCANDIDATE-RC17-20260930.md and exactNEWleaves.
+
+### 2026-09-30 — rc18 local static WebP card unit
+
+WebP cards now reuse bounded static canvas thumbnails; original animation/bytes remain intact. Baseline regression fails, focused3/3, native4/4 and stable full563/563 pass. WEBP-CARD-20260930.md owns exact evidence. Candidate delivery is next; whole-goal gates remain open.

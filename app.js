@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.17';
+const APP_VERSION = '1.22.0-rc.18';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -5158,6 +5158,9 @@ function installCardSelectionGestures(button, file) {
 function createFileCard(file, index = 0, absoluteIndex = index) {
   const isVideo = file.mimeType?.startsWith('video/');
   const isGif = isGifFile(file);
+  const isWebp = String(file.mimeType || '').toLowerCase() === 'image/webp'
+    || /\.webp$/i.test(String(file.name || ''));
+  const useStaticImageThumbnail = isGif || isWebp;
   const canDownload = file.capabilities?.canDownload !== false;
   const card = document.createElement('article');
   card.className = 'file-card';
@@ -5176,11 +5179,11 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
   
-  if (isGif) {
+  if (useStaticImageThumbnail) {
     const placeholder = document.createElement('div');
     placeholder.className = 'file-card-gif-placeholder';
     placeholder.setAttribute('aria-hidden', 'true');
-    placeholder.innerHTML = '<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="14" width="40" height="36" rx="8" stroke="currentColor" stroke-width="2"/><path d="m18 43 10-10 7 7 6-6 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="25" r="4" fill="currentColor"/></svg><span>GIF</span>';
+    placeholder.innerHTML = `<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="14" width="40" height="36" rx="8" stroke="currentColor" stroke-width="2"/><path d="m18 43 10-10 7 7 6-6 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="25" r="4" fill="currentColor"/></svg><span>${isGif ? 'GIF' : 'WEBP'}</span>`;
     visual.appendChild(placeholder);
     if (file.thumbnailLink) {
       const canvas = document.createElement('canvas');
