@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "version": "1.22.0-rc.25",
+  "priorExpressionSHA256": "2476792c4e75747af37c0d7b472791d723039fe785ac315c50f45272b895b183",
+  "expressionSHA256": "b64dec9ac102ea77893422d667f6deccf08f88957b6913ea0151169117cf00b7",
+  "parentLogicPreservedExceptVersionAndSchema": true,
+  "appEqualsFixed24ExceptVersion": true,
+  "originalFencesUnchanged": true,
+  "diagnosticCapMs": 10000,
+  "extendedCapMs": 60000,
+  "expectedLocalInputs": {
+    "sw-proof.expression.js": "33f88d6e79ba44f5e6f6960147f31525d144e20cd0e3577097f640b2cec471f1",
+    "factory.expression.js": "92cfd5340b77e0a83720315f46d95c35d5fbf5204f6e7955f69a95294f042f16",
+    "observer.expression.js": "366a4b7774452a887b08d698fe4dd5c54872ddc08c3024a778ae3ffb7902afc9",
+    "future-stage-owner-fields.expression.js": "b64dec9ac102ea77893422d667f6deccf08f88957b6913ea0151169117cf00b7"
+  },
+  "browserRequestsByPreparation": 0,
+  "localChecks": [
+    "parent exact hash",
+    "fixed25 app differs only version",
+    "generated expression syntax",
+    "fixed performance hash",
+    "generated local file bridge syntax"
+  ]
+}

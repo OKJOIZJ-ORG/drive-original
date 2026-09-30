@@ -1,0 +1,277 @@
+{
+  "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "startedAt": "2026-09-30T19:08:25.262Z",
+  "finishedAt": "2026-09-30T19:08:33.784Z",
+  "exitCode": 0,
+  "signal": null,
+  "errorCode": null,
+  "passed": true,
+  "workerVersion": "ef1d3975-4530-4721-acc1-a2be201afc1b",
+  "stable": true,
+  "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 50974,
+      "sha256": "0932a280a5e3ec711d9324f1d36603c680d2ad2e89f750012f8551ec00d81d21"
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "sha256": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a"
+    },
+    {
+      "file": "app.js",
+      "bytes": 491291,
+      "sha256": "277a2a0788271485d4b40f4ebe1d68df08173f0223466e1386ac0dabd6f49019"
+    },
+    {
+      "file": "styles.css",
+      "bytes": 84359,
+      "sha256": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc"
+    },
+    {
+      "file": "sw.js",
+      "bytes": 69233,
+      "sha256": "0a8a06b2254da4c36d61fb43f7ebe6d2dd28c4f6c1f01869942c97ab0ba7c3fd"
+    },
+    {
+      "file": "version.json",
+      "bytes": 280,
+      "sha256": "c026a5da281e5aabb06e0ca97c66d4e8cd0ff590da39cb85da15627e5301de20"
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "sha256": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2"
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "sha256": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1"
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "sha256": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99"
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "sha256": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f"
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "sha256": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7"
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "sha256": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061"
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 14557,
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "file": "media/revision-pin.js",
+      "bytes": 10050,
+      "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 17049,
+      "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 51322,
+      "sha256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8"
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42098,
+      "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "bytes": 5082,
+      "sha256": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d"
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "bytes": 1666,
+      "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "bytes": 6692,
+      "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2"
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "bytes": 9976,
+      "sha256": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055"
+    },
+    {
+      "file": "media/general-player.mjs",
+      "bytes": 19593,
+      "sha256": "3d3820692114a3970e46a8ab3070df62bafa7a4f36d54b3e021a17e11833b3e7"
+    },
+    {
+      "file": "media/general-source.mjs",
+      "bytes": 3765,
+      "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec"
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "bytes": 6090,
+      "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "bytes": 3228,
+      "sha256": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43"
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "bytes": 686739,
+      "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "bytes": 16726,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "bytes": 2955,
+      "sha256": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9"
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "bytes": 17504,
+      "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "bytes": 3392,
+      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+    },
+    {
+      "file": "licenses/index.html",
+      "bytes": 4852,
+      "sha256": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829"
+    },
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "bytes": 457141,
+      "sha256": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5"
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "bytes": 4212,
+      "sha256": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0"
+    },
+    {
+      "file": "licenses/audio-source-manifest.json",
+      "bytes": 8661,
+      "sha256": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6"
+    },
+    {
+      "file": "licenses/audio-source-reconstruct.cjs",
+      "bytes": 958,
+      "sha256": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "bytes": 8388608,
+      "sha256": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "bytes": 8388608,
+      "sha256": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "bytes": 8388608,
+      "sha256": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part004",
+      "bytes": 8388608,
+      "sha256": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part005",
+      "bytes": 8388608,
+      "sha256": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part006",
+      "bytes": 8388608,
+      "sha256": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531"
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part007",
+      "bytes": 3266263,
+      "sha256": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+    },
+    {
+      "file": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "rawLogSha256": "a36a3a7e10c9301b888ec2aaba1440696eb0054244b16e122def9912aec52ca6",
+  "producerSha256": "2ad4bb96cdce5054085c72cea896b09c636aa6c6469dc762e5f489121149aa8b",
+  "scope": "Authorized free candidate only; global Drive mutations disabled, no production/main/push/automation/original-media changes"
+}

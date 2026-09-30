@@ -1,0 +1,38 @@
+{
+  "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "version": "1.22.0-rc.25",
+  "producerSha256": "1efe7aca5a8ecde8e100a06e3ae066a22b4d33e463cd335b25ccf9ca1e620069",
+  "derived": [
+    {
+      "file": "deploy-candidate.cjs",
+      "sha256": "2ad4bb96cdce5054085c72cea896b09c636aa6c6469dc762e5f489121149aa8b",
+      "inheritedSha256": "e89c1f0d77efb5641f7ddd36f8b41cd4eba1a763e38fd3d3125e818d36f4c705"
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "eb45398d2a1bec81d72c0800c2527912390be9c22d1d1366e592b2dca5942510",
+      "inheritedSha256": "0d70cda828720fb744878a8f5bda8a42c2624375f8794d5ba7b148833e2d7ed6"
+    },
+    {
+      "file": "redact-readback.cjs",
+      "sha256": "6209f36aadbfe4307d4ae160682f404a8acb4711c8d56594bbd2486ed64f9286",
+      "inheritedSha256": "41f8f39cf9e7d4604ca708ceb949f42115651b4b4a15eafb6a3c69355753d3b1"
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "sha256": "d1e1ec12feb3ab03de84ce0182fc465f8d39cb690abcf594aff3825197f5c462",
+      "inheritedSha256": "346ff4615bb28453b552bfde3a1b6f45a0b27a29cb2a334a5df77f77d22d8a1b"
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "sha256": "d2a4a5e56677d48ad13fc450ef81d862eab0645ea400caa73d1c159675c27137",
+      "inheritedSha256": "c6f84f5d1fa9dbb0a91c08411006955409e8ed783617b3031c4cd353beb82acb"
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "sha256": "e76156a38c546657dbcd6d7ad26bf43e4e455665adc96a5773baf6cceb4073ac",
+      "inheritedSha256": "e300bedacdf745c0618a40754cb1bb3f6a605cb50d6d34a3f6ba429985f50d79"
+    }
+  ],
+  "scope": "New exact-source free candidate25 producers from preserved corrected24; no production deployment"
+}

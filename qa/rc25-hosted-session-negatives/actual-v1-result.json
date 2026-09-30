@@ -1,0 +1,38 @@
+{
+  "schema":"drive-original.rc25-hosted-session-actual/1",
+  "sourceCommit":"7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "version":"1.22.0-rc.25",
+  "expressionSHA256":"b64dec9ac102ea77893422d667f6deccf08f88957b6913ea0151169117cf00b7",
+  "actualExecution":true,
+  "sourceProof":{"accepted":true,"sourcePinned":true,"staticAssetGET":4,"mediaGET":0,"metadataGET":0,"activatedControllerStable":true},
+  "diagnostic":{"complete":true,"status":409,"errorCode":"stale_revision","requests":1,"headerElapsedMs":479.1,"bodyElapsedMs":0.8,"totalElapsedMs":480.5,"receivedBodyBytes":53,"requestCapMs":10000,"bodyCapBytes":4096,"errorSchema":true,"headerContract":true,"ownerPreserved":true,"ownerMismatchFields":[],"extendedEligible":true},
+  "extended":{
+    "complete":true,"ownerPreserved":true,"ownerMismatchFields":[],
+    "sessionAcceptedBefore":true,"sessionAcceptedAfter":true,
+    "cases":[
+      {"name":"session-before","status":409,"errorCode":"client_update_required","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"expected-account-mismatch","status":409,"errorCode":"account_mismatch","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"future-revision","status":409,"errorCode":"stale_revision","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"invalid-revision","status":400,"errorCode":"bad_request","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"unknown-field","status":400,"errorCode":"bad_request","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"malformed-json","status":400,"errorCode":"bad_request","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"query-rejected","status":400,"errorCode":"bad_request","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"missing-csrf","status":403,"errorCode":"forbidden","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"wrong-csrf","status":403,"errorCode":"forbidden","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"omitted-session","status":401,"errorCode":"unauthorized","errorSchema":true,"headerContract":true,"passed":true},
+      {"name":"session-after","status":409,"errorCode":"stale_revision","errorSchema":true,"headerContract":true,"passed":true}
+    ]
+  },
+  "strictOwnerFields":27,
+  "totalRejectedRequests":12,
+  "fencesRelaxed":false,
+  "cookieHeaderDirectlyObservable":false,
+  "hostedOriginMismatchVerified":false,
+  "successfulCredentialResponseRequested":false,
+  "realRevisionReplayRequested":false,
+  "logoutRefreshGrantOrCookieMutationRequested":false,
+  "driveOrMediaRequests":0,
+  "privateValuesExported":false,
+  "earlierRc24FailuresResolvedCausally":false,
+  "scope":"Actual same-origin existing-session denial checks with private auth/account/controller/projection owner comparison; not full hosted security, cookie-byte, raw-storage or cross-origin proof"
+}

@@ -28,6 +28,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC25-20261001.md`: fixed7ba free candidate25 delivery/650 checks; safe native retention and remaining audio-only-tail endpoint failure, reused-context network discriminator and exact ZIP.
+
 - `CANDIDATE-RC24-20261001.md`: fixed8a free candidate24 delivery/package643 tests; actual natural continuity and broader acceptance remain separate.
 
 - `CLEANUP-20260927.md`: recoverable generated-output cleanup, preserved data, regeneration and exact archive recovery; product work remains paused.

@@ -1,0 +1,14 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const {execFileSync}=require('node:child_process');
+const [commit,version]=process.argv.slice(2),root=path.resolve(__dirname,'../..');
+assert.match(commit??'',/^[a-f0-9]{40}$/);assert.match(version??'',/^1\.22\.0-rc\.\d+$/);
+assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),commit);
+const hashes=Object.fromEntries(['app.js','sw.js','version.json'].map(k=>[k,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,k))).digest('hex')]));
+for(const k of Object.keys(hashes))assert.equal(crypto.createHash('sha256').update(execFileSync('git',['show',`${commit}:${k}`],{cwd:root,maxBuffer:4*1024**2})).digest('hex'),hashes[k]);
+assert.equal(JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')).version,version);
+const binding={sourceCommit:commit,version,sourceSHA256:hashes};
+const factory=fs.readFileSync(path.join(__dirname,'observer.function.js'),'utf8');
+fs.writeFileSync(path.join(__dirname,'observer.expression.js'),`(${factory})(${JSON.stringify(binding)},window.__driveNightCorpus.proof)\n`);
+fs.writeFileSync(path.join(__dirname,'binding.json'),JSON.stringify(binding,null,2)+'\n');
+console.log(JSON.stringify({binding,observerSHA256:crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'observer.expression.js'))).digest('hex')}));

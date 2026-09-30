@@ -1,0 +1,13 @@
+{
+  "attempt": "mcp__chrome_devtools__list_pages",
+  "passed": false,
+  "failure": "MCP_PROFILE_ALREADY_RUNNING",
+  "profile": "C:\\Users\\jbs\\.cache\\chrome-devtools-mcp\\chrome-profile",
+  "message": "The browser is already running for the MCP chrome-profile. Use --isolated to run multiple browser instances.",
+  "interpretation": "Root owns the already-running MCP server/profile; child server is a different instance and cannot attach via its tool.",
+  "retryPerformed": false,
+  "browserStopped": false,
+  "newChromeLaunched": false,
+  "originalMemoryFloorChanged": false,
+  "originalBlockedReportPreserved": "qa/candidate-rc25-delivery/audit-memory-guard.json"
+}

@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "worker": "ef1d3975-4530-4721-acc1-a2be201afc1b",
+  "checks": {
+    "publicFixedGit": 52,
+    "cache": 40,
+    "uncachedArchives": 8,
+    "private404": 6,
+    "bindings": 11,
+    "localTests": 650,
+    "preferredSourceHashes": 26,
+    "readableAdaptations": 6,
+    "packageBytes": 54782271,
+    "packageSHA256": "0e7562058f536d4d5216ca6f20c2373fa85706055656931a3a1fe934b830f564"
+  },
+  "metadataReview": {
+    "candidateRecordScopeConsistent": true,
+    "wholeGoalClaimedComplete": false,
+    "androidEndedClaimed": false,
+    "sourceReadinessTechnicalScopeOnly": true,
+    "freshContextProved": false,
+    "preNavigationInspectionExecuted": false,
+    "navigatorOnlineLimitationPreserved": true,
+    "originalNormalPCUpdateFailurePreserved": true
+  },
+  "excluded": [
+    "all *private* files",
+    "all raw .log files and product TAP body",
+    "release ZIP bytes",
+    "all active normal-update local server records/producers",
+    "pending26 public/code/test edits"
+  ],
+  "reviewedExternalEvidence": [
+    {
+      "path": "qa/rc21-android-night/105-rc25-native-synthetic-q2-420s-result.json",
+      "sha256": "2c50b4a06728aafe76c770df20b8c08dbd025be9c212c4b7f274991d0f1648ca",
+      "scope": "synthetic native Android4832frames/19removals/404.166666finalframe; endedfalse"
+    },
+    {
+      "path": "qa/rc21-android-night/107-rc25-native-fragment-discriminator-result.json",
+      "sha256": "e7447167b5b5958d4a167c4e3c900d1a1a8b668db7c105a67ecd12da578f65ba",
+      "scope": "native95percent fragment discriminator; finalknownaudio-only moof/mdat, completionfalse"
+    }
+  ],
+  "errors": [],
+  "scope": "Independent saved metadata/evidence consistency review; no browser/deploy/current pending26 behavioral verification",
+  "producerSha256": "42d9bd019b974a1a65c39ac9b1dd34e8db8951b2c3181f17f4169964e5f557ed"
+}

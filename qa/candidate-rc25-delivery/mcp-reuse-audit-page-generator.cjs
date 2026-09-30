@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),vm=require('node:vm');
+const here=__dirname,report=JSON.parse(fs.readFileSync(path.join(here,'mcp-reuse-audit-http.json'),'utf8'));
+assert(report.passed&&report.assets.length===52&&report.privateRoutes.length===6&&report.browserLaunched===false);
+const name=path.join(here,'mcp-reuse-audit-page.function.js');let source=fs.readFileSync(name,'utf8');
+assert(source.includes('const end=performance.now()+45000;'),'Run HTTP producer first to regenerate original page function');
+source=source.replace('const end=performance.now()+45000;',"const navStart=window.__mcpReuseDeliveryStarted;if(!Number.isFinite(navStart))throw Error('MCP_REUSE_INIT_REQUIRED');const end=navStart+45000;");
+source=source.replace("scope:'Existing MCP-managed anonymous context; first navigation timing is not fresh-context proof'", "firstNavigationMs:Math.round((performance.now()-navStart)*1000)/1000,scope:'Existing MCP-managed anonymous context; first navigation timing is not fresh-context proof'");
+vm.runInNewContext('('+source+')',{}, {timeout:1000});fs.writeFileSync(name,source);
+console.log(JSON.stringify({generated:true,firstNavigationBudgetMs:45000,httpBytesAlreadyVerified:true,newBrowser:false}));

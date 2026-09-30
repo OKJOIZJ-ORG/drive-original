@@ -641,3 +641,11 @@ Observed fixed24 actual PC same-Q1 natural renewal60→61 with one200 credential
 Android420s qualifiedsyntheticQ2 failedGENERAL_REMOVE_CURRENT_RANGE. Native95 discriminates: remove(0,0.593685) atcurrent8.593685/pre[0,39.094666],after8ms/post[18.333333,39.094666]/current8.604036 removed. Owner/controller/providerstable. Independentmediumchild ownsRAP-safe correction/focusedchecks. Syntheticdevice only, nooriginalmedia/audiofidelityqualification.
 
 Newcontentcontinuity representative cohort fresh61idleowner/sameprivatecapsule35. Hostedaggregate186requests/0errors/CPU2.177–6.223ms/metadata clausespreserved; null403effectiveobsbillingUNKNOWN. Wholequeueactive; no main/push/production/automation action.
+
+## 2026-10-01 05:38 — exact25 delivery, native diagnosis and user restart
+
+Observed fixed25 public52/cache40/eight archive exclusions/sixprivate404, exact52-entry ZIP and control11/source-readiness pass. Existing managed browser context reused; actual blocked uncached fetch after offline reload and restored200 distinguish network state despite navigator.onLine inconsistency. Fresh-context claim withheld. Hosted25 twelve denied requests pass unchanged27 owner fences; no credential success/media mutation.
+
+Android105 safe long-GOP pruning succeeds but known finalaudio-only fragment fails.107 raw discriminator supports narrow parser correction; author24 reported and independent append-error/cleanup counterexamples archived. Pending product paths require26/full/device endpoint proof. Android scoped longpress/nativeedge/inputediting passes; reducedmotion emulation only/rotation unknown. Old24 video-prefix151/2186 safe cohort summary saved separately from failedfirst64. Local normal24→25 native UI v3 passes289ms/controller40hashes; QA invocation/iframe-journal failures and actual signed-in first25 unknown cause remain preserved.
+
+User reported Codex error/forcequit/restart. Saved code/results intact; transient localserver/toolstores lost. Actual fresh same-browser PC25/account63/currentcontroller/closedplayer restored. Oldtab interrupted-helper cleanup unconfirmed; no personal profile/process/cache/cookie alteration. Resume whole authorized queue; no milestone stop or production/main/push/automation action.

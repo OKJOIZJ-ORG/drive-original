@@ -1,0 +1,339 @@
+{
+  "schema": "drive-original.fixed25-safe-savepoint-curation/1",
+  "source": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "worker": "ef1d3975-4530-4721-acc1-a2be201afc1b",
+  "files": [
+    {
+      "path": "media/audio-codec-build.json",
+      "sha256": "f2b7bd997fb4bd6ef76a66d9a9a1aba0179927fbe0456106618975c56232c56d",
+      "bytes": 7587
+    },
+    {
+      "path": "memory/CANDIDATE-RC25-20261001.md",
+      "sha256": "2626ca341960f1a326b7c83b32d7b0b709caccc538516bfc3f747fbb84f4cb2a",
+      "bytes": 3953
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/audit-memory-guard.json",
+      "sha256": "8415d609aaeefd7e37e379a76d317b6b12e811ee6fc3079323604194e1d9e88e",
+      "bytes": 511
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/audit-with-memory-guard.cjs",
+      "sha256": "e76156a38c546657dbcd6d7ad26bf43e4e455665adc96a5773baf6cceb4073ac",
+      "bytes": 1920
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/build-release.py",
+      "sha256": "eb45398d2a1bec81d72c0800c2527912390be9c22d1d1366e592b2dca5942510",
+      "bytes": 3620
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/curator.cjs",
+      "sha256": "42d9bd019b974a1a65c39ac9b1dd34e8db8951b2c3181f17f4169964e5f557ed",
+      "bytes": 8964
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/deploy-candidate.cjs",
+      "sha256": "2ad4bb96cdce5054085c72cea896b09c636aa6c6469dc762e5f489121149aa8b",
+      "bytes": 3471
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/deployment-v1-preflight-failure.json",
+      "sha256": "e094141ce8edb1aca2f0e36c2027eea35ae4299cdb895d867ed503686f25337c",
+      "bytes": 423
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/deployment-v2-preflight-failure.json",
+      "sha256": "69b8358f76cd02833e4b5c940f7efe9f589963bf351238cb23649a5484496fec",
+      "bytes": 534
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/deployment.json",
+      "sha256": "ee16e13d7fe000618b2fe8a90c5cf2ffff96ee767e8fee1e64375397d28f107c",
+      "bytes": 9068
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/finalize-source-readiness.py",
+      "sha256": "0e230dbe92416395c24c67b8e42b1b98f43d4b3f3a60b13f55c6f1ac38fd2cab",
+      "bytes": 5816
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-README.md",
+      "sha256": "ef0a383e9d2a96c2001880cefe8e258d1fe0c3c39423285dd61ca9b96bf25c7f",
+      "bytes": 6180
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-binding.json",
+      "sha256": "0d61a6a00964c271d090da39bd486e55fbc1feb0ab45978b578b50a6a03fbd5c",
+      "bytes": 6043
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-child-lock.json",
+      "sha256": "bbac81aafde1b05b27523cc51301b6767fee7f1156f1d24b545f8335300e6674",
+      "bytes": 671
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-cleanup-result.json",
+      "sha256": "69adfa4738872c495621d2d1b93501aa815600f68c81f22051561db12586c49c",
+      "bytes": 335
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-cleanup.function.js",
+      "sha256": "4b7b955a6202385df0cc6af910d06fdcecff797e42b52cadf0189b469be47876",
+      "bytes": 338
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-http.cjs",
+      "sha256": "8661c248a3cffe90576d8f0acba07f8a031e98a9437c1109c10ae7a05f0583ab",
+      "bytes": 5320
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-http.json",
+      "sha256": "47727c806a52aeb27dcd57dedf075bd6a51c02ef874e65e4b8422bb05157f36f",
+      "bytes": 10631
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-init.js",
+      "sha256": "4f0cc56b1442553d555a80bbb79baed371449f6c22271ec8a301d78d7dd2c239",
+      "bytes": 370
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-manifest.json",
+      "sha256": "c233d9598628650500d12d833c3e987f26774584c1c9cbe9f85456f819ccef57",
+      "bytes": 5325
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-merge.cjs",
+      "sha256": "089d119634189fa1c7796b7bcee4ef5e0c347192d01aca9f657369a46005b0e9",
+      "bytes": 5436
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-network.function.js",
+      "sha256": "0d921d689ee8ba7302e50ef79f3ebaa0ff76ba1e0166e55bc2ef4e6f072c6624",
+      "bytes": 1973
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v1-tool-failure.json",
+      "sha256": "b7fe504dea0aa35c4125bad8ddb8888bf2b1cfdcec0e40d6ac73045ab31cbcd2",
+      "bytes": 125
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v2-post-reload-read.json",
+      "sha256": "5a8d56b40a7ad75ccca6eb8d2b7a0550dd22aacffccaacd0dc20bcf2d33a70e2",
+      "bytes": 316
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v2-pre-reload-probe.json",
+      "sha256": "02a9943d026fa1d590b86eb55d3b277297df5d5a006fccb32fcdd71ad47775fd",
+      "bytes": 467
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v3-tool-failure.json",
+      "sha256": "b7fe504dea0aa35c4125bad8ddb8888bf2b1cfdcec0e40d6ac73045ab31cbcd2",
+      "bytes": 125
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v4-discriminator.json",
+      "sha256": "94935f8f610ba3b75102c642bc07a5b1c11ba0ffec0ff8dc539a5a824310847f",
+      "bytes": 396
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-offline.function.js",
+      "sha256": "78b82dba1bf7b5296f41a98582bfbdc8ccddf41319bae93d381750457eae81c1",
+      "bytes": 966
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-online-control.json",
+      "sha256": "759aaaf89377a44b9201c73e51bb7b1f377bd5784ecac19a37cc44f373c726c7",
+      "bytes": 299
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-page-generator.cjs",
+      "sha256": "32ac852ca38c584023218d113b0a7bbc89c3c700a2f3d728f37c172440575e55",
+      "bytes": 1292
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-page-result.json",
+      "sha256": "a07cc8d18a72e491baa4acebd45a3ab4d0b7fdb1f687b02395839849c5b53e2e",
+      "bytes": 7673
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-page.function.js",
+      "sha256": "1d82d9305f01c2a405aff224a89baf947092a693e7a6608b5e931ea90a07ab61",
+      "bytes": 7015
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-preflight.function.js",
+      "sha256": "819f94b7d9326f5696f0f127e9065915223f6e5fc3e6f4e25912743d12b5c307",
+      "bytes": 909
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-verification.json",
+      "sha256": "08023105990107b4eb049dc5126356dad7fbe513fc795660a13c10640999a8be",
+      "bytes": 295
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-verify.cjs",
+      "sha256": "253bef2fa910c621ff0b6e986dfe7f76f74f8b9e8f1476c489cafc09107f3876",
+      "bytes": 2276
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/metadata-review-summary.json",
+      "sha256": "a8a9604fe33b7810db64898f5f548a2a3b0f886a58ca873b80e72f9f0ed4809d",
+      "bytes": 1894
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/package.json",
+      "sha256": "9b805af53457a70f954592b4ef65272d3bc3b714ead8eff9e3a78c53a5f23bda",
+      "bytes": 876
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/preparation.json",
+      "sha256": "d20e9e8255053ee44338c980403215aeef3b9fbe43a927528daa908462f3bf2f",
+      "bytes": 1680
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/prepare-delivery.cjs",
+      "sha256": "1efe7aca5a8ecde8e100a06e3ae066a22b4d33e463cd335b25ccf9ca1e620069",
+      "bytes": 1652
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/product-tests.json",
+      "sha256": "5833411a3bde39d8de53aa83bc4b30a638e8d40c7b834bb2205761c7944234ec",
+      "bytes": 26193
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/readback-candidate.cjs",
+      "sha256": "d2a4a5e56677d48ad13fc450ef81d862eab0645ea400caa73d1c159675c27137",
+      "bytes": 1282
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/redact-readback.cjs",
+      "sha256": "6209f36aadbfe4307d4ae160682f404a8acb4711c8d56594bbd2486ed64f9286",
+      "bytes": 2109
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/redacted-readback.json",
+      "sha256": "4b94372d0628d1127782f757492e278728031c5a3aa893c6c685a7c73ad94a63",
+      "bytes": 1624
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/results.json",
+      "sha256": "82e44a93ed6fe285baf353beb5b9881acd69a3189781772839a64ddf3173c303",
+      "bytes": 22639
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/run-product-tests.cjs",
+      "sha256": "9ba3f1832d24d0c74811cc4e533769ba397b6a0e7720e707b31b22e9934c5002",
+      "bytes": 2213
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/source-readiness-v1-failure.json",
+      "sha256": "643ca894283f99a4ff49f335bb72cbd4194b712562dce98bf3fbef4f0f6f8d61",
+      "bytes": 461
+    },
+    {
+      "path": "qa/candidate-rc25-delivery/source-readiness.json",
+      "sha256": "80c25a4f2992906be58b849aabce291de95798f6f97cb3833c6fc2218a5bb0f4",
+      "bytes": 8978
+    },
+    {
+      "path": "qa/night-environment-20260930/preflight.cjs",
+      "sha256": "d399de96eabbd582777b2a29bf078f5a1ce8ecd08547e34ce5253deb9fc0956f",
+      "bytes": 5308
+    },
+    {
+      "path": "qa/rc25-pc-update-qualification/normal-update-v1-result.json",
+      "sha256": "1695c837cba7a502ed0c6a5e7b544b6d1d3ff4bff380626f0900d2502e311326",
+      "bytes": 1106
+    },
+    {
+      "path": "scripts/build-pages.cjs",
+      "sha256": "b9f6e914d8925fa4c168f7299c903e18ecc5623d5ce7e636d5b3911f704e06f0",
+      "bytes": 952
+    },
+    {
+      "path": "scripts/materialize-committed-pages.cjs",
+      "sha256": "e7fb349cc091a1c64a5e807b3b75306c86374d8c9c345eb94be83ffec1e91e48",
+      "bytes": 6490
+    },
+    {
+      "path": "scripts/public-files.cjs",
+      "sha256": "2e7810bea39f787ec2fa3d4d503d0ddd575fc8d2c355b529c9e9040f86faf8bc",
+      "bytes": 1613
+    }
+  ],
+  "exactPathsForStaging": [
+    "media/audio-codec-build.json",
+    "memory/CANDIDATE-RC25-20261001.md",
+    "qa/candidate-rc25-delivery/audit-memory-guard.json",
+    "qa/candidate-rc25-delivery/audit-with-memory-guard.cjs",
+    "qa/candidate-rc25-delivery/build-release.py",
+    "qa/candidate-rc25-delivery/curated-savepoint.json",
+    "qa/candidate-rc25-delivery/curator.cjs",
+    "qa/candidate-rc25-delivery/deploy-candidate.cjs",
+    "qa/candidate-rc25-delivery/deployment-v1-preflight-failure.json",
+    "qa/candidate-rc25-delivery/deployment-v2-preflight-failure.json",
+    "qa/candidate-rc25-delivery/deployment.json",
+    "qa/candidate-rc25-delivery/finalize-source-readiness.py",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-README.md",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-binding.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-child-lock.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-cleanup-result.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-cleanup.function.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-http.cjs",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-http.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-init.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-manifest.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-merge.cjs",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-network.function.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v1-tool-failure.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v2-post-reload-read.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v2-pre-reload-probe.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v3-tool-failure.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline-v4-discriminator.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-offline.function.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-online-control.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-page-generator.cjs",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-page-result.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-page.function.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-preflight.function.js",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-verification.json",
+    "qa/candidate-rc25-delivery/mcp-reuse-audit-verify.cjs",
+    "qa/candidate-rc25-delivery/metadata-review-summary.json",
+    "qa/candidate-rc25-delivery/package.json",
+    "qa/candidate-rc25-delivery/preparation.json",
+    "qa/candidate-rc25-delivery/prepare-delivery.cjs",
+    "qa/candidate-rc25-delivery/product-tests.json",
+    "qa/candidate-rc25-delivery/readback-candidate.cjs",
+    "qa/candidate-rc25-delivery/redact-readback.cjs",
+    "qa/candidate-rc25-delivery/redacted-readback.json",
+    "qa/candidate-rc25-delivery/results.json",
+    "qa/candidate-rc25-delivery/run-product-tests.cjs",
+    "qa/candidate-rc25-delivery/source-readiness-v1-failure.json",
+    "qa/candidate-rc25-delivery/source-readiness.json",
+    "qa/night-environment-20260930/preflight.cjs",
+    "qa/rc25-pc-update-qualification/normal-update-v1-result.json",
+    "scripts/build-pages.cjs",
+    "scripts/materialize-committed-pages.cjs",
+    "scripts/public-files.cjs"
+  ],
+  "excluded": [
+    "all *private* files",
+    "all raw .log files and product TAP body",
+    "release ZIP bytes",
+    "all active normal-update local server records/producers",
+    "pending26 public/code/test edits"
+  ],
+  "packageReferenceOnly": {
+    "path": "releases/candidates/Drive-Original-1.22.0-rc.25-7ba8e65.zip",
+    "bytes": 54782271,
+    "sha256": "0e7562058f536d4d5216ca6f20c2373fa85706055656931a3a1fe934b830f564"
+  },
+  "currentProductWorktreeComparedToFixed25": false,
+  "pending26ProductPathsPreserved": true,
+  "activeLocalServerExcluded": true,
+  "originalNormalPCFailurePreserved": true,
+  "metadataReview": "qa/candidate-rc25-delivery/metadata-review-summary.json"
+}

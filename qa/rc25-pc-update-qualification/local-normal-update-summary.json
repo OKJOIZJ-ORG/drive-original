@@ -1,0 +1,51 @@
+{
+  "schema": "drive-original.local-normal-update-summary/1",
+  "passed": true,
+  "source24": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "source25": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "nativeChrome": "154.0.8037.58",
+  "immediateMemoryGuard": {
+    "freePhysicalKiB": 3740964,
+    "freeVirtualKiB": 3489984,
+    "physicalFloorKiBExclusive": 1048576,
+    "virtualFloorKiBExclusive": 1572864,
+    "passed": true
+  },
+  "initial24ControllerAnd40CacheHashes": true,
+  "new25ShellActivatedBeforeBanner": [
+    "drive-original-shell-1.22.0-rc.25"
+  ],
+  "final25ControllerAnd40CacheHashes": true,
+  "bannerToFinalMs": 289,
+  "topLevelDocumentOrdinal": 2,
+  "trustedCheckClicks": 1,
+  "trustedBannerClicks": 1,
+  "pageErrors": [],
+  "expectedHeaderCspConsoleErrors": 2,
+  "otherConsoleErrorsUnclassified": 2,
+  "cleanup": {
+    "journalReleased": true,
+    "browserClosed": true,
+    "serverStopped": true
+  },
+  "preservedFailures": [
+    "v1 function-string not invoked; QA TypeError before normal update",
+    "v2 actual readiness passed but inherited about:blank iframe clobbered session journal; QA aggregate failure",
+    "earlier MCP initial Failedfetch remains independently unknown"
+  ],
+  "runtimeInterruption": {
+    "status": "reported by user through coordinator",
+    "event": "Codex error, force quit, restart",
+    "explains": "Observed tool/runtime continuity loss",
+    "doesNotExplain": "Earlier initial Failedfetch; no product cause established"
+  },
+  "qualification": "Fresh anonymous local native Chrome normal update only",
+  "actualSignedInPCFirstFailureResolved": false,
+  "physicalDeviceOrMediaAcceptance": false,
+  "noProductEdit": true,
+  "limits": [
+    "Local CSP blocks external resources; two other console errors unclassified",
+    "No account, Google media, actual physical output or production proof",
+    "Journal v2 permits loopback HTTP only; candidate HTTPS needs its own explicit owner fence"
+  ]
+}

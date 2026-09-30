@@ -1,0 +1,80 @@
+{
+  "schema": "drive-original.rc25-binding-local-verification/1",
+  "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.25",
+    "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+    "sourceSHA256": {
+      "app.js": "277a2a0788271485d4b40f4ebe1d68df08173f0223466e1386ac0dabd6f49019",
+      "sw.js": "0a8a06b2254da4c36d61fb43f7ebe6d2dd28c4f6c1f01869942c97ab0ba7c3fd",
+      "version.json": "c026a5da281e5aabb06e0ca97c66d4e8cd0ff590da39cb85da15627e5301de20"
+    }
+  },
+  "expressionSHA256": "92cfd5340b77e0a83720315f46d95c35d5fbf5204f6e7955f69a95294f042f16",
+  "swProofSHA256": "33f88d6e79ba44f5e6f6960147f31525d144e20cd0e3577097f640b2cec471f1",
+  "files": {
+    "binding.json": "b2bfbd00ea32b01797e9a654c0c4d97cd331a323dd8481e946c228d995e64200",
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+    "probe.mjs": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "build.mjs": "306ac32e347573ae103a89898a832be3698fdb1e591239cf0e70e6c344d0ce18",
+    "bind-source.mjs": "895bf050e7f400d25d8001b2b3b89c7e988e0cf9b69444f2422bf0aa94a78af2",
+    "probe.test.mjs": "cabfae5695af582249336c9151eb2f6164fa66c3e2cacdf3b44b19e947397a32",
+    "factory.expression.js": "92cfd5340b77e0a83720315f46d95c35d5fbf5204f6e7955f69a95294f042f16",
+    "sw-proof.expression.js": "33f88d6e79ba44f5e6f6960147f31525d144e20cd0e3577097f640b2cec471f1",
+    "provenance.json": "304e3e9ef6e081517f76ee27ab36a3fa66ea07d1849766c7e0986c8a5cbeb811",
+    "README.md": "d416d77f140facc5db15d054d213037f6d2676cfab06da8fb12890fd12947e42",
+    "verify.mjs": "9386bd021f03327947ad565a198bd55844df085c3ac67ec2909f5e582bbc4599",
+    "local-tests.tap": "d57fa5c261633cc5f335afa93221aec34582f3795387c44a829350c94685a1e1",
+    "inherited-contract-baseline.json": "07dd2c23ca3656e977c07a42d1eb4eb29f41b26d5c9fbed1ecde3589123eb34d"
+  },
+  "changedBindingCases": [
+    {
+      "name": "correct",
+      "passed": true,
+      "staticFixtureGETs": 4,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-version",
+      "passed": true,
+      "staticFixtureGETs": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-hash",
+      "passed": true,
+      "staticFixtureGETs": 2,
+      "actualRequests": 0
+    },
+    {
+      "name": "controller-changed",
+      "passed": true,
+      "staticFixtureGETs": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "prior-factory-opaque-handle-rejected",
+      "passed": true
+    }
+  ],
+  "focused": {
+    "reusedPassed": 23,
+    "executedThisUnit": false
+  },
+  "inheritedContracts": {
+    "reusedPassed": 139,
+    "executedThisUnit": false
+  },
+  "oldLogicUnchanged": true,
+  "synthetic500ObjectCarryProofReused": true,
+  "freshHeadChecksForCarry": 0,
+  "actualExecution": false,
+  "wholeCorpusComplete": false,
+  "productChanges": false,
+  "genericUpstreamCleanup": "unknown"
+}

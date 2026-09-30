@@ -1,0 +1,44 @@
+{
+  "schema": "drive-original.content-continuity-build/1",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.25",
+    "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+    "sourceSHA256": {
+      "app.js": "277a2a0788271485d4b40f4ebe1d68df08173f0223466e1386ac0dabd6f49019",
+      "sw.js": "0a8a06b2254da4c36d61fb43f7ebe6d2dd28c4f6c1f01869942c97ab0ba7c3fd",
+      "version.json": "c026a5da281e5aabb06e0ca97c66d4e8cd0ff590da39cb85da15627e5301de20"
+    }
+  },
+  "bound": true,
+  "producerSHA256": {
+    "../v2-07a-root-inventory/root-inventory.mjs": "cd51c75d6f1e9aaad9295ca2a7a84810951dc9293b916a84a9a1b770c94cbbbd",
+    "../v2-07a-root-inventory/drive-browser-adapter.mjs": "d23083d2df55f8dada924bb93527133222ea9ace68533b38fc8e0c5d8a605810",
+    "../v2-07a-representative-selection/representative-selector.mjs": "fe3e463608fb842b139a4d0b12ade4b2c3ad3d52c1d36f21ea7ebdc1fede3868",
+    "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000",
+    "../rc21-corpus-night/inventory-denominators.mjs": "2e4c614225e40589b4381f8d5e3b34d4eb6fc63422b45f3d496b8f3bdbee5a6f",
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+    "probe.mjs": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "binding.json": "b2bfbd00ea32b01797e9a654c0c4d97cd331a323dd8481e946c228d995e64200",
+    "build.mjs": "306ac32e347573ae103a89898a832be3698fdb1e591239cf0e70e6c344d0ce18"
+  },
+  "forkedSourceSHA256": {
+    "../rc22-corpus-headers/probe.mjs": "ca6e345a726cd10a8168c29dd76272dc57cac8c7874a23bc90aadd8f8175e5c5",
+    "../rc22-corpus-headers/continuity.mjs": "0c54c5c38d60f998cc02269d66bbf380c5474953f3981a977e20bf233f858fcc",
+    "../rc22-corpus-headers/build.mjs": "9e501acd9407694590873ea26c051105acdfe057c06c76f6df4d74ec1b0ea662",
+    "../rc22-corpus-headers/facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "../rc22-corpus-headers/sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "../rc22-corpus-headers/selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "../rc22-corpus-headers/inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db"
+  },
+  "carryAdmission": "same-current-complete-catalog-nonempty-monotonic-file-version-plus-prior-pre-post-immutable-proof",
+  "freshHeadChecksForCarry": 0,
+  "expressionSHA256": "92cfd5340b77e0a83720315f46d95c35d5fbf5204f6e7955f69a95294f042f16",
+  "swProofSHA256": "33f88d6e79ba44f5e6f6960147f31525d144e20cd0e3577097f640b2cec471f1",
+  "inheritedDiagnosticSHA256": "13e387655655e1f6559485fb00df84e91990bbb83a5104d85306874400945eff",
+  "actualExecution": false
+}

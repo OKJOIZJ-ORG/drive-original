@@ -160,25 +160,26 @@
     }
   ],
   "distributionEvidence": {
-    "sourceCommit": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
-    "workerVersion": "c57f634a-377d-487e-aa81-61875598dd1d",
+    "sourceCommit": "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+    "workerVersion": "ef1d3975-4530-4721-acc1-a2be201afc1b",
     "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
     "deliveryReport": {
-      "path": "qa/candidate-rc24-delivery/results.json",
-      "sha256": "598f7ae33b768564929850a3ceeff7d7fde47ae03b9caadbc102dda248bdc7a0"
+      "path": "qa/candidate-rc25-delivery/results.json",
+      "sha256": "82e44a93ed6fe285baf353beb5b9881acd69a3189781772839a64ddf3173c303"
     },
     "deploymentRecord": {
-      "path": "qa/candidate-rc24-delivery/deployment.json",
-      "sha256": "821eea6d923f77668a6554b36154380cbfdda9fc8a8395c063e6ccc31194cd11"
+      "path": "qa/candidate-rc25-delivery/deployment.json",
+      "sha256": "ee16e13d7fe000618b2fe8a90c5cf2ffff96ee767e8fee1e64375397d28f107c"
     },
     "controlPlaneRecord": {
-      "path": "qa/candidate-rc24-delivery/redacted-readback.json",
-      "sha256": "24b172ce273fdd4c75652a3b9323057c3bb5cd2fe737eeae2b5a1ae2fe0ba8de"
+      "path": "qa/candidate-rc25-delivery/redacted-readback.json",
+      "sha256": "4b94372d0628d1127782f757492e278728031c5a3aa893c6c685a7c73ad94a63"
     },
     "auditProducer": {
-      "path": "qa/candidate-delivery-audit.cjs",
-      "sha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
+      "path": "qa/candidate-rc25-delivery/mcp-reuse-audit-merge.cjs",
+      "sha256": "089d119634189fa1c7796b7bcee4ef5e0c347192d01aca9f657369a46005b0e9"
     },
-    "scope": "Technical same-candidate runtime/notice/preferred-source delivery only; no production, patent, device or broad-format qualification"
+    "freshContextProved": false,
+    "scope": "Technical same-candidate runtime/notice/preferred-source delivery with reused anonymous MCP context and discriminated blocked-network reload; no fresh-context, production, patent, device or broad-format qualification"
   }
 }

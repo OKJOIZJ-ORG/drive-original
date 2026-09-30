@@ -1,0 +1,74 @@
+{
+  "schema": "drive-original.actual-video-cohort-summary/1",
+  "sourceGit": "8a2894ee2c7aa85c9cb2ff992879f4580e15e2e7",
+  "candidateVersion": "1.22.0-rc.24",
+  "capturedAt": "2026-09-30T19:32:56.789Z",
+  "producer": "window.__driveNightCorpus.journal ordinals2–4; compact allowlisted projection through authenticated tab275139232 Runtime.evaluate",
+  "scope": "bounded-prefix-only-current-canonical-corpus",
+  "videoUnionDenominator": 2186,
+  "physicalFileCount": 8596,
+  "prefixBytesPerCompleteFile": 940,
+  "freshHeadChecksForCarry": 0,
+  "wholeCorpusComplete": false,
+  "decoded": 0,
+  "playback": 0,
+  "physicalDevice": 0,
+  "writeRequests": 0,
+  "cohorts": [
+    {
+      "ordinal": 2,
+      "observedAt": "2026-09-30T18:44:05.507Z",
+      "complete": false,
+      "failure": "CLEANUP_FAILED",
+      "catalogStable": false,
+      "released": true,
+      "carriedImmutableByCatalog": 23,
+      "planned": 64,
+      "completedPrefixes": 63,
+      "cohortKindCounts": {"webm":2,"iso-bmff":54,"mpeg-ts":7,"unknown":1},
+      "failedSample": {"sample":"sample-56","kind":"unknown","failure":"HEADER_TIMEOUT","mediaRequests":1,"mediaBytes":0},
+      "metadataRequests": 251,
+      "metadataBytes": 22873127,
+      "mediaRequests": 64,
+      "mediaBytes": 59220,
+      "metadataDiagnostic": {
+        "completed":250,"failed":1,"maxResponseBytes":319784,
+        "routeCounts":{"about":9,"list":104,"file":138},
+        "lastFailure":{"ordinal":251,"phase":"inventory-after","route":"file","responseLimitBytes":2097152,"requestMs":25000,"stage":"headers","status":null,"receivedBytes":0,"runReceivedBytes":22873127,"code":"OWNER_CHANGED","errorKind":"Error","abortSource":null,"childAborted":false,"bodyFinished":false},
+        "lastCleanupFailure":{"ordinal":251,"phase":"inventory-after","route":"file","responseLimitBytes":2097152,"requestMs":25000,"cleanupStage":"response-body-cancel","nativeErrorKind":"Error","code":"CLEANUP_FAILED","originalTrigger":"OWNER_CHANGED","childAborted":true}
+      },
+      "carryPromoted": false,
+      "ownerChangeCause": "unknown"
+    },
+    {
+      "ordinal":3,"observedAt":"2026-09-30T18:51:12.650Z",
+      "complete":true,"failure":null,"catalogStable":true,"released":true,
+      "carriedImmutableByCatalog":23,"freshPerFileChecked":64,
+      "classified":87,"failed":0,"ineligible":0,"unattempted":2099,
+      "unknownSignatures":1,"deeperMetadataUnprobed":87,
+      "kindCounts":{"mpeg-ts":22,"iso-bmff":61,"unknown":1,"webm":3},
+      "cohortKindCounts":{"webm":2,"iso-bmff":55,"mpeg-ts":7},
+      "metadataRequests":252,"metadataBytes":22873428,"mediaRequests":64,"mediaBytes":60160,
+      "metadataDiagnostic":{"completed":252,"failed":0,"maxResponseBytes":319784,"routeCounts":{"about":10,"list":104,"file":138},"lastFailure":null,"lastCleanupFailure":null}
+    },
+    {
+      "ordinal":4,"observedAt":"2026-09-30T19:04:29.117Z",
+      "complete":true,"failure":null,"catalogStable":true,"released":true,
+      "carriedImmutableByCatalog":87,"freshPerFileChecked":64,
+      "classified":151,"failed":0,"ineligible":0,"unattempted":2035,
+      "unknownSignatures":1,"deeperMetadataUnprobed":151,
+      "kindCounts":{"mpeg-ts":29,"iso-bmff":116,"unknown":1,"webm":5},
+      "cohortKindCounts":{"iso-bmff":55,"webm":2,"mpeg-ts":7},
+      "metadataRequests":252,"metadataBytes":22873416,"mediaRequests":64,"mediaBytes":60160,
+      "metadataDiagnostic":{"completed":252,"failed":0,"maxResponseBytes":319784,"routeCounts":{"about":10,"list":104,"file":138},"lastFailure":null,"lastCleanupFailure":null}
+    }
+  ],
+  "limitations": {
+    "rawPrivateContextExported":false,
+    "fullJournalFilesExported":false,
+    "contentClassificationIsDecoderProof":false,
+    "providerTransactionalSnapshotGuaranteed":false,
+    "crossFactoryRc25CarryImported":false,
+    "countsMayBeSummedAcrossCandidates":false
+  }
+}
