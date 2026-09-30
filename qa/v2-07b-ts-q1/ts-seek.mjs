@@ -9,22 +9,26 @@ const align = value => Math.floor(value/188)*188;
 const anchor = ({offset,pts,dts}) => ({offset,pts,dts});
 
 // QA-only bounded sample search. read owns authenticated source identity,
-// generation, cancellation, deadlines and transport limits. No raw TS escapes.
+// generation, cancellation, deadlines and transport limits. The returned plan
+// is metadata-only. An optional synchronous onInput consumer may bootstrap the
+// admitted head/selected window before bounded probe copies are released.
 // A sampled timeline is only a candidate: unseen clock epochs/format changes,
 // complete pictures, decoder preroll and playable seek slices remain unproven.
-export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,windowBytes=524144,maxWindows=12 } = {}) {
+export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,windowBytes=524144,maxWindows=12,onInput=null } = {}) {
   demand(typeof read === 'function' && Number.isSafeInteger(sourceSize) && sourceSize > 0 && sourceSize%188 === 0,
     'SEEK_OPTIONS');
   const absolute=positionSeconds!==undefined;
   demand((absolute? fraction===undefined&&Number.isFinite(positionSeconds)&&positionSeconds>=0:
     Number.isFinite(fraction)&&fraction>0&&fraction<1) && Number.isSafeInteger(windowBytes)
     && windowBytes >= 188 && windowBytes <= 1024*1024 && windowBytes%188 === 0
-    && Number.isInteger(maxWindows) && maxWindows >= 1 && maxWindows <= 16, 'SEEK_OPTIONS');
+    && Number.isInteger(maxWindows) && maxWindows >= 1 && maxWindows <= 16
+    && (onInput===null || typeof onInput==='function'), 'SEEK_OPTIONS');
   const width = Math.min(windowBytes,sourceSize), cache = new Map(), windows = [];
   const widest=Math.min(align(1024*1024),sourceSize);
   const key=(start,length=width)=>`${start}:${length}`;
   let topology = null, sourceSps = null, sourcePps = null, audioConfig = null, step = null;
   let firstAudioPts = null;
+  try {
 
   function inspectPsi(bytes, required) {
     const psi = createPsiStream(); let found = null, started = false;
@@ -101,7 +105,7 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
       audioConfig={sampleRate:result.audio[0].sampleRate,channels:result.audio[0].channels};
     }
     validate(result);
-    const item={start,end,result};cache.set(key(start,length),item);validateSampleOrder();
+    const item={start,end,result,bytes:onInput?bytes:null};cache.set(key(start,length),item);validateSampleOrder();
     windows.push({start,end,bytes:length,videoAnchors:result.video.length,audioAnchors:result.audio.length,
       firstVideoDts:result.video[0].dts,lastVideoDts:result.video.at(-1).dts,topologyReobserved:Boolean(observed)});
     return item;
@@ -184,11 +188,26 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
     }
   }
   const {rap,group,item,prior,following}=found;
-  return {topology:{...topology},sourceSize,timeline,targetTicks,
+  const plan={topology:{...topology},sourceSize,timeline,targetTicks,
     rap:{offset:rap.offset,end:rap.end,pts:rap.pts,dts:rap.dts,sps:Uint8Array.from(rap.sps),pps:Uint8Array.from(rap.pps)},
     local:{windowStart:item.start,windowEndExclusive:item.end+1,videoFrames:group.count,
       before:anchor(prior),after:anchor(following),followingRap:group.next?anchor(group.next):null,
       sourceClockPreserved:true,completePicturesVerified:false,decodeStartSliceVerified:false},
     windows:windows.map(row=>({...row})),readBytes:windows.reduce((sum,row)=>sum+row.bytes,0),
     scope:'bounded sampled RAP candidate with observed-clock/bracket evidence; not global timeline, exact duration, decoded seek or a directly playable TS slice'};
+  if(onInput){
+    // These owned copies have already passed read's pre/post content fences and
+    // all probe admission. No extra read, async handoff or cross-probe cache.
+    const delivered=onInput({headBytes:head.bytes.subarray(0,Math.min(sourceSize,Math.floor(65536/188)*188)),
+      bytes:item.bytes,offset:item.start,plan});
+    if(delivered&&typeof delivered.then==='function'){
+      Promise.resolve(delivered).catch(()=>{});throw new Error('SEEK_INPUT_CALLBACK');
+    }
+    demand(delivered===undefined,'SEEK_INPUT_CALLBACK');
+  }
+  return plan;
+  } finally {
+    for(const item of cache.values())item.bytes=null;
+    cache.clear();
+  }
 }

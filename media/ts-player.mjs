@@ -168,10 +168,22 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
           }
           catch(error){if(current())state.failure||=fixed(error);throw error;}
         },size=Number(identity.size);
-        const plan=await probeTsSeek({read,sourceSize:size,positionSeconds:seconds});check();
-        let headBytes=await read({start:0,end:Math.min(size,Math.floor(65536/188)*188)-1});
-        let bytes=await read({start:plan.local.windowStart,end:plan.local.windowEndExclusive-1});check();
-        bootstrap=createSeekBootstrap({generation:id,headBytes,bytes,offset:plan.local.windowStart,plan,isCurrent:current});headBytes=null;bytes=null;
+        const probeReader=reader;
+        const plan=await probeTsSeek({read,sourceSize:size,positionSeconds:seconds,onInput:input=>{
+          check();
+          // A503 recovery may replace the optimistic source during discovery.
+          // Reuse only bytes admitted by this same reader/generation; otherwise
+          // perform the original fresh pre/post-fenced bootstrap reads below.
+          if(reader!==probeReader)return;
+          bootstrap=createSeekBootstrap({generation:id,...input,isCurrent:current});check();
+          state.probeInputReused=true;
+        }});check();
+        if(!bootstrap){
+          let headBytes=await read({start:0,end:Math.min(size,Math.floor(65536/188)*188)-1});
+          let bytes=await read({start:plan.local.windowStart,end:plan.local.windowEndExclusive-1});check();
+          bootstrap=createSeekBootstrap({generation:id,headBytes,bytes,offset:plan.local.windowStart,plan,isCurrent:current});headBytes=null;bytes=null;
+          state.probeInputReused=false;
+        }
         const target=(plan.targetTicks-plan.timeline.originTicks)/90000;
         state.target=target;state.duration=plan.timeline.durationSeconds;state.timelineKind=plan.timeline.kind;
         state.phase='buffering';source=new Constructor();source.addEventListener('sourceclose',sourceClosed);

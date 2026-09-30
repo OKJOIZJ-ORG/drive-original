@@ -1,0 +1,12 @@
+{
+  "scope": "Scoped deterministic source/probe/bootstrap/fence regression verification, not actual Google latency or full suite",
+  "firstExecution": {
+    "command": "node --test qa/rc19-ts-probe-reuse/reuse.test.mjs qa/v2-07b-ts-q1/ts-seek.test.mjs qa/v2-07b-ts-q1/seek-bootstrap.test.mjs qa/v2-07b-ts-q1/seek-input.test.mjs",
+    "passed": 43, "failed": 0,
+    "newRegressions": 6, "existingSeekProbe": 13, "existingBootstrap": 13, "existingSeekInput": 11,
+    "originalQAProducerPreservedAt": "qa/rc19-ts-probe-reuse/reuse-executed-first.mjs"
+  },
+  "canonicalExecutionAfterImportPathChange": {
+    "command": "node --test tests/q1-probe-reuse.test.mjs", "passed": 6, "failed": 0
+  }
+}

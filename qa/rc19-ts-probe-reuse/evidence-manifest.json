@@ -1,0 +1,147 @@
+{
+  "scope": "Within-generation TS admitted-probe-input reuse; exact baseline/scoped tests/all native attempts preserved. No child actual-account/fullsuite/delivery claim.",
+  "baselineCommit": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "productFiles": [
+    {
+      "file": "media/ts-player.mjs",
+      "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "sha256": "6a382de8854f8bc517d244bcc98d9960d81386a7dc85f956724fa706d6ff7470"
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "sha256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8"
+    },
+    {
+      "file": "media/build.json",
+      "sha256": "5ad86ae7455ca40e544b6e2b0cf584ae3dcfc437eb7aa95f353d5c9792d0343e"
+    }
+  ],
+  "canonicalTest": {
+    "file": "tests/q1-probe-reuse.test.mjs",
+    "sha256": "8426cab3ab448bdb0004ce582c48bd4249d6e0ee1c93bfc534b96e0633a605fe"
+  },
+  "unchangedCompilerArtifacts": [
+    {
+      "file": "media/transmux-worker.mjs",
+      "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+      "baselineSHA256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+      "baselineSHA256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+      "baselineSHA256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+    }
+  ],
+  "qaFiles": [
+    {
+      "file": "README.md",
+      "bytes": 6803,
+      "sha256": "65cc2b54da4e98e76ae3871b021b169e4b119e28306ce5a74303f461158d8967"
+    },
+    {
+      "file": "baseline.json",
+      "bytes": 4999,
+      "sha256": "b89f831c0c9adab6453fec1e55e8c24421b8a4d3bfe92af4e8c8338e7873b1f9"
+    },
+    {
+      "file": "boundary-harness.mjs",
+      "bytes": 2564,
+      "sha256": "7868ecdfc5dd5e15b0850e87d0b3b66c51d6e25e308dafc8c29ea932dbd9ce9b"
+    },
+    {
+      "file": "focused-checks.json",
+      "bytes": 691,
+      "sha256": "b21e02974fa29df57e5ef12de8374369181a7f97e78d635ad093dd35e4a0e156"
+    },
+    {
+      "file": "native-2026-09-30T01-27-54-720Z.json",
+      "bytes": 13669,
+      "sha256": "f344f331bca7ad4bb524d502ad7cc9dd9fd30985a76c4b61ab3151634ffaf24a"
+    },
+    {
+      "file": "native-2026-09-30T01-30-57-047Z.json",
+      "bytes": 35445,
+      "sha256": "9c1c394b76898045bd865e2627e64643c1c10143f712bb364b76db37da20baa3"
+    },
+    {
+      "file": "native-adapter-first-mime-failure.cjs",
+      "bytes": 4307,
+      "sha256": "c7d213d47a1e5f19869d0a003494917557d7c38c3ad00aae2e2f49ed4f2b613c"
+    },
+    {
+      "file": "native-adapter-second-capability-failure.cjs",
+      "bytes": 5087,
+      "sha256": "18fff047963921a50268cb399e80e2e7287ce3e3dd1ff4b110c9d30869d6142d"
+    },
+    {
+      "file": "native-adapter.cjs",
+      "bytes": 5557,
+      "sha256": "c7fa45d9ec4373db439fc117216325c9de8e1579aa94bd17ce80c14d95036dad"
+    },
+    {
+      "file": "native-driver-first-mime-failure.cjs",
+      "bytes": 29340,
+      "sha256": "8bbd535c33f8109b6df41f5f77b8d482a500a9a22c3b5c31b03e1b377e477774"
+    },
+    {
+      "file": "native-driver-second-capability-failure.cjs",
+      "bytes": 29962,
+      "sha256": "d333758b65c1bc1df4c001e3b762cd25d374ce3c31508dabbac25c823d219b0d"
+    },
+    {
+      "file": "native-driver.cjs",
+      "bytes": 30104,
+      "sha256": "b867b6e4f78cb5118bd41381c189052114b8cf1c9a3ca990d2f9975f55e1dd61"
+    },
+    {
+      "file": "native-first-mime-failure.json",
+      "bytes": 620,
+      "sha256": "a408bafb7ae96844cf8823d02a93b2e088f44e219370fd788c8fe9894424333d"
+    },
+    {
+      "file": "qa-process-cleanup.json",
+      "bytes": 587,
+      "sha256": "0c9cd1b5042cddf7938540414af5d848414f9139c6762d2002352548544cb22b"
+    },
+    {
+      "file": "record-baseline.mjs",
+      "bytes": 1348,
+      "sha256": "458d69b4343e142e9cbe2876ec25b35064818fcd35762567ec8795ce1c05e886"
+    },
+    {
+      "file": "reuse-executed-first.mjs",
+      "bytes": 4250,
+      "sha256": "71c0c0e283324273a0a42bdd4d10e923e9f142098d29957b5fe6c798609f42b4"
+    }
+  ],
+  "checks": {
+    "focusedPassed": 43,
+    "canonicalPassed": 6,
+    "nativePass": "native-2026-09-30T01-30-57-047Z.json",
+    "allAttempts": [
+      {
+        "file": "native-2026-09-30T01-27-54-720Z.json",
+        "passed": false
+      },
+      {
+        "file": "native-2026-09-30T01-30-57-047Z.json",
+        "passed": true
+      }
+    ],
+    "firstFatalAttempt": "native-first-mime-failure.json",
+    "nativeAssertionsVerified": true,
+    "metadataOnlyPlanByteIdenticalBootstrap": true
+  },
+  "minimumNativeHeadroom": {
+    "commitGiB": 1.8,
+    "physicalGiB": 2.447
+  }
+}

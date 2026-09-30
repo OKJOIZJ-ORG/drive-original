@@ -1,0 +1,180 @@
+{
+  "sourceCommit": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "source": {
+    "media/ts-player.mjs": "2afe9cbcbd2592f93139c246346de967bf2e6e7f740e06c7a58d504f3e1ae7b9",
+    "media/q1-core.mjs": "479ed5710a820a6707581a8e4b7ac47d960da861ba18c868ba5ebe7afaab2080",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "qa/v2-07b-ts-q1/ts-seek.mjs": "512abfceca9d529b5b9320913828cd1f397128ee9213948e247bf548b2688f95"
+  },
+  "scope": "actual product source/probe/bootstrap with synthetic fixture; deliberate MSE constructor boundary stop, not browser playback/failure",
+  "duplicateBootstrapRangeReads": 2,
+  "duplicateMetadataReads": 4,
+  "result": {
+    "log": [
+      {
+        "stage": "metadata",
+        "phase": "open",
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "preflight",
+        "source": 0
+      },
+      {
+        "stage": "range",
+        "start": 0,
+        "end": 524143,
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "postflight",
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "preflight",
+        "source": 0
+      },
+      {
+        "stage": "range",
+        "start": 434656,
+        "end": 958799,
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "postflight",
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "preflight",
+        "source": 0
+      },
+      {
+        "stage": "range",
+        "start": 0,
+        "end": 65423,
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "postflight",
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "preflight",
+        "source": 0
+      },
+      {
+        "stage": "range",
+        "start": 0,
+        "end": 524143,
+        "source": 0
+      },
+      {
+        "stage": "metadata",
+        "phase": "postflight",
+        "source": 0
+      }
+    ],
+    "metaCount": 9,
+    "rangeCount": 4,
+    "constructions": 1,
+    "state": {
+      "generation": 1,
+      "phase": "failed",
+      "failure": "Q1_PLAYBACK_FAILED",
+      "target": 5,
+      "appends": 0,
+      "frames": 0,
+      "lastMediaTime": null,
+      "window": {
+        "waits": 0,
+        "removals": 0,
+        "peakAhead": 0,
+        "peakSpan": 0
+      },
+      "disposed": true,
+      "bufferRemoved": false,
+      "urlRevoked": false,
+      "previousCleanup": null,
+      "duration": 12.271333333333333,
+      "timelineKind": "sampled-candidate",
+      "bootstrap": {
+        "state": "aborted",
+        "failure": "BOOTSTRAP_ABORTED",
+        "generation": 1,
+        "readStart": 322044,
+        "sourceSize": 958800,
+        "sourceOffset": 322044,
+        "sourceReceived": 0,
+        "outputSize": 637132,
+        "outputBytes": 0,
+        "packets": 0,
+        "nulledPackets": 0,
+        "carryBytes": 0,
+        "prefixBytes": 0,
+        "bindingBytes": 0,
+        "psiRetainedBytes": 0,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 11916,
+        "maxPushOutputBytes": 82107,
+        "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+      },
+      "sourceCleanup": {
+        "settled": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false
+      },
+      "source": {
+        "state": "aborted",
+        "failure": "Q1_SOURCE_ABORTED",
+        "busy": false,
+        "readsStarted": 4,
+        "readsCompleted": 4,
+        "metadataRequests": 9,
+        "rangeRequests": 4,
+        "receivedBytes": 1637856,
+        "releasedBytes": 1637856,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 524144,
+        "checksumBound": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false,
+        "cleanupSettled": true,
+        "maxReadBytes": 1048576,
+        "requestTimeoutMs": 70000,
+        "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+      }
+    },
+    "sources": [
+      {
+        "state": "aborted",
+        "failure": "Q1_SOURCE_ABORTED",
+        "busy": false,
+        "readsStarted": 4,
+        "readsCompleted": 4,
+        "metadataRequests": 9,
+        "rangeRequests": 4,
+        "receivedBytes": 1637856,
+        "releasedBytes": 1637856,
+        "retainedBytes": 0,
+        "peakRetainedBytes": 524144,
+        "checksumBound": true,
+        "pendingCallbacks": 0,
+        "cleanupPending": 0,
+        "cleanupFailed": false,
+        "cleanupSettled": true,
+        "maxReadBytes": 1048576,
+        "requestTimeoutMs": 70000,
+        "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+      }
+    ]
+  }
+}

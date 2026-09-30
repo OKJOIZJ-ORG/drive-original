@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "scope": "First native QA attempt failed in maintained server before media playback; no product defect inferred",
+  "failure": {
+    "name": "TypeError",
+    "code": "ERR_HTTP_INVALID_HEADER_VALUE",
+    "message": "Invalid value \"undefined\" for header \"Content-Type\""
+  },
+  "cause": "Maintained q1-product-audit MIME table lacks current WASM static precache asset; unhandled HTTP server error exited Node",
+  "sourceBase": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "ownedPIDObservationLost": true,
+  "browserClosureObserved": false,
+  "producer": "native-driver-first-mime-failure.cjs"
+}

@@ -94,3 +94,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - [CANDIDATE-RC18-20260930](CANDIDATE-RC18-20260930.md) — fixed WebP candidate52/40 delivery and actual one-seek causal13.37s record; whole goal ACTIVE.
 
 - [rc18 hosted settings](../qa/rc18-hosted-settings/README.md) — stable actual control-plane reads; Logpushfalse/no Tail Worker, observability null/omitted remains UNKNOWN.
+
+- [TS-PROBE-REUSE-20260930](TS-PROBE-REUSE-20260930.md) — bounded admitted within-generation input reuse,43focused/nativeQ1/569full local proof; candidate/actual comparison next.

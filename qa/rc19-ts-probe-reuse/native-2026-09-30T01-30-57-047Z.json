@@ -1,0 +1,932 @@
+{
+  "syntheticOnly": true,
+  "passed": true,
+  "recordedAt": "2026-09-30T01:30:57.047Z",
+  "sourceBase": "f6749c1a1b1a8345f8f76606786e0c1ccb48b21c",
+  "browserVersion": "154.0.8037.58",
+  "observations": [
+    {
+      "phase": "before-launch",
+      "host": {
+        "observedAt": "2026-09-30T01:30:52.192149+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.959,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 15.209,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.493,
+        "processCount": 315,
+        "threadCount": 4044,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [],
+      "chromePrivateBytes": 0,
+      "chromeWorkingSetBytes": 0
+    },
+    {
+      "phase": "launched",
+      "host": {
+        "observedAt": "2026-09-30T01:30:52.627346+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.886,
+        "memoryLoadPercent": 81,
+        "commitUsedGiB": 15.335,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 2.366,
+        "processCount": 321,
+        "threadCount": 4183,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 22011904,
+          "workingSetBytes": 82415616,
+          "peakWorkingSetBytes": 82415616
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 33783808,
+          "workingSetBytes": 52473856,
+          "peakWorkingSetBytes": 123187200
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 11505664,
+          "workingSetBytes": 37830656,
+          "peakWorkingSetBytes": 37830656
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8036352,
+          "workingSetBytes": 18804736,
+          "peakWorkingSetBytes": 18804736
+        }
+      ],
+      "chromePrivateBytes": 75337728,
+      "chromeWorkingSetBytes": 191524864
+    },
+    {
+      "phase": "before-seek-1.2",
+      "host": {
+        "observedAt": "2026-09-30T01:30:54.457994+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.568,
+        "memoryLoadPercent": 83,
+        "commitUsedGiB": 15.798,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.903,
+        "processCount": 325,
+        "threadCount": 4297,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 42209280,
+          "workingSetBytes": 131067904,
+          "peakWorkingSetBytes": 133070848
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34476032,
+          "peakWorkingSetBytes": 34476032
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 87425024,
+          "workingSetBytes": 151257088,
+          "peakWorkingSetBytes": 151257088
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 88973312,
+          "peakWorkingSetBytes": 88973312
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 303124480,
+          "workingSetBytes": 311259136,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12312576,
+          "workingSetBytes": 40206336,
+          "peakWorkingSetBytes": 40595456
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8241152,
+          "workingSetBytes": 20103168,
+          "peakWorkingSetBytes": 20103168
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8409088,
+          "workingSetBytes": 21774336,
+          "peakWorkingSetBytes": 21774336
+        }
+      ],
+      "chromePrivateBytes": 522711040,
+      "chromeWorkingSetBytes": 799117312
+    },
+    {
+      "phase": "before-seek-6.1",
+      "host": {
+        "observedAt": "2026-09-30T01:30:54.888388+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.535,
+        "memoryLoadPercent": 83,
+        "commitUsedGiB": 15.829,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.872,
+        "processCount": 325,
+        "threadCount": 4298,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 41984000,
+          "workingSetBytes": 130912256,
+          "peakWorkingSetBytes": 133828608
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34476032,
+          "peakWorkingSetBytes": 34476032
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 106016768,
+          "workingSetBytes": 170209280,
+          "peakWorkingSetBytes": 170209280
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 88973312,
+          "peakWorkingSetBytes": 88973312
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 313462784,
+          "workingSetBytes": 321249280,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12337152,
+          "workingSetBytes": 40239104,
+          "peakWorkingSetBytes": 40595456
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8241152,
+          "workingSetBytes": 20103168,
+          "peakWorkingSetBytes": 20103168
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8433664,
+          "workingSetBytes": 21815296,
+          "peakWorkingSetBytes": 21815296
+        }
+      ],
+      "chromePrivateBytes": 551464960,
+      "chromeWorkingSetBytes": 827977728
+    },
+    {
+      "phase": "before-seek-0",
+      "host": {
+        "observedAt": "2026-09-30T01:30:55.285403+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.515,
+        "memoryLoadPercent": 83,
+        "commitUsedGiB": 15.848,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.853,
+        "processCount": 325,
+        "threadCount": 4298,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 40927232,
+          "workingSetBytes": 129941504,
+          "peakWorkingSetBytes": 133828608
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34476032,
+          "peakWorkingSetBytes": 34476032
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 116338688,
+          "workingSetBytes": 181608448,
+          "peakWorkingSetBytes": 181608448
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 88985600,
+          "peakWorkingSetBytes": 88985600
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 314564608,
+          "workingSetBytes": 321970176,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12378112,
+          "workingSetBytes": 40284160,
+          "peakWorkingSetBytes": 40595456
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8241152,
+          "workingSetBytes": 20103168,
+          "peakWorkingSetBytes": 20103168
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8441856,
+          "workingSetBytes": 21823488,
+          "peakWorkingSetBytes": 21823488
+        }
+      ],
+      "chromePrivateBytes": 561881088,
+      "chromeWorkingSetBytes": 839192576
+    },
+    {
+      "phase": "before-seek-1000",
+      "host": {
+        "observedAt": "2026-09-30T01:30:55.667980+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.493,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 15.868,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.833,
+        "processCount": 325,
+        "threadCount": 4301,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 43077632,
+          "workingSetBytes": 132071424,
+          "peakWorkingSetBytes": 133828608
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34476032,
+          "peakWorkingSetBytes": 34476032
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 128225280,
+          "workingSetBytes": 192466944,
+          "peakWorkingSetBytes": 192466944
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 88985600,
+          "peakWorkingSetBytes": 88985600
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 314568704,
+          "workingSetBytes": 321990656,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 12414976,
+          "workingSetBytes": 40321024,
+          "peakWorkingSetBytes": 40595456
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8241152,
+          "workingSetBytes": 20103168,
+          "peakWorkingSetBytes": 20103168
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8441856,
+          "workingSetBytes": 21823488,
+          "peakWorkingSetBytes": 21823488
+        }
+      ],
+      "chromePrivateBytes": 575959040,
+      "chromeWorkingSetBytes": 852238336
+    },
+    {
+      "phase": "before-seek-11.95",
+      "host": {
+        "observedAt": "2026-09-30T01:30:56.131601+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.447,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 15.901,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.8,
+        "processCount": 328,
+        "threadCount": 4349,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 50003968,
+          "workingSetBytes": 142729216,
+          "peakWorkingSetBytes": 143527936
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34553856,
+          "peakWorkingSetBytes": 34553856
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 129130496,
+          "workingSetBytes": 195575808,
+          "peakWorkingSetBytes": 199294976
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 89026560,
+          "peakWorkingSetBytes": 89026560
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 314568704,
+          "workingSetBytes": 322154496,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13365248,
+          "workingSetBytes": 41594880,
+          "peakWorkingSetBytes": 41598976
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8245248,
+          "workingSetBytes": 20168704,
+          "peakWorkingSetBytes": 20168704
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8441856,
+          "workingSetBytes": 21893120,
+          "peakWorkingSetBytes": 21893120
+        }
+      ],
+      "chromePrivateBytes": 584744960,
+      "chromeWorkingSetBytes": 867696640
+    },
+    {
+      "phase": "closed-app",
+      "host": {
+        "observedAt": "2026-09-30T01:30:56.953300+00:00",
+        "physicalTotalGiB": 15.701,
+        "physicalAvailableGiB": 2.476,
+        "memoryLoadPercent": 84,
+        "commitUsedGiB": 15.868,
+        "commitLimitGiB": 17.701,
+        "commitAvailableGiB": 1.834,
+        "processCount": 326,
+        "threadCount": 4331,
+        "scope": "Single observed host snapshot; does not prove a Chrome/WASM crash cause."
+      },
+      "processes": [
+        {
+          "pid": 7328,
+          "type": "browser",
+          "observed": true,
+          "privateBytes": 51388416,
+          "workingSetBytes": 145141760,
+          "peakWorkingSetBytes": 146391040
+        },
+        {
+          "pid": 22180,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 16044032,
+          "workingSetBytes": 34553856,
+          "peakWorkingSetBytes": 34553856
+        },
+        {
+          "pid": 17616,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 137256960,
+          "workingSetBytes": 203923456,
+          "peakWorkingSetBytes": 206716928
+        },
+        {
+          "pid": 11532,
+          "type": "renderer",
+          "observed": true,
+          "privateBytes": 44945408,
+          "workingSetBytes": 89026560,
+          "peakWorkingSetBytes": 89026560
+        },
+        {
+          "pid": 20980,
+          "type": "GPU",
+          "observed": true,
+          "privateBytes": 315346944,
+          "workingSetBytes": 323092480,
+          "peakWorkingSetBytes": 343457792
+        },
+        {
+          "pid": 20552,
+          "type": "network.mojom.NetworkService",
+          "observed": true,
+          "privateBytes": 13762560,
+          "workingSetBytes": 42168320,
+          "peakWorkingSetBytes": 42168320
+        },
+        {
+          "pid": 14832,
+          "type": "storage.mojom.StorageService",
+          "observed": true,
+          "privateBytes": 8245248,
+          "workingSetBytes": 20168704,
+          "peakWorkingSetBytes": 20168704
+        },
+        {
+          "pid": 16064,
+          "type": "audio.mojom.AudioService",
+          "observed": true,
+          "privateBytes": 8441856,
+          "workingSetBytes": 21893120,
+          "peakWorkingSetBytes": 21893120
+        }
+      ],
+      "chromePrivateBytes": 595431424,
+      "chromeWorkingSetBytes": 879968256
+    }
+  ],
+  "adapterSHA256": "c7fa45d9ec4373db439fc117216325c9de8e1579aa94bd17ce80c14d95036dad",
+  "sources": {
+    "qa/q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45",
+    "index.html": "ca306a853c1e799a93bd6d87965e6d361b3e3d718fac427c83a06a07494ea80f",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "001d38468c9e0a984157eb0c5fe1617be50df88c868fdd7a39412fbd1d5c4b7d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "7339624c6300501a8024aff861cda0d7418702ccd4185f9e06e1500ec37ca5f8",
+    "version.json": "eddd465ea6e4042c7f6ace652c615f0f15ab4ce46245b4b7c3a0da975363bd6b",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+    "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  },
+  "reportTag": null,
+  "fixtures": {
+    "ts": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4",
+    "mp4": "178d8b884e2668a2da18ffba63960ec192f810b91c151cdab6e3080687328079"
+  },
+  "limits": "Local synthetic Chrome app/SW lifecycle only; owned counters and CDP DOM listeners, not total JS heap/device memory or real Drive/device acceptance.",
+  "results": [
+    {
+      "mode": "early-to-q1",
+      "passed": true,
+      "metadataReads": 57,
+      "seeks": [
+        {
+          "reused": true,
+          "mediaTime": 1.171333,
+          "width": 360,
+          "target": 1.2,
+          "requestedTime": 1.2,
+          "paused": true
+        },
+        {
+          "reused": true,
+          "mediaTime": 6.071333,
+          "width": 360,
+          "target": 6.1,
+          "requestedTime": 6.1,
+          "paused": true
+        },
+        {
+          "reused": true,
+          "mediaTime": 0.271333,
+          "width": 360,
+          "target": 0.2713333333333333,
+          "requestedTime": 0,
+          "paused": true
+        },
+        {
+          "reused": true,
+          "mediaTime": 12.238,
+          "width": 360,
+          "target": 12.238,
+          "requestedTime": 12.238,
+          "paused": true
+        },
+        {
+          "reused": true,
+          "mediaTime": 11.938,
+          "width": 360,
+          "target": 11.95,
+          "requestedTime": 11.95,
+          "paused": true
+        }
+      ],
+      "playback": {
+        "generation": 6,
+        "phase": "ended",
+        "failure": null,
+        "target": 11.95,
+        "appends": 1,
+        "frames": 10,
+        "lastMediaTime": 12.238,
+        "window": {
+          "waits": 0,
+          "removals": 0,
+          "peakAhead": 0.08199900000000149,
+          "peakSpan": 1.9413330000000002
+        },
+        "disposed": false,
+        "bufferRemoved": false,
+        "urlRevoked": false,
+        "previousCleanup": {
+          "settled": true,
+          "source": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          }
+        },
+        "probeInputReused": true,
+        "duration": 12.271333333333333,
+        "timelineKind": "sampled-candidate",
+        "bootstrap": {
+          "state": "finished",
+          "failure": null,
+          "generation": 6,
+          "readStart": 800692,
+          "sourceSize": 958800,
+          "sourceOffset": 958800,
+          "sourceReceived": 158108,
+          "outputSize": 158484,
+          "outputBytes": 158484,
+          "packets": 841,
+          "nulledPackets": 0,
+          "carryBytes": 0,
+          "prefixBytes": 0,
+          "bindingBytes": 0,
+          "psiRetainedBytes": 0,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 11894,
+          "maxPushOutputBytes": 82107,
+          "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+        },
+        "worker": {
+          "status": "finished",
+          "failure": null,
+          "terminated": true,
+          "fragmentBusy": false,
+          "sourceBytesOffered": 158484,
+          "sourceBytesConsumed": 158484,
+          "inputs": 5,
+          "detachedInputs": 5,
+          "transferredInputBytes": 158484,
+          "fragments": 1,
+          "acks": 1,
+          "peakPendingInputs": 1,
+          "worker": {
+            "state": "finished",
+            "failure": null,
+            "generation": 6,
+            "sourceSize": 158484,
+            "consumed": 158484,
+            "inputSequence": 5,
+            "fragments": 1,
+            "acknowledged": 1,
+            "awaitingFragment": null,
+            "retainedInputBytes": 0,
+            "retainedOutputBytes": 0,
+            "outstandingOutputBytes": 0,
+            "configBytes": 0,
+            "initBytes": 0,
+            "peakInputBytes": 65536,
+            "peakOutputBytes": 142179,
+            "peakConfigBytes": 36,
+            "peakInitBytes": 1142,
+            "muxCachedGops": 0,
+            "muxCachedNalBytes": 0,
+            "muxCachedBufferBytes": 0,
+            "peakMuxCachedGops": 1,
+            "peakMuxCachedNalBytes": 115234,
+            "peakMuxCachedBufferBytes": 229512,
+            "muxReleased": true,
+            "owner": {
+              "state": "finished",
+              "failure": null,
+              "generation": 6,
+              "received": 158484,
+              "packets": 843,
+              "emittedIntervals": 1,
+              "firstEmissionOffset": 158484,
+              "retainedBytes": 0,
+              "peakRetainedBytes": 158672,
+              "peakOwnedByteStorage": 842128,
+              "storageCapacity": 655360,
+              "emittedAacFrames": 91,
+              "elementary": {
+                "parameterBytes": 0,
+                "retainedFrames": 0,
+                "peakFrames": 60,
+                "videoFrames": 60,
+                "aacFrames": 91
+              },
+              "psi": {
+                "terminal": true,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 410,
+                "snapshotBytes": 0,
+                "sectionCount": 0,
+                "maxRetainedEncodedBytes": 11640
+              },
+              "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+            },
+            "cleanup": {
+              "beforeGops": 1,
+              "beforeNalBytes": 115234,
+              "beforeBufferBytes": 229512,
+              "afterGops": 0,
+              "afterNalBytes": 0,
+              "afterBufferBytes": 0
+            },
+            "limits": {
+              "inputBytes": 65536,
+              "outputBytes": 2097152,
+              "muxCacheBufferBytes": 8388608
+            },
+            "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+          }
+        },
+        "source": {
+          "state": "open",
+          "failure": null,
+          "busy": false,
+          "readsStarted": 3,
+          "readsCompleted": 3,
+          "metadataRequests": 7,
+          "rangeRequests": 3,
+          "receivedBytes": 1206396,
+          "releasedBytes": 1206396,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 524144,
+          "checksumBound": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false,
+          "cleanupSettled": true,
+          "maxReadBytes": 1048576,
+          "requestTimeoutMs": 70000,
+          "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+        }
+      },
+      "cleanup": {
+        "settled": true
+      },
+      "assetCache": [
+        "/media/audio-adapter.mjs",
+        "/media/audio-codec.LICENSE.txt",
+        "/media/audio-codec.mjs",
+        "/media/audio-codec.wasm",
+        "/media/audio-general-pipeline.mjs",
+        "/media/audio-general-worker.mjs",
+        "/media/audio-runtime.mjs",
+        "/media/audio-worker-client.mjs",
+        "/media/audio-worker.mjs",
+        "/media/drive-source.mjs",
+        "/media/general-admission.mjs",
+        "/media/general-codec.mjs",
+        "/media/general-owner.mjs",
+        "/media/general-pipeline.mjs",
+        "/media/general-player.mjs",
+        "/media/general-source.mjs",
+        "/media/general-timeline.mjs",
+        "/media/general-worker.mjs",
+        "/media/mediabunny-q1-NOTICE.md",
+        "/media/mediabunny-q1.LICENSE",
+        "/media/mediabunny-q1.mjs",
+        "/media/mux-LICENSE.txt",
+        "/media/mux-mp4.min.js",
+        "/media/q1-core.mjs",
+        "/media/revision-pin.js",
+        "/media/transmux-worker.mjs",
+        "/media/ts-player.mjs"
+      ],
+      "nativeMediaCalls": 25
+    }
+  ],
+  "browserClosed": true,
+  "serverClosed": true,
+  "sourcesAfter": {
+    "qa/q1-product-audit.cjs": "ac367c4d34168dae2eee083e63b4bddedb7863bf01689727acb985f7e77a9d45",
+    "index.html": "ca306a853c1e799a93bd6d87965e6d361b3e3d718fac427c83a06a07494ea80f",
+    "runtime-config.js": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a",
+    "app.js": "001d38468c9e0a984157eb0c5fe1617be50df88c868fdd7a39412fbd1d5c4b7d",
+    "styles.css": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc",
+    "sw.js": "7339624c6300501a8024aff861cda0d7418702ccd4185f9e06e1500ec37ca5f8",
+    "version.json": "eddd465ea6e4042c7f6ace652c615f0f15ab4ce46245b4b7c3a0da975363bd6b",
+    "manifest.webmanifest": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2",
+    "icons/app-icon.svg": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1",
+    "icons/icon-192.png": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99",
+    "icons/icon-512.png": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f",
+    "icons/maskable-512.png": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7",
+    "icons/apple-touch-icon.png": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/revision-pin.js": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+    "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+    "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "media/mux-mp4.min.js": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f",
+    "media/mux-LICENSE.txt": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f",
+    "media/general-owner.mjs": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+    "media/general-pipeline.mjs": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055",
+    "media/general-player.mjs": "99e50567b8b6220727e15d48c80eb0dfc50bb8a42d06832f9bf30d69c5349f59",
+    "media/general-source.mjs": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+    "media/general-timeline.mjs": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79",
+    "media/general-worker.mjs": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43",
+    "media/mediabunny-q1.mjs": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "media/mediabunny-q1.LICENSE": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+    "media/mediabunny-q1-NOTICE.md": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9",
+    "media/audio-runtime.mjs": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543",
+    "media/audio-adapter.mjs": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8",
+    "media/audio-worker-client.mjs": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572",
+    "media/audio-worker.mjs": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850",
+    "media/audio-codec.mjs": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431",
+    "media/audio-codec.wasm": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf",
+    "media/audio-codec.LICENSE.txt": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123",
+    "media/audio-general-pipeline.mjs": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db",
+    "media/audio-general-worker.mjs": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526",
+    "licenses/index.html": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829",
+    "licenses/mediabunny-q1-preferred-source.tgz": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5",
+    "licenses/audio-source-NOTICE.md": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0",
+    "licenses/audio-source-manifest.json": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6",
+    "licenses/audio-source-reconstruct.cjs": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f",
+    "licenses/audio-source-v1.tar.gz.part001": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b",
+    "licenses/audio-source-v1.tar.gz.part002": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528",
+    "licenses/audio-source-v1.tar.gz.part003": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f",
+    "licenses/audio-source-v1.tar.gz.part004": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7",
+    "licenses/audio-source-v1.tar.gz.part005": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0",
+    "licenses/audio-source-v1.tar.gz.part006": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531",
+    "licenses/audio-source-v1.tar.gz.part007": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+  }
+}
