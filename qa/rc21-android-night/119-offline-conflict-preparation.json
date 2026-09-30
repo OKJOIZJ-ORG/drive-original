@@ -1,0 +1,100 @@
+{
+  "schema": "drive-original.android-offline-conflict-preparation/1",
+  "actualExecution": false,
+  "canonicalWritesPerformed": false,
+  "networkEmulationPerformed": false,
+  "needsCoordinatorJointGo": true,
+  "sourceBinding": "Fresh final current candidate proof required after420 fixture cleanup",
+  "latestActualBootstrap": {
+    "result": "115-rc25-native-stable-edge-discriminator-result.json",
+    "observedAt": "2026-09-30T20:04:58.255Z",
+    "version": "1.22.0-rc.25",
+    "revision": 63,
+    "expiry": "2026-09-30T20:58:03.629Z",
+    "foreground": true,
+    "identityFieldsPrivate": true,
+    "notCurrent26Proof": true
+  },
+  "reusedHelpers": [
+    {
+      "path": "50-rc23-state-challenge-prepare.cjs",
+      "sha256": "ffff456a450e6a4aa0be78b3a2c34e3136d3f9866b6e73be52a14475c39aeba2",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    },
+    {
+      "path": "52-rc23-state-challenge-ready.cjs",
+      "sha256": "6ea1b57914f13c090e64992ce7256d5ecab2718b4bb887dbf8c85cc88d39f1d8",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    },
+    {
+      "path": "56-rc23-state-challenge-passive-arm.cjs",
+      "sha256": "101f28ed6fc622230ba07756f8740d53ea3b6d6f96f3a86a25127d7ac9917eeb",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    },
+    {
+      "path": "59-rc23-state-challenge-final-native-echo.cjs",
+      "sha256": "7f764ea65fc4ac906ecb540bc2f5c6c268b39f3ad320c11e4d898fff82fb69a7",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    },
+    {
+      "path": "58-rc23-state-challenge-remote-read.cjs",
+      "sha256": "36fa36601f88086a100badb2254e36e2b196d66cf3f07b7d5e79dd41ff69f772",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    },
+    {
+      "path": "63-rc23-state-challenge-cleanup.cjs",
+      "sha256": "5d4b0ed1160cae0ee35f38390e292c6501541c3d270816216461bca78389590f",
+      "scope": "Reuse normal UI/owner/passive/canonical read semantic helper; preserve original23 executed producer and freshly bind final source/common"
+    }
+  ],
+  "privateBaseline": {
+    "owner": "Coordinator durable private raw holder plus Android page-local holder",
+    "required": [
+      "Full parsed10canonical remote docs plus raw cache text and normalized fullprojection, IDs/names/account/writer remain private",
+      "Unique configured priority target initiallyfavoritefalse; latestviewedtimestamp recaptured after115 normalplay, monotonically retained",
+      "Account/authGeneration/driveGeneration/writer fences, query and card baseline; nativefavorite control32x32CSS no44x44claim",
+      "Exact non-target favorite/viewed record comparison; rawremote prestate recoverable privately across desktop restart before mutation"
+    ]
+  },
+  "androidPhases": [
+    {
+      "phase": "READY",
+      "action": "Fresh current app/SW/index/controller proof, privatelylocate exactpriority/normalcard, capture fullprivatebaseline usingcaptureAccountStateRequest/find/read andaccountStateCacheKey; return safe targetfavorite/viewedtimestamp/syncidle/source/revision/fencebooleans. No mutation."
+    },
+    {
+      "phase": "ARM",
+      "action": "250ms capped passive localstate/card/online/syncerror/fence/normalpoll timing observer; trustednativeclick journal. No forcedinitialize/refresh/reload/refocus."
+    },
+    {
+      "phase": "OFFLINE",
+      "action": "Use actual documented owned Android MCP emulate networkConditions Offline, not rootPCtool/session. Verify navigator.onLinefalse/trustedoffline event/normalpoll stopped. Keep MCP/session owner alive; never OS-global network/permissions/cookie/storage purge."
+    },
+    {
+      "phase": "PC_REMOTE_TRUE",
+      "action": "Coordinator normalPCcard false totrue, freshTPC canonical directread confirmed while Android offline remainsbaselinefalse. Android doesnotforce remote read whileoffline."
+    },
+    {
+      "phase": "ANDROID_LATER_FALSE",
+      "action": "After GO and Date.now>TPC, nativeAndroidcard false totrue thentrue tofalse creates laterTAndroidFalse; verify trustedclicks/localcache false exacttimestamp, pendingerror/no forcedflush. Coordinator canonicalread proves remote stilltrueTPC before reconnect."
+    },
+    {
+      "phase": "RECONNECT",
+      "action": "Same ownedMCP emulate with omittednetworkConditions restores normalnetwork. Verify online event/navigatortrue; productonline handler owns queuedretry/normalrefresh. Android laterfalse wins; both foreground passive normalpoll observe exactTAndroidFalse/cardfalse, then independentcanonicalread confirms. Bounded180s observers; no forcedapply."
+    },
+    {
+      "phase": "RESTORE",
+      "action": "Winning Android normalfalse tombstone already restores initialfalse with monotonic timestamp; if coordinator requires subsequent restoration action, normaltrue thenfalse only after explicitjointGO, never rawJSONrollback. Viewed timestamp unchanged throughout thisunit. Compare every non-target record against privatebaseline."
+    },
+    {
+      "phase": "CLEANUP",
+      "action": "Always restore ownednetwork first; pending sync/merge settle; retainrecoverableprivatebaseline until semanticfalse/non-target/viewed/fences confirmed. Remove only ownedtimers/listeners/holders, restorequery; no accounttimer/cache overwrite."
+    }
+  ],
+  "criticalLimits": [
+    "Network emulation is browser-target synthetic disconnection, not actual OS offline",
+    "MCP1.10.1emulate schema/source locally verified Offline and omittednetwork restores puppeteerpage only; offline/canonicalisolation still must be actually observed",
+    "Prior operational sameaccount challenge supports selection; no rawidentity export/compare",
+    "No appData raw state rewind or originalmedia mutation; reconnect failure retainsbaseline for recovery instead of deletion",
+    "Actualresult claims require new numbered producers/results and currentcandidate source hashes"
+  ]
+}

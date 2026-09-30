@@ -1,0 +1,18 @@
+'use strict';
+module.exports=function installFragmentMetadataObserver(){
+ const original=Worker.prototype.addEventListener,seen=new WeakSet(),owned=[],records=[];
+ function parser(record){let header=new Uint8Array(8),hu=0,left=0,used=0,kind=0,body=null;const U=(b,p)=>new DataView(b.buffer,b.byteOffset,b.byteLength).getUint32(p),C=(b,p)=>U(b,p);
+  function boxes(b,start,end){const a=[];for(let p=start;p<end;){if(p+8>end)throw 1;let n=U(b,p),h=8;if(n===1){if(p+16>end)throw 1;n=U(b,p+8)*2**32+U(b,p+12);h=16;}if(!Number.isSafeInteger(n)||n<h||p+n>end)throw 1;a.push({code:C(b,p+4),p:p+h,end:p+n,length:n});p+=n;}return a;}
+  const one=(a,code)=>a.find(x=>x.code===code);
+  function metadata(b,k){const top=boxes(b,0,b.length)[0];if(k===0x6d6f6f76){for(const tr of boxes(b,top.p,top.end).filter(x=>x.code===0x7472616b)){const a=boxes(b,tr.p,tr.end),tk=one(a,0x746b6864),md=one(a,0x6d646961),hd=md&&one(boxes(b,md.p,md.end),0x68646c72);if(tk&&hd){const id=U(b,tk.p+(b[tk.p]?20:12)),handler=U(b,hd.p+8);record.tracks.push({trackId:id,handlerCode:handler});if(handler===0x76696465)record.videoTrackId=id;}}
+   return;}
+   if(k===0x6d6f6f66){const fragment={boxBytes:b.length,videoTrackId:record.videoTrackId??null,containsVideo:false,trafs:[]};for(const tr of boxes(b,top.p,top.end).filter(x=>x.code===0x74726166)){const a=boxes(b,tr.p,tr.end),tf=one(a,0x74666864),dt=one(a,0x74666474);if(!tf)throw 1;const id=U(b,tf.p+4),f={trackId:id,tfhdFlags:U(b,tf.p)&0xffffff,tfhdPayloadBytes:tf.end-tf.p,truns:a.filter(x=>x.code===0x7472756e).map(x=>({version:b[x.p],flags:U(b,x.p)&0xffffff,sampleCount:U(b,x.p+4),payloadBytes:x.end-x.p}))};if(dt){f.tfdtVersion=b[dt.p];f.decodeTime=b[dt.p]?U(b,dt.p+4)*2**32+U(b,dt.p+8):U(b,dt.p+4);}fragment.trafs.push(f);if(id===record.videoTrackId)fragment.containsVideo=true;}record.fragments.push(fragment);if(record.fragments.length>32)record.fragments.shift();}
+  }
+  return bytes=>{try{for(let p=0;p<bytes.length;){if(!left){const n=Math.min(8-hu,bytes.length-p);header.set(bytes.subarray(p,p+n),hu);hu+=n;p+=n;if(hu<8)continue;const size=U(header,0);kind=U(header,4);if(size<8){record.parseCode=1;return;}left=size-8;used=8;hu=0;if(kind===0x6d6f6f76||kind===0x6d6f6f66){if(size>262144){record.parseCode=2;return;}body=new Uint8Array(size);body.set(header);}else body=null;record.topLevelBoxes.push({code:kind,bytes:size});if(record.topLevelBoxes.length>32)record.topLevelBoxes.shift();if(kind===0x6d646174&&record.fragments.length)record.fragments.at(-1).followingMdatBytes=size;}
+   const n=Math.min(left,bytes.length-p);if(body)body.set(bytes.subarray(p,p+n),used);used+=n;left-=n;p+=n;if(!left){if(body)metadata(body,kind);body=null;}}
+  }catch{record.parseCode=3;}};
+ }
+ Worker.prototype.addEventListener=function(...args){if(args[0]==='message'&&!seen.has(this)&&owned.length<16){seen.add(this);const record={alias:records.length+1,chunks:0,bytes:0,tracks:[],fragments:[],topLevelBoxes:[],parseCode:0},push=parser(record),fn=e=>{const m=e.data;if(m?.kind==='chunk'&&m.buffer instanceof ArrayBuffer){record.chunks++;record.bytes+=m.buffer.byteLength;push(new Uint8Array(m.buffer));}};records.push(record);original.call(this,'message',fn);owned.push([this,fn]);}return original.apply(this,args);};
+ window.__qaFragmentJournal={snapshot:()=>structuredClone(records),restore(){const same=Worker.prototype.addEventListener!==original;Worker.prototype.addEventListener=original;for(const[w,f]of owned)w.removeEventListener('message',f);owned.length=0;return{prototypeRestored:true,ownedListenersRemoved:true,wasInstalled:same};}};
+ return{installed:true,maximumWorkers:16,maximumFragmentsPerWorker:32,metadataMaximumBytes:262144,rawMediaOrIdentityExported:false,workerMessagesOrTransfersChanged:false};
+};

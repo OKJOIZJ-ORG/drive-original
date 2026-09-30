@@ -1,0 +1,5608 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T21:16:29.799Z",
+  "producerSha256": "bad3195370cd6883ca73e0dc5643ef3c153bda23bc8ed72458798d1ddda00342",
+  "commonSha256": "101a121e72d712793dee9886b6b5bfa56c823c1ed761043e64c853ba795f515e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "immutable source and synthetic fixture provenance",
+      "at": "2026-09-30T21:16:31.406Z",
+      "source": "3eea49a4853052275582979ab205eee8026c4691",
+      "publicFiles": [
+        {
+          "path": "index.html",
+          "sha256": "c7cdcbc48e720ced250f103ed4e48b54bc6844395107f3fd75553db004acb499"
+        },
+        {
+          "path": "runtime-config.js",
+          "sha256": "cea278b4aa9bffb81bbf0162bb4837d723367f2bdd87f949a27c429c5384ec3a"
+        },
+        {
+          "path": "app.js",
+          "sha256": "1e8a447146672532da076fbe01175d3c18f6f2a1ad6376e68e5f50cc0973d45e"
+        },
+        {
+          "path": "styles.css",
+          "sha256": "b15ed7f05cd49ef014f36b418242dbcc92a7581bfbe64631d38502dcaf0199dc"
+        },
+        {
+          "path": "sw.js",
+          "sha256": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7"
+        },
+        {
+          "path": "version.json",
+          "sha256": "f5c0df56929181b1b23d7eb27c644e5701b3f4cbf93ac15c0c50f1a7f3f55160"
+        },
+        {
+          "path": "manifest.webmanifest",
+          "sha256": "66f78647b95c14e17197452817bc91a8c28f71faa066dff65646c517c7e445e2"
+        },
+        {
+          "path": "icons/app-icon.svg",
+          "sha256": "3102cfafd120a6a3d1ed67d0611a127992a62d1174fce740dfbe35e5f4e62fd1"
+        },
+        {
+          "path": "icons/icon-192.png",
+          "sha256": "4b50c9e83cbda9fd46e4756b04f1c1df46e6bb6e52f6ebed6f88adb447d6fa99"
+        },
+        {
+          "path": "icons/icon-512.png",
+          "sha256": "c5a7c3f4533935f608904533c2a88b61e78d6960ab2d528fa029f6eaf37fda9f"
+        },
+        {
+          "path": "icons/maskable-512.png",
+          "sha256": "02efec2b1c34f99ece7afb129ae414396f884d8e53ef2292ae2ecc318c437de7"
+        },
+        {
+          "path": "icons/apple-touch-icon.png",
+          "sha256": "9deda4d464fe25d066d952de58c42054f5797fbbd5d0057576b405b86d4b5061"
+        },
+        {
+          "path": "media/drive-source.mjs",
+          "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+        },
+        {
+          "path": "media/revision-pin.js",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+        },
+        {
+          "path": "media/ts-player.mjs",
+          "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+        },
+        {
+          "path": "media/q1-core.mjs",
+          "sha256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8"
+        },
+        {
+          "path": "media/transmux-worker.mjs",
+          "sha256": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc"
+        },
+        {
+          "path": "media/mux-mp4.min.js",
+          "sha256": "4d00d911c3186ca8921b8710de24cf4c4ea854e47c59d3c5164779ba83a2805f"
+        },
+        {
+          "path": "media/mux-LICENSE.txt",
+          "sha256": "1a3c5bb355ae9ea7f0e8e92836b72189c7acf85a487dd8706d5f1dfff9bf7d3d"
+        },
+        {
+          "path": "media/general-admission.mjs",
+          "sha256": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d"
+        },
+        {
+          "path": "media/general-codec.mjs",
+          "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+        },
+        {
+          "path": "media/general-owner.mjs",
+          "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2"
+        },
+        {
+          "path": "media/general-pipeline.mjs",
+          "sha256": "8452ef79e701bf87384e967b8eb66fd5fd12ce6cb8dd623d977f9c768c64c055"
+        },
+        {
+          "path": "media/general-player.mjs",
+          "sha256": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d"
+        },
+        {
+          "path": "media/general-source.mjs",
+          "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec"
+        },
+        {
+          "path": "media/general-timeline.mjs",
+          "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+        },
+        {
+          "path": "media/general-worker.mjs",
+          "sha256": "8f8cb412e98ad63becf2389ea3883a122fd06af4442ae0219f34cc3518f00f43"
+        },
+        {
+          "path": "media/mediabunny-q1.mjs",
+          "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+        },
+        {
+          "path": "media/mediabunny-q1.LICENSE",
+          "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+        },
+        {
+          "path": "media/mediabunny-q1-NOTICE.md",
+          "sha256": "46ab73111256319aeb2757adc88fb5b9245f59f99d4552a3a74f2327c833abb9"
+        },
+        {
+          "path": "media/audio-runtime.mjs",
+          "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+        },
+        {
+          "path": "media/audio-adapter.mjs",
+          "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+        },
+        {
+          "path": "media/audio-worker-client.mjs",
+          "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+        },
+        {
+          "path": "media/audio-worker.mjs",
+          "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+        },
+        {
+          "path": "media/audio-codec.mjs",
+          "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+        },
+        {
+          "path": "media/audio-codec.wasm",
+          "sha256": "48f85a683a94f6b35a21ce33c12a99312ac64e450eca4a9fffba36b5067e83bf"
+        },
+        {
+          "path": "media/audio-codec.LICENSE.txt",
+          "sha256": "62c8e79924a79181faf70d357fb7296e9471b4e50c00b74e9ebb1e2fa975a123"
+        },
+        {
+          "path": "media/audio-general-pipeline.mjs",
+          "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+        },
+        {
+          "path": "media/audio-general-worker.mjs",
+          "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+        },
+        {
+          "path": "licenses/index.html",
+          "sha256": "d31d57ac3ca4d49f2593541cc78faca05dd97edc915ee71c952e0bae0372b829"
+        },
+        {
+          "path": "licenses/mediabunny-q1-preferred-source.tgz",
+          "sha256": "0821f05c38e71f013662cb63e924b1a62bcb73c15eed4607c9ffc7429f97dea5"
+        },
+        {
+          "path": "licenses/audio-source-NOTICE.md",
+          "sha256": "501ba244da6d458d7332d04e91ecbddd4df4ec8fffb90bca4ebed2ae3a7c4da0"
+        },
+        {
+          "path": "licenses/audio-source-manifest.json",
+          "sha256": "ac7c9bc2a648e2be6a876e989a5f60032ac87405a665a685b484241de0cbf6e6"
+        },
+        {
+          "path": "licenses/audio-source-reconstruct.cjs",
+          "sha256": "d6ba486dc942079d082d7d0a371249d65ab018dbb148fc918c356414d5fb768f"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part001",
+          "sha256": "3585e97cda04613688570dedd8366c56ef3eccce0ac3284094d45ebbba56ed4b"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part002",
+          "sha256": "580d254584466fdba009f9ae43d02c306943dbe97d33973a90c9fd6224948528"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part003",
+          "sha256": "a29678323ef5ee9898dbed3fbcf99b802ae4df65f6fd4e635ff1a1a22553a54f"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part004",
+          "sha256": "c8129b197a09e757e9e988794e53f0b698dc1c99cc4dd3c9678f324463901ea7"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part005",
+          "sha256": "d07864c04ccd8544a1c4086248cf0cd467d9359531dfa29010bcdd72be2a6fc0"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part006",
+          "sha256": "aa2c0e3fb1de79b335af7133a6282c83702c3d12b5c8a89b62ef9f624b135531"
+        },
+        {
+          "path": "licenses/audio-source-v1.tar.gz.part007",
+          "sha256": "bdc9469c31126a985c0cd414a37d2a289c5119bfa6520453e5549bc08b602170"
+        }
+      ],
+      "fixture": {
+        "bytes": 5579274,
+        "sha256": "a515eadea419ef900a2e718bdcdff0604ccb3214f580ba5f5723a283803233b3",
+        "duration": 420,
+        "video": "AVC160x90/12fps",
+        "audio": "AC3 stereo48kHz",
+        "videoColor": "explicit BT709 matrix limited range"
+      },
+      "actualAndroidRenderer": true,
+      "syntheticProvider": true,
+      "originalDriveSource": false,
+      "routeForced": false,
+      "viewportEmulated": false
+    },
+    {
+      "name": "owned direct CDP synthetic provider",
+      "at": "2026-09-30T21:16:31.945Z",
+      "helperSha256": "7a219bf79c9afda66cfcf5a64872daa6e86599c5c9345d4a137d20967fae4c44",
+      "playwrightRoute": false,
+      "ownedPageAndLocalSWOnly": true,
+      "corsPreflightSupported": true
+    },
+    {
+      "name": "maintained startup update stabilization before media",
+      "at": "2026-09-30T21:16:37.950Z",
+      "fixedBufferHTTP": true,
+      "normalStartupUpdateCheck": true,
+      "preMediaIdleHoldMs": 3200
+    },
+    {
+      "name": "passive worker metadata observer",
+      "at": "2026-09-30T21:16:38.046Z",
+      "installed": true,
+      "maximumWorkers": 16,
+      "maximumFragmentsPerWorker": 32,
+      "metadataMaximumBytes": 262144,
+      "rawMediaOrIdentityExported": false,
+      "workerMessagesOrTransfersChanged": false
+    },
+    {
+      "name": "actual local native card eligibility",
+      "at": "2026-09-30T21:16:38.053Z",
+      "x": 113.55882263183594,
+      "y": 473.74226684570317,
+      "dpr": 2.125,
+      "height": 1191,
+      "width": 824,
+      "version": "1.22.0-rc.26",
+      "controller": true,
+      "nativeAC3": ""
+    },
+    {
+      "name": "actual automatic admission and first presented frame",
+      "at": 1790803001603,
+      "version": "1.22.0-rc.26",
+      "mode": "q1",
+      "playbackMode": "original-video-audio-compatible",
+      "q1Kind": "general",
+      "level": "Q2",
+      "phase": "ready",
+      "failure": null,
+      "time": 0.218851,
+      "duration": 420,
+      "nativeTime": 0.218851,
+      "frames": 8,
+      "ready": 4,
+      "paused": false,
+      "ended": false,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "pruning": [],
+      "presented": [
+        {
+          "at": 1790802999552,
+          "time": 0,
+          "presentedFrames": 1,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790802999651,
+          "time": 0.083333,
+          "presentedFrames": 2,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790802999758,
+          "time": 0.166667,
+          "presentedFrames": 3,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790802999835,
+          "time": 0.25,
+          "presentedFrames": 4,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001578,
+          "time": 0.166666,
+          "presentedFrames": 2,
+          "width": 160,
+          "height": 90
+        }
+      ],
+      "maxFrameGapMs": 1743,
+      "lastFrameAgeMs": 25,
+      "rate": 1,
+      "pruningCount": 0,
+      "rapIndex": null,
+      "workerTerminated": null,
+      "videoEncodersCreated": null,
+      "audioLiveContexts": null,
+      "audioFailures": null,
+      "ownerStable": true,
+      "events": [
+        {
+          "name": "waiting",
+          "at": 1790802998367,
+          "time": 0
+        },
+        {
+          "name": "playing",
+          "at": 1790802999547,
+          "time": 0.006616
+        },
+        {
+          "name": "seeking",
+          "at": 1790803001570,
+          "time": 0.2141
+        },
+        {
+          "name": "seeked",
+          "at": 1790803001576,
+          "time": 0.2141
+        },
+        {
+          "name": "playing",
+          "at": 1790803001577,
+          "time": 0.2141
+        }
+      ],
+      "stages": [
+        {
+          "stage": "intent",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3
+        },
+        {
+          "stage": "route-selecting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 9
+        },
+        {
+          "stage": "route-selected",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 10
+        },
+        {
+          "stage": "range-source-assigned",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 37
+        },
+        {
+          "stage": "media-waiting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 46
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 54
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 56
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 127
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1200
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1211
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1219
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1224
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1225
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1226
+        },
+        {
+          "stage": "first-decoded-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1232
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1244
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1249
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1253
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1262
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1266
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1293
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1294
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1298
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1321
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1324
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1326
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1327
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1357
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1359
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1361
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1385
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "route-selected",
+          "route": "q2",
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1434
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1466
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1469
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1470
+        },
+        {
+          "stage": "playback-progress",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1476
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1483
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1486
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1723
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1754
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1794
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1815
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1820
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1990
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1991
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1992
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2011
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2100
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2120
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2121
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2122
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2125
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2213
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2240
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2243
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2324
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2348
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2351
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2352
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2354
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2408
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2599
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2600
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2601
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2623
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2627
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2628
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2629
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2656
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2678
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2682
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2854
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2873
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2949
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2977
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3048
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3072
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3081
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3160
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3161
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3162
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3180
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3232
+        },
+        {
+          "stage": "seeking",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seek-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seeked",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3256
+        },
+        {
+          "stage": "seek-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3257
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3258
+        }
+      ],
+      "controllerJournal": [],
+      "fragmentMetadata": [
+        {
+          "alias": 1,
+          "chunks": 5,
+          "bytes": 830673,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        },
+        {
+          "alias": 2,
+          "chunks": 5,
+          "bytes": 830673,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        }
+      ],
+      "network": {
+        "workerVersions": [
+          {
+            "at": 1790802992259,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992275,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992311,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992312,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992616,
+            "alias": "owned-worker-1",
+            "status": "installed",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992618,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802999725,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000608,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000623,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002472,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002489,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803003517,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          }
+        ],
+        "workerAttachments": [
+          {
+            "at": 1790802992262,
+            "alias": "owned-worker-2"
+          }
+        ],
+        "metadata": 39,
+        "download": 1,
+        "range": 17,
+        "bytes": 6497730,
+        "preflights": 57,
+        "swMedia": 17,
+        "rangedMedia": 17,
+        "workersReady": 1,
+        "errors": []
+      }
+    },
+    {
+      "name": "native center pause before seek",
+      "at": 1790803002174,
+      "version": "1.22.0-rc.26",
+      "mode": "q1",
+      "playbackMode": "original-video-audio-compatible",
+      "q1Kind": "general",
+      "level": "Q2",
+      "phase": "ready",
+      "failure": null,
+      "time": 0.610868,
+      "duration": 420,
+      "nativeTime": 0.610868,
+      "frames": 14,
+      "ready": 4,
+      "paused": true,
+      "ended": false,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "pruning": [],
+      "presented": [
+        {
+          "at": 1790803001690,
+          "time": 0.25,
+          "presentedFrames": 3,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001774,
+          "time": 0.333333,
+          "presentedFrames": 4,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001857,
+          "time": 0.416666,
+          "presentedFrames": 5,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001924,
+          "time": 0.5,
+          "presentedFrames": 6,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803002007,
+          "time": 0.583333,
+          "presentedFrames": 7,
+          "width": 160,
+          "height": 90
+        }
+      ],
+      "maxFrameGapMs": 84,
+      "lastFrameAgeMs": 167,
+      "rate": 1,
+      "pruningCount": 0,
+      "rapIndex": null,
+      "workerTerminated": null,
+      "videoEncodersCreated": null,
+      "audioLiveContexts": null,
+      "audioFailures": null,
+      "ownerStable": true,
+      "events": [
+        {
+          "name": "waiting",
+          "at": 1790802998367,
+          "time": 0
+        },
+        {
+          "name": "playing",
+          "at": 1790802999547,
+          "time": 0.006616
+        },
+        {
+          "name": "seeking",
+          "at": 1790803001570,
+          "time": 0.2141
+        },
+        {
+          "name": "seeked",
+          "at": 1790803001576,
+          "time": 0.2141
+        },
+        {
+          "name": "playing",
+          "at": 1790803001577,
+          "time": 0.2141
+        },
+        {
+          "name": "pause",
+          "at": 1790803002070,
+          "time": 0.610868
+        }
+      ],
+      "stages": [
+        {
+          "stage": "intent",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3
+        },
+        {
+          "stage": "route-selecting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 9
+        },
+        {
+          "stage": "route-selected",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 10
+        },
+        {
+          "stage": "range-source-assigned",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 37
+        },
+        {
+          "stage": "media-waiting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 46
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 54
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 56
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 127
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1200
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1211
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1219
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1224
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1225
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1226
+        },
+        {
+          "stage": "first-decoded-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1232
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1244
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1249
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1253
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1262
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1266
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1293
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1294
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1298
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1321
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1324
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1326
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1327
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1357
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1359
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1361
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1385
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "route-selected",
+          "route": "q2",
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1434
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1466
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1469
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1470
+        },
+        {
+          "stage": "playback-progress",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1476
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1483
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1486
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1723
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1754
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1794
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1815
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1820
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1990
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1991
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1992
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2011
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2100
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2120
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2121
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2122
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2125
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2213
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2240
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2243
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2324
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2348
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2351
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2352
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2354
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2408
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2599
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2600
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2601
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2623
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2627
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2628
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2629
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2656
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2678
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2682
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2854
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2873
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2949
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2977
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3048
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3072
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3081
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3160
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3161
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3162
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3180
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3232
+        },
+        {
+          "stage": "seeking",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seek-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seeked",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3256
+        },
+        {
+          "stage": "seek-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3257
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3258
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3289
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3292
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3292
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3315
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3325
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3328
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3328
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3450
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3455
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3457
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3480
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3569
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3571
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3571
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3593
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3677
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3679
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3680
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3699
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3796
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3798
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3798
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3820
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        }
+      ],
+      "controllerJournal": [],
+      "fragmentMetadata": [
+        {
+          "alias": 1,
+          "chunks": 5,
+          "bytes": 830673,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        },
+        {
+          "alias": 2,
+          "chunks": 9,
+          "bytes": 1774651,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            },
+            {
+              "boxBytes": 5348,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 250,
+                      "payloadBytes": 1016
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 28160000
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 1042,
+                      "payloadBytes": 4180
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 28047360
+                }
+              ],
+              "followingMdatBytes": 938630
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            },
+            {
+              "code": 1836019558,
+              "bytes": 5348
+            },
+            {
+              "code": 1835295092,
+              "bytes": 938630
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        }
+      ]
+    },
+    {
+      "name": "native paused95percent fragment discriminator",
+      "at": 1790803004178,
+      "version": "1.22.0-rc.26",
+      "mode": "q1",
+      "playbackMode": "original-video-audio-compatible",
+      "q1Kind": "general",
+      "level": "Q2",
+      "phase": "buffered-to-end",
+      "failure": null,
+      "time": 398.962201,
+      "duration": 420,
+      "nativeTime": 398.962201,
+      "frames": 4,
+      "ready": 4,
+      "paused": true,
+      "ended": false,
+      "error": false,
+      "loader": false,
+      "nativeError": null,
+      "pruning": [],
+      "presented": [
+        {
+          "at": 1790803001774,
+          "time": 0.333333,
+          "presentedFrames": 4,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001857,
+          "time": 0.416666,
+          "presentedFrames": 5,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803001924,
+          "time": 0.5,
+          "presentedFrames": 6,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803002007,
+          "time": 0.583333,
+          "presentedFrames": 7,
+          "width": 160,
+          "height": 90
+        },
+        {
+          "at": 1790803003588,
+          "time": 398.916666,
+          "presentedFrames": 1,
+          "width": 160,
+          "height": 90
+        }
+      ],
+      "maxFrameGapMs": 1581,
+      "lastFrameAgeMs": 590,
+      "rate": 1,
+      "pruningCount": 0,
+      "rapIndex": null,
+      "workerTerminated": true,
+      "videoEncodersCreated": 0,
+      "audioLiveContexts": 0,
+      "audioFailures": 0,
+      "ownerStable": true,
+      "events": [
+        {
+          "name": "waiting",
+          "at": 1790802998367,
+          "time": 0
+        },
+        {
+          "name": "playing",
+          "at": 1790802999547,
+          "time": 0.006616
+        },
+        {
+          "name": "seeking",
+          "at": 1790803001570,
+          "time": 0.2141
+        },
+        {
+          "name": "seeked",
+          "at": 1790803001576,
+          "time": 0.2141
+        },
+        {
+          "name": "playing",
+          "at": 1790803001577,
+          "time": 0.2141
+        },
+        {
+          "name": "pause",
+          "at": 1790803002070,
+          "time": 0.610868
+        },
+        {
+          "name": "seeking",
+          "at": 1790803003579,
+          "time": 398.962201
+        },
+        {
+          "name": "seeked",
+          "at": 1790803003587,
+          "time": 398.962201
+        }
+      ],
+      "stages": [
+        {
+          "stage": "intent",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3
+        },
+        {
+          "stage": "route-selecting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 9
+        },
+        {
+          "stage": "route-selected",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 10
+        },
+        {
+          "stage": "range-source-assigned",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 37
+        },
+        {
+          "stage": "media-waiting",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 46
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 54
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 56
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 127
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1200
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1210
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1211
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1219
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1224
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1225
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1226
+        },
+        {
+          "stage": "first-decoded-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1232
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1244
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1249
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1253
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1262
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1265
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1266
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1293
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1294
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1298
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1321
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1324
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1326
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1327
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1357
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1359
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1361
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1385
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1392
+        },
+        {
+          "stage": "route-selected",
+          "route": "q2",
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1434
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1466
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1469
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1470
+        },
+        {
+          "stage": "playback-progress",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 1476
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1483
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1486
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1488
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1723
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1725
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1754
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1760
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1794
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1796
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1815
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1820
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 1821
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1990
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1991
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 1992
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2011
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2014
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2100
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2103
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2120
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2121
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2122
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2125
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2213
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2215
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2240
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2242
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2243
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2324
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2326
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2348
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2351
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2352
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2354
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2408
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 2435
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2599
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2600
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2601
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2623
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2627
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2628
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2629
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2656
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2658
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2678
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2682
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2683
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2854
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2856
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2873
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2875
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2949
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 2951
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2975
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 2977
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3048
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3050
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3072
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3080
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3081
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3160
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3161
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3162
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3180
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3183
+        },
+        {
+          "stage": "media-metadata",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3232
+        },
+        {
+          "stage": "seeking",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seek-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3249
+        },
+        {
+          "stage": "seeked",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "media-loaded-data",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "canplay",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3255
+        },
+        {
+          "stage": "playing",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3256
+        },
+        {
+          "stage": "seek-frame",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3257
+        },
+        {
+          "stage": "frame-watchdog-armed",
+          "route": null,
+          "reason": null,
+          "status": null,
+          "elapsedMs": 3258
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3289
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3292
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3292
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3315
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3325
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3328
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3328
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3450
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3455
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3457
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3480
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3485
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3569
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3571
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3571
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3593
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3598
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3677
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3679
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3680
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3699
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3702
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3796
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3798
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 3798
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3820
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 3822
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4001
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4006
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4006
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4023
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4029
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4030
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4031
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4101
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4102
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4103
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4120
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4122
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4123
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4124
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4479
+        },
+        {
+          "stage": "credential-ready",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4482
+        },
+        {
+          "stage": "request-start",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4482
+        },
+        {
+          "stage": "headers",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4502
+        },
+        {
+          "stage": "first-byte",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4504
+        },
+        {
+          "stage": "body-progress",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4505
+        },
+        {
+          "stage": "body-complete",
+          "route": null,
+          "reason": null,
+          "status": 206,
+          "elapsedMs": 4506
+        },
+        {
+          "stage": "credential-requested",
+          "route": null,
+          "reason": null,
+          "status": 0,
+          "elapsedMs": 4534
+        }
+      ],
+      "controllerJournal": [],
+      "fragmentMetadata": [
+        {
+          "alias": 1,
+          "chunks": 5,
+          "bytes": 830673,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        },
+        {
+          "alias": 2,
+          "chunks": 9,
+          "bytes": 1774651,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 4712,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 220,
+                      "payloadBytes": 896
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 913,
+                      "payloadBytes": 3664
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 0
+                }
+              ],
+              "followingMdatBytes": 824780
+            },
+            {
+              "boxBytes": 5348,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 250,
+                      "payloadBytes": 1016
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 28160000
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 1042,
+                      "payloadBytes": 4180
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 28047360
+                }
+              ],
+              "followingMdatBytes": 938630
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1153
+            },
+            {
+              "code": 1836019558,
+              "bytes": 4712
+            },
+            {
+              "code": 1835295092,
+              "bytes": 824780
+            },
+            {
+              "code": 1836019558,
+              "bytes": 5348
+            },
+            {
+              "code": 1835295092,
+              "bytes": 938630
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        },
+        {
+          "alias": 3,
+          "chunks": 7,
+          "bytes": 1072472,
+          "tracks": [
+            {
+              "trackId": 1,
+              "handlerCode": 1986618469
+            },
+            {
+              "trackId": 2,
+              "handlerCode": 1936684398
+            }
+          ],
+          "fragments": [
+            {
+              "boxBytes": 5044,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 236,
+                      "payloadBytes": 960
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 608896000
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 980,
+                      "payloadBytes": 3932
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 608886784
+                }
+              ],
+              "followingMdatBytes": 885472
+            },
+            {
+              "boxBytes": 1152,
+              "videoTrackId": 1,
+              "containsVideo": true,
+              "trafs": [
+                {
+                  "trackId": 1,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 517,
+                      "sampleCount": 47,
+                      "payloadBytes": 204
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 639104000
+                },
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 196,
+                      "payloadBytes": 796
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 638992384
+                }
+              ],
+              "followingMdatBytes": 175868
+            },
+            {
+              "boxBytes": 116,
+              "videoTrackId": 1,
+              "containsVideo": false,
+              "trafs": [
+                {
+                  "trackId": 2,
+                  "tfhdFlags": 131128,
+                  "tfhdPayloadBytes": 20,
+                  "truns": [
+                    {
+                      "version": 1,
+                      "flags": 513,
+                      "sampleCount": 4,
+                      "payloadBytes": 28
+                    }
+                  ],
+                  "tfdtVersion": 1,
+                  "decodeTime": 645013504
+                }
+              ],
+              "followingMdatBytes": 3675
+            }
+          ],
+          "topLevelBoxes": [
+            {
+              "code": 1718909296,
+              "bytes": 28
+            },
+            {
+              "code": 1836019574,
+              "bytes": 1117
+            },
+            {
+              "code": 1836019558,
+              "bytes": 5044
+            },
+            {
+              "code": 1835295092,
+              "bytes": 885472
+            },
+            {
+              "code": 1836019558,
+              "bytes": 1152
+            },
+            {
+              "code": 1835295092,
+              "bytes": 175868
+            },
+            {
+              "code": 1836019558,
+              "bytes": 116
+            },
+            {
+              "code": 1835295092,
+              "bytes": 3675
+            }
+          ],
+          "parseCode": 0,
+          "videoTrackId": 1
+        }
+      ],
+      "elapsedMs": 1593,
+      "network": {
+        "workerVersions": [
+          {
+            "at": 1790802992259,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992275,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992311,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992312,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992616,
+            "alias": "owned-worker-1",
+            "status": "installed",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992618,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802999725,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000608,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000623,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002472,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002489,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803003517,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          }
+        ],
+        "workerAttachments": [
+          {
+            "at": 1790802992262,
+            "alias": "owned-worker-2"
+          }
+        ],
+        "metadata": 70,
+        "download": 1,
+        "range": 32,
+        "bytes": 7423948,
+        "preflights": 103,
+        "swMedia": 32,
+        "rangedMedia": 32,
+        "workersReady": 1,
+        "errors": []
+      },
+      "nativeSeekPercent": 95,
+      "expectedFailureDiagnostic": false,
+      "fullDurationCompletionClaim": false
+    },
+    {
+      "name": "actual synthetic Q2 normal close and retirement",
+      "at": "2026-09-30T21:16:45.183Z",
+      "sheetClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "settled": true,
+      "fragmentObserverCleanup": {
+        "prototypeRestored": true,
+        "ownedListenersRemoved": true,
+        "wasInstalled": true
+      }
+    },
+    {
+      "name": "finally normal close and awaited retirement before provider cleanup",
+      "at": "2026-09-30T21:16:45.202Z",
+      "sheetClosed": true,
+      "q1Present": false,
+      "settled": true,
+      "fragmentObserverCleanup": {
+        "prototypeRestored": true,
+        "ownedListenersRemoved": true,
+        "wasInstalled": false
+      }
+    },
+    {
+      "name": "owned local synthetic fixture cleanup",
+      "at": "2026-09-30T21:16:46.041Z",
+      "providerInterceptorRemoved": true,
+      "candidateTabReturned": true,
+      "extraForwardRemoved": true,
+      "ownedReverseRemoved": true,
+      "localServerClosed": true,
+      "network": {
+        "workerVersions": [
+          {
+            "at": 1790802992259,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "stopped"
+          },
+          {
+            "at": 1790802992274,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992275,
+            "alias": "owned-worker-1",
+            "status": "new",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992311,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "starting"
+          },
+          {
+            "at": 1790802992312,
+            "alias": "owned-worker-1",
+            "status": "installing",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992616,
+            "alias": "owned-worker-1",
+            "status": "installed",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992617,
+            "alias": "owned-worker-1",
+            "status": "activating",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802992618,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790802999725,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000608,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803000623,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002472,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803002489,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          },
+          {
+            "at": 1790803003517,
+            "alias": "owned-worker-1",
+            "status": "activated",
+            "runningStatus": "running"
+          }
+        ],
+        "workerAttachments": [
+          {
+            "at": 1790802992262,
+            "alias": "owned-worker-2"
+          }
+        ],
+        "metadata": 70,
+        "download": 1,
+        "range": 32,
+        "bytes": 7423948,
+        "preflights": 103,
+        "swMedia": 32,
+        "rangedMedia": 32,
+        "workersReady": 1,
+        "errors": []
+      },
+      "serverScriptJournal": [
+        {
+          "at": 1790802992170,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "script"
+        },
+        {
+          "at": 1790802992265,
+          "category": "main-worker",
+          "sha256": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7",
+          "bytes": 69233,
+          "workerScript": true,
+          "destination": "serviceworker"
+        },
+        {
+          "at": 1790802992302,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "script"
+        },
+        {
+          "at": 1790802992338,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "empty"
+        },
+        {
+          "at": 1790802994662,
+          "category": "main-worker",
+          "sha256": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7",
+          "bytes": 69233,
+          "workerScript": true,
+          "destination": "serviceworker"
+        },
+        {
+          "at": 1790802994711,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "script"
+        },
+        {
+          "at": 1790803001611,
+          "category": "main-worker",
+          "sha256": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7",
+          "bytes": 69233,
+          "workerScript": true,
+          "destination": "serviceworker"
+        },
+        {
+          "at": 1790803001622,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "script"
+        },
+        {
+          "at": 1790803002944,
+          "category": "main-worker",
+          "sha256": "2bb80772e9b590d66e9b1ab6b63250282c754a033164e3e38b433343803910f7",
+          "bytes": 69233,
+          "workerScript": true,
+          "destination": "serviceworker"
+        },
+        {
+          "at": 1790803002954,
+          "category": "imported-revision-pin",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "bytes": 10050,
+          "workerScript": false,
+          "destination": "script"
+        }
+      ]
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.26",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeSyntheticLongWatch": true,
+  "fragmentDiscriminatorCaptured": true,
+  "completed": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}

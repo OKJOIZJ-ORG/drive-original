@@ -1,0 +1,172 @@
+{
+  "recordedAt": "2026-09-30T21:13:53.778Z",
+  "source": "3eea49a4853052275582979ab205eee8026c4691",
+  "runtime": "1.22.0-rc.26",
+  "actualExecution": false,
+  "derivations": [
+    {
+      "base": "android-common-rc25.cjs",
+      "baseSha256": "4b074d7343de2fd3c57dfd6763bea2507e193cb0ae4500b5ebf1cdd4104dc021",
+      "producer": "android-common-rc26.cjs",
+      "producerSha256": "101a121e72d712793dee9886b6b5bfa56c823c1ed761043e64c853ba795f515e",
+      "changes": [
+        [
+          "1.22.0-rc.25",
+          "1.22.0-rc.26"
+        ]
+      ]
+    },
+    {
+      "base": "android-transition-common-25.cjs",
+      "baseSha256": "6198d74a5ddba669a5d41aac7ee9fd534767276e97e33dbd1547c5c45573d4f2",
+      "producer": "android-transition-common-26.cjs",
+      "producerSha256": "b9972456880c904bc25c879ffcd14eba7f9c85bb8ef698a717be28d621d6bb35",
+      "changes": [
+        [
+          "['1.22.0-rc.24','1.22.0-rc.25']",
+          "['1.22.0-rc.25','1.22.0-rc.26']"
+        ]
+      ]
+    },
+    {
+      "base": "103-rc25-device-update-identity.cjs",
+      "baseSha256": "273c99e72212a9e3572c86b99e8253a02d27a306a5a93d2f604fbd0c0ce5d232",
+      "producer": "121-rc26-device-update-identity.cjs",
+      "producerSha256": "15797063336b118c3ef2b58495f3aaa105e367c7ec77d3380bdb98a4e8dd1b3c",
+      "changes": [
+        [
+          "android-transition-common-25.cjs",
+          "android-transition-common-26.cjs"
+        ],
+        [
+          "103-rc25-device-update-identity-result.json",
+          "121-rc26-device-update-identity-result.json"
+        ],
+        [
+          "1.22.0-rc.25",
+          "1.22.0-rc.26"
+        ],
+        [
+          "rc25 settled startup",
+          "rc26 settled startup"
+        ]
+      ]
+    },
+    {
+      "base": "106-rc25-public-restored-source-proof.cjs",
+      "baseSha256": "ca86072e30e6b9aa271b5decdb7ed272080917d1a4c2db787fa2ca647a5215cf",
+      "producer": "122-rc26-current-source-controller-proof.cjs",
+      "producerSha256": "3f37d9a593601267fc4fb2aff6c6007f0b9f7b04defa9068fb14ada0faf69651",
+      "changes": [
+        [
+          "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+          "3eea49a4853052275582979ab205eee8026c4691"
+        ],
+        [
+          "android-common-rc25.cjs",
+          "android-common-rc26.cjs"
+        ],
+        [
+          "106-rc25-public-restored-source-proof-result.json",
+          "122-rc26-current-source-controller-proof-result.json"
+        ],
+        [
+          "1.22.0-rc.25",
+          "1.22.0-rc.26"
+        ],
+        [
+          "public25",
+          "public26"
+        ]
+      ]
+    },
+    {
+      "base": "107-rc25-native-fragment-discriminator.cjs",
+      "baseSha256": "a9d6c8bcdc9031452eef6eb26b0434e588d46f0b20d247b98f2b3b7767782e3e",
+      "producer": "123-rc26-native-terminal-fragment.cjs",
+      "producerSha256": "bad3195370cd6883ca73e0dc5643ef3c153bda23bc8ed72458798d1ddda00342",
+      "changes": [
+        [
+          "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+          "3eea49a4853052275582979ab205eee8026c4691"
+        ],
+        [
+          "public25-synthetic-q2",
+          "public26-synthetic-q2"
+        ],
+        [
+          "android-common-rc25.cjs",
+          "android-common-rc26.cjs"
+        ],
+        [
+          "1.22.0-rc.25",
+          "1.22.0-rc.26"
+        ],
+        [
+          "107-rc25-native-fragment-discriminator-result.json",
+          "123-rc26-native-terminal-fragment-result.json"
+        ],
+        [
+          "if(s.error||s.ended)break;",
+          "if(s.error||s.phase==='buffered-to-end')break;"
+        ],
+        [
+          "expectedFailureDiagnostic:true",
+          "expectedFailureDiagnostic:false"
+        ],
+        [
+          "assert.ok(network.bytes<=105*1024*1024);",
+          "assert.ok(network.bytes<=105*1024*1024);assert.ok(!s.error&&s.phase==='buffered-to-end'&&s.videoEncodersCreated===0&&s.workerTerminated===true&&s.fragmentMetadata.some(w=>w.fragments.some(f=>!f.containsVideo)));"
+        ]
+      ]
+    },
+    {
+      "base": "105-rc25-native-synthetic-q2-420s.cjs",
+      "baseSha256": "abbae38ed8a149bd2b5d926679f522380aded933e842d29b9b647dc6fbb9ab86",
+      "producer": "124-rc26-native-synthetic-q2-420s.cjs",
+      "producerSha256": "6cc2250c9e8505ffc21e3159155b8c73d3aea56a507bf08508dcf907ed973870",
+      "changes": [
+        [
+          "7ba8e654fa38def8c8e00efcbf1600a4c8730c53",
+          "3eea49a4853052275582979ab205eee8026c4691"
+        ],
+        [
+          "public25-synthetic-q2",
+          "public26-synthetic-q2"
+        ],
+        [
+          "android-common-rc25.cjs",
+          "android-common-rc26.cjs"
+        ],
+        [
+          "1.22.0-rc.25",
+          "1.22.0-rc.26"
+        ],
+        [
+          "105-rc25-native-synthetic-q2-420s-result.json",
+          "124-rc26-native-synthetic-q2-420s-result.json"
+        ],
+        [
+          "});const geometry=",
+          "});c.step('passive final fragment metadata observer',await page.evaluate(require('./android-fragment-metadata-observer.cjs')));await page.evaluate(()=>{window.__qaEOS=[];const original=MediaSource.prototype.endOfStream;window.__qaRestoreEOS=()=>{MediaSource.prototype.endOfStream=original;};MediaSource.prototype.endOfStream=function(...args){window.__qaEOS.push({at:Date.now(),errorArgumentPresent:args.length>0,readyBefore:this.readyState});const value=original.apply(this,args);window.__qaEOS.at(-1).readyAfter=this.readyState;return value;};});const geometry="
+        ],
+        [
+          "controllerJournal:window.__qaControllerJournal",
+          "controllerJournal:window.__qaControllerJournal,fragmentMetadata:window.__qaFragmentJournal?.snapshot?.()??null,eos:window.__qaEOS||[],worker: s?.worker?{chunks:s.worker.chunks,acks:s.worker.acks,pendingChunks:s.worker.pendingChunks,pendingWindows:s.worker.pendingWindows,activeReads:s.worker.activeReads,invalidMessages:s.worker.invalidMessages,terminated:s.worker.terminated}:null,pipeline:s?.pipeline?{duration:s.pipeline.duration,targetTime:s.pipeline.targetTime,windowOrigin:s.pipeline.windowOrigin,packets:s.pipeline.packets,outputBytes:s.pipeline.outputBytes,peakPendingAcks:s.pipeline.peakPendingAcks,sourceCleanupSettled:s.pipeline.cleanup?.settled??null}:null"
+        ],
+        [
+          "s.videoEncodersCreated===0);",
+          "s.videoEncodersCreated===0&&s.audioLiveContexts===0&&s.audioFailures===0&&s.worker?.chunks===s.worker?.acks&&s.worker?.pendingChunks===0&&s.worker?.terminated&&s.eos.length===1&&s.eos[0].readyAfter==='ended'&&s.phase==='buffered-to-end');"
+        ],
+        [
+          "settled:q1RetirementResult?.settled??null};});",
+          "settled:q1RetirementResult?.settled??null,fragmentObserverCleanup:window.__qaFragmentJournal?.restore?.()??null,eosObserverRestored:(window.__qaRestoreEOS?.(),true)};});"
+        ],
+        [
+          "if(provider)await provider.dispose();",
+          "if(page)try{const open=await page.evaluate(()=>!el.playerSheet.hidden);if(open){c.adb(['shell','input','keyevent','KEYCODE_BACK']);await c.wait(700);}const recovery=await page.evaluate(async()=>{await q1Retirement;const q=window.__qaSyntheticQ2;if(q?.frameId)el.videoPlayer.cancelVideoFrameCallback(q.frameId);for(const[n,h]of q?.handlers||[])el.videoPlayer.removeEventListener(n,h);window.__qaFragmentJournal?.restore?.();window.__qaRestoreEOS?.();return{sheetClosed:el.playerSheet.hidden,q1Present:!!q1Playback,settled:q1RetirementResult?.settled??null};});c.step('finally normal close and awaited retirement before provider cleanup',recovery);}catch{c.step('finally normal close limitation',{closeVerified:false});}if(provider)await provider.dispose();"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T19:52:21.535Z",
+  "producerSha256": "e3676d679d01859cefa6c62fa965851047319e60f35bcf6ab505e39952d5d7e8",
+  "commonSha256": "4b074d7343de2fd3c57dfd6763bea2507e193cb0ae4500b5ebf1cdd4104dc021",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "private exact original priority source preparation",
+      "at": "2026-09-30T19:52:23.585Z",
+      "ready": true,
+      "originalDriveSource": true,
+      "declaredDurationMs": 1609233
+    },
+    {
+      "name": "actual original ongoing Q1 natural renewal baseline",
+      "at": "2026-09-30T19:52:36.443Z",
+      "version": "1.22.0-rc.25",
+      "exactPrivateTarget": true,
+      "q1": true,
+      "q1Kind": "ts",
+      "phase": "ready",
+      "time": 0.564045,
+      "duration": 1609.408,
+      "ready": 4,
+      "paused": false,
+      "frames": 22,
+      "presented": [
+        {
+          "at": 1790797956271,
+          "time": 0.421333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 13
+        },
+        {
+          "at": 1790797956322,
+          "time": 0.454667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 14
+        },
+        {
+          "at": 1790797956339,
+          "time": 0.488,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 15
+        },
+        {
+          "at": 1790797956372,
+          "time": 0.521333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 16
+        },
+        {
+          "at": 1790797956405,
+          "time": 0.554667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 17
+        }
+      ],
+      "error": false,
+      "loader": false,
+      "tokenRevision": 62,
+      "expiry": "2026-09-30T19:59:33.935Z",
+      "expiresInMs": 417495,
+      "foreground": true
+    },
+    {
+      "name": "actual original25 native edge baseline",
+      "at": 1790797957262,
+      "sheetOpen": true,
+      "ownerStable": true,
+      "activeTouch": false,
+      "axis": null,
+      "frames": 27,
+      "time": 0.753652,
+      "paused": false,
+      "error": false,
+      "loader": false,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "reduce": false,
+      "transitionDuration": "0.16s",
+      "animationDuration": "0s",
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "events": []
+    },
+    {
+      "name": "temporary reduced motion actual Android renderer CSS contract",
+      "at": 1790797957290,
+      "sheetOpen": true,
+      "ownerStable": true,
+      "activeTouch": false,
+      "axis": null,
+      "frames": 27,
+      "time": 0.753652,
+      "paused": false,
+      "error": false,
+      "loader": false,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "reduce": true,
+      "transitionDuration": "1e-05s",
+      "animationDuration": "1e-05s",
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "events": []
+    },
+    {
+      "name": "temporary media preference restored without OS settings",
+      "at": 1790797957303,
+      "sheetOpen": true,
+      "ownerStable": true,
+      "activeTouch": false,
+      "axis": null,
+      "frames": 27,
+      "time": 0.753652,
+      "paused": false,
+      "error": false,
+      "loader": false,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "reduce": false,
+      "transitionDuration": "0.16s",
+      "animationDuration": "0s",
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "events": []
+    },
+    {
+      "name": "native OS edge start retreat cancelled without media transition",
+      "at": 1790797958485,
+      "sheetOpen": false,
+      "ownerStable": false,
+      "activeTouch": false,
+      "axis": null,
+      "frames": 0,
+      "time": 0,
+      "paused": true,
+      "error": false,
+      "loader": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "reduce": false,
+      "transitionDuration": "0.16s",
+      "animationDuration": "0s",
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "events": [
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "cancelable": true,
+          "prevented": false,
+          "active": false,
+          "axis": null
+        },
+        {
+          "type": "touchmove",
+          "trusted": true,
+          "cancelable": true,
+          "prevented": true,
+          "active": false,
+          "axis": null
+        },
+        {
+          "type": "touchcancel",
+          "trusted": true,
+          "cancelable": false,
+          "prevented": false,
+          "active": false,
+          "axis": null
+        }
+      ]
+    },
+    {
+      "name": "native edge unit normalBack awaited retirement and preference cleanup",
+      "at": "2026-09-30T19:52:38.578Z",
+      "sheetClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "settled": true,
+      "reduce": false,
+      "observersRemoved": true,
+      "queryRestored": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.25",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "completed": false,
+  "failure": "OPERATION_FAILED",
+  "ownedNativeCdpDisconnected": true,
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}
