@@ -1,0 +1,37 @@
+{
+  "scope": "Independent local native-append-error discriminator; mocks MSE/worker/provider, no browser/device/network proof",
+  "sourceBefore": {
+    "media/general-player.mjs": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d",
+    "tests/general-retention.test.mjs": "669bb53ea8ea5f4d5111783ce156fd8683b60079962f81bfc4bb9e195a8e04b1",
+    "media/general-README.md": "68553e8d515db8c466f064b447c9136c691e252bd73b077bdcf410f8d4a8fac7"
+  },
+  "sourceAfter": {
+    "media/general-player.mjs": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d",
+    "tests/general-retention.test.mjs": "669bb53ea8ea5f4d5111783ce156fd8683b60079962f81bfc4bb9e195a8e04b1",
+    "media/general-README.md": "68553e8d515db8c466f064b447c9136c691e252bd73b077bdcf410f8d4a8fac7"
+  },
+  "helperSha256": "4385975d2d903ffb3751c431055853e64c2b699b4fe7d3cd2c7320e42e0e8ec4",
+  "observation": {
+    "audioAppendStarted": true,
+    "audioUpdateendAcknowledged": false,
+    "eosCalls": 0,
+    "errorEvents": [
+      "GENERAL_MEDIA_ERROR"
+    ]
+  },
+  "terminal": {
+    "phase": "failed",
+    "failure": "GENERAL_MEDIA_ERROR",
+    "acknowledgedAppends": 2,
+    "peakRetainedAppendBytes": 315
+  },
+  "cleanup": {
+    "settled": true,
+    "sourceAborts": 2,
+    "workerTerminated": true,
+    "revokeCalls": 1,
+    "sourceCleared": true
+  },
+  "passed": true,
+  "producerSha256": "51410a5fcd3017c6b80ef55e9c14197d90b1874a5599cd611c5d569897fb451f"
+}

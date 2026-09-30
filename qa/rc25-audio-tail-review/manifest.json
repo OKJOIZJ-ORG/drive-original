@@ -1,0 +1,98 @@
+{
+  "schema": "drive-original.rc25-audio-tail-independent/1",
+  "reviewer": "gpt-6.1-sol high",
+  "verdict": "No remaining confirmed material finding in bounded correction; corrected physical completion remains unqualified",
+  "sourceFreeze": [
+    {
+      "path": "media/general-player.mjs",
+      "sha256": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d",
+      "bytes": 20187
+    },
+    {
+      "path": "tests/general-retention.test.mjs",
+      "sha256": "669bb53ea8ea5f4d5111783ce156fd8683b60079962f81bfc4bb9e195a8e04b1",
+      "bytes": 14885
+    },
+    {
+      "path": "media/general-README.md",
+      "sha256": "68553e8d515db8c466f064b447c9136c691e252bd73b077bdcf410f8d4a8fac7",
+      "bytes": 9938
+    }
+  ],
+  "files": [
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-discriminator.mjs",
+      "sha256": "51410a5fcd3017c6b80ef55e9c14197d90b1874a5599cd611c5d569897fb451f",
+      "bytes": 5302
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-first-attempt.json",
+      "sha256": "a89d56bbe7b84b93af0eaf21b10c3f91e215b23a726f433b3b8b73e5784d17c3",
+      "bytes": 679
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-first-backpressure-fixture.mjs",
+      "sha256": "9a38df0c05650d0d19918e45c4f6940f276fc34e8e2174d185f883e29af23c8a",
+      "bytes": 5304
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-results.json",
+      "sha256": "154a47487d76a493ea25451eac1f9b4c94b7ebef4ed92f9ce87f16dacc79e9dd",
+      "bytes": 1442
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-second-abort-count-fixture.mjs",
+      "sha256": "0e77a9f7b728638d8fd7a4532232ace98ad20d7d86535cff682b3bb3771435d7",
+      "bytes": 5304
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/ack-error-second-attempt.json",
+      "sha256": "414cc191f0955e3819a76f97fdc6fa0d68cae5cb8b3aeb6fe837c7a2d64685fe",
+      "bytes": 631
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/long-gop-count-discriminator.mjs",
+      "sha256": "3958d34d81459332c3817956741a7693d897ed7e8e38c0aab8d2c0e4222f93bb",
+      "bytes": 2273
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/long-gop-count-results.json",
+      "sha256": "4546e89241f91570c0ed48015a110250af154da15a27421ce7ee121ad9179acb",
+      "bytes": 500
+    },
+    {
+      "path": "qa/rc25-audio-tail-review/README.md",
+      "sha256": "a3a6453c1dddf24423180d90a9fb27408ff1c6b5a238bddcef5a4960867640c2",
+      "bytes": 5737
+    }
+  ],
+  "manifestPath": "qa/rc25-audio-tail-review/manifest.json",
+  "savedCounterexample": [
+    {
+      "path": "qa/rc21-android-night/107-rc25-native-fragment-discriminator-result.json",
+      "sha256": "e7447167b5b5958d4a167c4e3c900d1a1a8b668db7c105a67ecd12da578f65ba",
+      "bytes": 153668
+    }
+  ],
+  "inheritedHistoricalMetadata": [
+    {
+      "path": "qa/rc24-general-retention-review/binary-fields.mjs",
+      "sha256": "10a6762234aaada88774cfc24e68ef1de76d8ffc080e92303b12f7922ca63c72",
+      "bytes": 5240
+    },
+    {
+      "path": "qa/rc24-general-retention-review/binary-fields-results.json",
+      "sha256": "5bc8fccbeb778bba6d0d6464158aef4c1b62a2ee7664144b1af23c8868be3502",
+      "bytes": 1363
+    }
+  ],
+  "inheritedTwelveCasesReexecuted": false,
+  "authorReportedFocusedPasses": 24,
+  "authorArchivedRawPathSupplied": false,
+  "independentAckErrorPass": true,
+  "ownedHundredSecondGopCounterexample": "Rejected by existing GENERAL_MUX_RETAINED_LIMIT before observer; not a new regression",
+  "productEdited": false,
+  "browserOrDeviceRun": false,
+  "networkRun": false,
+  "commitOrDeployment": false
+}

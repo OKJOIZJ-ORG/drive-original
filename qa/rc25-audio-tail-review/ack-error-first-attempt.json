@@ -1,0 +1,8 @@
+{
+  "producer": "ack-error-first-backpressure-fixture.mjs",
+  "exitCode": 1,
+  "passed": false,
+  "rawToolOutput": "Warning: Detected unsettled top-level await at file:///C:/extensions/Drive-Original/source/qa/rc25-audio-tail-review/ack-error-discriminator.mjs:55\n  const terminal=await player.completion(),cleanup=await player.dispose();\n                 ^",
+  "cause": "Independent QA fixture reported forty seconds ahead at currentTime zero, so the unchanged thirty-second ahead backpressure correctly prevented the intended final append from starting. Fake range reduced to twenty seconds in the next producer; product unchanged.",
+  "historicalStdoutFileExisted": false
+}

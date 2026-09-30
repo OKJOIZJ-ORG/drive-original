@@ -1,0 +1,8 @@
+{
+  "producer": "ack-error-second-abort-count-fixture.mjs",
+  "exitCode": 1,
+  "passed": false,
+  "rawToolOutput": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n2 !== 1\n\n    at file:///C:/extensions/Drive-Original/source/qa/rc25-audio-tail-review/ack-error-discriminator.mjs:62:10",
+  "cause": "Independent QA asserted one source abort, but worker ownership and page ownership each invoke the existing idempotent source abort. The contract is confirmed settled cleanup, not exactly one call. Only the over-narrow QA assertion was changed; product unchanged.",
+  "historicalStdoutFileExisted": false
+}
