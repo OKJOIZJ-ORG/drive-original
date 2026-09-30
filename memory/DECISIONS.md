@@ -421,3 +421,15 @@ sweep: 현재 진행과 다음 위임에 적용; 6.1 Sol 새 채팅은 실제 �
 추가로 사용자는 "Codexon 종료 허용"을 명시했다. 설치 경로가 확인된 Codexon 프로세스만 종료하고 메모리 회복을 확인한다. Android 준비 질문에는 처음 "123 다 가능"이라고 답했지만, 이어 "지금 안드로이드 기기가 준비가 안돼서 나중에 연결하겠습니다. 먼저 할 수 있는데까지만 다 준비해주세요"라고 현재 장치 연결을 유예했다. 지금은 PC 제어 도구까지 준비하며 장치가 연결됐다고 추정하거나 모바일 인수를 실행하지 않는다. 기존 D-050/D-051의 후보·상태·운영·원본·권한·비용 경계는 그대로다.
 
 sweep: current checkpoint, goal execution header, session log and NIGHT-ENVIRONMENT-20260930.md aligned to environment-only/WAIT; existing completed evidence and failed probes preserved (2026-09-30).
+
+→ Android deferral and pending PC file-access preparation resolved by D-065; environment-only WAIT remains.
+
+## D-065 · Android 연결·로그인과 PC 파일 접근 준비 확인 — 2026-09-30 (User-confirmed; partially supersedes D-064 device deferral)
+
+사용자는 Android의 후보 앱에 로그인했다고 알리고, USB 연결과 디버깅 승인 안내 후 "허용했어"라고 답했다. 별도 PC 설정 질문에는 "PC의 파일 URL 접근도 켰습니다"라고 확인했다. 해당 디버깅·파일 접근 설정은 사용자가 직접 적용한 것으로 기록한다. 에이전트는 현재 연결과 로그인 및 로컬 QA 파일 읽기가 실제로 가능한지 환경 사전 점검만 한다.
+
+observed: ADB authorized1/SM-X800/Android16, 실제 Android Chrome MCP에서 정확한 후보판 rc.21 로그인 라이브러리와 SW 제어를 확인했다. PC의 기존 개인 Chrome에서는 네트워크 전송 없는 임시 입력으로 QA factory147087바이트를 읽고 로컬 SHA256 일치를 확인한 뒤 입력을 제거했다. Android 재생·제스처·OS 복귀 및 factory 실행은 하지 않았다. PC와 Android 계정의 동일성은 독립 비교하지 않았다.
+
+D-064의 지금 환경 준비만/밤의 명시적 시작 대기는 유지한다. 이 확인은 전체 제품 인수·운영 반영·자동화 재개 권한을 추가하지 않는다. 기존 D-050/D-051/D-056 및 볼륨·원본·비용 경계를 그대로 유지한다.
+
+sweep: checkpoint, night guide, goal header, open questions and session log updated to observed device/file readiness; earlier failures and deferred snapshots preserved.

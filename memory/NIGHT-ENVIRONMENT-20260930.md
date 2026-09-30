@@ -1,7 +1,7 @@
 # Night work environment — 2026-09-30
 
 Audience: a later Codex agent in this Windows workspace, without this chat.
-**Current mode: ENVIRONMENT ONLY / WAIT FOR EXPLICIT NIGHTTIME START (D-064).**
+**Current mode: ENVIRONMENT ONLY / WAIT FOR EXPLICIT NIGHTTIME START (D-064/D-065).**
 The product goal remains incomplete. Do not run media/acceptance tests, edit the
 product, deploy a candidate, or create a scheduled wakeup during this preparation.
 
@@ -42,24 +42,31 @@ approved units; a verified unit/commit is a savepoint, not the whole goal.
 
 ## Human prerequisites and current boundaries
 
-- **Android deferred by the human:** no authorized/unauthorized/offline ADB device
-  was detected at preparation. The human will later connect it, enable USB
-  debugging and authorize this PC, then sign in to the candidate with the same
-  Google account. Do not install a heavy emulator merely to repeat readiness.
-  ADB output must be reduced to counts/status; never export serial numbers.
-  Once exactly one authorized device is visible, select that device in memory
-  and use the official portable tools. Do not infer control from Bluetooth or
-  Phone Link. No Android playback, gestures or OS-return acceptance ran now.
+- **Android connected and login observed ready at22:20:** one authorized ADB
+  device, Samsung SM-X800/Android16/Chrome153.0.8010.52. The human enabled USB
+  debugging, authorized this PC and signed in. Official Chrome DevTools MCP1.10.1
+  list/evaluate reached the existing exact candidate, runtime1.22.0-rc.21, with
+  library visible, account key present, setup hidden and an active SW controller.
+  PC/Android same-account identity is not independently proved. No playback,
+  gestures or OS-return acceptance ran. The owned temporary ADB forward and MCP
+  client were removed/closed. Evidence: `qa/android-environment-20260930/`.
+  Reduce ADB output to counts/status; never export serial numbers. At night select
+  exactly one authorized device in memory. Keep the device connected, powered
+  and available. Phone Link/Bluetooth alone is not a control proof.
 - **Cloudflare login observed ready:** the normal Chrome tab reached the existing
   account home with Workers navigation, without a sign-in/password screen.
   The agent did not enter credentials, solve 2FA or create a grant. Recheck the
   live session at night before the narrow plan/observability reads.
-- **Corpus file-URL access remains pending:** the earlier permission question for
-  the ChatGPT Chrome extension's `Allow access to file URLs` has no answer or
-  verified manual toggle. It allows the extension to access local file pages.
-  The agent must not silently enable it or bypass the browser restriction.
-  Do not repeat loopback delivery or change hostnames: actual loopback QA source
-  delivery failed with `ERR_BLOCKED_BY_CLIENT` before the factory ran.
+- **PC local QA file access observed ready at22:34:** the human confirmed manually
+  enabling the ChatGPT extension's file-URL access. In the existing personal
+  Chrome candidate tab, a temporary isolated file input accepted the exact
+  `qa/rc21-actual-corpus/factory.expression.js`. Read147087bytes/SHA256
+  `ed770ee121253885365914c9013c2e279504580f0be49ab376ea7f5d7b165ad1`
+  matched local bytes. No network upload handler or factory execution; the
+  temporary input/iframe was removed. This proves local file delivery only.
+  Evidence: `qa/android-environment-20260930/pc-file-access.json`.
+  The agent changed no security setting. Preserve the older loopback
+  `ERR_BLOCKED_BY_CLIENT` failure; do not bypass it with alternate hostnames.
 - Keep the PC and the intended Chrome profile available, powered and unlocked
   during the run. Current `powercfg` readback reports AC sleep, hibernate and
   display timers all0 (never). No power/security setting was changed during
@@ -86,8 +93,9 @@ approved units; a verified unit/commit is a savepoint, not the whole goal.
    no-media routed/unrouted controls were stable. Do not retry identical harnesses.
 3. Actual corpus: `qa/rc21-actual-corpus/factory.expression.js` and SW proof are
    version-pin-only adaptations of the qualified rc16 factory. No media probe
-   has run in this leaf. Establish approved supported transport and reconstruct
-   canonical private source identity inside the current browser before reads.
+   has run in this leaf. Local filechooser delivery is now qualified; execute the
+   factory only after the nighttime start. Reconstruct canonical private source
+   identity inside the current browser before reads.
    A unique size alone does not establish the historical immutable identity.
 4. Continue uninterrupted actual expiry/position, native OS-return, long resource
    checks and approved disposable UI/state recovery. Use physical Android and a
@@ -127,5 +135,14 @@ decision/checkpoint reference while those records were being updated. The
 references were aligned. Fresh round2 executed the First action once and confirmed
 the handoff, D-064, checkpoint and goal all agree on environment-only WAIT, with
 no blocking ambiguity. Exact redacted preflight stdout and round2 record are in
-`qa/night-environment-20260930/`. PC tooling passed; deviceReady is false because
-the human deferred Android connection. This is preparation proof, not acceptance.
+`qa/night-environment-20260930/`. That17:13snapshot has deviceReady=false because
+the device was then deferred; it is preserved as history, not current readiness.
+Later22:20Android and22:34PC file-access checks pass in
+`qa/android-environment-20260930/`. Android v1/v2 failures were parser/response-
+shape assumptions; both producers/results are preserved and v3 passes.
+Do not rerun a result-writing producer over preserved evidence: copy
+`readiness-v3.cjs` to a newly named attempt and change its output filename first.
+These are preparation proofs; no product/media acceptance has started.
+Fresh22:39read-only preflight is `qa/android-environment-20260930/preflight-connected.json`:
+pcToolingReady=true/deviceReady=true/Codexon0; existing physical/virtual memory
+floors pass. Recheck at the explicit start, since connection and headroom can drift.

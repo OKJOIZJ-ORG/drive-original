@@ -77,3 +77,18 @@ Current memory recovery removes that launch blocker without establishing the
 replacement/reload/reopen behavior. qa/rc21-hosting-security records actual official
 aggregate analytics and local synthetic security; exact plan/billing safety and
 null/omitted effective observability still need narrow logged-in dashboard reads.
+
+## 2026-09-30 22:35 — preparation blockers resolved, D-065
+
+The17:12Android deferral and unanswered file-URL prerequisite above are historical.
+The human manually authorized USB debugging and confirmed the PC file-URL toggle.
+Observed one authorized SM-X800/Android16; official Android Chrome MCP reads the
+exact rc.21 signed-in library with SW control. Personal PC Chrome filechooser
+reads147087QA bytes with the exact local hash, without network upload or factory
+execution; the temporary fixture is removed. Evidence:
+`qa/android-environment-20260930/README.md`.
+
+Only these environment prerequisites are resolved. Explicit nighttime start is
+still pending. Same-account PC/Android identity, physical playback/gestures/OS
+return, iPhone/VoiceOver, full formats/SW recovery/expiry and production gates
+remain open. The agent changed no security setting or grant.

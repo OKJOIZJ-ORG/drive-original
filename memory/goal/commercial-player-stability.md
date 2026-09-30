@@ -4,7 +4,7 @@
 
 Bring Drive Original's mobile and desktop media-library experience to a commercially credible level across gesture navigation, playback controls, dialogs, authentication, streaming, thumbnails, bulk actions, performance, and latent-defect recovery.
 
-**Execution state — 2026-09-30:** ENVIRONMENT ONLY / WAIT under D-064. Fixed public source3ebd97d/runtime1.22.0-rc.21/Workerb1021a42-fb32-47d5-92be-7fd92736faf7 and committed624local/delivery/actual normalPC evidence are preserved; CANDIDATE-RC21-20260930.md owns scope. Codexon shutdown and memory recovery, portable Android tools, actual Chrome MCP and existing Cloudflare dashboard login are prepared. Android connection is explicitly deferred. Product/media/acceptance execution requires the human's later nighttime start; no automation/wakeup was created. Corpus file-URL permission, full SW recovery, uninterrupted expiry/position, real devices/OSreturn/two-device/full formats, exact plan/effective observability and separate production authority remain open. NIGHT-ENVIRONMENT-20260930.md owns preparation. Whole goal incomplete; productionv1.21.0/e08989a/global Drive mutationsfalse/automationPAUSED.
+**Execution state — 2026-09-30 22:35:** ENVIRONMENT ONLY / WAIT under D-064/D-065. Fixed public source3ebd97d/runtime1.22.0-rc.21/Workerb1021a42-fb32-47d5-92be-7fd92736faf7 and committed624local/delivery/actual normalPC evidence are preserved; CANDIDATE-RC21-20260930.md owns scope. PC tools and existing Cloudflare dashboard login are prepared. One authorized SM-X800/Android16 now has a real MCP-observed signed-in rc.21 library. Personal PC Chrome successfully reads the exact local QA factory after the human's manual file-URL toggle. No factory/playback/acceptance execution occurred. The human's later nighttime start is still required; no automation/wakeup was created. Full SW recovery, uninterrupted expiry/position, real device behavior/OSreturn/two-device/full formats, exact plan/effective observability and separate production authority remain open. NIGHT-ENVIRONMENT-20260930.md owns preparation. PC/Android same-account identity is not independently proved. Whole goal incomplete; productionv1.21.0/e08989a/global Drive mutationsfalse/automationPAUSED.
 
 ## Definition of done
 
@@ -619,3 +619,12 @@ gates, but exact Free/plan/billing safety and effective null/omitted observabili
 remain unknown. Corpus transport failed before factory execution; extension
 file-URL approval/manual setup remains pending. NIGHT-ENVIRONMENT-20260930.md
 and qa/night-environment-20260930 own the preparation evidence and boundaries.
+
+## 2026-09-30 22:35 — device and local-file setup readiness only
+
+D-065 resolves the earlier Android deferral and pending PC file-access setup.
+One authorized SM-X800/Android16 has a real MCP-observed signed-in rc.21 library;
+personal PC Chrome reads the local QA factory with exact byte/hash equality.
+`qa/android-environment-20260930` preserves all readiness attempts and cleanup.
+No factory/playback/gesture/OS-return acceptance ran, and PC/Android same-account
+identity was not independently compared. D-064 environment-only WAIT remains.

@@ -1,0 +1,42 @@
+{
+  "schema": "drive-original.pc-file-access/1",
+  "recordedAt": "2026-09-30T13:34:08.264Z",
+  "scope": "Environment readiness only",
+  "browser": "Existing personal Chrome / extension browser 3",
+  "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+  "humanReportedManualFileUrlToggle": true,
+  "localFile": "qa/rc21-actual-corpus/factory.expression.js",
+  "expectedBytes": 147087,
+  "expectedSha256": "ed770ee121253885365914c9013c2e279504580f0be49ab376ea7f5d7b165ad1",
+  "observed": {
+    "bytes": 147087,
+    "factoryExecuted": false,
+    "networkUploadHandler": false,
+    "phase": "read",
+    "sha256": "ed770ee121253885365914c9013c2e279504580f0be49ab376ea7f5d7b165ad1"
+  },
+  "passed": true,
+  "isolatedIframe": true,
+  "fixtureRemoved": true,
+  "fileChooserAccepted": true,
+  "settingsChangedByAgent": false,
+  "networkUploadHandler": false,
+  "factoryExecuted": false,
+  "navigationOrPlaybackPerformed": false,
+  "authenticationRequestsPerformed": false,
+  "productionChanged": false,
+  "privateIdentifiersOrCredentialsExported": false,
+  "steps": [
+    "Runtime.evaluate setupExpression",
+    "waitForEvent(filechooser) before frameLocator input click",
+    "filechooser.setFiles with the exact local QA path",
+    "Runtime.evaluate readExpression",
+    "Runtime.evaluate cleanupExpression",
+    "getAXState confirms temporary fixture removed"
+  ],
+  "expressions": {
+    "setup": "(() => { if (location.origin !== 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev') throw new Error('WRONG_ORIGIN'); if (document.getElementById('drive-env-file-check')) throw new Error('FIXTURE_EXISTS'); const f = document.createElement('iframe'); f.id = 'drive-env-file-check'; f.title = '로컬 QA 파일 읽기 확인'; f.style.cssText = 'position:fixed;right:16px;bottom:16px;width:320px;height:90px;z-index:2147483647;background:white;border:2px solid #555'; document.body.appendChild(f); const d = f.contentDocument; d.body.textContent = '환경 준비: QA 파일 읽기 확인'; const input = d.createElement('input'); input.type = 'file'; input.id = 'drive-env-file-input'; input.setAttribute('aria-label','로컬 QA 파일'); d.body.appendChild(input); f.__driveEnvResult = {phase:'waiting',networkUploadHandler:false}; input.addEventListener('change', async () => { try { const file = input.files[0]; if (!file) throw new Error('NO_FILE'); const bytes = await file.arrayBuffer(); const digest = await crypto.subtle.digest('SHA-256',bytes); f.__driveEnvResult = {phase:'read',bytes:bytes.byteLength,sha256:Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join(''),networkUploadHandler:false,factoryExecuted:false}; } catch(e) { f.__driveEnvResult = {phase:'failed',errorCode:'LOCAL_READ_FAILED',networkUploadHandler:false,factoryExecuted:false}; } }); return {fixtureCreated:true,isolatedIframe:true,networkUploadHandler:false}; })()",
+    "read": "(() => { const f = document.getElementById('drive-env-file-check'); if (!f) throw new Error('FIXTURE_MISSING'); return f.__driveEnvResult; })()",
+    "cleanup": "(() => { const f = document.getElementById('drive-env-file-check'); if (f) f.remove(); return {fixtureRemoved:!document.getElementById('drive-env-file-check')}; })()"
+  }
+}
