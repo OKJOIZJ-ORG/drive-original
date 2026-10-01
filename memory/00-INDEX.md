@@ -12,6 +12,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
 | `HANDOFF.md` | Single-use instructions after an explicit pause | Consume/delete on resume; D-068 currently ACTIVE |
+| `REBOOT-RESUME-20261001.md` | Fresh browser/helper binding and continuous PC replay after the clean reboot | Local preparation only; resume on direct user instruction |
 | `NIGHT-ENVIRONMENT-20260930.md` | Environment-only PC/Android readiness and explicit nighttime resume procedure | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |

@@ -473,3 +473,19 @@ sweep: single-use handoff consumed/deleted; checkpoint/goal/session execution al
 D-066의 전체 목표·현재 PC+Android 인수/iOS 배포 후 순서, D-050/D-051/D-056의 원본·비용·권한·운영 경계는 유지한다. 이번 대기는 전체 완료나 범위 포기가 아니다. 공개 후보는 source1d79897/rc.32이며 완료된 전달·업데이트·Android 증거는 반복 실행하지 않는다. 새 Chrome 프로필 이전·로그인·전역 설정 변경은 수행하지 않았다.
 
 sweep: checkpoint, single-use handoff, goal execution header and session log aligned WAIT; safe QA savepoint and original failed/unattempted outcomes retained.
+
+
+## D-070 · 앵챗추출기 완료 후 전체 작업 재개 — 2026-10-01 (User-confirmed; supersedes D-069 WAIT)
+
+사용자는 "완전히 끝났습니다. 재개하세요."라고 명시해 D-069 대기를 해제했다. aadcdcb의 저장 지점부터 D-066/D-068 전체 남은 구현·실제 검증·후보 인수 작업을 재개한다. 완료된 후보 rc.32 전달·업데이트·Android 검증은 보존하고 반복하지 않는다. PC 검사 연결 복구·기존 임시 QA 정리와 중단된 PC 재생 검증부터 이어간다. 단위·커밋·후보판은 저장 지점이며 전체 완료가 아니다. PC+Android 현재 인수/iOS 배포 후 순서와 기존 원본·비용·권한·운영 경계는 유지한다. main/push/production/새 grant/결제/원본 파괴/자동화 재개 권한은 추가하지 않는다.
+
+sweep: waiting handoff consumed and archived, checkpoint/goal/session aligned ACTIVE D070.
+
+
+## D-071 · 깨끗한 재부팅 전 저장·재개 준비 후 대기 — 2026-10-01 (User-confirmed; supersedes D-070 ACTIVE execution only)
+
+사용자는 "깔끔하게 재부팅해서 올게. 그 전 대기상태를 이용해."라고 명시했다. 재부팅 직전에는 새 브라우저·Android·공급자 검사나 제품 실행을 시작하지 않고, 현재 기록과 PC 재개 실행 순서를 로컬에 정리·저장한다. 사용자가 재부팅 후 명시적으로 돌아와 재개를 지시할 때까지 대기한다. 재부팅 자체를 에이전트가 실행하거나, 자동화/예약/다른 세션 완료 알림으로 재개하지 않는다.
+
+D-070은 전체 남은 목표를 재개한 결정으로 유지하며 이번 일시 대기는 그 실행만 유예한다. rc.32 전달·업데이트·Android 완료 증거와 실패/미수행 경계를 그대로 보존한다. 기존 PC+Android 인수/iOS 배포 후 순서 및 원본·비용·권한·운영 경계는 유지한다.
+
+sweep: reboot resume guide, checkpoint/handoff, goal execution header and session log aligned WAIT D071.

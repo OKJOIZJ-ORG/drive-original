@@ -724,3 +724,13 @@ Fixed10f1dd2/rc29 candidate Worker22009156 delivered with52 public/40cached/8unc
 Immutable1d79897/rc32 candidate delivery and ordinaryPCAndroid updates completed; currentpublicversion32 re-read after app restart, no redeployment. ActualAndroid32 same-fileTS has qualified cache reuse/targetframes/nativeEOF/reopen/cleanup; diagnostic first2>15s retained. PCattempt1 failed root-pacing360s observerbound and was preserved/closed/retired/stopped; invalid metric producer labels corrected for safe evidence export. No second PC observer was installed. Deeper32 finalinventory OWNER_CHANGED caused aggregateCLEANUP_FAILED; private/reader release observed, genericupstreamcleanupUNKNOWN. New exact32 signature recovery local21checks, actual0.
 
 At user restart request inspected canonical branch/HEAD/diff/files and activechildren: onlyroot, priorchildren inactive. Chrome defaultMCPprofile conflict observed; personallyauthenticated originaltab275139600 debuggerunattached. Same-profile ownedtab275139804 opened, basicrawCDP worked, hosthelperbinding recovery unresolved; newtabclosed atpause. Originalbrowserlocal passiveprivateholders may remain, cleanupunconfirmed afterrestart, no activeobserver/playback atlast observedclose. User authorized cross-threadcoordination with RPthread01a0f63e-2423-72e1-87bb-d24c0ef1cefb; scopedMCP/profile/tab boundaries exchanged without processes/config/cookies/grants changed. LatestD069 pausesDrivewhileRPfinishes; complete recordsavepointonly, no automaticresume.
+
+
+## 2026-10-01 — D070 explicit full resume from aadcdcb
+
+User released RP-wait: "완전히 끝났습니다. 재개하세요.". Current canonicalHEADaadcdcb/branch inspectedclean; public immutable32 evidence retained, no redeployment/update/device replay repeated. Handoff consumed/archived, goal/checkpoint/decisionACTIVE. DefaultChromeDevToolsMCP still reports shared profilelock; original personaltab fresh rawcapability reportsDebuggerunattached. Recover current binding and complete originalPC/format/corpus/image/audio/Q0/session remaining queue; do not stop at saves.
+
+
+## 2026-10-01 — D071 clean reboot WAIT/local resume preparation
+
+Immediately after D070 resume, user requested clean reboot and use of waitingstate. No secondPCreplay/observer/deeper/device job started. Prepared local REBOOT-RESUME guide: one constant freshCDP/helper scope, exception checks, exacttimed PCsequence/validmetriclabels, safeexport and remaining original69 distinctions. ArchivedD070checkpoint, newwaitinghandoff and goal/index/decision alignedD071. Activechildren inventory onlyroot; formerprefix/curationchildren FINAL. No Chrome/profile/process/cookie/credential/production change or auto-resume created.
