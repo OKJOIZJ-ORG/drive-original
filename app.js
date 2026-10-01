@@ -4993,11 +4993,29 @@ function scheduleRenderWindowUpdate() {
     const relativeY = Math.max(0, window.scrollY + window.innerHeight / 2 - gridTop);
     const columns = getGridColumnCount();
     const focusRow = Math.floor(relativeY / Math.max(1, state.renderRowHeight));
-    const requestedStart = Math.max(0, (focusRow - 4) * columns);
-    const nextWindow = computeRenderWindow(files.length, requestedStart, columns);
     const currentWindow = computeRenderWindow(files.length, state.renderWindowStart, columns);
     const threshold = Math.max(columns, Math.floor((currentWindow.end - currentWindow.start) * RENDER_WINDOW_STEP_RATIO / columns) * columns);
-    if (columns !== state.renderColumnCount || Math.abs(nextWindow.start - state.renderWindowStart) >= threshold) {
+    const rowHeight = Math.max(1, state.renderRowHeight);
+    const totalRows = Math.ceil(files.length / columns);
+    const viewportTop = window.scrollY || 0;
+    const viewportBottom = viewportTop + (window.innerHeight || 0);
+    const viewportIntersectsGrid = viewportBottom > gridTop && viewportTop < gridTop + totalRows * rowHeight;
+    const viewportStartRow = Math.max(0, Math.floor((viewportTop - gridTop) / rowHeight));
+    const viewportEndRow = Math.min(totalRows, Math.ceil((viewportBottom - gridTop) / rowHeight));
+    const currentStartRow = Math.floor(currentWindow.start / columns);
+    const currentEndRow = Math.ceil(currentWindow.end / columns);
+    const viewportOutsideWindow = viewportIntersectsGrid
+      && (viewportStartRow < currentStartRow || viewportEndRow > currentEndRow);
+    let requestedStart = Math.max(0, (focusRow - 4) * columns);
+    if (viewportIntersectsGrid && viewportStartRow < currentStartRow) {
+      requestedStart = viewportStartRow * columns;
+    } else if (viewportIntersectsGrid && viewportEndRow > currentEndRow) {
+      const windowRows = Math.floor(RENDER_WINDOW_MAX / columns);
+      requestedStart = Math.max(0, (viewportEndRow - windowRows) * columns);
+    }
+    const nextWindow = computeRenderWindow(files.length, requestedStart, columns);
+    if (columns !== state.renderColumnCount || viewportOutsideWindow
+      || Math.abs(nextWindow.start - state.renderWindowStart) >= threshold) {
       state.renderScrollDirection = nextWindow.start > state.renderWindowStart ? 'down' : 'up';
       state.renderWindowStart = nextWindow.start;
       renderMediaGrid(files);

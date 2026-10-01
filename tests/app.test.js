@@ -1553,6 +1553,77 @@ test('render window is row-aligned and never exceeds the hard DOM cap', () => {
   assert.ok(tail.end - tail.start <= 240);
 });
 
+test('render scheduler repairs uncovered viewport rows and keeps covered scrolling inside hysteresis', () => {
+  function probe({ start, scrollY, innerHeight = 900, total = 3000 }) {
+    const context = loadAppContext();
+    const { findNodes } = installMiniDom(context);
+    const callbacks = [];
+    context.requestAnimationFrame = callback => { callbacks.push(callback); return callbacks.length; };
+    context.window.scrollY = scrollY;
+    context.window.innerHeight = innerHeight;
+    const grid = context.document.createElement('div');
+    grid.clientWidth = 1030; // six columns under the app's fallback sizing rule
+    grid.hidden = false;
+    grid.renderCount = 0;
+    grid.getBoundingClientRect = () => ({ top: 410 - context.window.scrollY });
+    const replaceChildren = grid.replaceChildren.bind(grid);
+    grid.replaceChildren = (...children) => { grid.renderCount += 1; replaceChildren(...children); };
+    context.testGrid = grid;
+    run(context, `(() => {
+      el.fileGrid = testGrid;
+      state.files = Array.from({length:${total}}, (_, index) => ({
+        id: String(index), name: 'file-' + index, mimeType: 'image/jpeg'
+      }));
+      state.filter = 'all'; state.query = ''; state.sort = 'name';
+      state.renderWindowStart = ${start}; state.renderRowHeight = 236.287;
+      createFileCard = () => {
+        const card = document.createElement('div');
+        card.className = 'file-card';
+        return card;
+      };
+      renderMediaGrid(state.files);
+    })()`);
+    const initialRenderCount = grid.renderCount;
+    run(context, 'scheduleRenderWindowUpdate()');
+    assert.equal(callbacks.length, 1, 'one scheduled frame should own the update');
+    callbacks.shift()();
+    const range = JSON.parse(run(context, `JSON.stringify(computeRenderWindow(
+      state.files.length, state.renderWindowStart, state.renderColumnCount
+    ))`));
+    return {
+      renderCount: grid.renderCount,
+      initialRenderCount,
+      start: range.start,
+      end: range.end,
+      mounted: findNodes(grid, '.file-card').length
+    };
+  }
+
+  const staleTop = probe({ start: 36, scrollY: 0, innerHeight: 4500 });
+  assert.equal(staleTop.renderCount, staleTop.initialRenderCount + 1,
+    'a stale top window must repair even when the focus-derived start shift is below the old threshold');
+  assert.equal(staleTop.start, 0, 'the new range must include the first viewport rows');
+  assert.equal(staleTop.mounted, 240);
+
+  const covered = probe({ start: 36, scrollY: 2200, innerHeight: 800 });
+  assert.equal(covered.renderCount, covered.initialRenderCount,
+    'small scrolls that remain covered must keep the existing window');
+  assert.equal(covered.start, 36);
+  assert.equal(covered.mounted, 240);
+
+  const largeJump = probe({ start: 36, scrollY: 410 + 250 * 236.287, innerHeight: 900 });
+  assert.equal(largeJump.renderCount, largeJump.initialRenderCount + 1,
+    'a large jump into an uncovered middle range must render that range');
+  assert.ok(largeJump.start <= 250 * 6 && largeJump.end > 250 * 6);
+  assert.equal(largeJump.mounted, 240);
+
+  const bottom = probe({ start: 36, scrollY: 410 + 497 * 236.287, innerHeight: 900 });
+  assert.equal(bottom.renderCount, bottom.initialRenderCount + 1,
+    'the last viewport rows must be included when returning near the end');
+  assert.ok(bottom.start <= 497 * 6 && bottom.end === 3000);
+  assert.equal(bottom.mounted, 240);
+});
+
 test('move rows include roots, descendants, orphans, and cycles exactly once', () => {
   const context = loadAppContext();
   const rows = JSON.parse(run(context, `JSON.stringify(buildMoveFolderRows({
