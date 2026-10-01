@@ -1,0 +1,22 @@
+✔ fixed stereo profile and copied immutable source-window clock (1.1212ms)
+✔ cancel during delayed module open allocates no late native context (5.5978ms)
+✔ decode failure frees actual owned context exactly once; timestamps unchanged (0.9345ms)
+✔ concurrent native context rejected; cumulative PCM may exceed 8MiB (8.6334ms)
+✔ packet bound failure closes; rejected decode never changes channel count (0.4574ms)
+✔ Mediabunny adapter reports corrupt packet without poisoning serialized close (0.6262ms)
+✔ adapter disposal while init is delayed cancels late native open (0.2923ms)
+✔ Worker transfer preserves source buffer; PCM ACK follows consumption (2.3437ms)
+✔ Worker close during PCM consumption waits for abort-aware consumer and native close (17.7513ms)
+✔ Worker delayed-open cancellation never allocates a late native context (1.0997ms)
+✔ uncooperative PCM consumer fails cleanup visibly without inventing drain (60.9445ms)
+✔ close drains decode already waiting for a delayed module without late allocation (1.3279ms)
+✔ Worker module-open failure automatically drains and terminates (0.8987ms)
+✔ cancel on arriving PCM prevents a stale consumer callback (0.6939ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178.1225

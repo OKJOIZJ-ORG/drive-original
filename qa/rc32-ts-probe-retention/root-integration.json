@@ -1,0 +1,127 @@
+{
+  "schema": "drive-original.rc32-root-integration/1",
+  "parentCommit": "d6ab75c838a404cf1b7090fb4068e5279f64786d",
+  "version": "1.22.0-rc.32",
+  "checks": {
+    "finalFullProduct": 742,
+    "failed": 0,
+    "skipped": 0,
+    "focusedPreviouslyPassed": 49,
+    "independentAdditionalPreviouslyPassed": 5,
+    "firstVersionRun": {
+      "passed": 741,
+      "failed": 1,
+      "cause": "static release expected31 before version owner synchronization"
+    }
+  },
+  "actualDeviceRun": false,
+  "deploymentPerformed": false,
+  "privateFilesIncluded": false,
+  "files": [
+    {
+      "path": "media/drive-source.mjs",
+      "bytes": 18497,
+      "sha256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a"
+    },
+    {
+      "path": "media/ts-player.mjs",
+      "bytes": 17574,
+      "sha256": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705"
+    },
+    {
+      "path": "tests/q1-probe-retention.test.mjs",
+      "bytes": 14653,
+      "sha256": "ad1d96ec757df4f56a0aebfe0b4f0b1022c22000318fa5d97f8657777e819b4e"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/README.md",
+      "bytes": 5123,
+      "sha256": "2eb8d594c3597f971f362f9cbe83d2e6554edbd483f40a24d36527d1b9bbb8fd"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/verify-local.cjs",
+      "bytes": 2886,
+      "sha256": "0833f88243c1e24beb795b42f9ad77577d7433244d8ebaea20b47a11c8376f51"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/source-binding.json",
+      "bytes": 1385,
+      "sha256": "7d121f9b6ef07ad145a788c57021f6e35aa576f75aa30cf629766ff0a1c675ca"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/local-result.json",
+      "bytes": 1085,
+      "sha256": "9fb74ed381e22324c4f2f6035404caaf837321926deabcadec3c1b01da84de0c"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/regression-before-after.mjs",
+      "bytes": 2745,
+      "sha256": "6c2b1df2648f68eacd321695dc83e30fdcb497c6d9af4a61fd68a31aef9c3351"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/epoch-clear-regression.json",
+      "bytes": 2304,
+      "sha256": "55e7c58c91088f6267ff33ad716c178da26d3caae9ce04a4248b299e5f0c14ba"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/manifest.json",
+      "bytes": 1080,
+      "sha256": "6aa1934d2255134cfcf1b02152ba946f3fe4a04eea3ff76d0d99dc4b51461a6c"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/bind-source.cjs",
+      "bytes": 6636,
+      "sha256": "f5a43c1ac2972f321fbb417246efe16d79be15a896927d0d930fccdd079792cc"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/DELIVERY-PREPARATION.md",
+      "bytes": 2296,
+      "sha256": "601984d615eb275015ae1f963ab567fe92e521ade3ec910122711d3aa8920f8b"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/local-delivery-preparation.json",
+      "bytes": 4136,
+      "sha256": "d184e06b7107b73cde01abe17cb3779e03bc74302f543a524aa51b94e04ca11a"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/SHA256SUMS.json",
+      "bytes": 570,
+      "sha256": "411ea4beaebcd7b89fea92bed4fa40063b08afd43c4ed10ffff9e2d31cd84625"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention-independent-review/README.md",
+      "bytes": 4140,
+      "sha256": "74a7542ee00197854be946501d33e61c79a785a099a92de72dea68b2d791ee47"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention-independent-review/retirement.test.mjs",
+      "bytes": 5487,
+      "sha256": "9b63bfa48277fa192befef1265431f0bcf9ebe9576c277d12e978f553a56d904"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/root-full-product-tests.log",
+      "bytes": 70698,
+      "sha256": "002545890c51092cfa4264505fe4aa29d62f5789b7319c26cbe9bb6d0e7750b4"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/root-audio-lifecycle-tests.log",
+      "bytes": 1335,
+      "sha256": "ac90b2aad8745ee46f5e2bcba8f6263c3d41c2f170f7862ce42cb7f32ed0a3ff"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/root-audio-general-tests.log",
+      "bytes": 481,
+      "sha256": "a7791b40f4f5b289eef47c4a432b9c1d6ffcc534253ab6a9173aa2d4dd4de290"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/root-rc32-full-product-tests.log",
+      "bytes": 73170,
+      "sha256": "022e1e7c646e37638d6ed25796d51bce686bde9cef360db0edb8b382ba57216b"
+    },
+    {
+      "path": "qa/rc32-ts-probe-retention/root-rc32-full-product-final.log",
+      "bytes": 176219,
+      "sha256": "b1807f583ede2acf58364d3aace9deb8a7093be711b5dd092da2967409a7a509"
+    }
+  ]
+}

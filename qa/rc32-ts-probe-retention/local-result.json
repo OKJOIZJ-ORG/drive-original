@@ -1,0 +1,39 @@
+{
+  "schema": "drive-original.rc32-probe-retention-local/1",
+  "actualDeviceBrowserRun": false,
+  "privateInputRead": false,
+  "networkCalls": false,
+  "productEdited": true,
+  "committed": false,
+  "deployed": false,
+  "command": [
+    "node",
+    "--test",
+    "tests/q1-source.test.mjs",
+    "tests/q1-probe-reuse.test.mjs",
+    "tests/q1-probe-retention.test.mjs"
+  ],
+  "tests": 49,
+  "passed": 49,
+  "failed": 0,
+  "syntaxFiles": 3,
+  "maxRetainedRawProbeBytes": 2097152,
+  "controls": {
+    "canonicalPositionsSeconds": [
+      0,
+      5,
+      11.95
+    ],
+    "probePlanEqual": true,
+    "bootstrapBytesEqual": true,
+    "synchronousMuxOutputEqual": true,
+    "nativeDecode": "NOT_TESTED",
+    "performanceGain": "NOT_MEASURED"
+  },
+  "limitations": [
+    "Node MSE-boundary substitute is controlled lifecycle proof only.",
+    "Metadata SHA256 is not a per-range byte hash or immutable server snapshot.",
+    "No cached chosen-window/continuous-loop range, persisted cache or old async/worker/MSE sharing.",
+    "Actual31 v1/v2 timings and15s failures are preserved."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "drive-original.rc32-probe-retention-epoch-regression/1",
+  "sourceSHA256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a",
+  "label": "controlled local guard-omitted counterfactual vs current guard; not old public/browser/device evidence",
+  "actualCalls": false,
+  "productModified": false,
+  "cases": [
+    {
+      "phase": "preflight",
+      "guardOmittedCounterfactual": {
+        "phase": "preflight",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 188,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      },
+      "currentWithEpochFence": {
+        "phase": "preflight",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 0,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      }
+    },
+    {
+      "phase": "body",
+      "guardOmittedCounterfactual": {
+        "phase": "body",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 188,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      },
+      "currentWithEpochFence": {
+        "phase": "body",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 0,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      }
+    },
+    {
+      "phase": "postflight",
+      "guardOmittedCounterfactual": {
+        "phase": "postflight",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 188,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      },
+      "currentWithEpochFence": {
+        "phase": "postflight",
+        "cleared": true,
+        "returnedBytes": 188,
+        "returnedSHA256": "983b867971482b3a4de037e6d48cb4110e9f4cf87672bd8c8fa6eaba42148107",
+        "retainedBytes": 0,
+        "readsCompleted": 1,
+        "rangeRequests": 1
+      }
+    }
+  ]
+}

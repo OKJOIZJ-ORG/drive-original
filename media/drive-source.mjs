@@ -16,6 +16,10 @@
 // during reads. Earlier snapshots and the informational opening version stay fixed.
 // A Range503 read failure alone carries frozen recovery advice. No retry happens
 // here; the caller must separately require settled abort cleanup before replacing.
+// Optional probeRetention is an opaque same-player raw head/tail handle. Cached
+// logical reads retain fresh pre/post checks; exact known-checksum tuples only.
+// rangeRequests/receivedBytes/releasedBytes describe transport; cacheHits/
+// cacheBytes are distinct, logicalReturnedBytes includes both admitted paths.
 const MAX_READ=1024*1024,MAX_TIMEOUT=70000;
 class SourceError extends Error {}
 const requireThat=(value,code)=>{if(!value)throw new SourceError(`Q1_SOURCE_${code}`);};
@@ -23,6 +27,22 @@ const safe=value=>Number.isSafeInteger(value)&&value>=0;
 const text=(value,max)=>typeof value==='string'&&value.length>0&&value.length<=max&&!/[\u0000-\u001f\u007f]/.test(value);
 const signalLike=value=>value==null||(typeof value.aborted==='boolean'
   &&typeof value.addEventListener==='function'&&typeof value.removeEventListener==='function');
+const probeRetentions=new WeakMap();
+const RETAINED_IDENTITY=['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType',
+  'modifiedTime','version','sha256Checksum','canDownload','trashed'];
+const sameRetainedIdentity=(a,b)=>a?.sha256Checksum!=null&&b?.sha256Checksum!=null
+  &&RETAINED_IDENTITY.every(key=>a[key]===b[key]);
+function clearProbeRetention(data){data.head=null;data.tail=null;data.epoch++;}
+// Opaque raw-byte ownership only. No identity, bytes, parser or async result is
+// exposed/persisted. A new reader must freshly admit every exact cached read.
+export function createDriveQ1ProbeRetention(){
+  const data={head:null,tail:null,epoch:0,peakRetainedBytes:0};
+  const handle=Object.freeze({clear(){clearProbeRetention(data);},stats(){return{
+    retainedBytes:(data.head?.bytes.length||0)+(data.tail?.bytes.length||0),
+    peakRetainedBytes:data.peakRetainedBytes,maxRetainedBytes:2*MAX_READ,
+    slots:Number(!!data.head)+Number(!!data.tail)};}});
+  probeRetentions.set(handle,data);return handle;
+}
 function boundedRetryAfter(value){
   if(value===null)return 250;
   if(typeof value!=='string'||value.length>64)return null;
@@ -49,10 +69,12 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
     &&safe(accountGeneration)&&typeof readMetadata==='function'&&typeof readRange==='function'
     &&typeof isCurrent==='function'&&signalLike(signal)&&Number.isSafeInteger(requestTimeoutMs)
     &&requestTimeoutMs>0&&requestTimeoutMs<=MAX_TIMEOUT,'OPTIONS');
-  let state='opening',failure=null,busy=false,checking=false,epoch=null,identity=null,checksum=null,held=null;
+  let state='opening',failure=null,busy=false,checking=false,epoch=null,identity=null,checksum=null,held=null,latestMetadata=null;
+  let retention=null;
   let recovery=null;
   let cleanupPending=0,cleanupFailed=false,pendingCallbacks=0,peakRetainedBytes=0,cleanupPromise=null,wakeCleanup=null;
-  const counts={readsStarted:0,readsCompleted:0,metadataRequests:0,rangeRequests:0,receivedBytes:0,releasedBytes:0};
+  const counts={readsStarted:0,readsCompleted:0,metadataRequests:0,rangeRequests:0,receivedBytes:0,releasedBytes:0,
+    cacheHits:0,cacheBytes:0,logicalReturnedBytes:0};
   const active=()=>state==='opening'||state==='open';
   function cancel(target,release=false){
     if(!target)return;cleanupPending++;
@@ -69,6 +91,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
   }
   function terminate(code,aborted=false){
     if(!active())return;
+    if(!aborted&&retention)clearProbeRetention(retention);
     state=aborted?'aborted':'failed';failure=`Q1_SOURCE_${code}`;held=null;
     // Start cancellation while the fetch body is still readable. Aborting first
     // errors it synchronously, making a subsequent cancel reject AbortError even
@@ -145,7 +168,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
   async function readMeta(owner,phase){
     counts.metadataRequests++;
     const value=await wait(owner,()=>readMetadata({signal:owner.controller.signal,phase}));
-    check();return reconcile(value,phase);
+    check();latestMetadata=Object.freeze(reconcile(value,phase));return latestMetadata;
   }
   async function own(operation,readSignal=null){
     requireThat(active(),'CLOSED');
@@ -180,12 +203,38 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
     const result=new SourceError(failure||'Q1_SOURCE_READ_FAILED');result.cleanup=await settleCleanup();throw result;}
   return Object.freeze({get identity(){return identity;},
     async read(request={}){
+      let cached=false;
       try{const bytes=await own(async owner=>{
         const {start,end}=request;
         requireThat(safe(start)&&safe(end)&&end>=start&&end<Number(identity.size)
           &&safe(end-start+1)&&end-start+1<=MAX_READ,'RANGE');
+        requireThat(request.probeRetention===undefined||probeRetentions.has(request.probeRetention),'OPTIONS');
+        const length=end-start+1;
+        // Only probe callers supply this handle. Exact head/tail intervals only;
+        // continuous playback and partial/subrange reads keep their fresh body.
+        const data=request.probeRetention&&probeRetentions.get(request.probeRetention),
+          edge=start%188===0&&length%188===0?(start===0?'head':end===Number(identity.size)-1?'tail':null):null;
+        if(data)retention=data;
+        const invalidateMismatch=observed=>{if(data&&[data.head,data.tail].some(entry=>entry&&!sameRetainedIdentity(entry.identity,observed)))clearProbeRetention(data);};
+        // An opening null checksum cannot adopt bytes admitted with a known one
+        // merely because a later preflight learns it again.
+        invalidateMismatch(latestMetadata);
+        const retentionEpoch=data?.epoch;
         counts.readsStarted++;
-        await readMeta(owner,'preflight');check();
+        let pre=await readMeta(owner,'preflight');check();invalidateMismatch(pre);
+        let entry=edge&&data?.[edge];
+        if(entry&&entry.start===start&&entry.end===end&&sameRetainedIdentity(entry.identity,pre)){
+          const retainedEpoch=data.epoch;held=entry.bytes.slice();peakRetainedBytes=Math.max(peakRetainedBytes,held.length);
+          const post=await readMeta(owner,'postflight');check();
+          if(data.epoch===retainedEpoch&&sameRetainedIdentity(entry.identity,post)){
+            cached=true;const bytes=held;held=null;return bytes;
+          }
+          // Informational version mismatch is a cache miss, not content drift.
+          // Run another fresh pre/post body admission, never return old bytes.
+          clearProbeRetention(data);held=null;entry=null;
+          pre=await readMeta(owner,'preflight');check();
+        }
+        entry=null;
         counts.rangeRequests++;
         const response=await wait(owner,()=>readRange({start,end,range:`bytes=${start}-${end}`,signal:owner.controller.signal}),
           value=>cancel(value?.body),value=>{owner.response=value;});
@@ -202,7 +251,7 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
           throw new SourceError('Q1_SOURCE_HTTP_UNAVAILABLE');
         }
         requireThat(response?.status===206&&typeof response.headers?.get==='function','HEADERS');
-        const header=name=>response.headers.get(name),length=end-start+1;
+        const header=name=>response.headers.get(name);
         requireThat(header('Content-Range')===`bytes ${start}-${end}/${identity.size}`
           &&header('Content-Length')===String(length)&&!header('Content-Encoding'),'HEADERS');
         requireThat(typeof response.body?.getReader==='function','BODY');
@@ -217,11 +266,18 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
         }
         requireThat(received===length,'BODY_LENGTH');
         owner.reader.releaseLock();owner.reader=null;
-        await readMeta(owner,'postflight');check();
+        const post=await readMeta(owner,'postflight');check();invalidateMismatch(post);
+        if(edge&&data&&data.epoch===retentionEpoch&&sameRetainedIdentity(pre,post)&&(!data[edge]||length>=data[edge].bytes.length)){
+          data[edge]=null;data[edge]={start,end,identity:post,bytes:held.slice()};
+          data.peakRetainedBytes=Math.max(data.peakRetainedBytes,(data.head?.bytes.length||0)+(data.tail?.bytes.length||0));
+        }
         const bytes=held;held=null;return bytes;
       },request?.signal);
-      check();requireThat(safe(counts.releasedBytes+bytes.length),'METRICS_LIMIT');
-      counts.readsCompleted++;counts.releasedBytes+=bytes.length;return bytes;}
+      check();requireThat(safe(counts.logicalReturnedBytes+bytes.length)&&safe(counts.releasedBytes+bytes.length)
+        &&(!cached||safe(counts.cacheBytes+bytes.length)),'METRICS_LIMIT');
+      counts.readsCompleted++;counts.logicalReturnedBytes+=bytes.length;
+      if(cached){counts.cacheHits++;counts.cacheBytes+=bytes.length;}
+      else counts.releasedBytes+=bytes.length;return bytes;}
       catch(error){const code=error instanceof SourceError?error.message:'Q1_SOURCE_READ_FAILED';
         if(active())terminate(code.slice('Q1_SOURCE_'.length));
         const result=new Error(failure||code);

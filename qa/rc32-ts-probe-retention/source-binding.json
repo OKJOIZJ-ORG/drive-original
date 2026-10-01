@@ -1,0 +1,43 @@
+{
+  "baseHEAD": "ae21f8ac6b34497b3690aef9bc67ecee86a7e927",
+  "publicReference": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "product": [
+    {
+      "path": "media/drive-source.mjs",
+      "bytes": 18497,
+      "sha256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a"
+    },
+    {
+      "path": "media/ts-player.mjs",
+      "bytes": 17574,
+      "sha256": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705"
+    },
+    {
+      "path": "tests/q1-probe-retention.test.mjs",
+      "bytes": 14653,
+      "sha256": "ad1d96ec757df4f56a0aebfe0b4f0b1022c22000318fa5d97f8657777e819b4e"
+    }
+  ],
+  "unchangedPrimitives": [
+    {
+      "path": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "sha256": "0be728a2d9ad63002ab1fca8d9c638d368d39d45b75debc0601a5c203e5cfe9c"
+    },
+    {
+      "path": "qa/v2-07b-ts-q1/seek-input.mjs",
+      "sha256": "989ace46ea808fd93bdb11776470d8be08ed9dcee1d73751e96880d5989922e5"
+    },
+    {
+      "path": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0"
+    },
+    {
+      "path": "media/q1-core.mjs",
+      "sha256": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a"
+    }
+  ],
+  "fixture": {
+    "path": "qa/v2-07b-ts-q1/synthetic-bframes-audiolead.ts",
+    "sha256": "e05388c5f61b181710145a414443938e8065dd08e77e01c0aec0ffd0b73229e4"
+  }
+}

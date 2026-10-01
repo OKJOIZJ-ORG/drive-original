@@ -1,4 +1,5 @@
 import {probeTsSeek,createSeekBootstrap,createBufferWindow,createWorkerClient} from './q1-core.mjs';
+import {createDriveQ1ProbeRetention} from './drive-source.mjs';
 
 const demand=(condition,code)=>{if(!condition)throw new Error(`Q1_${code}`);};
 const fixed=error=>/^(?:Q1|SEEK|BOOTSTRAP|WORKER|BUFFER_WINDOW)_[A-Z_]+$/.test(error?.message)?error.message:'Q1_PLAYBACK_FAILED';
@@ -13,6 +14,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
   const Constructor=globalThis.MediaSource||globalThis.ManagedMediaSource;
   demand(Constructor&&typeof Worker==='function','UNAVAILABLE');
   let generation=0,latest=null,closed=false,baseline=null,checksum=null,cleanupBlocked=false,recoveries=0;
+  const probeRetention=createDriveQ1ProbeRetention();
   const originalRemote=video.disableRemotePlayback;
   const owned=()=>!closed&&isCurrent()===true;
   function launch(seconds,play){
@@ -91,6 +93,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         state.sourceCleanup=await (sourceCleanup||reader?.abort())||openCleanup||{settled:true};
         if(!state.sourceCleanup.settled)cleanupBlocked=true;
         state.source=reader?.stats()||state.source;reader=null;
+        state.probeRetention=probeRetention.stats();
         if(buffer&&source?.readyState!=='closed')try{
           if(buffer.updating)buffer.abort();source.removeSourceBuffer(buffer);state.bufferRemoved=true;
         }catch{state.cleanupFailure='Q1_BUFFER_RELEASE';}
@@ -104,6 +107,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
     }
     function fail(code){
       if(!current())return;state.phase='failed';state.failure||=code;readyReject(new Error(state.failure));
+      probeRetention.clear();
       try{onEvent({type:'error',generation:id,code:state.failure});}catch{}finally{void dispose();}
     }
     const mediaError=()=>fail('Q1_MEDIA_ERROR'),sourceClosed=()=>fail('Q1_SOURCE_CLOSED');
@@ -146,6 +150,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
                 ||recovery.status!==503||!Number.isFinite(recovery.retryAfterMs)
                 ||recovery.retryAfterMs<250||recovery.retryAfterMs>2000||recoveries>=1)throw error;
               recoveries++;
+              probeRetention.clear();
               // A failed read's preflight may have learned the first checksum.
               // Preserve that stronger fence before retiring the failed owner.
               bindIdentity(reader.identity);
@@ -169,7 +174,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
           catch(error){if(current())state.failure||=fixed(error);throw error;}
         },size=Number(identity.size);
         const probeReader=reader;
-        const plan=await probeTsSeek({read,sourceSize:size,positionSeconds:seconds,onInput:input=>{
+        const plan=await probeTsSeek({read:request=>read({...request,probeRetention}),sourceSize:size,positionSeconds:seconds,onInput:input=>{
           check();
           // A503 recovery may replace the optimistic source during discovery.
           // Reuse only bytes admitted by this same reader/generation; otherwise
@@ -231,6 +236,9 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         positionTarget();demand(positionTask,'NO_PRESENTABLE_TARGET');await positionTask;check();
         if(!video.ended)await wait(video,'ended',null,null);check();state.phase='ended';emit('ended');
       }catch(error){
+        // A normal new seek preserves raw head/tail bytes only after its prior
+        // owner has retired. Failure/drift and abandoned generations do not.
+        if(current()||id===generation)probeRetention.clear();
         if(current()){state.failure||=fixed(error);state.phase='failed';readyReject(new Error(state.failure));
           try{onEvent({type:'error',generation:id,code:state.failure});}catch{}}
         else if(state.phase!=='failed')state.phase='cancelled';
@@ -241,7 +249,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
   }
   const player={
     ready:null,seek(seconds,{autoplay=!video.paused}={}){return launch(seconds,autoplay).ready;},
-    async dispose(){if(closed)return latest?.dispose();closed=true;generation++;return latest?.dispose();},
+    async dispose(){if(closed)return latest?.dispose();closed=true;generation++;probeRetention.clear();return latest?.dispose();},
     stats(){return latest?.state??null;},completion(){return latest?.completion;}
   };
   player.ready=launch(initialTime,autoplay).ready;return Object.freeze(player);

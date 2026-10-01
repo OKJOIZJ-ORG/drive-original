@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "version": "1.22.0-rc.32",
+  "bound": false,
+  "source": null,
+  "actualDeployment": false,
+  "networkOrBrowserExecuted": false,
+  "privateInputsRead": false,
+  "oldOutcomeEvidenceCopied": false,
+  "producer": {
+    "commit": "ae21f8ac6b34497b3690aef9bc67ecee86a7e927",
+    "file": "qa/candidate-rc31-delivery/bind-source.cjs",
+    "sha256": "ac27ffb99ebd83533f1cadac6da927832aa67176fcfe804d1c235302c2be759e"
+  },
+  "binderSha256": "f5a43c1ac2972f321fbb417246efe16d79be15a896927d0d930fccdd079792cc",
+  "templateCommit": "5f6dae39a6a601207ff2c9e462b3ec8d610e91b4",
+  "templates": [
+    {
+      "file": "delivery-guard.cjs",
+      "sha256": "2c601968c54fd69d907a201be53a29065983b336e5549a2e9337f9b8ad7558fc",
+      "bytes": 5190
+    },
+    {
+      "file": "materialize-candidate.cjs",
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88",
+      "bytes": 1207
+    },
+    {
+      "file": "deploy-candidate.cjs",
+      "sha256": "f4530eb76578ff3ac05672a24f6193de42357df7631a37f9f55a77434c22c67b",
+      "bytes": 1752
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9",
+      "bytes": 1076
+    },
+    {
+      "file": "redact-readback.cjs",
+      "sha256": "4c009b06819b431adfee1f88f5ed2a16efd279fa4db2b088c4c5a8ccc7847552",
+      "bytes": 2129
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "sha256": "44a2cff3326ac8242a88e4d9ec6423bb925bcdc7a27629b9f9f8da86f2e34ca0",
+      "bytes": 2318
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "6bfd46c840d7db60ddf4a203821bed952b61d9b33720370b925cae327b7de562",
+      "bytes": 3995
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "sha256": "242199bf41648e2909b794231c2436155157336cfa1ad6c17be0d75f2e0bc9d7",
+      "bytes": 5653
+    }
+  ],
+  "verification": {
+    "syntax": "PASS node --check qa/candidate-rc32-delivery/bind-source.cjs",
+    "immutableTemplateHashes": "PASS 8/8",
+    "denialCases": [
+      {
+        "name": "no arguments",
+        "args": [],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "HEAD alias",
+        "args": [
+          "--bind",
+          "HEAD",
+          "1.22.0-rc.32"
+        ],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "main alias",
+        "args": [
+          "--bind",
+          "main",
+          "1.22.0-rc.32"
+        ],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "short SHA",
+        "args": [
+          "--bind",
+          "bbbbbbb",
+          "1.22.0-rc.32"
+        ],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "old version",
+        "args": [
+          "--bind",
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "1.22.0-rc.31"
+        ],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "old rc29 version",
+        "args": [
+          "--bind",
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "1.22.0-rc.29"
+        ],
+        "result": "PASS",
+        "error": "BIND_REQUIRED (--bind FULL_SHA 1.22.0-rc.32)",
+        "gitCalls": 0,
+        "filesystemCalls": 0
+      },
+      {
+        "name": "noncurrent full SHA",
+        "args": [
+          "--bind",
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "1.22.0-rc.32"
+        ],
+        "result": "PASS",
+        "error": "EXACT_COMMITTED_HEAD_REQUIRED",
+        "gitCalls": 2,
+        "filesystemCalls": 0
+      }
+    ]
+  },
+  "scope": "Unbound local candidate32 delivery preparation only; no product acceptance"
+}

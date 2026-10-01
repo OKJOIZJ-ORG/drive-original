@@ -253,3 +253,12 @@
 /qa/rc31-disposable-stable-receipt/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc31-corpus-actual/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc31-disposable-actual/** -text whitespace=cr-at-eol,-blank-at-eol
+
+# Candidate32 local reviewed source and later exact-bound device preparations.
+/tests/q1-probe-retention.test.mjs -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-ts-probe-retention/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-ts-probe-retention-independent-review/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-rc32-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-ts-device-replay/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-format-acceptance/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-resume-20261001/** -text whitespace=cr-at-eol,-blank-at-eol

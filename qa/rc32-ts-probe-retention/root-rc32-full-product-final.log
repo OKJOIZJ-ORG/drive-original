@@ -1,0 +1,4462 @@
+TAP version 13
+# Subtest: two continuously visible clients receive independent concurrent edits without refocus or reload
+ok 1 - two continuously visible clients receive independent concurrent edits without refocus or reload
+  ---
+  duration_ms: 73.8956
+  type: 'test'
+  ...
+# Subtest: edge completion already queued before cancellation cannot navigate afterward
+ok 2 - edge completion already queued before cancellation cannot navigate afterward
+  ---
+  duration_ms: 2.0918
+  type: 'test'
+  ...
+# Subtest: edge animation promise and deadline can commit at most once
+ok 3 - edge animation promise and deadline can commit at most once
+  ---
+  duration_ms: 1.6465
+  type: 'test'
+  ...
+# Subtest: foreground polling stops for hidden, offline, expired, demo and unverified sessions
+ok 4 - foreground polling stops for hidden, offline, expired, demo and unverified sessions
+  ---
+  duration_ms: 10.3774
+  type: 'test'
+  ...
+# Subtest: rearming and token clearing invalidate queued refresh callbacks without a request
+ok 5 - rearming and token clearing invalidate queued refresh callbacks without a request
+  ---
+  duration_ms: 2.5218
+  type: 'test'
+  ...
+# Subtest: refresh waits behind a pending write and cannot cross an account generation
+ok 6 - refresh waits behind a pending write and cannot cross an account generation
+  ---
+  duration_ms: 1.7794
+  type: 'test'
+  ...
+# Subtest: server Retry-After survives immediate resume and permanent permission errors stop polling
+ok 7 - server Retry-After survives immediate resume and permanent permission errors stop polling
+  ---
+  duration_ms: 2.7714
+  type: 'test'
+  ...
+# Subtest: Drive 403 rate-limit errors back off rather than blocking future refresh
+ok 8 - Drive 403 rate-limit errors back off rather than blocking future refresh
+  ---
+  duration_ms: 1.7321
+  type: 'test'
+  ...
+# Subtest: verified same-account session credential renewal restarts polling for an already-loaded account
+ok 9 - verified same-account session credential renewal restarts polling for an already-loaded account
+  ---
+  duration_ms: 1.9138
+  type: 'test'
+  ...
+# Subtest: remote favorite membership invalidates back snapshots and refreshes the visible projection without reset
+ok 10 - remote favorite membership invalidates back snapshots and refreshes the visible projection without reset
+  ---
+  duration_ms: 2.6637
+  type: 'test'
+  ...
+# Subtest: an old fulfilled edge animation cannot clear or complete a replacement transition
+ok 11 - an old fulfilled edge animation cannot clear or complete a replacement transition
+  ---
+  duration_ms: 2.8229
+  type: 'test'
+  ...
+# Subtest: stalled successful account-state body has bounded failure, preserves nine cached writers and recovers through normal refresh
+ok 12 - stalled successful account-state body has bounded failure, preserves nine cached writers and recovers through normal refresh
+  ---
+  duration_ms: 63.8306
+  type: 'test'
+  ...
+# Subtest: ten stalled account reads settle in three bounded waves with at most four child owners
+ok 13 - ten stalled account reads settle in three bounded waves with at most four child owners
+  ---
+  duration_ms: 7.8117
+  type: 'test'
+  ...
+# Subtest: separate state gate permits canonical own PATCH and CREATE while generic, fake marker and foreign PATCH never transmit a mutation
+ok 14 - separate state gate permits canonical own PATCH and CREATE while generic, fake marker and foreign PATCH never transmit a mutation
+  ---
+  duration_ms: 21.4783
+  type: 'test'
+  ...
+# Subtest: lost CREATE response, delayed catalog and reload reuse one durable ID; 409 confirms rather than duplicates
+ok 15 - lost CREATE response, delayed catalog and reload reuse one durable ID; 409 confirms rather than duplicates
+  ---
+  duration_ms: 7.7657
+  type: 'test'
+  ...
+# Subtest: invalid cache, quota persistence failure, unsafe raw schema/catalog and missing writer body block writes and preserve local data
+ok 16 - invalid cache, quota persistence failure, unsafe raw schema/catalog and missing writer body block writes and preserve local data
+  ---
+  duration_ms: 15.0708
+  type: 'test'
+  ...
+# Subtest: PATCH404 requires fresh catalog absence before CREATE and refuses a still-visible or replaced own writer
+ok 17 - PATCH404 requires fresh catalog absence before CREATE and refuses a still-visible or replaced own writer
+  ---
+  duration_ms: 6.8983
+  type: 'test'
+  ...
+# Subtest: readback checks fixed submitted payload while a concurrent local edit remains pending for follow-up
+ok 18 - readback checks fixed submitted payload while a concurrent local edit remains pending for follow-up
+  ---
+  duration_ms: 5.1485
+  type: 'test'
+  ...
+# Subtest: reservation must be valid, account-owned and durably reread before any POST
+ok 19 - reservation must be valid, account-owned and durably reread before any POST
+  ---
+  duration_ms: 15.4013
+  type: 'test'
+  ...
+# Subtest: native write failures never retry within driveFetch; wrong owner or incomplete body readback never marks sync success
+ok 20 - native write failures never retry within driveFetch; wrong owner or incomplete body readback never marks sync success
+  ---
+  duration_ms: 17.3699
+  type: 'test'
+  ...
+# Subtest: unconfirmed tombstones cannot report sync success even when upload HTTP succeeds
+ok 21 - unconfirmed tombstones cannot report sync success even when upload HTTP succeeds
+  ---
+  duration_ms: 4.8857
+  type: 'test'
+  ...
+# Subtest: account switch and request abort during catalog cannot dispatch a state write or install old state
+ok 22 - account switch and request abort during catalog cannot dispatch a state write or install old state
+  ---
+  duration_ms: 3.915
+  type: 'test'
+  ...
+# Subtest: fresh origin reconstructs complete writer union, unlike tie and maximum viewed; normal two-writer writes converge
+ok 23 - fresh origin reconstructs complete writer union, unlike tie and maximum viewed; normal two-writer writes converge
+  ---
+  duration_ms: 12.6085
+  type: 'test'
+  ...
+# Subtest: AUTH-05 appData-only token retains scoped state writes under the ordinary Drive write lock
+ok 24 - AUTH-05 appData-only token retains scoped state writes under the ordinary Drive write lock
+  ---
+  duration_ms: 3.4011
+  type: 'test'
+  ...
+# Subtest: normal update preserves the active multi-client worker and complete shell while replacing only this document
+ok 25 - normal update preserves the active multi-client worker and complete shell while replacing only this document
+  ---
+  duration_ms: 44.3402
+  type: 'test'
+  ...
+# Subtest: force shell refresh requires matching worker ACK and preserves caches, registration, user state and retirement barrier
+ok 26 - force shell refresh requires matching worker ACK and preserves caches, registration, user state and retirement barrier
+  ---
+  duration_ms: 4.7809
+  type: 'test'
+  ...
+# Subtest: force shell refresh can use an exact active registration in an uncontrolled document
+ok 27 - force shell refresh can use an exact active registration in an uncontrolled document
+  ---
+  duration_ms: 3.8173
+  type: 'test'
+  ...
+# Subtest: force shell refresh coalesces repeated clicks and rejects stale account/source/seek/controller replies
+ok 28 - force shell refresh coalesces repeated clicks and rejects stale account/source/seek/controller replies
+  ---
+  duration_ms: 32.0613
+  type: 'test'
+  ...
+# Subtest: force shell refresh rejects negative or wrong ACK and unsupported workers without destructive reset
+ok 29 - force shell refresh rejects negative or wrong ACK and unsupported workers without destructive reset
+  ---
+  duration_ms: 12.7131
+  type: 'test'
+  ...
+# Subtest: force shell refresh deadline closes ports and late ACK cannot reload
+ok 30 - force shell refresh deadline closes ports and late ACK cannot reload
+  ---
+  duration_ms: 5.167
+  type: 'test'
+  ...
+# Subtest: candidate runtime blocks Drive mutations before fetch until the state gate opens
+ok 31 - candidate runtime blocks Drive mutations before fetch until the state gate opens
+  ---
+  duration_ms: 11.2964
+  type: 'test'
+  ...
+# Subtest: candidate prerelease versions remain valid and compare in SemVer order
+ok 32 - candidate prerelease versions remain valid and compare in SemVer order
+  ---
+  duration_ms: 4.429
+  type: 'test'
+  ...
+# Subtest: update checks keep newest feedback and release manual loading across out-of-order success and errors
+ok 33 - update checks keep newest feedback and release manual loading across out-of-order success and errors
+  ---
+  duration_ms: 20.3901
+  type: 'test'
+  ...
+# Subtest: update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update
+ok 34 - update deadline releases current manual loading for hanging fetch, body, and worker without losing a valid update
+  ---
+  duration_ms: 12.5214
+  type: 'test'
+  ...
+# Subtest: a stale update deadline cannot clear the newer automatic check manual loading
+ok 35 - a stale update deadline cannot clear the newer automatic check manual loading
+  ---
+  duration_ms: 5.2229
+  type: 'test'
+  ...
+# Subtest: real listing failure logs fixed status classification without upstream private identifiers or credentials
+ok 36 - real listing failure logs fixed status classification without upstream private identifiers or credentials
+  ---
+  duration_ms: 5.9277
+  type: 'test'
+  ...
+# Subtest: app failure records preserve auth/network/fixed codes but discard raw message stack and attached payload
+ok 37 - app failure records preserve auth/network/fixed codes but discard raw message stack and attached payload
+  ---
+  duration_ms: 4.1102
+  type: 'test'
+  ...
+# Subtest: a new service worker reconnects only a pre-byte Range source without consuming its retry
+ok 38 - a new service worker reconnects only a pre-byte Range source without consuming its retry
+  ---
+  duration_ms: 4.6125
+  type: 'test'
+  ...
+# Subtest: callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely
+ok 39 - callback auth error is consumed once, preserves unrelated URL state, and ignores unknown input safely
+  ---
+  duration_ms: 6.1403
+  type: 'test'
+  ...
+# Subtest: GIF detection covers MIME and case-insensitive filename fallback
+ok 40 - GIF detection covers MIME and case-insensitive filename fallback
+  ---
+  duration_ms: 3.5929
+  type: 'test'
+  ...
+# Subtest: session credentials are strict, memory-only, and remove legacy browser artifacts
+ok 41 - session credentials are strict, memory-only, and remove legacy browser artifacts
+  ---
+  duration_ms: 4.1909
+  type: 'test'
+  ...
+# Subtest: same-origin credential requests are single-flight and send the account fence
+ok 42 - same-origin credential requests are single-flight and send the account fence
+  ---
+  duration_ms: 5.6446
+  type: 'test'
+  ...
+# Subtest: initial session recovery keeps the reconnect action inert until the credential probe settles
+ok 43 - initial session recovery keeps the reconnect action inert until the credential probe settles
+  ---
+  duration_ms: 4.2291
+  type: 'test'
+  ...
+# Subtest: iOS standalone starts OAuth inside the web-app context while browser surfaces keep same-window navigation
+ok 44 - iOS standalone starts OAuth inside the web-app context while browser surfaces keep same-window navigation
+  ---
+  duration_ms: 16.4996
+  type: 'test'
+  ...
+# Subtest: a blocked standalone OAuth window fails closed and releases the connect action
+ok 45 - a blocked standalone OAuth window fails closed and releases the connect action
+  ---
+  duration_ms: 3.566
+  type: 'test'
+  ...
+# Subtest: standalone popup and deadline failures preserve an already usable session
+ok 46 - standalone popup and deadline failures preserve an already usable session
+  ---
+  duration_ms: 12.3705
+  type: 'test'
+  ...
+# Subtest: standalone foreground recovery is single-owner, survives one early 401, and opens the library on credential proof
+ok 47 - standalone foreground recovery is single-owner, survives one early 401, and opens the library on credential proof
+  ---
+  duration_ms: 9.1315
+  type: 'test'
+  ...
+# Subtest: standalone recovery requires a new HttpOnly-session marker instead of any usable token or revision change
+ok 48 - standalone recovery requires a new HttpOnly-session marker instead of any usable token or revision change
+  ---
+  duration_ms: 4.903
+  type: 'test'
+  ...
+# Subtest: a standalone recovery timer that fires while hidden consumes no probe budget
+ok 49 - a standalone recovery timer that fires while hidden consumes no probe budget
+  ---
+  duration_ms: 4.9267
+  type: 'test'
+  ...
+# Subtest: pageshow alone can resume standalone recovery and a later return gets a fresh bounded probe epoch
+ok 50 - pageshow alone can resume standalone recovery and a later return gets a fresh bounded probe epoch
+  ---
+  duration_ms: 4.2746
+  type: 'test'
+  ...
+# Subtest: standalone recovery expires at the OAuth transaction deadline and stale completion cannot revive it
+ok 51 - standalone recovery expires at the OAuth transaction deadline and stale completion cannot revive it
+  ---
+  duration_ms: 8.7783
+  type: 'test'
+  ...
+# Subtest: standalone deadline generation-fences a real credential response that resolves late
+ok 52 - standalone deadline generation-fences a real credential response that resolves late
+  ---
+  duration_ms: 5.0966
+  type: 'test'
+  ...
+# Subtest: offline and non-JSON credential failures are bounded and preserve the current memory credential
+ok 53 - offline and non-JSON credential failures are bounded and preserve the current memory credential
+  ---
+  duration_ms: 5.5368
+  type: 'test'
+  ...
+# Subtest: concurrent credential waiters share one bounded failed flight without parallel fetches
+ok 54 - concurrent credential waiters share one bounded failed flight without parallel fetches
+  ---
+  duration_ms: 6.6679
+  type: 'test'
+  ...
+# Subtest: natural renewal has total-flight runway and forces one atomic newer owner revision before its cache window
+ok 55 - natural renewal has total-flight runway and forces one atomic newer owner revision before its cache window
+  ---
+  duration_ms: 9.605
+  type: 'test'
+  ...
+# Subtest: natural renewal retains one visible online retry after a bounded transient flight and then recovers
+ok 56 - natural renewal retains one visible online retry after a bounded transient flight and then recovers
+  ---
+  duration_ms: 6.0658
+  type: 'test'
+  ...
+# Subtest: a long transient outage retains one serialized renewal timer beyond expiry and recovers
+ok 57 - a long transient outage retains one serialized renewal timer beyond expiry and recovers
+  ---
+  duration_ms: 8.5879
+  type: 'test'
+  ...
+# Subtest: natural retry suppresses hidden/offline and stale account, generation, revision or expiry owners
+ok 58 - natural retry suppresses hidden/offline and stale account, generation, revision or expiry owners
+  ---
+  duration_ms: 34.7448
+  type: 'test'
+  ...
+# Subtest: credential retry does not retry terminal outcomes or misleading terminal503 payloads
+ok 59 - credential retry does not retry terminal outcomes or misleading terminal503 payloads
+  ---
+  duration_ms: 31.5675
+  type: 'test'
+  ...
+# Subtest: credential network and503 retries share the original55s total deadline across attempts
+ok 60 - credential network and503 retries share the original55s total deadline across attempts
+  ---
+  duration_ms: 9.8323
+  type: 'test'
+  ...
+# Subtest: clearing during credential retry delay prevents another attempt and isolates the next generation outcome
+ok 61 - clearing during credential retry delay prevents another attempt and isolates the next generation outcome
+  ---
+  duration_ms: 5.3731
+  type: 'test'
+  ...
+# Subtest: a competing same-generation credential flight cannot inherit an older renewal callback
+ok 62 - a competing same-generation credential flight cannot inherit an older renewal callback
+  ---
+  duration_ms: 5.2523
+  type: 'test'
+  ...
+# Subtest: an active Q1 lease shares two503 recovery while a retiring lease receives no token
+ok 63 - an active Q1 lease shares two503 recovery while a retiring lease receives no token
+  ---
+  duration_ms: 9.9745
+  type: 'test'
+  ...
+# Subtest: successful credential headers retain one renewal successor for body timeout or transport TypeError
+ok 64 - successful credential headers retain one renewal successor for body timeout or transport TypeError
+  ---
+  duration_ms: 11.6794
+  type: 'test'
+  ...
+# Subtest: delayed valid credential bodies complete normally while malformed syntax and schema remain terminal
+ok 65 - delayed valid credential bodies complete normally while malformed syntax and schema remain terminal
+  ---
+  duration_ms: 14.3981
+  type: 'test'
+  ...
+# Subtest: terminal credential status headers remain stopped even if their body stalls to the deadline
+ok 66 - terminal credential status headers remain stopped even if their body stalls to the deadline
+  ---
+  duration_ms: 13.1496
+  type: 'test'
+  ...
+# Subtest: body cancellation cannot revive cleared generation or overwrite its new credential outcome
+ok 67 - body cancellation cannot revive cleared generation or overwrite its new credential outcome
+  ---
+  duration_ms: 8.3995
+  type: 'test'
+  ...
+# Subtest: readAuthJson keeps its default null contract and transport callback excludes SyntaxError
+ok 68 - readAuthJson keeps its default null contract and transport callback excludes SyntaxError
+  ---
+  duration_ms: 3.6981
+  type: 'test'
+  ...
+# Subtest: cancelling a Drive credential waiter releases it while the shared refresh serves another request
+ok 69 - cancelling a Drive credential waiter releases it while the shared refresh serves another request
+  ---
+  duration_ms: 9.3901
+  type: 'test'
+  ...
+# Subtest: account JSON deadline aborts stalled headers and success/error bodies and cancels late headers
+ok 70 - account JSON deadline aborts stalled headers and success/error bodies and cancels late headers
+  ---
+  duration_ms: 15.5308
+  type: 'test'
+  ...
+# Subtest: account JSON parent cancellation and stale account owners never become timeouts or leak listeners
+ok 71 - account JSON parent cancellation and stale account owners never become timeouts or leak listeners
+  ---
+  duration_ms: 25.4944
+  type: 'test'
+  ...
+# Subtest: account JSON preserves strict parsing, HTTP errors and existing auth/rate retries within one read budget
+ok 72 - account JSON preserves strict parsing, HTTP errors and existing auth/rate retries within one read budget
+  ---
+  duration_ms: 23.7714
+  type: 'test'
+  ...
+# Subtest: ordinary original media fetch remains streaming without an account JSON deadline
+ok 73 - ordinary original media fetch remains streaming without an account JSON deadline
+  ---
+  duration_ms: 3.8562
+  type: 'test'
+  ...
+# Subtest: foreground rechecks use wall-clock expiry and one shared refresh while hidden/offline stay idle
+ok 74 - foreground rechecks use wall-clock expiry and one shared refresh while hidden/offline stay idle
+  ---
+  duration_ms: 4.0567
+  type: 'test'
+  ...
+# Subtest: a Q1 token reply authorizes only the same player source that survived the shared refresh
+ok 75 - a Q1 token reply authorizes only the same player source that survived the shared refresh
+  ---
+  duration_ms: 14.1622
+  type: 'test'
+  ...
+# Subtest: a credential response parsed after its account generation changes cannot install
+ok 76 - a credential response parsed after its account generation changes cannot install
+  ---
+  duration_ms: 4.2774
+  type: 'test'
+  ...
+# Subtest: account and revision fences reject stale credentials without replacing the current account
+ok 77 - account and revision fences reject stale credentials without replacing the current account
+  ---
+  duration_ms: 3.9074
+  type: 'test'
+  ...
+# Subtest: logout and disconnect use separate server actions and clear browser session state only after success
+ok 78 - logout and disconnect use separate server actions and clear browser session state only after success
+  ---
+  duration_ms: 4.539
+  type: 'test'
+  ...
+# Subtest: pagination exhausts tokens and rejects a repeated cursor
+ok 79 - pagination exhausts tokens and rejects a repeated cursor
+  ---
+  duration_ms: 3.3132
+  type: 'test'
+  ...
+# Subtest: render window is row-aligned and never exceeds the hard DOM cap
+ok 80 - render window is row-aligned and never exceeds the hard DOM cap
+  ---
+  duration_ms: 3.4226
+  type: 'test'
+  ...
+# Subtest: render scheduler repairs uncovered viewport rows and keeps covered scrolling inside hysteresis
+ok 81 - render scheduler repairs uncovered viewport rows and keeps covered scrolling inside hysteresis
+  ---
+  duration_ms: 28.5407
+  type: 'test'
+  ...
+# Subtest: move rows include roots, descendants, orphans, and cycles exactly once
+ok 82 - move rows include roots, descendants, orphans, and cycles exactly once
+  ---
+  duration_ms: 3.7169
+  type: 'test'
+  ...
+# Subtest: breadcrumb items show the Drive root exactly once and remove stale duplicate entries
+ok 83 - breadcrumb items show the Drive root exactly once and remove stale duplicate entries
+  ---
+  duration_ms: 3.2374
+  type: 'test'
+  ...
+# Subtest: random selection uses the complete population and avoids the current item
+ok 84 - random selection uses the complete population and avoids the current item
+  ---
+  duration_ms: 3.9103
+  type: 'test'
+  ...
+# Subtest: account media state merges viewed history and honors the newest favorite toggle
+ok 85 - account media state merges viewed history and honors the newest favorite toggle
+  ---
+  duration_ms: 4.5801
+  type: 'test'
+  ...
+# Subtest: shorts deck exhausts unseen account media before watched candidates
+ok 86 - shorts deck exhausts unseen account media before watched candidates
+  ---
+  duration_ms: 3.7667
+  type: 'test'
+  ...
+# Subtest: double-tap reserves only narrow video edges for seek and likes everywhere else
+ok 87 - double-tap reserves only narrow video edges for seek and likes everywhere else
+  ---
+  duration_ms: 7.5778
+  type: 'test'
+  ...
+# Subtest: mobile tap pairs toggle favorites once per pair and consume the gesture
+ok 88 - mobile tap pairs toggle favorites once per pair and consume the gesture
+  ---
+  duration_ms: 4.7996
+  type: 'test'
+  ...
+# Subtest: mobile library edge swipe tracks from the left edge and commits one back navigation
+ok 89 - mobile library edge swipe tracks from the left edge and commits one back navigation
+  ---
+  duration_ms: 4.2433
+  type: 'test'
+  ...
+# Subtest: account state upload creates a private appDataFolder JSON file
+ok 90 - account state upload creates a private appDataFolder JSON file
+  ---
+  duration_ms: 4.4953
+  type: 'test'
+  ...
+# Subtest: account initialization merges a newer offline cache and schedules it back to Drive
+ok 91 - account initialization merges a newer offline cache and schedules it back to Drive
+  ---
+  duration_ms: 5.2191
+  type: 'test'
+  ...
+# Subtest: favorite catalog view spans folders and excludes folders and non-media records
+ok 92 - favorite catalog view spans folders and excludes folders and non-media records
+  ---
+  duration_ms: 3.9012
+  type: 'test'
+  ...
+# Subtest: favorite resolution reuses known media and identifies only unresolved file IDs
+ok 93 - favorite resolution reuses known media and identifies only unresolved file IDs
+  ---
+  duration_ms: 3.635
+  type: 'test'
+  ...
+# Subtest: favorite view keeps cached matches and fetches missing liked files when account refresh fails
+ok 94 - favorite view keeps cached matches and fetches missing liked files when account refresh fails
+  ---
+  duration_ms: 4.3963
+  type: 'test'
+  ...
+# Subtest: library status ownership prevents a late request from reviving stale text
+ok 95 - library status ownership prevents a late request from reviving stale text
+  ---
+  duration_ms: 3.7684
+  type: 'test'
+  ...
+# Subtest: non-video media immediately hides stale video playback controls
+ok 96 - non-video media immediately hides stale video playback controls
+  ---
+  duration_ms: 3.6984
+  type: 'test'
+  ...
+# Subtest: vertical shorts deck preassigns two items above and below and reverses spatially
+ok 97 - vertical shorts deck preassigns two items above and below and reverses spatially
+  ---
+  duration_ms: 3.9739
+  type: 'test'
+  ...
+# Subtest: later metadata pages extend the frozen horizontal order without reshuffling it
+ok 98 - later metadata pages extend the frozen horizontal order without reshuffling it
+  ---
+  duration_ms: 3.4499
+  type: 'test'
+  ...
+# Subtest: original buffer policy prefers bounded OPFS and denies unsafe memory downloads
+ok 99 - original buffer policy prefers bounded OPFS and denies unsafe memory downloads
+  ---
+  duration_ms: 3.5747
+  type: 'test'
+  ...
+# Subtest: QA-TR-11 local storage limits stay explicit and never auto-select compatibility
+ok 100 - QA-TR-11 local storage limits stay explicit and never auto-select compatibility
+  ---
+  duration_ms: 5.6377
+  type: 'test'
+  ...
+# Subtest: QA-TR-11 a native memory Blob allocation failure stays storage-limited
+ok 101 - QA-TR-11 a native memory Blob allocation failure stays storage-limited
+  ---
+  duration_ms: 5.1256
+  type: 'test'
+  ...
+# Subtest: QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited
+ok 102 - QA-TR-11 mid-write OPFS quota cleans its lease and ends as storage-limited
+  ---
+  duration_ms: 4.6199
+  type: 'test'
+  ...
+# Subtest: QA-TR-11 a superseded buffer failure cannot replace the newer source
+ok 103 - QA-TR-11 a superseded buffer failure cannot replace the newer source
+  ---
+  duration_ms: 8.1287
+  type: 'test'
+  ...
+# Subtest: QA-TR-11 a superseded storage-policy result cannot replace the newer source
+ok 104 - QA-TR-11 a superseded storage-policy result cannot replace the newer source
+  ---
+  duration_ms: 4.4535
+  type: 'test'
+  ...
+# Subtest: known-clean initial Q0 assigns its source synchronously without storage policy or full download
+ok 105 - known-clean initial Q0 assigns its source synchronously without storage policy or full download
+  ---
+  duration_ms: 3.7926
+  type: 'test'
+  ...
+# Subtest: an exhausted temporary-disk route is not selected again after Range fallback
+ok 106 - an exhausted temporary-disk route is not selected again after Range fallback
+  ---
+  duration_ms: 3.776
+  type: 'test'
+  ...
+# Subtest: shorts playback order ignores search and media filter subsets
+ok 107 - shorts playback order ignores search and media filter subsets
+  ---
+  duration_ms: 3.6508
+  type: 'test'
+  ...
+# Subtest: move capability checks distinguish shared-drive exits from My Drive entries
+ok 108 - move capability checks distinguish shared-drive exits from My Drive entries
+  ---
+  duration_ms: 3.9325
+  type: 'test'
+  ...
+# Subtest: resource-key headers keep raw keys and include each referenced item once
+ok 109 - resource-key headers keep raw keys and include each referenced item once
+  ---
+  duration_ms: 3.4979
+  type: 'test'
+  ...
+# Subtest: G-drive-scale render mounts at most 240 cards and uses static GIF canvases instead of animated images
+ok 110 - G-drive-scale render mounts at most 240 cards and uses static GIF canvases instead of animated images
+  ---
+  duration_ms: 14.2757
+  type: 'test'
+  ...
+# Subtest: GIF thumbnail loader draws one static cover frame and then releases the detached image
+ok 111 - GIF thumbnail loader draws one static cover frame and then releases the detached image
+  ---
+  duration_ms: 18.9193
+  type: 'test'
+  ...
+# Subtest: GIF thumbnail backing pixels exist only near the viewport and are released after exit
+ok 112 - GIF thumbnail backing pixels exist only near the viewport and are released after exit
+  ---
+  duration_ms: 39.5711
+  type: 'test'
+  ...
+# Subtest: GIF draw failures immediately release the expanded canvas backing store
+ok 113 - GIF draw failures immediately release the expanded canvas backing store
+  ---
+  duration_ms: 30.4339
+  type: 'test'
+  ...
+# Subtest: swipe commits require a dominant deliberate movement or a qualifying flick
+ok 114 - swipe commits require a dominant deliberate movement or a qualifying flick
+  ---
+  duration_ms: 7.7037
+  type: 'test'
+  ...
+# Subtest: an axis-locked swipe commits from signed distance and velocity without a second dominance test
+ok 115 - an axis-locked swipe commits from signed distance and velocity without a second dominance test
+  ---
+  duration_ms: 7.2173
+  type: 'test'
+  ...
+# Subtest: frozen swipe navigation commits the previewed file ID even if the surrounding order changes
+ok 116 - frozen swipe navigation commits the previewed file ID even if the surrounding order changes
+  ---
+  duration_ms: 6.5687
+  type: 'test'
+  ...
+# Subtest: video transition keeps the neighbour poster until a frame is actually presented
+ok 117 - video transition keeps the neighbour poster until a frame is actually presented
+  ---
+  duration_ms: 4.6333
+  type: 'test'
+  ...
+# Subtest: opt-in media trace is redacted, session-correlated and added to media URLs only while active
+ok 118 - opt-in media trace is redacted, session-correlated and added to media URLs only while active
+  ---
+  duration_ms: 4.4196
+  type: 'test'
+  ...
+# Subtest: a superseded playback keeps its cancellation trace without mutating the newer file session
+ok 119 - a superseded playback keeps its cancellation trace without mutating the newer file session
+  ---
+  duration_ms: 4.4054
+  type: 'test'
+  ...
+# Subtest: a superseded direct full-original request reports late bytes and cancellation to its retired trace
+ok 120 - a superseded direct full-original request reports late bytes and cancellation to its retired trace
+  ---
+  duration_ms: 4.294
+  type: 'test'
+  ...
+# Subtest: media trace does not call metadata a decoded frame and waits for frame presentation
+ok 121 - media trace does not call metadata a decoded frame and waits for frame presentation
+  ---
+  duration_ms: 3.9823
+  type: 'test'
+  ...
+# Subtest: media element errors remain provisional until the worker classification window closes
+ok 122 - media element errors remain provisional until the worker classification window closes
+  ---
+  duration_ms: 4.6045
+  type: 'test'
+  ...
+# Subtest: frame watchdog starts only after positive media bytes and keeps one recovery owner
+ok 123 - frame watchdog starts only after positive media bytes and keeps one recovery owner
+  ---
+  duration_ms: 5.5755
+  type: 'test'
+  ...
+# Subtest: actual frame time progress renews one watchdog lease while duplicate frames do not
+ok 124 - actual frame time progress renews one watchdog lease while duplicate frames do not
+  ---
+  duration_ms: 4.0825
+  type: 'test'
+  ...
+# Subtest: timeupdate is a monotonic fallback only when frame callbacks are unavailable and no seek is active
+ok 125 - timeupdate is a monotonic fallback only when frame callbacks are unavailable and no seek is active
+  ---
+  duration_ms: 3.8027
+  type: 'test'
+  ...
+# Subtest: seek completion requires seeked plus a decoded frame at each requested target
+ok 126 - seek completion requires seeked plus a decoded frame at each requested target
+  ---
+  duration_ms: 5.7064
+  type: 'test'
+  ...
+# Subtest: a delayed owned decoded frame completes a playing seek at its advancing playhead
+ok 127 - a delayed owned decoded frame completes a playing seek at its advancing playhead
+  ---
+  duration_ms: 5.127
+  type: 'test'
+  ...
+# Subtest: delayed seek presentation rejects stale, unrelated, implausible and paint-only frames
+ok 128 - delayed seek presentation rejects stale, unrelated, implausible and paint-only frames
+  ---
+  duration_ms: 9.6483
+  type: 'test'
+  ...
+# Subtest: delayed seek timeline accounts for rate changes, paused time and hidden playback separately
+ok 129 - delayed seek timeline accounts for rate changes, paused time and hidden playback separately
+  ---
+  duration_ms: 6.5142
+  type: 'test'
+  ...
+# Subtest: advancing currentTime without an owned decoded frame still reaches seek recovery once
+ok 130 - advancing currentTime without an owned decoded frame still reaches seek recovery once
+  ---
+  duration_ms: 5.8967
+  type: 'test'
+  ...
+# Subtest: seek completion times out once at 15 seconds and delegates to existing Range recovery
+ok 131 - seek completion times out once at 15 seconds and delegates to existing Range recovery
+  ---
+  duration_ms: 5.0261
+  type: 'test'
+  ...
+# Subtest: a classified worker failure beats a captured seek timer and remains the sole recovery owner
+ok 132 - a classified worker failure beats a captured seek timer and remains the sole recovery owner
+  ---
+  duration_ms: 4.116
+  type: 'test'
+  ...
+# Subtest: a newer seek fences stale seeked events, frame callbacks, and timers
+ok 133 - a newer seek fences stale seeked events, frame callbacks, and timers
+  ---
+  duration_ms: 5.3032
+  type: 'test'
+  ...
+# Subtest: seek clock spends only active foreground time across pause, hidden, offline, and pointer drag
+ok 134 - seek clock spends only active foreground time across pause, hidden, offline, and pointer drag
+  ---
+  duration_ms: 23.9672
+  type: 'test'
+  ...
+# Subtest: source replacement, session replacement, and source clearing make old seek work inert
+ok 135 - source replacement, session replacement, and source clearing make old seek work inert
+  ---
+  duration_ms: 18.0069
+  type: 'test'
+  ...
+# Subtest: timeupdate remains fallback evidence and never replaces a decoded seek frame
+ok 136 - timeupdate remains fallback evidence and never replaces a decoded seek frame
+  ---
+  duration_ms: 12.9281
+  type: 'test'
+  ...
+# Subtest: frame watchdog suspends for inactive playback and rejects stale timers and frame callbacks
+ok 137 - frame watchdog suspends for inactive playback and rejects stale timers and frame callbacks
+  ---
+  duration_ms: 7.7077
+  type: 'test'
+  ...
+# Subtest: buffered-original frame timeout stops locally and leaves compatibility as a user choice
+ok 138 - buffered-original frame timeout stops locally and leaves compatibility as a user choice
+  ---
+  duration_ms: 3.8683
+  type: 'test'
+  ...
+# Subtest: task pool caps concurrency and returns aligned all-settled results
+ok 139 - task pool caps concurrency and returns aligned all-settled results
+  ---
+  duration_ms: 46.7694
+  type: 'test'
+  ...
+# Subtest: Drive view, preview, and media URLs preserve required context
+ok 140 - Drive view, preview, and media URLs preserve required context
+  ---
+  duration_ms: 4.0918
+  type: 'test'
+  ...
+# Subtest: original-first recovery router never downgrades transient failures before retry and buffer recovery
+ok 141 - original-first recovery router never downgrades transient failures before retry and buffer recovery
+  ---
+  duration_ms: 3.7745
+  type: 'test'
+  ...
+# Subtest: proxy classification preserves structured range and Drive failure causes
+ok 142 - proxy classification preserves structured range and Drive failure causes
+  ---
+  duration_ms: 4.3123
+  type: 'test'
+  ...
+# Subtest: stream timeouts have one app retry owner and block a competing media fallback
+ok 143 - stream timeouts have one app retry owner and block a competing media fallback
+  ---
+  duration_ms: 3.7308
+  type: 'test'
+  ...
+# Subtest: quality labels remain neutral until original byte delivery is verified
+ok 144 - quality labels remain neutral until original byte delivery is verified
+  ---
+  duration_ms: 3.7711
+  type: 'test'
+  ...
+# Subtest: abuse acknowledgement is opt-in and scoped to the selected file
+ok 145 - abuse acknowledgement is opt-in and scoped to the selected file
+  ---
+  duration_ms: 4.7871
+  type: 'test'
+  ...
+# Subtest: video playback failures distinguish retryable network errors from codec failures
+ok 146 - video playback failures distinguish retryable network errors from codec failures
+  ---
+  duration_ms: 4.5477
+  type: 'test'
+  ...
+# Subtest: full-original recovery retries complete transfer at most three times and rejects partial bodies
+ok 147 - full-original recovery retries complete transfer at most three times and rejects partial bodies
+  ---
+  duration_ms: 5.1914
+  type: 'test'
+  ...
+# Subtest: full-original permission failure refreshes once in-app before requiring reconnection
+ok 148 - full-original permission failure refreshes once in-app before requiring reconnection
+  ---
+  duration_ms: 3.6054
+  type: 'test'
+  ...
+# Subtest: folder strip rendering obeys its hard cap
+ok 149 - folder strip rendering obeys its hard cap
+  ---
+  duration_ms: 4.7385
+  type: 'test'
+  ...
+# Subtest: bulk move eligibility skips current items but blocks any non-current permission failure
+ok 150 - bulk move eligibility skips current items but blocks any non-current permission failure
+  ---
+  duration_ms: 5.042
+  type: 'test'
+  ...
+# Subtest: bulk action target text is stable for empty, single, and multi-file selections
+ok 151 - bulk action target text is stable for empty, single, and multi-file selections
+  ---
+  duration_ms: 10.2794
+  type: 'test'
+  ...
+# Subtest: clearing a pending session credential request aborts it and permits a new generation
+ok 152 - clearing a pending session credential request aborts it and permits a new generation
+  ---
+  duration_ms: 4.7545
+  type: 'test'
+  ...
+# Subtest: Q1 retirement hides no pending cleanup and carries failure across later owners
+ok 153 - Q1 retirement hides no pending cleanup and carries failure across later owners
+  ---
+  duration_ms: 7.822
+  type: 'test'
+  ...
+# Subtest: Q1 worker retirement requires a matching live controller reply and closes every port/listener
+ok 154 - Q1 worker retirement requires a matching live controller reply and closes every port/listener
+  ---
+  duration_ms: 24.9952
+  type: 'test'
+  ...
+# Subtest: native-only initial startup assigns its source synchronously before immediate play
+ok 155 - native-only initial startup assigns its source synchronously before immediate play
+  ---
+  duration_ms: 4.2001
+  type: 'test'
+  ...
+# Subtest: a native sniff fallback retirement reply cannot mutate a later file, session, account or source
+ok 156 - a native sniff fallback retirement reply cannot mutate a later file, session, account or source
+  ---
+  duration_ms: 57.4305
+  type: 'test'
+  ...
+# Subtest: native unsupported container keeps requested play intent but gesture denial clears it
+ok 157 - native unsupported container keeps requested play intent but gesture denial clears it
+  ---
+  duration_ms: 4.7135
+  type: 'test'
+  ...
+# Subtest: closing a failed source resets pending play and fences late restore callbacks
+ok 158 - closing a failed source resets pending play and fences late restore callbacks
+  ---
+  duration_ms: 4.556
+  type: 'test'
+  ...
+# Subtest: source-only handoff retains play intent while full reset revokes it
+ok 159 - source-only handoff retains play intent while full reset revokes it
+  ---
+  duration_ms: 3.5882
+  type: 'test'
+  ...
+# Subtest: opening a replacement preserves requested video intent after reset and clears it for images
+ok 160 - opening a replacement preserves requested video intent after reset and clears it for images
+  ---
+  duration_ms: 12.022
+  type: 'test'
+  ...
+# Subtest: native restore callback cannot reposition a later Q1 source in the same session
+ok 161 - native restore callback cannot reposition a later Q1 source in the same session
+  ---
+  duration_ms: 3.4583
+  type: 'test'
+  ...
+# Subtest: early TS eligibility is a bounded hint and preserves native capability and unknown-size paths
+ok 162 - early TS eligibility is a bounded hint and preserves native capability and unknown-size paths
+  ---
+  duration_ms: 3.7172
+  type: 'test'
+  ...
+# Subtest: early TS route chooses Q1 or Q0 only after the owned probe result
+ok 163 - early TS route chooses Q1 or Q0 only after the owned probe result
+  ---
+  duration_ms: 11.3884
+  type: 'test'
+  ...
+# Subtest: initial native replacement waits for Q1 retirement and rejects failed or stale cleanup
+ok 164 - initial native replacement waits for Q1 retirement and rejects failed or stale cleanup
+  ---
+  duration_ms: 11.5943
+  type: 'test'
+  ...
+# Subtest: a stale early probe cannot assign native after an account change
+ok 165 - a stale early probe cannot assign native after an account change
+  ---
+  duration_ms: 3.5333
+  type: 'test'
+  ...
+# Subtest: same-session initial calls have one route owner and cannot bypass an active probe cleanup
+ok 166 - same-session initial calls have one route owner and cannot bypass an active probe cleanup
+  ---
+  duration_ms: 3.7402
+  type: 'test'
+  ...
+# Subtest: AUTH-05 missing appData preserves playback and local pending state while allowing Drive reads
+ok 167 - AUTH-05 missing appData preserves playback and local pending state while allowing Drive reads
+  ---
+  duration_ms: 5.1015
+  type: 'test'
+  ...
+# Subtest: AUTH-05 appData-only grants can read state but cannot read ordinary files or authorize old credentials
+ok 168 - AUTH-05 appData-only grants can read state but cannot read ordinary files or authorize old credentials
+  ---
+  duration_ms: 5.0578
+  type: 'test'
+  ...
+# Subtest: AUTH-05 ordinary media worker receives no token without Drive read capability
+ok 169 - AUTH-05 ordinary media worker receives no token without Drive read capability
+  ---
+  duration_ms: 3.8725
+  type: 'test'
+  ...
+# Subtest: paused decoded target before late presentation registration clears loading only after seeked and reuses proof
+ok 170 - paused decoded target before late presentation registration clears loading only after seeked and reuses proof
+  ---
+  duration_ms: 4.2963
+  type: 'test'
+  ...
+# Subtest: paused presentation rejects paint-only and stale-source target proof
+ok 171 - paused presentation rejects paint-only and stale-source target proof
+  ---
+  duration_ms: 7.9827
+  type: 'test'
+  ...
+# Subtest: completed paused presentation is fenced by account/source/attempt and cleared with seek retirement
+ok 172 - completed paused presentation is fenced by account/source/attempt and cleared with seek retirement
+  ---
+  duration_ms: 14.4178
+  type: 'test'
+  ...
+# Subtest: ordinary and sampler paused target callbacks keep loading until owned seeked settlement
+ok 173 - ordinary and sampler paused target callbacks keep loading until owned seeked settlement
+  ---
+  duration_ms: 7.3849
+  type: 'test'
+  ...
+# Subtest: WebP cards freeze thumbnails without widening GIF semantics or changing native still-image cards
+ok 174 - WebP cards freeze thumbnails without widening GIF semantics or changing native still-image cards
+  ---
+  duration_ms: 3.7738
+  type: 'test'
+  ...
+# Subtest: Q2 ac-3 admission requires explicit opt-in and preserves allocation guards
+ok 175 - Q2 ac-3 admission requires explicit opt-in and preserves allocation guards
+  ---
+  duration_ms: 2.631
+  type: 'test'
+  ...
+# Subtest: Q2 ec-3 admission requires explicit opt-in and preserves allocation guards
+ok 176 - Q2 ec-3 admission requires explicit opt-in and preserves allocation guards
+  ---
+  duration_ms: 0.51
+  type: 'test'
+  ...
+# Subtest: default AAC admission unchanged; unknown audio entries never become opt-in
+ok 177 - default AAC admission unchanged; unknown audio entries never become opt-in
+  ---
+  duration_ms: 0.4398
+  type: 'test'
+  ...
+# Subtest: Q2 container failure drains source without producing a window or output
+ok 178 - Q2 container failure drains source without producing a window or output
+  ---
+  duration_ms: 2.7391
+  type: 'test'
+  ...
+# Subtest: fixed stereo profile and copied immutable source-window clock
+ok 179 - fixed stereo profile and copied immutable source-window clock
+  ---
+  duration_ms: 1.4826
+  type: 'test'
+  ...
+# Subtest: cancel during delayed module open allocates no late native context
+ok 180 - cancel during delayed module open allocates no late native context
+  ---
+  duration_ms: 8.7464
+  type: 'test'
+  ...
+# Subtest: decode failure frees actual owned context exactly once; timestamps unchanged
+ok 181 - decode failure frees actual owned context exactly once; timestamps unchanged
+  ---
+  duration_ms: 1.499
+  type: 'test'
+  ...
+# Subtest: concurrent native context rejected; cumulative PCM may exceed 8MiB
+ok 182 - concurrent native context rejected; cumulative PCM may exceed 8MiB
+  ---
+  duration_ms: 11.1674
+  type: 'test'
+  ...
+# Subtest: packet bound failure closes; rejected decode never changes channel count
+ok 183 - packet bound failure closes; rejected decode never changes channel count
+  ---
+  duration_ms: 0.4476
+  type: 'test'
+  ...
+# Subtest: Mediabunny adapter reports corrupt packet without poisoning serialized close
+ok 184 - Mediabunny adapter reports corrupt packet without poisoning serialized close
+  ---
+  duration_ms: 0.7956
+  type: 'test'
+  ...
+# Subtest: adapter disposal while init is delayed cancels late native open
+ok 185 - adapter disposal while init is delayed cancels late native open
+  ---
+  duration_ms: 0.3655
+  type: 'test'
+  ...
+# Subtest: Worker transfer preserves source buffer; PCM ACK follows consumption
+ok 186 - Worker transfer preserves source buffer; PCM ACK follows consumption
+  ---
+  duration_ms: 3.1581
+  type: 'test'
+  ...
+# Subtest: Worker close during PCM consumption waits for abort-aware consumer and native close
+ok 187 - Worker close during PCM consumption waits for abort-aware consumer and native close
+  ---
+  duration_ms: 17.5141
+  type: 'test'
+  ...
+# Subtest: Worker delayed-open cancellation never allocates a late native context
+ok 188 - Worker delayed-open cancellation never allocates a late native context
+  ---
+  duration_ms: 2.1978
+  type: 'test'
+  ...
+# Subtest: uncooperative PCM consumer fails cleanup visibly without inventing drain
+ok 189 - uncooperative PCM consumer fails cleanup visibly without inventing drain
+  ---
+  duration_ms: 60.0834
+  type: 'test'
+  ...
+# Subtest: close drains decode already waiting for a delayed module without late allocation
+ok 190 - close drains decode already waiting for a delayed module without late allocation
+  ---
+  duration_ms: 1.3589
+  type: 'test'
+  ...
+# Subtest: Worker module-open failure automatically drains and terminates
+ok 191 - Worker module-open failure automatically drains and terminates
+  ---
+  duration_ms: 0.876
+  type: 'test'
+  ...
+# Subtest: cancel on arriving PCM prevents a stale consumer callback
+ok 192 - cancel on arriving PCM prevents a stale consumer callback
+  ---
+  duration_ms: 0.7479
+  type: 'test'
+  ...
+# Subtest: favorites bulk actions resolve the favorites population, never the underlying folder
+ok 193 - favorites bulk actions resolve the favorites population, never the underlying folder
+  ---
+  duration_ms: 42.0925
+  type: 'test'
+  ...
+# Subtest: empty selection cannot fall through to a previously opened player file
+ok 194 - empty selection cannot fall through to a previously opened player file
+  ---
+  duration_ms: 1.6675
+  type: 'test'
+  ...
+# Subtest: completed favorites do not require unrelated folder pagination
+ok 195 - completed favorites do not require unrelated folder pagination
+  ---
+  duration_ms: 1.5856
+  type: 'test'
+  ...
+# Subtest: equal-time favorite merges are commutative and cancellation wins a concurrent tie
+ok 196 - equal-time favorite merges are commutative and cancellation wins a concurrent tie
+  ---
+  duration_ms: 1.7124
+  type: 'test'
+  ...
+# Subtest: account state rejects non-finite timestamps and preserves prototype-like IDs as data
+ok 197 - account state rejects non-finite timestamps and preserves prototype-like IDs as data
+  ---
+  duration_ms: 1.5124
+  type: 'test'
+  ...
+# Subtest: forward shorts neighbor receives the last unseen item before watched media
+ok 198 - forward shorts neighbor receives the last unseen item before watched media
+  ---
+  duration_ms: 1.6573
+  type: 'test'
+  ...
+# Subtest: Retry-After preserves server cooldown instead of retrying early
+ok 199 - Retry-After preserves server cooldown instead of retrying early
+  ---
+  duration_ms: 2.6524
+  type: 'test'
+  ...
+# Subtest: retry waits remove their abort listener after normal completion
+ok 200 - retry waits remove their abort listener after normal completion
+  ---
+  duration_ms: 1.5952
+  type: 'test'
+  ...
+# Subtest: late Drive HTTP responses are rejected after the account generation changes
+ok 201 - late Drive HTTP responses are rejected after the account generation changes
+  ---
+  duration_ms: 4.7283
+  type: 'test'
+  ...
+# Subtest: late Drive JSON bodies cannot commit into a new account generation
+ok 202 - late Drive JSON bodies cannot commit into a new account generation
+  ---
+  duration_ms: 1.926
+  type: 'test'
+  ...
+# Subtest: seekbar keyboard handling is consumed before global shortcuts
+ok 203 - seekbar keyboard handling is consumed before global shortcuts
+  ---
+  duration_ms: 2.392
+  type: 'test'
+  ...
+# Subtest: browser modifier shortcuts and native button activation are not hijacked by the player
+ok 204 - browser modifier shortcuts and native button activation are not hijacked by the player
+  ---
+  duration_ms: 1.3911
+  type: 'test'
+  ...
+# Subtest: paginated collectors discard a final page completed after cancellation
+ok 205 - paginated collectors discard a final page completed after cancellation
+  ---
+  duration_ms: 1.7517
+  type: 'test'
+  ...
+# Subtest: old temporary file cleanup cannot delete a newer session or source generation
+ok 206 - old temporary file cleanup cannot delete a newer session or source generation
+  ---
+  duration_ms: 1.5067
+  type: 'test'
+  ...
+# Subtest: forced shell refresh leaves sibling caches and workers intact and reloads only after ACK
+ok 207 - forced shell refresh leaves sibling caches and workers intact and reloads only after ACK
+  ---
+  duration_ms: 2.3654
+  type: 'test'
+  ...
+# Subtest: simultaneous device writes preserve both edits without overwriting the legacy file
+ok 208 - simultaneous device writes preserve both edits without overwriting the legacy file
+  ---
+  duration_ms: 10.8021
+  type: 'test'
+  ...
+# Subtest: stale account initialization cannot repopulate an invalidated Drive session
+ok 209 - stale account initialization cannot repopulate an invalidated Drive session
+  ---
+  duration_ms: 2.0768
+  type: 'test'
+  ...
+# Subtest: deleted writer file is recreated without patching another device file
+ok 210 - deleted writer file is recreated without patching another device file
+  ---
+  duration_ms: 2.1388
+  type: 'test'
+  ...
+# Subtest: sort and filter caches reuse stable populations and invalidate replacement and growth
+ok 211 - sort and filter caches reuse stable populations and invalidate replacement and growth
+  ---
+  duration_ms: 1.7339
+  type: 'test'
+  ...
+# Subtest: selection cancelled while full pagination is pending remains cancelled
+ok 212 - selection cancelled while full pagination is pending remains cancelled
+  ---
+  duration_ms: 1.5756
+  type: 'test'
+  ...
+# Subtest: a delayed tap cannot control the next media session
+ok 213 - a delayed tap cannot control the next media session
+  ---
+  duration_ms: 1.8331
+  type: 'test'
+  ...
+# Subtest: unusable seek durations and secondary pointers never start a seek gesture
+ok 214 - unusable seek durations and secondary pointers never start a seek gesture
+  ---
+  duration_ms: 1.7696
+  type: 'test'
+  ...
+# Subtest: finite deadlines reject stalled initialization and preserve successful results
+ok 215 - finite deadlines reject stalled initialization and preserve successful results
+  ---
+  duration_ms: 11.1525
+  type: 'test'
+  ...
+# Subtest: a background credential from a different account cannot replace the current token
+ok 216 - a background credential from a different account cannot replace the current token
+  ---
+  duration_ms: 2.0529
+  type: 'test'
+  ...
+# Subtest: edge back uses projected release velocity but respects deliberate reversal
+ok 217 - edge back uses projected release velocity but respects deliberate reversal
+  ---
+  duration_ms: 1.903
+  type: 'test'
+  ...
+# Subtest: owned view history records one synchronous entry per navigation with account isolation
+ok 218 - owned view history records one synchronous entry per navigation with account isolation
+  ---
+  duration_ms: 1.9375
+  type: 'test'
+  ...
+# Subtest: Safari and standalone WebKit reserve the native edge when app history is owned
+ok 219 - Safari and standalone WebKit reserve the native edge when app history is owned
+  ---
+  duration_ms: 1.5927
+  type: 'test'
+  ...
+# Subtest: navigation snapshots are invalidated after mutations instead of reviving removed files
+ok 220 - navigation snapshots are invalidated after mutations instead of reviving removed files
+  ---
+  duration_ms: 1.5402
+  type: 'test'
+  ...
+# Subtest: a browser-owned noncancelable or multi-touch edge never commits custom navigation
+ok 221 - a browser-owned noncancelable or multi-touch edge never commits custom navigation
+  ---
+  duration_ms: 2.127
+  type: 'test'
+  ...
+# Subtest: unsatisfied error ranges do not mask other structured failure causes
+ok 222 - unsatisfied error ranges do not mask other structured failure causes
+  ---
+  duration_ms: 1.9421
+  type: 'test'
+  ...
+# Subtest: forward deck promotes remaining unseen neighbors without changing reverse history
+ok 223 - forward deck promotes remaining unseen neighbors without changing reverse history
+  ---
+  duration_ms: 1.8328
+  type: 'test'
+  ...
+# Subtest: scope authority is exact and granular; per-file and metadata grants do not become full-library authority
+ok 224 - scope authority is exact and granular; per-file and metadata grants do not become full-library authority
+  ---
+  duration_ms: 1.7343
+  type: 'test'
+  ...
+# Subtest: 20 callers across two owners share exactly one persisted refresh and revision
+ok 225 - 20 callers across two owners share exactly one persisted refresh and revision
+  ---
+  duration_ms: 13.1863
+  type: 'test'
+  ...
+# Subtest: restart waits for persisted dead lease then recovers; late revision cannot replace current
+ok 226 - restart waits for persisted dead lease then recovers; late revision cannot replace current
+  ---
+  duration_ms: 20.9216
+  type: 'test'
+  ...
+# Subtest: older rejected revision reuses current credential; future revision and other account are fenced
+ok 227 - older rejected revision reuses current credential; future revision and other account are fenced
+  ---
+  duration_ms: 1.2008
+  type: 'test'
+  ...
+# Subtest: missing refresh field preserves encrypted secret on refresh and verified exchange
+ok 228 - missing refresh field preserves encrypted secret on refresh and verified exchange
+  ---
+  duration_ms: 0.6725
+  type: 'test'
+  ...
+# Subtest: replacement refresh credential commits atomically with revision
+ok 229 - replacement refresh credential commits atomically with revision
+  ---
+  duration_ms: 0.63
+  type: 'test'
+  ...
+# Subtest: invalid_grant closes refresh loop and preserves unrelated product state
+ok 230 - invalid_grant closes refresh loop and preserves unrelated product state
+  ---
+  duration_ms: 1.3303
+  type: 'test'
+  ...
+# Subtest: network error preserves credentials and persisted cooldown bounds concurrent retry
+ok 231 - network error preserves credentials and persisted cooldown bounds concurrent retry
+  ---
+  duration_ms: 2.2315
+  type: 'test'
+  ...
+# Subtest: logout ends one session; disconnect removes all sessions/secrets and reports inconclusive revoke
+ok 232 - logout ends one session; disconnect removes all sessions/secrets and reports inconclusive revoke
+  ---
+  duration_ms: 1.026
+  type: 'test'
+  ...
+# Subtest: disconnect fences refresh already in flight and never restores deleted secret
+ok 233 - disconnect fences refresh already in flight and never restores deleted secret
+  ---
+  duration_ms: 0.6963
+  type: 'test'
+  ...
+# Subtest: a delayed stale alarm write repairs to the latest durable deadline
+ok 234 - a delayed stale alarm write repairs to the latest durable deadline
+  ---
+  duration_ms: 2.3209
+  type: 'test'
+  ...
+# Subtest: alarm cancellation failure cannot suppress committed disconnect or revoke result
+ok 235 - alarm cancellation failure cannot suppress committed disconnect or revoke result
+  ---
+  duration_ms: 1.1307
+  type: 'test'
+  ...
+# Subtest: contested alarm reconciliation falls back to an early repair wake-up, never stale null
+ok 236 - contested alarm reconciliation falls back to an early repair wake-up, never stale null
+  ---
+  duration_ms: 0.5198
+  type: 'test'
+  ...
+# Subtest: session establishment fails closed when no retention alarm can be installed
+ok 237 - session establishment fails closed when no retention alarm can be installed
+  ---
+  duration_ms: 0.6772
+  type: 'test'
+  ...
+# Subtest: failed additional establishment removes only its session and keeps the prior one usable
+ok 238 - failed additional establishment removes only its session and keeps the prior one usable
+  ---
+  duration_ms: 0.8539
+  type: 'test'
+  ...
+# Subtest: simultaneous failed establishments each remove their own session and final credential
+ok 239 - simultaneous failed establishments each remove their own session and final credential
+  ---
+  duration_ms: 1.0535
+  type: 'test'
+  ...
+# Subtest: final logout drops the credential early when its seven-day alarm cannot be installed
+ok 240 - final logout drops the credential early when its seven-day alarm cannot be installed
+  ---
+  duration_ms: 0.5238
+  type: 'test'
+  ...
+# Subtest: alarm rearm failure propagates to the host retry path
+ok 241 - alarm rearm failure propagates to the host retry path
+  ---
+  duration_ms: 0.2953
+  type: 'test'
+  ...
+# Subtest: last logout starts seven-day retention; verified re-entry cancels deletion
+ok 242 - last logout starts seven-day retention; verified re-entry cancels deletion
+  ---
+  duration_ms: 0.4531
+  type: 'test'
+  ...
+# Subtest: expiry retention uses actual expiration time even if alarm wakes late; absolute limit caps rolling session
+ok 243 - expiry retention uses actual expiration time even if alarm wakes late; absolute limit caps rolling session
+  ---
+  duration_ms: 1.631
+  type: 'test'
+  ...
+# Subtest: pre-auth transaction atomically consumes once across concurrent replay
+ok 244 - pre-auth transaction atomically consumes once across concurrent replay
+  ---
+  duration_ms: 1.1271
+  type: 'test'
+  ...
+# Subtest: consumed pre-auth state stays terminal when alarm cancellation is unavailable
+ok 245 - consumed pre-auth state stays terminal when alarm cancellation is unavailable
+  ---
+  duration_ms: 0.3612
+  type: 'test'
+  ...
+# Subtest: wrong cookie, wrong state, expiry and abandoned-flow alarm delete transaction secrets
+ok 246 - wrong cookie, wrong state, expiry and abandoned-flow alarm delete transaction secrets
+  ---
+  duration_ms: 0.5029
+  type: 'test'
+  ...
+# Subtest: routes require exact origin, CSRF and Fetch Metadata and return no-store redacted failures
+ok 247 - routes require exact origin, CSRF and Fetch Metadata and return no-store redacted failures
+  ---
+  duration_ms: 35.4548
+  type: 'test'
+  ...
+# Subtest: routes reject secret-bearing/unknown fields, malformed JSON, oversized bodies and media paths
+ok 248 - routes reject secret-bearing/unknown fields, malformed JSON, oversized bodies and media paths
+  ---
+  duration_ms: 3.3775
+  type: 'test'
+  ...
+# Subtest: transaction route exposes no PKCE verifier and deletes record before a failed exchange
+ok 249 - transaction route exposes no PKCE verifier and deletes record before a failed exchange
+  ---
+  duration_ms: 2.9638
+  type: 'test'
+  ...
+# Subtest: transaction callback cleanup also covers unknown input and unavailable exchange adapter
+ok 250 - transaction callback cleanup also covers unknown input and unavailable exchange adapter
+  ---
+  duration_ms: 1.2948
+  type: 'test'
+  ...
+# Subtest: partial grants survive refresh omission and explicit reductions replace authority
+ok 251 - partial grants survive refresh omission and explicit reductions replace authority
+  ---
+  duration_ms: 1.495
+  type: 'test'
+  ...
+# Subtest: legacy all-scope durable access migrates explicitly and unknown scope versions fail closed
+ok 252 - legacy all-scope durable access migrates explicitly and unknown scope versions fail closed
+  ---
+  duration_ms: 0.5634
+  type: 'test'
+  ...
+# Subtest: partial credentials require capability-aware clients and reject unknown protocols
+ok 253 - partial credentials require capability-aware clients and reject unknown protocols
+  ---
+  duration_ms: 2.2191
+  type: 'test'
+  ...
+# Subtest: a new verified grant repairs an old-Worker overwrite without authorizing ordinary access
+ok 254 - a new verified grant repairs an old-Worker overwrite without authorizing ordinary access
+  ---
+  duration_ms: 0.5323
+  type: 'test'
+  ...
+# Subtest: checked-in candidate enables auth at the exact public origin while Drive writes remain disabled
+ok 255 - checked-in candidate enables auth at the exact public origin while Drive writes remain disabled
+  ---
+  duration_ms: 1.7384
+  type: 'test'
+  ...
+# Subtest: AES-GCM refresh envelope is versioned, account-bound and tamper-evident
+ok 256 - AES-GCM refresh envelope is versioned, account-bound and tamper-evident
+  ---
+  duration_ms: 13.7599
+  type: 'test'
+  ...
+# Subtest: client session markers are stable per HttpOnly session and domain-separated from routing keys
+ok 257 - client session markers are stable per HttpOnly session and domain-separated from routing keys
+  ---
+  duration_ms: 1.5468
+  type: 'test'
+  ...
+# Subtest: authorization URL uses exact redirect, PKCE S256, nonce, offline access and minimum scopes
+ok 258 - authorization URL uses exact redirect, PKCE S256, nonce, offline access and minimum scopes
+  ---
+  duration_ms: 2.5981
+  type: 'test'
+  ...
+# Subtest: Google ID token verifies signature and every identity/time/nonce claim, canonicalizing issuer
+ok 259 - Google ID token verifies signature and every identity/time/nonce claim, canonicalizing issuer
+  ---
+  duration_ms: 726.9931
+  type: 'test'
+  ...
+# Subtest: code exchange sends verifier and accepts partial feature grants after OIDC verification
+ok 260 - code exchange sends verifier and accepts partial feature grants after OIDC verification
+  ---
+  duration_ms: 72.5552
+  type: 'test'
+  ...
+# Subtest: code exchange reports only fixed diagnostic stages for rejected Google responses
+ok 261 - code exchange reports only fixed diagnostic stages for rejected Google responses
+  ---
+  duration_ms: 2.6073
+  type: 'test'
+  ...
+# Subtest: all Google server requests use manual redirects and reject every redirect response
+ok 262 - all Google server requests use manual redirects and reject every redirect response
+  ---
+  duration_ms: 30.9874
+  type: 'test'
+  ...
+# Subtest: SQLite adapter commits atomically and rolls back thrown mutations
+ok 263 - SQLite adapter commits atomically and rolls back thrown mutations
+  ---
+  duration_ms: 0.8559
+  type: 'test'
+  ...
+# Subtest: one SQLite AuthObject provides one-use transaction and alarm-backed opaque locator owners
+ok 264 - one SQLite AuthObject provides one-use transaction and alarm-backed opaque locator owners
+  ---
+  duration_ms: 6.1661
+  type: 'test'
+  ...
+# Subtest: exact GET start/callback flow sets hardened cookies and locator routing ignores browser account IDs
+ok 265 - exact GET start/callback flow sets hardened cookies and locator routing ignores browser account IDs
+  ---
+  duration_ms: 69.5951
+  type: 'test'
+  ...
+# Subtest: recoverable callback failures expire pre-auth and redirect to one allowlisted root query without callback data
+ok 266 - recoverable callback failures expire pre-auth and redirect to one allowlisted root query without callback data
+  ---
+  duration_ms: 44.6366
+  type: 'test'
+  ...
+# Subtest: live diagnostic wiring reports a fixed token rejection stage without leaking provider data
+ok 267 - live diagnostic wiring reports a fixed token rejection stage without leaking provider data
+  ---
+  duration_ms: 172.1485
+  type: 'test'
+  ...
+# Subtest: checked-in diagnostic flag uses the fixed-stage logger without upstream data
+ok 268 - checked-in diagnostic flag uses the fixed-stage logger without upstream data
+  ---
+  duration_ms: 36.1733
+  type: 'test'
+  ...
+# Subtest: failed session-locator creation rolls account establishment back before any session cookie escapes
+ok 269 - failed session-locator creation rolls account establishment back before any session cookie escapes
+  ---
+  duration_ms: 28.0674
+  type: 'test'
+  ...
+# Subtest: auth surface rejects non-allowlisted return targets and static files stay on the same Worker origin
+ok 270 - auth surface rejects non-allowlisted return targets and static files stay on the same Worker origin
+  ---
+  duration_ms: 22.8001
+  type: 'test'
+  ...
+# Subtest: checked-in auth kill switch fails closed without blocking same-origin static assets
+ok 271 - checked-in auth kill switch fails closed without blocking same-origin static assets
+  ---
+  duration_ms: 0.4841
+  type: 'test'
+  ...
+# Subtest: callback config and origin failures stay JSON failures instead of redirecting
+ok 272 - callback config and origin failures stay JSON failures instead of redirecting
+  ---
+  duration_ms: 1.5503
+  type: 'test'
+  ...
+# Subtest: refresh accepts partial scopes but rejects malformed or non-OIDC scope claims
+ok 273 - refresh accepts partial scopes but rejects malformed or non-OIDC scope claims
+  ---
+  duration_ms: 1.48
+  type: 'test'
+  ...
+# Subtest: controller replacement visibly retires ts q1 without resetting uncertainty
+ok 274 - controller replacement visibly retires ts q1 without resetting uncertainty
+  ---
+  duration_ms: 26.7448
+  type: 'test'
+  ...
+# Subtest: controller replacement visibly retires general q1 without resetting uncertainty
+ok 275 - controller replacement visibly retires general q1 without resetting uncertainty
+  ---
+  duration_ms: 4.6269
+  type: 'test'
+  ...
+# Subtest: controller replacement visibly retires general q1-probing without resetting uncertainty
+ok 276 - controller replacement visibly retires general q1-probing without resetting uncertainty
+  ---
+  duration_ms: 6.7093
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.selected={id:'other'}
+ok 277 - controller retirement result cannot alter changed owner: state.selected={id:'other'}
+  ---
+  duration_ms: 4.5653
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.mediaSession++
+ok 278 - controller retirement result cannot alter changed owner: state.mediaSession++
+  ---
+  duration_ms: 4.2681
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.playbackSession++
+ok 279 - controller retirement result cannot alter changed owner: state.playbackSession++
+  ---
+  duration_ms: 4.2291
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.accountId='other'
+ok 280 - controller retirement result cannot alter changed owner: state.accountId='other'
+  ---
+  duration_ms: 5.6686
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.authAccountKey='other'
+ok 281 - controller retirement result cannot alter changed owner: state.authAccountKey='other'
+  ---
+  duration_ms: 4.1287
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: state.driveSessionGeneration++
+ok 282 - controller retirement result cannot alter changed owner: state.driveSessionGeneration++
+  ---
+  duration_ms: 4.2042
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: mediaSourceGeneration++
+ok 283 - controller retirement result cannot alter changed owner: mediaSourceGeneration++
+  ---
+  duration_ms: 4.6441
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: initialMediaRouteGeneration++
+ok 284 - controller retirement result cannot alter changed owner: initialMediaRouteGeneration++
+  ---
+  duration_ms: 6.3181
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: q0PinnedSource={}
+ok 285 - controller retirement result cannot alter changed owner: q0PinnedSource={}
+  ---
+  duration_ms: 5.2962
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: el.playerSheet.hidden=true
+ok 286 - controller retirement result cannot alter changed owner: el.playerSheet.hidden=true
+  ---
+  duration_ms: 6.5587
+  type: 'test'
+  ...
+# Subtest: controller retirement result cannot alter changed owner: q1Playback={}
+ok 287 - controller retirement result cannot alter changed owner: q1Playback={}
+  ---
+  duration_ms: 5.7847
+  type: 'test'
+  ...
+# Subtest: another controller change during retirement still exposes update recovery without transport restart
+ok 288 - another controller change during retirement still exposes update recovery without transport restart
+  ---
+  duration_ms: 5.4558
+  type: 'test'
+  ...
+# Subtest: controller update action reloads before expired credential handling and preserves false barrier
+ok 289 - controller update action reloads before expired credential handling and preserves false barrier
+  ---
+  duration_ms: 5.0393
+  type: 'test'
+  ...
+# Subtest: controller update cannot act on a closed player selection
+ok 290 - controller update cannot act on a closed player selection
+  ---
+  duration_ms: 4.3079
+  type: 'test'
+  ...
+# Subtest: unchanged controller and stale Q1 account do not capture an unrelated selected lifetime
+ok 291 - unchanged controller and stale Q1 account do not capture an unrelated selected lifetime
+  ---
+  duration_ms: 18.7381
+  type: 'test'
+  ...
+# Subtest: close before controller retirement preserves reload recovery for the next file behind the false barrier
+ok 292 - close before controller retirement preserves reload recovery for the next file behind the false barrier
+  ---
+  duration_ms: 7.8912
+  type: 'test'
+  ...
+# Subtest: normal canonical two-item move then trash works with global flag false and advancing folder versions
+ok 293 - normal canonical two-item move then trash works with global flag false and advancing folder versions
+  ---
+  duration_ms: 56.4721
+  type: 'test'
+  ...
+# Subtest: lost PATCH response still confirms by independent GET without replay
+ok 294 - lost PATCH response still confirms by independent GET without replay
+  ---
+  duration_ms: 4.1095
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects tag before any PATCH
+ok 295 - fresh admission rejects tag before any PATCH
+  ---
+  duration_ms: 2.4334
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects role before any PATCH
+ok 296 - fresh admission rejects role before any PATCH
+  ---
+  duration_ms: 2.2712
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects owner before any PATCH
+ok 297 - fresh admission rejects owner before any PATCH
+  ---
+  duration_ms: 2.6793
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects shared-drive before any PATCH
+ok 298 - fresh admission rejects shared-drive before any PATCH
+  ---
+  duration_ms: 2.3451
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects version before any PATCH
+ok 299 - fresh admission rejects version before any PATCH
+  ---
+  duration_ms: 2.2673
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects parents before any PATCH
+ok 300 - fresh admission rejects parents before any PATCH
+  ---
+  duration_ms: 2.0903
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects folder-version before any PATCH
+ok 301 - fresh admission rejects folder-version before any PATCH
+  ---
+  duration_ms: 2.2824
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects folder-tag before any PATCH
+ok 302 - fresh admission rejects folder-tag before any PATCH
+  ---
+  duration_ms: 2.56
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects folder-capability before any PATCH
+ok 303 - fresh admission rejects folder-capability before any PATCH
+  ---
+  duration_ms: 2.8247
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects folder-write before any PATCH
+ok 304 - fresh admission rejects folder-write before any PATCH
+  ---
+  duration_ms: 1.9808
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects unknown-child before any PATCH
+ok 305 - fresh admission rejects unknown-child before any PATCH
+  ---
+  duration_ms: 4.1869
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects pagination before any PATCH
+ok 306 - fresh admission rejects pagination before any PATCH
+  ---
+  duration_ms: 2.9234
+  type: 'test'
+  ...
+# Subtest: fresh admission rejects incomplete before any PATCH
+ok 307 - fresh admission rejects incomplete before any PATCH
+  ---
+  duration_ms: 2.8654
+  type: 'test'
+  ...
+# Subtest: lease rejects uncreated without creating a transport allowance
+ok 308 - lease rejects uncreated without creating a transport allowance
+  ---
+  duration_ms: 2.9452
+  type: 'test'
+  ...
+# Subtest: lease rejects unsent without creating a transport allowance
+ok 309 - lease rejects unsent without creating a transport allowance
+  ---
+  duration_ms: 2.1804
+  type: 'test'
+  ...
+# Subtest: lease rejects arbitrary-member without creating a transport allowance
+ok 310 - lease rejects arbitrary-member without creating a transport allowance
+  ---
+  duration_ms: 1.8634
+  type: 'test'
+  ...
+# Subtest: lease rejects wrong-account without creating a transport allowance
+ok 311 - lease rejects wrong-account without creating a transport allowance
+  ---
+  duration_ms: 2.1294
+  type: 'test'
+  ...
+# Subtest: lease rejects raw-metadata without creating a transport allowance
+ok 312 - lease rejects raw-metadata without creating a transport allowance
+  ---
+  duration_ms: 2.2777
+  type: 'test'
+  ...
+# Subtest: lease rejects missing-write-grant without creating a transport allowance
+ok 313 - lease rejects missing-write-grant without creating a transport allowance
+  ---
+  duration_ms: 2.6953
+  type: 'test'
+  ...
+# Subtest: lease rejects account change before dispatch
+ok 314 - lease rejects account change before dispatch
+  ---
+  duration_ms: 2.5848
+  type: 'test'
+  ...
+# Subtest: lease rejects revision change before dispatch
+ok 315 - lease rejects revision change before dispatch
+  ---
+  duration_ms: 1.9279
+  type: 'test'
+  ...
+# Subtest: lease rejects token change before dispatch
+ok 316 - lease rejects token change before dispatch
+  ---
+  duration_ms: 6.8646
+  type: 'test'
+  ...
+# Subtest: lease rejects controller change before dispatch
+ok 317 - lease rejects controller change before dispatch
+  ---
+  duration_ms: 2.844
+  type: 'test'
+  ...
+# Subtest: lease rejects source-url change before dispatch
+ok 318 - lease rejects source-url change before dispatch
+  ---
+  duration_ms: 1.799
+  type: 'test'
+  ...
+# Subtest: lease rejects abort change before dispatch
+ok 319 - lease rejects abort change before dispatch
+  ---
+  duration_ms: 1.6737
+  type: 'test'
+  ...
+# Subtest: lease rejects deadline change before dispatch
+ok 320 - lease rejects deadline change before dispatch
+  ---
+  duration_ms: 1.6613
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects body permit mismatch without sending
+ok 321 - transport consumes and rejects body permit mismatch without sending
+  ---
+  duration_ms: 2.5336
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects url permit mismatch without sending
+ok 322 - transport consumes and rejects url permit mismatch without sending
+  ---
+  duration_ms: 2.8307
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects DELETE permit mismatch without sending
+ok 323 - transport consumes and rejects DELETE permit mismatch without sending
+  ---
+  duration_ms: 1.9436
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects upload permit mismatch without sending
+ok 324 - transport consumes and rejects upload permit mismatch without sending
+  ---
+  duration_ms: 1.8463
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects appData permit mismatch without sending
+ok 325 - transport consumes and rejects appData permit mismatch without sending
+  ---
+  duration_ms: 1.8023
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects sharing permit mismatch without sending
+ok 326 - transport consumes and rejects sharing permit mismatch without sending
+  ---
+  duration_ms: 1.7884
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects target permit mismatch without sending
+ok 327 - transport consumes and rejects target permit mismatch without sending
+  ---
+  duration_ms: 1.8709
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects headers permit mismatch without sending
+ok 328 - transport consumes and rejects headers permit mismatch without sending
+  ---
+  duration_ms: 1.9218
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects forged permit mismatch without sending
+ok 329 - transport consumes and rejects forged permit mismatch without sending
+  ---
+  duration_ms: 2.2094
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects deadline permit mismatch without sending
+ok 330 - transport consumes and rejects deadline permit mismatch without sending
+  ---
+  duration_ms: 3.2715
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects abort permit mismatch without sending
+ok 331 - transport consumes and rejects abort permit mismatch without sending
+  ---
+  duration_ms: 2.5307
+  type: 'test'
+  ...
+# Subtest: transport consumes and rejects revision permit mismatch without sending
+ok 332 - transport consumes and rejects revision permit mismatch without sending
+  ---
+  duration_ms: 2.0174
+  type: 'test'
+  ...
+# Subtest: successful one-use transport permit cannot replay
+ok 333 - successful one-use transport permit cannot replay
+  ---
+  duration_ms: 2.2253
+  type: 'test'
+  ...
+# Subtest: ownership changes during fresh folder reads (revision) never reach submit
+ok 334 - ownership changes during fresh folder reads (revision) never reach submit
+  ---
+  duration_ms: 3.0691
+  type: 'test'
+  ...
+# Subtest: ownership changes during fresh folder reads (account) never reach submit
+ok 335 - ownership changes during fresh folder reads (account) never reach submit
+  ---
+  duration_ms: 3.4358
+  type: 'test'
+  ...
+# Subtest: ownership changes during fresh folder reads (abort) never reach submit
+ok 336 - ownership changes during fresh folder reads (abort) never reach submit
+  ---
+  duration_ms: 5.0125
+  type: 'test'
+  ...
+# Subtest: ownership changes during fresh folder reads (expiry) never reach submit
+ok 337 - ownership changes during fresh folder reads (expiry) never reach submit
+  ---
+  duration_ms: 3.8138
+  type: 'test'
+  ...
+# Subtest: expired disposable permit never asks for a credential refresh
+ok 338 - expired disposable permit never asks for a credential refresh
+  ---
+  duration_ms: 2.4275
+  type: 'test'
+  ...
+# Subtest: closing the lease revokes an issued pending permit
+ok 339 - closing the lease revokes an issued pending permit
+  ---
+  duration_ms: 1.9354
+  type: 'test'
+  ...
+# Subtest: five-second dispatch expiry denies a permit while its two-minute lease is still current
+ok 340 - five-second dispatch expiry denies a permit while its two-minute lease is still current
+  ---
+  duration_ms: 5
+  type: 'test'
+  ...
+# Subtest: lost-before-submit journal remains recoverable by GET after lease deadline
+ok 341 - lost-before-submit journal remains recoverable by GET after lease deadline
+  ---
+  duration_ms: 3.9069
+  type: 'test'
+  ...
+# Subtest: pagehide revokes issued permits and does not revive on a same-document BFCache return
+ok 342 - pagehide revokes issued permits and does not revive on a same-document BFCache return
+  ---
+  duration_ms: 2.7096
+  type: 'test'
+  ...
+# Subtest: beforeunload revokes issued permits and does not revive on a same-document BFCache return
+ok 343 - beforeunload revokes issued permits and does not revive on a same-document BFCache return
+  ---
+  duration_ms: 2.1518
+  type: 'test'
+  ...
+# Subtest: lease lifecycle listeners have one owner and are removed on close
+ok 344 - lease lifecycle listeners have one owner and are removed on close
+  ---
+  duration_ms: 4.4095
+  type: 'test'
+  ...
+# Subtest: lease lifecycle listeners have one owner and are removed on abort
+ok 345 - lease lifecycle listeners have one owner and are removed on abort
+  ---
+  duration_ms: 3.0283
+  type: 'test'
+  ...
+# Subtest: lease lifecycle listeners have one owner and are removed on expiry
+ok 346 - lease lifecycle listeners have one owner and are removed on expiry
+  ---
+  duration_ms: 3.3857
+  type: 'test'
+  ...
+# Subtest: lease lifecycle listeners have one owner and are removed on failed-activation
+ok 347 - lease lifecycle listeners have one owner and are removed on failed-activation
+  ---
+  duration_ms: 2.4388
+  type: 'test'
+  ...
+# Subtest: lease lifecycle listeners have one owner and are removed on replacement
+ok 348 - lease lifecycle listeners have one owner and are removed on replacement
+  ---
+  duration_ms: 2.1024
+  type: 'test'
+  ...
+# Subtest: old controller cannot authorize native bytes; replacement needs exact correlated capability
+ok 349 - old controller cannot authorize native bytes; replacement needs exact correlated capability
+  ---
+  duration_ms: 41.8686
+  type: 'test'
+  ...
+# Subtest: capability cannot resume stale owner: state.authAccountKey='b'
+ok 350 - capability cannot resume stale owner: state.authAccountKey='b'
+  ---
+  duration_ms: 5.9611
+  type: 'test'
+  ...
+# Subtest: capability cannot resume stale owner: state.driveSessionGeneration++
+ok 351 - capability cannot resume stale owner: state.driveSessionGeneration++
+  ---
+  duration_ms: 7.0497
+  type: 'test'
+  ...
+# Subtest: capability cannot resume stale owner: state.mediaSession++
+ok 352 - capability cannot resume stale owner: state.mediaSession++
+  ---
+  duration_ms: 5.1079
+  type: 'test'
+  ...
+# Subtest: capability cannot resume stale owner: mediaSourceGeneration++
+ok 353 - capability cannot resume stale owner: mediaSourceGeneration++
+  ---
+  duration_ms: 3.9643
+  type: 'test'
+  ...
+# Subtest: capability cannot resume stale owner: q0ControlWait.controller.abort()
+ok 354 - capability cannot resume stale owner: q0ControlWait.controller.abort()
+  ---
+  duration_ms: 4.8918
+  type: 'test'
+  ...
+# Subtest: capability timeout stays client-update failure without native or retry
+ok 355 - capability timeout stays client-update failure without native or retry
+  ---
+  duration_ms: 4.9813
+  type: 'test'
+  ...
+# Subtest: general source clock drives movie time, seek, and original endpoint independent of MSE tail
+ok 356 - general source clock drives movie time, seek, and original endpoint independent of MSE tail
+  ---
+  duration_ms: 3.9063
+  type: 'test'
+  ...
+# Subtest: general route admission: observed code4 with verified original and retained pin
+ok 357 - general route admission: observed code4 with verified original and retained pin
+  ---
+  duration_ms: 10.7728
+  type: 'test'
+  ...
+# Subtest: general route admission: offline
+ok 358 - general route admission: offline
+  ---
+  duration_ms: 5.4081
+  type: 'test'
+  ...
+# Subtest: general route admission: classified provider error
+ok 359 - general route admission: classified provider error
+  ---
+  duration_ms: 5.504
+  type: 'test'
+  ...
+# Subtest: general route admission: network media code
+ok 360 - general route admission: network media code
+  ---
+  duration_ms: 5.4839
+  type: 'test'
+  ...
+# Subtest: general route admission: unverified transport
+ok 361 - general route admission: unverified transport
+  ---
+  duration_ms: 15.7087
+  type: 'test'
+  ...
+# Subtest: general route admission: missing retained pin
+ok 362 - general route admission: missing retained pin
+  ---
+  duration_ms: 16.0886
+  type: 'test'
+  ...
+# Subtest: general route admission: waiting for SW capability
+ok 363 - general route admission: waiting for SW capability
+  ---
+  duration_ms: 5.7897
+  type: 'test'
+  ...
+# Subtest: Q0 retirement joins stale audio probe and keeps unsettled source sticky: mediaSourceGeneration++
+ok 364 - Q0 retirement joins stale audio probe and keeps unsettled source sticky: mediaSourceGeneration++
+  ---
+  duration_ms: 9.9567
+  type: 'test'
+  ...
+# Subtest: Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.authAccountKey='b'
+ok 365 - Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.authAccountKey='b'
+  ---
+  duration_ms: 7.4228
+  type: 'test'
+  ...
+# Subtest: Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.driveSessionGeneration++
+ok 366 - Q0 retirement joins stale audio probe and keeps unsettled source sticky: state.driveSessionGeneration++
+  ---
+  duration_ms: 5.929
+  type: 'test'
+  ...
+# Subtest: Q0 retirement joins stale audio probe and keeps unsettled source sticky: navigator.serviceWorker.controller={}
+ok 367 - Q0 retirement joins stale audio probe and keeps unsettled source sticky: navigator.serviceWorker.controller={}
+  ---
+  duration_ms: 8.1096
+  type: 'test'
+  ...
+# Subtest: Q0 retirement joins a settled skipped non-ISO probe without a false sticky failure
+ok 368 - Q0 retirement joins a settled skipped non-ISO probe without a false sticky failure
+  ---
+  duration_ms: 5.8919
+  type: 'test'
+  ...
+# Subtest: current ISO audio probe cleanup failure marks its owner before retirement
+ok 369 - current ISO audio probe cleanup failure marks its owner before retirement
+  ---
+  duration_ms: 7.4808
+  type: 'test'
+  ...
+# Subtest: rejected stale probe abort fails retirement without an unhandled setup rejection
+ok 370 - rejected stale probe abort fails retirement without an unhandled setup rejection
+  ---
+  duration_ms: 5.3151
+  type: 'test'
+  ...
+# Subtest: current non-ISO probe keeps exact abort outcome: true
+ok 371 - current non-ISO probe keeps exact abort outcome: true
+  ---
+  duration_ms: 6.8249
+  type: 'test'
+  ...
+# Subtest: current non-ISO probe keeps exact abort outcome: false
+ok 372 - current non-ISO probe keeps exact abort outcome: false
+  ---
+  duration_ms: 6.276
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_EXPANDED_INDEX_LIMIT
+ok 373 - settled optional Q2 budget preserves native Q0: GENERAL_EXPANDED_INDEX_LIMIT
+  ---
+  duration_ms: 6.6524
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_TABLE_ENTRIES_LIMIT
+ok 374 - settled optional Q2 budget preserves native Q0: GENERAL_TABLE_ENTRIES_LIMIT
+  ---
+  duration_ms: 8.5146
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_BOX_COUNT
+ok 375 - settled optional Q2 budget preserves native Q0: GENERAL_BOX_COUNT
+  ---
+  duration_ms: 5.5815
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_DISCOVERY_LIMIT
+ok 376 - settled optional Q2 budget preserves native Q0: GENERAL_DISCOVERY_LIMIT
+  ---
+  duration_ms: 5.864
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_PACKET_LIMIT
+ok 377 - settled optional Q2 budget preserves native Q0: GENERAL_PACKET_LIMIT
+  ---
+  duration_ms: 7.111
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_METADATA_LIMIT
+ok 378 - settled optional Q2 budget preserves native Q0: GENERAL_METADATA_LIMIT
+  ---
+  duration_ms: 5.6382
+  type: 'test'
+  ...
+# Subtest: settled optional Q2 budget preserves native Q0: GENERAL_INPUT_SPAN_LIMIT
+ok 379 - settled optional Q2 budget preserves native Q0: GENERAL_INPUT_SPAN_LIMIT
+  ---
+  duration_ms: 6.1593
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_BOX_BOUNDS
+ok 380 - settled probe transport/content/malformed failures still stop Q0: GENERAL_BOX_BOUNDS
+  ---
+  duration_ms: 5.3573
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_BOX_HEADER
+ok 381 - settled probe transport/content/malformed failures still stop Q0: GENERAL_BOX_HEADER
+  ---
+  duration_ms: 6.6238
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_TABLE_BOUNDS
+ok 382 - settled probe transport/content/malformed failures still stop Q0: GENERAL_TABLE_BOUNDS
+  ---
+  duration_ms: 5.7252
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_BODY
+ok 383 - settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_BODY
+  ---
+  duration_ms: 5.1348
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_TIMEOUT
+ok 384 - settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_TIMEOUT
+  ---
+  duration_ms: 5.4277
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_QUEUE_LIMIT
+ok 385 - settled probe transport/content/malformed failures still stop Q0: GENERAL_READ_QUEUE_LIMIT
+  ---
+  duration_ms: 7.3631
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: GENERAL_CANCELLED
+ok 386 - settled probe transport/content/malformed failures still stop Q0: GENERAL_CANCELLED
+  ---
+  duration_ms: 5.3159
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: Q1_SOURCE_CONTENT_DRIFT
+ok 387 - settled probe transport/content/malformed failures still stop Q0: Q1_SOURCE_CONTENT_DRIFT
+  ---
+  duration_ms: 8.2554
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: Q1_SOURCE_PERMISSION
+ok 388 - settled probe transport/content/malformed failures still stop Q0: Q1_SOURCE_PERMISSION
+  ---
+  duration_ms: 9.3425
+  type: 'test'
+  ...
+# Subtest: settled probe transport/content/malformed failures still stop Q0: AUDIO_NATIVE_GATE_UNAVAILABLE
+ok 389 - settled probe transport/content/malformed failures still stop Q0: AUDIO_NATIVE_GATE_UNAVAILABLE
+  ---
+  duration_ms: 7.2939
+  type: 'test'
+  ...
+# Subtest: Q2 index budget with unsettled source abort remains terminal and sticky
+ok 390 - Q2 index budget with unsettled source abort remains terminal and sticky
+  ---
+  duration_ms: 7.8709
+  type: 'test'
+  ...
+# Subtest: actual audio capability cancellation joins app owner drain: AudioDecoder
+ok 391 - actual audio capability cancellation joins app owner drain: AudioDecoder
+  ---
+  duration_ms: 64.0563
+  type: 'test'
+  ...
+# Subtest: actual audio capability cancellation joins app owner drain: AudioEncoder
+ok 392 - actual audio capability cancellation joins app owner drain: AudioEncoder
+  ---
+  duration_ms: 13.5931
+  type: 'test'
+  ...
+# Subtest: bounded pinned-track admission identifies AC3 and EAC3 without whole-object input
+ok 393 - bounded pinned-track admission identifies AC3 and EAC3 without whole-object input
+  ---
+  duration_ms: 36.3747
+  type: 'test'
+  ...
+# Subtest: AAC stays original-native and unavailable Q2 output fails closed
+ok 394 - AAC stays original-native and unavailable Q2 output fails closed
+  ---
+  duration_ms: 9.1494
+  type: 'test'
+  ...
+# Subtest: AAC sample-count budget yields a clean optional-probe limit rather than source failure
+ok 395 - AAC sample-count budget yields a clean optional-probe limit rather than source failure
+  ---
+  duration_ms: 3.974
+  type: 'test'
+  ...
+# Subtest: HTML native file support preserves Q0 despite WebCodecs input absence
+ok 396 - HTML native file support preserves Q0 despite WebCodecs input absence
+  ---
+  duration_ms: 4.3124
+  type: 'test'
+  ...
+# Subtest: WebCodecs input support does not refuse otherwise qualified Q2 output
+ok 397 - WebCodecs input support does not refuse otherwise qualified Q2 output
+  ---
+  duration_ms: 0.5911
+  type: 'test'
+  ...
+# Subtest: native file positive preserves Q0 without missing Opus output
+ok 398 - native file positive preserves Q0 without missing Opus output
+  ---
+  duration_ms: 3.7839
+  type: 'test'
+  ...
+# Subtest: native file positive preserves Q0 without rejecting Opus output
+ok 399 - native file positive preserves Q0 without rejecting Opus output
+  ---
+  duration_ms: 3.2441
+  type: 'test'
+  ...
+# Subtest: native file positive preserves Q0 without unsupported Opus output
+ok 400 - native file positive preserves Q0 without unsupported Opus output
+  ---
+  duration_ms: 4.9491
+  type: 'test'
+  ...
+# Subtest: HTML file unsupported plus WebCodecs input supported still selects qualified Q2
+ok 401 - HTML file unsupported plus WebCodecs input supported still selects qualified Q2
+  ---
+  duration_ms: 3.4287
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: maybe
+ok 402 - unknown native file capability preserves Q0: maybe
+  ---
+  duration_ms: 4.4967
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: unexpected
+ok 403 - unknown native file capability preserves Q0: unexpected
+  ---
+  duration_ms: 2.7676
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: missing-document
+ok 404 - unknown native file capability preserves Q0: missing-document
+  ---
+  duration_ms: 2.668
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: missing-method
+ok 405 - unknown native file capability preserves Q0: missing-method
+  ---
+  duration_ms: 2.3589
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: element-rejection
+ok 406 - unknown native file capability preserves Q0: element-rejection
+  ---
+  duration_ms: 2.1543
+  type: 'test'
+  ...
+# Subtest: unknown native file capability preserves Q0: query-rejection
+ok 407 - unknown native file capability preserves Q0: query-rejection
+  ---
+  duration_ms: 3.7881
+  type: 'test'
+  ...
+# Subtest: missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioDecoder
+ok 408 - missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioDecoder
+  ---
+  duration_ms: 3.357
+  type: 'test'
+  ...
+# Subtest: missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioEncoder
+ok 409 - missing codec API yields diagnostic or qualified-output refusal without TypeError: AudioEncoder
+  ---
+  duration_ms: 2.5382
+  type: 'test'
+  ...
+# Subtest: missing codec API yields diagnostic or qualified-output refusal without TypeError: MediaSource
+ok 410 - missing codec API yields diagnostic or qualified-output refusal without TypeError: MediaSource
+  ---
+  duration_ms: 2.5157
+  type: 'test'
+  ...
+# Subtest: rejecting WebCodecs input is diagnostic only; rejecting output is ineligible
+ok 411 - rejecting WebCodecs input is diagnostic only; rejecting output is ineligible
+  ---
+  duration_ms: 5.1
+  type: 'test'
+  ...
+# Subtest: exact combined HTML query uses actual QTFF container and treats malformed config as unknown
+ok 412 - exact combined HTML query uses actual QTFF container and treats malformed config as unknown
+  ---
+  duration_ms: 0.4832
+  type: 'test'
+  ...
+# Subtest: ManagedMediaSource alone does not qualify the current MediaSource-only general player
+ok 413 - ManagedMediaSource alone does not qualify the current MediaSource-only general player
+  ---
+  duration_ms: 4.2962
+  type: 'test'
+  ...
+# Subtest: aborting a pending AudioDecoder query settles real probe and source without later output queries
+ok 414 - aborting a pending AudioDecoder query settles real probe and source without later output queries
+  ---
+  duration_ms: 25.9677
+  type: 'test'
+  ...
+# Subtest: aborting a pending AudioEncoder query settles real probe and source without later output queries
+ok 415 - aborting a pending AudioEncoder query settles real probe and source without later output queries
+  ---
+  duration_ms: 5.0744
+  type: 'test'
+  ...
+# Subtest: pre-aborted probe never reads source or queries codec APIs and still drains
+ok 416 - pre-aborted probe never reads source or queries codec APIs and still drains
+  ---
+  duration_ms: 1.9829
+  type: 'test'
+  ...
+# Subtest: capability query removes its abort listener after success
+ok 417 - capability query removes its abort listener after success
+  ---
+  duration_ms: 0.9277
+  type: 'test'
+  ...
+# Subtest: capability query removes its abort listener after cancel
+ok 418 - capability query removes its abort listener after cancel
+  ---
+  duration_ms: 0.8717
+  type: 'test'
+  ...
+# Subtest: preflight rejects expanded stts and ctts counts before worker window or packet reads
+ok 419 - preflight rejects expanded stts and ctts counts before worker window or packet reads
+  ---
+  duration_ms: 5.7647
+  type: 'test'
+  ...
+# Subtest: strict admission rejects changed codec and external data reference
+ok 420 - strict admission rejects changed codec and external data reference
+  ---
+  duration_ms: 0.4144
+  type: 'test'
+  ...
+# Subtest: bounded original bytes seek from RAP and chunk batches preserve source clocks without encoders
+ok 421 - bounded original bytes seek from RAP and chunk batches preserve source clocks without encoders
+  ---
+  duration_ms: 51.2399
+  type: 'test'
+  ...
+# Subtest: read timeout closes source and drain; consumer cancellation terminates exactly one worker
+ok 422 - read timeout closes source and drain; consumer cancellation terminates exactly one worker
+  ---
+  duration_ms: 197.7616
+  type: 'test'
+  ...
+# Subtest: original source fault settles worker and does not leak private error text
+ok 423 - original source fault settles worker and does not leak private error text
+  ---
+  duration_ms: 99.3438
+  type: 'test'
+  ...
+# Subtest: streaming throughput exceeds former lifetime caps with bounded fragment retention
+ok 424 - streaming throughput exceeds former lifetime caps with bounded fragment retention
+  ---
+  duration_ms: 1639.4715
+  type: 'test'
+  ...
+# Subtest: in-band AVC configuration change is rejected while original parameter bytes pass
+ok 425 - in-band AVC configuration change is rejected while original parameter bytes pass
+  ---
+  duration_ms: 0.8477
+  type: 'test'
+  ...
+# Subtest: duplicate allocation-driving tables reject before expansion
+ok 426 - duplicate allocation-driving tables reject before expansion
+  ---
+  duration_ms: 0.3141
+  type: 'test'
+  ...
+# Subtest: Opus end uses actual preSkip and common clock rather than one encoder constant
+ok 427 - Opus end uses actual preSkip and common clock rather than one encoder constant
+  ---
+  duration_ms: 1.2285
+  type: 'test'
+  ...
+# Subtest: OpusHead view offset and ArrayBuffer both read exact source bytes
+ok 428 - OpusHead view offset and ArrayBuffer both read exact source bytes
+  ---
+  duration_ms: 0.1941
+  type: 'test'
+  ...
+# Subtest: unknown or malformed final audio config fails before append rather than guessing padding
+ok 429 - unknown or malformed final audio config fails before append rather than guessing padding
+  ---
+  duration_ms: 1.2503
+  type: 'test'
+  ...
+# Subtest: Q1 AAC keeps its original endpoint policy, invalid Q2 clock fails closed
+ok 430 - Q1 AAC keeps its original endpoint policy, invalid Q2 clock fails closed
+  ---
+  duration_ms: 0.1606
+  type: 'test'
+  ...
+# Subtest: known audio-only tail observed on Android107 finishes after complete mdat without inventing a video RAP
+ok 431 - known audio-only tail observed on Android107 finishes after complete mdat without inventing a video RAP
+  ---
+  duration_ms: 4.0134
+  type: 'test'
+  ...
+# Subtest: audio-only fragments retain moof/mdat acknowledgement ownership and reject incomplete or empty payloads
+ok 432 - audio-only fragments retain moof/mdat acknowledgement ownership and reject incomplete or empty payloads
+  ---
+  duration_ms: 2.2736
+  type: 'test'
+  ...
+# Subtest: audio metadata cannot admit unknown, duplicate, empty, malformed or video-masquerading tracks
+ok 433 - audio metadata cannot admit unknown, duplicate, empty, malformed or video-masquerading tracks
+  ---
+  duration_ms: 7.728
+  type: 'test'
+  ...
+# Subtest: owned long-GOP mux emits a legitimate audio-only final fragment before the source video endpoint
+ok 434 - owned long-GOP mux emits a legitimate audio-only final fragment before the source video endpoint
+  ---
+  duration_ms: 114.4122
+  type: 'test'
+  ...
+# Subtest: long GOP removal waits for an appended RAP behind playback, preserving the current decode range
+ok 435 - long GOP removal waits for an appended RAP behind playback, preserving the current decode range
+  ---
+  duration_ms: 0.5876
+  type: 'test'
+  ...
+# Subtest: fragment RAP is unavailable until all mdat bytes have been acknowledged; chunk splits retain bounded metadata only
+ok 436 - fragment RAP is unavailable until all mdat bytes have been acknowledged; chunk splits retain bounded metadata only
+  ---
+  duration_ms: 0.5735
+  type: 'test'
+  ...
+# Subtest: sample presentation offset supplies the RAP clock; non-sync output and oversized metadata fail closed
+ok 437 - sample presentation offset supplies the RAP clock; non-sync output and oversized metadata fail closed
+  ---
+  duration_ms: 0.9794
+  type: 'test'
+  ...
+# Subtest: actual reordered AVC pipeline output supplies qualified acknowledged RAP clocks without an encoder
+ok 438 - actual reordered AVC pipeline output supplies qualified acknowledged RAP clocks without an encoder
+  ---
+  duration_ms: 4.6498
+  type: 'test'
+  ...
+# Subtest: page owner keeps long-GOP current frames, resumes bounded ahead pressure, and clears its generation
+ok 439 - page owner keeps long-GOP current frames, resumes bounded ahead pressure, and clears its generation
+  ---
+  duration_ms: 13.0759
+  type: 'test'
+  ...
+# Subtest: page owner accepts the known audio-only tail, reaches EOS and retires its worker and append ownership
+ok 440 - page owner accepts the known audio-only tail, reaches EOS and retires its worker and append ownership
+  ---
+  duration_ms: 5.9096
+  type: 'test'
+  ...
+# Subtest: 24MiB retention pressure fails closed if no RAP can become safe before buffered end
+ok 441 - 24MiB retention pressure fails closed if no RAP can become safe before buffered end
+  ---
+  duration_ms: 123.9007
+  type: 'test'
+  ...
+# Subtest: cancellation during ahead backpressure settles the worker without a stale append or removal
+ok 442 - cancellation during ahead backpressure settles the worker without a stale append or removal
+  ---
+  duration_ms: 2.0778
+  type: 'test'
+  ...
+# Subtest: verified raster handoff waits for source abort and Q0 worker retirement, retaining exact pin
+ok 443 - verified raster handoff waits for source abort and Q0 worker retirement, retaining exact pin
+  ---
+  duration_ms: 33.6745
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.selected={id:'other'}
+ok 444 - retirement cannot hand an image to changed lifetime: state.selected={id:'other'}
+  ---
+  duration_ms: 7.0684
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.mediaSession++
+ok 445 - retirement cannot hand an image to changed lifetime: state.mediaSession++
+  ---
+  duration_ms: 8.9252
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.playbackSession++
+ok 446 - retirement cannot hand an image to changed lifetime: state.playbackSession++
+  ---
+  duration_ms: 7.8589
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.accountId='other'
+ok 447 - retirement cannot hand an image to changed lifetime: state.accountId='other'
+  ---
+  duration_ms: 7.7709
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.authAccountKey='other'
+ok 448 - retirement cannot hand an image to changed lifetime: state.authAccountKey='other'
+  ---
+  duration_ms: 7.2556
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: state.driveSessionGeneration++
+ok 449 - retirement cannot hand an image to changed lifetime: state.driveSessionGeneration++
+  ---
+  duration_ms: 6.9974
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: mediaSourceGeneration++
+ok 450 - retirement cannot hand an image to changed lifetime: mediaSourceGeneration++
+  ---
+  duration_ms: 7.702
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: initialMediaRouteGeneration++
+ok 451 - retirement cannot hand an image to changed lifetime: initialMediaRouteGeneration++
+  ---
+  duration_ms: 7.3968
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: navigator.serviceWorker.controller={}
+ok 452 - retirement cannot hand an image to changed lifetime: navigator.serviceWorker.controller={}
+  ---
+  duration_ms: 7.7605
+  type: 'test'
+  ...
+# Subtest: retirement cannot hand an image to changed lifetime: q0PinnedSource={}
+ok 453 - retirement cannot hand an image to changed lifetime: q0PinnedSource={}
+  ---
+  duration_ms: 7.9684
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: state.selected={id:'other'}
+ok 454 - probe result cannot hand off after source invalidation: state.selected={id:'other'}
+  ---
+  duration_ms: 9.8764
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: state.mediaSession++
+ok 455 - probe result cannot hand off after source invalidation: state.mediaSession++
+  ---
+  duration_ms: 9.0736
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: state.authAccountKey='other'
+ok 456 - probe result cannot hand off after source invalidation: state.authAccountKey='other'
+  ---
+  duration_ms: 10.039
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: state.driveSessionGeneration++
+ok 457 - probe result cannot hand off after source invalidation: state.driveSessionGeneration++
+  ---
+  duration_ms: 9.1209
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: mediaSourceGeneration++
+ok 458 - probe result cannot hand off after source invalidation: mediaSourceGeneration++
+  ---
+  duration_ms: 11.4892
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: navigator.serviceWorker.controller={}
+ok 459 - probe result cannot hand off after source invalidation: navigator.serviceWorker.controller={}
+  ---
+  duration_ms: 6.9972
+  type: 'test'
+  ...
+# Subtest: probe result cannot hand off after source invalidation: q0PinnedSource={}
+ok 460 - probe result cannot hand off after source invalidation: q0PinnedSource={}
+  ---
+  duration_ms: 10.7691
+  type: 'test'
+  ...
+# Subtest: uncertain source cleanup stays terminal and cannot start image
+ok 461 - uncertain source cleanup stays terminal and cannot start image
+  ---
+  duration_ms: 7.7002
+  type: 'test'
+  ...
+# Subtest: negative original bytes cannot become an image owner: HTML
+ok 462 - negative original bytes cannot become an image owner: HTML
+  ---
+  duration_ms: 9.2547
+  type: 'test'
+  ...
+# Subtest: negative original bytes cannot become an image owner: JSON
+ok 463 - negative original bytes cannot become an image owner: JSON
+  ---
+  duration_ms: 14.3358
+  type: 'test'
+  ...
+# Subtest: negative original bytes cannot become an image owner: truncated PNG
+ok 464 - negative original bytes cannot become an image owner: truncated PNG
+  ---
+  duration_ms: 7.9409
+  type: 'test'
+  ...
+# Subtest: valid ISO native path adds no image header read or owner transition
+ok 465 - valid ISO native path adds no image header read or owner transition
+  ---
+  duration_ms: 8.6226
+  type: 'test'
+  ...
+# Subtest: maintained raster structural header supports bounded dispatch: alpha.png
+ok 466 - maintained raster structural header supports bounded dispatch: alpha.png
+  ---
+  duration_ms: 9.62
+  type: 'test'
+  ...
+# Subtest: maintained raster structural header supports bounded dispatch: animated.webp
+ok 467 - maintained raster structural header supports bounded dispatch: animated.webp
+  ---
+  duration_ms: 8.2398
+  type: 'test'
+  ...
+# Subtest: maintained raster structural header supports bounded dispatch: animated.gif
+ok 468 - maintained raster structural header supports bounded dispatch: animated.gif
+  ---
+  duration_ms: 8.0756
+  type: 'test'
+  ...
+# Subtest: maintained raster structural header supports bounded dispatch: raster.bmp
+ok 469 - maintained raster structural header supports bounded dispatch: raster.bmp
+  ---
+  duration_ms: 11.2657
+  type: 'test'
+  ...
+# Subtest: verified selected lifetime clears on reset and never rewrites declared metadata
+ok 470 - verified selected lifetime clears on reset and never rewrites declared metadata
+  ---
+  duration_ms: 17.7689
+  type: 'test'
+  ...
+# Subtest: native code4 first waits for the delayed pinned probe instead of a competing video retry
+ok 471 - native code4 first waits for the delayed pinned probe instead of a competing video retry
+  ---
+  duration_ms: 30.0012
+  type: 'test'
+  ...
+# Subtest: uncertain Q0 worker retirement cannot present a validated raster
+ok 472 - uncertain Q0 worker retirement cannot present a validated raster
+  ---
+  duration_ms: 8.1941
+  type: 'test'
+  ...
+# Subtest: a verified hint cannot cross a later selected/account/pin owner: state.selected={id:'other',mimeType:'video/mp4'}
+ok 473 - a verified hint cannot cross a later selected/account/pin owner: state.selected={id:'other',mimeType:'video/mp4'}
+  ---
+  duration_ms: 9.1323
+  type: 'test'
+  ...
+# Subtest: a verified hint cannot cross a later selected/account/pin owner: state.authAccountKey='other'
+ok 474 - a verified hint cannot cross a later selected/account/pin owner: state.authAccountKey='other'
+  ---
+  duration_ms: 9.4316
+  type: 'test'
+  ...
+# Subtest: a verified hint cannot cross a later selected/account/pin owner: q0PinnedSource={}
+ok 475 - a verified hint cannot cross a later selected/account/pin owner: q0PinnedSource={}
+  ---
+  duration_ms: 9.7652
+  type: 'test'
+  ...
+# Subtest: classified worker buffer recovery retains the verified image kind
+ok 476 - classified worker buffer recovery retains the verified image kind
+  ---
+  duration_ms: 9.0868
+  type: 'test'
+  ...
+# Subtest: verified image range retry preserves its pin/lifetime and existing single retry budget
+ok 477 - verified image range retry preserves its pin/lifetime and existing single retry budget
+  ---
+  duration_ms: 11.5474
+  type: 'test'
+  ...
+# Subtest: ISO format decision releases code4 before optional audio capability work completes
+ok 478 - ISO format decision releases code4 before optional audio capability work completes
+  ---
+  duration_ms: 20.614
+  type: 'test'
+  ...
+# Subtest: iOS standalone reserves native history, with no second custom page animation
+ok 479 - iOS standalone reserves native history, with no second custom page animation
+  ---
+  duration_ms: 46.1489
+  type: 'test'
+  ...
+# Subtest: paused video never forces the central play overlay into view
+ok 480 - paused video never forces the central play overlay into view
+  ---
+  duration_ms: 2.1757
+  type: 'test'
+  ...
+# Subtest: passive timer resets cannot reveal hidden chrome or pause the immersive state
+ok 481 - passive timer resets cannot reveal hidden chrome or pause the immersive state
+  ---
+  duration_ms: 2.4389
+  type: 'test'
+  ...
+# Subtest: a file permission failure does not erase account credentials
+ok 482 - a file permission failure does not erase account credentials
+  ---
+  duration_ms: 2.2346
+  type: 'test'
+  ...
+# Subtest: same-account session credential renewal preserves listing and session generations
+ok 483 - same-account session credential renewal preserves listing and session generations
+  ---
+  duration_ms: 2.0732
+  type: 'test'
+  ...
+# Subtest: card long press supports pointer mouse and cancels a second contact
+ok 484 - card long press supports pointer mouse and cancels a second contact
+  ---
+  duration_ms: 2.1193
+  type: 'test'
+  ...
+# Subtest: bottom activation follows the native entry rectangle, independent of media pause
+ok 485 - bottom activation follows the native entry rectangle, independent of media pause
+  ---
+  duration_ms: 2.0474
+  type: 'test'
+  ...
+# Subtest: edge-owned touch cannot become a video-swipe even without a back destination
+ok 486 - edge-owned touch cannot become a video-swipe even without a back destination
+  ---
+  duration_ms: 2.5505
+  type: 'test'
+  ...
+# Subtest: eligible media contact reserves before a subthreshold first move can surrender cancellation
+ok 487 - eligible media contact reserves before a subthreshold first move can surrender cancellation
+  ---
+  duration_ms: 2.7356
+  type: 'test'
+  ...
+# Subtest: gesture reservation leaves native controls and reserved OS edges untouched
+ok 488 - gesture reservation leaves native controls and reserved OS edges untouched
+  ---
+  duration_ms: 2.3281
+  type: 'test'
+  ...
+# Subtest: native More summary stays outside stage tap and swipe ownership
+ok 489 - native More summary stays outside stage tap and swipe ownership
+  ---
+  duration_ms: 1.8758
+  type: 'test'
+  ...
+# Subtest: multi-contact and uncancelable starts cannot acquire the media gesture
+ok 490 - multi-contact and uncancelable starts cannot acquire the media gesture
+  ---
+  duration_ms: 1.8699
+  type: 'test'
+  ...
+# Subtest: reserved media tap still uses one touchend action without relying on compatibility click
+ok 491 - reserved media tap still uses one touchend action without relying on compatibility click
+  ---
+  duration_ms: 1.5057
+  type: 'test'
+  ...
+# Subtest: secondary 401 handlers cannot clear a newer token or a different account
+ok 492 - secondary 401 handlers cannot clear a newer token or a different account
+  ---
+  duration_ms: 1.4992
+  type: 'test'
+  ...
+# Subtest: account-mismatched session credential preserves the current account instead of replacing it
+ok 493 - account-mismatched session credential preserves the current account instead of replacing it
+  ---
+  duration_ms: 1.5324
+  type: 'test'
+  ...
+# Subtest: Drive API 403 preserves the token and carries no bearer credentials in its error
+ok 494 - Drive API 403 preserves the token and carries no bearer credentials in its error
+  ---
+  duration_ms: 4.9185
+  type: 'test'
+  ...
+# Subtest: an older player-close deadline cannot unlock a newer back operation
+ok 495 - an older player-close deadline cannot unlock a newer back operation
+  ---
+  duration_ms: 1.8025
+  type: 'test'
+  ...
+# Subtest: a late 401 uses the newer revision even when token text is identical
+ok 496 - a late 401 uses the newer revision even when token text is identical
+  ---
+  duration_ms: 2.0997
+  type: 'test'
+  ...
+# Subtest: trash response parse failure never substitutes for an independent GET
+ok 497 - trash response parse failure never substitutes for an independent GET
+  ---
+  duration_ms: 46.6765
+  type: 'test'
+  ...
+# Subtest: move uses actual remote parents instead of synthesizing a missing response field
+ok 498 - move uses actual remote parents instead of synthesizing a missing response field
+  ---
+  duration_ms: 7.8622
+  type: 'test'
+  ...
+# Subtest: trash: applied before lost response confirms by GET without replay
+ok 499 - trash: applied before lost response confirms by GET without replay
+  ---
+  duration_ms: 4.8926
+  type: 'test'
+  ...
+# Subtest: move: applied before lost response confirms by GET without replay
+ok 500 - move: applied before lost response confirms by GET without replay
+  ---
+  duration_ms: 5.3278
+  type: 'test'
+  ...
+# Subtest: lost before apply stays uncertain through repeat/reload; recovery only reads
+ok 501 - lost before apply stays uncertain through repeat/reload; recovery only reads
+  ---
+  duration_ms: 11.2305
+  type: 'test'
+  ...
+# Subtest: deny: rejection plus unchanged GET is failed, never transparent PATCH retry
+ok 502 - deny: rejection plus unchanged GET is failed, never transparent PATCH retry
+  ---
+  duration_ms: 4.394
+  type: 'test'
+  ...
+# Subtest: rate: rejection plus unchanged GET is failed, never transparent PATCH retry
+ok 503 - rate: rejection plus unchanged GET is failed, never transparent PATCH retry
+  ---
+  duration_ms: 4.9909
+  type: 'test'
+  ...
+# Subtest: operation ID is payload-bound; repeated confirmed operation never replays even after external restore
+ok 504 - operation ID is payload-bound; repeated confirmed operation never replays even after external restore
+  ---
+  duration_ms: 6.1155
+  type: 'test'
+  ...
+# Subtest: account switch after submission preserves origin uncertainty and never reads it with new account
+ok 505 - account switch after submission preserves origin uncertainty and never reads it with new account
+  ---
+  duration_ms: 5.3395
+  type: 'test'
+  ...
+# Subtest: storage failure before submit and unsupported locking prevent all PATCHes
+ok 506 - storage failure before submit and unsupported locking prevent all PATCHes
+  ---
+  duration_ms: 7.0815
+  type: 'test'
+  ...
+# Subtest: persistence failure after remote confirmation retains recoverable submitted evidence
+ok 507 - persistence failure after remote confirmation retains recoverable submitted evidence
+  ---
+  duration_ms: 5.9327
+  type: 'test'
+  ...
+# Subtest: stale snapshot, denied capabilities and unverified metadata stop before PATCH
+ok 508 - stale snapshot, denied capabilities and unverified metadata stop before PATCH
+  ---
+  duration_ms: 19.8408
+  type: 'test'
+  ...
+# Subtest: cross-tab account lock prevents two stale intents from submitting the same file
+ok 509 - cross-tab account lock prevents two stale intents from submitting the same file
+  ---
+  duration_ms: 8.5688
+  type: 'test'
+  ...
+# Subtest: shortcut mutation stays on selected ID, and move removes verified parents only
+ok 510 - shortcut mutation stays on selected ID, and move removes verified parents only
+  ---
+  duration_ms: 5.4638
+  type: 'test'
+  ...
+# Subtest: root destination alias accepts omitted parents but uses the returned canonical ID
+ok 511 - root destination alias accepts omitted parents but uses the returned canonical ID
+  ---
+  duration_ms: 5.1502
+  type: 'test'
+  ...
+# Subtest: mixed bulk failure summary counts uncertainty separately from rejection and conflict
+ok 512 - mixed bulk failure summary counts uncertainty separately from rejection and conflict
+  ---
+  duration_ms: 12.5317
+  type: 'test'
+  ...
+# Subtest: only an explicit new UI retry may resend after fresh unchanged-version readback
+ok 513 - only an explicit new UI retry may resend after fresh unchanged-version readback
+  ---
+  duration_ms: 7.869
+  type: 'test'
+  ...
+# Subtest: explicit retry cannot overwrite an external edit or retry an unknown version
+ok 514 - explicit retry cannot overwrite an external edit or retry an unknown version
+  ---
+  duration_ms: 11.511
+  type: 'test'
+  ...
+# Subtest: no arbitrary 2000-operation cap; completed records retain their identity and proof
+ok 515 - no arbitrary 2000-operation cap; completed records retain their identity and proof
+  ---
+  duration_ms: 56.8244
+  type: 'test'
+  ...
+# Subtest: repeated 404 or unreadable readback stays uncertain without null/stale observation retry
+ok 516 - repeated 404 or unreadable readback stays uncertain without null/stale observation retry
+  ---
+  duration_ms: 13.2879
+  type: 'test'
+  ...
+# Subtest: batch preserves earlier confirmed origin items when a later submission changes account
+ok 517 - batch preserves earlier confirmed origin items when a later submission changes account
+  ---
+  duration_ms: 7.1765
+  type: 'test'
+  ...
+# Subtest: an async UI refresh cannot change the already captured mutation intent
+ok 518 - an async UI refresh cannot change the already captured mutation intent
+  ---
+  duration_ms: 5.1866
+  type: 'test'
+  ...
+# Subtest: same-session source replacement schedules a new presentation while stale frames cannot clear its loader
+ok 519 - same-session source replacement schedules a new presentation while stale frames cannot clear its loader
+  ---
+  duration_ms: 2.1435
+  type: 'test'
+  ...
+# Subtest: normal account sync is silent; local storage and sync errors remain truthful
+ok 520 - normal account sync is silent; local storage and sync errors remain truthful
+  ---
+  duration_ms: 45.0601
+  type: 'test'
+  ...
+# Subtest: video viewed requires presentation progress, not an open, paused frame or seek
+ok 521 - video viewed requires presentation progress, not an open, paused frame or seek
+  ---
+  duration_ms: 3.8016
+  type: 'test'
+  ...
+# Subtest: hidden, failed, stale-session and account-switched videos cannot write viewed state
+ok 522 - hidden, failed, stale-session and account-switched videos cannot write viewed state
+  ---
+  duration_ms: 28.8191
+  type: 'test'
+  ...
+# Subtest: source and seek generations cannot combine presentation observations
+ok 523 - source and seek generations cannot combine presentation observations
+  ---
+  duration_ms: 11.2863
+  type: 'test'
+  ...
+# Subtest: image viewed waits for decode and paint, and rejects stale decode completion
+ok 524 - image viewed waits for decode and paint, and rejects stale decode completion
+  ---
+  duration_ms: 7.6357
+  type: 'test'
+  ...
+# Subtest: broken or replaced images and rejected decoding never become viewed
+ok 525 - broken or replaced images and rejected decoding never become viewed
+  ---
+  duration_ms: 20.8659
+  type: 'test'
+  ...
+# Subtest: automatic original retry rebinds viewed ownership without double-recording
+ok 526 - automatic original retry rebinds viewed ownership without double-recording
+  ---
+  duration_ms: 8.8248
+  type: 'test'
+  ...
+# Subtest: foreground return resumes a background-loaded image with fresh paint evidence
+ok 527 - foreground return resumes a background-loaded image with fresh paint evidence
+  ---
+  duration_ms: 3.4599
+  type: 'test'
+  ...
+# Subtest: actual page/SW first snapshot is private, overrides listing, and subsequent ranges remain revision A
+ok 528 - actual page/SW first snapshot is private, overrides listing, and subsequent ranges remain revision A
+  ---
+  duration_ms: 96.0664
+  type: 'test'
+  ...
+# Subtest: restarted worker rebinds page-retained A without provider acquisition
+ok 529 - restarted worker rebinds page-retained A without provider acquisition
+  ---
+  duration_ms: 10.3219
+  type: 'test'
+  ...
+# Subtest: 401 refresh authorizes same URI and source snapshot
+ok 530 - 401 refresh authorizes same URI and source snapshot
+  ---
+  duration_ms: 7.351
+  type: 'test'
+  ...
+# Subtest: drift fails before any original bytes without latest fallback
+ok 531 - drift fails before any original bytes without latest fallback
+  ---
+  duration_ms: 5.3086
+  type: 'test'
+  ...
+# Subtest: headless fails before any original bytes without latest fallback
+ok 532 - headless fails before any original bytes without latest fallback
+  ---
+  duration_ms: 3.8412
+  type: 'test'
+  ...
+# Subtest: nonpartial fails before any original bytes without latest fallback
+ok 533 - nonpartial fails before any original bytes without latest fallback
+  ---
+  duration_ms: 3.6735
+  type: 'test'
+  ...
+# Subtest: unsafeURI fails before any original bytes without latest fallback
+ok 534 - unsafeURI fails before any original bytes without latest fallback
+  ---
+  duration_ms: 4.3709
+  type: 'test'
+  ...
+# Subtest: wrong Q0 token tuple never authorizes provider traffic
+ok 535 - wrong Q0 token tuple never authorizes provider traffic
+  ---
+  duration_ms: 3.6494
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply fileId cannot start provider acquisition
+ok 536 - malformed private owner reply fileId cannot start provider acquisition
+  ---
+  duration_ms: 4.37
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply clientId cannot start provider acquisition
+ok 537 - malformed private owner reply clientId cannot start provider acquisition
+  ---
+  duration_ms: 2.653
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply sourceGeneration cannot start provider acquisition
+ok 538 - malformed private owner reply sourceGeneration cannot start provider acquisition
+  ---
+  duration_ms: 2.4375
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply accountGeneration cannot start provider acquisition
+ok 539 - malformed private owner reply accountGeneration cannot start provider acquisition
+  ---
+  duration_ms: 2.593
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply accountKey cannot start provider acquisition
+ok 540 - malformed private owner reply accountKey cannot start provider acquisition
+  ---
+  duration_ms: 2.3844
+  type: 'test'
+  ...
+# Subtest: malformed private owner reply mediaSession cannot start provider acquisition
+ok 541 - malformed private owner reply mediaSession cannot start provider acquisition
+  ---
+  duration_ms: 3.2961
+  type: 'test'
+  ...
+# Subtest: private owner resource key with a control character is rejected before fetch
+ok 542 - private owner resource key with a control character is rejected before fetch
+  ---
+  duration_ms: 2.7955
+  type: 'test'
+  ...
+# Subtest: native first abort detaches from shared acquisition and the next range receives its exact pin
+ok 543 - native first abort detaches from shared acquisition and the next range receives its exact pin
+  ---
+  duration_ms: 15.2074
+  type: 'test'
+  ...
+# Subtest: source retirement joins cooperative pending metadata and forbids late page binding
+ok 544 - source retirement joins cooperative pending metadata and forbids late page binding
+  ---
+  duration_ms: 3.4985
+  type: 'test'
+  ...
+# Subtest: noncooperative metadata cleanup remains sticky and blocks successor generation
+ok 545 - noncooperative metadata cleanup remains sticky and blocks successor generation
+  ---
+  duration_ms: 50.3501
+  type: 'test'
+  ...
+# Subtest: pending operation polls entire opaque name exactly once; initial done does not GET
+ok 546 - pending operation polls entire opaque name exactly once; initial done does not GET
+  ---
+  duration_ms: 17.2653
+  type: 'test'
+  ...
+# Subtest: a changed page owner (state.authAccountKey='other') rejects late pin admission
+ok 547 - a changed page owner (state.authAccountKey='other') rejects late pin admission
+  ---
+  duration_ms: 9.0197
+  type: 'test'
+  ...
+# Subtest: a changed page owner (state.driveSessionGeneration=2) rejects late pin admission
+ok 548 - a changed page owner (state.driveSessionGeneration=2) rejects late pin admission
+  ---
+  duration_ms: 8.116
+  type: 'test'
+  ...
+# Subtest: a changed page owner (state.mediaSession=8) rejects late pin admission
+ok 549 - a changed page owner (state.mediaSession=8) rejects late pin admission
+  ---
+  duration_ms: 10.8931
+  type: 'test'
+  ...
+# Subtest: a changed page owner (mediaSourceGeneration=13) rejects late pin admission
+ok 550 - a changed page owner (mediaSourceGeneration=13) rejects late pin admission
+  ---
+  duration_ms: 7.2559
+  type: 'test'
+  ...
+# Subtest: retirement cancels a pending JSON reader and waits for its real cancellation barrier
+ok 551 - retirement cancels a pending JSON reader and waits for its real cancellation barrier
+  ---
+  duration_ms: 7.9262
+  type: 'test'
+  ...
+# Subtest: pinned body no-progress timeout cancels actual reader and status events omit private descriptor and URI
+ok 552 - pinned body no-progress timeout cancels actual reader and status events omit private descriptor and URI
+  ---
+  duration_ms: 52.5494
+  type: 'test'
+  ...
+# Subtest: failed JSON-reader cancellation is sticky even after its read promise settles
+ok 553 - failed JSON-reader cancellation is sticky even after its read promise settles
+  ---
+  duration_ms: 7.8428
+  type: 'test'
+  ...
+# Subtest: actual application source-pin classification terminates without native rebuild or original-buffer fallback
+ok 554 - actual application source-pin classification terminates without native rebuild or original-buffer fallback
+  ---
+  duration_ms: 6.1091
+  type: 'test'
+  ...
+# Subtest: revision HTTP 403 becomes terminal source-pin and never resamples latest
+ok 555 - revision HTTP 403 becomes terminal source-pin and never resamples latest
+  ---
+  duration_ms: 10.8994
+  type: 'test'
+  ...
+# Subtest: revision HTTP 404 becomes terminal source-pin and never resamples latest
+ok 556 - revision HTTP 404 becomes terminal source-pin and never resamples latest
+  ---
+  duration_ms: 9.0059
+  type: 'test'
+  ...
+# Subtest: revision HTTP 410 becomes terminal source-pin and never resamples latest
+ok 557 - revision HTTP 410 becomes terminal source-pin and never resamples latest
+  ---
+  duration_ms: 5.6198
+  type: 'test'
+  ...
+# Subtest: full-original recovery uses retained revision URI and direct read authorization after latest changes
+ok 558 - full-original recovery uses retained revision URI and direct read authorization after latest changes
+  ---
+  duration_ms: 6.9314
+  type: 'test'
+  ...
+# Subtest: full-original recovery without a pin fails explicitly while ordinary thumbnail reads retain their existing route
+ok 559 - full-original recovery without a pin fails explicitly while ordinary thumbnail reads retain their existing route
+  ---
+  duration_ms: 2.8785
+  type: 'test'
+  ...
+# Subtest: retained full-original resource-key header comes from the private descriptor rather than stale listing
+ok 560 - retained full-original resource-key header comes from the private descriptor rather than stale listing
+  ---
+  duration_ms: 5.5936
+  type: 'test'
+  ...
+# Subtest: absent retained resource key removes stale listing key from SW ranges and direct full-original recovery
+ok 561 - absent retained resource key removes stale listing key from SW ranges and direct full-original recovery
+  ---
+  duration_ms: 7.5033
+  type: 'test'
+  ...
+# Subtest: cold first controller claim waits for correlated capability, coalesces, then begins Q0
+ok 562 - cold first controller claim waits for correlated capability, coalesces, then begins Q0
+  ---
+  duration_ms: 6.7052
+  type: 'test'
+  ...
+# Subtest: cold control deadline fails after bounded 12s without native assignment or compatibility fallback
+ok 563 - cold control deadline fails after bounded 12s without native assignment or compatibility fallback
+  ---
+  duration_ms: 2.8057
+  type: 'test'
+  ...
+# Subtest: cold control callback cannot resume after clearDirectMediaSources()
+ok 564 - cold control callback cannot resume after clearDirectMediaSources()
+  ---
+  duration_ms: 2.3121
+  type: 'test'
+  ...
+# Subtest: cold control callback cannot resume after state.authAccountKey='other'
+ok 565 - cold control callback cannot resume after state.authAccountKey='other'
+  ---
+  duration_ms: 1.9585
+  type: 'test'
+  ...
+# Subtest: cold control callback cannot resume after state.driveSessionGeneration=2
+ok 566 - cold control callback cannot resume after state.driveSessionGeneration=2
+  ---
+  duration_ms: 2.2802
+  type: 'test'
+  ...
+# Subtest: cold control callback cannot resume after state.mediaSession=8
+ok 567 - cold control callback cannot resume after state.mediaSession=8
+  ---
+  duration_ms: 2.2922
+  type: 'test'
+  ...
+# Subtest: cold control callback cannot resume after mediaSourceGeneration=13
+ok 568 - cold control callback cannot resume after mediaSourceGeneration=13
+  ---
+  duration_ms: 1.9898
+  type: 'test'
+  ...
+# Subtest: new readers reuse exact head/tail but keep open/pre/post barriers and isolated copies/transport stats
+ok 569 - new readers reuse exact head/tail but keep open/pre/post barriers and isolated copies/transport stats
+  ---
+  duration_ms: 33.8238
+  type: 'test'
+  ...
+# Subtest: cached canonical probe plans/bootstrap bytes and actual synchronous mux output equal fresh source at0/5/11.95s
+ok 570 - cached canonical probe plans/bootstrap bytes and actual synchronous mux output equal fresh source at0/5/11.95s
+  ---
+  duration_ms: 282.4215
+  type: 'test'
+  ...
+# Subtest: partial/subrange and unsupported continuous reads use fresh bodies; widest slots stay within2MiB
+ok 571 - partial/subrange and unsupported continuous reads use fresh bodies; widest slots stay within2MiB
+  ---
+  duration_ms: 10.0977
+  type: 'test'
+  ...
+# Subtest: version and opening checksum/account tuple mismatches miss before body, never silently retag cached bytes
+ok 572 - version and opening checksum/account tuple mismatches miss before body, never silently retag cached bytes
+  ---
+  duration_ms: 24.8619
+  type: 'test'
+  ...
+# Subtest: cache postflight drift/permission/checksum/current-owner denials expose no bytes or cache completion
+ok 573 - cache postflight drift/permission/checksum/current-owner denials expose no bytes or cache completion
+  ---
+  duration_ms: 28.4951
+  type: 'test'
+  ...
+# Subtest: cancel/late postflight and timeout/concurrent hit release transient copies and cannot repopulate cleared retention
+ok 574 - cancel/late postflight and timeout/concurrent hit release transient copies and cannot repopulate cleared retention
+  ---
+  duration_ms: 31.872
+  type: 'test'
+  ...
+# Subtest: retention clear during postflight forces fresh body rather than releasing stale retained handle
+ok 575 - retention clear during postflight forces fresh body rather than releasing stale retained handle
+  ---
+  duration_ms: 4.6754
+  type: 'test'
+  ...
+# Subtest: a late checksum upgrade never relabels old nullable-checksum bytes; fresh strongly fenced body precedes a hit
+ok 576 - a late checksum upgrade never relabels old nullable-checksum bytes; fresh strongly fenced body precedes a hit
+  ---
+  duration_ms: 2.9005
+  type: 'test'
+  ...
+# Subtest: a fresh503 on an uncached range clears both raw slots before any replacement reader can adopt them
+ok 577 - a fresh503 on an uncached range clears both raw slots before any replacement reader can adopt them
+  ---
+  duration_ms: 9.4753
+  type: 'test'
+  ...
+# Subtest: clear during fresh body/postflight invalidates outstanding retention but permits a later freshly admitted read
+ok 578 - clear during fresh body/postflight invalidates outstanding retention but permits a later freshly admitted read
+  ---
+  duration_ms: 15.8358
+  type: 'test'
+  ...
+# Subtest: actual TS player serializes rapid seeks after old retirement, reuses only raw probes, and clears on finaldispose
+ok 579 - actual TS player serializes rapid seeks after old retirement, reuses only raw probes, and clears on finaldispose
+  ---
+  duration_ms: 84.8851
+  type: 'test'
+  ...
+# Subtest: same-reader generation consumes admitted probe input with2 fewerRanges/4 fewerMetadata
+ok 580 - same-reader generation consumes admitted probe input with2 fewerRanges/4 fewerMetadata
+  ---
+  duration_ms: 79.9141
+  type: 'test'
+  ...
+# Subtest: reader replacement during503 discovery falls back to original fresh bootstrap reads
+ok 581 - reader replacement during503 discovery falls back to original fresh bootstrap reads
+  ---
+  duration_ms: 300.6028
+  type: 'test'
+  ...
+# Subtest: failed permission/content fence or cancelled owner exposes no input/MSE generation
+ok 582 - failed permission/content fence or cancelled owner exposes no input/MSE generation
+  ---
+  duration_ms: 25.9411
+  type: 'test'
+  ...
+# Subtest: admitted input makes byte-identical bootstrap output and metadata-only plan
+ok 583 - admitted input makes byte-identical bootstrap output and metadata-only plan
+  ---
+  duration_ms: 65.7463
+  type: 'test'
+  ...
+# Subtest: no input handoff on failed probe; consumer failure/async misuse fails closed
+ok 584 - no input handoff on failed probe; consumer failure/async misuse fails closed
+  ---
+  duration_ms: 23.6135
+  type: 'test'
+  ...
+# Subtest: separate probes/seek generations reread and do not retain consumer arrays in returned plan
+ok 585 - separate probes/seek generations reread and do not retain consumer arrays in returned plan
+  ---
+  duration_ms: 12.4717
+  type: 'test'
+  ...
+# Subtest: only observed Range503 has frozen recovery advice, with no source retry or body delivery
+ok 586 - only observed Range503 has frozen recovery advice, with no source retry or body delivery
+  ---
+  duration_ms: 27.382
+  type: 'test'
+  ...
+# Subtest: Range503 Retry-After advice is bounded, strict and contains no raw header
+ok 587 - Range503 Retry-After advice is bounded, strict and contains no raw header
+  ---
+  duration_ms: 8.3796
+  type: 'test'
+  ...
+# Subtest: other statuses, malformed206 and spoofed metadata/callback errors never gain recovery advice
+ok 588 - other statuses, malformed206 and spoofed metadata/callback errors never gain recovery advice
+  ---
+  duration_ms: 6.6159
+  type: 'test'
+  ...
+# Subtest: Range503 cancellation rejection or unfinished cancellation still blocks replacement
+ok 589 - Range503 cancellation rejection or unfinished cancellation still blocks replacement
+  ---
+  duration_ms: 22.0449
+  type: 'test'
+  ...
+# Subtest: SW remote cleanup uncertainty keeps Q1 retirement failed even after its local response body settles
+ok 590 - SW remote cleanup uncertainty keeps Q1 retirement failed even after its local response body settles
+  ---
+  duration_ms: 1.1339
+  type: 'test'
+  ...
+# Subtest: checksum learned before a failed503 remains bound for replacement identity checks
+ok 591 - checksum learned before a failed503 remains bound for replacement identity checks
+  ---
+  duration_ms: 0.6937
+  type: 'test'
+  ...
+# Subtest: only absent opening revision is unavailable, with settled cleanup and no range callback
+ok 592 - only absent opening revision is unavailable, with settled cleanup and no range callback
+  ---
+  duration_ms: 0.8755
+  type: 'test'
+  ...
+# Subtest: missing opening revision never hides other malformed metadata or permission denial
+ok 593 - missing opening revision never hides other malformed metadata or permission denial
+  ---
+  duration_ms: 1.4191
+  type: 'test'
+  ...
+# Subtest: empty and malformed opening revisions are not eligibility fallback
+ok 594 - empty and malformed opening revisions are not eligibility fallback
+  ---
+  duration_ms: 0.9056
+  type: 'test'
+  ...
+# Subtest: revision disappearance after opening is terminal drift, not eligibility fallback
+ok 595 - revision disappearance after opening is terminal drift, not eligibility fallback
+  ---
+  duration_ms: 1.5729
+  type: 'test'
+  ...
+# Subtest: fresh open/pre/post content fences release exact bytes while version-only changes succeed
+ok 596 - fresh open/pre/post content fences release exact bytes while version-only changes succeed
+  ---
+  duration_ms: 0.9168
+  type: 'test'
+  ...
+# Subtest: postflight owns all bytes: none are released before matching metadata finishes
+ok 597 - postflight owns all bytes: none are released before matching metadata finishes
+  ---
+  duration_ms: 3.1247
+  type: 'test'
+  ...
+# Subtest: content changes and permission loss fail before range access, without adopting a new baseline
+ok 598 - content changes and permission loss fail before range access, without adopting a new baseline
+  ---
+  duration_ms: 1.8731
+  type: 'test'
+  ...
+# Subtest: postflight drift or metadata failure discards the full body and redacts provider errors
+ok 599 - postflight drift or metadata failure discards the full body and redacts provider errors
+  ---
+  duration_ms: 0.8007
+  type: 'test'
+  ...
+# Subtest: checksum may be initially unavailable but becomes a strict fence once observed
+ok 600 - checksum may be initially unavailable but becomes a strict fence once observed
+  ---
+  duration_ms: 0.8917
+  type: 'test'
+  ...
+# Subtest: effective frozen identity carries a late checksum through abort without mutating opening snapshots
+ok 601 - effective frozen identity carries a late checksum through abort without mutating opening snapshots
+  ---
+  duration_ms: 2.6593
+  type: 'test'
+  ...
+# Subtest: malformed/missing/zero/short/overlong range headers cancel the opened body without consuming it
+ok 602 - malformed/missing/zero/short/overlong range headers cancel the opened body without consuming it
+  ---
+  duration_ms: 4.0271
+  type: 'test'
+  ...
+# Subtest: empty/short/long/error bodies fail without a successful postflight or escaping bytes
+ok 603 - empty/short/long/error bodies fail without a successful postflight or escaping bytes
+  ---
+  duration_ms: 2.5858
+  type: 'test'
+  ...
+# Subtest: safe exact offsets exceed4GiB, while invalid endpoints and >1MiB requests fail before callbacks
+ok 604 - safe exact offsets exceed4GiB, while invalid endpoints and >1MiB requests fail before callbacks
+  ---
+  duration_ms: 2.0649
+  type: 'test'
+  ...
+# Subtest: concurrent reads terminalize both requests with no invisible queue
+ok 605 - concurrent reads terminalize both requests with no invisible queue
+  ---
+  duration_ms: 0.8424
+  type: 'test'
+  ...
+# Subtest: open and per-read deadlines settle even when injected callbacks ignore abort
+ok 606 - open and per-read deadlines settle even when injected callbacks ignore abort
+  ---
+  duration_ms: 51.6033
+  type: 'test'
+  ...
+# Subtest: abort during body/postflight and account staleness cancel owners and suppress completion
+ok 607 - abort during body/postflight and account staleness cancel owners and suppress completion
+  ---
+  duration_ms: 3.8023
+  type: 'test'
+  ...
+# Subtest: predicate reentry/abort/throw/async values cannot leak output or provider errors
+ok 608 - predicate reentry/abort/throw/async values cannot leak output or provider errors
+  ---
+  duration_ms: 2.406
+  type: 'test'
+  ...
+# Subtest: last ownership check after completed postflight still suppresses returned-byte metrics and reentry
+ok 609 - last ownership check after completed postflight still suppresses returned-byte metrics and reentry
+  ---
+  duration_ms: 2.7828
+  type: 'test'
+  ...
+# Subtest: unacknowledged or rejected external cancellation is reported, without retaining arrays or permitting retries
+ok 610 - unacknowledged or rejected external cancellation is reported, without retaining arrays or permitting retries
+  ---
+  duration_ms: 2.5345
+  type: 'test'
+  ...
+# Subtest: body cancellation starts before transport abort so an abort-errored stream does not falsely fail cleanup
+ok 611 - body cancellation starts before transport abort so an abort-errored stream does not falsely fail cleanup
+  ---
+  duration_ms: 1.8689
+  type: 'test'
+  ...
+# Subtest: exact1MiB body is bounded and owned; each per-read abort signal also terminalizes the source
+ok 612 - exact1MiB body is bounded and owned; each per-read abort signal also terminalizes the source
+  ---
+  duration_ms: 2.5802
+  type: 'test'
+  ...
+# Subtest: per-read signal, hostile request accessors and unsupported options are fixed-code terminal failures
+ok 613 - per-read signal, hostile request accessors and unsupported options are fixed-code terminal failures
+  ---
+  duration_ms: 1.6932
+  type: 'test'
+  ...
+# Subtest: shared abort completion waits for late Range response cancellation before permitting replacement
+ok 614 - shared abort completion waits for late Range response cancellation before permitting replacement
+  ---
+  duration_ms: 1.3454
+  type: 'test'
+  ...
+# Subtest: ignored metadata and rejected cancellation provide a bounded explicit no-replacement result
+ok 615 - ignored metadata and rejected cancellation provide a bounded explicit no-replacement result
+  ---
+  duration_ms: 28.9248
+  type: 'test'
+  ...
+# Subtest: failed opening carries cleanup evidence when metadata ignores abort and no owner could be returned
+ok 616 - failed opening carries cleanup evidence when metadata ignores abort and no owner could be returned
+  ---
+  duration_ms: 58.9441
+  type: 'test'
+  ...
+# Subtest: abort in response handoff microtasks cannot acknowledge cleanup before the opened body is cancelled
+ok 617 - abort in response handoff microtasks cannot acknowledge cleanup before the opened body is cancelled
+  ---
+  duration_ms: 6.953
+  type: 'test'
+  ...
+# Subtest: classic IIFE and CommonJS expose the same bounded helper surface
+ok 618 - classic IIFE and CommonJS expose the same bounded helper surface
+  ---
+  duration_ms: 2.6014
+  type: 'test'
+  ...
+# Subtest: first acquisition brackets empty revision POST with metadata; initialdone never polls
+ok 619 - first acquisition brackets empty revision POST with metadata; initialdone never polls
+  ---
+  duration_ms: 1.8941
+  type: 'test'
+  ...
+# Subtest: retained A pin returns identical object without sampling latest B or new operation
+ok 620 - retained A pin returns identical object without sampling latest B or new operation
+  ---
+  duration_ms: 2.2605
+  type: 'test'
+  ...
+# Subtest: descriptor equality is canonical across property order but preserves first-checksum absence
+ok 621 - descriptor equality is canonical across property order but preserves first-checksum absence
+  ---
+  duration_ms: 0.8559
+  type: 'test'
+  ...
+# Subtest: all first-identity and permission changes reject before candidate is returned
+ok 622 - all first-identity and permission changes reject before candidate is returned
+  ---
+  duration_ms: 3.5648
+  type: 'test'
+  ...
+# Subtest: absent revision, document export, denied permission and malformed checksums are classified
+ok 623 - absent revision, document export, denied permission and malformed checksums are classified
+  ---
+  duration_ms: 0.698
+  type: 'test'
+  ...
+# Subtest: private provider URI rejects other origin, path, revision, credentials, fragments and duplicate alt
+ok 624 - private provider URI rejects other origin, path, revision, credentials, fragments and duplicate alt
+  ---
+  duration_ms: 1.9232
+  type: 'test'
+  ...
+# Subtest: nonpartial and invalid completed response cannot become unchecked media
+ok 625 - nonpartial and invalid completed response cannot become unchecked media
+  ---
+  duration_ms: 0.8303
+  type: 'test'
+  ...
+# Subtest: pending operations use fixed10s spacing, exact opaque name and at most3 polls
+ok 626 - pending operations use fixed10s spacing, exact opaque name and at most3 polls
+  ---
+  duration_ms: 0.8387
+  type: 'test'
+  ...
+# Subtest: changed operation name/resource key, invaliddone, error and responsewhilepending reject
+ok 627 - changed operation name/resource key, invaliddone, error and responsewhilepending reject
+  ---
+  duration_ms: 1.6446
+  type: 'test'
+  ...
+# Subtest: independent wall deadline aborts a held hook without claiming it drained
+ok 628 - independent wall deadline aborts a held hook without claiming it drained
+  ---
+  duration_ms: 15.9385
+  type: 'test'
+  ...
+# Subtest: deadline includes pending pause and does not start a late poll
+ok 629 - deadline includes pending pause and does not start a late poll
+  ---
+  duration_ms: 14.8362
+  type: 'test'
+  ...
+# Subtest: caller source abort and owner drift reject late hooks; async owner checks are invalid
+ok 630 - caller source abort and owner drift reject late hooks; async owner checks are invalid
+  ---
+  duration_ms: 0.9466
+  type: 'test'
+  ...
+# Subtest: invalid resource bounds cannot create unbounded acquisition or polls
+ok 631 - invalid resource bounds cannot create unbounded acquisition or polls
+  ---
+  duration_ms: 0.3222
+  type: 'test'
+  ...
+# Subtest: malformed equal-looking pin or descriptor does not establish identity
+ok 632 - malformed equal-looking pin or descriptor does not establish identity
+  ---
+  duration_ms: 0.3763
+  type: 'test'
+  ...
+# Subtest: shell cache normalizes versioned asset URLs but excludes version checks and sibling routes
+ok 633 - shell cache normalizes versioned asset URLs but excludes version checks and sibling routes
+  ---
+  duration_ms: 24.6569
+  type: 'test'
+  ...
+# Subtest: offline first launch resolves canonical preinstalled assets
+ok 634 - offline first launch resolves canonical preinstalled assets
+  ---
+  duration_ms: 5.1168
+  type: 'test'
+  ...
+# Subtest: cache quota errors do not discard valid network bytes
+ok 635 - cache quota errors do not discard valid network bytes
+  ---
+  duration_ms: 3.6321
+  type: 'test'
+  ...
+# Subtest: temporary server failures use the owned cached shell instead of an error document
+ok 636 - temporary server failures use the owned cached shell instead of an error document
+  ---
+  duration_ms: 1.9197
+  type: 'test'
+  ...
+# Subtest: public deployment allowlist excludes internal memory, workflows and test fixtures
+ok 637 - public deployment allowlist excludes internal memory, workflows and test fixtures
+  ---
+  duration_ms: 4.197
+  type: 'test'
+  ...
+# Subtest: corresponding-source downloads remain public but never enter the runtime cache
+ok 638 - corresponding-source downloads remain public but never enter the runtime cache
+  ---
+  duration_ms: 4.3084
+  type: 'test'
+  ...
+# Subtest: candidate deployment runs committed-asset materialization before publication
+ok 639 - candidate deployment runs committed-asset materialization before publication
+  ---
+  duration_ms: 0.5029
+  type: 'test'
+  ...
+# Subtest: committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output
+ok 640 - committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output
+  ---
+  duration_ms: 7.3995
+  type: 'test'
+  ...
+# Subtest: dirty/untracked public, governing scripts and worker source/config reject before any write
+ok 641 - dirty/untracked public, governing scripts and worker source/config reject before any write
+  ---
+  duration_ms: 6.9224
+  type: 'test'
+  ...
+# Subtest: an allowlisted asset missing from captured HEAD rejects even when ignored by Git status
+ok 642 - an allowlisted asset missing from captured HEAD rejects even when ignored by Git status
+  ---
+  duration_ms: 2.2177
+  type: 'test'
+  ...
+# Subtest: a public change hidden by Git status still fails normalized blob provenance
+ok 643 - a public change hidden by Git status still fails normalized blob provenance
+  ---
+  duration_ms: 2.1737
+  type: 'test'
+  ...
+# Subtest: extra/missing artifact files and unexpected empty directories reject before any write
+ok 644 - extra/missing artifact files and unexpected empty directories reject before any write
+  ---
+  duration_ms: 8.6776
+  type: 'test'
+  ...
+# Subtest: linked output roots, directories/files, hardlinks and linked publication source are refused
+ok 645 - linked output roots, directories/files, hardlinks and linked publication source are refused
+  ---
+  duration_ms: 8.7439
+  type: 'test'
+  ...
+# Subtest: a changed HEAD after fixed blobs were read prevents the first output write
+ok 646 - a changed HEAD after fixed blobs were read prevents the first output write
+  ---
+  duration_ms: 1.6811
+  type: 'test'
+  ...
+# Subtest: an output path replaced between inspection and open is refused before truncation
+ok 647 - an output path replaced between inspection and open is refused before truncation
+  ---
+  duration_ms: 2.0198
+  type: 'test'
+  ...
+# Subtest: HEAD/public changes or output contamination during writing prevent successful release completion
+ok 648 - HEAD/public changes or output contamination during writing prevent successful release completion
+  ---
+  duration_ms: 7.8209
+  type: 'test'
+  ...
+# Subtest: release version is synchronized across runtime, shell, HTML, and metadata
+ok 649 - release version is synchronized across runtime, shell, HTML, and metadata
+  ---
+  duration_ms: 5.2541
+  type: 'test'
+  ...
+# Subtest: authentication setup feedback is a polite atomic live region
+ok 650 - authentication setup feedback is a polite atomic live region
+  ---
+  duration_ms: 0.9284
+  type: 'test'
+  ...
+# Subtest: first paint cannot restart OAuth while the existing session is still being recovered
+ok 651 - first paint cannot restart OAuth while the existing session is still being recovered
+  ---
+  duration_ms: 0.5762
+  type: 'test'
+  ...
+# Subtest: every bound element ID exists once in index.html
+ok 652 - every bound element ID exists once in index.html
+  ---
+  duration_ms: 3.0272
+  type: 'test'
+  ...
+# Subtest: manifest icons and service-worker shell assets exist
+ok 653 - manifest icons and service-worker shell assets exist
+  ---
+  duration_ms: 2.576
+  type: 'test'
+  ...
+# Subtest: brand surfaces use the canonical rounded navy icon with the restored blue dot
+ok 654 - brand surfaces use the canonical rounded navy icon with the restored blue dot
+  ---
+  duration_ms: 2.5995
+  type: 'test'
+  ...
+# Subtest: resource keys remain raw in the service-worker header
+ok 655 - resource keys remain raw in the service-worker header
+  ---
+  duration_ms: 0.8827
+  type: 'test'
+  ...
+# Subtest: privacy documentation and shell use the same-origin memory-only credential contract
+ok 656 - privacy documentation and shell use the same-origin memory-only credential contract
+  ---
+  duration_ms: 5.6304
+  type: 'test'
+  ...
+# Subtest: Q1 public bundles match their exact source manifest and offline shell
+ok 657 - Q1 public bundles match their exact source manifest and offline shell
+  ---
+  duration_ms: 9.029
+  type: 'test'
+  ...
+# Subtest: tail-index MP4 QA seed is small, immutable and keeps moov behind mdat
+ok 658 - tail-index MP4 QA seed is small, immutable and keeps moov behind mdat
+  ---
+  duration_ms: 1.2963
+  type: 'test'
+  ...
+# Subtest: faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat
+ok 659 - faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat
+  ---
+  duration_ms: 0.99
+  type: 'test'
+  ...
+# Subtest: seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat
+ok 660 - seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat
+  ---
+  duration_ms: 5.8895
+  type: 'test'
+  ...
+# Subtest: candidate runtime config is loaded before app code and fails closed for Drive writes
+ok 661 - candidate runtime config is loaded before app code and fails closed for Drive writes
+  ---
+  duration_ms: 2.3394
+  type: 'test'
+  ...
+# Subtest: player controls, in-app preview, and selection toolbar remain bound in the shell
+ok 662 - player controls, in-app preview, and selection toolbar remain bound in the shell
+  ---
+  duration_ms: 2.8029
+  type: 'test'
+  ...
+# Subtest: account-synced favorites and viewed history are wired into the existing library and player surfaces
+ok 663 - account-synced favorites and viewed history are wired into the existing library and player surfaces
+  ---
+  duration_ms: 4.5695
+  type: 'test'
+  ...
+# Subtest: mobile overflow actions stack above the trigger and favorite feedback is visually icon-only
+ok 664 - mobile overflow actions stack above the trigger and favorite feedback is visually icon-only
+  ---
+  duration_ms: 3.2022
+  type: 'test'
+  ...
+# Subtest: video adaptively chooses exact-original transport and exhausts original paths before compatibility playback
+ok 665 - video adaptively chooses exact-original transport and exhausts original paths before compatibility playback
+  ---
+  duration_ms: 6.8435
+  type: 'test'
+  ...
+# Subtest: playback quality starts unverified and documents only evidence-backed original labels
+ok 666 - playback quality starts unverified and documents only evidence-backed original labels
+  ---
+  duration_ms: 5.2693
+  type: 'test'
+  ...
+# Subtest: player chrome hides as one mobile layer and high-frequency motion stays transform based
+ok 667 - player chrome hides as one mobile layer and high-frequency motion stays transform based
+  ---
+  duration_ms: 5.2627
+  type: 'test'
+  ...
+# Subtest: mobile shell preserves zoom and high-contrast metadata labels
+ok 668 - mobile shell preserves zoom and high-contrast metadata labels
+  ---
+  duration_ms: 1.3322
+  type: 'test'
+  ...
+# Subtest: Q0 capability authorizes only the correlated controlled in-scope window without auth/provider reads
+ok 669 - Q0 capability authorizes only the correlated controlled in-scope window without auth/provider reads
+  ---
+  duration_ms: 4.244
+  type: 'test'
+  ...
+# Subtest: Q0 capability rejects an uncontrolled, disappeared or replaced client
+ok 670 - Q0 capability rejects an uncontrolled, disappeared or replaced client
+  ---
+  duration_ms: 6.0695
+  type: 'test'
+  ...
+# Subtest: Q0 capability rejects cross-origin, out-of-scope, credentialed and non-window clients
+ok 671 - Q0 capability rejects cross-origin, out-of-scope, credentialed and non-window clients
+  ---
+  duration_ms: 5.9375
+  type: 'test'
+  ...
+# Subtest: Q0 capability rejects invalid protocol and nonce before client lookup; bounded reply omits malformed nonce
+ok 672 - Q0 capability rejects invalid protocol and nonce before client lookup; bounded reply omits malformed nonce
+  ---
+  duration_ms: 5.0849
+  type: 'test'
+  ...
+# Subtest: 401 refresh retries once with identical Range/resource key and fresh authorization
+ok 673 - 401 refresh retries once with identical Range/resource key and fresh authorization
+  ---
+  duration_ms: 39.0917
+  type: 'test'
+  ...
+# Subtest: Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache
+ok 674 - Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache
+  ---
+  duration_ms: 6.2548
+  type: 'test'
+  ...
+# Subtest: Q1 media cannot substitute a cached token for a missing affirmative owner response
+ok 675 - Q1 media cannot substitute a cached token for a missing affirmative owner response
+  ---
+  duration_ms: 1.7751
+  type: 'test'
+  ...
+# Subtest: an old page affirmative Q1 token reply without retirement capability cannot start upstream transport
+ok 676 - an old page affirmative Q1 token reply without retirement capability cannot start upstream transport
+  ---
+  duration_ms: 1.9009
+  type: 'test'
+  ...
+# Subtest: Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned
+ok 677 - Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned
+  ---
+  duration_ms: 20.4052
+  type: 'test'
+  ...
+# Subtest: concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client
+ok 678 - concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client
+  ---
+  duration_ms: 3.587
+  type: 'test'
+  ...
+# Subtest: successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay
+ok 679 - successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay
+  ---
+  duration_ms: 3.2425
+  type: 'test'
+  ...
+# Subtest: Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations
+ok 680 - Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations
+  ---
+  duration_ms: 5.3012
+  type: 'test'
+  ...
+# Subtest: Q1 retirement cancels an owner/token await without cancelling any shared page credential operation
+ok 681 - Q1 retirement cancels an owner/token await without cancelling any shared page credential operation
+  ---
+  duration_ms: 2.7755
+  type: 'test'
+  ...
+# Subtest: Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation
+ok 682 - Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation
+  ---
+  duration_ms: 5.7022
+  type: 'test'
+  ...
+# Subtest: Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success
+ok 683 - Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success
+  ---
+  duration_ms: 2.5545
+  type: 'test'
+  ...
+# Subtest: Q1 retirement is client and generation scoped and cannot cancel newer media
+ok 684 - Q1 retirement is client and generation scoped and cannot cancel newer media
+  ---
+  duration_ms: 4.3421
+  type: 'test'
+  ...
+# Subtest: Q1 retirement cannot acknowledge failed body cancellation or its later resolution
+ok 685 - Q1 retirement cannot acknowledge failed body cancellation or its later resolution
+  ---
+  duration_ms: 4.0425
+  type: 'test'
+  ...
+# Subtest: acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay
+ok 686 - acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay
+  ---
+  duration_ms: 3.2253
+  type: 'test'
+  ...
+# Subtest: credentials and CLEAR_TOKEN are scoped to the source client
+ok 687 - credentials and CLEAR_TOKEN are scoped to the source client
+  ---
+  duration_ms: 3.1288
+  type: 'test'
+  ...
+# Subtest: stale and conflicting credential revisions cannot replace the newest client credential
+ok 688 - stale and conflicting credential revisions cannot replace the newest client credential
+  ---
+  duration_ms: 1.7502
+  type: 'test'
+  ...
+# Subtest: old account-generation SET and CLEAR messages are ignored
+ok 689 - old account-generation SET and CLEAR messages are ignored
+  ---
+  duration_ms: 2.0849
+  type: 'test'
+  ...
+# Subtest: worker restart resolves only the requesting client and requires the correlated response
+ok 690 - worker restart resolves only the requesting client and requires the correlated response
+  ---
+  duration_ms: 2.2817
+  type: 'test'
+  ...
+# Subtest: missing client identity fails closed without borrowing another client token
+ok 691 - missing client identity fails closed without borrowing another client token
+  ---
+  duration_ms: 1.6695
+  type: 'test'
+  ...
+# Subtest: media fixtures carry account generation and reject malformed source generations
+ok 692 - media fixtures carry account generation and reject malformed source generations
+  ---
+  duration_ms: 16.1466
+  type: 'test'
+  ...
+# Subtest: unsafe or malformed media ranges are rejected before credential and Drive access
+ok 693 - unsafe or malformed media ranges are rejected before credential and Drive access
+  ---
+  duration_ms: 13.4464
+  type: 'test'
+  ...
+# Subtest: media requests without Range remain valid and never synthesize an upstream Range header
+ok 694 - media requests without Range remain valid and never synthesize an upstream Range header
+  ---
+  duration_ms: 2.245
+  type: 'test'
+  ...
+# Subtest: 2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies
+ok 695 - 2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies
+  ---
+  duration_ms: 17.8174
+  type: 'test'
+  ...
+# Subtest: large hidden full-span HEAD ranges are proven without allocating their bodies
+ok 696 - large hidden full-span HEAD ranges are proven without allocating their bodies
+  ---
+  duration_ms: 16.9604
+  type: 'test'
+  ...
+# Subtest: a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation
+ok 697 - a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation
+  ---
+  duration_ms: 4.6189
+  type: 'test'
+  ...
+# Subtest: a 4 GiB EOF request preserves one structured 416 without a success status
+ok 698 - a 4 GiB EOF request preserves one structured 416 without a success status
+  ---
+  duration_ms: 3.2223
+  type: 'test'
+  ...
+# Subtest: a Range request answered with 200 is reported as original sequential playback without synthetic range support
+ok 699 - a Range request answered with 200 is reported as original sequential playback without synthetic range support
+  ---
+  duration_ms: 2.5167
+  type: 'test'
+  ...
+# Subtest: a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length
+ok 700 - a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length
+  ---
+  duration_ms: 2.3211
+  type: 'test'
+  ...
+# Subtest: hidden Content-Range reconstruction supports open-ended and suffix ranges
+ok 701 - hidden Content-Range reconstruction supports open-ended and suffix ranges
+  ---
+  duration_ms: 3.624
+  type: 'test'
+  ...
+# Subtest: hidden range reconstruction handles file edges and rejects unsafe numeric evidence
+ok 702 - hidden range reconstruction handles file edges and rejects unsafe numeric evidence
+  ---
+  duration_ms: 1.2629
+  type: 'test'
+  ...
+# Subtest: a hidden valid 206 HEAD range is reconstructed without adding a body
+ok 703 - a hidden valid 206 HEAD range is reconstructed without adding a body
+  ---
+  duration_ms: 2.895
+  type: 'test'
+  ...
+# Subtest: a visible mismatched or unprovable hidden Content-Range on 206 fails closed
+ok 704 - a visible mismatched or unprovable hidden Content-Range on 206 fails closed
+  ---
+  duration_ms: 10.9117
+  type: 'test'
+  ...
+# Subtest: open-ended and suffix byte ranges accept valid contained 206 responses
+ok 705 - open-ended and suffix byte ranges accept valid contained 206 responses
+  ---
+  duration_ms: 5.3734
+  type: 'test'
+  ...
+# Subtest: 416 preserves the unsatisfied size and reports structured range metadata
+ok 706 - 416 preserves the unsatisfied size and reports structured range metadata
+  ---
+  duration_ms: 2.313
+  type: 'test'
+  ...
+# Subtest: error status, JSON MIME and reasons survive and notify only the requesting window
+ok 707 - error status, JSON MIME and reasons survive and notify only the requesting window
+  ---
+  duration_ms: 9.0271
+  type: 'test'
+  ...
+# Subtest: failed refresh does not retry the rejected token
+ok 708 - failed refresh does not retry the rejected token
+  ---
+  duration_ms: 3.6486
+  type: 'test'
+  ...
+# Subtest: a rejected token is replayed once when the same token arrives at a higher revision
+ok 709 - a rejected token is replayed once when the same token arrives at a higher revision
+  ---
+  duration_ms: 2.9187
+  type: 'test'
+  ...
+# Subtest: 403 rate limits are classified separately and preserve Retry-After timing
+ok 710 - 403 rate limits are classified separately and preserve Retry-After timing
+  ---
+  duration_ms: 2.0858
+  type: 'test'
+  ...
+# Subtest: aborting a media request aborts upstream and emits no false server/auth failure
+ok 711 - aborting a media request aborts upstream and emits no false server/auth failure
+  ---
+  duration_ms: 2.1731
+  type: 'test'
+  ...
+# Subtest: upstream headers timeout is finite and distinct from caller cancellation
+ok 712 - upstream headers timeout is finite and distinct from caller cancellation
+  ---
+  duration_ms: 16.1393
+  type: 'test'
+  ...
+# Subtest: first-byte timeout starts on downstream demand and reports one classified failure
+ok 713 - first-byte timeout starts on downstream demand and reports one classified failure
+  ---
+  duration_ms: 4.2513
+  type: 'test'
+  ...
+# Subtest: first-byte stream failure waits for the classified client notification lifetime
+ok 714 - first-byte stream failure waits for the classified client notification lifetime
+  ---
+  duration_ms: 2.3728
+  type: 'test'
+  ...
+# Subtest: first-byte timeout atomically wins over later bytes, caller abort and consumer cancel
+ok 715 - first-byte timeout atomically wins over later bytes, caller abort and consumer cancel
+  ---
+  duration_ms: 10.5371
+  type: 'test'
+  ...
+# Subtest: first-byte protection remains active when diagnostic tracing is off
+ok 716 - first-byte protection remains active when diagnostic tracing is off
+  ---
+  duration_ms: 2.5587
+  type: 'test'
+  ...
+# Subtest: a positive first chunk clears the first-byte deadline without aborting upstream
+ok 717 - a positive first chunk clears the first-byte deadline without aborting upstream
+  ---
+  duration_ms: 3.1563
+  type: 'test'
+  ...
+# Subtest: body no-progress timeout exists only while downstream is waiting after the first byte
+ok 718 - body no-progress timeout exists only while downstream is waiting after the first byte
+  ---
+  duration_ms: 2.7599
+  type: 'test'
+  ...
+# Subtest: positive body chunks clear and renew the no-progress deadline while empty chunks do not
+ok 719 - positive body chunks clear and renew the no-progress deadline while empty chunks do not
+  ---
+  duration_ms: 3.6992
+  type: 'test'
+  ...
+# Subtest: body no-progress timeout atomically wins over later bytes, caller abort and consumer cancel
+ok 720 - body no-progress timeout atomically wins over later bytes, caller abort and consumer cancel
+  ---
+  duration_ms: 9.3909
+  type: 'test'
+  ...
+# Subtest: body no-progress failure waits for the classified client notification lifetime
+ok 721 - body no-progress failure waits for the classified client notification lifetime
+  ---
+  duration_ms: 2.218
+  type: 'test'
+  ...
+# Subtest: body no-progress protection remains active when diagnostic tracing is off
+ok 722 - body no-progress protection remains active when diagnostic tracing is off
+  ---
+  duration_ms: 2.6766
+  type: 'test'
+  ...
+# Subtest: body terminal outcomes beat a captured stale no-progress callback
+ok 723 - body terminal outcomes beat a captured stale no-progress callback
+  ---
+  duration_ms: 12.2575
+  type: 'test'
+  ...
+# Subtest: an empty chunk is not a first byte and cannot disarm the deadline
+ok 724 - an empty chunk is not a first byte and cannot disarm the deadline
+  ---
+  duration_ms: 2.3145
+  type: 'test'
+  ...
+# Subtest: consumer cancellation before the first byte clears the deadline without a proxy failure
+ok 725 - consumer cancellation before the first byte clears the deadline without a proxy failure
+  ---
+  duration_ms: 3.2047
+  type: 'test'
+  ...
+# Subtest: truncated 206 EOF is a body-length error, never a first-byte timeout
+ok 726 - truncated 206 EOF is a body-length error, never a first-byte timeout
+  ---
+  duration_ms: 2.6985
+  type: 'test'
+  ...
+# Subtest: an oversized 206 chunk is rejected before any byte reaches the consumer
+ok 727 - an oversized 206 chunk is rejected before any byte reaches the consumer
+  ---
+  duration_ms: 2.7049
+  type: 'test'
+  ...
+# Subtest: non-OK response bodies release caller abort linkage after EOF and bodyless HEAD
+ok 728 - non-OK response bodies release caller abort linkage after EOF and bodyless HEAD
+  ---
+  duration_ms: 3.4288
+  type: 'test'
+  ...
+# Subtest: non-OK body finalizer releases exactly once on consumer cancel and upstream error
+ok 729 - non-OK body finalizer releases exactly once on consumer cancel and upstream error
+  ---
+  duration_ms: 2.2256
+  type: 'test'
+  ...
+# Subtest: caller cancellation remains linked to the upstream body after headers arrive
+ok 730 - caller cancellation remains linked to the upstream body after headers arrive
+  ---
+  duration_ms: 3.1981
+  type: 'test'
+  ...
+# Subtest: abort while waiting for a token closes the request without an auth notification
+ok 731 - abort while waiting for a token closes the request without an auth notification
+  ---
+  duration_ms: 1.6247
+  type: 'test'
+  ...
+# Subtest: CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials
+ok 732 - CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials
+  ---
+  duration_ms: 1.7786
+  type: 'test'
+  ...
+# Subtest: a late CLEAR_TOKEN cannot erase a newer credential revision
+ok 733 - a late CLEAR_TOKEN cannot erase a newer credential revision
+  ---
+  duration_ms: 2.7546
+  type: 'test'
+  ...
+# Subtest: HEAD remains bodyless and network failures are not exposed or cached
+ok 734 - HEAD remains bodyless and network failures are not exposed or cached
+  ---
+  duration_ms: 3.1034
+  type: 'test'
+  ...
+# Subtest: opt-in media trace correlates credential, headers, first byte and body completion without secrets
+ok 735 - opt-in media trace correlates credential, headers, first byte and body completion without secrets
+  ---
+  duration_ms: 5.3733
+  type: 'test'
+  ...
+# Subtest: opt-in media trace distinguishes a missing credential from a rejected upstream credential
+ok 736 - opt-in media trace distinguishes a missing credential from a rejected upstream credential
+  ---
+  duration_ms: 4.9815
+  type: 'test'
+  ...
+# Subtest: opt-in media trace records cancellation without converting it into an HTTP failure
+ok 737 - opt-in media trace records cancellation without converting it into an HTTP failure
+  ---
+  duration_ms: 2.0518
+  type: 'test'
+  ...
+# Subtest: opt-in response-body cancellation propagates upstream after headers and first byte
+ok 738 - opt-in response-body cancellation propagates upstream after headers and first byte
+  ---
+  duration_ms: 2.234
+  type: 'test'
+  ...
+# Subtest: shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact
+ok 739 - shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact
+  ---
+  duration_ms: 3.4877
+  type: 'test'
+  ...
+# Subtest: shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch
+ok 740 - shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch
+  ---
+  duration_ms: 8.4178
+  type: 'test'
+  ...
+# Subtest: shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry
+ok 741 - shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry
+  ---
+  duration_ms: 2.8715
+  type: 'test'
+  ...
+# Subtest: shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles
+ok 742 - shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles
+  ---
+  duration_ms: 3.6713
+  type: 'test'
+  ...
+1..742
+# tests 742
+# suites 0
+# pass 742
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15001.5643

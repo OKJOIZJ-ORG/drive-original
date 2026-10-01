@@ -29,6 +29,9 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `TS-PROBE-RETENTION-20261001.md`: reviewed bounded raw same-player TS probe
+  retention, focused49/independent5 and final742 local checks; actual32 pending.
+
 - `DISPOSABLE-UI-RC31-20261001.md`: actual exact2 normal move/trash, independent
   API/web/G observations, restoration and exact4 recoverable cleanup; G direct-ID
   limit and prior validation-tool failures retained.
