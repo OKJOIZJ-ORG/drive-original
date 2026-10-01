@@ -1,0 +1,95 @@
+{
+  "schema": "drive-original.q3-finite-android-qualification/1",
+  "recordedAt": "2026-10-01T21:16:04.375Z",
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "inputs": [
+    {
+      "file": "actual-android-q3-actor-cua5-safe.json",
+      "sha256": "01ddf65886b1de0fceaba0e14733c4b4bf6694d96a587632607bf6645447ed65"
+    },
+    {
+      "file": "actual-android-q3-actor-receipt-cua5-safe.json",
+      "sha256": "6388493220d3ff0ca2c99060a00ea459adc77187e9b0db8355dea06809b9a7fc"
+    }
+  ],
+  "device": {
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "adoptedFiniteFunctionalClauses": [
+    "actual native rejection and trusted explicit lossy choice",
+    "640x360 current-generation presentation with visible lossy label",
+    "50% and 90% exact source-clock seeks",
+    "active conversion cancellation",
+    "fresh exact target/account/revision/source fences before and after",
+    "closed player/source/worker ownership, observer and owned transport cleanup"
+  ],
+  "frames": [
+    {
+      "label": "startup",
+      "route": "Q3",
+      "elapsedMs": 13805,
+      "mediaTime": 0,
+      "sourceTime": 0,
+      "sourceClockShift": 0,
+      "distanceSeconds": null,
+      "width": 640,
+      "height": 360,
+      "generation": 1,
+      "sourceGeneration": 42
+    },
+    {
+      "label": "seek50",
+      "route": "Q3",
+      "elapsedMs": 11201,
+      "mediaTime": 90,
+      "sourceTime": 90,
+      "sourceClockShift": 0,
+      "distanceSeconds": 0,
+      "width": 640,
+      "height": 360,
+      "generation": 2,
+      "sourceGeneration": 43
+    },
+    {
+      "label": "seek90",
+      "route": "Q3",
+      "elapsedMs": 10968,
+      "mediaTime": 162,
+      "sourceTime": 162,
+      "sourceClockShift": 0,
+      "distanceSeconds": 0,
+      "width": 640,
+      "height": 360,
+      "generation": 3,
+      "sourceGeneration": 44
+    }
+  ],
+  "activeCancelAtArm": true,
+  "wholeObserverComplete": true,
+  "wholePlanComplete": false,
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "originalBasis": {
+    "Q06": 570,
+    "MEDIA04": "970-983",
+    "TR08": 893,
+    "CORE06": 663,
+    "FM04": 1715
+  },
+  "preservedFailures": [
+    "cua4 sole paused 90s frame did not qualify because transition observation gates failed; original failure retained",
+    "Earlier manual/tool failures remain unqualified"
+  ],
+  "changedCondition": "Native controls maintained through Q2_GENERAL to Q3 transition before the sole paused presented frame; observer gates unchanged",
+  "limitations": [
+    "Only the exact silent MPEG4SP/640x360/CFR/BT709-limited fixture and physical device",
+    "No 10% Q3 seek, full180s EOF or full-output quality claim",
+    "No audio/additional tracks/subtitles/HDR/rotation/VFR qualification",
+    "Finite timings are observations, not failure-inclusive performance distribution or thermal/GPU/retained-heap proof"
+  ],
+  "originalMediaMutated": false,
+  "directQaProviderWritesDuringReplay": 0,
+  "appAccountStateProviderWrites": "NOT_MEASURED",
+  "rawIdentifiersExported": false
+}

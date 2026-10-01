@@ -1,0 +1,505 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-01T21:11:43.871Z",
+  "producerSha256": "5e296fb3a97b6f50941cc0ade4c7154b312ef15675caa468ded5fb35655d8f0a",
+  "commonSha256": "a1cfbd89e922158a43fd6f3e9a09869057c5df4a1c514ff078cebd519337637f",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "native-transport-admission-start",
+      "at": "2026-10-01T21:11:45.534Z"
+    },
+    {
+      "name": "admission",
+      "at": "2026-10-01T21:11:45.922Z",
+      "identity": true,
+      "idle": true,
+      "account": true,
+      "visible": true,
+      "writerIdle": true,
+      "globalsAbsent": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125
+    },
+    {
+      "name": "private-target-admitted",
+      "at": "2026-10-01T21:11:45.931Z",
+      "privateTargetRead": true,
+      "privateIdentityExported": false,
+      "fixture": "180s-640x360-30fps-silent-MPEG4SP",
+      "physicalMappingScope": "Pinned prior screen/viewport mapping; fresh DOM and quantized CSS hit checks; no per-run screenshot calibration"
+    },
+    {
+      "name": "install-__resumeSwProof",
+      "at": "2026-10-01T21:11:47.502Z",
+      "installed": true
+    },
+    {
+      "name": "install-__q3ActualReplay33",
+      "at": "2026-10-01T21:11:47.526Z",
+      "installed": true
+    },
+    {
+      "name": "fresh-metadata-before",
+      "at": 1790889108393,
+      "label": "before",
+      "status": 200,
+      "sameExactTarget": true,
+      "stableMetadataSame": true,
+      "freshRevisionChecksumSame": true,
+      "accountSame": true,
+      "sourceSame": true,
+      "notTrashed": true,
+      "canDownload": true
+    },
+    {
+      "name": "native-card",
+      "at": "2026-10-01T21:11:48.195Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 241,
+      "y": 1374
+    },
+    {
+      "name": "native-rejection-offer",
+      "at": "2026-10-01T21:12:11.212Z",
+      "observed": true,
+      "latencyMs": null
+    },
+    {
+      "name": "native-choice",
+      "at": "2026-10-01T21:12:11.317Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 683,
+      "y": 1714
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:11.431Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:14.721Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:17.934Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:21.156Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:24.417Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "q3-native-ready",
+      "at": "2026-10-01T21:12:25.075Z",
+      "observed": true,
+      "latencyMs": 13805
+    },
+    {
+      "name": "startup-frame",
+      "at": "2026-10-01T21:12:25.085Z",
+      "observed": true,
+      "latencyMs": 13805
+    },
+    {
+      "name": "native-pause",
+      "at": "2026-10-01T21:12:25.210Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 89,
+      "y": 2720
+    },
+    {
+      "name": "native-paused",
+      "at": "2026-10-01T21:12:25.215Z",
+      "observed": true,
+      "latencyMs": null
+    },
+    {
+      "name": "install-__q3PcSeekTargets33",
+      "at": "2026-10-01T21:12:25.233Z",
+      "installed": true
+    },
+    {
+      "name": "native-marker",
+      "at": "2026-10-01T21:12:25.369Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2642
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:28.636Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:31.916Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:35.172Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "seek50-frame",
+      "at": "2026-10-01T21:12:36.460Z",
+      "observed": true,
+      "latencyMs": 11201
+    },
+    {
+      "name": "seek50-native-screenshot",
+      "at": "2026-10-01T21:12:37.031Z",
+      "saved": true,
+      "bytes": 664640,
+      "sha256": "a364ef1d9e3dee00fe4480a5ea06d9cc11593dc3afc3e83993d3fc0787602b29",
+      "paused": true,
+      "nativeScreenScope": "Actual physical screen pixels; local UI text is not independently redacted"
+    },
+    {
+      "name": "install-__q3PcSeekTargets33",
+      "at": "2026-10-01T21:12:37.061Z",
+      "installed": true
+    },
+    {
+      "name": "native-marker",
+      "at": "2026-10-01T21:12:37.189Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 1543,
+      "y": 2642
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:40.498Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:43.723Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:12:46.955Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 876,
+      "y": 2737
+    },
+    {
+      "name": "seek90-frame",
+      "at": "2026-10-01T21:12:48.057Z",
+      "observed": true,
+      "latencyMs": 10968
+    },
+    {
+      "name": "native-close",
+      "at": "2026-10-01T21:12:48.182Z",
+      "exactHit": true,
+      "quantizedHit": true,
+      "x": 1663,
+      "y": 2558
+    },
+    {
+      "name": "owners-settled",
+      "at": "2026-10-01T21:12:48.421Z",
+      "observed": true,
+      "latencyMs": null
+    },
+    {
+      "name": "fresh-metadata-after",
+      "at": 1790889169488,
+      "label": "after",
+      "status": 200,
+      "sameExactTarget": true,
+      "stableMetadataSame": true,
+      "freshRevisionChecksumSame": true,
+      "accountSame": true,
+      "sourceSame": true,
+      "notTrashed": true,
+      "canDownload": true
+    },
+    {
+      "name": "safe-receipt",
+      "at": "2026-10-01T21:12:49.282Z",
+      "saved": true,
+      "complete": true,
+      "bytes": 1235080
+    },
+    {
+      "name": "owners-settled",
+      "at": "2026-10-01T21:12:49.310Z",
+      "observed": true,
+      "latencyMs": null
+    },
+    {
+      "name": "actor-cleanup",
+      "at": "2026-10-01T21:12:49.316Z",
+      "observedBeforeStop": false,
+      "receiptSaved": false,
+      "markersStopped": true,
+      "observerStopped": true,
+      "closeOwnershipConfirmed": true,
+      "foreignPlaybackLeftUntouched": false,
+      "settled": true,
+      "postCloseMetadata": null,
+      "globalsCleared": true,
+      "failures": [],
+      "confirmed": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.33",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "actorFunctionalComplete": true,
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "actorDeadlineFromInvocationMs": 330000,
+  "completed": true,
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}
