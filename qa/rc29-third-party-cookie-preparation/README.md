@@ -1,0 +1,26 @@
+# Original QA-AU-06 — scoped third-party-cookie preparation (actual unrun)
+
+Original immutable spec E06 line1543 begins with an existing valid API token; QA-AU-06 line1732 requires blocked third-party cookies with normal original/derived paths and no Google iframe dependency. It does not require a new grant, fresh OAuth transaction, artificial cookie, or observed excluded-cookie event when the app sends none.
+
+Current official [protocol](https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-setCookieControls) documents experimental enableThirdPartyCookieRestriction:true with page reload. Inspect the installed runtime schema before use. Older undocumented metadata/heuristics arguments are excluded.
+
+## Primary implementation scope
+
+[network_handler.cc](https://github.com/chromium/chromium/blob/main/content/browser/devtools/protocol/network_handler.cc) SetCookieControls L4319 stores the instance boolean; ApplyCookieControlsOverrides L3862 adds kForceDisableThirdPartyCookies. NetworkHandler.Disable L1460 resets it. The member defaults false in network_handler.h L429. This is a DevTools session handler override, with no profile preference setter in the command.
+
+[devtools_instrumentation.cc](https://github.com/chromium/chromium/blob/main/content/browser/devtools/devtools_instrumentation.cc) ApplyNetworkCookieControlsOverrides L1823 onward resolves the frame's agent host and applies only its enabled Network handlers. GetDevToolsAgentHostForNetworkOverrides L1686 selects the frame host (primary main frame for prerender). Frame's BindRestrictedCookieManagerWithOrigin also consumes these overrides. Exact fetched source hashes and raw-source line pointers are in scope-assessment.json; web rendered views omit blank lines and have different line numbers.
+
+[devtools_session.cc](https://github.com/chromium/chromium/blob/main/content/browser/devtools/devtools_session.cc) Dispose L177 invokes handler Disable and destroys handlers; destructor L150 calls Dispose when needed. [devtools_agent_host_impl.cc](https://github.com/chromium/chromium/blob/main/content/browser/devtools/devtools_agent_host_impl.cc) DetachInternal L361 explicitly calls Dispose before detach. Thus an original profile-setting getter is unnecessary: detach removes this session's override, rather than guessing an original global flag. Already constructed managers/requests are not claimed to change retroactively on detach; close the settled owned test tab as well.
+
+Chromium CookieSettingsBase GetModifierMode returns block for this override, while DecideAccess retains ordinary explicit site/enterprise/storage-access and partitioned-cookie semantics. This is the browser's blocked-3PC condition, not a new requirement that every cookie in every context be suppressed. Independent SW, OOPIF or popup targets do not inherit by assumption; establish only the actual application's relevant page/frame owner. The current main-source inspection is not installed-browser proof.
+
+## Root finite execution checklist
+
+1. Wait for corpus/other actual owners to release and parent GO. Bind current29 loaded/source/cache proof and preserve current account/tab/player owners.
+2. Prefer a new task-owned page tab in the existing authenticated context. Resume the same first-party session naturally; no cookie/token copying, new grant/client, logout/revoke or forced authentication. Verify the expected account and source. Human login/2FA remains a boundary.
+3. Attach a dedicated exact page-target session, not browser-wide/all-target configuration. Network.enable is required by the implementation. Confirm supported runtime command, apply only enableThirdPartyCookieRestriction:true, then ordinary reload. Retain safe command/reload/session/frame-owner receipts. No profile preference change or permissive false setting.
+4. Verify valid existing API session and use normal trusted UI to demonstrate original/derived path behavior with no Google iframe dependency. Record actual route, dimensions/progression and ordinary close/settled ownership as relevant. Reuse a representative adapted-route proof only where condition and current implementation scope actually match; no all-format gate is added.
+5. Optional existing associated-cookie events may be reduced locally with reducer.mjs to counts/reasons; never export raw cookie/header/URL/request IDs. Missing/zero events are acceptable when the known installed override and frame ownership establish the condition. No artificial cookie/probe is needed. Configuration without real normal-app behavior still does not pass the row.
+6. Finally close the owned player, await retirement, detach only the owned session/listeners and close only the task-created tab. Do not clear cookies/cache/storage/auth or reset unknown profile policies. Existing tabs retain their profile settings. If the actual route uses an independent target not covered by the override, preserve that precise unknown rather than assume propagation.
+
+Earlier preparation's docs-only restoration uncertainty and mandatory exclusion-event suggestion are superseded by the primary implementation above. Local reducer2/2 remains unchanged and passing. Actual installed condition/session/playback/cleanup are unrun; root owns all actual execution.

@@ -1,0 +1,32 @@
+# Fixed rc29 passive performance preparation
+
+Prepared locally only for immutable source `10f1dd2ee9550866933e693dbf41c62e1fb2daad`, version `1.22.0-rc.29`. No browser/account/device/media/network/performance execution occurred. This derivative preserves all original rc25/rc28 observer/template/evidence and binds only Git app/SW/version objects. Runtime observation requires independently established same-source `window.__driveNightCorpus.proof`; old28 proof/app and any mismatched source/hash or controller are rejected. Root owns the actual run after candidate source/controller closure.
+
+## Original contract
+
+OBS03 in immutable implementation-pack lines1488–1504 gives initial adjustable targets: Q0 cold first frame p95≈5s, same-file valid-cache warm resume p95≈2s, Q0 normal seek resume p95≈3s at10/50/90%. Those are not browser/provider guarantees. No separate3s reconnect or Q1/Q2 route-specific budget is adopted. Sufficient repetitions, unsuccessful/timeouts and uncertainty remain required;20 representative attempts is the recommended starting point, not20perfile or an all-library/physical50 endurance requirement.
+
+Observer function, summarizer and prior11 discriminator source remain byte-identical to frozen rc28. The installed API stays `window.__rc25PerformanceQA` and result schema stays `drive-original.rc25-performance-passive/1`; these legacy protocol labels do not change the exact29 binding. Only one observer may exist. The inherited11 checks are hash-verified reuse, not rerun or new actual evidence. Changed-binding verification locally checks exact29 admission, old28 app/proof rejection, bad source/hash, duplicate observer, controller drift and invalid binder arguments.
+
+The existing finite plan selects10unique currently rendered metadata-diverse available videos, then records20startup+10paused-seek attempts. It never fetches media, invokes playback/seek/close methods, wraps source/network APIs, traverses the entire root or exports file IDs/names/URLs/body/account secrets. Ten metadata-selected files are not full-format/corpus/device coverage.
+
+## Prepare / verify locally
+
+```powershell
+node qa/rc29-performance-preparation/bind.cjs 10f1dd2ee9550866933e693dbf41c62e1fb2daad 1.22.0-rc.29
+node qa/rc29-performance-preparation/verify-binding.cjs
+```
+
+`binding.json` and `provenance.json` record source and expression hashes. `local-verification.json` records the nine changed-binding checks and inherited11 provenance. `staging-manifest.json` lists exact owned paths and current SHA256s; its own hash is supplied separately to avoid recursion. Preparation proves no actual performance threshold.
+
+## Root actual run, trusted normal UI only
+
+1. Establish public/source29 and fresh same-source activated-controller proof via existing `__driveNightCorpus.proof`; normal library/account, foreground, idle closed player and settled prior retirement are required. Preserve cookies, native cache and original files. Deliver this exact local `observer.expression.js` through the already supported local-file bridge, verify its SHA256, then evaluate once. No network loader, source wrappers, proof forgery or forced cold state.
+2. `window.__rc25PerformanceQA.next()` returns sample/attempt ordinal, kind, safe extension/size band, card visibility and rendered rectangle. It holds private selection internally. Fewer than10available unique videos is a fixed preflight rejection; do not shorten/duplicate the protocol silently.
+3. For each sample: trusted normal click of returned card for first startup; wait until `read()` records that attempt; normal close, allow2s and inspect close record; click the same card for reopen; wait for row; pause with normal UI; use the normal progress track at the next requested10/50/90% (±1.5% track width); wait for paused-seek row; normal close and allow2s. Repeat for ten samples. `next().active` means an attempt is still measuring; extra card/seek input during an active measurement records `EXTRA_INPUT`. After a failed startup, recover through normal UI as needed and preserve that failed row. Completion needs all30intended rows, not all-pass.
+4. `window.__rc25PerformanceQA.read()` returns bounded sanitized rows/closes and owner/source/resource fields. Native rVFC decoded target frame, current source/owner, settled seek and Q1/Q2 new seek generation/mapped target are required; `currentTime` alone never passes. First-frame time and later settlement time remain separate. Each attempt records exact route/network/cache labels and errors/timeouts.
+5. Bounds are30s startup outcome,15s paused target-frame outcome,2s sampled close release and15min observer deadline. Foreground unpaused no-frame over15s is separate; pause/hidden exclusions remain. Completed exposed same-owner Resource Timing can record≈10s header wait; otherwise `headerUnknown:true`. Do not request headers to fill missing observations. After30rows, the observer auto-releases in30s to allow final close.
+6. After final normal close and its2s record, call `window.__rc25PerformanceQA.clear()` and save that returned sanitized JSON inside this new leaf. It stops observation, releases listeners/frame callback/timers and private selections, and does not close the player. `read()` remains available after clear. Once saved, `delete window.__rc25PerformanceQA`; do not start another observer concurrently or carry source28 results into29.
+7. Run `node qa/rc29-performance-preparation/summarize.cjs <absolute-sanitized-result-json>`. Report all failed rows/timeouts and close-release failures. The summarizer retains failure-inclusive/infinite-censored nearest-rank empirical p95 by route/action/cache condition and reports conditions below20attempts. `complete` means all30attempts captured and observer stopped, not a pass verdict.
+
+First-startup is labeled `first-open-cache-unknown`; reopen is `same-file-reopen-cache-unknown`; seek uses `current-owner`. Independent valid-cache/cold proof is needed before claiming the≈5/2s cold/warm target. JS heap excludes native/WASM/process resources; Resource Timing can omit upstream headers/bytes. Pair an existing host-resource snapshot only within its authority and retain those limitations. This preparation is not actualPC/Android/physical50/full2186/whole-goal/production acceptance. The original detailed protocol remains in `qa/rc25-performance-preparation/README.md`; frozen28 preparation remains intact.

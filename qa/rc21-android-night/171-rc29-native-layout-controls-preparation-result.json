@@ -1,0 +1,2493 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-01T01:28:15.931Z",
+  "producerSha256": "e72bfde6ac949e65da7271db852c1dad7c90eb296f42a5f06b9a58ce7d633f81",
+  "commonSha256": "30956df4062f1353fe1ad653d7f963de619393f41f6b52b7deb8474a83278089",
+  "rawIdentifiersExported": false,
+  "settingsChanged": true,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "normal original startup preparation visibility and canonical status observer",
+      "at": "2026-10-01T01:28:24.554Z",
+      "ready": true,
+      "oneBoundedPassiveJournal": true,
+      "boundMs": 240000,
+      "normalDriveFetchPassthroughOnly": true,
+      "noResponseBodyRead": true,
+      "noForcedSyncOrViewedMark": true
+    },
+    {
+      "name": "actual29 original native portrait baseline geometry",
+      "at": "2026-10-01T01:28:38.186Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 4,
+      "time": 0.545847,
+      "error": false,
+      "loader": false,
+      "frames": 20,
+      "presented": [
+        {
+          "at": 1790818117703,
+          "time": 0.421333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 13
+        },
+        {
+          "at": 1790818117754,
+          "time": 0.454667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 14
+        },
+        {
+          "at": 1790818117787,
+          "time": 0.488,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 15
+        },
+        {
+          "at": 1790818117821,
+          "time": 0.521333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 16
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 136,
+        "loaderSamples": 129,
+        "pendingSamples": 5,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "portrait playing native bottom reveal preserves playback and geometry",
+      "at": "2026-10-01T01:28:38.928Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 2,
+      "time": 0.773928,
+      "error": false,
+      "loader": false,
+      "frames": 27,
+      "presented": [
+        {
+          "at": 1790818117949,
+          "time": 0.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 20
+        },
+        {
+          "at": 1790818117987,
+          "time": 0.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 21
+        },
+        {
+          "at": 1790818118030,
+          "time": 0.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 22
+        },
+        {
+          "at": 1790818118042,
+          "time": 0.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 23
+        }
+      ],
+      "controlsHidden": false,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 1,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 143,
+        "loaderSamples": 129,
+        "pendingSamples": 12,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "portrait playing native outside dismiss preserves playback and owner",
+      "at": "2026-10-01T01:28:39.657Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 2,
+      "time": 0.773928,
+      "error": false,
+      "loader": false,
+      "frames": 27,
+      "presented": [
+        {
+          "at": 1790818117949,
+          "time": 0.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 20
+        },
+        {
+          "at": 1790818117987,
+          "time": 0.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 21
+        },
+        {
+          "at": 1790818118030,
+          "time": 0.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 22
+        },
+        {
+          "at": 1790818118042,
+          "time": 0.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 23
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 151,
+        "loaderSamples": 129,
+        "pendingSamples": 20,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "current29 native pause preserves hidden chrome",
+      "at": "2026-10-01T01:28:40.481Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": true,
+      "ready": 2,
+      "time": 0.917333,
+      "error": false,
+      "loader": false,
+      "frames": 27,
+      "presented": [
+        {
+          "at": 1790818117949,
+          "time": 0.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 20
+        },
+        {
+          "at": 1790818117987,
+          "time": 0.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 21
+        },
+        {
+          "at": 1790818118030,
+          "time": 0.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 22
+        },
+        {
+          "at": 1790818118042,
+          "time": 0.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 23
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 159,
+        "loaderSamples": 129,
+        "pendingSamples": 28,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "portrait paused native bottom reveal preserves playback and geometry",
+      "at": "2026-10-01T01:28:41.239Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": true,
+      "ready": 4,
+      "time": 0.917333,
+      "error": false,
+      "loader": false,
+      "frames": 27,
+      "presented": [
+        {
+          "at": 1790818117949,
+          "time": 0.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 20
+        },
+        {
+          "at": 1790818117987,
+          "time": 0.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 21
+        },
+        {
+          "at": 1790818118030,
+          "time": 0.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 22
+        },
+        {
+          "at": 1790818118042,
+          "time": 0.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 23
+        }
+      ],
+      "controlsHidden": false,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 1,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 167,
+        "loaderSamples": 129,
+        "pendingSamples": 36,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "portrait paused native outside dismiss preserves playback and owner",
+      "at": "2026-10-01T01:28:41.964Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": true,
+      "ready": 4,
+      "time": 0.917333,
+      "error": false,
+      "loader": false,
+      "frames": 27,
+      "presented": [
+        {
+          "at": 1790818117949,
+          "time": 0.654667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 20
+        },
+        {
+          "at": 1790818117987,
+          "time": 0.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 21
+        },
+        {
+          "at": 1790818118030,
+          "time": 0.721333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 22
+        },
+        {
+          "at": 1790818118042,
+          "time": 0.754667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 23
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 174,
+        "loaderSamples": 129,
+        "pendingSamples": 43,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "actual OS forced29 landscape native layout",
+      "at": "2026-10-01T01:28:43.158Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 4,
+      "time": 1.506256,
+      "error": false,
+      "loader": false,
+      "frames": 50,
+      "presented": [
+        {
+          "at": 1790818122676,
+          "time": 1.421333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 41
+        },
+        {
+          "at": 1790818122709,
+          "time": 1.454667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 42
+        },
+        {
+          "at": 1790818122755,
+          "time": 1.488,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 43
+        },
+        {
+          "at": 1790818122771,
+          "time": 1.521333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 44
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "chrome": {
+        "x": 0,
+        "y": 523.4044189453125,
+        "width": 1317.6470947265625,
+        "height": 174.9485321044922,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529510498047
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 186,
+        "loaderSamples": 129,
+        "pendingSamples": 55,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [
+          {
+            "method": "PATCH",
+            "status": 200,
+            "normalAppOwner": true,
+            "durationMs": 3160
+          }
+        ],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 1317,
+      "height": 698,
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "documentOverflowX": false,
+      "foreground": true,
+      "orientationMethod": "documented wm user-rotation; no hand or sensor proof"
+    },
+    {
+      "name": "landscape playing native bottom reveal preserves playback and geometry",
+      "at": "2026-10-01T01:28:43.903Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 4,
+      "time": 2.251616,
+      "error": false,
+      "loader": false,
+      "frames": 73,
+      "presented": [
+        {
+          "at": 1790818123422,
+          "time": 2.154667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 63
+        },
+        {
+          "at": 1790818123445,
+          "time": 2.188,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 64
+        },
+        {
+          "at": 1790818123487,
+          "time": 2.221333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 65
+        },
+        {
+          "at": 1790818123521,
+          "time": 2.254667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 66
+        }
+      ],
+      "controlsHidden": false,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "chrome": {
+        "x": 0,
+        "y": 523.4044189453125,
+        "width": 1317.6470947265625,
+        "height": 174.9485321044922,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529510498047
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 1,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": true,
+      "syncError": false,
+      "lastSyncAt": 1790818105832,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 193,
+        "loaderSamples": 129,
+        "pendingSamples": 62,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [
+          {
+            "method": "PATCH",
+            "status": 200,
+            "normalAppOwner": true,
+            "durationMs": 3160
+          }
+        ],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          }
+        ],
+        "expired": false
+      },
+      "width": 1317,
+      "height": 698,
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "landscape playing native outside dismiss preserves playback and owner",
+      "at": "2026-10-01T01:28:44.656Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 4,
+      "time": 3.004216,
+      "error": false,
+      "loader": false,
+      "frames": 95,
+      "presented": [
+        {
+          "at": 1790818124189,
+          "time": 2.921333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 86
+        },
+        {
+          "at": 1790818124222,
+          "time": 2.954667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 87
+        },
+        {
+          "at": 1790818124256,
+          "time": 2.988,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 88
+        },
+        {
+          "at": 1790818124289,
+          "time": 3.021333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 89
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 1317.6470947265625,
+        "height": 698.3529663085938,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529663085938
+      },
+      "chrome": {
+        "x": 0,
+        "y": 523.4044189453125,
+        "width": 1317.6470947265625,
+        "height": 174.9485321044922,
+        "right": 1317.6470947265625,
+        "bottom": 698.3529510498047
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": false,
+      "syncError": false,
+      "lastSyncAt": 1790818123967,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 201,
+        "loaderSamples": 129,
+        "pendingSamples": 66,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [
+          {
+            "method": "PATCH",
+            "status": 200,
+            "normalAppOwner": true,
+            "durationMs": 3160
+          }
+        ],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 1317,
+      "height": 698,
+      "screenHeight": 825,
+      "dpr": 2.125,
+      "orientation": "landscape-primary",
+      "angle": 90,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "normal own writer canonical success quiet sync and real preparation hidden text",
+      "at": "2026-10-01T01:28:46.074Z",
+      "version": "1.22.0-rc.29",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "originalTarget": true,
+      "open": true,
+      "q0": false,
+      "q1": true,
+      "q1Kind": "ts",
+      "ownerStable": true,
+      "paused": false,
+      "ready": 4,
+      "time": 4.416787,
+      "error": false,
+      "loader": false,
+      "frames": 137,
+      "presented": [
+        {
+          "at": 1790818125577,
+          "time": 4.321333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 128
+        },
+        {
+          "at": 1790818125627,
+          "time": 4.354667,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 129
+        },
+        {
+          "at": 1790818125660,
+          "time": 4.388,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 130
+        },
+        {
+          "at": 1790818125695,
+          "time": 4.421333,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 131
+        }
+      ],
+      "controlsHidden": true,
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "video": {
+        "x": 0,
+        "y": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294189453125
+      },
+      "chrome": {
+        "x": 0,
+        "y": 1016.5808715820312,
+        "width": 824.4705810546875,
+        "height": 174.9485321044922,
+        "right": 824.4705810546875,
+        "bottom": 1191.5294036865234
+      },
+      "stageOverflow": "clip",
+      "stageScrollTop": 0,
+      "stageScrollLeft": 0,
+      "videoFitsStage": true,
+      "videoCenterAligned": true,
+      "chromeFitsStage": true,
+      "chromeBottomAligned": true,
+      "visibleFavoriteCount": 0,
+      "mobileShorts": {
+        "active": false,
+        "display": "none",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "fitsStage": true,
+        "phoneBreakpoint": false
+      },
+      "loadingText": {
+        "hidden": true,
+        "height": 0,
+        "display": "none",
+        "visible": false,
+        "textLength": 15
+      },
+      "toastVisible": false,
+      "badgeVisible": false,
+      "syncPending": false,
+      "syncError": false,
+      "lastSyncAt": 1790818123967,
+      "normalViewedAdvanced": true,
+      "normalLastSyncAdvanced": true,
+      "accountWriterStable": true,
+      "observer": {
+        "samples": 215,
+        "loaderSamples": 129,
+        "pendingSamples": 66,
+        "maxLoadingTextHeight": 0,
+        "loadingTextHiddenAll": true,
+        "visibleLongLoaderTextSamples": 0,
+        "toastVisibleSamples": 0,
+        "badgeVisibleSamples": 0,
+        "canonicalWrites": [
+          {
+            "method": "PATCH",
+            "status": 200,
+            "normalAppOwner": true,
+            "durationMs": 3160
+          }
+        ],
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": true
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "pointerup",
+            "trusted": true,
+            "bottomActivation": false
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "bottomActivation": false
+          }
+        ],
+        "expired": false
+      },
+      "width": 824,
+      "height": 1191,
+      "screenHeight": 1318,
+      "dpr": 2.125,
+      "orientation": "portrait-primary",
+      "angle": 0,
+      "documentOverflowX": false,
+      "foreground": true
+    },
+    {
+      "name": "normal29 close settlement and exact orientation observer restoration",
+      "at": "2026-10-01T01:28:47.353Z",
+      "version": "1.22.0-rc.29",
+      "closed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "retirementSettled": true,
+      "ownListenersIntervalsFrameAndDriveWrapperRemoved": true,
+      "queryScrollRestored": true,
+      "accountPresent": true,
+      "authStatus": "online",
+      "revision": 68,
+      "expiry": "2026-10-01T01:50:30.863Z",
+      "foreground": true,
+      "prior": {
+        "mode": "lock 0",
+        "rotation": 0,
+        "accelerometer": 0
+      },
+      "restored": {
+        "mode": "lock 0",
+        "rotation": 0,
+        "accelerometer": 0
+      },
+      "settingsRestored": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.29",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "onlyTemporaryUserRotationChanged": true,
+  "nativeOrientationRestored": true,
+  "completed": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}

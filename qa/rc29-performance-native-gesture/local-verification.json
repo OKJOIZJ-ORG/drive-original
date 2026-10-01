@@ -1,0 +1,45 @@
+{
+  "schema": "drive-original.rc29-performance-native-gesture-local/1",
+  "binding": {
+    "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "version": "1.22.0-rc.29",
+    "sourceSHA256": {
+      "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+      "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+      "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    }
+  },
+  "observerSHA256": "760c014920713d8d0e8ea1f94a3735ed6775a4e2049fc9476cd57678609560d1",
+  "originalPreparationReadOnly": "qa/rc29-performance-preparation",
+  "runtimeObserverChanged": true,
+  "unchangedSHA256": {
+    "summarize.cjs": "d3d3457e8fbd1e1bc180ad6aad0e04f53350333da503b97a1eb1ddb4bd9cee44",
+    "verify.cjs": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06",
+    "bind.cjs": "5cf94ccd4d2ec8f4541b9af042c240bbc6cead4b7d4136086879d78a96be3c66"
+  },
+  "generatedGestureCases": {
+    "passed": 30,
+    "result": "gesture-verification.json"
+  },
+  "bindingCases": {
+    "passed": 9,
+    "result": "binding-verification.json"
+  },
+  "legacy11": {
+    "executedAgainstChangedObserver": true,
+    "passed": 11,
+    "testSHA256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06"
+  },
+  "nativeInputCases": {
+    "passed": 3,
+    "result": "native-verification.json",
+    "exactExpression": true,
+    "decodedFramesSynthetic": true
+  },
+  "actualAccount": false,
+  "physicalDevice": false,
+  "actualPerformance": false,
+  "actualRequests": 0,
+  "api": "window.__rc25PerformanceQA",
+  "resultSchema": "drive-original.rc25-performance-passive/1"
+}

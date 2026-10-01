@@ -1,0 +1,129 @@
+{
+  "mode": "mouse",
+  "result": {
+    "rows": [
+      {
+        "kind": "first-startup",
+        "code": "TARGET_FRAME"
+      },
+      {
+        "kind": "warm-startup",
+        "code": "TARGET_FRAME"
+      },
+      {
+        "kind": "seek10",
+        "code": "EXTRA_INPUT"
+      }
+    ],
+    "inputJournal": [
+      {
+        "type": "pointerdown",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true,
+        "detail": 0,
+        "ratio": 0.1
+      },
+      {
+        "type": "pointerup",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true,
+        "detail": 0,
+        "ratio": 0.1
+      },
+      {
+        "type": "click",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": false,
+        "detail": 1,
+        "ratio": 0.1
+      }
+    ],
+    "beginJournal": [
+      {
+        "type": "pointerdown",
+        "index": 0,
+        "active": false,
+        "kind": "first-startup",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true
+      },
+      {
+        "type": "click",
+        "index": 0,
+        "active": false,
+        "kind": "first-startup",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": false
+      },
+      {
+        "type": "pointerdown",
+        "index": 1,
+        "active": false,
+        "kind": "warm-startup",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true
+      },
+      {
+        "type": "click",
+        "index": 1,
+        "active": false,
+        "kind": "warm-startup",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": false
+      },
+      {
+        "type": "pointerdown",
+        "index": 2,
+        "active": false,
+        "kind": "seek10",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true
+      },
+      {
+        "type": "click",
+        "index": 2,
+        "active": true,
+        "kind": "seek10",
+        "pending": false,
+        "idInteger": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": false
+      }
+    ]
+  },
+  "nativeInput": true,
+  "decodedFramesSynthetic": true,
+  "actualAccount": false,
+  "physicalDevice": false
+}

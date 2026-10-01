@@ -1,10 +1,10 @@
-# Checkpoint - ACTIVE - 2026-10-01 10:56
+# Checkpoint - ACTIVE - 2026-10-01 10:50
 
 ## The story so far
 
 D068 continues the complete D066 queue. HEAD10f1dd2, branch codex/v2-kickoff-diagnostics; public candidate rc29/10f1dd2, Worker22009156-f155-4bfd-b960-1896699af478. Production1.21.0/e08989a unchanged. Product29 restricts normal UI mutations to two disposable tagged media and fixes PC ambient scroll/favorite duplication. Full721 plus current app/static162 and five native viewports passed. Actual52 public/40 cached/8 uncached/6 private404 audit, cold/offline audit, exact52-file ZIP and source readiness passed. Normal PC27.693s/Android5.976s update preserved account/state/cache; actual PC and Android layout/quiet sync passed. Delivery/new actual evidence awaits exact safe curation and commit.
 
-Current coalesced deeper cohort1 finished: stable before/after complete catalog,8 attempted/3 complete/5 explicitly deferred,72 media GET/239883B,140 metadata GET/22830352B. Representative2 still FILE_TIMEOUT before moov window admission; three metadata-labeled videos are actual TS, one unknown signature. Private qualified registry remains browser-local for normal UI targets. Android quiet since01:29:36Z. Corrected native-gesture performance observer reached14 actual rows:12 target-frame successes, then sample5 MKV-as-TS startup/reopen both fail SEEK_GOP_PRESENTATION_UNPROVEN, ready0/no duration. Next seek impossible/unattempted; closed/retired and observer cleared. Safe result52764B SHA b8a264d5a13e18760d2b12dd0c3e6f8fb5b0ac827b10dfcd3001fa31a07b753e preserved; private failed UI record remains browser-local in __resumeFailedNormalTarget. Astra prepares separately tested bounded head/tail GOP diagnostic/collector; PC agent prepares explicit unattempted-seek censoring derivative, no live patches. AU06 blocked-cookie condition remains unknown because CUA supported-command allowlist rejects Network.setCookieControls; no profile/override changes occurred.
+Current coalesced deeper cohort1 finished: stable before/after complete catalog,8 attempted/3 complete/5 explicitly deferred,72 media GET/239883B,140 metadata GET/22830352B. Representative2 still FILE_TIMEOUT before moov window admission; three metadata-labeled videos are actual TS, one unknown signature. Private qualified registry remains browser-local for normal UI targets. Android quiet since01:29:36Z. Performance partial3 rows preserved: normal trusted slider pointerdown+click exposed observer EXTRA_INPUT defect; additive strict native-gesture observer is being locally checked. AU06 blocked-cookie condition remains unknown because CUA supported-command allowlist rejects Network.setCookieControls; no profile/override changes occurred.
 
 ## Decided
 
@@ -19,7 +19,7 @@ None currently. Final production/main/push authority remains separate.
 
 ## Next first action
 
-Read qa/rc29-ts-gop-diagnostic/README.md when the Astra agent reports its exact SHA, verify local checks, load through resumeLoadLocal and run one bounded failed-file diagnostic with current29 proof; retain raw bytes/identity browser-local and export only safe result.
+Export the completed current29 cohort1 safe result with resumeDownloadSafe, verify exact downloaded size/SHA and move into qa/rc29-resume-20261001; retain private registry for normal representative UI qualification.
 
 ## Tried
 

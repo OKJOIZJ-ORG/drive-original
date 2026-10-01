@@ -29,6 +29,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC29-20261001.md`: actual candidate29 delivery/package, normal PC/Android update/layout/quiet sync, bounded structural result and retained actual TS failure; D-068 ACTIVE.
+
 - `LOCAL-RC29-20261001.md`: exact-two normal disposable capability and native five-viewport PC layout correction, current local integration; actual candidate replay pending.
 
 - `RESUMED-ACCEPTANCE-20261001.md`: actual two-device natural renewal, PC post-renewal seek, current full raw-state backup/reconstruction/recomparison, bounded corpus failure and queued PC layout fix; D068 ACTIVE.

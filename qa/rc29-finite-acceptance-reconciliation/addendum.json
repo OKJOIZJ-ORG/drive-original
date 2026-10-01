@@ -1,0 +1,267 @@
+{
+  "schema": "drive-original.rc29-finite-addendum/1",
+  "recordedAt": "2026-10-01T01:34:11.046Z",
+  "source29": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "previous": {
+    "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+    "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07",
+    "preserved": true
+  },
+  "capsules": {
+    "ui10": {
+      "original": {
+        "scenario": "정상 sync·원본 준비",
+        "expected": "내부 장문 설명·반복 toast·영구 badge 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1769,
+        "verbatim": "| QA-UI-10 | 정상 sync·원본 준비 | 내부 장문 설명·반복 toast·영구 badge 없음 |"
+      },
+      "assessment": "finite-original-pass-proposal",
+      "scope": "Actual source29 normalQ0 preparation+canonical appData sync and actual hidden computed layout; no fixture capability or general writes enabled",
+      "sourceBindings": [
+        {
+          "path": "app.js",
+          "expected": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+          "sha256": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+          "same": true
+        },
+        {
+          "path": "sw.js",
+          "expected": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+          "sha256": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+          "same": true
+        },
+        {
+          "path": "version.json",
+          "expected": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de",
+          "sha256": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de",
+          "same": true
+        }
+      ],
+      "sourceOwner": {
+        "cache40Matched": true,
+        "networkCore3Matched": true,
+        "accountWriterFullProjectionCachePreserved": true,
+        "firstQuietOwnerSame": true,
+        "generalDriveWritesEnabled": false,
+        "disposableFixtureCapabilityActivated": false,
+        "disposableCapabilityObservationAuthority": "Root direct report; not independently probed by child"
+      },
+      "normalQuiet": {
+        "firstPassSamples": 300,
+        "firstPassPreparingSamples": 65,
+        "firstPassPendingSyncSamples": 98,
+        "lastSyncAtAdvanced": true,
+        "firstObservedCanonicalPatchHTTP200": true,
+        "firstNetworkBufferTruncated": false,
+        "visibilityPassSamples": 400,
+        "visibilityPassPreparingSamples": 57,
+        "visibilityPassPendingSyncSamples": 108,
+        "textAttributeHiddenAndHeightZeroDisplayNoneEveryPreparing": true,
+        "toastAndSyncBadgeHiddenEverySample": true,
+        "secondObservedPatchHTTP200Count": 2,
+        "secondNetworkBufferTruncated": true,
+        "completeWriteHistoryClaim": false
+      },
+      "retainedCounterevidence": {
+        "firstTextContentIncludesHiddenParagraph": true,
+        "firstLongTextLabelIncorrect": true,
+        "firstVisibleLongTextClaim": false,
+        "secondPassProvesActualHiddenDisplay": true,
+        "firstStartupToolTimeoutRetained": true,
+        "closePlayerModalHiddenFalse": true,
+        "closeLoaderAttributeHiddenFalse": true,
+        "closeScope": "close record observed Q0/Q1 absent and retirement settled; false DOM flags retained, no blanket modal-hidden cleanup claim"
+      },
+      "pointers": [
+        {
+          "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+          "line": 236,
+          "needle": "\"sameOwner\""
+        },
+        {
+          "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+          "line": 248,
+          "needle": "\"normalGoogleWriteReceipts\""
+        },
+        {
+          "path": "qa/rc29-resume-20261001/actual-performance-attempt1-safe.json",
+          "line": 450,
+          "needle": "\"normalQuietVisibility\""
+        },
+        {
+          "path": "app.js",
+          "line": 4566,
+          "needle": "state.accountStateLastSyncAt = Date.now()"
+        },
+        {
+          "path": "app.js",
+          "line": 4110,
+          "needle": "const stateWriteAllowed = isAccountStateWriteRequest"
+        }
+      ]
+    },
+    "delivery29": {
+      "original": {
+        "scenario": "old/new shell·worker·offline reload",
+        "expected": "호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1774,
+        "verbatim": "| QA-SW-01 | old/new shell·worker·offline reload | 호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음 |"
+      },
+      "assessment": "Existing SW01 finite pass proposal extended to actual29 normal update and saved delivery/offline source scope; no new original-row count",
+      "scope": "Candidate-only, not production/main",
+      "publicAssets": 52,
+      "cacheAssets": 40,
+      "uncachedSourceArchives": 8,
+      "private404": 6,
+      "normalUpdateMs": 27693,
+      "accountWriterProjectionCachePreserved": true,
+      "coreNetwork3Matched": true,
+      "executingWorkerScriptHashKnown": false,
+      "currentSourceProofInstalled": true,
+      "q0Native": {
+        "width": 1920,
+        "height": 1080,
+        "overflow": "clip",
+        "objectFit": "contain",
+        "initialScrollTop": 0,
+        "finalScrollTop": 0,
+        "videoTop": 0,
+        "favoriteLayoutCount": 1
+      },
+      "safeLimits": [
+        "Controller activation and exact cached/network source proof do not invent an executing-worker byte-hash observation",
+        "No synthetic-disposable normal UI/API/web/G acceptance from candidate delivery",
+        "Cold/offline/readiness/package PASS are delivered source proof, not whole corpus or performance"
+      ]
+    },
+    "performance": {
+      "assessment": "partial; derivative already being prepared by another owner",
+      "rows": [
+        {
+          "kind": "first-startup",
+          "code": "TARGET_FRAME",
+          "firstFrameMs": 2995.2,
+          "elapsedMs": 3048.5,
+          "ownerCurrent": true
+        },
+        {
+          "kind": "warm-startup",
+          "code": "TARGET_FRAME",
+          "firstFrameMs": 2858.3,
+          "elapsedMs": 2925.2,
+          "ownerCurrent": true
+        },
+        {
+          "kind": "seek10",
+          "code": "EXTRA_INPUT",
+          "firstFrameMs": null,
+          "elapsedMs": 14.6,
+          "ownerCurrent": false
+        }
+      ],
+      "complete": false,
+      "p95Claim": false,
+      "retainedFailure": "Normal trusted paused-seek pointerdown followed by same-gesture click was classified EXTRA_INPUT at14.6ms; no target latency measured. Nativeclick-sequence derivative required. Product codec cause not established.",
+      "next": "Use owned corrected native same-gesture seek observer; keep EXTRA_INPUT14.6ms as harness failure and all startup rows, no duplicated passing suite or p95/OBS closure from3 rows"
+    },
+    "au06": {
+      "original": {
+        "scenario": "third-party cookies blocked",
+        "expected": "앱 원본/파생 경로 정상, Google iframe에 의존하지 않음",
+        "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "line": 1732,
+        "verbatim": "| QA-AU-06 | third-party cookies blocked | 앱 원본/파생 경로 정상, Google iframe에 의존하지 않음 |"
+      },
+      "assessment": "partial-exact-missing-clause; finite runtime boundary",
+      "evidenceAuthority": "Root direct trusted coordination report; child did not operate browser or independently inspect tool execution; this capsule is explicit report, not invented raw protocol artifact",
+      "reportedFacts": {
+        "ownedNewTabSource29OnlineValidSession": true,
+        "googleIframeNotUsed": true,
+        "rawNetworkEnableAccepted": true,
+        "setCookieControlsRejectedByToolAllowlist": true,
+        "browserGetVersionRejectedByToolAllowlist": true,
+        "emulateExposedFieldsHaveNo3PCControl": true,
+        "anonymousManagedOtherProfileNotSameAccountProof": true,
+        "overrideApplied": false,
+        "profileSettingChanged": false,
+        "conditionVerified": false,
+        "ownedNetworkDisabledAndTabClosed": true
+      },
+      "scopeFinding": "Primary implementation establishes per-enabled-Network-handler frame agent host override and Dispose cleanup; getter absence is not a blocker. Current callable surface cannot apply that command, so behavior under known blocked3PC remains unverified, not a product failure.",
+      "practicalRootRoute": [
+        "After current owners release, inspect installed chrome-devtools MCP supported exact-target command/emulation surfaces for an explicitly supported 3PC override in the existing authenticated owner context. Use only exposed/documented capability; do not bypass CUA allowlist through evaluate/terminal/direct debug socket or plugin-managed edits.",
+        "If a supported Network.setCookieControls surface exists, dedicated task-owned page session Network.enable -> enableThirdPartyCookieRestriction:true -> ordinary reload; valid existing API session and actual original/derived path/iframe-independent behavior. No artificial cookie exclusion event required.",
+        "If no supported target override or already-known blocked-profile evidence is available, keep AU06 finite boundary while completing independent queue. A separately authorized blocked browser context with normal existing-grant login would be the remaining route; stop at human login/2FA/newgrant boundary. Do not copy cookies/tokens, change personal profile policy, create grants, or issue a premature manual question."
+      ],
+      "sourceReference": "qa/rc29-third-party-cookie-preparation/scope-assessment.json",
+      "preservedOriginal": "Existing valid API session under known blocked3PC. No new all-cookie suppression/all-target requirement."
+    }
+  },
+  "counts": {
+    "originalRows": 69,
+    "priorScopedPassProposals": 13,
+    "newPassProposals": 11,
+    "totalScopedPassProposals": 25,
+    "currentAssessments": {
+      "partial-exact-missing-clause": 17,
+      "baseline-qualified-controlled-retained": 24,
+      "finite-original-pass-proposal": 24,
+      "conditional-not-applicable-retained": 2,
+      "restored-current-integration-pass-proposal": 1,
+      "user-deferred-iOS": 1
+    },
+    "wholeGoalPromotions": 0,
+    "newAddendumPassProposals": 1
+  },
+  "evidenceHashes": [
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+      "bytes": 259051,
+      "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+      "bytes": 6169,
+      "sha256": "3f41930dbe68b017c52a6c9b30a353d2b9411b0f96e236d8f2c33e3ecbde25da"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-performance-attempt1-safe.json",
+      "bytes": 120512,
+      "sha256": "4777464d8eafa4dafa5b8ecb46e8b4323eb0e03f1a8028b5b274bb2cd1a0480a"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/results.json",
+      "bytes": 10187,
+      "sha256": "0ec6de2ce8ef1f8d13733cee9f539ef0d51f30cc5786a02f402d5d623ebf13eb"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/source-readiness.json",
+      "bytes": 8881,
+      "sha256": "81bb4dc7c414fefbabbf3a68988ebfc316eb0747e9bf8bbd93e95cd5ccde2206"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/package.json",
+      "bytes": 876,
+      "sha256": "f962834db4ce5fa06903e247f938831949625f8272331342f57eb7912fc93397"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/redacted-readback.json",
+      "bytes": 1624,
+      "sha256": "1c6fe4e9cd04338561551ef93cceae148a46d3a09b7e07839a39a39e3e6b3525"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/deployment.json",
+      "bytes": 9186,
+      "sha256": "38029322fa0e2ddccfd73f2d228cb0c7e97bc70a453d480abba917b39d0774d1"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/scope-assessment.json",
+      "bytes": 4799,
+      "sha256": "72da81f28caa8e1efdb95c84316a526a669e649e2fd6ea8e898ae1bba592a83e"
+    }
+  ],
+  "scope": "Only additive read-only analysis; actual operations are root-saved evidence. Original69 and prior review unchanged. Corpus/deeper/disposable/iOS/performance remain separately scoped.",
+  "preparationToolFailures": "Two local inventory expression parse failures from extra closing parenthesis; corrected by assigning arrays before printing. No actual or product failure."
+}

@@ -1,0 +1,126 @@
+{
+  "schema": "drive-original.rc28-deeper-selection-diagnostic-local/1",
+  "cases": [
+    {
+      "name": "real-maintained-selector-schema-to-plan-and-probe-positive",
+      "passed": true
+    },
+    {
+      "name": "real-representative-schema-missing-metadata-is-distinct-invalid-identity",
+      "passed": true
+    },
+    {
+      "name": "allowlisted-selector-exception-and-stage-survive-generic-failure",
+      "passed": true
+    },
+    {
+      "name": "diagnostic-redacts-unknown-message-code-phase-stack-urls-and-function-names",
+      "passed": true
+    },
+    {
+      "name": "safe-reference-redacts-real-selector-rare-ge4-ids-and-arbitrary-mismatch-metadata",
+      "passed": true
+    },
+    {
+      "name": "real-maintained-bounded-probe-iso-sparse-ebml-positive",
+      "passed": true
+    },
+    {
+      "name": "probe-source-current-reject-before-request",
+      "passed": true
+    },
+    {
+      "name": "probe-account-change-aborts-before-next-body",
+      "passed": true
+    },
+    {
+      "name": "probe-cancel-error-cleanup-terminal",
+      "passed": true
+    },
+    {
+      "name": "metadata-only-does-not-read-media",
+      "passed": true
+    },
+    {
+      "name": "ui-without-version-qualified-by-one-fresh-exact-get-no-injection",
+      "passed": true
+    },
+    {
+      "name": "target-denies-fresh-version-parent-mime-size-and-modified-drift",
+      "passed": true
+    },
+    {
+      "name": "target-before-and-after-owner-fences",
+      "passed": true
+    },
+    {
+      "name": "target-ui-mismatch-and-obscured-normal-card-denied",
+      "passed": true
+    },
+    {
+      "name": "target-cancel-bounded-body-limit-and-registry-cleanup",
+      "passed": true
+    },
+    {
+      "name": "normal-known-folder-card-step-private-mapping-and-unknown-denial",
+      "passed": true
+    },
+    {
+      "name": "known-inventory-root-breadcrumb-coordinate-only",
+      "passed": true
+    },
+    {
+      "name": "wide-catalog-does-not-disqualify-target-but-chain-nine-and-cycle-deny",
+      "passed": true
+    },
+    {
+      "name": "serialized-parent-reference-error-new-selection-binding-positive",
+      "passed": true
+    },
+    {
+      "name": "full-generated-factory-real-inventory-selector-plan-iso-ebml-positive",
+      "passed": true
+    }
+  ],
+  "passed": 20,
+  "actualRequests": 0,
+  "actualRequestScope": "Drive/browser/account execution",
+  "actualExecution": false,
+  "productEdits": false,
+  "fileSHA256": {
+    "entry.function.js": "4042f190a2cbf82e7d6480221337a2ca05ad9216e680b580615723f647301aca",
+    "probe.mjs": "d240ed6d0044ffc7ffdb383255a9c1037b5d628181e303111c1892719d15267f",
+    "selection.mjs": "098f630811dfb4f97a1d5002d0719de64eb4d3e761566e097ab4b0b35e4f2c28",
+    "facade.function.js": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417",
+    "binding.json": "32b681805ac85abdc4a8d8b03ab13fed31381ec0d97137f444ac5bfcd5e08522",
+    "build.mjs": "706ff6881d6a108a53eec4ade7f1a9ec996ad5b5a59dac91da2e7f4bfa8f60dc",
+    "verify.mjs": "a22c8340d2d4a51344c984e284922fc1d0c22cd7d09ea4294e8f09a2b2b97662",
+    "factory.expression.js": "9f2106e80560f69a1b2d886306ab9e346313ac1464e6f697f63c4ce7a3894ba4",
+    "provenance.json": "9292d2ad5139bfd80c81111ed2a8f23b93cb5df9f83de5ad12b9eec69bda071c",
+    "diagnostics.mjs": "53e9969b0bc8e991a276d19da2d2c15302437f167e354c7665b0c96c4ccb6a43",
+    "README.md": "8ffffa85070c208b1128eb4fac8991e02dda4e9a644fa80f147ef3564310d327"
+  },
+  "frozenParentSHA256": {
+    "entry.function.js": "5d9a334af8095b9235dedef7032da440ce04a2e9284d2cf7940c78233673e593",
+    "probe.mjs": "a51234b881279d3f42945cf862fb41c97caeb43583aa04d981defdfeebb5188c",
+    "selection.mjs": "4ea7ebe6960bcc5dfb86c63b436d7aca20743c27187ea66f00d6703dafc10270",
+    "facade.function.js": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417",
+    "binding.json": "32b681805ac85abdc4a8d8b03ab13fed31381ec0d97137f444ac5bfcd5e08522",
+    "build.mjs": "68e335fc93dcc2957bc7560fbf522daf69520bbb3ff5ee54d5fd645c3c24ae83",
+    "factory.expression.js": "2516b3ff53fa0869fdafb691b0fcc7716085c6db7aa9062687b41e407d36420c",
+    "provenance.json": "004c38988efaf62805d5f86dcf769cd956d1fcf450de09ca66f3845cd777a3f7"
+  },
+  "deliveredParentExpressionSHA256": "0edf8cd548e0bca96f9994ecf2b3a72d4307396cec3bd1cc940ed3b2a03da33c",
+  "confirmedLocalFailure": {
+    "exceptionClass": "ReferenceError",
+    "phase": "selection-plan",
+    "cause": "missing-generated-normalizeProbeIdentity-binding",
+    "parentPreserved": true
+  },
+  "originalUIVersionAvailable": false,
+  "uiVersionInjected": false,
+  "codecHdrPresence": "partial-unknown",
+  "guidanceLookup": {
+    "performedThisUnit": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "mode": "mouse",
+  "result": {
+    "rows": [
+      {
+        "kind": "first-startup",
+        "code": "TARGET_FRAME"
+      },
+      {
+        "kind": "warm-startup",
+        "code": "TARGET_FRAME"
+      },
+      {
+        "kind": "seek10",
+        "code": "EXTRA_INPUT"
+      }
+    ],
+    "inputJournal": [
+      {
+        "type": "pointerdown",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true,
+        "detail": 0,
+        "ratio": 0.1
+      },
+      {
+        "type": "pointerup",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": true,
+        "detail": 0,
+        "ratio": 0.1
+      },
+      {
+        "type": "click",
+        "isTrusted": true,
+        "pointerId": 1,
+        "pointerType": "mouse",
+        "button": 0,
+        "isPrimary": false,
+        "detail": 1,
+        "ratio": 0.1
+      }
+    ]
+  },
+  "nativeInput": true,
+  "decodedFramesSynthetic": true,
+  "actualAccount": false,
+  "physicalDevice": false
+}

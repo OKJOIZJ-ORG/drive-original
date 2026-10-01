@@ -1,0 +1,816 @@
+{
+  "schema": "drive-original.rc29-root-safe-savepoint/1",
+  "productSource": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "files": [
+    {
+      "path": "qa/candidate-rc29-delivery/DELIVERY-PREPARATION.md",
+      "bytes": 3997,
+      "sha256": "2ca9f3fab823384205366bedc52687630d196f17c6198605648b57189fb38018"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/audit-memory-guard.json",
+      "bytes": 461,
+      "sha256": "385709dbf54937411e1ee11f5facd602e33b16681783e800ad39127e81230e81"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/audit-with-memory-guard.cjs",
+      "bytes": 2318,
+      "sha256": "44a2cff3326ac8242a88e4d9ec6423bb925bcdc7a27629b9f9f8da86f2e34ca0"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/build-release.py",
+      "bytes": 3995,
+      "sha256": "6bfd46c840d7db60ddf4a203821bed952b61d9b33720370b925cae327b7de562"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/delivery-guard.cjs",
+      "bytes": 5190,
+      "sha256": "2c601968c54fd69d907a201be53a29065983b336e5549a2e9337f9b8ad7558fc"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/deploy-candidate.cjs",
+      "bytes": 1752,
+      "sha256": "f4530eb76578ff3ac05672a24f6193de42357df7631a37f9f55a77434c22c67b"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/deployment.json",
+      "bytes": 9186,
+      "sha256": "38029322fa0e2ddccfd73f2d228cb0c7e97bc70a453d480abba917b39d0774d1"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/finalize-source-readiness.py",
+      "bytes": 5653,
+      "sha256": "242199bf41648e2909b794231c2436155157336cfa1ad6c17be0d75f2e0bc9d7"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/local-delivery-preparation.json",
+      "bytes": 1032,
+      "sha256": "e5ac1a57851a475f0967ffc5cfd86b8370cbd140e02688c4dc5c23fea0b4a81d"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/local-integration-review.json",
+      "bytes": 1879,
+      "sha256": "f9b200ce1cb27498deb8ad6be7b8f0716622cde0f37660067ffef8b943f15d6f"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/materialization.json",
+      "bytes": 8944,
+      "sha256": "4c77432446f4b03b1069440448886362d3e3cfc5e77c31edc971f7c04915343b"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/materialize-candidate.cjs",
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/package.json",
+      "bytes": 876,
+      "sha256": "f962834db4ce5fa06903e247f938831949625f8272331342f57eb7912fc93397"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/product-integration-tests.json",
+      "bytes": 18006,
+      "sha256": "c6d397c95e9b97537b4863234e98f6c53e3e82d7cd7144cc547c9dca4ff4c20c"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/product-tests.json",
+      "bytes": 26531,
+      "sha256": "b3abdba26d2d6ffb0d8d8984fe8e7674e2c4a114eec5ed504a1fccd79e5ca8c1"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/readback-candidate.cjs",
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/redact-readback.cjs",
+      "bytes": 2129,
+      "sha256": "4c009b06819b431adfee1f88f5ed2a16efd279fa4db2b088c4c5a8ccc7847552"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/redacted-readback.json",
+      "bytes": 1624,
+      "sha256": "1c6fe4e9cd04338561551ef93cceae148a46d3a09b7e07839a39a39e3e6b3525"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/results.json",
+      "bytes": 10187,
+      "sha256": "0ec6de2ce8ef1f8d13733cee9f539ef0d51f30cc5786a02f402d5d623ebf13eb"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/source-readiness.json",
+      "bytes": 8881,
+      "sha256": "81bb4dc7c414fefbabbf3a68988ebfc316eb0747e9bf8bbd93e95cd5ccde2206"
+    },
+    {
+      "path": "qa/rc21-android-night/169-build-rc29-qa-binding.cjs",
+      "bytes": 1763,
+      "sha256": "40c864c3dde582a9cb26a3f2cfe760f11425e7732e09c66629ccc111d8e0c017"
+    },
+    {
+      "path": "qa/rc21-android-night/169-rc29-qa-binding.json",
+      "bytes": 6384,
+      "sha256": "f4be91c853ea20ac3316522f2f9772d4a0c70905e70d6da72a44e8b2a349e977"
+    },
+    {
+      "path": "qa/rc21-android-night/169-ui-common-rc29.cjs",
+      "bytes": 8077,
+      "sha256": "30956df4062f1353fe1ad653d7f963de619393f41f6b52b7deb8474a83278089"
+    },
+    {
+      "path": "qa/rc21-android-night/170-rc29-native-normal-update-source-cache-result.json",
+      "bytes": 20664,
+      "sha256": "0cefe1d1a43383ae4fbf0b782ade23078436317d02c76a666821df9bb66886d2"
+    },
+    {
+      "path": "qa/rc21-android-night/170-rc29-native-normal-update-source-cache.cjs",
+      "bytes": 7402,
+      "sha256": "2bbb795a56dbb1a56c0dba870cddb69a1cecf346a1584031b67a531b3d1ba3aa"
+    },
+    {
+      "path": "qa/rc21-android-night/171-rc29-native-layout-controls-preparation-result.json",
+      "bytes": 65020,
+      "sha256": "29f0c43f7952ecc6c2d16f0585f6f410911cd44eb2ac2fbb38bf16fce26c5c80"
+    },
+    {
+      "path": "qa/rc21-android-night/171-rc29-native-layout-controls-preparation.cjs",
+      "bytes": 14460,
+      "sha256": "e72bfde6ac949e65da7271db852c1dad7c90eb296f42a5f06b9a58ce7d633f81"
+    },
+    {
+      "path": "qa/rc21-android-night/172-rc29-ui-final-readiness-result.json",
+      "bytes": 9705,
+      "sha256": "929b108c7b4da9c33c38ec03e19e22bb83bd64b66cd66e2aabd488d0744c77f3"
+    },
+    {
+      "path": "qa/rc21-android-night/172-rc29-ui-final-readiness.cjs",
+      "bytes": 4400,
+      "sha256": "2fe303fb18bc92c238c074e080c0ed77b5ee4a267e37645c33f95df45b63c792"
+    },
+    {
+      "path": "qa/rc21-android-night/173-curate-rc29-native-ui.cjs",
+      "bytes": 6109,
+      "sha256": "6987063a67f3fb328e740767cddf7dab36b5ee4ce2844453b3ad348f1a686cd5"
+    },
+    {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-clauses.json",
+      "bytes": 4822,
+      "sha256": "8e76687d0e5362dfa2381c20d0ea89351dd689918359232576877bf5de714a9f"
+    },
+    {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-safe-stage-manifest.json",
+      "bytes": 2461,
+      "sha256": "91ed7803815a6be21df3cb0536d0a69511400df395389a1c30d4794e2a83c414"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/README.md",
+      "bytes": 3874,
+      "sha256": "8ffffa85070c208b1128eb4fac8991e02dda4e9a644fa80f147ef3564310d327"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/binding.json",
+      "bytes": 430,
+      "sha256": "32b681805ac85abdc4a8d8b03ab13fed31381ec0d97137f444ac5bfcd5e08522"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/build.mjs",
+      "bytes": 5851,
+      "sha256": "706ff6881d6a108a53eec4ade7f1a9ec996ad5b5a59dac91da2e7f4bfa8f60dc"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/curated-savepoint.json",
+      "bytes": 853,
+      "sha256": "6d530ff969309ad76f9354d8f8c83828fe24cb6672a2e1e4dd2762bfde710e54"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/diagnostics.mjs",
+      "bytes": 2337,
+      "sha256": "53e9969b0bc8e991a276d19da2d2c15302437f167e354c7665b0c96c4ccb6a43"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/entry.function.js",
+      "bytes": 14311,
+      "sha256": "4042f190a2cbf82e7d6480221337a2ca05ad9216e680b580615723f647301aca"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/facade.function.js",
+      "bytes": 4878,
+      "sha256": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/factory.expression.js",
+      "bytes": 184270,
+      "sha256": "9f2106e80560f69a1b2d886306ab9e346313ac1464e6f697f63c4ce7a3894ba4"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/local-verification.json",
+      "bytes": 4648,
+      "sha256": "a9add4fa1ab5f55d051f7061f513edbea04990c0aa72b772f32ee13c24ceb9d3"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/probe.mjs",
+      "bytes": 30187,
+      "sha256": "d240ed6d0044ffc7ffdb383255a9c1037b5d628181e303111c1892719d15267f"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/provenance.json",
+      "bytes": 3377,
+      "sha256": "9292d2ad5139bfd80c81111ed2a8f23b93cb5df9f83de5ad12b9eec69bda071c"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/selection.mjs",
+      "bytes": 5501,
+      "sha256": "098f630811dfb4f97a1d5002d0719de64eb4d3e761566e097ab4b0b35e4f2c28"
+    },
+    {
+      "path": "qa/rc28-deeper-selection-diagnostic/verify.mjs",
+      "bytes": 23659,
+      "sha256": "a22c8340d2d4a51344c984e284922fc1d0c22cd7d09ea4294e8f09a2b2b97662"
+    },
+    {
+      "path": "qa/rc28-resume-20261001/actual-deeper-attempt2-safe.json",
+      "bytes": 47287,
+      "sha256": "825ebc6aff15518e617b8517561aa6c31af4667d0e373cbc8adbd5500fa5d378"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/README.md",
+      "bytes": 2566,
+      "sha256": "0e3577b4e104f98487291501f019d6c93f6a01913f92158515d3f12c6c6b1ccd"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/binding.json",
+      "bytes": 440,
+      "sha256": "95773b15331321d9c6d58cd59a2b33c45ffd0dc7bf69cb5a407892e534a9ac5b"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/build.mjs",
+      "bytes": 6045,
+      "sha256": "b20bcba9d8124235564ce4fd0cd146f7b93f54670ff20cbcf31b53bc9a3ef9a7"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/curated-savepoint.json",
+      "bytes": 848,
+      "sha256": "02fbbc118b0c678e845c4874451a58ed324f53df1aac81a87f1d64621aa101bd"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/diagnostics.mjs",
+      "bytes": 2337,
+      "sha256": "53e9969b0bc8e991a276d19da2d2c15302437f167e354c7665b0c96c4ccb6a43"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/entry.function.js",
+      "bytes": 14446,
+      "sha256": "362e2dc6c61c194151c59fb8f5dd86b03806b09fce204550cc21d843c65ebf50"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/facade.function.js",
+      "bytes": 4878,
+      "sha256": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/factory.expression.js",
+      "bytes": 188512,
+      "sha256": "09908e9ee8bd3ca3b1e8df5e03112b3a8d02ac62d69a128a4ffe60a11f8daa4b"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/local-verification.json",
+      "bytes": 6246,
+      "sha256": "b9bbf70ff51e4044e85dbc2ced61ac1a16badd586bbe20026c369574750041f8"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/moov-window-cache.mjs",
+      "bytes": 2410,
+      "sha256": "09ac583600e317af96a7d599d06e70da899b44f809073e1c86dcd28b8dfbe932"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/probe.mjs",
+      "bytes": 32049,
+      "sha256": "85db67e8752087f8a373b7c02ce436415a2fe1cc1baed832e5459a894811b5fc"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/provenance.json",
+      "bytes": 3536,
+      "sha256": "910fe2a5058c276a81b217aacc34152aa3d8bf9692e38874ce84218976c6aa09"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/selection.mjs",
+      "bytes": 5501,
+      "sha256": "098f630811dfb4f97a1d5002d0719de64eb4d3e761566e097ab4b0b35e4f2c28"
+    },
+    {
+      "path": "qa/rc29-deeper-coalesced-probe/verify.mjs",
+      "bytes": 35354,
+      "sha256": "d5ef0a754d005ee167187e0a84e931797d84929a6560fc5cee88160c0b199aa0"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/README.md",
+      "bytes": 1097,
+      "sha256": "5ed52d679a059b0aaabb30679f05020c95c46b0db61418dc2ae9588623e3f253"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/build.cjs",
+      "bytes": 10210,
+      "sha256": "f395a190a506a8d26a537b1ecfc7c4352acd084e4ece52addd7e44edab32aa27"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/record.json",
+      "bytes": 19389,
+      "sha256": "17672a417ca38525b8a56225785ddd66aa5d42657a9e4d975216e2cefbf67e28"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/safe-staging-manifest.json",
+      "bytes": 8974,
+      "sha256": "2bddbbd5be6fc24ada72c36828e72c2e7b2f6d09698408b19c0ac66f790295b5"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/README.md",
+      "bytes": 7031,
+      "sha256": "fde8e6fb8a475d839fdc8315547d9074acb437dce903af94c8b7f7e51e8342f3"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/build.json",
+      "bytes": 1122,
+      "sha256": "acf43970b4793e700e78a2485e49c5e9b08adc58a24d9d411bdcf5f6657a90b4"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/build.mjs",
+      "bytes": 2431,
+      "sha256": "cfbd997059a7a90c8ff4c9d0a391db4181ee663205146712436c48e1b0b6944a"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/facade.function.js",
+      "bytes": 2069,
+      "sha256": "0c85ebbd91da411f974358a55aa6fd1f2062b7c057119707581fbeeff4a9b279"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/factory.expression.js",
+      "bytes": 13110,
+      "sha256": "d23963a6bd9b3d72b6cb4054af816ef3d77a712b619129e69f53dc4d2e119349"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/fixture-1.png",
+      "bytes": 74,
+      "sha256": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/fixture-2.png",
+      "bytes": 74,
+      "sha256": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/job.mjs",
+      "bytes": 12425,
+      "sha256": "34459f8fa67352dfda1aab001eca6fe89c7a49fe7f63a86a3dbc5c0f4dab32d5"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/local-first-attempt.txt",
+      "bytes": 625,
+      "sha256": "aac17166c4e3a352949a9577682debab12c012b1f48cdad5b70201d4d340d2c2"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/local-results.txt",
+      "bytes": 839,
+      "sha256": "de50c0d3c24c038b4637707cb23d1d4e70ae0a9b513c3183e45d05879c48a123"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/local-review.json",
+      "bytes": 1547,
+      "sha256": "78b13f1594d73da5af6ac3fad3d396546bae14b182dc36dbd8a22b1532832264"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/local.test.mjs",
+      "bytes": 8520,
+      "sha256": "3094005d693b6521519a1d6b4365962486b8dd4d22296224f48ecec6b8962140"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/review.cjs",
+      "bytes": 1532,
+      "sha256": "d4051145193b1a8dd23615a481958bab8889b3eae2507fb1c2af43719fa127fb"
+    },
+    {
+      "path": "qa/rc29-disposable-ui-preparation/staging-manifest.json",
+      "bytes": 2272,
+      "sha256": "4f48e8efdd478d00a99fac774901bfd9129d572e03e0adcdb4e74c431b1f3207"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/ADDENDUM.md",
+      "bytes": 1342,
+      "sha256": "dc53936509e0a1a056364c3a5fa3322ae26d2bcc4fa21f7a7be0ce0c335fc72f"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/README.md",
+      "bytes": 932,
+      "sha256": "245d2b93dad31f8ced4636c48c072bf6e952191c41c42ec11a465e8152a7c621"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum-staging-manifest.json",
+      "bytes": 698,
+      "sha256": "725dac6e8be5174a468cd357493a0a637418bd6c22ff21a02b19e486da5b2619"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum.json",
+      "bytes": 12556,
+      "sha256": "2a8c5e45dcb7be1ccc1337d699a934ce0507cc5cd7d7b51f860ffa83d469de24"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/build-addendum.cjs",
+      "bytes": 12145,
+      "sha256": "bff35c71c0535838dea9e5f2960e672e1af6e31bae0572ba201db77e7385a21c"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/build.cjs",
+      "bytes": 20095,
+      "sha256": "4ff493b070d4275833381bb27e9da1fbd7afcd4eccba6a868695c49a99108ad4"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/queue.json",
+      "bytes": 2964,
+      "sha256": "fd9ada62d03db8e0587d18ffcf4608e11ec5f139db44e26e35c972f4adb1dfed"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+      "bytes": 259051,
+      "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/staging-manifest.json",
+      "bytes": 825,
+      "sha256": "4ebfc206e3553ee1108c541af268e036e01d9c8f885e0d699326cff0f6577abe"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/README.md",
+      "bytes": 6931,
+      "sha256": "7500c1c7086e4c8d81358fd3062de260eede7344f4e311f16521c8e11929a35a"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/bind.cjs",
+      "bytes": 1439,
+      "sha256": "5cf94ccd4d2ec8f4541b9af042c240bbc6cead4b7d4136086879d78a96be3c66"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/binding-verification.json",
+      "bytes": 1541,
+      "sha256": "6d7c1a64a69a77deb15c5796e6e3af3e1dc2afbf7628d0f08c9d973927c9192e"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/binding.json",
+      "bytes": 369,
+      "sha256": "7c48a7d954e2b6977b6ea4164b6b0e43977267627f36d33c1e7315190451444c"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/gesture-verification.json",
+      "bytes": 2808,
+      "sha256": "4d76234b9b08b3f308a293bb7b778bf1fe0fe2a24261fc076a369209562b9c1d"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/local-verification.json",
+      "bytes": 1654,
+      "sha256": "0a458ae833ffc7353ccbbcd05ce20f77f9d6bf73303bd3216cad5535b29887b5"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-input.cjs",
+      "bytes": 5273,
+      "sha256": "21d93fe66b14406da83c22c54beffaa9970a623dea27c9f2f0cc29d7a656918a"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-mouse-focus-counterexample.json",
+      "bytes": 2776,
+      "sha256": "897d5a6da238739db8017942eb2e9c41b998ca71083f72fbb490e4b45007d075"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-mouse-primary-counterexample.json",
+      "bytes": 1088,
+      "sha256": "39944cfb1cf16674eac8cacf8ee74d5c90309665408aa99d56d8d5f205b76912"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-mouse.json",
+      "bytes": 1207,
+      "sha256": "399799ff6139efdab342153712ff001495a80c48afe008c68e3dd905a8662976"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-separate-extra-gesture.json",
+      "bytes": 1879,
+      "sha256": "ed628fa64ba2dba34f9bb7368791ec44dc96f036b3cc2a60aff8aec49d25d304"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-touch.json",
+      "bytes": 1207,
+      "sha256": "e1ec3a7c9f8fa3993e98c0da4ed74cee1b294bf68d8a4ad10de7881fe56416d7"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/native-verification.json",
+      "bytes": 493,
+      "sha256": "ad6aab966777ad38203c54320584cdfbeecde8cc115bdabbea1afeb6262a7771"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/observer.expression.js",
+      "bytes": 16042,
+      "sha256": "760c014920713d8d0e8ea1f94a3735ed6775a4e2049fc9476cd57678609560d1"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/observer.function.js",
+      "bytes": 15671,
+      "sha256": "1737cd353ef5da7774a71d46ddd9730a5f6095abf91ef1a9fbc6fd11c2f0309d"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/staging-manifest.json",
+      "bytes": 7698,
+      "sha256": "ef57dc438d200312cc0f18a3abc720b77691aec051a6f06097aa5bdc02b1675f"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/summarize.cjs",
+      "bytes": 1593,
+      "sha256": "d3d3457e8fbd1e1bc180ad6aad0e04f53350333da503b97a1eb1ddb4bd9cee44"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/verify-binding.cjs",
+      "bytes": 7347,
+      "sha256": "73e5b0ede682aa1c855d43c54a7dc7918936366bebf945afe7fd024bab334c9f"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/verify-gesture.cjs",
+      "bytes": 8759,
+      "sha256": "4cda7feffa2a282d1ecfe289fa81d75b52bb6b3bc48aa2e09caacbbed0397845"
+    },
+    {
+      "path": "qa/rc29-performance-native-gesture/verify.cjs",
+      "bytes": 8131,
+      "sha256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/README.md",
+      "bytes": 6414,
+      "sha256": "80106bec1080dbaba58e121b255e6a324e32b63cd57cae3ee7ef2f0e1ffa6aa9"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/bind.cjs",
+      "bytes": 1439,
+      "sha256": "5cf94ccd4d2ec8f4541b9af042c240bbc6cead4b7d4136086879d78a96be3c66"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/binding.json",
+      "bytes": 369,
+      "sha256": "7c48a7d954e2b6977b6ea4164b6b0e43977267627f36d33c1e7315190451444c"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/curated-savepoint.json",
+      "bytes": 906,
+      "sha256": "3b46c2165992450b01cb3a02f86753446179b02a3ec377aa0ebe61458bc84b6d"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/local-verification.json",
+      "bytes": 2846,
+      "sha256": "398591117ca8a16204afb836fdc3cfbc7cb8bad75d54a65c9d7074624e40dad1"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/observer.expression.js",
+      "bytes": 13747,
+      "sha256": "06e1e8e1639d9c27882052e15af30d64bc0180e90a911bf6c45e1eb1c3684fd9"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/observer.function.js",
+      "bytes": 13376,
+      "sha256": "e6438a0fa8112b945e36d95b6a7d167442977ff93c2443ff702ee76af6996233"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/provenance.json",
+      "bytes": 1537,
+      "sha256": "bc2f1c734a9b0d4ae64b6cc0be8121ca43a2a8c84a9aa1935b39ddc430bc037b"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/staging-manifest.json",
+      "bytes": 5567,
+      "sha256": "69ba7bf74170e47bc5d40dc832552a53f2ad2cb7987cf65c33bc6a1b14699bd5"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/summarize.cjs",
+      "bytes": 1593,
+      "sha256": "d3d3457e8fbd1e1bc180ad6aad0e04f53350333da503b97a1eb1ddb4bd9cee44"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/verify-binding.cjs",
+      "bytes": 9119,
+      "sha256": "ddbef7e0145ee19991f56b9b82f88bc6aec27b972c6027d5243e0ce661085462"
+    },
+    {
+      "path": "qa/rc29-performance-preparation/verify.cjs",
+      "bytes": 8131,
+      "sha256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-deeper-cohort1-safe.json",
+      "bytes": 56448,
+      "sha256": "7dcc241f25d8bed681a988ecc652d50f8adf77f411eb4b716f55c51339766066"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+      "bytes": 6169,
+      "sha256": "3f41930dbe68b017c52a6c9b30a353d2b9411b0f96e236d8f2c33e3ecbde25da"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-performance-attempt1-safe.json",
+      "bytes": 120512,
+      "sha256": "4777464d8eafa4dafa5b8ecb46e8b4323eb0e03f1a8028b5b274bb2cd1a0480a"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-performance-attempt2-safe.json",
+      "bytes": 52764,
+      "sha256": "b8a264d5a13e18760d2b12dd0c3e6f8fb5b0ac827b10dfcd3001fa31a07b753e"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/curate-savepoint.py",
+      "bytes": 3062,
+      "sha256": "e3519c20376a3f7d89fb0d1818d43e553291d636b247003643a70127bd1ba03d"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/derive-context.expression.js",
+      "bytes": 2697,
+      "sha256": "22e0a22c6a0c0c88de17007e602b6a29aec86be24497d73319093e81b8ba5219"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/source-proof.expression.js",
+      "bytes": 8052,
+      "sha256": "4952bcac54eeee2c6cede0b7346f30591c7a28c0efdca5c0c26d029ead76690f"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/README.md",
+      "bytes": 5262,
+      "sha256": "1eaad57ffd47ffe09faa7bd7b5fb5338ce6fb4aebd51f0b897edb5ca6fbb1921"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/build.cjs",
+      "bytes": 4135,
+      "sha256": "1f56bb8d5c8fa6ea55ebfb5b8aa2bda305d3593a4cff4295429c3a9854829f94"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/local-results.txt",
+      "bytes": 328,
+      "sha256": "b28c390c3a16b8f708ca0a682e1580fc5b3780c1b96e2c5b836e26aa6b98fac0"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/reducer.mjs",
+      "bytes": 1218,
+      "sha256": "fa74ddeeee2c0800dde5a20bee3298fdb47fbf174ab90efdd47f20d22a1723ab"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/reducer.test.mjs",
+      "bytes": 1545,
+      "sha256": "781156e536678d013ccc239507d5118a3c68edb92694f98bc80d5105f2fa8777"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/review.json",
+      "bytes": 7915,
+      "sha256": "ef6950d9a58e5ebaa15dd77d1cf831bce80708168bf626d7e24f7e01cc652395"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/scope-assessment.json",
+      "bytes": 4799,
+      "sha256": "72da81f28caa8e1efdb95c84316a526a669e649e2fd6ea8e898ae1bba592a83e"
+    },
+    {
+      "path": "qa/rc29-third-party-cookie-preparation/staging-manifest.json",
+      "bytes": 1347,
+      "sha256": "cacf8c0bc0b118e1f0ae913586626a5a95a160df08c24fe6bbab191d526e7402"
+    }
+  ],
+  "hashedFileCount": 134,
+  "exactStagePaths": [
+    "qa/candidate-rc29-delivery/DELIVERY-PREPARATION.md",
+    "qa/candidate-rc29-delivery/audit-memory-guard.json",
+    "qa/candidate-rc29-delivery/audit-with-memory-guard.cjs",
+    "qa/candidate-rc29-delivery/build-release.py",
+    "qa/candidate-rc29-delivery/delivery-guard.cjs",
+    "qa/candidate-rc29-delivery/deploy-candidate.cjs",
+    "qa/candidate-rc29-delivery/deployment.json",
+    "qa/candidate-rc29-delivery/finalize-source-readiness.py",
+    "qa/candidate-rc29-delivery/local-delivery-preparation.json",
+    "qa/candidate-rc29-delivery/local-integration-review.json",
+    "qa/candidate-rc29-delivery/materialization.json",
+    "qa/candidate-rc29-delivery/materialize-candidate.cjs",
+    "qa/candidate-rc29-delivery/package.json",
+    "qa/candidate-rc29-delivery/product-integration-tests.json",
+    "qa/candidate-rc29-delivery/product-tests.json",
+    "qa/candidate-rc29-delivery/readback-candidate.cjs",
+    "qa/candidate-rc29-delivery/redact-readback.cjs",
+    "qa/candidate-rc29-delivery/redacted-readback.json",
+    "qa/candidate-rc29-delivery/results.json",
+    "qa/candidate-rc29-delivery/source-readiness.json",
+    "qa/rc21-android-night/169-build-rc29-qa-binding.cjs",
+    "qa/rc21-android-night/169-rc29-qa-binding.json",
+    "qa/rc21-android-night/169-ui-common-rc29.cjs",
+    "qa/rc21-android-night/170-rc29-native-normal-update-source-cache-result.json",
+    "qa/rc21-android-night/170-rc29-native-normal-update-source-cache.cjs",
+    "qa/rc21-android-night/171-rc29-native-layout-controls-preparation-result.json",
+    "qa/rc21-android-night/171-rc29-native-layout-controls-preparation.cjs",
+    "qa/rc21-android-night/172-rc29-ui-final-readiness-result.json",
+    "qa/rc21-android-night/172-rc29-ui-final-readiness.cjs",
+    "qa/rc21-android-night/173-curate-rc29-native-ui.cjs",
+    "qa/rc21-android-night/173-rc29-native-ui-clauses.json",
+    "qa/rc21-android-night/173-rc29-native-ui-safe-stage-manifest.json",
+    "qa/rc28-deeper-selection-diagnostic/README.md",
+    "qa/rc28-deeper-selection-diagnostic/binding.json",
+    "qa/rc28-deeper-selection-diagnostic/build.mjs",
+    "qa/rc28-deeper-selection-diagnostic/curated-savepoint.json",
+    "qa/rc28-deeper-selection-diagnostic/diagnostics.mjs",
+    "qa/rc28-deeper-selection-diagnostic/entry.function.js",
+    "qa/rc28-deeper-selection-diagnostic/facade.function.js",
+    "qa/rc28-deeper-selection-diagnostic/factory.expression.js",
+    "qa/rc28-deeper-selection-diagnostic/local-verification.json",
+    "qa/rc28-deeper-selection-diagnostic/probe.mjs",
+    "qa/rc28-deeper-selection-diagnostic/provenance.json",
+    "qa/rc28-deeper-selection-diagnostic/selection.mjs",
+    "qa/rc28-deeper-selection-diagnostic/verify.mjs",
+    "qa/rc28-resume-20261001/actual-deeper-attempt2-safe.json",
+    "qa/rc29-deeper-coalesced-probe/README.md",
+    "qa/rc29-deeper-coalesced-probe/binding.json",
+    "qa/rc29-deeper-coalesced-probe/build.mjs",
+    "qa/rc29-deeper-coalesced-probe/curated-savepoint.json",
+    "qa/rc29-deeper-coalesced-probe/diagnostics.mjs",
+    "qa/rc29-deeper-coalesced-probe/entry.function.js",
+    "qa/rc29-deeper-coalesced-probe/facade.function.js",
+    "qa/rc29-deeper-coalesced-probe/factory.expression.js",
+    "qa/rc29-deeper-coalesced-probe/local-verification.json",
+    "qa/rc29-deeper-coalesced-probe/moov-window-cache.mjs",
+    "qa/rc29-deeper-coalesced-probe/probe.mjs",
+    "qa/rc29-deeper-coalesced-probe/provenance.json",
+    "qa/rc29-deeper-coalesced-probe/selection.mjs",
+    "qa/rc29-deeper-coalesced-probe/verify.mjs",
+    "qa/rc29-delivery-acceptance-record/README.md",
+    "qa/rc29-delivery-acceptance-record/build.cjs",
+    "qa/rc29-delivery-acceptance-record/record.json",
+    "qa/rc29-delivery-acceptance-record/safe-staging-manifest.json",
+    "qa/rc29-disposable-ui-preparation/README.md",
+    "qa/rc29-disposable-ui-preparation/build.json",
+    "qa/rc29-disposable-ui-preparation/build.mjs",
+    "qa/rc29-disposable-ui-preparation/facade.function.js",
+    "qa/rc29-disposable-ui-preparation/factory.expression.js",
+    "qa/rc29-disposable-ui-preparation/fixture-1.png",
+    "qa/rc29-disposable-ui-preparation/fixture-2.png",
+    "qa/rc29-disposable-ui-preparation/job.mjs",
+    "qa/rc29-disposable-ui-preparation/local-first-attempt.txt",
+    "qa/rc29-disposable-ui-preparation/local-results.txt",
+    "qa/rc29-disposable-ui-preparation/local-review.json",
+    "qa/rc29-disposable-ui-preparation/local.test.mjs",
+    "qa/rc29-disposable-ui-preparation/review.cjs",
+    "qa/rc29-disposable-ui-preparation/staging-manifest.json",
+    "qa/rc29-finite-acceptance-reconciliation/ADDENDUM.md",
+    "qa/rc29-finite-acceptance-reconciliation/README.md",
+    "qa/rc29-finite-acceptance-reconciliation/addendum-staging-manifest.json",
+    "qa/rc29-finite-acceptance-reconciliation/addendum.json",
+    "qa/rc29-finite-acceptance-reconciliation/build-addendum.cjs",
+    "qa/rc29-finite-acceptance-reconciliation/build.cjs",
+    "qa/rc29-finite-acceptance-reconciliation/queue.json",
+    "qa/rc29-finite-acceptance-reconciliation/review.json",
+    "qa/rc29-finite-acceptance-reconciliation/staging-manifest.json",
+    "qa/rc29-performance-native-gesture/README.md",
+    "qa/rc29-performance-native-gesture/bind.cjs",
+    "qa/rc29-performance-native-gesture/binding-verification.json",
+    "qa/rc29-performance-native-gesture/binding.json",
+    "qa/rc29-performance-native-gesture/gesture-verification.json",
+    "qa/rc29-performance-native-gesture/local-verification.json",
+    "qa/rc29-performance-native-gesture/native-input.cjs",
+    "qa/rc29-performance-native-gesture/native-mouse-focus-counterexample.json",
+    "qa/rc29-performance-native-gesture/native-mouse-primary-counterexample.json",
+    "qa/rc29-performance-native-gesture/native-mouse.json",
+    "qa/rc29-performance-native-gesture/native-separate-extra-gesture.json",
+    "qa/rc29-performance-native-gesture/native-touch.json",
+    "qa/rc29-performance-native-gesture/native-verification.json",
+    "qa/rc29-performance-native-gesture/observer.expression.js",
+    "qa/rc29-performance-native-gesture/observer.function.js",
+    "qa/rc29-performance-native-gesture/staging-manifest.json",
+    "qa/rc29-performance-native-gesture/summarize.cjs",
+    "qa/rc29-performance-native-gesture/verify-binding.cjs",
+    "qa/rc29-performance-native-gesture/verify-gesture.cjs",
+    "qa/rc29-performance-native-gesture/verify.cjs",
+    "qa/rc29-performance-preparation/README.md",
+    "qa/rc29-performance-preparation/bind.cjs",
+    "qa/rc29-performance-preparation/binding.json",
+    "qa/rc29-performance-preparation/curated-savepoint.json",
+    "qa/rc29-performance-preparation/local-verification.json",
+    "qa/rc29-performance-preparation/observer.expression.js",
+    "qa/rc29-performance-preparation/observer.function.js",
+    "qa/rc29-performance-preparation/provenance.json",
+    "qa/rc29-performance-preparation/staging-manifest.json",
+    "qa/rc29-performance-preparation/summarize.cjs",
+    "qa/rc29-performance-preparation/verify-binding.cjs",
+    "qa/rc29-performance-preparation/verify.cjs",
+    "qa/rc29-resume-20261001/actual-deeper-cohort1-safe.json",
+    "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+    "qa/rc29-resume-20261001/actual-performance-attempt1-safe.json",
+    "qa/rc29-resume-20261001/actual-performance-attempt2-safe.json",
+    "qa/rc29-resume-20261001/curate-savepoint.py",
+    "qa/rc29-resume-20261001/derive-context.expression.js",
+    "qa/rc29-resume-20261001/source-proof.expression.js",
+    "qa/rc29-third-party-cookie-preparation/README.md",
+    "qa/rc29-third-party-cookie-preparation/build.cjs",
+    "qa/rc29-third-party-cookie-preparation/local-results.txt",
+    "qa/rc29-third-party-cookie-preparation/reducer.mjs",
+    "qa/rc29-third-party-cookie-preparation/reducer.test.mjs",
+    "qa/rc29-third-party-cookie-preparation/review.json",
+    "qa/rc29-third-party-cookie-preparation/scope-assessment.json",
+    "qa/rc29-third-party-cookie-preparation/staging-manifest.json",
+    "qa/rc29-resume-20261001/saved-evidence-stage-manifest.json"
+  ],
+  "privateCredentialsRawLogsScreenshotsExcluded": true,
+  "wholeGoalComplete": false
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "drive-original.rc29-performance-gesture-binding/1",
+  "binding": {
+    "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "version": "1.22.0-rc.29",
+    "sourceSHA256": {
+      "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+      "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+      "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    }
+  },
+  "cases": [
+    {
+      "name": "correct",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-app",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-proof",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-commit",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-hash",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "existing-observer",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "live-controller-proof-change-stops-owner",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-version-binding-rejected",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-commit-binding-rejected",
+      "passed": true,
+      "actualRequests": 0
+    }
+  ],
+  "passed": 9,
+  "observerSHA256": "760c014920713d8d0e8ea1f94a3735ed6775a4e2049fc9476cd57678609560d1",
+  "runtimeLogicChanged": true,
+  "actualRequests": 0,
+  "actualExecution": false
+}

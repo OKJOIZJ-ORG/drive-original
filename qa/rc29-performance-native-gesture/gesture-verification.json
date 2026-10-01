@@ -1,0 +1,139 @@
+{
+  "schema": "drive-original.rc29-performance-gesture-verification/1",
+  "binding": {
+    "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "version": "1.22.0-rc.29",
+    "sourceSHA256": {
+      "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+      "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+      "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    }
+  },
+  "cases": [
+    {
+      "name": "frozen-observer-native-order-counterexample",
+      "passed": true
+    },
+    {
+      "name": "mouse-one-matching-down-up-click",
+      "passed": true
+    },
+    {
+      "name": "touch-one-matching-down-up-click",
+      "passed": true
+    },
+    {
+      "name": "pen-one-matching-down-up-click",
+      "passed": true
+    },
+    {
+      "name": "missing-up",
+      "passed": true
+    },
+    {
+      "name": "window-blur",
+      "passed": true
+    },
+    {
+      "name": "separate-down",
+      "passed": true
+    },
+    {
+      "name": "duplicate-click",
+      "passed": true
+    },
+    {
+      "name": "double-click-detail",
+      "passed": true
+    },
+    {
+      "name": "wrong-click-pointer",
+      "passed": true
+    },
+    {
+      "name": "wrong-up-pointer",
+      "passed": true
+    },
+    {
+      "name": "wrong-pointer-type",
+      "passed": true
+    },
+    {
+      "name": "wrong-click-button",
+      "passed": true
+    },
+    {
+      "name": "wrong-up-button",
+      "passed": true
+    },
+    {
+      "name": "wrong-up-ratio",
+      "passed": true
+    },
+    {
+      "name": "wrong-click-ratio",
+      "passed": true
+    },
+    {
+      "name": "wrong-slider",
+      "passed": true
+    },
+    {
+      "name": "late-click",
+      "passed": true
+    },
+    {
+      "name": "cancelled-pointer",
+      "passed": true
+    },
+    {
+      "name": "duplicate-up",
+      "passed": true
+    },
+    {
+      "name": "untrusted-up",
+      "passed": true
+    },
+    {
+      "name": "untrusted-click-in-between",
+      "passed": true
+    },
+    {
+      "name": "hidden-up",
+      "passed": true
+    },
+    {
+      "name": "hidden-interval",
+      "passed": true
+    },
+    {
+      "name": "wrong-target-move",
+      "passed": true
+    },
+    {
+      "name": "stale-source",
+      "passed": true
+    },
+    {
+      "name": "changed-player",
+      "passed": true
+    },
+    {
+      "name": "source-proof-change",
+      "passed": true
+    },
+    {
+      "name": "session-change",
+      "passed": true
+    },
+    {
+      "name": "full-30-native-order-attempts-retain-one-failed-start",
+      "passed": true
+    }
+  ],
+  "passed": 30,
+  "actualRequests": 0,
+  "actualExecution": false,
+  "nativeInput": false,
+  "scope": "generated trusted event protocol integration; not actual decoded/browser/account evidence"
+}

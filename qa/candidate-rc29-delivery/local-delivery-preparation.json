@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "source": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "version": "1.22.0-rc.29",
+  "networkActionsExecuted": false,
+  "actualDeployment": false,
+  "defaultExecutionGuards": [
+    {
+      "producer": "deploy-candidate.cjs",
+      "withoutExecuteDenied": true,
+      "exitCode": 1
+    },
+    {
+      "producer": "readback-candidate.cjs",
+      "withoutExecuteDenied": true,
+      "exitCode": 1
+    },
+    {
+      "producer": "audit-with-memory-guard.cjs",
+      "withoutExecuteDenied": true,
+      "exitCode": 1
+    }
+  ],
+  "canonicalMetadataWriteGuard": true,
+  "materializedAssets": 52,
+  "packageHash": "dea40a381bfb478cd7ee73ec54bcc2c14249944fd489a2bbfa1ffe08e1d80052",
+  "syntaxChecked": [
+    "delivery-guard.cjs",
+    "materialize-candidate.cjs",
+    "deploy-candidate.cjs",
+    "readback-candidate.cjs",
+    "audit-with-memory-guard.cjs",
+    "redact-readback.cjs",
+    "build-release.py",
+    "finalize-source-readiness.py"
+  ],
+  "oldSiteWritten": false,
+  "existingProductResultsPreserved": true
+}

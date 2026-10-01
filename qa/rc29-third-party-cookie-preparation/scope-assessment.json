@@ -1,0 +1,119 @@
+{
+  "checkedAt": "2026-10-01T00:55:40.377Z",
+  "kind": "Current official Chromium implementation; not installed-browser runtime proof",
+  "profilePrefsChanged": false,
+  "owner": "NetworkHandler per DevTools session on a frame agent host",
+  "requiresNetworkEnable": true,
+  "restriction": "kForceDisableThirdPartyCookies appended to frame cookie-setting overrides",
+  "detach": "DetachInternal -> Dispose -> NetworkHandler.Disable (false) -> handlers destroyed",
+  "targetClose": "Owned page close removes its frame and session; explicit owned session detach provides evidenced Dispose cleanup. Previously constructed live request/manager lifetime is not asserted to retroactively reset; close owned target after settled player.",
+  "getterAbsenceBlocker": false,
+  "excludedCookieEventRequired": false,
+  "originalAcceptance": "Existing valid API session under known blocked 3PC condition, original/derived paths normal and Google iframe independent. No new grant/OAuth logout or artificial cookie.",
+  "scopeLimits": [
+    "Page/frame agent host selection, not profile-global preferences",
+    "No blanket inherited override asserted for independent service-worker/OOPIF/popup agent hosts",
+    "Normal Chromium partitioned-cookie and explicit enterprise/site/storage-access exemptions retain browser semantics",
+    "Installed runtime command/schema and relevant owner mapping still require root actual verification"
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/devtools/protocol/network_handler.cc",
+      "sha256": "515754d556dcf768bf91e71ae81d8a9be03126f4d293f68797196fa6b2865e0f",
+      "pointers": [
+        {
+          "functionName": "NetworkHandler::SetCookieControls(",
+          "line": 4319
+        },
+        {
+          "functionName": "NetworkHandler::ApplyCookieControlsOverrides(",
+          "line": 3862
+        },
+        {
+          "functionName": "NetworkHandler::Disable()",
+          "line": 1460
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/devtools/protocol/network_handler.h",
+      "sha256": "b9411c6df7d2852696a74227ecb423e9296ea1284c020579bd428fd6d21e7975",
+      "pointers": [
+        {
+          "functionName": "bool enable_third_party_cookie_restriction_ = false",
+          "line": 429
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/devtools/devtools_instrumentation.cc",
+      "sha256": "8587f825a29e186f064f13b5ed08cdb8f756e9b071d1c22301965df1e8bec277",
+      "pointers": [
+        {
+          "functionName": "GetDevToolsAgentHostForNetworkOverrides(",
+          "line": 1686
+        },
+        {
+          "functionName": "bool ApplyNetworkCookieControlsOverrides(",
+          "line": 1823
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/devtools/devtools_session.cc",
+      "sha256": "19e1de9d624efa4d9163500e0fa86f41a11a282039b4ad7c5cd6d44b4bafbcb4",
+      "pointers": [
+        {
+          "functionName": "DevToolsSession::~DevToolsSession()",
+          "line": 150
+        },
+        {
+          "functionName": "void DevToolsSession::Dispose()",
+          "line": 177
+        },
+        {
+          "functionName": "void DevToolsSession::ConnectionClosed()",
+          "line": 666
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/devtools/devtools_agent_host_impl.cc",
+      "sha256": "108ffb6c3660072d42ef10d1fa6a7d16edc623cbf083bde8d8f4a45c2e4602bc",
+      "pointers": [
+        {
+          "functionName": "void DevToolsAgentHostImpl::DetachInternal(",
+          "line": 361
+        },
+        {
+          "functionName": "DevToolsAgentHostImpl::ForceDetachAllSessionsImpl()",
+          "line": 481
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/components/content_settings/core/common/cookie_settings_base.cc",
+      "sha256": "a335fbb3619ff0e2be58b8dc6c2dcc4fdb91bc4d436604bccc4c3c7dd169c14e",
+      "pointers": [
+        {
+          "functionName": "CookieSettingsBase::GetModifierMode(",
+          "line": 330
+        },
+        {
+          "functionName": "CookieSettingsBase::DecideAccess(",
+          "line": 385
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/content/browser/renderer_host/render_frame_host_impl.cc",
+      "sha256": "bfd8a1c7c265305e0162a9e87c53b182f0a5692ee0cf19a8d8dc0f19ed546609",
+      "pointers": [
+        {
+          "functionName": "void RenderFrameHostImpl::BindRestrictedCookieManagerWithOrigin(",
+          "line": 15060
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "actualRun": false,
+  "source29Pinned": true,
+  "binding": {
+    "version": "1.22.0-rc.29",
+    "source": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "appHash": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e"
+  },
+  "preparationAppHash": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+  "preparationVersion": "1.22.0-rc.29",
+  "factorySHA256": "d23963a6bd9b3d72b6cb4054af816ef3d77a712b619129e69f53dc4d2e119349",
+  "fixtures": [
+    {
+      "path": "fixture-1.png",
+      "bytes": 74,
+      "md5": "ca3fd4f99a5e80a16ce5784bfbd12c7d",
+      "sha256": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737",
+      "width": 2,
+      "height": 2
+    },
+    {
+      "path": "fixture-2.png",
+      "bytes": 74,
+      "md5": "4a6642681d078ff34b1ec7a158f56c7d",
+      "sha256": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe",
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "contract": "Factory requires exact29 source/hash proof at execution; actual unrun. Fixtures are embedded immutable valid2x2 RGBA PNGs; no media bytes taken from originals."
+}

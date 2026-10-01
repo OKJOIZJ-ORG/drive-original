@@ -1,0 +1,15 @@
+✔ two immutable PNGs have valid dimensions CRC and four RGBA pixels (1.9459ms)
+✔ exact4 POSTs persist intent before send and independent GET receipts admit only4 items (26.007ms)
+✔ partial response loss never resends POST; exact unknown planned ID can recover by GET only (3.386ms)
+✔ missing grant/source/controller and private storage failure cannot create media (0.617ms)
+✔ unknown descendant or foreign tag prevents cleanup PATCH; recoverable exact4 cleanup never DELETE (11.3514ms)
+✔ uncertain PNG upload is recovered by exact sent ID without recreating original or media (2.3983ms)
+✔ restore only exact2 tagged PNGs returns them toA; forged ledger IDs rejected before native calls (3.3887ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 128.9897

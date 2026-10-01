@@ -1,0 +1,237 @@
+{
+  "schema": "drive-original.rc29-safe-stage/1",
+  "source": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "scope": "Exact public safe evidence paths and4 newleaf files only; no staging; skip alreadytracked unchanged files as needed; selfhash excluded",
+  "fileCount": 46,
+  "files": [
+    {
+      "path": "qa/candidate-rc29-delivery/results.json",
+      "bytes": 10187,
+      "sha256": "0ec6de2ce8ef1f8d13733cee9f539ef0d51f30cc5786a02f402d5d623ebf13eb"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/deployment.json",
+      "bytes": 9186,
+      "sha256": "38029322fa0e2ddccfd73f2d228cb0c7e97bc70a453d480abba917b39d0774d1"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/source-readiness.json",
+      "bytes": 8881,
+      "sha256": "81bb4dc7c414fefbabbf3a68988ebfc316eb0747e9bf8bbd93e95cd5ccde2206"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/package.json",
+      "bytes": 876,
+      "sha256": "f962834db4ce5fa06903e247f938831949625f8272331342f57eb7912fc93397"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/redacted-readback.json",
+      "bytes": 1624,
+      "sha256": "1c6fe4e9cd04338561551ef93cceae148a46d3a09b7e07839a39a39e3e6b3525"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/local-delivery-preparation.json",
+      "bytes": 1032,
+      "sha256": "e5ac1a57851a475f0967ffc5cfd86b8370cbd140e02688c4dc5c23fea0b4a81d"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/local-integration-review.json",
+      "bytes": 1879,
+      "sha256": "f9b200ce1cb27498deb8ad6be7b8f0716622cde0f37660067ffef8b943f15d6f"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/product-tests.json",
+      "bytes": 26531,
+      "sha256": "b3abdba26d2d6ffb0d8d8984fe8e7674e2c4a114eec5ed504a1fccd79e5ca8c1"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/product-integration-tests.json",
+      "bytes": 18006,
+      "sha256": "c6d397c95e9b97537b4863234e98f6c53e3e82d7cd7144cc547c9dca4ff4c20c"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/materialization.json",
+      "bytes": 8944,
+      "sha256": "4c77432446f4b03b1069440448886362d3e3cfc5e77c31edc971f7c04915343b"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/audit-memory-guard.json",
+      "bytes": 461,
+      "sha256": "385709dbf54937411e1ee11f5facd602e33b16681783e800ad39127e81230e81"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/delivery-guard.cjs",
+      "bytes": 5190,
+      "sha256": "2c601968c54fd69d907a201be53a29065983b336e5549a2e9337f9b8ad7558fc"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/finalize-source-readiness.py",
+      "bytes": 5653,
+      "sha256": "242199bf41648e2909b794231c2436155157336cfa1ad6c17be0d75f2e0bc9d7"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/redact-readback.cjs",
+      "bytes": 2129,
+      "sha256": "4c009b06819b431adfee1f88f5ed2a16efd279fa4db2b088c4c5a8ccc7847552"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/deploy-candidate.cjs",
+      "bytes": 1752,
+      "sha256": "f4530eb76578ff3ac05672a24f6193de42357df7631a37f9f55a77434c22c67b"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/build-release.py",
+      "bytes": 3995,
+      "sha256": "6bfd46c840d7db60ddf4a203821bed952b61d9b33720370b925cae327b7de562"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/materialize-candidate.cjs",
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88"
+    },
+    {
+      "path": "qa/candidate-rc29-delivery/audit-with-memory-guard.cjs",
+      "bytes": 2318,
+      "sha256": "44a2cff3326ac8242a88e4d9ec6423bb925bcdc7a27629b9f9f8da86f2e34ca0"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+      "bytes": 6169,
+      "sha256": "3f41930dbe68b017c52a6c9b30a353d2b9411b0f96e236d8f2c33e3ecbde25da"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-performance-attempt1-safe.json",
+      "bytes": 120512,
+      "sha256": "4777464d8eafa4dafa5b8ecb46e8b4323eb0e03f1a8028b5b274bb2cd1a0480a"
+    },
+    {
+      "path": "qa/rc29-resume-20261001/actual-deeper-cohort1-safe.json",
+      "bytes": 56448,
+      "sha256": "7dcc241f25d8bed681a988ecc652d50f8adf77f411eb4b716f55c51339766066"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/build.cjs",
+      "bytes": 20095,
+      "sha256": "4ff493b070d4275833381bb27e9da1fbd7afcd4eccba6a868695c49a99108ad4"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+      "bytes": 259051,
+      "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/queue.json",
+      "bytes": 2964,
+      "sha256": "fd9ada62d03db8e0587d18ffcf4608e11ec5f139db44e26e35c972f4adb1dfed"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/README.md",
+      "bytes": 932,
+      "sha256": "245d2b93dad31f8ced4636c48c072bf6e952191c41c42ec11a465e8152a7c621"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/build-addendum.cjs",
+      "bytes": 12145,
+      "sha256": "bff35c71c0535838dea9e5f2960e672e1af6e31bae0572ba201db77e7385a21c"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum.json",
+      "bytes": 12556,
+      "sha256": "2a8c5e45dcb7be1ccc1337d699a934ce0507cc5cd7d7b51f860ffa83d469de24"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/ADDENDUM.md",
+      "bytes": 1342,
+      "sha256": "dc53936509e0a1a056364c3a5fa3322ae26d2bcc4fa21f7a7be0ce0c335fc72f"
+    },
+    {
+      "path": "qa/rc21-android-night/169-build-rc29-qa-binding.cjs",
+      "bytes": 1763,
+      "sha256": "40c864c3dde582a9cb26a3f2cfe760f11425e7732e09c66629ccc111d8e0c017"
+    },
+    {
+      "path": "qa/rc21-android-night/169-ui-common-rc29.cjs",
+      "bytes": 8077,
+      "sha256": "30956df4062f1353fe1ad653d7f963de619393f41f6b52b7deb8474a83278089"
+    },
+    {
+      "path": "qa/rc21-android-night/169-rc29-qa-binding.json",
+      "bytes": 6384,
+      "sha256": "f4be91c853ea20ac3316522f2f9772d4a0c70905e70d6da72a44e8b2a349e977"
+    },
+    {
+      "path": "qa/rc21-android-night/170-rc29-native-normal-update-source-cache.cjs",
+      "bytes": 7402,
+      "sha256": "2bbb795a56dbb1a56c0dba870cddb69a1cecf346a1584031b67a531b3d1ba3aa"
+    },
+    {
+      "path": "qa/rc21-android-night/170-rc29-native-normal-update-source-cache-result.json",
+      "bytes": 20664,
+      "sha256": "0cefe1d1a43383ae4fbf0b782ade23078436317d02c76a666821df9bb66886d2"
+    },
+    {
+      "path": "qa/rc21-android-night/171-rc29-native-layout-controls-preparation.cjs",
+      "bytes": 14460,
+      "sha256": "e72bfde6ac949e65da7271db852c1dad7c90eb296f42a5f06b9a58ce7d633f81"
+    },
+    {
+      "path": "qa/rc21-android-night/171-rc29-native-layout-controls-preparation-result.json",
+      "bytes": 65020,
+      "sha256": "29f0c43f7952ecc6c2d16f0585f6f410911cd44eb2ac2fbb38bf16fce26c5c80"
+    },
+    {
+      "path": "qa/rc21-android-night/172-rc29-ui-final-readiness.cjs",
+      "bytes": 4400,
+      "sha256": "2fe303fb18bc92c238c074e080c0ed77b5ee4a267e37645c33f95df45b63c792"
+    },
+    {
+      "path": "qa/rc21-android-night/172-rc29-ui-final-readiness-result.json",
+      "bytes": 9705,
+      "sha256": "929b108c7b4da9c33c38ec03e19e22bb83bd64b66cd66e2aabd488d0744c77f3"
+    },
+    {
+      "path": "qa/rc21-android-night/173-curate-rc29-native-ui.cjs",
+      "bytes": 6109,
+      "sha256": "6987063a67f3fb328e740767cddf7dab36b5ee4ce2844453b3ad348f1a686cd5"
+    },
+    {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-clauses.json",
+      "bytes": 4822,
+      "sha256": "8e76687d0e5362dfa2381c20d0ea89351dd689918359232576877bf5de714a9f"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/staging-manifest.json",
+      "bytes": 825,
+      "sha256": "4ebfc206e3553ee1108c541af268e036e01d9c8f885e0d699326cff0f6577abe"
+    },
+    {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum-staging-manifest.json",
+      "bytes": 698,
+      "sha256": "725dac6e8be5174a468cd357493a0a637418bd6c22ff21a02b19e486da5b2619"
+    },
+    {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-safe-stage-manifest.json",
+      "bytes": 2461,
+      "sha256": "91ed7803815a6be21df3cb0536d0a69511400df395389a1c30d4794e2a83c414"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/build.cjs",
+      "bytes": 10210,
+      "sha256": "f395a190a506a8d26a537b1ecfc7c4352acd084e4ece52addd7e44edab32aa27"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/record.json",
+      "bytes": 19389,
+      "sha256": "17672a417ca38525b8a56225785ddd66aa5d42657a9e4d975216e2cefbf67e28"
+    },
+    {
+      "path": "qa/rc29-delivery-acceptance-record/README.md",
+      "bytes": 1097,
+      "sha256": "5ed52d679a059b0aaabb30679f05020c95c46b0db61418dc2ae9588623e3f253"
+    }
+  ],
+  "manifestPath": "qa/rc29-delivery-acceptance-record/safe-staging-manifest.json",
+  "noDirectoryGlob": true,
+  "privateCredentialRawLogsStdoutScreenshotsExcluded": true,
+  "priorRecordsUnchanged": true
+}

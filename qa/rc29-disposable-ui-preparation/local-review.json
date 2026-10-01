@@ -1,0 +1,46 @@
+{
+  "actualRun": false,
+  "source29Pinned": true,
+  "sourceBinding": {
+    "version": "1.22.0-rc.29",
+    "source": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "appHash": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e"
+  },
+  "tests": {
+    "pass": 7,
+    "fail": 0,
+    "current": "local-results.txt",
+    "earlierPassing5": "local-first-attempt.txt"
+  },
+  "factorySHA256": "d23963a6bd9b3d72b6cb4054af816ef3d77a712b619129e69f53dc4d2e119349",
+  "facadeSHA256": "0c85ebbd91da411f974358a55aa6fd1f2062b7c057119707581fbeeff4a9b279",
+  "fixtures": [
+    {
+      "path": "fixture-1.png",
+      "bytes": 74,
+      "md5": "ca3fd4f99a5e80a16ce5784bfbd12c7d",
+      "sha256": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737",
+      "width": 2,
+      "height": 2
+    },
+    {
+      "path": "fixture-2.png",
+      "bytes": 74,
+      "md5": "4a6642681d078ff34b1ec7a158f56c7d",
+      "sha256": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe",
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "normalUiVerified": false,
+  "webAndGVerified": false,
+  "cleanupActuallyPerformed": false,
+  "noGlobalWriteFlag": true,
+  "noProductEdits": true,
+  "rootGate": "Final29 pin and current accepted exact source proof required before root actual creation; existing grant only",
+  "limits": [
+    "Operational private creation ledger root review, not cryptographic attestation",
+    "Child-list GET not atomic Drive lock",
+    "API private stable snapshot does not prove web/G or mounted-drive propagation"
+  ]
+}

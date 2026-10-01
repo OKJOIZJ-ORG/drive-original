@@ -1,0 +1,13 @@
+(async()=>{'use strict';
+if(APP_VERSION!=='1.22.0-rc.29'||!window.__resumeSwProof?.get?.()||!window.__resumePriorityName||state.authStatus!=='online'||!hasUsableToken()||state.selected||q0Playback||q1Playback||q1RetirementResult?.settled!==true)throw Error('QA_CONTEXT_PREFLIGHT');
+const account=state.accountId,generation=state.driveSessionGeneration,token=state.token,revision=state.tokenRevision,controller=navigator.serviceWorker.controller;
+const current=()=>APP_VERSION==='1.22.0-rc.29'&&state.accountId===account&&state.driveSessionGeneration===generation&&state.token===token&&state.tokenRevision===revision&&navigator.serviceWorker.controller===controller&&window.__resumeSwProof.get()?.controller===controller&&!state.selected&&!q0Playback&&!q1Playback&&q1RetirementResult?.settled===true&&document.visibilityState==='visible';
+let requests=0;async function get(url){if(!current()||requests>=2)throw Error('QA_CONTEXT_OWNER');const c=new AbortController(),t=setTimeout(()=>c.abort(),10000);try{requests++;const r=await fetch(url,{headers:{Authorization:'Bearer '+token},cache:'no-store',redirect:'error',signal:c.signal});if(!r.ok)throw Error('QA_CONTEXT_METADATA');const text=await r.text();if(text.length>2*1024*1024||!current())throw Error('QA_CONTEXT_BODY');return JSON.parse(text);}finally{clearTimeout(t);}}
+const name=window.__resumePriorityName;if(typeof name!=='string'||!name.length||name.length>256)throw Error('QA_CONTEXT_NAME');
+const escaped=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");const u=new URL('https://www.googleapis.com/drive/v3/files');
+u.searchParams.set('q',"name='"+escaped+"' and trashed=false");u.searchParams.set('spaces','drive');u.searchParams.set('pageSize','100');u.searchParams.set('fields','files(id,parents),nextPageToken,incompleteSearch');
+const found=await get(u.href);if(found.nextPageToken||found.incompleteSearch||found.files?.length!==1||found.files[0].parents?.length!==1)throw Error('QA_CONTEXT_UNIQUE');
+const priority=found.files[0],root=await get('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(priority.parents[0])+'?fields=id,mimeType,trashed,capabilities(canListChildren)&supportsAllDrives=true');
+if(root.id!==priority.parents[0]||root.mimeType!=='application/vnd.google-apps.folder'||root.trashed!==false||root.capabilities?.canListChildren!==true||!current())throw Error('QA_CONTEXT_ROOT');
+window.__resumeCorpusContext=JSON.stringify({accountKey:account,generation,rootId:root.id,priorityFileId:priority.id});delete window.__resumePriorityName;
+return {metadataGETs:requests,priorityExactUnique:true,prioritySingleParent:true,parentFolder:true,parentCanList:true,current:true,privateContextExported:false};})()

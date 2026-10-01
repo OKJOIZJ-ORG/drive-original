@@ -1,0 +1,159 @@
+{
+  "schema": "drive-original.actual-android-rc29-native-ui-clauses/1",
+  "recordedAt": "2026-10-01T01:31:05.089Z",
+  "source": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "runtime": "1.22.0-rc.29",
+  "actualDevice": "SM-X800 Android16 Chrome153 tablet",
+  "wholeRowPromotions": 0,
+  "normalUpdate": {
+    "trustedClickAndPagehide": true,
+    "elapsedMs": 5976,
+    "accountWriterFullProjectionPrivateCachePreserved": true,
+    "activeController": true,
+    "coreDistinctFiles": 40,
+    "cachedAliasRequests": 41,
+    "allMatching": true,
+    "privateBaselineRemoved": true
+  },
+  "geometry": {
+    "proof": "171-rc29-native-layout-controls-preparation-result.json",
+    "portrait": {
+      "width": 824,
+      "height": 1191
+    },
+    "landscape": {
+      "width": 1317,
+      "height": 698
+    },
+    "stageClip": true,
+    "stageScrollTopLeftZero": true,
+    "nativeVideoFitsAndCentered": true,
+    "chromeFitsAndBottomAligned": true,
+    "oneVisibleFavoriteWhenRevealed": true
+  },
+  "UI03": {
+    "status": "native-pass",
+    "playingPortraitAndLandscapeRevealDismissPreserve": true,
+    "pausedPortraitRevealDismissPreserve": true,
+    "normalPauseKeepsChromeHidden": true,
+    "ownerAndTargetStable": true,
+    "normalNativeTouch": true,
+    "humanFingerProof": false
+  },
+  "UI10": {
+    "status": "bounded-normal-startup-and-own-sync-pass",
+    "loaderSamples": 129,
+    "loaderTextHiddenEveryLoadingSample": true,
+    "maxLoaderTextComputedHeight": 0,
+    "visibleLoaderTextSamples": 0,
+    "pendingSamples": 66,
+    "totalSamples": 215,
+    "visibleToastSamples": 0,
+    "visibleBadgeSamples": 0,
+    "normalCanonicalWrites": [
+      {
+        "method": "PATCH",
+        "status": 200,
+        "normalAppOwner": true,
+        "durationMs": 3160
+      }
+    ],
+    "normalViewedTimestampAdvanced": true,
+    "normalLastSyncAdvanced": true,
+    "accountWriterStable": true,
+    "settledSyncIdle": true,
+    "noResponsePayloadRead": true,
+    "noForcedSyncOrViewedMark": true
+  },
+  "mobileShorts": {
+    "status": "not-applicable-at-actual-tablet-breakpoint",
+    "active": false,
+    "actualPortraitWidth": 824,
+    "phoneBreakpointMaxWidth": 600,
+    "controlledPhoneGeometryApplied": false,
+    "phoneFitNotProved": true
+  },
+  "cleanup": {
+    "name": "normal29 close settlement and exact orientation observer restoration",
+    "at": "2026-10-01T01:28:47.353Z",
+    "version": "1.22.0-rc.29",
+    "closed": true,
+    "q0": false,
+    "q1": false,
+    "blob": false,
+    "frameOwner": false,
+    "retirementSettled": true,
+    "ownListenersIntervalsFrameAndDriveWrapperRemoved": true,
+    "queryScrollRestored": true,
+    "accountPresent": true,
+    "authStatus": "online",
+    "revision": 68,
+    "expiry": "2026-10-01T01:50:30.863Z",
+    "foreground": true,
+    "prior": {
+      "mode": "lock 0",
+      "rotation": 0,
+      "accelerometer": 0
+    },
+    "restored": {
+      "mode": "lock 0",
+      "rotation": 0,
+      "accelerometer": 0
+    },
+    "settingsRestored": true
+  },
+  "finalCurrent": {
+    "name": "actual Android after29nativeunit read-only owner/source/account readiness",
+    "at": "2026-10-01T01:29:36.330Z",
+    "version": "1.22.0-rc.29",
+    "accountPresent": true,
+    "authStatus": "online",
+    "revision": 68,
+    "expiry": "2026-10-01T01:50:30.863Z",
+    "expiresInMs": 1254533,
+    "libraryVisible": true,
+    "settingsClosed": true,
+    "loadingFiles": false,
+    "files": 1690,
+    "folders": 2,
+    "controllerActive": true,
+    "activeState": "activated",
+    "installing": false,
+    "waiting": false,
+    "shellVersions": [
+      "1.22.0-rc.29"
+    ],
+    "shellEntries": 41,
+    "playerClosed": true,
+    "q0": false,
+    "q1": false,
+    "blob": false,
+    "frameOwner": false,
+    "retirementBarrierResolved": true,
+    "lastRetirementSettled": true,
+    "foreground": true,
+    "width": 824,
+    "height": 1191,
+    "orientation": "portrait-primary",
+    "finiteHelperPresent": false,
+    "selectionMode": false,
+    "selectedCount": 0,
+    "toastHidden": true,
+    "badgeHidden": true,
+    "naturalObserverPresent": false,
+    "offlineHelperPresent": false,
+    "osHelperPresent": false,
+    "sourcePrepPresent": false,
+    "sourcePinPresent": false,
+    "syncPending": false,
+    "syncError": false,
+    "nativeOnline": true
+  },
+  "limits": [
+    "Actual OS-injected tablet inputs and forced OS rotation; not human-finger/sensor/iPhone/Safari/standalone proof",
+    "Single bounded private observer; app driveFetch passthrough status observer removed in finally, no body clone/read",
+    "No corpus/endurance/all-format/audio fidelity claim; ordinary viewed own-appData write only",
+    "No favorite controls/Drive media writes/new grants/forced auth/revocation/volume/notification changes",
+    "No shared product/docs/staging/commit or frozen evidence edits"
+  ]
+}
