@@ -136,3 +136,16 @@ test('route-independent native upkeep preserves the sole paused target frame thr
   await assert.rejects(actor.maintainOwnedControls({geometry:async()=>({ownershipCurrent:false,available:true}),tap:async()=>{touched=true;}}),/ACTOR_CONTROL_OWNERSHIP_CHANGED/);
   assert.equal(touched,false);
 });
+test('native close or settlement failure preserves admitted identity/private/source refs for recovery after pre-stop export',async()=>{
+  for(const failure of ['nativeClose','settlement']) {
+    const events=[],identity={authAccountKey:'local-account'},target={id:'local-target'},proof={get:()=>({})};
+    const observer={read:()=>({complete:false}),stop:()=>{events.push('stop');return{disposed:true,removed:true};}};
+    const refs={__q3ActualTarget33:target,__resumeSwProof:proof,__q3ActualReplay33:observer};
+    const context={window:{__q3ActorOwned33:{identity,refs,cleanupStarted:false},...refs}};
+    const io={evaluate:async fn=>fn.includes('closed:el.playerSheet.hidden')?{closed:false,mayClose:true}:vm.runInNewContext(`(${fn})()`,context),close:async()=>{events.push('close');if(failure==='nativeClose')throw Error('ACTOR_CLOSE_GEOMETRY_BOUND');},pollSettled:async()=>{events.push('settle');return{settled:false};}};
+    const result=await actor.cleanupActor(io,{guardOwned:true,observerOwned:true,failed:true,failure:'EOF_BOUND',exportFailure:async()=>{events.push('export');return{saved:true};}});
+    assert.deepEqual(result.failures,[failure]);assert.equal(result.confirmed,false);assert.equal(result.globalsCleared,false);assert.equal(result.globalsClearSkipped,true);assert.equal(result.recoveryRefsRetained,true);
+    assert.equal(context.window.__q3ActorOwned33.identity,identity);assert.equal(context.window.__q3ActorOwned33.refs,refs);assert.equal(context.window.__q3ActualTarget33,target);assert.equal(context.window.__resumeSwProof,proof);assert.equal(context.window.__q3ActualReplay33,observer);assert.equal(context.window.__q3ActorOwned33.cleanupStarted,true);
+    assert.ok(events.indexOf('export')<events.indexOf('stop'));assert.ok(events.indexOf('stop')<events.indexOf('close'));
+  }
+});

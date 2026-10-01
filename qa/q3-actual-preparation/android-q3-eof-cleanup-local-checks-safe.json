@@ -1,0 +1,60 @@
+{
+  "schema": "drive-original.q3-android-eof-cleanup-local-checks/1",
+  "scope": "Focused QA cleanup regression only; local mocks and saved safe evidence",
+  "actualOperationPerformed": false,
+  "privateTargetReadPerformed": false,
+  "productChangePerformed": false,
+  "commitPerformed": false,
+  "producerSha256": "506adeb3b1213a23dcda13063bd5b7dcb70f4d5d0873c331be5cdbb76374298a",
+  "baseProducerSha256": "116ff013cf771002bbea0e2fa2a70e448ec533ff46bcd38f1455a9de0bf5443a",
+  "eofTestSha256": "069c272b710260393ad0fd02b425324277e8e9df98a2ac9f5d6cb1ac80502c32",
+  "baseTestSha256": "b032c4629debb34105e862d454b42e787250ef10b6a28a284584fcd350997a5d",
+  "checks": { "passed": 22, "failed": 0, "baseTests": 13, "eofTests": 9, "bothProducerSyntaxPassed": true },
+  "causeEvidence": {
+    "originalFunctionalFailure": "EOF_SUSTAINED_NATIVE_EOF_BOUND",
+    "preStopLastFrameSourceTime": 70.966667,
+    "preStopSourceProgramComplete": false,
+    "preStopWorkerComplete": false,
+    "preStopTrustedNativeEndedObserved": false,
+    "nativeEntryAt": "2026-10-01T21:55:30.306Z",
+    "cleanupFailureAt": "2026-10-01T21:55:30.319Z",
+    "entryToFailedCloseMs": 13,
+    "failedOperation": "nativeClose",
+    "settled": false,
+    "globalsCleared": true,
+    "responsibleLayer": "QA close immediately assumed revealed close geometry; cleanup cleared recovery refs despite unsettled playback",
+    "functionalEOFOutcomeChanged": false
+  },
+  "fix": {
+    "closeGeometry": "Fresh owned exact-hit/quantized-hit geometry polling after native entry; at most one entry tap, no synthetic input or product functions",
+    "localGeometryPollMaxMs": 10000,
+    "pollIntervalMs": 200,
+    "absoluteCallerDeadlineClamped": true,
+    "nativeInputBudgetRequiredMs": 20000,
+    "recoveryRetention": "If close or settlement fails, skip globals deletion and retain admitted identity/private/source/observer refs; stopped QA helpers stay inert",
+    "foreignPlayback": "Account/source/target switch aborts close and leaves foreign playback untouched",
+    "failureReceipt": "Pre-stop failure remains preserved; fresh postclose metadata is attempted only after confirmed settlement",
+    "deadlinesUnchanged": { "eofActionMs": 300000, "eofCleanupMs": 345000, "baseActionMs": 285000, "baseCleanupMs": 330000 }
+  },
+  "focusedRegressions": [
+    "Controls reveal delayed600ms: entry once, close only at fresh ready geometry",
+    "Occluded close reaches bounded failure without blind input",
+    "Account switch after entry: no close input",
+    "Insufficient remaining20s ADB budget: no input",
+    "Close failure and settlementfalse: receipt before stop, identity/private/source refs retained",
+    "Existing successful cleanup still settles, reads fresh metadata and clears owned globals"
+  ],
+  "historicalEvidencePreserved": {
+    "actualProducerSnapshot": "android-q3-eof-actor-eof-cua2-producer-snapshot.cjs",
+    "actualProducerSha256": "96a6483797393df5fc01aadcd859a93ea283c5eae311c2a6c737bf494388d1d5",
+    "originalBaseSnapshot": "android-q3-actor-pre-eof-close-fix-snapshot.cjs",
+    "originalBaseSha256": "5e296fb3a97b6f50941cc0ade4c7154b312ef15675caa468ded5fb35655d8f0a",
+    "actualReportUnchangedSha256": "bba69163e94150c4bccd7b99e0508c9bc66012a4adda2f69ff4ccc386acbed35",
+    "failureReceiptUnchangedSha256": "acca894b3ec61b9ea33ccb19f74cdc28f68027b60c767d6aac1fc9a9bc1e42f7",
+    "previousLocalChecksUnchanged": true,
+    "snapshotsForEvidenceOnly": true
+  },
+  "fullOutputQuality": "NOT_QUALIFIED",
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "actualReplayPerformed": false
+}

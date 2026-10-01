@@ -1,14 +1,12 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 07:10 KST
+# Checkpoint — ACTIVE D074 — 2026-10-02 06:40 KST
 
 ## The story so far
 
-Whole approved queue ACTIVE; whole implementation plan is not done. Branch codex/v2-kickoff-diagnostics, HEAD e7bebba. Immutable deployed runtime5174485/rc33/Workerfaed24df; production1.21/e08989a and automation PAUSED. Delivery, normal PC/Android update, Q0 TR01, designated TS/PCM/layout/state, finite PC/Android Q3 and controlled TR02 evidence remain valid. Complete local180s output quality is committed37a573a (all5400frames); raw-byte attributes fixed separately e7bebba. No full corpus scan or passed-check replay. Actual sustained Android EOF now failed its diagnostic bound; throughput cause remains unknown.
+Whole approved queue ACTIVE; whole implementation plan is not done. Branch codex/v2-kickoff-diagnostics, HEAD3c715b2 before current savepoint. Immutable deployed runtime5174485/rc33/Workerfaed24df; production1.21/e08989a and automation PAUSED. Delivery/normal PC+Android update, Q0 TR01 and designated TS10/50/90 PCM/EOF/reopen/layout/state evidence remain valid; no corpus scan/replay. Actual PC and physical Android Q3 finite startup/640x360/50%/90%/activecancel/freshidentity/closed-owner clauses are qualified. Android automatic cua5 completed65.455s, startup13.805s, exact90/162s frames11.201/10.968s, observercomplete:true/allcleanuptrue/forwardremoved. Q3-PRODUCT-20261002.md and q3-cua5-android-finite-qualification-safe.json own adoption; all earlier partial flags remain. Whole180s EOF/quality/resources/formats/session/performance acceptance remains open; no new confirmed product defect.
 
 One exact disposable folder+18,075,476B/180s silent MPEG4SP fixture was created once (2POST/6requests); server SHA/MD5/size and fresh two-pass capture pass. Private ledger backups c42f.../c6b06... and target2604... remain in qa/v2-state-recovery-backup. Input/uploader released; target retained for Android and final exact recoverable-trash cleanup. Do not create/upload again. PC playback/observer closed; resource sessions62229/9318 exited0 with45/33 samples,0failed and owned subprocess/timer cleanup. CUA browser3/tab275140031 and original recovery facade still hold this fixture; no production or original-media changes.
 
-Actual EOF eof-cua2 preserved failure before observer stop: ~70.967s source progress across257.187s native-frame wall span, current owner/source/account retained, no seek/pause/rate/loop/fence failure; ended/source/worker completion absent. Native frame gap max5.859s. At300s actor stopped; no retry or bound extension. Main-label visibility missed some observations, so no full EOF/pixel/performance pass. Resource66samples/0primary-memory failures and all sampler/transport cleanup confirmed. Device-wide counters have attribution limits; owner Q3 document holds details.
-
-Actor cleanup failed native close immediately after controls-entry tap, then discarded recovery globals while still unsettled. Safe exact-target recovery revalidated five runtime hashes/account/selected stable metadata/fresh full revision, used native close and fresh after200, confirmed player/source owners settled, recovery holder cleared and owned MCP/CDP/forward released. Two stricter recovery admission failures were preserved; selected rows omit revision fields, so server metadata supplies full revision proof. Android/PC players, observers and resource samplers are now idle. Child actor task fixes only QA close polling/retained recovery refs; child quality task investigates throughput read-only/isolated, neither uses actual shared state.
+Android attempts1/2/3 preserved:1 stdin EOF before work;2 root clobbered self-registering observer API, fixed loader guard2/2 and normally reloaded only the idle QA page;3 nativeerror4/explicitchoice/640x360 frames observed but hidden controls/manual delay exceeded owner420s. No missing startup/seek/cancel clause adopted. Recovery exported1112247B failed receipt SHAadeaf2c...; actual native close/fresh metadata/observer and private-holder cleanup/all owned transports confirmed. Android resource45samples/0failed, thermalstatus0/battery29.6–29.7C, named Chrome main-process PSS only. All playback/samplers/owned Android sessions are now closed. Child gpt_6_1_sol_high_android_q3_actor is implementing only a prepared automatic native actor; no child actual actions. Correct hidden-controls entry is el.playerControlsEntry; mediaStage single tap toggles pause, not chrome reveal.
 
 ## Decided
 
@@ -32,16 +30,19 @@ None. The earlier Chrome Allow request is stale; CUA established the intended ex
 
 ## Next first action
 
-Review focused actor cleanup fix and record exact failure/resource/recovery
-hashes; inspect the responsible Q3 streaming path and discriminate source reads,
-software encode/flush and ACK/observer overhead with a small isolated causal
-check before changing product. No unchanged actual replay. The local268.663s
-capture includes CDP export and is not exact worker throughput. Same disposable
-fixture/private ledger remain for eventual changed-condition proof/final cleanup.
-No new upload, runtime deployment, original mutation or full scan. Images,
-conditional format applicability, reconnect and failure-inclusive performance
-acceptance remain in the original queue. Production/main/push require separate
-authorization; iOS remains postdeployment.
+Finite actual PC/Android/tail evidence is committed197beec. Complete local180s
+derived-output oracle now passes all5400frames, mean54.57/min47.82dB with retained
+geometry/color/cadence/clocks and source/transport/worker/browser cleanup. Root
+reviewed actual producer/oracle; Q3 owner and qa/q3-full-output-quality own limits
+and curated hashes, large raw synthetic outputs remain local. Commit this scoped
+quality/resource savepoint, then review the child-prepared native Android EOF
+actor and execute one bounded sustained unit with read-only resource watcher.
+Resource extension9/9 passes; procCPU/GPUdrivercounter admission is readable,
+actualRAM/disk collection still to be observed. Overall isolatedPC268.663s is
+not exactworkerthroughput; Android300s action/345s cleanup diagnostic bounds
+remain. Do not repeat passed seeks/cancel. Same exact disposable fixture remains;
+no upload/redeployment/fullscan. Remaining images/applicability/reconnect/
+performance queue continues after each savepoint.
 
 ## Tried
 

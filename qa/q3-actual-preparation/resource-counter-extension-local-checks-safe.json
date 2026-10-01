@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "scope": "QA-only Android device-wide counter extension; no product or performance acceptance",
-  "producerSha256": "d6959024650f8aed75edb3149ce313d92d065f3f16c3f04060a40cc844b2833b",
-  "testSha256": "eabb6410f63b416d0b99e47b7ad79c42852ad1789a1a05283c4e30c479d94190",
+  "producerSha256": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd",
+  "testSha256": "9da4ce8032fb1e3061afedf124a2a38ac68153dc3a609482ff3c03e5074dc196",
   "command": "node --test qa/q3-actual-preparation/resource-watch.test.cjs",
   "tests": 9,
   "passed": 9,
@@ -22,5 +22,6 @@
     "Installed kernel GPU counter window/units unverified; recorded ratio is arithmetic, not exact sampler interval or Q3-specific GPU/encoder peak",
     "Battery temperature and thermal status do not establish CPU/GPU die temperature or Q3 causal heating"
   ],
-  "rawDeviceIdentifiersExported": false
+  "rawDeviceIdentifiersExported": false,
+  "diskNamespaceRepair": "Exact df -k /data may report a namespace alias mount; requested path and units retained, raw mount omitted. Initial stopped readiness receipt retained; product replay not started."
 }

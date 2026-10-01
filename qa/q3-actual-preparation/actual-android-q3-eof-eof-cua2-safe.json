@@ -1,0 +1,843 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-01T21:50:29.772Z",
+  "producerSha256": "96a6483797393df5fc01aadcd859a93ea283c5eae311c2a6c737bf494388d1d5",
+  "commonSha256": "a1cfbd89e922158a43fd6f3e9a09869057c5df4a1c514ff078cebd519337637f",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "external-resource-watcher-ready",
+      "at": "2026-10-01T21:50:31.439Z",
+      "ready": true,
+      "startedAt": "2026-10-01T21:50:14.554Z",
+      "firstSampleAt": "2026-10-01T21:50:15.044Z",
+      "firstSampleElapsedMs": 177.8978,
+      "maximumSeconds": 350,
+      "scope": "External named-main-Chrome PSS/RSS, battery temperature/thermal status, whole-device CPU delta/GPU counter ratio and global RAM/data disk; process attribution, GPU unit/window, renderer/GPU/native encoder peak UNKNOWN"
+    },
+    {
+      "name": "admission",
+      "at": "2026-10-01T21:50:31.844Z",
+      "identity": true,
+      "idle": true,
+      "account": true,
+      "visible": true,
+      "writerIdle": true,
+      "globalsAbsent": true,
+      "nativeLoopOff": true,
+      "nativeRate1x": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "endedHandlerScope": "Source-bound app ended handler clears seek/frame watchdogs only; no auto-next/replay handler or repeat preference is implemented"
+    },
+    {
+      "name": "install-__resumeSwProof",
+      "at": "2026-10-01T21:50:33.358Z",
+      "installed": true
+    },
+    {
+      "name": "install-__q3ActualReplay33",
+      "at": "2026-10-01T21:50:33.378Z",
+      "installed": true
+    },
+    {
+      "name": "fresh-metadata-before",
+      "at": 1790891434188,
+      "label": "before",
+      "status": 200,
+      "sameExactTarget": true,
+      "stableMetadataSame": true,
+      "freshRevisionChecksumSame": true,
+      "accountSame": true,
+      "sourceSame": true,
+      "notTrashed": true,
+      "canDownload": true
+    },
+    {
+      "name": "eof-observer-admission",
+      "at": "2026-10-01T21:50:33.934Z",
+      "installed": true,
+      "boundedMs": 300000,
+      "retainedFirstFrames": 8,
+      "retainedCheckpoints": 64,
+      "retainedTailFrames": 128,
+      "sampleLimit": 300,
+      "eventLimit": 64,
+      "observerOnly": true,
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "native-card",
+      "at": "2026-10-01T21:50:34.078Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-rejection-offer",
+      "at": "2026-10-01T21:50:58.327Z",
+      "observed": true,
+      "sourceTime": null
+    },
+    {
+      "name": "native-choice",
+      "at": "2026-10-01T21:50:58.464Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:50:58.594Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:01.877Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:05.049Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:08.269Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "q3-startup",
+      "at": "2026-10-01T21:51:11.370Z",
+      "observed": true,
+      "sourceTime": null
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:14.449Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:17.670Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:20.927Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:24.156Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:27.321Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:30.585Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:33.826Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:37.015Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:40.274Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:43.435Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:46.675Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:49.925Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:53.227Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:56.522Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:51:59.719Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:03.010Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:06.233Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:09.515Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:12.744Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:15.955Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:19.196Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:22.496Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:25.702Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:28.931Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:32.098Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:35.339Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:38.591Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:41.824Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:45.139Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:48.372Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:51.606Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:54.848Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:52:58.041Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:01.336Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:04.556Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:07.820Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:11.045Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:14.249Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:17.537Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:20.756Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:24.026Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:27.255Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:30.478Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:33.704Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:36.922Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:40.168Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:43.418Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:46.650Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:49.934Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:53.174Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:56.351Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:53:59.604Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:02.854Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:06.115Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:09.385Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:12.607Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:15.851Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:19.065Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:22.311Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:25.522Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:28.747Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:31.945Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:35.165Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:38.389Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:41.680Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:44.960Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:48.209Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:51.492Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:54.726Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:54:57.956Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:01.179Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:04.415Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:07.603Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:10.838Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:14.098Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:17.356Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:20.605Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:23.822Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:27.086Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "eof-actor-failure",
+      "at": "2026-10-01T21:55:29.953Z",
+      "failure": "EOF_SUSTAINED_NATIVE_EOF_BOUND"
+    },
+    {
+      "name": "preserved-failure-before-observer-stop",
+      "at": "2026-10-01T21:55:30.099Z",
+      "saved": true,
+      "complete": false,
+      "bytes": 1159966
+    },
+    {
+      "name": "native-entry",
+      "at": "2026-10-01T21:55:30.306Z",
+      "exactHit": true,
+      "quantizedHit": true
+    },
+    {
+      "name": "eof-actor-cleanup",
+      "at": "2026-10-01T21:55:30.319Z",
+      "observedBeforeStop": true,
+      "receiptSaved": true,
+      "markersStopped": true,
+      "observerStopped": true,
+      "closeOwnershipConfirmed": true,
+      "foreignPlaybackLeftUntouched": false,
+      "settled": false,
+      "postCloseMetadata": null,
+      "globalsCleared": true,
+      "failures": [
+        "nativeClose"
+      ],
+      "confirmed": false,
+      "eofCleanupConfirmed": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.33",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "sustainedFunctionalComplete": false,
+  "fullOutputQuality": "NOT_QUALIFIED",
+  "nativeRetainedHeap": "UNKNOWN",
+  "eofObserverSha256": "2825c5efeec6e972cd3e4990ac3091d94d9b990f06f99f3b5fbef83664c10941",
+  "reusedActorSha256": "5e296fb3a97b6f50941cc0ade4c7154b312ef15675caa468ded5fb35655d8f0a",
+  "actorDeadlineFromInvocationMs": 345000,
+  "completed": false,
+  "failure": "EOF_SUSTAINED_NATIVE_EOF_BOUND",
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}

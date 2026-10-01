@@ -1,0 +1,710 @@
+{
+  "schema": 1,
+  "kind": "android",
+  "scope": "Chrome main-process memory plus device-wide CPU/GPU counters/RAM/disk; no Q3-specific peak attribution",
+  "diskScope": "Device /data volume df -k; not Q3 disk usage",
+  "gpuEncoderPeak": "UNKNOWN",
+  "thermalOrBatteryCausality": "UNKNOWN",
+  "startedAt": "2026-10-01T21:46:17.197Z",
+  "startedMonotonicMs": 26.5498,
+  "maximumSeconds": 350,
+  "intervalMs": 5000,
+  "samples": [
+    {
+      "ordinal": 1,
+      "wallTime": "2026-10-01T21:46:17.698Z",
+      "monotonicMs": 199.9896,
+      "elapsedMs": 173.4398,
+      "available": true,
+      "chromePssKiB": 356603,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1649986,
+          186826,
+          1824039,
+          88283543,
+          28205,
+          640450,
+          102053,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": true,
+        "busyCounter": 31313,
+        "totalCounter": 1010917,
+        "reportedCounterRatioPercent": 3.097484758887228,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": null
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4781508,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": false,
+        "busyPercent": null,
+        "reason": "BASELINE_UNAVAILABLE"
+      }
+    },
+    {
+      "ordinal": 2,
+      "wallTime": "2026-10-01T21:46:23.015Z",
+      "monotonicMs": 5532.5881,
+      "elapsedMs": 5506.0383,
+      "available": true,
+      "chromePssKiB": 345667,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650037,
+          186829,
+          1824129,
+          88287628,
+          28205,
+          640477,
+          102056,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4796896,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.0854660718478515,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 3,
+      "wallTime": "2026-10-01T21:46:28.351Z",
+      "monotonicMs": 10854.2059,
+      "elapsedMs": 10827.6561,
+      "available": true,
+      "chromePssKiB": 345619,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650108,
+          186833,
+          1824237,
+          88291643,
+          28205,
+          640504,
+          102060,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4793124,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 5.06029794277607,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 4,
+      "wallTime": "2026-10-01T21:46:33.691Z",
+      "monotonicMs": 16195.2043,
+      "elapsedMs": 16168.654499999999,
+      "available": true,
+      "chromePssKiB": 347387,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650159,
+          186835,
+          1824320,
+          88295697,
+          28206,
+          640532,
+          102064,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4791516,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 3.9782145394269475,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 5,
+      "wallTime": "2026-10-01T21:46:39.031Z",
+      "monotonicMs": 21527.7681,
+      "elapsedMs": 21501.2183,
+      "available": true,
+      "chromePssKiB": 347387,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650216,
+          186841,
+          1824414,
+          88299758,
+          28206,
+          640558,
+          102067,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4790952,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.37956204379562,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 6,
+      "wallTime": "2026-10-01T21:46:44.325Z",
+      "monotonicMs": 26863.2863,
+      "elapsedMs": 26836.7365,
+      "available": true,
+      "chromePssKiB": 345519,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650331,
+          186889,
+          1824570,
+          88303612,
+          28211,
+          640589,
+          102075,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4783184,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 8.489447474507944,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 7,
+      "wallTime": "2026-10-01T21:46:49.642Z",
+      "monotonicMs": 32168.258,
+      "elapsedMs": 32141.7082,
+      "available": true,
+      "chromePssKiB": 345439,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650386,
+          186892,
+          1824681,
+          88307630,
+          28211,
+          640615,
+          102079,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4781940,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.7189945458857006,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 8,
+      "wallTime": "2026-10-01T21:46:54.961Z",
+      "monotonicMs": 37483.9065,
+      "elapsedMs": 37457.3567,
+      "available": true,
+      "chromePssKiB": 347379,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650439,
+          186897,
+          1824775,
+          88311682,
+          28213,
+          640643,
+          102084,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4777052,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.364236848313281,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 9,
+      "wallTime": "2026-10-01T21:47:00.249Z",
+      "monotonicMs": 42798.1519,
+      "elapsedMs": 42771.6021,
+      "available": true,
+      "chromePssKiB": 345519,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650519,
+          186900,
+          1824889,
+          88315675,
+          28213,
+          640670,
+          102088,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4779840,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 5.401563610518834,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 10,
+      "wallTime": "2026-10-01T21:47:05.552Z",
+      "monotonicMs": 48083.8036,
+      "elapsedMs": 48057.2538,
+      "available": true,
+      "chromePssKiB": 345439,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650573,
+          186909,
+          1824989,
+          88319666,
+          28214,
+          640699,
+          102092,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4773632,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.680038204393505,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    },
+    {
+      "ordinal": 11,
+      "wallTime": "2026-10-01T21:47:10.886Z",
+      "monotonicMs": 53388.7425,
+      "elapsedMs": 53362.1927,
+      "available": true,
+      "chromePssKiB": 345335,
+      "chromeRssKiB": null,
+      "thermalStatus": 0,
+      "thermalAvailable": true,
+      "batteryTemperatureC": 29.4,
+      "batteryStatus": 4,
+      "temperatureScope": "Android battery temperature (tenths C); not SoC or ambient",
+      "error": null,
+      "thermalError": null,
+      "cpuCounters": {
+        "available": true,
+        "cores": 8,
+        "counters": [
+          1650621,
+          186914,
+          1825085,
+          88323706,
+          28214,
+          640725,
+          102095,
+          0
+        ],
+        "scope": "Device-wide aggregate proc/stat first8 counters; guest fields excluded to avoid double counting",
+        "error": null
+      },
+      "gpuDriverCounters": {
+        "available": false,
+        "busyCounter": null,
+        "totalCounter": null,
+        "reportedCounterRatioPercent": null,
+        "scope": "Device-wide KGSL gpubusy counter ratio; installed-kernel unit/window semantics and Q3 encoder attribution UNKNOWN",
+        "error": "GPU_COUNTER_PAIR_UNAVAILABLE"
+      },
+      "deviceMemory": {
+        "available": true,
+        "totalKiB": 11546776,
+        "availableKiB": 4775428,
+        "scope": "Device-wide proc/meminfo, not retained Q3 native heap",
+        "error": null
+      },
+      "deviceDisk": {
+        "available": false,
+        "totalKiB": null,
+        "freeKiB": null,
+        "scope": "Device /data volume df -k; not Q3-specific disk writes",
+        "error": "DEVICE_DISK_UNAVAILABLE"
+      },
+      "memoryScope": "Chrome named main process PSS/RSS; renderer/GPU memory UNKNOWN",
+      "readErrors": [],
+      "cpu": {
+        "available": true,
+        "busyPercent": 4.220009483167378,
+        "reason": null,
+        "scope": "Device-wide elapsed aggregate counters, includes all processes; not Q3 attribution"
+      }
+    }
+  ],
+  "failedSamples": 0,
+  "ready": true,
+  "cleanup": {
+    "ownedSubprocessesStopped": true,
+    "ownedTimerCleared": true,
+    "ownedDeadlineCleared": true
+  },
+  "deviceVerified": true,
+  "stopRequested": true,
+  "endedAt": "2026-10-01T21:47:15.893Z",
+  "endedMonotonicMs": 58721.8115,
+  "elapsedMs": 58695.2617,
+  "deadlineReached": false,
+  "rawLogsExported": false,
+  "deviceIdentifiersExported": false
+}

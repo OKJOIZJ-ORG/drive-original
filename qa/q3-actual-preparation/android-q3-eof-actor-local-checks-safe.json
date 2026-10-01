@@ -1,0 +1,78 @@
+{
+  "schema": "drive-original.q3-android-sustained-eof-local-checks/1",
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "scope": "Local preparation and mocked native/worker states only",
+  "actualOperationPerformed": false,
+  "privateTargetReadPerformed": false,
+  "browserDeviceProviderCommandsPerformed": false,
+  "producerSha256": "96a6483797393df5fc01aadcd859a93ea283c5eae311c2a6c737bf494388d1d5",
+  "observerSha256": "2825c5efeec6e972cd3e4990ac3091d94d9b990f06f99f3b5fbef83664c10941",
+  "testSha256": "d8a3e27ebbd15e93d943bdba2ae788ccbcee35f4cbe77521af49caa9f6cf75a5",
+  "reusedActorSha256": "5e296fb3a97b6f50941cc0ade4c7154b312ef15675caa468ded5fb35655d8f0a",
+  "resourceWatcherSha256": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd",
+  "checks": {
+    "focusedTests": 7,
+    "passed": 7,
+    "failed": 0,
+    "syntaxPassed": true,
+    "inertPlanPassed": true,
+    "meaningfulCases": [
+      "Trusted current-owner180s native EOF requires real pipeline5400 decoded/encoded and worker terminal cleanup",
+      "Partial packets, fake finished/byte-offset flags, pending chunks and untrusted ended cannot qualify",
+      "Accelerated source clock, rate mutation, account/visibility/generation drift and looping cannot qualify",
+      "Bounded frame/sample retention, native quality availability and all owned listener/timer/RVFC cleanup",
+      "Separate helper admission never overwrites self-registering API and duplicate admission fails",
+      "Plan/import use no private target/device/browser/provider commands and contain no seek/cancel/pause unit",
+      "Absent resource readiness rejects before native/private admission"
+    ]
+  },
+  "observableContract": {
+    "fixture": "Existing exact180s/640x360/30fps/silent MPEG4 Simple Profile only",
+    "native": "Trusted native ended on same current-owner video at180s with loopfalse/playbackRate1, monotonic source RVFC clocks, first frame near0 and qualified last frame179.966666s, >=2final-window frames",
+    "realElapsed": "Observed source span>=179900ms and wall span>=source span-250ms; no seeks, acceleration, premature pause or owner/source/account/visibility switches",
+    "pipeline": "Player buffered-to-end; same generation result at target0/duration180/sourceCodec mp4v.20.1;5400decoded/5400encoded, closedtrue/outputBytespositive/source cleanup settled",
+    "worker": "terminatedtrue; activeReads/pendingChunks/pendingWindows/invalidMessages0; chunkspositive and acks===chunks",
+    "sourceCompletionScope": "Complete admitted180s/5400-packet source program; literal byte-offset/file-size UNKNOWN",
+    "processingProgress": "Bounded per-second appends/removals/waits/peakAhead/nativeBufferedEnd and terminal availability; live decoded/encoded counts UNKNOWN until terminal",
+    "sourceAccountRevision": "Inherited immutable5source hashes/controller, exact private selected target/current account and fresh before/after metadata",
+    "endedHandlerAdmission": "Reviewed source-bound app ended handler only clears watchdogs; no auto-next/replay/repeat preference implementation found; native loop must remain false without preference writes",
+    "failurePreservation": "Bounded failure receipt written before observer stop, then owned close/settlement/fresh postclose metadata with refs intact, then clear only owned globals"
+  },
+  "limits": {
+    "actionDeadlineFromInvocationMs": 300000,
+    "cleanupDeadlineFromInvocationMs": 345000,
+    "actorAsyncCommandCapMs": 35000,
+    "commonAdbCommandCapMs": 20000,
+    "progressIntervalMs": 5000,
+    "receiptMaxBytes": 2097152,
+    "retainedFirstFrames": 8,
+    "retainedCheckpoints": 64,
+    "retainedTailFrames": 128,
+    "sampleLimit": 300,
+    "eventLimit": 64,
+    "screenshotsPlanned": 0,
+    "estimatedFit": "Prior14s startup+180s real1x+setup/close about220-260s if device throughput adequate; slower processing fails finite300s bound without relaxation"
+  },
+  "resourcePlan": {
+    "durationSeconds": 350,
+    "rootStartsSeparately": true,
+    "requireBeforeActor": "Privately pinned serial; readytrue/deviceVerifiedtrue/available first sample; started within60s; watcher still active",
+    "scope": "Named main Chrome PSS/RSS, battery/thermal, device-wide CPU delta/GPU counter ratio/globalRAM/dataDisk; Q3 attribution and GPU unit/window semantics UNKNOWN"
+  },
+  "fullOutputQuality": "NOT_QUALIFIED",
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "nativeRetainedHeap": "UNKNOWN",
+  "gpuEncoderPeak": "UNKNOWN",
+  "commitPerformed": false,
+  "existingProductManifestDocsEdited": false,
+  "testedProducerSha256": "23e44e2a0423320ef42657022134e41c26ab5ceda29298ce85d3e9adaa665a5f",
+  "testedProducerSnapshot": "android-q3-eof-actor-initial-resource-pin.cjs",
+  "rootPinOnlyChange": {
+    "resourceHashOnly": true,
+    "functionalTestsReused": true,
+    "newSyntaxPassed": true,
+    "newInertPlanPassed": true,
+    "scope": "Actor logic/helper unchanged; repaired disk namespace parser has separate9/9current guards"
+  }
+}

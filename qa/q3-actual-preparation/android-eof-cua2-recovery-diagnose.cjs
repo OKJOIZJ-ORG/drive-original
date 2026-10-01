@@ -1,0 +1,8 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const h=JSON.parse(fs.readFileSync(path.join(__dirname,'../v2-state-recovery-backup/q3-target-cua1-1-private.json')));
+require('./android-common33.cjs')(__filename,'android-eof-cua2-recovery-diagnostic-safe.json',async c=>{
+  await c.unmaskNativeVisibility();await c.releaseMcpForNativeLifecycle();
+  const result=await c.evaluateNative(`()=>{const h=${JSON.stringify(h)},t=h.metadata||h.target||h.file||h,a=h.account||h;return{version:APP_VERSION,visible:document.visibilityState==='visible',controllerActivated:navigator.serviceWorker.controller?.state==='activated',online:state.authStatus==='online',accountIdMatches:state.accountId===a.accountId,accountKeyMatches:state.authAccountKey===a.authAccountKey,closed:el.playerSheet.hidden,selectedPresent:!!state.selected,stableMatches:['id','name','size','mimeType','modifiedTime','version','headRevisionId','sha256Checksum','md5Checksum'].map(k=>({field:k,expectedPresent:t[k]!=null,observedPresent:state.selected?.[k]!=null,matches:t[k]==null||String(state.selected?.[k])===String(t[k])})),parentsMatch:!t.parents||JSON.stringify([...(state.selected?.parents||[])].sort())===JSON.stringify([...t.parents].sort()),q1Present:!!q1Playback,q1FileMatches:q1Playback?.fileId===t.id,q0Present:!!q0Playback,settled:q1RetirementResult?.settled===true,oldGuard:!!window.__q3ActorOwned33,oldObserver:!!window.__q3ActualReplay33,oldEof:!!window.__q3ActualEof33,recoveryPresent:!!window.__q3EofRecovery33};}`);
+  c.step('read-only failed recovery admission diagnosis',result);
+}).catch(()=>{process.exitCode=1;});

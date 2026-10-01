@@ -84,27 +84,6 @@ async function maintainOwnedControls(io) {
   physicalPoint(entry); await io.tap('entry', entry);
   return { visible: false, tapped: true, skipped: false };
 }
-async function closeOwnedNative(io, options = {}) {
-  const now = options.now || Date.now, end = Math.min(options.deadline ?? Infinity, now() + 10000);
-  const inputBudget = () => { if (Number.isFinite(options.deadline) && options.deadline - now() < (options.inputBudgetMs || 0)) throw Error('ACTOR_CLOSE_INPUT_BUDGET'); };
-  let entryTapped = false;
-  while (now() < end) {
-    const geometry = await io.geometry('close', Math.max(1, end - now()));
-    if (now() >= end) break;
-    if (geometry.ownershipCurrent !== true) throw Error('ACTOR_CLOSE_OWNERSHIP_CHANGED');
-    if (geometry.available) { physicalPoint(geometry); inputBudget(); await io.tap('close', geometry); return { tapped: true, entryTapped }; }
-    if (!entryTapped) {
-      const entry = await io.geometry('entry', Math.max(1, end - now()));
-      if (now() >= end) break;
-      if (entry.ownershipCurrent !== true) throw Error('ACTOR_CLOSE_OWNERSHIP_CHANGED');
-      if (entry.available) { physicalPoint(entry); inputBudget(); await io.tap('entry', entry); entryTapped = true; }
-    }
-    // Revealing controls commits asynchronously. Observe fresh hit-checked geometry
-    // after the native entry tap; never assume its completion exposes close immediately.
-    const remaining = end - now(); if (remaining > 0) await io.wait(Math.min(200, remaining));
-  }
-  throw Error('ACTOR_CLOSE_GEOMETRY_BOUND');
-}
 function summaryExpression(label, cancelOnFrame = false) {
   return `()=>{const r=window.__q3ActualReplay33.read(),p=r.phases.find(p=>p.label===${JSON.stringify(label)});let cancel=null;if(${cancelOnFrame}&&p?.firstTargetFrame&&!p.fenceFailure){window.__q3ActualReplay33.arm('cancel');cancel=window.__q3ActualReplay33.read().phases.find(p=>p.label==='cancel');}return{nativeRejection:r.nativeRejectionObserved,offer:r.latest.lossyChoiceVisible,choice:r.explicitChoiceObserved,route:r.latest.route,ready:r.latest.native?.ready,width:r.latest.native?.width,height:r.latest.native?.height,paused:r.latest.native?.paused,label:r.latest.lossyLabelVisible,frame:!!p?.firstTargetFrame,latencyMs:p?.firstTargetFrame?.elapsedMs??null,fenceFailure:!!p?.fenceFailure,sourceSame:r.latest.sourceSame,accountSame:r.latest.accountSame,visible:r.latest.visible,streamActiveAtArm:cancel?.streamActiveAtArm??null};}`;
 }
@@ -117,7 +96,7 @@ function writeReceipt(name, receipt, binding) {
   return { saved: true, complete: receipt.complete === true, bytes: Buffer.byteLength(bytes) };
 }
 async function cleanupActor(io, options) {
-  const failures = [], result = { observedBeforeStop: false, receiptSaved: false, markersStopped: false, observerStopped: false, closeOwnershipConfirmed: false, foreignPlaybackLeftUntouched: false, settled: false, postCloseMetadata: null, globalsCleared: false, recoveryRefsRetained: false, globalsClearSkipped: false };
+  const failures = [], result = { observedBeforeStop: false, receiptSaved: false, markersStopped: false, observerStopped: false, closeOwnershipConfirmed: false, foreignPlaybackLeftUntouched: false, settled: false, postCloseMetadata: null, globalsCleared: false };
   const attempt = async (name, fn) => { try { return await fn(); } catch { failures.push(name); return null; } };
   // The failed observer is exported before its retained owners are discarded by stop().
   if (options.failed && options.observerOwned) await attempt('failureReceipt', async () => {
@@ -137,22 +116,14 @@ async function cleanupActor(io, options) {
       if (!ownership.mayClose) { result.foreignPlaybackLeftUntouched = true; throw Error('ACTOR_CLOSE_OWNERSHIP_CHANGED'); }
       result.closeOwnershipConfirmed = true; await io.close(); return true;
     });
-    if (closeAllowed === true) { const settled = await attempt('settlement', async () => { const r = await io.pollSettled(); if (r?.settled !== true) throw Error('ACTOR_SETTLEMENT_UNCONFIRMED'); return r; }); result.settled = settled?.settled === true; }
+    if (closeAllowed === true) { const settled = await attempt('settlement', () => io.pollSettled()); result.settled = settled?.settled === true; }
     if (options.failed && options.observerOwned && result.settled) await attempt('postCloseMetadata', async () => {
       const evidence = await io.evaluate(`async()=>{const ownership=(${ownershipExpression()})();if(!ownership.closed||!ownership.sourceSame||!ownership.accountSame||!ownership.visible)throw Error('ACTOR_POSTCLOSE_METADATA_OWNER');const observer=window.__q3ActorOwned33?.refs.__q3ActualReplay33;if(!observer)throw Error('ACTOR_POSTCLOSE_OBSERVER_REQUIRED');const prior=observer.read().metadataResults.find(r=>r.label==='after');const metadata=prior||await observer.metadata('after');return{freshRead:!prior,metadata};}`);
       if (!evidence?.metadata || !['sameExactTarget','stableMetadataSame','freshRevisionChecksumSame','accountSame','sourceSame','notTrashed','canDownload'].every(k => evidence.metadata[k] === true)) throw Error('ACTOR_POSTCLOSE_METADATA_REQUIRED');
       result.postCloseMetadata = evidence; options.recordMetadataAfter?.(evidence);
     });
-    if (closeAllowed === true && result.settled) {
-      const cleared = await attempt('clearGlobals', () => io.evaluate(`()=>{const owned=window.__q3ActorOwned33;if(!owned)return{cleared:false};let intact=true;for(const [key,ref]of Object.entries(owned.refs)){if(window[key]===ref)delete window[key];else if(window[key]!==undefined)intact=false;}delete window.__q3ActorOwned33;return{cleared:intact&&!window.__q3ActualTarget33&&!window.__q3ActualReplay33&&!window.__q3PcSeekTargets33&&!window.__resumeSwProof&&!window.__q3ActorOwned33};}`));
-      result.globalsCleared = cleared?.cleared === true;
-    } else {
-      // Preserve private target, sourceproof and admitted identity in the owned registry
-      // for explicit recovery. Stopped QA helpers stay inert; foreign playback stays untouched.
-      result.globalsClearSkipped = true;
-      const retained = await attempt('recoveryRefs', () => io.evaluate('()=>{const owned=window.__q3ActorOwned33;return{retained:!!owned&&!!owned.identity&&!!owned.refs};}'));
-      result.recoveryRefsRetained = retained?.retained === true;
-    }
+    const cleared = await attempt('clearGlobals', () => io.evaluate(`()=>{const owned=window.__q3ActorOwned33;if(!owned)return{cleared:false};let intact=true;for(const [key,ref]of Object.entries(owned.refs)){if(window[key]===ref)delete window[key];else if(window[key]!==undefined)intact=false;}delete window.__q3ActorOwned33;return{cleared:intact&&!window.__q3ActualTarget33&&!window.__q3ActualReplay33&&!window.__q3PcSeekTargets33&&!window.__resumeSwProof&&!window.__q3ActorOwned33};}`));
+    result.globalsCleared = cleared?.cleared === true;
   }
   result.failures = failures; result.confirmed = options.guardOwned ? result.markersStopped && result.observerStopped && result.settled && result.globalsCleared && failures.length === 0 : failures.length === 0;
   return result;
@@ -195,7 +166,7 @@ async function runActor(c, prepared, dependencies = {}) {
     throw Error(`ACTOR_${stage.replace(/[^a-z0-9]/gi, '_').toUpperCase()}_BOUND`);
   };
   const pollSettled = () => poll('owners-settled', 15000, `()=>({settled:el.playerSheet.hidden&&!q0Playback&&!q1Playback&&!q3Choice&&q1RetirementResult?.settled===true&&!el.videoPlayer.getAttribute('src')})`, r => r.settled);
-  const close = () => closeOwnedNative({ geometry: (kind, ms) => evaluate(geometryExpression(kind), ms), tap: tapGeometry, wait: ms => c.wait(ms) }, { now, deadline: cleanupMode ? finalDeadline : actionDeadline, inputBudgetMs: 20000 });
+  const close = async () => { const g = await evaluate(geometryExpression('close')); if (!g.available) await tap('entry'); await tap('close'); };
   const install = async (file, dest, api) => { if (api === '__q3ActualReplay33') observerOwned = true; const result = await evaluate(scriptAdmission(prepared.scripts[file], dest, api)); mark(`install-${api}`, { installed: result?.installed === true || result?.sourceProofInstalled === true }); };
   try {
     if (c.report.model !== 'SM-X800' || c.report.android !== '16' || !/^Physical size:\s*1752x2800\s*$/.test(c.report.physicalScreen)) throw Error('EXACT_PHYSICAL_DEVICE_REQUIRED');
@@ -285,4 +256,4 @@ if (require.main === module) {
   if (process.argv.length !== 4 || process.argv[2] !== '--execute') { console.error('Explicit invocation required: --execute <new-safe-label>'); process.exitCode = 1; }
   else execute(process.argv[3]).catch(e => { console.error(JSON.stringify({ failed: true, failure: code(e) })); process.exitCode = 1; });
 }
-module.exports = { names, prepare, scriptAdmission, physicalPoint, ownershipExpression, geometryExpression, maintainOwnedControls, closeOwnedNative, summaryExpression, writeReceipt, cleanupActor, runActor, execute };
+module.exports = { names, prepare, scriptAdmission, physicalPoint, ownershipExpression, geometryExpression, maintainOwnedControls, summaryExpression, writeReceipt, cleanupActor, runActor, execute };
