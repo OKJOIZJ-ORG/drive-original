@@ -7,6 +7,8 @@ if(!/^pc-observer-recovery-[a-z0-9-]+-safe\.json$/.test(resultName))throw Error(
 const output=path.join(__dirname,resultName);
 function pkg(name){const root=path.join(process.env.LOCALAPPDATA,'npm-cache/_npx');const p=fs.readdirSync(root).map(d=>path.join(root,d,'node_modules',name)).find(p=>fs.existsSync(path.join(p,'package.json')));if(!p)throw Error('OFFICIAL_PACKAGE_MISSING');return p;}
 function unpack(r){if(r.isError)throw Error('MCP_OPERATION_FAILED');const text=r.content.filter(c=>c.type==='text').map(c=>c.text).join('\n');const match=text.match(/```json\s*([\s\S]*?)```/);if(!match)throw Error('SAFE_JSON_EXPECTED');return JSON.parse(match[1]);}
+const allowedTools=new Set(['click','press_key','select_page','take_snapshot','fill','hover','take_screenshot','list_network_requests','get_network_request']);
+function toolArgs(name,args,pageId,schemas){if(!allowedTools.has(name)||!schemas.has(name))throw Error('OWNED_TOOL_REQUIRED');const keys=schemas.get(name).inputSchema.properties;const value={...(args||{}),pageId};if('includeSnapshot' in keys)value.includeSnapshot=false;for(const key of Object.keys(value))if(!(key in keys))throw Error('OWNED_TOOL_ARGUMENT_UNKNOWN');return value;}
 async function run(){if(fs.existsSync(output))throw Error('RESULT_ALREADY_EXISTS');let client,timer;const report={schema:'drive-original.pc-observer-recovery/1',producerSHA256:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),startedAt:new Date().toISOString(),productChanged:false,reloaded:false,profileSettingsChanged:false,privateIdentifiersExported:false,observations:[]};
  const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');
  try{
@@ -20,16 +22,17 @@ async function run(){if(fs.existsSync(output))throw Error('RESULT_ALREADY_EXISTS
   const pages=text.split(/\r?\n/).flatMap(line=>{const m=line.match(/^\s*(\d+): (.*)$/);if(!m)return[];const url=m[2].match(/^(https?:\/\/\S+)/)?.[1]||m[2].match(/\((https?:\/\/[^\s]+)\)(?: \[selected\])?(?: isolatedContext=.*)?$/)?.[1];if(!url)return[];try{return new URL(url).origin===origin?[Number(m[1])]:[];}catch{return[];}});
   report.listing={candidateCount:pages.length,containsExpectedOrigin:text.includes(origin),reportedError:!!listing.isError};save();
   if(pages.length!==1)throw Error('EXACT_CANDIDATE_TAB_REQUIRED');const pageId=pages[0];
-  const evalSafe=async fn=>unpack(await client.callTool({name:'evaluate_script',arguments:{pageId,function:fn,waitForStableDom:false}}));
+  const evalSafe=async fn=>{const r=await client.callTool({name:'evaluate_script',arguments:{pageId,function:fn,waitForStableDom:false}});if(r.isError)fs.writeFileSync(path.join(__dirname,'pc-observer-last-error-private.json'),JSON.stringify({tool:'evaluate_script',result:r}));return unpack(r);};
   report.stage='same-tab-admission';save();const admit=await evalSafe(`()=>({sameOrigin:location.origin===${JSON.stringify(origin)},version:APP_VERSION,runner:!!window.__rc32PrefixRecoveryRunner,closed:el.playerSheet.hidden,q0:!!q0Playback,q1:!!q1Playback})`);report.admission=admit;save();
-  if(!admit.sameOrigin||admit.version!=='1.22.0-rc.32'||!admit.runner||!admit.closed||admit.q0||admit.q1)throw Error('LIVE_REGISTRY_ADMISSION_FAILED');
+  if(!admit.sameOrigin||admit.version!=='1.22.0-rc.32'||!admit.closed||admit.q0||admit.q1)throw Error('LIVE_IDLE_TAB_ADMISSION_FAILED');
   if(process.argv[3]==='session'){
+   const listed=await client.listTools(),schemas=new Map(listed.tools.map(t=>[t.name,t]));report.availableOwnedTools=[...allowedTools].filter(n=>schemas.has(n));
    report.stage='ready-owned-session';save();console.log(JSON.stringify({ready:true,sameTab:true,version:admit.version}));
    const lines=readline.createInterface({input:process.stdin,terminal:false});
    for await(const line of lines){let command;try{command=JSON.parse(line);if(command.op==='close'){report.completed=true;break;}
     if(command.op==='eval'){if(typeof command.fn!=='string'||command.fn.length>200000)throw Error('SAFE_FUNCTION_REQUIRED');console.log(JSON.stringify({op:'eval',result:await evalSafe(command.fn)}));}
     else if(command.op==='load'){const file=path.resolve(command.path);const qa=path.resolve(__dirname,'..');if(!file.startsWith(qa+path.sep)||!/^__[A-Za-z0-9_]+$/.test(command.dest)||!['script','json'].includes(command.mode))throw Error('OWNED_QA_INPUT_REQUIRED');const bytes=fs.readFileSync(file);if(crypto.createHash('sha256').update(bytes).digest('hex')!==command.sha)throw Error('OWNED_SOURCE_DRIFT');const value=command.mode==='json'?JSON.parse(bytes.toString('utf8')):null;const fn=command.mode==='json'?`()=>{window[${JSON.stringify(command.dest)}]=${JSON.stringify(value)};return{installed:true};}`:`async()=>{window[${JSON.stringify(command.dest)}]=await(${bytes.toString('utf8').trim()});return{installed:true};}`;console.log(JSON.stringify({op:'load',result:await evalSafe(fn)}));}
-    else if(command.op==='tool'){if(!['click','press_key','select_page','take_snapshot'].includes(command.name))throw Error('OWNED_TOOL_REQUIRED');const args={...command.args,pageId,includeSnapshot:false};const result=await client.callTool({name:command.name,arguments:args});if(result.isError)throw Error('OWNED_TOOL_FAILED');if(command.name==='take_snapshot'){const snapshotPath=path.join(__dirname,'pc-current-snapshot-private.txt');fs.writeFileSync(snapshotPath,result.content.filter(c=>c.type==='text').map(c=>c.text).join('\n'));console.log(JSON.stringify({op:'tool',snapshotSavedPrivately:true}));}else console.log(JSON.stringify({op:'tool',completed:true}));}
+    else if(command.op==='tool'){const args=toolArgs(command.name,command.args,pageId,schemas);if(args.filePath){const target=path.resolve(args.filePath),qa=path.resolve(__dirname,'..');if(!target.startsWith(qa+path.sep))throw Error('OWNED_QA_OUTPUT_REQUIRED');}const result=await client.callTool({name:command.name,arguments:args});if(result.isError){fs.writeFileSync(path.join(__dirname,'pc-observer-last-error-private.json'),JSON.stringify({tool:command.name,result}));throw Error('OWNED_TOOL_FAILED');}if(['take_snapshot','list_network_requests','get_network_request'].includes(command.name)){const snapshotPath=path.join(__dirname,command.name==='take_snapshot'?'pc-current-snapshot-private.txt':'pc-network-'+command.name+'-private.json');fs.writeFileSync(snapshotPath,JSON.stringify(result));console.log(JSON.stringify({op:'tool',resultSavedPrivately:true}));}else console.log(JSON.stringify({op:'tool',completed:true}));}
     else throw Error('OWNED_OPERATION_REQUIRED');
    }catch(error){console.log(JSON.stringify({op:command?.op||null,failed:true,failure:/^[A-Z0-9_]+$/.test(error.message)?error.message:'OWNED_OPERATION_FAILED'}));}}
    lines.close();return;
@@ -52,4 +55,4 @@ async function run(){if(fs.existsSync(output))throw Error('RESULT_ALREADY_EXISTS
  finally{if(client)try{await client.close();report.ownedMcpClosed=true;}catch{report.ownedMcpClosed=false;report.completed=false;}save();if(!report.completed)process.exitCode=1;}
 }
 if(require.main===module)run();
-module.exports={unpack};
+module.exports={unpack,toolArgs};
