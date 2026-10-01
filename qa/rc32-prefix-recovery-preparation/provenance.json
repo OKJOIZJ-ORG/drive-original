@@ -1,0 +1,59 @@
+{
+  "schema": "drive-original.rc32-prefix-recovery-build/1",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.32",
+    "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+    "sourceSHA256": {
+      "app.js": "7a84c2f52a6ba15300a533eea7f5b49f6653fe540486f5907d30214e65327497",
+      "sw.js": "8f27c0aa6710b78353b87911702a7e4c6e66535c404d5a66869992fc861b242b",
+      "version.json": "f60e407e34b72be59084f504eec09d2e48ce658c3fdc63f6f397b7eb341cbbea"
+    }
+  },
+  "producerSHA256": {
+    "build.mjs": "5651b5f52e89fffd477ce6de70e0fb74dcf5edcfeabe4fdc37fcf862fd316d91",
+    "inputs.json": "fa28364d7c71d2ba661cd638f950786baa30211695f55ca9dec418f3299a69b5",
+    "binding.json": "31986e1a0b76ac748e27f1418b6bcaeabb1b806e02ea86f3a7bf83d505ab9b4d",
+    "continuity.mjs": "62fb7969d309dca1648a606760ca08bec238ec8cbd442c11ad752702dcd1a968",
+    "selection.mjs": "83b31f862a9e7f593252af94342de0850f02ec7089f2fb30308aa24d5a560d10",
+    "probe.mjs": "048548254524afe36ff1106b0cb54531286d46c094182c25bfc30cf2a0e34bf1",
+    "runner.function.js": "72c6830d38cefd799662db81a9daadc20f36fdb5ea14b3d41fa537b350397072"
+  },
+  "factorySHA256": "79846eb5b64d03b543f2266ce8d9999da1be80ece22603ebf9ee79a6225c0aa0",
+  "factoryBytes": 132656,
+  "expressionSHA256": "fdf44a4eecf0c0f8602468b906bceb0fdb72d4822e76ad23c570bbdec23ab827",
+  "expressionBytes": 145686,
+  "frozenParentFactorySHA256": "a16b13a76a74c38fce71c27d2e1666683798f1bc5626a1cc12d4453aab3d5bea",
+  "frozenParentRunnerSHA256": "932a2e06be0d9db8b29b62e7ba4d8ceb7fae4e6f557bbf4ed63c37751aeebb5d",
+  "actualExecution": false,
+  "actualRequests": 0,
+  "wholeCorpusComplete": false,
+  "freshRegistry": true,
+  "historicalActual63NotImported": true,
+  "maxFreshAttemptsPerFile": 2,
+  "metadataFileDeadlineMs": 10000,
+  "metadataDefaultDeadlineMs": 25000,
+  "fileDeadlineMs": 50000,
+  "jobDeadlineMs": 600000,
+  "burstMaxJobs": 8,
+  "burstDeadlineMaxMs": 4800000,
+  "registryMaxUniqueFiles": 8192,
+  "retryAdmission": "transient-only; immutable-preflight-baseline-required; same-current-catalog-identity-and-fresh-strong-tuple; max-one-extra-fresh-attempt",
+  "inputFreezeSHA256": "fa28364d7c71d2ba661cd638f950786baa30211695f55ca9dec418f3299a69b5",
+  "sourceModuleSHA256": {
+    "media/drive-source.mjs": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a",
+    "media/ts-player.mjs": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705",
+    "media/general-player.mjs": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+  },
+  "inheritedFactorySHA256": "e4395fda47f108d89c05fac6d57dfabc95af60f0bbe05f5b9ed7854771dfc72f",
+  "inheritedRunnerSHA256": "3c7beda457d993c3732f997c0c71de3f537d5e7535f94ce99a0af5112bddd74b",
+  "literalReplacementOnly": true,
+  "parserSelectorReaderCapsChanged": false,
+  "oldPrivateRegistryImported": false,
+  "codecConfigUnionProbed": false,
+  "actualImageHeaderCoverage": false,
+  "proofSHA256": "bb5f9d78cf1aa828ca3024fa63cf41c2c21c7736481cb32858557d8d654360fb",
+  "contextSHA256": "5759957cb0c9ba59e754be553c18795393ad5f01880ac24b25755c209d2b2692"
+}

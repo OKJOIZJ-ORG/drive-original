@@ -262,3 +262,9 @@
 /qa/rc32-ts-device-replay/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc32-format-acceptance/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc32-resume-20261001/** -text whitespace=cr-at-eol,-blank-at-eol
+
+# Exact scoped source32 safe evidence and local-only preparation.
+/qa/rc32-acceptance-reconciliation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-prefix-recovery-preparation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc32-prefix-recovery-preparation/fixture.mjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+/qa/rc32-savepoint-curation/** -text whitespace=cr-at-eol,-blank-at-eol

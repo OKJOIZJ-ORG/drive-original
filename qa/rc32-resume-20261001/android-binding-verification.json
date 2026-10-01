@@ -1,0 +1,74 @@
+{
+  "schema": "drive-original.rc32-android-binding-preparation/1",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "initialSourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "initialVersion": "1.22.0-rc.31",
+  "initialSourceIsHistoricalBindingOnly": true,
+  "initialDocument29WithHosted32Supported": true,
+  "oldExecutingWorkerScriptHashKnown": false,
+  "checks": [
+    {
+      "name": "exact-initial31-immutable-source",
+      "passed": true
+    },
+    {
+      "name": "exact-new32-immutable-source",
+      "passed": true
+    },
+    {
+      "name": "initial31-three-Git-hashes",
+      "passed": true
+    },
+    {
+      "name": "new32-three-Git-hashes",
+      "passed": true
+    },
+    {
+      "name": "frozen-common28-derivative",
+      "passed": true
+    },
+    {
+      "name": "producer-exact-initial31-and-normal30",
+      "passed": true
+    },
+    {
+      "name": "40-distinct-shell-Git-hashes",
+      "passed": true
+    },
+    {
+      "name": "no-actual-device-claim",
+      "passed": true
+    },
+    {
+      "name": "android-ui-common-rc32.cjs-syntax",
+      "passed": true
+    },
+    {
+      "name": "android-normal-update-source-cache.cjs-syntax",
+      "passed": true
+    },
+    {
+      "name": "initial-document29-with-hosted32-admitted",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-initial-document-rejected",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "actualRequests": 0
+    },
+    {
+      "name": "initial-document29-with-wrong-hosted-hashes-rejected",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "actualRequests": 0
+    }
+  ],
+  "passed": 13,
+  "actualRequests": 0,
+  "deviceActions": false,
+  "actualExecution": false
+}

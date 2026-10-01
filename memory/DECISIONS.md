@@ -464,3 +464,12 @@ sweep: checkpoint/goal/session/current candidate record and single-use handoff a
 사용자는 "이어서 진행"이라고 명시해 대기를 해제했다. db2f808의 저장 지점부터 D-066의 전체 구현·검증·후보 인수 목록을 다시 진행한다. 현재 단위/커밋을 전체 완료로 보지 않고 실행 가능한 후속 작업을 계속한다. PC+Android 현재 인수/iOS 배포 후 순서와 D-050/D-051/D-056의 기존 권한·품질 경계는 유지한다. 운영/main/push/새 grant/결제/원본 파괴/자동화 재개 권한은 추가하지 않는다.
 
 sweep: single-use handoff consumed/deleted; checkpoint/goal/session execution aligned ACTIVE. Historical WAIT/savepoint evidence retained.
+
+
+## D-069 · 앵챗추출기 마무리 동안 Drive 작업 재개 대기 — 2026-10-01 (User-confirmed; supersedes D-068 ACTIVE execution only)
+
+사용자는 "걍 니가 좀 이따 작업하자. 앵챗추출기 저거 곧 끝날듯"이라고 명시했다. 현재 완료된 기록과 재개 지점만 안전하게 저장하고 Drive의 새 제품 실행·재생·검증·배포를 시작하지 않는다. 앵챗추출기 세션은 자기 기존 탭에서 마무리할 수 있도록 제어 조율을 해제했다. 그 세션의 완료 알림은 자동 재개 권한이 아니며 사용자의 다음 명시적 재개 지시를 기다린다.
+
+D-066의 전체 목표·현재 PC+Android 인수/iOS 배포 후 순서, D-050/D-051/D-056의 원본·비용·권한·운영 경계는 유지한다. 이번 대기는 전체 완료나 범위 포기가 아니다. 공개 후보는 source1d79897/rc.32이며 완료된 전달·업데이트·Android 증거는 반복 실행하지 않는다. 새 Chrome 프로필 이전·로그인·전역 설정 변경은 수행하지 않았다.
+
+sweep: checkpoint, single-use handoff, goal execution header and session log aligned WAIT; safe QA savepoint and original failed/unattempted outcomes retained.

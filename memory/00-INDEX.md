@@ -29,8 +29,12 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC32-20261001.md`: exact32 delivery/normal updates and actual Android
+  TS reuse/EOF/cleanup; retained PC timeout/deeper failures and D069 WAIT.
+
 - `TS-PROBE-RETENTION-20261001.md`: reviewed bounded raw same-player TS probe
-  retention, focused49/independent5 and final742 local checks; actual32 pending.
+  retention, focused49/independent5 and final742 local checks; actual Android32
+  evidence is scoped in CANDIDATE-RC32, PC replay remains pending.
 
 - `DISPOSABLE-UI-RC31-20261001.md`: actual exact2 normal move/trash, independent
   API/web/G observations, restoration and exact4 recoverable cleanup; G direct-ID
@@ -39,7 +43,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `CANDIDATE-RC31-20261001.md`: completed immutable31 delivery, actual normal
   updates/full30 performance/deeper/passive latency and retained cookie failures.
 - `VIRTUAL-WINDOW-COVERAGE-20261001.md`: observed top-card omission, local scheduler
-  repair with the240cap and731product checks; actual delivered repair pending.
+  repair with the240cap and731product checks; delivered32, actual viewport
+  return verification remains pending.
 
 - `ACCOUNT-JSON-DEADLINE-20261001.md`: source31 total30s account GET deadline,
   preserved projection/cache and missing-writer recovery;730 local product checks

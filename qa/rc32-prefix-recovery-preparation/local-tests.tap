@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: exact immutable32 inputs reject drift and aliases; signature-only scope stays explicit
+ok 1 - exact immutable32 inputs reject drift and aliases; signature-only scope stays explicit
+  ---
+  duration_ms: 748.2019
+  type: 'test'
+  ...
+# Subtest: current32 installer rejects old proof and each source-hash mismatch before any provider activity
+ok 2 - current32 installer rejects old proof and each source-hash mismatch before any provider activity
+  ---
+  duration_ms: 712.0678
+  type: 'test'
+  ...
+# Subtest: settled partial registry admits only immutable pre/post successes, private failed ledger and truthful queue
+ok 3 - settled partial registry admits only immutable pre/post successes, private failed ledger and truthful queue
+  ---
+  duration_ms: 64.7805
+  type: 'test'
+  ...
+# Subtest: one extra fresh transient attempt survives renewal, preserves successful proofs and then completes eligible prefixes
+ok 4 - one extra fresh transient attempt survives renewal, preserves successful proofs and then completes eligible prefixes
+  ---
+  duration_ms: 19.4889
+  type: 'test'
+  ...
+# Subtest: persistent transient failure becomes exhausted after two attempts; other queued files continue and all-eligible stays false
+ok 5 - persistent transient failure becomes exhausted after two attempts; other queued files continue and all-eligible stays false
+  ---
+  duration_ms: 171.2031
+  type: 'test'
+  ...
+# Subtest: payload/protocol failures and missing immutable baseline are exhausted without an extra identical attempt
+ok 6 - payload/protocol failures and missing immutable baseline are exhausted without an extra identical attempt
+  ---
+  duration_ms: 26.7189
+  type: 'test'
+  ...
+# Subtest: retry requires unchanged catalog identity and fresh strong checksum/revision before any new media
+ok 7 - retry requires unchanged catalog identity and fresh strong checksum/revision before any new media
+  ---
+  duration_ms: 24.0497
+  type: 'test'
+  ...
+# Subtest: live identity drift is fatal despite bounded-probe postflight masking; no partial capsule published
+ok 8 - live identity drift is fatal despite bounded-probe postflight masking; no partial capsule published
+  ---
+  duration_ms: 5.1465
+  type: 'test'
+  ...
+# Subtest: source/controller/account/current owner/catalog/cleanup failures stay fatal and cannot publish continuity
+ok 9 - source/controller/account/current owner/catalog/cleanup failures stay fatal and cannot publish continuity
+  ---
+  duration_ms: 18.3643
+  type: 'test'
+  ...
+# Subtest: foreign/forged/old/account/root/source/hash handles fail before metadata or media and cannot reset attempt limits
+ok 10 - foreign/forged/old/account/root/source/hash handles fail before metadata or media and cannot reset attempt limits
+  ---
+  duration_ms: 16.5282
+  type: 'test'
+  ...
+# Subtest: capsule copy ownership, max8192 registry, max2 attempts, unchanged byte/request/file/job budgets and reserve
+ok 11 - capsule copy ownership, max8192 registry, max2 attempts, unchanged byte/request/file/job budgets and reserve
+  ---
+  duration_ms: 90.9525
+  type: 'test'
+  ...
+# Subtest: metadata limits remain fatal with no automatic retry or registry
+ok 12 - metadata limits remain fatal with no automatic retry or registry
+  ---
+  duration_ms: 146.3729
+  type: 'test'
+  ...
+# Subtest: missing immutable validator exhausts only its file, preserving other validated entries without retry
+ok 13 - missing immutable validator exhausts only its file, preserving other validated entries without retry
+  ---
+  duration_ms: 10.2342
+  type: 'test'
+  ...
+# Subtest: generated frozen factory executes real inherited inventory/facade plus partial continuation in a synthetic lexical app
+ok 14 - generated frozen factory executes real inherited inventory/facade plus partial continuation in a synthetic lexical app
+  ---
+  duration_ms: 819.4259
+  type: 'test'
+  ...
+# Subtest: deterministic new installer pins immutable32 and exact inherited facade/producers, no global side effects or private imports
+ok 15 - deterministic new installer pins immutable32 and exact inherited facade/producers, no global side effects or private imports
+  ---
+  duration_ms: 1017.6603
+  type: 'test'
+  ...
+# Subtest: partial success retains only opaque new capsule and explicit root start advances after idle renewal
+ok 16 - partial success retains only opaque new capsule and explicit root start advances after idle renewal
+  ---
+  duration_ms: 5.5081
+  type: 'test'
+  ...
+# Subtest: exhausted files stop queue without false all-eligible success and cannot restart or automatically retry
+ok 17 - exhausted files stop queue without false all-eligible success and cannot restart or automatically retry
+  ---
+  duration_ms: 1.3156
+  type: 'test'
+  ...
+# Subtest: all-eligible success requires failed0 and unattempted0; complete registry swaps before release cleanup
+ok 18 - all-eligible success requires failed0 and unattempted0; complete registry swaps before release cleanup
+  ---
+  duration_ms: 0.7802
+  type: 'test'
+  ...
+# Subtest: fatal job, catalog, cleanup, current owner and source failures stop before later jobs and reject restart
+ok 19 - fatal job, catalog, cleanup, current owner and source failures stop before later jobs and reject restart
+  ---
+  duration_ms: 1.8383
+  type: 'test'
+  ...
+# Subtest: malformed dispositions, budgets, failure classes or strong-success flags never advance continuity
+ok 20 - malformed dispositions, budgets, failure classes or strong-success flags never advance continuity
+  ---
+  duration_ms: 2.0865
+  type: 'test'
+  ...
+# Subtest: finite8 job and80minute explicit burst caps, fresh cutoff, cancel drain and cleanup are preserved
+ok 21 - finite8 job and80minute explicit burst caps, fresh cutoff, cancel drain and cleanup are preserved
+  ---
+  duration_ms: 1.7826
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2577.2602

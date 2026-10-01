@@ -1,0 +1,44 @@
+{
+  "schema": "drive-original.rc32-format-acceptance/1",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.32",
+    "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+    "sourceSHA256": {
+      "app.js": "7a84c2f52a6ba15300a533eea7f5b49f6653fe540486f5907d30214e65327497",
+      "sw.js": "8f27c0aa6710b78353b87911702a7e4c6e66535c404d5a66869992fc861b242b",
+      "version.json": "f60e407e34b72be59084f504eec09d2e48ce658c3fdc63f6f397b7eb341cbbea"
+    }
+  },
+  "sourceModuleSHA256": {
+    "media/drive-source.mjs": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a",
+    "media/ts-player.mjs": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705",
+    "media/general-player.mjs": "adcbb532faa39ee4bb1f16effee908e2bdca50589ef890c2f27acc9e54572d1d",
+    "media/general-admission.mjs": "f458b1cfed35f150c1db8ea93e2ac1eb3787128c50ab73bfd28d3a8b7f73096d",
+    "media/general-codec.mjs": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+  },
+  "inputFreezeSHA256": "732e3b81a191f53b2da1559c7d06e25606c764d7d85c345e4b0ed15e021c0e30",
+  "outputs": {
+    "deeper.expression.js": {
+      "sha256": "5adac275ceebaad3bacaa6089c585b06aa0e5dc5b09dbc850e64ed2fa198d01b",
+      "bytes": 188512
+    },
+    "sw-proof.expression.js": {
+      "sha256": "bb5f9d78cf1aa828ca3024fa63cf41c2c21c7736481cb32858557d8d654360fb",
+      "bytes": 3138
+    },
+    "derive-context.expression.js": {
+      "sha256": "5759957cb0c9ba59e754be553c18795393ad5f01880ac24b25755c209d2b2692",
+      "bytes": 3370
+    },
+    "image-observer.function.js": {
+      "sha256": "58096ab9f6061b73486dd59746d8f23ad5afb886bbaa9ce8d2898e75c69858d0",
+      "bytes": 5960
+    }
+  },
+  "literalReplacementOnly": true,
+  "parserSelectorReaderCapsChanged": false,
+  "oldPrivateRegistryImported": false,
+  "actualExecution": false,
+  "actualRequests": 0
+}

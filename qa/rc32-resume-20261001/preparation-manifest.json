@@ -1,0 +1,76 @@
+{
+  "schema": "drive-original.rc32-normal-update-preparation/1",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "initialVersion": "1.22.0-rc.31",
+  "sourceChecks": 16,
+  "androidTransitionChecks": 13,
+  "scope": "Source/controller/account/cache proof with normal UI; no executing worker byte claim. Original31 templates retained unchanged.",
+  "files": [
+    {
+      "file": "build-source-proof.cjs",
+      "bytes": 2781,
+      "sha256": "01851e1462a085550a3de4641d66e12aa294fe25972a7266e92eac90c2545071"
+    },
+    {
+      "file": "verify-source-binding.cjs",
+      "bytes": 7241,
+      "sha256": "b9f93d0109857d9193df0b55ff9a7054db2c1bd45d8633360806bb8e557c9d60"
+    },
+    {
+      "file": "pc-update-baseline.expression.js",
+      "bytes": 2939,
+      "sha256": "17eb1fb635c336a7894ddb5cf76e0ebad8e85c94e4cc5389c2cd4a8cd0176710"
+    },
+    {
+      "file": "build-android-binding.cjs",
+      "bytes": 4376,
+      "sha256": "528861c97ee8ecdc081da410ab2cf5fc910d36590dfa3fbb00fb22a92e1ae127"
+    },
+    {
+      "file": "verify-android-binding.cjs",
+      "bytes": 5076,
+      "sha256": "e34c24d2b373d363c990687f441571c33562e1c558e90db8b07cbd6532309b77"
+    },
+    {
+      "file": "source-proof.expression.js",
+      "bytes": 8544,
+      "sha256": "c300eed5ef520bdfce4678560536781a5a884e50d1b44fddd32185605ca537aa"
+    },
+    {
+      "file": "sourcebinding.json",
+      "bytes": 7355,
+      "sha256": "38106e93aaadba70f2db824496b2d83a37e8936208b623bbc945dd1b6e543fbb"
+    },
+    {
+      "file": "source-binding-verification.json",
+      "bytes": 2945,
+      "sha256": "006052fe9172c00cf2873ac879391532fa0d23b0cd61cbbc08bac128eb0e4879"
+    },
+    {
+      "file": "android-ui-common-rc32.cjs",
+      "bytes": 8077,
+      "sha256": "461790d757df32fb560887fffbba94963a9dce62ca0c60cb9d9e2fa59cce0d07"
+    },
+    {
+      "file": "android-normal-update-source-cache.cjs",
+      "bytes": 8194,
+      "sha256": "66592df19c641d6351cb044c5bfcd877a60ccc354f0590512abf781f9ff21dc4"
+    },
+    {
+      "file": "android-binding.json",
+      "bytes": 7220,
+      "sha256": "05f9f4374ee5057cf0e63c4dc30d8a4448d88df2259352719a5b177e6228f19d"
+    },
+    {
+      "file": "android-binding-verification.json",
+      "bytes": 1789,
+      "sha256": "22e0539591cd5be8377243c2b3d766d771c034ac0f0dd7454296c061ab3b6a5e"
+    },
+    {
+      "file": "preparation-first-failure.json",
+      "bytes": 312,
+      "sha256": "94d6895116672a5cfb2e679cce2060d1cdb8398583b261a8548c031074540023"
+    }
+  ]
+}

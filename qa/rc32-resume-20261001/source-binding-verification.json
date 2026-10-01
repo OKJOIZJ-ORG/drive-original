@@ -1,0 +1,126 @@
+{
+  "schema": "drive-original.rc32-source-binding-generated/1",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "expressionSHA256": "c300eed5ef520bdfce4678560536781a5a884e50d1b44fddd32185605ca537aa",
+  "shellManifestSHA256": "cee58d9511f35836b74ce471256ff4e4a403cfe2a5dc813c495ca1ab8b34b051",
+  "distinctShellFiles": 40,
+  "rc30FactoryDerivedWithPinnedAccountKeyAuthData": true,
+  "tokenRevisionMayRenew": true,
+  "cases": [
+    {
+      "name": "live-pin-auth-data-account-controller-and-tokenrevision-renewal-reload-no-inherited-proof",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "correct",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-app",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "selected",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "unsettled",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "offline",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "hidden",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-controller",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "bad-public",
+      "passed": true,
+      "mockedPublicReads": 1,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "extra-shell",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "missing-cache",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "bad-cache",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "bad-root-alias",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "waiting",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "auth-drift",
+      "passed": true,
+      "mockedPublicReads": 1,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "data-drift",
+      "passed": true,
+      "mockedPublicReads": 1,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    }
+  ],
+  "passed": 16,
+  "actualRequests": 0,
+  "actualExecution": false,
+  "privateIdentityExported": false
+}

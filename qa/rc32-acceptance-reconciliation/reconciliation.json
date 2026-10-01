@@ -1,0 +1,1687 @@
+{
+  "schema": "drive-original.rc32-original69-reconciliation/1",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "authority": "Evidence proposals only; root owns adoption. Original criteria and historical statuses unchanged.",
+  "counts": {
+    "O": 13,
+    "C": 24,
+    "F": 28,
+    "N": 2,
+    "S": 1,
+    "D": 1
+  },
+  "wholeGoalPassed": false,
+  "wholeRowPromotions": 0,
+  "execution": {
+    "readOnlyEvidenceAndPublicGitComparison": true,
+    "testsRerun": 0,
+    "browserDeviceAccountProviderRuns": 0,
+    "privateInputsRead": 0,
+    "productMemoryOldQaGitMutations": 0
+  },
+  "evidence": {
+    "B": {
+      "path": "qa/rc21-night-acceptance/rows.json",
+      "sha256": "c58913abeb821ac84126ec1ee4703273bba65e6986990f75fa37dde6c3e963e8"
+    },
+    "P28": {
+      "path": "qa/rc28-finite-acceptance-matrix/review.json",
+      "sha256": "baced6b6df741337156da638a6e6fcde745c4e727d44b1fc9d84aaa8ebdaf0ba"
+    },
+    "P29": {
+      "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+      "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07"
+    },
+    "A29": {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum.json",
+      "sha256": "2a8c5e45dcb7be1ccc1337d699a934ce0507cc5cd7d7b51f860ffa83d469de24"
+    },
+    "P31": {
+      "path": "qa/rc31-acceptance-reconciliation/proposals.json",
+      "sha256": "6cf31f618f1291ce8b9e3680d769ce517253dba33596356dfa4cbf4c4f4a7190"
+    },
+    "UI29": {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-clauses.json",
+      "sha256": "8e76687d0e5362dfa2381c20d0ea89351dd689918359232576877bf5de714a9f"
+    },
+    "PCQuiet29": {
+      "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+      "sha256": "3f41930dbe68b017c52a6c9b30a353d2b9411b0f96e236d8f2c33e3ecbde25da"
+    },
+    "Cookie31": {
+      "path": "qa/rc31-cookie-receipt-attempt4/actual-android-cookie-gate-attempt4-result.json",
+      "sha256": "78b0c0a0c5e93916415054d70e43309f6e33ad5160a61e29301c2b0d937ede13"
+    },
+    "Disposable31": {
+      "path": "qa/rc31-disposable-actual/rc31-disposable-completed-safe.json",
+      "sha256": "776c83a50829ba072985404e76e0a5803649fed8371c1541a1ab32314ce0147a"
+    },
+    "GMoved31": {
+      "path": "qa/rc31-disposable-actual/g-moved-safe.json",
+      "sha256": "d845fad9709398d890cb1264cb95418783232b91b3c5c27ce8337cb71d5b42a0"
+    },
+    "GTrashed31": {
+      "path": "qa/rc31-disposable-actual/g-trashed-safe.json",
+      "sha256": "66ed79df8502d04e85862f7054483fd0b89944d82d183f119bd32b6b1ecba7d4"
+    },
+    "GRestored31": {
+      "path": "qa/rc31-disposable-actual/g-restored-safe.json",
+      "sha256": "753f88aa663c4515e65637f571d6dba672c466e0ef2be3175cf0503f81926b19"
+    },
+    "GCleaned31": {
+      "path": "qa/rc31-disposable-actual/g-cleaned-safe.json",
+      "sha256": "805f6cbf5884fd32bf9679172b8085c3aacbc428250393c93b9e5cfa7c4c61cd"
+    },
+    "Closure31": {
+      "path": "qa/rc31-disposable-actual/runtime-closure-safe.json",
+      "sha256": "86261ac5db12ca225df104763b19555fea0c8d1e111fe2c4a6db0badca584e2e"
+    },
+    "StateRecord": {
+      "path": "memory/RESUMED-ACCEPTANCE-20261001.md",
+      "sha256": "d36f8782d3da989d3f60ccaa82caa2b134d767be38cdee02cbd1fc0364d90797"
+    },
+    "DisposableRecord": {
+      "path": "memory/DISPOSABLE-UI-RC31-20261001.md",
+      "sha256": "396a25a7d02aeb0c326b8e0d821d807e733ff097852fe5a62198cb52f7f59404"
+    },
+    "State28": {
+      "path": "qa/rc28-resume-20261001/actual-state-current-safe.json",
+      "sha256": "2fa5b073fdf32ae1686818d15a9225d19986a310a538640e5b528a06fb490401"
+    },
+    "RenewalPC28": {
+      "path": "qa/rc28-resume-20261001/actual-pc-natural-safe.json",
+      "sha256": "dc838d5dc6baed5af4570cd5107c3309d4ed1a3ea92361e8111b54eb8c2f89a9"
+    },
+    "RenewalAndroid28": {
+      "path": "qa/rc21-android-night/158-rc28-android-revision66-natural-watch-result.json",
+      "sha256": "03855920453686abb18d84115726d63466a75f54a377d9f04d15e762b057106e"
+    },
+    "RenewalSeekAndroid28": {
+      "path": "qa/rc21-android-night/159-rc28-post66-natural-seek-close-result.json",
+      "sha256": "904284c7dabfecf7be568bf0538b0f46e12b0ded3c5e463f4fff0a2ef83a6b74"
+    },
+    "HomeAndroid28": {
+      "path": "qa/rc21-android-night/150-rc28-original-home-visual-bounds-result.json",
+      "sha256": "bb444bb8a9a02fa6e11c54759a6663e1e6a1d80fbc3358160da9aec0bbe4cf73"
+    },
+    "Corpus31": {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst01-safe.json",
+      "sha256": "2d8ba266fdfe868006a580fa7ff0263b3d1aa47bfae9a758a9ec84e58b965f91"
+    },
+    "CorpusFailed31": {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst02-safe.json",
+      "sha256": "9cfa3d2e86e6c3a23c3591e0b9fd99f21c715cb8f95ec8e0dd9bd8e7b7fe3eed"
+    },
+    "Delivery32": {
+      "path": "qa/candidate-rc32-delivery/results.json",
+      "sha256": "af2c5084e8ac8cc4862749e579cfd2ed20f7ab22d6f12a3be4f787341b6bd0f0"
+    },
+    "PCUpdate32": {
+      "path": "qa/rc32-resume-20261001/rc32-pc-normal-update-safe.json",
+      "sha256": "0f76d8320bba2c055ea89b5c23a874a62716300a03895fc583ab9cf4cd93c01d"
+    },
+    "AndroidUpdate32": {
+      "path": "qa/rc32-resume-20261001/android-normal-update-source-cache-result.json",
+      "sha256": "16e2dc9da3681fd5cb20956cbca841e3c84fb419a33c08bc8bf5e389c33ed565"
+    },
+    "AndroidTS32": {
+      "path": "qa/rc32-ts-device-replay/actual-android-rc32-ts-replay-result.json",
+      "sha256": "9af6452d6f51cbe46e2c78e93e4a9e9fb1966e9b774e0a741cb6466ef7ed2ee6"
+    },
+    "Format32": {
+      "path": "qa/rc32-format-acceptance/provenance.json",
+      "sha256": "48a0093365337a7597408c7b3525e53ed47ba9aac3b10d79ab481253e031b2e6"
+    },
+    "Q3Prototype": {
+      "path": "memory/Q3-FEASIBILITY-20260930.md",
+      "sha256": "40fc99b2231e15b7166d4b01272ffa697a469ac122b147098e135ba366579b2f"
+    },
+    "Spec": {
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564"
+    }
+  },
+  "sourceComparisons": {
+    "functions": [
+      {
+        "path": "app.js",
+        "scope": "function setPlayerChromeVisible(",
+        "sha29": "7d0328e063defca7a9171714f4ea7fd35f220283393049c07ecc1e9bdeb8dd72",
+        "sha32": "7d0328e063defca7a9171714f4ea7fd35f220283393049c07ecc1e9bdeb8dd72",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function resetControlsTimer(",
+        "sha29": "6e4981878a49a64c763961f4121fceadacb8dfac321dc35b097dc35415fb2a72",
+        "sha32": "6e4981878a49a64c763961f4121fceadacb8dfac321dc35b097dc35415fb2a72",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function revealPlayerChrome(",
+        "sha29": "23a138c29bd14bfafcb784e05585e67d88a9f839a62aeafa4579d5f27e2ae99a",
+        "sha32": "23a138c29bd14bfafcb784e05585e67d88a9f839a62aeafa4579d5f27e2ae99a",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function setupPlayerChrome(",
+        "sha29": "e69b8d4adf42993549018bbd03485087c33ab2e1b8d9bd4f393d7e7dcdff6271",
+        "sha32": "e69b8d4adf42993549018bbd03485087c33ab2e1b8d9bd4f393d7e7dcdff6271",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function updateAccountSyncStatus(",
+        "sha29": "fe40b384382674a1d59f2c006bb3bc53ecae4d2f536971dd789d6fd07ee884bf",
+        "sha32": "fe40b384382674a1d59f2c006bb3bc53ecae4d2f536971dd789d6fd07ee884bf",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function showMediaLoading(",
+        "sha29": "6c0a6cc8656b0bec9ee990663f400388656671ea726f9c18d784516f04db3bf4",
+        "sha32": "6c0a6cc8656b0bec9ee990663f400388656671ea726f9c18d784516f04db3bf4",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function normalizeAccountMediaState(",
+        "sha29": "6263e880dde3be872e61c779f95a3816021ba8cbf3dd2fdd12d67be6117a3ffe",
+        "sha32": "6263e880dde3be872e61c779f95a3816021ba8cbf3dd2fdd12d67be6117a3ffe",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function mergeAccountMediaStates(",
+        "sha29": "9a929bee821c04a57e2e58da2b7b843cd4a726f3022be24f97e0816998ac061c",
+        "sha32": "9a929bee821c04a57e2e58da2b7b843cd4a726f3022be24f97e0816998ac061c",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function markFileViewed(",
+        "sha29": "1937262173319b239a748093c4e86c2f19a5d7efe408d72a24027aad1fe10563",
+        "sha32": "1937262173319b239a748093c4e86c2f19a5d7efe408d72a24027aad1fe10563",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function noteViewedVideoPresentation(",
+        "sha29": "140301a6b5f015d04f1525e31ec9a347a29b804d54a5268f09ebe86da2b016b7",
+        "sha32": "140301a6b5f015d04f1525e31ec9a347a29b804d54a5268f09ebe86da2b016b7",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function installSessionCredential(",
+        "sha29": "0afb9aebf43dc2ef272b466810bf598da1b20b58b7193dd419ac8c9755e77beb",
+        "sha32": "0afb9aebf43dc2ef272b466810bf598da1b20b58b7193dd419ac8c9755e77beb",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function requestSessionCredential(",
+        "sha29": "45e139f6a7b162c41f968b60d6c47d49526eed9278ae31e978fd0ea123586c64",
+        "sha32": "45e139f6a7b162c41f968b60d6c47d49526eed9278ae31e978fd0ea123586c64",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function retireQ0Playback(",
+        "sha29": "2c29a3a196d1d1e1c20c8ee56aece47d87bceca51e8a83d6682ebcae0f8c4131",
+        "sha32": "2c29a3a196d1d1e1c20c8ee56aece47d87bceca51e8a83d6682ebcae0f8c4131",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function retireQ1Playback(",
+        "sha29": "e91c11003fc680224cdf1c25df9b024c90bfdc7ea630ca1be1d87532e9fe5d45",
+        "sha32": "e91c11003fc680224cdf1c25df9b024c90bfdc7ea630ca1be1d87532e9fe5d45",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function confirmQ1WorkerRetirement(",
+        "sha29": "d07fd9bbdb5b8185ce9c562b9bb2a53b8a350473576be557cfe3b9bddecf97eb",
+        "sha32": "d07fd9bbdb5b8185ce9c562b9bb2a53b8a350473576be557cfe3b9bddecf97eb",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function clearDirectMediaSources(",
+        "sha29": "5234a496bf51a4af87dd6d565a79631362f16126ca4419ccad8aebadcc4eb8cc",
+        "sha32": "5234a496bf51a4af87dd6d565a79631362f16126ca4419ccad8aebadcc4eb8cc",
+        "same": true
+      },
+      {
+        "path": "app.js",
+        "scope": "function closePlayer(",
+        "sha29": "328e6f8dc2649b367b6ea7fdfa4457ac62f9c3e4162df71ea48b39ddba9f138b",
+        "sha32": "328e6f8dc2649b367b6ea7fdfa4457ac62f9c3e4162df71ea48b39ddba9f138b",
+        "same": true
+      }
+    ],
+    "styles": {
+      "sha29": "1e011347c4a24cad04ed4229c01b721cb20d7925268b8ca6d585000ff9850a11",
+      "sha32": "1e011347c4a24cad04ed4229c01b721cb20d7925268b8ca6d585000ff9850a11",
+      "same": true
+    },
+    "authFiles": [
+      {
+        "path": "auth/session-owner.mjs",
+        "sha29": "de9a145887d9dacaafdb899d42e0ea99296b701c4fefd7db6b787dbfb55012d0",
+        "sha32": "de9a145887d9dacaafdb899d42e0ea99296b701c4fefd7db6b787dbfb55012d0",
+        "same": true
+      },
+      {
+        "path": "auth/routes.mjs",
+        "sha29": "2909937c36ce650118ebcffd6fe13c1908ec15da6509c049be5e2158871195ad",
+        "sha32": "2909937c36ce650118ebcffd6fe13c1908ec15da6509c049be5e2158871195ad",
+        "same": true
+      },
+      {
+        "path": "worker/index.mjs",
+        "sha29": "399eaabdccdd4072728d65df5661305a73a2b8c4503e213cea5ec95925769962",
+        "sha32": "399eaabdccdd4072728d65df5661305a73a2b8c4503e213cea5ec95925769962",
+        "same": true
+      },
+      {
+        "path": "worker/google.mjs",
+        "sha29": "bbfcf94a3b83d7241629373883e039296b985e1b7ce7ad10185a1c862aee1c56",
+        "sha32": "bbfcf94a3b83d7241629373883e039296b985e1b7ce7ad10185a1c862aee1c56",
+        "same": true
+      }
+    ],
+    "sourceFiles": {
+      "app.js": "7a84c2f52a6ba15300a533eea7f5b49f6653fe540486f5907d30214e65327497",
+      "sw.js": "8f27c0aa6710b78353b87911702a7e4c6e66535c404d5a66869992fc861b242b",
+      "version.json": "f60e407e34b72be59084f504eec09d2e48ce658c3fdc63f6f397b7eb341cbbea"
+    },
+    "changedLayerLimits": [
+      "Account JSON deadline31 changes read transport, not compared state union/sync/chrome functions. Current32 normal full-state preservation is separately actual.",
+      "TS EOF30 and bounded raw probe retention32 changed media input/lifetime; historical50 native proof is dated. Root final742 focused source/epoch/cache/dispose and actual32 zero-retention evidence support changed owner, not a new native50/heap measurement."
+    ]
+  },
+  "current32": {
+    "delivery": true,
+    "pcNormalUpdatePreserved": true,
+    "androidNormalUpdatePreserved": true,
+    "cacheDistinctFiles": 40,
+    "cacheAliasMatches": 41,
+    "executingWorkerScriptHashKnown": false,
+    "pcDeeperCohort2": "PENDING until root supplies reviewed safe FINAL",
+    "pcTsReplay": "PENDING at cut",
+    "androidTs": {
+      "artifact": "AndroidTS32",
+      "completed": true,
+      "cleanupComplete": true,
+      "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+      "exactFinalFrame": "UNKNOWN",
+      "rootFinalFacts": {
+        "startupSeconds": 18.338,
+        "seek50Seconds": 19.307,
+        "seek90Seconds": 11.565,
+        "nearEofSeconds": 6.258,
+        "reopenSeconds": 13.912,
+        "firstTwoDiagnostic15sMiss": true,
+        "validTargetFramesAndCurrentOwnerEof": true,
+        "retainedBytesAfterDispose": 0,
+        "reopenCacheHits": 0,
+        "audioFidelity": "NOT_TESTED"
+      },
+      "factsAttribution": "Root supplied FINAL facts; safe artifact SHA and terminal complete/cleanup flags independently checked. No full trace exported."
+    }
+  },
+  "nonMatrixGates": {
+    "performance": "OBS03 failure-inclusive sufficiently repeated distribution and condition/rationale remain open; diagnostic15s is not original Q1 startup/seek mandate.",
+    "viewport": "Repair delivered32; bounded actual top/bottom scroll coverage remains supplemental product/G5 observation.",
+    "Q3": "Conditional unresolved implementation/resource trial; no automatic N/A from undiscovered unsupported codec or unavailable paid resources."
+  },
+  "rows": [
+    {
+      "id": "QA-TR-01",
+      "original": {
+        "scenario": "큰 정상 MP4, cold cache",
+        "expected": "전체 다운로드 전 Q0 first frame, 정상 진행",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1695,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual",
+      "remainder": "One genuine large cold normal MP4 Q0 frame/progress trace before whole download; stable source/account and actual byte denominator.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-02",
+      "original": {
+        "scenario": "tail-index MP4/MOV",
+        "expected": "뒤쪽 index 접근 가능, 불필요한 전량 선다운로드 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1696,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled-native",
+      "remainder": "Actual-app bounded tail-index start/seek. Approved controlled sparse fixture is sufficient; actual corpus tail presence remains separate.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-03",
+      "original": {
+        "scenario": "같은 파일 10/50/90% seek",
+        "expected": "위치·영상·음성 정상, 이전 seek 작업 정리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1697,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual",
+      "remainder": "Same selected actual file/version normal audio across10/50/90 seek in PC+Android. Retain frame/settlement proof and diagnostic latency failures separately.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-04",
+      "original": {
+        "scenario": "`0-1`, 열린 범위, suffix, 끝바이트",
+        "expected": "상태·헤더·본문 정합성",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1698,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-05",
+      "original": {
+        "scenario": "유효 부분 206 / 잘못된 206 / 416",
+        "expected": "유효 응답 허용, 잘못된 바이트 fail closed, 무한 재시도 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1699,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-06",
+      "original": {
+        "scenario": "Range에 upstream 200",
+        "expected": "가짜 범위 응답 없이 사실대로 처리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1700,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-07",
+      "original": {
+        "scenario": "2 GiB·4 GiB 이상 size/offset",
+        "expected": "overflow·부호 전환·메모리 전량 할당 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1701,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-08",
+      "original": {
+        "scenario": "헤더 무응답/첫바이트 지연/body stall",
+        "expected": "구분된 watchdog, 유한 복구, 취소 가능",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1702,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-09",
+      "original": {
+        "scenario": "닫기·다른 영상·빠른 seek",
+        "expected": "이전 응답이 새 media state를 변경하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1703,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-10",
+      "original": {
+        "scenario": "재생 중 source 변경",
+        "expected": "cache 혼합 금지, 변경 복구",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1704,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Adopted Q0/native/full-original/Q1/Q2 controlled source-change ledger. Successful newest-version playback after user reopen is not inferred or added to the original no-mix/safe-recovery criterion.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-11",
+      "original": {
+        "scenario": "제한 cache/quota",
+        "expected": "비호환 코덱으로 오판하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1705,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-TR-12",
+      "original": {
+        "scenario": "충분히 긴 실제 재생",
+        "expected": "만료 경계 이후 Range/seek·화면 복귀 정상",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1706,
+        "baselineStatus": "blocked"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28",
+        "RenewalSeekAndroid28",
+        "HomeAndroid28"
+      ],
+      "scope": "Actual PC+Android natural66→67, post-expiry frames/later seek and genuine30s OS Home/return complementary saved clauses; unchanged auth/retirement.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "No invented combined expiry-during-background requirement or source32 renewal rerun claim.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-01",
+      "original": {
+        "scenario": "11개 확장자와 실제 codec 조합",
+        "expected": "inventory 누락 없음, 조합별 Q 경로와 검증 상태",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1712,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual",
+      "remainder": "Finish current stable feasible bounded whole-video prefix/config/track and image-header coverage with unknown/failed/unattempted counts; keep image-MIME inventory separate from actual classified headers; actual discovered-combination representatives. PC32 deeper cohort2 pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-02",
+      "original": {
+        "scenario": "영상/음성은 지원, container만 미지원",
+        "expected": "Q1, 불필요한 영상 변환 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1713,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual",
+      "remainder": "Mapped actual compatible streams/unsupported container Q1 representative video/audio integration on PC+Android; reuse encoded-copy oracle, not every-video playback.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-03",
+      "original": {
+        "scenario": "영상 지원·음성 비호환",
+        "expected": "Q2, 영상 재인코딩 없음·정상 음성",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1714,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "conditional-actual",
+      "remainder": "Determine actual incompatible-audio codec/config applicability; when present genuine representative Q2 audio with original video retained. Controlled Q2 proof remains dated.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-04",
+      "original": {
+        "scenario": "원본 영상 codec 미지원",
+        "expected": "승인된 브라우저/서비스 자원 내 실제 경로·필요 Q3 검증. native 비교를 앱 인수로 계산하지 않음; 미확보 지원은 미완료로 기록",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1715,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "conditional-product",
+      "remainder": "Conditional unresolved implementation: actual unsupported-video discriminator; if needed bounded source-owned integrated Q3 and meaningful actual-device resource/seek/cancel trial. Resource limit is not N/A.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-05",
+      "original": {
+        "scenario": "다중 음성·무음·자막·회전·VFR",
+        "expected": "선택과 타이밍·화면비 정상",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1716,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "conditional-actual-or-controlled",
+      "remainder": "Discovered multi-audio/silent/subtitle/rotation/VFR selection/timing; EXP03 controlled absent hard cases allowed. Unparsed tracks do not establish absence.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-06",
+      "original": {
+        "scenario": "실제 HDR/고비트심도 파일 존재 시",
+        "expected": "보존 또는 필요한 변환 명시, SDR을 원본 HDR로 라벨링하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1717,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "conditional-actual",
+      "remainder": "Current bounded HDR/high-depth applicability evidence; if present preservation/explicit transform. Unknown cannot become N/A from SDR sample.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-07",
+      "original": {
+        "scenario": "GIF·animated WebP",
+        "expected": "목록 정지, 실제 viewer 애니메이션·alpha·시간 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1718,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual",
+      "remainder": "Finite actual GIF/animatedWebP static-list/viewer animation plus original encoded alpha/delay/loop oracle, using exact32 image owner. Sampled pixel change alone is not timing proof.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-08",
+      "original": {
+        "scenario": "큰 PNG/JPEG/BMP·잘못된 MIME",
+        "expected": "원본 표시/안전 변환, 파일 누락·iframe 영상 fallback 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1719,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual-and-controlled",
+      "remainder": "Finite actual large JPEG/PNG/BMP original-display representative(s), controlled large/wrong-MIME branch reuse and no image-to-video iframe. No original metadata mutation needed.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-09",
+      "original": {
+        "scenario": "손상 또는 불완전 파일",
+        "expected": "원인 분류, 전체 앱 오류/무한 작업 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1720,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Controlled malformed-source acceptance only. Real-corpus coverage is FM01/G5 and cannot be inferred. Original FM09 does not require deliberate real private media corruption.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-FM-10",
+      "original": {
+        "scenario": "파생 HLS 90% seek",
+        "expected": "처음부터 생성 대기 없이 올바른 timeline 접근",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1721,
+        "baselineStatus": "not-applicable"
+      },
+      "priorAssessment": "conditional-not-applicable-retained",
+      "proposal": "N",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "not-selected-architecture",
+      "remainder": "Derived HLS unselected; reopen if adopted.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-01",
+      "original": {
+        "scenario": "실제 토큰 만료 전후",
+        "expected": "선택한 정상 갱신/명시 재연결, 목록·위치 유지",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1727,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P28",
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "scope": "Actual normal natural-expiry renewal/selection/state retention branch; unchanged source32 credential functions.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Actual Google grant revocation is not credited.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-02",
+      "original": {
+        "scenario": "동시 401 다수",
+        "expected": "계정별 한 번의 갱신, 유한 재시도",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1728,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-03",
+      "original": {
+        "scenario": "늦은 401·같은 문자열 새 revision",
+        "expected": "새 credential이 삭제되지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1729,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-04",
+      "original": {
+        "scenario": "실제/가상 다른 계정 선택",
+        "expected": "이전 파일·쓰기·state 격리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1730,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Original1730 explicitly 실제/가상. Real other-account selection is optional branch, not an added requirement.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-05",
+      "original": {
+        "scenario": "권한·scope·quota·network 오류",
+        "expected": "서로 다른 원인으로 처리, 불필요한 logout 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1731,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-06",
+      "original": {
+        "scenario": "third-party cookies blocked",
+        "expected": "앱 원본/파생 경로 정상, Google iframe에 의존하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1732,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "F",
+      "evidence": [
+        "Cookie31",
+        "P31"
+      ],
+      "scope": "Actual31 dedicated-page blocked-third-party-cookie Q1 original-byte+derived playback; no Google iframe.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Q0 cookie coverage UNKNOWN; dormant preview and independent worker override limits retained.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-07",
+      "original": {
+        "scenario": "팝업 취소·콜백 누락·state 오류",
+        "expected": "한 번의 안전한 실패·재시도 가능, 기존 데이터 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1733,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-08",
+      "original": {
+        "scenario": "refresh 응답에 token 필드 일부 없음",
+        "expected": "기존 refresh token 보존, 불완전 응답 분류",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1734,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-09",
+      "original": {
+        "scenario": "브로커 재시작/세션 갱신",
+        "expected": "안전한 세션 복구 또는 명확한 재연결",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1735,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-AU-10",
+      "original": {
+        "scenario": "새 origin/OAuth client 이관",
+        "expected": "기존 state count·tombstone·writer identity 보존 또는 계획된 이관",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1736,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "scope": "Accepted point-in-time full state/candidate-origin/client binding and empty-cache reconstruction; unchanged32 union/auth and actual32 preservation.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Later playback/projection changes do not invalidate completed snapshots; no new grant/client proof invented.",
+      "adopted": false
+    },
+    {
+      "id": "QA-ST-01",
+      "original": {
+        "scenario": "두 기기 계속 foreground",
+        "expected": "양방향 like/unlike/viewed 수신, 수동 reload/refocus 불필요",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1737,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual PC+physicalAndroid foreground23 proof, exact current state behavior",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-ST-02",
+      "original": {
+        "scenario": "offline edit → 재연결",
+        "expected": "offline 동안 원격 불변, 이후 안전 병합",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1738,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-ST-03",
+      "original": {
+        "scenario": "실패한 영상 open",
+        "expected": "시청 성공 기록으로 잘못 확정되는지 검사, STATE-07 정책 적용",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1739,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-01",
+      "original": {
+        "scenario": "승인된 테스트 파일 휴지통 이동",
+        "expected": "동일 ID의 remote `trashed` 확인",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1745,
+        "baselineStatus": "blocked"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "scope": "Actual31 ordinary exact2 trash with same-ID fresh API postconditions.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Initial version/admission failures retained; generic writes remain disabled.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-02",
+      "original": {
+        "scenario": "승인된 폴더 이동",
+        "expected": "실제 parents 확인, 요청값 추정 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1746,
+        "baselineStatus": "blocked"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "scope": "Actual31 ordinary exact2 A→B move with fresh parents, restore toA.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Only approved task-created targets; no original writes.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-03",
+      "original": {
+        "scenario": "응답 손실 뒤 remote commit",
+        "expected": "readback으로 confirmed, 중복 위험 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1747,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-04",
+      "original": {
+        "scenario": "요청 전 실패",
+        "expected": "원격 불변, 적합한 failed/pending 처리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1748,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-05",
+      "original": {
+        "scenario": "부분 성공 뒤 만료·계정 전환",
+        "expected": "파일별 결과 보존, 새 계정 재실행 금지",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1749,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-06",
+      "original": {
+        "scenario": "중복 operationId·payload 변경",
+        "expected": "같은 작업 결과 재사용 또는 충돌 거부",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1750,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-07",
+      "original": {
+        "scenario": "동명 파일·shortcut·공유 드라이브",
+        "expected": "대상 ID/의도 정확, 잘못된 파일 수정 0",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1751,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-08",
+      "original": {
+        "scenario": "readback 404·권한 변화",
+        "expected": "삭제 성공으로 단정하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1752,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-09",
+      "original": {
+        "scenario": "Drive API·웹·G: 비교",
+        "expected": "클라우드 상태와 desktop sync 지연 구별",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1753,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "F",
+      "evidence": [
+        "Disposable31",
+        "GMoved31",
+        "GTrashed31",
+        "GRestored31",
+        "GCleaned31"
+      ],
+      "scope": "Actual31 API+web same IDs/state and G: unique path/74B/MD5 movement/trash/restore/final absence.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "G direct cloud ID UNKNOWN, not an original comparison prerequisite; no zero-sync-lag claim.",
+      "adopted": false
+    },
+    {
+      "id": "QA-MU-10",
+      "original": {
+        "scenario": "복구·잔여 test data",
+        "expected": "승인된 pre-state로 복원, 영구 삭제 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1754,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "F",
+      "evidence": [
+        "Disposable31",
+        "Closure31"
+      ],
+      "scope": "Actual31 exact2 restoration then approved recoverable exact4 final cleanup; stable13GET final postconditions.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Exact task-created targets only, protected recovery remains root-owned; no permanent delete.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-01",
+      "original": {
+        "scenario": "playing/paused/loaded/seeked",
+        "expected": "상태만으로 chrome reveal 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1760,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "saved controlled/native lifecycle owner plus actual current28 pause/seek state + unchanged29 chrome",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-02",
+      "original": {
+        "scenario": "PC 중앙 움직임 / 하단 진입·이탈",
+        "expected": "중앙 hidden, 하단 reveal, 이탈 후 hide",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1761,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Finite PC clause satisfied; no new Android clause added to this PC row.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-03",
+      "original": {
+        "scenario": "모바일 하단 터치·바깥 dismiss",
+        "expected": "필요한 controls 접근, 화면 방해 최소",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1762,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "F",
+      "evidence": [
+        "UI29"
+      ],
+      "scope": "Actual29 Android playing portrait/landscape and paused bottom reveal/outside-dismiss; exact unchanged32 chrome4+CSS.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Native OS injected tablet input; not human-finger/phone/iOS proof.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-04",
+      "original": {
+        "scenario": "fallback/오류/외부 열기 경로",
+        "expected": "닫을 수 없는 별도 아일랜드 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1763,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Saved finite owner/dismissibility proof plus current source inspection. Actual exhausted network induction/physical external-action matrix is not an extra clause in original1763.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-05",
+      "original": {
+        "scenario": "버튼 click 후 Space / Tab button Space",
+        "expected": "각각 playback / native button 동작, 중복 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1764,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Finite trusted browser keyboard clauses satisfied; G5 current device-wide focus remains separately owned.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-06",
+      "original": {
+        "scenario": "VoiceOver·keyboard 진입",
+        "expected": "숨긴 controls에 갇히지 않고 명시 reveal 가능",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1765,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "original explicit keyboard-entry branch saved; VoiceOver user-deferred",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-07",
+      "original": {
+        "scenario": "long press·이동·다중 touch",
+        "expected": "selection/drag/menu 충돌 없이 취소·완료",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1766,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual Android stationaryhold/movement + native OS two contacts/cancel",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-08",
+      "original": {
+        "scenario": "edge back·interior swipe·취소·재입력",
+        "expected": "입력 하나의 owner 하나, ghost/중복 탐색 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1767,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "saved native edge plus current native interior threshold/cancel/reentry",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-09",
+      "original": {
+        "scenario": "세로/가로/fullscreen·native fullscreen",
+        "expected": "safe area·close·seek 접근, 실제 OS 한계 명시",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1768,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual Android28 portrait/OS-landscape/browserfullscreen explicitexit, current29 geometry controlled review",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-UI-10",
+      "original": {
+        "scenario": "정상 sync·원본 준비",
+        "expected": "내부 장문 설명·반복 toast·영구 badge 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1769,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "F",
+      "evidence": [
+        "UI29",
+        "PCQuiet29",
+        "A29"
+      ],
+      "scope": "Actual29 PC/Android preparation and ordinary canonical PATCH200/lastSync with quiet DOM; unchanged32 sync/loading/chrome/CSS.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Bounded normal windows, not all future writes. No extra perpetual UX requirement.",
+      "adopted": false
+    },
+    {
+      "id": "QA-LF-01",
+      "original": {
+        "scenario": "50회 전환·seek·close",
+        "expected": "decoder/job/listener/버퍼 누적 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1770,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29",
+        "AndroidTS32"
+      ],
+      "scope": "Dated native50 plus changed-layer controlled50, unchanged retirement32, new local cache/epoch/dispose checks and actual32 zero-retained close.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Root reported final742; no new product test rerun/native50/process-memory measurement. Current cache mechanism is not universal latency gain.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SE-01",
+      "original": {
+        "scenario": "임의 fileId·타 계정·path/URL 주입",
+        "expected": "권한 밖 자원 접근 거부",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1771,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SE-02",
+      "original": {
+        "scenario": "로그·public build·process args",
+        "expected": "credential/개인 원본 노출 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1772,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Original owned logging/public-build/process-argv clauses supported by exact source diagnostic redaction tests reused in665, actual owned logs/traces/issuesoff, Git-equal public52/ZIP/private exclusion, and exact candidate deployment public-path argv. No all-history/provider-infrastructure retention claim.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SE-03",
+      "original": {
+        "scenario": "malformed media·storage full",
+        "expected": "제한된 실패, 원본·다른 앱 cache 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1773,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "baseline-qualified-controlled-retained",
+      "proposal": "C",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "controlled",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SW-01",
+      "original": {
+        "scenario": "old/new shell·worker·offline reload",
+        "expected": "호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1774,
+        "baselineStatus": "passed"
+      },
+      "priorAssessment": "restored-current-integration-pass-proposal",
+      "proposal": "S",
+      "evidence": [
+        "P29",
+        "Delivery32",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "scope": "Restored candidate safe-version/offline contract plus actual32 PC+Android normal update/full-state/cache preservation.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Six failed active replacement aggregates retained. Executing worker script hash unknown; closed-player update is not active-media recovery.",
+      "adopted": false
+    },
+    {
+      "id": "QA-RP-01",
+      "original": {
+        "scenario": "지정 MP4의 같은 실제 ID·버전, PC/iPhone Chrome 탭/PWA 및 Safari 비교",
+        "expected": "최초 실패 계층·선택 경로·first frame/진행·audio/seek·close를 기록. iframe 진입을 성공으로 계산하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1789,
+        "baselineStatus": "blocked"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual-specific-file-PC-Android",
+      "remainder": "User-designated exact original ID/version PC+Android route/first failure/frame/progress/audio/seek/close. Preserve actual magic even if .mp4 name has TS bytes; another TS file cannot substitute.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-01",
+      "original": {
+        "scenario": "B-auth session과 Google access token 수명 분리",
+        "expected": "access 만료가 앱 상태 삭제로 이어지지 않음. 실제 갱신/철회·재연결 확인",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1790,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "partial-exact-missing-clause",
+      "proposal": "O",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "actual normal renewal/state retention; controlled terminal invalidgrant/revoked-session + reconnect",
+      "remainder": "Chosen actual one-session app logout/reconnect and same-account/state recovery within existing client/grant after owner retirement; stop at login/2FA/new grant. Global Disconnect/Google revoke excluded.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-02",
+      "original": {
+        "scenario": "두 기기·동시 요청·서버리스 여러 실행 인스턴스",
+        "expected": "실제 single-flight 또는 동등한 안전 조정, revision 원자성·기존 refresh token 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1791,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "scope": "Actual two devices overlapping credential calls same66→67 plus unchanged Durable owner/atomic revision/refresh-preservation controlled proofs.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Equivalent safe coordination criterion; provider execution count and serverless instance IDs UNKNOWN, not extra mandatory gates.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-03",
+      "original": {
+        "scenario": "직접 reader용 짧은 credential 전달",
+        "expected": "유효 session/Origin/CSRF·계정 검사, memory/no-store, refresh/client secret 및 로그·public cache 유출 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1792,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Full original reader guards/memory/no-store/secret exclusion supported by unchanged13 controlled owner routes plus actual12 existing-session denials/cookie metadata/direct playback, public52/owned log+argv proof. Actual spoofedOrigin/newgrant is not an extra original clause.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-04",
+      "original": {
+        "scenario": "무료 사용량·저장·CPU·호출·한도 초과 시나리오",
+        "expected": "실제 선택 요금제에서 운영 가능성 증거와 유한 실패. 카드·유료 자동전환 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1793,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Selected actualWorkersFree/no-card, observed real requests/CPU/storage and unchanged bounded owner storage503/provider failure support the original operational finite-limit contract. No paid transition is selected or performed. Real quota exhaustion/hidden disabled-auto-upgrade control is not required; unknown account control visibility stays a limitation.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-05",
+      "original": {
+        "scenario": "iPhone 탭·PWA의 OAuth 진입/callback/앱 복귀",
+        "expected": "실행 문맥별 정상 session. 같은 origin만으로 공유된다고 추정하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1794,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "user-deferred-iOS",
+      "proposal": "D",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "user-deferred-iOS",
+      "remainder": "D066: iOS/VoiceOver post-deployment follow-up.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-06",
+      "original": {
+        "scenario": "B-media를 선택한 경우의 Range/streaming/cancel",
+        "expected": "전체 버퍼 없이 bytes·헤더 정합성·한도·보안 충족. 미선택 시 근거 있는 not-applicable",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1795,
+        "baselineStatus": "not-applicable"
+      },
+      "priorAssessment": "conditional-not-applicable-retained",
+      "proposal": "N",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "not-selected-architecture",
+      "remainder": "B-media relay unselected; directDrive+B-auth; reopen if adopted.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-07",
+      "original": {
+        "scenario": "새 client/origin 후보와 기존 appData",
+        "expected": "이관 전후 counts/tombstones/writer identity·원본 state 보존·복구, 잘못된 앱/계정 접근 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1796,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "scope": "Same accepted state preservation/recovery binding as AU10, not a duplicate mandatory fresh migration.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Protected raw recovery is root-owned and not read here.",
+      "adopted": false
+    },
+    {
+      "id": "QA-SL-08",
+      "original": {
+        "scenario": "후보 origin의 인가 밖 API/파일/진단 접근·기존 production",
+        "expected": "접근 거부·개인 데이터 비공개·old service 불변. 검증 배포와 운영 교체 구분",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1797,
+        "baselineStatus": "not-run"
+      },
+      "priorAssessment": "finite-original-pass-proposal",
+      "proposal": "F",
+      "evidence": [
+        "P29"
+      ],
+      "scope": "Actual anonymous/session/private404 denials plus unchanged exact account/Origin/CSRF/path guards, safe public52 and distinct candidate-only deployment support original authorization/private/old-service-unchanged clauses. No current production promotion, source replacement or absent-interface claim.",
+      "remainder": "No extra original clause identified; root adoption pending.",
+      "limits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "adopted": false
+    }
+  ]
+}

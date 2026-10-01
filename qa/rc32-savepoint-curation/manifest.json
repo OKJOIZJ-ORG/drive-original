@@ -1,0 +1,531 @@
+{
+  "schema": "drive-original.rc32-exact-safe-savepoint/1",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "actualExecutionByCuration": false,
+  "gitMutations": false,
+  "privateInputsRead": false,
+  "validation": {
+    "files": 81,
+    "totalBytes": 9548145,
+    "jsonParsed": 36,
+    "javascriptSyntaxChecked": 37,
+    "functionFragmentsParsed": 5,
+    "frozenOutputHashesVerified": 58,
+    "frozenComparisons": 77,
+    "approvedReceiptPinsVerified": 3,
+    "credentialValueMarkersAbsent": true,
+    "productMediaSuitesRerun": false,
+    "oldFreezesRewritten": false
+  },
+  "scope": "Exact publicsafe delivery/preparation and root-approved safe receipts only. Historical freeze input references are not read. Manifest is the unhashed envelope; root owns staging/adoption.",
+  "limitations": [
+    "Android one exact TS replay; first two diagnostic15s misses; no p95/audio-fidelity/exact-final-frame claim",
+    "PC attempt1b failed observer bound; later root PC retry is deliberately absent",
+    "Deeper cohort2 OWNER_CHANGED then CLEANUP_FAILED; released handles do not prove generic upstream cleanup",
+    "Original69 reconciliation is a proposal, not whole-goal or whole-row acceptance",
+    "Historical unbound delivery-preparation statements describe preparation time and are not overwritten"
+  ],
+  "excluded": [
+    "protected-state-recovery-inputs",
+    "private-output-logs-and-readbacks",
+    "deployment.json",
+    "credentials-and-private-account-media-identifiers",
+    "original-media-bytes",
+    "screenshots-and-binaries",
+    "zip-files",
+    "temporary-or-unlisted-files",
+    "root-active-PC-retry",
+    "canonical-memory",
+    "production-provider-Android-actions",
+    "Git-staging-or-commit"
+  ],
+  "files": [
+    {
+      "path": "qa/candidate-rc32-delivery/DELIVERY-PREPARATION.md",
+      "role": "preparation",
+      "bytes": 2296,
+      "sha256": "601984d615eb275015ae1f963ab567fe92e521ade3ec910122711d3aa8920f8b"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/SHA256SUMS.json",
+      "role": "preparation",
+      "bytes": 570,
+      "sha256": "411ea4beaebcd7b89fea92bed4fa40063b08afd43c4ed10ffff9e2d31cd84625"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/audit-memory-guard.json",
+      "role": "preparation",
+      "bytes": 461,
+      "sha256": "752784dc0f03cf6988e7809ba5a90b13418d26c17e974cb508a3d2ae9a2812a8"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/audit-with-memory-guard.cjs",
+      "role": "preparation",
+      "bytes": 2318,
+      "sha256": "3804f5accab9cd10eb664d6b43f50b2b834754da8d7476c9bd4015651d53040a"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/bind-source.cjs",
+      "role": "preparation",
+      "bytes": 6636,
+      "sha256": "f5a43c1ac2972f321fbb417246efe16d79be15a896927d0d930fccdd079792cc"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/binding.json",
+      "role": "preparation",
+      "bytes": 2660,
+      "sha256": "fdaef1260f5c4cd7f65da85e50d1c51fd8f37c773a14c8394251fe9b1ba4988f"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/build-release.py",
+      "role": "preparation",
+      "bytes": 3995,
+      "sha256": "3a247f9aaef012289c8ad48cde43361800bb182c775f84e60b0ac86f9d5456fe"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/delivery-guard.cjs",
+      "role": "preparation",
+      "bytes": 5190,
+      "sha256": "3d9cb01bb662c209d423363e6fb08e8c8789bdb596ef41213e07fd73b676ca10"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/deploy-candidate.cjs",
+      "role": "preparation",
+      "bytes": 1752,
+      "sha256": "bec4226127b9bad59cd25d006b75b01f9297927b7c134a33154405efe6b8c060"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/finalize-source-readiness.py",
+      "role": "safe-evidence-or-producer",
+      "bytes": 5653,
+      "sha256": "12b63097765a5c19ae4ed810b256f6f7429c3bc764eb20759bcaf11b15f4cb46"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/local-delivery-preparation.json",
+      "role": "preparation",
+      "bytes": 4136,
+      "sha256": "d184e06b7107b73cde01abe17cb3779e03bc74302f543a524aa51b94e04ca11a"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/materialization.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 8944,
+      "sha256": "42834b9e306de6a297c553ff5f476999273f324c0f8c9d7ba2dfb11a4a849937"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/materialize-candidate.cjs",
+      "role": "preparation",
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/package.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 876,
+      "sha256": "28e7c847f064114721eddc6f168decafead025264ec2c6206bd1f2b97d5c0c05"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/readback-candidate.cjs",
+      "role": "safe-evidence-or-producer",
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/redact-readback.cjs",
+      "role": "safe-evidence-or-producer",
+      "bytes": 2129,
+      "sha256": "82158b11b1a7081d5d8f5e4bd0e929cd09be9a522eb4e3c6602b1599e44c357c"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/redacted-readback.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 1624,
+      "sha256": "e233087f23cd654a2f611b8234352b981d511dcb354ad1ac53e3646606bb4382"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/results.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 10187,
+      "sha256": "af2c5084e8ac8cc4862749e579cfd2ed20f7ab22d6f12a3be4f787341b6bd0f0"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/root-guard-attempts.json",
+      "role": "preparation",
+      "bytes": 408,
+      "sha256": "a8e2f6734297637977f107e175d3813e91d30a78ffec9ae4e469dd26f84991a4"
+    },
+    {
+      "path": "qa/candidate-rc32-delivery/source-readiness.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 8881,
+      "sha256": "08dd9142cc3d7c470b482111894649dafd3efe0856c5603e9a44e099aaf6f8bb"
+    },
+    {
+      "path": "qa/rc32-acceptance-reconciliation/README.md",
+      "role": "acceptance-proposal",
+      "bytes": 15475,
+      "sha256": "c0cb72597f223ccafbd1a79822a674e421965b5ad4a51fc90d696202240ad48b"
+    },
+    {
+      "path": "qa/rc32-acceptance-reconciliation/freeze.json",
+      "role": "acceptance-proposal",
+      "bytes": 4824,
+      "sha256": "276153ad0ad60ee3640a7c83cff2af755f3ed2b96f85ad64296f334a46a29bf4"
+    },
+    {
+      "path": "qa/rc32-acceptance-reconciliation/reconciliation.json",
+      "role": "acceptance-proposal",
+      "bytes": 73361,
+      "sha256": "2e167f82f8d856037089b41846a11153d201cc097466b3fd2ec547097c770419"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/README.md",
+      "role": "preparation",
+      "bytes": 10983,
+      "sha256": "6dc38095deecd9a3e0eb1dc659674b0c7d0812a10eafaf6c83f2d000fc54c9a9"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/binding.json",
+      "role": "preparation",
+      "bytes": 430,
+      "sha256": "31986e1a0b76ac748e27f1418b6bcaeabb1b806e02ea86f3a7bf83d505ab9b4d"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/build.mjs",
+      "role": "preparation",
+      "bytes": 4641,
+      "sha256": "a2b0a6993fbb6902e68f67e23dc71e739abdb6798beba88f9776ba30a863b321"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/curated-savepoint.json",
+      "role": "preparation",
+      "bytes": 779,
+      "sha256": "ae8a02a8573ccbff397813c91115001f010c82f7aa3f2deefbe438dae6c658da"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/deeper.expression.js",
+      "role": "preparation",
+      "bytes": 188512,
+      "sha256": "5adac275ceebaad3bacaa6089c585b06aa0e5dc5b09dbc850e64ed2fa198d01b"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/derive-context.expression.js",
+      "role": "preparation",
+      "bytes": 3370,
+      "sha256": "5759957cb0c9ba59e754be553c18795393ad5f01880ac24b25755c209d2b2692"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/freeze.json",
+      "role": "preparation",
+      "bytes": 1056,
+      "sha256": "5bee174d80072ca83cc4adfb22ec88e8fb472225a86aad3ec49150c78c3f1a75"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/image-observer.function.js",
+      "role": "preparation",
+      "bytes": 5960,
+      "sha256": "58096ab9f6061b73486dd59746d8f23ad5afb886bbaa9ce8d2898e75c69858d0"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/inputs.json",
+      "role": "preparation",
+      "bytes": 3358,
+      "sha256": "732e3b81a191f53b2da1559c7d06e25606c764d7d85c345e4b0ed15e021c0e30"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/local-verification.json",
+      "role": "preparation",
+      "bytes": 1000,
+      "sha256": "d9f108b92d55755091bbb55828055e31fa957ff12708a700d599deca3011e741"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/provenance.json",
+      "role": "preparation",
+      "bytes": 1905,
+      "sha256": "48a0093365337a7597408c7b3525e53ed47ba9aac3b10d79ab481253e031b2e6"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/rc32-pc-deeper-cohort2-safe.json",
+      "role": "actual-safe-receipt",
+      "bytes": 44707,
+      "sha256": "4df987beef6d100402bb8a343aef2ac07085375970c40913a14c9c68fcd253e4"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/sw-proof.expression.js",
+      "role": "preparation",
+      "bytes": 3138,
+      "sha256": "bb5f9d78cf1aa828ca3024fa63cf41c2c21c7736481cb32858557d8d654360fb"
+    },
+    {
+      "path": "qa/rc32-format-acceptance/verify.mjs",
+      "role": "preparation",
+      "bytes": 7052,
+      "sha256": "4dcf5bc879357ab3bb7a7e72b05569f38616343df49f37722633702480996c0f"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/android-binding-verification.json",
+      "role": "preparation",
+      "bytes": 1789,
+      "sha256": "22e0539591cd5be8377243c2b3d766d771c034ac0f0dd7454296c061ab3b6a5e"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/android-binding.json",
+      "role": "preparation",
+      "bytes": 7220,
+      "sha256": "05f9f4374ee5057cf0e63c4dc30d8a4448d88df2259352719a5b177e6228f19d"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/android-normal-update-source-cache-result.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 21217,
+      "sha256": "16e2dc9da3681fd5cb20956cbca841e3c84fb419a33c08bc8bf5e389c33ed565"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/android-normal-update-source-cache.cjs",
+      "role": "preparation",
+      "bytes": 8194,
+      "sha256": "66592df19c641d6351cb044c5bfcd877a60ccc354f0590512abf781f9ff21dc4"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/android-ui-common-rc32.cjs",
+      "role": "preparation",
+      "bytes": 8077,
+      "sha256": "461790d757df32fb560887fffbba94963a9dce62ca0c60cb9d9e2fa59cce0d07"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/build-android-binding.cjs",
+      "role": "preparation",
+      "bytes": 4376,
+      "sha256": "528861c97ee8ecdc081da410ab2cf5fc910d36590dfa3fbb00fb22a92e1ae127"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/build-source-proof.cjs",
+      "role": "preparation",
+      "bytes": 2781,
+      "sha256": "01851e1462a085550a3de4641d66e12aa294fe25972a7266e92eac90c2545071"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/pc-update-baseline.expression.js",
+      "role": "preparation",
+      "bytes": 2939,
+      "sha256": "17eb1fb635c336a7894ddb5cf76e0ebad8e85c94e4cc5389c2cd4a8cd0176710"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/preparation-first-failure.json",
+      "role": "preparation",
+      "bytes": 312,
+      "sha256": "94d6895116672a5cfb2e679cce2060d1cdb8398583b261a8548c031074540023"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/preparation-manifest.json",
+      "role": "preparation",
+      "bytes": 2589,
+      "sha256": "a771fd96d2ec6215e1bed41a56ba8378ef9829c511b0622c59ac432a32e4b794"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/rc32-pc-normal-update-safe.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 3877,
+      "sha256": "0f76d8320bba2c055ea89b5c23a874a62716300a03895fc583ab9cf4cd93c01d"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/source-binding-verification.json",
+      "role": "preparation",
+      "bytes": 2945,
+      "sha256": "006052fe9172c00cf2873ac879391532fa0d23b0cd61cbbc08bac128eb0e4879"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/source-proof.expression.js",
+      "role": "preparation",
+      "bytes": 8544,
+      "sha256": "c300eed5ef520bdfce4678560536781a5a884e50d1b44fddd32185605ca537aa"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/sourcebinding.json",
+      "role": "preparation",
+      "bytes": 7355,
+      "sha256": "38106e93aaadba70f2db824496b2d83a37e8936208b623bbc945dd1b6e543fbb"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/verify-android-binding.cjs",
+      "role": "preparation",
+      "bytes": 5076,
+      "sha256": "e34c24d2b373d363c990687f441571c33562e1c558e90db8b07cbd6532309b77"
+    },
+    {
+      "path": "qa/rc32-resume-20261001/verify-source-binding.cjs",
+      "role": "preparation",
+      "bytes": 7241,
+      "sha256": "b9f93d0109857d9193df0b55ff9a7054db2c1bd45d8633360806bb8e557c9d60"
+    },
+    {
+      "path": "qa/rc32-savepoint-curation/CANDIDATE-RC32-DRAFT.md",
+      "role": "curation-metadata",
+      "bytes": 4403,
+      "sha256": "ef1470bc77ddf261f3fda29fdb9e3d44c8ff95ad13e691960a1d4ec50b4d91e7"
+    },
+    {
+      "path": "qa/rc32-savepoint-curation/README.md",
+      "role": "curation-metadata",
+      "bytes": 2396,
+      "sha256": "b1025508373ba8fcef29a428535acb9f14348595e262d4948c697e9bf8471f41"
+    },
+    {
+      "path": "qa/rc32-savepoint-curation/curate.cjs",
+      "role": "curation-metadata",
+      "bytes": 10228,
+      "sha256": "246038ff2d19856dfcfaddadc9d3a9748381f0de0ee1a725e67b46d055b7f70d"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/README.md",
+      "role": "preparation",
+      "bytes": 5124,
+      "sha256": "3e092e3c3f72d4e0d50e10f840a364baf31eb793051d9b0ca8efacf774180fc8"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/actual-android-rc32-ts-replay-result.json",
+      "role": "actual-safe-receipt",
+      "bytes": 7794947,
+      "sha256": "9af6452d6f51cbe46e2c78e93e4a9e9fb1966e9b774e0a741cb6466ef7ed2ee6"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/android-common.cjs",
+      "role": "preparation",
+      "bytes": 8913,
+      "sha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/android-replay.cjs",
+      "role": "preparation",
+      "bytes": 18820,
+      "sha256": "a4bc2d94a8fbb6ca51391c8e2e0434c4d33c1bddb13cbdef6cef0bf111430fd3"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/bind.cjs",
+      "role": "preparation",
+      "bytes": 2833,
+      "sha256": "286cdce937804fe0a3e5317fc5c782049f1ff92d6224e4760754efab1b25bc59"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/binding-gate.cjs",
+      "role": "preparation",
+      "bytes": 1722,
+      "sha256": "ba6e36462177a0a0f434d001bd78523c5799d6ef40b21cf785248916c239ad9a"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/binding.json",
+      "role": "preparation",
+      "bytes": 7023,
+      "sha256": "017de1e79a55da405746b15ad98387f3f47ae35e411e13b94651da9d45ab85ed"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/binding.test.cjs",
+      "role": "preparation",
+      "bytes": 3338,
+      "sha256": "ea53cecaba2b2e9b767a7cb51e48d2f3aec87e27f495f8775084f73c1255d5f4"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/bound-manifest.json",
+      "role": "preparation",
+      "bytes": 628,
+      "sha256": "4fc2cca6998b49d930ffddcfbd1c911ae09d3e81f9b1d4e409f5f0fa29a7ef6b"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/cache-files.json",
+      "role": "preparation",
+      "bytes": 1122,
+      "sha256": "9b6fb795b98e5973d401b01b14efa2eb422950e57047e6b5a7b97da4be121998"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/local-result.json",
+      "role": "safe-evidence-or-producer",
+      "bytes": 356,
+      "sha256": "8cb4fd8058261ba35e8cd9e9bd30d49947f0e5d1cefeec9f7602857703ec43eb"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/manifest.json",
+      "role": "preparation",
+      "bytes": 3741,
+      "sha256": "d89adf5cc93fbaacaffb18e639dfe18622648f43c5f2e4969de0fae218556655"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/native-action.test.cjs",
+      "role": "preparation",
+      "bytes": 4368,
+      "sha256": "1f6c05813fc35667c8f0f0b9737ed494a34f5725c9819999bd92b1a823dd8af1"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/native-folder-target.function.js",
+      "role": "preparation",
+      "bytes": 1635,
+      "sha256": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/native-ui-target-v3.function.js",
+      "role": "preparation",
+      "bytes": 4592,
+      "sha256": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/observer.expression.js",
+      "role": "preparation",
+      "bytes": 24494,
+      "sha256": "7faaac95009e1519369de5bd2575925fa60558ff96a00352978dc5f98bc8bc68"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/observer.function.js",
+      "role": "preparation",
+      "bytes": 18893,
+      "sha256": "e9e47f0d18a851c41b15858fb85ce1a9157527f6d7390bfd6d7a0c1ce7dd1472"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/observer.test.cjs",
+      "role": "preparation",
+      "bytes": 11538,
+      "sha256": "baa005096b5d680b35e229b1926669484b0388f7e7657a95443bbd5d92c5b019"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/preparation-manifest.json",
+      "role": "preparation",
+      "bytes": 2532,
+      "sha256": "1dd30d1839e57e9fc5b561111dacc8d932c864363a451d32a655734a82b7296f"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/provenance.json",
+      "role": "preparation",
+      "bytes": 1351,
+      "sha256": "f3a71a882e3f8f4774935d78608915d8269acc5f575e34b4f2869893c92cd175"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/rc32-pc-ts-replay-attempt1b-safe.json",
+      "role": "actual-safe-receipt",
+      "bytes": 1056390,
+      "sha256": "45421ed9b4647fbb053d2103d3434dcbb673bd176995bf5e28fd05f6c6b06747"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/source-proof.expression.js",
+      "role": "preparation",
+      "bytes": 13622,
+      "sha256": "ca83526c00330c7391da8c6d1f9d28b3321f799570fdd300826c670743b02d52"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/source-proof.function.js",
+      "role": "preparation",
+      "bytes": 3085,
+      "sha256": "fb4a763bcb5766a91a757e53dccd42f52ddbe7ae205f225e11ddc09863ad90c7"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/source-proof.test.cjs",
+      "role": "preparation",
+      "bytes": 2489,
+      "sha256": "fea40183b8f7aa56cb20b03e7eae5617fa35eaa758ebdd03241d0a18a22edc76"
+    },
+    {
+      "path": "qa/rc32-ts-device-replay/verify.cjs",
+      "role": "preparation",
+      "bytes": 1480,
+      "sha256": "7d54e25f2b8e218fb19641b2a85056821558b47a761e7fb42b3d8d601b0e01a9"
+    }
+  ]
+}
