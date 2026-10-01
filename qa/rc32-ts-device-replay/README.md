@@ -153,3 +153,14 @@ sample fidelity, full soundtrack correctness and another device remain UNKNOWN.
 Capture-stream content is not itself proof of physical speaker output (see
 [W3C media-element capture](https://www.w3.org/TR/mediacapture-fromelement/));
 the native mute/volume guards describe the original element's observed controls.
+
+`android-audio-seek-remaining.cjs` prepares the validated common transport,
+source/private holder, normal library input and safe exports before timing;
+then runs `.5`, `.9`, or `both` serially with a fresh metadata pair per phase.
+Root-only actual invocation (a new safe filename is mandatory):
+`node qa/rc32-ts-device-replay/android-audio-seek-remaining.cjs <protected-json-path> actual-android-rc32-audio-seek-remaining-attempt1-safe.json both`.
+Its helper SHA freezes reject drift; exclusive creation refuses old receipts.
+Work/total bounds are240/300s for both,180/240s for one, plus separate180s prep;
+in-flight common CDP commands can take45s. Saved `liveReceipts` qualify before
+normal Back; final sampler/player/private/proof and common transport cleanup are
+reported separately. Guard tests: `node --test qa/rc32-ts-device-replay/android-audio-seek-remaining.test.cjs`.
