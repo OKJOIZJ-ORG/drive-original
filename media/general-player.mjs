@@ -1,6 +1,6 @@
 import {startGeneralWorker} from './general-owner.mjs';
 const demand=(x,c)=>{if(!x)throw new Error(`GENERAL_${c}`);};
-const safe=e=>/^(?:GENERAL|WORKER|TIMING|Q1_EXACT|Q1_SOURCE|AUDIO)_[A-Z0-9_]+$/.test(e?.message)?e.message:'GENERAL_PLAYBACK_FAILED';
+const safe=e=>/^(?:GENERAL|WORKER|TIMING|Q1_EXACT|Q1_SOURCE|AUDIO|Q3)_[A-Z0-9_]+$/.test(e?.message)?e.message:'GENERAL_PLAYBACK_FAILED';
 const safeDiagnostic=value=>['tracks','packets','configuration','native-capability','timeline','decoder-open','audio-decode','output-open','video-mux','audio-encode','finalize'].includes(value?.phase)
  && ['Error','TypeError','RangeError','AbortError','NotSupportedError','EncodingError','DataError','InvalidStateError','QuotaExceededError','OperationError','RuntimeError','CompileError','LinkError','OtherError'].includes(value?.errorKind)
  ? {phase:value.phase,errorKind:value.errorKind,...(['allocated','unavailable'].includes(value.wasmMemory)?{wasmMemory:value.wasmMemory}:{})}:null;

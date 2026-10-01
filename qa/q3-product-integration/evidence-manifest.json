@@ -1,0 +1,291 @@
+{
+  "format": 1,
+  "scope": "Local Q3 product integration; synthetic browser/native oracle and source/relink evidence, no actual-file/device/public acceptance",
+  "validation": {
+    "nativeBrowserCases": 8,
+    "independentNativeOracles": 2,
+    "sourceAndSameToolchainRelink": true,
+    "timingRegressionTests": {
+      "pass": true,
+      "command": "node --test tests/video-q3.test.mjs tests/video-q3-app.test.js",
+      "tests": 23,
+      "failed": 0,
+      "beforeFix": {
+        "newTimingRegressions": 3,
+        "missingRejections": 3
+      },
+      "fixtures": [
+        {
+          "path": "qa/q3-browser-execution/synthetic-mpeg4.mp4",
+          "duration": 3,
+          "pictures": 72
+        },
+        {
+          "path": "qa/q3-product-integration/synthetic-640.mp4",
+          "duration": 3,
+          "pictures": 90
+        }
+      ],
+      "clockContract": "Exact BigInt movie/media clocks; equal movie/track/edit durations; only floor/ceil quantization strictly below one movie tick with tick no longer than one source picture; coarse clocks require exact identity",
+      "stdoutSha256": "55eecfca13fc74da498e5766347134d85b8b3e782d74e701baf30ff1bb217f87",
+      "scope": "Local input admission and Q3/app focused tests; existing exact3s browser/oracle evidence reused, no actual-file/device acceptance"
+    },
+    "relatedShellTests": {
+      "pass": true,
+      "command": "node --test tests/shell.test.js tests/sw.test.js",
+      "tests": 86,
+      "failed": 0,
+      "rootFullSuite": {
+        "tests": 747,
+        "passed": 745,
+        "failed": 2,
+        "evidence": "root-product-suite-private.log",
+        "scope": "Root ran full suite once before these test expectation fixes; unaffected passing checks reused"
+      },
+      "firstScopedRun": {
+        "tests": 86,
+        "passed": 85,
+        "failed": 1,
+        "reason": "Cross-VM Array prototypes in deepStrictEqual; corrected by host Array.from without changing expected URLs"
+      },
+      "contracts": [
+        "Full SW batch equals authoritative SHELL_FILES including all six public Q3 runtime files",
+        "Public archive inventory equals audio manifest parts, Q3 archive manifest and Mediabunny source archive",
+        "Q3 tgz/manifest/NOTICE remain public direct downloads excluded from cache and refresh",
+        "Existing credentials, media, duplicate, no-store, deadline and ownership fences retained"
+      ],
+      "stdoutSha256": "b1ff216759281f6000754d16d462376c9c6c86adcea3ee496bf55655be9f67dd",
+      "scope": "Related shell/SW test expectation fixes only; no product mutation/full-suite repeat/browser/account/device action"
+    },
+    "reusedBrowserScope": "Final dimension/VP9-level guards passed both fixtures. Rejected-source-abort and strict rational duration admission are separately checked in the23 new tests. The current parser still admits both exact3s fixture clocks; positive browser paths, output and codec bytes are unchanged."
+  },
+  "files": [
+    {
+      "path": "app.js",
+      "bytes": 515595,
+      "sha256": "558a6508afe77a1b2c82e7798de751c77f2fad3527dfab241437be95229d873e"
+    },
+    {
+      "path": "index.html",
+      "bytes": 51100,
+      "sha256": "37b5d1f3b4d99b2f7886b719f537eb0f3213177d5a72599594f462a77f094fa0"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 72871,
+      "sha256": "40261cba50e9bd017d85c18ebc1425f9a9b54b95d57942e1d1e44c1a5fa7704f"
+    },
+    {
+      "path": "scripts/public-files.cjs",
+      "bytes": 1906,
+      "sha256": "92b9f5e4205265634a9629100b02b65e62d366ef4decebb45ea3c598b7d694c4"
+    },
+    {
+      "path": "media/audio-general-pipeline.mjs",
+      "bytes": 17849,
+      "sha256": "90fc6a366beece135ce077aa79bba5ae386a6d40fbe7ff8ce8b062de055b2ce5"
+    },
+    {
+      "path": "media/general-player.mjs",
+      "bytes": 20190,
+      "sha256": "b3525f2b74241aca49ca470e11c9891ecf4735476e433229b1020aac819f952a"
+    },
+    {
+      "path": "media/video-q3-input.mjs",
+      "bytes": 9977,
+      "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99"
+    },
+    {
+      "path": "media/video-q3-pipeline.mjs",
+      "bytes": 10341,
+      "sha256": "0b586338bc22dd5ccdbd0e030c7051649f716eb863307f72fbb74fa8b7c5c297"
+    },
+    {
+      "path": "media/video-q3-worker.mjs",
+      "bytes": 3390,
+      "sha256": "47bd1eb8e29e8110c70e960639861b3614daf1b6b7a827fa74545fcf9ce9ca3d"
+    },
+    {
+      "path": "media/video-q3-codec.mjs",
+      "bytes": 13112,
+      "sha256": "32561bdedaf8e1d83d18dde4eed56f3be078bff3c80bc0873134d14d53a34bc5"
+    },
+    {
+      "path": "media/video-q3-codec.wasm",
+      "bytes": 614556,
+      "sha256": "722b38a87d6cd71d56ed247f6125c53a4f6b218bf2071a2851c5be489b145436"
+    },
+    {
+      "path": "media/video-q3-bridge.c",
+      "bytes": 2592,
+      "sha256": "82394e65d2a8b583a08e7d3238844e2bfb7809c3bc9e769924c954773d36e347"
+    },
+    {
+      "path": "media/video-q3-codec.LICENSE.txt",
+      "bytes": 55828,
+      "sha256": "a2b75502237c70afc9004a75fabbba93513e44a8af9305d6ffaf1805e5073b11"
+    },
+    {
+      "path": "scripts/link-video-q3.cjs",
+      "bytes": 2060,
+      "sha256": "421f7b3f6abfa701571fc0f2ef555b28a341e87b71007810d61f4e921301c7f2"
+    },
+    {
+      "path": "scripts/package-video-q3-source.cjs",
+      "bytes": 7647,
+      "sha256": "1d0f8826dfbe8540175aacd391d87c8b23611fa070ba9afdcd2a31b3c9bbc6e8"
+    },
+    {
+      "path": "licenses/video-q3-source-NOTICE.md",
+      "bytes": 2690,
+      "sha256": "bf7accebee5e8b698070ddc0198d90a8b963adc64f1cc74b040db49370107152"
+    },
+    {
+      "path": "licenses/video-q3-source-manifest.json",
+      "bytes": 4774,
+      "sha256": "988e010949150848699cb8678cf75f6a336a29b8c6c9f42d25eca88ca2272d4b"
+    },
+    {
+      "path": "licenses/video-q3-source.tgz",
+      "bytes": 1749915,
+      "sha256": "d2d85724afcf9fc14bf0b0711fbe9a270f9df754e0ab81c5ce2d0dd0b8f69bab"
+    },
+    {
+      "path": "licenses/index.html",
+      "bytes": 5933,
+      "sha256": "adf6ffcf7d57d7690b99e8f8f480e08eb76c17ff86161529898407c140a03caf"
+    },
+    {
+      "path": "tests/video-q3.test.mjs",
+      "bytes": 8662,
+      "sha256": "c982ec0ff00496a3fd0d0ac1484867476d1fd70e4e5b0f5d49a40fa15544413c"
+    },
+    {
+      "path": "tests/video-q3-app.test.js",
+      "bytes": 2263,
+      "sha256": "b1d491a677448d39b6ec8167d690d766f29853f668e5cd4cfaaa1eadfa9e5a29"
+    },
+    {
+      "path": "tests/shell.test.js",
+      "bytes": 14398,
+      "sha256": "7cb22ac8a5b87ddd635724f1dbd7531cc091c6a7f95190b549a72e159aa5434e"
+    },
+    {
+      "path": "tests/sw.test.js",
+      "bytes": 108940,
+      "sha256": "0c60f2bd9ca0c39ce75f68483204500d877876c8893d0dd0a2a8e8e7290d6b00"
+    },
+    {
+      "path": "memory/Q3-PRODUCT-20261002.md",
+      "bytes": 6159,
+      "sha256": "ae66968c12bf158cba91ceb1c856f10ddcd8b627c1587b0218fa642bda660c72"
+    },
+    {
+      "path": "qa/q3-browser-execution/synthetic-mpeg4.mp4",
+      "bytes": 510811,
+      "sha256": "4f9a6394d01776a88e198a90e829b7b369c8303ec1fe86d386637439a00585da"
+    },
+    {
+      "path": "qa/q3-product-integration/README.md",
+      "bytes": 5813,
+      "sha256": "424626b68f40e99ec6c3475f6068e189510eb1134836223673a19f26416ab778"
+    },
+    {
+      "path": "qa/q3-product-integration/fixture.html",
+      "bytes": 167,
+      "sha256": "09006b228e96e0ce8de68713e8156018f4dd08bc46dca514a664500842a777a2"
+    },
+    {
+      "path": "qa/q3-product-integration/fixture.mjs",
+      "bytes": 3593,
+      "sha256": "f2a18746c4197205e02af08cc07c6a14b2d22e6353cc61094c8e57f794d6dae6"
+    },
+    {
+      "path": "qa/q3-product-integration/browser-audit.cjs",
+      "bytes": 4698,
+      "sha256": "3ae785b5840bfe3c077c3b9397aa013e2093eaeb7e093399588fca9e0acb6809"
+    },
+    {
+      "path": "qa/q3-product-integration/browser-320-results.json",
+      "bytes": 12742,
+      "sha256": "d389f9d10382746c1494ca8735afd882e6ab8ebe8deb529ea7425b65d071daf6"
+    },
+    {
+      "path": "qa/q3-product-integration/browser-640-results.json",
+      "bytes": 12749,
+      "sha256": "33e255de6b4efa0c294a0d7c2ce1e7a8a45670ba857f69c1afa429f86e3d43c2"
+    },
+    {
+      "path": "qa/q3-product-integration/browser-first-errno-failure.json",
+      "bytes": 621,
+      "sha256": "cae96fb7a48bde453ce07895d043dd5ecbbb602bfe3ccc9c5cc38b9dc64fb069"
+    },
+    {
+      "path": "qa/q3-product-integration/synthetic-640.mp4",
+      "bytes": 1343446,
+      "sha256": "e346b35c238af191fc16cc98cffdac39ec44797badaf290156d3131dce794bf6"
+    },
+    {
+      "path": "qa/q3-product-integration/output-320.mp4",
+      "bytes": 473023,
+      "sha256": "52af504db3fdb8b64ddfb439a9dab03f994384dca3df5a8ff9c6aec94cdbd183"
+    },
+    {
+      "path": "qa/q3-product-integration/output-640.mp4",
+      "bytes": 1026816,
+      "sha256": "f333de27229e22a1d7714d67abb3d2fa77b8409f5a33e074b59582d461ff2c03"
+    },
+    {
+      "path": "qa/q3-product-integration/oracle.cjs",
+      "bytes": 4803,
+      "sha256": "0084fa165703549d54815c229aa24f734b32dd3d1c8f24d6d91c43e26c302ddb"
+    },
+    {
+      "path": "qa/q3-product-integration/oracle-results.json",
+      "bytes": 2011,
+      "sha256": "1ead4dc9f6412af28099b688ad2ea6433707a067d6f3ddc2de5c6b129ff652ea"
+    },
+    {
+      "path": "qa/q3-product-integration/oracle-first-sar-unknown.json",
+      "bytes": 1524,
+      "sha256": "4404293e10d36127ef7e71770c823322c520bec76982ea676cbb43adf4748030"
+    },
+    {
+      "path": "qa/q3-product-integration/verify-source.cjs",
+      "bytes": 2147,
+      "sha256": "2d24607acd1822549d02e2ff0c66fd65f6875478fab6bdc7acd982001f27d2e6"
+    },
+    {
+      "path": "qa/q3-product-integration/verify-relink.sh",
+      "bytes": 383,
+      "sha256": "29818888e88c1b49108da0d6138788ffa12e3703c8594617031f5d59a0cabd23"
+    },
+    {
+      "path": "qa/q3-product-integration/source-results.json",
+      "bytes": 581,
+      "sha256": "6805967125cc087ff0f4dfd5fd63dd7eacf8be11c5aeaa7aed12a0cd53d5eafa"
+    },
+    {
+      "path": "qa/q3-product-integration/timing-tests-results.json",
+      "bytes": 920,
+      "sha256": "c2a7c4864c13367084edcb9a0b1e1d591c076de5fa68a67be50945a6d7b5b436"
+    },
+    {
+      "path": "qa/q3-product-integration/shell-tests-results.json",
+      "bytes": 1186,
+      "sha256": "3bf26fa63c1e6aa594615ed01d5192acc732d0dbda10da69e0abf27029c448ed"
+    },
+    {
+      "path": "qa/q3-product-integration/hash-evidence.cjs",
+      "bytes": 3420,
+      "sha256": "b9ef6409f2932b75dcf4e1279b197fe1342ddf77d0352113201b41b63c107557"
+    }
+  ],
+  "excludes": [
+    "installed SDK/compiler/cache",
+    "relink-check extracted sources/static libraries/output",
+    "generic first output duplicate",
+    "full Node test logs"
+  ],
+  "next": "Actual approved source/app-choice identity replay, long-form resources/quality/seek/EOF and physical PC/Android qualification"
+}

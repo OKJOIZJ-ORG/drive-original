@@ -13,7 +13,14 @@ export async function probePinnedGeneralAudio(source, {signal, isCurrent = () =>
   const rpc = createGeneralSource(source, {signal, isCurrent});
   let input;
   try {
-    const admission = await admitGeneralInput(rpc, {audioCodecs:['mp4a','ac-3','ec-3']});
+    let admission;
+    try { admission = await admitGeneralInput(rpc, {audioCodecs:['mp4a','ac-3','ec-3']}); }
+    catch(error) {
+      // Optional audio admission owns no unsupported-video verdict. Keep Q0
+      // until its actual decoder outcome; malformed/transport failures remain errors.
+      if(error.message==='GENERAL_CODEC_UNQUALIFIED') return {route:'native',reason:'q2-codec-unqualified'};
+      throw error;
+    }
     if (admission.kind !== 'iso') return {route:'native', reason:'non-iso'};
     input = new Input({source:rpc.custom, formats:[MP4,QTFF]});
     const videos = await input.getVideoTracks(), audios = await input.getAudioTracks(); rpc.check();

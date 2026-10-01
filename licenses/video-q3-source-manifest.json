@@ -1,0 +1,148 @@
+{
+  "format": 1,
+  "archive": "video-q3-source.tgz",
+  "bytes": 1749915,
+  "sha256": "d2d85724afcf9fc14bf0b0711fbe9a270f9df754e0ab81c5ce2d0dd0b8f69bab",
+  "targetWasm": {
+    "bytes": 614556,
+    "sha256": "722b38a87d6cd71d56ed247f6125c53a4f6b218bf2071a2851c5be489b145436"
+  },
+  "sharedSource": {
+    "manifest": "../audio-source-manifest.json",
+    "archiveSha256": "e596d3e61c8e8a2e816ebf9c735eada6bd24868a6aaf75e0610bf16889d44e64",
+    "files": [
+      {
+        "path": "archives/emscripten-09f52557f0d48b65b8c724853ed8f4e8bf80e669.tar.gz",
+        "bytes": 34336891,
+        "sha256": "b6d77005685756a5ba3cfcddadc217782edf6fa4ec8fd645786ee3ad63e6060f"
+      },
+      {
+        "path": "archives/emsdk-389a68bc35dcff7ebae4614e1615099dafda00d1.tar.gz",
+        "bytes": 203172,
+        "sha256": "cdaa3bc973c609d9b0b1dab72de52f0b60427e6b95e30eecf9ec014514dddc67"
+      },
+      {
+        "path": "archives/ffmpeg-140fd653aed8cad774f991ba083e2d01e86420c7.tar.gz",
+        "bytes": 16424114,
+        "sha256": "5c4a9e51e706b8deba835f02ea70e1e1101187f601adae72b36ec2b17b6f15be"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "configuration/avconfig.h",
+      "bytes": 180,
+      "sha256": "6d78a911a2128e926262114c9904209209674e3bc1a18c208c850ecbfc3393ec"
+    },
+    {
+      "path": "configuration/config_components.h",
+      "bytes": 74588,
+      "sha256": "69408075fbb83b2aea9b3691b1e4593fb2f46c228f0df0a8ef433c5176887b30"
+    },
+    {
+      "path": "configuration/config.h",
+      "bytes": 23180,
+      "sha256": "8be0d36d5a76752299642ddb9ddf8fcce3e116c75e905b99b42e919cce28f591"
+    },
+    {
+      "path": "configuration/config.mak",
+      "bytes": 86346,
+      "sha256": "5b5ec577d12f2023f0bcf78da33f865438d56f02b7be22a4c56ecea43509b7eb"
+    },
+    {
+      "path": "configuration/ffversion.h",
+      "bytes": 199,
+      "sha256": "3fe3bf37cca73b97bf8d09b75877beffc3c914d24e48c9179d588822fe25df26"
+    },
+    {
+      "path": "local-relink.cjs",
+      "bytes": 2060,
+      "sha256": "421f7b3f6abfa701571fc0f2ef555b28a341e87b71007810d61f4e921301c7f2"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 2690,
+      "sha256": "bf7accebee5e8b698070ddc0198d90a8b963adc64f1cc74b040db49370107152"
+    },
+    {
+      "path": "notices/compiler-rt-LICENSE.txt",
+      "bytes": 16708,
+      "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d"
+    },
+    {
+      "path": "notices/Emscripten-LICENSE.txt",
+      "bytes": 5093,
+      "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86"
+    },
+    {
+      "path": "notices/FFmpeg-LGPL-2.1.txt",
+      "bytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+    },
+    {
+      "path": "notices/musl-COPYRIGHT.txt",
+      "bytes": 6204,
+      "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+    },
+    {
+      "path": "original-build.sh",
+      "bytes": 2550,
+      "sha256": "236287f78b03af72b670cee253d41a0d46afd6e6d4ca2e55228d132f09a11c8c"
+    },
+    {
+      "path": "product-source/video-q3-codec.mjs",
+      "bytes": 13112,
+      "sha256": "32561bdedaf8e1d83d18dde4eed56f3be078bff3c80bc0873134d14d53a34bc5"
+    },
+    {
+      "path": "product-source/video-q3-codec.wasm",
+      "bytes": 614556,
+      "sha256": "722b38a87d6cd71d56ed247f6125c53a4f6b218bf2071a2851c5be489b145436"
+    },
+    {
+      "path": "product-source/video-q3-input.mjs",
+      "bytes": 9977,
+      "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99"
+    },
+    {
+      "path": "product-source/video-q3-pipeline.mjs",
+      "bytes": 10341,
+      "sha256": "0b586338bc22dd5ccdbd0e030c7051649f716eb863307f72fbb74fa8b7c5c297"
+    },
+    {
+      "path": "product-source/video-q3-worker.mjs",
+      "bytes": 3390,
+      "sha256": "47bd1eb8e29e8110c70e960639861b3614daf1b6b7a827fa74545fcf9ce9ca3d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1668,
+      "sha256": "0ae5ad2dadca03145ece10cc952ceaa422c04a413f6eba4abbcb55a4adb2ce49"
+    },
+    {
+      "path": "relink.sh",
+      "bytes": 939,
+      "sha256": "f7bf1125f34ac79e63366cf82bf098ca9335406569cb5ebe9cf385fc544ff865"
+    },
+    {
+      "path": "relink/bridge.c",
+      "bytes": 2592,
+      "sha256": "82394e65d2a8b583a08e7d3238844e2bfb7809c3bc9e769924c954773d36e347"
+    },
+    {
+      "path": "relink/libavcodec.a",
+      "bytes": 1378312,
+      "sha256": "e7ef863eccd6b4e1f5ad85b748fad9ece3fd4e5ef338ee65c0c71ee74269af4f"
+    },
+    {
+      "path": "relink/libavutil.a",
+      "bytes": 1442898,
+      "sha256": "4c0f78741ddd250731f408e7e01da0eb1d5958ea74e06549bc3418dae13863dd"
+    },
+    {
+      "path": "shared-source.json",
+      "bytes": 761,
+      "sha256": "5727816933a177c69bb7c92ce421ece38c60c4ae11ea96a57760680e8dcf57d5"
+    }
+  ]
+}

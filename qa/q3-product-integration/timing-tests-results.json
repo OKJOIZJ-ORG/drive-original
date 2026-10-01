@@ -1,0 +1,25 @@
+{
+  "pass": true,
+  "command": "node --test tests/video-q3.test.mjs tests/video-q3-app.test.js",
+  "tests": 23,
+  "failed": 0,
+  "beforeFix": {
+    "newTimingRegressions": 3,
+    "missingRejections": 3
+  },
+  "fixtures": [
+    {
+      "path": "qa/q3-browser-execution/synthetic-mpeg4.mp4",
+      "duration": 3,
+      "pictures": 72
+    },
+    {
+      "path": "qa/q3-product-integration/synthetic-640.mp4",
+      "duration": 3,
+      "pictures": 90
+    }
+  ],
+  "clockContract": "Exact BigInt movie/media clocks; equal movie/track/edit durations; only floor/ceil quantization strictly below one movie tick with tick no longer than one source picture; coarse clocks require exact identity",
+  "stdoutSha256": "55eecfca13fc74da498e5766347134d85b8b3e782d74e701baf30ff1bb217f87",
+  "scope": "Local input admission and Q3/app focused tests; existing exact3s browser/oracle evidence reused, no actual-file/device acceptance"
+}

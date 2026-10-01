@@ -56,14 +56,26 @@ test('corresponding-source downloads remain public but never enter the runtime c
   const publicFiles=require('../scripts/public-files.cjs');
   const w=worker();
   const archives=publicFiles.filter(file=>/\.tgz$|\.tar\.gz\.part\d+$/.test(file));
-  assert.equal(archives.length,8);
+  const audio=JSON.parse(fs.readFileSync(path.join(root,'licenses/audio-source-manifest.json'),'utf8'));
+  const sourceFiles=audio.parts || audio.archive?.parts;
+  assert(sourceFiles,'Source manifest must enumerate the downloadable parts');
+  const q3=JSON.parse(fs.readFileSync(path.join(root,'licenses/video-q3-source-manifest.json'),'utf8'));
+  const expectedArchives=['licenses/mediabunny-q1-preferred-source.tgz',...sourceFiles.map(part=>'licenses/'+part.path),'licenses/'+q3.archive];
+  assert.deepEqual([...archives].sort(),expectedArchives.sort());
   for(const file of archives){
     assert(fs.existsSync(path.join(root,file)),file);
     assert.equal(w.c.shellAssetCacheKey(new Request('https://app.test/drive-original/'+file)),null,file);
   }
-  const audio=JSON.parse(fs.readFileSync(path.join(root,'licenses/audio-source-manifest.json'),'utf8'));
-  const sourceFiles=audio.parts || audio.archive?.parts;
-  assert(sourceFiles,'Source manifest must enumerate the downloadable parts');
+  for(const file of ['licenses/video-q3-source.tgz','licenses/video-q3-source-manifest.json','licenses/video-q3-source-NOTICE.md']){
+    assert(publicFiles.includes(file),file);assert(fs.existsSync(path.join(root,file)),file);
+    const request=new Request('https://app.test/drive-original/'+file);
+    assert.equal(w.c.shellAssetCacheKey(request),null,file);
+    let intercepted=false;w.listeners.get('fetch')({request,respondWith(){intercepted=true;}});
+    assert.equal(intercepted,false,file+' must remain a direct public download');
+  }
+  const q3Runtime=publicFiles.filter(file=>file.startsWith('media/video-q3-'));
+  assert.equal(q3Runtime.length,6);
+  for(const file of q3Runtime)assert.equal(w.c.shellAssetCacheKey(new Request('https://app.test/drive-original/'+file)),'https://app.test/drive-original/'+file,file);
   assert(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('href="./licenses/index.html"'));
 });
 test('candidate deployment runs committed-asset materialization before publication',()=>{

@@ -2293,9 +2293,21 @@ test('shell refresh batches the authoritative complete shell, coalesces clients,
   let release;const pending=new Promise(resolve=>release=resolve);const f=shellWorkerFixture({addAll:()=>pending});
   vm.runInContext("clientCredentials.set('A',{token:'fixture'});q1CleanupFences.set('A',true);",f.worker.context);
   const first=f.send(),second=f.send({requestId:'shell-2'});await new Promise(resolve=>setImmediate(resolve));
-  assert.equal(f.batches.length,1);const batch=f.batches[0];assert.equal(batch.requests.length,41);
-  assert.equal(new Set(batch.requests.map(r=>r.url)).size,41);assert(batch.requests.every(r=>r.cache==='no-store'&&r.signal));
-  assert(batch.requests.every(r=>r.url.startsWith('https://app.test/drive-original/')&&!r.url.includes('/__drive_media/')&&!r.url.endsWith('.tar.gz')));
+  assert.equal(f.batches.length,1);const batch=f.batches[0];
+  const expected=Array.from(vm.runInContext('SHELL_FILES',f.worker.context),name=>new URL(name,f.worker.context.self.registration.scope).href);
+  assert.equal(batch.requests.length,expected.length);
+  assert.equal(new Set(batch.requests.map(r=>r.url)).size,expected.length);
+  assert.deepEqual(Array.from(batch.requests,r=>r.url).sort(),expected.sort());
+  assert(batch.requests.every(r=>r.cache==='no-store'&&r.signal));
+  assert(batch.requests.every(r=>r.url.startsWith('https://app.test/drive-original/')&&!r.url.includes('/__drive_media/')&&!/\.(?:tgz|tar\.gz)(?:\.part\d+)?$/.test(r.url)));
+  const publicFiles=require('../scripts/public-files.cjs');
+  const q3Runtime=publicFiles.filter(file=>file.startsWith('media/video-q3-'));
+  assert.equal(q3Runtime.length,6);
+  for(const file of q3Runtime)assert(batch.requests.some(r=>r.url===new URL(file,f.worker.context.self.registration.scope).href),file);
+  for(const file of ['licenses/video-q3-source.tgz','licenses/video-q3-source-manifest.json','licenses/video-q3-source-NOTICE.md']){
+    assert(publicFiles.includes(file),file);
+    assert(!batch.requests.some(r=>r.url===new URL(file,f.worker.context.self.registration.scope).href),file);
+  }
   assert(batch.requests.some(r=>r.url.endsWith('/media/audio-codec.wasm')));
   release();await Promise.all([first.result,second.result]);assert.equal(f.replies.length,2);assert(f.replies.every(r=>r.ok===true));
   assert(first.port.closed&&second.port.closed);assert.equal(vm.runInContext("clientCredentials.get('A').token",f.worker.context),'fixture');

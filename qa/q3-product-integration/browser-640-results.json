@@ -1,0 +1,464 @@
+{
+  "scope": "isolated synthetic product runtime; no account/device acceptance",
+  "input": {
+    "sha256": "e346b35c238af191fc16cc98cffdac39ec44797badaf290156d3131dce794bf6",
+    "size": 1343446,
+    "width": 640,
+    "height": 360,
+    "frames": 90
+  },
+  "host": {
+    "FreePhysicalMemory": 2454592,
+    "FreeVirtualMemory": 12959316
+  },
+  "browser": "154.0.8037.59",
+  "native": {
+    "error": 4
+  },
+  "cases": [
+    {
+      "name": "qualify",
+      "arg": null,
+      "result": {
+        "admission": {
+          "route": "q3",
+          "codec": "mp4v.20.1",
+          "width": 640,
+          "height": 360,
+          "capability": {
+            "eligible": true,
+            "inputSupported": false,
+            "encoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "vp09.00.41.08",
+              "width": 640,
+              "height": 360,
+              "framerate": 30,
+              "bitrate": 5184000,
+              "latencyMode": "realtime",
+              "hardwareAcceleration": "prefer-software"
+            },
+            "status": {
+              "level": "Q3",
+              "video": "lossy-transformed",
+              "audio": "absent",
+              "codec": "vp9",
+              "bitPerfectVideo": false
+            }
+          }
+        },
+        "window": {
+          "generation": 1,
+          "sourcePacketOrigin": 0,
+          "windowOrigin": 0,
+          "videoStartTimestamp": 0,
+          "sourceEndTimestamp": 3,
+          "videoConfig": {
+            "codec": "vp09.00.41.08",
+            "codedHeight": 360,
+            "codedWidth": 640,
+            "colorSpace": {
+              "fullRange": false,
+              "matrix": "bt709",
+              "primaries": "bt709",
+              "transfer": "bt709"
+            },
+            "flip": false,
+            "hardwareAcceleration": "no-preference",
+            "rotation": 0
+          },
+          "videoCodec": "vp9",
+          "audioCodec": null,
+          "status": {
+            "level": "Q3",
+            "video": "lossy-transformed",
+            "audio": "absent",
+            "codec": "vp9",
+            "bitPerfectVideo": false
+          },
+          "capability": {
+            "eligible": true,
+            "inputSupported": false,
+            "encoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "vp09.00.41.08",
+              "width": 640,
+              "height": 360,
+              "framerate": 30,
+              "bitrate": 5184000,
+              "latencyMode": "realtime",
+              "hardwareAcceleration": "prefer-software"
+            },
+            "status": {
+              "level": "Q3",
+              "video": "lossy-transformed",
+              "audio": "absent",
+              "codec": "vp9",
+              "bitPerfectVideo": false
+            }
+          }
+        },
+        "result": {
+          "kind": "terminal",
+          "generation": 1,
+          "result": {
+            "generation": 1,
+            "targetTime": 0,
+            "duration": 3,
+            "status": {
+              "level": "Q3",
+              "video": "lossy-transformed",
+              "audio": "absent",
+              "codec": "vp9",
+              "bitPerfectVideo": false
+            },
+            "metrics": {
+              "decoded": 90,
+              "encoded": 90,
+              "peakHeapBytes": 33554432,
+              "peakEncoderQueue": 1,
+              "peakMuxBytes": 362958,
+              "peakMuxSamples": 30,
+              "outputBytes": 1026816,
+              "peakPendingAcks": 1,
+              "closed": true
+            },
+            "capability": {
+              "eligible": true,
+              "inputSupported": false,
+              "encoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "vp09.00.41.08",
+                "width": 640,
+                "height": 360,
+                "framerate": 30,
+                "bitrate": 5184000,
+                "latencyMode": "realtime",
+                "hardwareAcceleration": "prefer-software"
+              },
+              "status": {
+                "level": "Q3",
+                "video": "lossy-transformed",
+                "audio": "absent",
+                "codec": "vp9",
+                "bitPerfectVideo": false
+              }
+            },
+            "sourceCodec": "mp4v.20.1",
+            "cleanup": {
+              "settled": true
+            },
+            "reads": {
+              "requests": 21,
+              "bytes": 1343446,
+              "logicalReads": 0,
+              "cacheHits": 94,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            }
+          },
+          "cleanup": {
+            "settled": true
+          },
+          "metrics": {
+            "reads": 21,
+            "bytes": 1343446,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 7,
+            "acks": 7,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 21,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "transportCleanup": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "pass": true
+    },
+    {
+      "name": "playback",
+      "arg": 0,
+      "result": {
+        "width": 640,
+        "height": 360,
+        "frames": 5,
+        "currentTime": 1.519962,
+        "stats": {
+          "generation": 2,
+          "phase": "cancelled",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 3,
+            "commonShift": 0,
+            "targetSource": 1.5,
+            "targetElement": 1.5,
+            "timestampOffset": 0,
+            "audioEnd": null
+          },
+          "appends": 3,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 0,
+          "peakRetainedAppendBytes": 316271,
+          "disposed": true,
+          "status": {
+            "level": "Q3",
+            "video": "lossy-transformed",
+            "audio": "absent",
+            "codec": "vp9",
+            "bitPerfectVideo": false
+          },
+          "capability": {
+            "eligible": true,
+            "inputSupported": false,
+            "encoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "vp09.00.41.08",
+              "width": 640,
+              "height": 360,
+              "framerate": 30,
+              "bitrate": 5184000,
+              "latencyMode": "realtime",
+              "hardwareAcceleration": "prefer-software"
+            },
+            "status": {
+              "level": "Q3",
+              "video": "lossy-transformed",
+              "audio": "absent",
+              "codec": "vp9",
+              "bitPerfectVideo": false
+            }
+          },
+          "cleanup": {
+            "settled": true,
+            "source": {
+              "settled": true
+            },
+            "worker": {
+              "settled": true,
+              "originalSourceSettled": true,
+              "consumersSettled": true,
+              "activeReads": 0,
+              "pendingChunks": 0,
+              "pendingWindows": 0,
+              "workerTerminated": true
+            }
+          }
+        },
+        "events": [
+          "starting",
+          "mapping",
+          "buffered",
+          "starting",
+          "mapping",
+          "buffered"
+        ],
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        },
+        "created": 2,
+        "terminated": 2,
+        "srcRemoved": true
+      },
+      "pass": true
+    },
+    {
+      "name": "playback",
+      "arg": 2.2,
+      "result": {
+        "width": 640,
+        "height": 360,
+        "frames": 5,
+        "currentTime": 1.520847,
+        "stats": {
+          "generation": 2,
+          "phase": "cancelled",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 3,
+            "commonShift": 0,
+            "targetSource": 1.5,
+            "targetElement": 1.5,
+            "timestampOffset": 0,
+            "audioEnd": null
+          },
+          "appends": 3,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 0,
+          "peakRetainedAppendBytes": 316271,
+          "disposed": true,
+          "status": {
+            "level": "Q3",
+            "video": "lossy-transformed",
+            "audio": "absent",
+            "codec": "vp9",
+            "bitPerfectVideo": false
+          },
+          "capability": {
+            "eligible": true,
+            "inputSupported": false,
+            "encoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "vp09.00.41.08",
+              "width": 640,
+              "height": 360,
+              "framerate": 30,
+              "bitrate": 5184000,
+              "latencyMode": "realtime",
+              "hardwareAcceleration": "prefer-software"
+            },
+            "status": {
+              "level": "Q3",
+              "video": "lossy-transformed",
+              "audio": "absent",
+              "codec": "vp9",
+              "bitPerfectVideo": false
+            }
+          },
+          "cleanup": {
+            "settled": true,
+            "source": {
+              "settled": true
+            },
+            "worker": {
+              "settled": true,
+              "originalSourceSettled": true,
+              "consumersSettled": true,
+              "activeReads": 0,
+              "pendingChunks": 0,
+              "pendingWindows": 0,
+              "workerTerminated": true
+            }
+          }
+        },
+        "events": [
+          "starting",
+          "mapping",
+          "buffered",
+          "buffered-to-end",
+          "starting",
+          "mapping",
+          "buffered"
+        ],
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        },
+        "created": 2,
+        "terminated": 2,
+        "srcRemoved": true
+      },
+      "pass": true
+    },
+    {
+      "name": "cancel",
+      "arg": null,
+      "result": {
+        "chunks": 1,
+        "result": {
+          "kind": "terminal",
+          "generation": 1,
+          "error": {
+            "message": "Q3_CANCELLED",
+            "cleanup": {
+              "settled": true
+            },
+            "reads": {
+              "requests": 8,
+              "bytes": 524288,
+              "logicalReads": 0,
+              "cacheHits": 36,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            }
+          },
+          "cleanup": {
+            "settled": true
+          },
+          "metrics": {
+            "reads": 8,
+            "bytes": 524288,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 1,
+            "acks": 0,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 8,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 1,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "transportCleanup": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "requests": 71,
+  "peakReadBytes": 65536,
+  "browserClosed": true,
+  "pass": true
+}

@@ -72,6 +72,7 @@ const PLAYBACK_MODE = Object.freeze({
   MEMORY: 'original-memory',
   REPACKAGED: 'original-repackaged',
   AUDIO_COMPATIBILITY: 'original-video-audio-compatible',
+  VIDEO_COMPATIBILITY: 'video-compatible-lossy',
   COMPATIBILITY: 'compatibility-preview'
 });
 
@@ -659,6 +660,7 @@ let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
 let initialMediaRouteGeneration = 0;
 let q1Playback = null;
+let q3Choice = null;
 let q0Playback = null;
 let q0ControlWait = null;
 // Private, immutable for this selected file lifetime; never persist or log.
@@ -837,6 +839,7 @@ function retireQ1Playback(owner) {
   const previous = q1Retirement;
   owner.retirement = (async () => {
     await owner.setupDone;
+    await owner.q3ProbeDone;
     const cleanup = await (immediate || owner.player?.dispose());
     const workerSettled = !owner.requiresSwReadiness || await confirmQ1WorkerRetirement(owner);
     const prior = await previous;
@@ -1304,7 +1307,7 @@ function bindElements() {
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown', 'playerMoreMenu',
     'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
-    'retryMediaButton', 'bufferOriginalButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
+    'retryMediaButton', 'bufferOriginalButton', 'videoCompatButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
@@ -1503,6 +1506,11 @@ function bindEvents() {
 
   el.retryMediaButton.addEventListener('click', retryMedia);
   el.bufferOriginalButton.addEventListener('click', confirmPendingMediaAction);
+  el.videoCompatButton.addEventListener('click', () => {
+    const choice=q3Choice; q3Choice=null; el.videoCompatButton.hidden=true;
+    if(choice?.current()) void tryOriginalTsPlayback(choice.file,choice.session,
+      {general:true,videoCompatibility:true,nativeVideoRejected:true,snapshotOverride:choice.snapshot});
+  });
   el.compatPlayerButton.addEventListener('click', () => {
     if (state.selected) showDrivePreview(state.selected, '사용자 선택', { userInitiated: true });
   });
@@ -6283,7 +6291,7 @@ function isMediaFrameWatchdogSource() {
     && [PLAYBACK_MODE.RANGE, PLAYBACK_MODE.SEQUENTIAL].includes(state.mediaPlaybackMode);
   const buffered = state.mediaAttempt === 'blob'
     && [PLAYBACK_MODE.OPFS, PLAYBACK_MODE.MEMORY].includes(state.mediaPlaybackMode);
-  const repackaged = state.mediaAttempt === 'q1' && [PLAYBACK_MODE.REPACKAGED, PLAYBACK_MODE.AUDIO_COMPATIBILITY].includes(state.mediaPlaybackMode);
+  const repackaged = state.mediaAttempt === 'q1' && [PLAYBACK_MODE.REPACKAGED, PLAYBACK_MODE.AUDIO_COMPATIBILITY, PLAYBACK_MODE.VIDEO_COMPATIBILITY].includes(state.mediaPlaybackMode);
   return direct || buffered || repackaged;
 }
 
@@ -8332,8 +8340,10 @@ async function presentPinnedOriginalImage(owner, pin, mimeType) {
   }
 }
 
-async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, snapshotOverride = null } = {}) {
+async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, videoCompatibility = false, nativeVideoRejected = false, snapshotOverride = null } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
+  nativeVideoRejected ||= general && !audioCompatibility && !videoCompatibility
+    && state.mediaTransportVerified===true && el.videoPlayer.error?.code===4;
   retireQ0Playback();
   const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
   const oldAttempt = state.mediaAttempt;
@@ -8448,7 +8458,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     // Retire native Q0 without disposing this newly selected owner.
     q1Playback = null; clearDirectMediaSources(); q1Playback = owner;
     owner.swGeneration = mediaSourceGeneration;
-    state.mediaAttempt = 'q1'; state.mediaPlaybackMode = PLAYBACK_MODE.REPACKAGED;
+    state.mediaAttempt = 'q1'; state.mediaPlaybackMode = videoCompatibility ? PLAYBACK_MODE.VIDEO_COMPATIBILITY : PLAYBACK_MODE.REPACKAGED;
     state.mediaTransportVerified = false; state.mediaTransportStarted = false; state.mediaDecodeVerified = false;
     setNativeVideoActionsAvailable(true);
     el.videoPlayer.hidden = false; el.videoPlayer.dataset.mediaSession = String(session);
@@ -8459,6 +8469,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     }
     owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
       ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
+      ...(videoCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/video-q3-worker.mjs', location.href), { type: 'module' }) } : {}),
       initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
       autoplay: !ts && snapshot?.time > 0 ? false
         : resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
@@ -8470,7 +8481,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
           clearMediaSeekWatchdog('q1-source'); clearMediaFrameWatchdog('q1-source'); cancelVideoFrameSampling();
           state.isSeeking = false; state.mediaTransportVerified = false; state.mediaTransportStarted = false;
           state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
-          showMediaLoading('원본 스트림 재포장 준비 중'); updateQualityDisplay();
+          showMediaLoading(videoCompatibility ? '영상 호환 변환 준비 중' : '원본 스트림 재포장 준비 중'); updateQualityDisplay();
         } else if (event.type === 'buffered') {
           if (!ts && !owner.restoredPosition && snapshot?.time > 0 && event.mapping) {
             owner.restoredPosition = true;
@@ -8480,19 +8491,22 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
           }
           state.mediaTransportVerified = true; state.mediaTransportStarted = true;
           state.pendingPlay = false;
-          el.codecNote.textContent = owner.audioTransformed
+          el.codecNote.textContent = videoCompatibility
+            ? '원본 크기와 프레임 순서를 유지한 VP9 호환 변환입니다. 영상은 무손실이 아니며 이 기기의 장시간 품질·성능은 별도 확인이 필요합니다.'
+            : owner.audioTransformed
             ? '영상 원본 스트림을 유지하고 음성을 Opus로 호환 변환합니다. 음성은 무손실이 아닙니다.'
             : '원본 영상·음성 스트림을 재인코딩 없이 재포장합니다. 실제 표시와 탐색은 별도로 확인합니다.';
           updateQualityDisplay(); beginVideoFrameSampling(); syncMediaFrameWatchdog();
         } else if (event.type === 'mapping') {
           owner.audioTransformed = event.status?.bitPerfectAudio === false;
+          if (event.status?.level === 'Q3') state.mediaPlaybackMode = PLAYBACK_MODE.VIDEO_COMPATIBILITY;
           if (owner.audioTransformed) state.mediaPlaybackMode = PLAYBACK_MODE.AUDIO_COMPATIBILITY;
           updateQualityDisplay();
         } else if (event.type === 'source-ended') {
           updateVideoProgress();
         } else if (event.type === 'gesture-required') showPlayerFeedback('화면을 눌러 재생');
         else if (event.type === 'error') {
-          if (!ts && general && !audioCompatibility && event.code === 'GENERAL_CODEC_UNQUALIFIED') {
+          if (!ts && general && !audioCompatibility && !videoCompatibility && event.code === 'GENERAL_CODEC_UNQUALIFIED') {
             // Only codec admission can probe the independently qualified Q2 worker.
             // No transport, permission, identity, cleanup or decode failure enters it.
             const routeGeneration = initialMediaRouteGeneration;
@@ -8508,8 +8522,39 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
                 showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
                 return;
               }
-              void tryOriginalTsPlayback(file, session, { general: true, audioCompatibility: true, snapshotOverride: snapshot });
+              void tryOriginalTsPlayback(file, session, { general: true, audioCompatibility: true, nativeVideoRejected, snapshotOverride: snapshot });
             });
+          } else if (!ts && audioCompatibility && !videoCompatibility && nativeVideoRejected
+            && event.code === 'GENERAL_CODEC_UNQUALIFIED' && !owner.q3Probing) {
+            owner.q3Probing=true;
+            owner.q3ProbeDone=(async()=>{
+              let decision, failure;
+              try {
+                const {probePinnedQ3Video}=await import('./media/video-q3-pipeline.mjs');
+                if(!current())return;
+                const source=await openSource({signal:controller.signal});
+                decision=await probePinnedQ3Video(source,{signal:controller.signal,isCurrent:current,nativeRejected:true});
+              } catch(error) { failure=error; if(error.cleanup?.settled===false)owner.cleanupOk=false; }
+              return {decision,failure};
+            })();
+            void owner.q3ProbeDone.then(async({decision,failure}={})=>{
+              if(!current())return;
+              const sourceGeneration=mediaSourceGeneration, routeGeneration=initialMediaRouteGeneration;
+              q1Playback=null; setupFinished(); const retired=await retireQ1Playback(owner);
+              const choiceCurrent=()=>!q1Playback&&state.selected?.id===file.id&&state.mediaSession===session
+                && state.authAccountKey===account&&state.driveSessionGeneration===accountGeneration
+                && mediaSourceGeneration===sourceGeneration&&initialMediaRouteGeneration===routeGeneration
+                && navigator.serviceWorker?.controller===owner.swController;
+              if(!choiceCurrent())return;
+              state.mediaAttempt='failed';
+              if(!retired.settled) {showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.',{showRetry:false});return;}
+              if(failure&&!/^Q3_[A-Z0-9_]*(?:UNQUALIFIED|REQUIRED)$/.test(failure.message)) {
+                showMediaError('원본 연결과 입력 정보 확인을 안전하게 완료하지 못했습니다. 연결을 확인한 뒤 다시 시도하세요.',{title:'원본 확인 실패',showRetry:true});return;
+              }
+              if(failure||decision?.route!=='q3') {showMediaError('이 영상의 코덱·트랙·색 정보 조합에 대해 안전한 브라우저 변환 경로를 확보하지 못했습니다.',{title:'영상 호환 범위 확인 필요',showRetry:false});return;}
+              showMediaError('이 기기에서 원본 영상 코덱을 지원하지 않습니다. 원본 크기와 프레임 순서를 유지해 VP9로 변환할 수 있지만 영상은 무손실이 아닙니다. 변환에는 기기 자원이 필요하며 장시간 품질·성능은 아직 확인되지 않았습니다.',{title:'영상 호환 변환',showRetry:false});
+              q3Choice={file,session,snapshot,current:choiceCurrent};el.videoCompatButton.hidden=false;
+            }).catch(()=>{if(current())stopFailure('Q3_PROBE_FAILED');});
           } else stopFailure(event.code);
         }
       }
@@ -10815,6 +10860,7 @@ function getResolutionCategory(width, height) {
 
 function getPlaybackQualityLabel(mode, verified) {
   if (mode === PLAYBACK_MODE.COMPATIBILITY) return 'Google 호환 재생 · 원본 화질 미확인';
+  if (mode === PLAYBACK_MODE.VIDEO_COMPATIBILITY) return verified ? '호환 변환 · 영상 손실 압축' : '호환 변환 확인 중';
   if (!verified) return '원본 확인 중';
   if (mode === PLAYBACK_MODE.AUDIO_COMPATIBILITY) return '영상 원본 · 음성 호환 변환';
   if (mode === PLAYBACK_MODE.REPACKAGED) return '원본 스트림 · 재포장';
@@ -10906,7 +10952,8 @@ function updateQualityDisplay() {
     if (el.qualityBadge) {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = !state.mediaTransportVerified ? 'pending'
-        : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
+        : playbackMode === PLAYBACK_MODE.VIDEO_COMPATIBILITY ? 'video-transformed'
+          : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
       el.qualityBadge.textContent = `· ${qualityLabel}`;
     }
     if (el.mediaResolution) {
@@ -10929,6 +10976,8 @@ function showMediaLoading(message) {
 }
 
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
+  q3Choice=null;
+  if(el.videoCompatButton)el.videoCompatButton.hidden=true;
   clearTimeout(controlsHideTimer);
   // The explicit recovery panel is independent of playback chrome.
   el.playerModal?.classList.add('media-recovery-mode');
@@ -11008,6 +11057,8 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  q3Choice=null;
+  if(el.videoCompatButton)el.videoCompatButton.hidden=true;
   q0ControlWait?.controller.abort();
   retireQ0Playback();
   const q1 = q1Playback;

@@ -1,0 +1,27 @@
+{
+  "pass": true,
+  "command": "node --test tests/shell.test.js tests/sw.test.js",
+  "tests": 86,
+  "failed": 0,
+  "rootFullSuite": {
+    "tests": 747,
+    "passed": 745,
+    "failed": 2,
+    "evidence": "root-product-suite-private.log",
+    "scope": "Root ran full suite once before these test expectation fixes; unaffected passing checks reused"
+  },
+  "firstScopedRun": {
+    "tests": 86,
+    "passed": 85,
+    "failed": 1,
+    "reason": "Cross-VM Array prototypes in deepStrictEqual; corrected by host Array.from without changing expected URLs"
+  },
+  "contracts": [
+    "Full SW batch equals authoritative SHELL_FILES including all six public Q3 runtime files",
+    "Public archive inventory equals audio manifest parts, Q3 archive manifest and Mediabunny source archive",
+    "Q3 tgz/manifest/NOTICE remain public direct downloads excluded from cache and refresh",
+    "Existing credentials, media, duplicate, no-store, deadline and ownership fences retained"
+  ],
+  "stdoutSha256": "b1ff216759281f6000754d16d462376c9c6c86adcea3ee496bf55655be9f67dd",
+  "scope": "Related shell/SW test expectation fixes only; no product mutation/full-suite repeat/browser/account/device action"
+}

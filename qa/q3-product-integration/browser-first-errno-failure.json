@@ -1,0 +1,24 @@
+{
+  "scope": "isolated synthetic product runtime; no account/device acceptance",
+  "host": {
+    "FreePhysicalMemory": 2909708,
+    "FreeVirtualMemory": 13562728
+  },
+  "browser": "154.0.8037.59",
+  "native": {
+    "error": 4
+  },
+  "cases": [
+    {
+      "name": "qualify",
+      "arg": null,
+      "error": "page.evaluate: Error: Q3_DECODE_BUFFER_UNQUALIFIED\n    at window.qualify (http://127.0.0.1:49398/qa/q3-product-integration/fixture.mjs:13:52)\n    at async <anonymous>:337:30",
+      "pass": false
+    }
+  ],
+  "errors": [],
+  "requests": 2,
+  "peakReadBytes": 65536,
+  "browserClosed": true,
+  "pass": false
+}
