@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: settled partial registry admits only immutable pre/post successes, private failed ledger and truthful queue
+ok 1 - settled partial registry admits only immutable pre/post successes, private failed ledger and truthful queue
+  ---
+  duration_ms: 48.5678
+  type: 'test'
+  ...
+# Subtest: one extra fresh transient attempt survives renewal, preserves successful proofs and then completes eligible prefixes
+ok 2 - one extra fresh transient attempt survives renewal, preserves successful proofs and then completes eligible prefixes
+  ---
+  duration_ms: 18.3497
+  type: 'test'
+  ...
+# Subtest: persistent transient failure becomes exhausted after two attempts; other queued files continue and all-eligible stays false
+ok 3 - persistent transient failure becomes exhausted after two attempts; other queued files continue and all-eligible stays false
+  ---
+  duration_ms: 141.4697
+  type: 'test'
+  ...
+# Subtest: payload/protocol failures and missing immutable baseline are exhausted without an extra identical attempt
+ok 4 - payload/protocol failures and missing immutable baseline are exhausted without an extra identical attempt
+  ---
+  duration_ms: 25.891
+  type: 'test'
+  ...
+# Subtest: retry requires unchanged catalog identity and fresh strong checksum/revision before any new media
+ok 5 - retry requires unchanged catalog identity and fresh strong checksum/revision before any new media
+  ---
+  duration_ms: 21.6309
+  type: 'test'
+  ...
+# Subtest: live identity drift is fatal despite bounded-probe postflight masking; no partial capsule published
+ok 6 - live identity drift is fatal despite bounded-probe postflight masking; no partial capsule published
+  ---
+  duration_ms: 5.811
+  type: 'test'
+  ...
+# Subtest: source/controller/account/current owner/catalog/cleanup failures stay fatal and cannot publish continuity
+ok 7 - source/controller/account/current owner/catalog/cleanup failures stay fatal and cannot publish continuity
+  ---
+  duration_ms: 17.4747
+  type: 'test'
+  ...
+# Subtest: foreign/forged/old/account/root/source/hash handles fail before metadata or media and cannot reset attempt limits
+ok 8 - foreign/forged/old/account/root/source/hash handles fail before metadata or media and cannot reset attempt limits
+  ---
+  duration_ms: 15.4403
+  type: 'test'
+  ...
+# Subtest: capsule copy ownership, max8192 registry, max2 attempts, unchanged byte/request/file/job budgets and reserve
+ok 9 - capsule copy ownership, max8192 registry, max2 attempts, unchanged byte/request/file/job budgets and reserve
+  ---
+  duration_ms: 58.5081
+  type: 'test'
+  ...
+# Subtest: metadata limits remain fatal with no automatic retry or registry
+ok 10 - metadata limits remain fatal with no automatic retry or registry
+  ---
+  duration_ms: 57.9355
+  type: 'test'
+  ...
+# Subtest: missing immutable validator exhausts only its file, preserving other validated entries without retry
+ok 11 - missing immutable validator exhausts only its file, preserving other validated entries without retry
+  ---
+  duration_ms: 5.1835
+  type: 'test'
+  ...
+# Subtest: generated frozen factory executes real inherited inventory/facade plus partial continuation in a synthetic lexical app
+ok 12 - generated frozen factory executes real inherited inventory/facade plus partial continuation in a synthetic lexical app
+  ---
+  duration_ms: 303.2623
+  type: 'test'
+  ...
+# Subtest: deterministic new installer pins immutable31 and exact inherited facade/producers, no global side effects or private imports
+ok 13 - deterministic new installer pins immutable31 and exact inherited facade/producers, no global side effects or private imports
+  ---
+  duration_ms: 326.0681
+  type: 'test'
+  ...
+# Subtest: partial success retains only opaque new capsule and explicit root start advances after idle renewal
+ok 14 - partial success retains only opaque new capsule and explicit root start advances after idle renewal
+  ---
+  duration_ms: 4.823
+  type: 'test'
+  ...
+# Subtest: exhausted files stop queue without false all-eligible success and cannot restart or automatically retry
+ok 15 - exhausted files stop queue without false all-eligible success and cannot restart or automatically retry
+  ---
+  duration_ms: 1.2523
+  type: 'test'
+  ...
+# Subtest: all-eligible success requires failed0 and unattempted0; complete registry swaps before release cleanup
+ok 16 - all-eligible success requires failed0 and unattempted0; complete registry swaps before release cleanup
+  ---
+  duration_ms: 0.4615
+  type: 'test'
+  ...
+# Subtest: fatal job, catalog, cleanup, current owner and source failures stop before later jobs and reject restart
+ok 17 - fatal job, catalog, cleanup, current owner and source failures stop before later jobs and reject restart
+  ---
+  duration_ms: 1.4084
+  type: 'test'
+  ...
+# Subtest: malformed dispositions, budgets, failure classes or strong-success flags never advance continuity
+ok 18 - malformed dispositions, budgets, failure classes or strong-success flags never advance continuity
+  ---
+  duration_ms: 1.5591
+  type: 'test'
+  ...
+# Subtest: finite8 job and80minute explicit burst caps, fresh cutoff, cancel drain and cleanup are preserved
+ok 19 - finite8 job and80minute explicit burst caps, fresh cutoff, cancel drain and cleanup are preserved
+  ---
+  duration_ms: 1.3623
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1150.9974

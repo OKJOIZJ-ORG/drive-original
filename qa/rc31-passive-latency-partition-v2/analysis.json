@@ -1,0 +1,591 @@
+{
+  "schema": "drive-original.rc31-passive-latency-analysis/2",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "input": {
+    "path": "actual-android-latency-partition-v2-result.json",
+    "bytes": 3116214,
+    "sha256": "82e5dae16ae656f9b0129040e3487f36b66bead2a47d33a3f2114b4f7714f0dd",
+    "producerSha256": "7c21568ea56f73d074d97fafb676263a46cf50c4ba128023a1f17a5fba9ff202",
+    "commonSha256": "a613dc3d32ede4aca9e52693fabe9fae7798b64b0c48e09d73e0157321879bd7"
+  },
+  "actualResult": {
+    "completed": true,
+    "cleanupComplete": true,
+    "replayDurationMs": 57980,
+    "nativeOsInput": true,
+    "humanFingerInput": false,
+    "originalMediaReadOnly": true,
+    "ownedForwardRemoved": true,
+    "ownedNativeSessionDetached": true,
+    "ownedNativeCdpDisconnected": true
+  },
+  "phases": [
+    {
+      "label": "startup",
+      "route": "Q1_TS",
+      "beforeGeneration": null,
+      "frameGeneration": 1,
+      "frameSourceGeneration": 11,
+      "frameMs": 14604,
+      "deadline15Passed": true,
+      "targetDistanceSeconds": 0.021333,
+      "decodedWidth": 640,
+      "decodedHeight": 360,
+      "firstGenerationAdvance": {
+        "lowerMs": 4941,
+        "upperMs": 5122
+      },
+      "firstBuffering": {
+        "lowerMs": 11455,
+        "upperMs": 11691
+      },
+      "firstAppend": {
+        "lowerMs": 14441,
+        "upperMs": 14675
+      },
+      "firstReady": {
+        "lowerMs": 14441,
+        "upperMs": 14675
+      },
+      "readinessBracketScope": "NEW_GENERATION_ONLY",
+      "requestUnionMs": 13826.622314453125,
+      "responseWaitUnionMs": 13492.4775390625,
+      "bodyDeliveryUnionMs": 359.2568359375,
+      "residualUnobservedWallMs": 777.377685546875,
+      "observedIntersectingRequests": 15
+    },
+    {
+      "label": "seek50",
+      "route": "Q1_TS",
+      "beforeGeneration": 1,
+      "frameGeneration": 2,
+      "frameSourceGeneration": 12,
+      "frameMs": 14615,
+      "deadline15Passed": true,
+      "targetDistanceSeconds": 0.012003084248021878,
+      "decodedWidth": 640,
+      "decodedHeight": 360,
+      "firstGenerationAdvance": {
+        "lowerMs": 1,
+        "upperMs": 248
+      },
+      "firstBuffering": {
+        "lowerMs": 11372,
+        "upperMs": 11533
+      },
+      "firstAppend": {
+        "lowerMs": 14498,
+        "upperMs": 14575
+      },
+      "firstReady": {
+        "lowerMs": 14575,
+        "upperMs": 14748
+      },
+      "readinessBracketScope": "NEW_GENERATION_ONLY",
+      "requestUnionMs": 13988.011962890625,
+      "responseWaitUnionMs": 13699.87060546875,
+      "bodyDeliveryUnionMs": 330.0283203125,
+      "residualUnobservedWallMs": 626.988037109375,
+      "observedIntersectingRequests": 19
+    },
+    {
+      "label": "seek90",
+      "route": "Q1_TS",
+      "beforeGeneration": 2,
+      "frameGeneration": 3,
+      "frameSourceGeneration": 13,
+      "frameMs": 16638,
+      "deadline15Passed": false,
+      "targetDistanceSeconds": 0.010785529591089471,
+      "decodedWidth": 640,
+      "decodedHeight": 360,
+      "firstGenerationAdvance": {
+        "lowerMs": 88,
+        "upperMs": 338
+      },
+      "firstBuffering": {
+        "lowerMs": 12838,
+        "upperMs": 12918
+      },
+      "firstAppend": {
+        "lowerMs": 16338,
+        "upperMs": 16588
+      },
+      "firstReady": {
+        "lowerMs": 16588,
+        "upperMs": 16596
+      },
+      "readinessBracketScope": "NEW_GENERATION_ONLY",
+      "requestUnionMs": 16010.302001953125,
+      "responseWaitUnionMs": 15384.5615234375,
+      "bodyDeliveryUnionMs": 639.992919921875,
+      "residualUnobservedWallMs": 627.697998046875,
+      "observedIntersectingRequests": 18
+    }
+  ],
+  "numericRanges": [
+    {
+      "phase": "startup",
+      "sourceGeneration": 9,
+      "session": 3,
+      "start": 0,
+      "endInclusive": 939,
+      "bytes": 940,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 940,
+      "pageLoadingFinished": true,
+      "pageCanceled": false,
+      "responseWaitMs": 3143.2179999974323,
+      "bodyDeliveryMs": 0.1410000040777959,
+      "requestTotalMs": 3143.35900000151
+    },
+    {
+      "phase": "startup",
+      "sourceGeneration": 11,
+      "session": 3,
+      "start": 0,
+      "endInclusive": 524143,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1438.8749999998254,
+      "bodyDeliveryMs": 245.38200000097277,
+      "requestTotalMs": 1684.2570000007981
+    },
+    {
+      "phase": "startup",
+      "sourceGeneration": 11,
+      "session": 3,
+      "start": 43593628,
+      "endInclusive": 44117771,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1551.3730000020587,
+      "bodyDeliveryMs": 93.65799999795854,
+      "requestTotalMs": 1645.0310000000172
+    },
+    {
+      "phase": "startup",
+      "sourceGeneration": 11,
+      "session": 3,
+      "start": 564,
+      "endInclusive": 262707,
+      "bytes": 262144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 262144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1626.5990000028978,
+      "bodyDeliveryMs": 18.293000000994653,
+      "requestTotalMs": 1644.8920000038925
+    },
+    {
+      "phase": "startup",
+      "sourceGeneration": 11,
+      "session": 3,
+      "start": 262708,
+      "endInclusive": 524851,
+      "bytes": 262144,
+      "packetAlignedStart": false,
+      "status": 206,
+      "reportedPageDataBytes": 262144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1442.1650000003865,
+      "bodyDeliveryMs": 18.632999999681488,
+      "requestTotalMs": 1460.798000000068
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 0,
+      "endInclusive": 524143,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1679.0130000008503,
+      "bodyDeliveryMs": 48.22599999897648,
+      "requestTotalMs": 1727.2389999998268
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 43593628,
+      "endInclusive": 44117771,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1440.2439999976195,
+      "bodyDeliveryMs": 46.590999998443294,
+      "requestTotalMs": 1486.8349999960628
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 21793148,
+      "endInclusive": 22317291,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1562.3099999938859,
+      "bodyDeliveryMs": 150.68800000153715,
+      "requestTotalMs": 1712.997999995423
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 22435168,
+      "endInclusive": 22959311,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1842.2349999964354,
+      "bodyDeliveryMs": 57.030999996641185,
+      "requestTotalMs": 1899.2659999930765
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 22666784,
+      "endInclusive": 22928927,
+      "bytes": 262144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 262144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1611.7939999967348,
+      "bodyDeliveryMs": 8.859000001393724,
+      "requestTotalMs": 1620.6529999981285
+    },
+    {
+      "phase": "seek50",
+      "sourceGeneration": 12,
+      "session": 3,
+      "start": 22928928,
+      "endInclusive": 23191071,
+      "bytes": 262144,
+      "packetAlignedStart": false,
+      "status": null,
+      "reportedPageDataBytes": 0,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": null,
+      "bodyDeliveryMs": null,
+      "requestTotalMs": 980.825000006007
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 0,
+      "endInclusive": 524143,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1666.1929999972926,
+      "bodyDeliveryMs": 8.610000004409812,
+      "requestTotalMs": 1674.8030000017025
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 43593628,
+      "endInclusive": 44117771,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1515.2630000011413,
+      "bodyDeliveryMs": 227.53999999986263,
+      "requestTotalMs": 1742.803000001004
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 39443340,
+      "endInclusive": 39967483,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1549.2430000012973,
+      "bodyDeliveryMs": 246.6260000001057,
+      "requestTotalMs": 1795.869000001403
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 38529284,
+      "endInclusive": 39053427,
+      "bytes": 524144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 524144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1450.3570000015316,
+      "bodyDeliveryMs": 146.46699999866541,
+      "requestTotalMs": 1596.824000000197
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 38862420,
+      "endInclusive": 39124563,
+      "bytes": 262144,
+      "packetAlignedStart": true,
+      "status": 206,
+      "reportedPageDataBytes": 262144,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": 1997.8349999946658,
+      "bodyDeliveryMs": 10.334999999031425,
+      "requestTotalMs": 2008.1699999936973
+    },
+    {
+      "phase": "seek90",
+      "sourceGeneration": 13,
+      "session": 3,
+      "start": 39124564,
+      "endInclusive": 39386707,
+      "bytes": 262144,
+      "packetAlignedStart": false,
+      "status": null,
+      "reportedPageDataBytes": 0,
+      "pageLoadingFinished": false,
+      "pageCanceled": true,
+      "responseWaitMs": null,
+      "bodyDeliveryMs": null,
+      "requestTotalMs": 210.75300000666175
+    }
+  ],
+  "rangeObserver": {
+    "attempts": 17,
+    "overflow": 0,
+    "listenerRemoved": true,
+    "completedSourceReadsProvenByRanges": false,
+    "pageToRangeJoin": "unique exact numeric startedEpochMs on same session; no retained request ID",
+    "upstreamSWVisibility": "UNKNOWN"
+  },
+  "repeatedHeadTail": {
+    "status": "OBSERVED_REQUEST_REPETITION_ACROSS_SAME_PLAYER_GENERATIONS",
+    "head": [
+      0,
+      524143
+    ],
+    "tail": [
+      43593628,
+      44117771
+    ],
+    "bytesPerPair": 1048288,
+    "pairs": [
+      {
+        "phase": "startup",
+        "sourceGeneration": 11,
+        "headAttempts": 1,
+        "tailAttempts": 1
+      },
+      {
+        "phase": "seek50",
+        "sourceGeneration": 12,
+        "headAttempts": 1,
+        "tailAttempts": 1
+      },
+      {
+        "phase": "seek90",
+        "sourceGeneration": 13,
+        "headAttempts": 1,
+        "tailAttempts": 1
+      }
+    ],
+    "extraAttemptedBytesAfterStartup": 2096576,
+    "transportSavingAndLatencyGain": "NOT_MEASURED"
+  },
+  "continuousOverlap": {
+    "status": "OBSERVED_ATTEMPTED_INTERVAL_OVERLAP_WITH_CANONICAL_CONTINUOUS_LOOP",
+    "rows": [
+      {
+        "phase": "startup",
+        "continuousStart": 564,
+        "continuousEndInclusive": 262707,
+        "continuousBytes": 262144,
+        "earlierAttemptStart": 0,
+        "earlierAttemptEndInclusive": 524143,
+        "overlapBytes": 262144,
+        "uncoveredBytes": 0,
+        "whollyCoveredByEarlierAttempt": true,
+        "actualReadStartConfirmed": false,
+        "chosenWindowGeometry": "UNKNOWN"
+      },
+      {
+        "phase": "seek50",
+        "continuousStart": 22666784,
+        "continuousEndInclusive": 22928927,
+        "continuousBytes": 262144,
+        "earlierAttemptStart": 22435168,
+        "earlierAttemptEndInclusive": 22959311,
+        "overlapBytes": 262144,
+        "uncoveredBytes": 0,
+        "whollyCoveredByEarlierAttempt": true,
+        "actualReadStartConfirmed": false,
+        "chosenWindowGeometry": "UNKNOWN"
+      },
+      {
+        "phase": "seek90",
+        "continuousStart": 38862420,
+        "continuousEndInclusive": 39124563,
+        "continuousBytes": 262144,
+        "earlierAttemptStart": 38529284,
+        "earlierAttemptEndInclusive": 39053427,
+        "overlapBytes": 191008,
+        "uncoveredBytes": 71136,
+        "whollyCoveredByEarlierAttempt": false,
+        "actualReadStartConfirmed": true,
+        "chosenWindowGeometry": "UNKNOWN"
+      }
+    ],
+    "chosenWindowGeometry": "UNKNOWN",
+    "priorGenerationReadStart": "NOT_RETAINED",
+    "lastGenerationReadStart": 38862420,
+    "wholeRequestRemovalAtSeek90": "NOT_SUPPORTED_BY_THIS_PARTIAL_OVERLAP"
+  },
+  "retainedStats": {
+    "allOwnerBeforeCloseFences": true,
+    "allPostRetirementFences": true,
+    "preCloseSourceStatsPresent": false,
+    "preCloseCounters": {
+      "readsStarted": null,
+      "readsCompleted": null,
+      "metadataRequests": null,
+      "rangeRequests": null,
+      "receivedBytes": null,
+      "releasedBytes": null
+    },
+    "postCloseCounters": {
+      "readsStarted": 6,
+      "readsCompleted": 5,
+      "metadataRequests": 12,
+      "rangeRequests": 6,
+      "receivedBytes": 2358720,
+      "releasedBytes": 2358720
+    },
+    "pipeline": {
+      "generation": 3,
+      "phase": "cancelled",
+      "probeInputReused": true,
+      "disposed": true,
+      "bootstrap": {
+        "readStart": 38862420,
+        "sourceSize": 44117772,
+        "sourceOffset": 39124564,
+        "sourceReceived": 262144,
+        "outputBytes": 262448,
+        "packets": 1394,
+        "carryBytes": 0
+      },
+      "sourceStatsPresent": true,
+      "source": {
+        "readsStarted": 6,
+        "readsCompleted": 5,
+        "metadataRequests": 12,
+        "rangeRequests": 6,
+        "receivedBytes": 2358720,
+        "releasedBytes": 2358720
+      },
+      "rawIdentifiersExported": false
+    },
+    "chosenWindowGeometry": "UNKNOWN",
+    "scope": "final current generation only; not reconstructed prior-generation source reads"
+  },
+  "canonicalSourceHashes": [
+    {
+      "path": "media/ts-player.mjs",
+      "sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661"
+    },
+    {
+      "path": "media/drive-source.mjs",
+      "sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5"
+    },
+    {
+      "path": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "sha256": "0be728a2d9ad63002ab1fca8d9c638d368d39d45b75debc0601a5c203e5cfe9c"
+    },
+    {
+      "path": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0"
+    }
+  ],
+  "limits": [
+    "Page Range records are attempts, not per-read source completion receipts.",
+    "Outer page records often show aborted after exact reported byte count; this neither proves a source failure nor replaces fresh source postflight completion.",
+    "Final generation source stats confirm5completed/6started reads and2358720received/released bytes only in aggregate.",
+    "Selected probe-window identity and bounds remain UNKNOWN.",
+    "Residual is unobserved wall time, not CPU; SW upstream and probe/worker inner attribution remain UNKNOWN.",
+    "One run is not a latency distribution or a cache benchmark; preserved v1 and15s failures are unchanged."
+  ],
+  "candidate": {
+    "implemented": false,
+    "minimalMechanism": "one bounded source-owned admitted-byte read contract; fresh pre/post metadata/current/content/checksum fences remain, only a wholly-covered original body GET may be omitted",
+    "firstLocalVariant": "same-reader/generation selected-window suffix, full262144B coverage only; partial coverage falls back to fresh read",
+    "lastSlowSeekRelevantVariant": "bounded same-player head/tail raw byte reuse across a new reader/generation after prior retirement and fresh exact tuple match; no plans/callbacks/worker/MSE/output reuse",
+    "maxRawRetention": {
+      "localSuffixBytes": 1048576,
+      "samePlayerHeadTailBytes": 2097152
+    },
+    "noClaimOfMeasuredGain": true,
+    "requiredChecks": [
+      "byte-equal original input/bootstrap/worker output with188alignment/audioGOPpreroll and unchanged262144read/65536push/ACK sequence",
+      "content/version/checksum/null-upgrade/account/controller/current-source drift and fresh pre/post rejection",
+      "503 reader replacement and unchanged one-lifetime retry budget; partial overlap fresh fallback",
+      "cancel/retirement/double seek/stale async/retained-memory cap/release and honest actual-versus-cache metrics",
+      "paired cold/warm actual target-frame timing, final EOF/reopen/seek/audio-preroll equivalence before any performance claim"
+    ]
+  },
+  "analysisChecks": {
+    "inputHashMatched": true,
+    "ownerFencesAllTrue": true,
+    "exactNumericJoins": 17,
+    "overlapArithmeticVerified": true,
+    "lastSourceByteArithmeticVerified": true,
+    "frozenPreparationVerified": true,
+    "actualActionsDuringAnalysis": false
+  }
+}

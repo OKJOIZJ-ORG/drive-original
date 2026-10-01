@@ -13,3 +13,40 @@ Actual Android passive latency partition completed/cleaned in60.913s. Startup13.
 Actual Android cookie attempt3 recognized scoped Network.setCookieControls, preserved current31/account/cache and presented53Q1frames with normal progression/seek/close/cleanup. Its original-byte predicate failed because the producer sampled reader statistics before TS disposal; the recorded false result remains. Additive attempt4 completed and all owned cleanup passed. The same retained player had no public source counters before close, then6started/5completed reads,12metadata requests,6Range requests and2,358,720received/released bytes after normal retirement. All source/account/target/current-owner/generation/retirement fences passed. Safe actual SHA78b0c0a0c5e93916415054d70e43309f6e33ad5160a61e29301c2b0d937ede13. This confirms the observation-time mismatch and qualifies Q1 original-byte reading plus derived presentation under the scoped cookie condition. Q0 cookie coverage and independent SW/worker overrides remain unknown.
 
 The safe QA curation records243exact artifacts14,874,974 bytes, plus root additions. Private recovery inputs/raw logs/screenshots/original media remain excluded. D-066/D-068 whole queue continues; no merge/push/production/new grant/automation authority is added.
+### Additional actual observations — 2026-10-01 afternoon
+
+Observed: additive passive Android v2 completed with cleanupComplete=true and
+all owned observer/CDP/forward cleanup confirmed (exit0). The exact result is
+`qa/rc31-passive-latency-partition-v2/actual-android-latency-partition-v2-result.json`,
+3,116,214B SHA256
+`82e5dae16ae656f9b0129040e3487f36b66bead2a47d33a3f2114b4f7714f0dd`.
+Current-generation target frames: startup14.604s, seek50 14.615s, seek90 16.638s.
+The final seek still fails the separate15s criterion. Exact original head/tail
+requests repeat across all three same-player generations. Final retained
+readStart38862420 independently identifies191008B overlap and71136B new data in
+the262144B continuous read; full-request omission is unsupported for that seek.
+Chosen-window geometry, upstream worker timing, CPU time and actual reuse savings
+remain UNKNOWN. Additive analysis hashes/fences are recorded in that leaf.
+
+Observed: actual disposable creation succeeded with exactly2 folders and2
+immutable74B PNGs. Private planned IDs and receipts are retained only in the
+protected local recovery ledger. Three original facade captures stopped on owner
+conditions; the diagnostic capture identifies normal same-owner account refresh.
+The first ordinary exact2 move was rejected before submission because both PNG
+versions had advanced; no move was confirmed. A revised read-only facade separates
+settled admission from continuing same-owner refresh. A later capture exposed
+raw JSON field-order differences: four independently read metadata objects were
+structurally identical after recursive object-key sorting. The recovery-only
+stable receipt factory preserves all field values/types/array order and exact
+version/checksum/tag/parent fences. Its actual13GET capture now verifies all4
+objects with two stable passes and0writes. These QA corrections do not modify
+the product or promote an unperformed UI/web/G/cleanup check. Initial failures
+are preserved in `qa/rc31-disposable-actual/rc31-disposable-initial-safe.json`,
+SHA256 `c8f4cba458f8a08b0805f5e4a500003dcd16b1745239cf02447464bf872eacf8`.
+
+The subsequent exact2 normal move/trash, fresh API and same-ID Drive web checks,
+G task-path/size/MD5 correlation, restoration to A and exact4 recoverable final
+cleanup are now complete. `DISPOSABLE-UI-RC31-20261001.md` owns the scoped result,
+prior failures and G direct-ID limitation. Source31 remains public; later local
+TS raw-probe retention and viewport changes are undelivered. No active disposable
+owner or lease remains and the original library view is restored.

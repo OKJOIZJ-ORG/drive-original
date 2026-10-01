@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import {disposableUiJob as originalJob} from '../rc31-disposable-ui-preparation/job.mjs';
+import {disposableUiJob as correctedJob} from './job.mjs';
+const here=new URL('./',import.meta.url),prior=new URL('../rc31-disposable-ui-preparation/',here);
+const original=fs.readFileSync(new URL('factory.expression.js',prior),'utf8');
+if(crypto.createHash('sha256').update(original).digest('hex')!=='de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b')throw Error('FACTORY_PIN');
+const oldJob=originalJob.toString();
+const newJob=correctedJob.toString();
+if(!original.includes(oldJob))throw Error('JOB_IDENTITY');
+const expression=original.replace(oldJob,newJob).replace('(function(env,binding,options){return ',"(function(env,binding,options){if(!options||typeof options.recoveryRun!=='string')throw Error('QA31_RECOVERY_ONLY');return ");
+fs.writeFileSync(new URL('factory.expression.js',here),expression);

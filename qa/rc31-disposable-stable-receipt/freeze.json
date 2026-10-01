@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "preparationOnly": true,
+  "actualRun": false,
+  "recoveryOnly": true,
+  "binding": {
+    "version": "1.22.0-rc.31",
+    "source": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "appHash": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e"
+  },
+  "originalFactorySHA256": "de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b",
+  "factorySHA256": "8a02ff22ed4e206a367bcc8017b400155c51a02b3fe66fb2617572867b0ae84e",
+  "change": "complete recursively sorted object serialization; explicit existing-ledger recovery admission",
+  "synthetic": {
+    "new": 5,
+    "preserved": 19,
+    "passed": 24,
+    "failed": 0
+  },
+  "sha256": {
+    "job.mjs": "8cbb0eda155345199db757b0e40568dfc82764e9fa585e70ed733e0bd08ee5f8",
+    "factory.expression.js": "8a02ff22ed4e206a367bcc8017b400155c51a02b3fe66fb2617572867b0ae84e",
+    "build.mjs": "d61f31d242abeb3d5ae62a3628468663e7194a99627f2442e8a399ffad519e6b",
+    "stable.test.mjs": "dd575de3e025fc6edb753ebef6cd1b2b2e968b2a58118f8c96a4271e5fcf5a72",
+    "README.md": "575ebbb2a661b221103cfc72aaebaa65b31d3a23504a48737fa45ba2637deb66",
+    "review.mjs": "48c3385a334c8a7378c3d23a7dd90e50efe66a990af97f538f9193c0b7c602b0",
+    "../rc31-disposable-ui-preparation/facade.function.js": "dc1ad3707ae7f6af0ec3e8427c2fc2e5907faa07d2171ae2c5eb0b97f696340d",
+    "../rc31-disposable-ui-preparation/factory.expression.js": "de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b",
+    "../rc31-disposable-ui-preparation/job.mjs": "44a07cffc1272d7fdbe02eaa9057bfc381e49daa8836e9f8e5be74cf92cdc7ab",
+    "../rc31-disposable-ui-preparation/build.json": "1219ff8932b3dee2d7cef769e61edc4cfa073d8abdd30a09557e80c3f1d4a362",
+    "../rc31-disposable-ui-preparation/fixture-1.png": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737",
+    "../rc31-disposable-ui-preparation/fixture-2.png": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe",
+    "../rc31-disposable-ui-preparation/local.test.mjs": "0e849909d4402ba229767689758a173a434f3e375d95509f508873502e99c38b",
+    "../rc31-disposable-ui-preparation/binding.test.mjs": "c56d336bac11a3ef1362585fc71ded1e138581be324dc39d145a4571edbb7e2c",
+    "../rc31-disposable-refresh-facade/facade.function.js": "1d7ca2e8a7f912fe4dd3df01f44688acfd22a61481576b9ccf50e68ede27413c",
+    "../rc31-disposable-refresh-facade/facade.expression.js": "c4c0a6985eeab0cf20a7b93bf64ef504a62a57bb1db5fd601bf6ef5ac998ade7",
+    "../rc31-disposable-refresh-facade/freeze.json": "5d6f3903ab888a460c93a7f6417f2bff234d9fffe13ad1bf468432d4caaac6aa",
+    "../rc31-disposable-refresh-facade/refresh.test.mjs": "1a776df22682640719ddbe1ceaa6f5036d28828e08a42df5b54955a6b3e4a82a"
+  }
+}

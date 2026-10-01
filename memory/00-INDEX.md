@@ -29,6 +29,10 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `DISPOSABLE-UI-RC31-20261001.md`: actual exact2 normal move/trash, independent
+  API/web/G observations, restoration and exact4 recoverable cleanup; G direct-ID
+  limit and prior validation-tool failures retained.
+
 - `CANDIDATE-RC31-20261001.md`: completed immutable31 delivery, actual normal
   updates/full30 performance/deeper/passive latency and retained cookie failures.
 - `VIRTUAL-WINDOW-COVERAGE-20261001.md`: observed top-card omission, local scheduler

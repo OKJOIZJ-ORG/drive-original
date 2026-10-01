@@ -1,0 +1,472 @@
+{
+  "schema": "drive-original.rc31-second-qa-savepoint/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "actualExecutionByCuration": false,
+  "gitMutations": false,
+  "privateInputsRead": false,
+  "privateDataIncluded": false,
+  "scope": "Exact untracked approved completed QA files only; manifest.json is the unhashed envelope.",
+  "validation": {
+    "frozenOutputHashesVerified": 54,
+    "jsonParsed": 21,
+    "javascriptSyntaxChecked": 40,
+    "functionFragmentsParsedAsExpressions": 8,
+    "approvedExactPinsVerified": 3,
+    "productMediaSuitesRerun": false,
+    "oldFreezeRewritten": false,
+    "privacy": "Approved exact safe receipt pins and whitelisted numeric/boolean/enumerated evidence with fixed public metadata; private artifacts excluded.",
+    "actualSafeReceiptSchemasChecked": 4,
+    "privateCredentialMarkersAbsent": true,
+    "inventoryHashMembershipRechecked": true
+  },
+  "exclusions": [
+    "protected-state-recovery-inputs",
+    "private-output-and-readback",
+    "credentials-and-private-account-media-identifiers",
+    "private-paths-and-urls",
+    "original-media-bytes",
+    "screenshots-and-captures",
+    "zip-files",
+    "node_modules",
+    "temporary-or-unlisted-files",
+    "already-tracked-files",
+    "pending-disposable-stable-receipt",
+    "active-rc32-work"
+  ],
+  "files": [
+    {
+      "path": "qa/rc31-acceptance-reconciliation/proposals.json",
+      "role": "acceptance-proposal",
+      "bytes": 11766,
+      "sha256": "6cf31f618f1291ce8b9e3680d769ce517253dba33596356dfa4cbf4c4f4a7190"
+    },
+    {
+      "path": "qa/rc31-acceptance-reconciliation/README.md",
+      "role": "acceptance-proposal",
+      "bytes": 5125,
+      "sha256": "a9bdd46904616d1b603c43b012b3c7cc0fa0b7f82fdc361dd5e8a0d3a63a4e20"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/freeze.json",
+      "role": "preparation-freeze",
+      "bytes": 1397,
+      "sha256": "85258798a8dd20a4ef2360200613d80d255bb145884efd40809c9610e0424ff1"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/image-observer.function.js",
+      "role": "preparation",
+      "bytes": 5960,
+      "sha256": "1977c5f86eeee534d6e45ce79acfa53e19424356c1f07db4988a592c4ffe9297"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/observation.test.cjs",
+      "role": "preparation",
+      "bytes": 7586,
+      "sha256": "68963f9d334000f4940111a270c221fec2e5696b261b72b3bd5834c3ca1e4d58"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/painted-sampler.cjs",
+      "role": "preparation",
+      "bytes": 5395,
+      "sha256": "d296113597b5cd30a0ee7fc90239bbfc07ed1f317dd306b152bd27269b6f8553"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/README.md",
+      "role": "preparation",
+      "bytes": 6045,
+      "sha256": "ff9a51d698a69b698f6cfab744453a04beeb559d77846a7a657ad1ad8fbbde46"
+    },
+    {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst01-safe.json",
+      "role": "actual-safe-receipt",
+      "bytes": 24685,
+      "sha256": "2d8ba266fdfe868006a580fa7ff0263b3d1aa47bfae9a758a9ec84e58b965f91"
+    },
+    {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst02-safe.json",
+      "role": "actual-safe-receipt",
+      "bytes": 59232,
+      "sha256": "9cfa3d2e86e6c3a23c3591e0b9fd99f21c715cb8f95ec8e0dd9bd8e7b7fe3eed"
+    },
+    {
+      "path": "qa/rc31-disposable-actual/facade.expression.js",
+      "role": "actual-safe-producer",
+      "bytes": 2072,
+      "sha256": "e40c757d539fcf9331b15fbc0b1b281cca853e3bcce0862745bc4390bb51fd24"
+    },
+    {
+      "path": "qa/rc31-disposable-actual/rc31-disposable-initial-safe.json",
+      "role": "actual-safe-receipt",
+      "bytes": 4386,
+      "sha256": "c8f4cba458f8a08b0805f5e4a500003dcd16b1745239cf02447464bf872eacf8"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/facade.expression.js",
+      "role": "preparation",
+      "bytes": 2131,
+      "sha256": "c4c0a6985eeab0cf20a7b93bf64ef504a62a57bb1db5fd601bf6ef5ac998ade7"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/facade.function.js",
+      "role": "preparation",
+      "bytes": 2130,
+      "sha256": "1d7ca2e8a7f912fe4dd3df01f44688acfd22a61481576b9ccf50e68ede27413c"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/freeze.json",
+      "role": "preparation-freeze",
+      "bytes": 1983,
+      "sha256": "5d6f3903ab888a460c93a7f6417f2bff234d9fffe13ad1bf468432d4caaac6aa"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/README.md",
+      "role": "preparation",
+      "bytes": 3716,
+      "sha256": "524f3edcd7e3ca6af196e4652da5e08b1f7782c90b88d3bdc9974308d2638f1d"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/refresh.test.mjs",
+      "role": "preparation",
+      "bytes": 11638,
+      "sha256": "1a776df22682640719ddbe1ceaa6f5036d28828e08a42df5b54955a6b3e4a82a"
+    },
+    {
+      "path": "qa/rc31-disposable-refresh-facade/review.mjs",
+      "role": "preparation",
+      "bytes": 774,
+      "sha256": "860e20cc7a7ebee222023974c0bd8679efe101ac8c83b1abf3ef3c5107423978"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/actual-android-latency-partition-v2-result.json",
+      "role": "actual-safe-receipt",
+      "bytes": 3116214,
+      "sha256": "82e5dae16ae656f9b0129040e3487f36b66bead2a47d33a3f2114b4f7714f0dd"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/additive.test.cjs",
+      "role": "preparation",
+      "bytes": 6948,
+      "sha256": "52164cb61d6de4b45045c6ffb32a8395e952edfbddb3898ce0de8b4ca69c1267"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/ANALYSIS-20261001.md",
+      "role": "actual-analysis",
+      "bytes": 9972,
+      "sha256": "eb587aaa16654af0fae479c65b2c2a812bb97ffb38cb2ea9fff794d473089b95"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/analysis.json",
+      "role": "actual-analysis",
+      "bytes": 18256,
+      "sha256": "1734267b4c4c408f5d904dc702be273e1e2fccb65f5f59312394736ef88e9d6b"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/android-common.cjs",
+      "role": "preparation",
+      "bytes": 9362,
+      "sha256": "a613dc3d32ede4aca9e52693fabe9fae7798b64b0c48e09d73e0157321879bd7"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/android-latency-partition.cjs",
+      "role": "preparation",
+      "bytes": 20107,
+      "sha256": "7c21568ea56f73d074d97fafb676263a46cf50c4ba128023a1f17a5fba9ff202"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/binding.json",
+      "role": "preparation",
+      "bytes": 397,
+      "sha256": "9d1cb89cfc466425aba379cbb107eadd9320117c7ead4c4fd000d70dc02e0b5c"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/build-preparation.cjs",
+      "role": "preparation",
+      "bytes": 10382,
+      "sha256": "ce2db9280f3616a0c18a52d393076f2a24b60273aa53d9d2bdf61a5877e4dce0"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/checks.json",
+      "role": "preparation",
+      "bytes": 373,
+      "sha256": "9ee656673d799662d988bca0b7127303b6cef79efb6aba11ea91b86cc0e46f7d"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/dependency-freeze.json",
+      "role": "preparation",
+      "bytes": 1532,
+      "sha256": "9f1d7265f668038dab40aadf31140416e6ef4d972518e2cdc1a63884569d7fa9"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/derivation.json",
+      "role": "preparation",
+      "bytes": 745,
+      "sha256": "3d8d7bf84e6f9df9b6b15bd2ff94914e38d421f223bd59beb32dd21807c5eed8"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/finalize-preparation.cjs",
+      "role": "preparation",
+      "bytes": 2525,
+      "sha256": "e7fef2ef2a6343929e5f75d5d1b7de1c1fa7a125015b16d8e52af0a553752f75"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/inherited.test.cjs",
+      "role": "preparation",
+      "bytes": 10482,
+      "sha256": "574ef86b6dca4e507afffc1c44433e018fcd2377e662bc05776158a60fb4cca5"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/native-folder-target.function.js",
+      "role": "preparation",
+      "bytes": 1635,
+      "sha256": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/native-ui-target.function.js",
+      "role": "preparation",
+      "bytes": 4592,
+      "sha256": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/network-reducer.cjs",
+      "role": "preparation",
+      "bytes": 6042,
+      "sha256": "83335edb30789ca746fe3eb4ab1f71256d910794bacbdcc1a510b7f0dd32f791"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/observer.expression.js",
+      "role": "preparation",
+      "bytes": 16247,
+      "sha256": "4c71988d669e121d7dced4da3b24dc252b403413dcdb7d6acf3f75602e76d4b3"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/observer.function.js",
+      "role": "preparation",
+      "bytes": 15885,
+      "sha256": "52c19a294e599c836a537580f6b6d9b77b0bbbf89d2f17da91f982eed171c494"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/partition-summary.cjs",
+      "role": "preparation",
+      "bytes": 2835,
+      "sha256": "6ae8fbd002f7de449b79221712e8e1730499c9c582cb69a68d56e24b80188ab4"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/preparation-freeze.json",
+      "role": "preparation-freeze",
+      "bytes": 3494,
+      "sha256": "eab67b4bac6961130bdda321619d3d1af9126296d435e7ce987da2502bb2e079"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/range-offset-observer.cjs",
+      "role": "preparation",
+      "bytes": 2621,
+      "sha256": "30137a4cdbcb2b077ada8f85211a714a95970869bd1b88f121c13145346bf807"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/README.md",
+      "role": "preparation",
+      "bytes": 4979,
+      "sha256": "5f9a0fa471a12cccd8877d41c3af6d38f92e40c3ab92edce3646ddcce6250ae9"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/retained-stats.function.js",
+      "role": "preparation",
+      "bytes": 5589,
+      "sha256": "6e849f464804cd693cfa21dd65db4d54a380898a38cad6b6c359028c3dd6a707"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/root-execute.cjs",
+      "role": "preparation",
+      "bytes": 606,
+      "sha256": "6bca2a7d2d8babb10940baccdba6bb9d0d457b48cb9a67be6a07e4c3d5b0040e"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition-v2/verify-preparation.cjs",
+      "role": "preparation",
+      "bytes": 879,
+      "sha256": "8efa9eeba23d963436eae6496eff2888ce9f5d86dca95f530ef428215596d118"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/latency-analysis-20261001.json",
+      "role": "actual-analysis",
+      "bytes": 4538,
+      "sha256": "4d4d05114b29c957cbacfa06b6e306b98a5529ef098d87ee0dc2a5e4220188b4"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/LATENCY-ANALYSIS-20261001.md",
+      "role": "actual-analysis",
+      "bytes": 4767,
+      "sha256": "3f7f13e8fdcc6d29238e4fe813dbdacd2c09e1942cb6a1908461e63ba114b3d8"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/build.mjs",
+      "role": "preparation",
+      "bytes": 6287,
+      "sha256": "71635103de6e8e7639730128f423b964585eaddefda1ea0c7deb5c48c8af9904"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/continuity.mjs",
+      "role": "preparation",
+      "bytes": 2800,
+      "sha256": "62fb7969d309dca1648a606760ca08bec238ec8cbd442c11ad752702dcd1a968"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/curated-savepoint.json",
+      "role": "preparation",
+      "bytes": 1182,
+      "sha256": "cb53787606d46f02e0f5e515eef23e6c1a31d17b7e16b0f6f03178e4322093e1"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/factory.expression.js",
+      "role": "preparation",
+      "bytes": 132656,
+      "sha256": "e4395fda47f108d89c05fac6d57dfabc95af60f0bbe05f5b9ed7854771dfc72f"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/fixture.mjs",
+      "role": "preparation",
+      "bytes": 4163,
+      "sha256": "f7d29b889f4d86b36e8f0a797df082ae75adf6c010767b5d45a4cd70da868267"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/freeze.json",
+      "role": "preparation-freeze",
+      "bytes": 5262,
+      "sha256": "f7b25271251f166ec3cfaea1bff8bf6ffd8bf9563fad59e41b7d4ec8a2fb11cc"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/local-tests.tap",
+      "role": "preparation",
+      "bytes": 5415,
+      "sha256": "bf19719ec4789eb31f9a4ec87e13547d3692e38817f5aa9080e4de79bffdb167"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/local-verification.json",
+      "role": "preparation",
+      "bytes": 3845,
+      "sha256": "46c0c24495c00cee4ac7a8c1bb380588dfd32549f8bff88d495df0ecb14c183d"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/probe.mjs",
+      "role": "preparation",
+      "bytes": 27473,
+      "sha256": "048548254524afe36ff1106b0cb54531286d46c094182c25bfc30cf2a0e34bf1"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/provenance.json",
+      "role": "preparation",
+      "bytes": 2986,
+      "sha256": "00199ebaa9ffb6ab7c373fb15cc354f1c771abdc064ef5c7b463cfa9ab6e9290"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/README.md",
+      "role": "preparation",
+      "bytes": 6634,
+      "sha256": "e65c3f18db7cfe82c883a7fde2ea4411b5b8ffc2f3f5f0392e12010577e2c5ca"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/recovery.test.mjs",
+      "role": "preparation",
+      "bytes": 16526,
+      "sha256": "ffbb5e0f645c64f6c731d783021cccd10d75847b10fe2e7d813a2da943d73598"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/runner.expression.js",
+      "role": "preparation",
+      "bytes": 145686,
+      "sha256": "3c7beda457d993c3732f997c0c71de3f537d5e7535f94ce99a0af5112bddd74b"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/runner.function.js",
+      "role": "preparation",
+      "bytes": 12509,
+      "sha256": "f7edaad3b927ed2fc2a132a325375e22ab1673f75ceebe2364d0a87e0c7921c6"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/runner.test.mjs",
+      "role": "preparation",
+      "bytes": 8003,
+      "sha256": "0f4c006a30a6b72056c2cb4cd668f2a70a0ad0f010b9fb902bba298598066730"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/selection.mjs",
+      "role": "preparation",
+      "bytes": 4614,
+      "sha256": "83b31f862a9e7f593252af94342de0850f02ec7089f2fb30308aa24d5a560d10"
+    },
+    {
+      "path": "qa/rc31-prefix-recovery-preparation/verify.mjs",
+      "role": "preparation",
+      "bytes": 3691,
+      "sha256": "50358f36ce8d7d289008e5d4dccfb0ce2ebb385cb7dac8d3e10c66aeb57a9a4e"
+    },
+    {
+      "path": "qa/rc31-second-savepoint/README.md",
+      "role": "savepoint-metadata",
+      "bytes": 1737,
+      "sha256": "01807dbec2006c141768428ca6a587669fa2ea5135c9e8d2baa9dfcba71eb9fe"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/checks.json",
+      "role": "preparation",
+      "bytes": 417,
+      "sha256": "6beafaee6697b10ff7f606f38740725076166863ec612a86294da9898225eaa0"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/diagnostic.test.cjs",
+      "role": "preparation",
+      "bytes": 2987,
+      "sha256": "423a5aa32e555389769113d2740eb411ca9a21ad1221c802e19c02958a015068"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/finalize-review.cjs",
+      "role": "preparation",
+      "bytes": 2166,
+      "sha256": "2139946127a48704adc982157138b06769922e4e36555ae8bf5093657fa31b82"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/numeric-stats.function.js",
+      "role": "preparation",
+      "bytes": 756,
+      "sha256": "d511a27b5ade4519fc5e36b809d2ff1cff03d61991796c0ee3ee1c418a765cfa"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/prove-overlap.mjs",
+      "role": "preparation",
+      "bytes": 4341,
+      "sha256": "6a57c3032a5f1fe7f968917d02700e06df81360ef9a4a99d02c9d9a13e4066c0"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/range-offset-observer.cjs",
+      "role": "preparation",
+      "bytes": 2621,
+      "sha256": "30137a4cdbcb2b077ada8f85211a714a95970869bd1b88f121c13145346bf807"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/review-manifest.json",
+      "role": "preparation-freeze",
+      "bytes": 1374,
+      "sha256": "676522ee4a6dee2f51941075c798efde80602ce982aa4962622bf87f251e5684"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/REVIEW.md",
+      "role": "preparation",
+      "bytes": 7496,
+      "sha256": "42ebe2d289c955c6b4d33f86a26eebbdbfb9d01b132660383695ec6cd058605b"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/SAME-PLAYER-ADDENDUM.md",
+      "role": "actual-analysis",
+      "bytes": 4029,
+      "sha256": "aa7906d141c45205a2d6bcf66108ee41b5690ea6284208470913e55aba3ad2da"
+    },
+    {
+      "path": "qa/rc31-ts-overlap-review/synthetic-overlap-proof.json",
+      "role": "preparation",
+      "bytes": 4137,
+      "sha256": "789e551e8a9e4e11ac6ecdf0e79dd444a514a50e712eeeaef2d038dad32d718a"
+    }
+  ],
+  "fileCount": 72,
+  "totalBytes": 3859818
+}

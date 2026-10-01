@@ -240,3 +240,16 @@
 /qa/rc31-passive-latency-partition/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc31-actual-savepoint/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc31-cookie-receipt-attempt4/** -text whitespace=cr-at-eol,-blank-at-eol
+
+# Exact scoped rc31 completion and latency evidence; private inputs stay ignored.
+/qa/rc31-second-savepoint/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-passive-latency-partition-v2/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-ts-overlap-review/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-actual-image-observation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-acceptance-reconciliation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-prefix-recovery-preparation/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-prefix-recovery-preparation/fixture.mjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+/qa/rc31-disposable-refresh-facade/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-disposable-stable-receipt/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-corpus-actual/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc31-disposable-actual/** -text whitespace=cr-at-eol,-blank-at-eol

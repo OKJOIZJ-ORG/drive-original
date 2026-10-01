@@ -1,0 +1,133 @@
+{
+  "schema": "drive-original.rc31-ts-overlap-proof/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "actualExecution": false,
+  "privateInputRead": false,
+  "networkCalls": false,
+  "sourceHashes": {
+    "media/ts-player.mjs": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+    "media/drive-source.mjs": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+    "media/core-entry.mjs": "24bd73c2337a52763bec4a6debf9c2a5526958855d9c31007e90ec7569e08d33",
+    "media/q1-core.mjs": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a",
+    "qa/v2-07b-ts-q1/ts-seek.mjs": "0be728a2d9ad63002ab1fca8d9c638d368d39d45b75debc0601a5c203e5cfe9c",
+    "qa/v2-07b-ts-q1/seek-input.mjs": "989ace46ea808fd93bdb11776470d8be08ed9dcee1d73751e96880d5989922e5",
+    "qa/v2-07b-ts-q1/seek-bootstrap.mjs": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0"
+  },
+  "cases": [
+    {
+      "positionSeconds": 0,
+      "sourceBytes": 958800,
+      "probeRanges": [
+        {
+          "start": 0,
+          "end": 524143,
+          "bytes": 524144
+        },
+        {
+          "start": 434656,
+          "end": 958799,
+          "bytes": 524144
+        }
+      ],
+      "selectedWindow": {
+        "start": 0,
+        "endExclusive": 524144
+      },
+      "readStart": 564,
+      "firstPlaybackRange": {
+        "start": 564,
+        "end": 262707,
+        "bytes": 262144
+      },
+      "firstRangeAlreadyProbeReadBytes": 262144,
+      "admittedSelectedSuffixBytes": 523580,
+      "readStartInsideSelectedWindow": true,
+      "readStartPacketAligned": true,
+      "selectedEndPacketAligned": true,
+      "identicalContinuousBootstrapOutput": true,
+      "bootstrapFinished": true,
+      "syntheticOnly": true,
+      "nativeDecodeTested": false,
+      "sourceLeaseRevalidationTested": false
+    },
+    {
+      "positionSeconds": 5,
+      "sourceBytes": 958800,
+      "probeRanges": [
+        {
+          "start": 0,
+          "end": 524143,
+          "bytes": 524144
+        },
+        {
+          "start": 434656,
+          "end": 958799,
+          "bytes": 524144
+        }
+      ],
+      "selectedWindow": {
+        "start": 0,
+        "endExclusive": 524144
+      },
+      "readStart": 322044,
+      "firstPlaybackRange": {
+        "start": 322044,
+        "end": 584187,
+        "bytes": 262144
+      },
+      "firstRangeAlreadyProbeReadBytes": 202100,
+      "admittedSelectedSuffixBytes": 202100,
+      "readStartInsideSelectedWindow": true,
+      "readStartPacketAligned": true,
+      "selectedEndPacketAligned": true,
+      "identicalContinuousBootstrapOutput": true,
+      "bootstrapFinished": true,
+      "syntheticOnly": true,
+      "nativeDecodeTested": false,
+      "sourceLeaseRevalidationTested": false
+    },
+    {
+      "positionSeconds": 11.95,
+      "sourceBytes": 958800,
+      "probeRanges": [
+        {
+          "start": 0,
+          "end": 524143,
+          "bytes": 524144
+        },
+        {
+          "start": 434656,
+          "end": 958799,
+          "bytes": 524144
+        }
+      ],
+      "selectedWindow": {
+        "start": 434656,
+        "endExclusive": 958800
+      },
+      "readStart": 800692,
+      "firstPlaybackRange": {
+        "start": 800692,
+        "end": 958799,
+        "bytes": 158108
+      },
+      "firstRangeAlreadyProbeReadBytes": 158108,
+      "admittedSelectedSuffixBytes": 158108,
+      "readStartInsideSelectedWindow": true,
+      "readStartPacketAligned": true,
+      "selectedEndPacketAligned": true,
+      "identicalContinuousBootstrapOutput": true,
+      "bootstrapFinished": true,
+      "syntheticOnly": true,
+      "nativeDecodeTested": false,
+      "sourceLeaseRevalidationTested": false
+    }
+  ],
+  "findings": {
+    "existingRc19Reuse": "head/chosen inputs construct bootstrap without two extra Range reads; does not feed continuous worker suffix",
+    "remainingOverlap": "first playback read starts inside already-admitted chosen probe window",
+    "actualTargetOffsets": "UNKNOWN",
+    "actualSavedRequestsOrLatency": "UNKNOWN",
+    "directSuffixFeedSafeUnderFreshFenceContract": "NOT_ESTABLISHED"
+  }
+}

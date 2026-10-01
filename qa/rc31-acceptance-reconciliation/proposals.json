@@ -1,0 +1,116 @@
+{
+  "schema": "drive-original.rc31-additive-acceptance-proposals/1",
+  "recordedAt": "2026-10-01",
+  "authority": "Sparse evidence proposals only. The immutable original69 rows, rc29 reconciliation and historical outcomes remain unchanged. Root owns status adoption.",
+  "candidate": {
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "runtime": "1.22.0-rc.31",
+    "versionBinding": "Do not use older rc30 preparations as rc31 proof; Android TS attempt3 is source30, cookie attempt4 and passive latency are source31."
+  },
+  "rowAccountingProposal": {
+    "originalRows": 69,
+    "priorAssessmentsPreservedUnlessListed": true,
+    "partialExactMissingClauseAfterAu06Proposal": 17,
+    "baselineQualifiedControlledRetained": 24,
+    "finiteOriginalPassProposalsIncludingAu06": 24,
+    "restoredCurrentIntegrationPassProposal": 1,
+    "conditionalNotApplicableRetained": 2,
+    "userDeferredIOS": 1,
+    "wholeRowPromotions": 0
+  },
+  "baselineBindings": [
+    { "path": "qa/rc21-night-acceptance/rows.json", "sha256": "c58913abeb821ac84126ec1ee4703273bba65e6986990f75fa37dde6c3e963e8", "role": "immutable original69 criterion text/statuses" },
+    { "path": "qa/rc29-finite-acceptance-reconciliation/review.json", "sha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07", "role": "prior additive assessment; retained failures and unknowns" }
+  ],
+  "rowProposals": [
+    {
+      "id": "QA-AU-06",
+      "previousAssessment": "partial-exact-missing-clause",
+      "proposal": "finite-original-pass-proposal",
+      "proposedScopedPassed": true,
+      "scope": "Actual dedicated-page third-party-cookie restriction; current31 existing account/session; Q1 original-byte read followed by Q1-derived native playback; no Google iframe dependency.",
+      "evidence": [
+        { "path": "qa/rc31-cookie-receipt-attempt4/actual-android-cookie-gate-attempt4-result.json", "sha256": "78b0c0a0c5e93916415054d70e43309f6e33ad5160a61e29301c2b0d937ede13", "facts": "actual completed; recognized Network.setCookieControls restriction on dedicated page; Q1 source receipt after settled close; 52 presented frames, progressed, target seek and settled close; originalQualified and derivedQualified true; cleanup all true; existing account intact; no artificial cookies, profile preference change or media mutation" }
+      ],
+      "limits": [
+        "The receipt explicitly scopes original bytes to Q1_ORIGINAL_BYTE_READ_ONLY. Q0 cookie coverage is UNKNOWN; do not claim Q0 was exercised or require all Q0 paths as an unstated extra clause.",
+        "One known dormant about:blank preview frame was present; evidence says no independent worker or service-worker cookie override. Do not rewrite this as proof of zero child frames or every embedded-origin policy.",
+        "This proposal addresses the exact original69 criterion (blocked third-party cookies still allow app original/derived path without Google iframe). It does not prove all formats or full-file integrity."
+      ]
+    },
+    {
+      "id": "QA-SW-01",
+      "previousAssessment": "restored-current-integration-pass-proposal",
+      "proposal": "retain existing scoped proposal; append current31 evidence as a limited supplement only",
+      "scope": "Current31 actual normal PC/Android update/source/account/cache preservation is reusable for the same unchanged candidate delivery contract. The separately observed closed-player update followed by reopening the same protected TS can support only that limited closed-player-to-reopen chain.",
+      "limits": [
+        "Do not claim an active-media full replacement or its recovery: that is a separate QA-TR-10/source-change acceptance clause.",
+        "Do not delete or supersede the six retained failed aggregates. Preserve their failure status and keep their causes distinct from this successful bounded chain."
+      ]
+    }
+  ],
+  "current31ObservationsNotPassProposals": [
+    {
+      "ids": ["QA-FM-01", "QA-FM-02", "QA-FM-03", "QA-FM-05", "QA-FM-06", "QA-RP-01"],
+      "evidence": "qa/rc31-corpus-actual/rc31-corpus-burst01-safe.json",
+      "sha256": "2d8ba266fdfe868006a580fa7ff0263b3d1aa47bfae9a758a9ec84e58b965f91",
+      "result": "Current31 first representative job completed, stable/released, zero failures: 35/35 eligible prefixes classified with 940 B prefix reads, 194 metadata GETs/22,850,786 B and 35 media GETs/32,900 B. Kinds: TS15, ISO6, JPEG7, GIF2, PNG2, WebM1, WebP1, unknown-signature1. No deeper probes or playback. Repeated inventory: 8,596 files/8,604 items; 6,410 images; 2,185 video-MIME and 2,154 video-extension rows; unique video union 2,186 was privately computed per factory and is not exported as a row-level denominator. Eight folders, zero shortcuts, 58 mismatches. Whole corpus false; all-eligible video-prefix population and unknown-signature classification remain incomplete. A finite64-video job is active and must be reported separately when complete."
+    },
+    {
+      "ids": ["QA-TR-03", "QA-TR-12"],
+      "evidence": "qa/rc31-passive-latency-partition/root-actual-latency-summary.json",
+      "sha256": "1d2a4f2c56a6fa434b111f302416dc8a958f7b0a55c23945c5716c5d1de16464",
+      "result": "Actual31 passive replay completed and cleaned up: startup 13.757s, seek50 19.462s, seek90 15.594s; each seek missed its 15s bound. These are retained failures, not a seek pass. No independent audio acceptance, expiry-boundary playback, or 30s return was established. Initial append/ready zeros may be stale cumulative stats and are not new-generation timings."
+    },
+    {
+      "ids": ["QA-TR-03", "QA-TR-12"],
+      "evidence": "qa/rc30-ts-device-replay/android-same-file-replay-attempt3-summary.json",
+      "result": "Root reports Android30 v3 exact-TS EOF and latency failures; preserve them as failures. Do not bind this rc30 result to source31."
+    },
+    {
+      "ids": ["QA-TR-01", "QA-TR-03", "QA-RP-01"],
+      "evidence": "qa/rc30-performance-continuation/README.md; root actual PC30 performance receipt",
+      "result": "PC30 performance has 29 completed frames and one timeout. Retain the timeout in denominator; this neither completes all30 nor supplies designated-MP4/audio acceptance."
+    },
+    {
+      "ids": ["QA-UI-01", "QA-UI-02", "QA-UI-09"],
+      "evidence": "qa/rc31-actual-savepoint/root-safe-additions.json",
+      "result": "Viewport scheduler source14368ca and local731-product checks are local evidence only; actual rc31 delivery/replay of that change is pending. No actual row proposal."
+    }
+  ],
+  "queue": {
+    "stillPartialExactMissingClause": ["QA-TR-01", "QA-TR-02", "QA-TR-03", "QA-FM-01", "QA-FM-02", "QA-FM-03", "QA-FM-04", "QA-FM-05", "QA-FM-06", "QA-FM-07", "QA-FM-08", "QA-MU-09", "QA-MU-10", "QA-UI-03", "QA-UI-10", "QA-RP-01", "QA-SL-01"],
+    "openClauses": {
+      "QA-TR-01": "Current fixed31 large cold normal MP4 trace: Q0 first frame/progress before whole download.",
+      "QA-TR-02": "Actual-app tail-index start/seek with bounded index access; approved sparse/controlled fixture can satisfy this clause.",
+      "QA-TR-03": "Normal audio on same selected actual file/version across 10/50/90 seeks in current PC+Android; current passive TS seeks missed 15s.",
+      "QA-FM-01": "Finish stable full inventory/identity mapping, then feasible codec/config/track probes and representatives per discovered combination. 35 current prefixes are only a sample, not all2186 video playback; unknown-signature and deeper-probe counts stay explicit.",
+      "QA-FM-02": "Mapped actual unsupported-container/codec representatives through Q1 without video re-encode, current PC+Android video/audio integration.",
+      "QA-FM-03": "If actual incompatible-audio presence is found, prove representative Q2 fit and audible sound; synthetic Q2 alone does not establish actual need.",
+      "QA-FM-04": "Actual unsupported-video admission/route followed by approved integrated Q3 implementation and native app proof if required; resource limits never imply N/A.",
+      "QA-FM-05": "Discovered multi-audio/silent/subtitle/rotation/VFR selection/timing cases; use controlled fixtures for absent hard cases as allowed, without inventing a universal matrix.",
+      "QA-FM-06": "Bounded current actual HDR/high-depth presence/config evidence; if present, prove preservation or explicitly labeled transform. SDR evidence cannot prove absence.",
+      "QA-FM-07": "Actual corpus/device animated GIF/WebP alpha/timing representative under current media integration; synthetic animation proof is reusable only for its synthetic scope.",
+      "QA-FM-08": "Large JPEG/actual PC+Android image representative and mapped wrong-MIME branch; controlled wrong-MIME fixture is allowed.",
+      "QA-MU-09": "Same approved disposable ID/state compared by API, Drive web and G: with timestamps to separate cloud state from sync delay; no fresh PATCH.",
+      "QA-MU-10": "Exact approved recoverable final restoration/pre-state inspection. No permanent DELETE or broad cleanup.",
+      "QA-UI-03": "One bounded actual native outside-dismiss case or exact saved equivalent; no full gesture-suite expansion.",
+      "QA-UI-10": "Retain actual normal appData HTTP success/lastSyncAt advancement attribution; current producer only samples pending/error.",
+      "QA-RP-01": "Map same designated MP4 ID/version on current PC+Android for failure layer/Q path/first frame/progress/audio/seek/close; iPhone Chrome/PWA/Safari remain post-deployment deferred only.",
+      "QA-SL-01": "Actual bounded app-session revoke/reconnect after existing access-expiry retention; app logout is one-session only, no manufactured global Google revoke. Stop at human login/new grant/2FA."
+    },
+    "unchangedImplementationReuse": [
+      "Carry forward only existing rc29 proposals whose owner code, version-bound contract and original scope are unchanged; do not mechanically rerun wrappers. In particular QA-SW-01 remains a scoped proposal; QA-AU-01/02/03/04/05/07/08/09/10 and already-qualified format/image/disposable rows retain their prior finite scopes, not universal coverage.",
+      "Current31 delivery results/source-readiness bind source4a484e6 and candidate31. They support normal update/readback and source/cache preservation already recorded by root; they do not bind rc30 TS/performance outputs to rc31."
+    ],
+    "retainedConditionalOrDeferred": ["Keep both original conditional-N/A rows with their established conditions and unknown denominators; do not broaden N/A from absent corpus evidence. QA-SL-05 remains user-deferred iOS only; Android does not substitute."],
+    "notRun": ["QA-MU-09/10 current disposable actual UI/cloud readback and restoration; QA-FM-07/08 actual image cohort; current fixed31 whole-prefix/corpus completion. The finite64-video job is active, not completed."],
+    "denominatorRule": "No full-playback requirement for all 2,186 videos. QA-FM-01 needs complete mapped inventory plus feasible probes and representatives per discovered combination, preserving unknown counts. Burst01 covers only 35 classified representatives; unknown signature remains unknown and deeper probes remain zero."
+  },
+  "safeEvidenceHashes": [
+    { "path": "qa/candidate-rc31-delivery/results.json", "sha256": "7b65fdbf1202bf5159c1592ead361a69ced4f36e687553057d167fc8123b0cde" },
+    { "path": "qa/candidate-rc31-delivery/source-readiness.json", "sha256": "094978ddb24cc69f2b283ce411c15fcb28f8abd9861c596f05c0a291183836f8" },
+    { "path": "qa/rc31-passive-latency-partition/actual-android-latency-partition-result.json", "sha256": "279874f857f25e8fbfa3b916697ee18c1f2a2a50cd4a4897da4a69e77d703dcc" },
+    { "path": "qa/rc31-corpus-actual/rc31-corpus-burst01-safe.json", "sha256": "2d8ba266fdfe868006a580fa7ff0263b3d1aa47bfae9a758a9ec84e58b965f91" }
+  ]
+}

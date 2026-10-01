@@ -1,0 +1,1940 @@
+{
+  "schema": "drive-original.rc28-serial-corpus-runner/1",
+  "version": "1.22.0-rc.31",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "active": false,
+  "disposed": false,
+  "cleaning": false,
+  "stopped": "FACTORY_OR_FILE_FAILURE",
+  "burst": {
+    "started": 1,
+    "maxJobs": 1,
+    "deadline": 1790831432915,
+    "stopBeforeAt": 1790831432915,
+    "done": true,
+    "eligibleVideoPrefixesComplete": false,
+    "activePhase": "videos"
+  },
+  "jobs": [
+    {
+      "ordinal": 1,
+      "phase": "representatives",
+      "summary": {
+        "schema": "drive-original.serial-corpus-safe-job/1",
+        "version": "1.22.0-rc.31",
+        "complete": true,
+        "catalogStable": true,
+        "released": true,
+        "failure": null,
+        "wholeCorpusComplete": false,
+        "inventoryRuns": 2,
+        "inventoryDenominators": [
+          {
+            "counts": {
+              "totalUniqueItems": 8604,
+              "folders": 8,
+              "shortcuts": 0,
+              "folderShortcutsNotTraversed": 0,
+              "physicalFiles": 8596,
+              "classifiedUniqueObjects": 8596,
+              "videoObjects": 2185,
+              "imageObjects": 6410,
+              "audioObjects": 0,
+              "otherObjects": 1,
+              "visibleMediaReferences": 8595,
+              "uniqueMediaObjects": 8595,
+              "uniqueShortcutTargets": 0
+            },
+            "extensions": {
+              ".avi": 5,
+              ".bmp": 1,
+              ".gif": 547,
+              ".jpeg": 306,
+              ".jpg": 4916,
+              ".mkv": 8,
+              ".mov": 141,
+              ".mp4": 1962,
+              ".png": 167,
+              ".webm": 38,
+              ".webp": 448,
+              "<other>": 57
+            },
+            "mimeTypes": {
+              "<other>": 25,
+              "image/gif": 563,
+              "image/jpeg": 5237,
+              "image/png": 140,
+              "image/webp": 446,
+              "video/mp4": 1993,
+              "video/quicktime": 141,
+              "video/webm": 38,
+              "video/x-matroska": 8,
+              "video/x-msvideo": 5
+            },
+            "completeness": {
+              "repeatedPassCount": 2,
+              "repeatedPrivateInventoryMatched": true,
+              "containmentComplete": true,
+              "shortcutClassificationComplete": true,
+              "recursiveFolderTraversal": true,
+              "folderShortcutsTraversed": false,
+              "providerTransactionalSnapshotGuaranteed": false,
+              "traversedFolderCount": 9,
+              "pageCountPerPass": [
+                26,
+                26
+              ],
+              "duplicateReferenceCountPerPass": [
+                0,
+                0
+              ],
+              "incompleteSearchCount": 0,
+              "paginationCycleCount": 0,
+              "inventoryErrorCount": 0,
+              "shortcutResolutionErrorCount": 0
+            },
+            "sizes": {
+              "bands": {
+                ">=4GiB": 1,
+                ">0-24MiB": 8244,
+                ">24-64MiB": 188,
+                ">256MiB-<2GiB": 37,
+                ">64-96MiB": 45,
+                ">96-256MiB": 81
+              },
+              "knownSizeFileCount": 8596,
+              "unknownSizeFileCount": 0,
+              "totalKnownSizeBytes": "63724743295",
+              "maximumKnownSizeBytes": "4607107537"
+            },
+            "capabilities": {
+              "canDownload": {
+                "true": 8596
+              },
+              "canReadRevisions": {
+                "true": 8596
+              },
+              "canListChildren": {
+                "true": 8
+              }
+            },
+            "metadataAvailability": {
+              "size": {
+                "present": 8596,
+                "absent": 0
+              },
+              "modifiedTime": {
+                "present": 8596,
+                "absent": 0
+              },
+              "version": {
+                "present": 8596,
+                "absent": 0
+              }
+            },
+            "risk": {
+              "prioritySampleCount": 1,
+              "rareExtensionCount": 14,
+              "animatedGifOrWebp": 995,
+              "largeMp4OrMov": 38,
+              "videosAtLeastOneHour": 20,
+              "imagesWithRotation": 68,
+              "extensionMimeMismatchCount": 58,
+              "downloadBlocked": 0,
+              "downloadCapabilityUnknown": 0,
+              "missingVersion": 0,
+              "missingSize": 0,
+              "unresolvedShortcutTargetCount": 0,
+              "staleShortcutTargetMimeCount": 0
+            },
+            "candidateDenominators": {
+              "videoMimeObjects": 2185,
+              "videoExtensionObjects": 2154,
+              "videoMimeOrExtensionUnion": null,
+              "unionRequiresPrivateUniqueObjectSet": true
+            },
+            "coverage": {
+              "metadataInventoryCount": 8596,
+              "configuredContainerAnalysisCount": 0,
+              "decodedInThisRunCount": 0,
+              "physicalDevicePlaybackCount": 0
+            },
+            "limitations": {
+              "providerTransactionalSnapshotGuaranteed": false,
+              "folderShortcutsNotTraversed": 0,
+              "metadataInventoryIsPlaybackProof": false,
+              "wholeCorpusComplete": false
+            }
+          },
+          {
+            "counts": {
+              "totalUniqueItems": 8604,
+              "folders": 8,
+              "shortcuts": 0,
+              "folderShortcutsNotTraversed": 0,
+              "physicalFiles": 8596,
+              "classifiedUniqueObjects": 8596,
+              "videoObjects": 2185,
+              "imageObjects": 6410,
+              "audioObjects": 0,
+              "otherObjects": 1,
+              "visibleMediaReferences": 8595,
+              "uniqueMediaObjects": 8595,
+              "uniqueShortcutTargets": 0
+            },
+            "extensions": {
+              ".avi": 5,
+              ".bmp": 1,
+              ".gif": 547,
+              ".jpeg": 306,
+              ".jpg": 4916,
+              ".mkv": 8,
+              ".mov": 141,
+              ".mp4": 1962,
+              ".png": 167,
+              ".webm": 38,
+              ".webp": 448,
+              "<other>": 57
+            },
+            "mimeTypes": {
+              "<other>": 25,
+              "image/gif": 563,
+              "image/jpeg": 5237,
+              "image/png": 140,
+              "image/webp": 446,
+              "video/mp4": 1993,
+              "video/quicktime": 141,
+              "video/webm": 38,
+              "video/x-matroska": 8,
+              "video/x-msvideo": 5
+            },
+            "completeness": {
+              "repeatedPassCount": 2,
+              "repeatedPrivateInventoryMatched": true,
+              "containmentComplete": true,
+              "shortcutClassificationComplete": true,
+              "recursiveFolderTraversal": true,
+              "folderShortcutsTraversed": false,
+              "providerTransactionalSnapshotGuaranteed": false,
+              "traversedFolderCount": 9,
+              "pageCountPerPass": [
+                26,
+                26
+              ],
+              "duplicateReferenceCountPerPass": [
+                0,
+                0
+              ],
+              "incompleteSearchCount": 0,
+              "paginationCycleCount": 0,
+              "inventoryErrorCount": 0,
+              "shortcutResolutionErrorCount": 0
+            },
+            "sizes": {
+              "bands": {
+                ">=4GiB": 1,
+                ">0-24MiB": 8244,
+                ">24-64MiB": 188,
+                ">256MiB-<2GiB": 37,
+                ">64-96MiB": 45,
+                ">96-256MiB": 81
+              },
+              "knownSizeFileCount": 8596,
+              "unknownSizeFileCount": 0,
+              "totalKnownSizeBytes": "63724743295",
+              "maximumKnownSizeBytes": "4607107537"
+            },
+            "capabilities": {
+              "canDownload": {
+                "true": 8596
+              },
+              "canReadRevisions": {
+                "true": 8596
+              },
+              "canListChildren": {
+                "true": 8
+              }
+            },
+            "metadataAvailability": {
+              "size": {
+                "present": 8596,
+                "absent": 0
+              },
+              "modifiedTime": {
+                "present": 8596,
+                "absent": 0
+              },
+              "version": {
+                "present": 8596,
+                "absent": 0
+              }
+            },
+            "risk": {
+              "prioritySampleCount": 1,
+              "rareExtensionCount": 14,
+              "animatedGifOrWebp": 995,
+              "largeMp4OrMov": 38,
+              "videosAtLeastOneHour": 20,
+              "imagesWithRotation": 68,
+              "extensionMimeMismatchCount": 58,
+              "downloadBlocked": 0,
+              "downloadCapabilityUnknown": 0,
+              "missingVersion": 0,
+              "missingSize": 0,
+              "unresolvedShortcutTargetCount": 0,
+              "staleShortcutTargetMimeCount": 0
+            },
+            "candidateDenominators": {
+              "videoMimeObjects": 2185,
+              "videoExtensionObjects": 2154,
+              "videoMimeOrExtensionUnion": null,
+              "unionRequiresPrivateUniqueObjectSet": true
+            },
+            "coverage": {
+              "metadataInventoryCount": 8596,
+              "configuredContainerAnalysisCount": 0,
+              "decodedInThisRunCount": 0,
+              "physicalDevicePlaybackCount": 0
+            },
+            "limitations": {
+              "providerTransactionalSnapshotGuaranteed": false,
+              "folderShortcutsNotTraversed": 0,
+              "metadataInventoryIsPlaybackProof": false,
+              "wholeCorpusComplete": false
+            }
+          }
+        ],
+        "plan": {
+          "denominator": 35,
+          "eligible": 35,
+          "ineligible": 0,
+          "previouslyValidated": 0,
+          "planned": 35,
+          "unplannedPending": 0,
+          "maxFiles": 36,
+          "batchFiles": 8,
+          "batchesPlanned": 5,
+          "priorImmutablePrefixes": 0,
+          "carriedImmutableByCatalog": 0,
+          "freshHeadChecksForCarry": 0
+        },
+        "coverage": {
+          "denominator": 35,
+          "classified": 35,
+          "failed": 0,
+          "ineligible": 0,
+          "unattempted": 0,
+          "unknownSignatures": 1,
+          "deeperMetadataProbed": 0,
+          "deeperMetadataIncomplete": 0,
+          "deeperMetadataUnprobed": 35,
+          "wholeCorpusComplete": false,
+          "carriedImmutableByCatalog": 0,
+          "freshPerFileChecked": 35,
+          "freshHeadChecksForCarry": 0,
+          "dispositionsComplete": true,
+          "allEligiblePrefixesValidated": true,
+          "knownSignaturesAllEligible": false,
+          "kindCounts": {
+            "mpeg-ts": 15,
+            "iso-bmff": 6,
+            "jpeg": 7,
+            "webp": 1,
+            "png": 2,
+            "unknown": 1,
+            "webm": 1,
+            "gif": 2
+          },
+          "historicalPendingRevalidation": 0
+        },
+        "reserve": {
+          "requests": 82,
+          "bytes": 14329960,
+          "ms": 100058,
+          "guaranteed": false
+        },
+        "metadataRequests": 194,
+        "metadataBytes": 22850786,
+        "mediaRequests": 35,
+        "mediaBytes": 32900,
+        "decoded": 0,
+        "playback": 0,
+        "physicalDevice": 0,
+        "writeRequests": 0,
+        "batches": [
+          {
+            "ordinal": 1,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 2,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 3,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 4,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 5,
+            "planned": 3,
+            "attempted": 3,
+            "classified": 3,
+            "failed": 0
+          }
+        ],
+        "files": [
+          {
+            "sample": "sample-1",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-2",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-3",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-4",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-5",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-6",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-7",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-8",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-9",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-10",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-11",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-12",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-13",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-14",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-15",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-16",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-17",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-18",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-19",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-20",
+            "kind": "webp",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-21",
+            "kind": "png",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-22",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-23",
+            "kind": "unknown",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-24",
+            "kind": "png",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-25",
+            "kind": "webm",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-26",
+            "kind": "gif",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-27",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-28",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-29",
+            "kind": "gif",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-30",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-31",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-32",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-33",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-34",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-35",
+            "kind": "jpeg",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          }
+        ],
+        "metadataDiagnostic": {
+          "completed": 194,
+          "failed": 0,
+          "maxResponseBytes": 319784,
+          "routeCounts": {
+            "about": 10,
+            "list": 104,
+            "file": 80
+          },
+          "lastFailure": null,
+          "lastCleanupFailure": null
+        }
+      }
+    },
+    {
+      "ordinal": 2,
+      "phase": "videos",
+      "summary": {
+        "schema": "drive-original.serial-corpus-safe-job/1",
+        "version": "1.22.0-rc.31",
+        "complete": true,
+        "catalogStable": true,
+        "released": true,
+        "failure": null,
+        "wholeCorpusComplete": false,
+        "inventoryRuns": 2,
+        "inventoryDenominators": [
+          {
+            "counts": {
+              "totalUniqueItems": 8604,
+              "folders": 8,
+              "shortcuts": 0,
+              "folderShortcutsNotTraversed": 0,
+              "physicalFiles": 8596,
+              "classifiedUniqueObjects": 8596,
+              "videoObjects": 2185,
+              "imageObjects": 6410,
+              "audioObjects": 0,
+              "otherObjects": 1,
+              "visibleMediaReferences": 8595,
+              "uniqueMediaObjects": 8595,
+              "uniqueShortcutTargets": 0
+            },
+            "extensions": {
+              ".avi": 5,
+              ".bmp": 1,
+              ".gif": 547,
+              ".jpeg": 306,
+              ".jpg": 4916,
+              ".mkv": 8,
+              ".mov": 141,
+              ".mp4": 1962,
+              ".png": 167,
+              ".webm": 38,
+              ".webp": 448,
+              "<other>": 57
+            },
+            "mimeTypes": {
+              "<other>": 25,
+              "image/gif": 563,
+              "image/jpeg": 5237,
+              "image/png": 140,
+              "image/webp": 446,
+              "video/mp4": 1993,
+              "video/quicktime": 141,
+              "video/webm": 38,
+              "video/x-matroska": 8,
+              "video/x-msvideo": 5
+            },
+            "completeness": {
+              "repeatedPassCount": 2,
+              "repeatedPrivateInventoryMatched": true,
+              "containmentComplete": true,
+              "shortcutClassificationComplete": true,
+              "recursiveFolderTraversal": true,
+              "folderShortcutsTraversed": false,
+              "providerTransactionalSnapshotGuaranteed": false,
+              "traversedFolderCount": 9,
+              "pageCountPerPass": [
+                26,
+                26
+              ],
+              "duplicateReferenceCountPerPass": [
+                0,
+                0
+              ],
+              "incompleteSearchCount": 0,
+              "paginationCycleCount": 0,
+              "inventoryErrorCount": 0,
+              "shortcutResolutionErrorCount": 0
+            },
+            "sizes": {
+              "bands": {
+                ">=4GiB": 1,
+                ">0-24MiB": 8244,
+                ">24-64MiB": 188,
+                ">256MiB-<2GiB": 37,
+                ">64-96MiB": 45,
+                ">96-256MiB": 81
+              },
+              "knownSizeFileCount": 8596,
+              "unknownSizeFileCount": 0,
+              "totalKnownSizeBytes": "63724743295",
+              "maximumKnownSizeBytes": "4607107537"
+            },
+            "capabilities": {
+              "canDownload": {
+                "true": 8596
+              },
+              "canReadRevisions": {
+                "true": 8596
+              },
+              "canListChildren": {
+                "true": 8
+              }
+            },
+            "metadataAvailability": {
+              "size": {
+                "present": 8596,
+                "absent": 0
+              },
+              "modifiedTime": {
+                "present": 8596,
+                "absent": 0
+              },
+              "version": {
+                "present": 8596,
+                "absent": 0
+              }
+            },
+            "risk": {
+              "prioritySampleCount": 1,
+              "rareExtensionCount": 14,
+              "animatedGifOrWebp": 995,
+              "largeMp4OrMov": 38,
+              "videosAtLeastOneHour": 20,
+              "imagesWithRotation": 68,
+              "extensionMimeMismatchCount": 58,
+              "downloadBlocked": 0,
+              "downloadCapabilityUnknown": 0,
+              "missingVersion": 0,
+              "missingSize": 0,
+              "unresolvedShortcutTargetCount": 0,
+              "staleShortcutTargetMimeCount": 0
+            },
+            "candidateDenominators": {
+              "videoMimeObjects": 2185,
+              "videoExtensionObjects": 2154,
+              "videoMimeOrExtensionUnion": null,
+              "unionRequiresPrivateUniqueObjectSet": true
+            },
+            "coverage": {
+              "metadataInventoryCount": 8596,
+              "configuredContainerAnalysisCount": 0,
+              "decodedInThisRunCount": 0,
+              "physicalDevicePlaybackCount": 0
+            },
+            "limitations": {
+              "providerTransactionalSnapshotGuaranteed": false,
+              "folderShortcutsNotTraversed": 0,
+              "metadataInventoryIsPlaybackProof": false,
+              "wholeCorpusComplete": false
+            }
+          },
+          {
+            "counts": {
+              "totalUniqueItems": 8604,
+              "folders": 8,
+              "shortcuts": 0,
+              "folderShortcutsNotTraversed": 0,
+              "physicalFiles": 8596,
+              "classifiedUniqueObjects": 8596,
+              "videoObjects": 2185,
+              "imageObjects": 6410,
+              "audioObjects": 0,
+              "otherObjects": 1,
+              "visibleMediaReferences": 8595,
+              "uniqueMediaObjects": 8595,
+              "uniqueShortcutTargets": 0
+            },
+            "extensions": {
+              ".avi": 5,
+              ".bmp": 1,
+              ".gif": 547,
+              ".jpeg": 306,
+              ".jpg": 4916,
+              ".mkv": 8,
+              ".mov": 141,
+              ".mp4": 1962,
+              ".png": 167,
+              ".webm": 38,
+              ".webp": 448,
+              "<other>": 57
+            },
+            "mimeTypes": {
+              "<other>": 25,
+              "image/gif": 563,
+              "image/jpeg": 5237,
+              "image/png": 140,
+              "image/webp": 446,
+              "video/mp4": 1993,
+              "video/quicktime": 141,
+              "video/webm": 38,
+              "video/x-matroska": 8,
+              "video/x-msvideo": 5
+            },
+            "completeness": {
+              "repeatedPassCount": 2,
+              "repeatedPrivateInventoryMatched": true,
+              "containmentComplete": true,
+              "shortcutClassificationComplete": true,
+              "recursiveFolderTraversal": true,
+              "folderShortcutsTraversed": false,
+              "providerTransactionalSnapshotGuaranteed": false,
+              "traversedFolderCount": 9,
+              "pageCountPerPass": [
+                26,
+                26
+              ],
+              "duplicateReferenceCountPerPass": [
+                0,
+                0
+              ],
+              "incompleteSearchCount": 0,
+              "paginationCycleCount": 0,
+              "inventoryErrorCount": 0,
+              "shortcutResolutionErrorCount": 0
+            },
+            "sizes": {
+              "bands": {
+                ">=4GiB": 1,
+                ">0-24MiB": 8244,
+                ">24-64MiB": 188,
+                ">256MiB-<2GiB": 37,
+                ">64-96MiB": 45,
+                ">96-256MiB": 81
+              },
+              "knownSizeFileCount": 8596,
+              "unknownSizeFileCount": 0,
+              "totalKnownSizeBytes": "63724743295",
+              "maximumKnownSizeBytes": "4607107537"
+            },
+            "capabilities": {
+              "canDownload": {
+                "true": 8596
+              },
+              "canReadRevisions": {
+                "true": 8596
+              },
+              "canListChildren": {
+                "true": 8
+              }
+            },
+            "metadataAvailability": {
+              "size": {
+                "present": 8596,
+                "absent": 0
+              },
+              "modifiedTime": {
+                "present": 8596,
+                "absent": 0
+              },
+              "version": {
+                "present": 8596,
+                "absent": 0
+              }
+            },
+            "risk": {
+              "prioritySampleCount": 1,
+              "rareExtensionCount": 14,
+              "animatedGifOrWebp": 995,
+              "largeMp4OrMov": 38,
+              "videosAtLeastOneHour": 20,
+              "imagesWithRotation": 68,
+              "extensionMimeMismatchCount": 58,
+              "downloadBlocked": 0,
+              "downloadCapabilityUnknown": 0,
+              "missingVersion": 0,
+              "missingSize": 0,
+              "unresolvedShortcutTargetCount": 0,
+              "staleShortcutTargetMimeCount": 0
+            },
+            "candidateDenominators": {
+              "videoMimeObjects": 2185,
+              "videoExtensionObjects": 2154,
+              "videoMimeOrExtensionUnion": null,
+              "unionRequiresPrivateUniqueObjectSet": true
+            },
+            "coverage": {
+              "metadataInventoryCount": 8596,
+              "configuredContainerAnalysisCount": 0,
+              "decodedInThisRunCount": 0,
+              "physicalDevicePlaybackCount": 0
+            },
+            "limitations": {
+              "providerTransactionalSnapshotGuaranteed": false,
+              "folderShortcutsNotTraversed": 0,
+              "metadataInventoryIsPlaybackProof": false,
+              "wholeCorpusComplete": false
+            }
+          }
+        ],
+        "plan": {
+          "denominator": 2186,
+          "eligible": 2186,
+          "ineligible": 0,
+          "previouslyValidated": 22,
+          "planned": 64,
+          "unplannedPending": 2100,
+          "maxFiles": 64,
+          "batchFiles": 8,
+          "batchesPlanned": 8,
+          "priorImmutablePrefixes": 22,
+          "carriedImmutableByCatalog": 22,
+          "freshHeadChecksForCarry": 0
+        },
+        "coverage": {
+          "denominator": 2186,
+          "classified": 85,
+          "failed": 1,
+          "ineligible": 0,
+          "unattempted": 2100,
+          "unknownSignatures": 1,
+          "deeperMetadataProbed": 0,
+          "deeperMetadataIncomplete": 0,
+          "deeperMetadataUnprobed": 85,
+          "wholeCorpusComplete": false,
+          "carriedImmutableByCatalog": 22,
+          "freshPerFileChecked": 63,
+          "freshHeadChecksForCarry": 0,
+          "dispositionsComplete": false,
+          "allEligiblePrefixesValidated": false,
+          "knownSignaturesAllEligible": false,
+          "kindCounts": {
+            "mpeg-ts": 21,
+            "iso-bmff": 60,
+            "unknown": 1,
+            "webm": 3
+          },
+          "historicalPendingRevalidation": 0
+        },
+        "reserve": {
+          "requests": 82,
+          "bytes": 14329960,
+          "ms": 92499,
+          "guaranteed": false
+        },
+        "metadataRequests": 252,
+        "metadataBytes": 22873045,
+        "mediaRequests": 64,
+        "mediaBytes": 60160,
+        "decoded": 0,
+        "playback": 0,
+        "physicalDevice": 0,
+        "writeRequests": 0,
+        "batches": [
+          {
+            "ordinal": 1,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 2,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 3,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 4,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 5,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 6,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          },
+          {
+            "ordinal": 7,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 7,
+            "failed": 1
+          },
+          {
+            "ordinal": 8,
+            "planned": 8,
+            "attempted": 8,
+            "classified": 8,
+            "failed": 0
+          }
+        ],
+        "files": [
+          {
+            "sample": "sample-1",
+            "kind": "webm",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-2",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-3",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-4",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-5",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-6",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-7",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-8",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-9",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-10",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-11",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-12",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-13",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-14",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-15",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-16",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-17",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-18",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-19",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-20",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-21",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-22",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-23",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-24",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-25",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-26",
+            "kind": "webm",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-27",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-28",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-29",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-30",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-31",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-32",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-33",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-34",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-35",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-36",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-37",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-38",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-39",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-40",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-41",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-42",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-43",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-44",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-45",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-46",
+            "kind": "mpeg-ts",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-47",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-48",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-49",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-50",
+            "kind": "iso-bmff",
+            "complete": false,
+            "failure": "POSTFLIGHT_FAILED",
+            "identityPreflight": true,
+            "identityPostflight": false,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-51",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-52",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-53",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-54",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-55",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-56",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-57",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-58",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-59",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-60",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-61",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-62",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-63",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          },
+          {
+            "sample": "sample-64",
+            "kind": "iso-bmff",
+            "complete": true,
+            "failure": null,
+            "identityPreflight": true,
+            "identityPostflight": true,
+            "mediaRequests": 1,
+            "mediaBytes": 940,
+            "deeperMetadata": "not-probed"
+          }
+        ],
+        "metadataDiagnostic": {
+          "completed": 251,
+          "failed": 1,
+          "maxResponseBytes": 319784,
+          "routeCounts": {
+            "about": 10,
+            "list": 104,
+            "file": 138
+          },
+          "lastFailure": {
+            "ordinal": 162,
+            "responseLimitBytes": 32768,
+            "requestMs": 10000,
+            "status": null,
+            "receivedBytes": 0,
+            "runReceivedBytes": 11450494,
+            "code": "POSTFLIGHT_FAILED",
+            "errorKind": "unknown",
+            "childAborted": true,
+            "bodyFinished": false
+          },
+          "lastCleanupFailure": null
+        }
+      }
+    }
+  ],
+  "successfulJobs": 1,
+  "wholeCorpusComplete": false,
+  "evidenceLevel": "940-byte-prefix-signatures-only",
+  "historicalCountsAreNotCurrentCoverage": true,
+  "actualPlaybackCount": 0,
+  "privateContextExported": false,
+  "continuityExported": false
+}

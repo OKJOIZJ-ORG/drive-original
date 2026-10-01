@@ -1,0 +1,197 @@
+{
+  "schema": "drive-original.rc31-disposable-actual/1",
+  "recordedAt": "2026-10-01T05:38:24.645Z",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "creation": {
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 10,
+    "bytes": 4963,
+    "writes": 4,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "originalFacadeCaptureFailures": [
+    {
+      "done": true,
+      "passed": false,
+      "code": "owner",
+      "requests": 8,
+      "bytes": 3227,
+      "writes": 0,
+      "sourceBound": false
+    },
+    {
+      "done": true,
+      "passed": false,
+      "code": "owner",
+      "requests": 12,
+      "bytes": 5437,
+      "writes": 0,
+      "sourceBound": false
+    }
+  ],
+  "diagnosticCapture": {
+    "result": {
+      "done": true,
+      "passed": false,
+      "code": "owner",
+      "requests": 3,
+      "bytes": 828,
+      "writes": 0,
+      "created": 4,
+      "planned": 4,
+      "submitted": 4,
+      "privateRecoveryRetained": true,
+      "sourceBound": false,
+      "rawExported": false
+    },
+    "ownerObservations": [
+      "accountLoading"
+    ]
+  },
+  "refreshFacadeCapture": {
+    "done": true,
+    "passed": false,
+    "code": "drift",
+    "requests": 13,
+    "bytes": 6145,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "normalMoveAttempt": {
+    "ordinaryUi": true,
+    "closed": true,
+    "busy": false,
+    "moved": 0,
+    "sourceCurrent": true,
+    "leaseClosed": true
+  },
+  "preconditionDiagnostic": {
+    "checks": [
+      {
+        "role": "folder-a",
+        "owned": true,
+        "sharedDrive": false,
+        "runMatches": true,
+        "roleMatches": true,
+        "mimeMatches": true,
+        "versionEqual": true,
+        "versionNondecreasing": true,
+        "trashedMatches": true,
+        "parentsMatch": true,
+        "canAddChildren": true
+      },
+      {
+        "role": "folder-b",
+        "owned": true,
+        "sharedDrive": false,
+        "runMatches": true,
+        "roleMatches": true,
+        "mimeMatches": true,
+        "versionEqual": true,
+        "versionNondecreasing": true,
+        "trashedMatches": true,
+        "parentsMatch": true,
+        "canAddChildren": true
+      },
+      {
+        "role": "test-image-1",
+        "owned": true,
+        "sharedDrive": false,
+        "runMatches": true,
+        "roleMatches": true,
+        "mimeMatches": true,
+        "versionEqual": false,
+        "versionNondecreasing": true,
+        "trashedMatches": true,
+        "parentsMatch": true,
+        "canAddChildren": false
+      },
+      {
+        "role": "test-image-2",
+        "owned": true,
+        "sharedDrive": false,
+        "runMatches": true,
+        "roleMatches": true,
+        "mimeMatches": true,
+        "versionEqual": false,
+        "versionNondecreasing": true,
+        "trashedMatches": true,
+        "parentsMatch": true,
+        "canAddChildren": false
+      }
+    ],
+    "sourceCurrent": true
+  },
+  "rawFieldOrderDiagnostic": {
+    "changes": [
+      {
+        "role": "folder-a",
+        "changed": [
+          "appProperties"
+        ]
+      },
+      {
+        "role": "folder-b",
+        "changed": []
+      },
+      {
+        "role": "test-image-1",
+        "changed": [
+          "appProperties"
+        ]
+      },
+      {
+        "role": "test-image-2",
+        "changed": []
+      }
+    ],
+    "stable": false,
+    "sourceCurrent": true
+  },
+  "structuralOrderDiagnostic": {
+    "rows": [
+      {
+        "role": "folder-a",
+        "rawEqual": false,
+        "canonicalEqual": true,
+        "fieldDifferences": []
+      },
+      {
+        "role": "folder-b",
+        "rawEqual": false,
+        "canonicalEqual": true,
+        "fieldDifferences": []
+      },
+      {
+        "role": "test-image-1",
+        "rawEqual": false,
+        "canonicalEqual": true,
+        "fieldDifferences": []
+      },
+      {
+        "role": "test-image-2",
+        "rawEqual": false,
+        "canonicalEqual": true,
+        "fieldDifferences": []
+      }
+    ],
+    "sourceCurrent": true
+  },
+  "rawIdentifiersExported": false,
+  "originalMediaMutated": false,
+  "privateRecoveryOnDisk": true,
+  "wholeUiAcceptanceComplete": false
+}

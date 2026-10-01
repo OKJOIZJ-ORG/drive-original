@@ -1,0 +1,246 @@
+{
+  "schema": "drive-original.rc31-disposable-actual/2",
+  "recordedAt": "2026-10-01T05:58:29.031Z",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "stableFactorySha256": "8a02ff22ed4e206a367bcc8017b400155c51a02b3fe66fb2617572867b0ae84e",
+  "refreshFacadeSha256": "c4c0a6985eeab0cf20a7b93bf64ef504a62a57bb1db5fd601bf6ef5ac998ade7",
+  "creation": {
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 10,
+    "bytes": 4963,
+    "writes": 4,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "stableBefore": {
+    "readOnly": true,
+    "verified": 4,
+    "snapshotStable": true,
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 13,
+    "bytes": 6145,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "normalMove": {
+    "ordinaryUi": true,
+    "closed": true,
+    "busy": false,
+    "moved": 2,
+    "sourceCurrent": true,
+    "leaseClosed": true,
+    "mutations": [
+      {
+        "action": "move",
+        "state": "failed",
+        "hasBefore": true,
+        "hasAfter": false
+      },
+      {
+        "action": "move",
+        "state": "confirmed",
+        "hasBefore": true,
+        "hasAfter": true
+      },
+      {
+        "action": "move",
+        "state": "confirmed",
+        "hasBefore": true,
+        "hasAfter": true
+      },
+      {
+        "action": "move",
+        "state": "failed",
+        "hasBefore": true,
+        "hasAfter": false
+      }
+    ]
+  },
+  "afterMove": {
+    "readOnly": true,
+    "verified": 4,
+    "snapshotStable": true,
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 13,
+    "bytes": 6145,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "webMoved": {
+    "files": [
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      },
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      }
+    ],
+    "folderUrlMatches": true,
+    "recordedAt": "2026-10-01T05:49:38.424Z",
+    "readOnly": true
+  },
+  "normalTrash": {
+    "ordinaryUi": true,
+    "closed": true,
+    "trashed": 2,
+    "filesRemaining": 0,
+    "sourceCurrent": true,
+    "leaseClosed": true
+  },
+  "afterTrash": {
+    "readOnly": true,
+    "verified": 4,
+    "snapshotStable": true,
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 13,
+    "bytes": 4913,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "webTrashed": {
+    "files": [
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      },
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      }
+    ],
+    "trashView": true,
+    "recordedAt": "2026-10-01T05:52:18.337Z",
+    "readOnly": true
+  },
+  "restore": {
+    "recoverableOnly": true,
+    "mode": "restore-media-to-a",
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 15,
+    "bytes": 7299,
+    "writes": 4,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "restoredCapture": {
+    "readOnly": true,
+    "verified": 4,
+    "snapshotStable": true,
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 13,
+    "bytes": 6145,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "restoredPostcondition": {
+    "exactTwoInA": true,
+    "allFourUntrashed": true
+  },
+  "webRestored": {
+    "files": [
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      },
+      {
+        "nameMatches": true,
+        "sameIdRows": 3,
+        "visible": true
+      }
+    ],
+    "folderUrlMatches": true,
+    "recordedAt": "2026-10-01T05:55:28.094Z",
+    "readOnly": true
+  },
+  "finalCleanup": {
+    "recoverableOnly": true,
+    "mode": "trash-all-recoverable",
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 19,
+    "bytes": 8771,
+    "writes": 4,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "finalCapture": {
+    "readOnly": true,
+    "verified": 4,
+    "snapshotStable": true,
+    "done": true,
+    "passed": true,
+    "code": null,
+    "requests": 13,
+    "bytes": 4909,
+    "writes": 0,
+    "created": 4,
+    "planned": 4,
+    "submitted": 4,
+    "privateRecoveryRetained": true,
+    "sourceBound": true,
+    "rawExported": false
+  },
+  "finalPostcondition": {
+    "exactFourTrashed": true,
+    "pngChecksumsValidated": true,
+    "knownFolderChildrenEmpty": true
+  },
+  "finalPrivateLedgerOnDisk": true,
+  "originalMediaMutated": false,
+  "permanentDeletePerformed": false,
+  "gDirectCloudIdProof": false,
+  "rawIdentifiersExported": false
+}

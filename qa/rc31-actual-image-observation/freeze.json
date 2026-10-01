@@ -1,0 +1,38 @@
+{
+  "schema": "drive-original.image-observation-preparation-freeze/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "scope": "read-only observer and root PC painted crop sampler; actual execution unrun",
+  "representativeCap": 5,
+  "maxTemporalMs": 8000,
+  "maxCapturesPerRepresentative": 12,
+  "maxEncodedCaptureBytesPerRepresentative": 8388608,
+  "checks": {
+    "command": "node --test qa/rc31-actual-image-observation/observation.test.cjs",
+    "passed": 9,
+    "failed": 0,
+    "actualAccountBrowserDeviceNetworkPrivateInputRead": false
+  },
+  "files": [
+    {
+      "path": "qa/rc31-actual-image-observation/image-observer.function.js",
+      "bytes": 5960,
+      "sha256": "1977c5f86eeee534d6e45ce79acfa53e19424356c1f07db4988a592c4ffe9297"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/painted-sampler.cjs",
+      "bytes": 5395,
+      "sha256": "d296113597b5cd30a0ee7fc90239bbfc07ed1f317dd306b152bd27269b6f8553"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/observation.test.cjs",
+      "bytes": 7586,
+      "sha256": "68963f9d334000f4940111a270c221fec2e5696b261b72b3bd5834c3ca1e4d58"
+    },
+    {
+      "path": "qa/rc31-actual-image-observation/README.md",
+      "bytes": 6045,
+      "sha256": "ff9a51d698a69b698f6cfab744453a04beeb559d77846a7a657ad1ad8fbbde46"
+    }
+  ]
+}

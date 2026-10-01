@@ -1,0 +1,102 @@
+{
+  "schema": "drive-original.rc31-prefix-recovery-local/1",
+  "passed": 19,
+  "cases": [
+    {
+      "name": "settled partial registry admits only immutable pre/post successes, private failed ledger and truthful queue",
+      "passed": true
+    },
+    {
+      "name": "one extra fresh transient attempt survives renewal, preserves successful proofs and then completes eligible prefixes",
+      "passed": true
+    },
+    {
+      "name": "persistent transient failure becomes exhausted after two attempts; other queued files continue and all-eligible stays false",
+      "passed": true
+    },
+    {
+      "name": "payload/protocol failures and missing immutable baseline are exhausted without an extra identical attempt",
+      "passed": true
+    },
+    {
+      "name": "retry requires unchanged catalog identity and fresh strong checksum/revision before any new media",
+      "passed": true
+    },
+    {
+      "name": "live identity drift is fatal despite bounded-probe postflight masking; no partial capsule published",
+      "passed": true
+    },
+    {
+      "name": "source/controller/account/current owner/catalog/cleanup failures stay fatal and cannot publish continuity",
+      "passed": true
+    },
+    {
+      "name": "foreign/forged/old/account/root/source/hash handles fail before metadata or media and cannot reset attempt limits",
+      "passed": true
+    },
+    {
+      "name": "capsule copy ownership, max8192 registry, max2 attempts, unchanged byte/request/file/job budgets and reserve",
+      "passed": true
+    },
+    {
+      "name": "metadata limits remain fatal with no automatic retry or registry",
+      "passed": true
+    },
+    {
+      "name": "missing immutable validator exhausts only its file, preserving other validated entries without retry",
+      "passed": true
+    },
+    {
+      "name": "generated frozen factory executes real inherited inventory/facade plus partial continuation in a synthetic lexical app",
+      "passed": true
+    },
+    {
+      "name": "deterministic new installer pins immutable31 and exact inherited facade/producers, no global side effects or private imports",
+      "passed": true
+    },
+    {
+      "name": "partial success retains only opaque new capsule and explicit root start advances after idle renewal",
+      "passed": true
+    },
+    {
+      "name": "exhausted files stop queue without false all-eligible success and cannot restart or automatically retry",
+      "passed": true
+    },
+    {
+      "name": "all-eligible success requires failed0 and unattempted0; complete registry swaps before release cleanup",
+      "passed": true
+    },
+    {
+      "name": "fatal job, catalog, cleanup, current owner and source failures stop before later jobs and reject restart",
+      "passed": true
+    },
+    {
+      "name": "malformed dispositions, budgets, failure classes or strong-success flags never advance continuity",
+      "passed": true
+    },
+    {
+      "name": "finite8 job and80minute explicit burst caps, fresh cutoff, cancel drain and cleanup are preserved",
+      "passed": true
+    }
+  ],
+  "syntax": true,
+  "actualExecution": false,
+  "actualRequests": 0,
+  "privateDataUsed": false,
+  "syntheticLexicalInventoryFacade": true,
+  "wholeCorpusComplete": false,
+  "immutableSource": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.31",
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "sourceSHA256": {
+      "app.js": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e",
+      "sw.js": "e65e51527fad4df7633e2a10d36f2d90966e47fb8c73e23d5ebb78b7059a747a",
+      "version.json": "d8903d703880dbb1ef1068575974d70e5666a127cb2970cfb951cfd3ff5bff06"
+    }
+  },
+  "maxFreshAttemptsPerFile": 2,
+  "registryMaxUniqueFiles": 8192,
+  "oldRegistryImported": false,
+  "historicalActual63NotImported": true
+}

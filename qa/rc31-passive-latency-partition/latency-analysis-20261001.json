@@ -1,0 +1,120 @@
+{
+  "schema": "drive-original.rc31-safe-latency-analysis/1",
+  "result": {
+    "path": "qa/rc31-passive-latency-partition/actual-android-latency-partition-result.json",
+    "sha256": "279874f857f25e8fbfa3b916697ee18c1f2a2a50cd4a4897da4a69e77d703dcc",
+    "completed": true,
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "version": "1.22.0-rc.31",
+    "deviceCount": 1,
+    "nativeOsInput": true,
+    "humanFingerInput": false,
+    "originalMediaMutated": false,
+    "productionChanged": false
+  },
+  "phases": [
+    {
+      "name": "startup",
+      "targetFrameMs": 13757,
+      "deadline15Passed": true,
+      "observedRequestCount": 15,
+      "requestWallUnionMs": 12396,
+      "responseWaitUnionMs": 12198,
+      "bodyDeliveryUnionMs": 215,
+      "residualWallMs": 1361,
+      "startTaggedRequests": {
+        "metadataCompleted200": 10,
+        "metadataInflight": 1,
+        "outerMedia206": 4,
+        "outerMediaCanceled": 3
+      },
+      "perRequestResponseWaitSumMsMayOverlap": {
+        "metadata": 5322,
+        "outerMedia": 6816
+      },
+      "perRequestMedianAndMaxWaitMs": {
+        "metadata": { "median": 536, "max": 626 },
+        "outerMedia": { "median": 1785, "max": 2056 }
+      }
+    },
+    {
+      "name": "seek50",
+      "targetFrameMs": 19462,
+      "deadline15Passed": false,
+      "observedRequestCount": 18,
+      "requestWallUnionMs": 18848,
+      "responseWaitUnionMs": 18178,
+      "bodyDeliveryUnionMs": 811,
+      "residualWallMs": 614,
+      "startTaggedRequests": {
+        "metadataCompleted200": 11,
+        "metadataInflight": 1,
+        "outerMedia206": 5,
+        "outerMediaCanceled": 5
+      },
+      "perRequestResponseWaitSumMsMayOverlap": {
+        "metadata": 7871,
+        "outerMedia": 10143
+      },
+      "perRequestMedianAndMaxWaitMs": {
+        "metadata": { "median": 520, "max": 1588 },
+        "outerMedia": { "median": 1688, "max": 3467 }
+      }
+    },
+    {
+      "name": "seek90",
+      "targetFrameMs": 15594,
+      "deadline15Passed": false,
+      "observedRequestCount": 18,
+      "requestWallUnionMs": 14804,
+      "responseWaitUnionMs": 14204,
+      "bodyDeliveryUnionMs": 714,
+      "residualWallMs": 790,
+      "startTaggedRequests": {
+        "metadataCompleted200": 11,
+        "metadataInflight": 1,
+        "outerMedia206": 5,
+        "outerMediaCanceled": 5
+      },
+      "perRequestResponseWaitSumMsMayOverlap": {
+        "metadata": 5917,
+        "outerMedia": 8118
+      },
+      "perRequestMedianAndMaxWaitMs": {
+        "metadata": { "median": 519, "max": 646 },
+        "outerMedia": { "median": 1629, "max": 1692 }
+      }
+    }
+  ],
+  "interpretation": {
+    "finding": "Visible request response-wait unions occupy about 89-93% of target-frame time. Repeated metadata responses are material; outer media response waits are longer per request, but page observation cannot attribute their delay to the upstream Drive service versus SW work.",
+    "residualMeaning": "unobserved wall time; not CPU or parser attribution",
+    "seekFirstAppendReadyZeroMs": "stale cumulative counters; excluded",
+    "cancellations": "preserved; not treated as playback failure or as proven intentional cause because target frames independently presented",
+    "unknown": [
+      "upstream service-worker traffic and Range timing",
+      "Q1 probe/parser CPU and request-to-worker timing",
+      "worker inner CPU/ACK timing",
+      "clock calibration",
+      "actual Range offsets and overlap opportunity"
+    ]
+  },
+  "source": {
+    "immutableCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "driveSourceBlob": "9647d356d8e992aa087cd20dcf779d5df15b5a7e",
+    "tsPlayerBlob": "1779c20a4726acede576523de21e0d433e9d6f6a",
+    "tsSeekBlob": "6b5f1495888fa2fa35839ccb67b94b73a0c6380b",
+    "q1CoreBlob": "0c766b77aa4e540abca59debdb1c63740b3871e8"
+  },
+  "candidate": {
+    "status": "hypothesis requiring local/frozen diagnostic; no product change proposed as completed",
+    "firstStep": "capture numeric source offsets and lengths for bounded TS probe samples and compare exact/overlapping intervals",
+    "ifOverlap": "consider combining only intervals whose merged length is <= 1 MiB, preserving 188-byte boundaries, all budgets, exact range checks, current account/source/generation owners, and pre/post metadata fences",
+    "doNot": [
+      "skip preflight or postflight identity checks",
+      "parallelize source reads",
+      "increase range or byte caps",
+      "claim a latency benefit before a paired control measurement"
+    ]
+  }
+}

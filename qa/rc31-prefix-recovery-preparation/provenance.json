@@ -1,0 +1,48 @@
+{
+  "schema": "drive-original.rc31-prefix-recovery-build/1",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.31",
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "sourceSHA256": {
+      "app.js": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e",
+      "sw.js": "e65e51527fad4df7633e2a10d36f2d90966e47fb8c73e23d5ebb78b7059a747a",
+      "version.json": "d8903d703880dbb1ef1068575974d70e5666a127cb2970cfb951cfd3ff5bff06"
+    }
+  },
+  "producerSHA256": {
+    "../v2-07a-root-inventory/root-inventory.mjs": "cd51c75d6f1e9aaad9295ca2a7a84810951dc9293b916a84a9a1b770c94cbbbd",
+    "../v2-07a-root-inventory/drive-browser-adapter.mjs": "d23083d2df55f8dada924bb93527133222ea9ace68533b38fc8e0c5d8a605810",
+    "../v2-07a-representative-selection/representative-selector.mjs": "fe3e463608fb842b139a4d0b12ade4b2c3ad3d52c1d36f21ea7ebdc1fede3868",
+    "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000",
+    "../rc21-corpus-night/inventory-denominators.mjs": "2e4c614225e40589b4381f8d5e3b34d4eb6fc63422b45f3d496b8f3bdbee5a6f",
+    "../rc31-corpus-content-continuity/inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "continuity.mjs": "62fb7969d309dca1648a606760ca08bec238ec8cbd442c11ad752702dcd1a968",
+    "selection.mjs": "83b31f862a9e7f593252af94342de0850f02ec7089f2fb30308aa24d5a560d10",
+    "probe.mjs": "048548254524afe36ff1106b0cb54531286d46c094182c25bfc30cf2a0e34bf1",
+    "../rc31-corpus-content-continuity/facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "../rc31-corpus-content-continuity/binding.json": "6ea4195c89a3b11746859a1b8a8129f40308a95c317f3f76e1f6f480a066ddbb",
+    "runner.function.js": "f7edaad3b927ed2fc2a132a325375e22ab1673f75ceebe2364d0a87e0c7921c6",
+    "build.mjs": "71635103de6e8e7639730128f423b964585eaddefda1ea0c7deb5c48c8af9904"
+  },
+  "factorySHA256": "e4395fda47f108d89c05fac6d57dfabc95af60f0bbe05f5b9ed7854771dfc72f",
+  "factoryBytes": 132656,
+  "expressionSHA256": "3c7beda457d993c3732f997c0c71de3f537d5e7535f94ce99a0af5112bddd74b",
+  "expressionBytes": 145686,
+  "frozenParentFactorySHA256": "a16b13a76a74c38fce71c27d2e1666683798f1bc5626a1cc12d4453aab3d5bea",
+  "frozenParentRunnerSHA256": "932a2e06be0d9db8b29b62e7ba4d8ceb7fae4e6f557bbf4ed63c37751aeebb5d",
+  "actualExecution": false,
+  "actualRequests": 0,
+  "wholeCorpusComplete": false,
+  "freshRegistry": true,
+  "historicalActual63NotImported": true,
+  "maxFreshAttemptsPerFile": 2,
+  "metadataFileDeadlineMs": 10000,
+  "metadataDefaultDeadlineMs": 25000,
+  "fileDeadlineMs": 50000,
+  "jobDeadlineMs": 600000,
+  "burstMaxJobs": 8,
+  "burstDeadlineMaxMs": 4800000,
+  "registryMaxUniqueFiles": 8192,
+  "retryAdmission": "transient-only; immutable-preflight-baseline-required; same-current-catalog-identity-and-fresh-strong-tuple; max-one-extra-fresh-attempt"
+}
