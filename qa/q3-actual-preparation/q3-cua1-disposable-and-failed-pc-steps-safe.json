@@ -1,0 +1,101 @@
+{
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "steps": [
+    {
+      "step": "create-start",
+      "at": "2026-10-01T19:35:08.312Z",
+      "result": {
+        "exactFixtureOnly": true,
+        "postRetryAllowed": false,
+        "started": true
+      }
+    },
+    {
+      "step": "create-status",
+      "at": "2026-10-01T19:35:23.283Z",
+      "result": {
+        "captureStable": false,
+        "code": null,
+        "created": 2,
+        "done": true,
+        "genericUpstreamCleanup": "unknown",
+        "lastHTTPStatus": null,
+        "ownedCleanupSettled": true,
+        "passed": true,
+        "planned": 2,
+        "privateRecoveryRetained": true,
+        "rawExported": false,
+        "requests": 6,
+        "responseBytes": 3548,
+        "sourceBound": true,
+        "submitted": 2,
+        "writes": 2
+      }
+    },
+    {
+      "step": "release-upload-and-capture",
+      "at": "2026-10-01T19:35:52.314Z",
+      "result": {
+        "freshGetCaptureStarted": true,
+        "input": {
+          "inputReleased": true,
+          "privateBlobReleased": true
+        },
+        "uploader": {
+          "privateRecoveryRetained": true,
+          "released": true
+        }
+      }
+    },
+    {
+      "step": "fresh-capture",
+      "at": "2026-10-01T19:36:01.325Z",
+      "result": {
+        "captureStable": true,
+        "code": null,
+        "created": 2,
+        "done": true,
+        "genericUpstreamCleanup": "unknown",
+        "lastHTTPStatus": null,
+        "ownedCleanupSettled": true,
+        "passed": true,
+        "planned": 2,
+        "privateRecoveryRetained": true,
+        "rawExported": false,
+        "requests": 7,
+        "responseBytes": 5478,
+        "sourceBound": true,
+        "submitted": 2,
+        "writes": 0
+      }
+    },
+    {
+      "step": "target-install",
+      "at": "2026-10-01T19:36:43.065Z",
+      "result": {
+        "exactFixture": true,
+        "freshCapture": true,
+        "installed": true,
+        "privateExported": false
+      }
+    },
+    {
+      "step": "attempt1-failure-cleanup",
+      "at": "2026-10-01T19:47:52.820Z",
+      "result": {
+        "closedOwnership": true,
+        "observerDisposed": true,
+        "playerClosed": true,
+        "q0Gone": true,
+        "q1Gone": true,
+        "rawIdentifiersExported": false,
+        "retirementSettled": true,
+        "selectedCleared": true,
+        "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+        "version": "1.22.0-rc.33"
+      }
+    }
+  ],
+  "privateIdentifiersExported": false
+}

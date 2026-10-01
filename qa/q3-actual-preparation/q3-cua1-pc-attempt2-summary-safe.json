@@ -1,0 +1,161 @@
+{
+  "closedOwnership": true,
+  "complete": false,
+  "explicitChoiceObserved": true,
+  "metadataResults": [
+    {
+      "accountSame": true,
+      "at": 1790884514193,
+      "canDownload": true,
+      "freshRevisionChecksumSame": true,
+      "label": "before",
+      "notTrashed": true,
+      "sameExactTarget": true,
+      "sourceSame": true,
+      "stableMetadataSame": true,
+      "status": 200
+    },
+    {
+      "accountSame": true,
+      "at": 1790884987058,
+      "canDownload": true,
+      "freshRevisionChecksumSame": true,
+      "label": "after",
+      "notTrashed": true,
+      "sameExactTarget": true,
+      "sourceSame": true,
+      "stableMetadataSame": true,
+      "status": 200
+    }
+  ],
+  "nativeRejectionObserved": true,
+  "observerDisposed": true,
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "phases": [
+    {
+      "diagnostic15Missed": true,
+      "fenceFailure": false,
+      "firstTargetFrame": null,
+      "label": "native",
+      "streamActiveAtArm": false
+    },
+    {
+      "diagnostic15Missed": true,
+      "fenceFailure": false,
+      "firstRecordedFrame": {
+        "currentGeneration": true,
+        "distanceSeconds": null,
+        "elapsedMs": 12839,
+        "fencesGood": false,
+        "generation": 1,
+        "generationAdvanced": true,
+        "height": 360,
+        "mediaTime": 0.033333,
+        "presentedFrames": 2,
+        "sourceCfrGridError": 0.00000999999999995449,
+        "sourceClockShift": 0,
+        "sourceGeneration": 27,
+        "sourceTime": 0.033333,
+        "targetGood": true,
+        "targetSame": true,
+        "width": 640
+      },
+      "firstTargetFrame": {
+        "distanceSeconds": null,
+        "elapsedMs": 52012,
+        "generation": 1,
+        "height": 360,
+        "mediaTime": 12,
+        "route": "Q3",
+        "sourceClockShift": 0,
+        "sourceGeneration": 27,
+        "sourceTime": 12,
+        "width": 640
+      },
+      "label": "startup",
+      "streamActiveAtArm": false
+    },
+    {
+      "diagnostic15Missed": false,
+      "fenceFailure": false,
+      "firstRecordedFrame": {
+        "currentGeneration": true,
+        "distanceSeconds": 0,
+        "elapsedMs": 10786,
+        "fencesGood": true,
+        "generation": 2,
+        "generationAdvanced": true,
+        "height": 360,
+        "mediaTime": 90,
+        "presentedFrames": 1,
+        "sourceCfrGridError": 0,
+        "sourceClockShift": 0,
+        "sourceGeneration": 28,
+        "sourceTime": 90,
+        "targetGood": true,
+        "targetSame": true,
+        "width": 640
+      },
+      "firstTargetFrame": {
+        "distanceSeconds": 0,
+        "elapsedMs": 10786,
+        "generation": 2,
+        "height": 360,
+        "mediaTime": 90,
+        "route": "Q3",
+        "sourceClockShift": 0,
+        "sourceGeneration": 28,
+        "sourceTime": 90,
+        "width": 640
+      },
+      "label": "seek50",
+      "streamActiveAtArm": false
+    },
+    {
+      "diagnostic15Missed": false,
+      "fenceFailure": false,
+      "firstRecordedFrame": {
+        "currentGeneration": true,
+        "distanceSeconds": 0,
+        "elapsedMs": 10403,
+        "fencesGood": true,
+        "generation": 3,
+        "generationAdvanced": true,
+        "height": 360,
+        "mediaTime": 162,
+        "presentedFrames": 1,
+        "sourceCfrGridError": 0,
+        "sourceClockShift": 0,
+        "sourceGeneration": 29,
+        "sourceTime": 162,
+        "targetGood": true,
+        "targetSame": true,
+        "width": 640
+      },
+      "firstTargetFrame": {
+        "distanceSeconds": 0,
+        "elapsedMs": 10403,
+        "generation": 3,
+        "height": 360,
+        "mediaTime": 162,
+        "route": "Q3",
+        "sourceClockShift": 0,
+        "sourceGeneration": 29,
+        "sourceTime": 162,
+        "width": 640
+      },
+      "label": "seek90",
+      "streamActiveAtArm": false
+    },
+    {
+      "diagnostic15Missed": true,
+      "fenceFailure": false,
+      "firstTargetFrame": null,
+      "label": "cancel",
+      "streamActiveAtArm": false
+    }
+  ],
+  "rawIdentifiersExported": false,
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33"
+}

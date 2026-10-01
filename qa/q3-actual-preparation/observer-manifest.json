@@ -1,0 +1,79 @@
+{
+  "schema": "drive-original.q3-actual-observer-bound/1",
+  "bound": true,
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "cacheFiles": 46,
+  "cacheWithRootAlias": 47,
+  "inherited": {
+    "qa/rc32-ts-device-replay/observer.function.js": "e9e47f0d18a851c41b15858fb85ce1a9157527f6d7390bfd6d7a0c1ce7dd1472",
+    "qa/rc32-ts-device-replay/source-proof.function.js": "fb4a763bcb5766a91a757e53dccd42f52ddbe7ae205f225e11ddc09863ad90c7",
+    "qa/rc32-ts-device-replay/android-common.cjs": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+    "qa/rc32-ts-device-replay/android-owned-session.cjs": "65fcde4e2dec3df669ffb592df5ef4733e4382d6bf671fb35c1465fc942d49e6"
+  },
+  "files": [
+    {
+      "file": "bind-observer.cjs",
+      "bytes": 5096,
+      "sha256": "3483f1ddafcc8e63e6f783cd77d296fe91bbf518bf19a93bfc2bbc3feed939e9"
+    },
+    {
+      "file": "observer.function.js",
+      "bytes": 24449,
+      "sha256": "9490e67ac403a32fb15cd25aabb2e9d2692d165d19ecd1fd01134fa7fb7bd353"
+    },
+    {
+      "file": "observer.test.cjs",
+      "bytes": 14577,
+      "sha256": "8b6fb9f98312b3d464e36e414416692e13660ed0ecc03bdac34e704e3efef0f1"
+    },
+    {
+      "file": "android-common33.cjs",
+      "bytes": 8913,
+      "sha256": "a1cfbd89e922158a43fd6f3e9a09869057c5df4a1c514ff078cebd519337637f"
+    },
+    {
+      "file": "android-observer-session.cjs",
+      "bytes": 6145,
+      "sha256": "ba066369c369412a443eee5343057ee32cbd17f9b019acca7d35bba63c98ceb9"
+    },
+    {
+      "file": "README.observer.md",
+      "bytes": 6639,
+      "sha256": "18adda4602e387c85fcb6afc62ed4be74c4f95381520c3330292adbe1a884bc3"
+    },
+    {
+      "file": "observer-attempt1-label-history.json",
+      "bytes": 1321,
+      "sha256": "49a42b6e17e5184d57d4d89f4279d34fa48a9dbd20c6350bc29bbaa943a0daee"
+    },
+    {
+      "file": "observer-attempt1-label-failure.expression.js",
+      "bytes": 30564,
+      "sha256": "82e4b8a791b47a2dd40ec88b665d22f4e25ac5031780a0d0840c7934dc68c009"
+    },
+    {
+      "file": "binding-observer.json",
+      "bytes": 8187,
+      "sha256": "21d64ac825efdbf0dfec5e9cfcb9a2cd1d02064aea8aac2294abcb5249ada1aa"
+    },
+    {
+      "file": "source-proof.expression.js",
+      "bytes": 15307,
+      "sha256": "fdd71db2cc76e36921db9c2bb512183ea2f8ad70d4302d094276551884b57954"
+    },
+    {
+      "file": "observer.expression.js",
+      "bytes": 30967,
+      "sha256": "c2f8df2f7e29da5d93bac064d81236a96d0338f85724c62bcb703c7055d05f5e"
+    }
+  ],
+  "actualOperationPerformed": false,
+  "unmet": [
+    "180s derived quality/complete output cadence",
+    "PC/Android sustained resources and performance",
+    "native encoder/GPU memory",
+    "temperature/throttling/battery",
+    "unsupported codec/track/color combinations"
+  ]
+}

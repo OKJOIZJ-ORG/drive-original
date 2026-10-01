@@ -1,0 +1,89 @@
+{
+  "schema": "drive-original.q3-finite-pc-qualification/1",
+  "recordedAt": "2026-10-01T20:17:00.939Z",
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "inputs": [
+    {
+      "file": "q3-cua1-pc-attempt2-functional-safe.json",
+      "sha256": "6a90f514b20ed878719a82caa109d901a58e8e5c2f92ce37e9516b005c5dc9b0"
+    },
+    {
+      "file": "q3-cua1-pc-active-cancel-safe.json",
+      "sha256": "4a22ae2de5c082addc4778a42790085e09e4cd21aa0e8ff1012c32a1a2860dd0"
+    }
+  ],
+  "adoptedFiniteFunctionalClauses": [
+    "actual native rejection and explicit lossy choice",
+    "640x360 current-generation presentation",
+    "50% and 90% source-clock seek targets",
+    "active conversion cancellation",
+    "closed source/player/worker ownership and observer cleanup"
+  ],
+  "frames": [
+    {
+      "label": "startup",
+      "sourceTime": 12,
+      "elapsedMs": 52012,
+      "generation": 1,
+      "sourceGeneration": 27,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "label": "seek50",
+      "sourceTime": 90,
+      "elapsedMs": 10786,
+      "generation": 2,
+      "sourceGeneration": 28,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "label": "seek90",
+      "sourceTime": 162,
+      "elapsedMs": 10403,
+      "generation": 3,
+      "sourceGeneration": 29,
+      "width": 640,
+      "height": 360
+    }
+  ],
+  "cancelStartup": {
+    "label": "startup",
+    "sourceTime": 0.066667,
+    "elapsedMs": 13065,
+    "generation": 1,
+    "sourceGeneration": 43,
+    "width": 640,
+    "height": 360
+  },
+  "activeCancelAtArm": true,
+  "originalBasis": {
+    "Q06": 570,
+    "MEDIA04": "970-983",
+    "TR08": 893,
+    "CORE06": 663,
+    "FM04": 1715
+  },
+  "joinScope": "One exact disposable fixture/account/revision and immutable runtime; fresh metadata before/after each lifetime. Original criteria permit reuse across independently fenced lifetimes.",
+  "preservedFailures": [
+    "attempt2 observer TOTAL_BOUND; save failed OBSERVER_ALREADY_STOPPED",
+    "attempt2 inactive close is not active cancellation",
+    "attempt1 hidden-detail label observer defect; first resource pathname-owner defect"
+  ],
+  "wholeObserverComplete": false,
+  "wholePlanComplete": false,
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "limitations": [
+    "No 10% Q3 seek, full 180s EOF or complete derived-output quality claim",
+    "No audio, additional tracks, subtitles, HDR, rotation or VFR qualification",
+    "52.012s startup includes main-label visibility delay; not exact earliest frame latency",
+    "Aggregate Chrome counters do not establish Q3 GPU/encoder peak, temperature or sustained throughput",
+    "Physical Android Q3 remains unqualified",
+    "Disposed public-stat owner exposes no retained native heap proof"
+  ],
+  "originalMediaMutated": false,
+  "providerWritesDuringReplay": 0,
+  "rawIdentifiersExported": false
+}

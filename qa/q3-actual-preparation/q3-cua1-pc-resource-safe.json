@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "kind": "pc",
+  "scope": "Chrome aggregate; no Q3-specific peak attribution",
+  "diskScope": "Workspace C volume free space; not Q3 disk usage",
+  "gpuEncoderPeak": "UNKNOWN",
+  "thermalOrBatteryCausality": "UNKNOWN",
+  "startedAt": "2026-10-01T19:38:05.400Z",
+  "startedMonotonicMs": 27.3665,
+  "maximumSeconds": 240,
+  "intervalMs": 5000,
+  "samples": [
+    {
+      "ordinal": 1,
+      "wallTime": "2026-10-01T19:38:05.850Z",
+      "monotonicMs": 28.719,
+      "elapsedMs": 1.3525000000000027,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3005.546875,
+      "workingBytes": 2073796608,
+      "privateBytes": 1473474560,
+      "diskFreeBytes": 80859299840,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "BASELINE_UNAVAILABLE"
+      }
+    }
+  ],
+  "failedSamples": 0,
+  "ready": true,
+  "cleanup": null
+}

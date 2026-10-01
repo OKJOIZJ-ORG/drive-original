@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "preparedOnly": true,
+  "actualReads": 0,
+  "producerSha256": "c454155ce9a2556ac91cc72de2f6824d802b3b0d2ab6abfae4a4e15f2bc240a8",
+  "testSha256": "14d7c9a6bbf8ac82202718e8f44b7012f0259cceaae8b9387366d49b1db0d556",
+  "checks": {
+    "syntax": "PASS",
+    "focused": "PASS 4/4"
+  },
+  "bounds": {
+    "maximumSeconds": 360,
+    "intervalMs": 5000,
+    "maximumSamples": 72,
+    "maximumReadOutputBytes": 262144,
+    "readCommandTimeoutMs": 3000,
+    "androidReadCommandTimeoutMs": 2000
+  },
+  "executionRequired": true,
+  "pinnedAndroid": {
+    "model": "SM-X800",
+    "version": "16",
+    "serialExported": false
+  },
+  "limits": {
+    "pc": "All Chrome processes; aggregate CPU/working/private bytes. CPU reset/process-count drift unavailable. Closed/replaced processes can prevent attribution.",
+    "android": "Named Chrome main-process PSS/RSS; renderer/GPU totals UNKNOWN.",
+    "disk": "C workspace volume free bytes; not Q3 disk use.",
+    "temperature": "Battery tenths C; not SoC/ambient; unavailable thermal stays UNKNOWN.",
+    "sampling": "5s observations cannot establish encoder/native GPU peaks, Q3-specific resource maxima, thermal/battery causality or longform quality."
+  },
+  "cleanup": "Only spawned read subprocesses and owned timers; no Chrome/ADB/device process termination",
+  "qualityEvidenceUnchanged": true,
+  "rootAdaptation": {
+    "reason": "RESOURCE_OUTPUT_OWNER_CHANGED at second save; later inspection found regular exact path/single link. Replace repeated pathname reopening with new wx-owned descriptor, repeated writes and finally-close.",
+    "producerSha256": "3438388ccad3799cb61a83cf9e624123ba182d206ee61edafdb34a7d9f9cdc8c",
+    "testSha256": "1b486511843d6f4ce38f105aabe0ac00079fe91d5da925f155ee71ecc6a9340c",
+    "focused": "PASS6/6 (two new exact-file persistence/replacement discriminators plus existing4)",
+    "initialFailure": "q3-cua1-pc-resource-safe.json (failure preserved; final receipt incomplete)",
+    "actualAfterChange": "q3-cua1-pc-resource-attempt2-safe.json:45 samples/0 failed/240s/owned subprocess+timers settled; Chrome aggregate scope only",
+    "productChanged": false
+  }
+}

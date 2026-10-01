@@ -1,0 +1,44 @@
+{
+  "pass": true,
+  "command": "node --test qa/q3-actual-preparation/pc-seek-targets33.test.cjs",
+  "tests": 9,
+  "failed": 0,
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "parent": {
+    "expression": "qa/rc32-ts-device-replay/pc-seek-targets.expression.js",
+    "sha256": "387b3e0720dd06487c847e0b3ec2ee3344e886674234d391e039a7b497b530cf",
+    "testSha256": "925d30c69e6eed43ef293d0dbe26ae92431edbc64510a1d5752fe25b38e1c059"
+  },
+  "files": [
+    {
+      "file": "pc-seek-targets33.expression.js",
+      "bytes": 8570,
+      "sha256": "145a0533560cf6e37eb1c9a56f3cc85d97a5e88dc71cb7c209dfd8c09dbf1e9a"
+    },
+    {
+      "file": "pc-seek-targets33.test.cjs",
+      "bytes": 10351,
+      "sha256": "16002bde67b882722c466b1e2673cca0795d592f593d295a183b77d22a07719e"
+    }
+  ],
+  "observerExpressionUnchanged": true,
+  "controls": {
+    "privateHolder": "__q3ActualTarget33",
+    "handle": "__q3PcSeekTargets33",
+    "labels": [
+      "RC33 Q3 QA seek50",
+      "RC33 Q3 QA seek90"
+    ],
+    "markerPixels": 8,
+    "targetSeconds": [
+      90,
+      162
+    ],
+    "maxMs": 180000,
+    "pausedNativeCurrentQ3FrameRequired": true,
+    "nativeInputOnly": true
+  },
+  "usage": "After real Tab reveals controls and real pause, install expression; get fresh MCP UIDs plus read().targets available/current exact geometry BEFORE arming each corresponding observer seek; use native MCP click only; finally stop(), verify exact role/owned marker cleanup. Stop failures and observed role drift remain sticky. Group/markers are QA AX targeting only, not product accessibility proof.",
+  "scope": "Local pointer target preparation and synthetic tests only; no browser/account/device/provider/input/player/Git/product action"
+}

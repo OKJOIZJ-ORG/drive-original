@@ -1,0 +1,883 @@
+{
+  "schema": 1,
+  "kind": "pc",
+  "scope": "Chrome aggregate; no Q3-specific peak attribution",
+  "diskScope": "Workspace C volume free space; not Q3 disk usage",
+  "gpuEncoderPeak": "UNKNOWN",
+  "thermalOrBatteryCausality": "UNKNOWN",
+  "startedAt": "2026-10-01T19:41:57.030Z",
+  "startedMonotonicMs": 24.0543,
+  "maximumSeconds": 240,
+  "intervalMs": 5000,
+  "samples": [
+    {
+      "ordinal": 1,
+      "wallTime": "2026-10-01T19:41:57.454Z",
+      "monotonicMs": 25.6388,
+      "elapsedMs": 1.5844999999999985,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.546875,
+      "workingBytes": 1901543424,
+      "privateBytes": 1393442816,
+      "diskFreeBytes": 80858066944,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "BASELINE_UNAVAILABLE"
+      }
+    },
+    {
+      "ordinal": 2,
+      "wallTime": "2026-10-01T19:42:02.801Z",
+      "monotonicMs": 5459.1554,
+      "elapsedMs": 5435.1011,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.578125,
+      "workingBytes": 1901883392,
+      "privateBytes": 1393868800,
+      "diskFreeBytes": 80857534464,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.03125,
+        "cpuPercent": 0.5751339749288702,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 3,
+      "wallTime": "2026-10-01T19:42:08.196Z",
+      "monotonicMs": 10810.9785,
+      "elapsedMs": 10786.9242,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.8125,
+      "workingBytes": 1905664000,
+      "privateBytes": 1397542912,
+      "diskFreeBytes": 80857661440,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.234375,
+        "cpuPercent": 4.379348786771371,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 4,
+      "wallTime": "2026-10-01T19:42:13.547Z",
+      "monotonicMs": 16197.4431,
+      "elapsedMs": 16173.3888,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.859375,
+      "workingBytes": 1902198784,
+      "privateBytes": 1394364416,
+      "diskFreeBytes": 80857595904,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.046875,
+        "cpuPercent": 0.8702368525730215,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 5,
+      "wallTime": "2026-10-01T19:42:18.877Z",
+      "monotonicMs": 21545.2194,
+      "elapsedMs": 21521.165100000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.875,
+      "workingBytes": 1902333952,
+      "privateBytes": 1394667520,
+      "diskFreeBytes": 80857591808,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.015625,
+        "cpuPercent": 0.2921775168493865,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 6,
+      "wallTime": "2026-10-01T19:42:24.230Z",
+      "monotonicMs": 26879.5147,
+      "elapsedMs": 26855.4604,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.90625,
+      "workingBytes": 1902555136,
+      "privateBytes": 1394929664,
+      "diskFreeBytes": 80857591808,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.03125,
+        "cpuPercent": 0.5858318342443474,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 7,
+      "wallTime": "2026-10-01T19:42:29.602Z",
+      "monotonicMs": 32237.2528,
+      "elapsedMs": 32213.1985,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3008.984375,
+      "workingBytes": 1901715456,
+      "privateBytes": 1394167808,
+      "diskFreeBytes": 80857550848,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.078125,
+        "cpuPercent": 1.4581713130024032,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 8,
+      "wallTime": "2026-10-01T19:42:35.024Z",
+      "monotonicMs": 37609.7818,
+      "elapsedMs": 37585.72749999999,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3009.03125,
+      "workingBytes": 1902206976,
+      "privateBytes": 1394597888,
+      "diskFreeBytes": 80857378816,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.046875,
+        "cpuPercent": 0.8724941270675323,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 9,
+      "wallTime": "2026-10-01T19:42:40.371Z",
+      "monotonicMs": 43021.5112,
+      "elapsedMs": 42997.4569,
+      "available": true,
+      "chromeProcessCount": 25,
+      "cpuSeconds": 3012.515625,
+      "workingBytes": 2121773056,
+      "privateBytes": 1539420160,
+      "diskFreeBytes": 80856993792,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "AGGREGATE_RESET_OR_PROCESS_COUNT_CHANGED"
+      }
+    },
+    {
+      "ordinal": 10,
+      "wallTime": "2026-10-01T19:42:45.758Z",
+      "monotonicMs": 48374.6451,
+      "elapsedMs": 48350.5908,
+      "available": true,
+      "chromeProcessCount": 25,
+      "cpuSeconds": 3014.578125,
+      "workingBytes": 2085769216,
+      "privateBytes": 1501376512,
+      "diskFreeBytes": 80856985600,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 2.0625,
+        "cpuPercent": 38.5288326152275,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 11,
+      "wallTime": "2026-10-01T19:42:51.109Z",
+      "monotonicMs": 53752.657,
+      "elapsedMs": 53728.602699999996,
+      "available": true,
+      "chromeProcessCount": 25,
+      "cpuSeconds": 3016.828125,
+      "workingBytes": 2088128512,
+      "privateBytes": 1503641600,
+      "diskFreeBytes": 80857116672,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 2.25,
+        "cpuPercent": 41.837021595285066,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 12,
+      "wallTime": "2026-10-01T19:42:56.474Z",
+      "monotonicMs": 59107.6115,
+      "elapsedMs": 59083.557199999996,
+      "available": true,
+      "chromeProcessCount": 27,
+      "cpuSeconds": 3020.265625,
+      "workingBytes": 2245844992,
+      "privateBytes": 1589510144,
+      "diskFreeBytes": 80856985600,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "AGGREGATE_RESET_OR_PROCESS_COUNT_CHANGED"
+      }
+    },
+    {
+      "ordinal": 13,
+      "wallTime": "2026-10-01T19:43:01.843Z",
+      "monotonicMs": 64474.7438,
+      "elapsedMs": 64450.68949999999,
+      "available": true,
+      "chromeProcessCount": 27,
+      "cpuSeconds": 3021.1875,
+      "workingBytes": 2248146944,
+      "privateBytes": 1589133312,
+      "diskFreeBytes": 80856977408,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.921875,
+        "cpuPercent": 17.17630474657762,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 14,
+      "wallTime": "2026-10-01T19:43:07.179Z",
+      "monotonicMs": 69841.6664,
+      "elapsedMs": 69817.6121,
+      "available": true,
+      "chromeProcessCount": 27,
+      "cpuSeconds": 3021.34375,
+      "workingBytes": 2232938496,
+      "privateBytes": 1573449728,
+      "diskFreeBytes": 80857075712,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.15625,
+        "cpuPercent": 2.9113518424879063,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 15,
+      "wallTime": "2026-10-01T19:43:12.511Z",
+      "monotonicMs": 75182.5747,
+      "elapsedMs": 75158.5204,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3020.828125,
+      "workingBytes": 2088083456,
+      "privateBytes": 1503485952,
+      "diskFreeBytes": 80857075712,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "AGGREGATE_RESET_OR_PROCESS_COUNT_CHANGED"
+      }
+    },
+    {
+      "ordinal": 16,
+      "wallTime": "2026-10-01T19:43:17.861Z",
+      "monotonicMs": 80516.9976,
+      "elapsedMs": 80492.9433,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3020.9375,
+      "workingBytes": 2078576640,
+      "privateBytes": 1493258240,
+      "diskFreeBytes": 80857006080,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.109375,
+        "cpuPercent": 2.050362373781799,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 17,
+      "wallTime": "2026-10-01T19:43:23.197Z",
+      "monotonicMs": 85862.3321,
+      "elapsedMs": 85838.2778,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.03125,
+      "workingBytes": 2078617600,
+      "privateBytes": 1493217280,
+      "diskFreeBytes": 80856514560,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.09375,
+        "cpuPercent": 1.7538659180262723,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 18,
+      "wallTime": "2026-10-01T19:43:28.521Z",
+      "monotonicMs": 91192.2782,
+      "elapsedMs": 91168.2239,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.3125,
+      "workingBytes": 2086076416,
+      "privateBytes": 1495302144,
+      "diskFreeBytes": 80856932352,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.28125,
+        "cpuPercent": 5.276788821560503,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 19,
+      "wallTime": "2026-10-01T19:43:33.859Z",
+      "monotonicMs": 96518.6976,
+      "elapsedMs": 96494.6433,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.328125,
+      "workingBytes": 2081210368,
+      "privateBytes": 1490362368,
+      "diskFreeBytes": 80856932352,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.015625,
+        "cpuPercent": 0.2933490366905768,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 20,
+      "wallTime": "2026-10-01T19:43:39.222Z",
+      "monotonicMs": 101866.0307,
+      "elapsedMs": 101841.9764,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.46875,
+      "workingBytes": 2082435072,
+      "privateBytes": 1490800640,
+      "diskFreeBytes": 80856915968,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.140625,
+        "cpuPercent": 2.629815599106775,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 21,
+      "wallTime": "2026-10-01T19:43:44.556Z",
+      "monotonicMs": 107228.6455,
+      "elapsedMs": 107204.5912,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.578125,
+      "workingBytes": 2080550912,
+      "privateBytes": 1488547840,
+      "diskFreeBytes": 80856846336,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.109375,
+        "cpuPercent": 2.0395833763782565,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 22,
+      "wallTime": "2026-10-01T19:43:49.901Z",
+      "monotonicMs": 112562.1473,
+      "elapsedMs": 112538.093,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3021.578125,
+      "workingBytes": 2080423936,
+      "privateBytes": 1488384000,
+      "diskFreeBytes": 80856846336,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0,
+        "cpuPercent": 0,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 23,
+      "wallTime": "2026-10-01T19:43:55.296Z",
+      "monotonicMs": 117902.7366,
+      "elapsedMs": 117878.6823,
+      "available": true,
+      "chromeProcessCount": 24,
+      "cpuSeconds": 3022.84375,
+      "workingBytes": 2136555520,
+      "privateBytes": 1543569408,
+      "diskFreeBytes": 80856731648,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.265625,
+        "cpuPercent": 23.69822745965503,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 24,
+      "wallTime": "2026-10-01T19:44:00.648Z",
+      "monotonicMs": 123291.0337,
+      "elapsedMs": 123266.9794,
+      "available": true,
+      "chromeProcessCount": 23,
+      "cpuSeconds": 3024.796875,
+      "workingBytes": 2102931456,
+      "privateBytes": 1580347392,
+      "diskFreeBytes": 80856731648,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "AGGREGATE_RESET_OR_PROCESS_COUNT_CHANGED"
+      }
+    },
+    {
+      "ordinal": 25,
+      "wallTime": "2026-10-01T19:44:06.006Z",
+      "monotonicMs": 128652.6355,
+      "elapsedMs": 128628.5812,
+      "available": true,
+      "chromeProcessCount": 23,
+      "cpuSeconds": 3027.3125,
+      "workingBytes": 2126761984,
+      "privateBytes": 1597796352,
+      "diskFreeBytes": 80856739840,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 2.515625,
+        "cpuPercent": 46.9192807268902,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 26,
+      "wallTime": "2026-10-01T19:44:11.368Z",
+      "monotonicMs": 134011.7924,
+      "elapsedMs": 133987.73810000002,
+      "available": true,
+      "chromeProcessCount": 23,
+      "cpuSeconds": 3028.5625,
+      "workingBytes": 2103898112,
+      "privateBytes": 1572552704,
+      "diskFreeBytes": 80856449024,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.25,
+        "cpuPercent": 23.324564354516276,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 27,
+      "wallTime": "2026-10-01T19:44:16.725Z",
+      "monotonicMs": 139376.7681,
+      "elapsedMs": 139352.7138,
+      "available": true,
+      "chromeProcessCount": 23,
+      "cpuSeconds": 3030.21875,
+      "workingBytes": 2123141120,
+      "privateBytes": 1591443456,
+      "diskFreeBytes": 80856449024,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.65625,
+        "cpuPercent": 30.871528458181196,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 28,
+      "wallTime": "2026-10-01T19:44:22.060Z",
+      "monotonicMs": 144723.1222,
+      "elapsedMs": 144699.06790000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3030.984375,
+      "workingBytes": 2004058112,
+      "privateBytes": 1511284736,
+      "diskFreeBytes": 80856444928,
+      "error": null,
+      "cpu": {
+        "available": false,
+        "cpuDeltaSeconds": null,
+        "cpuPercent": null,
+        "reason": "AGGREGATE_RESET_OR_PROCESS_COUNT_CHANGED"
+      }
+    },
+    {
+      "ordinal": 29,
+      "wallTime": "2026-10-01T19:44:27.428Z",
+      "monotonicMs": 150060.1914,
+      "elapsedMs": 150036.13710000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3032.328125,
+      "workingBytes": 2029379584,
+      "privateBytes": 1537531904,
+      "diskFreeBytes": 80856444928,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.34375,
+        "cpuPercent": 25.177676167286727,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 30,
+      "wallTime": "2026-10-01T19:44:32.767Z",
+      "monotonicMs": 155435.5531,
+      "elapsedMs": 155411.4988,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3033.6875,
+      "workingBytes": 1991831552,
+      "privateBytes": 1497772032,
+      "diskFreeBytes": 80856444928,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.359375,
+        "cpuPercent": 25.288995901429388,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 31,
+      "wallTime": "2026-10-01T19:44:38.133Z",
+      "monotonicMs": 160765.0787,
+      "elapsedMs": 160741.02440000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3035.359375,
+      "workingBytes": 2012647424,
+      "privateBytes": 1518977024,
+      "diskFreeBytes": 80856313856,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.671875,
+        "cpuPercent": 31.370052899267296,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 32,
+      "wallTime": "2026-10-01T19:44:43.474Z",
+      "monotonicMs": 166136.1608,
+      "elapsedMs": 166112.10650000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3037.53125,
+      "workingBytes": 2118516736,
+      "privateBytes": 1626050560,
+      "diskFreeBytes": 80856195072,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 2.171875,
+        "cpuPercent": 40.43645134376181,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 33,
+      "wallTime": "2026-10-01T19:44:48.826Z",
+      "monotonicMs": 171474.9879,
+      "elapsedMs": 171450.93360000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3039.609375,
+      "workingBytes": 2054918144,
+      "privateBytes": 1560997888,
+      "diskFreeBytes": 80856199168,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 2.078125,
+        "cpuPercent": 38.92474809682452,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 34,
+      "wallTime": "2026-10-01T19:44:54.164Z",
+      "monotonicMs": 176822.4353,
+      "elapsedMs": 176798.38100000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3041.28125,
+      "workingBytes": 2010259456,
+      "privateBytes": 1515577344,
+      "diskFreeBytes": 80856199168,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.671875,
+        "cpuPercent": 31.264917164028557,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 35,
+      "wallTime": "2026-10-01T19:44:59.550Z",
+      "monotonicMs": 182169.8371,
+      "elapsedMs": 182145.78280000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3042.859375,
+      "workingBytes": 2033803264,
+      "privateBytes": 1539731456,
+      "diskFreeBytes": 80856195072,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.578125,
+        "cpuPercent": 29.51199590051382,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 36,
+      "wallTime": "2026-10-01T19:45:04.898Z",
+      "monotonicMs": 187547.3231,
+      "elapsedMs": 187523.26880000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3044.515625,
+      "workingBytes": 2011947008,
+      "privateBytes": 1516797952,
+      "diskFreeBytes": 80856195072,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.65625,
+        "cpuPercent": 30.799708265163282,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 37,
+      "wallTime": "2026-10-01T19:45:10.304Z",
+      "monotonicMs": 192896.095,
+      "elapsedMs": 192872.0407,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3046.40625,
+      "workingBytes": 2022711296,
+      "privateBytes": 1528659968,
+      "diskFreeBytes": 80854851584,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.890625,
+        "cpuPercent": 35.34689897694091,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 38,
+      "wallTime": "2026-10-01T19:45:15.638Z",
+      "monotonicMs": 198305.0871,
+      "elapsedMs": 198281.03280000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3047.90625,
+      "workingBytes": 2012233728,
+      "privateBytes": 1516392448,
+      "diskFreeBytes": 80854716416,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.5,
+        "cpuPercent": 27.73159901638605,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 39,
+      "wallTime": "2026-10-01T19:45:20.994Z",
+      "monotonicMs": 203641.1387,
+      "elapsedMs": 203617.08440000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3049.703125,
+      "workingBytes": 2029154304,
+      "privateBytes": 1534521344,
+      "diskFreeBytes": 80854712320,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.796875,
+        "cpuPercent": 33.67424333003072,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 40,
+      "wallTime": "2026-10-01T19:45:26.333Z",
+      "monotonicMs": 208997.0102,
+      "elapsedMs": 208972.9559,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3050.9375,
+      "workingBytes": 2015051776,
+      "privateBytes": 1519837184,
+      "diskFreeBytes": 80854667264,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.234375,
+        "cpuPercent": 23.047136213032832,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 41,
+      "wallTime": "2026-10-01T19:45:31.696Z",
+      "monotonicMs": 214336.936,
+      "elapsedMs": 214312.8817,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3052.34375,
+      "workingBytes": 2032287744,
+      "privateBytes": 1536720896,
+      "diskFreeBytes": 80853807104,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.40625,
+        "cpuPercent": 26.33463558613494,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 42,
+      "wallTime": "2026-10-01T19:45:37.051Z",
+      "monotonicMs": 219696.6457,
+      "elapsedMs": 219672.5914,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3053.390625,
+      "workingBytes": 2032377856,
+      "privateBytes": 1535123456,
+      "diskFreeBytes": 80853741568,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.046875,
+        "cpuPercent": 19.532307878540486,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 43,
+      "wallTime": "2026-10-01T19:45:42.396Z",
+      "monotonicMs": 225046.6567,
+      "elapsedMs": 225022.6024,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3054.40625,
+      "workingBytes": 2029805568,
+      "privateBytes": 1533796352,
+      "diskFreeBytes": 80853737472,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 1.015625,
+        "cpuPercent": 18.983605828100174,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 44,
+      "wallTime": "2026-10-01T19:45:47.734Z",
+      "monotonicMs": 230393.8898,
+      "elapsedMs": 230369.83550000002,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3055.140625,
+      "workingBytes": 2008895488,
+      "privateBytes": 1511940096,
+      "diskFreeBytes": 80853544960,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.734375,
+        "cpuPercent": 13.733738295418584,
+        "reason": null
+      }
+    },
+    {
+      "ordinal": 45,
+      "wallTime": "2026-10-01T19:45:53.084Z",
+      "monotonicMs": 235732.6879,
+      "elapsedMs": 235708.6336,
+      "available": true,
+      "chromeProcessCount": 22,
+      "cpuSeconds": 3056.125,
+      "workingBytes": 2017660928,
+      "privateBytes": 1520226304,
+      "diskFreeBytes": 80853544960,
+      "error": null,
+      "cpu": {
+        "available": true,
+        "cpuDeltaSeconds": 0.984375,
+        "cpuPercent": 18.43813872639242,
+        "reason": null
+      }
+    }
+  ],
+  "failedSamples": 0,
+  "ready": true,
+  "cleanup": {
+    "ownedSubprocessesStopped": true,
+    "ownedTimerCleared": true,
+    "ownedDeadlineCleared": true
+  },
+  "stopRequested": true,
+  "endedAt": "2026-10-01T19:45:57.033Z",
+  "endedMonotonicMs": 240026.5775,
+  "elapsedMs": 240002.52320000003,
+  "deadlineReached": true,
+  "rawLogsExported": false,
+  "deviceIdentifiersExported": false
+}
