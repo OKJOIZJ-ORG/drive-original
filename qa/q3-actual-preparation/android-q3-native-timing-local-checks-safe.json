@@ -1,0 +1,58 @@
+{
+  "schema": "drive-original.q3-native-timing-local-checks/1",
+  "scope": "LOCAL_MOCK_AND_INERT_PREPARATION_ONLY",
+  "actualDeviceBrowserDriveAccessPerformed": false,
+  "privateTargetRead": false,
+  "productModified": false,
+  "historicalEvidenceModified": false,
+  "commitPerformed": false,
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "files": {
+    "android-q3-native-timing.cjs": "b1add751218746f7663c86d52f521686806af3dab9f3ebef6e871ab3e66195b4",
+    "android-q3-native-timing.function.js": "88f96e83dda0f5a328e45ab605f12cd42d5bb1a3f29feb0dedb4c9890b709b4a",
+    "android-q3-native-timing.test.cjs": "7a3cfb620c78ca46177c937357b9d3ad99f5d72466712cad64dff0959fac78c7"
+  },
+  "reusedPins": {
+    "android-q3-actor.cjs": "116ff013cf771002bbea0e2fa2a70e448ec533ff46bcd38f1455a9de0bf5443a",
+    "android-q3-tail-timing.cjs": "7d3b7894674ef028c5cd680bd2edacb80722ee4e6284c5df9f72bcb0a8bfd376"
+  },
+  "built": {
+    "originalPipelineSha256": "0b586338bc22dd5ccdbd0e030c7051649f716eb863307f72fbb74fa8b7c5c297",
+    "originalWorkerSha256": "4258108f2afa147aa90b470b4b29ba79bc557768993e4364c328757a1549e418",
+    "pipelineSha256": "75d679f03aa731214d72c881cd71730b6850b09f838a07a9a02b2dbd4543177c",
+    "workerTemplateSha256": "5979caf81ab6237165f53cc9f426988329e05a5a2a0205ba2216c103a03476fb"
+  },
+  "checks": {
+    "command": "node --test qa/q3-actual-preparation/android-q3-native-timing.test.cjs",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "producerHelperAndInstrumentedModulesSyntaxPassed": true,
+    "inertPlanPassed": true
+  },
+  "verified": [
+    "One exact Q3 module factory capture; descriptor immediately restored; unrelated Worker args and subclass new.target preserved",
+    "Normal starting generation increment admitted before capture; later generation/account/target/controller drift rejected",
+    "Hidden loss label does not gate scalar timing; samples retain at most64; worker emits once/sec except terminal",
+    "Product native close precedes terminal/port/blob disposal; foreign Worker replacement preserved and cleanup remains unconfirmed",
+    "Inert preparation never reads private target and failed admission performs no native input"
+  ],
+  "limits": {
+    "actionFromInvocationMs": 100000,
+    "cleanupEndFromInvocationMs": 145000,
+    "observationEndFromInvocationMs": 85000,
+    "phaseThrottleMs": 1000,
+    "phaseSampleLimit": 64,
+    "stdoutProgressMs": 5000,
+    "receiptMaxBytes": 2097152,
+    "sourceScope": "Original product SW/openDriveQ1Source/MSE; only exact Q3 Worker/pipeline instrumented",
+    "preference": "prefer-software",
+    "metadataRangeTiming": "UNKNOWN inside readRPC",
+    "phaseIntervals": "readRPC/encodeOutput/flush/mux/ACK can overlap; no summed exclusive attribution",
+    "complete": false,
+    "performanceAcceptance": "NOT_QUALIFIED",
+    "media06Cause": "UNKNOWN"
+  },
+  "reviewedExecutionCommand": "node qa/q3-actual-preparation/android-q3-native-timing.cjs --execute native-phase1"
+}

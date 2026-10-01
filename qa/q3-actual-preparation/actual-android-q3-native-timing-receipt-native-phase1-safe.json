@@ -1,0 +1,1531 @@
+{
+  "schema": "drive-original.q3-native-timing/1",
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "complete": false,
+  "diagnosticDataCaptured": true,
+  "actorFailure": null,
+  "rawIdentifiersExported": false,
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "media06Cause": "UNKNOWN",
+  "sourceScope": "NORMAL_PRODUCT_SW_ORIGINAL_SOURCE_AND_MSE_WITH_QA_INSTRUMENTED_Q3_WORKER",
+  "preference": "prefer-software",
+  "sourceMetadataRangeTiming": "UNKNOWN_INSIDE_READ_RPC",
+  "preStop": {
+    "schema": "drive-original.q3-native-timing-observation/1",
+    "elapsedMs": 80330.80000001192,
+    "wrapped": 1,
+    "bypassed": 2,
+    "restored": true,
+    "closing": false,
+    "stopped": false,
+    "failure": null,
+    "currentOwner": true,
+    "baselineSame": true,
+    "sourceScope": "NORMAL_PRODUCT_SW_ORIGINAL_SOURCE_AND_MSE_WITH_QA_INSTRUMENTED_Q3_WORKER",
+    "routeQ3": true,
+    "latest": {
+      "phase": "decode-copy",
+      "decoded": 349,
+      "encoded": 349,
+      "phaseTimes": {
+        "readMs": 45267.000000074506,
+        "decodeCopyMs": 384.5999999344349,
+        "frameEncodeCallMs": 169.2000000178814,
+        "flushMs": 2631.7000000476837,
+        "muxMs": 45.400000020861626,
+        "ackMs": 46.99999997019768,
+        "encodeOutputMs": 2640.799999937415,
+        "encodeOutputs": 349
+      },
+      "reads": {
+        "requests": 20,
+        "bytes": 1310720,
+        "logicalReads": 0,
+        "cacheHits": 354,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      },
+      "readRpcRequests": 20,
+      "readRpcMs": 48041.09999997914,
+      "elapsedMs": 78417.30000001192
+    },
+    "samples": [
+      {
+        "phase": "read",
+        "decoded": 0,
+        "encoded": 0,
+        "phaseTimes": {
+          "readMs": 0,
+          "decodeCopyMs": 0,
+          "frameEncodeCallMs": 0,
+          "flushMs": 0,
+          "muxMs": 0,
+          "ackMs": 0,
+          "encodeOutputMs": 0,
+          "encodeOutputs": 0
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 0,
+          "cacheHits": 4,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 1,
+        "readRpcMs": 2795,
+        "elapsedMs": 29912.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 2,
+        "encoded": 2,
+        "phaseTimes": {
+          "readMs": 2318.7999999970198,
+          "decodeCopyMs": 19.799999997019768,
+          "frameEncodeCallMs": 1.1000000089406967,
+          "flushMs": 15.999999985098839,
+          "muxMs": 1.5000000149011612,
+          "ackMs": 0,
+          "encodeOutputMs": 15.700000002980232,
+          "encodeOutputs": 2
+        },
+        "reads": {
+          "requests": 2,
+          "bytes": 131072,
+          "logicalReads": 0,
+          "cacheHits": 7,
+          "peakCache": 131072,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 2,
+        "readRpcMs": 5112.899999991059,
+        "elapsedMs": 32269.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 10,
+        "encoded": 10,
+        "phaseTimes": {
+          "readMs": 4451.5,
+          "decodeCopyMs": 36.799999967217445,
+          "frameEncodeCallMs": 4.700000032782555,
+          "flushMs": 77.09999997913837,
+          "muxMs": 3.0000000298023224,
+          "ackMs": 0,
+          "encodeOutputMs": 76,
+          "encodeOutputs": 10
+        },
+        "reads": {
+          "requests": 3,
+          "bytes": 196608,
+          "logicalReads": 0,
+          "cacheHits": 15,
+          "peakCache": 196608,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 3,
+        "readRpcMs": 7244.799999982119,
+        "elapsedMs": 34487.5
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 30,
+        "encoded": 30,
+        "phaseTimes": {
+          "readMs": 6439.600000053644,
+          "decodeCopyMs": 53.499999955296516,
+          "frameEncodeCallMs": 12.600000023841858,
+          "flushMs": 220.30000001192093,
+          "muxMs": 4.5999999940395355,
+          "ackMs": 0,
+          "encodeOutputMs": 217.90000002086163,
+          "encodeOutputs": 30
+        },
+        "reads": {
+          "requests": 4,
+          "bytes": 262144,
+          "logicalReads": 0,
+          "cacheHits": 35,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 4,
+        "readRpcMs": 9231.299999982119,
+        "elapsedMs": 36643.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 50,
+        "encoded": 50,
+        "phaseTimes": {
+          "readMs": 9024.000000044703,
+          "decodeCopyMs": 75.79999993741512,
+          "frameEncodeCallMs": 36.80000002682209,
+          "flushMs": 349.8000000566244,
+          "muxMs": 11.499999985098839,
+          "ackMs": 10.599999994039536,
+          "encodeOutputMs": 355.70000000298023,
+          "encodeOutputs": 50
+        },
+        "reads": {
+          "requests": 5,
+          "bytes": 327680,
+          "logicalReads": 0,
+          "cacheHits": 55,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 5,
+        "readRpcMs": 11814.799999982119,
+        "elapsedMs": 39411.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 69,
+        "encoded": 69,
+        "phaseTimes": {
+          "readMs": 11485.100000023842,
+          "decodeCopyMs": 101.49999995529652,
+          "frameEncodeCallMs": 45.30000001192093,
+          "flushMs": 510.10000009834766,
+          "muxMs": 14.099999979138374,
+          "ackMs": 13.599999994039536,
+          "encodeOutputMs": 515.9999999701977,
+          "encodeOutputs": 69
+        },
+        "reads": {
+          "requests": 6,
+          "bytes": 393216,
+          "logicalReads": 0,
+          "cacheHits": 74,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 6,
+        "readRpcMs": 14274.799999982119,
+        "elapsedMs": 42070.5
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 90,
+        "encoded": 90,
+        "phaseTimes": {
+          "readMs": 13760.10000000894,
+          "decodeCopyMs": 120.09999996423721,
+          "frameEncodeCallMs": 50.5,
+          "flushMs": 666.2000000923872,
+          "muxMs": 14.699999988079071,
+          "ackMs": 13.599999994039536,
+          "encodeOutputMs": 671.5999999791384,
+          "encodeOutputs": 90
+        },
+        "reads": {
+          "requests": 7,
+          "bytes": 458752,
+          "logicalReads": 0,
+          "cacheHits": 95,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 7,
+        "readRpcMs": 16548.59999997914,
+        "elapsedMs": 44525.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 111,
+        "encoded": 111,
+        "phaseTimes": {
+          "readMs": 15946.09999999404,
+          "decodeCopyMs": 144.79999995231628,
+          "frameEncodeCallMs": 57.900000020861626,
+          "flushMs": 805.3000001013279,
+          "muxMs": 19.099999994039536,
+          "ackMs": 19.5,
+          "encodeOutputMs": 809.0999999195337,
+          "encodeOutputs": 111
+        },
+        "reads": {
+          "requests": 8,
+          "bytes": 524288,
+          "logicalReads": 0,
+          "cacheHits": 116,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 8,
+        "readRpcMs": 18733.59999997914,
+        "elapsedMs": 46888.70000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 131,
+        "encoded": 131,
+        "phaseTimes": {
+          "readMs": 18110.40000000596,
+          "decodeCopyMs": 164.8999999165535,
+          "frameEncodeCallMs": 74.70000004768372,
+          "flushMs": 951.9000000655651,
+          "muxMs": 21.200000002980232,
+          "ackMs": 21.200000002980232,
+          "encodeOutputMs": 963.5999999046326,
+          "encodeOutputs": 131
+        },
+        "reads": {
+          "requests": 9,
+          "bytes": 589824,
+          "logicalReads": 0,
+          "cacheHits": 136,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 9,
+        "readRpcMs": 20896.399999976158,
+        "elapsedMs": 49239.30000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 150,
+        "encoded": 150,
+        "phaseTimes": {
+          "readMs": 20335.600000023842,
+          "decodeCopyMs": 178.5999998897314,
+          "frameEncodeCallMs": 86.90000003576279,
+          "flushMs": 1057.8000000715256,
+          "muxMs": 21.80000002682209,
+          "ackMs": 21.200000002980232,
+          "encodeOutputMs": 1074.2999998629093,
+          "encodeOutputs": 150
+        },
+        "reads": {
+          "requests": 10,
+          "bytes": 655360,
+          "logicalReads": 0,
+          "cacheHits": 155,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 10,
+        "readRpcMs": 23120.699999973178,
+        "elapsedMs": 51596.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 171,
+        "encoded": 171,
+        "phaseTimes": {
+          "readMs": 22648.100000053644,
+          "decodeCopyMs": 203.0999998897314,
+          "frameEncodeCallMs": 93.79999999701977,
+          "flushMs": 1221.800000116229,
+          "muxMs": 25.30000001192093,
+          "ackMs": 24.50000001490116,
+          "encodeOutputMs": 1237.099999859929,
+          "encodeOutputs": 171
+        },
+        "reads": {
+          "requests": 11,
+          "bytes": 720896,
+          "logicalReads": 0,
+          "cacheHits": 176,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 11,
+        "readRpcMs": 25431.999999970198,
+        "elapsedMs": 54109.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 190,
+        "encoded": 190,
+        "phaseTimes": {
+          "readMs": 25089.300000041723,
+          "decodeCopyMs": 222.09999991953373,
+          "frameEncodeCallMs": 101.90000003576279,
+          "flushMs": 1352.9000000804663,
+          "muxMs": 27.69999998807907,
+          "ackMs": 26.900000005960464,
+          "encodeOutputMs": 1367.599999859929,
+          "encodeOutputs": 190
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 786432,
+          "logicalReads": 0,
+          "cacheHits": 195,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 12,
+        "readRpcMs": 27872.499999970198,
+        "elapsedMs": 56710.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 210,
+        "encoded": 210,
+        "phaseTimes": {
+          "readMs": 27485.100000083447,
+          "decodeCopyMs": 238.3999998420477,
+          "frameEncodeCallMs": 110.8000001013279,
+          "flushMs": 1511.2000000625849,
+          "muxMs": 28.19999998807907,
+          "ackMs": 26.900000005960464,
+          "encodeOutputMs": 1525.8999998569489,
+          "encodeOutputs": 210
+        },
+        "reads": {
+          "requests": 13,
+          "bytes": 851968,
+          "logicalReads": 0,
+          "cacheHits": 215,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 13,
+        "readRpcMs": 30266.899999976158,
+        "elapsedMs": 59289.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 230,
+        "encoded": 230,
+        "phaseTimes": {
+          "readMs": 29848.700000092387,
+          "decodeCopyMs": 260.39999985694885,
+          "frameEncodeCallMs": 118.30000008642673,
+          "flushMs": 1655.9000000804663,
+          "muxMs": 31.19999997317791,
+          "ackMs": 30.399999991059303,
+          "encodeOutputMs": 1669.199999883771,
+          "encodeOutputs": 230
+        },
+        "reads": {
+          "requests": 14,
+          "bytes": 917504,
+          "logicalReads": 0,
+          "cacheHits": 235,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 14,
+        "readRpcMs": 32629.699999973178,
+        "elapsedMs": 61830.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 249,
+        "encoded": 249,
+        "phaseTimes": {
+          "readMs": 32021.80000011623,
+          "decodeCopyMs": 277.8999998420477,
+          "frameEncodeCallMs": 126.80000007152557,
+          "flushMs": 1810.8000000864267,
+          "muxMs": 33.499999955296516,
+          "ackMs": 32.99999998509884,
+          "encodeOutputMs": 1823.2999998778105,
+          "encodeOutputs": 249
+        },
+        "reads": {
+          "requests": 15,
+          "bytes": 983040,
+          "logicalReads": 0,
+          "cacheHits": 254,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 15,
+        "readRpcMs": 34801.4999999851,
+        "elapsedMs": 64188.70000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 270,
+        "encoded": 270,
+        "phaseTimes": {
+          "readMs": 34213.60000011325,
+          "decodeCopyMs": 294.0999998897314,
+          "frameEncodeCallMs": 134.60000003874302,
+          "flushMs": 1951.200000077486,
+          "muxMs": 34.09999996423721,
+          "ackMs": 32.99999998509884,
+          "encodeOutputMs": 1963.6999998539686,
+          "encodeOutputs": 270
+        },
+        "reads": {
+          "requests": 16,
+          "bytes": 1048576,
+          "logicalReads": 0,
+          "cacheHits": 275,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 16,
+        "readRpcMs": 36992.4999999851,
+        "elapsedMs": 66544.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 290,
+        "encoded": 290,
+        "phaseTimes": {
+          "readMs": 36451.80000008643,
+          "decodeCopyMs": 318.29999992251396,
+          "frameEncodeCallMs": 143.50000001490116,
+          "flushMs": 2126.8000000715256,
+          "muxMs": 38.20000000298023,
+          "ackMs": 39.09999996423721,
+          "encodeOutputMs": 2137.999999836087,
+          "encodeOutputs": 290
+        },
+        "reads": {
+          "requests": 17,
+          "bytes": 1114112,
+          "logicalReads": 0,
+          "cacheHits": 295,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 17,
+        "readRpcMs": 39229.59999999404,
+        "elapsedMs": 68995.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 308,
+        "encoded": 308,
+        "phaseTimes": {
+          "readMs": 38519.00000011921,
+          "decodeCopyMs": 339.99999994039536,
+          "frameEncodeCallMs": 148.30000004172325,
+          "flushMs": 2283.5000000447035,
+          "muxMs": 40.89999997615814,
+          "ackMs": 41.69999997317791,
+          "encodeOutputMs": 2293.4999998658895,
+          "encodeOutputs": 308
+        },
+        "reads": {
+          "requests": 18,
+          "bytes": 1179648,
+          "logicalReads": 0,
+          "cacheHits": 313,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 18,
+        "readRpcMs": 41295.29999998212,
+        "elapsedMs": 71252.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 330,
+        "encoded": 330,
+        "phaseTimes": {
+          "readMs": 42990.50000010431,
+          "decodeCopyMs": 363.7999999374151,
+          "frameEncodeCallMs": 160.00000001490116,
+          "flushMs": 2483.900000035763,
+          "muxMs": 42.599999994039536,
+          "ackMs": 41.69999997317791,
+          "encodeOutputMs": 2493.499999925494,
+          "encodeOutputs": 330
+        },
+        "reads": {
+          "requests": 19,
+          "bytes": 1245184,
+          "logicalReads": 0,
+          "cacheHits": 335,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 19,
+        "readRpcMs": 45765.79999998212,
+        "elapsedMs": 75958.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 349,
+        "encoded": 349,
+        "phaseTimes": {
+          "readMs": 45267.000000074506,
+          "decodeCopyMs": 384.5999999344349,
+          "frameEncodeCallMs": 169.2000000178814,
+          "flushMs": 2631.7000000476837,
+          "muxMs": 45.400000020861626,
+          "ackMs": 46.99999997019768,
+          "encodeOutputMs": 2640.799999937415,
+          "encodeOutputs": 349
+        },
+        "reads": {
+          "requests": 20,
+          "bytes": 1310720,
+          "logicalReads": 0,
+          "cacheHits": 354,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 20,
+        "readRpcMs": 48041.09999997914,
+        "elapsedMs": 78417.30000001192
+      }
+    ],
+    "portMessages": 20,
+    "terminal": null,
+    "blobHashes": {
+      "pipeline": "75d679f03aa731214d72c881cd71730b6850b09f838a07a9a02b2dbd4543177c",
+      "workerTemplate": "5979caf81ab6237165f53cc9f426988329e05a5a2a0205ba2216c103a03476fb",
+      "workerMaterialised": "527c56d801f0f64593f761cded465a52fb80f2f84dc186744c23d4cfadc9d13e"
+    },
+    "preStop": null,
+    "native": {
+      "ready": 2,
+      "width": 640,
+      "height": 360,
+      "time": 11.951533,
+      "paused": false,
+      "lossyLabelVisible": true
+    },
+    "liveWorker": {
+      "reads": null,
+      "bytes": null,
+      "activeReads": null,
+      "chunks": null,
+      "acks": null,
+      "pendingChunks": null,
+      "pendingWindows": null,
+      "invalidMessages": null
+    },
+    "sourceMetadataRangeTiming": "UNKNOWN_INSIDE_SW_READ_RPC",
+    "intervals": "read/encodeOutput/flush/mux/ACK intervals overlap; do not sum into exclusive wall phases",
+    "performanceAcceptance": "NOT_QUALIFIED",
+    "complete": false,
+    "rawIdentifiersExported": false
+  },
+  "postClose": {
+    "schema": "drive-original.q3-native-timing-observation/1",
+    "elapsedMs": 81212.30000001192,
+    "wrapped": 1,
+    "bypassed": 2,
+    "restored": true,
+    "closing": true,
+    "stopped": false,
+    "failure": null,
+    "currentOwner": false,
+    "baselineSame": true,
+    "sourceScope": "NORMAL_PRODUCT_SW_ORIGINAL_SOURCE_AND_MSE_WITH_QA_INSTRUMENTED_Q3_WORKER",
+    "routeQ3": true,
+    "latest": {
+      "phase": "worker-terminal",
+      "decoded": 390,
+      "encoded": 390,
+      "phaseTimes": {
+        "readMs": 47417.700000062585,
+        "decodeCopyMs": 424.1999999284744,
+        "frameEncodeCallMs": 185.20000004768372,
+        "flushMs": 2899.8000000715256,
+        "muxMs": 48.70000000298023,
+        "ackMs": 49.79999998211861,
+        "encodeOutputMs": 2907.6999999135733,
+        "encodeOutputs": 390
+      },
+      "reads": {
+        "requests": 22,
+        "bytes": 1441792,
+        "logicalReads": 0,
+        "cacheHits": 395,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      },
+      "readRpcRequests": 22,
+      "readRpcMs": 50190.09999997914,
+      "elapsedMs": 80996.5
+    },
+    "samples": [
+      {
+        "phase": "read",
+        "decoded": 0,
+        "encoded": 0,
+        "phaseTimes": {
+          "readMs": 0,
+          "decodeCopyMs": 0,
+          "frameEncodeCallMs": 0,
+          "flushMs": 0,
+          "muxMs": 0,
+          "ackMs": 0,
+          "encodeOutputMs": 0,
+          "encodeOutputs": 0
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 0,
+          "cacheHits": 4,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 1,
+        "readRpcMs": 2795,
+        "elapsedMs": 29912.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 2,
+        "encoded": 2,
+        "phaseTimes": {
+          "readMs": 2318.7999999970198,
+          "decodeCopyMs": 19.799999997019768,
+          "frameEncodeCallMs": 1.1000000089406967,
+          "flushMs": 15.999999985098839,
+          "muxMs": 1.5000000149011612,
+          "ackMs": 0,
+          "encodeOutputMs": 15.700000002980232,
+          "encodeOutputs": 2
+        },
+        "reads": {
+          "requests": 2,
+          "bytes": 131072,
+          "logicalReads": 0,
+          "cacheHits": 7,
+          "peakCache": 131072,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 2,
+        "readRpcMs": 5112.899999991059,
+        "elapsedMs": 32269.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 10,
+        "encoded": 10,
+        "phaseTimes": {
+          "readMs": 4451.5,
+          "decodeCopyMs": 36.799999967217445,
+          "frameEncodeCallMs": 4.700000032782555,
+          "flushMs": 77.09999997913837,
+          "muxMs": 3.0000000298023224,
+          "ackMs": 0,
+          "encodeOutputMs": 76,
+          "encodeOutputs": 10
+        },
+        "reads": {
+          "requests": 3,
+          "bytes": 196608,
+          "logicalReads": 0,
+          "cacheHits": 15,
+          "peakCache": 196608,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 3,
+        "readRpcMs": 7244.799999982119,
+        "elapsedMs": 34487.5
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 30,
+        "encoded": 30,
+        "phaseTimes": {
+          "readMs": 6439.600000053644,
+          "decodeCopyMs": 53.499999955296516,
+          "frameEncodeCallMs": 12.600000023841858,
+          "flushMs": 220.30000001192093,
+          "muxMs": 4.5999999940395355,
+          "ackMs": 0,
+          "encodeOutputMs": 217.90000002086163,
+          "encodeOutputs": 30
+        },
+        "reads": {
+          "requests": 4,
+          "bytes": 262144,
+          "logicalReads": 0,
+          "cacheHits": 35,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 4,
+        "readRpcMs": 9231.299999982119,
+        "elapsedMs": 36643.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 50,
+        "encoded": 50,
+        "phaseTimes": {
+          "readMs": 9024.000000044703,
+          "decodeCopyMs": 75.79999993741512,
+          "frameEncodeCallMs": 36.80000002682209,
+          "flushMs": 349.8000000566244,
+          "muxMs": 11.499999985098839,
+          "ackMs": 10.599999994039536,
+          "encodeOutputMs": 355.70000000298023,
+          "encodeOutputs": 50
+        },
+        "reads": {
+          "requests": 5,
+          "bytes": 327680,
+          "logicalReads": 0,
+          "cacheHits": 55,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 5,
+        "readRpcMs": 11814.799999982119,
+        "elapsedMs": 39411.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 69,
+        "encoded": 69,
+        "phaseTimes": {
+          "readMs": 11485.100000023842,
+          "decodeCopyMs": 101.49999995529652,
+          "frameEncodeCallMs": 45.30000001192093,
+          "flushMs": 510.10000009834766,
+          "muxMs": 14.099999979138374,
+          "ackMs": 13.599999994039536,
+          "encodeOutputMs": 515.9999999701977,
+          "encodeOutputs": 69
+        },
+        "reads": {
+          "requests": 6,
+          "bytes": 393216,
+          "logicalReads": 0,
+          "cacheHits": 74,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 6,
+        "readRpcMs": 14274.799999982119,
+        "elapsedMs": 42070.5
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 90,
+        "encoded": 90,
+        "phaseTimes": {
+          "readMs": 13760.10000000894,
+          "decodeCopyMs": 120.09999996423721,
+          "frameEncodeCallMs": 50.5,
+          "flushMs": 666.2000000923872,
+          "muxMs": 14.699999988079071,
+          "ackMs": 13.599999994039536,
+          "encodeOutputMs": 671.5999999791384,
+          "encodeOutputs": 90
+        },
+        "reads": {
+          "requests": 7,
+          "bytes": 458752,
+          "logicalReads": 0,
+          "cacheHits": 95,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 7,
+        "readRpcMs": 16548.59999997914,
+        "elapsedMs": 44525.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 111,
+        "encoded": 111,
+        "phaseTimes": {
+          "readMs": 15946.09999999404,
+          "decodeCopyMs": 144.79999995231628,
+          "frameEncodeCallMs": 57.900000020861626,
+          "flushMs": 805.3000001013279,
+          "muxMs": 19.099999994039536,
+          "ackMs": 19.5,
+          "encodeOutputMs": 809.0999999195337,
+          "encodeOutputs": 111
+        },
+        "reads": {
+          "requests": 8,
+          "bytes": 524288,
+          "logicalReads": 0,
+          "cacheHits": 116,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 8,
+        "readRpcMs": 18733.59999997914,
+        "elapsedMs": 46888.70000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 131,
+        "encoded": 131,
+        "phaseTimes": {
+          "readMs": 18110.40000000596,
+          "decodeCopyMs": 164.8999999165535,
+          "frameEncodeCallMs": 74.70000004768372,
+          "flushMs": 951.9000000655651,
+          "muxMs": 21.200000002980232,
+          "ackMs": 21.200000002980232,
+          "encodeOutputMs": 963.5999999046326,
+          "encodeOutputs": 131
+        },
+        "reads": {
+          "requests": 9,
+          "bytes": 589824,
+          "logicalReads": 0,
+          "cacheHits": 136,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 9,
+        "readRpcMs": 20896.399999976158,
+        "elapsedMs": 49239.30000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 150,
+        "encoded": 150,
+        "phaseTimes": {
+          "readMs": 20335.600000023842,
+          "decodeCopyMs": 178.5999998897314,
+          "frameEncodeCallMs": 86.90000003576279,
+          "flushMs": 1057.8000000715256,
+          "muxMs": 21.80000002682209,
+          "ackMs": 21.200000002980232,
+          "encodeOutputMs": 1074.2999998629093,
+          "encodeOutputs": 150
+        },
+        "reads": {
+          "requests": 10,
+          "bytes": 655360,
+          "logicalReads": 0,
+          "cacheHits": 155,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 10,
+        "readRpcMs": 23120.699999973178,
+        "elapsedMs": 51596.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 171,
+        "encoded": 171,
+        "phaseTimes": {
+          "readMs": 22648.100000053644,
+          "decodeCopyMs": 203.0999998897314,
+          "frameEncodeCallMs": 93.79999999701977,
+          "flushMs": 1221.800000116229,
+          "muxMs": 25.30000001192093,
+          "ackMs": 24.50000001490116,
+          "encodeOutputMs": 1237.099999859929,
+          "encodeOutputs": 171
+        },
+        "reads": {
+          "requests": 11,
+          "bytes": 720896,
+          "logicalReads": 0,
+          "cacheHits": 176,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 11,
+        "readRpcMs": 25431.999999970198,
+        "elapsedMs": 54109.20000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 190,
+        "encoded": 190,
+        "phaseTimes": {
+          "readMs": 25089.300000041723,
+          "decodeCopyMs": 222.09999991953373,
+          "frameEncodeCallMs": 101.90000003576279,
+          "flushMs": 1352.9000000804663,
+          "muxMs": 27.69999998807907,
+          "ackMs": 26.900000005960464,
+          "encodeOutputMs": 1367.599999859929,
+          "encodeOutputs": 190
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 786432,
+          "logicalReads": 0,
+          "cacheHits": 195,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 12,
+        "readRpcMs": 27872.499999970198,
+        "elapsedMs": 56710.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 210,
+        "encoded": 210,
+        "phaseTimes": {
+          "readMs": 27485.100000083447,
+          "decodeCopyMs": 238.3999998420477,
+          "frameEncodeCallMs": 110.8000001013279,
+          "flushMs": 1511.2000000625849,
+          "muxMs": 28.19999998807907,
+          "ackMs": 26.900000005960464,
+          "encodeOutputMs": 1525.8999998569489,
+          "encodeOutputs": 210
+        },
+        "reads": {
+          "requests": 13,
+          "bytes": 851968,
+          "logicalReads": 0,
+          "cacheHits": 215,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 13,
+        "readRpcMs": 30266.899999976158,
+        "elapsedMs": 59289.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 230,
+        "encoded": 230,
+        "phaseTimes": {
+          "readMs": 29848.700000092387,
+          "decodeCopyMs": 260.39999985694885,
+          "frameEncodeCallMs": 118.30000008642673,
+          "flushMs": 1655.9000000804663,
+          "muxMs": 31.19999997317791,
+          "ackMs": 30.399999991059303,
+          "encodeOutputMs": 1669.199999883771,
+          "encodeOutputs": 230
+        },
+        "reads": {
+          "requests": 14,
+          "bytes": 917504,
+          "logicalReads": 0,
+          "cacheHits": 235,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 14,
+        "readRpcMs": 32629.699999973178,
+        "elapsedMs": 61830.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 249,
+        "encoded": 249,
+        "phaseTimes": {
+          "readMs": 32021.80000011623,
+          "decodeCopyMs": 277.8999998420477,
+          "frameEncodeCallMs": 126.80000007152557,
+          "flushMs": 1810.8000000864267,
+          "muxMs": 33.499999955296516,
+          "ackMs": 32.99999998509884,
+          "encodeOutputMs": 1823.2999998778105,
+          "encodeOutputs": 249
+        },
+        "reads": {
+          "requests": 15,
+          "bytes": 983040,
+          "logicalReads": 0,
+          "cacheHits": 254,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 15,
+        "readRpcMs": 34801.4999999851,
+        "elapsedMs": 64188.70000000298
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 270,
+        "encoded": 270,
+        "phaseTimes": {
+          "readMs": 34213.60000011325,
+          "decodeCopyMs": 294.0999998897314,
+          "frameEncodeCallMs": 134.60000003874302,
+          "flushMs": 1951.200000077486,
+          "muxMs": 34.09999996423721,
+          "ackMs": 32.99999998509884,
+          "encodeOutputMs": 1963.6999998539686,
+          "encodeOutputs": 270
+        },
+        "reads": {
+          "requests": 16,
+          "bytes": 1048576,
+          "logicalReads": 0,
+          "cacheHits": 275,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 16,
+        "readRpcMs": 36992.4999999851,
+        "elapsedMs": 66544.80000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 290,
+        "encoded": 290,
+        "phaseTimes": {
+          "readMs": 36451.80000008643,
+          "decodeCopyMs": 318.29999992251396,
+          "frameEncodeCallMs": 143.50000001490116,
+          "flushMs": 2126.8000000715256,
+          "muxMs": 38.20000000298023,
+          "ackMs": 39.09999996423721,
+          "encodeOutputMs": 2137.999999836087,
+          "encodeOutputs": 290
+        },
+        "reads": {
+          "requests": 17,
+          "bytes": 1114112,
+          "logicalReads": 0,
+          "cacheHits": 295,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 17,
+        "readRpcMs": 39229.59999999404,
+        "elapsedMs": 68995.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 308,
+        "encoded": 308,
+        "phaseTimes": {
+          "readMs": 38519.00000011921,
+          "decodeCopyMs": 339.99999994039536,
+          "frameEncodeCallMs": 148.30000004172325,
+          "flushMs": 2283.5000000447035,
+          "muxMs": 40.89999997615814,
+          "ackMs": 41.69999997317791,
+          "encodeOutputMs": 2293.4999998658895,
+          "encodeOutputs": 308
+        },
+        "reads": {
+          "requests": 18,
+          "bytes": 1179648,
+          "logicalReads": 0,
+          "cacheHits": 313,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 18,
+        "readRpcMs": 41295.29999998212,
+        "elapsedMs": 71252.40000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 330,
+        "encoded": 330,
+        "phaseTimes": {
+          "readMs": 42990.50000010431,
+          "decodeCopyMs": 363.7999999374151,
+          "frameEncodeCallMs": 160.00000001490116,
+          "flushMs": 2483.900000035763,
+          "muxMs": 42.599999994039536,
+          "ackMs": 41.69999997317791,
+          "encodeOutputMs": 2493.499999925494,
+          "encodeOutputs": 330
+        },
+        "reads": {
+          "requests": 19,
+          "bytes": 1245184,
+          "logicalReads": 0,
+          "cacheHits": 335,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 19,
+        "readRpcMs": 45765.79999998212,
+        "elapsedMs": 75958.90000000596
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 349,
+        "encoded": 349,
+        "phaseTimes": {
+          "readMs": 45267.000000074506,
+          "decodeCopyMs": 384.5999999344349,
+          "frameEncodeCallMs": 169.2000000178814,
+          "flushMs": 2631.7000000476837,
+          "muxMs": 45.400000020861626,
+          "ackMs": 46.99999997019768,
+          "encodeOutputMs": 2640.799999937415,
+          "encodeOutputs": 349
+        },
+        "reads": {
+          "requests": 20,
+          "bytes": 1310720,
+          "logicalReads": 0,
+          "cacheHits": 354,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 20,
+        "readRpcMs": 48041.09999997914,
+        "elapsedMs": 78417.30000001192
+      },
+      {
+        "phase": "decode-copy",
+        "decoded": 368,
+        "encoded": 368,
+        "phaseTimes": {
+          "readMs": 47416.800000071526,
+          "decodeCopyMs": 403.9999999552965,
+          "frameEncodeCallMs": 176.60000002384186,
+          "flushMs": 2760.600000038743,
+          "muxMs": 47.50000002980232,
+          "ackMs": 49.79999998211861,
+          "encodeOutputMs": 2769.399999946356,
+          "encodeOutputs": 368
+        },
+        "reads": {
+          "requests": 21,
+          "bytes": 1376256,
+          "logicalReads": 0,
+          "cacheHits": 373,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 21,
+        "readRpcMs": 50190.09999997914,
+        "elapsedMs": 80726.10000000894
+      },
+      {
+        "phase": "worker-terminal",
+        "decoded": 390,
+        "encoded": 390,
+        "phaseTimes": {
+          "readMs": 47417.700000062585,
+          "decodeCopyMs": 424.1999999284744,
+          "frameEncodeCallMs": 185.20000004768372,
+          "flushMs": 2899.8000000715256,
+          "muxMs": 48.70000000298023,
+          "ackMs": 49.79999998211861,
+          "encodeOutputMs": 2907.6999999135733,
+          "encodeOutputs": 390
+        },
+        "reads": {
+          "requests": 22,
+          "bytes": 1441792,
+          "logicalReads": 0,
+          "cacheHits": 395,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        },
+        "readRpcRequests": 22,
+        "readRpcMs": 50190.09999997914,
+        "elapsedMs": 80996.5
+      }
+    ],
+    "portMessages": 22,
+    "terminal": {
+      "phase": "worker-terminal",
+      "decoded": 390,
+      "encoded": 390,
+      "phaseTimes": {
+        "readMs": 47417.700000062585,
+        "decodeCopyMs": 424.1999999284744,
+        "frameEncodeCallMs": 185.20000004768372,
+        "flushMs": 2899.8000000715256,
+        "muxMs": 48.70000000298023,
+        "ackMs": 49.79999998211861,
+        "encodeOutputMs": 2907.6999999135733,
+        "encodeOutputs": 390
+      },
+      "reads": {
+        "requests": 22,
+        "bytes": 1441792,
+        "logicalReads": 0,
+        "cacheHits": 395,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      },
+      "readRpcRequests": 22,
+      "readRpcMs": 50190.09999997914,
+      "elapsedMs": 80996.5,
+      "sourceCleanupSettled": true,
+      "pipelineCleanupSettled": false,
+      "error": "GENERAL_CANCELLED"
+    },
+    "blobHashes": {
+      "pipeline": "75d679f03aa731214d72c881cd71730b6850b09f838a07a9a02b2dbd4543177c",
+      "workerTemplate": "5979caf81ab6237165f53cc9f426988329e05a5a2a0205ba2216c103a03476fb",
+      "workerMaterialised": "527c56d801f0f64593f761cded465a52fb80f2f84dc186744c23d4cfadc9d13e"
+    },
+    "preStop": {
+      "phase": "decode-copy",
+      "decoded": 349,
+      "encoded": 349,
+      "phaseTimes": {
+        "readMs": 45267.000000074506,
+        "decodeCopyMs": 384.5999999344349,
+        "frameEncodeCallMs": 169.2000000178814,
+        "flushMs": 2631.7000000476837,
+        "muxMs": 45.400000020861626,
+        "ackMs": 46.99999997019768,
+        "encodeOutputMs": 2640.799999937415,
+        "encodeOutputs": 349
+      },
+      "reads": {
+        "requests": 20,
+        "bytes": 1310720,
+        "logicalReads": 0,
+        "cacheHits": 354,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      },
+      "readRpcRequests": 20,
+      "readRpcMs": 48041.09999997914,
+      "elapsedMs": 78417.30000001192
+    },
+    "native": {
+      "ready": 0,
+      "width": 0,
+      "height": 0,
+      "time": 0,
+      "paused": true,
+      "lossyLabelVisible": true
+    },
+    "liveWorker": {
+      "reads": null,
+      "bytes": null,
+      "activeReads": null,
+      "chunks": null,
+      "acks": null,
+      "pendingChunks": null,
+      "pendingWindows": null,
+      "invalidMessages": null
+    },
+    "sourceMetadataRangeTiming": "UNKNOWN_INSIDE_SW_READ_RPC",
+    "intervals": "read/encodeOutput/flush/mux/ACK intervals overlap; do not sum into exclusive wall phases",
+    "performanceAcceptance": "NOT_QUALIFIED",
+    "complete": false,
+    "rawIdentifiersExported": false
+  },
+  "helperSha256": "88f96e83dda0f5a328e45ab605f12cd42d5bb1a3f29feb0dedb4c9890b709b4a",
+  "pipelineSha256": "75d679f03aa731214d72c881cd71730b6850b09f838a07a9a02b2dbd4543177c",
+  "workerTemplateSha256": "5979caf81ab6237165f53cc9f426988329e05a5a2a0205ba2216c103a03476fb",
+  "stage": "after-native-close",
+  "cleanup": {
+    "observedBeforeStop": true,
+    "receiptSaved": true,
+    "markersStopped": true,
+    "observerStopped": true,
+    "closeOwnershipConfirmed": true,
+    "foreignPlaybackLeftUntouched": false,
+    "settled": true,
+    "postCloseMetadata": {
+      "freshRead": true,
+      "metadata": {
+        "label": "after",
+        "at": 1790896977695,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    },
+    "globalsCleared": true,
+    "recoveryRefsRetained": false,
+    "globalsClearSkipped": false,
+    "failures": [],
+    "confirmed": true
+  },
+  "timingCleanup": {
+    "disposed": true,
+    "removed": true,
+    "wrapperRestored": true,
+    "portsClosed": true,
+    "blobsRevoked": true,
+    "timerCleared": true,
+    "privateOwnersCleared": true
+  }
+}
