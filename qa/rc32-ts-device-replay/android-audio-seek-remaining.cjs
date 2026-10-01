@@ -58,6 +58,13 @@ function physicalPoint(g, physicalHeight) {
       || g.dpr <= 0 || physicalHeight <= 0) throw Error('NATIVE_GEOMETRY_INVALID');
   return [Math.round(g.x * g.dpr), Math.round(physicalHeight - g.viewportHeight * g.dpr + g.y * g.dpr)];
 }
+async function reacquireResumeTarget(controls, geometry, record) {
+  await controls();
+  const target = await geometry('ctrlPlayPause');
+  record('post-seek normal resume target', { controlsReacquired: true, ...target });
+  if (!target.available) throw Error('NATIVE_RESUME_TARGET_UNAVAILABLE');
+  return target;
+}
 function metadataQualified(r) {
   return r?.status === 200 && ['sameExactTarget', 'stableMetadataSame', 'freshRevisionChecksumSame',
     'accountSame', 'sourceSame', 'notTrashed', 'canDownload'].every(k => r[k] === true);
@@ -107,11 +114,14 @@ async function execute(privateFile, resultName, fraction = 'both') {
       if (!cleaned.disposed || !cleaned.removed || !cleaned.frameCallbackRemoved || !cleaned.mediaListenersRemoved) fail('OBSERVER_CLEANUP_UNCONFIRMED');
       installed = false; await c.evaluateNative('()=>{delete window.__rc32TsReplay;return{removed:true};}');
     };
-    const geometry = (key, options = {}) => {
+    const geometry = async (key, options = {}) => {
       if (!['card', 'folder', 'folderMoreButton', 'searchInput', 'ctrlPlayPause', 'mediaStage',
         'playerControlsEntry', 'seekBarContainer'].includes(key)) fail('NATIVE_KEY_NOT_ALLOWED');
-      return evaluate(key === 'folder' ? `()=>(${folderResolver})(window.__rc32AndroidRemainingPrivate.nextFolder)`
+      const result = await evaluate(key === 'folder' ? `()=>(${folderResolver})(window.__rc32AndroidRemainingPrivate.nextFolder)`
         : `()=>(${uiResolver})(${JSON.stringify(key)},${JSON.stringify(options)})`);
+      if (['ctrlPlayPause', 'seekBarContainer', 'playerControlsEntry', 'mediaStage'].includes(key))
+        c.step('native remaining control geometry', { ...result, key });
+      return result;
     };
     const screenHeight = Number(c.report.physicalScreen.match(/(\d+)x(\d+)/)?.[2]);
     if (!screenHeight) fail('PHYSICAL_SCREEN_UNKNOWN');
@@ -227,7 +237,8 @@ async function execute(privateFile, resultName, fraction = 'both') {
         do { await c.wait(200); receipt = await supplementRead(); } while (!receipt.seek?.completed && Date.now() < seekEnd);
         c.step('remaining presented frame and settlement', { fraction: nextFraction, receipt });
         if (!receipt.seek?.passed || receipt.seek.fraction !== nextFraction || !receipt.seek.nativeInputObserved) fail('REMAINING_SEEK_UNCONFIRMED');
-        const [resumeX, resumeY] = physicalPoint(await geometry('ctrlPlayPause'), screenHeight);
+        const resumeTarget = await reacquireResumeTarget(controls, geometry, c.step);
+        const [resumeX, resumeY] = physicalPoint(resumeTarget, screenHeight);
         // Native ADB button input supplies real activation. No synthetic event/CDP userGesture.
         c.adb(['shell', 'input', 'tap', String(resumeX), String(resumeY)]);
         const started = await evaluate(`async()=>{try{return{started:true,receipt:await window.__rc32AudioSeekRemaining.startAudio()};}
@@ -303,7 +314,7 @@ async function execute(privateFile, resultName, fraction = 'both') {
     }
   });
 }
-module.exports = { execute, resultPath, physicalPoint, quantizedSeek, fractions, metadataQualified, supplementCleanupQualified, liveQualified, verifyHelpers, FROZEN_HELPERS, SUPPLEMENT_SHA };
+module.exports = { execute, resultPath, physicalPoint, reacquireResumeTarget, quantizedSeek, fractions, metadataQualified, supplementCleanupQualified, liveQualified, verifyHelpers, FROZEN_HELPERS, SUPPLEMENT_SHA };
 if (require.main === module) {
   if (!process.argv[2]) { console.error('PRIVATE_INPUT_REQUIRED'); process.exitCode = 1; }
   else execute(path.resolve(process.argv[2]), process.argv[3], process.argv[4]).catch(error => {

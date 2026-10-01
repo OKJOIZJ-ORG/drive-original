@@ -73,3 +73,15 @@ test('changed frozen helper fails admission without private input or native tran
     fs.rmSync(base, { recursive: true, force: true });
   }
 });
+test('post-seek hidden resume control is revealed normally before coordinates, and failed exposure is recorded', async () => {
+  const order = [], records = []; let exposed = false;
+  const geometry = async key => { order.push(key); return { available: exposed, controlsIdle: !exposed, x: exposed ? 20 : null }; };
+  const target = await driver.reacquireResumeTarget(async () => { order.push('normal-controls'); exposed = true; }, geometry,
+    (name, data) => records.push({ name, data }));
+  assert.deepEqual(order, ['normal-controls', 'ctrlPlayPause']); assert.equal(target.available, true);
+  assert.equal(records[0].data.controlsReacquired, true);
+  const failed = [];
+  await assert.rejects(driver.reacquireResumeTarget(async () => {}, async () => ({ available: false, controlsIdle: true }),
+    (name, data) => failed.push(data)), /NATIVE_RESUME_TARGET_UNAVAILABLE/);
+  assert.equal(failed[0].available, false); assert.equal(failed[0].controlsIdle, true);
+});
