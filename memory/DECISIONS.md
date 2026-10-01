@@ -489,3 +489,10 @@ sweep: waiting handoff consumed and archived, checkpoint/goal/session aligned AC
 D-070은 전체 남은 목표를 재개한 결정으로 유지하며 이번 일시 대기는 그 실행만 유예한다. rc.32 전달·업데이트·Android 완료 증거와 실패/미수행 경계를 그대로 보존한다. 기존 PC+Android 인수/iOS 배포 후 순서 및 원본·비용·권한·운영 경계는 유지한다.
 
 sweep: reboot resume guide, checkpoint/handoff, goal execution header and session log aligned WAIT D071.
+
+
+## D-072 · 재부팅 후 전체 큐 효율적 재개 및 형식 불일치 파일 수정 허용 — 2026-10-01 (User-confirmed; supersedes D-071 WAIT and refines original mutation boundary)
+
+사용자는 기존 승인 전체 작업을 끝까지 재개하고, 검증된 증거 재사용·원인 구분·완결된 실행 단위·시간제한 검사 사전 준비·같은 상태를 쓰는 작업의 직렬화·간결한 소유 문서 기록·커밋 후 연속 진행을 명시했다. 기존 목표와 인수 기준을 유지한다. 도구 수정만으로 제품 재배포/전체 검사를 반복하지 않고 같은 실패를 조건 변화 없이 재시도하지 않는다.
+
+사용자는 MP4 이름인데 실제 TS 등 내용이 다른 해당 영상들에 관해 "그런것들은 그냥 내용까지 바꾸거나 뭐 알아서 해. 손상돼도 상관없음"이라고 명시해 필요할 경우 확인된 형식 불일치 미디어의 내용 수정과 손상 위험을 허용했다. 이는 그 해당 파일의 수정 권한이며 전체 계정 원본 일괄 변경/영구삭제/새 grant/결제/production/main/push/자동화 재개 권한으로 확장하지 않는다. 실제 바이트를 기준으로 책임 있는 계층을 고치고, 수정이 필요한지 판정한 뒤 구체적인 대상과 결과를 기록한다. 제품의 원본 품질 인수 기준은 유지한다.

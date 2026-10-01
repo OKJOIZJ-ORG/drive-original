@@ -1,16 +1,16 @@
-# Checkpoint - WAIT D-071 reboot - 2026-10-01
+# Checkpoint - ACTIVE D-072 - 2026-10-01
 
 ## The story so far
-User will reboot and asked to use the waiting time for preparation. New browser/Android/provider tests are stopped; no PC attempt2 observer was installed. Canonical branch codex/v2-kickoff-diagnostics, safe32 evidence savepointaadcdcb; public product1d79897/rc32/Worker2cd9fd16. Delivery/normalupdates/local742/Android exactTS reuse+EOF+reopen+cleanup complete at their scope. PCattempt1 root-pacing timeout and deeper32 OWNER_CHANGED/CLEANUP_FAILED remain failed. Reboot resume guide contains exact fresh-helper binding, continuous PC sequence/validlabels and remaining original69 queue. Production1.21/e08989a unchanged, automationPAUSED.
+User resumed the whole queue after reboot. PC32 tail/reopen continuation is now complete with all metadata/owner/cleanup/restoration checks; valid prior50/90 phases reused. Attempt2 failed30s tool bound with actual partial transfer, retained; attempt3 observed within70s source bound and completed73.075s. Exact receipts and limits live in CANDIDATE-RC32-20261001.md. Canonical branch codex/v2-kickoff-diagnostics, public product1d79897/rc32/Worker2cd9fd16; delivery/normalupdates/local742/Android exactTS complete at their scope. Deeper32 OWNER_CHANGED/CLEANUP_FAILED remains failed. Production1.21/e08989a unchanged, automationPAUSED.
 
 ## Decided
-D071 pauses execution for clean reboot and permits local preparation/save only. Whole D070/D066/D068 objective and currentPCAndroid/iOSlater decision remain. Direct user return/resume releases this wait; no automation or other-chat notification resumes it. All original-quality/source/account/production boundaries remain.
+D072 releases D071 WAIT. Whole D066/D068 original acceptance remains; completed evidence reused, timed units prepared then run continuously, shared account work serial. Necessary edits to confirmed name/content-mismatched videos newly authorized including accepted damage risk; other original/production boundaries remain.
 
 ## Waiting on the user
-Reboot and direct resume instruction. No credential/config/profile changes requested.
+None for current authorized work.
 
 ## Next first action
-After explicit post-reboot resume, read REBOOT-RESUME-20261001.md and inspect current repository plus authenticated candidate browser inventory; recreate one stable fresh CDP/helper scope before continuous32 PC replay.
+Use prepared exact32 prefix recovery runner for a bounded serial real-catalog burst; playback and observers are already retired, query/folder/private proof restored. Reuse unchanged21local checks. Complete this unit and its cleanup/export before other shared-account work. Independent read-only remaining acceptance review is running separately.
 
 ## Tried
-Oldtab275139600 debugger connection unattached; beforepause host helpers may retain a previous CDP binding. Direct new-tab basicCDP succeeded, so verify fresh direct versus helper invocation before blaming profile locks. Old browser-local passiveprivateholders cleanupunconfirmed after priorengine restart; last verified observer/player removed/retired, reboot may discard globals but requires observation. PCattempt1 exceeded360s total observer budget duringrootpacing; preserve safeattempt1b. Invalidtimeout metriclabels rejected; use exactsix labels in guide. No active child/device/provider job remains; last two children FINAL. New exact32 prefixprep21localchecks, actual0 and codec/image unions open.
+Fresh reboot tab275140031/browser3 verified old private helper absence; new const pcEval/pcCdp/pcLoad/pcExport helpers target the same tab, exception guard and ordinary input paths verified. Attempt2 partial transfer/30s frame failure and attempt3 completion both retained. All new player/observer/private holders removed; fresh query/folder restored. Prefixprep21local checks retained, actual0, codec/image union open. Do not repeat completed source32 deployment or whole-product checks for QA-only changes.
