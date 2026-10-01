@@ -1,5 +1,5 @@
 {
-  "scope": "Full synthetic local product output and independent native quality only",
+  "scope": "Full synthetic local output quality and bounded read-only/native timing inquiry only",
   "files": [
     {
       "path": "qa/q3-full-output-quality/capture-results.json",
@@ -10,6 +10,16 @@
       "path": "qa/q3-full-output-quality/capture.cjs",
       "bytes": 5221,
       "sha256": "e096829cb283d214ea45aad2b4b32d61d7bd3e8e8aba6214b1966a13b76153ab"
+    },
+    {
+      "path": "qa/q3-full-output-quality/decode-cost-probe.mjs",
+      "bytes": 2782,
+      "sha256": "baf1aaa30128334b0f617d33aa73f99e2d76ffa5ba96f6b5713b463f4f1d7d37"
+    },
+    {
+      "path": "qa/q3-full-output-quality/decode-cost-results.json",
+      "bytes": 1038,
+      "sha256": "f3c0554cf33b3b3a622f72fd0e795f07b66d35a47475e2576a136383f878f566"
     },
     {
       "path": "qa/q3-full-output-quality/ffmpeg-comparison.log",
@@ -58,13 +68,48 @@
     },
     {
       "path": "qa/q3-full-output-quality/README.md",
-      "bytes": 5077,
-      "sha256": "f0ec785055d0c3ad15a00ff49e805c88c4e147425e1167da1f6bb46ec2e9ee5e"
+      "bytes": 5310,
+      "sha256": "19266df0a81016bda8c11abad9ec6fa4c961b6f5778c8acedade2d0ba5654ffe"
     },
     {
       "path": "qa/q3-full-output-quality/source-probe.json",
       "bytes": 1721638,
       "sha256": "629e4c10c2df204b601fc67d7d88e286ba81cd3663beadbd3d2404a55510792f"
+    },
+    {
+      "path": "qa/q3-full-output-quality/tail-timing-analysis.md",
+      "bytes": 5147,
+      "sha256": "34562a1655cfa83d3e66fbad27b8d9f879c7e21de9cac9bf75cdd8442f60b4de"
+    },
+    {
+      "path": "qa/q3-full-output-quality/tail-timing-first-verdict-failure.json",
+      "bytes": 9057,
+      "sha256": "4fc0a7c008de930401166a5f533106b2ca831b103115680ec2b8e80a2429d6c8"
+    },
+    {
+      "path": "qa/q3-full-output-quality/tail-timing-results.json",
+      "bytes": 18891,
+      "sha256": "ef83c05b371c04d23b86d945c0524e769923d66a42ef34191f1c72eb1529250f"
+    },
+    {
+      "path": "qa/q3-full-output-quality/tail-timing.cjs",
+      "bytes": 7377,
+      "sha256": "6e2754b8bcfd885f6de25667f19bbc19745622431642eb5737a51c394e90d340"
+    },
+    {
+      "path": "qa/q3-full-output-quality/throughput-analysis.md",
+      "bytes": 6594,
+      "sha256": "7c5d588a7c4e4734a10c101a187a58e7ec0753dac67faaad1289ec8590eac79a"
+    },
+    {
+      "path": "qa/q3-full-output-quality/timing-fixture.html",
+      "bytes": 139,
+      "sha256": "83dacbe3c3e794f67e12be431dac196f9fd07efc94ba896473ebce68334fb35f"
+    },
+    {
+      "path": "qa/q3-full-output-quality/timing-fixture.mjs",
+      "bytes": 1673,
+      "sha256": "6d507dafa0bc964126a49e54a1f85c43c532a471d0ed819873ad83805cf8471c"
     },
     {
       "path": "qa/q3-full-output-quality/tool-bindings.json",

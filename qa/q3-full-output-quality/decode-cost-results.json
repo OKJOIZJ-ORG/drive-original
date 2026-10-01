@@ -1,0 +1,32 @@
+{
+  "scope": "Offline first300pictures product WASM decoder/cache cost; no native encoder, worker RPC, HTTP/Drive, MSE, Android or realtime qualification",
+  "producerSha256": "baf1aaa30128334b0f617d33aa73f99e2d76ffa5ba96f6b5713b463f4f1d7d37",
+  "inputSha256": "cda53855c53bf1d608491eb96aa3abb0ff774cca2aa24cfe01447e295c07ed7a",
+  "wasmSha256": "722b38a87d6cd71d56ed247f6125c53a4f6b218bf2071a2851c5be489b145436",
+  "node": "v24.18.0",
+  "frames": 300,
+  "elapsedMs": 120.96239999999999,
+  "timingMs": {
+    "exactCachedRead": 8.823499999999996,
+    "packetInspectHeapCopy": 2.9169000000000267,
+    "wasmDecodeMetadataRawCopy": 108.80510000000025
+  },
+  "meanDecodeCopyMs": 0.3626836666666675,
+  "localCacheStats": {
+    "requests": 17,
+    "bytes": 1114112,
+    "logicalReads": 0,
+    "cacheHits": 304,
+    "peakCache": 262144,
+    "inFlight": 0,
+    "peakInFlight": 1,
+    "peakQueued": 1,
+    "discoveryBytes": 65536,
+    "discoveryRequests": 1
+  },
+  "wasmHeapBytes": 33554432,
+  "pass": true,
+  "cleanup": {
+    "settled": true
+  }
+}

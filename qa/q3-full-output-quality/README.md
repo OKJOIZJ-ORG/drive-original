@@ -1,5 +1,9 @@
 # Q3 independent full-output quality — 2026-10-02
 
+Separate read-only timing findings are owned by `throughput-analysis.md` and
+`tail-timing-analysis.md`. The short null-output tail runs do not supersede this
+complete output quality receipt or establish Android realtime throughput.
+
 Observed PASS for the complete local synthetic 180-second product Worker output.
 This supplements, without repeating, the existing 3-second integration/oracles.
 No product source, normal browser/account, Android, provider, candidate delivery,
