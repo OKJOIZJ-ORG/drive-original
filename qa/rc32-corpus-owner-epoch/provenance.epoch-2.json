@@ -1,0 +1,50 @@
+{
+  "schema": "drive-original.rc32-corpus-owner-epoch-build/2",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.32",
+    "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+    "sourceSHA256": {
+      "app.js": "7a84c2f52a6ba15300a533eea7f5b49f6653fe540486f5907d30214e65327497",
+      "sw.js": "8f27c0aa6710b78353b87911702a7e4c6e66535c404d5a66869992fc861b242b",
+      "version.json": "f60e407e34b72be59084f504eec09d2e48ce658c3fdc63f6f397b7eb341cbbea"
+    }
+  },
+  "producerSHA256": {
+    "../v2-07a-root-inventory/root-inventory.mjs": "cd51c75d6f1e9aaad9295ca2a7a84810951dc9293b916a84a9a1b770c94cbbbd",
+    "../v2-07a-root-inventory/drive-browser-adapter.mjs": "d23083d2df55f8dada924bb93527133222ea9ace68533b38fc8e0c5d8a605810",
+    "../v2-07a-representative-selection/representative-selector.mjs": "fe3e463608fb842b139a4d0b12ade4b2c3ad3d52c1d36f21ea7ebdc1fede3868",
+    "../v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000",
+    "../rc21-corpus-night/inventory-denominators.mjs": "2e4c614225e40589b4381f8d5e3b34d4eb6fc63422b45f3d496b8f3bdbee5a6f",
+    "../rc31-corpus-content-continuity/inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "strong-inventory.mjs": "dd2327f78a9b7da3b581b92a110fa72690ffd1efd170a22f50ca44945058c4c0",
+    "../v2-07a-isobmff-index/isobmff-index.mjs": "1c301c910738396024c0b9d9aab09cf9049a6cbf74402bffcca9e57b85d77dd2",
+    "../v2-07a-iso-tracks-rc11/parser.mjs": "9a620a12b9d1080c78aaec30cb8709fa130729c8ae38192508d9b27d9393e5f2",
+    "../rc21-corpus-night/metadata-read-cache.mjs": "7859f29c678482f55244c1170182949e441954019b1e816c6e21ab18017a851d",
+    "../rc21-corpus-night/sparse-moov.mjs": "7f9ff9342b81ef8e0748c439abea885e98b68482e6f37d758785153ea3b9cf36",
+    "../rc16-corpus-tracks/ebml-tracks.mjs": "0a38c154d7f08229ef5f981af09f1d9aba821169f5bceeba6b751cadee2b3b61",
+    "../rc31-deeper-coalesced-probe/moov-window-cache.mjs": "09ac583600e317af96a7d599d06e70da899b44f809073e1c86dcd28b8dfbe932",
+    "../v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
+    "continuity.mjs": "f91aa788a8c299dee1314484666852f89771e7b2770e3fe7fa6a0da847c05b73",
+    "selection.mjs": "88937b59deed9a6a42457b7c575df21e9e081dc3b8e5169a833365e17577ab9c",
+    "classify.mjs": "0b7db371fa7fc0b5b3472d78b2edfd746add52d374a61d633a177b80b13a14e5",
+    "probe.mjs": "203183a52b87f55b159d6a35e19e657d25778f2f221bb430eb3c8d352921bf17",
+    "runner.function.js": "01740f51013058d94c65c8208f180a28dbae7c884e65e07af0bff735235aefca",
+    "build.mjs": "f203084434e6458d542c3b8191cc2876ec062dd1efbf09cbfb60062a5d7e53c6"
+  },
+  "frozenFacadeSHA256": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+  "expressionSHA256": "7df1dd3f2bd43d4954c69a0b5d360bc5daae52f84b3a7a6f82d92586fbb69c89",
+  "expressionBytes": 240237,
+  "proofSHA256": "bb5f9d78cf1aa828ca3024fa63cf41c2c21c7736481cb32858557d8d654360fb",
+  "contextSHA256": "5759957cb0c9ba59e754be553c18795393ad5f01880ac24b25755c209d2b2692",
+  "newEpoch": "rc32-bounded-container-config-image-owner-epoch-20261001-2",
+  "historicalCrossEpochAttempts": "UNKNOWN",
+  "historicalResultsImported": false,
+  "parserReaderUnchanged": true,
+  "maxFreshAttemptsPerFile": 1,
+  "recovery": "explicit same evaluated registry; complete repeated strong inventory before/after; every consumed nonempty exact strong tuple qualified; missing list tuple paired canonical heads <=64/job; missing baseline or changed identity terminal",
+  "credentialRebind": "explicit inactive after released stable complete job; only token/tokenRevision/expiry may differ; no active fence weakening",
+  "actualRequests": 0,
+  "actualExecution": false,
+  "wholeCorpusComplete": false
+}

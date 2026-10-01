@@ -2,18 +2,24 @@ function (createJob, facade, binding) {
  'use strict';
  let allocated=false;
  return function installCorpusOwnerEpoch(privateContextText, proof, epochName) {
-  const expectedEpoch='rc32-bounded-container-config-image-owner-epoch-20261001-1';
+  const expectedEpoch='rc32-bounded-container-config-image-owner-epoch-20261001-2';
   if(allocated)throw Error('EPOCH_ALREADY_ALLOCATED_NO_RESET');
   if(epochName!==expectedEpoch||binding.sourceCommit!=='1d79897fd32c569137cab079bfd93107be2ee33f'||binding.version!=='1.22.0-rc.32'||typeof privateContextText!=='string')throw Error('EXPLICIT_NEW_EPOCH_REQUIRED');
   const parsed=JSON.parse(privateContextText);if(Object.keys(parsed).sort().join(',')!=='accountKey,generation,priorityFileId,rootId')throw Error('EPOCH_CONTEXT');
   const capture=()=>({controller:navigator.serviceWorker.controller,account:state.accountId,key:state.authAccountKey,auth:state.authGeneration,drive:state.driveSessionGeneration,token:state.token,tokenRevision:state.tokenRevision,expiry:state.expiresAt,abort:state.accountStateAbortController,writer:state.accountStateWriterId,revision:state.accountStateRevision,source:mediaSourceGeneration,media:state.mediaSession,playback:state.playbackSession,retirement:q1RetirementResult,href:location.href,projection:JSON.parse(JSON.stringify(state.accountMediaState))});
   const fields=['controller','account','key','auth','drive','token','tokenRevision','expiry','abort','writer','revision','source','media','playback','retirement','href'];
   const stableFields=['controller','account','key','drive','writer','source','href'];
+  const credentialStableFields=fields.filter(k=>!['token','tokenRevision','expiry'].includes(k));
   const same=(a,b,keys=fields)=>a&&b&&keys.every(k=>a[k]===b[k]);
-  const fullSame=(a,b)=>same(a,b)&&accountMediaStatesEqual(a.projection,b.projection)&&state.accountStateSyncPromise===null&&state.accountStateSyncTimer===null&&state.accountStateSyncRetryTimer===null&&state.accountStateSyncError===null;
-  const sourceOK=()=>{const p=proof?.get?.();return APP_VERSION===binding.version&&p?.version===binding.version&&p.sourceCommit===binding.sourceCommit&&p.controller===navigator.serviceWorker.controller&&p.controller?.state==='activated'&&['app.js','sw.js','version.json'].every(k=>p.sourceSHA256?.[k]===binding.sourceSHA256[k]);};
-  let anchor=capture(),capsule=null,active=null,timer=null,burst=null,stopped=null,disposed=false,needsRecovery=false,recoveryCycle=0;
-  if(!sourceOK()||parsed.accountKey!==anchor.account||parsed.generation!==anchor.drive)throw Error('EPOCH_SOURCE_OWNER_REJECTED');
+  const idleOwner=()=>DRIVE_MUTATIONS_ENABLED===false&&ACCOUNT_STATE_WRITES_ENABLED===true&&top===self&&navigator.onLine===true&&document.visibilityState==='visible'&&location.origin==='https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev'
+   &&state.authStatus==='online'&&state.demo===false&&!state.accountIdentityPending&&hasUsableToken()&&typeof state.token==='string'&&state.token.length>0&&Number.isSafeInteger(state.tokenRevision)&&state.tokenRevision>=0&&Number.isFinite(state.expiresAt)&&state.expiresAt>Date.now()
+   &&state.accountStateLoaded===true&&typeof state.accountStateWriterId==='string'&&state.accountStateWriterId.length>0&&Number.isSafeInteger(state.accountStateRevision)&&state.accountStateRevision>=0
+   &&state.accountStateSyncPromise===null&&state.accountStateSyncTimer===null&&state.accountStateSyncRetryTimer===null&&state.accountStateSyncError===null&&Boolean(state.accountStateAbortController?.signal)&&!state.accountStateAbortController.signal.aborted
+   &&q1RetirementResult?.settled===true&&q1Playback===null&&!playerMediaPriorityActive&&state.selected===null&&state.mediaAttempt==='idle'&&state.mediaAbortController===null&&state.pendingOriginalBuffer===null&&state.pendingPlay===false&&state.mediaTransportStarted===false;
+  const fullSame=(a,b)=>same(a,b)&&accountMediaStatesEqual(a.projection,b.projection)&&idleOwner();
+  const sourceOK=()=>{try{const p=proof?.get?.(),u=new URL(p?.controller?.scriptURL);return APP_VERSION===binding.version&&p?.version===binding.version&&p.sourceCommit===binding.sourceCommit&&p.controller===navigator.serviceWorker.controller&&p.controller?.state==='activated'&&u.origin==='https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev'&&u.pathname==='/sw.js'&&!u.search&&!u.hash&&['app.js','sw.js','version.json'].every(k=>p.sourceSHA256?.[k]===binding.sourceSHA256[k]);}catch{return false;}};
+  let anchor=capture(),capsule=null,active=null,timer=null,burst=null,stopped=null,disposed=false,needsRecovery=false,recoveryCycle=0,credentialRebinds=0;
+  if(!sourceOK()||!idleOwner()||parsed.accountKey!==anchor.account||parsed.generation!==anchor.drive)throw Error('EPOCH_SOURCE_OWNER_REJECTED');
   allocated=true;
   const jobs=[];
   const progress=()=>{
@@ -21,7 +27,7 @@ function (createJob, facade, binding) {
    const phases=new Set(['not-started','rejected','inventory-before','selection','recovery-strong-metadata','structural-and-image-headers','inventory-after','done','failed']);
    return {started:p.started===true,done:p.done===true,phase:phases.has(p.phase)?p.phase:'unknown',...Object.fromEntries(['metadataRequests','metadataBytes','mediaRequests','mediaBytes','processed'].map(k=>[k,Number.isSafeInteger(p[k])&&p[k]>=0?p[k]:null]))};
   };
-  const read=()=>JSON.parse(JSON.stringify({schema:'drive-original.rc32-corpus-owner-epoch/1',epoch:expectedEpoch,sourceCommit:binding.sourceCommit,version:binding.version,active:Boolean(active),progress:progress(),disposed,stopped,needsRecovery,maxFreshAttemptsPerFile:1,historicalCrossEpochAttempts:'UNKNOWN',historicalResultsImported:false,privateRegistryExported:false,actualPlaybackCount:0,wholeCorpusComplete:false,burst,jobs}));
+  const read=()=>JSON.parse(JSON.stringify({schema:'drive-original.rc32-corpus-owner-epoch/1',epoch:expectedEpoch,sourceCommit:binding.sourceCommit,version:binding.version,active:Boolean(active),progress:progress(),disposed,stopped,needsRecovery,credentialRebinds,maxFreshAttemptsPerFile:1,historicalCrossEpochAttempts:'UNKNOWN',historicalResultsImported:false,privateRegistryExported:false,actualPlaybackCount:0,wholeCorpusComplete:false,burst,jobs}));
   function stop(code){if(!stopped)stopped=code;active?.cancel();if(burst)burst.done=!active;}
   function wake(){if(timer!==null)clearTimeout(timer);timer=setTimeout(tick,100);}
   function launch(){
@@ -62,6 +68,13 @@ function (createJob, facade, binding) {
     // Each new failed owner transition starts fresh strong qualification. An unfinished stable recovery burst continues its stamp.
     if(stopped){recoveryCycle++;anchor=fresh;}else if(!fullSame(anchor,fresh))throw Error('RECOVERY_OWNER_CHANGED');
     stopped=null;options(value,true);launch();return read();
+   },
+   rebindCredentials(){
+    const previous=jobs.at(-1)?.summary;
+    if(disposed||active||burst&&!burst.done||stopped||needsRecovery||!capsule||previous?.released!==true||previous.complete!==true||previous.catalogStable!==true||previous.failure)throw Error('CREDENTIAL_REBIND_INACTIVE_STABLE_REQUIRED');
+    const fresh=capture();
+    if(!sourceOK()||!idleOwner()||!same(anchor,fresh,credentialStableFields)||!accountMediaStatesEqual(anchor.projection,fresh.projection))throw Error('CREDENTIAL_REBIND_OWNER_REJECTED');
+    anchor=fresh;credentialRebinds++;return read();
    },
    read,
    pause(){stop('ROOT_PAUSE_CANCEL');return read();},

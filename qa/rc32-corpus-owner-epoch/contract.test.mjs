@@ -8,13 +8,14 @@ import {readHeaderState,EPOCH,createHeaderContinuity,CONTINUITY_LIMIT} from './c
 import {classifyBounded,imageHeader} from './classify.mjs';
 import {sniffMagic} from '../v2-07a-bounded-probe/bounded-probe.mjs';
 import {build} from './build.mjs';
+import {runStrongInventory,compareStrongInventories,STRONG_FIELDS,hasStrong} from './strong-inventory.mjs';
 import {box,cat} from '../v2-07a-iso-tracks-rc11/fixtures.mjs';
 import {buildPriorityLikeH264AacTs,makeNullPacket,concatBytes} from '../v2-07a-container-probe/synthetic-mpeg-ts-fixtures.mjs';
 const source=await build();
 function currentFixture(count=3){
- const f=fixture(count);f.runtime.options={phase:'videos',maxFiles:64};
+ const f=fixture(count);f.runtime.options={phase:'videos',maxFiles:64};delete f.dependencies.inventoryRunner;delete f.dependencies.compareInventory;
  const original=f.runtime.nativeFetch;
- f.runtime.nativeFetch=async(v,o)=>{const url=new URL(v);if(url.origin!==ORIGIN)return original(v,o);f.calls.push({url,init:o});const row=f.files.find(x=>url.pathname.endsWith('/'+x.id));const m=/^bytes=(\d+)-(\d+)$/.exec(o.headers.Range);assert(m);const a=Number(m[1]),b=Number(m[2]);assert(a>0||b<row.data.length-1,'no whole media GET');return new Response(row.data.subarray(a,b+1),{status:206,headers:{'Content-Range':`bytes ${a}-${b}/${row.size}`,'Content-Length':String(b-a+1),'Accept-Ranges':'bytes','Cache-Control':'no-store'}});};
+ f.runtime.nativeFetch=async(v,o)=>{const url=new URL(v);if(url.origin!==ORIGIN){if(url.pathname.endsWith('/files')){f.calls.push({url,init:o});return Response.json({files:f.files.map(row=>({...row,data:undefined})),incompleteSearch:false});}if(url.pathname.endsWith('/'+f.context.rootId)){f.calls.push({url,init:o});return Response.json(f.pass.rootBefore);}return original(v,o);}f.calls.push({url,init:o});const row=f.files.find(x=>url.pathname.endsWith('/'+x.id));const m=/^bytes=(\d+)-(\d+)$/.exec(o.headers.Range);assert(m);const a=Number(m[1]),b=Number(m[2]);assert(a>0||b<row.data.length-1,'no whole media GET');return new Response(row.data.subarray(a,b+1),{status:206,headers:{'Content-Range':`bytes ${a}-${b}/${row.size}`,'Content-Length':String(b-a+1),'Accept-Ranges':'bytes','Cache-Control':'no-store'}});};
  f.make=()=>createCorpusOwnerJob(f.runtime,f.dependencies);return f;
 }
 const adopt=(f,j,options={phase:'videos',maxFiles:64})=>{f.runtime.priorCapsule=j.continuity();f.runtime.options=options;};
@@ -34,18 +35,18 @@ test('fatal owner drift preserves consumed immutable baseline and quarantines pa
  f.runtime.nativeFetch=original;adopt(f,first,{phase:'revalidate-videos',maxFiles:64,recoveryCycle:1});const recovery=f.make(),r=await recovery.run();assert.equal(r.complete,true,JSON.stringify(r));assert.equal(r.recoveryQualified,true);assert.equal(r.mediaRequests,0);adopt(f,recovery);const next=f.make(),n=await next.run();assert.equal(n.coverage.ledgerEntries,4);assert.equal(n.coverage.failed,1);assert.equal(n.coverage.classified,3);assert(n.files.every(x=>x.sample!=='sample-0'));const ledger=readHeaderState(next.continuity(),f.context,binding);assert(ledger.attempts.every(x=>x.count===1));
 });
 test('missing immutable preflight baseline, changed strong tuple, safe JSON handle import and changed source fail closed',async()=>{
- const f=currentFixture(2),original=f.runtime.nativeFetch;f.runtime.nativeFetch=async(v,o)=>{if(new URL(v).pathname.endsWith('/'+f.files[0].id)&&new URL(v).origin!==ORIGIN){f.state.tokenRevision++;throw Error('SYNTHETIC_DRIFT');}return original(v,o);};
+ const f=currentFixture(2),original=f.runtime.nativeFetch;f.runtime.nativeFetch=async(v,o)=>{if(new URL(v).pathname.endsWith('/'+f.files[0].id)&&new URL(v).origin!==ORIGIN&&new URL(v).searchParams.get('fields')!==STRONG_FIELDS){f.state.tokenRevision++;throw Error('SYNTHETIC_DRIFT');}return original(v,o);};
  const j=f.make();await j.run();assert.equal(readHeaderState(j.continuity(),f.context,binding).attempts[0].content,null);f.runtime.nativeFetch=original;adopt(f,j,{phase:'revalidate-videos',maxFiles:64,recoveryCycle:1});const r=await f.make().run();assert.equal(r.failure,'RECOVERY_UNSAFE');assert.equal(r.mediaRequests,0);
  assert.throws(()=>readHeaderState(JSON.parse(JSON.stringify(j.continuity())),f.context,binding),/CONTINUITY_REJECTED/);
- const g=currentFixture(2),q=g.make();await q.run();g.files[0].headRevisionId='CHANGED_REV';adopt(g,q,{phase:'revalidate-videos',maxFiles:64,recoveryCycle:1});assert.equal((await g.make().run()).failure,'IDENTITY_MISMATCH');g.dependencies.binding={...binding,sourceCommit:'0'.repeat(40)};assert.equal((await g.make().run()).failure,'SOURCE_BINDING_REJECTED');
+ const g=currentFixture(2),q=g.make();await q.run();g.files[0].headRevisionId='CHANGED_REV';adopt(g,q,{phase:'revalidate-videos',maxFiles:64,recoveryCycle:1});assert.equal((await g.make().run()).failure,'CONTINUITY_CONTENT_CHANGED');g.dependencies.binding={...binding,sourceCommit:'0'.repeat(40)};assert.equal((await g.make().run()).failure,'SOURCE_BINDING_REJECTED');
 });
-test('recovery is bounded to 64 heads/job and retains stamps until every consumed tuple qualifies',async()=>{
+test('scale recovery qualifies every consumed tuple through complete strong inventory without per-record head replay',async()=>{
  const f=currentFixture(65);const identity=row=>({accountKey:f.state.authAccountKey,fileId:row.id,version:row.version,size:row.size,modifiedTime:row.modifiedTime,mimeType:row.mimeType,canDownload:true});
- f.runtime.priorCapsule=createHeaderContinuity(f.context,binding,[],f.files.map(x=>({identity:identity(x),content:{headRevisionId:x.headRevisionId,sha256Checksum:x.sha256Checksum},count:1,failure:'HEADER_TIMEOUT'})));f.runtime.options={phase:'revalidate-videos',maxFiles:64,recoveryCycle:1};
- const j=f.make(),s=await j.run();assert.equal(s.complete,true);assert.equal(s.recoveryQualified,false);assert.equal(s.recoveryRemaining,1);assert.equal(s.mediaRequests,0);assert.equal(s.metadataRequests,80);adopt(f,j,{phase:'revalidate-videos',maxFiles:64,recoveryCycle:1});const r=await f.make().run();assert.equal(r.recoveryQualified,true);assert.equal(r.metadataRequests,17);assert.equal(r.coverage.failed,65);assert.equal(r.coverage.unattempted,0);
+ f.runtime.priorCapsule=createHeaderContinuity(f.context,binding,[],f.files.map(x=>({identity:identity(x),content:{headRevisionId:x.headRevisionId,sha256Checksum:x.sha256Checksum,resourceKey:null},count:1,failure:'HEADER_TIMEOUT'})));f.runtime.options={phase:'revalidate-videos',maxFiles:64,recoveryCycle:1};
+ const j=f.make(),s=await j.run();assert.equal(s.complete,true,JSON.stringify(s));assert.equal(s.recoveryQualified,true);assert.equal(s.recoveryRemaining,0);assert.equal(s.mediaRequests,0);assert.equal(s.strongCarry.inventoryQualified,65);assert.equal(s.strongCarry.fallbackHeads,0);assert(s.metadataRequests<32);assert.equal(s.coverage.failed,65);assert.equal(s.coverage.unattempted,0);
 });
 test('corpus jobs cap at 64 files in eight serial subbatches; omitted candidates keep truthful unattempted denominator',async()=>{
- const f=currentFixture(65),j=f.make(),s=await j.run();assert.equal(s.files.length,64);assert.equal(s.batches.length,8);assert(s.batches.every(x=>x.planned===8&&x.attempted===8));assert.deepEqual([s.coverage.denominator,s.coverage.classified,s.coverage.unattempted],[65,64,1]);assert.equal(s.metadataRequests,144);assert(s.metadataBytes<=67108864);
+ const f=currentFixture(65),j=f.make(),s=await j.run();assert.equal(s.files.length,64);assert.equal(s.batches.length,8);assert(s.batches.every(x=>x.planned===8&&x.attempted===8));assert.deepEqual([s.coverage.denominator,s.coverage.classified,s.coverage.unattempted],[65,64,1]);assert(s.metadataRequests<=160);assert(s.metadataBytes<=67108864);
  adopt(f,j);const r=await f.make().run();assert.equal(r.files.length,1);assert.equal(r.coverage.classified,65);assert.equal(r.coverage.unattempted,0);assert.equal(r.coverage.ledgerEntries,65);
 });
 test('range/body mismatch consumes once, preserves failed denominator, and never resets exhaustion',async()=>{
@@ -111,4 +112,75 @@ test('finite registry covers the actual >8192 image/video inventory and rejects 
  const attempts=Array.from({length:8596},(_,i)=>({identity:{...identity,fileId:'SYNTHETIC_'+i},content:{headRevisionId:'SYNTHETIC_REV',sha256Checksum:'e'.repeat(64)},count:1,failure:'HEADER_TIMEOUT'}));
  const handle=createHeaderContinuity(f.context,binding,[],attempts);assert.equal(readHeaderState(handle,f.context,binding).attempts.length,8596);assert.equal(CONTINUITY_LIMIT,16384);
  assert.throws(()=>createHeaderContinuity(f.context,binding,[],Array.from({length:16385},(_,i)=>({...attempts[0],identity:{...identity,fileId:'SYNTHETIC_'+i}}))),/CONTINUITY_LIMIT/);
+});
+
+test('strong wrapper captures full raw list/root/priority/shortcut routes, rejects duplicate conflicts and preserves swallowed errors',async()=>{
+ const f=currentFixture(2),target={...f.files[1],resourceKey:'SYNTHETIC_KEY',data:undefined},shortcut={id:'SYNTHETIC_SHORTCUT',name:'shortcut',mimeType:'application/vnd.google-apps.shortcut',version:'1',modifiedTime:'synthetic',parents:[f.context.rootId],trashed:false,shortcutDetails:{targetId:target.id,targetMimeType:target.mimeType,targetResourceKey:target.resourceKey}};
+ let targetReads=0,drift=false,duplicate=false,fieldChecks=0;
+ const options={rootId:f.context.rootId,priorityFileId:f.context.priorityFileId,expectedAccountKey:f.state.accountId,driveFetch:async value=>{
+  const u=new URL(value);if(u.pathname.endsWith('/about'))return Response.json({user:{permissionId:f.state.accountId}});
+  const list=u.pathname.endsWith('/files');assert.equal(u.searchParams.get('fields'),list?`nextPageToken,incompleteSearch,files(${STRONG_FIELDS})`:STRONG_FIELDS);fieldChecks++;
+  if(list){const rows=[{...f.files[0],data:undefined},shortcut];if(duplicate)rows.push({...rows[0],sha256Checksum:'a'.repeat(64)});return Response.json({files:rows,incompleteSearch:false});}
+  if(u.pathname.endsWith('/'+f.context.rootId))return Response.json(f.pass.rootBefore);
+  if(u.pathname.endsWith('/'+target.id)){targetReads++;return Response.json({...target,...(drift&&targetReads===2?{sha256Checksum:'b'.repeat(64)}:{})});}
+  return Response.json({...f.files[0],data:undefined});
+ }};
+ const a=await runStrongInventory(options);assert.equal(a.strongInventory.uniqueRows,4);assert.equal(a.report.completeness.shortcutClassificationComplete,true);assert(fieldChecks>4);assert.equal(hasStrong(a.strongInventory.rows.get(target.id).tuple),true);
+ target.sha256Checksum='c'.repeat(64);targetReads=0;const b=await runStrongInventory(options);assert.throws(()=>compareStrongInventories(a,b),/STRONG_CATALOG_DRIFT/);
+ drift=true;targetReads=0;await assert.rejects(runStrongInventory(options),/STRONG_INVENTORY_CONFLICT/);drift=false;duplicate=true;await assert.rejects(runStrongInventory(options),/STRONG_INVENTORY_CONFLICT/);
+ await assert.rejects(runStrongInventory(options,{inventoryRunner:async({driveFetch})=>{try{await(await driveFetch('https://www.googleapis.com/drive/v3/files')).json();}catch{}throw Error('wrapped');}}),/STRONG_INVENTORY_CONFLICT/);
+});
+
+test('normal carry rejects same-version strong hash/resource-key drift and deletion before counting or new media',async()=>{
+ for(const change of [f=>{f.files[1].sha256Checksum='a'.repeat(64);},f=>{f.files[1].resourceKey='SYNTHETIC_KEY';},f=>{f.files.splice(1,1);}]){
+  const f=currentFixture(3);delete f.dependencies.selector;const j=f.make();assert.equal((await j.run()).complete,true);change(f);adopt(f,j);const q=f.make(),s=await q.run();assert.equal(s.failure,'CONTINUITY_CONTENT_CHANGED');assert.equal(s.mediaRequests,0);assert.equal(s.coverage.classified,0);assert.equal(s.coverage.quarantinedConsumedAttempts,3);assert(readHeaderState(q.continuity(),f.context,binding).attempts.every(a=>a.count===1));
+ }
+});
+
+test('missing list strong tuples use paired bounded heads; unavailable heads and >32 missing carry tuples stop honestly',async()=>{
+ for(const [count,unavailable]of [[4,false],[4,true],[34,false]]){
+  const f=currentFixture(count),j=f.make();assert.equal((await j.run()).complete,true);const original=f.runtime.nativeFetch;
+  f.runtime.nativeFetch=async(v,o)=>{const u=new URL(v);if(u.origin!==ORIGIN&&u.pathname.endsWith('/files'))return Response.json({files:f.files.map((x,i)=>({...x,data:undefined,...(i?{headRevisionId:undefined,sha256Checksum:undefined}:{})})),incompleteSearch:false});
+   const r=await original(v,o);if(unavailable&&u.origin!==ORIGIN&&u.pathname.endsWith('/'+f.files[1].id)&&u.searchParams.get('fields')!==STRONG_FIELDS)return Response.json({...f.files[1],data:undefined,headRevisionId:undefined,sha256Checksum:undefined});return r;};
+  adopt(f,j);const q=f.make(),s=await q.run();assert.equal(s.mediaRequests,0);assert(s.strongCarry.fallbackHeads<=64);
+  if(count===4&&!unavailable){assert.equal(s.complete,true,JSON.stringify(s));assert.equal(s.strongCarry.inventoryQualified,1);assert.equal(s.strongCarry.fallbackHeads,6);assert.equal(s.coverage.classified,4);}
+  else{assert.equal(s.failure,unavailable?'IDENTITY_MISMATCH':'STRONG_METADATA_UNQUALIFIED');assert.equal(s.coverage.classified,0);assert.equal(s.coverage.quarantinedConsumedAttempts,count);}
+ }
+});
+
+test('idle credential rebind changes only token/revision/expiry and keeps one-attempt registry across the next explicit burst',async()=>{
+ const f=syntheticSandbox();assert.throws(()=>f.runner.rebindCredentials(),/INACTIVE_STABLE_REQUIRED/);f.runner.start(f.opts());assert.throws(()=>f.runner.rebindCredentials(),/INACTIVE_STABLE_REQUIRED/);const first=await f.settle();assert.equal(first.jobs[0].summary.complete,true);
+ f.state.token='SYNTHETIC_RENEWED_TOKEN';f.state.tokenRevision++;f.state.expiresAt+=3600000;const rebound=f.runner.rebindCredentials();assert.equal(rebound.credentialRebinds,1);assert(!JSON.stringify(rebound).includes('SYNTHETIC_RENEWED_TOKEN'));f.runner.start(f.opts());const next=await f.settle();assert.equal(next.jobs[1].summary.mediaRequests,0);assert.equal(next.jobs[1].summary.coverage.classified,3);assert.equal(next.jobs[1].summary.strongCarry.inventoryQualified,3);assert.equal(next.jobs[1].summary.coverage.ledgerEntries,3);f.runner.cleanup();assert.throws(()=>f.runner.rebindCredentials(),/INACTIVE_STABLE_REQUIRED/);
+});
+
+test('credential-only rebind rejects each other owner/projection/source/writer/idle drift without changing the anchor',async()=>{
+ const f=syntheticSandbox();f.runner.start(f.opts());await f.settle();
+ const cases=[['authGeneration',f.state.authGeneration+1],['driveSessionGeneration',f.state.driveSessionGeneration+1],['accountId','SYNTHETIC_OTHER'],['authAccountKey','SYNTHETIC_OTHER'],['accountStateWriterId','SYNTHETIC_OTHER'],['accountStateRevision',f.state.accountStateRevision+1],['accountStateAbortController',new AbortController()],['mediaSession',f.state.mediaSession+1],['playbackSession',f.state.playbackSession+1],['accountMediaState',{liked:['SYNTHETIC_OTHER']}],['accountStateSyncPromise',{}],['accountStateSyncTimer',1],['accountStateSyncRetryTimer',1],['accountStateSyncError',{}],['selected',{}],['mediaAttempt','active'],['mediaAbortController',new AbortController()],['pendingOriginalBuffer',{}],['pendingPlay',true],['mediaTransportStarted',true],['authStatus','offline'],['accountStateLoaded',false],['expiresAt',Date.now()-1],['token','']];
+ for(const [key,value]of cases){const old=f.state[key];f.state[key]=value;assert.throws(()=>f.runner.rebindCredentials(),/OWNER_REJECTED/,key);f.state[key]=old;}
+ for(const [object,key,value]of [[f.sandbox,'mediaSourceGeneration',6],[f.sandbox,'q1RetirementResult',{settled:true}],[f.sandbox,'q1Playback',{}],[f.sandbox,'playerMediaPriorityActive',true],[f.sandbox.location,'href',ORIGIN+'/changed'],[f.sandbox.document,'visibilityState','hidden'],[f.sandbox.navigator,'onLine',false],[f.sandbox.navigator.serviceWorker,'controller',{...f.runtime.navigator.serviceWorker.controller}],[f.sandbox.navigator.serviceWorker.controller,'scriptURL',ORIGIN+'/sw.js?changed'],[f.sandbox,'APP_VERSION','wrong'],[f.sandbox,'hasUsableToken',()=>false]]){const old=object[key];object[key]=value;assert.throws(()=>f.runner.rebindCredentials(),/OWNER_REJECTED/,key);object[key]=old;}
+ const oldProof=f.proof.get;f.proof.get=()=>({...oldProof(),sourceSHA256:{...binding.sourceSHA256,'app.js':'0'.repeat(64)}});assert.throws(()=>f.runner.rebindCredentials(),/OWNER_REJECTED/);f.proof.get=oldProof;
+ assert.equal(f.runner.read().credentialRebinds,0);f.state.tokenRevision++;f.runner.rebindCredentials();assert.equal(f.runner.read().credentialRebinds,1);f.runner.cleanup();
+});
+
+test('active token drift cannot rebind and still cancels/quarantines before explicit metadata-only recovery',async()=>{
+ const f=syntheticSandbox(),original=f.runtime.nativeFetch;let release;
+ f.runtime.nativeFetch=async(v,o)=>{if(new URL(v).origin===ORIGIN)await new Promise(r=>{release=r;});return original(v,o);};f.runner.start(f.opts());for(let n=0;n<400&&!release;n++)await new Promise(r=>setImmediate(r));assert(release);
+ f.state.token='SYNTHETIC_CHANGED';f.state.tokenRevision++;assert.throws(()=>f.runner.rebindCredentials(),/INACTIVE_STABLE_REQUIRED/);const t=[...f.timers].find(([,x])=>x.ms===100);f.timers.delete(t[0]);t[1].fn();release();const s=await f.settle();assert.equal(s.stopped,'OWNER_CHANGED');assert.equal(s.jobs[0].summary.coverage.quarantinedConsumedAttempts,1);assert.equal(s.jobs[0].summary.ownerDiagnostic.tokenChanged,true);assert.equal(s.jobs[0].summary.ownerDiagnostic.tokenRevisionChanged,true);assert.throws(()=>f.runner.rebindCredentials(),/INACTIVE_STABLE_REQUIRED/);
+ f.runtime.nativeFetch=original;f.runner.recover(f.opts());const r=await f.settle();assert.equal(r.needsRecovery,false);assert.equal(r.jobs[1].summary.mediaRequests,0);assert.equal(r.jobs[1].summary.coverage.ledgerEntries,1);f.runner.cleanup();
+});
+
+test('strong root duplicate and final catalog hash drift reject even when version/base fields are unchanged',async()=>{
+ const f=currentFixture(3),original=f.runtime.nativeFetch;let rootReads=0;
+ const options={rootId:f.context.rootId,priorityFileId:f.context.priorityFileId,expectedAccountKey:f.state.accountId,driveFetch:async(v,o)=>{if(new URL(v).pathname.endsWith('/'+f.context.rootId)){rootReads++;return Response.json({...f.pass.rootBefore,sha256Checksum:(rootReads===1?'a':'b').repeat(64)});}return original(v,o);}};
+ await assert.rejects(runStrongInventory(options),/STRONG_INVENTORY_CONFLICT/);
+ let lastHeads=0;f.runtime.nativeFetch=async(v,o)=>{const r=await original(v,o),u=new URL(v);if(u.origin!==ORIGIN&&u.pathname.endsWith('/'+f.files[2].id)&&u.searchParams.get('fields')!==STRONG_FIELDS&&++lastHeads===2)f.files[1].sha256Checksum='a'.repeat(64);return r;};
+ const j=f.make(),s=await j.run();assert.equal(s.failure,'STRONG_CATALOG_DRIFT');assert.equal(s.catalogStable,false);assert.equal(s.coverage.classified,0);assert.equal(s.coverage.quarantined,3);assert.equal(s.coverage.quarantinedConsumedAttempts,3);assert.equal(s.released,true);
+});
+
+test('8596-entry complete paginated strong inventory requalifies all consumed attempts within one bounded job',async(t)=>{
+ const f=currentFixture(8596),original=f.runtime.nativeFetch;
+ f.runtime.nativeFetch=async(v,o)=>{const u=new URL(v);if(u.origin!==ORIGIN&&u.pathname.endsWith('/files')){const start=Number(u.searchParams.get('pageToken')??0);return Response.json({files:f.files.slice(start,start+1000).map(x=>({...x,data:undefined})),incompleteSearch:false,...(start+1000<f.files.length?{nextPageToken:String(start+1000)}:{})});}return original(v,o);};
+ f.runtime.priorCapsule=createHeaderContinuity(f.context,binding,[],f.files.map(x=>({identity:{accountKey:f.state.authAccountKey,fileId:x.id,version:x.version,size:x.size,modifiedTime:x.modifiedTime,mimeType:x.mimeType,canDownload:true},content:{headRevisionId:x.headRevisionId,sha256Checksum:x.sha256Checksum,resourceKey:null},count:1,failure:'HEADER_TIMEOUT'})));f.runtime.options={phase:'revalidate-videos',maxFiles:64,recoveryCycle:1};
+ const j=f.make(),s=await j.run();assert.equal(s.complete,true,JSON.stringify(s));assert.equal(s.recoveryQualified,true);assert.equal(s.strongCarry.inventoryQualified,8596);assert.equal(s.strongCarry.fallbackHeads,0);assert.equal(s.coverage.denominator,8596);assert.equal(s.coverage.failed,8596);assert.equal(s.coverage.ledgerEntries,8596);assert.equal(s.mediaRequests,0);assert(s.metadataRequests<=64);assert(s.metadataBytes<=CAPS.metadataBytes);assert(!JSON.stringify(s).includes('PRIVATE_'));
+ t.diagnostic(JSON.stringify({syntheticEntries:8596,metadataRequests:s.metadataRequests,metadataBytes:s.metadataBytes,fallbackHeads:s.strongCarry.fallbackHeads,mediaRequests:s.mediaRequests,ledgerEntries:s.coverage.ledgerEntries}));
 });

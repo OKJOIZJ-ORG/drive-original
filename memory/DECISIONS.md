@@ -496,3 +496,19 @@ sweep: reboot resume guide, checkpoint/handoff, goal execution header and sessio
 사용자는 기존 승인 전체 작업을 끝까지 재개하고, 검증된 증거 재사용·원인 구분·완결된 실행 단위·시간제한 검사 사전 준비·같은 상태를 쓰는 작업의 직렬화·간결한 소유 문서 기록·커밋 후 연속 진행을 명시했다. 기존 목표와 인수 기준을 유지한다. 도구 수정만으로 제품 재배포/전체 검사를 반복하지 않고 같은 실패를 조건 변화 없이 재시도하지 않는다.
 
 사용자는 MP4 이름인데 실제 TS 등 내용이 다른 해당 영상들에 관해 "그런것들은 그냥 내용까지 바꾸거나 뭐 알아서 해. 손상돼도 상관없음"이라고 명시해 필요할 경우 확인된 형식 불일치 미디어의 내용 수정과 손상 위험을 허용했다. 이는 그 해당 파일의 수정 권한이며 전체 계정 원본 일괄 변경/영구삭제/새 grant/결제/production/main/push/자동화 재개 권한으로 확장하지 않는다. 실제 바이트를 기준으로 책임 있는 계층을 고치고, 수정이 필요한지 판정한 뒤 구체적인 대상과 결과를 기록한다. 제품의 원본 품질 인수 기준은 유지한다.
+
+→ D-072 execution temporarily superseded by D-073, then explicitly resumed by D-074 (2026-10-01); original objective and acceptance remain.
+
+## D-073 · 귀가 전 현재 지점 저장 후 작업 종료 — 2026-10-01 (User-confirmed)
+
+사용자는 "귀가해야 하니까 하던데 까지 하고 작업 닫아."라고 명시했다. 새 실제 검사를 시작하지 않고 완료한 결과·진행 중 로컬 준비의 중단 상태를 저장했다. idle 검사 registry/capsule·proof·observer·비공개 기준값을 정리하고 소유 MCP 연결을 종료했다. 저장 커밋4597f4c와 체크포인트에서 재개 지시를 기다렸다. 전체 목표·인수 기준·기존 권한 범위는 유지하며 전체 완료나 운영 승인으로 보지 않는다.
+
+→ D-073 WAIT superseded by D-074 (2026-10-01).
+
+## D-074 · 다른 채팅의 직접 사용자 지시를 확인하고 전체 남은 작업 재개 — 2026-10-01 (User-confirmed via verified source-thread message; supersedes D-073 WAIT)
+
+앵챗추출기 5 (6.1 Sol ExH) 채팅01a0f63e-2423-72e1-87bb-d24c0ef1cefb에서 사용자는 "2.11.5 닫고 각 버전 각 경로로 배포해. 배포 완료하면 codex://threads/01a0eea0-2e70-7b90-9690-7be9b2f8f62e 에 나머지 작업 끝까지 완수하라고 지시해."라고 명시했다. 전달된 메시지만을 자동 재개 권한으로 보지 않고, read_thread에서 실제 userMessage01a0f7a5-3ed4-7272-8bb0-85e0e688d8ab 원문을 직접 확인했다. 해당 채팅의 배포 완료 및 소유 검사 연결 정리 보고 후,4597f4c의 저장 지점부터 D-066/D-068/D-072 전체 남은 구현·검증·후보 인수를 재개한다.
+
+완료된 제품·외부 작업과 유효한 실제 증거를 반복하지 않는다. 기존 PC+Android 현재 인수/iOS 배포 후 순서와 원본·비용·권한·운영 경계는 유지한다. main/push/production/새 grant/결제/영구삭제/자동화 재개 권한은 추가하지 않는다. 통상 Chrome 조작은 직접 진행하며 실제 로그인/2FA/브라우저 승인 등 사용자 조작 경계만 도움을 요청한다.
+
+sweep: checkpoint and goal execution header aligned ACTIVE D074; departure cleanup and partial scale preparation remain preserved, no old JSON import/current coverage addition.

@@ -1,6 +1,7 @@
 import {stableItemRow} from '../rc31-corpus-content-continuity/inventory-normalizers.mjs';
 import {identitySame,RETRYABLE} from './continuity.mjs';
 import {normalizeProbeIdentity} from '../v2-07a-bounded-probe/bounded-probe.mjs';
+import {strongTuple,strongRowSignature} from './strong-inventory.mjs';
 const FOLDER='application/vnd.google-apps.folder',SHORTCUT='application/vnd.google-apps.shortcut';
 const validId=x=>typeof x==='string'&&/^[A-Za-z0-9_-]{1,512}$/.test(x);
 const fail=()=>{throw Object.assign(new Error('SELECTION_FAILED'),{code:'SELECTION_FAILED'});};
@@ -10,18 +11,18 @@ const image=row=>String(row.mimeType??'').toLowerCase().startsWith('image/')||['
 export function collectHeaderCandidates(pass,selection,accountKey){
   if(!Array.isArray(pass?.items)||!Array.isArray(pass.shortcutTargets)||!Array.isArray(selection?.privateManifest?.selected))fail();
   const targets=new Map(pass.shortcutTargets),objects=new Map();
-  const add=(row,reference)=>{if(!validId(row?.id)||!validId(reference?.fileId)||(reference.resourceKey!==null&&!validId(reference.resourceKey)))fail();const prior=objects.get(row.id);if(prior&&stableItemRow(prior.row)!==stableItemRow(row))fail();const value=prior??{row,references:[]};value.references.push(reference);objects.set(row.id,value);};
+  const add=(row,reference)=>{if(!validId(row?.id)||!validId(reference?.fileId)||(reference.resourceKey!==null&&!validId(reference.resourceKey)))fail();const prior=objects.get(row.id);if(prior&&strongRowSignature(prior.row)!==strongRowSignature(row))fail();const value=prior??{row,references:[]};value.references.push(reference);objects.set(row.id,value);};
   for(const row of pass.items){if(row.mimeType===FOLDER)continue;if(row.mimeType===SHORTCUT){const target=targets.get(row.shortcutDetails?.targetId);if(!target)fail();if(target.mimeType!==FOLDER&&target.mimeType!==SHORTCUT)add(target,{fileId:target.id,resourceKey:row.shortcutDetails?.targetResourceKey??null});}else add(row,{fileId:row.id,resourceKey:row.resourceKey??null});}
   const representatives=new Map(selection.privateManifest.selected.map(row=>[row.fileId,row]));const representativeIds=new Set(representatives.keys());if(representativeIds.size!==selection.privateManifest.selected.length||[...representativeIds].some(id=>!objects.has(id)))fail();
   return [...objects.values()].map(item=>{
-    const keys=new Set(item.references.map(x=>x.resourceKey).filter(Boolean));if(keys.size>1)fail();const row=item.row;
+    const row=item.row,keys=new Set([...item.references.map(x=>x.resourceKey),row.resourceKey].filter(Boolean));if(keys.size>1)fail();
     let expected=null,ineligible=null;
     if(row.capabilities?.canDownload!==true)ineligible=row.capabilities?.canDownload===false?'DOWNLOAD_BLOCKED':'DOWNLOAD_CAPABILITY_UNKNOWN';
     else try{expected=normalizeProbeIdentity({accountKey,fileId:row.id,version:row.version,size:row.size,modifiedTime:row.modifiedTime,mimeType:row.mimeType,canDownload:true});}catch{ineligible='METADATA_IDENTITY_INCOMPLETE';}
     if(expected&&BigInt(expected.size)>BigInt(Number.MAX_SAFE_INTEGER))ineligible='UNSAFE_FILE_SIZE';
     if(expected&&BigInt(expected.size)<=1n)ineligible='SMALL_FILE_WHOLE_READ_EXCLUDED';
     const reasons=representatives.get(row.id)?.mandatoryReasons??[],priorityRank=reasons.includes('priority')?3:reasons.some(x=>x.startsWith('largest:'))?2:reasons.some(x=>x.startsWith('rare:'))?1:0;
-    return {id:row.id,expected,ineligible,resourceKey:[...keys][0]??null,representative:representativeIds.has(row.id),videoCandidate:video(row),imageCandidate:image(row),priorityRank};
+    return {id:row.id,expected,ineligible,content:strongTuple(row),resourceKey:[...keys][0]??null,representative:representativeIds.has(row.id),videoCandidate:video(row),imageCandidate:image(row),priorityRank};
   }).sort((a,b)=>b.priorityRank-a.priorityRank||a.id.localeCompare(b.id));
 }
 export function planHeaderCohort(candidates,{phase='representatives',maxFiles=8,covered=new Set(),attempts=new Map()}={}){

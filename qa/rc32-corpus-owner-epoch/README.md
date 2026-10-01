@@ -1,6 +1,6 @@
 # RC32 corpus owner epoch
 
-QA-only finite epoch `rc32-bounded-container-config-image-owner-epoch-20261001-1`,
+QA-only finite epoch `rc32-bounded-container-config-image-owner-epoch-20261001-2`,
 immutable source `1d79897fd32c569137cab079bfd93107be2ee33f` / `1.22.0-rc.32`.
 Old cross-epoch attempts are **UNKNOWN**; historical results remain historical.
 No safe JSON, old capsule, provider state or browser state is imported.
@@ -13,7 +13,9 @@ node qa/rc32-corpus-owner-epoch/build.mjs
 ```
 
 The builder returns `{expression, proof, context, provenance}` and writes only
-`installer.expression.js` and `provenance.json`. `proof`/`context` are unchanged
+`installer.epoch-2.expression.js` and `provenance.epoch-2.json`. The epoch-1
+`installer.expression.js` / `provenance.json` remain historical producers.
+`proof`/`context` are unchanged
 pinned RC32 format-acceptance expressions. Root evaluates them through its
 same-tab lexical app executor and privately retains the context text/proof.
 After root's quiet-writer, visible/idle and exact-source qualification, evaluate
@@ -21,7 +23,7 @@ the installer expression **once**, then invoke the returned function:
 
 ```js
 const registry = install(privateContextText, proof,
-  'rc32-bounded-container-config-image-owner-epoch-20261001-1');
+  'rc32-bounded-container-config-image-owner-epoch-20261001-2');
 registry.start({maxJobs:8, deadlineMs:4800000, stopBeforeAt:rootDeadlineMinusMargin});
 registry.read(); // Safe counters, parser projections, Boolean owner diagnostics.
 ```
@@ -44,6 +46,25 @@ release/catalog fences are preserved. The deduplicated candidate union includes
 every image/video MIME candidate or explicitly listed common extension,
 including octet-stream TS/MTS/M2TS names. Ineligible objects remain denominators.
 No media GET covers a whole file; one-byte objects are ineligible.
+
+The leaf's inventory wrapper expands every raw list, root, priority and shortcut
+target GET to the full maintained item projection plus `headRevisionId`,
+`sha256Checksum`, `resourceKey`. It compares every raw duplicate and both complete
+passes, then compares complete before/after catalogs, including root and shortcut
+metadata. Errors remain latched even if the underlying shortcut reader catches
+them. No partial/page-only inventory qualifies continuity.
+
+Each prior record and consumed attempt must match identity and an exact nonempty
+strong tuple in the new complete inventory before coverage or new body work can
+proceed. Version alone cannot carry results. Every retained record must also match
+its consumed attempt baseline. Same-version checksum/head/resource-key drift,
+deletion, shortcut ambiguity, or incomplete qualification quarantines the retained
+results. Missing head **and** checksum in list metadata can use paired canonical
+before/after head GETs for <=32 carried entries (<=64 fallback heads/job), with
+final-fence capacity reserved. Missing baseline, unavailable canonical strong
+metadata, a partial tuple mismatch, or more missing entries stops honestly;
+no fallback resets attempts. New body files still use unchanged strong pre/post
+head GETs, Range/body and per-file limits.
 
 - ISO: frozen top-level/sparse-moov/track parser, sample-entry codecs and observable
   AVC/HEVC/AAC config, dimensions/channels/rate/encryption/color/SAR presence.
@@ -85,12 +106,25 @@ loss are possible explanations, not findings.
 After OWNER_CHANGED, `start()` rejects. Root may explicitly call `recover()` with
 the same finite burst options once the same source/account/key/drive generation/
 controller/writer/source generation/href is freshly visible, idle and stable.
-Recovery is metadata-only: <=64 fresh strong tuple checks/job for **all** consumed
-entries including failures, plus full before/after inventory and owner fences.
-Stable multi-job recovery retains private stamps; normal continuation is blocked
-until all entries qualify. No consumed file gets another media attempt. Missing
+Recovery is metadata-only: **all** consumed entries including failures qualify
+through complete repeated strong before/after inventory; only absent list tuples
+need the <=64 fallback heads described above.
+This avoids per-record head replay when the full inventory supplies the tuple.
+Normal continuation is blocked until all entries qualify. No consumed file gets
+another media attempt. Missing
 immutable preflight baseline, changed tuple/catalog/owner identity, cleanup failure
 or another unsafe class is terminal. JSON reconstruction/new registry is not recovery.
+
+After an inactive released, complete, catalog-stable job, root may explicitly call
+`registry.rebindCredentials()` before the next explicit `start()` burst. Only
+`token`, `tokenRevision`, `expiresAt` may differ. Account/key/auth generation/drive,
+controller/source proof, media/playback/retirement, writer/revision/deep projection,
+href and abort ownership must remain identical, the writer must be idle, and the
+current token must be usable with future expiry. Active, quarantined, stopped,
+unreleased or unqualified states reject rebind. Rebind performs no requests and
+does not qualify old results itself: the next job still freshly qualifies the
+complete strong inventory. During an active job, token drift still cancels and
+quarantines through the existing owner fence. No automatic renewal or epoch loop.
 
 Local tests exercise public synthetic ISO/EBML/TS/image bytes and a synthetic
 lexical app, including actual maintained parsers, inventory/facade, visibility/

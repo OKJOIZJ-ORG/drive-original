@@ -1,4 +1,4 @@
-import {runAuthenticatedRootInventory} from '../v2-07a-root-inventory/drive-browser-adapter.mjs';
+import {runStrongInventory,compareStrongInventories,strongTuple,hasStrong,strongSame} from './strong-inventory.mjs';
 import {summarizeRepeatedInventory} from '../v2-07a-root-inventory/root-inventory.mjs';
 import {selectRiskRepresentatives} from '../v2-07a-representative-selection/representative-selector.mjs';
 import {runBoundedProbe,createBatchBudget,normalizeProbeIdentity,FAILURE_CODES} from '../v2-07a-bounded-probe/bounded-probe.mjs';
@@ -10,19 +10,19 @@ export const ORIGIN='https://drive-original-v2-candidate.drive-original-cloudfla
 export const CAPS=Object.freeze({files:64,batchFiles:8,mediaRequests:64,mediaBytes:2*1024*1024+8192,fileMs:50000,runMs:600000,metadataRequests:512,metadataResponseBytes:2*1024*1024,metadataBytes:64*1024*1024});
 const fail=code=>Object.assign(new Error(code),{code});
 const validId=x=>typeof x==='string'&&/^[A-Za-z0-9_-]{1,512}$/.test(x);
-const fixed=e=>[...FAILURE_CODES,'RUNTIME_REJECTED','OWNER_CHANGED','CANCELLED','METADATA_LIMIT','METADATA_FAILED','INVENTORY_FAILED','SELECTION_FAILED','CATALOG_DRIFT','RUN_TIMEOUT','CLEANUP_FAILED','CLEANUP_TIMEOUT','CONTINUITY_REJECTED','CONTINUITY_LIMIT','SOURCE_BINDING_REJECTED','RECOVERY_UNSAFE','CONTINUITY_CONTENT_CHANGED'].includes(e?.code)?e.code:'PROBE_FAILED';
+const fixed=e=>[...FAILURE_CODES,'RUNTIME_REJECTED','OWNER_CHANGED','CANCELLED','METADATA_LIMIT','METADATA_FAILED','INVENTORY_FAILED','SELECTION_FAILED','CATALOG_DRIFT','STRONG_INVENTORY_CONFLICT','STRONG_CATALOG_DRIFT','STRONG_METADATA_UNQUALIFIED','RUN_TIMEOUT','CLEANUP_FAILED','CLEANUP_TIMEOUT','CONTINUITY_REJECTED','CONTINUITY_LIMIT','SOURCE_BINDING_REJECTED','RECOVERY_UNSAFE','CONTINUITY_CONTENT_CHANGED'].includes(e?.code)?e.code:'PROBE_FAILED';
 const same=identitySame;
 const fieldNames='id,version,headRevisionId,sha256Checksum,size,modifiedTime,mimeType,trashed,resourceKey,capabilities(canDownload)';
 export function bindingPinned(x){return x?.schema==='drive-original.corpus-header-source-binding/1'&&x.version==='1.22.0-rc.32'&&x.sourceCommit==='1d79897fd32c569137cab079bfd93107be2ee33f'&&['app.js','sw.js','version.json'].every(k=>/^[a-f0-9]{64}$/.test(x.sourceSHA256?.[k]??''));}
 export const immutableContent=x=>(validId(x?.headRevisionId)||/^[a-fA-F0-9]{64}$/.test(x?.sha256Checksum??''))&&(x?.headRevisionId===null||validId(x?.headRevisionId))&&(x?.sha256Checksum===null||/^[a-fA-F0-9]{64}$/.test(x?.sha256Checksum??''));
 export function createCorpusOwnerJob(runtime,dependencies={}){
   const binding=dependencies.binding,VERSION=binding?.version;const options=Object.freeze({...runtime?.options});let priorCapsule=runtime?.priorCapsule??null,priorRecords=null;
-  const inventory=dependencies.inventoryRunner??runAuthenticatedRootInventory,select=dependencies.selector??selectRiskRepresentatives,compare=dependencies.compareInventory??summarizeRepeatedInventory;
+  const inventory=dependencies.inventoryRunner??runStrongInventory,select=dependencies.selector??selectRiskRepresentatives,compare=dependencies.compareInventory??summarizeRepeatedInventory;
   let live=runtime,context=runtime?.privateContext?{...runtime.privateContext}:null,prior=null,owner=null,promise=null,started=false,done=false,timer=null,activeFile=null;
-  runtime=null;let candidates=null,cohort=null,accepted=[],history=new Map(),attempts=new Map(),epoch=null,capsule=null,runStarted=0,reserve=null;const failedIds=new Set(),now=dependencies.now??(()=>performance.now());
+  runtime=null;let candidates=null,cohort=null,accepted=[],history=new Map(),attempts=new Map(),epoch=null,capsule=null,runStarted=0,reserve=null;const fallbackRows=new Map(),failedIds=new Set(),now=dependencies.now??(()=>performance.now());
   const abort=new AbortController(),tasks=new Set();let cleanupFailure=null,currentFileProgress=null;
   const result={schema:'drive-original.bounded-corpus-header-summary/1',version:VERSION,epoch:EPOCH,scope:'video-mime-or-extension-image-union-bounded-structural-metadata',mode:options.phase==='revalidate-videos'?'recovery-qualification':'corpus-metadata',completeMeaning:'cohort-finished-with-reconciled-dispositions-only',wholeCorpusComplete:false,inventoryDenominators:[],batches:[],coverage:null,ownerDiagnostic:null,recoveryQualified:false,reserve:null,complete:false,phase:'not-started',failure:null,
-    inventoryRuns:0,catalogStable:false,catalogComparison:null,metadataRequests:0,metadataBytes:0,mediaRequests:0,mediaBytes:0,plan:null,files:[],decoded:0,playback:0,physicalDevice:0,writeRequests:0,genericUpstreamCleanup:'unknown',released:false,metadataDiagnostic:{completed:0,failed:0,maxResponseBytes:0,routeCounts:{about:0,list:0,file:0},lastFailure:null,lastCleanupFailure:null}};
+    inventoryRuns:0,catalogStable:false,catalogComparison:null,strongCarry:{inventoryQualified:0,fallbackHeads:0,maxFallbackHeads:64},metadataRequests:0,metadataBytes:0,mediaRequests:0,mediaBytes:0,plan:null,files:[],decoded:0,playback:0,physicalDevice:0,writeRequests:0,genericUpstreamCleanup:'unknown',released:false,metadataDiagnostic:{completed:0,failed:0,maxResponseBytes:0,routeCounts:{about:0,list:0,file:0},lastFailure:null,lastCleanupFailure:null}};
   const safe=()=>JSON.parse(JSON.stringify(result));
   const stop=code=>{if(!abort.signal.aborted)abort.abort(fail(code));};
   const onHide=()=>stop('CANCELLED');
@@ -69,13 +69,13 @@ export function createCorpusOwnerJob(runtime,dependencies={}){
     }
   }
   async function readInventory(){current();const r=await inventory({driveFetch:metadataFetch,rootId:context.rootId,priorityFileId:context.priorityFileId,expectedAccountKey:context.accountKey});current();
-    if(r?.report?.completeness?.repeatedPrivateInventoryMatched!==true||r.report.completeness.shortcutClassificationComplete!==true||r.report.completeness.containmentComplete!==true||!r.privatePasses?.secondPass)throw fail('INVENTORY_FAILED');result.inventoryRuns++;result.inventoryDenominators.push(summarizeInventoryDenominators(r.report));return r;}
+    if(r?.report?.completeness?.repeatedPrivateInventoryMatched!==true||r.report.completeness.shortcutClassificationComplete!==true||r.report.completeness.containmentComplete!==true||!r.privatePasses?.secondPass||r.strongInventory?.complete!==true)throw fail('INVENTORY_FAILED');result.inventoryRuns++;result.inventoryDenominators.push(summarizeInventoryDenominators(r.report));return r;}
   function canStart(extra=2){return reserve&&result.metadataRequests+extra+reserve.requests<=CAPS.metadataRequests&&result.metadataBytes+65536+reserve.bytes<=CAPS.metadataBytes&&now()-runStarted+CAPS.fileMs+reserve.ms<CAPS.runMs;}
   async function fresh(item,baseline=null,signal){
     current();const url=new URL('https://www.googleapis.com/drive/v3/files/'+item.id);url.searchParams.set('supportsAllDrives','true');url.searchParams.set('fields',fieldNames);
     const value=await(await metadataFetch(url.href,{signal,responseLimitBytes:32768,requestMs:10000,headers:item.resourceKey?{'X-Goog-Drive-Resource-Keys':item.id+'/'+item.resourceKey}:{}})).json();current();
-    const identity=normalizeProbeIdentity({accountKey:owner.values.authAccountKey,fileId:value.id,version:value.version,size:value.size,modifiedTime:value.modifiedTime,mimeType:value.mimeType,canDownload:value.capabilities?.canDownload}),content={headRevisionId:value.headRevisionId??null,sha256Checksum:value.sha256Checksum??null};
-    if(!same(identity,item.expected)||!immutableContent(content)||value.trashed!==false||(value.resourceKey!=null&&!validId(value.resourceKey))||(item.resourceKey&&value.resourceKey!==item.resourceKey)||(baseline&&(!same(identity,baseline.identity)||!contentSame(content,baseline.content))))throw fail('IDENTITY_MISMATCH');
+    const identity=normalizeProbeIdentity({accountKey:owner.values.authAccountKey,fileId:value.id,version:value.version,size:value.size,modifiedTime:value.modifiedTime,mimeType:value.mimeType,canDownload:value.capabilities?.canDownload}),content=strongTuple(value);
+    if(!same(identity,item.expected)||!immutableContent(content)||value.trashed!==false||(value.resourceKey!=null&&!validId(value.resourceKey))||(item.resourceKey&&value.resourceKey!==item.resourceKey)||(hasStrong(item.content)&&!strongSame(content,item.content))||(baseline&&(!same(identity,baseline.identity)||!contentSame(content,baseline.content))))throw fail('IDENTITY_MISMATCH');
     return {identity,content,key:value.resourceKey??null};
   }
   async function probeFile(item,index){
@@ -121,21 +121,38 @@ export function createCorpusOwnerJob(runtime,dependencies={}){
     result.phase='inventory-before';first=await readInventory();const priority=first.privatePasses.secondPass.items.find(x=>x.id===context.priorityFileId);if(!priority?.version)throw fail('SELECTION_FAILED');context.priorityVersion=String(priority.version);
     reserve={requests:Math.min(CAPS.metadataRequests,Math.ceil(result.metadataRequests*1.25)+4),bytes:Math.min(CAPS.metadataBytes,Math.ceil(result.metadataBytes*1.25)+65536),ms:Math.max(30000,Math.ceil((now()-runStarted)*1.25))};result.reserve={...reserve,guaranteed:false};
     result.phase='selection';const selected=select({pass:first.privatePasses.secondPass,priorityFileId:context.priorityFileId,expectedPriorityVersion:context.priorityVersion});candidates=collectHeaderCandidates(first.privatePasses.secondPass,selected,context.authAccountKey);const byId=new Map(candidates.map(x=>[x.id,x]));
-    for(const a of attempts.values()){const item=byId.get(a.identity.fileId);if(!item||item.ineligible||!same(a.identity,item.expected))throw fail('CONTINUITY_CONTENT_CHANGED');}
+    // Complete fresh catalog qualifies EVERY prior consumed entry, including failed attempts.
+    // Missing strong list metadata uses at most 32 paired canonical before/after heads (64/job).
+    for(const a of attempts.values()){
+      const item=byId.get(a.identity.fileId);if(!item||item.ineligible||!same(a.identity,item.expected))throw fail('CONTINUITY_CONTENT_CHANGED');
+      if(!immutableContent(a.content))throw fail('RECOVERY_UNSAFE');
+      if(hasStrong(item.content)){if(!strongSame(a.content,item.content))throw fail('CONTINUITY_CONTENT_CHANGED');result.strongCarry.inventoryQualified++;}
+      else{
+        if(fallbackRows.size>=32)throw fail('STRONG_METADATA_UNQUALIFIED');
+        reserve.requests++;reserve.bytes+=32768;reserve.ms+=10000;
+        if(!canStart(1))throw fail('STRONG_METADATA_UNQUALIFIED');
+        await fresh(item,a);fallbackRows.set(item.id,{item,baseline:a});result.strongCarry.fallbackHeads++;
+      }
+    }
+    for(const row of history.values()){
+      const a=attempts.get(row.identity.fileId);
+      if(!a||!same(row.identity,a.identity)||!immutableContent(row.content)||!contentSame(row.content,a.content))throw fail('CONTINUITY_CONTENT_CHANGED');
+    }
     const recovery=options.phase==='revalidate-videos';cohort=planHeaderCohort(candidates,{phase:'videos',maxFiles:options.maxFiles,covered:new Set(history.keys()),attempts});result.plan=cohort.summary;
     if(recovery){
       // A recovery requalifies EVERY consumed attempt, including failed ones. A missing immutable baseline is unsafe.
       if(!Number.isSafeInteger(options.recoveryCycle)||options.recoveryCycle<1||[...attempts.values()].some(a=>!immutableContent(a.content)))throw fail('RECOVERY_UNSAFE');
       for(const row of history.values())row.catalogValidated=false;
-      const checkRows=[...attempts.values()].filter(a=>a.recoveryStamp!==options.recoveryCycle).slice(0,options.maxFiles);
-      result.phase='recovery-strong-metadata';for(const a of checkRows){if(!canStart(1))throw fail('RECOVERY_UNSAFE');await fresh(byId.get(a.identity.fileId),a);a.recoveryStamp=options.recoveryCycle;}
+      result.phase='recovery-strong-metadata';
     }else{
       if([...history.values()].some(r=>!r.catalogValidated))throw fail('RECOVERY_UNSAFE');
       result.phase='structural-and-image-headers';let slot=0;
       for(let offset=0;offset<cohort.plan.length;offset+=8){const batch={ordinal:result.batches.length+1,planned:Math.min(8,cohort.plan.length-offset),attempted:0};result.batches.push(batch);for(const item of cohort.plan.slice(offset,offset+8)){if(!canStart())break;await probeFile(item,slot++);batch.attempted++;}if(batch.attempted<batch.planned)break;}
     }
     result.phase='inventory-after';last=await readInventory();try{compare({firstPass:first.privatePasses.secondPass,secondPass:last.privatePasses.secondPass,canonicalRootResolvedFromPriorityParent:true,priorityFileId:context.priorityFileId});}catch{throw fail('CATALOG_DRIFT');}
-    current();result.catalogStable=true;for(const a of attempts.values())a.ownerQualified=!recovery||a.recoveryStamp===options.recoveryCycle;for(const row of history.values())row.catalogValidated=!recovery||attempts.get(row.identity.fileId)?.recoveryStamp===options.recoveryCycle;result.recoveryQualified=recovery&&[...attempts.values()].every(a=>a.recoveryStamp===options.recoveryCycle);result.recoveryRemaining=recovery?[...attempts.values()].filter(a=>a.recoveryStamp!==options.recoveryCycle).length:0;result.complete=true;result.phase='done';
+    compareStrongInventories(first,last);
+    for(const {item,baseline}of fallbackRows.values()){await fresh(item,baseline);result.strongCarry.fallbackHeads++;}
+    current();result.catalogStable=true;for(const a of attempts.values()){a.ownerQualified=true;if(recovery)a.recoveryStamp=options.recoveryCycle;}for(const row of history.values())row.catalogValidated=true;result.recoveryQualified=recovery;result.recoveryRemaining=0;result.complete=true;result.phase='done';
   }catch(e){result.failure=fixed(abort.signal.aborted?abort.signal.reason:e);result.complete=false;result.phase='failed';}
   finally{
     stop(result.failure??'CANCELLED');clearTimeout(timer);live?.removeEventListener?.('pagehide',onHide);live?.removeEventListener?.('beforeunload',onHide);owner?.values.accountStateAbortController.signal.removeEventListener('abort',onAccountAbort);
@@ -144,7 +161,7 @@ export function createCorpusOwnerJob(runtime,dependencies={}){
     result.coverage=coverage();
     // Fatal summaries retain the SAME opaque state, never a safe JSON reconstruction.
     if(context?.authAccountKey)try{capsule=createHeaderContinuity(context,binding,[...history.values()],[...attempts.values()]);}catch{result.failure='CONTINUITY_LIMIT';result.complete=false;}
-    first=null;last=null;candidates=null;cohort=null;accepted=[];history.clear();attempts.clear();context=null;owner=null;live=null;activeFile=null;result.released=true;done=true;
+    first=null;last=null;candidates=null;cohort=null;accepted=[];history.clear();attempts.clear();fallbackRows.clear();context=null;owner=null;live=null;activeFile=null;result.released=true;done=true;
   }return safe();}
   return Object.freeze({run(){if(!started){started=true;promise=execute();}return promise;},cancel(){
     // Runner cancellation can win before current() inspects the drift. Capture the owned Boolean witness first.
