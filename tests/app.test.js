@@ -1316,6 +1316,95 @@ test('cancelling a Drive credential waiter releases it while the shared refresh 
   }
 });
 
+function accountJsonReadFixture() {
+  const context=loadAppContext(),clock=installFakeClock(context),parent=new AbortController(),listeners=new Set();
+  const add=parent.signal.addEventListener.bind(parent.signal),remove=parent.signal.removeEventListener.bind(parent.signal);
+  parent.signal.addEventListener=(type,fn,options)=>{if(type==='abort')listeners.add(fn);add(type,fn,options)};
+  parent.signal.removeEventListener=(type,fn)=>{if(type==='abort')listeners.delete(fn);remove(type,fn)};
+  context.parentRead=parent;context.readClock=clock;
+  run(context,"Date.now=()=>readClock.now();state.token='read-token';state.expiresAt=Date.now()+3600000;state.accountId='reader';state.authAccountKey='reader-key'");
+  return {context,clock,parent,listeners,read:()=>run(context,"readAccountStateJson('https://www.googleapis.com/drive/v3/files/state?alt=media',{signal:parentRead.signal})")};
+}
+
+test('account JSON deadline aborts stalled headers and success/error bodies and cancels late headers', async () => {
+  for(const phase of ['headers','success-body','error-body']) {
+    const f=accountJsonReadFixture();let requestSignal,release,bodyCancels=0,bodySettled=0;
+    f.context.fetch=async(_url,options)=>{
+      requestSignal=options.signal;assert.equal(Reflect.ownKeys(options).some(key=>typeof key==='symbol'),false);
+      if(phase==='headers')return new Promise(resolve=>{release=resolve});
+      let streamController;
+      const response=new Response(new ReadableStream({start(controller){streamController=controller}}),{status:phase==='error-body'?401:200});
+      const abort=()=>{requestSignal.removeEventListener('abort',abort);streamController.error(new DOMException('aborted','AbortError'))};
+      requestSignal.addEventListener('abort',abort,{once:true});
+      const json=response.json.bind(response),cancel=response.body.cancel.bind(response.body);
+      response.json=async()=>{try{return await json()}finally{bodySettled++;requestSignal.removeEventListener('abort',abort)}};
+      response.body.cancel=()=>{bodyCancels++;return cancel()};return response;
+    };
+    run(f.context,"requestSessionCredential=()=>{throw Error('stalled error body must not request OAuth')}");
+    const pending=f.read(),rejected=assert.rejects(pending,{name:'TimeoutError',code:'account_state_read_timeout',status:408});
+    await new Promise(resolve=>setImmediate(resolve));f.clock.advance(30000);await rejected;
+    assert.equal(requestSignal.aborted,true,phase);assert.equal(f.clock.scheduled.size,0);assert.equal(f.listeners.size,0);
+    if(phase==='headers'){
+      const late=new Response('{}'),cancel=late.body.cancel.bind(late.body);late.body.cancel=()=>{bodyCancels++;return cancel()};
+      release(late);await new Promise(resolve=>setImmediate(resolve));assert.equal(late.bodyUsed,true);
+    }else assert.equal(bodySettled,1,`${phase} reader settles after abort`);
+    assert.ok(bodyCancels>0,`${phase} owned response body cancellation is attempted`);
+  }
+});
+
+test('account JSON parent cancellation and stale account owners never become timeouts or leak listeners', async () => {
+  for(const change of ['pre-abort','parent-abort','generation','data-generation','account-key','account-id']) {
+    const f=accountJsonReadFixture();let signal,calls=0;
+    f.context.fetch=async(_url,options)=>{calls++;signal=options.signal;return new Promise(()=>{})};
+    if(change==='pre-abort')f.parent.abort();
+    const rejected=assert.rejects(f.read(),{name:'AbortError'});
+    if(change==='parent-abort')f.parent.abort();
+    else if(change!=='pre-abort'){
+      run(f.context,({'generation':'state.authGeneration++','data-generation':'state.driveSessionGeneration++',
+        'account-key':"state.authAccountKey='other'",'account-id':"state.accountId='other'"})[change]);
+      f.clock.advance(30000);
+    }
+    await rejected;assert.equal(calls,change==='pre-abort'?0:1);if(signal)assert.equal(signal.aborted,true);
+    assert.equal(f.clock.scheduled.size,0);assert.equal(f.listeners.size,0);
+  }
+});
+
+test('account JSON preserves strict parsing, HTTP errors and existing auth/rate retries within one read budget', async () => {
+  for(const mode of ['success','syntax','http-error','auth-retry','rate-retry']) {
+    const f=accountJsonReadFixture();let calls=0,refreshes=0;const signals=[];
+    f.context.fetch=async(_url,options)=>{
+      calls++;signals.push(options.signal);
+      if(mode==='syntax')return new Response('{');
+      if(mode==='http-error')return new Response(JSON.stringify({error:{message:'denied',errors:[{reason:'domainPolicy'}]}}),{status:403});
+      if(calls===1&&mode==='auth-retry')return new Response('{}',{status:401});
+      if(calls===1&&mode==='rate-retry')return new Response('{}',{status:429,headers:{'Retry-After':'1'}});
+      return new Response('{"valid":true}');
+    };
+    f.context.countReadRefresh=()=>{refreshes++};
+    run(f.context,"requestSessionCredential=async()=>{countReadRefresh();state.token='fresh';state.tokenRevision++;return true}");
+    const pending=f.read();
+    if(mode==='rate-retry'){await new Promise(resolve=>setImmediate(resolve));f.clock.advance(1000);}
+    if(mode==='syntax')await assert.rejects(pending,{name:'SyntaxError'});
+    else if(mode==='http-error')await assert.rejects(pending,error=>error.status===403&&error.driveReason==='domainPolicy');
+    else assert.equal((await pending).valid,true);
+    assert.equal(calls,['auth-retry','rate-retry'].includes(mode)?2:1);assert.equal(refreshes,mode==='auth-retry'?1:0);
+    assert.equal(new Set(signals).size,1,'all read retries share the same deadline and child signal');
+    assert.equal(f.clock.captured.filter(timer=>timer.delay===30000).length,1);
+    assert.equal(f.clock.scheduled.size,0);assert.equal(f.listeners.size,0);
+  }
+  const f=accountJsonReadFixture();let calls=0;f.context.fetch=()=>{calls++;throw Error('must not send')};
+  await assert.rejects(run(f.context,"readAccountStateJson('https://www.googleapis.com/upload/drive/v3/files',{method:'POST'})"),error=>error.code==='account_state_read_method');
+  assert.equal(calls,0);assert.equal(f.clock.scheduled.size,0);
+});
+
+test('ordinary original media fetch remains streaming without an account JSON deadline', async () => {
+  const f=accountJsonReadFixture();const stream=new ReadableStream({start(){}}),response=new Response(stream);let signal;
+  f.context.fetch=async(_url,options)=>{signal=options.signal;return response};
+  assert.equal(await run(f.context,"driveFetch('https://www.googleapis.com/drive/v3/files/original?alt=media')"),response);
+  assert.equal(response.bodyUsed,false);assert.equal(signal,undefined);assert.equal(f.clock.scheduled.size,0);
+  await response.body.cancel();
+});
+
 test('foreground rechecks use wall-clock expiry and one shared refresh while hidden/offline stay idle', async () => {
   const context = loadAppContext();
   installAuthUi(context);

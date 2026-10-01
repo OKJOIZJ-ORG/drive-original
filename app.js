@@ -1,11 +1,12 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.30';
+const APP_VERSION = '1.22.0-rc.31';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
 const ACCOUNT_STATE_WRITE = Symbol('account-state-write');
 const ACCOUNT_STATE_READ = Symbol('account-state-read');
+const ACCOUNT_STATE_READ_RESPONSE = Symbol('account-state-read-response');
 const DISPOSABLE_DRIVE_MUTATION = Symbol('disposable-drive-mutation');
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
@@ -62,6 +63,7 @@ const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
+const ACCOUNT_STATE_READ_TIMEOUT_MS = 30_000;
 const FAVORITE_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
@@ -4102,6 +4104,8 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   delete requestOptions.driveNoRetry;
   const accountStateRead = requestOptions[ACCOUNT_STATE_READ] === true;
   delete requestOptions[ACCOUNT_STATE_READ];
+  const accountStateResponse = requestOptions[ACCOUNT_STATE_READ_RESPONSE];
+  delete requestOptions[ACCOUNT_STATE_READ_RESPONSE];
   const accountStateWrite = requestOptions[ACCOUNT_STATE_WRITE];
   delete requestOptions[ACCOUNT_STATE_WRITE];
   const disposablePermit = requestOptions[DISPOSABLE_DRIVE_MUTATION];
@@ -4138,6 +4142,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
     cache: 'no-store',
     headers: { ...(requestOptions.headers || {}), Authorization: `Bearer ${state.token}` }
   });
+  if (accountStateRead && requestMethod === 'GET') accountStateResponse?.(response);
   try { assertOwner(); } catch (error) {
     response.body?.cancel().catch(() => {});
     throw error;
@@ -4252,6 +4257,54 @@ function accountStateError(code, status = 409) {
   return Object.assign(new Error('기록 동기화를 확인하지 못했습니다. 기존 기록은 보존됩니다.'), { code, status });
 }
 
+async function readAccountStateJson(url, options = {}) {
+  if (String(options.method || 'GET').toUpperCase() !== 'GET') throw accountStateError('account_state_read_method');
+  const controller = new AbortController(), parent = options.signal;
+  const generation = state.authGeneration, dataGeneration = state.driveSessionGeneration;
+  const account = state.authAccountKey, accountId = state.accountId;
+  let response = null, timer = null, rejectCancelled;
+  const assertOwner = () => {
+    assertDriveRequestOwner(generation, parent, dataGeneration);
+    if (account !== state.authAccountKey || accountId !== state.accountId) {
+      throw new DOMException('Account state read owner changed', 'AbortError');
+    }
+    controller.signal.throwIfAborted();
+  };
+  const cancelBody = () => { try { void response?.body?.cancel()?.catch(() => {}); } catch (_) {} };
+  const cancel = error => { controller.abort(error); cancelBody(); rejectCancelled(error); };
+  const onAbort = () => cancel(new DOMException('Account state read cancelled', 'AbortError'));
+  const cancelled = new Promise((_, reject) => { rejectCancelled = reject; });
+  parent?.addEventListener('abort', onAbort, { once: true });
+  try {
+    assertOwner();
+    timer = setTimeout(() => {
+      let error;
+      try { assertOwner(); } catch (changed) { error = changed; }
+      cancel(error || Object.assign(accountStateError('account_state_read_timeout', 408), { name: 'TimeoutError' }));
+    }, ACCOUNT_STATE_READ_TIMEOUT_MS);
+    const operation = (async () => {
+      const result = await driveFetch(url, { ...options, signal: controller.signal,
+        [ACCOUNT_STATE_READ]: true, [ACCOUNT_STATE_READ_RESPONSE]: received => {
+          response = received;
+          if (controller.signal.aborted) cancelBody();
+        }
+      }, false, 0, generation, dataGeneration);
+      assertOwner();
+      const value = await result.json();
+      assertOwner();
+      return value;
+    })();
+    return await Promise.race([operation, cancelled]);
+  } catch (error) {
+    controller.abort(error); cancelBody();
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    parent?.removeEventListener('abort', onAbort);
+    response = null;
+  }
+}
+
 function validateRawAccountMediaState(value, legacy = false) {
   const record = v => v !== null && typeof v === 'object' && !Array.isArray(v);
   const timestamp = v => Number.isSafeInteger(v) && v >= 0;
@@ -4295,8 +4348,7 @@ async function reserveAccountStateFileId(options) {
     if (!valid(entry)) throw accountStateError('invalid_account_state_reservation');
     return entry.fileId;
   }
-  const response = await driveFetch(`${DRIVE_API}/files/generateIds?count=1&space=appDataFolder&type=files`, { ...options, [ACCOUNT_STATE_READ]: true });
-  const data = await response.json();
+  const data = await readAccountStateJson(`${DRIVE_API}/files/generateIds?count=1&space=appDataFolder&type=files`, options);
   const entry = { schemaVersion: 1, accountId, writerId, fileId: data?.ids?.length === 1 ? data.ids[0] : null };
   if (!valid(entry) || data.space !== 'appDataFolder' || state.accountId !== accountId
     || state.accountIdentityPending || getAccountStateWriterId() !== writerId) throw accountStateError('invalid_account_state_reservation');
@@ -4311,8 +4363,7 @@ async function reserveAccountStateFileId(options) {
 
 async function confirmAccountStateWrite(fileId, expected, options) {
   const params = new URLSearchParams({ fields: 'id,name,modifiedTime,trashed,spaces' });
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params}`, { ...options, [ACCOUNT_STATE_READ]: true });
-  const metadata = await response.json();
+  const metadata = await readAccountStateJson(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params}`, options);
   if (metadata?.id !== fileId || metadata.name !== accountStateWriterFileName() || metadata.trashed !== false
     || !Array.isArray(metadata.spaces) || !metadata.spaces.includes('appDataFolder')) throw accountStateError('account_state_readback_owner');
   const confirmed = await readAccountStateFile(fileId, options);
@@ -4402,8 +4453,7 @@ function refreshSyncedFavoriteFiles() {
 }
 
 async function resolveDriveAccountId(options = {}) {
-  const response = await driveFetch(`${DRIVE_API}/about?fields=user(permissionId)`, options);
-  const data = await response.json();
+  const data = await readAccountStateJson(`${DRIVE_API}/about?fields=user(permissionId)`, options);
   return String(data?.user?.permissionId || '');
 }
 
@@ -4417,8 +4467,7 @@ async function findAccountStateFile(options = {}) {
       fields: 'nextPageToken,incompleteSearch,files(id,name,modifiedTime)'
     });
     if (pageToken) params.set('pageToken', pageToken);
-    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { ...options, [ACCOUNT_STATE_READ]: true });
-    const page = await response.json();
+    const page = await readAccountStateJson(`${DRIVE_API}/files?${params.toString()}`, options);
     if (!page || !Array.isArray(page.files)
       || (page.nextPageToken != null && typeof page.nextPageToken !== 'string')
       || page.files.some(file => typeof file?.name !== 'string' || typeof file?.id !== 'string')) {
@@ -4441,8 +4490,8 @@ async function findAccountStateFile(options = {}) {
 
 async function readAccountStateFile(fileId, options = {}, legacy = false) {
   if (!fileId) return createEmptyAccountMediaState();
-  const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, { ...options, [ACCOUNT_STATE_READ]: true });
-  return normalizeAccountMediaState(validateRawAccountMediaState(await response.json(), legacy));
+  const data = await readAccountStateJson(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?alt=media`, options);
+  return normalizeAccountMediaState(validateRawAccountMediaState(data, legacy));
 }
 
 async function readRemoteAccountMediaState(catalog, options = {}) {

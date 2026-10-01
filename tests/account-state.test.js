@@ -71,6 +71,68 @@ function drive(seed = []) {
 const writerFile = (id = 'own', writer = 'device-a', data = empty()) => ({ id, name: `${NAME}${writer}.json`, modifiedTime: 'original', data });
 const status = c => clone(c.run('({failed:Boolean(state.accountStateSyncError),error:state.accountStateSyncError?.code,status:state.accountStateSyncError?.status,lastSync:state.accountStateLastSyncAt,projection:state.accountMediaState,fileId:state.accountStateFileId})'));
 
+const settleReads = async () => { for(let i=0;i<3;i++)await new Promise(resolve=>setImmediate(resolve)); };
+
+test('stalled successful account-state body has bounded failure, preserves nine cached writers and recovers through normal refresh', async () => {
+  const files=Array.from({length:10},(_,i)=>writerFile(`writer-${i}`,`device-${i}`,local()));
+  const d=drive(files),c=client(d.request);c.run('state.accountStateLoaded=false');
+  const before=clone(status(c).projection);let release,readerSignal,settled=false;
+  d.hook=call=>{
+    if(call.id==='writer-9'&&call.url.searchParams.get('alt')==='media'){
+      readerSignal=call.options.signal;
+      return {ok:true,status:200,json:()=>new Promise(resolve=>{release=resolve}),body:{cancel:async()=>{}}};
+    }
+  };
+  const pending=c.run('initializeAccountMediaState()').then(value=>{settled=true;return value},error=>{settled=true;return error});
+  try {
+    await settleReads();assert.equal(c.run('state.accountStateReadCache.size'),9);assert.equal(settled,false);
+    const budget=c.run('typeof ACCOUNT_STATE_READ_TIMEOUT_MS==="number"?ACCOUNT_STATE_READ_TIMEOUT_MS:30000');
+    for(const [id,timer]of [...c.timers])if(timer.delay===budget){c.timers.delete(id);timer.fn();}
+    await settleReads();assert.equal(settled,true,'one stalled body must release initialization at its finite read deadline');
+    const error=await pending;assert.equal(error.code,'account_state_read_timeout');assert.equal(error.status,408);
+    assert.equal(readerSignal.aborted,true);assert.equal(c.run('state.accountStateLoadingPromise'),null);
+    assert.equal(c.run('state.accountStateLoaded'),false);assert.equal(status(c).failed,true);
+    assert.equal(c.run('state.accountStateRefreshBlocked'),false);assert.equal(c.run('state.accountStateReadCache.size'),9);
+    assert.deepEqual(status(c).projection,before);assert.equal(d.writes().length,0);
+    assert.equal(c.timers.size,1,'only existing refresh backoff remains after read cleanup');
+    const retryId=c.run('state.accountStateRefreshTimer'),retry=c.timers.get(retryId);assert.equal(retry.delay,15000);
+    c.timers.delete(retryId);d.hook=null;await retry.fn();await settleReads();
+    assert.equal(c.run('state.accountStateLoaded'),true);assert.equal(c.run('state.accountStateLoadingPromise'),null);
+    assert.equal(status(c).failed,false);assert.equal(c.run('state.accountStateReadCache.size'),10);
+    assert.equal(d.calls.filter(call=>call.url.searchParams.get('alt')==='media').length,11,'retry reuses nine complete cached writers');
+    assert.equal(d.writes().length,0);assert.deepEqual(status(c).projection,before);
+    assert.equal(c.timers.size,1,'recovery keeps only one normal periodic refresh');
+    release({schemaVersion:1,updatedAt:999,viewed:{late:999},favorites:{}});await settleReads();
+    assert.equal(c.run('state.accountStateReadCache.get("writer-9").data.viewed.late'),undefined);
+    assert.deepEqual(status(c).projection,before,'late timed-out body cannot commit over recovered state');
+  } finally {release?.(local());await pending;}
+});
+
+test('ten stalled account reads settle in three bounded waves with at most four child owners', async () => {
+  const files=Array.from({length:10},(_,i)=>writerFile(`blocked-${i}`,`reader-${i}`,local()));
+  const d=drive(files),c=client(d.request);c.run('state.accountStateLoaded=false');
+  const before=clone(status(c).projection);let active=0,peak=0,settled=false;
+  d.hook=call=>{
+    if(call.url.searchParams.get('alt')==='media')return new Promise((_resolve,reject)=>{
+      active++;peak=Math.max(peak,active);
+      const abort=()=>{call.options.signal.removeEventListener('abort',abort);active--;reject(new DOMException('cancelled','AbortError'))};
+      call.options.signal.addEventListener('abort',abort,{once:true});
+    });
+  };
+  const pending=c.run('initializeAccountMediaState()').then(()=>{settled=true},error=>{settled=true;return error});
+  await settleReads();
+  for(const expected of [4,4,2]){
+    assert.equal(active,expected);assert.equal(settled,false);
+    const reads=[...c.timers].filter(([,timer])=>timer.delay===30000);assert.equal(reads.length,expected);
+    for(const [id,timer]of reads){c.timers.delete(id);timer.fn();}
+    await settleReads();
+  }
+  const error=await pending;assert.equal(error.code,'account_state_read_timeout');assert.equal(peak,4);assert.equal(active,0);
+  assert.equal(c.run('state.accountStateLoadingPromise'),null);assert.equal(c.run('state.accountStateLoaded'),false);
+  assert.equal(c.run('state.accountStateReadCache.size'),0);assert.deepEqual(status(c).projection,before);
+  assert.equal(d.writes().length,0);assert.equal(c.timers.size,1,'all child deadline timers release; only refresh backoff remains');
+});
+
 test('separate state gate permits canonical own PATCH and CREATE while generic, fake marker and foreign PATCH never transmit a mutation', async () => {
   for (const existing of [false, true]) {
     const d = drive(existing ? [writerFile()] : []); const c = client(d.request);
