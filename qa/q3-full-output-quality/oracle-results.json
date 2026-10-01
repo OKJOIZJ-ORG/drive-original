@@ -1,0 +1,140 @@
+{
+  "scope": "Independent native all-5400-frame local synthetic source/output oracle; no Android quality, thermal/performance or patent clearance",
+  "producerSha256": "348ada7f3c46414cc7c49d5a093c8f1405fdf39bc6c543818a0b9d59dbb01d62",
+  "geometryProducerSha256": "0084fa165703549d54815c229aa24f734b32dd3d1c8f24d6d91c43e26c302ddb",
+  "started": "2026-10-01T21:34:07.583Z",
+  "tools": {
+    "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r",
+    "ffprobe": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers\r"
+  },
+  "source": {
+    "bytes": 18075476,
+    "sha256": "cda53855c53bf1d608491eb96aa3abb0ff774cca2aa24cfe01447e295c07ed7a"
+  },
+  "output": {
+    "bytes": 66640685,
+    "sha256": "13daa94f723a7af036c709892d2640d018f271b4d1c0a5a90fbd37ad99ea5ad2"
+  },
+  "comparisonCommand": [
+    "-hide_banner",
+    "-loglevel",
+    "info",
+    "-i",
+    "C:\\extensions\\Drive-Original\\source\\qa\\q3-product-integration\\synthetic-640-180s.mp4",
+    "-i",
+    "C:\\extensions\\Drive-Original\\source\\qa\\q3-full-output-quality\\output-640-180s.mp4",
+    "-filter_complex",
+    "[0:v:0]settb=expr=1/30,setpts=N[ref];[1:v:0]settb=expr=1/30,setpts=N[out];[ref][out]psnr=stats_file=psnr-frames.log:stats_version=2",
+    "-an",
+    "-fps_mode",
+    "passthrough",
+    "-f",
+    "null",
+    "-"
+  ],
+  "comparisonAlignment": "Decoded frame ordinal; source/product actual timestamps checked independently for all frames before quality acceptance",
+  "psnr": {
+    "allYuv": 54.573547,
+    "y": 55.682037,
+    "u": 53.066192,
+    "v": 52.852939,
+    "minimumFrame": 47.815807,
+    "minimumFrameStatsRounded": 47.82,
+    "frames": 5400,
+    "statsPrecision": "per-frame FFmpeg stats rounded to 2 decimals; native summary 6 decimals",
+    "thresholds": {
+      "allYuv": 38,
+      "minimumFrame": 33
+    }
+  },
+  "geometry": {
+    "codedWidth": 640,
+    "codedHeight": 360,
+    "displayWidth": 640,
+    "displayHeight": 360,
+    "effectiveSar": "1:1",
+    "effectiveDar": "16:9",
+    "explicitPasp": false
+  },
+  "metadata": {
+    "index": 0,
+    "codec_name": "vp9",
+    "codec_long_name": "Google VP9",
+    "profile": "Profile 0",
+    "codec_type": "video",
+    "codec_tag_string": "vp09",
+    "codec_tag": "0x39307076",
+    "mime_codec_string": "vp09.00.21.08",
+    "width": 640,
+    "height": 360,
+    "coded_width": 640,
+    "coded_height": 360,
+    "has_b_frames": 0,
+    "pix_fmt": "yuv420p",
+    "level": -99,
+    "color_range": "tv",
+    "color_space": "bt709",
+    "color_transfer": "bt709",
+    "color_primaries": "bt709",
+    "refs": 1,
+    "id": "0x1",
+    "r_frame_rate": "30/1",
+    "avg_frame_rate": "30/1",
+    "time_base": "1/1000000",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 180000000,
+    "duration": "180.000000",
+    "bit_rate": "2958963",
+    "nb_read_frames": "5400",
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0,
+      "multilayer": 0
+    },
+    "tags": {
+      "creation_time": "2026-10-01T21:29:12.000000Z",
+      "language": "und",
+      "handler_name": "MediabunnyVideoHandler",
+      "encoder": "Mediabunny"
+    }
+  },
+  "timeline": {
+    "sourceFrames": 5400,
+    "outputFrames": 5400,
+    "maxTimestampErrorSeconds": 0,
+    "maxCadenceErrorSeconds": 6.666666915108865e-7,
+    "sourceDuration": "180.000000",
+    "outputDuration": "180.000000",
+    "allFrameMetadata": true,
+    "precision": "FFprobe 6-decimal presentation timestamps"
+  },
+  "checks": {
+    "exactIdentity": true,
+    "complete5400": true,
+    "quality": true,
+    "clock": true,
+    "codec": true,
+    "geometry": true,
+    "streamMetadata": true,
+    "allFrameMetadata": true
+  },
+  "pass": true,
+  "ended": "2026-10-01T21:34:20.442Z"
+}

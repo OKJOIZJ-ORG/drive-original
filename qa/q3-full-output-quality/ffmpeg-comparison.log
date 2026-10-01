@@ -1,0 +1,40 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\extensions\Drive-Original\source\qa\q3-product-integration\synthetic-640-180s.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2mp41
+    encoder         : Lavf63.1.101
+  Duration: 00:03:00.00, start: 0.000000, bitrate: 803 kb/s
+  Stream #0:0[0x1](und): Video: mpeg4 (Simple Profile) (mp4v / 0x7634706D), yuv420p(tv, bt709), 640x360 [SAR 1:1 DAR 16:9], 802 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc63.1.101 mpeg4
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\extensions\Drive-Original\source\qa\q3-full-output-quality\output-640-180s.mp4':
+  Metadata:
+    major_brand     : iso5
+    minor_version   : 512
+    compatible_brands: iso5iso6mp41
+    creation_time   : 2026-10-01T21:29:12.000000Z
+  Duration: 00:03:00.00, start: 0.000000, bitrate: 2961 kb/s
+  Stream #1:0[0x1](und): Video: vp9 (Profile 0) (vp09 / 0x39307076), yuv420p(tv, bt709), 640x360, 2958 kb/s, 30 fps, 30 tbr, 1000k tbn (default)
+    Metadata:
+      creation_time   : 2026-10-01T21:29:12.000000Z
+      handler_name    : MediabunnyVideoHandler
+      encoder         : Mediabunny
+Stream mapping:
+  Stream #0:0 (mpeg4) -> settb:default
+  Stream #1:0 (vp9) -> settb:default
+  psnr:default -> Stream #0:0 (wrapped_avframe)
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2mp41
+    encoder         : Lavf63.1.101
+  Stream #0:0: Video: wrapped_avframe, yuv420p(tv, bt709, progressive), 640x360 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn
+    Metadata:
+      encoder         : Lavc63.1.101 wrapped_avframe
+frame=  922 fps=0.0 q=-0.0 size=N/A time=00:00:30.73 bitrate=N/A speed=60.8x elapsed=0:00:00.50    frame= 1907 fps=1867 q=-0.0 size=N/A time=00:01:03.56 bitrate=N/A speed=62.2x elapsed=0:00:01.02    frame= 2899 fps=1873 q=-0.0 size=N/A time=00:01:36.63 bitrate=N/A speed=62.4x elapsed=0:00:01.54    frame= 3862 fps=1873 q=-0.0 size=N/A time=00:02:08.73 bitrate=N/A speed=62.4x elapsed=0:00:02.06    frame= 4817 fps=1874 q=-0.0 size=N/A time=00:02:40.56 bitrate=N/A speed=62.5x elapsed=0:00:02.57    [Parsed_psnr_4 @ 000001d3b891b740] PSNR y:55.682037 u:53.066192 v:52.852939 average:54.573547 min:47.815807 max:60.632036
+[out#0/null @ 000001d3b64a1300] video:2236KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame= 5400 fps=1869 q=-0.0 Lsize=N/A time=00:03:00.00 bitrate=N/A speed=62.3x elapsed=0:00:02.88    

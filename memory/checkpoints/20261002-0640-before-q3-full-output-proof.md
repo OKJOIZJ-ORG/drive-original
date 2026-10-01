@@ -1,4 +1,4 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 06:40 KST
+# Checkpoint — ACTIVE D074 — 2026-10-02 06:15 KST
 
 ## The story so far
 
@@ -30,19 +30,7 @@ None. The earlier Chrome Allow request is stale; CUA established the intended ex
 
 ## Next first action
 
-Finite actual PC/Android/tail evidence is committed197beec. Complete local180s
-derived-output oracle now passes all5400frames, mean54.57/min47.82dB with retained
-geometry/color/cadence/clocks and source/transport/worker/browser cleanup. Root
-reviewed actual producer/oracle; Q3 owner and qa/q3-full-output-quality own limits
-and curated hashes, large raw synthetic outputs remain local. Commit this scoped
-quality/resource savepoint, then review the child-prepared native Android EOF
-actor and execute one bounded sustained unit with read-only resource watcher.
-Resource extension9/9 passes; procCPU/GPUdrivercounter admission is readable,
-actualRAM/disk collection still to be observed. Overall isolatedPC268.663s is
-not exactworkerthroughput; Android300s action/345s cleanup diagnostic bounds
-remain. Do not repeat passed seeks/cancel. Same exact disposable fixture remains;
-no upload/redeployment/fullscan. Remaining images/applicability/reconnect/
-performance queue continues after each savepoint.
+Commit reviewed current finite-adoption QA/docs/evidence after private-data scan. Child gpt_6_1_sol_high_android_q3_actor prepares a bounded sustained180s native EOF actor only; root reviews input/observer/export/finally and existing read-only resource sampler before actual execution. Do not repeat passed seeks/cancel. Same disposable fixture remains; no upload/redeployment/full scan. Continue remaining original queue after the savepoint.
 
 ## Tried
 

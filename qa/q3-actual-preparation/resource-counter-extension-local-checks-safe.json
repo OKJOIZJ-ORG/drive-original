@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "scope": "QA-only Android device-wide counter extension; no product or performance acceptance",
+  "producerSha256": "d6959024650f8aed75edb3149ce313d92d065f3f16c3f04060a40cc844b2833b",
+  "testSha256": "eabb6410f63b416d0b99e47b7ad79c42852ad1789a1a05283c4e30c479d94190",
+  "command": "node --test qa/q3-actual-preparation/resource-watch.test.cjs",
+  "tests": 9,
+  "passed": 9,
+  "failed": 0,
+  "newDiscriminators": [
+    "reset/core-count/absent CPU is unknown; guest columns excluded",
+    "invalid/zero-total GPU counter pair is unknown rather than zero utilization",
+    "RAM and /data disk units and missing fields"
+  ],
+  "references": [
+    "https://docs.kernel.org/filesystems/proc.html",
+    "https://android.googlesource.com/kernel/msm/+/015df42bb044519d5a4a51fe20827a38ff636fae/drivers/gpu/msm/kgsl_pwrctrl.c",
+    "https://developer.android.com/tools/dumpsys"
+  ],
+  "limits": [
+    "CPU/RAM/disk are device-wide; memory also covers named Chrome main process only",
+    "Installed kernel GPU counter window/units unverified; recorded ratio is arithmetic, not exact sampler interval or Q3-specific GPU/encoder peak",
+    "Battery temperature and thermal status do not establish CPU/GPU die temperature or Q3 causal heating"
+  ],
+  "rawDeviceIdentifiersExported": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "observedAt": "2026-10-01T21:31:42.992Z",
+  "scope": "Read-only diagnostic capability admission; idle device, no playback/performance acceptance",
+  "deviceVerified": true,
+  "rawDeviceIdentifiersExported": false,
+  "rawAppNamesExported": false,
+  "cpu": {
+    "commandSucceeded": true,
+    "reportedTotalPercent": 3.3,
+    "chromeNamedRows": 3,
+    "reportedChromeNamedPercent": 1.3,
+    "scope": "Service-reported prior-window cpuinfo percentages; not exact Q3 attribution or sampler delta"
+  },
+  "procStat": {
+    "commandSucceeded": true,
+    "aggregateCounterFields": 10
+  },
+  "gpu": {
+    "commandSucceeded": true,
+    "pairReadable": true,
+    "busy": 32922,
+    "total": 1002268,
+    "scope": "Exact KGSL gpubusy path probe only; unit/time window and Q3 attribution UNKNOWN",
+    "reason": null
+  }
+}
