@@ -1,0 +1,1114 @@
+{
+  "schema": "drive-original-rc32-pc-audio-remaining-v1",
+  "recordedAt": "2026-10-01T18:12:55.983Z",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "observerSha256": "fd7aa895cbecc93267cd6b3dc727d31c194c70258995ea01a4b6b455f1f06ac1",
+  "markerSha256": "387b3e0720dd06487c847e0b3ec2ee3344e886674234d391e039a7b497b530cf",
+  "kickSha256": "cef24677ec45ed0c5ed8d3765395b14be53f0739ff76b9f6cb95ce36459eb939",
+  "toolRepair": "Reversible group role targeting with actual MCP UID preflight; native k/Tab paused chrome; presence-based wire replies",
+  "audioStartExecution": "Trusted normal play control event; never evaluate startAudio",
+  "steps": [
+    {
+      "name": "prepare",
+      "at": "2026-10-01T18:12:57.103Z",
+      "value": {
+        "saved": true,
+        "root": true,
+        "queryEmpty": true,
+        "online": true
+      }
+    },
+    {
+      "name": "normal-filter",
+      "at": "2026-10-01T18:13:55.396Z",
+      "value": {
+        "matched": true,
+        "folderSame": false,
+        "querySame": true
+      }
+    },
+    {
+      "name": "startup-observation-tool-error",
+      "at": "2026-10-01T18:16:21.344Z",
+      "value": {
+        "code": "PC_RESULT_INCOMPLETE_DO_NOT_RESEND",
+        "cause": "Large sampled read exceeded wire output budget; actual seek/audio not armed; replaced with bounded fields",
+        "additionalPlayback": false
+      }
+    },
+    {
+      "name": "startup",
+      "at": "2026-10-01T18:16:23.036Z",
+      "value": {
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "label": "startup",
+        "firstTargetFrame": {
+          "route": "Q1_TS",
+          "elapsedMs": 12611,
+          "mediaTime": 0.021333,
+          "sourceTime": 0.021333,
+          "sourceClockShift": 0,
+          "distanceSeconds": null,
+          "width": 640,
+          "height": 360,
+          "generation": 1,
+          "sourceGeneration": 52
+        },
+        "fenceFailure": false,
+        "sourceSame": true,
+        "accountSame": true,
+        "targetSame": true,
+        "selectedFreshSameWhenKnown": true,
+        "route": "Q1_TS"
+      }
+    },
+    {
+      "name": "prep-read-correction",
+      "at": "2026-10-01T18:17:19.222Z",
+      "value": {
+        "code": "UNDEFINED_CHROME_HANDLE",
+        "correctHandle": "playerChrome lexical",
+        "additionalPlayback": false
+      }
+    },
+    {
+      "name": "normal-pause-reveal",
+      "at": "2026-10-01T18:17:20.894Z",
+      "value": {
+        "paused": true,
+        "visible": true,
+        "focused": true
+      }
+    },
+    {
+      "name": "actual-mcp-uid-preflight",
+      "at": "2026-10-01T18:17:26.039Z",
+      "value": {
+        "controlPresent": true,
+        "seek50Present": true,
+        "seek90Present": true,
+        "markers": {
+          "schema": "drive-original.rc32-pc-seek-targets/1",
+          "version": "1.22.0-rc.32",
+          "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+          "disposed": false,
+          "fences": {
+            "sourceSame": true,
+            "accountSame": true,
+            "targetSame": true,
+            "sameBar": true,
+            "ownerSame": true,
+            "sessionSame": true,
+            "visible": true,
+            "nativeOwnerCurrent": true,
+            "paused": true,
+            "axRoleCurrent": true
+          },
+          "targets": [
+            {
+              "fraction": 0.5,
+              "label": "RC32 QA seek50",
+              "available": true,
+              "exposed": true,
+              "exactHit": true,
+              "x": 768,
+              "y": 569.6500244140625,
+              "targetSeconds": 300.53333333333336,
+              "hitTargetSeconds": 300.53333333333336,
+              "distanceSeconds": 0,
+              "toleranceSeconds": 0.75
+            },
+            {
+              "fraction": 0.9,
+              "label": "RC32 QA seek90",
+              "available": true,
+              "exposed": true,
+              "exactHit": true,
+              "x": 1366.4000244140625,
+              "y": 569.6500244140625,
+              "targetSeconds": 540.96,
+              "hitTargetSeconds": 540.9600098091439,
+              "distanceSeconds": 0.000009809143819635343,
+              "toleranceSeconds": 0.75
+            }
+          ],
+          "cleanup": {
+            "markersRemoved": false,
+            "timerCleared": false,
+            "roleRestored": false,
+            "roleIntegrity": true
+          },
+          "observerOnly": true,
+          "nativeInputRequired": true,
+          "rawIdentifiersExported": false,
+          "listenersInstalled": 0,
+          "axTargetingInstrumentation": true,
+          "productAccessibilityProof": false,
+          "priorRolePresent": true,
+          "priorRoleWasSlider": true
+        }
+      }
+    },
+    {
+      "name": "metadata-before-0.5",
+      "at": "2026-10-01T18:19:59.025Z",
+      "value": {
+        "label": "before",
+        "at": 1790878798419,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    },
+    {
+      "name": "native-target-prearm-0.5",
+      "at": "2026-10-01T18:20:02.933Z",
+      "value": {
+        "schema": "drive-original.rc32-pc-seek-targets/1",
+        "version": "1.22.0-rc.32",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "disposed": false,
+        "fences": {
+          "sourceSame": true,
+          "accountSame": true,
+          "targetSame": true,
+          "sameBar": true,
+          "ownerSame": true,
+          "sessionSame": true,
+          "visible": true,
+          "nativeOwnerCurrent": true,
+          "paused": true,
+          "axRoleCurrent": true
+        },
+        "targets": [
+          {
+            "fraction": 0.5,
+            "label": "RC32 QA seek50",
+            "available": true,
+            "exposed": true,
+            "exactHit": true,
+            "x": 768,
+            "y": 569.6500244140625,
+            "targetSeconds": 300.53333333333336,
+            "hitTargetSeconds": 300.53333333333336,
+            "distanceSeconds": 0,
+            "toleranceSeconds": 0.75
+          },
+          {
+            "fraction": 0.9,
+            "label": "RC32 QA seek90",
+            "available": true,
+            "exposed": true,
+            "exactHit": true,
+            "x": 1366.4000244140625,
+            "y": 569.6500244140625,
+            "targetSeconds": 540.96,
+            "hitTargetSeconds": 540.9600098091439,
+            "distanceSeconds": 0.000009809143819635343,
+            "toleranceSeconds": 0.75
+          }
+        ],
+        "cleanup": {
+          "markersRemoved": false,
+          "timerCleared": false,
+          "roleRestored": false,
+          "roleIntegrity": true
+        },
+        "observerOnly": true,
+        "nativeInputRequired": true,
+        "rawIdentifiersExported": false,
+        "listenersInstalled": 0,
+        "axTargetingInstrumentation": true,
+        "productAccessibilityProof": false,
+        "priorRolePresent": true,
+        "priorRoleWasSlider": true
+      }
+    },
+    {
+      "name": "seek-0.5",
+      "at": "2026-10-01T18:20:22.598Z",
+      "value": {
+        "completed": true,
+        "passed": true,
+        "result": "TARGET_FRAME",
+        "nativeInputObserved": true,
+        "firstTargetFrame": {
+          "elapsedMs": 11594,
+          "nativeMediaTime": 300.521333,
+          "width": 640,
+          "height": 360,
+          "qualifiedAtMs": 11603,
+          "sourceTime": 300.521333,
+          "sourceClockShift": 0,
+          "generationAdvanced": true,
+          "seekSettled": true,
+          "readinessQualified": true,
+          "nativeAlignedSourceTime": 300.533333,
+          "lateReadiness": true
+        }
+      }
+    },
+    {
+      "name": "native-audio-start-0.5",
+      "at": "2026-10-01T18:20:23.240Z",
+      "value": {
+        "completed": true,
+        "result": "STARTED",
+        "trustedClickReceived": true,
+        "activationAtClick": true,
+        "startCalled": true,
+        "startReturned": true
+      }
+    },
+    {
+      "name": "metadata-after-0.5",
+      "at": "2026-10-01T18:20:27.230Z",
+      "value": {
+        "label": "after",
+        "at": 1790878826602,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    },
+    {
+      "name": "live-qualified-0.5",
+      "at": "2026-10-01T18:20:28.908Z",
+      "value": {
+        "schema": "drive-original.rc32-audio-seek-remaining/1",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "disposed": true,
+        "elapsedMs": 28198,
+        "audio": {
+          "startedAt": 1790878820407,
+          "completed": true,
+          "passed": true,
+          "polls": 3,
+          "nonzeroWindows": 3,
+          "maxRmsByChannel": [
+            0.008877337157489179,
+            0.008753398292366507,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maxPeakByChannel": [
+            0.011310315690934658,
+            0.010952838696539402,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "nativeTimeAdvanced": true,
+          "sampleTimeAdvanced": true,
+          "videoFrames": 9,
+          "videoTimeAdvanced": true,
+          "maxNativeFrameDistanceSeconds": 0.0172359999999685,
+          "maxNativeAudioClockDifferenceSeconds": 0.02826966666669084,
+          "nativeUserActivationAtAdmission": true,
+          "maxMs": 8000,
+          "maxPolls": 80,
+          "samplesPerPoll": 2048,
+          "nativeInitiallyUnmuted": true,
+          "nativeInitialVolume": 1,
+          "nativeInitiallyPlaying": true,
+          "completedAt": 1790878820745,
+          "result": "NATIVE_RENDERED_PCM",
+          "elapsedMs": 338
+        },
+        "seek": {
+          "fraction": 0.5,
+          "label": "seek50",
+          "nativeInputObserved": true,
+          "targetSeconds": 300.53333333333336,
+          "toleranceSeconds": 0.75,
+          "startedAt": 1790878803496,
+          "completed": true,
+          "passed": true,
+          "framesObserved": 1,
+          "firstTargetFrame": {
+            "elapsedMs": 11594,
+            "nativeMediaTime": 300.521333,
+            "width": 640,
+            "height": 360,
+            "qualifiedAtMs": 11603,
+            "sourceTime": 300.521333,
+            "sourceClockShift": 0,
+            "generationAdvanced": true,
+            "seekSettled": true,
+            "readinessQualified": true,
+            "nativeAlignedSourceTime": 300.533333,
+            "lateReadiness": true
+          },
+          "lastFrame": {
+            "elapsedMs": 11594,
+            "nativeMediaTime": 300.521333,
+            "sourceTime": 300.521333,
+            "sourceClockShift": 0,
+            "width": 640,
+            "height": 360,
+            "targetAligned": true,
+            "generationAdvanced": true,
+            "seekSettled": false,
+            "nativePaused": true,
+            "nativeSeeking": false,
+            "nativeReadyState": 4,
+            "pipelineReady": true,
+            "sourceGeneration": 53,
+            "seekGeneration": 4,
+            "pipelineGeneration": 2
+          },
+          "lastRejection": null,
+          "readinessPolls": 116,
+          "deadlineMs": 45000,
+          "nativeInputAtMs": 1160,
+          "completedAt": 1790878815099,
+          "result": "TARGET_FRAME"
+        },
+        "postSeekAdmission": {
+          "withinSeekWindow": true,
+          "nativeOwnerSame": true,
+          "pipelineOwnerSame": true,
+          "sessionSame": true,
+          "sourceGenerationSame": true,
+          "seekGenerationSame": true,
+          "pipelineStateSame": true,
+          "pipelineGenerationSame": true,
+          "swOwnerCurrent": true,
+          "commonShiftSame": true,
+          "sourceOriginSame": true,
+          "seekSettled": true,
+          "watchdogAbsent": true,
+          "stateSeekAbsent": true
+        },
+        "metadata": [
+          {
+            "label": "before",
+            "timeBracketed": true,
+            "qualified": true
+          },
+          {
+            "label": "after",
+            "timeBracketed": true,
+            "qualified": true
+          }
+        ],
+        "qualified": true,
+        "cleanup": {
+          "tracksStopped": true,
+          "nodesDisconnected": true,
+          "contextClosed": true,
+          "frameCancelled": true,
+          "timersCleared": true,
+          "listenersRemoved": true
+        },
+        "observerOnly": true,
+        "rawIdentifiersExported": false,
+        "rawPcmExported": false,
+        "scope": "One remaining 50% or 90% native seek, rendered PCM and advancing native video/audio clocks; physical speaker/audibility/whole fidelity UNKNOWN"
+      }
+    },
+    {
+      "name": "fraction-cleanup-0.5",
+      "at": "2026-10-01T18:20:30.652Z",
+      "value": {
+        "kick": {
+          "listenerRemoved": true,
+          "frameCancelled": true,
+          "timersCleared": true
+        },
+        "markers": {
+          "markersRemoved": true,
+          "timerCleared": true,
+          "roleRestored": true,
+          "roleIntegrity": true
+        },
+        "metaStopped": true
+      }
+    },
+    {
+      "name": "metadata-before-0.9",
+      "at": "2026-10-01T18:20:41.378Z",
+      "value": {
+        "label": "before",
+        "at": 1790878840737,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    },
+    {
+      "name": "native-target-prearm-0.9",
+      "at": "2026-10-01T18:20:45.325Z",
+      "value": {
+        "schema": "drive-original.rc32-pc-seek-targets/1",
+        "version": "1.22.0-rc.32",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "disposed": false,
+        "fences": {
+          "sourceSame": true,
+          "accountSame": true,
+          "targetSame": true,
+          "sameBar": true,
+          "ownerSame": true,
+          "sessionSame": true,
+          "visible": true,
+          "nativeOwnerCurrent": true,
+          "paused": true,
+          "axRoleCurrent": true
+        },
+        "targets": [
+          {
+            "fraction": 0.5,
+            "label": "RC32 QA seek50",
+            "available": true,
+            "exposed": true,
+            "exactHit": true,
+            "x": 768,
+            "y": 569.6500244140625,
+            "targetSeconds": 300.53333333333336,
+            "hitTargetSeconds": 300.53333333333336,
+            "distanceSeconds": 0,
+            "toleranceSeconds": 0.75
+          },
+          {
+            "fraction": 0.9,
+            "label": "RC32 QA seek90",
+            "available": true,
+            "exposed": true,
+            "exactHit": true,
+            "x": 1366.4000244140625,
+            "y": 569.6500244140625,
+            "targetSeconds": 540.96,
+            "hitTargetSeconds": 540.9600098091439,
+            "distanceSeconds": 0.000009809143819635343,
+            "toleranceSeconds": 0.75
+          }
+        ],
+        "cleanup": {
+          "markersRemoved": false,
+          "timerCleared": false,
+          "roleRestored": false,
+          "roleIntegrity": true
+        },
+        "observerOnly": true,
+        "nativeInputRequired": true,
+        "rawIdentifiersExported": false,
+        "listenersInstalled": 0,
+        "axTargetingInstrumentation": true,
+        "productAccessibilityProof": false,
+        "priorRolePresent": true,
+        "priorRoleWasSlider": true
+      }
+    },
+    {
+      "name": "seek-0.9",
+      "at": "2026-10-01T18:21:04.944Z",
+      "value": {
+        "completed": true,
+        "passed": true,
+        "result": "TARGET_FRAME",
+        "nativeInputObserved": true,
+        "firstTargetFrame": {
+          "elapsedMs": 11149,
+          "nativeMediaTime": 540.954667,
+          "width": 640,
+          "height": 360,
+          "qualifiedAtMs": 11201,
+          "sourceTime": 540.954667,
+          "sourceClockShift": 0,
+          "generationAdvanced": true,
+          "seekSettled": true,
+          "readinessQualified": true,
+          "nativeAlignedSourceTime": 540.960009,
+          "lateReadiness": true
+        }
+      }
+    },
+    {
+      "name": "native-audio-start-0.9",
+      "at": "2026-10-01T18:21:05.524Z",
+      "value": {
+        "completed": true,
+        "result": "STARTED",
+        "trustedClickReceived": true,
+        "activationAtClick": true,
+        "startCalled": true,
+        "startReturned": true
+      }
+    },
+    {
+      "name": "metadata-after-0.9",
+      "at": "2026-10-01T18:21:09.493Z",
+      "value": {
+        "label": "after",
+        "at": 1790878868893,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    },
+    {
+      "name": "live-qualified-0.9",
+      "at": "2026-10-01T18:21:11.254Z",
+      "value": {
+        "schema": "drive-original.rc32-audio-seek-remaining/1",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "disposed": true,
+        "elapsedMs": 28157,
+        "audio": {
+          "startedAt": 1790878862765,
+          "completed": true,
+          "passed": true,
+          "polls": 3,
+          "nonzeroWindows": 3,
+          "maxRmsByChannel": [
+            0.009942676590367495,
+            0.008804508087209797,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maxPeakByChannel": [
+            0.02308063395321369,
+            0.021545730531215668,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "nativeTimeAdvanced": true,
+          "sampleTimeAdvanced": true,
+          "videoFrames": 8,
+          "videoTimeAdvanced": true,
+          "maxNativeFrameDistanceSeconds": 0.007481999999981781,
+          "maxNativeAudioClockDifferenceSeconds": 0.05322633333337429,
+          "nativeUserActivationAtAdmission": true,
+          "maxMs": 8000,
+          "maxPolls": 80,
+          "samplesPerPoll": 2048,
+          "nativeInitiallyUnmuted": true,
+          "nativeInitialVolume": 1,
+          "nativeInitiallyPlaying": true,
+          "completedAt": 1790878863107,
+          "result": "NATIVE_RENDERED_PCM",
+          "elapsedMs": 342
+        },
+        "seek": {
+          "fraction": 0.9,
+          "label": "seek90",
+          "nativeInputObserved": true,
+          "targetSeconds": 540.96,
+          "toleranceSeconds": 0.75,
+          "startedAt": 1790878845924,
+          "completed": true,
+          "passed": true,
+          "framesObserved": 1,
+          "firstTargetFrame": {
+            "elapsedMs": 11149,
+            "nativeMediaTime": 540.954667,
+            "width": 640,
+            "height": 360,
+            "qualifiedAtMs": 11201,
+            "sourceTime": 540.954667,
+            "sourceClockShift": 0,
+            "generationAdvanced": true,
+            "seekSettled": true,
+            "readinessQualified": true,
+            "nativeAlignedSourceTime": 540.960009,
+            "lateReadiness": true
+          },
+          "lastFrame": {
+            "elapsedMs": 11149,
+            "nativeMediaTime": 540.954667,
+            "sourceTime": 540.954667,
+            "sourceClockShift": 0,
+            "width": 640,
+            "height": 360,
+            "targetAligned": true,
+            "generationAdvanced": true,
+            "seekSettled": false,
+            "nativePaused": true,
+            "nativeSeeking": false,
+            "nativeReadyState": 4,
+            "pipelineReady": true,
+            "sourceGeneration": 54,
+            "seekGeneration": 5,
+            "pipelineGeneration": 3
+          },
+          "lastRejection": null,
+          "readinessPolls": 112,
+          "deadlineMs": 45000,
+          "nativeInputAtMs": 1160,
+          "completedAt": 1790878857125,
+          "result": "TARGET_FRAME"
+        },
+        "postSeekAdmission": {
+          "withinSeekWindow": true,
+          "nativeOwnerSame": true,
+          "pipelineOwnerSame": true,
+          "sessionSame": true,
+          "sourceGenerationSame": true,
+          "seekGenerationSame": true,
+          "pipelineStateSame": true,
+          "pipelineGenerationSame": true,
+          "swOwnerCurrent": true,
+          "commonShiftSame": true,
+          "sourceOriginSame": true,
+          "seekSettled": true,
+          "watchdogAbsent": true,
+          "stateSeekAbsent": true
+        },
+        "metadata": [
+          {
+            "label": "before",
+            "timeBracketed": true,
+            "qualified": true
+          },
+          {
+            "label": "after",
+            "timeBracketed": true,
+            "qualified": true
+          }
+        ],
+        "qualified": true,
+        "cleanup": {
+          "tracksStopped": true,
+          "nodesDisconnected": true,
+          "contextClosed": true,
+          "frameCancelled": true,
+          "timersCleared": true,
+          "listenersRemoved": true
+        },
+        "observerOnly": true,
+        "rawIdentifiersExported": false,
+        "rawPcmExported": false,
+        "scope": "One remaining 50% or 90% native seek, rendered PCM and advancing native video/audio clocks; physical speaker/audibility/whole fidelity UNKNOWN"
+      }
+    },
+    {
+      "name": "fraction-cleanup-0.9",
+      "at": "2026-10-01T18:21:12.962Z",
+      "value": {
+        "kick": {
+          "listenerRemoved": true,
+          "frameCancelled": true,
+          "timersCleared": true
+        },
+        "markers": {
+          "markersRemoved": true,
+          "timerCleared": true,
+          "roleRestored": true,
+          "roleIntegrity": true
+        },
+        "metaStopped": true
+      }
+    },
+    {
+      "name": "both-completed",
+      "at": "2026-10-01T18:21:13.549Z",
+      "value": {
+        "completed": true,
+        "actualUnitMs": 226952
+      }
+    },
+    {
+      "name": "cleanup",
+      "at": "2026-10-01T18:21:25.433Z",
+      "value": {
+        "observers": {},
+        "retired": true,
+        "restoration": {
+          "folderSame": true,
+          "querySame": false,
+          "privateGone": true,
+          "temporaryGone": true
+        },
+        "complete": false
+      }
+    },
+    {
+      "name": "final",
+      "at": "2026-10-01T18:21:26.013Z",
+      "value": {
+        "completed": true,
+        "cleanupComplete": false
+      }
+    },
+    {
+      "name": "cleanup-settled-after-search-debounce",
+      "at": "2026-10-01T18:22:08.860Z",
+      "value": {
+        "retirementSettled": true,
+        "closed": true,
+        "root": true,
+        "queryEmpty": false,
+        "privateGone": true,
+        "proofGone": true,
+        "temporaryGone": true
+      }
+    },
+    {
+      "name": "cleanup-native-search-input-recovery",
+      "at": "2026-10-01T18:23:11.265Z",
+      "value": {
+        "cause": "MCP fill empty cleared DOM value without input event; native Backspace restored app state",
+        "end": {
+          "retirementSettled": true,
+          "closed": true,
+          "root": true,
+          "queryEmpty": true,
+          "searchInputEmpty": true,
+          "privateGone": true,
+          "proofGone": true,
+          "temporaryGone": true
+        }
+      }
+    },
+    {
+      "name": "final-restored",
+      "at": "2026-10-01T18:23:11.845Z",
+      "value": {
+        "completed": true,
+        "cleanupComplete": true,
+        "initialFailedCleanupPreserved": true
+      }
+    }
+  ],
+  "liveReceipts": [
+    {
+      "fraction": 0.5,
+      "receipt": {
+        "schema": "drive-original.rc32-audio-seek-remaining/1",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "disposed": true,
+        "elapsedMs": 28198,
+        "audio": {
+          "startedAt": 1790878820407,
+          "completed": true,
+          "passed": true,
+          "polls": 3,
+          "nonzeroWindows": 3,
+          "maxRmsByChannel": [
+            0.008877337157489179,
+            0.008753398292366507,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maxPeakByChannel": [
+            0.011310315690934658,
+            0.010952838696539402,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "nativeTimeAdvanced": true,
+          "sampleTimeAdvanced": true,
+          "videoFrames": 9,
+          "videoTimeAdvanced": true,
+          "maxNativeFrameDistanceSeconds": 0.0172359999999685,
+          "maxNativeAudioClockDifferenceSeconds": 0.02826966666669084,
+          "nativeUserActivationAtAdmission": true,
+          "maxMs": 8000,
+          "maxPolls": 80,
+          "samplesPerPoll": 2048,
+          "nativeInitiallyUnmuted": true,
+          "nativeInitialVolume": 1,
+          "nativeInitiallyPlaying": true,
+          "completedAt": 1790878820745,
+          "result": "NATIVE_RENDERED_PCM",
+          "elapsedMs": 338
+        },
+        "seek": {
+          "fraction": 0.5,
+          "label": "seek50",
+          "nativeInputObserved": true,
+          "targetSeconds": 300.53333333333336,
+          "toleranceSeconds": 0.75,
+          "startedAt": 1790878803496,
+          "completed": true,
+          "passed": true,
+          "framesObserved": 1,
+          "firstTargetFrame": {
+            "elapsedMs": 11594,
+            "nativeMediaTime": 300.521333,
+            "width": 640,
+            "height": 360,
+            "qualifiedAtMs": 11603,
+            "sourceTime": 300.521333,
+            "sourceClockShift": 0,
+            "generationAdvanced": true,
+            "seekSettled": true,
+            "readinessQualified": true,
+            "nativeAlignedSourceTime": 300.533333,
+            "lateReadiness": true
+          },
+          "lastFrame": {
+            "elapsedMs": 11594,
+            "nativeMediaTime": 300.521333,
+            "sourceTime": 300.521333,
+            "sourceClockShift": 0,
+            "width": 640,
+            "height": 360,
+            "targetAligned": true,
+            "generationAdvanced": true,
+            "seekSettled": false,
+            "nativePaused": true,
+            "nativeSeeking": false,
+            "nativeReadyState": 4,
+            "pipelineReady": true,
+            "sourceGeneration": 53,
+            "seekGeneration": 4,
+            "pipelineGeneration": 2
+          },
+          "lastRejection": null,
+          "readinessPolls": 116,
+          "deadlineMs": 45000,
+          "nativeInputAtMs": 1160,
+          "completedAt": 1790878815099,
+          "result": "TARGET_FRAME"
+        },
+        "postSeekAdmission": {
+          "withinSeekWindow": true,
+          "nativeOwnerSame": true,
+          "pipelineOwnerSame": true,
+          "sessionSame": true,
+          "sourceGenerationSame": true,
+          "seekGenerationSame": true,
+          "pipelineStateSame": true,
+          "pipelineGenerationSame": true,
+          "swOwnerCurrent": true,
+          "commonShiftSame": true,
+          "sourceOriginSame": true,
+          "seekSettled": true,
+          "watchdogAbsent": true,
+          "stateSeekAbsent": true
+        },
+        "metadata": [
+          {
+            "label": "before",
+            "timeBracketed": true,
+            "qualified": true
+          },
+          {
+            "label": "after",
+            "timeBracketed": true,
+            "qualified": true
+          }
+        ],
+        "qualified": true,
+        "cleanup": {
+          "tracksStopped": true,
+          "nodesDisconnected": true,
+          "contextClosed": true,
+          "frameCancelled": true,
+          "timersCleared": true,
+          "listenersRemoved": true
+        },
+        "observerOnly": true,
+        "rawIdentifiersExported": false,
+        "rawPcmExported": false,
+        "scope": "One remaining 50% or 90% native seek, rendered PCM and advancing native video/audio clocks; physical speaker/audibility/whole fidelity UNKNOWN"
+      }
+    },
+    {
+      "fraction": 0.9,
+      "receipt": {
+        "schema": "drive-original.rc32-audio-seek-remaining/1",
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "disposed": true,
+        "elapsedMs": 28157,
+        "audio": {
+          "startedAt": 1790878862765,
+          "completed": true,
+          "passed": true,
+          "polls": 3,
+          "nonzeroWindows": 3,
+          "maxRmsByChannel": [
+            0.009942676590367495,
+            0.008804508087209797,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maxPeakByChannel": [
+            0.02308063395321369,
+            0.021545730531215668,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "nativeTimeAdvanced": true,
+          "sampleTimeAdvanced": true,
+          "videoFrames": 8,
+          "videoTimeAdvanced": true,
+          "maxNativeFrameDistanceSeconds": 0.007481999999981781,
+          "maxNativeAudioClockDifferenceSeconds": 0.05322633333337429,
+          "nativeUserActivationAtAdmission": true,
+          "maxMs": 8000,
+          "maxPolls": 80,
+          "samplesPerPoll": 2048,
+          "nativeInitiallyUnmuted": true,
+          "nativeInitialVolume": 1,
+          "nativeInitiallyPlaying": true,
+          "completedAt": 1790878863107,
+          "result": "NATIVE_RENDERED_PCM",
+          "elapsedMs": 342
+        },
+        "seek": {
+          "fraction": 0.9,
+          "label": "seek90",
+          "nativeInputObserved": true,
+          "targetSeconds": 540.96,
+          "toleranceSeconds": 0.75,
+          "startedAt": 1790878845924,
+          "completed": true,
+          "passed": true,
+          "framesObserved": 1,
+          "firstTargetFrame": {
+            "elapsedMs": 11149,
+            "nativeMediaTime": 540.954667,
+            "width": 640,
+            "height": 360,
+            "qualifiedAtMs": 11201,
+            "sourceTime": 540.954667,
+            "sourceClockShift": 0,
+            "generationAdvanced": true,
+            "seekSettled": true,
+            "readinessQualified": true,
+            "nativeAlignedSourceTime": 540.960009,
+            "lateReadiness": true
+          },
+          "lastFrame": {
+            "elapsedMs": 11149,
+            "nativeMediaTime": 540.954667,
+            "sourceTime": 540.954667,
+            "sourceClockShift": 0,
+            "width": 640,
+            "height": 360,
+            "targetAligned": true,
+            "generationAdvanced": true,
+            "seekSettled": false,
+            "nativePaused": true,
+            "nativeSeeking": false,
+            "nativeReadyState": 4,
+            "pipelineReady": true,
+            "sourceGeneration": 54,
+            "seekGeneration": 5,
+            "pipelineGeneration": 3
+          },
+          "lastRejection": null,
+          "readinessPolls": 112,
+          "deadlineMs": 45000,
+          "nativeInputAtMs": 1160,
+          "completedAt": 1790878857125,
+          "result": "TARGET_FRAME"
+        },
+        "postSeekAdmission": {
+          "withinSeekWindow": true,
+          "nativeOwnerSame": true,
+          "pipelineOwnerSame": true,
+          "sessionSame": true,
+          "sourceGenerationSame": true,
+          "seekGenerationSame": true,
+          "pipelineStateSame": true,
+          "pipelineGenerationSame": true,
+          "swOwnerCurrent": true,
+          "commonShiftSame": true,
+          "sourceOriginSame": true,
+          "seekSettled": true,
+          "watchdogAbsent": true,
+          "stateSeekAbsent": true
+        },
+        "metadata": [
+          {
+            "label": "before",
+            "timeBracketed": true,
+            "qualified": true
+          },
+          {
+            "label": "after",
+            "timeBracketed": true,
+            "qualified": true
+          }
+        ],
+        "qualified": true,
+        "cleanup": {
+          "tracksStopped": true,
+          "nodesDisconnected": true,
+          "contextClosed": true,
+          "frameCancelled": true,
+          "timersCleared": true,
+          "listenersRemoved": true
+        },
+        "observerOnly": true,
+        "rawIdentifiersExported": false,
+        "rawPcmExported": false,
+        "scope": "One remaining 50% or 90% native seek, rendered PCM and advancing native video/audio clocks; physical speaker/audibility/whole fidelity UNKNOWN"
+      }
+    }
+  ],
+  "completed": true,
+  "cleanupComplete": true,
+  "rawIdentifiersExported": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "previousAttemptsPreserved": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "failure": null,
+  "actualUnitMs": 226952
+}

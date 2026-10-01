@@ -1,4 +1,35 @@
-## Remaining 50%/90% audio clauses (local preparation only)
+## Remaining 50%/90% audio clauses (preparation and scoped actual evidence)
+
+Observed 2026-10-02 03:23KST: actual PC attempt5 completed both remaining
+fractions on the same designated original TS/revision and exact rc32 source.
+Startup was12.611s; current-generation target qualification was11.603/11.201s
+at50/90%. Each phase produced3 nonzero PCM windows,9/8 progressing native video
+frames and advancing native/WebAudio clocks (maximum elapsed-clock difference
+0.028270/0.053226s). Normal trusted play clicks admitted capture5.308/5.640s
+after seek completion; separate fresh before/after metadata brackets qualified.
+Both saved live receipts qualified and all six sampler cleanup flags passed.
+[Attempt5 safe receipt](actual-pc-rc32-audio-seek-remaining-attempt5-safe.json)
+is33,253B, SHA256
+`d192df2d15c1fd500d769b2263af47624983fa7f60be3bc378ef870b928dc208`.
+Final retirement/player close/root/query/search-input/private/proof/helper
+restoration passed. The initial false query cleanup remains in that receipt:
+MCP empty fill cleared the DOM value without the app input event; ordinary
+fill plus Ctrl+A/Backspace restored the actual query. Preparation read errors
+also remain; no additional seek or replay was used to resolve them.
+
+Retain failed preparation attempts
+[1](actual-pc-rc32-audio-seek-remaining-attempt1-safe.json),
+[2](actual-pc-rc32-audio-seek-remaining-attempt2-safe.json),
+[3](actual-pc-rc32-audio-seek-remaining-attempt3-safe.json),
+[4](actual-pc-rc32-audio-seek-remaining-attempt4-safe.json) and the separate
+[attempt1 cleanup recovery](actual-pc-rc32-audio-seek-remaining-attempt1-cleanup-safe.json).
+Attempt1's incomplete output/false cleanup is preserved; attempts2/3 lacked the
+normal play UID, and attempt4 lacked required marker UIDs despite valid physical
+geometry. These are failed preparations, not additional qualified seek/PCM runs.
+The pass reuses actual10% PCM and other valid TS evidence; physical speaker,
+human audibility, exact sample/full soundtrack fidelity and whole-goal acceptance
+remain unknown. The curation schema/string scan found no protected fields or
+token patterns; it did not read private values to compare against them.
 
 `audio-seek-remaining.expression.js` is an additive observer; it never runs
 Chrome, ADB, Drive, metadata requests or native controls itself. The original
@@ -85,3 +116,32 @@ Work/total bounds are240/300s for both,180/240s for one, plus separate180s prep;
 in-flight common CDP commands can take45s. Saved `liveReceipts` qualify before
 normal Back; final sampler/player/private/proof and common transport cleanup are
 reported separately. Guard tests: `node --test qa/rc32-ts-device-replay/android-audio-seek-remaining.test.cjs`.
+
+### PC normal-input support
+
+Install `pc-seek-targets.expression.js` only while the current TS owner is normally
+paused with visible controls. It adds exact50/90 hit markers to the unchanged bar
+and temporarily changes its AX role to `group`. Require `read().fences.axRoleCurrent`,
+the selected marker's available/exact-hit geometry, and its UID in a fresh official
+MCP snapshot before arming the observer and clicking natively. This is AX targeting
+instrumentation, not product accessibility proof. An isolated local Chrome page
+exposed markers under both slider and group; role-only causality for the historical
+MCP omission is unproven. Stop/error/180s deadline restores the exact previous role
+(including absence); require sticky `roleRestored` and `roleIntegrity` cleanup flags.
+
+Install `pc-audio-native-click.expression.js`, then call
+`__rc32PcAudioKick.arm(.5)` or `.arm(.9)` after the matching qualified seek. A real
+trusted click on the existing normal play control lets the app resume first, then
+starts the unchanged audio observer within the existing activation/owner bounds.
+Only poll `read()` afterward. Never evaluate `startAudio()` through MCP: its bundled
+evaluation uses `userGesture:true`. Stop the kick/markers/metadata handles after
+each exported live result, then close and await normal Q1 retirement. Preserve
+failures before removing owned handles. `pc-safe-wire.cjs` parses result presence
+without losing false/empty replies; `pc-snapshot-uids.cjs` reduces the private native
+snapshot to fixed control handles. UIDs and raw snapshots stay private.
+
+Reused focused proofs: marker7/7, native-click4/4, wire4/4 and UID3/3. This curation
+parsed all six safe attempt/cleanup receipts, verified the pass and its three
+producer SHA pins, fresh time brackets/activation/cleanup, and scanned safe outputs;
+it reran no product or browser/device acceptance tests. The inactive failed
+`pc-native-admitted-client.cjs` direct-CDP helper stays in ignored recovery scope.

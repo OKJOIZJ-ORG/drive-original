@@ -1,0 +1,348 @@
+{
+  "schema": "drive-original-rc32-pc-audio-remaining-v1",
+  "recordedAt": "2026-10-01T17:40:26.289Z",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "observerSha256": "fd7aa895cbecc93267cd6b3dc727d31c194c70258995ea01a4b6b455f1f06ac1",
+  "markerSha256": "9f0bf04cc67e3e3f392e5075e2c174919a5cdb9fb6b18a4983c7e6dafcb7da51",
+  "toolRepair": "presence-based falsy wire parser, exact dynamic play/pause label reducer, trusted native click kickoff",
+  "steps": [
+    {
+      "name": "pinned source proof",
+      "at": "2026-10-01T17:43:20.495Z",
+      "value": {
+        "source": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "recordedAt": "2026-10-01T17:41:29.973Z",
+        "controllerActivated": true,
+        "rootScope": true,
+        "network": [
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "sw.js",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "media/drive-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/ts-player.mjs",
+            "matched": true
+          }
+        ],
+        "cache": [
+          {
+            "file": "index.html",
+            "matched": true
+          },
+          {
+            "file": "styles.css",
+            "matched": true
+          },
+          {
+            "file": "runtime-config.js",
+            "matched": true
+          },
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "media/drive-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/revision-pin.js",
+            "matched": true
+          },
+          {
+            "file": "media/ts-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/q1-core.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/transmux-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mux-mp4.min.js",
+            "matched": true
+          },
+          {
+            "file": "media/mux-LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/general-admission.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-owner.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-timeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.LICENSE",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "media/audio-runtime.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-adapter.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker-client.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "licenses/index.html",
+            "matched": true
+          },
+          {
+            "file": "licenses/audio-source-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "manifest.webmanifest",
+            "matched": true
+          },
+          {
+            "file": "icons/app-icon.svg",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-192.png",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/maskable-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/apple-touch-icon.png",
+            "matched": true
+          }
+        ],
+        "matchedCache": 40,
+        "matchedCacheAliases": 41,
+        "shellRootAliasMatched": true,
+        "executingWorkerScriptHashKnown": false,
+        "sourceProofInstalled": true,
+        "privateIdentityExported": false
+      }
+    },
+    {
+      "name": "startup frame arm",
+      "at": "2026-10-01T17:43:23.291Z",
+      "value": {
+        "armed": true,
+        "label": "startup",
+        "targetSeconds": null,
+        "toleranceSeconds": 1.5
+      }
+    },
+    {
+      "name": "bounded startup preparation",
+      "at": "2026-10-01T17:43:42.011Z",
+      "value": {
+        "sourceSame": true,
+        "accountSame": true,
+        "targetSame": true,
+        "frame": {
+          "route": "Q1_TS",
+          "elapsedMs": 17567,
+          "mediaTime": 0.021333,
+          "sourceTime": 0.021333,
+          "sourceClockShift": 0,
+          "distanceSeconds": null,
+          "width": 640,
+          "height": 360,
+          "generation": 1,
+          "sourceGeneration": 42
+        },
+        "failed": false
+      }
+    },
+    {
+      "name": "failure current safe evidence",
+      "at": "2026-10-01T17:43:48.199Z",
+      "value": {
+        "kick": {
+          "schema": "drive-original.rc32-pc-audio-native-click/1",
+          "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+          "version": "1.22.0-rc.32",
+          "disposed": false,
+          "armed": false,
+          "fraction": null,
+          "trustedClickReceived": false,
+          "activationAtClick": false,
+          "startCalled": false,
+          "startReturned": false,
+          "completed": false,
+          "result": null,
+          "fences": null,
+          "currentFences": null,
+          "cleanup": {
+            "listenerRemoved": true,
+            "frameCancelled": true,
+            "timersCleared": true
+          },
+          "observerOnly": true,
+          "rawIdentifiersExported": false,
+          "rawPcmExported": false
+        }
+      }
+    },
+    {
+      "name": "owned sampler markers click metadata cleanup",
+      "at": "2026-10-01T17:43:49.946Z",
+      "value": {
+        "kick": {
+          "schema": "drive-original.rc32-pc-audio-native-click/1",
+          "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+          "version": "1.22.0-rc.32",
+          "disposed": true,
+          "armed": false,
+          "fraction": null,
+          "trustedClickReceived": false,
+          "activationAtClick": false,
+          "startCalled": false,
+          "startReturned": false,
+          "completed": true,
+          "result": "CANCELLED",
+          "fences": null,
+          "currentFences": null,
+          "cleanup": {
+            "listenerRemoved": true,
+            "frameCancelled": true,
+            "timersCleared": true
+          },
+          "observerOnly": true,
+          "rawIdentifiersExported": false,
+          "rawPcmExported": false
+        }
+      }
+    },
+    {
+      "name": "normal close and retirement",
+      "at": "2026-10-01T17:43:52.724Z",
+      "value": {
+        "closed": true,
+        "retired": true,
+        "q0": false,
+        "q1": false
+      }
+    },
+    {
+      "name": "owned private and proof restoration",
+      "at": "2026-10-01T17:44:03.382Z",
+      "value": {
+        "folderSame": true,
+        "querySame": true,
+        "targetRemoved": true,
+        "proofRestored": true,
+        "helpersRemoved": true
+      }
+    },
+    {
+      "name": "final",
+      "at": "2026-10-01T17:44:03.949Z",
+      "value": {
+        "completed": false,
+        "failure": "PC_PLAY_UID_UNAVAILABLE",
+        "cleanupComplete": true
+      }
+    }
+  ],
+  "liveReceipts": [],
+  "completed": false,
+  "cleanupComplete": true,
+  "rawIdentifiersExported": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "kickSha256": "cef24677ec45ed0c5ed8d3765395b14be53f0739ff76b9f6cb95ce36459eb939",
+  "audioStartExecution": "trusted normal play click listener; evaluate only installs/arms/reads, no audio start call",
+  "failure": "PC_PLAY_UID_UNAVAILABLE",
+  "actualUnitMs": 44568,
+  "previousAttemptsPreserved": [
+    1,
+    2
+  ]
+}
