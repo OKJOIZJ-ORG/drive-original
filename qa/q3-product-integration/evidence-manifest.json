@@ -57,23 +57,31 @@
       "stdoutSha256": "b1ff216759281f6000754d16d462376c9c6c86adcea3ee496bf55655be9f67dd",
       "scope": "Related shell/SW test expectation fixes only; no product mutation/full-suite repeat/browser/account/device action"
     },
+    "longformInput": {
+      "file": "qa/q3-product-integration/synthetic-640-180s.mp4",
+      "bytes": 18075476,
+      "sha256": "cda53855c53bf1d608491eb96aa3abb0ff774cca2aa24cfe01447e295c07ed7a",
+      "duration": 180,
+      "pictures": 5400,
+      "scope": "Longform INPUT preparation only. No browser, derived-output assembly, conversion quality oracle, Drive upload, actual app/device performance or Q3 acceptance. Existing640x360 quality proof remains3s only."
+    },
     "reusedBrowserScope": "Final dimension/VP9-level guards passed both fixtures. Rejected-source-abort and strict rational duration admission are separately checked in the23 new tests. The current parser still admits both exact3s fixture clocks; positive browser paths, output and codec bytes are unchanged."
   },
   "files": [
     {
       "path": "app.js",
       "bytes": 515595,
-      "sha256": "558a6508afe77a1b2c82e7798de751c77f2fad3527dfab241437be95229d873e"
+      "sha256": "366a39fc924ba064a5f3e7a38b779136ca04fa256fce505ace9933254599b4d8"
     },
     {
       "path": "index.html",
       "bytes": 51100,
-      "sha256": "37b5d1f3b4d99b2f7886b719f537eb0f3213177d5a72599594f462a77f094fa0"
+      "sha256": "9e400431cb25e04b31ca33f7f6fb5d979cc58975fbe1cb031e06ef25733ae247"
     },
     {
       "path": "sw.js",
       "bytes": 72871,
-      "sha256": "40261cba50e9bd017d85c18ebc1425f9a9b54b95d57942e1d1e44c1a5fa7704f"
+      "sha256": "937fc8a21a13f9d42a4e03682e682c5ff46a45d55b0d8813701f559591e636db"
     },
     {
       "path": "scripts/public-files.cjs",
@@ -177,8 +185,8 @@
     },
     {
       "path": "memory/Q3-PRODUCT-20261002.md",
-      "bytes": 6159,
-      "sha256": "ae66968c12bf158cba91ceb1c856f10ddcd8b627c1587b0218fa642bda660c72"
+      "bytes": 7172,
+      "sha256": "3afb7ecfaae39a430f5a5e59ba4b883198cd2c101fab95a47cddd129c7c699e0"
     },
     {
       "path": "qa/q3-browser-execution/synthetic-mpeg4.mp4",
@@ -187,8 +195,8 @@
     },
     {
       "path": "qa/q3-product-integration/README.md",
-      "bytes": 5813,
-      "sha256": "424626b68f40e99ec6c3475f6068e189510eb1134836223673a19f26416ab778"
+      "bytes": 6356,
+      "sha256": "ef4d717f0af0b00bd21c51ba36aa7225bd2426bd91fd40636e9d60f7b35167f1"
     },
     {
       "path": "qa/q3-product-integration/fixture.html",
@@ -224,6 +232,16 @@
       "path": "qa/q3-product-integration/synthetic-640.mp4",
       "bytes": 1343446,
       "sha256": "e346b35c238af191fc16cc98cffdac39ec44797badaf290156d3131dce794bf6"
+    },
+    {
+      "path": "qa/q3-product-integration/synthetic-640-180s.mp4",
+      "bytes": 18075476,
+      "sha256": "cda53855c53bf1d608491eb96aa3abb0ff774cca2aa24cfe01447e295c07ed7a"
+    },
+    {
+      "path": "qa/q3-product-integration/fixture-180s-receipt.json",
+      "bytes": 4335,
+      "sha256": "f44cbe7c2e0b6e2299ee3d2632fbfb3880919adf0ae6cdccc95a8e85cf35bb8c"
     },
     {
       "path": "qa/q3-product-integration/output-320.mp4",
@@ -277,8 +295,8 @@
     },
     {
       "path": "qa/q3-product-integration/hash-evidence.cjs",
-      "bytes": 3420,
-      "sha256": "b9ef6409f2932b75dcf4e1279b197fe1342ddf77d0352113201b41b63c107557"
+      "bytes": 3892,
+      "sha256": "6a8a798cde469d97d08eb3db26d63eabdaa2ce9b94c9f55c31d9009e41e3b5cd"
     }
   ],
   "excludes": [

@@ -85,3 +85,11 @@ authoritative shell. Explicit assertions retain all6 Q3 runtime assets and
 public Q3 source tgz/manifest/NOTICE exclusion from cache/refresh. Private full
 logs remain outside the curated distribution; no full-suite repeat or product
 mutation was needed for this test-only fix.
+
+`synthetic-640-180s.mp4` is a disposable D050 future Drive input:180s/5400 frames,
+640×360/30fps, silent single-track MPEG4 Simple Profile1 with explicit square
+SDR BT709 limited I420 pixels and head moov. Its receipt records the command,
+18,075,476 bytes, SHA256, current bounded Q3 admission and independent ffprobe
+metadata/all-progressive I/P counts. Capped800kbps rate control replaces q:v2
+for this generated input's ≤20MiB size. No upload/browser/derived-output/device
+check was run; earlier output quality evidence remains3s only.

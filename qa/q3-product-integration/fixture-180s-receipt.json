@@ -1,0 +1,159 @@
+{
+  "pass": true,
+  "purpose": "D050 disposable generated future Drive input; not user original",
+  "file": "qa/q3-product-integration/synthetic-640-180s.mp4",
+  "bytes": 18075476,
+  "sha256": "cda53855c53bf1d608491eb96aa3abb0ff774cca2aa24cfe01447e295c07ed7a",
+  "generation": {
+    "command": "ffmpeg",
+    "args": [
+      "-hide_banner",
+      "-loglevel",
+      "error",
+      "-nostats",
+      "-n",
+      "-f",
+      "lavfi",
+      "-i",
+      "testsrc2=size=640x360:rate=30:duration=180",
+      "-vf",
+      "setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv",
+      "-c:v",
+      "mpeg4",
+      "-b:v",
+      "800k",
+      "-maxrate",
+      "800k",
+      "-bufsize",
+      "1600k",
+      "-bf",
+      "0",
+      "-g",
+      "30",
+      "-pix_fmt",
+      "yuv420p",
+      "-an",
+      "-threads",
+      "2",
+      "-movflags",
+      "+faststart",
+      "-fs",
+      "20971520",
+      "qa/q3-product-integration/synthetic-640-180s.mp4"
+    ],
+    "elapsedMs": 2156,
+    "exitCode": 0,
+    "stderr": "",
+    "quantizationChange": "Existing3s q:v2 is replaced by800kbps capped rate control for this input to stay below20MiB; dimensions/cadence/profile/color/GOP/pixel format unchanged",
+    "outputLimitBytes": 20971520,
+    "timeoutMs": 120000,
+    "ffmpegVersion": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r"
+  },
+  "admission": {
+    "codec": "mp4v.20.1",
+    "width": 640,
+    "height": 360,
+    "fps": 30,
+    "duration": 180,
+    "pictures": 5400,
+    "profilePrefixHex": "000001b001",
+    "metadataBytes": 23510,
+    "maxMetadataReadBytes": 23446,
+    "maxPacketBytes": 19627,
+    "everyPacketSingleIPVop": true,
+    "headMoov": true,
+    "topLevelBoxes": [
+      {
+        "type": "ftyp",
+        "start": 0,
+        "bytes": 28
+      },
+      {
+        "type": "moov",
+        "start": 28,
+        "bytes": 23446
+      },
+      {
+        "type": "free",
+        "start": 23474,
+        "bytes": 8
+      },
+      {
+        "type": "mdat",
+        "start": 23482,
+        "bytes": 18051994
+      }
+    ]
+  },
+  "native": {
+    "stream": {
+      "index": 0,
+      "codec_name": "mpeg4",
+      "profile": "Simple Profile",
+      "codec_type": "video",
+      "codec_tag_string": "mp4v",
+      "width": 640,
+      "height": 360,
+      "sample_aspect_ratio": "1:1",
+      "pix_fmt": "yuv420p",
+      "color_range": "tv",
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709",
+      "r_frame_rate": "30/1",
+      "avg_frame_rate": "30/1",
+      "duration": "180.000000",
+      "nb_frames": "5400",
+      "extradata": "\n00000000: 0000 01b0 0100 0001 b589 1300 0001 0000  ................\n00000010: 0001 2000 c48d 8800 f514 042d 1443 0000  .. ........-.C..\n00000020: 01b2 4c61 7663 3633 2e31 2e31 3031       ..Lavc63.1.101\n",
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      },
+      "tags": {
+        "language": "und",
+        "handler_name": "VideoHandler",
+        "encoder": "Lavc63.1.101 mpeg4"
+      }
+    },
+    "frameCount": 5400,
+    "progressiveFrames": 5400,
+    "pictureKinds": {
+      "I": 180,
+      "P": 5220
+    },
+    "maxClockErrorSeconds": 3.333333467026023e-7,
+    "format": {
+      "duration": "180.000000",
+      "size": "18075476",
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2mp41",
+        "encoder": "Lavf63.1.101"
+      }
+    }
+  },
+  "scope": "Longform INPUT preparation only. No browser, derived-output assembly, conversion quality oracle, Drive upload, actual app/device performance or Q3 acceptance. Existing640x360 quality proof remains3s only.",
+  "inputParser": {
+    "path": "media/video-q3-input.mjs",
+    "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99",
+    "sourceCommit": "7ab2375787076e53c91e28bc8c0a44cf24ac106f"
+  }
+}

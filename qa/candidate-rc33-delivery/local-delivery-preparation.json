@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "version": "1.22.0-rc.33",
+  "bound": false,
+  "source": null,
+  "actualDeployment": false,
+  "networkOrBrowserExecuted": false,
+  "privateInputsRead": false,
+  "oldOutcomeEvidenceCopied": false,
+  "producer": {
+    "commit": "7ab2375787076e53c91e28bc8c0a44cf24ac106f",
+    "file": "qa/candidate-rc32-delivery/bind-source.cjs",
+    "sha256": "f5a43c1ac2972f321fbb417246efe16d79be15a896927d0d930fccdd079792cc"
+  },
+  "binderSha256": "d2e1dbe56f8cd5d12f2966116a7db561f5d9cdbe6e1df5a737046a1f3dbbc990",
+  "templateCommit": "5f6dae39a6a601207ff2c9e462b3ec8d610e91b4",
+  "templates": [
+    {
+      "file": "delivery-guard.cjs",
+      "sha256": "2c601968c54fd69d907a201be53a29065983b336e5549a2e9337f9b8ad7558fc",
+      "bytes": 5190
+    },
+    {
+      "file": "materialize-candidate.cjs",
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88",
+      "bytes": 1207
+    },
+    {
+      "file": "deploy-candidate.cjs",
+      "sha256": "f4530eb76578ff3ac05672a24f6193de42357df7631a37f9f55a77434c22c67b",
+      "bytes": 1752
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9",
+      "bytes": 1076
+    },
+    {
+      "file": "redact-readback.cjs",
+      "sha256": "4c009b06819b431adfee1f88f5ed2a16efd279fa4db2b088c4c5a8ccc7847552",
+      "bytes": 2129
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "sha256": "44a2cff3326ac8242a88e4d9ec6423bb925bcdc7a27629b9f9f8da86f2e34ca0",
+      "bytes": 2318
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "6bfd46c840d7db60ddf4a203821bed952b61d9b33720370b925cae327b7de562",
+      "bytes": 3995
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "sha256": "242199bf41648e2909b794231c2436155157336cfa1ad6c17be0d75f2e0bc9d7",
+      "bytes": 5653
+    }
+  ],
+  "expectedAssets": {
+    "publicFiles": 60,
+    "publicWithNojekyll": 61,
+    "cachedFiles": 46,
+    "cacheWithRootAlias": 47,
+    "uncachedSourceArchives": 9,
+    "private404": 6
+  },
+  "authoritativeLists": {
+    "sourceCommit": "7ab2375787076e53c91e28bc8c0a44cf24ac106f",
+    "publicManifestSha256": "92b9f5e4205265634a9629100b02b65e62d366ef4decebb45ea3c598b7d694c4",
+    "shellArrayJsonSha256": "ec3a46abb891a7002080f99bf135e06da1ba20ebb70f39ee7c2db88b3d330f35"
+  },
+  "verification": {
+    "syntax": "PASS node --check binder; derived CJS vm.Script and Python compile without execution",
+    "immutableTemplateHashes": "PASS 8/8",
+    "focusedTests": "PASS 3/3 (aliases/old versions/noncurrent full SHA denied; pinned derivation; manifest/cache drift denied)",
+    "testProducerSha256": "89f18f9873d1a80e24ef98f96c199bca11e80926bb777e028b8fc23874b9a979",
+    "bindOrMaterializationExecuted": false
+  },
+  "scope": "Unbound local candidate33 delivery preparation only; no product acceptance"
+}

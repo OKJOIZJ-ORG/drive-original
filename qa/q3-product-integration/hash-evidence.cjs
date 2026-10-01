@@ -9,7 +9,7 @@ const paths=[
  'tests/video-q3.test.mjs','tests/video-q3-app.test.js','tests/shell.test.js','tests/sw.test.js','memory/Q3-PRODUCT-20261002.md',
  'qa/q3-browser-execution/synthetic-mpeg4.mp4',
  ...['README.md','fixture.html','fixture.mjs','browser-audit.cjs','browser-320-results.json','browser-640-results.json','browser-first-errno-failure.json',
- 'synthetic-640.mp4','output-320.mp4','output-640.mp4','oracle.cjs','oracle-results.json','oracle-first-sar-unknown.json','verify-source.cjs','verify-relink.sh','source-results.json','timing-tests-results.json','shell-tests-results.json','hash-evidence.cjs'].map(x=>'qa/q3-product-integration/'+x)
+ 'synthetic-640.mp4','synthetic-640-180s.mp4','fixture-180s-receipt.json','output-320.mp4','output-640.mp4','oracle.cjs','oracle-results.json','oracle-first-sar-unknown.json','verify-source.cjs','verify-relink.sh','source-results.json','timing-tests-results.json','shell-tests-results.json','hash-evidence.cjs'].map(x=>'qa/q3-product-integration/'+x)
 ];
 const results=['browser-320-results.json','browser-640-results.json','oracle-results.json','source-results.json'].map(name=>({name,value:JSON.parse(fs.readFileSync(path.join(__dirname,name)))}));
 if(results.some(x=>x.value.pass!==true))throw Error('Q3_EVIDENCE_NOT_PASSED');
@@ -17,10 +17,13 @@ const timing=JSON.parse(fs.readFileSync(path.join(__dirname,'timing-tests-result
 if(timing.pass!==true||timing.failed!==0)throw Error('Q3_TIMING_EVIDENCE_NOT_PASSED');
 const shell=JSON.parse(fs.readFileSync(path.join(__dirname,'shell-tests-results.json')));
 if(shell.pass!==true||shell.failed!==0)throw Error('Q3_SHELL_EVIDENCE_NOT_PASSED');
+const longform=JSON.parse(fs.readFileSync(path.join(__dirname,'fixture-180s-receipt.json')));
+if(longform.pass!==true||longform.sha256!==sha(fs.readFileSync(path.join(root,longform.file))))throw Error('Q3_LONGFORM_INPUT_EVIDENCE_NOT_PASSED');
 const result={format:1,scope:'Local Q3 product integration; synthetic browser/native oracle and source/relink evidence, no actual-file/device/public acceptance',
  validation:{nativeBrowserCases:results.slice(0,2).reduce((n,x)=>n+x.value.cases.length,0),independentNativeOracles:results[2].value.rows.length,sourceAndSameToolchainRelink:results[3].value.pass,
  timingRegressionTests:timing,
  relatedShellTests:shell,
+ longformInput:{file:longform.file,bytes:longform.bytes,sha256:longform.sha256,duration:longform.admission.duration,pictures:longform.admission.pictures,scope:longform.scope},
  reusedBrowserScope:'Final dimension/VP9-level guards passed both fixtures. Rejected-source-abort and strict rational duration admission are separately checked in the23 new tests. The current parser still admits both exact3s fixture clocks; positive browser paths, output and codec bytes are unchanged.'},
  files:paths.map(name=>{const b=fs.readFileSync(path.join(root,name));return{path:name,bytes:b.length,sha256:sha(b)};}),
  excludes:['installed SDK/compiler/cache','relink-check extracted sources/static libraries/output','generic first output duplicate','full Node test logs'],
