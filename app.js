@@ -1,11 +1,12 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.28';
+const APP_VERSION = '1.22.0-rc.29';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
 const ACCOUNT_STATE_WRITE = Symbol('account-state-write');
 const ACCOUNT_STATE_READ = Symbol('account-state-read');
+const DISPOSABLE_DRIVE_MUTATION = Symbol('disposable-drive-mutation');
 const AUTH_PROTOCOL = 'drive-original-auth-v1';
 const Q1_RETIRE_PROTOCOL = 'drive-original-q1-retirement-v1';
 const AUTH_CREDENTIAL_PATH = '/api/session/credential';
@@ -4103,15 +4104,20 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   delete requestOptions[ACCOUNT_STATE_READ];
   const accountStateWrite = requestOptions[ACCOUNT_STATE_WRITE];
   delete requestOptions[ACCOUNT_STATE_WRITE];
+  const disposablePermit = requestOptions[DISPOSABLE_DRIVE_MUTATION];
+  delete requestOptions[DISPOSABLE_DRIVE_MUTATION];
   const requestMethod = String(requestOptions.method || 'GET').toUpperCase();
   const stateWriteAllowed = isAccountStateWriteRequest(url, requestMethod, accountStateWrite);
-  if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod) && !stateWriteAllowed) {
+  const disposableWriteAllowed = disposablePermit !== undefined
+    && disposableDriveMutations.consume(disposablePermit, url, options);
+  if (!DRIVE_MUTATIONS_ENABLED && !['GET', 'HEAD'].includes(requestMethod) && !stateWriteAllowed && !disposableWriteAllowed) {
     const error = new Error('Candidate Drive mutations are disabled until state verification completes.');
     error.code = 'candidate_read_only';
     error.status = 423;
     throw error;
   }
   if (!hasUsableToken()) {
+    if (disposableWriteAllowed) throw driveMutationError('failed', '일회용 검증 권한이 만료되었습니다.', 401);
     if (!_retried) {
       await requestDriveCredential({ background: true, force: true }, options.signal);
       assertOwner();
@@ -4128,6 +4134,7 @@ async function driveFetch(url, options = {}, _retried = false, _rateAttempt = 0,
   const requestTokenRevision = state.tokenRevision || 0;
   const response = await fetch(url, {
     ...requestOptions,
+    ...(disposableWriteAllowed ? { redirect: 'error', credentials: 'omit' } : {}),
     cache: 'no-store',
     headers: { ...(requestOptions.headers || {}), Authorization: `Bearer ${state.token}` }
   });
@@ -9607,8 +9614,193 @@ function requestDeleteFile() {
 }
 
 const DRIVE_MUTATION_PREFIX = 'drive-original.mutation.v1.';
-const DRIVE_MUTATION_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,capabilities(canTrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_MUTATION_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,ownedByMe,appProperties,capabilities(canTrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
 const DRIVE_MUTATION_PENDING = new Set(['submitted', 'verifying', 'uncertain']);
+
+// Candidate-only admission uses a reviewed, persisted creation ledger, never
+// caller-supplied ownership metadata. The lease and request registry stay local
+// to this document; neither a storage row nor a forged Symbol is a send permit.
+const disposableDriveMutations = (() => {
+  const issued = new WeakMap();
+  let active = null;
+  const deny = () => { throw driveMutationError('failed', '일회용 검증 파일의 권한을 확인하지 못했습니다.', 423); };
+  const idOK = id => typeof id === 'string' && /^[A-Za-z0-9_-]{5,200}$/.test(id) && id !== 'appDataFolder';
+  const sortedParents = value => Array.isArray(value) ? [...value].sort() : null;
+  const sameParents = (a, b) => JSON.stringify(sortedParents(a)) === JSON.stringify(sortedParents(b));
+  const folderMime = 'application/vnd.google-apps.folder';
+  function ledger(scope) {
+    let value;
+    try { value = JSON.parse(localStorage.getItem(scope.key)); } catch (_) { deny(); }
+    if (value?.schema !== 1 || value.run !== scope.run || value.accountKey !== scope.owner.accountKey
+      || value.accountId !== scope.owner.accountId || !Array.isArray(value.planned) || !Array.isArray(value.created)
+      || new Set(value.planned.map(row => row.id)).size !== value.planned.length
+      || new Set(value.created.map(row => row.id)).size !== value.created.length) deny();
+    return value;
+  }
+  function receipt(scope, id, isTarget = false) {
+    const value = ledger(scope);
+    const planned = value.planned.find(row => row.id === id);
+    const created = value.created.find(row => row.id === id);
+    if (!idOK(id) || !planned || planned.sent !== true || !created || planned.role !== created.role
+      || !(isTarget ? /^folder-[ab]$/.test(created.role) : /^test-(image|video)-[12]$/.test(created.role))) deny();
+    const meta = created.metadata;
+    if (meta?.id !== id || meta.ownedByMe !== true || meta.driveId || !meta.version
+      || typeof meta.version !== 'string' || !/^\d+$/.test(meta.version) || typeof meta.trashed !== 'boolean'
+      || !Array.isArray(meta.parents) || meta.parents.length !== 1 || !idOK(meta.parents[0])
+      || meta.appProperties?.qaRun !== scope.run || meta.appProperties?.qaRole !== created.role
+      || (isTarget ? meta.mimeType !== folderMime : !/^(image|video)\//.test(meta.mimeType))) deny();
+    if (!isTarget && !value.created.some(row => row.id === meta.parents[0] && /^folder-[ab]$/.test(row.role)
+      && value.planned.some(plan => plan.id === row.id && plan.role === row.role && plan.sent === true))) deny();
+    return created;
+  }
+  function assert(scope) {
+    try { scope.owner.assert(); } catch (error) { close(scope); throw error; }
+    if (active !== scope || scope.closed || Date.now() >= scope.deadline || scope.signal.aborted
+      || state.token !== scope.token || state.tokenRevision !== scope.tokenRevision
+      || APP_VERSION !== scope.sourceVersion || location.href !== scope.sourceUrl
+      || navigator.serviceWorker?.controller !== scope.controller || !scope.controller
+      || !hasUsableToken() || !hasAuthCapability('driveWrite')) { close(scope); deny(); }
+  }
+  function close(scope) {
+    if (!scope || scope.closed) return;
+    scope.closed = true;
+    scope.signal.removeEventListener('abort', scope.abort);
+    window.removeEventListener('pagehide', scope.abort);
+    window.removeEventListener('beforeunload', scope.abort);
+    scope.permits.forEach(permit => release(permit));
+    scope.permits.clear();
+    if (active === scope) active = null;
+  }
+  function activate({ run, fileIds, targetIds, sourceVersion, durationMs = 120_000 } = {}) {
+    if (DRIVE_MUTATIONS_ENABLED || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(run || '')
+      || sourceVersion !== APP_VERSION || !Array.isArray(fileIds) || fileIds.length !== 2
+      || new Set(fileIds).size !== 2 || !fileIds.every(idOK)
+      || !Array.isArray(targetIds) || !targetIds.length || targetIds.length > 2
+      || new Set(targetIds).size !== targetIds.length || !targetIds.every(idOK)
+      || !Number.isFinite(durationMs) || durationMs <= 0 || durationMs > 120_000) deny();
+    const owner = captureDriveMutationOwner();
+    const scope = { run, owner, files: new Set(fileIds), targets: new Set(targetIds), sourceVersion,
+      key: `drive-original.qa.disposable.${run}.recovery`, sourceUrl: location.href,
+      token: state.token, tokenRevision: state.tokenRevision, controller: navigator.serviceWorker?.controller,
+      signal: owner.options.signal, deadline: Date.now() + durationMs, permits: new Set(), closed: false };
+    close(active);
+    active = scope;
+    scope.abort = () => close(scope);
+    scope.signal.addEventListener('abort', scope.abort, { once: true });
+    window.addEventListener('pagehide', scope.abort);
+    window.addEventListener('beforeunload', scope.abort);
+    try {
+      assert(scope);
+      scope.files.forEach(id => receipt(scope, id));
+      scope.targets.forEach(id => receipt(scope, id, true));
+    } catch (error) { close(scope); throw error; }
+    return Object.freeze({ close: () => close(scope) });
+  }
+  function select(owner, file, action, target) {
+    const scope = active;
+    if (!scope) throw driveMutationError('failed', '후보의 파일 변경은 검증 완료 전까지 잠겨 있습니다.', 423);
+    assert(scope); owner.assert();
+    if (owner.accountKey !== scope.owner.accountKey || owner.accountId !== scope.owner.accountId
+      || !scope.files.has(file.id) || !['trash', 'move'].includes(action)
+      || (action === 'move' && !scope.targets.has(target?.id))) deny();
+    receipt(scope, file.id);
+    if (action === 'move') receipt(scope, target.id, true);
+    return scope;
+  }
+  function validate(scope, meta, isTarget = false) {
+    assert(scope);
+    const row = receipt(scope, meta.id, isTarget);
+    if (meta.ownedByMe !== true || meta.driveId || meta.appProperties?.qaRun !== scope.run
+      || meta.appProperties?.qaRole !== row.role || meta.mimeType !== row.metadata.mimeType
+      || (isTarget ? !/^\d+$/.test(meta.version || '') || !/^\d+$/.test(row.metadata.version)
+        || BigInt(meta.version) < BigInt(row.metadata.version) : meta.version !== row.metadata.version)
+      || meta.trashed !== row.metadata.trashed
+      || !sameParents(meta.parents, row.metadata.parents)) deny();
+  }
+  async function checkFolders(scope, owner, before, target) {
+    assert(scope); owner.assert();
+    if (before.parents.length !== 1) deny();
+    const ids = new Set([before.parents[0], ...(target ? [target.id] : [])]);
+    for (const id of ids) {
+      receipt(scope, id, true);
+      const folder = target?.id === id ? target : await readDriveMutationMetadata({ id }, owner);
+      validate(scope, folder, true);
+      if (folder.trashed || folder.capabilities.canAddChildren !== true) deny();
+      // Two admitted files fit in one complete page. Any unknown child or
+      // continuation makes this QA folder unsuitable; never traverse originals.
+      const params = new URLSearchParams({ q: `'${escapeDriveQueryLiteral(id)}' in parents and trashed = false`,
+        spaces: 'drive', pageSize: '3', fields: 'nextPageToken,incompleteSearch,files(id)' });
+      const response = await driveFetch(`${DRIVE_API}/files?${params}`, { ...owner.options, driveMaxRateAttempts: 1 });
+      const children = await response.json();
+      assert(scope); owner.assert();
+      if (children.incompleteSearch !== false || children.nextPageToken || !Array.isArray(children.files)
+        || children.files.length > 2 || new Set(children.files.map(row => row.id)).size !== children.files.length
+        || children.files.some(row => !scope.files.has(row.id))) deny();
+    }
+  }
+  function issue(scope, owner, entry, target, url, options) {
+    assert(scope); owner.assert();
+    if (entry.state !== 'submitted' || !scope.files.has(entry.fileId) || entry.before?.id !== entry.fileId
+      || !['trash', 'move'].includes(entry.action) || (entry.action === 'trash' && target)) deny();
+    validate(scope, entry.before);
+    if (entry.action === 'move') {
+      if (!scope.targets.has(target?.id) || entry.targetId !== target.id) deny();
+      validate(scope, target, true);
+    }
+    const params = new URLSearchParams({ supportsAllDrives: 'true', fields: DRIVE_MUTATION_FIELDS });
+    if (entry.action === 'move') { params.set('addParents', target.id); params.set('removeParents', entry.before.parents.join(',')); }
+    const expectedUrl = `${DRIVE_API}/files/${encodeURIComponent(entry.fileId)}?${params}`;
+    const body = entry.action === 'trash' ? '{"trashed":true}' : '{}';
+    if (url !== expectedUrl || options.method !== 'PATCH' || options.body !== body
+      || options.driveNoRetry !== true || options.signal !== owner.options.signal || options.signal.aborted) deny();
+    const permit = Object.freeze({});
+    const abort = () => release(permit);
+    const headers = JSON.stringify(Object.entries(options.headers || {}).sort());
+    issued.set(permit, { scope, owner, entry, target, url, body, headers, signal: options.signal, abort, expires: Date.now() + 5_000 });
+    scope.permits.add(permit);
+    options.signal.addEventListener('abort', abort, { once: true });
+    return permit;
+  }
+  function release(permit) {
+    const record = issued.get(permit);
+    if (record) {
+      record.scope.permits.delete(permit);
+      record.signal.removeEventListener('abort', record.abort);
+    }
+    issued.delete(permit);
+  }
+  function consume(permit, url, options) {
+    const record = permit && issued.get(permit);
+    if (!record) deny();
+    release(permit); // Failed, duplicated, or expired dispatches never regain authority.
+    assert(record.scope); record.owner.assert();
+    validate(record.scope, record.entry.before);
+    if (record.target) validate(record.scope, record.target, true);
+    if (Date.now() >= record.expires || url !== record.url || options.method !== 'PATCH'
+      || options.body !== record.body || options.driveNoRetry !== true
+      || JSON.stringify(Object.entries(options.headers || {}).sort()) !== record.headers
+      || options.signal !== record.signal || options.signal.aborted
+      || options[ACCOUNT_STATE_WRITE] !== undefined || options[ACCOUNT_STATE_READ] !== undefined) deny();
+    return true;
+  }
+  function confirmed(scope, entry) {
+    assert(scope);
+    if (entry.state !== 'confirmed' || !scope.files.has(entry.fileId)) deny();
+    const value = ledger(scope), row = value.created.find(item => item.id === entry.fileId);
+    const after = entry.after;
+    if (!row || after?.id !== row.id || after.ownedByMe !== true || after.driveId || !after.version
+      || after.appProperties?.qaRun !== scope.run || after.appProperties?.qaRole !== row.role
+      || after.mimeType !== row.metadata.mimeType || !driveMutationMatches(entry, after)) deny();
+    row.metadata = after;
+    try { localStorage.setItem(scope.key, JSON.stringify(value)); }
+    catch (_) { throw driveMutationError('uncertain', '일회용 검증 파일의 확인 기록을 저장하지 못했습니다.'); }
+  }
+  return Object.freeze({ activate, select, validate, checkFolders, issue, consume, release, confirmed });
+})();
+
+function activateDisposableDriveMutationLease(options) {
+  return disposableDriveMutations.activate(options);
+}
 
 function driveMutationError(mutationState, message, status = 0) {
   return Object.assign(new Error(message), { mutationState, status });
@@ -9680,6 +9872,7 @@ function driveMutationMetadata(value, id, { rootAlias = false } = {}) {
   return { id: value.id, parents: [...value.parents].sort(), trashed: value.trashed,
     version: typeof value.version === 'string' ? value.version : null,
     driveId: value.driveId || null, mimeType: value.mimeType || '',
+    ownedByMe: value.ownedByMe === true, appProperties: { ...(value.appProperties || {}) },
     resourceKey: value.resourceKey || '', capabilities: value.capabilities || {} };
 }
 
@@ -9761,7 +9954,7 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
   file = { ...file, parents: Array.isArray(file.parents) ? [...file.parents] : undefined };
   targetRow = targetRow ? { ...targetRow } : null;
   const owner = captureDriveMutationOwner();
-  if (!DRIVE_MUTATIONS_ENABLED) throw driveMutationError('failed', '후보의 파일 변경은 검증 완료 전까지 잠겨 있습니다.', 423);
+  const disposableScope = !DRIVE_MUTATIONS_ENABLED ? disposableDriveMutations.select(owner, file, action, targetRow) : null;
   const intent = JSON.stringify({ fileId: file.id, action, target: targetRow?.id || null,
     expectedParents: Array.isArray(file.parents) ? [...file.parents].sort() : null, expectedVersion: file.version || null });
   return withDriveMutationLock(owner, async (boundedOwner) => {
@@ -9793,6 +9986,7 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
         throw driveMutationError('conflict', '파일 상태가 바뀌었습니다. 새로고침해 주세요.');
       }
       entry.before = before;
+      if (disposableScope) disposableDriveMutations.validate(disposableScope, before);
       entry.resourceKey = before.resourceKey || entry.resourceKey;
       if ((file.version && file.version !== before.version)
         || (Array.isArray(file.parents) && JSON.stringify([...file.parents].sort()) !== JSON.stringify(before.parents))) {
@@ -9802,10 +9996,12 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
       if (action === 'move') {
         target = await readDriveMutationMetadata(targetRow, boundedOwner, { rootAlias: true });
         entry.targetId = target.id;
+        if (disposableScope) disposableDriveMutations.validate(disposableScope, target, true);
         if (target.mimeType !== 'application/vnd.google-apps.folder' || target.trashed || target.capabilities.canAddChildren !== true || before.trashed) {
           throw driveMutationError('failed', '이 폴더로 이동할 권한이나 상태를 확인하지 못했습니다.', 403);
         }
       }
+      if (disposableScope) await disposableDriveMutations.checkFolders(disposableScope, boundedOwner, before, target);
       if (driveMutationMatches(entry, before)) {
         entry.skipped = true; entry.after = before;
         persistDriveMutation(entry, owner, 'confirmed');
@@ -9830,15 +10026,22 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
       try {
         // No transparent auth/rate-limit PATCH retries: every possible send is
         // followed by an independent read before any later user intent.
-        const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params}`, {
+        const url = `${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params}`;
+        const options = {
           ...boundedOwner.options, driveNoRetry: true, method: 'PATCH', headers,
           body: action === 'trash' ? JSON.stringify({ trashed: true }) : '{}'
-        });
-        await response.json();
+        };
+        const permit = disposableScope ? disposableDriveMutations.issue(disposableScope, boundedOwner, entry, target, url, options) : null;
+        try {
+          if (permit) options[DISPOSABLE_DRIVE_MUTATION] = permit;
+          const response = await driveFetch(url, options);
+          await response.json();
+        } finally { if (permit) disposableDriveMutations.release(permit); }
       } catch (error) {
         if ([400, 401, 403, 404, 409, 412, 429].includes(error?.status)) entry.rejectionStatus = error.status;
       }
       await verifyDriveMutation(entry, boundedOwner);
+      if (disposableScope && entry.state === 'confirmed') disposableDriveMutations.confirmed(disposableScope, entry);
       return driveMutationResult(entry);
     } catch (error) {
       if (entry.state === 'prepared') {

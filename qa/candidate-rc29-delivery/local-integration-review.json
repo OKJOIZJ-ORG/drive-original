@@ -1,0 +1,59 @@
+{
+  "recordedAt": "2026-10-01T00:52:41.505Z",
+  "scope": "Local product29 integration only; actualcandidate/account/device replay pending",
+  "fullSuite": {
+    "tests": 721,
+    "pass": 721,
+    "sourceRecord": "product-tests.json",
+    "recordSha256": "b3abdba26d2d6ffb0d8d8984fe8e7674e2c4a114eec5ed504a1fccd79e5ca8c1",
+    "currentDriftFromFullSuite": [
+      "styles.css",
+      "version.json"
+    ]
+  },
+  "currentIntegration": {
+    "tests": 162,
+    "pass": 162,
+    "sourceRecord": "product-integration-tests.json",
+    "recordSha256": "c6d397c95e9b97537b4863234e98f6c53e3e82d7cd7144cc547c9dca4ff4c20c",
+    "exactCurrentAllFilesMatch": true
+  },
+  "nativeLayout": {
+    "viewports": 5,
+    "scope": "local synthetic nativeChrome; source/fixture/results independently recorded in qa/rc29-pc-player-layout"
+  },
+  "capabilityReview": {
+    "scope": "independent bounded-authority review +89focused checks; no actual Drive writes"
+  },
+  "sourceFiles": [
+    {
+      "file": "app.js",
+      "sha256": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e"
+    },
+    {
+      "file": "index.html",
+      "sha256": "86bc6af4c3df8f2fd8deb86146563c1c559414a84ecd97f8fbadcce1959651a8"
+    },
+    {
+      "file": "styles.css",
+      "sha256": "1e011347c4a24cad04ed4229c01b721cb20d7925268b8ca6d585000ff9850a11"
+    },
+    {
+      "file": "sw.js",
+      "sha256": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394"
+    },
+    {
+      "file": "version.json",
+      "sha256": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    },
+    {
+      "file": "tests/static.test.js",
+      "sha256": "9c706d676fd77853ce681c11c1ba227b4a7fa5f36a0747d9a0413cd6fa74accc"
+    },
+    {
+      "file": "tests/disposable-mutations.test.js",
+      "sha256": "eb927c14f6395b398eac83cd7ed11216fc4295c71bd987d757244b5c6804ae02"
+    }
+  ],
+  "passed": true
+}

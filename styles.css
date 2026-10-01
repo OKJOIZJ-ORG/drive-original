@@ -1571,7 +1571,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /* The ambient backdrop extends past this viewport. Clip it without making
+     focus/scrollIntoView or injected controls scroll the video and chrome. */
+  overflow: clip;
   background: #000000;
   touch-action: none;
 }
@@ -3698,6 +3700,11 @@ dialog {
 .player-chrome .player-title-box { flex: 1; min-width: 0; }
 .player-chrome .player-title-box h2 { font-size: 14px; }
 .player-chrome .player-ctrl-btn { box-shadow: none; }
+/* Video has its favorite action in the transport row; images retain the
+   topbar action because their video transport is hidden. */
+.player-chrome:has(.custom-video-controls:not([hidden])) #topbarFavoriteBtn {
+  display: none;
+}
 .file-card, .file-card-open, .file-card img, .file-card-visual {
   -webkit-user-select: none;
   user-select: none;

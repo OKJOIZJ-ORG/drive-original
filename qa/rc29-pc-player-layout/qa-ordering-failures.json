@@ -1,0 +1,14 @@
+{
+  "status": "retained and resolved at QA layer",
+  "attempts": 3,
+  "viewport": { "width": 768, "height": 1024 },
+  "assertion": "exactly one responsive favorite action",
+  "expected": 1,
+  "initialMeasurement": 0,
+  "nextMeasurementSamePage": 1,
+  "cause": "control visibility sampled before rendered frame after reveal",
+  "correction": "wait for visible control and two requestAnimationFrame callbacks",
+  "productAssertionsWeakened": false,
+  "productChangedForThisFailure": false,
+  "finalNativeViewportPasses": 5
+}

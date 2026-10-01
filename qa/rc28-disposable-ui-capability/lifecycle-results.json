@@ -1,0 +1,34 @@
+{
+  "schema": "drive-original.rc28-disposable-lifecycle-local/1",
+  "actualRun": false,
+  "baseCommit": "8bb047c5ce1b330bbd1745a16d7f2e5274568209",
+  "appSha256": "99376d134afb91f12dc745dcefc74171062d1da12c00413ccea64fdc2e21c16e",
+  "scopedAddedCases": 7,
+  "focused": {
+    "command": "node --test tests/disposable-mutations.test.js tests/mutations.test.js tests/account-state.test.js",
+    "pass": 89,
+    "fail": 0,
+    "scopedCases": 56,
+    "existingCases": 33
+  },
+  "lifecycle": [
+    "pagehide",
+    "beforeunload"
+  ],
+  "cleanup": [
+    "explicit close",
+    "account abort",
+    "observed expiry",
+    "invalid activation",
+    "replacement"
+  ],
+  "retainedOriginalEvidence": [
+    "local-results.json",
+    "README.md"
+  ],
+  "timerPolicy": "No background expiry timer; checked expiry closes and removes lifecycle listeners",
+  "appStaticRerun": false,
+  "committed": false,
+  "deployed": false,
+  "actualUiTested": false
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "drive-original.rc28-disposable-ui-capability-local/1",
+  "actualRun": false,
+  "branch": "codex/v2-kickoff-diagnostics",
+  "baseCommit": "8bb047c5ce1b330bbd1745a16d7f2e5274568209",
+  "productVersionChanged": false,
+  "generalDriveWrites": false,
+  "committed": false,
+  "deployed": false,
+  "appSha256": "c59668b43fefaea5ea2be9c822cb875df0a2eb78fddab9b5dfe39f7358a4c551",
+  "focusedTests": {
+    "command": "node --test tests/disposable-mutations.test.js tests/mutations.test.js tests/account-state.test.js",
+    "pass": 82,
+    "fail": 0,
+    "newScopedCases": 49,
+    "existingCases": 33
+  },
+  "requiredProductTests": {
+    "command": "node --test tests/app.test.js tests/static.test.js",
+    "pass": 162,
+    "fail": 0
+  },
+  "retainedHarnessFailure": "Added read-only recovery case initially lacked the synthetic showToast stub and failed at absent DOM textContent. Fixture repaired; canonical code unchanged for that repair; focused final 82/82 passed.",
+  "limits": [
+    "Synthetic storage/HTTP only; actual unchanged bulk UI unrun",
+    "Root-owned reviewed ledger and exact-source proof remain operational authority",
+    "Fresh Drive metadata/list checks are not atomic against external changes",
+    "Candidate deployment, API/web/G comparison, restoration and residual inspection remain root-owned"
+  ]
+}
