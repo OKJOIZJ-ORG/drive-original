@@ -1,0 +1,99 @@
+{
+  "schema": "drive-original.rc30-source-binding-generated/1",
+  "sourceCommit": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+  "version": "1.22.0-rc.30",
+  "expressionSHA256": "16638995b9660f9d38cabb2d762791d38d47ca6857ad07ba0d8a649cebe631b5",
+  "shellManifestSHA256": "288505e2a27714060e330cc43e8b0b555d5b99d15454344a0b5792aa1b8df6fd",
+  "distinctShellFiles": 40,
+  "factoryLogicUnchangedExceptOwnedBaselineKey": true,
+  "cases": [
+    {
+      "name": "correct",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-app",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "selected",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "unsettled",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "offline",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "hidden",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-controller",
+      "passed": true,
+      "mockedPublicReads": 0,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "bad-public",
+      "passed": true,
+      "mockedPublicReads": 1,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "extra-shell",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "missing-cache",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "bad-cache",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "waiting",
+      "passed": true,
+      "mockedPublicReads": 3,
+      "mockedCacheOpen": 1,
+      "actualRequests": 0
+    }
+  ],
+  "passed": 12,
+  "actualRequests": 0,
+  "actualExecution": false,
+  "privateIdentityExported": false
+}

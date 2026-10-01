@@ -1,0 +1,3003 @@
+{
+  "schema": "drive-original.rc31-actual-savepoint-curation/1",
+  "recordedAt": "2026-10-01T04:36:32.994Z",
+  "workspaceRoot": "C:\\extensions\\Drive-Original\\source",
+  "stagingPerformed": false,
+  "commitPerformed": false,
+  "productFilesIncluded": false,
+  "memoryFilesIncluded": false,
+  "deviceOrNetworkActions": false,
+  "privateInputRead": false,
+  "manifestSelfHashExcluded": true,
+  "scopeLeaves": [
+    "candidate-rc30-delivery",
+    "candidate-rc31-delivery",
+    "rc30-resume-20261001",
+    "rc30-ts-device-replay",
+    "rc30-performance-continuation",
+    "rc31-resume-20261001",
+    "rc31-performance-preparation",
+    "rc31-deeper-coalesced-probe",
+    "rc31-corpus-content-continuity",
+    "rc31-corpus-serial-runner",
+    "rc31-disposable-ui-preparation",
+    "rc31-android-cookie-gate",
+    "rc31-passive-latency-partition"
+  ],
+  "sourceIdentities": {
+    "source30": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+    "source31": "4a484e6f839d2e6c3eb83503acb08147362cb011"
+  },
+  "artifactCount": 243,
+  "totalArtifactBytes": 14874974,
+  "currentSnapshotHashMismatches": 0,
+  "curationReferences": [
+    "qa/rc30-performance-continuation/staging-manifest.json",
+    "qa/rc30-resume-20261001/staging-manifest.json",
+    "qa/rc30-ts-device-replay/preparation-manifest.json",
+    "qa/rc30-ts-device-replay/preparation-provenance.json",
+    "qa/rc30-ts-device-replay/preparation-v2-provenance.json",
+    "qa/rc30-ts-device-replay/preparation-v3-manifest.json",
+    "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json",
+    "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json",
+    "qa/rc31-android-cookie-gate/preparation-freeze.json",
+    "qa/rc31-corpus-content-continuity/curated-savepoint.json",
+    "qa/rc31-corpus-content-continuity/provenance.json",
+    "qa/rc31-corpus-serial-runner/curated-savepoint.json",
+    "qa/rc31-corpus-serial-runner/provenance.json",
+    "qa/rc31-deeper-coalesced-probe/curated-savepoint.json",
+    "qa/rc31-deeper-coalesced-probe/provenance.json",
+    "qa/rc31-disposable-ui-preparation/staging-manifest.json",
+    "qa/rc31-performance-preparation/staging-manifest.json",
+    "qa/rc31-resume-20261001/staging-manifest.json",
+    "qa/rc31-passive-latency-partition/preparation-freeze.json"
+  ],
+  "historicalManifestDifferences": [],
+  "files": [
+    {
+      "path": "qa/candidate-rc30-delivery/audit-memory-guard.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 461,
+      "sha256": "6b03e944347e27d49471e7a2e63bd20d1a22a8ca26bc7ab7ab4fd237713c6512",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/audit-with-memory-guard.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2318,
+      "sha256": "1b85b04bfebf5a2cfb577b37c7d57989b1607fdd13cda53c501a88f1f66420e1",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/bind-source.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 6375,
+      "sha256": "be3d5f4472cea786e4d09fee6480a166cb9941cc6ff6e7897262963d83a3574e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/binding.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2660,
+      "sha256": "99074a87929d9898935d79a2ffe791b491c12ba6cd5de2039d3b4cfd657d95a0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/build-release.py",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 3995,
+      "sha256": "804233f7cdab8512fd6f2aa16ac96fd422bf9f0e7d92030875ad58db82bfd2ad",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/delivery-guard.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 5190,
+      "sha256": "cd03fd0771a33453cfdac01ab073324cebfe2f83ebaec3ecbc3b0e700a6252b9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/DELIVERY-PREPARATION.md",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 3748,
+      "sha256": "5ef832b23a8752c0fc39cbb7c919ea3c0db01aecbb0863a287663bb20c33f17b",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/deploy-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1752,
+      "sha256": "c76144ce88dd013aebf34a9f78e05c14755b63ce41756074a523957e65d0abe0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/deployment.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 9186,
+      "sha256": "80485dd76010a586ca8a24b341b8f9c2855712e31a6bf5cc3f9f3fd38e4f219d",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/finalize-source-readiness.py",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 5653,
+      "sha256": "13b9a490c788f59b2d2b38150b73a9ce3995ec873352bd7c252a165248d62c7d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/local-delivery-preparation.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1320,
+      "sha256": "6655b11fcff824c40531075ba6fea34c8d34e226dbb18811a419e3c8e70277be",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/local-text-normalization.json",
+      "ownershipEvidence": [
+        "fixed-source30-local-normalization"
+      ],
+      "bytes": 353,
+      "sha256": "65552c011f095dfca112467390d94cd67d33789ac1d73ba93af17679ddc84685",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/materialization.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 8944,
+      "sha256": "2ffc56cf98497ae48820fcc36b837fe0269f85ef3a0d19ca5a370175fe3edfb7",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/materialize-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/package.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 876,
+      "sha256": "33df7f25e8b911af79080980a7bb70b7ba588eb268e1d8eef5f733941b257afa",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/readback-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/redact-readback.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2129,
+      "sha256": "e0349bd1704f95047ac5725267dee4bc0ed3a23f4e713d34370692f7fbc447e3",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/redacted-readback.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1624,
+      "sha256": "930685d3828535463ede49c13845355afeaf83faac3a7aaae02f78024f4ae782",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/results.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 10187,
+      "sha256": "f96a774b57f541300d3b09a26069b9a257230264f55dd37ead3de5d0ac60241d",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/source-readiness.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 8881,
+      "sha256": "008d4b27e707845a32d1844b9054dedc5bca4454fe431626c80f4c6f66b92fb6",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/audit-memory-guard.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 461,
+      "sha256": "19ab10c00dcda25f2b0ab64594215edcd942601d03fe8e413a7bab86982c8d80",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/audit-with-memory-guard.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2318,
+      "sha256": "8dbd14a843d1d94e0a48059dcbceed0198979b43a756ecc23d4f7b321d583a53",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/bind-source.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 6636,
+      "sha256": "ac27ffb99ebd83533f1cadac6da927832aa67176fcfe804d1c235302c2be759e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/binding.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2660,
+      "sha256": "87535de22a8b218b7fd3b0b5330daa928504b453ca66c924afcdc140b2b06cdf",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/build-release.py",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 3995,
+      "sha256": "db819b9f95bb1f499d04cde8a84a73068b4cee90b18c201bee2a72d40efef81f",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/delivery-guard.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 5190,
+      "sha256": "0adc47c2ea3c11ab8d92be9f3d1cb14e0b507a7907252ffef65c50f5478e9a95",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/DELIVERY-PREPARATION.md",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 3936,
+      "sha256": "ee34943e4b130b313af14e663632554e8bf1da9e053250aff8572e496f084393",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/deploy-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1752,
+      "sha256": "0e21f08f94fc3ffe66c31df4fc6f371f5b84751260e9532d84c2036707292959",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/deployment.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 9186,
+      "sha256": "c2ec1d065a9f5fadcede2a12fe3f503dbf9d078b7497c900f7352698f36a102f",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/finalize-source-readiness.py",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 5653,
+      "sha256": "8f13e7755e40a1d0f853877f6539340d4e46460de967baf7d970af92b30430ce",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/local-delivery-preparation.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1560,
+      "sha256": "3d73ed63d425b2df2295a31bd6a336677b3a40e48cd6bebda41aabe5ceb161d2",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/materialization.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 8944,
+      "sha256": "23b4c56d51df569bfcb0c1489e0bb96c6867ef00bd6f65d5b3e4cf0550d0e680",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/materialize-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/package.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 876,
+      "sha256": "53757505ea2bcad279d90d899b7bd1484875cb3089b205e44ccba1317e75dd8a",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/readback-candidate.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/redact-readback.cjs",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 2129,
+      "sha256": "d942b0ec2cb9c168d2c861de3b94be2f6241dbe6a7f66aa518c6e8f96b2ec37c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/redacted-readback.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 1624,
+      "sha256": "d4e9438416de720c4cc37f84d3e5bcad92ebc60323e0756e2c33399b01cc12b2",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/results.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 10187,
+      "sha256": "7b65fdbf1202bf5159c1592ead361a69ced4f36e687553057d167fc8123b0cde",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/source-readiness.json",
+      "ownershipEvidence": [
+        "fixed-source-candidate-delivery-unit"
+      ],
+      "bytes": 8881,
+      "sha256": "094978ddb24cc69f2b283ce411c15fcb28f8abd9861c596f05c0a291183836f8",
+      "role": "actual-safe-candidate-delivery-record"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/bind.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 4807,
+      "sha256": "406bdadecb6c9fd7e9460d14e763f4955c815410fabfbc4b8d0985711224ab56",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/binding.json",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 1149,
+      "sha256": "7f4c6b44ca9ee4bd365e64c3a7c42a0284eb4ef4aee9bc26b4ec98f2111a427c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/local-verification.json",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 3243,
+      "sha256": "80e7a5dacf562f4a1f01561e591116b573ecb15edfba3331166a90f51e58a831",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/observer.expression.js",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 20564,
+      "sha256": "8f725e1b89d8c100d2b544b68f795d1ca709758faa5c6cc1b33a38c8abafe514",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/observer.function.js",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 19768,
+      "sha256": "2e13464527945ea20a74ef38990244bc4a0d441f1f4160d033dfdcbdfe69265e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/README.md",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 3203,
+      "sha256": "99819ce68f268dc0814509f16a90ae6982d758c74a92babe5d3c742ca796a993",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/staging-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 2329,
+      "sha256": "f35ed4b41364a7484bd78be60686a84a67be7005b737dc44a41ce310eb8f48ec",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/summarize.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 2788,
+      "sha256": "0ceb56f4122675932c66351f0a71ddcd5a0dc34f438a6844264f04bff630109e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/synthetic-six-outcomes.json",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 23618,
+      "sha256": "37f32ddba6e72ed199337a35c24c2ed4227cd7ccad2dbdffd0e66acc95484168",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/synthetic-six-summary.json",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 4995,
+      "sha256": "b5a999f29dc5ce5470508d96e08af6482a4577a5b303eed87d60547d3a96c2e0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-performance-continuation/verify.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-performance-continuation/staging-manifest.json"
+      ],
+      "bytes": 9739,
+      "sha256": "4fb8fd1bd7d86bc2d02b572b107d7d5ace00cc96636a9a7d12d5e4114e9ee0a4",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/actual-pc-normal-update-pending-body-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc30-pc-normal-update-observation/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "candidateSource",
+          "workerVersion",
+          "fromDocumentVersion",
+          "documentVersion",
+          "normalTrustedUpdateClicked",
+          "normalPagehideObserved",
+          "elapsedFromClickMs",
+          "auth",
+          "accountLoaded",
+          "loadingPromise",
+          "readCacheCount",
+          "closed",
+          "q0",
+          "q1",
+          "pendingPlay",
+          "accountPreserved",
+          "accountKeyPreserved",
+          "writerPreserved",
+          "projectionPreservedSoFar",
+          "privateCachePreservedSoFar",
+          "oldSourceClosureCurrentBeforeUpdate",
+          "newPersonalFullSourceProofEstablished",
+          "candidateDeliveryPublicAndCacheAuditPassedSeparately",
+          "executingWorkerScriptHashKnown",
+          "observedPendingBody",
+          "complete",
+          "privateIdentityOrCredentialsExported",
+          "privateSameFileKeyRetained"
+        ],
+        "leafShapeCount": 38,
+        "leafShapeSha256": "1b7aa2dd9550d2d53f6e9cc654dc338205280fcf75ca08b8a375ebfe7e16372d",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 1344,
+      "sha256": "bdfd7427be265eaec67ed4b0fa3c58f95123b29fc4634f3672d7b18713c4d9b6",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/actual-pc-normal-update-source-cache-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": null,
+        "topLevelKeys": [
+          "source",
+          "version",
+          "recordedAt",
+          "controllerActivated",
+          "rootScope",
+          "network",
+          "cache",
+          "matchedCache",
+          "preserved",
+          "executingWorkerScriptHashKnown",
+          "sourceProofInstalled",
+          "baselineRemoved",
+          "privateIdentityExported"
+        ],
+        "leafShapeCount": 23,
+        "leafShapeSha256": "a6d42ca02ff474b5e62b554741fc0c14ad76a1d951a66bba044ac4c969ba95e9",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 3815,
+      "sha256": "8ec0b806346f875eb89d4085912cbd936cca7d7a3db9e4d6ea72c00c70554e39",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/actual-pc-performance-partial-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc29-performance-plan-outcomes/1",
+        "topLevelKeys": [
+          "schema",
+          "binding",
+          "done",
+          "attemptCount",
+          "actualAttemptCount",
+          "outcomeCount",
+          "requiredOutcomes",
+          "requiredAttempts",
+          "requiredStartupAttempts",
+          "requiredPausedSeekAttempts",
+          "requestedStartupCount",
+          "requestedSeekCount",
+          "actualStartupAttemptCount",
+          "actualSeekAttemptCount",
+          "unattemptedCensoredCount",
+          "observerReleased",
+          "closes",
+          "rows",
+          "planComplete",
+          "complete",
+          "scope",
+          "limitations"
+        ],
+        "leafShapeCount": 180,
+        "leafShapeSha256": "ac3f4534eeddb027fd81510beb55dfd5118ddaad5cd6bac43472a58c6bc0b8b4",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 88518,
+      "sha256": "66b5f828175375a4f88a4817c53e2489d2f1258f6f60781e47ebf36589a59b9a",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/actual-pc-performance-partial-summary.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": null,
+        "topLevelKeys": [
+          "binding",
+          "attempts",
+          "actualAttemptCount",
+          "outcomeCount",
+          "requiredOutcomes",
+          "requestedStartupCount",
+          "requestedSeekCount",
+          "actualStartupAttemptCount",
+          "actualSeekAttemptCount",
+          "unattemptedCensoredCount",
+          "planComplete",
+          "complete",
+          "observerReleased",
+          "closedSamples",
+          "closeFailures",
+          "groups",
+          "limits"
+        ],
+        "leafShapeCount": 41,
+        "leafShapeSha256": "e3e4543ce85bf4bdafdc1e24bb9936fc67fce2bc827141c3ecbe2d3fe2512f1c",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 9818,
+      "sha256": "36583e7e97b1428edc2d4e74c6ea3b56341b520b0c674f9902d4d7ea770839a7",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/android-binding-verification.json",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 1789,
+      "sha256": "0df756429eab7d346d56dbaad1a7baf2d943420adef39f10ceedd1713dc776c0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/android-binding.json",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 7220,
+      "sha256": "4bed34292938034c72d9f374327de522476d9370b7ab549d2c94d133c1aff263",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/android-normal-update-source-cache-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "completed",
+          "ownedNativeCdpDisconnected",
+          "ownedMcpClosed",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 162,
+        "leafShapeSha256": "004f219a244dfa3b21f5f115c777a9dc95ce8018e1d9bce804338e6469e267ad",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 21217,
+      "sha256": "abed23a7fd8ba128902db40f76bba9203982e7bf489b5417c753948f7fe8e0c6",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/android-normal-update-source-cache.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8194,
+      "sha256": "9091d566a49c4b0f7d9f914264c0405ece8955f7d0cc1e5c0cfc57fc24712e2e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/android-ui-common-rc30.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8077,
+      "sha256": "ffc682d78c276b543867fd8a2101b918927474b2817448e446b4e63e95e60a9e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/build-android-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 4376,
+      "sha256": "a0015d90e5b21e72fa84393a07d16e7aee32a78b3709d5f6cd09e5d44cc7cfdc",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/build-source-proof.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 1959,
+      "sha256": "047b7250931a737db66b2503034421fc8aebfa0ba564e3fdd0bbda5031f09112",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/README.md",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 3530,
+      "sha256": "babe865efc90ddb1e8f86466614971f76dc795906f7adf0dab65382d5060568f",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/source-binding-verification.json",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 2296,
+      "sha256": "ece44287839d6d7e6525cb2e5b3d42bd30e28ebaaf618497819a4e7bbf1c4d59",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/source-proof.expression.js",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8053,
+      "sha256": "16638995b9660f9d38cabb2d762791d38d47ca6857ad07ba0d8a649cebe631b5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/sourcebinding.json",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 7355,
+      "sha256": "838563c564077caef72a2f6a4a0ec740a244d8a6f373c5ee52f54f24568b7da8",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/staging-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 2570,
+      "sha256": "76506eaa9fad941c487536c47875fe37848051220d476905d16ea35b76422837",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/verify-android-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 5076,
+      "sha256": "def6bd4b14adc07a26b2085fb4504cd0ea81c444dbf00c7b0007788596731f01",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-resume-20261001/verify-source-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 5389,
+      "sha256": "17cd8f97c69352f9ad43d31edcecb244666980a6e84337319004f7a2c5d52300",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/actual-pc-same-ts-replay-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc30-single-file-replay/1",
+        "topLevelKeys": [
+          "schema",
+          "sourceCommit",
+          "version",
+          "elapsedMs",
+          "disposed",
+          "latest",
+          "phases",
+          "events",
+          "metadataResults",
+          "eof",
+          "rawIdentifiersExported",
+          "observerOnly",
+          "listenersBounded"
+        ],
+        "leafShapeCount": 304,
+        "leafShapeSha256": "b755cd2a795fa20ff879fefc8d3f3b66df39d733b07f5de2ab01e514d902716b",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 1396541,
+      "sha256": "9cb71a337b80bc184dd79b2f0ff7b55019538988651641b847945f9580490e45",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/actual-pc-same-ts-replay-summary.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-pc-same-ts-replay-summary/1",
+        "topLevelKeys": [
+          "schema",
+          "source",
+          "version",
+          "rawSha256",
+          "metadata",
+          "phases",
+          "closed",
+          "q0Owner",
+          "q1Owner",
+          "retirementSettled",
+          "observerStoppedAndAPIUninstalled",
+          "cleanupProvenance",
+          "exactFinalFrame",
+          "audioFidelity",
+          "originalBytesAcross29To30Unchanged",
+          "privateTargetNotForStaging"
+        ],
+        "leafShapeCount": 62,
+        "leafShapeSha256": "1e0060e5d327a51cd681bb3c6c8e62fec00347d401a64f553f9440e2eed474c9",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 10540,
+      "sha256": "8015f3da38dca7bc4500ff580f39a905f69841a697a06b5c3a1e867669a01f69",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-attempt3-latency-review.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.android-attempt3-latency-review/1",
+        "topLevelKeys": [
+          "schema",
+          "reviewProducerSha256",
+          "actualExecutionByReview",
+          "privateInputRead",
+          "browserDeviceNetworkCallsMade",
+          "productEdited",
+          "evidence",
+          "phases",
+          "mediaSources",
+          "codeReferences",
+          "confirmed",
+          "unknowns",
+          "candidate",
+          "eof",
+          "rawIdentifiersExported"
+        ],
+        "leafShapeCount": 67,
+        "leafShapeSha256": "8c34fa1e2ff3b67e912adfc46bd966169c5eebd7283bbac8c109702d4e60dacd",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 15228,
+      "sha256": "8d8a4e44ad175a4ab2edeccbf1df1e864d6bb77995453c4e84d5ffd00ce384ff",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-attempt3-latency-review.md",
+      "ownershipEvidence": [
+        "root-owned-static-latency-review"
+      ],
+      "bytes": 2916,
+      "sha256": "fde6e53ab9a7fe6faacec06ecfce7bc34a42f89075600c386df84e420a766cea",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-attempt2-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "ownedMcpClosed",
+          "mcpDetachedBeforeHome",
+          "nativeOsInput",
+          "humanFingerInput",
+          "syntheticMedia",
+          "originalMediaReadOnly",
+          "exactFinalFrame",
+          "sourceCommit",
+          "replayDurationMs",
+          "cleanupComplete",
+          "completed",
+          "failure",
+          "ownedNativeCdpDisconnected",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 790,
+        "leafShapeSha256": "41a5836332ecee15ad7b511baad9da3435aa7f531e3b02a9b8ab11dbcb26e8cc",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 543793,
+      "sha256": "805e93f6198bf43fc7e6cb438039411666555be82258d6d0a3e1c1f1fd7c5f42",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-attempt3-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "ownedMcpClosed",
+          "mcpDetachedBeforeHome",
+          "nativeOsInput",
+          "humanFingerInput",
+          "syntheticMedia",
+          "originalMediaReadOnly",
+          "exactFinalFrame",
+          "sourceCommit",
+          "replayDurationMs",
+          "cleanupComplete",
+          "completed",
+          "ownedNativeCdpDisconnected",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 875,
+        "leafShapeSha256": "8d59335d5c930044269dac0e4a64bb4865fddc781bf45748112693b4e66ee4e9",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 7568610,
+      "sha256": "34d419002a1ad6851728ca69a458b511bb6482ccc5e97a5c035974bffb2b0e08",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-attempt3-summary.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-same-ts-summary/1",
+        "topLevelKeys": [
+          "schema",
+          "sourceCommit",
+          "version",
+          "actualExecution",
+          "input",
+          "humanFingerInput",
+          "completed",
+          "failure",
+          "rawFile",
+          "rawSha256",
+          "replayDurationMs",
+          "phases",
+          "metadata",
+          "eof",
+          "closes",
+          "cleanupComplete",
+          "physicalAudioFidelity",
+          "originalBytesUnchangedAcross29To30",
+          "privateIdentityExported"
+        ],
+        "leafShapeCount": 152,
+        "leafShapeSha256": "caa8d42f852f7656851968453a0775146525f7566bdf95c1bee2ced84ab739f1",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 15518,
+      "sha256": "165001aa51b88763f450bbe258e3fd74de438b0520089ea70c8ab50c862834d3",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "ownedMcpClosed",
+          "mcpDetachedBeforeHome",
+          "nativeOsInput",
+          "humanFingerInput",
+          "syntheticMedia",
+          "originalMediaReadOnly",
+          "exactFinalFrame",
+          "sourceCommit",
+          "replayDurationMs",
+          "completed",
+          "failure",
+          "ownedNativeCdpDisconnected",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 121,
+        "leafShapeSha256": "0f6fdbb667485f57bd834f3400b65d34687d48f4bd5044960874c41330d57992",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 13570,
+      "sha256": "71858878f63af81fe3bb79a8e54875c6710c3d5b1d233577585a1f8f03054155",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-v2.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 17632,
+      "sha256": "69490c03abac1cd98439a0c517f3a16cb001f7be8162991c2e9f050c39ea42bb",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay-v3.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 19163,
+      "sha256": "ab097c543270833ebc4f98a03f4d7978287174757f9b1e78e4fff73e1305aa85",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-same-file-replay.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 14949,
+      "sha256": "1d730fee60ed98aaaf1cf6c1d3a945fd87da7417dced06920e7e4a8f53543072",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/binding.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-provenance.json"
+      ],
+      "bytes": 428,
+      "sha256": "ae87430730da34cfde7d6c8c48d4b36a75aaf34038c1fefca48066ac96fedf49",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/build-v2.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 1878,
+      "sha256": "46b88059c2ce590eb52ec93919e2c366adfc3ad210a93dc618298d68f670aca3",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/build.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 1624,
+      "sha256": "30275cf2454c749baea648a965d1909db3a3466850faa7f740c916ed89d2f670",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/check-preparation-v3.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 2240,
+      "sha256": "568e0dccfe90491c0f2785e5f798617ae5aaeb34aeeaedb608017b2fdcc0ffa6",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/check-preparation.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 1486,
+      "sha256": "0ee464e77ed0e78f8819d7b8dea596095da7389766d7c29de0cbac425b881a19",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/curate-preparation-v3.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 1276,
+      "sha256": "59d9d407c1a90d55a27f5f69e64306f625d1246f8d84e97e427720c31f4ca999",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/curate-preparation.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 2101,
+      "sha256": "6ecd3c684e08e1251d0dd311359bfc013ffed0ec4bddbbbcfa973a6b95083f80",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/driver-preparation.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 3615,
+      "sha256": "608d45314452a9e37c65392afb3f61761b3e8d5150c682a7942e0d045ad1a501",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/driver-v2-preparation.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 2804,
+      "sha256": "76e4c4db7bb671dd986c781700e7ce9f3451a86b9247b3358dc047d0e91e75a5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/executed-v1-preservation.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 459,
+      "sha256": "a0e6ff7a59832cc31fd870c887d982d4cbd67cdc788b74889475da881c00a094",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/native-action-v3.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 4381,
+      "sha256": "d2e1d9d3d717b787693180f1409d19e9f9c294da45423e629d4fbfad10fc7b39",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/native-folder-target.function.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-v2-provenance.json"
+      ],
+      "bytes": 1635,
+      "sha256": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/native-folder-target.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 2975,
+      "sha256": "d65bdc9f7923ca967702f2960fdcd3d4b3229eb5bb72a4549bec5755071bae78",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/native-ui-target-v3.function.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 4592,
+      "sha256": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/native-ui-target-v3.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 4431,
+      "sha256": "e40c74f0f6d06beec65fd1e427b4c3f237eea77dbc05ea8478598da1aa852f8d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/observer-v2.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 3714,
+      "sha256": "2af77976c8c2c5bcf0cad445336ae67fac4079ca31dd408858db1f667a07bed2",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/observer.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 7700,
+      "sha256": "82ef2687dfb245cac90f27ae8e3c91d165b583c53e2fb73c44c2f6e285aaa4fe",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 5047,
+      "sha256": "92dde5f5134d807cce4288c527d9fa680bffd2b99a6683d5baec4d787b9be8e1",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-provenance.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "existing-task-curation-record"
+      ],
+      "bytes": 1091,
+      "sha256": "553d5903e1c6633a4651179367a247c8d7768e7a7409260a246b9e4e42001eaf",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-v2-checks.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 960,
+      "sha256": "559235fb9c933877c4ac8979c7291b87f63b15b720941377c74e6455e634342d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-v2-provenance.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "existing-task-curation-record"
+      ],
+      "bytes": 851,
+      "sha256": "8614c68678ce6c5fb5fc2617fb0fe6f19b252d3fa9e52dff47896f8b1458e327",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-v3-checks.json",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 1575,
+      "sha256": "35249f92053a421d4229b28aca91ca5cf5eda30a8603b7b1f90889c0de28e570",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preparation-v3-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 1951,
+      "sha256": "526f947918a74b008a662b34040ce8f0b623d59ed187ca1176df9d7fafcf5605",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/preserve-executed-v1.cjs",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 1891,
+      "sha256": "cae1fc0c2d7b4ba77896e6224dd56167d6dd1eb93e0c796d16c887fcb9d8c9d7",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/README-v3.md",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-v3-manifest.json"
+      ],
+      "bytes": 4239,
+      "sha256": "856cc0c6aa34eefa711727f3e5a2f48a2c1698d01f7972f159f7d82b601f2604",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/README.md",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json"
+      ],
+      "bytes": 7361,
+      "sha256": "90190022ab5ef4eec934975d7f14dc71139b4aeef3ca20678295067f279c84c9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/review-android-attempt3-latency.cjs",
+      "ownershipEvidence": [
+        "root-owned-static-latency-review"
+      ],
+      "bytes": 13906,
+      "sha256": "8522d66e5613010461065c7aec5c23dfc3cd6e906e3f78ebab7f6600a8c8edde",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/single-file-observer-v2.expression.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-v2-provenance.json"
+      ],
+      "bytes": 15820,
+      "sha256": "3d5c4c5646f678ce410ed8605e0a327fef6776ebd2cc814b44745b92d297c9b1",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/single-file-observer-v2.function.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-v2-provenance.json"
+      ],
+      "bytes": 15430,
+      "sha256": "bf07d3e1443c19edfb34fe060d5184addb0c481dd97f04eac0188f0c9908e7f9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/single-file-observer.expression.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-provenance.json"
+      ],
+      "bytes": 15596,
+      "sha256": "c951b0cb694004e1fbd98335669432075164e0f223fdfe4229a55c75fe6380e7",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/single-file-observer.function.js",
+      "ownershipEvidence": [
+        "qa/rc30-ts-device-replay/preparation-manifest.json",
+        "qa/rc30-ts-device-replay/preparation-provenance.json"
+      ],
+      "bytes": 15206,
+      "sha256": "9bad9e5170afae6db6ef5f1a2d5fdfcb84080ead108e129ae94323595dc881b3",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-gate-attempt2-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc31-android-cookie-gate/2",
+        "topLevelKeys": [
+          "schema",
+          "sourceCommit",
+          "version",
+          "actualExecution",
+          "completed",
+          "rawIdentifiersExported",
+          "cookieOrTokenCopied",
+          "profilePreferencesChanged",
+          "artificialCookies",
+          "originalMediaMutated",
+          "receipts",
+          "cleanup",
+          "failureStage",
+          "safeErrorClass",
+          "failure"
+        ],
+        "leafShapeCount": 32,
+        "leafShapeSha256": "4718a97171fd8b7608536ea9c471a258a939a2dc6219f7fb84711a7722c1143c",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 1187,
+      "sha256": "883e047ae2eeca38b94df0888a8acfc3f5acba06118d020cb8d27cd638086532",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-gate-attempt3-result.json",
+      "ownershipEvidence": [
+        "root-frozen-safe-actual-cookie-attempt3"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc31-android-cookie-gate/3",
+        "topLevelKeys": [
+          "schema",
+          "sourceCommit",
+          "version",
+          "actualExecution",
+          "completed",
+          "rawIdentifiersExported",
+          "cookieOrTokenCopied",
+          "profilePreferencesChanged",
+          "artificialCookies",
+          "originalMediaMutated",
+          "receipts",
+          "cleanup",
+          "originalQualified",
+          "derivedQualified",
+          "failure"
+        ],
+        "leafShapeCount": 87,
+        "leafShapeSha256": "8c560dfd00c7a6a28ec92c2eb5e2aac25c2eb59faa3d061b0a27ff6b74e61dd5",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "schemaAndShapeVerified": true,
+        "validationBasis": "Frozen root-designated safe finite receipt shape, no raw URLs/IDs/names/tokens; static receipt names permitted."
+      },
+      "bytes": 6345,
+      "sha256": "84d53fd61c8720992077b5d94651c7c3f356a1df2a58245b5094c7fddffb8fd8",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-gate-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc31-android-cookie-gate/1",
+        "topLevelKeys": [
+          "schema",
+          "sourceCommit",
+          "version",
+          "actualExecution",
+          "completed",
+          "rawIdentifiersExported",
+          "cookieOrTokenCopied",
+          "profilePreferencesChanged",
+          "artificialCookies",
+          "originalMediaMutated",
+          "receipts",
+          "cleanup",
+          "failure"
+        ],
+        "leafShapeCount": 19,
+        "leafShapeSha256": "52afce0a077f469c6c8c76d3d4a51571cb141ee439add3382a44c590118777f7",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 715,
+      "sha256": "dc837d36b378562f4776b3bb43a60235ca555395d6c9a0b2098374e3f353ea93",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/android-adapter-attempt2.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json"
+      ],
+      "bytes": 10867,
+      "sha256": "de8bd2e3c20ba341aed87aae52af23ff624c1999dcd523f90fd1a8432123cd23",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/android-adapter-attempt3.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 10806,
+      "sha256": "6a0a90a0f7db39398a9c06e4e2acb03e0761869c7224c74af4be049627411f08",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/android-adapter.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 10476,
+      "sha256": "3e46c6268b0d29c37051ea29fbdd3e0731475542ad8fef4a3f04cb879fa06b7a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 1137,
+      "sha256": "62d1d587566669a0eb67aacf79a28f37fe951605a1ba62d196f3cd589dcbfd97",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/attempt2.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json"
+      ],
+      "bytes": 5408,
+      "sha256": "26fa1c5233ad479869144b984442891a856b0a0d824bcfa67910d5bf73adf9f5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 1278,
+      "sha256": "7ba77e4c0fa4068ca28e117e5e29b7599fe6c6bf5dacdef220faf7d5ad420744",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/attempt3.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 6354,
+      "sha256": "eab69d076a1ab7e182cd313be91853ac01f7b6823ef9ecb4719f3cf53e0743c3",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/cookie-target-scope.json",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 1774,
+      "sha256": "e2a77529557ab33c1573c704a3961aba91d86309dd9c4b7f8db140eb8acf2318",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/frame-owner-attempt3.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 2656,
+      "sha256": "4b7e9300643097d04dbe3597bc45c18e0ddb91c8836ae8032624b701ddd0597a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/gate-attempt2.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json"
+      ],
+      "bytes": 7618,
+      "sha256": "d3c0dde31922a846569a8f98ba786d3757cba159cf7268d090f4cfe575d0f95a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/gate-attempt3.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 8168,
+      "sha256": "2ede156d7b674bb12aff9b4c73883ba70b31998b9f6a576868b77b6a7aaecec9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/gate.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 5978,
+      "sha256": "e747ffa2c07993814814c5d82cae9b4bc2d00e11fb7438e9f4e364c18f5abfb1",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/gate.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 4508,
+      "sha256": "6e9a2b434d902e9d9f6cced2a5df9453daa4f484d5db97977907f080cb320c2c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/normal-replay.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 11897,
+      "sha256": "4c5ded567ed58736ab85f776b5181c6cbe568c0b8c9c1129ec100342970be985",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/normal-replay.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 5971,
+      "sha256": "19bce55d954593c4c51afbb95bfafc874b13da5123686dfed8a2af64f075ff68",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/preparation-freeze.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 1888,
+      "sha256": "ebe62922525373f6198c3fda6c8d26495ce0a7e30183e51d393df5f8af2b120b",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/README-attempt2.md",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json"
+      ],
+      "bytes": 2601,
+      "sha256": "f185f7c568dbfc1555a8ee45581796cf129f21dcc12482d31891bade41a7edbe",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/README-attempt3.md",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 2680,
+      "sha256": "f28ab9f417cb789d4b38f642f254c95b8bba67cd4c9ef65b93562a9fffa05a0e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 6718,
+      "sha256": "f64a8cbf850d5db57c2b5b1efb2704105861d2fbe71c32060d0424efb7ad09c6",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/root-execute-attempt2.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt2-preparation-freeze.json"
+      ],
+      "bytes": 1333,
+      "sha256": "e2c54cb886dbbb60cb84dc6a42a0889e5ed0c2b324e8c3e0e5d72563665be52a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/root-execute-attempt3.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/attempt3-preparation-freeze.json"
+      ],
+      "bytes": 1333,
+      "sha256": "818cbd2aeeda104b6e13803b165edce7936e905a885fd024e31cb55286c59664",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/root-execute.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-android-cookie-gate/preparation-freeze.json"
+      ],
+      "bytes": 1271,
+      "sha256": "e528c17aab615ead7c8bf3cb8aa4442952872346b6966fb35d6e1aac27a05376",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/bind-source.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 1613,
+      "sha256": "b66c273c81213ea3160e0dad54e22da4b15d84b0a53275b88b20f0f99adc8cf8",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/binding.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 430,
+      "sha256": "6ea4195c89a3b11746859a1b8a8129f40308a95c317f3f76e1f6f480a066ddbb",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/build.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 6142,
+      "sha256": "d391c8842f5f98e4a81fe02d05323fa0748a12ebf9e2337aaa1c2f58fed86d76",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/continuity.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 2234,
+      "sha256": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/curated-savepoint.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record",
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 1524,
+      "sha256": "686038ec6183b22f15ae8b506d9f2da67977fb97bee53ae92a4dc262a8f8c46c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/derive-context.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 3370,
+      "sha256": "45f59331e49b29cadf8157b068ecdb740b862b9452bdfe5402f6fcb3519f7ea5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/facade.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 5026,
+      "sha256": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/factory.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 129444,
+      "sha256": "a16b13a76a74c38fce71c27d2e1666683798f1bc5626a1cc12d4453aab3d5bea",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/inherited-contract-baseline.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 2227,
+      "sha256": "7182027e85c85f604e2b1c0be1c6768729020786d6916d93050fd8018b8e038e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/inventory-normalizers.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 1973,
+      "sha256": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/local-tests.tap",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 6293,
+      "sha256": "d57fa5c261633cc5f335afa93221aec34582f3795387c44a829350c94685a1e1",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/local-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 3840,
+      "sha256": "ea8d52b0b2c63b4d4a7b79d4ee5c7b3e663856fd2a4872801530c93cd9c3ee4e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/probe.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 25290,
+      "sha256": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/probe.test.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 26387,
+      "sha256": "cabfae5695af582249336c9151eb2f6164fa66c3e2cacdf3b44b19e947397a32",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/provenance.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json",
+        "existing-task-curation-record"
+      ],
+      "bytes": 3408,
+      "sha256": "61c4986791f71e59fc2338ddeb67531aa24195fca0d81ace9b82574671f4d82d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 3606,
+      "sha256": "3feaa651aac9907c658cdb69d4e3c40f04078f6ced2e37767a20e8eff2346863",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/selection.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 4126,
+      "sha256": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/sw-proof.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 3442,
+      "sha256": "2243d46e8381af074fbae4c4802cdd626b9c9da17cbd8941185b0f45f194aab8",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/sw-proof.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 2703,
+      "sha256": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-content-continuity/verify.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-content-continuity/curated-savepoint.json"
+      ],
+      "bytes": 9114,
+      "sha256": "c61c363254ccb5367346b74d58737f774d6bb0026c88281894842aba96196a6c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/build.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 2409,
+      "sha256": "e9b9e464ec800b0b4fa209e2c17f12bfac93994dbbee6811d6c04a05613835e8",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/curated-savepoint.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record",
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 659,
+      "sha256": "4dbfdca7601556c0d741d199f62c9d977ae8c9c3e54fa26f2fde247e58caa0f8",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/inherited-verify.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 7061,
+      "sha256": "9a5b57cd34ba29d1a6db0b52167e29d292daed98076e03d8739d7b6c6387674a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/local-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 2133,
+      "sha256": "5264c06486d702573b8e4de7aebb50bdea871900271dab4737f0beff5652a2af",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/provenance.json",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json",
+        "existing-task-curation-record"
+      ],
+      "bytes": 1129,
+      "sha256": "d775841ac02eebfc3beedfeeaf5129dcd3fcff7456a40b8cdb2df3e246bba5fb",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 5989,
+      "sha256": "5974753768bb3acf40643d96abcba4eb092afde8cdc058fcc7563c272d733dee",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/runner.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 138258,
+      "sha256": "932a2e06be0d9db8b29b62e7ba4d8ceb7fae4e6f557bbf4ed63c37751aeebb5d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/runner.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 8293,
+      "sha256": "8e3073394a10a9454737bfee192ad9b5f7fcbe7a45dc3eed5454df4bf652b166",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-corpus-serial-runner/verify.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-corpus-serial-runner/curated-savepoint.json"
+      ],
+      "bytes": 9426,
+      "sha256": "80492448cb85493c5184f286bd558a964f81191ef28e80232a70300d36d8019b",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/actual-cohort2-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc16-corpus-tracks-summary/1",
+        "topLevelKeys": [
+          "schema",
+          "version",
+          "scope",
+          "mode",
+          "completeMeaning",
+          "wholeCorpusComplete",
+          "inventoryDenominators",
+          "probeDenominators",
+          "complete",
+          "phase",
+          "failure",
+          "failureDiagnostic",
+          "selectionStage",
+          "inventoryRuns",
+          "catalogStable",
+          "catalogComparison",
+          "metadataRequests",
+          "metadataBytes",
+          "mediaRequests",
+          "mediaBytes",
+          "plan",
+          "files",
+          "filesComplete",
+          "filesDeferred",
+          "allFilesComplete",
+          "decoded",
+          "playback",
+          "physicalDevice",
+          "writeRequests",
+          "genericUpstreamCleanup",
+          "released",
+          "representativeReferences",
+          "stratumCoverage",
+          "reserve",
+          "metadataDiagnostic"
+        ],
+        "leafShapeCount": 221,
+        "leafShapeSha256": "12c9a992a33cc870aa74bc97e0abc5b3b54ee5f304b8c0c44b3795afa1d28e9f",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 44264,
+      "sha256": "4a50838b3cb6ca529db321c9f2e0cf33b37e1f72ab07da9e4541530f582620f9",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/binding.json",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 440,
+      "sha256": "ad56dcb73d2cb866797523090c311d055cd97d8fd61ca23e4b2c170090b9787a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/build.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 8341,
+      "sha256": "446765e1939ed68cd70a104260d625a572ee5bf2137b64f8a1675cc378e3ef75",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/curated-savepoint.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record",
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 1066,
+      "sha256": "69eb2ddece12520377478c8f8c3ae35ca769218ecdb6632422050591ee2527ec",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/derive-context.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 3370,
+      "sha256": "45f59331e49b29cadf8157b068ecdb740b862b9452bdfe5402f6fcb3519f7ea5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/diagnostics.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 2337,
+      "sha256": "53e9969b0bc8e991a276d19da2d2c15302437f167e354c7665b0c96c4ccb6a43",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/entry.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 14446,
+      "sha256": "362e2dc6c61c194151c59fb8f5dd86b03806b09fce204550cc21d843c65ebf50",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/facade.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 4878,
+      "sha256": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/factory.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 188512,
+      "sha256": "8ed9880bc48ca591ba6fb656b861f53f64f1169f12e2ac1af0d3e1d5f8337fa4",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/local-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 3425,
+      "sha256": "b297243fb53bf2dab4d8562df24dac6dcab865c815243c46351153e9cdfcaa0d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/moov-window-cache.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 2410,
+      "sha256": "09ac583600e317af96a7d599d06e70da899b44f809073e1c86dcd28b8dfbe932",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/probe.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 31858,
+      "sha256": "6989b6fb889960749b7fa3da0e3380c2c341d2f65eeb63f7ddcc38aaf0821b1e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/provenance.json",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json",
+        "existing-task-curation-record"
+      ],
+      "bytes": 4206,
+      "sha256": "13997156e390f36dff2a746f6b70f5319b45708d51d7a7a17ea3fe126f33f0f0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 5718,
+      "sha256": "6b39b43e0301aff061392a5626850fd07963ad71d50e6a1cda5f11e10b38a5c7",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/selection.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 5501,
+      "sha256": "098f630811dfb4f97a1d5002d0719de64eb4d3e761566e097ab4b0b35e4f2c28",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/sw-proof.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 3138,
+      "sha256": "357283d5217c8e0371f691f2b6d075abda78541afaffa1b85648cfa98226c369",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/sw-proof.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 2702,
+      "sha256": "6f6563317a07a88d0fab647f8e3f436cf000b26d2e2aca9b81416f211bb6c7a4",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-deeper-coalesced-probe/verify.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-deeper-coalesced-probe/curated-savepoint.json"
+      ],
+      "bytes": 20515,
+      "sha256": "1a9fd403c54fc759f80a7b36035bb786daed9550ec38560fdac16a4f7b264410",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/binding.test.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 5236,
+      "sha256": "c56d336bac11a3ef1362585fc71ded1e138581be324dc39d145a4571edbb7e2c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/build.json",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 1508,
+      "sha256": "1219ff8932b3dee2d7cef769e61edc4cfa073d8abdd30a09557e80c3f1d4a362",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/build.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 4221,
+      "sha256": "e140eb1d8ddf88a0c2090903d0cea8bdae679731e8d4ed05c62bc098ec67f3c2",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/facade.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 2069,
+      "sha256": "dc1ad3707ae7f6af0ec3e8427c2fc2e5907faa07d2171ae2c5eb0b97f696340d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/factory.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 13110,
+      "sha256": "de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/job.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 12425,
+      "sha256": "44a07cffc1272d7fdbe02eaa9057bfc381e49daa8836e9f8e5be74cf92cdc7ab",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/local-review.json",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 1798,
+      "sha256": "154e2ed802d7df37597bc879e6427b40130c32004b2915a1bf3aff2a4d0c14f5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/local.test.mjs",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 8520,
+      "sha256": "0e849909d4402ba229767689758a173a434f3e375d95509f508873502e99c38b",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 8510,
+      "sha256": "39d5949ef411a86bc1d977889c58f0a57086ad7d05d1f9852f488660a3fc9d1d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/review.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-disposable-ui-preparation/staging-manifest.json"
+      ],
+      "bytes": 2297,
+      "sha256": "752008ee0de50aa1bc562f6f049ab41a7fcae1334dd179dccb769010f3690c9a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/staging-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 2527,
+      "sha256": "36417f3f84aae68f0ef9a1d1e521349469b3abbac9c96d68b6431919a7348f54",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/actual-android-latency-partition-result.json",
+      "ownershipEvidence": [
+        "root-frozen-safe-actual-passive-latency-result"
+      ],
+      "bytes": 3299644,
+      "sha256": "279874f857f25e8fbfa3b916697ee18c1f2a2a50cd4a4897da4a69e77d703dcc",
+      "role": "actual-safe-evidence",
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "ownedMcpClosed",
+          "mcpDetachedBeforeHome",
+          "nativeOsInput",
+          "humanFingerInput",
+          "syntheticMedia",
+          "originalMediaReadOnly",
+          "exactFinalFrame",
+          "partitionScope",
+          "sourceCommit",
+          "replayDurationMs",
+          "cleanupComplete",
+          "completed",
+          "passiveNetworkCleanup",
+          "ownedNativeSessionDetached",
+          "ownedNativeCdpDisconnected",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 1065,
+        "leafShapeSha256": "0a60481ecd1df0d9a0bb0ffef97879e8247204930b5bd16fce80e4db0e986ff4",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "schemaAndShapeVerified": true,
+        "validationBasis": "Exact frozen safe producer; CDP reducer exports ordinal/class/timing/byte counters and enums, no raw IDs/URL/header/body. Full shape inspected, privacy flag alone not used."
+      }
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/android-common.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 8965,
+      "sha256": "ecad2349559cbfeddbeed3bbda7fc4d2bd15ae91d6776d84391205ad2b768561",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/android-latency-partition.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 18936,
+      "sha256": "a13e3c2d389d33d86e7f236c1e6ccaa132b1706254672d908bc3b23ce8959d4a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/binding.json",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 397,
+      "sha256": "9d1cb89cfc466425aba379cbb107eadd9320117c7ead4c4fd000d70dc02e0b5c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/build-preparation.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 14074,
+      "sha256": "585519e7d454e06ab0592c5bc42249d91a1891edddd8ebfa61b5ed124e3eea88",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/dependency-freeze.json",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 1253,
+      "sha256": "f30cbe1b36d2330801b5bc3c45803e3cc911c65cd5ff504d42ef788ea00aefd0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/derivation.json",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 1519,
+      "sha256": "18dcf59c5bff2ef84d4b0134aaee7ac008804cf88a65ed2a955715feea4325d3",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/finalize-preparation.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 2592,
+      "sha256": "2ef80cd7750eeee70e7b9ff517560425fbf71dee6f4b777dd5312055c7294b9d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/native-folder-target.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 1635,
+      "sha256": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/native-ui-target.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 4592,
+      "sha256": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/network-reducer.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 6042,
+      "sha256": "83335edb30789ca746fe3eb4ab1f71256d910794bacbdcc1a510b7f0dd32f791",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/observer.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 16102,
+      "sha256": "aec7fc80a6028dad8865e7fb8be34d70187d0ef47b80fd7a2c6cd2fcb04cbbfa",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/observer.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 15740,
+      "sha256": "016fd5609dd0519935810c88888d66d41e4aba6e16cd3e35db6ddebdf8b3cc33",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/partition-summary.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 2604,
+      "sha256": "ed82c75c9a6ce0cb6bded650674650e7b121cfdce90cf6c565ae91c764e0eb70",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/preparation-checks.json",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 434,
+      "sha256": "4d9e3d08f8636c5890ab5839bc2cc0221dac1eecdf28e2c3993b1911afd7b551",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/preparation-freeze.json",
+      "ownershipEvidence": [
+        "root-final-preparation-freeze-18-members"
+      ],
+      "bytes": 3036,
+      "sha256": "b06bea5e85bd0c931276f53cc38bd89a6b02f487405db30719e86c417db3ad7d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/preparation.test.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 10239,
+      "sha256": "bf35206fbc07bafe36af41cb30228c0b2e568ad0b448fb54fb30e081824c880c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 5389,
+      "sha256": "7262212f3dad79b662a506bb30a47149eb57c3f0a6e22a136b225d11f47f6922",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/root-execute.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 606,
+      "sha256": "6bca2a7d2d8babb10940baccdba6bb9d0d457b48cb9a67be6a07e4c3d5b0040e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/verify-preparation.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-passive-latency-partition/preparation-freeze.json"
+      ],
+      "bytes": 879,
+      "sha256": "8efa9eeba23d963436eae6496eff2888ce9f5d86dca95f530ef428215596d118",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/bind.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 1439,
+      "sha256": "8dc961d57a53b6cdb6f2ed3a9f0f1a6755f7c640cdcc7af6595b89fd0d39871f",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/binding-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 1640,
+      "sha256": "6d37a2b51f372f22d801b210492e9955c98ee31f02040c25165f69e1cc8420b4",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/binding.json",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 369,
+      "sha256": "b0eb1b6b31ffe2b3103cc06a959c74c12519d69322038ef07f7df081980db807",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/local-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 1723,
+      "sha256": "10b27d7f4c12980b42d9b46dd254deeb591819b5a8a6449048e6741eddc21620",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/observer.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 19247,
+      "sha256": "d53bd077c960f5dd2921dfb4414c538b11f879d9e8e851af684b01882586018c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/observer.function.js",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 18876,
+      "sha256": "9086eb9c7299b41db6246e5e35e2679de1e788f5114a7176f9fe8148147f27cc",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 3743,
+      "sha256": "706f0ac7333906ac8f0eaa2af7dc6f4656f929642c9b7998368393810d3b2ff5",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/staging-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 2571,
+      "sha256": "f2c124fcf6e55cc8dd41cfa5200ba003f444f8dbe93d7ca3817a1fa134e2ae8c",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/summarize.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 2738,
+      "sha256": "db408a3a9ced336e6f4ee1fb1da6acd42a0da7ac2078ff54dd003f498f8b1081",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/verify-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 7405,
+      "sha256": "6b137a86bcb728d27c92983a32f2451a78b14cc69cc6296b39590aad46cf2f0e",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/verify-censor.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 10453,
+      "sha256": "91525df61532755dd7299698e5a7799150beed956da02eecd08de8fcec54937a",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/verify-gesture.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 8759,
+      "sha256": "4cda7feffa2a282d1ecfe289fa81d75b52bb6b3bc48aa2e09caacbbed0397845",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-performance-preparation/verify.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-performance-preparation/staging-manifest.json"
+      ],
+      "bytes": 8131,
+      "sha256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/actual-pc-full30-performance-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.rc29-performance-plan-outcomes/1",
+        "topLevelKeys": [
+          "schema",
+          "binding",
+          "done",
+          "attemptCount",
+          "actualAttemptCount",
+          "outcomeCount",
+          "requiredOutcomes",
+          "requiredAttempts",
+          "requiredStartupAttempts",
+          "requiredPausedSeekAttempts",
+          "requestedStartupCount",
+          "requestedSeekCount",
+          "actualStartupAttemptCount",
+          "actualSeekAttemptCount",
+          "unattemptedCensoredCount",
+          "observerReleased",
+          "closes",
+          "rows",
+          "planComplete",
+          "complete",
+          "scope",
+          "limitations"
+        ],
+        "leafShapeCount": 180,
+        "leafShapeSha256": "ac3f4534eeddb027fd81510beb55dfd5118ddaad5cd6bac43472a58c6bc0b8b4",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 110322,
+      "sha256": "af79f1a3b33493b04afd04372513ed5f8ca8d7fd7ae445568fd25415e85c85d5",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/actual-pc-full30-performance-summary.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": null,
+        "topLevelKeys": [
+          "binding",
+          "attempts",
+          "actualAttemptCount",
+          "outcomeCount",
+          "requiredOutcomes",
+          "requestedStartupCount",
+          "requestedSeekCount",
+          "actualStartupAttemptCount",
+          "actualSeekAttemptCount",
+          "unattemptedCensoredCount",
+          "planComplete",
+          "complete",
+          "observerReleased",
+          "closedSamples",
+          "closeFailures",
+          "groups",
+          "limits"
+        ],
+        "leafShapeCount": 41,
+        "leafShapeSha256": "e3e4543ce85bf4bdafdc1e24bb9936fc67fce2bc827141c3ecbe2d3fe2512f1c",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 9958,
+      "sha256": "99e08a6dda726454515d4ab3ecde30670ea9c0623c866e4473a6572391a35861",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/actual-pc-normal-update-source-cache-safe.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": null,
+        "topLevelKeys": [
+          "source",
+          "version",
+          "recordedAt",
+          "controllerActivated",
+          "rootScope",
+          "network",
+          "cache",
+          "matchedCache",
+          "matchedCacheAliases",
+          "shellRootAliasMatched",
+          "preserved",
+          "executingWorkerScriptHashKnown",
+          "sourceProofInstalled",
+          "baselineRemoved",
+          "privateIdentityExported"
+        ],
+        "leafShapeCount": 25,
+        "leafShapeSha256": "8b0f5eb31895c581921851e438e3223be2aa0e221edea5ceb435b86caf58ed4d",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 3877,
+      "sha256": "2d93f7ae08c323829fbdd690b24c25b08c853714572a8ea12e8126cb67103b60",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-binding-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 1789,
+      "sha256": "050854704d613b071c16e61904ee9fb3522a43b9d5020f4e9962a2a15851cb54",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-binding.json",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 7220,
+      "sha256": "d87cf592946459bfa996dc6c092b9408a4810e7c0579424d14aefa7c74172ecc",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-normal-update-source-cache-result.json",
+      "ownershipEvidence": [
+        "root-designated-safe-actual-evidence"
+      ],
+      "actualPrivacyShape": {
+        "schema": "drive-original.actual-android-acceptance/1",
+        "topLevelKeys": [
+          "schema",
+          "recordedAt",
+          "producerSha256",
+          "commonSha256",
+          "rawIdentifiersExported",
+          "settingsChanged",
+          "originalMediaMutated",
+          "productionChanged",
+          "steps",
+          "authorizedDevices",
+          "model",
+          "android",
+          "physicalScreen",
+          "toolSchemas",
+          "environment",
+          "focusEmulationRemoved",
+          "focusRemovalReason",
+          "completed",
+          "ownedNativeCdpDisconnected",
+          "ownedMcpClosed",
+          "ownedForwardRemoved"
+        ],
+        "leafShapeCount": 162,
+        "leafShapeSha256": "412801addd5e509baaf8efcb8a784724fe072cbaed4ccdfe7596c3c6fa1abf00",
+        "forbiddenIdentityOrCredentialLeafCount": 0,
+        "validationBasis": "Exact known-safe producer/schema shape; primitive counters/flags/public source binding; static step/tool names permitted. Privacy flags alone not used.",
+        "schemaAndShapeVerified": true
+      },
+      "bytes": 21217,
+      "sha256": "76464fadd9bbbf95596ec2fb2ba4967e8fb64485ca5ec07ebad58f1c04090c53",
+      "role": "actual-safe-evidence"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-normal-update-source-cache.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8194,
+      "sha256": "492d1f9879137afff8847beb444f5d2a0038271c5b91c03ecdc188d9e53d1d70",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-ui-common-rc31.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8077,
+      "sha256": "1e346e67f48b6c97a19bdad189cfbe55d66af8d36f2adec21a8979f920c6cb3d",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/build-android-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 4376,
+      "sha256": "f519d42ca99b7029d66daa8ffdd7f21e73124aabbed88fe6ea6adedfbd26ebc9",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/build-source-proof.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 2781,
+      "sha256": "80420598bdfffec85f3bf856c0357701536d74c25e138fb5db28dbf67355ca07",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/README.md",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 4068,
+      "sha256": "ecec867d04653f818eeebef69a7b76360d0dbd82a0fc858b9267e775d67fe401",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/source-binding-verification.json",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 2945,
+      "sha256": "7bc77fd035b473f41d2542af0f512f6873cca5c09ccd19b4313c9a8ca9b376ce",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/source-proof.expression.js",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 8544,
+      "sha256": "6257edcc580785a3e265aec717ac06e7504ef86a408ce9c964f08719b5fc1725",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/sourcebinding.json",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 7355,
+      "sha256": "1d49ac0e24ecb30c104d29cdb80cb0aa60412237bd9b5891bda40a779634ca31",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/staging-manifest.json",
+      "ownershipEvidence": [
+        "existing-task-curation-record"
+      ],
+      "bytes": 2570,
+      "sha256": "3c2f88d740b4a62ed6e56701c97301b6c5c9a4a74f47bf43250fc1bfe675a2e0",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/verify-android-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 5076,
+      "sha256": "98e725881c9141baa477235159d54954e1486970ebb81a9127ca762260bafd46",
+      "role": "local-preparation-or-static-producer"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/verify-source-binding.cjs",
+      "ownershipEvidence": [
+        "qa/rc31-resume-20261001/staging-manifest.json"
+      ],
+      "bytes": 7241,
+      "sha256": "b3016f0e94a8f955bae2be6185d9777d9b557cfe3618badf0ca70009e52dd7ec",
+      "role": "local-preparation-or-static-producer"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "qa/candidate-rc30-delivery/audit-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/deployment-private.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/version-readback-error-private.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc30-delivery/version-readback-private.json",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/audit-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/deployment-private.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/version-readback-error-private.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/candidate-rc31-delivery/version-readback-private.json",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-replay-attempt2-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-replay-attempt3-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc30-ts-device-replay/android-replay-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-attempt2-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-attempt3-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc31-android-cookie-gate/actual-android-cookie-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/fixture-1.png",
+      "reason": "not-authorized-safe-top-level-leaf"
+    },
+    {
+      "path": "qa/rc31-disposable-ui-preparation/fixture-2.png",
+      "reason": "not-authorized-safe-top-level-leaf"
+    },
+    {
+      "path": "qa/rc31-passive-latency-partition/private-output.log",
+      "reason": "active-passive-latency-actual-or-private-output; contents not read"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/android-normal-update-private-output.log",
+      "reason": "private/raw-log/screenshot/binary/package/input-kind; contents not read"
+    },
+    {
+      "path": "qa/rc31-resume-20261001/pc-update-baseline.expression.js",
+      "reason": "not-in-existing-curation-or-explicit-safe-evidence-allowlist; contents not read"
+    }
+  ],
+  "claims": {
+    "candidateDelivery": "Actual free candidate30/31 delivery records are distinct from production/main/push.",
+    "normalUpdates": "Actual PC/Android source/cache receipts retained for30/31.",
+    "source30Playback": "PC/Android exactsameTS actual receipts, earlier failures and latency review retained.",
+    "performance": "Partial30 and full30 actual PC records retained separately; source31 performance preparation is not actual31 performance.",
+    "deeper": "Actual31 bounded cohort2 released complete;1 file complete+2 TS deferred; not whole corpus or playback.",
+    "prefixContinuity": "Local preparation only; actual prefix continuity unrun.",
+    "serialRunner": "Local preparation only; no serial corpus completion claim.",
+    "disposable": "Local UI preparation only; actual restricted disposable run unrun.",
+    "continuation30": "Unused preparation only; synthetic outcomes do not establish actual performance.",
+    "cookie": "Actual attempts1/2 failures retained; attempt3 recognized scoped restriction/current31 account/public/cache/dormantframe/native Q1 frames/progress/seek/closed, but original-byte receipt false and ORIGINAL_OR_DERIVED_SCOPE_REMAINS. No whole QA-AU06 pass.",
+    "passiveLatencyPartition": "FINAL preparation18 safe members plus freeze and exact root-frozen actual passive result. Actual report completedtrue; report-specific cleanup/interpretation owner root. No product latency fix or whole performance gate claim."
+  }
+}

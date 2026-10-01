@@ -1,0 +1,98 @@
+{
+  "schema": "drive-original.rc31-binding-local-verification/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "binding": {
+    "schema": "drive-original.corpus-header-source-binding/1",
+    "version": "1.22.0-rc.31",
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "sourceSHA256": {
+      "app.js": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e",
+      "sw.js": "e65e51527fad4df7633e2a10d36f2d90966e47fb8c73e23d5ebb78b7059a747a",
+      "version.json": "d8903d703880dbb1ef1068575974d70e5666a127cb2970cfb951cfd3ff5bff06"
+    }
+  },
+  "expressionSHA256": "a16b13a76a74c38fce71c27d2e1666683798f1bc5626a1cc12d4453aab3d5bea",
+  "swProofSHA256": "2243d46e8381af074fbae4c4802cdd626b9c9da17cbd8941185b0f45f194aab8",
+  "files": {
+    "binding.json": "6ea4195c89a3b11746859a1b8a8129f40308a95c317f3f76e1f6f480a066ddbb",
+    "inventory-normalizers.mjs": "49a9dfd14a9c9aceb86bd1f3b881b19ceaafdba109104cd298525e48c2fb87db",
+    "selection.mjs": "d376240ca842a7ca265d8339534d3669e9f8b569d6448d655a220b587e782eaa",
+    "continuity.mjs": "38b0dd9b59053b65073b8cdcc01a73cb710e6d1e264c5d770061b3e6db14f733",
+    "probe.mjs": "483de064b913e33413a98d0900c73f17af96b73108822c1a8d77e73a1ee45316",
+    "facade.function.js": "5bec3becec6cfd306d6fa35d3b9e7a5e138492c211bf1ebf8cfb7755efa13c9e",
+    "sw-proof.function.js": "ae6ea15e0e743258d0e3511fa3c3e961e1c9dd26f6fffcfa6a55bbd4d58233a2",
+    "build.mjs": "d391c8842f5f98e4a81fe02d05323fa0748a12ebf9e2337aaa1c2f58fed86d76",
+    "bind-source.mjs": "b66c273c81213ea3160e0dad54e22da4b15d84b0a53275b88b20f0f99adc8cf8",
+    "probe.test.mjs": "cabfae5695af582249336c9151eb2f6164fa66c3e2cacdf3b44b19e947397a32",
+    "factory.expression.js": "a16b13a76a74c38fce71c27d2e1666683798f1bc5626a1cc12d4453aab3d5bea",
+    "sw-proof.expression.js": "2243d46e8381af074fbae4c4802cdd626b9c9da17cbd8941185b0f45f194aab8",
+    "provenance.json": "61c4986791f71e59fc2338ddeb67531aa24195fca0d81ace9b82574671f4d82d",
+    "README.md": "3feaa651aac9907c658cdb69d4e3c40f04078f6ced2e37767a20e8eff2346863",
+    "verify.mjs": "c61c363254ccb5367346b74d58737f774d6bb0026c88281894842aba96196a6c",
+    "derive-context.expression.js": "45f59331e49b29cadf8157b068ecdb740b862b9452bdfe5402f6fcb3519f7ea5",
+    "local-tests.tap": "d57fa5c261633cc5f335afa93221aec34582f3795387c44a829350c94685a1e1",
+    "inherited-contract-baseline.json": "7182027e85c85f604e2b1c0be1c6768729020786d6916d93050fd8018b8e038e"
+  },
+  "changedBindingCases": [
+    {
+      "name": "correct",
+      "passed": true,
+      "staticFixtureGETs": 4,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-version",
+      "passed": true,
+      "staticFixtureGETs": 0,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-hash",
+      "passed": true,
+      "staticFixtureGETs": 2,
+      "actualRequests": 0
+    },
+    {
+      "name": "controller-changed",
+      "passed": true,
+      "staticFixtureGETs": 1,
+      "actualRequests": 0
+    },
+    {
+      "name": "prior-factory-opaque-handle-rejected",
+      "passed": true
+    },
+    {
+      "name": "same-factory-cross-version-capsule-rejected",
+      "passed": true
+    },
+    {
+      "name": "unchanged-cap-and-prefix-contract",
+      "passed": true
+    },
+    {
+      "name": "builder-rejects-binding-schema-drift",
+      "passed": true
+    },
+    {
+      "name": "exact31-four-key-context-same-proven-producer",
+      "passed": true,
+      "actualRequests": 0
+    }
+  ],
+  "focused": {
+    "reusedPassed": 23,
+    "executedThisUnit": false
+  },
+  "inheritedContracts": {
+    "reusedPassed": 139,
+    "executedThisUnit": false
+  },
+  "oldLogicUnchanged": true,
+  "synthetic500ObjectCarryProofReused": true,
+  "freshHeadChecksForCarry": 0,
+  "actualExecution": false,
+  "wholeCorpusComplete": false,
+  "productChanges": false,
+  "genericUpstreamCleanup": "unknown"
+}

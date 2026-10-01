@@ -1,0 +1,1645 @@
+{
+  "schema": "drive-original.rc16-corpus-tracks-summary/1",
+  "version": "1.22.0-rc.31",
+  "scope": "canonical-risk-selected-bounded-structural-tracks",
+  "mode": "probe",
+  "completeMeaning": "all-planned-files-attempted-and-final-catalog-matched-files-may-be-deferred",
+  "wholeCorpusComplete": false,
+  "inventoryDenominators": [
+    {
+      "inventoryOrdinal": 1,
+      "phase": "inventory-before",
+      "cumulativeMetadataRequests": 62,
+      "cumulativeMetadataBytes": 11411539,
+      "schema": "drive-original.corpus-safe-inventory-denominators/1",
+      "counts": {
+        "totalUniqueItems": 8604,
+        "folders": 8,
+        "shortcuts": 0,
+        "folderShortcutsNotTraversed": 0,
+        "physicalFiles": 8596,
+        "classifiedUniqueObjects": 8596,
+        "videoObjects": 2185,
+        "imageObjects": 6410,
+        "audioObjects": 0,
+        "otherObjects": 1,
+        "visibleMediaReferences": 8595,
+        "uniqueMediaObjects": 8595,
+        "uniqueShortcutTargets": 0
+      },
+      "extensions": {
+        ".avi": 5,
+        ".bmp": 1,
+        ".gif": 547,
+        ".jpeg": 306,
+        ".jpg": 4916,
+        ".mkv": 8,
+        ".mov": 141,
+        ".mp4": 1962,
+        ".png": 167,
+        ".webm": 38,
+        ".webp": 448,
+        "<other>": 57
+      },
+      "mimeTypes": {
+        "<other>": 25,
+        "image/gif": 563,
+        "image/jpeg": 5237,
+        "image/png": 140,
+        "image/webp": 446,
+        "video/mp4": 1993,
+        "video/quicktime": 141,
+        "video/webm": 38,
+        "video/x-matroska": 8,
+        "video/x-msvideo": 5
+      },
+      "completeness": {
+        "repeatedPassCount": 2,
+        "repeatedPrivateInventoryMatched": true,
+        "containmentComplete": true,
+        "shortcutClassificationComplete": true,
+        "recursiveFolderTraversal": true,
+        "folderShortcutsTraversed": false,
+        "providerTransactionalSnapshotGuaranteed": false,
+        "traversedFolderCount": 9,
+        "pageCountPerPass": [
+          26,
+          26
+        ],
+        "duplicateReferenceCountPerPass": [
+          0,
+          0
+        ],
+        "incompleteSearchCount": 0,
+        "paginationCycleCount": 0,
+        "inventoryErrorCount": 0,
+        "shortcutResolutionErrorCount": 0
+      },
+      "sizes": {
+        "bands": {
+          ">=4GiB": 1,
+          ">0-24MiB": 8244,
+          ">24-64MiB": 188,
+          ">256MiB-<2GiB": 37,
+          ">64-96MiB": 45,
+          ">96-256MiB": 81
+        },
+        "knownSizeFileCount": 8596,
+        "unknownSizeFileCount": 0,
+        "totalKnownSizeBytes": "63724743295",
+        "maximumKnownSizeBytes": "4607107537"
+      },
+      "capabilities": {
+        "canDownload": {
+          "true": 8596
+        },
+        "canReadRevisions": {
+          "true": 8596
+        },
+        "canListChildren": {
+          "true": 8
+        }
+      },
+      "metadataAvailability": {
+        "size": {
+          "present": 8596,
+          "absent": 0
+        },
+        "modifiedTime": {
+          "present": 8596,
+          "absent": 0
+        },
+        "version": {
+          "present": 8596,
+          "absent": 0
+        }
+      },
+      "risk": {
+        "prioritySampleCount": 1,
+        "rareExtensionCount": 14,
+        "animatedGifOrWebp": 995,
+        "largeMp4OrMov": 38,
+        "videosAtLeastOneHour": 20,
+        "imagesWithRotation": 68,
+        "extensionMimeMismatchCount": 58,
+        "downloadBlocked": 0,
+        "downloadCapabilityUnknown": 0,
+        "missingVersion": 0,
+        "missingSize": 0,
+        "unresolvedShortcutTargetCount": 0,
+        "staleShortcutTargetMimeCount": 0
+      },
+      "candidateDenominators": {
+        "videoMimeObjects": 2185,
+        "videoExtensionObjects": 2154,
+        "videoMimeOrExtensionUnion": null,
+        "unionRequiresPrivateUniqueObjectSet": true
+      },
+      "coverage": {
+        "metadataInventoryCount": 8596,
+        "configuredContainerAnalysisCount": 0,
+        "decodedInThisRunCount": 0,
+        "physicalDevicePlaybackCount": 0
+      },
+      "limitations": {
+        "providerTransactionalSnapshotGuaranteed": false,
+        "folderShortcutsNotTraversed": 0,
+        "metadataInventoryIsPlaybackProof": false,
+        "wholeCorpusComplete": false
+      }
+    },
+    {
+      "inventoryOrdinal": 2,
+      "phase": "inventory-after",
+      "cumulativeMetadataRequests": 130,
+      "cumulativeMetadataBytes": 22825820,
+      "schema": "drive-original.corpus-safe-inventory-denominators/1",
+      "counts": {
+        "totalUniqueItems": 8604,
+        "folders": 8,
+        "shortcuts": 0,
+        "folderShortcutsNotTraversed": 0,
+        "physicalFiles": 8596,
+        "classifiedUniqueObjects": 8596,
+        "videoObjects": 2185,
+        "imageObjects": 6410,
+        "audioObjects": 0,
+        "otherObjects": 1,
+        "visibleMediaReferences": 8595,
+        "uniqueMediaObjects": 8595,
+        "uniqueShortcutTargets": 0
+      },
+      "extensions": {
+        ".avi": 5,
+        ".bmp": 1,
+        ".gif": 547,
+        ".jpeg": 306,
+        ".jpg": 4916,
+        ".mkv": 8,
+        ".mov": 141,
+        ".mp4": 1962,
+        ".png": 167,
+        ".webm": 38,
+        ".webp": 448,
+        "<other>": 57
+      },
+      "mimeTypes": {
+        "<other>": 25,
+        "image/gif": 563,
+        "image/jpeg": 5237,
+        "image/png": 140,
+        "image/webp": 446,
+        "video/mp4": 1993,
+        "video/quicktime": 141,
+        "video/webm": 38,
+        "video/x-matroska": 8,
+        "video/x-msvideo": 5
+      },
+      "completeness": {
+        "repeatedPassCount": 2,
+        "repeatedPrivateInventoryMatched": true,
+        "containmentComplete": true,
+        "shortcutClassificationComplete": true,
+        "recursiveFolderTraversal": true,
+        "folderShortcutsTraversed": false,
+        "providerTransactionalSnapshotGuaranteed": false,
+        "traversedFolderCount": 9,
+        "pageCountPerPass": [
+          26,
+          26
+        ],
+        "duplicateReferenceCountPerPass": [
+          0,
+          0
+        ],
+        "incompleteSearchCount": 0,
+        "paginationCycleCount": 0,
+        "inventoryErrorCount": 0,
+        "shortcutResolutionErrorCount": 0
+      },
+      "sizes": {
+        "bands": {
+          ">=4GiB": 1,
+          ">0-24MiB": 8244,
+          ">24-64MiB": 188,
+          ">256MiB-<2GiB": 37,
+          ">64-96MiB": 45,
+          ">96-256MiB": 81
+        },
+        "knownSizeFileCount": 8596,
+        "unknownSizeFileCount": 0,
+        "totalKnownSizeBytes": "63724743295",
+        "maximumKnownSizeBytes": "4607107537"
+      },
+      "capabilities": {
+        "canDownload": {
+          "true": 8596
+        },
+        "canReadRevisions": {
+          "true": 8596
+        },
+        "canListChildren": {
+          "true": 8
+        }
+      },
+      "metadataAvailability": {
+        "size": {
+          "present": 8596,
+          "absent": 0
+        },
+        "modifiedTime": {
+          "present": 8596,
+          "absent": 0
+        },
+        "version": {
+          "present": 8596,
+          "absent": 0
+        }
+      },
+      "risk": {
+        "prioritySampleCount": 1,
+        "rareExtensionCount": 14,
+        "animatedGifOrWebp": 995,
+        "largeMp4OrMov": 38,
+        "videosAtLeastOneHour": 20,
+        "imagesWithRotation": 68,
+        "extensionMimeMismatchCount": 58,
+        "downloadBlocked": 0,
+        "downloadCapabilityUnknown": 0,
+        "missingVersion": 0,
+        "missingSize": 0,
+        "unresolvedShortcutTargetCount": 0,
+        "staleShortcutTargetMimeCount": 0
+      },
+      "candidateDenominators": {
+        "videoMimeObjects": 2185,
+        "videoExtensionObjects": 2154,
+        "videoMimeOrExtensionUnion": null,
+        "unionRequiresPrivateUniqueObjectSet": true
+      },
+      "coverage": {
+        "metadataInventoryCount": 8596,
+        "configuredContainerAnalysisCount": 0,
+        "decodedInThisRunCount": 0,
+        "physicalDevicePlaybackCount": 0
+      },
+      "limitations": {
+        "providerTransactionalSnapshotGuaranteed": false,
+        "folderShortcutsNotTraversed": 0,
+        "metadataInventoryIsPlaybackProof": false,
+        "wholeCorpusComplete": false
+      }
+    }
+  ],
+  "probeDenominators": {
+    "classifiedObjects": 8596,
+    "metadataVideoObjects": 2185,
+    "metadataRepresentatives": 35,
+    "diagnosticTrackCandidates": 3,
+    "scheduledPrefixReads": 3,
+    "scheduledTrackReads": 1,
+    "probedClassifiedObjects": 3,
+    "probedVideoObjects": 2,
+    "probedRepresentatives": 3,
+    "unprobedClassifiedObjects": 8593,
+    "unprobedVideoObjects": 2183,
+    "unprobedRepresentatives": 32,
+    "wholeCorpusComplete": false,
+    "denominatorScope": "bounded-current-cohort-body-observations-no-prior-body-evidence-admitted"
+  },
+  "complete": true,
+  "phase": "done",
+  "failure": null,
+  "failureDiagnostic": null,
+  "selectionStage": null,
+  "inventoryRuns": 2,
+  "catalogStable": true,
+  "catalogComparison": null,
+  "metadataRequests": 130,
+  "metadataBytes": 22825820,
+  "mediaRequests": 3,
+  "mediaBytes": 2820,
+  "plan": {
+    "representatives": 35,
+    "cohort": 2,
+    "cohorts": 11,
+    "configuredMaximumFiles": 8,
+    "planned": 3,
+    "priorityBodyReprobe": true,
+    "priorPrivateMappingAvailable": false,
+    "metadataCategoryCoverage": {
+      "requiredCategoryCount": 63,
+      "coveredCategoryCount": 63,
+      "uncoveredCategoryCount": 0,
+      "byCategoryFamily": {
+        "animationCandidate": {
+          "required": 5,
+          "covered": 5
+        },
+        "extension": {
+          "required": 11,
+          "covered": 11
+        },
+        "largeVideo": {
+          "required": 3,
+          "covered": 3
+        },
+        "longVideo": {
+          "required": 3,
+          "covered": 3
+        },
+        "mandatoryObject": {
+          "required": 19,
+          "covered": 19
+        },
+        "mediaFamily": {
+          "required": 2,
+          "covered": 2
+        },
+        "mime": {
+          "required": 9,
+          "covered": 9
+        },
+        "mimeMismatchPair": {
+          "required": 8,
+          "covered": 8
+        },
+        "rotation": {
+          "required": 3,
+          "covered": 3
+        }
+      }
+    },
+    "bodyCoverageComplete": false
+  },
+  "files": [
+    {
+      "sample": "sample-1",
+      "representative": "representative-4",
+      "group": "rare-image-or-mismatch",
+      "kind": "mpeg-ts",
+      "complete": false,
+      "failure": "TS_DEFERRED_NO_CONTINUATION",
+      "identityPreflight": true,
+      "identityPostflight": true,
+      "mediaRequests": 1,
+      "mediaBytes": 940,
+      "tracks": null,
+      "metadataWindows": null,
+      "ownedReadCleanupSettled": true,
+      "disposition": "deferred"
+    },
+    {
+      "sample": "sample-2",
+      "representative": "representative-5",
+      "group": "rare-image-or-mismatch",
+      "kind": "jpeg",
+      "complete": true,
+      "failure": null,
+      "identityPreflight": true,
+      "identityPostflight": true,
+      "mediaRequests": 1,
+      "mediaBytes": 940,
+      "tracks": null,
+      "metadataWindows": null,
+      "ownedReadCleanupSettled": true,
+      "disposition": "complete"
+    },
+    {
+      "sample": "sample-3",
+      "representative": "representative-6",
+      "group": "ebml",
+      "kind": "mpeg-ts",
+      "complete": false,
+      "failure": "TS_DEFERRED_NO_CONTINUATION",
+      "identityPreflight": true,
+      "identityPostflight": true,
+      "mediaRequests": 1,
+      "mediaBytes": 940,
+      "tracks": null,
+      "metadataWindows": null,
+      "ownedReadCleanupSettled": true,
+      "disposition": "deferred"
+    }
+  ],
+  "filesComplete": 1,
+  "filesDeferred": 2,
+  "allFilesComplete": false,
+  "decoded": 0,
+  "playback": 0,
+  "physicalDevice": 0,
+  "writeRequests": 0,
+  "genericUpstreamCleanup": "unknown",
+  "released": true,
+  "representativeReferences": [
+    {
+      "reference": "representative-1",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:image",
+        "mime:image/jpeg",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-2",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [
+        "longest-video"
+      ],
+      "metadataRiskCategories": [
+        "mandatory:longest-video",
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "mimeMismatch:metadata-extension-mime",
+        "videoDuration:ge2h"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-3",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-4",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "avi",
+      "mimeType": "video/x-msvideo",
+      "mandatoryReasons": [
+        "rare:.avi"
+      ],
+      "metadataRiskCategories": [
+        "extension:.avi",
+        "mandatory:rare:.avi",
+        "mediaFamily:video",
+        "mime:video/x-msvideo"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-5",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "jpeg",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.jpeg",
+        "mediaFamily:image",
+        "mime:image/jpeg"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-6",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-7",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "avi",
+      "mimeType": "video/x-msvideo",
+      "mandatoryReasons": [
+        "rare:.avi"
+      ],
+      "metadataRiskCategories": [
+        "extension:.avi",
+        "mandatory:rare:.avi",
+        "mediaFamily:video",
+        "mime:video/x-msvideo"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-8",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "webp",
+      "mimeType": "image/webp",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "animationCandidate:.webp",
+        "animationSize:.webp:le24MiB",
+        "extension:.webp",
+        "mediaFamily:image",
+        "mime:image/webp"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-9",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "gif",
+      "mimeType": "image/png",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "animationCandidate:.gif",
+        "animationSize:.gif:le24MiB",
+        "extension:.gif",
+        "mediaFamily:image",
+        "mime:image/png"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-10",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "image/gif",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:image",
+        "mime:image/gif",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-11",
+      "stratum": "iso-metadata",
+      "extension": "mp4",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.mp4",
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "videoMetadataMissing:duration"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-12",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "png",
+      "mimeType": "image/png",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.png",
+        "mediaFamily:image",
+        "mime:image/png"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-13",
+      "stratum": "ebml",
+      "extension": "webm",
+      "mimeType": "video/webm",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.webm",
+        "mediaFamily:video",
+        "mime:video/webm"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-14",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "image/gif",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:image",
+        "mime:image/gif",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-15",
+      "stratum": "iso-metadata",
+      "extension": "mp4",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.mp4",
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "videoDuration:ge1h_lt2h",
+        "videoSize:.mp4:ge256MiB_lt2GiB"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-16",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-17",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-18",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "jpg",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.jpg",
+        "imageRotation:2",
+        "mediaFamily:image",
+        "mime:image/jpeg"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-19",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "gif",
+      "mimeType": "image/gif",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "animationCandidate:.gif",
+        "animationSize:.gif:gt24MiB_le64MiB",
+        "extension:.gif",
+        "mediaFamily:image",
+        "mime:image/gif"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-20",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-21",
+      "stratum": "iso-metadata",
+      "extension": "mp4",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [
+        "ge4gib",
+        "largest:.mp4"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mp4",
+        "mandatory:ge4gib",
+        "mandatory:largest:.mp4",
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "videoDuration:ge2h",
+        "videoSize:.mp4:ge4GiB"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-22",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "mp4",
+      "mimeType": "other",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.mp4",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-23",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "avi",
+      "mimeType": "video/x-msvideo",
+      "mandatoryReasons": [
+        "rare:.avi"
+      ],
+      "metadataRiskCategories": [
+        "extension:.avi",
+        "mandatory:rare:.avi",
+        "mediaFamily:video",
+        "mime:video/x-msvideo"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-24",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "video/mp4",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:video",
+        "mime:video/mp4",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-25",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "bmp",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [
+        "rare:.bmp"
+      ],
+      "metadataRiskCategories": [
+        "extension:.bmp",
+        "mandatory:rare:.bmp",
+        "mediaFamily:image",
+        "mime:image/jpeg"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-26",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "avi",
+      "mimeType": "video/x-msvideo",
+      "mandatoryReasons": [
+        "rare:.avi"
+      ],
+      "metadataRiskCategories": [
+        "extension:.avi",
+        "mandatory:rare:.avi",
+        "mediaFamily:video",
+        "mime:video/x-msvideo"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-27",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-28",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-29",
+      "stratum": "iso-metadata",
+      "extension": "mov",
+      "mimeType": "video/quicktime",
+      "mandatoryReasons": [
+        "largest:.mov"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mov",
+        "mandatory:largest:.mov",
+        "mediaFamily:video",
+        "mime:video/quicktime",
+        "videoSize:.mov:ge256MiB_lt2GiB"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-30",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-31",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "other",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "mediaFamily:image",
+        "mime:image/jpeg",
+        "mimeMismatch:metadata-extension-mime"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-32",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "avi",
+      "mimeType": "video/x-msvideo",
+      "mandatoryReasons": [
+        "rare:.avi"
+      ],
+      "metadataRiskCategories": [
+        "extension:.avi",
+        "mandatory:rare:.avi",
+        "mediaFamily:video",
+        "mime:video/x-msvideo"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-33",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "jpg",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.jpg",
+        "imageRotation:3",
+        "mediaFamily:image",
+        "mime:image/jpeg"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-34",
+      "stratum": "rare-image-or-mismatch",
+      "extension": "jpg",
+      "mimeType": "image/jpeg",
+      "mandatoryReasons": [],
+      "metadataRiskCategories": [
+        "extension:.jpg",
+        "imageRotation:1",
+        "mediaFamily:image",
+        "mime:image/jpeg"
+      ],
+      "privateIdentityExported": false
+    },
+    {
+      "reference": "representative-35",
+      "stratum": "ebml",
+      "extension": "mkv",
+      "mimeType": "video/x-matroska",
+      "mandatoryReasons": [
+        "priority",
+        "rare:.mkv"
+      ],
+      "metadataRiskCategories": [
+        "extension:.mkv",
+        "mandatory:priority",
+        "mandatory:rare:.mkv",
+        "mediaFamily:video",
+        "mime:video/x-matroska"
+      ],
+      "privateIdentityExported": false
+    }
+  ],
+  "stratumCoverage": {
+    "scope": "complete-current-selected-metadata-risk-representatives-not-whole-codec-union",
+    "selectedDenominator": 35,
+    "planned": 3,
+    "unprobedInThisJob": 32,
+    "ineligible": [],
+    "cohorts": [
+      {
+        "ordinal": 1,
+        "references": [
+          "representative-1",
+          "representative-2",
+          "representative-3",
+          "representative-11",
+          "representative-15",
+          "representative-21",
+          "representative-29"
+        ]
+      },
+      {
+        "ordinal": 2,
+        "references": [
+          "representative-4",
+          "representative-5",
+          "representative-6"
+        ]
+      },
+      {
+        "ordinal": 3,
+        "references": [
+          "representative-7",
+          "representative-8",
+          "representative-13"
+        ]
+      },
+      {
+        "ordinal": 4,
+        "references": [
+          "representative-9",
+          "representative-10",
+          "representative-16"
+        ]
+      },
+      {
+        "ordinal": 5,
+        "references": [
+          "representative-12",
+          "representative-14",
+          "representative-17"
+        ]
+      },
+      {
+        "ordinal": 6,
+        "references": [
+          "representative-18",
+          "representative-19",
+          "representative-27"
+        ]
+      },
+      {
+        "ordinal": 7,
+        "references": [
+          "representative-20",
+          "representative-22",
+          "representative-28"
+        ]
+      },
+      {
+        "ordinal": 8,
+        "references": [
+          "representative-23",
+          "representative-24",
+          "representative-30"
+        ]
+      },
+      {
+        "ordinal": 9,
+        "references": [
+          "representative-25",
+          "representative-26",
+          "representative-35"
+        ]
+      },
+      {
+        "ordinal": 10,
+        "references": [
+          "representative-31",
+          "representative-32"
+        ]
+      },
+      {
+        "ordinal": 11,
+        "references": [
+          "representative-33",
+          "representative-34"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "reference": "representative-1",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:image",
+          "mime:image/jpeg",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-2",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [
+          "longest-video"
+        ],
+        "metadataRiskCategories": [
+          "mandatory:longest-video",
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "mimeMismatch:metadata-extension-mime",
+          "videoDuration:ge2h"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-3",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-4",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "avi",
+        "mimeType": "video/x-msvideo",
+        "mandatoryReasons": [
+          "rare:.avi"
+        ],
+        "metadataRiskCategories": [
+          "extension:.avi",
+          "mandatory:rare:.avi",
+          "mediaFamily:video",
+          "mime:video/x-msvideo"
+        ],
+        "privateIdentityExported": false,
+        "planned": true
+      },
+      {
+        "reference": "representative-5",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "jpeg",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.jpeg",
+          "mediaFamily:image",
+          "mime:image/jpeg"
+        ],
+        "privateIdentityExported": false,
+        "planned": true
+      },
+      {
+        "reference": "representative-6",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": true
+      },
+      {
+        "reference": "representative-7",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "avi",
+        "mimeType": "video/x-msvideo",
+        "mandatoryReasons": [
+          "rare:.avi"
+        ],
+        "metadataRiskCategories": [
+          "extension:.avi",
+          "mandatory:rare:.avi",
+          "mediaFamily:video",
+          "mime:video/x-msvideo"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-8",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "webp",
+        "mimeType": "image/webp",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "animationCandidate:.webp",
+          "animationSize:.webp:le24MiB",
+          "extension:.webp",
+          "mediaFamily:image",
+          "mime:image/webp"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-9",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "gif",
+        "mimeType": "image/png",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "animationCandidate:.gif",
+          "animationSize:.gif:le24MiB",
+          "extension:.gif",
+          "mediaFamily:image",
+          "mime:image/png"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-10",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "image/gif",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:image",
+          "mime:image/gif",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-11",
+        "stratum": "iso-metadata",
+        "extension": "mp4",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.mp4",
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "videoMetadataMissing:duration"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-12",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "png",
+        "mimeType": "image/png",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.png",
+          "mediaFamily:image",
+          "mime:image/png"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-13",
+        "stratum": "ebml",
+        "extension": "webm",
+        "mimeType": "video/webm",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.webm",
+          "mediaFamily:video",
+          "mime:video/webm"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-14",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "image/gif",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:image",
+          "mime:image/gif",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-15",
+        "stratum": "iso-metadata",
+        "extension": "mp4",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.mp4",
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "videoDuration:ge1h_lt2h",
+          "videoSize:.mp4:ge256MiB_lt2GiB"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-16",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-17",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-18",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "jpg",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.jpg",
+          "imageRotation:2",
+          "mediaFamily:image",
+          "mime:image/jpeg"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-19",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "gif",
+        "mimeType": "image/gif",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "animationCandidate:.gif",
+          "animationSize:.gif:gt24MiB_le64MiB",
+          "extension:.gif",
+          "mediaFamily:image",
+          "mime:image/gif"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-20",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-21",
+        "stratum": "iso-metadata",
+        "extension": "mp4",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [
+          "ge4gib",
+          "largest:.mp4"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mp4",
+          "mandatory:ge4gib",
+          "mandatory:largest:.mp4",
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "videoDuration:ge2h",
+          "videoSize:.mp4:ge4GiB"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-22",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "mp4",
+        "mimeType": "other",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.mp4",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-23",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "avi",
+        "mimeType": "video/x-msvideo",
+        "mandatoryReasons": [
+          "rare:.avi"
+        ],
+        "metadataRiskCategories": [
+          "extension:.avi",
+          "mandatory:rare:.avi",
+          "mediaFamily:video",
+          "mime:video/x-msvideo"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-24",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "video/mp4",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:video",
+          "mime:video/mp4",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-25",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "bmp",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [
+          "rare:.bmp"
+        ],
+        "metadataRiskCategories": [
+          "extension:.bmp",
+          "mandatory:rare:.bmp",
+          "mediaFamily:image",
+          "mime:image/jpeg"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-26",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "avi",
+        "mimeType": "video/x-msvideo",
+        "mandatoryReasons": [
+          "rare:.avi"
+        ],
+        "metadataRiskCategories": [
+          "extension:.avi",
+          "mandatory:rare:.avi",
+          "mediaFamily:video",
+          "mime:video/x-msvideo"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-27",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-28",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-29",
+        "stratum": "iso-metadata",
+        "extension": "mov",
+        "mimeType": "video/quicktime",
+        "mandatoryReasons": [
+          "largest:.mov"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mov",
+          "mandatory:largest:.mov",
+          "mediaFamily:video",
+          "mime:video/quicktime",
+          "videoSize:.mov:ge256MiB_lt2GiB"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-30",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-31",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "other",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "mediaFamily:image",
+          "mime:image/jpeg",
+          "mimeMismatch:metadata-extension-mime"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-32",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "avi",
+        "mimeType": "video/x-msvideo",
+        "mandatoryReasons": [
+          "rare:.avi"
+        ],
+        "metadataRiskCategories": [
+          "extension:.avi",
+          "mandatory:rare:.avi",
+          "mediaFamily:video",
+          "mime:video/x-msvideo"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-33",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "jpg",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.jpg",
+          "imageRotation:3",
+          "mediaFamily:image",
+          "mime:image/jpeg"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-34",
+        "stratum": "rare-image-or-mismatch",
+        "extension": "jpg",
+        "mimeType": "image/jpeg",
+        "mandatoryReasons": [],
+        "metadataRiskCategories": [
+          "extension:.jpg",
+          "imageRotation:1",
+          "mediaFamily:image",
+          "mime:image/jpeg"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      },
+      {
+        "reference": "representative-35",
+        "stratum": "ebml",
+        "extension": "mkv",
+        "mimeType": "video/x-matroska",
+        "mandatoryReasons": [
+          "priority",
+          "rare:.mkv"
+        ],
+        "metadataRiskCategories": [
+          "extension:.mkv",
+          "mandatory:priority",
+          "mandatory:rare:.mkv",
+          "mediaFamily:video",
+          "mime:video/x-matroska"
+        ],
+        "privateIdentityExported": false,
+        "planned": false
+      }
+    ],
+    "actualWholeCodecCombinationCoverage": false,
+    "hdrPresence": "unknown",
+    "vfrPresence": "unknown",
+    "budgetDeferred": 0
+  },
+  "reserve": {
+    "requests": 82,
+    "bytes": 14329960,
+    "ms": 84519,
+    "basis": "observed-first-two-pass-envelope-times1.25-plus-margins",
+    "guaranteed": false
+  },
+  "metadataDiagnostic": {
+    "completed": 130,
+    "failed": 0,
+    "maxResponseBytes": 319784,
+    "routeCounts": {
+      "about": 10,
+      "list": 104,
+      "file": 16
+    },
+    "lastFailure": null,
+    "lastCleanupFailure": null
+  }
+}

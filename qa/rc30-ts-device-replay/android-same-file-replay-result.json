@@ -1,0 +1,471 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-01T03:22:16.943Z",
+  "producerSha256": "1d730fee60ed98aaaf1cf6c1d3a945fd87da7417dced06920e7e4a8f53543072",
+  "commonSha256": "ffc682d78c276b543867fd8a2101b918927474b2817448e446b4e63e95e60a9e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "actual rc30 current source account closed admission",
+      "at": "2026-10-01T03:22:18.802Z",
+      "version": "1.22.0-rc.30",
+      "portrait": true,
+      "closed": true,
+      "online": true,
+      "accountLoaded": true,
+      "accountPresent": true,
+      "revision": 70,
+      "expiresInMs": 1510678,
+      "retired": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false
+    },
+    {
+      "name": "genuine immutable rc30 source and current shell proof",
+      "at": "2026-10-01T03:22:19.729Z",
+      "source": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+      "version": "1.22.0-rc.30",
+      "recordedAt": "2026-10-01T03:22:19.459Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 40,
+      "preserved": null,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "baselineRemoved": false,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "exact private recovery account and target prestate",
+      "at": "2026-10-01T03:22:19.733Z",
+      "ready": true,
+      "accountSame": true,
+      "privateTargetKeptBrowserLocal": true
+    },
+    {
+      "name": "normal native Back and player retirement",
+      "at": "2026-10-01T03:22:20.008Z",
+      "version": "1.22.0-rc.30",
+      "portrait": true,
+      "closed": true,
+      "online": true,
+      "accountLoaded": true,
+      "accountPresent": true,
+      "revision": 70,
+      "expiresInMs": 1509473,
+      "retired": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false
+    },
+    {
+      "name": "browser private query target and replay handle cleanup",
+      "at": "2026-10-01T03:22:20.029Z",
+      "privateHandlesRemoved": true,
+      "queryRestored": true,
+      "version": "1.22.0-rc.30",
+      "closed": true,
+      "online": true,
+      "revision": 70,
+      "expiresInMs": 1509452
+    },
+    {
+      "name": "owned source proof cleanup",
+      "at": "2026-10-01T03:22:20.043Z",
+      "ownedProofRemovedOrPriorRestored": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.30",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "nativeOsInput": true,
+  "humanFingerInput": false,
+  "syntheticMedia": false,
+  "originalMediaReadOnly": true,
+  "exactFinalFrame": "UNKNOWN",
+  "sourceCommit": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+  "replayDurationMs": 1582,
+  "completed": false,
+  "failure": "TARGET_NOT_IN_CURRENT_LIBRARY",
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}

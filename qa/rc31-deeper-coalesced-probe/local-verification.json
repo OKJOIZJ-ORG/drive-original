@@ -1,0 +1,88 @@
+{
+  "schema": "drive-original.rc31-deeper-coalesced-probe-local/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "cases": [
+    {
+      "name": "fixed31-git-source-three-byte-pins-and-frozen-runtime-logic",
+      "passed": true
+    },
+    {
+      "name": "builder-rejects-arbitrary-binding-and-owned-runtime-module-drift",
+      "passed": true
+    },
+    {
+      "name": "generated31-rejects-old29-app-proof-wrong-hash-and-source-before-requests",
+      "passed": true
+    },
+    {
+      "name": "pure-current-reselection-cohort2-not-old-private-import-or-rotation-claim",
+      "passed": true
+    },
+    {
+      "name": "generated31-real-inventory-selector-serializer-iso-ebml-tracks-postflight-final-reserve",
+      "passed": true
+    },
+    {
+      "name": "generated31-cohort2-fresh-inventory-plan-is-not-cohort1-retry",
+      "passed": true
+    },
+    {
+      "name": "generated31-renewal-cancels-current-owner-no-token-rebind-or-second-media",
+      "passed": true
+    },
+    {
+      "name": "context31-exact-four-key-serializer-two-unique-priority-parent-gets-no-export",
+      "passed": true
+    },
+    {
+      "name": "context31-rejects-unqualified-proof-and-inflight-credential-owner-change",
+      "passed": true
+    },
+    {
+      "name": "source-proof31-runtime-cache-coupling-exact-source-pins-and-live-controller-fence",
+      "passed": true
+    },
+    {
+      "name": "source-proof31-rejects-old-app-and-tampered-static-body",
+      "passed": true
+    },
+    {
+      "name": "ts-label-no-synthetic-track-continuation-and-frozen29-case-reuse",
+      "passed": true
+    }
+  ],
+  "passed": 12,
+  "frozenCasesReusedWithoutRerun": 28,
+  "frozenVerificationSHA256": "b9bbf70ff51e4044e85dbc2ced61ac1a16badd586bbe20026c369574750041f8",
+  "fileSHA256": {
+    "entry.function.js": "362e2dc6c61c194151c59fb8f5dd86b03806b09fce204550cc21d843c65ebf50",
+    "probe.mjs": "6989b6fb889960749b7fa3da0e3380c2c341d2f65eeb63f7ddcc38aaf0821b1e",
+    "selection.mjs": "098f630811dfb4f97a1d5002d0719de64eb4d3e761566e097ab4b0b35e4f2c28",
+    "facade.function.js": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417",
+    "binding.json": "ad56dcb73d2cb866797523090c311d055cd97d8fd61ca23e4b2c170090b9787a",
+    "build.mjs": "446765e1939ed68cd70a104260d625a572ee5bf2137b64f8a1675cc378e3ef75",
+    "verify.mjs": "1a9fd403c54fc759f80a7b36035bb786daed9550ec38560fdac16a4f7b264410",
+    "factory.expression.js": "8ed9880bc48ca591ba6fb656b861f53f64f1169f12e2ac1af0d3e1d5f8337fa4",
+    "sw-proof.function.js": "6f6563317a07a88d0fab647f8e3f436cf000b26d2e2aca9b81416f211bb6c7a4",
+    "sw-proof.expression.js": "357283d5217c8e0371f691f2b6d075abda78541afaffa1b85648cfa98226c369",
+    "derive-context.expression.js": "45f59331e49b29cadf8157b068ecdb740b862b9452bdfe5402f6fcb3519f7ea5",
+    "diagnostics.mjs": "53e9969b0bc8e991a276d19da2d2c15302437f167e354c7665b0c96c4ccb6a43",
+    "moov-window-cache.mjs": "09ac583600e317af96a7d599d06e70da899b44f809073e1c86dcd28b8dfbe932",
+    "README.md": "6b39b43e0301aff061392a5626850fd07963ad71d50e6a1cda5f11e10b38a5c7"
+  },
+  "actualRequests": 0,
+  "actualExecution": false,
+  "productEdits": false,
+  "noLimitsChanged": true,
+  "cohort2HistoricalSafeShape": {
+    "cohorts": 11,
+    "planned": 3,
+    "references": [
+      "representative-5",
+      "representative-6",
+      "representative-7"
+    ],
+    "currentReselectionRequired": true
+  }
+}

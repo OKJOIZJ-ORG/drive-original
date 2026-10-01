@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "bound": false,
+  "source": null,
+  "version": "1.22.0-rc.31",
+  "actualDeployment": false,
+  "networkOrBrowserExecuted": false,
+  "predecessorCommit": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+  "predecessorBinderSha256": "be3d5f4472cea786e4d09fee6480a166cb9941cc6ff6e7897262963d83a3574e",
+  "templateCommit": "5f6dae39a6a601207ff2c9e462b3ec8d610e91b4",
+  "checks": {
+    "binderNodeSyntax": true,
+    "immutablePredecessorHash": true,
+    "frozenTemplateHashChecks": 8,
+    "inMemoryDerivedJavascriptSyntax": 6,
+    "inMemoryDerivedPythonAST": 2,
+    "defaultBinderDenials": 4,
+    "staleRealCommitDenial": true,
+    "inMemoryGeneratedExecuteDenial": true,
+    "denialCreatedNoFiles": true,
+    "safeRegularLeafManifest": true,
+    "rc30TrackedFilesUnchanged": true
+  },
+  "inMemorySyntaxIdentity": "Historical template commit used only as an in-memory token; never bound as rc31 source",
+  "bindRequired": [
+    "Real final rc31 committed HEAD and clean governed inputs",
+    "Generated exact-source/runtime/Worker checks",
+    "Materialized public byte manifest and deterministic ZIP",
+    "Actual candidate deploy/readback/public/cache audit and source readiness"
+  ],
+  "manifestExcludesThisRecord": true,
+  "assets": [
+    {
+      "file": "DELIVERY-PREPARATION.md",
+      "bytes": 3936,
+      "sha256": "ee34943e4b130b313af14e663632554e8bf1da9e053250aff8572e496f084393"
+    },
+    {
+      "file": "bind-source.cjs",
+      "bytes": 6636,
+      "sha256": "ac27ffb99ebd83533f1cadac6da927832aa67176fcfe804d1c235302c2be759e"
+    }
+  ]
+}

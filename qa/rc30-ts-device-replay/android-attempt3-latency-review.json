@@ -1,0 +1,396 @@
+{
+  "schema": "drive-original.android-attempt3-latency-review/1",
+  "reviewProducerSha256": "8522d66e5613010461065c7aec5c23dfc3cd6e906e3f78ebab7f6600a8c8edde",
+  "actualExecutionByReview": false,
+  "privateInputRead": false,
+  "browserDeviceNetworkCallsMade": false,
+  "productEdited": false,
+  "evidence": {
+    "androidFile": "android-same-file-replay-attempt3-result.json",
+    "androidSha256": "34d419002a1ad6851728ca69a458b511bb6482ccc5e97a5c035974bffb2b0e08",
+    "androidCompleted": true,
+    "cleanupComplete": true,
+    "activeReplayDurationMs": 97317,
+    "source30": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+    "comparedSource31": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "pcSummaryFile": "actual-pc-same-ts-replay-summary.json",
+    "pcSummarySha256": "8015f3da38dca7bc4500ff580f39a905f69841a697a06b5c3a1e867669a01f69",
+    "samePrivateTargetQualifiedByOriginalRuns": true,
+    "reviewDidNotReadTargetIdentity": true
+  },
+  "phases": [
+    {
+      "label": "startup",
+      "targetFrameMs": 14222,
+      "targetDistanceSeconds": 0.021333,
+      "deadline15Passed": true,
+      "diagnostic35Passed": true,
+      "generationFirstObservedMs": 3517,
+      "bufferingFirstObservedMs": 9315,
+      "bufferingTransitionBracketMs": [
+        9165,
+        9315
+      ],
+      "firstAppendSampleMs": 14177,
+      "readyFirstSampleMs": 14177,
+      "nativeReady4FirstSampleMs": 14296,
+      "appendsAtFirstFrameRead": 2,
+      "fromBufferingObservationToTargetFrameMs": 4907,
+      "bufferingObservationFractionOfTotal": 0.655,
+      "nativeEventsBeforeTarget": [
+        {
+          "type": "waiting",
+          "elapsedMs": 14144,
+          "trusted": true
+        },
+        {
+          "type": "loadeddata",
+          "elapsedMs": 14220,
+          "trusted": true
+        },
+        {
+          "type": "playing",
+          "elapsedMs": 14221,
+          "trusted": true
+        }
+      ],
+      "sampleCount": 117,
+      "sampleCapReached": false,
+      "maxSampleGapMs": 252,
+      "fenceFailure": false,
+      "resourceTimingAvailable": false,
+      "pcSingleObservationMs": 14160,
+      "androidMinusPcSingleObservationMs": 62
+    },
+    {
+      "label": "seek50",
+      "targetFrameMs": 19799,
+      "targetDistanceSeconds": 0.012003084248021878,
+      "deadline15Passed": false,
+      "diagnostic35Passed": true,
+      "generationFirstObservedMs": 230,
+      "bufferingFirstObservedMs": 16009,
+      "bufferingTransitionBracketMs": [
+        15877,
+        16009
+      ],
+      "firstAppendSampleMs": 19810,
+      "readyFirstSampleMs": 19810,
+      "nativeReady4FirstSampleMs": 19810,
+      "appendsAtFirstFrameRead": 3,
+      "fromBufferingObservationToTargetFrameMs": 3790,
+      "bufferingObservationFractionOfTotal": 0.809,
+      "nativeEventsBeforeTarget": [
+        {
+          "type": "seeking",
+          "elapsedMs": 19710,
+          "trusted": true
+        },
+        {
+          "type": "seeked",
+          "elapsedMs": 19789,
+          "trusted": true
+        },
+        {
+          "type": "loadeddata",
+          "elapsedMs": 19790,
+          "trusted": true
+        }
+      ],
+      "sampleCount": 144,
+      "sampleCapReached": true,
+      "maxSampleGapMs": 251,
+      "fenceFailure": false,
+      "resourceTimingAvailable": false,
+      "pcSingleObservationMs": 14305,
+      "androidMinusPcSingleObservationMs": 5494
+    },
+    {
+      "label": "seek90",
+      "targetFrameMs": 16002,
+      "targetDistanceSeconds": 0.010785529591089471,
+      "deadline15Passed": false,
+      "diagnostic35Passed": true,
+      "generationFirstObservedMs": 327,
+      "bufferingFirstObservedMs": 12831,
+      "bufferingTransitionBracketMs": [
+        12625,
+        12831
+      ],
+      "firstAppendSampleMs": 15957,
+      "readyFirstSampleMs": 16076,
+      "nativeReady4FirstSampleMs": 16076,
+      "appendsAtFirstFrameRead": 4,
+      "fromBufferingObservationToTargetFrameMs": 3171,
+      "bufferingObservationFractionOfTotal": 0.802,
+      "nativeEventsBeforeTarget": [
+        {
+          "type": "seeking",
+          "elapsedMs": 15905,
+          "trusted": true
+        },
+        {
+          "type": "seeked",
+          "elapsedMs": 16004,
+          "trusted": true
+        },
+        {
+          "type": "loadeddata",
+          "elapsedMs": 16004,
+          "trusted": true
+        }
+      ],
+      "sampleCount": 122,
+      "sampleCapReached": false,
+      "maxSampleGapMs": 252,
+      "fenceFailure": false,
+      "resourceTimingAvailable": false,
+      "pcSingleObservationMs": null,
+      "androidMinusPcSingleObservationMs": null
+    },
+    {
+      "label": "nearEOF",
+      "targetFrameMs": 9409,
+      "targetDistanceSeconds": 0.032141436679808066,
+      "deadline15Passed": true,
+      "diagnostic35Passed": true,
+      "generationFirstObservedMs": 236,
+      "bufferingFirstObservedMs": 6156,
+      "bufferingTransitionBracketMs": [
+        5983,
+        6156
+      ],
+      "firstAppendSampleMs": 9349,
+      "readyFirstSampleMs": 9408,
+      "nativeReady4FirstSampleMs": 9408,
+      "appendsAtFirstFrameRead": 3,
+      "fromBufferingObservationToTargetFrameMs": 3253,
+      "bufferingObservationFractionOfTotal": 0.654,
+      "nativeEventsBeforeTarget": [
+        {
+          "type": "seeking",
+          "elapsedMs": 9305,
+          "trusted": true
+        },
+        {
+          "type": "seeked",
+          "elapsedMs": 9404,
+          "trusted": true
+        },
+        {
+          "type": "loadeddata",
+          "elapsedMs": 9405,
+          "trusted": true
+        }
+      ],
+      "sampleCount": 104,
+      "sampleCapReached": false,
+      "maxSampleGapMs": 251,
+      "fenceFailure": false,
+      "resourceTimingAvailable": false,
+      "pcSingleObservationMs": 9601,
+      "androidMinusPcSingleObservationMs": -192
+    },
+    {
+      "label": "reopen",
+      "targetFrameMs": 16002,
+      "targetDistanceSeconds": 0.021333,
+      "deadline15Passed": false,
+      "diagnostic35Passed": true,
+      "generationFirstObservedMs": 3170,
+      "bufferingFirstObservedMs": 12565,
+      "bufferingTransitionBracketMs": [
+        12421,
+        12565
+      ],
+      "firstAppendSampleMs": 16033,
+      "readyFirstSampleMs": 16033,
+      "nativeReady4FirstSampleMs": 16033,
+      "appendsAtFirstFrameRead": 2,
+      "fromBufferingObservationToTargetFrameMs": 3437,
+      "bufferingObservationFractionOfTotal": 0.785,
+      "nativeEventsBeforeTarget": [
+        {
+          "type": "waiting",
+          "elapsedMs": 15915,
+          "trusted": true
+        },
+        {
+          "type": "loadeddata",
+          "elapsedMs": 15988,
+          "trusted": true
+        },
+        {
+          "type": "playing",
+          "elapsedMs": 15989,
+          "trusted": true
+        }
+      ],
+      "sampleCount": 113,
+      "sampleCapReached": false,
+      "maxSampleGapMs": 251,
+      "fenceFailure": false,
+      "resourceTimingAvailable": false,
+      "pcSingleObservationMs": 12885,
+      "androidMinusPcSingleObservationMs": 3117
+    }
+  ],
+  "mediaSources": [
+    {
+      "file": "media/drive-source.mjs",
+      "source30Sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+      "source31Sha256": "06458948ebbc08267511298e5faa297df7062d1786d456cb82f0c83d946817a5",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "source30Sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+      "source31Sha256": "1ed49ec21f8dbb2dfc5e8d6190bb97867a7e142777bd197c519595305dd84661",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "source30Sha256": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a",
+      "source31Sha256": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "source30Sha256": "3962b20bf6f36e831bc0a3296cbdd65a9225b20b70250f3060cb62ddc4aaf444",
+      "source31Sha256": "3962b20bf6f36e831bc0a3296cbdd65a9225b20b70250f3060cb62ddc4aaf444",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "media/core-entry.mjs",
+      "source30Sha256": "24bd73c2337a52763bec4a6debf9c2a5526958855d9c31007e90ec7569e08d33",
+      "source31Sha256": "24bd73c2337a52763bec4a6debf9c2a5526958855d9c31007e90ec7569e08d33",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "source30Sha256": "0be728a2d9ad63002ab1fca8d9c638d368d39d45b75debc0601a5c203e5cfe9c",
+      "source31Sha256": "0be728a2d9ad63002ab1fca8d9c638d368d39d45b75debc0601a5c203e5cfe9c",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "source30Sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0",
+      "source31Sha256": "273428d6ab64fbd30faa03aa38a127fb8f0278b0bb2bf0886b934930137490f0",
+      "sameBytesBetween30And31": true,
+      "workingTreeMatches31": true
+    }
+  ],
+  "codeReferences": [
+    {
+      "file": "media/drive-source.mjs",
+      "lines": [
+        174,
+        188,
+        190,
+        220
+      ],
+      "contract": "Opening metadata, then preflight→Rangebody→postflight before byte release."
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "lines": [
+        172,
+        178,
+        189,
+        203,
+        214,
+        220,
+        229
+      ],
+      "contract": "Probe input handoff, buffering marker, target positioning, append ACK, subsequent suffix read and final stats."
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/ts-seek.mjs",
+      "lines": [
+        17,
+        88,
+        119,
+        164,
+        194
+      ],
+      "contract": "Bounded sequential samples and same-probe owned selected-window handoff."
+    },
+    {
+      "file": "qa/v2-07b-ts-q1/seek-bootstrap.mjs",
+      "lines": [
+        35,
+        47,
+        58,
+        149
+      ],
+      "contract": "ReadStart and prefix/binding construction; no retained raw-window playback queue."
+    }
+  ],
+  "confirmed": [
+    {
+      "code": "DELAY_BEFORE_TARGET_POSITIONING",
+      "evidence": "seek50/seek90 native seeking events occur at19710/15905ms; seeked follows79/99ms later and loadeddata/target callback coincides. The long wait precedes those native seek completion events."
+    },
+    {
+      "code": "OPENING_REGION_DOMINATES",
+      "evidence": "Current TS generations appear by230/327ms forseek50/90, then buffering is first observed16009/12831ms; total target times19799/16002ms. Opening covers approximately81/80 percent of those totals."
+    },
+    {
+      "code": "PAGE_SAMPLER_REMAINS_LIVE",
+      "evidence": "Maximum distinctpage-samplegap is251–252ms inallfive phases. No multi-second page-telemetry stoppage isobserved. This doesnotmeasure cumulativeparserCPU orisolatedworkerCPU."
+    },
+    {
+      "code": "ADDITIONAL_PRE_DECODE_REGION",
+      "evidence": "First buffering observation to presented target is3790/3171ms forseek50/90,3253ms nearEOF,4907ms startup and3437ms reopen. First append samples can lag an earlier native event orframe; sampled append timing is not exact."
+    },
+    {
+      "code": "FINITE_SUCCESS_WITH_RETAINED_DEADLINES",
+      "evidence": "Allfive actualsame-target phases eventuallypresented, native/currentTSendedandEOF completed, metadata before/aftermatched, cleanup succeeded. Seek50/seek90/reopen still fail15s. No target-frame orEOF failure is promoted tosuccessat15s."
+    },
+    {
+      "code": "SERIAL_FRESH_FENCED_READ_PATH",
+      "evidence": "Everybounded source.read awaitsmetadata preflight, Rangebody, thenmetadata postflight before exposingbytes; open alsoawaitsmetadata. Probe reads head/tail and additionaltargetwindows sequentially."
+    },
+    {
+      "code": "SELECTED_WINDOW_SUFFIX_REREAD",
+      "evidence": "probe onInput suppliesadmittedhead/selectedwindow tocreateSeekBootstrap and state.probeInputReused=true. Bootstrap construction keeps prefix/bindings/readStart. ts-player subsequentlycallsread fromreadStart in262144-byte intervals instead of consuming the admitted selected-window suffix forinitialworkerinput."
+    }
+  ],
+  "unknowns": [
+    "No per-resource timestamps, Range status/header/body duration, probe-window count, parser CPUduration orworker ACK timing were collected inattempt3. Their exact shares areUNKNOWN.",
+    "Source stats are populated atEOF/dispose, not continuously duringopening. Nullsample counters meanunobserved, notzerorequests.",
+    "Per-phase samples arebounded/periodic; seek50 reached144records. Firstobserved buffering/appends bracket milestones, notexactinternaltransitiontimes.",
+    "PCcomparison isoneearlier same-source/same-private-target observation withdifferentdevice/profile/cache/actiontiming. It isnotstatisticalregressionproof.",
+    "The media modules arebyte-identical30to31; app/authchanged in31. These30timings do not prove31performance.",
+    "The exact final original frame andaudiofidelity remainUNKNOWN/NOT_TESTED."
+  ],
+  "candidate": {
+    "status": "PROPOSAL_ONLY_NOT_IMPLEMENTED",
+    "layer": "Same-generation admitted TS probe input handoff",
+    "intervention": "Consume the already pre/post-fenced selected-window suffix through the existing bootstrap/worker path before issuing the next nonoverlapping Range. Avoid rereading the same admitted RAP bytes while keeping the original source cursor.",
+    "whyEarliestNarrowCandidate": "The redundant dataflow is established by canonical code. It can remove fresh network read cycles between probe completion and first append without changing the mandatory contentfence on a new Range or introducing cross-generationcache.",
+    "limits": "This addresses only part of the3–5s post-probe region. The dominant opening/probe region stillneeds per-stage evidence; expectedmillisecond improvement isUNKNOWN.",
+    "preservedContracts": [
+      "Exact current reader/account/content/checksum/controller/generation fences; reject reader replacement or503recovery mismatch",
+      "Existingpre/post metadatafences forevery newRange, atmost1MiBsource.read andatmost64KiBbootstrap/workerpush",
+      "Same original source offsets/no overlapping duplicateinput/noholes; original media unmodified; existingTS normalizationonly",
+      "Existingworkercredit/ACK/appendsbackpressure,owner cancellationandsettledretirement; boundedownedwindow≤1MiB releasedafterconsumption",
+      "No forcedroute, formatdowngrade, auth/grantchange, per-generationretry replenishmentorlonglivedcross-filecache"
+    ],
+    "nextDiscriminator": "Before changingcode, passively partition ordinary same-target opening into metadata/Range header/body/probe CPU and worker ACK/append/seeked intervals with fixedlabels/numbersonly andwithoutbodyclonedrain or extra mediaGET. Then compare a boundedcounterexample/control ifthe handoff isimplemented."
+  },
+  "eof": {
+    "nativeEnded": true,
+    "q1Ended": true,
+    "sourceOffsetReachedSize": true,
+    "workerFinished": true,
+    "exactFinalFrame": "UNKNOWN"
+  },
+  "rawIdentifiersExported": false
+}

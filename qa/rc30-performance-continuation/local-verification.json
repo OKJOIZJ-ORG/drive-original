@@ -1,0 +1,132 @@
+{
+  "schema": "drive-original.rc30-continuation-local/1",
+  "binding": {
+    "sourceCommit": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+    "version": "1.22.0-rc.30",
+    "sourceSHA256": {
+      "app.js": "d739c21fe058c921b057635887210d7856e33a2d52736d421b7f83c5f8aef4de",
+      "sw.js": "92d0d1560bd0eeb79fa5f5bce5f4f98d8b9154ebfcc73099776a7d3f8563c1a8",
+      "version.json": "8b80135566940a08647dd1fce99a4502ebda8166936802155b8104b51874bdc7"
+    }
+  },
+  "continuation": {
+    "schema": "drive-original.rc30-performance-continuation/1",
+    "priorPartialSHA256": "66b5f828175375a4f88a4817c53e2489d2f1258f6f60781e47ebf36589a59b9a",
+    "originalIdentityKnown": false,
+    "sampleNumbersAreBookkeeping": true,
+    "plan": [
+      {
+        "sample": 9,
+        "kind": "first-startup"
+      },
+      {
+        "sample": 9,
+        "kind": "warm-startup"
+      },
+      {
+        "sample": 9,
+        "kind": "seek90"
+      },
+      {
+        "sample": 10,
+        "kind": "first-startup"
+      },
+      {
+        "sample": 10,
+        "kind": "warm-startup"
+      },
+      {
+        "sample": 10,
+        "kind": "seek10"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "six-actions-independent-additional-samples-and-cleanup",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "two-current-rendered-videos-suffice-no-original10-reconstruction",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "changed-rendered-metadata-selects-additional-candidates-identity-unknown",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-card-and-untrusted-card-cannot-start",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-seek-ratio-cannot-start",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-decoded-target-times-out-at15s",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "startup-times-out-at30s-retains-failure",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "source-account-change-stops-and-releases",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "controller-proof-change-stops-and-releases",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "run15min-deadline-stays-bounded",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "unattempted-seek-cannot-complete-six-actual-actions",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "close-failure-retained",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "old-app-admission-rejected",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-source-hash-admission-rejected",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "wrong-plan-admission-rejected",
+      "passed": true,
+      "actualRequests": 0
+    },
+    {
+      "name": "only-one-video-admission-rejected",
+      "passed": true,
+      "actualRequests": 0
+    }
+  ],
+  "passed": 16,
+  "actualRequests": 0,
+  "actualExecution": false,
+  "actualPerformance": false,
+  "originalPlanRemainsIncomplete": true,
+  "originalIdentityKnown": false
+}

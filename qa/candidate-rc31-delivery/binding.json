@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "source": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "templateCommit": "5f6dae39a6a601207ff2c9e462b3ec8d610e91b4",
+  "templateSource": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "producerSha256": "ac27ffb99ebd83533f1cadac6da927832aa67176fcfe804d1c235302c2be759e",
+  "scripts": [
+    {
+      "file": "delivery-guard.cjs",
+      "bytes": 5190,
+      "sha256": "0adc47c2ea3c11ab8d92be9f3d1cb14e0b507a7907252ffef65c50f5478e9a95",
+      "templateSha256": "2c601968c54fd69d907a201be53a29065983b336e5549a2e9337f9b8ad7558fc"
+    },
+    {
+      "file": "materialize-candidate.cjs",
+      "bytes": 1207,
+      "sha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88",
+      "templateSha256": "2f0adc0f8a40a27699076aa51003cba893d6b739d7d59f11f1ea3a9ff0032f88"
+    },
+    {
+      "file": "deploy-candidate.cjs",
+      "bytes": 1752,
+      "sha256": "0e21f08f94fc3ffe66c31df4fc6f371f5b84751260e9532d84c2036707292959",
+      "templateSha256": "f4530eb76578ff3ac05672a24f6193de42357df7631a37f9f55a77434c22c67b"
+    },
+    {
+      "file": "readback-candidate.cjs",
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9",
+      "templateSha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9"
+    },
+    {
+      "file": "redact-readback.cjs",
+      "bytes": 2129,
+      "sha256": "d942b0ec2cb9c168d2c861de3b94be2f6241dbe6a7f66aa518c6e8f96b2ec37c",
+      "templateSha256": "4c009b06819b431adfee1f88f5ed2a16efd279fa4db2b088c4c5a8ccc7847552"
+    },
+    {
+      "file": "audit-with-memory-guard.cjs",
+      "bytes": 2318,
+      "sha256": "8dbd14a843d1d94e0a48059dcbceed0198979b43a756ecc23d4f7b321d583a53",
+      "templateSha256": "44a2cff3326ac8242a88e4d9ec6423bb925bcdc7a27629b9f9f8da86f2e34ca0"
+    },
+    {
+      "file": "build-release.py",
+      "bytes": 3995,
+      "sha256": "db819b9f95bb1f499d04cde8a84a73068b4cee90b18c201bee2a72d40efef81f",
+      "templateSha256": "6bfd46c840d7db60ddf4a203821bed952b61d9b33720370b925cae327b7de562"
+    },
+    {
+      "file": "finalize-source-readiness.py",
+      "bytes": 5653,
+      "sha256": "8f13e7755e40a1d0f853877f6539340d4e46460de967baf7d970af92b30430ce",
+      "templateSha256": "242199bf41648e2909b794231c2436155157336cfa1ad6c17be0d75f2e0bc9d7"
+    }
+  ],
+  "auditProducerSha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a",
+  "bound": true,
+  "actualDeployment": false,
+  "networkOrBrowserExecuted": false,
+  "generalDriveWrites": false,
+  "accountStateWrites": true,
+  "scope": "Local fixed-source candidate31 delivery preparation only; no product acceptance"
+}

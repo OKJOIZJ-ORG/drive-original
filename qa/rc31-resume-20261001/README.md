@@ -1,0 +1,20 @@
+# rc31 source and Android preparation
+
+Exact source: `4a484e6f839d2e6c3eb83503acb08147362cb011`, `1.22.0-rc.31`. These additive tools contain no actual rc31 browser/device/update result and perform no network or device work when built or locally verified.
+
+`build-source-proof.cjs` reads only the fixed Git commit's app/SW/version and `sw.js` `SHELL_FILES`, maps the root alias to index.html and hashes the 40 distinct committed shell assets. It derives the frozen rc30 proof factory, retaining its guards and adding pinned account key/auth/data generation and full cached root-alias validation with the owned `drive-original.qa.rc31-update-baseline` key. The expression retains closed-player, settled Q1 retirement, online token, loaded account, foreground, controller, single-current-shell, public hash, cached hash and final registration guards. It installs only the owned `__resumeSwProof` closure and consumes/removes its own optional update baseline. It reads public app/SW/version and shell cache when root explicitly executes it; it never refills cache or changes product/account/media state. `sourcebinding.json` contains the exact expected shell hashes and canonical JSON manifest hash. No current working-tree or hint fallback is used.
+
+Source expression SHA256: `6257edcc580785a3e265aec717ac06e7504ef86a408ce9c964f08719b5fc1725`. Shell manifest SHA256: `4a9b29357722c47a1e5d2057bd53edb010f144bf2a0cf829efa3df1d1baffde7`. Generated verification covers immutable hashes/factory equivalence, successful mocked proof/baseline cleanup and rejected version/player/retirement/auth/visibility/controller/public/cache/registration states: 16 passed, zero actual requests. It proves generated behavior, not hosted bytes or executing worker script identity.
+
+`build-android-binding.cjs` derives `android-ui-common-rc31.cjs` from the frozen canonical common28 helper and `android-normal-update-source-cache.cjs` from frozen 169/170 rc29 preparation. The derivative accepts common30/31 connection identities but the normal update unit strictly requires initial document30. Its initial public app/SW/version reads must match the newly hosted immutable31 hashes. An existing30 document can legitimately have a new31 controller/cache during normal update; this preparation does not require old30 network bytes or claim to hash the old executing worker. The initial30 Git binding is historical context from `aa46bd083ce8c21f55cf7d9a4759f0d6709188c2`, not newly observed source proof. The unit then uses trusted normal update UI, preserves private account/writer/projection/cache in the existing browser-local baseline, and checks exact post-update document/controller31, new31 public hashes and all41 shell requests/40 distinct assets. Cleanup retains the old owned-listener/baseline discipline. The common helper's existing canonical ADB, MCP and Playwright dependencies remain referenced. No device producer was run and no result file exists. Static/Git/syntax and generated transition verification: 13 passed, including document30 with hosted31 admission, wrong initial document rejection and mismatched hosted bytes rejection; zero actual requests/device actions.
+
+```powershell
+node qa/rc31-resume-20261001/build-source-proof.cjs
+node qa/rc31-resume-20261001/verify-source-binding.cjs
+node qa/rc31-resume-20261001/build-android-binding.cjs
+node qa/rc31-resume-20261001/verify-android-binding.cjs
+```
+
+Root owns authorized actual browser/device execution, source delivery and acceptance decisions. Rebuilding or syntax-checking these tools supplies no actual update, device, corpus or performance acceptance.
+
+The proof getter pins the genuine current controller/account/key/authGeneration/driveSessionGeneration and loaded online token owner. Natural tokenRevision changes may renew without breaking the pin. A changed owner, missing/incorrect code hash, cached root alias mismatch or reload without its new live closure cannot qualify. Forty distinct cache hashes plus the root alias cover all41 SHELL_FILES requests. Do not inject before root has actually hosted31.

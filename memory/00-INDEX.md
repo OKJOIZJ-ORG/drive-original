@@ -29,6 +29,19 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC31-20261001.md`: completed immutable31 delivery, actual normal
+  updates/full30 performance/deeper/passive latency and retained cookie failures.
+- `VIRTUAL-WINDOW-COVERAGE-20261001.md`: observed top-card omission, local scheduler
+  repair with the240cap and731product checks; actual delivered repair pending.
+
+- `ACCOUNT-JSON-DEADLINE-20261001.md`: source31 total30s account GET deadline,
+  preserved projection/cache and missing-writer recovery;730 local product checks
+  and independent review. Actual candidate31 delivery remains separate.
+
+- `TS-SHORT-EOF-20261001.md`: exact-EOF terminal GOP repair, synthetic native
+  equivalence and actual30 PC same-file startup/seek/EOF/reopen; retained broader
+  performance and Android automation failures.
+
 - `CANDIDATE-RC29-20261001.md`: actual candidate29 delivery/package, normal PC/Android update/layout/quiet sync, bounded structural result and retained actual TS failure; D-068 ACTIVE.
 
 - `LOCAL-RC29-20261001.md`: exact-two normal disposable capability and native five-viewport PC layout correction, current local integration; actual candidate replay pending.

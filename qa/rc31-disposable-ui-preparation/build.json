@@ -1,0 +1,38 @@
+{
+  "actualRun": false,
+  "source31Pinned": true,
+  "binding": {
+    "version": "1.22.0-rc.31",
+    "source": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "appHash": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e"
+  },
+  "explicitCommitRequired": true,
+  "noHeadOrWorkingTreeBindingFallback": true,
+  "preparationAppHash": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e",
+  "preparationVersion": "1.22.0-rc.31",
+  "comparedCommitted30": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+  "unchangedProductSections": {
+    "normalUiCapability": "12833644a6ad5fd90f8af5bbab1aea9f346c71a082c754f8944805a67dbc3890",
+    "genericMutationGate": "e8b7e740b30f0dae2c1fa6373a0e38ea9a62cb8906e02bba7b7bab16bf718579"
+  },
+  "factorySHA256": "de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b",
+  "fixtures": [
+    {
+      "path": "fixture-1.png",
+      "bytes": 74,
+      "md5": "ca3fd4f99a5e80a16ce5784bfbd12c7d",
+      "sha256": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737",
+      "width": 2,
+      "height": 2
+    },
+    {
+      "path": "fixture-2.png",
+      "bytes": 74,
+      "md5": "4a6642681d078ff34b1ec7a158f56c7d",
+      "sha256": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe",
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "contract": "Unbound preparation until explicit full committed31 source provided; execution requires exact31 source/app hash/current controller proof. No actual uploads, UI or cleanup."
+}

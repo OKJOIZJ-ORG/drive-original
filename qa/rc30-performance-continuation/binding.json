@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "aa46bd083ce8c21f55cf7d9a4759f0d6709188c2",
+  "version": "1.22.0-rc.30",
+  "sourceSHA256": {
+    "app.js": "d739c21fe058c921b057635887210d7856e33a2d52736d421b7f83c5f8aef4de",
+    "sw.js": "92d0d1560bd0eeb79fa5f5bce5f4f98d8b9154ebfcc73099776a7d3f8563c1a8",
+    "version.json": "8b80135566940a08647dd1fce99a4502ebda8166936802155b8104b51874bdc7"
+  },
+  "continuation": {
+    "schema": "drive-original.rc30-performance-continuation/1",
+    "priorPartialSHA256": "66b5f828175375a4f88a4817c53e2489d2f1258f6f60781e47ebf36589a59b9a",
+    "originalIdentityKnown": false,
+    "sampleNumbersAreBookkeeping": true,
+    "plan": [
+      {
+        "sample": 9,
+        "kind": "first-startup"
+      },
+      {
+        "sample": 9,
+        "kind": "warm-startup"
+      },
+      {
+        "sample": 9,
+        "kind": "seek90"
+      },
+      {
+        "sample": 10,
+        "kind": "first-startup"
+      },
+      {
+        "sample": 10,
+        "kind": "warm-startup"
+      },
+      {
+        "sample": 10,
+        "kind": "seek10"
+      }
+    ]
+  },
+  "parentObserverSHA256": "9086eb9c7299b41db6246e5e35e2679de1e788f5114a7176f9fe8148147f27cc"
+}

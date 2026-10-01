@@ -1,0 +1,14 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+const base=__dirname,root=path.resolve(base,'../..'),fixed='aa46bd083ce8c21f55cf7d9a4759f0d6709188c2',version='1.22.0-rc.30',sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const git=p=>execFileSync('git',['show',fixed+':'+p],{cwd:root,windowsHide:true,maxBuffer:80*1024*1024});
+const sourceSHA256=Object.fromEntries(['app.js','sw.js','version.json'].map(p=>[p,sha(git(p))]));assert.equal(JSON.parse(git('version.json')).version,version);
+const sw=git('sw.js').toString(),paths=JSON.parse(sw.match(/const SHELL_FILES = (\[[\s\S]*?\]);/)[1].replace(/'/g,'"'));
+const distinct=[...new Set(paths.map(p=>p==='./'?'index.html':p.slice(2)))];assert.equal(distinct.length,40);assert.equal(paths.length,41);
+const expected=distinct.map(file=>({file,sha256:sha(git(file))}));
+const binding={sourceCommit:fixed,version,sourceSHA256};
+const old=fs.readFileSync(path.join(base,'../rc29-resume-20261001/source-proof.expression.js'),'utf8');
+const factory=old.slice(0,old.indexOf('})({')+2).replaceAll('drive-original.qa.rc29-update-baseline','drive-original.qa.rc30-update-baseline');
+assert.ok(factory.endsWith('})'));fs.writeFileSync(path.join(base,'source-proof.expression.js'),factory+'('+JSON.stringify(binding)+','+JSON.stringify(expected)+')\n');
+fs.writeFileSync(path.join(base,'sourcebinding.json'),JSON.stringify({...binding,shellManifestSHA256:sha(Buffer.from(JSON.stringify(expected))),shellExpected:expected,shellPaths:paths,baselineKey:'drive-original.qa.rc30-update-baseline',immutableGitObjects:true,actualExecution:false},null,2)+'\n');
+console.log(JSON.stringify({source:fixed,version,distinct:distinct.length,shellManifestSHA256:sha(Buffer.from(JSON.stringify(expected))),expressionSHA256:sha(fs.readFileSync(path.join(base,'source-proof.expression.js')))}));

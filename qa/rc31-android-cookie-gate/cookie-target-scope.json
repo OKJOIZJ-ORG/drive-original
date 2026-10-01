@@ -1,0 +1,29 @@
+{
+  "schema": "drive-original.rc31-cookie-target-scope-preparation/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "version": "1.22.0-rc.31",
+  "observedLocally": [
+    "app tryOriginalTsPlayback openDriveQ1Source readRange fetches same-origin mediaOwner=q1 URL; no credentials override",
+    "SW media upstream creates fresh headers, adds Bearer credential and Range/resource key; no Cookie copy and no credentials override",
+    "SW revision metadata request creates Bearer headers with no credentials override",
+    "q1-core creates same-origin module transmux-worker; app registers same-origin sw.js"
+  ],
+  "runtimePreparedChecks": [
+    "Expected source31 public/cache/proof hashes",
+    "API origin differs from document origin",
+    "new Request(DRIVE_API).credentials is same-origin; no actual request from this check",
+    "Worker script URL is same-origin",
+    "No Google iframe and independent current page source/account/target frame fences"
+  ],
+  "interpretation": "Separate service/transmux worker targets are allowed. Fixed31 authenticated upstream reads use Bearer plus ordinary same-origin Fetch credentials, so their cross-origin authentication does not depend on third-party cookies. Actual installed defaults and source/playback still require runtime verification.",
+  "limits": [
+    "No Network.setCookieControls propagation to service workers/OOPIF/popups is asserted or tested",
+    "No override on independent worker targets is installed",
+    "No generic all-format, cookie-storage or every-third-party-request claim",
+    "Actual blocked3PC page override, source31 readback and Q1 native presentation are unrun"
+  ],
+  "actualExecution": false,
+  "privateFileRead": false,
+  "deviceActions": false,
+  "networkRequests": 0
+}

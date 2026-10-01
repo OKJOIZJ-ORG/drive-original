@@ -1,0 +1,45 @@
+{
+  "schema": "drive-original.rc31-performance-preparation-local/1",
+  "binding": {
+    "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "version": "1.22.0-rc.31",
+    "sourceSHA256": {
+      "app.js": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e",
+      "sw.js": "e65e51527fad4df7633e2a10d36f2d90966e47fb8c73e23d5ebb78b7059a747a",
+      "version.json": "d8903d703880dbb1ef1068575974d70e5666a127cb2970cfb951cfd3ff5bff06"
+    }
+  },
+  "observerExpressionSHA256": "d53bd077c960f5dd2921dfb4414c538b11f879d9e8e851af684b01882586018c",
+  "unchangedFrom": "qa/rc30-performance-preparation",
+  "unchangedFiles": {
+    "observer.function.js": "9086eb9c7299b41db6246e5e35e2679de1e788f5114a7176f9fe8148147f27cc",
+    "summarize.cjs": "db408a3a9ced336e6f4ee1fb1da6acd42a0da7ac2078ff54dd003f498f8b1081",
+    "verify.cjs": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06",
+    "verify-gesture.cjs": "4cda7feffa2a282d1ecfe289fa81d75b52bb6b3bc48aa2e09caacbbed0397845",
+    "verify-censor.cjs": "91525df61532755dd7299698e5a7799150beed956da02eecd08de8fcec54937a"
+  },
+  "runtimeObserverChanged": false,
+  "summarizerChanged": false,
+  "focusedBindingChecks": {
+    "passed": 10,
+    "result": "binding-verification.json"
+  },
+  "priorProtocolEvidence": {
+    "leaf": "qa/rc30-performance-preparation",
+    "original11": 11,
+    "gesture": 30,
+    "censor": 23,
+    "unchangedTestsNotRerun": true
+  },
+  "requiredFreshActualPlan": {
+    "attempts": 30,
+    "startup": 20,
+    "pausedSeek": 10,
+    "runCapMs": 900000
+  },
+  "oldActual30PartialUnchanged": true,
+  "continuationOnlyUnusedPreparation": true,
+  "actualRequests": 0,
+  "actualExecution": false,
+  "actualPerformance": false
+}

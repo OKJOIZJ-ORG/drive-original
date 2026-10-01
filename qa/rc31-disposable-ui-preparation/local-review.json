@@ -1,0 +1,51 @@
+{
+  "schema": "drive-original.rc31-disposable-ui-preparation-local/1",
+  "actualRun": false,
+  "source31Pinned": true,
+  "sourceBinding": {
+    "version": "1.22.0-rc.31",
+    "source": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+    "appHash": "f92f9440b25781c8c6f144688d96d58612747f148bb6ded0bf31d4a35bb6193e"
+  },
+  "tests": {
+    "creator": 7,
+    "binding": 5,
+    "passed": 12,
+    "actualNetworkRequests": 0
+  },
+  "factorySHA256": "de300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b",
+  "facadeSHA256": "dc1ad3707ae7f6af0ec3e8427c2fc2e5907faa07d2171ae2c5eb0b97f696340d",
+  "fixtures": [
+    {
+      "path": "fixture-1.png",
+      "bytes": 74,
+      "md5": "ca3fd4f99a5e80a16ce5784bfbd12c7d",
+      "sha256": "1aa78b982f8924b7d5c876acac6061b1efb7cb255bfa5a5e2dea52da2f26e737",
+      "width": 2,
+      "height": 2
+    },
+    {
+      "path": "fixture-2.png",
+      "bytes": 74,
+      "md5": "4a6642681d078ff34b1ec7a158f56c7d",
+      "sha256": "9b23806a3b9abc0bcaac4b16c24c8337b27d04adb1382a6643b86d1b7690fcbe",
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "unchangedProductSections": {
+    "normalUiCapability": "12833644a6ad5fd90f8af5bbab1aea9f346c71a082c754f8944805a67dbc3890",
+    "genericMutationGate": "e8b7e740b30f0dae2c1fa6373a0e38ea9a62cb8906e02bba7b7bab16bf718579"
+  },
+  "normalUiVerified": false,
+  "webAndGVerified": false,
+  "cleanupActuallyPerformed": false,
+  "noGlobalWriteFlag": true,
+  "noProductEdits": true,
+  "rootGate": "Explicit immutable committed31 binding/current proof required; existing grant only; unknownPOST recovery uses persisted IDs and never resends",
+  "limits": [
+    "Operational private ledger is not cryptographic attestation",
+    "Child-list GET is not an atomic Drive lock",
+    "API snapshot does not prove web/G propagation"
+  ]
+}

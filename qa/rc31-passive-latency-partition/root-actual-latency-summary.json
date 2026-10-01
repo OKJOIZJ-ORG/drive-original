@@ -1,0 +1,122 @@
+{
+  "schema": "drive-original.rc31-root-passive-latency-summary/1",
+  "sourceCommit": "4a484e6f839d2e6c3eb83503acb08147362cb011",
+  "completed": true,
+  "cleanupComplete": true,
+  "replayDurationMs": 60913,
+  "rawSha256": "279874f857f25e8fbfa3b916697ee18c1f2a2a50cd4a4897da4a69e77d703dcc",
+  "phases": [
+    {
+      "label": "startup",
+      "armedAt": 1790829185543,
+      "targetFrameMs": 13757,
+      "deadline15Passed": true,
+      "firstPipelineGenerationAdvance": {
+        "lowerMs": 4213,
+        "upperMs": 4355
+      },
+      "firstBuffering": {
+        "lowerMs": 10367,
+        "upperMs": 10499
+      },
+      "firstAppend": {
+        "lowerMs": 13614,
+        "upperMs": 13713
+      },
+      "firstReady": {
+        "lowerMs": 13614,
+        "upperMs": 13713
+      },
+      "observedRequestCount": 15,
+      "observedRequestWallUnionMs": 12395.903076171875,
+      "observedResponseWaitUnionMs": 12197.98095703125,
+      "observedBodyDeliveryUnionMs": 214.972900390625,
+      "residualWallTimeMs": 1361.096923828125,
+      "timestampAlignment": "CDP request wallTime plus monotonic deltas versus browser Date.now arm; clock accuracy not independently measured",
+      "networkCompleteness": "PAGE_TARGET_EVENTS_ONLY",
+      "upstreamSWNetwork": "UNKNOWN",
+      "probeParserCPU": "UNKNOWN",
+      "workerInnerCPUAndAck": "UNKNOWN",
+      "interpretation": "Request intervals may overlap processing. Residual is unobserved wall time, not CPU or a causal attribution."
+    },
+    {
+      "label": "seek50",
+      "armedAt": 1790829201217,
+      "targetFrameMs": 19462,
+      "deadline15Passed": false,
+      "firstPipelineGenerationAdvance": {
+        "lowerMs": 40,
+        "upperMs": 289
+      },
+      "firstBuffering": {
+        "lowerMs": 15397,
+        "upperMs": 15539
+      },
+      "firstAppend": {
+        "lowerMs": 0,
+        "upperMs": 0
+      },
+      "firstReady": {
+        "lowerMs": 0,
+        "upperMs": 0
+      },
+      "observedRequestCount": 18,
+      "observedRequestWallUnionMs": 18848.043701171875,
+      "observedResponseWaitUnionMs": 18177.73095703125,
+      "observedBodyDeliveryUnionMs": 810.928955078125,
+      "residualWallTimeMs": 613.956298828125,
+      "timestampAlignment": "CDP request wallTime plus monotonic deltas versus browser Date.now arm; clock accuracy not independently measured",
+      "networkCompleteness": "PAGE_TARGET_EVENTS_ONLY",
+      "upstreamSWNetwork": "UNKNOWN",
+      "probeParserCPU": "UNKNOWN",
+      "workerInnerCPUAndAck": "UNKNOWN",
+      "interpretation": "Request intervals may overlap processing. Residual is unobserved wall time, not CPU or a causal attribution."
+    },
+    {
+      "label": "seek90",
+      "armedAt": 1790829221886,
+      "targetFrameMs": 15594,
+      "deadline15Passed": false,
+      "firstPipelineGenerationAdvance": {
+        "lowerMs": 0,
+        "upperMs": 234
+      },
+      "firstBuffering": {
+        "lowerMs": 11930,
+        "upperMs": 12121
+      },
+      "firstAppend": {
+        "lowerMs": 0,
+        "upperMs": 0
+      },
+      "firstReady": {
+        "lowerMs": 0,
+        "upperMs": 0
+      },
+      "observedRequestCount": 18,
+      "observedRequestWallUnionMs": 14804.288330078125,
+      "observedResponseWaitUnionMs": 14203.6044921875,
+      "observedBodyDeliveryUnionMs": 713.58349609375,
+      "residualWallTimeMs": 789.711669921875,
+      "timestampAlignment": "CDP request wallTime plus monotonic deltas versus browser Date.now arm; clock accuracy not independently measured",
+      "networkCompleteness": "PAGE_TARGET_EVENTS_ONLY",
+      "upstreamSWNetwork": "UNKNOWN",
+      "probeParserCPU": "UNKNOWN",
+      "workerInnerCPUAndAck": "UNKNOWN",
+      "interpretation": "Request intervals may overlap processing. Residual is unobserved wall time, not CPU or a causal attribution."
+    }
+  ],
+  "cleanup": {
+    "passiveNetworkClosed": true,
+    "noInflight": true,
+    "mainFrameUnchanged": true,
+    "overflow": 0,
+    "ownedNativeSessionDetached": true,
+    "ownedNativeCdpDisconnected": true,
+    "ownedForwardRemoved": true
+  },
+  "seekAppendReadyTiming": "Initial zero brackets can represent stale cumulative appends/readiness; not accepted as new-generation timestamps.",
+  "causalCpuAttribution": "UNKNOWN",
+  "originalMediaMutated": false,
+  "rawIdentifiersExported": false
+}

@@ -1,0 +1,35 @@
+# Checkpoint - ACTIVE - 20261001-123103
+
+## The story so far
+
+D068 whole D066 queue continues on codex/v2-kickoff-diagnostics. Current committed source31 is4a484e6f839d2e6c3eb83503acb08147362cb011,730/730 completeproductchecks stable, independent accountJSONdeadline clean. Publiccandidate still30/aa46bd083ce8c21f55cf7d9a4759f0d6709188c2/Worker29abe17c-fc7a-40d7-8802-06904d15677c. Product31 onlychanges canonicalaccountGET total30sdeadline plusversion; mediacore unchanged. Production1.21.0/e08989a unchanged. Candidate31materialization/ZIP/guard passed;54791622B SHA0802c73df7bd3f14aa01ad2fed2972c29218d03f6c2527d6c34d82ead67ce966. Deployment/readback/audit31 notyetrun.
+
+Actual30PC/Androidnormalupdate/source/cachepreservation passed. PC15minperformance retained24actual/23TARGET_FRAME/oneMKV-as-TSseek50timeout15s/allclosesreleased; original30plan incomplete. Exactoriginalfailed29TS foundnormalPCsearch, metadata before/after sameID+stable+freshrevision/checksumPASS. Separateactual30PCstartup14.160s/seek5014.305s/nearEOF9.601s/reopen12.885sPASS; actualnative+Q1ended/sourceoffset==size44117772/workerfinished/tailbuffer/finalwindowframes/closeownerssettled. Exactlastoriginalsample andphysicalaudio remain unknown; audio decode counterspositive. Safe raw9cb71a337b80bc184dd79b2f0ff7b55019538988651641b847945f9580490e45 andsummary inqa/rc30-ts-device-replay.
+
+AndroidsameTSattempt1stopped beforeplayback TARGET_NOT_IN_CURRENT_LIBRARY, sameaccount30source/cachePASS; allownedMCP/CDP/forwardcleared. PrivatePCrecoverywithonefolderpath storedqa/v2-state-recovery-backup/rc30-ts-replay-target-private-with-path.json816B SHAc8fa72255630eabb411865a572f5b98c76208bb578fc7437f0c42ebecd1d1299, NEVERstage/print. AgentpreparesADDITIVEv2realfoldermarkup/navigation wait; existingexecutedv1 reconstructed onlyexactreportedSHA1d730fee60ed98aaaf1cf6c1d3a945fd87da7417dced06920e7e4a8f53543072, PCexpressionc951 frozen. Do notexecutev2untilagentFINALfrozenhandoff andhashinspection.
+
+Ready31prep: sourceproof6257edcc580785a3e265aec717ac06e7504ef86a408ce9c964f08719b5fc1725/accountauthdatapins/rootalias; Androidnormal30-to31producer492d1f9879137afff8847beb444f5d2a0038271c5b91c03ecdc188d9e53d1d70; freshFULL30performanceexprd53bd077c960f5dd2921dfb4414c538b11f879d9e8e851af684b01882586018c. Disposableexact2normalUIcreatorbound4a/31factoryde300ac0103fd5928fc3c7550d4b9e8abe7a6718019d46abf9ea30a17b344e9b, noactualcreateyet. Deepercohort2factory8ed9880bc48ca591ba6fb656b861f53f64f1169f12e2ac1af0d3e1d5f8337fa4ready; entirefeasibleprefix31serialrunnerpreparation pending. AU06Androiddedicatedpagecookieoverridepreparation pending; PCsupportedcommandunavailable, noPCbypass. Browser3/tab275139600closed/searchsameTS/private__resumeReplayTarget30/__resumeSwProof30stilllive; oldperformanceAPIremoved.
+
+## Decided
+
+- D068 wholequeue ACTIVE; commit/candidate is savepoint, notpermissiontostop.
+- D066 currentmobilegate Android; iOS afterdeployment.
+- Production/main/push/newgrant/originalwrites/permanentdelete/automationresume remain separate authority.
+- Onlyexacttaskcreated2PNGs/2folders syntheticdisposablemutation workflow authorized.
+
+## Waiting on the user
+
+None for current independent work.
+
+## Next first action
+
+Read pending finalhandoff from gpt_6_1_sol_high_android_acceptance, verify frozenv2driver/expression hashes, then execute Androidattempt2 with protected private-with-path input before deploying31.
+
+## Tried
+
+- PC30sameTS50seek recoveredwithin14.305s; old15stimeout retained, nofailureerasure.
+- Androidattempt1hadnofolderpath; real.folder-row haschild.folder-name andNOdata-folder-id. Fixnormalnavigation, notproductstateinjection.
+- RootexecutedAndroidv1beforeauthorFINALfreezing; authorlaterguardedchanges requireexactv1reconstructionandadditivev2, neveroverwritesexecutedproof.
+- Packagingstat brieflyreportednlink>1, thenindependentscan0invalid/repeatfullguardpassed; causeunknown/norepairclaim.
+- Original30performanceprivateFiles nulledat15min; virtualizedcurrentcards cannotreconstructoriginal9/10IDs. Fresh31whole30plan queued, continuation6unusedprepared.
+- NoAU06PCdebugsocket/privacybypass.
