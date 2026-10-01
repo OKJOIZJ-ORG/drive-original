@@ -3,7 +3,7 @@
 const fs = require('node:fs'), path = require('node:path');
 const gate = require('./binding-gate.cjs');
 const { loadPrivate, inputCommand } = require('./android-replay.cjs');
-const SUPPLEMENT_SHA = 'fbbb95b7f89bc9c56f8df9659ef0ab309fb823b3c47dd5e5ea495046246987d7';
+const SUPPLEMENT_SHA = 'fd7aa895cbecc93267cd6b3dc727d31c194c70258995ea01a4b6b455f1f06ac1';
 const FROZEN_HELPERS = Object.freeze({
   'audio-seek-remaining.expression.js': SUPPLEMENT_SHA,
   'audio-seek-supplement.expression.js': '41305a9e20b7329cb9f46055e3b0d256848373f19211655c7fd0f15a1bd42967',

@@ -55,7 +55,7 @@
   let analysers = [], audioPrivate = null, seekPrivate = null, callbackId = null, frameVideo = null;
   let audioTimer = null, seekTimer = null, seekPoll = null, provisional = null, audioDeadline = null, totalTimer = null, cleanupPromise = null;
   let audioUsed = false, seekUsed = false;
-  let resolveResume = null, completedSeekPrivate = null, audioReleasePromise = null;
+  let resolveResume = null, completedSeekPrivate = null, audioReleasePromise = null, postSeekAdmission = null;
   const cleanup = { tracksStopped: true, nodesDisconnected: true, contextClosed: true, frameCancelled: true, timersCleared: false, listenersRemoved: false };
   const startedAt = Date.now();
   const normal = v => !!v && !v.paused && !v.ended && !v.seeking && !v.muted
@@ -76,7 +76,7 @@
   function read() {
     const meta = metadata();
     return { schema: 'drive-original.rc32-audio-seek-remaining/1', sourceCommit: binding.sourceCommit,
-      version: binding.version, disposed, elapsedMs: Date.now() - startedAt, audio, seek,
+      version: binding.version, disposed, elapsedMs: Date.now() - startedAt, audio, seek, postSeekAdmission,
       metadata: meta, qualified: audio?.passed === true && seek?.passed === true
         && meta.every(r => r.qualified) && baseFence()
         && Object.values(cleanup).every(value => value === true), cleanup: { ...cleanup },
@@ -241,12 +241,22 @@
     if (disposed || audioUsed || !seek?.passed || !completedSeekPrivate || !baseFence() || !normal(active())) fail('AUDIO_ADMISSION');
     if (navigator.userActivation?.isActive !== true) fail('NATIVE_USER_ACTIVATION_REQUIRED');
     const completed = completedSeekPrivate, currentStats = stats(), currentMap = currentStats?.mapping;
-    if (Date.now() - seek.completedAt > 10000 || active() !== completed.video || owner() !== completed.owner
-        || state.mediaSession !== completed.session || mediaSourceGeneration !== completed.sourceGeneration
-        || mediaSeekGeneration !== completed.seekGeneration || currentStats !== completed.stats
-        || currentStats?.generation !== completed.generation || q1Playback.swGeneration !== mediaSourceGeneration
-        || currentMap?.commonShift !== completed.commonShift || currentMap?.sourceOrigin !== completed.sourceOrigin
-        || mediaSeekSettledGeneration < mediaSeekGeneration || mediaSeekWatchdog || state.isSeeking) fail('POST_SEEK_OWNER_FENCE');
+    // TS retains native source timestamps and has no mapping object. The seek
+    // snapshot already represents absent fields as null; PCM uses the same form.
+    postSeekAdmission = {
+      withinSeekWindow: Date.now() - seek.completedAt <= 10000,
+      nativeOwnerSame: active() === completed.video, pipelineOwnerSame: owner() === completed.owner,
+      sessionSame: state.mediaSession === completed.session,
+      sourceGenerationSame: mediaSourceGeneration === completed.sourceGeneration,
+      seekGenerationSame: mediaSeekGeneration === completed.seekGeneration,
+      pipelineStateSame: currentStats === completed.stats, pipelineGenerationSame: currentStats?.generation === completed.generation,
+      swOwnerCurrent: q1Playback.swGeneration === mediaSourceGeneration,
+      commonShiftSame: (currentMap?.commonShift ?? null) === completed.commonShift,
+      sourceOriginSame: (currentMap?.sourceOrigin ?? null) === completed.sourceOrigin,
+      seekSettled: mediaSeekSettledGeneration >= mediaSeekGeneration,
+      watchdogAbsent: !mediaSeekWatchdog, stateSeekAbsent: !state.isSeeking
+    };
+    if (!Object.values(postSeekAdmission).every(value => value === true)) fail('POST_SEEK_OWNER_FENCE');
     const v = active(), AudioCtor = window.AudioContext || window.webkitAudioContext;
     if (typeof v.captureStream !== 'function' || !AudioCtor) fail('CAPTURE_UNSUPPORTED');
     audioUsed = true;
@@ -266,7 +276,7 @@
         && mediaSourceGeneration === p.sourceGeneration && current === p.stats && current?.generation === p.generation
         && q1Playback.swGeneration === mediaSourceGeneration && mediaSeekGeneration === p.seekGeneration
         && mediaSeekSettledGeneration >= mediaSeekGeneration && !mediaSeekWatchdog && !state.isSeeking
-        && current?.phase === 'ready' && mapping?.commonShift === p.commonShift && mapping?.sourceOrigin === p.sourceOrigin
+        && current?.phase === 'ready' && (mapping?.commonShift ?? null) === p.commonShift && (mapping?.sourceOrigin ?? null) === p.sourceOrigin
         && normal(v) && v.volume === p.volume;
     };
     const audioFrame = (_, frame) => {

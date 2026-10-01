@@ -56,7 +56,10 @@ async function seekTo(f, fraction, { pointer = true } = {}) {
   if (pointer) f.pointer(fraction);
   f.context.mediaSeekGeneration++; f.context.mediaSeekSettledGeneration++;
   f.context.mediaSourceGeneration++; f.context.q1Playback.swGeneration++; f.stats.generation++;
-  f.present(fraction * f.video.duration - 3);
+  const mapping = f.stats.mapping;
+  const shift = Number.isFinite(mapping?.commonShift) && Number.isFinite(mapping?.sourceOrigin)
+    ? mapping.commonShift - mapping.sourceOrigin : 0;
+  f.present(fraction * f.video.duration - shift);
   return f.api.read();
 }
 async function output(f, { ticks = 3, present = true } = {}) {
@@ -177,4 +180,26 @@ test('cleanup failures stay false across repeated stop and concurrent stop await
   g.deadline(1000); await pending;
   assert.equal(g.api.read().cleanup.contextClosed, false); assert.equal(g.api.read().qualified, false);
   assert.equal(g.counts().closed, 1); assert.equal(g.counts().timers, 0);
+});
+test('absent TS mapping stays the same through seek/resume/PCM; newly introduced mapping still fails', async () => {
+  const nativeTs = () => fixture({ prepare({ context }) { delete context.q1Playback.player.stats().mapping; } });
+  const f = nativeTs(); await seekTo(f, .5); await output(f); await f.api.stop();
+  assert.equal(f.api.read().qualified, true);
+  assert.equal(f.api.read().seek.firstTargetFrame.sourceClockShift, 0);
+  const diagnostic = f.api.read().postSeekAdmission;
+  assert(Object.values(diagnostic).every(value => typeof value === 'boolean' && value === true));
+  for (const point of ['before-output', 'during-output']) {
+    const g = nativeTs(); await seekTo(g, .9); g.video.paused = false;
+    if (point === 'during-output') await g.api.startAudio();
+    g.stats.mapping = { commonShift: 0, sourceOrigin: 0 };
+    if (point === 'before-output') {
+      await assert.rejects(g.api.startAudio(), /POST_SEEK_OWNER_FENCE/);
+      assert.equal(g.api.read().postSeekAdmission.commonShiftSame, false);
+      assert.equal(g.api.read().postSeekAdmission.sourceOriginSame, false);
+    } else {
+      await g.tick(); assert.equal(g.api.read().audio.result, 'AV_OWNER_FENCE');
+    }
+    await g.api.stop(); assert.equal(g.api.read().qualified, false);
+    assert(!JSON.stringify(g.api.read()).includes('PRIVATE'));
+  }
 });
