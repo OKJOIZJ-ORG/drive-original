@@ -1,0 +1,22 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');const root=path.resolve(__dirname,'../..'),old=path.join(root,'qa/rc31-android-cookie-gate'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const pins={'normal-replay.cjs':'4c5ded567ed58736ab85f776b5181c6cbe568c0b8c9c1129ec100342970be985','gate-attempt3.cjs':'2ede156d7b674bb12aff9b4c73883ba70b31998b9f6a576868b77b6a7aaecec9','android-adapter-attempt3.cjs':'6a0a90a0f7db39398a9c06e4e2acb03e0761869c7224c74af4be049627411f08','frame-owner-attempt3.cjs':'4b7e9300643097d04dbe3597bc45c18e0ddb91c8836ae8032624b701ddd0597a','actual-android-cookie-gate-attempt3-result.json':'84d53fd61c8720992077b5d94651c7c3f356a1df2a58245b5094c7fddffb8fd8'};
+const frozen=n=>{const b=fs.readFileSync(path.join(old,n));if(sha(b)!==pins[n])throw Error('ATTEMPT3_DRIFT');return b.toString('utf8');};const change=(s,a,b)=>{if(!s.includes(a))throw Error('DERIVATION_ANCHOR');return s.replace(a,b);};const write=(n,s)=>fs.writeFileSync(path.join(__dirname,n),s);
+let replay=frozen('normal-replay.cjs');replay=change(replay,"require('./gate.cjs')","require('../rc31-android-cookie-gate/gate.cjs')");
+replay=change(replay," const binding=JSON.parse", " const sourceReceipt=fs.readFileSync(path.join(__dirname,'source-receipt.function.js'),'utf8');\n const binding=JSON.parse");
+replay=change(replay,'let installed=false,privateInstalled=false,ownedPlayer=false,receipt,cleanup=true;','let installed=false,privateInstalled=false,ownedPlayer=false,retainedSource=false,receipt,cleanup=true;');
+replay=change(replay,'const originalBytes=!!src&&src.readsCompleted>0&&src.rangeRequests>0&&src.receivedBytes>0&&sought.r.latest.sourceSame&&sought.r.latest.accountSame&&sought.r.latest.targetSame;',"const preCloseOriginalBytes=!!src&&src.readsCompleted>0&&src.rangeRequests>0&&src.receivedBytes>0&&sought.r.latest.sourceSame&&sought.r.latest.accountSame&&sought.r.latest.targetSame;");
+replay=change(replay,'   const closedSettled=await close();',`   // Retain only the exact admitted player immediately before the ordinary close.
+   const sourceBefore=await ev(\x60()=>(${ '${sourceReceipt}' })(${ '${JSON.stringify({sourceCommit:SOURCE,version:VERSION,sourceSHA256:binding.sourceSHA256})}' })\x60);retainedSource=true;
+   const closedSettled=await close();`);
+replay=change(replay,"ownedPlayer=false;\n   receipt=", "ownedPlayer=false;\n   const originalReceipt=await ev('()=>window.__rc31CookieSourceReceipt.retired()');\n   originalReceipt.preClosePredicateQualified=preCloseOriginalBytes;\n   receipt=");
+replay=change(replay,'originalBytePathQualified:originalBytes,','originalBytePathQualified:originalReceipt.originalBytePathQualified,originalSourceReceipt:originalReceipt,');
+replay=change(replay,'  }finally{\n   if(ownedPlayer)',"  }finally{\n   if(retainedSource)try{await c.evaluate('window.__rc31CookieSourceReceipt.stop();delete window.__rc31CookieSourceReceipt;true',10000);}catch{cleanup=false;}\n   if(ownedPlayer)");
+write('normal-replay-attempt4.cjs',replay);
+let gate=frozen('gate-attempt3.cjs').replace('drive-original.rc31-android-cookie-gate/3','drive-original.rc31-android-cookie-gate/4');
+gate=change(gate,"    stage='normal-native-replay-admission';step('normal-replay-primitive-admission',replay);","    stage='normal-native-replay-admission';\n    const sourceReceipt=require('./source-receipt-sanitize.cjs').reduce(rawReplay?.originalSourceReceipt);\n    step('post-normal-close-exact-Q1-source-receipt',sourceReceipt);\n    step('normal-replay-primitive-admission',replay);");
+gate=change(gate,'    report.originalQualified = replay.originalBytePathQualified;','    report.originalQualified = replay.originalBytePathQualified;\n    report.originalByteScope=\'Q1_ORIGINAL_BYTE_READ_ONLY\';report.q0CookieCoverage=\'UNKNOWN\';');
+write('gate-attempt4.cjs',gate);
+// Adapter and frame classifier are reused byte-for-byte from attempt3, not copied or edited.
+write('derivation.json',JSON.stringify({actualExecution:false,privateInputRead:false,deviceActions:false,networkRequests:0,preservedAttempt3:pins,changes:['normal replay privately retains exact Q1 player just before normal close; post-retirement public numeric stats only','pre-close nullable counters separately preserved','gate adds finite diagnostic receipt and explicit Q1-original/Q0-unknown scope; original gate/thresholds/classifier/cookie params unchanged']},null,2)+'\n');
+console.log(JSON.stringify({localPreparation:true,actualExecution:false}));

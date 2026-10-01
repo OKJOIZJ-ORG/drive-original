@@ -1,0 +1,18 @@
+{
+  "actualExecution": false,
+  "privateInputRead": false,
+  "deviceActions": false,
+  "networkRequests": 0,
+  "preservedAttempt3": {
+    "normal-replay.cjs": "4c5ded567ed58736ab85f776b5181c6cbe568c0b8c9c1129ec100342970be985",
+    "gate-attempt3.cjs": "2ede156d7b674bb12aff9b4c73883ba70b31998b9f6a576868b77b6a7aaecec9",
+    "android-adapter-attempt3.cjs": "6a0a90a0f7db39398a9c06e4e2acb03e0761869c7224c74af4be049627411f08",
+    "frame-owner-attempt3.cjs": "4b7e9300643097d04dbe3597bc45c18e0ddb91c8836ae8032624b701ddd0597a",
+    "actual-android-cookie-gate-attempt3-result.json": "84d53fd61c8720992077b5d94651c7c3f356a1df2a58245b5094c7fddffb8fd8"
+  },
+  "changes": [
+    "normal replay privately retains exact Q1 player just before normal close; post-retirement public numeric stats only",
+    "pre-close nullable counters separately preserved",
+    "gate adds finite diagnostic receipt and explicit Q1-original/Q0-unknown scope; original gate/thresholds/classifier/cookie params unchanged"
+  ]
+}
