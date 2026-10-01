@@ -1,0 +1,58 @@
+{
+  "schema": "drive-original-q0-offline-root-qualification-v1",
+  "recordedAt": "2026-10-01T16:57:22.594Z",
+  "receipt": "actual-android-q0-byte-attempt3-safe.json",
+  "receiptSha256": "6ed366221007a5f52e0c56cf57568ce2cad0fe8803ee66c77782ddc35e0ecba7",
+  "runtimeCompleted": false,
+  "runtimeFailure": "Q0_BYTES_UNQUALIFIED",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "producerFiles": {
+    "android.cjs": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+    "worker-network.cjs": "0e0e6d9bdd079389614846fa7e1561e969709a7cb8c34f0d8422ecbf086c6ab7",
+    "observer.function.js": "f3e319dd17f51c34810c6faf0b5c07971d4952a635f7eb7058d65a59d0deeaf5"
+  },
+  "assessmentSourceSha256": "eef6797137d90db460ec1f746fa2d17489e0262b2d0b893894903be0b9fcffc1",
+  "qualificationSourceSha256": "ff0b98a62bd5bf9e25821bf7897f994a0bb6016d8338c48cd437b77f1152d74d",
+  "standard": "https://fetch.spec.whatwg.org/#http-responses",
+  "correctedReason": "successful exact revision CORS preflight200 with zero body/wire/terminal total; all fences individually retained",
+  "assessment": {
+    "qualified": true,
+    "reason": null,
+    "clearedReasons": [
+      "preflightResponse"
+    ],
+    "actualBodyBytes": 42991628,
+    "postCloseTrafficEnvelope": 43015705,
+    "exactBodyAtFrame": "UNKNOWN"
+  },
+  "fileBytes": 4607107537,
+  "firstFrame": {
+    "at": 1790873233981,
+    "elapsedMs": 3970,
+    "mediaTime": 0,
+    "width": 1920,
+    "height": 1080,
+    "currentOwner": true
+  },
+  "progressFrame": {
+    "at": 1790873234323,
+    "elapsedMs": 4312,
+    "mediaTime": 0.254572,
+    "width": 1920,
+    "height": 1080,
+    "currentOwner": true
+  },
+  "metadataBeforeAfterQualified": true,
+  "sameSourceWorker": true,
+  "sourceCachePinsMatched": true,
+  "swRequestAgreement": true,
+  "normalCloseRetirement": true,
+  "cleanupComplete": true,
+  "protectedInputLeaks": 0,
+  "TR01FiniteScopePassed": true,
+  "TR02": "NOT_TESTED",
+  "exactBodyAtFrame": "UNKNOWN",
+  "additionalProviderRequests": 0,
+  "wholeGoalPassed": false
+}

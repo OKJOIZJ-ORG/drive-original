@@ -1,0 +1,1010 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-01T16:46:59.089Z",
+  "producerSha256": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+  "commonSha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "local immutable measurement binding",
+      "at": "2026-10-01T16:47:00.790Z",
+      "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+      "version": "1.22.0-rc.32",
+      "sourceSHA256": {
+        "app.js": "7a84c2f52a6ba15300a533eea7f5b49f6653fe540486f5907d30214e65327497",
+        "sw.js": "8f27c0aa6710b78353b87911702a7e4c6e66535c404d5a66869992fc861b242b",
+        "version.json": "f60e407e34b72be59084f504eec09d2e48ce658c3fdc63f6f397b7eb341cbbea",
+        "media/drive-source.mjs": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a",
+        "media/ts-player.mjs": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705"
+      },
+      "files": {
+        "android.cjs": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+        "worker-network.cjs": "0e0e6d9bdd079389614846fa7e1561e969709a7cb8c34f0d8422ecbf086c6ab7",
+        "observer.function.js": "f3e319dd17f51c34810c6faf0b5c07971d4952a635f7eb7058d65a59d0deeaf5"
+      },
+      "frozenHelpersSHA256": {
+        "android-common.cjs": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+        "android-replay.cjs": "a4bc2d94a8fbb6ca51391c8e2e0434c4d33c1bddb13cbdef6cef0bf111430fd3",
+        "binding-gate.cjs": "ba6e36462177a0a0f434d001bd78523c5799d6ef40b21cf785248916c239ad9a",
+        "source-proof.expression.js": "ca83526c00330c7391da8c6d1f9d28b3321f799570fdd300826c670743b02d52",
+        "native-ui-target-v3.function.js": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+        "native-folder-target.function.js": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a"
+      },
+      "claim": "validated206-range upper bound OR complete noncompressed post-close source-worker traffic envelope with exact SW start/request agreement and independent CDP terminals; not exact body-at-frame",
+      "actualRequests": 0
+    },
+    {
+      "name": "source32 proof",
+      "at": "2026-10-01T16:47:03.128Z",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f",
+      "version": "1.22.0-rc.32",
+      "recordedAt": "2026-10-01T16:47:03.515Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 40,
+      "matchedCacheAliases": 41,
+      "shellRootAliasMatched": true,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "protected exact target installed",
+      "at": "2026-10-01T16:47:03.133Z",
+      "privateTargetInstalled": true
+    },
+    {
+      "name": "bounded normal folder/native search preparation",
+      "at": "2026-10-01T16:47:08.860Z",
+      "found": true,
+      "querySame": true,
+      "loading": false
+    },
+    {
+      "name": "prepared normal card admission",
+      "at": "2026-10-01T16:47:08.868Z",
+      "found": true,
+      "loading": false,
+      "folderSame": true,
+      "closed": true
+    },
+    {
+      "name": "Q0 bounded observer installed",
+      "at": "2026-10-01T16:47:08.880Z",
+      "installed": true,
+      "observerOnly": true
+    },
+    {
+      "name": "fresh before metadata",
+      "at": 1790873229888,
+      "label": "before",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "sole source-worker Network enabled",
+      "at": "2026-10-01T16:47:09.610Z",
+      "attached": true,
+      "bodyRead": false,
+      "cacheSettingsChanged": false
+    },
+    {
+      "name": "Q0 first frame arm",
+      "at": "2026-10-01T16:47:09.623Z",
+      "armed": true,
+      "maxMs": 70000
+    },
+    {
+      "name": "first current Q0 frame and contemporaneous source-worker reduction",
+      "at": "2026-10-01T16:47:13.638Z",
+      "frame": {
+        "at": 1790873233981,
+        "elapsedMs": 3970,
+        "mediaTime": 0,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "network": {
+        "requestCount": 2,
+        "live": 1,
+        "overflow": false,
+        "unqualified": true,
+        "rejectionReasons": {
+          "preflightResponse": true
+        },
+        "methodCounts": {
+          "get": 2,
+          "options": 2,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 2,
+          "allQualified": false,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            },
+            {
+              "ordinal": 2,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": true,
+          "unfinishedPreflight": true,
+          "missingResponse": false,
+          "missingData": false,
+          "encodedBelowBody": false,
+          "compressed": false
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 32243557,
+        "wireChunkBytes": 32261413,
+        "postCloseTrafficEnvelope": 32261559,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 32243545,
+            "wireBytes": 32261383,
+            "finishedWireBytes": null,
+            "dataEvents": 409,
+            "terminal": false,
+            "canceled": false,
+            "cache": false,
+            "identityEncoding": true
+          },
+          {
+            "ordinal": 2,
+            "status": 206,
+            "rangeValid": true,
+            "rangeLength": 12,
+            "start": 0,
+            "end": 11,
+            "openStart": null,
+            "contentValid": true,
+            "responseValid": true,
+            "bodyBytes": 12,
+            "wireBytes": 30,
+            "finishedWireBytes": 176,
+            "dataEvents": 1,
+            "terminal": true,
+            "canceled": false,
+            "cache": false,
+            "identityEncoding": true
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      },
+      "exactAtFrameByteClaim": false
+    },
+    {
+      "name": "bounded Q0 frame/progress result",
+      "at": "2026-10-01T16:47:13.948Z",
+      "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+      "version": "1.22.0-rc.32",
+      "disposed": false,
+      "current": true,
+      "firstFrame": {
+        "at": 1790873233981,
+        "elapsedMs": 3970,
+        "mediaTime": 0,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "progressFrame": {
+        "at": 1790873234323,
+        "elapsedMs": 4312,
+        "mediaTime": 0.254572,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "failure": null,
+      "polls": 0,
+      "metadata": [
+        {
+          "label": "before",
+          "at": 1790873229888,
+          "status": 200,
+          "qualified": true,
+          "bytes": 545
+        }
+      ],
+      "swReaderTrace": {
+        "starts": 2,
+        "requestCount": 2,
+        "terminalCount": 1,
+        "finalReaderBytes": 31645523,
+        "overflow": false,
+        "rawIdentifiersExported": false
+      },
+      "actualPlaybackCount": 1,
+      "rawIdentifiersExported": false,
+      "route": "Q0"
+    },
+    {
+      "name": "normal Back and retirement",
+      "at": "2026-10-01T16:47:14.274Z",
+      "closed": true,
+      "retired": true,
+      "q0": false,
+      "q1": false
+    },
+    {
+      "name": "post-close conservative upstream transfer envelope",
+      "at": "2026-10-01T16:47:24.309Z",
+      "network": {
+        "requestCount": 2,
+        "live": 0,
+        "overflow": false,
+        "unqualified": true,
+        "rejectionReasons": {
+          "preflightResponse": true
+        },
+        "methodCounts": {
+          "get": 2,
+          "options": 2,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 2,
+          "allQualified": false,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            },
+            {
+              "ordinal": 2,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": false,
+          "unfinishedPreflight": true,
+          "missingResponse": false,
+          "missingData": false,
+          "encodedBelowBody": false,
+          "compressed": false
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 42991628,
+        "wireChunkBytes": 43015559,
+        "postCloseTrafficEnvelope": 43015705,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 42991616,
+            "wireBytes": 43015529,
+            "finishedWireBytes": null,
+            "dataEvents": 572,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": true
+          },
+          {
+            "ordinal": 2,
+            "status": 206,
+            "rangeValid": true,
+            "rangeLength": 12,
+            "start": 0,
+            "end": 11,
+            "openStart": null,
+            "contentValid": true,
+            "responseValid": true,
+            "bodyBytes": 12,
+            "wireBytes": 30,
+            "finishedWireBytes": 176,
+            "dataEvents": 1,
+            "terminal": true,
+            "canceled": false,
+            "cache": false,
+            "identityEncoding": true
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      },
+      "swReaderTrace": {
+        "starts": 2,
+        "requestCount": 2,
+        "terminalCount": 1,
+        "finalReaderBytes": 31645523,
+        "overflow": false,
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "same source-worker target after terminal drain",
+      "at": "2026-10-01T16:47:24.321Z",
+      "sameWorkerTarget": true
+    },
+    {
+      "name": "fresh after metadata",
+      "at": 1790873245263,
+      "label": "after",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "TR01 finite scope result",
+      "at": "2026-10-01T16:47:24.877Z",
+      "passed": false,
+      "fileBytes": 4607107537,
+      "rangeTransferUpperBound": null,
+      "postCloseTrafficEnvelope": 43015705,
+      "firstFrameBeforeWholeDownload": false,
+      "exactAtFrameBodyBytes": "UNKNOWN",
+      "coldMediaEvidence": true,
+      "TR02": "NOT_TESTED",
+      "wholeGoalPassed": false
+    },
+    {
+      "name": "failure live safe evidence",
+      "at": "2026-10-01T16:47:24.890Z",
+      "observer": {
+        "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+        "version": "1.22.0-rc.32",
+        "disposed": false,
+        "current": true,
+        "firstFrame": {
+          "at": 1790873233981,
+          "elapsedMs": 3970,
+          "mediaTime": 0,
+          "width": 1920,
+          "height": 1080,
+          "currentOwner": true
+        },
+        "progressFrame": {
+          "at": 1790873234323,
+          "elapsedMs": 4312,
+          "mediaTime": 0.254572,
+          "width": 1920,
+          "height": 1080,
+          "currentOwner": true
+        },
+        "failure": null,
+        "polls": 0,
+        "metadata": [
+          {
+            "label": "before",
+            "at": 1790873229888,
+            "status": 200,
+            "qualified": true,
+            "bytes": 545
+          },
+          {
+            "label": "after",
+            "at": 1790873245263,
+            "status": 200,
+            "qualified": true,
+            "bytes": 545
+          }
+        ],
+        "swReaderTrace": {
+          "starts": 2,
+          "requestCount": 2,
+          "terminalCount": 1,
+          "finalReaderBytes": 31645523,
+          "overflow": false,
+          "rawIdentifiersExported": false
+        },
+        "actualPlaybackCount": 1,
+        "rawIdentifiersExported": false,
+        "route": "Q0"
+      },
+      "network": {
+        "requestCount": 2,
+        "live": 0,
+        "overflow": false,
+        "unqualified": true,
+        "rejectionReasons": {
+          "preflightResponse": true
+        },
+        "methodCounts": {
+          "get": 2,
+          "options": 2,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 2,
+          "allQualified": false,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            },
+            {
+              "ordinal": 2,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": false,
+          "unfinishedPreflight": true,
+          "missingResponse": false,
+          "missingData": false,
+          "encodedBelowBody": false,
+          "compressed": false
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 42991628,
+        "wireChunkBytes": 43015559,
+        "postCloseTrafficEnvelope": 43015705,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 42991616,
+            "wireBytes": 43015529,
+            "finishedWireBytes": null,
+            "dataEvents": 572,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": true
+          },
+          {
+            "ordinal": 2,
+            "status": 206,
+            "rangeValid": true,
+            "rangeLength": 12,
+            "start": 0,
+            "end": 11,
+            "openStart": null,
+            "contentValid": true,
+            "responseValid": true,
+            "bodyBytes": 12,
+            "wireBytes": 30,
+            "finishedWireBytes": 176,
+            "dataEvents": 1,
+            "terminal": true,
+            "canceled": false,
+            "cache": false,
+            "identityEncoding": true
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      }
+    },
+    {
+      "name": "owned source-worker observer cleanup",
+      "at": "2026-10-01T16:47:24.964Z",
+      "disposed": true,
+      "ownedWorkerDetached": true,
+      "ownedForwardRemoved": true,
+      "privateCorrelationCleared": true
+    },
+    {
+      "name": "owned RVFC/timer cleanup",
+      "at": "2026-10-01T16:47:24.974Z",
+      "disposed": true,
+      "frameCallbackRemoved": true,
+      "timerRemoved": true,
+      "traceSinkRemoved": true,
+      "privateTraceKeysCleared": true
+    },
+    {
+      "name": "normal Back settled original folder restoration",
+      "at": "2026-10-01T16:47:26.063Z",
+      "folderSame": true,
+      "loading": false
+    },
+    {
+      "name": "owned target/proof restoration",
+      "at": "2026-10-01T16:47:26.074Z",
+      "targetRemoved": true,
+      "proofRestored": true,
+      "folderSame": true,
+      "querySame": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.32",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "cleanupComplete": true,
+  "actualUnitMs": 16457,
+  "preparationMs": 8828,
+  "originalMediaReadOnly": true,
+  "completed": false,
+  "failure": "Q0_BYTES_UNQUALIFIED",
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}
