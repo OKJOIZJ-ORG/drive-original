@@ -1,0 +1,104 @@
+{
+  "schema": "drive-original.rc32-bounded-corpus-finalization/1",
+  "reason": "CORPUS-06 budget-feasible classification; stop expansion and prioritize functional representative acceptance",
+  "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+  "version": "1.22.0-rc.32",
+  "priorEvidence": {
+    "file": "pc-epoch2-body2-safe.json",
+    "sha256": "c2d66460781c10e8175d2651054e81a49299be00de217b977c7df7d184403c6d"
+  },
+  "existingSessionRenewal": {
+    "start": {
+      "started": true,
+      "priorExpiresInMs": 1218556,
+      "jobs": 2,
+      "active": false
+    },
+    "result": {
+      "startedAt": "2026-10-01T15:13:16.189Z",
+      "done": true,
+      "backgroundExistingSession": true,
+      "newGrantRequested": false,
+      "readerActive": false,
+      "result": {
+        "ok": true,
+        "accountSame": true,
+        "keySame": true,
+        "authGenerationSame": true,
+        "driveGenerationSame": true,
+        "controllerSame": true,
+        "revisionAdvanced": true,
+        "expiryAdvanced": true,
+        "expiresInMs": 3599102,
+        "usable": true,
+        "online": true
+      },
+      "finishedAt": "2026-10-01T15:13:16.812Z"
+    },
+    "idleRebind": {
+      "at": "2026-10-01T15:14:52.841Z",
+      "active": false,
+      "stopped": null,
+      "jobs": 2,
+      "credentialRebinds": 1,
+      "disposed": false,
+      "requestsPerformed": 0,
+      "burstStarted": false
+    }
+  },
+  "cleanup": {
+    "at": "2026-10-01T15:19:32.135Z",
+    "beforeHeader": {
+      "schema": "drive-original.rc32-corpus-owner-epoch/1",
+      "epoch": "rc32-bounded-container-config-image-owner-epoch-20261001-2",
+      "sourceCommit": "1d79897fd32c569137cab079bfd93107be2ee33f",
+      "version": "1.22.0-rc.32",
+      "active": false,
+      "progress": null,
+      "disposed": false,
+      "stopped": null,
+      "needsRecovery": false,
+      "credentialRebinds": 1,
+      "maxFreshAttemptsPerFile": 1,
+      "historicalCrossEpochAttempts": "UNKNOWN",
+      "historicalResultsImported": false,
+      "privateRegistryExported": false,
+      "actualPlaybackCount": 0,
+      "wholeCorpusComplete": false,
+      "burst": {
+        "started": 1,
+        "maxJobs": 1,
+        "deadline": 1790867364740,
+        "done": true,
+        "recovery": false
+      }
+    },
+    "jobsSHA256": "089033c823893bc74de15af4d8b8b49aaa14a7fb2ee507adf4d7b6873825de91",
+    "jobsPreserved": true,
+    "disposed": true,
+    "active": false,
+    "ownedHelpersRemoved": true,
+    "closed": true,
+    "q0": false,
+    "q1": false,
+    "retired": true,
+    "writerIdle": true,
+    "wholeGoalPassed": false,
+    "originalMediaMutated": false,
+    "productChanged": false
+  },
+  "classification": {
+    "denominator": 8596,
+    "consumed": 128,
+    "classified": 123,
+    "unknown": 5,
+    "unattempted": 8468,
+    "unknownReasons": {
+      "PARSER_BUDGET_OR_DEADLINE_DEFERRED": 4,
+      "ISO_SPARSE_INCOMPLETE": 1
+    }
+  },
+  "completed": true,
+  "wholeGoalPassed": false,
+  "wholeCorpusClassified": false
+}
