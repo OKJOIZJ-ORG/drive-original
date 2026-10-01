@@ -272,3 +272,6 @@
 # Exact source33 candidate and actual Q3 diagnostic producers/receipts.
 /qa/candidate-rc33-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/q3-actual-preparation/** -text whitespace=cr-at-eol,-blank-at-eol
+# Preserve hash-bound local output oracle and controlled-tail raw producers.
+/qa/q3-full-output-quality/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/rc33-tail-index/** -text whitespace=cr-at-eol,-blank-at-eol
