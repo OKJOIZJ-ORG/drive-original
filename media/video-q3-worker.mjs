@@ -31,7 +31,7 @@ listen(async message => {
     result = await streamGeneralQ3({ source: proxy, generation, signal: controller.signal,
       isCurrent: () => !controller.signal.aborted,
       targetTime: message.targetTime, endTime: message.endTime, limits: message.limits,
-      timelinePolicy: message.timelinePolicy, 
+      timelinePolicy: message.timelinePolicy,
       onWindow: value => request('window', { value }),
       onChunk: ({ bytes, position, batchSize, batchEnd }) => request('chunk', { buffer: bytes.buffer, position, batchSize, batchEnd }, [bytes.buffer]) });
   } catch (failure) { error = { diagnostic: failure.diagnostic, audioMetrics: failure.audioMetrics, audioCleanup: failure.audioCleanup, message: /^(?:GENERAL|WORKER|Q1_EXACT|Q1_SOURCE|TIMING|AUDIO|Q3)_[A-Z0-9_]+$/.test(failure.message) ? failure.message : 'GENERAL_PIPELINE_FAILED', cleanup: failure.cleanup, reads: failure.reads }; }
