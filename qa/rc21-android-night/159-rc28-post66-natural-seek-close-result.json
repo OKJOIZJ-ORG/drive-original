@@ -1,0 +1,340 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-09-30T23:55:57.332Z",
+  "producerSha256": "4aa5a4b3be2056205560083eb6a568d04987b61288c29a201a04aedb3d1e5f4c",
+  "commonSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "qualified after natural renewal before separate seek",
+      "at": "2026-09-30T23:55:59.308Z",
+      "version": "1.22.0-rc.28",
+      "q1": true,
+      "expectedPrivateTarget": true,
+      "q1Phase": "ready",
+      "tokenRevision": 67,
+      "expiresInMs": 3362542,
+      "time": 909.152348,
+      "duration": 1609.408,
+      "paused": false,
+      "ready": 4,
+      "frames": 27278,
+      "error": false,
+      "loader": false,
+      "controlsHidden": true,
+      "generation": 2,
+      "settledGeneration": 2,
+      "watchdog": false,
+      "presented": [],
+      "stage": {
+        "x": 412.23529052734375,
+        "y": 595.7647094726562,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125
+      },
+      "entry": {
+        "x": 412.23529052734375,
+        "y": 1161.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60
+      },
+      "seek": {
+        "x": 412.23529052734375,
+        "y": 1116.5294189453125,
+        "width": 784.4705810546875,
+        "height": 18
+      },
+      "dpr": 2.125,
+      "height": 1191
+    },
+    {
+      "name": "actual native post-renewal paused midpoint presented seek",
+      "at": "2026-09-30T23:56:14.498Z",
+      "version": "1.22.0-rc.28",
+      "q1": true,
+      "expectedPrivateTarget": true,
+      "q1Phase": "ready",
+      "tokenRevision": 67,
+      "expiresInMs": 3347354,
+      "time": 804.704,
+      "duration": 1609.408,
+      "paused": true,
+      "ready": 4,
+      "frames": 4,
+      "error": false,
+      "loader": false,
+      "controlsHidden": true,
+      "generation": 3,
+      "settledGeneration": 3,
+      "watchdog": false,
+      "presented": [
+        {
+          "generation": 3,
+          "time": 804.688,
+          "width": 360,
+          "height": 640,
+          "presentedFrames": 1
+        }
+      ],
+      "stage": {
+        "x": 412.23529052734375,
+        "y": 595.7647094726562,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125
+      },
+      "entry": {
+        "x": 412.23529052734375,
+        "y": 1161.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60
+      },
+      "seek": {
+        "x": 412.23529052734375,
+        "y": 1116.5294189453125,
+        "width": 784.4705810546875,
+        "height": 18
+      },
+      "dpr": 2.125,
+      "height": 1191,
+      "targetFraction": 0.5,
+      "targetFrame": {
+        "generation": 3,
+        "time": 804.688,
+        "width": 360,
+        "height": 640,
+        "presentedFrames": 1
+      }
+    },
+    {
+      "name": "actual normal post-renewal close settlement and owned QA cleanup",
+      "at": "2026-09-30T23:56:15.879Z",
+      "playerClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "retirementSettled": true,
+      "independentObserverRemoved": true,
+      "privateProofAndTargetRemoved": true,
+      "normalSearchRestored": true,
+      "tokenRevision": 67,
+      "foreground": true
+    },
+    {
+      "name": "finally normal postnatural settlement and own helper cleanup",
+      "at": "2026-09-30T23:56:16.129Z",
+      "playerClosed": true,
+      "q0": false,
+      "q1": false,
+      "blob": false,
+      "frameOwner": false,
+      "retirementSettled": true,
+      "ownedObserverAndPrivateProofRemoved": true,
+      "version": "1.22.0-rc.28",
+      "revision": 67,
+      "expiry": "2026-10-01T00:52:01.313Z"
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.28",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "completed": true,
+  "ownedMcpClosed": true,
+  "ownedForwardRemoved": true
+}

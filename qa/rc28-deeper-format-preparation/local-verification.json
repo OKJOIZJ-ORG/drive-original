@@ -1,0 +1,60 @@
+{
+  "schema": "drive-original.rc28-deeper-local/1",
+  "cases": [
+    {
+      "name": "bounded-consecutive-strata-retain-all-representatives",
+      "passed": true
+    },
+    {
+      "name": "safe-reference-and-unprobed-denominator",
+      "passed": true
+    },
+    {
+      "name": "no-absence-from-eight-and-hdr-vfr-unknown",
+      "passed": true
+    },
+    {
+      "name": "small-whole-file-exclusion",
+      "passed": true
+    },
+    {
+      "name": "timeout-retry-identity-and-outcome-discrimination",
+      "passed": true
+    },
+    {
+      "name": "fixed28-and-finite-legacy-bounds",
+      "passed": true
+    },
+    {
+      "name": "syntax-old-proof-and-source-hash-preflight",
+      "passed": true
+    },
+    {
+      "name": "private-reference-normal-card-target-rearm-cleanup",
+      "passed": true
+    }
+  ],
+  "syntax": true,
+  "fileSHA256": {
+    "selection.mjs": "4ea7ebe6960bcc5dfb86c63b436d7aca20743c27187ea66f00d6703dafc10270",
+    "probe.mjs": "a51234b881279d3f42945cf862fb41c97caeb43583aa04d981defdfeebb5188c",
+    "facade.function.js": "ad47d02502ae14f4493e5553dca0ca719b8b06f34e3e231fd5164797c5699417",
+    "entry.function.js": "5d9a334af8095b9235dedef7032da440ce04a2e9284d2cf7940c78233673e593",
+    "binding.json": "32b681805ac85abdc4a8d8b03ab13fed31381ec0d97137f444ac5bfcd5e08522",
+    "build.mjs": "68e335fc93dcc2957bc7560fbf522daf69520bbb3ff5ee54d5fd645c3c24ae83",
+    "factory.expression.js": "2516b3ff53fa0869fdafb691b0fcc7716085c6db7aa9062687b41e407d36420c",
+    "provenance.json": "004c38988efaf62805d5f86dcf769cd956d1fcf450de09ca66f3845cd777a3f7",
+    "verify.mjs": "a48dd71a5e250be5489d52a86988b058f3c2723b46c51cc4ea6b309b2bc336ec",
+    "README.md": "c49f4b8f69a366d86931a452f3b4ade84abb2b5cc5fdf5bbd8f40b23de20a22a"
+  },
+  "priorActualEvidenceSHA256": "a8a8c3e38af95017a548f98972a5ad3db4a087b9cfa46c9718e185fa0453044a",
+  "priorFailurePreserved": {
+    "cohort": "videos",
+    "sample": "sample-15",
+    "failure": "HEADER_TIMEOUT",
+    "identityUnavailable": true
+  },
+  "actualRequests": 0,
+  "actualExecution": false,
+  "wholeCorpusComplete": false
+}

@@ -1,0 +1,13 @@
+(()=>{
+ if(APP_VERSION!=='1.22.0-rc.28'||state.tokenRevision!==67||!q1Playback||state.selected?.id!==window.__resumePcNaturalPrep?.target.id||window.__resumeSwProof.get().controller!==navigator.serviceWorker.controller)throw Error('SEEK_PREFLIGHT');
+ const v=el.videoPlayer,owner=q1Playback,account=state.accountId,file=state.selected.id,version=state.selected.version,session=state.mediaSession,controller=navigator.serviceWorker.controller,revision=state.tokenRevision;
+ const before=mediaSeekGeneration,target=playerTimeline(v).currentTime+10,started=Date.now();let id=null,timer=null,interval=null,candidate=null;
+ const result={schema:'drive-original.pc-post-renewal-key-seek-frame/3',started,version:APP_VERSION,credentialRevision:revision,pausedBefore:v.paused,targetSeconds:target,completed:false,frame:null,observations:[],failure:null};
+ const clear=()=>{clearTimeout(timer);clearInterval(interval);if(id!==null)v.cancelVideoFrameCallback(id);id=null;};
+ const current=()=>state.accountId===account&&state.selected?.id===file&&state.selected?.version===version&&state.mediaSession===session&&q1Playback===owner&&navigator.serviceWorker.controller===controller&&state.tokenRevision===revision&&isCurrentMediaEvent(v);
+ const sample=()=>{if(!current()){result.failure='SEEK_OWNER_CHANGED';clear();return;}if(candidate&&candidate.generation===mediaSeekGeneration&&mediaSeekGeneration===mediaSeekSettledGeneration&&!mediaSeekWatchdog&&!state.isSeeking&&v.paused&&v.readyState>=2&&el.mediaLoading.hidden&&el.mediaError.hidden&&owner.player.stats().phase==='ready'){result.completed=true;result.elapsedMs=Date.now()-started;result.frame=candidate;result.settledGeneration=true;result.paused=true;result.ready=v.readyState;result.ownerStable=true;clear();}};
+ const cb=(_,m)=>{if(!current()){sample();return;}const f={at:Date.now(),elapsedMs:Date.now()-started,generation:mediaSeekGeneration,time:m.mediaTime,width:m.width,height:m.height,presentedFrames:m.presentedFrames,phase:owner.player.stats().phase,loader:!el.mediaLoading.hidden};if(result.observations.length<20)result.observations.push(f);if(f.generation>before&&Math.abs(f.time-target)<=2)candidate=f;sample();if(!result.completed&&!result.failure)id=v.requestVideoFrameCallback(cb);};
+ if(!v.paused||!Number.isFinite(target))throw Error('SEEK_PAUSED_BASELINE');
+ id=v.requestVideoFrameCallback(cb);interval=setInterval(sample,25);timer=setTimeout(()=>{result.failure='TARGET_FRAME_TIMEOUT';result.elapsedMs=Date.now()-started;clear();},45000);
+ return Object.freeze({read:()=>structuredClone(result),clear:()=>{clear();return{callbackRemoved:true,timerRemoved:true,intervalRemoved:true};}});
+})()

@@ -1,0 +1,83 @@
+{
+  "schema": "drive-original.android-exact66-natural-unit-preparation/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "runtime": "1.22.0-rc.28",
+  "expectedOldRevision": 66,
+  "expectedOldExpiry": "2026-09-30T23:53:31.785Z",
+  "earliestAttach": "2026-09-30T23:41:31.785Z",
+  "plannedAttach": "2026-09-30T23:41:35.000Z",
+  "earliestComplete": "2026-09-30T23:55:31.785Z",
+  "actualExecution": false,
+  "deviceActions": false,
+  "credentialForced": false,
+  "observerCoreUnchanged": true,
+  "observerSha256": "acb4aaab21e1407539ca184364e6a368a3425fedbcf27e4c21c221b5db3a83c1",
+  "reviewedParentSha256": "fb82921316fd76b323e5536c86653c6f16b3c072ec607c71eb03f687dbfc2b6b",
+  "commonSha256": "76174bb5cd905ca2c2475bb59c44986379ec7943f465e8017ea62f123d0c328e",
+  "bindingSha256": "07f6290b1fb2508b48a96aee53572ba85b087e94d9b18ed63de4c2cfb53a6d98",
+  "attachApi": "(()=>expression)(window.__qaAndroidRenewalProof); installs window.__driveNightRenewal.read()/stop()",
+  "readApi": "Runtime.evaluate through owned existing CDP after final focusfalse/MCPclose, every20s; actualnativeChrome foreground Boolean only",
+  "guards": [
+    "immutable source/runtime/currentcontroller and privateunique original27minpriority",
+    "actual Q1TS360x640 readyplaying/noerrorloader, old66/exactexpiry",
+    "positive<=720000ms and sufficient native remainingduration through oldexpiry+120s",
+    "13 Boolean owner/account/content/source/controller/drive/abort/event fences",
+    "strict15s framegap+lastage, visible,900s runbound,120s postexpiry",
+    "capped128 trusted type/zone/allowlistedkey and credentialstatus/revision only"
+  ],
+  "cleanup": "Observer releases own frame/interval/timeout/listeners/fetchwrapper; raw clone readers best-effortcancel only. Afterbothwatch released and rootGO,159 separately nativepausedseek/frame/normalclose/retirement/helper removal. Failure keeps journal until coordinatedcleanup, no fabricatedpass.",
+  "derivations": [
+    {
+      "base": "153-rc28-original-os-final-readiness.cjs",
+      "baseSha256": "3f98637b933f8d82eb5c57e16cfb6b13fe4aa2b31b5ed1999bcd9b8da4dedbde",
+      "producer": "156-rc28-natural66-readonly-readiness.cjs",
+      "producerSha256": "618721c31479e0501c9ffdc39443bd8098bc168654f28db0a6ffe81b5c877c1d",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "137-rc28-original-natural-prepare.cjs",
+      "baseSha256": "4cf43f4e9bf8257a44b94a7fd1553ca66b6ffbf883618e0fd4dab6bd55e54f49",
+      "producer": "157-rc28-natural66-original-prepare.cjs",
+      "producerSha256": "8a600b0939596cf7c51ed416cd409d28187ca4faaed47608a850126fadc298b3",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "138-rc28-android-current-natural-watch.cjs",
+      "baseSha256": "ae8911b47a06c5f4ed35059f8f2797b60be1aec921b34621f81a25c23c17b8f3",
+      "producer": "158-rc28-android-revision66-natural-watch.cjs",
+      "producerSha256": "b54a3d428861e2edcc6a52b3687223d4a567f5df5ca594e3bcad34765c330dc1",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "139-rc28-post-renewal-native-seek-close.cjs",
+      "baseSha256": "b91be704cc4e042b0f40c734d26e42833795bc739141021877fec647242089f9",
+      "producer": "159-rc28-post66-natural-seek-close.cjs",
+      "producerSha256": "4aa5a4b3be2056205560083eb6a568d04987b61288c29a201a04aedb3d1e5f4c",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ],
+        [
+          "finally cleanup",
+          "normalBack/retirement/ownobserver+privateproof cleanup even if laterseek fails"
+        ]
+      ]
+    }
+  ]
+}

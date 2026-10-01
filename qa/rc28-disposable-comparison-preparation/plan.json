@@ -1,0 +1,149 @@
+{
+  "schema": "drive-original.rc28-disposable-normal-ui-preparation/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "actualRun": false,
+  "productEdits": false,
+  "normalUiPass": false,
+  "findings": [
+    {
+      "claim": "Normal current UI cannot successfully trash/move while immutable global writes false",
+      "pointers": [
+        {
+          "path": "app.js",
+          "line": 9764
+        },
+        {
+          "path": "app.js",
+          "line": 4108
+        }
+      ],
+      "reason": "Controller gate fails before metadata GET; transport separately denies PATCH. ACCOUNT_STATE_WRITE permit applies only independently scoped appData requests."
+    },
+    {
+      "claim": "Existing private owned file is text/plain and does not appear in normal media query",
+      "pointers": [
+        {
+          "path": "qa/v2-disposable-live/runner.js",
+          "line": 48
+        },
+        {
+          "path": "app.js",
+          "line": 3076
+        }
+      ],
+      "reason": "Two retained folders may appear, but mutating folders is not covered by existing disposable controller transport. This does not qualify bulk media UI."
+    },
+    {
+      "claim": "Existing actual canonical MU01/02 proof remains retained; normal product/G5 is separate",
+      "pointers": [
+        {
+          "path": "memory/DISPOSABLE-20260928.md",
+          "line": 23
+        },
+        {
+          "path": "qa/v2-disposable-live/live-rc10-results.json",
+          "line": 231
+        }
+      ]
+    }
+  ],
+  "shortestSafePlan": [
+    {
+      "unit": "READONLY-RECOVERY",
+      "newProductCode": false,
+      "steps": [
+        "Use existing private job.recoveryRun handle, or select exactly one existing recovery namespace after matching current account/key locally; never emit namespace/IDs/token or create a new run as recovery.",
+        "Reuse maintained verify-final.js via verifier.call({job:{recoveryRun}}) only after current source-proof/controller/account/token revision/idle fences pass. It performs two fresh metadata passes of exactly3 retained IDs with GET only. Existing exact-file-final-version check may fail on drift; preserve that failure rather than waive the recorded final state.",
+        "Keep complete current metadata privately and cross-check API sameIDs against Drive web and G: via unique tagged parent/name mapping; capture full parent/trashed/visibility/version evidence privately, export booleans. Existing verifier safe summaries alone do not preserve a fresh raw snapshot or prove web/G.",
+        "Before recoverable residual cleanup, separately list descendants ONLY of exact two tagged owned folders with complete bounded pagination; reject any non-ledger descendants/unknown ownership/incompleteSearch. No blanket folder cleanup."
+      ]
+    },
+    {
+      "unit": "NORMAL-UI-SCOPED-PRODUCT-DELIVERY",
+      "newProductCode": true,
+      "rootDecisionRequired": true,
+      "steps": [
+        "Keep DRIVE_MUTATIONS_ENABLED false. Implement one narrow task-owned disposable mutation permit shared between canonical controller and driveFetch. Avoid runtime replacement of trashDriveFile/moveDriveFile or extracted shadow controller being reported as literal product controller.",
+        "Permit admission starts from explicit reviewed private created-ID ledger, current account/auth/data/controller/source owner and fresh server metadata. Require exact run tag + role + ownedByMe + MyDrive + creation receipt and current parents/version. Move target must be a ledger-owned tagged folder with canAddChildren. Reject originals, arbitrary IDs, appData, folder PATCH, upload routes, sharing and DELETE. No automatic namespace discovery as authority.",
+        "Move controller globalflag rejection after safe read-only preflight only for this explicitly selected disposable operation. Mint an opaque controller-only one-request capability (private Symbol plus issued-permit registry); consume it at driveFetch after exact method/path/query/body/file/action/target/owner/version checks. No global mutable allowWrite or new OAuth grant. Full-grant driveWrite capability is still required, read-only operation otherwise fails safely.",
+        "Preserve existing lock/journal/owner fences/no transparent PATCH retry/independent fresh GET before local UI success; normal unchanged menu/select/confirm/list/selection/folder update path invokes canonical controller. AppData allowance remains independently scoped.",
+        "For actual bulk UI proof create at least2 new uniquely tagged small valid synthetic image/video media fixtures under new approved owned folders using existing granted account; old text/plain singleton is insufficient. Build and preserve a matching explicit private creation/allowlist journal; never upload over originals. Existing fixed3-role metadata-only creator is not directly reusable for arbitrary bulk media upload.",
+        "Run normal actual selection→move→trash from UI with approved exact targets, fresh API confirmation and web/G same-ID comparison. Preserve original byte hashes and before-state; then recoverably restore or trash ONLY these task-created residuals after fresh descendant inspection. Keep private receipts and unknown/error history."
+      ]
+    },
+    {
+      "unit": "FOCUSED-CHECKS",
+      "newProductCode": false,
+      "steps": [
+        "Controlled permit tests must distinguish allowed exact current tagged task item from original/arbitrary/folder/appData/DELETE, forged/stale permit, changed account/token/source/controller/tag/version/parents, wrong body/target, duplicated permit and missing driveWrite.",
+        "Use actual unchanged bulk UI with two approved disposable fixtures to verify successful vs failed item separation, unknown-submit fresh GET and retained selection/list state. Do not replay old canonical writes merely to relabel MU01/02.",
+        "Compare API/web/G current states and final recoverable residual prestate; no permanent deletion or ordinary original-media mutations. Actual execution held until root GO after state/watch."
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "route": "Runtime rebinding normal UI helper to restricted QA extraction",
+      "verdict": "Can test real UI against controlled authenticated adapter, but modifies runtime and remains adapter evidence, not fixed28 normal product controller delivery. No advantage over a narrow reviewed product permit for requested acceptance."
+    },
+    {
+      "route": "Enable global writes",
+      "verdict": "Rejected: authorizes arbitrary original-media PATCHs and broadens appData/global behavior beyond D050."
+    },
+    {
+      "route": "Claim current normalUI success without code change",
+      "verdict": "Impossible under both inspected immutable guards."
+    }
+  ],
+  "minimalCapabilityDesign": {
+    "reuseExisting": [
+      "captureDriveMutationOwner account identity and base session ownership",
+      "withDriveMutationLock existing60s bound",
+      "frozen intent + pre-state GET + prepared/submitted/verifying journal + independent GET/no retry"
+    ],
+    "newPieces": [
+      "One exact active disposable creation-ledger selector, explicit run-bound membership only",
+      "Fresh metadata admission adds appProperties/ownedByMe to existing readDriveMutationMetadata field projection; no second controller or lock",
+      "One private controller-issued one-use permit WeakMap plus private request Symbol, consumed by driveFetch; no permissive runtime flag"
+    ],
+    "ownerAdditions": "Existing base owner lacks a fully pinned source/token-revision/controller condition for this allowance. Snapshot tokenRevision/current source/version/controller at permit issuance and require exact equality before send, alongside existing owner.assert and lock AbortSignal.",
+    "permitContract": {
+      "method": "PATCH",
+      "allowedActions": [
+        "trash",
+        "move"
+      ],
+      "forbiddenRoutes": [
+        "DELETE",
+        "upload",
+        "sharing",
+        "appData",
+        "arbitrary file/folder writes"
+      ],
+      "identity": "Exact generated task-created file ID and creation receipt, server qaRun/qaRole/ownedByMe/MyDrive, current before.parents/version, exact approved target folder ID and its fresh metadata",
+      "requestBinding": "Frozen intent + exact URL/query/body/action/target/parent delta; preserve canTrash/canMove/canAddChildren and driveWrite capability gates",
+      "maximumUses": 1,
+      "expires": "At next PATCH send within the existing lock only; independently cap issuance-to-send to5s, no timer or background refresh",
+      "cleanup": "Delete issued permit on consume or any finally/abort/owner change/failure; explicit ledger-scope teardown after root test closes. Never retain token in ledger or expose IDs."
+    },
+    "releaseGate": "Product unit later must run focused admission/nonGET/forged/stale/original denial checks, required candidate release source/cache checks and current normalUI case proof after watch/state. Fixed28 remains unchanged now.",
+    "boundary": "Restore/cleanup is separate restricted QA operation for exact task-created data, not added to ordinary normalUI controller actions. Bulk parent/list/appData effects follow existing normal UI logic only after confirmed success."
+  },
+  "reuse": {
+    "finalVerifier": {
+      "path": "qa/v2-disposable-live/verify-final.js",
+      "sha256": "1d2e563687bfc80956677cbf943411257f4ad7040fd05f6cf01660ab6b62f938",
+      "actualHistoricalOnly": true
+    },
+    "canonicalController": {
+      "path": "qa/v2-disposable-live/build.cjs",
+      "sha256": "c3ee516055b88eaba1d31efa79865746613268eb59ed1051ed0933f948057177"
+    },
+    "currentPrivateInterface": "Existing browser-local recoveryRun and drive-original.qa.disposable.<run>.recovery; consume through local opaque handle, no values exported"
+  },
+  "limits": [
+    "Preparation only; child supplies no runtime permission or creation/mutation authority.",
+    "No actual browser/network/writes/private payload capture/staging/commit.",
+    "Current general media write flag stays false; product implementation and acceptance remain root-owned."
+  ]
+}

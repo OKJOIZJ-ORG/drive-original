@@ -1,0 +1,67 @@
+{
+  "schema": "drive-original.rc28-root-state-binding/1",
+  "recordedAt": "2026-10-01T00:34:35.393Z",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "version": "1.22.0-rc.28",
+  "localClientBinding": {
+    "configuredClientPresent": true,
+    "legacyDefaultClientPresent": true,
+    "configuredEqualsLegacyDefault": true,
+    "configuredClientFlowsToVerifiedExchange": true,
+    "serverAudienceAndAuthorizedPartyBound": true,
+    "serverRedirectBoundToConfiguredOrigin": true,
+    "runtimeProjectClientBindingVerified": true,
+    "scope": "Root combines unchanged reused-client/OIDC origin source checks with actual candidate canonical current full10-doc appData namespace, preserved legacy/writer/tombstones, private disk reread and exact-current-app empty-cache reconstruction/fullraw recapture equality.",
+    "sourcePointers": [
+      {
+        "path": "worker/index.mjs",
+        "line": 57,
+        "needle": "clientId: env.GOOGLE_CLIENT_ID"
+      },
+      {
+        "path": "worker/index.mjs",
+        "line": 57,
+        "needle": "redirectUri:"
+      },
+      {
+        "path": "worker/google.mjs",
+        "line": 98,
+        "needle": "claims.aud !== clientId"
+      },
+      {
+        "path": "worker/google.mjs",
+        "line": 118,
+        "needle": "redirect_uri: redirectUri"
+      }
+    ],
+    "sourceHashes": [
+      {
+        "path": "worker/wrangler.jsonc",
+        "sha256": "8e114319544b690f25d14a512e684722f9cf96810095cd0f57125c907b8a6502"
+      },
+      {
+        "path": "worker/index.mjs",
+        "sha256": "8e38a215966f98956657f7b81982be64af59f1791e0104fe4ac834c25d795bbf"
+      },
+      {
+        "path": "worker/google.mjs",
+        "sha256": "5b77097b5a6447eeedb9a4515c71bdd9fd96556b79a0293390f100edd22f5344"
+      }
+    ]
+  },
+  "actualStateReport": {
+    "path": "qa/rc28-resume-20261001/actual-state-current-safe.json",
+    "sha256": "2fa5b073fdf32ae1686818d15a9225d19986a310a538640e5b528a06fb490401"
+  },
+  "rootAcceptedClauses": [
+    "QA-AU-10",
+    "QA-SL-07"
+  ],
+  "pointInTimeCompletedSnapshots": true,
+  "subsequentHumanPlaybackChangedOwner": true,
+  "priorFailuresPreserved": true,
+  "newClient": false,
+  "newGrant": false,
+  "canonicalWrites": 0,
+  "wholeGoalPassed": false
+}

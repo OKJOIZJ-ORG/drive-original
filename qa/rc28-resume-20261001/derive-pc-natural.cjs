@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),cp=require('node:child_process');
+const from=path.resolve(__dirname,'../rc21-android-night/android-renewal-discriminator-rc28.expression.js');
+const to=path.join(__dirname,'pc-natural.expression.js');if(fs.existsSync(to))throw Error('frozen producer already exists');
+const raw=fs.readFileSync(from,'utf8');const scope='Actual physical Android tablet ongoing Q1 across natural credential renewal; passive source/owner/frame/status journal';
+if(!raw.includes(scope))throw Error('scope missing');
+fs.writeFileSync(to,raw.replace(scope,'Actual desktop Chrome ongoing Q1 across natural credential renewal; passive source/owner/frame/status journal'));
+cp.execFileSync(process.execPath,['--check',to],{stdio:'inherit'});
+const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+fs.writeFileSync(path.join(__dirname,'pc-natural-derivation.json'),JSON.stringify({parent:'qa/rc21-android-night/android-renewal-discriminator-rc28.expression.js',parentSHA256:sha(from),producer:'qa/rc28-resume-20261001/pc-natural.expression.js',producerSHA256:sha(to),change:'Desktop scope text only; exact current28 binding and owner/frame/request/cleanup guards preserved',actualExecution:false},null,2));
+console.log(JSON.stringify({bytes:fs.statSync(to).size,sha256:sha(to)}));

@@ -1,0 +1,12 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process');
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const pairs=[['153-rc28-original-os-final-readiness.cjs','156-rc28-natural66-readonly-readiness.cjs'],['137-rc28-original-natural-prepare.cjs','157-rc28-natural66-original-prepare.cjs'],['138-rc28-android-current-natural-watch.cjs','158-rc28-android-revision66-natural-watch.cjs'],['139-rc28-post-renewal-native-seek-close.cjs','159-rc28-post66-natural-seek-close.cjs']];
+const rows=pairs.map(([base,producer])=>({base,baseSha256:sha(fs.readFileSync(path.join(__dirname,base))),producer,producerSha256:sha(fs.readFileSync(path.join(__dirname,producer))),changes:[['local partial-builder repair','159 finally appended before syntax check;156-158 preserved byte-for-byte']]}));
+assert.ok(!fs.existsSync(path.join(__dirname,'160-local-natural-builder-repair.json')));
+const before=rows.map(r=>r.producerSha256),creator=fs.readFileSync(path.join(__dirname,'155-build-exact66-natural-unit.cjs'),'utf8');
+const start=creator.indexOf('const finalPath=');assert.ok(start>0);
+new Function('require','__dirname','fs','path','assert','sha','execFileSync','rows',creator.slice(start))(require,__dirname,fs,path,assert,sha,execFileSync,rows);
+for(const r of rows)execFileSync(process.execPath,['--check',path.join(__dirname,r.producer)],{windowsHide:true});
+for(let i=0;i<3;i++)assert.equal(before[i],sha(fs.readFileSync(path.join(__dirname,rows[i].producer))));
+fs.writeFileSync(path.join(__dirname,'160-local-natural-builder-repair.json'),JSON.stringify({schema:'drive-original.local-harness-repair/1',recordedAt:new Date().toISOString(),deviceActions:false,productChanges:false,preservedFailedCreator:'155-build-exact66-natural-unit.cjs',failure:'SYNTAX_CHECK_BEFORE_FINALLY_APPEND',repairedUnexecutedProducer:rows[3].producer,source:'944f00607cf05e586b1c88e2876dd796ce114e82',derivations:rows},null,2)+'\n');

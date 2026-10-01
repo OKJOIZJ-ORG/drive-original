@@ -1,0 +1,64 @@
+{
+  "schema": "drive-original.local-harness-repair/1",
+  "recordedAt": "2026-09-30T23:40:46.402Z",
+  "deviceActions": false,
+  "productChanges": false,
+  "preservedFailedCreator": "155-build-exact66-natural-unit.cjs",
+  "failure": "SYNTAX_CHECK_BEFORE_FINALLY_APPEND",
+  "repairedUnexecutedProducer": "159-rc28-post66-natural-seek-close.cjs",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "derivations": [
+    {
+      "base": "153-rc28-original-os-final-readiness.cjs",
+      "baseSha256": "3f98637b933f8d82eb5c57e16cfb6b13fe4aa2b31b5ed1999bcd9b8da4dedbde",
+      "producer": "156-rc28-natural66-readonly-readiness.cjs",
+      "producerSha256": "618721c31479e0501c9ffdc39443bd8098bc168654f28db0a6ffe81b5c877c1d",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "137-rc28-original-natural-prepare.cjs",
+      "baseSha256": "4cf43f4e9bf8257a44b94a7fd1553ca66b6ffbf883618e0fd4dab6bd55e54f49",
+      "producer": "157-rc28-natural66-original-prepare.cjs",
+      "producerSha256": "8a600b0939596cf7c51ed416cd409d28187ca4faaed47608a850126fadc298b3",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "138-rc28-android-current-natural-watch.cjs",
+      "baseSha256": "ae8911b47a06c5f4ed35059f8f2797b60be1aec921b34621f81a25c23c17b8f3",
+      "producer": "158-rc28-android-revision66-natural-watch.cjs",
+      "producerSha256": "b54a3d428861e2edcc6a52b3687223d4a567f5df5ca594e3bcad34765c330dc1",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ]
+      ]
+    },
+    {
+      "base": "139-rc28-post-renewal-native-seek-close.cjs",
+      "baseSha256": "b91be704cc4e042b0f40c734d26e42833795bc739141021877fec647242089f9",
+      "producer": "159-rc28-post66-natural-seek-close.cjs",
+      "producerSha256": "4aa5a4b3be2056205560083eb6a568d04987b61288c29a201a04aedb3d1e5f4c",
+      "changes": [
+        [
+          "local partial-builder repair",
+          "159 finally appended before syntax check;156-158 preserved byte-for-byte"
+        ],
+        [
+          "finally cleanup",
+          "normalBack/retirement/ownobserver+privateproof cleanup even if laterseek fails"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,31 +1,30 @@
-# Checkpoint — ACTIVE — 2026-10-01 08:30
+# Checkpoint — ACTIVE — 2026-10-01 09:35
 
 ## The story so far
 
-D068 resumes the whole D066 queue. Savepointdb2f808; fixed public source944f006/rc28 and Worker99252c7f unchanged. Actual personal Chrome3/tab275139600 is authenticated/source-bound. Trusted force28 → pagehide1125ms → exact controller/cache40/account/writer/projection at39.618s PASS. Normal original MP4/Q0 first native1280×720 frame2.703s, presented playback, trusted close and settled retirement PASS. Android144–154 actual source28 native landscape/fullscreen/paused seek and30.366s OS Home return PASS; failed harness146/148 retained with narrow scope. Device quiet/portrait/all owners retired after153.
+D068 continues the whole D066 queue. Branch codex/v2-kickoff-diagnostics; currentpublic944f006/rc28 and Worker99252c7f remain fixed. Actual PC/Android natural66→67 playback, post-expiry frames and native paused seeks/retirement are complete. Bounded corpus inventory8596files/video union2186 is stable, one HEADER_TIMEOUT and2099 unattempted videos remain. Current28 full10-doc appData protected backup/reread, exact-app empty-cache reconstruction and complete raw before/after snapshots match; root combines unchanged reused-client source binding to accept AU10/SL07 point-in-time. Transient stale_owner failures and later human playback owner change remain recorded. Safe60-file completed-unit manifest and resumed record own these scopes.
 
-Root PC serial corpus runner ACTIVE: fresh repeated complete inventory8596 files/8604 items/2185 video MIME,36 representative940-byte signatures classified/failed0/unknown1; both catalogs match. This is metadata/prefix evidence, not decode or whole-corpus acceptance. Second job is videos64; source/controller/account/token fences retained. Stop cutoff2026-09-30T23:38:00Z precedes two-device natural overlap window23:41:31.785Z (last observed rev66 expiry23:53:31.785Z). Current CUA runner handle window.__driveNightCorpus; no other player/state owner while active. Poll safe summaries; cancel/cleanup and verify released before next owner.
+Local uncommitted product29 adds exact-two disposable normal-controller capability with document lifecycle cancellation; focused89/full721 Node pass before the new PC layout change. Human screenshot adds PC blank lower-region/duplicatefavorite issue. Actual stage fills viewport but video/chrome shifted137.6px; local native reproduction confirms ambient overflow scrollability, styles-only overflow:clip and conditional favorite consolidation are under final local QA. Upper-left1.0x may be browser-injected; unconfirmed. Android finite UI163+ is ACTIVE; don't start strict PC corpus until its final quiet report. PC normalEscape closed/retired with human permission. New deeper-target factory180257B SHA0edf8cd... repairs frozen probe rejection and qualifies version via freshGET, local13/13; actual unrun.
 
 ## Decided
 
-- D068 ACTIVE supersedes D067 WAIT; milestones are savepoints, continue whole executable queue.
-- D066 Android substitutes current mobile gate; iOS after deployment.
-- Production1.21.0/e08989a/main/push/generalwritesfalse/PAUSED automation unchanged.
-- Finite original69 audit in qa/rc28-finite-acceptance-matrix corrects invented broader gates; root owns all promotions.
+- D068 whole executable queue ACTIVE; savepoints do not end work.
+- D066 PC+Android current gate; iOS after deployment.
+- D050/D051 production/main/push/newgrant/original writes/permanent delete/PAUSED automation unchanged; generalwritesfalse.
+- Human explicitly permits PC playback close/continued verification and adds screenshot correction.
 
 ## Waiting on the user
 
-None currently. Login/2FA/new grants and final production authority remain user boundaries if encountered.
+None currently. Final production/main/push authority remains separate.
 
 ## Next first action
 
-Continue live corpus until bounded stop; preserve settled summary and cleanup. Coordinate fresh PC+Android original priority playback for overlapping natural66 expiry, then exact current28 read-only state binding and remaining finite queue. qa/rc28-state-binding-readonly local5/5 PASS is preparation only; actual capture/download/reconstruction/recomparison unrun. Performance/remaining gestures/disposable cross-interface still open. Do not rerun passing local665+20/delivery52/cache40/normal27→28 suites without a changed premise.
+Read Android agent's final163+ quiet result; once retired, load qa/rc28-deeper-target-qualification/factory.expression.js with SHA0edf8cd548e0bca96f9994ecf2b3a72d4307396cec3bd1cc940ed3b2a03da33c into actual PC and derive fresh private context for one bounded probe cohort.
 
 ## Tried
 
-- Current browser3 replaces unavailable browser4; unrelated user tab untouched.
-- Actual force/reopen evidence: qa/rc28-resume-20261001. Ten journal rows match live SHA2bbf5e48; cleanup completed. Late attachment/executing-worker-byte limits explicit.
-- Android frozen154 manifest owns new27 files; native Back closes player through normal history, so148 partial retained and151 explicit fullscreen exit qualified separately.
-- Serial runner local11 cases pass; embedded immutable original factory unchanged. One unknown signature remains a real deeper-analysis target.
-- Current-state binding helpers use exact app28 shadow/canonical ACCOUNT_STATE_READ; never run live readRemote because it changes read cache. Old rc11 initializer is not current proof.
-- No product code change this resumed unit; no final69 whole-row promotion yet.
+- First state capture/fresh reconstruction transient stale_owner; diagnostic attempts retain exact guards and pass, unknown transient cause preserved.
+- Completed recapture snapshots later had ownerCurrentfalse after human opened playback; historical fullraw equality is accepted at completed-read point, not as current-owner equality.
+- Native Blob downloads succeed despite unsupported event wait timeout; verify only exact filenames/bytes/SHA before move, private sink ACL3explicit/0inherited/protected.
+- First postrenewal observer required frame/loader-ready synchronously; second clicked auto-hidden controls with no newseek. Third keyboard seek nativePASS10.981s, not performance target closure.
+- Frozen deeper producer rejects modeprobe; preserve it, use new qualified bounded derivative. UI lists have no version; don't inject version or claim originalUI had it.

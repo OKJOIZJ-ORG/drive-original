@@ -638,6 +638,18 @@ Historical evidence/spec rows remain unchanged; Android is never labelled iOS
 proof. Shared codec/auth/state/cleanup criteria remain required. Continue every
 executable implementation and acceptance unit without stopping at savepoints.
 
+### 2026-10-01 — D068 resumed actual evidence and PC layout addition
+
+RESUMED-ACCEPTANCE-20261001.md owns completed actual66→67 overlapping PC/Android
+renewal, native post-renewal seeks/retirement, current full raw-state private backup,
+empty-cache reconstruction and before/after raw equality. Corpus inventory is
+stable but one prefix timeout and deferred2186-video coverage remain; no all-format
+pass. The human adds PC screenshot layout/favorite-duplication correction and
+explicitly permits closing the candidate playback for continued verification.
+Local29 narrow disposable capability, lifecycle cancellation and721 passing Node
+checks are a preparation; the new layout diff requires its own verification and
+final integration. Whole executable queue remains ACTIVE, not candidate complete.
+
 
 ### 2026-10-01 — final24 delivery and two-foreground state savepoint
 

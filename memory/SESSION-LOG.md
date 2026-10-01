@@ -687,6 +687,23 @@ D066 execution. Checkpoint/goal/index/current record/handoff align WAIT. Root ex
 safe curation/local commit, no new product/device/corpus/offline/renewal unit or
 timer. Production1.21.0/e08989a/main/push/generalwritesfalse/PAUSED unchanged.
 
+## 2026-10-01 09:31 — resumed renewal/state savepoint and user PC issue
+
+Actual overlapping PC/Android66→67 original Q1 natural renewal and post-expiry
+frames/seeks/retirement completed; short buffering and PC11s target latency
+retained. Bounded current corpus stopped on one HEADER_TIMEOUT with stable8596
+inventory and2099 unattempted video members. Current28 full10-doc raw backup,
+protected disk reread, exact-app empty-cache12GET reconstruction and full14GET
+recapture snapshots match. First transient stale_owner attempts retained; human
+playback later changed media/revision/cache owners after successful recapture.
+Root exported only safe equality/results and destroyed private browser handles.
+Human screenshot adds PC blank-region/duplicate-favorite issue; root measured
+common137.6px upward offset inside full-height stage, source-layer hypothesis
+under local native investigation. Human permits close/continue; normalEscape
+closed/retired PC. Local29 narrow exact2 disposable capability includes lifecycle
+revocation,89 scoped+existing tests and full721 Node pass before layout changes.
+No candidate deployment/production/main/push/generalwrites/automation changed.
+
 
 ## 2026-10-01 07:50 — user explicit resume
 

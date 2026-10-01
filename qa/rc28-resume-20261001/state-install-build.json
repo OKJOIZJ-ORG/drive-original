@@ -1,0 +1,25 @@
+{
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "parts": [
+    {
+      "name": "backup-factory.expression.js",
+      "sha256": "035f6482b2cbe3730c14412fa5bcd56915f87e0bcf3684c25eece336281449bb"
+    },
+    {
+      "name": "capture-facade.function.js",
+      "sha256": "f4cdaffdf369ee63b861423252179ee91a2c99b914249308aa30f52fe5365463"
+    },
+    {
+      "name": "fresh-factory.generated.js",
+      "sha256": "5807cdea2d0561a1e66863f5caa0aff6caf7a61e3d3f2afb97deb1c8561a2b36"
+    },
+    {
+      "name": "fresh-facade.function.js",
+      "sha256": "ea46e28dbeb763b828b38bd3a68481f1badc63731a4ee4220b772998356b388f"
+    }
+  ],
+  "bytes": 541295,
+  "sha256": "eec9086e2f24641406a56010ba769775ec57a807c19e16f6f7d27767a7617cfe",
+  "actualExecution": false,
+  "change": "Wrap exact immutable public helpers into one local import, no behavior change"
+}

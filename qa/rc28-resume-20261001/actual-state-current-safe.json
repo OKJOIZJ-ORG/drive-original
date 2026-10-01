@@ -1,0 +1,342 @@
+{
+  "schema": "drive-original.rc28-state-current-actual/1",
+  "source": "944f00607cf05e586b1c88e2876dd796ce114e82",
+  "version": "1.22.0-rc.28",
+  "recordedAt": 1790814440518,
+  "stages": [
+    {
+      "attempt": 1,
+      "result": {
+        "done": true,
+        "nativeDispatches": 5,
+        "transport": {
+          "requests": 5,
+          "bytes": 15837,
+          "pages": 1,
+          "blocked": 0,
+          "writes": 0,
+          "namespaceAllowed": true,
+          "canonicalAccountStateRead": true
+        },
+        "summary": {
+          "passed": false,
+          "failure": "stale_owner"
+        },
+        "ownerCurrent": true
+      }
+    },
+    {
+      "attempt": 2,
+      "result": {
+        "done": true,
+        "nativeDispatches": 14,
+        "transport": {
+          "requests": 14,
+          "bytes": 101290,
+          "pages": 2,
+          "blocked": 0,
+          "writes": 0,
+          "namespaceAllowed": true,
+          "canonicalAccountStateRead": true
+        },
+        "guardFailures": [],
+        "summary": {
+          "passed": true,
+          "remoteFiles": 10,
+          "remoteWriters": 9,
+          "remote": {
+            "files": 10,
+            "liked": 9,
+            "unliked": 49,
+            "viewed": 159
+          },
+          "candidate": {
+            "liked": 9,
+            "unliked": 49,
+            "viewed": 159
+          },
+          "legacy": {
+            "viewed": 119,
+            "liked": 7,
+            "unliked": 48
+          },
+          "candidatePending": false,
+          "candidateIncludesLegacy": true,
+          "legacyWriterAvailable": true,
+          "writerDistinct": true,
+          "runtimeMatchesRemoteAndCache": true,
+          "projectClientBindingVerified": false
+        },
+        "ownerCurrent": true
+      }
+    },
+    {
+      "stage": "private-disk-reread",
+      "result": {
+        "passed": true,
+        "remoteFiles": 10,
+        "remoteWriters": 9,
+        "remote": {
+          "files": 10,
+          "liked": 9,
+          "unliked": 49,
+          "viewed": 159
+        },
+        "candidate": {
+          "liked": 9,
+          "unliked": 49,
+          "viewed": 159
+        },
+        "legacy": {
+          "viewed": 119,
+          "liked": 7,
+          "unliked": 48
+        },
+        "candidatePending": false,
+        "candidateIncludesLegacy": true,
+        "legacyWriterAvailable": true,
+        "writerDistinct": true,
+        "runtimeMatchesRemoteAndCache": true,
+        "projectClientBindingVerified": false,
+        "rereadEquivalent": true
+      },
+      "bytes": 148875,
+      "sha256": "015a3fda23e3ace9eba6219340865edee23bb1263045a9d0955319755a82fb11",
+      "restrictedAclVerified": true
+    },
+    {
+      "stage": "fresh-attempt-1",
+      "result": {
+        "done": true,
+        "passed": false,
+        "code": "stale_owner",
+        "reads": 2,
+        "writes": 0,
+        "bytes": 63,
+        "documents": 0,
+        "liked": 0,
+        "unliked": 0,
+        "viewed": 0,
+        "emptyStorageStart": true,
+        "timersCleared": true,
+        "nativeGets": 2,
+        "transport": {
+          "requests": 2,
+          "bytes": 63,
+          "pages": 1,
+          "blocked": 0,
+          "writes": 0,
+          "namespaceAllowed": true,
+          "canonicalAccountStateRead": true
+        },
+        "ownerCurrent": true,
+        "guardFailures": [],
+        "sourceHash": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+        "actualCacheUnchanged": true,
+        "actualWriterUnchanged": true
+      }
+    },
+    {
+      "stage": "fresh-attempt-2",
+      "result": {
+        "done": true,
+        "passed": true,
+        "code": null,
+        "reads": 12,
+        "writes": 0,
+        "bytes": 98618,
+        "documents": 10,
+        "liked": 9,
+        "unliked": 49,
+        "viewed": 159,
+        "emptyStorageStart": true,
+        "timersCleared": true,
+        "nativeGets": 12,
+        "transport": {
+          "requests": 12,
+          "bytes": 98618,
+          "pages": 1,
+          "blocked": 0,
+          "writes": 0,
+          "namespaceAllowed": true,
+          "canonicalAccountStateRead": true
+        },
+        "ownerCurrent": true,
+        "guardFailures": [],
+        "guardFailureHistory": [],
+        "sourceHash": "2dbba4ed225a867cc9024c2400242975317855bcf03acebc73df4c0dc1c84377",
+        "actualCacheUnchanged": true,
+        "actualWriterUnchanged": true
+      }
+    },
+    {
+      "stage": "completed-full-recapture-historical-snapshot",
+      "result": {
+        "done": true,
+        "nativeDispatches": 14,
+        "transport": {
+          "requests": 14,
+          "bytes": 101290,
+          "pages": 2,
+          "blocked": 0,
+          "writes": 0,
+          "namespaceAllowed": true,
+          "canonicalAccountStateRead": true
+        },
+        "guardFailures": [
+          {
+            "at": 1790814248642,
+            "aborted": false,
+            "source": true,
+            "foreground": true,
+            "online": true,
+            "controller": true,
+            "account": true,
+            "authGeneration": true,
+            "driveGeneration": true,
+            "token": true,
+            "authOnline": true,
+            "loaded": true,
+            "identityIdle": true,
+            "loadingIdle": true,
+            "syncTimerIdle": true,
+            "retryTimerIdle": true,
+            "syncErrorAbsent": true,
+            "syncIdle": true,
+            "capability": true,
+            "abortOwner": true,
+            "mediaSession": false,
+            "retirement": true,
+            "writer": true,
+            "revision": false,
+            "idle": false,
+            "projection": false,
+            "cache": false,
+            "writerStorage": true
+          },
+          {
+            "at": 1790814262035,
+            "aborted": false,
+            "source": true,
+            "foreground": true,
+            "online": true,
+            "controller": true,
+            "account": true,
+            "authGeneration": true,
+            "driveGeneration": true,
+            "token": true,
+            "authOnline": true,
+            "loaded": true,
+            "identityIdle": true,
+            "loadingIdle": false,
+            "syncTimerIdle": true,
+            "retryTimerIdle": true,
+            "syncErrorAbsent": true,
+            "syncIdle": true,
+            "capability": true,
+            "abortOwner": true,
+            "mediaSession": false,
+            "retirement": true,
+            "writer": true,
+            "revision": false,
+            "idle": false,
+            "projection": false,
+            "cache": false,
+            "writerStorage": true
+          },
+          {
+            "at": 1790814271682,
+            "aborted": false,
+            "source": true,
+            "foreground": true,
+            "online": true,
+            "controller": true,
+            "account": true,
+            "authGeneration": true,
+            "driveGeneration": true,
+            "token": true,
+            "authOnline": true,
+            "loaded": true,
+            "identityIdle": true,
+            "loadingIdle": true,
+            "syncTimerIdle": true,
+            "retryTimerIdle": true,
+            "syncErrorAbsent": true,
+            "syncIdle": true,
+            "capability": true,
+            "abortOwner": true,
+            "mediaSession": false,
+            "retirement": true,
+            "writer": true,
+            "revision": false,
+            "idle": false,
+            "projection": false,
+            "cache": false,
+            "writerStorage": true
+          }
+        ],
+        "summary": {
+          "passed": true,
+          "remoteFiles": 10,
+          "remoteWriters": 9,
+          "remote": {
+            "files": 10,
+            "liked": 9,
+            "unliked": 49,
+            "viewed": 159
+          },
+          "candidate": {
+            "liked": 9,
+            "unliked": 49,
+            "viewed": 159
+          },
+          "legacy": {
+            "viewed": 119,
+            "liked": 7,
+            "unliked": 48
+          },
+          "candidatePending": false,
+          "candidateIncludesLegacy": true,
+          "legacyWriterAvailable": true,
+          "writerDistinct": true,
+          "runtimeMatchesRemoteAndCache": true,
+          "projectClientBindingVerified": false
+        },
+        "ownerCurrent": false
+      },
+      "comparison": {
+        "sameAccount": true,
+        "sameFilesAndRawBodies": true,
+        "sameNormalizedUnion": true,
+        "sameCandidateCacheProjectionAndWriter": true,
+        "sameLegacyPayload": true
+      },
+      "ownerChangedAfterCompletion": true
+    }
+  ],
+  "comparison": {
+    "sameAccount": true,
+    "sameFilesAndRawBodies": true,
+    "sameNormalizedUnion": true,
+    "sameCandidateCacheProjectionAndWriter": true,
+    "sameLegacyPayload": true
+  },
+  "cleanup": {
+    "captureCleared": true,
+    "freshShadowCleared": true,
+    "rawEnvelopeRemoved": true,
+    "facadesRemoved": true,
+    "privateIdsOrTokensExported": false,
+    "humanCurrentPlayerLeftRunning": true
+  },
+  "limits": {
+    "firstCaptureFailureCause": "stale_owner_transient_unknown",
+    "firstFreshFailureCause": "stale_owner_transient_unknown",
+    "diagnosticPassingAttemptsPreserveSameGuardSemantics": true,
+    "completedRecaptureOwnerCurrentTrueInPriorToolObservation": true,
+    "currentOwnerChangedAfterCompletedReads": true,
+    "historicalPointInTimeOnly": true,
+    "projectClientBindingRequiresRootSourceReview": true,
+    "readOnly": true
+  }
+}

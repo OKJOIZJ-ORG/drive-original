@@ -1,0 +1,10 @@
+{
+  "observedFailure": true,
+  "capture": "Summarized from tool stderr; stdout-only first-attempt.txt is empty",
+  "assertion": "all deliberately retained EventTarget callbacks equal0",
+  "actual": 2,
+  "expected": 0,
+  "error": "AssertionError",
+  "cause": "Terminated Worker facades are deliberately retained by test target inventory; their2 callbacks remain observable. These are preserved separately rather than represented as live Workers or claimed removed.",
+  "productChanged": false
+}
