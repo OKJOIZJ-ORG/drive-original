@@ -3,9 +3,10 @@ const demand=ok=>{if(!ok)throw new Error('FRAGMENT_CLOCK_UNPROVEN');};
 // observed source timestamp. Only the last duration lacks mux lookahead; bind it
 // to the already-observed next DTS (or the explicit EOF duration estimate).
 // Box lengths, sample data, timestamps, audio and media payloads are unchanged.
-export function bindFragmentClock(bytes,{videoTrackId,samples,nextDts=null}={}){
+export function bindFragmentClock(bytes,{videoTrackId,samples,nextDts=null,atEof=false}={}){
   demand(bytes instanceof Uint8Array&&bytes.length>0&&bytes.length<=2*1024*1024
-    &&Number.isInteger(videoTrackId)&&Array.isArray(samples)&&samples.length>=3&&samples.length<=4096);
+    &&Number.isInteger(videoTrackId)&&Array.isArray(samples)&&samples.length>=2&&samples.length<=4096
+    &&(samples.length>=3||(atEof===true&&nextDts===null)));
   const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);let count=0,matched=0;
   function boxes(start,end){const result=[];for(let offset=start;offset<end;){
     demand(offset+8<=end&&++count<=64);const size=view.getUint32(offset);

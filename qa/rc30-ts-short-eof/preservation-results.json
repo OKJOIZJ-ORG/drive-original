@@ -1,0 +1,173 @@
+{
+  "scope": "public synthetic full-stream FFmpeg decoder preservation; no actual account/device claim",
+  "results": [
+    {
+      "shortEofFrames": 1,
+      "sourceSHA256": "66511dd0351b59f1d091947e3ca57a04274f8d806137392c73846825624c1d90",
+      "outputSHA256": "c4fa4b1a8b53a0b32232d1309da25a1ea357746c3453a8c4cc9701536722e657",
+      "videoFrames": 301,
+      "videoBytesPreserved": true,
+      "aacBytesPreserved": true,
+      "decodedFramesEqual": true,
+      "decodedPcmEqual": true,
+      "rawPtsDtsPreserved": true,
+      "finalDurationMatchesObservedAdjacentDts": true,
+      "decoderErrorDiagnostics": 0,
+      "session": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "sourceSize": 770236,
+        "consumed": 770236,
+        "inputSequence": 12,
+        "fragments": 5,
+        "acknowledged": 5,
+        "awaitingFragment": null,
+        "retainedInputBytes": 0,
+        "retainedOutputBytes": 0,
+        "outstandingOutputBytes": 0,
+        "configBytes": 0,
+        "initBytes": 0,
+        "peakInputBytes": 65536,
+        "peakOutputBytes": 150945,
+        "peakConfigBytes": 36,
+        "peakInitBytes": 1142,
+        "muxCachedGops": 0,
+        "muxCachedNalBytes": 0,
+        "muxCachedBufferBytes": 0,
+        "peakMuxCachedGops": 5,
+        "peakMuxCachedNalBytes": 476042,
+        "peakMuxCachedBufferBytes": 948473,
+        "muxReleased": true,
+        "owner": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "received": 770236,
+          "packets": 4097,
+          "emittedIntervals": 5,
+          "firstEmissionOffset": 156040,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 169200,
+          "peakOwnedByteStorage": 843596,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 484,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 301,
+            "aacFrames": 484
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "cleanup": {
+          "beforeGops": 5,
+          "beforeNalBytes": 476042,
+          "beforeBufferBytes": 948473,
+          "afterGops": 0,
+          "afterNalBytes": 0,
+          "afterBufferBytes": 0
+        },
+        "limits": {
+          "inputBytes": 65536,
+          "outputBytes": 2097152,
+          "muxCacheBufferBytes": 8388608
+        },
+        "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+      }
+    },
+    {
+      "shortEofFrames": 2,
+      "sourceSHA256": "3852bd1a25b4d5d49e1754397c4eebf1c35508b787f76970dfc0caa129380b15",
+      "outputSHA256": "d8eb099bb7b4cafaafeceaab1c172aae48f655959ea0eeaee0ee61a16de5b051",
+      "videoFrames": 302,
+      "videoBytesPreserved": true,
+      "aacBytesPreserved": true,
+      "decodedFramesEqual": true,
+      "decodedPcmEqual": true,
+      "rawPtsDtsPreserved": true,
+      "finalDurationMatchesObservedAdjacentDts": true,
+      "decoderErrorDiagnostics": 0,
+      "session": {
+        "state": "finished",
+        "failure": null,
+        "generation": 1,
+        "sourceSize": 776440,
+        "consumed": 776440,
+        "inputSequence": 12,
+        "fragments": 6,
+        "acknowledged": 6,
+        "awaitingFragment": null,
+        "retainedInputBytes": 0,
+        "retainedOutputBytes": 0,
+        "outstandingOutputBytes": 0,
+        "configBytes": 0,
+        "initBytes": 0,
+        "peakInputBytes": 65536,
+        "peakOutputBytes": 149258,
+        "peakConfigBytes": 36,
+        "peakInitBytes": 1142,
+        "muxCachedGops": 0,
+        "muxCachedNalBytes": 0,
+        "muxCachedBufferBytes": 0,
+        "peakMuxCachedGops": 6,
+        "peakMuxCachedNalBytes": 591263,
+        "peakMuxCachedBufferBytes": 1173562,
+        "muxReleased": true,
+        "owner": {
+          "state": "finished",
+          "failure": null,
+          "generation": 1,
+          "received": 776440,
+          "packets": 4130,
+          "emittedIntervals": 6,
+          "firstEmissionOffset": 156040,
+          "retainedBytes": 0,
+          "peakRetainedBytes": 169200,
+          "peakOwnedByteStorage": 841152,
+          "storageCapacity": 655360,
+          "emittedAacFrames": 495,
+          "elementary": {
+            "parameterBytes": 0,
+            "retainedFrames": 0,
+            "peakFrames": 60,
+            "videoFrames": 302,
+            "aacFrames": 495
+          },
+          "psi": {
+            "terminal": true,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 410,
+            "snapshotBytes": 0,
+            "sectionCount": 0,
+            "maxRetainedEncodedBytes": 11640
+          },
+          "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+        },
+        "cleanup": {
+          "beforeGops": 6,
+          "beforeNalBytes": 591263,
+          "beforeBufferBytes": 1173562,
+          "afterGops": 0,
+          "afterNalBytes": 0,
+          "afterBufferBytes": 0
+        },
+        "limits": {
+          "inputBytes": 65536,
+          "outputBytes": 2097152,
+          "muxCacheBufferBytes": 8388608
+        },
+        "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+      }
+    }
+  ]
+}

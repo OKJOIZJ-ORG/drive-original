@@ -1,0 +1,50 @@
+{
+  "baselineSourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "baselineCoreSHA256": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+  "results": [
+    {
+      "shortEofFrames": 1,
+      "target": "startup",
+      "baselineFailure": "SEEK_GOP_PRESENTATION_UNPROVEN",
+      "rebuiltCorePass": true,
+      "observedAnchorBracket": true,
+      "finalDurationInferred": true,
+      "sourceGlobalContinuityVerified": false,
+      "reads": 2,
+      "readBytes": 1048288
+    },
+    {
+      "shortEofFrames": 1,
+      "target": "last-picture",
+      "baselineFailure": "SEEK_GOP_PRESENTATION_UNPROVEN",
+      "rebuiltCorePass": true,
+      "observedAnchorBracket": true,
+      "finalDurationInferred": true,
+      "sourceGlobalContinuityVerified": false,
+      "reads": 2,
+      "readBytes": 1048288
+    },
+    {
+      "shortEofFrames": 2,
+      "target": "startup",
+      "baselineFailure": "SEEK_GOP_PRESENTATION_UNPROVEN",
+      "rebuiltCorePass": true,
+      "observedAnchorBracket": true,
+      "finalDurationInferred": true,
+      "sourceGlobalContinuityVerified": false,
+      "reads": 2,
+      "readBytes": 1048288
+    },
+    {
+      "shortEofFrames": 2,
+      "target": "last-picture",
+      "baselineFailure": "SEEK_GOP_PRESENTATION_UNPROVEN",
+      "rebuiltCorePass": true,
+      "observedAnchorBracket": true,
+      "finalDurationInferred": true,
+      "sourceGlobalContinuityVerified": false,
+      "reads": 2,
+      "readBytes": 1048288
+    }
+  ]
+}

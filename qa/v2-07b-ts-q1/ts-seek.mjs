@@ -1,4 +1,4 @@
-import { validateVideoClock, videoGopTiming } from './video-clock.mjs';
+import { validateVideoClock, videoSeekGroups } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { BoundedProbeError } from '../v2-07a-bounded-probe/bounded-probe.mjs';
@@ -111,16 +111,9 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
     return item;
   }
   function gops(item) {
-    const frames=item.result.video, ids=frames.flatMap((row,index)=>row.idr?[index]:[]), result=[];
-    for (let n=0;n<ids.length;n++) {
-      const next=ids[n+1];
-      if (next===undefined && item.end+1!==sourceSize) continue;
-      const group=frames.slice(ids[n],next);let presentation;
-      try { ({presentation}=videoGopTiming(group,{referenceStep:step,following:next===undefined?null:frames[next]})); }
-      catch { throw new Error('SEEK_GOP_PRESENTATION_UNPROVEN'); }
-      result.push({rap:group[0],presentation,next:next===undefined?null:frames[next],count:group.length});
-    }
-    return result;
+    try{return videoSeekGroups(item.result.video,{referenceStep:step,atEof:item.end+1===sourceSize})
+      .map(group=>({rap:group.rows[0],presentation:group.presentation,next:group.following,count:group.rows.length}));}
+    catch{throw new Error('SEEK_GOP_PRESENTATION_UNPROVEN');}
   }
 
   let head=await sample(0,true),tail=await sample(sourceSize-width);

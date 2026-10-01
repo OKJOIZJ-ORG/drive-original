@@ -4432,6 +4432,73 @@ test('native unsupported container keeps requested play intent but gesture denia
   assert.equal(run(context,'capturePlaybackSnapshot().paused'),true);
 });
 
+function installMediaResetFixture(context) {
+  run(context, `
+    const resetNode=()=>({hidden:false,dataset:{},classList:{remove(){}},
+      removeAttribute(name){delete this[name]},getAttribute(name){return this[name]??null}});
+    el.videoPlayer={...resetNode(),paused:true,currentTime:0,duration:100,
+      pause(){this.paused=true},load(){},addEventListener(_name,callback){globalThis.oldMetadataCallback=callback}};
+    el.imageViewer=resetNode();el.playerSheet={hidden:false};
+    for(const name of ['mediaError','openDriveButton','retryMediaButton','bufferOriginalButton',
+      'compatPlayerButton','mediaLoading','mediaLoadingText'])el[name]=resetNode();
+    document.body={style:{overflow:'hidden'}};
+    cancelLibraryEdgeBack=()=>{};hasOwnedPlayerEntry=()=>false;clearMediaTransition=()=>{};
+    setPlayerMediaPriorityActive=()=>{};collapseShortsExpand=()=>{};resetVideoRotation=()=>{};
+    setStageImmersive=()=>{};setPlayerBackgroundInert=()=>{};
+  `);
+}
+
+test('closing a failed source resets pending play and fences late restore callbacks', async () => {
+  const context=loadAppContext();installMediaResetFixture(context);
+  run(context, `
+    state.selected={id:'failed',mimeType:'video/mp2t'};state.mediaSession=9;
+    state.mediaAttempt='failed';state.pendingPlay=true;mediaSourceGeneration=4;
+    el.videoPlayer.dataset.mediaSession='9';el.videoPlayer.src='blob:failed';
+    let disposed=0;const failedController=new AbortController();
+    q1Playback={controller:failedController,setupDone:Promise.resolve(),
+      player:{dispose(){disposed++;return Promise.resolve({settled:true})}}};
+    q0PinnedSource={};verifiedOriginalImage={};
+    restorePlaybackSnapshot(el.videoPlayer,{time:6,paused:false,volume:1,muted:true,playbackRate:1},9);
+    closePlayer();
+  `);
+  assert.equal(run(context,'state.pendingPlay'),false);
+  assert.equal(run(context,'state.selected'),null);assert.equal(run(context,'state.mediaAttempt'),'idle');
+  assert.equal(run(context,'state.mediaSession'),10);assert.equal(run(context,'mediaSourceGeneration'),5);
+  assert.equal(run(context,'q0Playback'),null);assert.equal(run(context,'q1Playback'),null);
+  assert.equal(run(context,'q0PinnedSource'),null);assert.equal(run(context,'verifiedOriginalImage'),null);
+  assert.equal(run(context,'failedController.signal.aborted'),true);assert.equal(run(context,'disposed'),1);
+  assert.equal(run(context,'el.videoPlayer.getAttribute("src")'),null);
+  assert.equal((await run(context,'q1Retirement')).settled,true);
+  run(context,'oldMetadataCallback()');
+  assert.equal(run(context,'state.pendingPlay'),false,'closed session cannot regain autoplay intent from late metadata');
+});
+
+test('source-only handoff retains play intent while full reset revokes it', () => {
+  const context=loadAppContext();installMediaResetFixture(context);
+  run(context, 'state.pendingPlay=true;clearDirectMediaSources()');
+  assert.equal(run(context,'state.pendingPlay'),true,'unsupported Q0 to Q1 handoff retains the requested intent');
+  run(context,'resetMediaElements()');
+  assert.equal(run(context,'state.pendingPlay'),false);
+});
+
+test('opening a replacement preserves requested video intent after reset and clears it for images', () => {
+  for(const [mimeType,requested,expected] of [['video/mp4',true,true],['video/mp4',false,false],['image/png',true,false]]) {
+    const context=loadAppContext();installMediaResetFixture(context);
+    run(context, `
+      refreshFavoritePresentation=()=>{};getPlaybackFileList=()=>[];buildAccountPlaybackDeck=()=>({});
+      hasCompletePlaybackPopulation=()=>false;warmPlaybackNeighborhood=()=>{};
+      beginMediaViewObservation=()=>{};beginMediaDiagnosticTrace=()=>{};emitMediaDiagnosticStage=()=>{};
+      updateQualityDisplay=()=>{};showMediaLoading=()=>{};hasUsableToken=()=>true;
+      state.pendingPlay=${requested};let routeIntent=null,routeSession=null;
+      startInitialOriginalPlayback=(_file,_kind,session)=>{routeIntent=state.pendingPlay;routeSession=session};
+      openMediaSource({id:'replacement',mimeType:${JSON.stringify(mimeType)}});
+    `);
+    assert.equal(run(context,'routeIntent'),expected,`${mimeType} requested=${requested}`);
+    assert.equal(run(context,'routeSession===state.mediaSession'),true,'intent reaches the new session before route selection');
+    assert.equal(run(context,'state.pendingPlay'),expected);
+  }
+});
+
 test('native restore callback cannot reposition a later Q1 source in the same session', () => {
   const context=loadAppContext();
   run(context,`let restored=0,metadataCallback;

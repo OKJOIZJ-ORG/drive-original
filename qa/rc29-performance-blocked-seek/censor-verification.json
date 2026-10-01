@@ -1,0 +1,110 @@
+{
+  "schema": "drive-original.rc29-performance-censor-verification/1",
+  "binding": {
+    "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "version": "1.22.0-rc.29",
+    "sourceSHA256": {
+      "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+      "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+      "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    }
+  },
+  "cases": [
+    {
+      "name": "annotate-current-failed-warm-seek-without-attempt-or-frame",
+      "passed": true
+    },
+    {
+      "name": "error-hidden",
+      "passed": true
+    },
+    {
+      "name": "attempt-not-failed",
+      "passed": true
+    },
+    {
+      "name": "native-ready",
+      "passed": true
+    },
+    {
+      "name": "seekable-duration",
+      "passed": true
+    },
+    {
+      "name": "wrong-selected-file",
+      "passed": true
+    },
+    {
+      "name": "changed-media-session",
+      "passed": true
+    },
+    {
+      "name": "changed-source-generation",
+      "passed": true
+    },
+    {
+      "name": "changed-source-player",
+      "passed": true
+    },
+    {
+      "name": "hidden-document",
+      "passed": true
+    },
+    {
+      "name": "auth-offline",
+      "passed": true
+    },
+    {
+      "name": "token-unavailable",
+      "passed": true
+    },
+    {
+      "name": "changed-account",
+      "passed": true
+    },
+    {
+      "name": "changed-controller",
+      "passed": true
+    },
+    {
+      "name": "old-version-proof",
+      "passed": true
+    },
+    {
+      "name": "wrong-proof-hash",
+      "passed": true
+    },
+    {
+      "name": "another-trusted-input",
+      "passed": true
+    },
+    {
+      "name": "seek-measurement-already-active",
+      "passed": true
+    },
+    {
+      "name": "no-prior-failure-or-planned-seek",
+      "passed": true
+    },
+    {
+      "name": "first-startup-failure-cannot-skip-required-warm-attempt",
+      "passed": true
+    },
+    {
+      "name": "failed-warm-startup-with-an-observed-frame-cannot-be-censored-as-no-media",
+      "passed": true
+    },
+    {
+      "name": "released-observer-cannot-annotate",
+      "passed": true
+    },
+    {
+      "name": "30-planned-outcomes-29-real-attempts-9of10-seeks-no-complete-p95-censored",
+      "passed": true
+    }
+  ],
+  "passed": 23,
+  "actualAccount": false,
+  "actualPerformance": false,
+  "actualRequests": 0
+}

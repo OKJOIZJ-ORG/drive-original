@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "bound": false,
+  "source": null,
+  "version": "1.22.0-rc.30",
+  "actualDeployment": false,
+  "networkOrBrowserExecuted": false,
+  "templateCommit": "5f6dae39a6a601207ff2c9e462b3ec8d610e91b4",
+  "checks": {
+    "binderNodeSyntax": true,
+    "frozenTemplateHashChecks": 8,
+    "inMemoryDerivedJavascriptSyntax": 6,
+    "inMemoryDerivedPythonAST": 2,
+    "defaultBinderDenials": 4,
+    "inMemoryGeneratedExecuteDenial": true,
+    "safeRegularLeafManifest": true,
+    "rc29WorkingTreeUnchanged": true
+  },
+  "inMemorySyntaxIdentity": "Historical template commit used as an in-memory identity token only; never written or bound as rc30 source",
+  "bindRequired": [
+    "Exact final rc30 committed HEAD and clean governed inputs",
+    "Generated-script fixed runtime/Worker source assertions",
+    "Materialized public bytes and deterministic package",
+    "Actual candidate deployment/readback/public/cache audit and source readiness"
+  ],
+  "manifestExcludesThisRecord": true,
+  "assets": [
+    {
+      "file": "DELIVERY-PREPARATION.md",
+      "bytes": 3748,
+      "sha256": "5ef832b23a8752c0fc39cbb7c919ea3c0db01aecbb0863a287663bb20c33f17b"
+    },
+    {
+      "file": "bind-source.cjs",
+      "bytes": 6375,
+      "sha256": "be3d5f4472cea786e4d09fee6480a166cb9941cc6ff6e7897262963d83a3574e"
+    }
+  ]
+}

@@ -135,3 +135,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 - `AUTH-RENEWAL-20261001.md`: local failure mechanism, bounded recurring client recovery, independent review and unperformed actual23 boundary.
 
 - `AUTH-BODY-DEADLINE-20261001.md`: successful auth body timeout/transport recovery and terminal/cancel distinctions, local24 qualification.
+- `TS-SHORT-EOF-20261001.md`: actual29 singleton EOF cause, local30 original-frame correction and pendingPlay lifecycle fix; actual30 replay remains pending.

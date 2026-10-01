@@ -10,14 +10,14 @@ const rates = [96000,88200,64000,48000,44100,32000,24000,22050,16000,12000,11025
 // No stored payload except copied SPS/PPS; PTS bookkeeping is capped per GOP.
 export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
   demand(Number.isSafeInteger(maxFramesPerGop) && maxFramesPerGop >= 3 && maxFramesPerGop <= 4096,'ES_LIMIT');
-  let sps=null,pps=null,step=null,previousDts=null,previousMaxPts=null;
+  let sps=null,pps=null,step=null,previousDts=null,previousMaxPts=null,gopPreviousDts=null;
   let gop=[],audioConfig=null,audioOrigin=null,audioSamples=0,videoCount=0,audioCount=0;
   let peakFrames=0,closed=false;
 
-  function closeGop(following=null) {
-    demand(gop.length>=3 && step>0,'GOP_TOO_SHORT');
+  function closeGop(following=null,atEof=false) {
+    demand((gop.length>=3||(atEof&&gop.length>0)) && step>0,'GOP_TOO_SHORT');
     let timing;
-    try{timing=videoGopTiming(gop,{referenceStep:step,following,previousMaxPts});}
+    try{timing=videoGopTiming(gop,{referenceStep:step,following,previousMaxPts,atEof,previousDts:gopPreviousDts});}
     catch{throw new Error('GOP_PRESENTATION_CADENCE');}
     const presentation=timing.presentation.map(frame=>frame.pts);
     const result={videoFrames:gop.length,start:gop[0].offset,firstDts:gop[0].dts,lastDts:gop[gop.length-1].dts,
@@ -47,8 +47,9 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
     if(previousDts!==null){const delta=parsed.dts-previousDts;if(step===null)step=delta;
       try{validateVideoClock([parsed],{referenceStep:step,previousDts});}
       catch{throw new Error('VFR_OR_DISCONTINUITY_UNPROVEN');}}
-    previousDts=parsed.dts;
     const completed=idr&&gop.length?closeGop(parsed):null;
+    if(!gop.length)gopPreviousDts=previousDts;
+    previousDts=parsed.dts;
     demand(gop.length<maxFramesPerGop,'GOP_FRAME_LIMIT');
     const frame={offset:parsed.offset,end:parsed.end,pts:parsed.pts,dts:parsed.dts,idr};
     gop.push(frame);peakFrames=Math.max(peakFrames,gop.length);videoCount++;
@@ -81,7 +82,7 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
     // The interval consumer receives its own copies, never references to the
     // parameter-set identity retained by this source owner.
     configuration(){demand(sps&&pps,'ES_CONFIGURATION_UNAVAILABLE');return {sps:sps.slice(),pps:pps.slice()};},
-    finish(){demand(!closed,'ES_CLOSED');const result=closeGop();demand(audioCount>0,'AAC_REQUIRED');closed=true;return result;},
+    finish(){demand(!closed,'ES_CLOSED');const result=closeGop(null,true);demand(audioCount>0,'AAC_REQUIRED');closed=true;return result;},
     abort(){closed=true;sps=null;pps=null;gop=[];audioConfig=null;},
     stats(){return {parameterBytes:(sps?.length||0)+(pps?.length||0),retainedFrames:gop.length,peakFrames,videoFrames:videoCount,aacFrames:audioCount};}
   };

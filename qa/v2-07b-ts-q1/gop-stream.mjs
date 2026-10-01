@@ -79,11 +79,12 @@ export function createGopStream({ generation=1,maxWindowBytes=512*1024,maxLookah
     audioClosed.splice(0,completed.length);
     arena.copyWithin(0,length,used);used-=length;base=end;
   }
-  function closeVideo(){
+  function closeVideo(atEof=false){
     if(!activeVideo)return;
     const record=activeVideo;activeVideo=null;
     const {frame,completed}=inspect(record,'video');
-    if(completed)emit(frame.offset,completed,false);
+    if(completed&&!atEof)emit(frame.offset,completed,false);
+    return completed;
   }
   function closeAudio(){
     if(!activeAudio)return;
@@ -142,8 +143,15 @@ export function createGopStream({ generation=1,maxWindowBytes=512*1024,maxLookah
     });},
     finish({sourceSize}={}){return own(()=>{
       demand(integer(sourceSize,1,Number.MAX_SAFE_INTEGER)&&sourceSize===received&&!carryBytes,'EXACT_EOF_REQUIRED');
-      psi.finish();closeAudio();closeVideo();
-      const proof=elementary.finish();emit(received,proof,true);
+      psi.finish();closeAudio();const preceding=closeVideo(true);
+      let proof=elementary.finish();
+      // A final singleton IDR closes both its predecessor and itself inside
+      // finish(). Keep one synchronous output credit by emitting that bounded
+      // original byte interval once, with both observed picture sequences.
+      if(preceding)proof={...preceding,videoFrames:preceding.videoFrames+proof.videoFrames,
+        lastDts:proof.lastDts,lastPts:proof.lastPts,endPts:proof.endPts,endInferred:proof.endInferred,
+        nextDts:null,samples:[...preceding.samples,...proof.samples]};
+      emit(received,proof,true);
       state='finished';release();
     });},
     abort(){if(state==='open'){state='aborted';failure='ABORTED';release();}},

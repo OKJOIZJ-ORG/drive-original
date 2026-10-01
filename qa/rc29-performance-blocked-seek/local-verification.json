@@ -1,0 +1,59 @@
+{
+  "schema": "drive-original.rc29-performance-blocked-seek-local/1",
+  "binding": {
+    "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+    "version": "1.22.0-rc.29",
+    "sourceSHA256": {
+      "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+      "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+      "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+    }
+  },
+  "observerSHA256": "5ebae777fdc367364ae217f620154bbf149d2407e86aafaa70b8b8db5afa4f4f",
+  "api": "window.__rc25PerformanceQA",
+  "annotationAPI": "window.__rc25PerformanceQA.censorFailedStartupSeek()",
+  "resultSchema": "drive-original.rc29-performance-plan-outcomes/1",
+  "previousGestureLeafReadOnly": "qa/rc29-performance-native-gesture",
+  "runtimeObserverChanged": true,
+  "summarizerChanged": true,
+  "censorCases": {
+    "passed": 23,
+    "result": "censor-verification.json"
+  },
+  "gestureCases": {
+    "passed": 30,
+    "result": "gesture-verification.json"
+  },
+  "bindingCases": {
+    "passed": 9,
+    "result": "binding-verification.json"
+  },
+  "legacy11": {
+    "executedAgainstChangedObserverAndSummary": true,
+    "passed": 11,
+    "testSHA256": "9770c5791ceb928b3db5c6d1b3520d458d194058a1c0623375c14417019d3b06"
+  },
+  "totalGeneratedChecksPassed": 73,
+  "nativeExecutionOfThisExpression": false,
+  "actualAccount": false,
+  "physicalDevice": false,
+  "actualPerformance": false,
+  "actualRequests": 0,
+  "syntheticFullPlan": {
+    "result": "synthetic-30-outcomes.json",
+    "summary": "synthetic-30-summary.json",
+    "outcomeCount": 30,
+    "actualAttemptCount": 29,
+    "requestedStartupCount": 20,
+    "actualStartupAttemptCount": 20,
+    "requestedSeekCount": 10,
+    "actualSeekAttemptCount": 9,
+    "unattemptedCensoredCount": 1,
+    "actualFailedStartupCount": 2,
+    "planComplete": true,
+    "complete": false,
+    "censoredSeekGroup": "Q0/seek50/current-owner",
+    "censoredGroupOutcomes": 3,
+    "censoredGroupActualAttempts": 2
+  }
+}

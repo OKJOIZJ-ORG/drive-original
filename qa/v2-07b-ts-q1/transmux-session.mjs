@@ -127,7 +127,7 @@ export function createTransmuxSession({ generation, sourceSize, Transmuxer, send
       peakConfigBytes = config.sps.length + config.pps.length;
     }
     if (!config || output || awaiting) reject('SESSION_OUTPUT_OWNER');
-    intervalClock={samples:item.proof.samples,nextDts:item.proof.nextDts};
+    intervalClock={samples:item.proof.samples,nextDts:item.proof.nextDts,atEof:item.final};
     inInterval = true; intervalOutputs = 0;
     try { mux.push(item.bytes); mux.flush(); } finally { inInterval = false; intervalClock=null; }
     if (intervalOutputs !== 1 || !output) reject('SESSION_MUX_OUTPUT');

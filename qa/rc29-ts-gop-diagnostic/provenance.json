@@ -1,0 +1,24 @@
+{
+  "version": "1.22.0-rc.29",
+  "sourceCommit": "10f1dd2ee9550866933e693dbf41c62e1fb2daad",
+  "sourceSHA256": {
+    "qa/rc29-ts-gop-diagnostic/analyzer.mjs": "a6816b5336afb7a8bea1842deba14e2baead67ea3873430477a33d0ca8bca39e",
+    "qa/v2-07a-bounded-probe/bounded-probe.mjs": "41aca3c9e48fdb67b094f3d57b6188def1405f59cb23853365b3272a30d84000",
+    "qa/v2-07a-container-probe/mpeg-ts-probe.mjs": "3d2753568f655d3bcd534303dcdc7b2b37092e7cc6fff82563b3e64e3c92e08e",
+    "qa/v2-07b-ts-q1/gop-boundaries.mjs": "1d8453075e89abb64e4f6e7112c0b11fafcaeaf1f17f1b2f7c8f3f760a221df2",
+    "qa/v2-07b-ts-q1/psi-stream.mjs": "005e2fbb81754b76d3be5a7c051cfd02bdee343369740a34a86cb82264d4aa0b",
+    "qa/v2-07b-ts-q1/ts-seek.mjs": "6a382de8854f8bc517d244bcc98d9960d81386a7dc85f956724fa706d6ff7470",
+    "qa/v2-07b-ts-q1/ts-window.mjs": "3ff06e6da20108eda6fd527b20247bf61339b3c7d51a8a9c1b6b9ef97db0a450",
+    "qa/v2-07b-ts-q1/video-clock.mjs": "490425b3e7d8a60fe95eba6a44a30bda899a800966ea9995c81f19884f5963c8",
+    "media/q1-core.mjs": "7347d2b05e50f08501bee2e50ab7ed30e76f1dd653b0f9129bba6e0c047ccff8",
+    "media/transmux-worker.mjs": "373c3a822061addcddb1a67048f9f73a77b352d6d301f9f62e63d6578cb87bbc",
+    "app.js": "52942a10481ccf4107db5f6cee0c1e7b7308965fc146d600fa497c4d418af01e",
+    "sw.js": "7e91f5b433bfd70a62b28876937435ac0aa701aefec8a026f4fba7c8b16c2394",
+    "version.json": "3e84682dd19aae6157d6282acccc40e90d1327b10509a17a4856edbd8e7d13de"
+  },
+  "compiler": "0.28.1",
+  "expressionSHA256": "356c144c77d0e9deaa254a19afa702c7aa75a2bd7be270120281c8df1790d65b",
+  "expressionBytes": 74517,
+  "buildSHA256": "601a8ea8c50fd900cf8efc958846ec70920d01c6635ec976df6e368ab265ebe5",
+  "scope": "Pure bounded head/tail analyzer, no live GETs or playback proof"
+}

@@ -1,4 +1,4 @@
-import { videoGopTiming } from './video-clock.mjs';
+import { videoSeekGroups } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { readPes } from './gop-boundaries.mjs';
@@ -14,7 +14,8 @@ const sameAnchor = (left,right) => left && right && ['offset','pts','dts'].every
 const pidOf = packet => ((packet[1]&31)<<8)|packet[2];
 const payloadOf = packet => packet.subarray(4+(packet[3]&32?packet[4]+1:0));
 
-// QA-only, one-GOP decode-start candidate, not a continuous seek pipeline.
+// QA-only bounded decode-start candidate, not a continuous seek pipeline.
+// A short true-EOF GOP includes its preceding validated GOP as decode preroll.
 // read identity/generation and true source size remain the caller's ownership.
 // source.ranges.end is exclusive; ranges.bytes counts original PES bytes, NOT
 // TS packet interval bytes. Output PAT/PMT payloads and complete selected PES
@@ -90,16 +91,15 @@ function prepare({headBytes,bytes,offset,plan}={}) {
   const index=scan.video.findIndex(row=>row.offset===plan.rap?.offset),rap=scan.video[index];
   demand(rap?.idr && sameAnchor(rap,plan.rap) && rap.end===plan.rap.end && equal(rap.sps,plan.rap.sps)
     && equal(rap.pps,plan.rap.pps) && equal(rap.sps,original.sps) && equal(rap.pps,original.pps), 'SEEK_INPUT_RAP');
-  const nextIndex=scan.video.findIndex((row,i)=>i>index&&row.idr);
-  const following=nextIndex<0?null:scan.video[nextIndex];
+  const step=headScan.video[1]?.dts-headScan.video[0]?.dts;
+  let group;
+  try{group=videoSeekGroups(scan.video,{referenceStep:step,atEof:offset+window.length===plan.sourceSize}).find(g=>g.rows[0]===rap);}
+  catch{throw new InputError('SEEK_INPUT_PRESENTATION');}
+  demand(group,'SEEK_INPUT_GOP_END');
+  const {following,rows:video,presentation,endPts:videoEnd}=group;
   demand(following? sameAnchor(following,plan.local.followingRap)
     : plan.local.followingRap===null && offset+window.length===plan.sourceSize, 'SEEK_INPUT_GOP_END');
-  const video=scan.video.slice(index,nextIndex<0?undefined:nextIndex);
-  const step=headScan.video[1]?.dts-headScan.video[0]?.dts;
   demand(video.length===plan.local.videoFrames && step===plan.timeline.videoStepTicks, 'SEEK_INPUT_VIDEO_CLOCK');
-  let presentation,videoEnd;
-  try { ({presentation,endPts:videoEnd}=videoGopTiming(video,{referenceStep:step,following})); }
-  catch { throw new InputError('SEEK_INPUT_PRESENTATION'); }
   const before=[...presentation].reverse().find(row=>row.pts<=plan.targetTicks);
   const after=presentation.find(row=>row.pts>=plan.targetTicks)||following;
   demand(before && after && plan.targetTicks>=rap.pts && plan.targetTicks<videoEnd
@@ -173,5 +173,5 @@ function prepare({headBytes,bytes,offset,plan}={}) {
     source:{ranges:records.map(({kind,pid,row,bytes})=>({kind,pid,offset:row.offset,end:row.end,bytes:bytes.length})),
       selectedPesCount:records.length,bootstrapPackets:bootstrap.length,rapOffset:rap.offset,targetTicks:plan.targetTicks,sourceSize:plan.sourceSize},
     configuration:{videoTrackId:topology.videoPid,sps:Uint8Array.from(rap.sps),pps:Uint8Array.from(rap.pps)},
-    scope:'one bounded GOP plus complete AAC preroll/coverage; media/PES bytes and source clock preserved, transport repacketized without PCR; not decoder success or continuous post-seek playback'};
+    scope:'bounded decode group plus complete AAC preroll/coverage; short true-EOF GOP retains preceding GOP; media/PES bytes and source clock preserved, transport repacketized without PCR; not decoder success or continuous post-seek playback'};
 }

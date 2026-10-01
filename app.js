@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.29';
+const APP_VERSION = '1.22.0-rc.30';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -7795,8 +7795,10 @@ function openMediaSource(file) {
       : 'Google Drive 원본 파일의 무변환 전송 여부를 확인하는 중입니다.';
   }
   const isVideo = file.mimeType?.startsWith('video/');
+  const requestedPlay = Boolean(isVideo && state.pendingPlay);
 
   resetMediaElements();
+  state.pendingPlay = requestedPlay;
   beginMediaViewObservation();
   beginMediaDiagnosticTrace(file, state.mediaSession, diagnosticIntentAt);
   setNativeVideoActionsAvailable(isVideo);
@@ -10979,6 +10981,7 @@ function resetMediaElements() {
   verifiedOriginalImage = null;
   mediaViewObservation = null;
   state.mediaSession += 1;
+  state.pendingPlay = false;
   clearMediaSeekWatchdog('session-reset');
   clearMediaFrameWatchdog('session-reset');
   activeSeekCleanup?.();

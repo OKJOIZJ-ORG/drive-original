@@ -1,17 +1,19 @@
-# Checkpoint - ACTIVE - 2026-10-01 10:56
+# Checkpoint - ACTIVE - 2026-10-01 11:19
 
 ## The story so far
 
-D068 continues the complete D066 queue. HEAD10f1dd2, branch codex/v2-kickoff-diagnostics; public candidate rc29/10f1dd2, Worker22009156-f155-4bfd-b960-1896699af478. Production1.21.0/e08989a unchanged. Product29 restricts normal UI mutations to two disposable tagged media and fixes PC ambient scroll/favorite duplication. Full721 plus current app/static162 and five native viewports passed. Actual52 public/40 cached/8 uncached/6 private404 audit, cold/offline audit, exact52-file ZIP and source readiness passed. Normal PC27.693s/Android5.976s update preserved account/state/cache; actual PC and Android layout/quiet sync passed. Delivery/new actual evidence awaits exact safe curation and commit.
+D068 complete D066 queue continues on codex/v2-kickoff-diagnostics. Baseline savepoint5f6dae3, public29 source10f1dd2/Worker22009156-f155-4bfd-b960-1896699af478; production1.21.0/e08989a unchanged. Product30 is local reviewed and ready for source commit/delivery: trueEOF TS singleton/two-frame preservation plus full-reset pendingPlay fix. Actual29 original-byte diagnosis confirmed final singleton IDR caused SEEK_GOP_PRESENTATION_UNPROVEN; frozen14-row performance and safe diagnostic remain preserved. Public original frames, timestamps and limits are retained; no timing hint or dropped frame.
 
-Current coalesced deeper cohort1 finished: stable before/after complete catalog,8 attempted/3 complete/5 explicitly deferred,72 media GET/239883B,140 metadata GET/22830352B. Representative2 still FILE_TIMEOUT before moov window admission; three metadata-labeled videos are actual TS, one unknown signature. Private qualified registry remains browser-local for normal UI targets. Android quiet since01:29:36Z. Corrected native-gesture performance observer reached14 actual rows:12 target-frame successes, then sample5 MKV-as-TS startup/reopen both fail SEEK_GOP_PRESENTATION_UNPROVEN, ready0/no duration. Next seek impossible/unattempted; closed/retired and observer cleared. Safe result52764B SHA b8a264d5a13e18760d2b12dd0c3e6f8fb5b0ac827b10dfcd3001fa31a07b753e preserved; private failed UI record remains browser-local in __resumeFailedNormalTarget. Astra prepares separately tested bounded head/tail GOP diagnostic/collector; PC agent prepares explicit unattempted-seek censoring derivative, no live patches. AU06 blocked-cookie condition remains unknown because CUA supported-command allowlist rejects Network.setCookieControls; no profile/override changes occurred.
+Current724/724 complete product suite and141/141 canonical TS checks pass; native synthetic301/302-frame video/PCM/elementary bytes/PTS/DTS/finalduration match. Fixed29 fails same4startup/end cases, rebuilt core passes. Independent7-module TS review finds0actionable issues;5 novel delayedACK/abort/stalegeneration/credit/variablecadence checks pass. CoreSHA2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a, workerSHA3962b20bf6f36e831bc0a3296cbdd65a9225b20b70250f3060cb62ddc4aaf444. Exact QA curation excludes raw/private logs and generated synthetic binaries.
+
+Browser3/tab275139600 remains29 closed/retired/pendingPlayfalse/online, private drive-original.qa.rc29-ts-failed-target saved for same-ID fresh30qualification. Actual30 playback remains unproven. Android quiet29. Additive candidate30 binder is prepared/unbound; bind only reviewed real committed HEAD and version30, then root deliver/audit. AU06 cookie-block condition remains unknown due supported-command allowlist. Whole remaining queue: actual same-file PC/Android30 replay, fresh performance/formats/audio/sustained routes, disposable normalUI/API/web/G/recovery/cleanup, scoped logout/reconnect, finite69 root acceptance/package and separate G6 authority.
 
 ## Decided
 
-- D068 whole executable queue ACTIVE; commits are savepoints.
+- D068 whole executable queue ACTIVE; a commit is a savepoint.
 - D066 Android replaces current iOS gate; iOS after deployment.
-- D050/D051 production/main/push/newgrant/original media writes/permanent delete/automation remain separately unauthorized.
-- User permits PC playback close/continued verification; screenshot correction included. Generalwritesfalse.
+- D050/D051 production/main/push/newgrant/original-media writes/permanent deletion/automation require separate authority; generalwritesfalse.
+- Normal PC playback close and screenshot repair are authorized; exact synthetic disposable workflow only.
 
 ## Waiting on the user
 
@@ -19,16 +21,14 @@ None currently. Final production/main/push authority remains separate.
 
 ## Next first action
 
-Read qa/rc29-ts-gop-diagnostic/README.md when the Astra agent reports its exact SHA, verify local checks, load through resumeLoadLocal and run one bounded failed-file diagnostic with current29 proof; retain raw bytes/identity browser-local and export only safe result.
+Commit the exactly curated reviewed local30 unit, then run node qa/candidate-rc30-delivery/bind-source.cjs --bind with that real full HEAD and1.22.0-rc.30; materialize/package/review guards and root execute candidate delivery before actual normal update/replay.
 
 ## Tried
 
-- Actual deeper attempt1 completed62GET inventory and failed before media; missing serialized normalizeProbeIdentity lexical binding, not media/codec failure. Do not repeat parent factory.
-- Actual deeper attempt2 timed out on many tiny ISO metadata reads; current bounded moov-window derivative advances other files and retains representative2 timeout honestly. No codec failure inferred.
-- Native slider gesture caused old observer EXTRA_INPUT on same gesture click; partial timings are not p95 proof. Use new separately checked producer, never patch frozen evidence.
-- AU06 Network.setCookieControls unavailable through current CUA raw-CDP allowlist; no bypass/debug socket or privacy change is authorized by tool availability.
-- Frozen deeper modeprobe unconditional rejection remains preserved; qualified derivative scope is bounded GET-only.
-- Earlier transient state stale_owner attempts preserved, later fullraw snapshots/reconstruction pass; do not assert their transient cause.
-- Native Blob download event wait may timeout despite successful download; exact filename/size/hash is checked before native move.
-- Earlier PC seek observers failed ordering/auto-hidden controls; trusted-keyboard targetseek eventuallyPASS10.981s, no p95 promotion.
-- PC unknown initiating scroll event/upperleft ratebadge owner remain unknown; local ambient scroll mechanism corrected and native five-viewports verified.
+- Actual29 >=3-frame EOF presentation guard rejected a valid singleton. Correction preserves frame and observed predecessor cadence; never skip last original picture or enlarge read limits.
+- Failed29 close left pendingPlay true, blocking idle diagnostic. Normal successful video open/close cleared it; local full-reset responsible-layer correction now passes regression.
+- Deeper missing serialized normalizeProbeIdentity and tiny-read ISO timeout remain frozen. Coalesced3/8structural completion and5deferrals are not full-corpus/decode acceptance.
+- Old slider observer double-counted same gesture; corrected14-row actual plan remains partial. New censor derivative is local-only and never rewrites frozen results.
+- AU06 Network.setCookieControls unavailable through supported CUA allowlist; do not bypass with personal debug socket/privacy changes.
+- Native Blob event wait may timeout after successful download; exact filename/size/hash precede move.
+- PC10.981sseek is actual success, not2s/p95proof. Upperleft badge/original scroll trigger remain unknown.
