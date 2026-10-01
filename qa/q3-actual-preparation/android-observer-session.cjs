@@ -6,6 +6,7 @@ const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function inputFile(command){
  const file=path.resolve(command.path||'');
  if(!file.startsWith(qa+path.sep)||!/^__[A-Za-z0-9_]+$/.test(command.dest||'')||!['script','json'].includes(command.mode))throw Error('OWNED_QA_INPUT_REQUIRED');
+ if(command.mode==='script'&&['__q3ActualReplay33','__q3PcSeekTargets33'].includes(command.dest))throw Error('OWNED_HELPER_ADMISSION_DEST_REQUIRED');
  const bytes=fs.readFileSync(file);if(hash(bytes)!==command.sha)throw Error('OWNED_SOURCE_DRIFT');
  return command.mode==='json'?`()=>{window[${JSON.stringify(command.dest)}]=${JSON.stringify(JSON.parse(bytes.toString('utf8')))};return{installed:true};}`
  :`async()=>{window[${JSON.stringify(command.dest)}]=await(${bytes.toString('utf8').trim()});return{installed:true};}`;

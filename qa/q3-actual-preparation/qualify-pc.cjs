@@ -49,7 +49,7 @@ const out = {
   preservedFailures: ['attempt2 observer TOTAL_BOUND; save failed OBSERVER_ALREADY_STOPPED', 'attempt2 inactive close is not active cancellation', 'attempt1 hidden-detail label observer defect; first resource pathname-owner defect'],
   wholeObserverComplete: false, wholePlanComplete: false, performanceAcceptance: 'NOT_QUALIFIED',
   limitations: ['No 10% Q3 seek, full 180s EOF or complete derived-output quality claim', 'No audio, additional tracks, subtitles, HDR, rotation or VFR qualification', '52.012s startup includes main-label visibility delay; not exact earliest frame latency', 'Aggregate Chrome counters do not establish Q3 GPU/encoder peak, temperature or sustained throughput', 'Physical Android Q3 remains unqualified', 'Disposed public-stat owner exposes no retained native heap proof'],
-  originalMediaMutated: false, providerWritesDuringReplay: 0, rawIdentifiersExported: false,
+  originalMediaMutated: false, directQaProviderWritesDuringReplay: 0, appAccountStateProviderWrites: 'NOT_MEASURED', rawIdentifiersExported: false,
 };
 fs.writeFileSync(path.join(dir, 'q3-cua1-pc-finite-qualification-safe.json'), JSON.stringify(out, null, 2) + '\n', { flag: 'wx' });
 console.log(JSON.stringify({ finiteFunctionalQualified: true, wholePlanComplete: false, inputs: inputs.length, activeCancellation: true }));

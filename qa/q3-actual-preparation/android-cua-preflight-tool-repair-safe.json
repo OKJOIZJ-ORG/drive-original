@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "productChanged": false,
+  "version": "1.22.0-rc.33",
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "oldProducer": "ba066369c369412a443eee5343057ee32cbd17f9b019acca7d35bba63c98ceb9",
+  "newProducer": "b98ef0cc79419bfd0a0da744d44752c1da17bb0aad5ea2bb06b288d768700646",
+  "failures": [
+    {
+      "receipt": "actual-android-q3-observer-cua1-safe.json",
+      "failure": "STDIN_EOF_BEFORE_OPERATIONS",
+      "actualPlayback": false
+    },
+    {
+      "receipt": "actual-android-q3-observer-cua2-safe.json",
+      "failure": "CALLER_OVERWROTE_SELF_REGISTERED_API",
+      "actualPlayback": false,
+      "metadataMethodAvailable": false,
+      "transportCleanup": true
+    }
+  ],
+  "repair": "Reject script destinations matching self-registered replay/seek cleanup APIs; use separate admission holder. Start interactive owner with tty:true.",
+  "localGuards": {
+    "pass": 2,
+    "fail": 0
+  },
+  "oldHelperCleanup": "Normal page reload required; no media started",
+  "wholePlanComplete": false,
+  "rawIdentifiersExported": false,
+  "rootAdaptation": {
+    "attempt3": "ANDROID_OWNER420_BOUND",
+    "failedReceipt": "actual-android-q3-observer-receipt-cua3-failed-safe.json",
+    "failedReceiptSha256": "adeaf2c502305acd68fd28c125788d9117e865807c0a99fe275d29991f337f90",
+    "finiteAcceptanceAdopted": false,
+    "actualNativeClose": true,
+    "freshAfterMetadata": true,
+    "observerAndPrivateHolderCleared": true,
+    "ownedTransportsClosed": true,
+    "next": "Prepared automatic native actor, separate admission holders, controls entry reveal, bounded phase polls and immediate export",
+    "productChanged": false
+  }
+}

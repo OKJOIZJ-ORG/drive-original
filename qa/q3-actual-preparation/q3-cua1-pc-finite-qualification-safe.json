@@ -84,6 +84,8 @@
     "Disposed public-stat owner exposes no retained native heap proof"
   ],
   "originalMediaMutated": false,
-  "providerWritesDuringReplay": 0,
-  "rawIdentifiersExported": false
+  "rawIdentifiersExported": false,
+  "directQaProviderWritesDuringReplay": 0,
+  "appAccountStateProviderWrites": "NOT_MEASURED",
+  "scopeCorrection": "Only observer-directed provider operations were two metadata GETs per lifetime; app account-state provider writes were not instrumented."
 }
