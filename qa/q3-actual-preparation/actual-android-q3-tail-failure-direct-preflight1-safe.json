@@ -1,0 +1,127 @@
+{
+  "schema": "drive-original.android-q3-tail-timing/1",
+  "complete": false,
+  "preflightOnly": true,
+  "sourceCommit": "5174485b3c17d047259701bbdd889f9b0740f555",
+  "version": "1.22.0-rc.33",
+  "rawIdentifiersExported": false,
+  "observerOnly": true,
+  "sourceScope": "DIRECT_DRIVE_READONLY_DIAGNOSTIC",
+  "excluded": [
+    "SW media authorization",
+    "MSE",
+    "native playback",
+    "normal product flow",
+    "full180s quality/performance"
+  ],
+  "preference": "prefer-software",
+  "observation": {
+    "done": true,
+    "disposed": false,
+    "preflightOnly": true,
+    "qualified": false,
+    "failure": "Q1_SOURCE_READ_FAILED",
+    "elapsedMs": 2637.7000000029802,
+    "workerElapsedMs": null,
+    "workerStarted": false,
+    "sourceScope": "DIRECT_DRIVE_READONLY_DIAGNOSTIC",
+    "currentIdleAccountSourceGeneration": true,
+    "metadataBefore": {
+      "status": 200,
+      "exactTarget": true,
+      "fullRevisionChecksumSame": true,
+      "accountSourceGenerationSame": true,
+      "notTrashed": true,
+      "canDownload": true
+    },
+    "metadataAfter": null,
+    "sourceIO": {
+      "metadataGets": 2,
+      "metadataGetMs": 1299.4000000059605,
+      "metadataBodyMs": 3.0999999940395355,
+      "rangeGets": 1,
+      "rangeGetMs": 1232,
+      "rangeRequestedBytes": 940,
+      "rangeStatus206": 1,
+      "rangeHeadersExact": 0
+    },
+    "sourceCounts": {
+      "readsStarted": 1,
+      "readsCompleted": 0,
+      "metadataRequests": 2,
+      "rangeRequests": 1,
+      "receivedBytes": 0,
+      "releasedBytes": 0,
+      "cacheHits": 0
+    },
+    "latestPhase": null,
+    "phaseMessages": 0,
+    "samples": [],
+    "terminal": null,
+    "windowCount": 0,
+    "window": null,
+    "nullSink": {
+      "outputBytes": 0,
+      "outputChunks": 0,
+      "retainedCompressedBytes": 0
+    },
+    "blobHashes": null,
+    "sourceCleanup": null,
+    "rawIdentifiersExported": false,
+    "media06Cause": "UNKNOWN",
+    "performanceAcceptance": "NOT_QUALIFIED"
+  },
+  "actorFailure": "Q1_SOURCE_READ_FAILED",
+  "helperSha256": "133df54788aad9fb61cbe02f020c424927de24f6eac1286f4a8aa4bef90bcc67",
+  "pipelineSha256": "daefce1ec46f69b86ab6484686cd77920ee4d79d79f8c142a3d9a4a5dc489849",
+  "workerTemplateSha256": "43a060ce8af342c91eca33acce3f5094b3349b947feab6dace04e2476ec44c5c",
+  "assets": [
+    {
+      "file": "media/video-q3-pipeline.mjs",
+      "sha256": "0b586338bc22dd5ccdbd0e030c7051649f716eb863307f72fbb74fa8b7c5c297",
+      "bytes": 10341
+    },
+    {
+      "file": "media/video-q3-worker.mjs",
+      "sha256": "4258108f2afa147aa90b470b4b29ba79bc557768993e4364c328757a1549e418",
+      "bytes": 3344
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "sha256": "6a4f2399b6f3e5a05142d953724f0bfae1945d28fdef40dc6d648fb6ce6752d2",
+      "bytes": 6692
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "sha256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a",
+      "bytes": 18497
+    },
+    {
+      "file": "media/general-source.mjs",
+      "sha256": "aec6a57bea87b2b3b56d5c001c0b2ed3839d172b54d328adee9d42c21192fcec",
+      "bytes": 3765
+    },
+    {
+      "file": "media/video-q3-input.mjs",
+      "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99",
+      "bytes": 9977
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+      "bytes": 686739
+    },
+    {
+      "file": "media/video-q3-codec.mjs",
+      "sha256": "9f6f66f214a3cd3d6fd570f998c9eb8de72f88bdcc7dceb3fd90a8082c9df9a1",
+      "bytes": 13110
+    },
+    {
+      "file": "media/video-q3-codec.wasm",
+      "sha256": "722b38a87d6cd71d56ed247f6125c53a4f6b218bf2071a2851c5be489b145436",
+      "bytes": 614556
+    }
+  ],
+  "performanceAcceptance": "NOT_QUALIFIED",
+  "media06Cause": "UNKNOWN"
+}

@@ -2,7 +2,7 @@
 
 ## The story so far
 
-Whole approved queue ACTIVE; whole implementation plan is not done. Branch codex/v2-kickoff-diagnostics, HEAD e7bebba. Immutable deployed runtime5174485/rc33/Workerfaed24df; production1.21/e08989a and automation PAUSED. Delivery, normal PC/Android update, Q0 TR01, designated TS/PCM/layout/state, finite PC/Android Q3 and controlled TR02 evidence remain valid. Complete local180s output quality is committed37a573a (all5400frames); raw-byte attributes fixed separately e7bebba. No full corpus scan or passed-check replay. Actual sustained Android EOF now failed its diagnostic bound; throughput cause remains unknown.
+Whole approved queue ACTIVE; whole implementation plan is not done. Branch codex/v2-kickoff-diagnostics, HEAD a7101ee. Immutable deployed runtime5174485/rc33/Workerfaed24df; production1.21/e08989a and automation PAUSED. Delivery, normal PC/Android update, Q0 TR01, designated TS/PCM/layout/state, finite PC/Android Q3 and controlled TR02 evidence remain valid. Complete local180s output quality is committed37a573a (all5400frames); raw-byte attributes fixed separately e7bebba. Sustained Android failure/recovery and focused QA close repair are committed b403a3f. No full corpus scan or passed-check replay. Actual sustained Android EOF failed its diagnostic bound; Android throughput cause remains unknown.
 
 One exact disposable folder+18,075,476B/180s silent MPEG4SP fixture was created once (2POST/6requests); server SHA/MD5/size and fresh two-pass capture pass. Private ledger backups c42f.../c6b06... and target2604... remain in qa/v2-state-recovery-backup. Input/uploader released; target retained for Android and final exact recoverable-trash cleanup. Do not create/upload again. PC playback/observer closed; resource sessions62229/9318 exited0 with45/33 samples,0failed and owned subprocess/timer cleanup. CUA browser3/tab275140031 and original recovery facade still hold this fixture; no production or original-media changes.
 
@@ -32,10 +32,18 @@ None. The earlier Chrome Allow request is stale; CUA established the intended ex
 
 ## Next first action
 
-Review focused actor cleanup fix and record exact failure/resource/recovery
-hashes; inspect the responsible Q3 streaming path and discriminate source reads,
-software encode/flush and ACK/observer overhead with a small isolated causal
-check before changing product. No unchanged actual replay. The local268.663s
+Root reviewed/preserved focused cleanup repair22/22 and exact failure/recovery
+hashes. Small native PC tail/null-output diagnostic passes300frames in1.7808s;
+no-preference is slower2.1512s, so no product setting change is justified.
+a7101ee owns the scalar timing evidence/first verdict-tool failure. Prepare/review
+Android170..180s direct-Drive/null-output phase diagnostic was prepared:
+idle SW media authorization requires active playback ownership and must not be
+fabricated; diagnostic excludes SW/MSE/normal-flow acceptance. Root's940B
+preflight failed exact exposed Range headers after206; zero native Workers,
+allsource/holder/native transports clean. Failed evidence retained, no same-
+condition direct retry. Child actor now evaluates a temporary exact Q3 Worker
+timing wrapper through normal native-card/choice source authorization; preparation
+only, root executes after review. No unchanged sustained replay. Local268.663s
 capture includes CDP export and is not exact worker throughput. Same disposable
 fixture/private ledger remain for eventual changed-condition proof/final cleanup.
 No new upload, runtime deployment, original mutation or full scan. Images,
