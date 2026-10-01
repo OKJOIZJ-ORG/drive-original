@@ -30,6 +30,9 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC33-20261002.md`: exact33 Q3 candidate delivery/package and normal
+  PC/Android update; retained readiness-tool failures, actual Q3 pending.
+
 - `CANDIDATE-RC32-20261001.md`: exact32 delivery/normal updates and actual Android
   TS reuse/EOF/cleanup; retained PC timeout/deeper failures and D069 WAIT.
 
