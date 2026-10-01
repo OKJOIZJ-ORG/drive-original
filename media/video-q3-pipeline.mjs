@@ -24,7 +24,7 @@ export async function probePinnedQ3Video(source,{signal,isCurrent=()=>true,scope
 export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>true,targetTime=0,endTime=Infinity,onChunk,onWindow=()=>{},limits={},
  loadModule=async()=> (await import('./video-q3-codec.mjs')).default(),scope=globalThis}){
  demand(typeof onChunk==='function'&&Number.isFinite(targetTime)&&targetTime>=0&&endTime===Infinity,'OPTIONS');
- const rpc=createGeneralSource(source,{signal,isCurrent,...limits});let m,decoder=0,extra=0,packet=0,raw=0,encoder,output,failure,result,encodeError,pendingEncoded,expectedTimestamp;
+ const rpc=createGeneralSource(source,{signal,isCurrent,...limits,blockSize:524288,maxCacheSize:524288});let m,decoder=0,extra=0,packet=0,raw=0,encoder,output,failure,result,encodeError,pendingEncoded,expectedTimestamp;
  const metrics={decoded:0,encoded:0,peakHeapBytes:0,peakEncoderQueue:0,peakMuxBytes:0,peakMuxSamples:0,outputBytes:0,peakPendingAcks:0,closed:false};
  try{
   const input=await readQ3Input(rpc);rpc.check();demand(targetTime<input.duration,'TARGET_OUTSIDE');

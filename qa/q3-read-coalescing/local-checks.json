@@ -1,0 +1,28 @@
+{
+  "scope": "LOCAL_PRODUCT_READER_CHECKS_ONLY",
+  "command": "node --test tests/general-source-policy.test.mjs tests/general-q1.test.mjs tests/q1-source.test.mjs tests/q1-probe-retention.test.mjs tests/video-q3.test.mjs tests/general-retention.test.mjs",
+  "tests": 88,
+  "passed": 88,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "exitCode": 0,
+  "durationMs": 2329.6205,
+  "evidenceOrigin": "Child gpt_6_1_sol_medium_q3_read_coalescing completed command output chunk 7df84c; summarized without replay",
+  "rootIntegrationReview": "Reviewed complete two-module diff and six discriminating policy/byte/cancellation/Drive-fence/route tests",
+  "testedWorkingByteHashes": {
+    "media/general-source.mjs": "41939eb14c45de1b9e8fc6309b09229067a910e8fb296b4c31b37709d582a06c",
+    "media/video-q3-pipeline.mjs": "48d79c781be5f1ce930e687048e1812369d726000b4b398793484b350dc2be53",
+    "tests/general-source-policy.test.mjs": "e540c8bfa922548e79cfdec51988652f04773ff29966bffa4879fe7d5bf48c3c"
+  },
+  "selectedQ3ReadBytes": 524288,
+  "selectedQ3RetainedCacheBytes": 524288,
+  "defaultReadBytes": 65536,
+  "defaultRetainedCacheBytes": 262144,
+  "originalSourceFencesModified": false,
+  "encoderAndOutputClockModified": false,
+  "actualPerformanceAcceptance": "NOT_TESTED",
+  "candidateDeployed": false,
+  "totalHeapOrTransientMemoryClaim": false
+}
