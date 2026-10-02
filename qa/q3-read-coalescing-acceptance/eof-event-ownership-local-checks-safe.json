@@ -1,0 +1,78 @@
+{
+  "schema": "drive-original.q3-eof-event-ownership-local-diagnosis/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "scope": "LOCAL_EXACT_SOURCE_AND_EVENT_FAKES_ONLY",
+  "browserDeviceAccountAccess": false,
+  "productModified": false,
+  "actualReplay": false,
+  "originalC1ReceiptsOrProducersModified": false,
+  "producerPinsVerifiedAgainstCommit": "218f899",
+  "files": {
+    "eof-event-ownership.test.cjs": "77544dc3ea50b1153067a44ff07191601560b424129af6b3cc6fe61a8de7ff86",
+    "eof-observer.function.js": "df9000db5f1670f5d7fe67f65baca427f610fdafa8994a46976b424e640f3854",
+    "android-q3-eof-actor.cjs": "229205d4aad2b4a3252de99ef450c4523aa11ef6c990e78aa0198fd11489660d",
+    "actual-android-q3-eof-failure-read512-c1-safe.json": "85d23706098c7be762d307721f3a1a3c67845162cb1a1985be81be684372e0ba",
+    "actual-android-q3-eof-read512-c1-safe.json": "de3a3d152c29ad331b74af863c2b4f8e3c8beadcfb56aa2cd02649f766211922",
+    "actual-android-read512-c1-summary-safe.json": "db83ec7e65cacc6c7970d677e321777c2a73a9b39b75eb570850aa30673f91f7"
+  },
+  "tests": {
+    "command": "node --test qa/q3-read-coalescing-acceptance/eof-event-ownership.test.cjs",
+    "tests": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "observedC1": {
+    "nativePropertyEnded": true,
+    "currentTime": 180,
+    "duration": 180,
+    "paused": true,
+    "ready": 4,
+    "currentOwnerAndLabelAndSourceAccountTargetVisibleFences": true,
+    "admittedTrustedEnded": null,
+    "endedEventsRecorded": 0,
+    "playingAndTerminalPauseEventsRecorded": true,
+    "functionalComplete": false
+  },
+  "localConfirmed": [
+    "Exact c1 helper adopts a delivered trusted current-owner ended event and continues rejecting property-only completion",
+    "Exact app ended handler order before/after observer with watchdog-clear collaborators does not remove or invalidate the observer",
+    "Replacement before latch reattaches; old target cannot supply admitted ended; replacement after latch is retained ownerChanged failure",
+    "Untrusted event, hidden label or consistent account/mayClose drift remains unqualified; stop removes owned callbacks/listeners/timer"
+  ],
+  "codeLocations": {
+    "appEndedHandler": "app.js:1749",
+    "activeMediaElement": "app.js:7040",
+    "currentEventFence": "app.js:7033",
+    "sourceEndEnforcer": "media/general-player.mjs:83",
+    "q3EndpointPause": "media/general-player.mjs:85",
+    "eofEventListener": "qa/q3-read-coalescing-acceptance/eof-observer.function.js:54",
+    "eofAttachment": "qa/q3-read-coalescing-acceptance/eof-observer.function.js:73"
+  },
+  "interpretation": {
+    "qaDefectCausingC1MissingEventConfirmed": false,
+    "elementReplacementHypothesis": "No video-element clone/replacement path found in exact app source;5377RVFCs and same-owner trusted pause were observed; local replacement behavior passes",
+    "eventFenceExclusionHypothesis": "An invoked owned event is logged even when unqualified; c1 contains no ended entry, and other observer independently recorded no trusted ended",
+    "endpointPauseHypothesis": "Q3 enforcer calls native pause at source endpoint; possible event-scheduling interaction remains unconfirmed and cannot be used to assert a cause",
+    "standardCounterEvidence": "WHATWG media end algorithm fires ended outside its paused=false conditional; current Chromium source likewise schedules ended outside paused guard",
+    "nextUncertainty": "Where the native ended event is lost before both QA listeners: native event scheduling/delivery or an unrecorded runtime listener condition; c1 property/clock/program proof does not substitute for required trusted event",
+    "correctedProducerPrepared": false,
+    "reason": "No c1-causing QA defect confirmed; changing admission to property-only or claiming a fix would lower existing criteria"
+  },
+  "primarySources": [
+    {
+      "url": "https://html.spec.whatwg.org/multipage/media.html#playing-the-media-resource",
+      "scope": "Ended property and event are separate; end task dispatch ordering"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/third_party/+/master/blink/renderer/core/html/media/html_media_element.cc",
+      "scope": "Current source counterevidence; not verified installed Chrome revision"
+    }
+  ],
+  "limits": [
+    "Local fakes exercise delivery and ownership, not actual browser codec/event scheduling",
+    "App watchdog clear collaborators are bounded local fakes; no app runtime state was accessed",
+    "Native trusted-ended/current-owner/source/account/label/clock/source-completion criteria unchanged",
+    "C1 remains incomplete; full pixel/performance/nativeheap unqualified"
+  ]
+}

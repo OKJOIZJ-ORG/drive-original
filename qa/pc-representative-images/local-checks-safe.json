@@ -1,0 +1,59 @@
+{
+  "schema": "pc-image-local-checks/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "productUnchanged": true,
+  "checks": {
+    "passed": 4,
+    "failed": 0,
+    "command": "node --test qa/pc-representative-images/guards.test.cjs",
+    "outputChunk": "1b0874"
+  },
+  "priorCountExpectationFailure": {
+    "expected": 12,
+    "actual": 6,
+    "outputChunk": "03aac1",
+    "retainedInToolHistory": true,
+    "reason": "Exact12 count was a tool assertion; two independently fenced crops in each of3 windows=6, within original max12"
+  },
+  "boundInputs": [
+    {
+      "path": "qa/pc-representative-images/driver.cjs",
+      "sha256": "a17cb2c7285ef663727c409122ca06fabeddc7bbcfc725b1fd850e53d0c96e4c"
+    },
+    {
+      "path": "qa/pc-representative-images/guards.test.cjs",
+      "sha256": "845493eac13479a003c7c3b1cf64afe085dc9199d752eca615dcc84b5ce41bda"
+    },
+    {
+      "path": "qa/pc-representative-images/pc-image-adapter.cua.js",
+      "sha256": "ca17fb76a16a36ec9ffcd9aa5b6f25b8f018e5f1e000c04a907a00179d9ba152"
+    },
+    {
+      "path": "qa/pc-representative-images/binding-rc34.json",
+      "sha256": "b9752b379ebc8b137efb8bba4d39470c6b0896ebf9c344e2ee0c643a1a2a247a"
+    },
+    {
+      "path": "qa/pc-representative-images/actual-pc-large-still-rc34-c3-safe.json",
+      "sha256": "853fb967b02d264f6c044cee6e6c80625f8cdf49c64113422e1df466067d2fcc"
+    }
+  ],
+  "actualProof": "actual-pc-large-still-rc34-c3-safe.json",
+  "earlierFailuresRetained": [
+    "crop-preflight-first-failure-safe.json",
+    "actual-pc-large-still-rc34-c1-safe.json",
+    "actual-pc-large-still-rc34-c2-safe.json",
+    "c2-cause-and-recovery-safe.json"
+  ],
+  "claims": {
+    "cardAndTwoViewerLifetimes": true,
+    "completeFreshApiTupleBeforeAfter": true,
+    "sameSourceAndAccount": true,
+    "normalCloseReopen": true,
+    "allOwnedCleanup": true,
+    "wholeLibraryLargeImage": false,
+    "fullQuality": false,
+    "animation": false,
+    "alpha": false,
+    "loop": false
+  }
+}

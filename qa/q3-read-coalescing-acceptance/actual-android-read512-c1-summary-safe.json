@@ -1,0 +1,328 @@
+{
+  "schema": "drive-original.q3-read512-android-unit-summary/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "complete": false,
+  "functionalEofAccepted": false,
+  "actorFailure": "EOF_SUSTAINED_NATIVE_EOF_BOUND",
+  "normalNativeBannerUpdate": {
+    "completed": true,
+    "post": {
+      "name": "update-poststate",
+      "at": "2026-10-02T00:14:26.802Z",
+      "version": "1.22.0-rc.34",
+      "idle": true,
+      "account": true,
+      "visible": true,
+      "controller": true,
+      "accountSame": true,
+      "writerSame": true,
+      "projectionSame": true,
+      "cacheSame": true,
+      "trustedClick": true,
+      "trustedPagehide": true
+    },
+    "cleanup": {
+      "name": "update-owned-cleanup",
+      "at": "2026-10-02T00:14:27.959Z",
+      "baselineRemoved": true,
+      "listenersRemoved": true,
+      "proofRemoved": true,
+      "idle": true,
+      "visible": true,
+      "version": "1.22.0-rc.34"
+    },
+    "ownedForwardRemoved": true
+  },
+  "observed": {
+    "sourceCompletion": {
+      "admittedSourceProgramComplete": true,
+      "workerComplete": true,
+      "playerBufferedToEnd": true,
+      "sourceCleanupSettled": true,
+      "literalSourceByteOffsetAtFileSize": "UNKNOWN",
+      "sourceCompletionScope": "Complete admitted 180s/5400-packet source program and settled source cleanup; byte-offset/file-size is not publicly exposed",
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 180,
+        "commonShift": 0,
+        "targetSource": 0,
+        "targetElement": 0
+      },
+      "worker": {
+        "reads": 35,
+        "bytes": 18075476,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 361,
+        "acks": 361,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "pendingWindows": 0,
+        "invalidMessages": 0,
+        "detachedReadBuffers": 35,
+        "terminated": true
+      },
+      "q3Metrics": {
+        "decoded": 5400,
+        "encoded": 5400,
+        "peakHeapBytes": 33554432,
+        "peakEncoderQueue": 1,
+        "peakMuxBytes": 405818,
+        "peakMuxSamples": 30,
+        "outputBytes": 66640685,
+        "peakPendingAcks": 1,
+        "closed": true
+      },
+      "reads": {
+        "requests": 35,
+        "bytes": 18075476,
+        "logicalReads": 0,
+        "cacheHits": 5404,
+        "peakCache": 524288,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 524288,
+        "discoveryRequests": 1
+      },
+      "playerRetention": {
+        "peakAhead": 30.72227699999999,
+        "peakRetainedAppendBytes": 14480591,
+        "removals": 112,
+        "waits": 212,
+        "appends": 361
+      }
+    },
+    "progress": {
+      "phase": "buffered-to-end",
+      "appends": 361,
+      "removals": 112,
+      "waits": 212,
+      "peakAhead": 30.72227699999999,
+      "peakRetainedAppendBytes": 14480591,
+      "nativeBufferedEnd": 180,
+      "pipelineTerminalAvailable": true,
+      "workerTerminalAvailable": true,
+      "decodedDuringProcessing": "UNKNOWN",
+      "encodedDuringProcessing": "UNKNOWN"
+    },
+    "firstSourceFrame": 0,
+    "lastSourceFrame": 179.966667,
+    "frameCount": 5377,
+    "qualifiedFrameCount": 5014,
+    "unqualifiedFrameCount": 363,
+    "finalWindowFrames": 144,
+    "realTime1x": true,
+    "wallSpanMs": 179985.39999999106,
+    "sourceSpanMs": 179966.667,
+    "maxFrameGapMs": 62,
+    "failures": {
+      "fenceFailure": false,
+      "ownerChanged": false,
+      "clockFailure": false,
+      "dimensionsFailure": false,
+      "rateFailure": false,
+      "pauseFailure": false,
+      "loopFailure": false
+    },
+    "nativeQuality": {
+      "first": {
+        "available": true,
+        "totalVideoFrames": 4,
+        "droppedVideoFrames": 0,
+        "corruptedVideoFrames": 0
+      },
+      "last": {
+        "available": true,
+        "totalVideoFrames": 5400,
+        "droppedVideoFrames": 22,
+        "corruptedVideoFrames": 0
+      },
+      "current": {
+        "available": true,
+        "totalVideoFrames": 5400,
+        "droppedVideoFrames": 22,
+        "corruptedVideoFrames": 0
+      },
+      "counterReset": false,
+      "deltaTotalVideoFrames": 5396,
+      "deltaDroppedVideoFrames": 22,
+      "deltaCorruptedVideoFrames": 0,
+      "scope": "Native element counters from latched current-owner baseline; unavailable/reset counters are UNKNOWN and no quality pass threshold is inferred"
+    },
+    "firstNativeEndedSample": {
+      "elapsedMs": 212001.90000000596,
+      "nativeTime": 180,
+      "nativeDuration": 180,
+      "ended": true,
+      "paused": true,
+      "ready": 4,
+      "currentOwner": true,
+      "labelVisible": true,
+      "sourceSame": true,
+      "accountSame": true,
+      "targetSame": true,
+      "visible": true,
+      "playbackRate": 1
+    },
+    "lastNativeSample": {
+      "elapsedMs": 296001.5,
+      "nativeTime": 180,
+      "nativeDuration": 180,
+      "ended": true,
+      "paused": true,
+      "ready": 4,
+      "currentOwner": true,
+      "labelVisible": true,
+      "sourceSame": true,
+      "accountSame": true,
+      "targetSame": true,
+      "visible": true,
+      "playbackRate": 1
+    },
+    "admittedTrustedNativeEnded": null,
+    "endedEvents": [],
+    "terminalPauseEvents": [
+      {
+        "type": "pause",
+        "trusted": true,
+        "elapsedMs": 211611.90000000596,
+        "sourceTime": 180,
+        "currentOwner": true
+      }
+    ],
+    "metadataBefore": [
+      {
+        "label": "before",
+        "at": 1790900125679,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    ],
+    "metadataAfter": {
+      "freshRead": true,
+      "metadata": {
+        "label": "after",
+        "at": 1790900423084,
+        "status": 200,
+        "sameExactTarget": true,
+        "stableMetadataSame": true,
+        "freshRevisionChecksumSame": true,
+        "accountSame": true,
+        "sourceSame": true,
+        "notTrashed": true,
+        "canDownload": true
+      }
+    }
+  },
+  "cleanup": {
+    "actor": {
+      "name": "eof-actor-cleanup",
+      "at": "2026-10-02T00:20:22.741Z",
+      "observedBeforeStop": true,
+      "receiptSaved": true,
+      "markersStopped": true,
+      "observerStopped": true,
+      "closeOwnershipConfirmed": true,
+      "foreignPlaybackLeftUntouched": false,
+      "settled": true,
+      "postCloseMetadata": {
+        "freshRead": true,
+        "metadata": {
+          "label": "after",
+          "at": 1790900423084,
+          "status": 200,
+          "sameExactTarget": true,
+          "stableMetadataSame": true,
+          "freshRevisionChecksumSame": true,
+          "accountSame": true,
+          "sourceSame": true,
+          "notTrashed": true,
+          "canDownload": true
+        }
+      },
+      "globalsCleared": true,
+      "recoveryRefsRetained": false,
+      "globalsClearSkipped": false,
+      "failures": [],
+      "confirmed": true,
+      "eofCleanupConfirmed": true
+    },
+    "ownedNativeSessionDetached": true,
+    "ownedNativeCdpDisconnected": true,
+    "ownedMcpClosed": true,
+    "ownedForwardRemoved": true,
+    "resourceStopRequested": true,
+    "resource": {
+      "ownedSubprocessesStopped": true,
+      "ownedTimerCleared": true,
+      "ownedDeadlineCleared": true
+    }
+  },
+  "resources": {
+    "samples": 63,
+    "failedSamples": 0,
+    "elapsedMs": 336071.3171,
+    "mainChromePssKiB": {
+      "min": 360910,
+      "max": 370670
+    },
+    "batteryTemperatureC": {
+      "min": 27.4,
+      "max": 27.7
+    },
+    "thermalStatus": [
+      0
+    ],
+    "attribution": "MainChromePSS and device-wide counters/battery/thermal only; native/GPU/renderer heap attribution UNKNOWN"
+  },
+  "nextUncertainty": "Native ended property is true at180 with recorded owner/source/account/target/visible/label/rate fences true, but EOF observer recorded no ended event and admitted trusted-ended is null; responsible event layer remains unresolved",
+  "limits": {
+    "fullOutputQuality": "NOT_QUALIFIED",
+    "fullPhysicalPixelCadence": "NOT_QUALIFIED",
+    "continuousLabelVisibility": "NOT_QUALIFIED; qualified frame count and missed frames explicitly retained",
+    "nativeRetainedHeap": "UNKNOWN",
+    "literalSourceByteOffsetAtFileSize": "UNKNOWN",
+    "thermalOrBatteryCausality": "UNKNOWN",
+    "noReplay": true,
+    "noProductModification": true,
+    "privateIdentifiersExported": false
+  },
+  "files": {
+    "actual-android-q3-eof-failure-read512-c1-safe.json": {
+      "bytes": 1200996,
+      "sha256": "85d23706098c7be762d307721f3a1a3c67845162cb1a1985be81be684372e0ba"
+    },
+    "actual-android-q3-eof-read512-c1-safe.json": {
+      "bytes": 23571,
+      "sha256": "de3a3d152c29ad331b74af863c2b4f8e3c8beadcfb56aa2cd02649f766211922"
+    },
+    "actual-android-q3-eof-resources-read512-c1-safe.json": {
+      "bytes": 134585,
+      "sha256": "1bfe40bc12593f38243969440782eda21ff14642befe81b750554879d7d59289"
+    },
+    "actual-android-normal-update-read512-c1-safe.json": {
+      "bytes": 13835,
+      "sha256": "2c429d1a40934ff548ac0cf8e1d45bab43c255603121c124c684ab4534df3a31"
+    },
+    "android-normal-update.cjs": {
+      "bytes": 8307,
+      "sha256": "03dd42d615f7d0a693331b81b2d77cb21efd4b3517e3f80f0e4a3b5f06cdae5f"
+    },
+    "android-q3-eof-actor.cjs": {
+      "bytes": 18818,
+      "sha256": "229205d4aad2b4a3252de99ef450c4523aa11ef6c990e78aa0198fd11489660d"
+    },
+    "resource-watch.cjs": {
+      "bytes": 12698,
+      "sha256": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd"
+    }
+  }
+}

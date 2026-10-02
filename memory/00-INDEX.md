@@ -30,8 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `CANDIDATE-RC34-20261002.md`: Q3 reader candidate delivery/package and bound
-  actual acceptance preparation; physical sustained improvement remains pending.
+- `CANDIDATE-RC34-20261002.md`: Q3 reader delivery/package and normal PC/Android
+  updates; actual sustained endpoint and retained strict event-oracle failure.
 
 - `CANDIDATE-RC33-20261002.md`: exact33 Q3 candidate delivery/package and normal
   PC/Android update; retained readiness-tool failures, actual Q3 pending.

@@ -1,0 +1,513 @@
+{
+  "schema": 1,
+  "scope": "Actual isolated desktop native MSE endpoint A/B; Android/native installed revision and pixel/performance acceptance excluded",
+  "runtimeSource": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "producerSha256": "c6c3763ec3ccee71840262cfd63b358867b4399d5190e94006b8cb384ab523f9",
+  "endpointSha256": "beb141ddeb2f420ad7d29f89a633175f76f648ca673a35a1c35ef8c6a0715742",
+  "input": {
+    "bytes": 66640685,
+    "sha256": "13daa94f723a7af036c709892d2640d018f271b4d1c0a5a90fbd37ad99ea5ad2",
+    "duration": 180,
+    "codec": "vp09.00.41.08"
+  },
+  "host": {
+    "FreePhysicalMemory": 2902424,
+    "FreeVirtualMemory": 14638360
+  },
+  "cases": [
+    {
+      "level": "Q3",
+      "admission": {
+        "level": "Q3",
+        "duration": 180,
+        "seek": 178,
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\""
+      },
+      "started": 459,
+      "result": {
+        "level": "Q3",
+        "events": [
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 440.8999999985099
+          },
+          {
+            "type": "seeked",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 441.1000000014901
+          },
+          {
+            "type": "playing",
+            "trusted": true,
+            "time": 178.005279,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 515.6999999955297
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.254403,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 764.8999999985099
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.518541,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1028.8999999985099
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.787666,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1298.1000000014901
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.049262,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1559.6000000014901
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.322315,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1832.8999999985099
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.588192,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2098.6999999955297
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.846098,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2356.5
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2511.1999999955297
+          },
+          {
+            "type": "pause",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2511.39999999851
+          },
+          {
+            "type": "ended",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2511.39999999851
+          }
+        ],
+        "sourceEvents": [
+          {
+            "type": "source-ended",
+            "sourceEnd": 180,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2511.10000000149
+          }
+        ],
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\"",
+        "playTrusted": true,
+        "playError": null,
+        "final": {
+          "time": 180,
+          "duration": 180,
+          "ended": true,
+          "paused": true,
+          "rate": 1,
+          "loop": false,
+          "ready": 4,
+          "error": null
+        },
+        "mediaReadyState": "ended",
+        "sourceEnded": true,
+        "quality": {
+          "total": 64,
+          "dropped": 0,
+          "corrupted": 0
+        }
+      },
+      "observationMs": 2847,
+      "cleanup": {
+        "listenersRemoved": true,
+        "endpointTimerCleared": true,
+        "blobRevoked": true,
+        "mediaDetached": true,
+        "holderCleared": true
+      }
+    },
+    {
+      "level": "Q2",
+      "admission": {
+        "level": "Q2",
+        "duration": 180,
+        "seek": 178,
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\""
+      },
+      "started": 3603,
+      "result": {
+        "level": "Q2",
+        "events": [
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 275.59999999403954
+          },
+          {
+            "type": "seeked",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 275.59999999403954
+          },
+          {
+            "type": "playing",
+            "trusted": true,
+            "time": 178.009602,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 336.8999999985099
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.268225,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 595.5
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.534159,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 861.5
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.798122,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1125.5
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.061832,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1389.0999999940395
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.32818,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1655.5
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.59247,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 1919.7999999970198
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.859045,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2186.39999999851
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2339.1999999955297
+          },
+          {
+            "type": "pause",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2339.2999999970198
+          },
+          {
+            "type": "ended",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2339.2999999970198
+          }
+        ],
+        "sourceEvents": [
+          {
+            "type": "source-ended",
+            "sourceEnd": 180,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2339.1999999955297
+          }
+        ],
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\"",
+        "playTrusted": true,
+        "playError": null,
+        "final": {
+          "time": 180,
+          "duration": 180,
+          "ended": true,
+          "paused": true,
+          "rate": 1,
+          "loop": false,
+          "ready": 4,
+          "error": null
+        },
+        "mediaReadyState": "ended",
+        "sourceEnded": true,
+        "quality": {
+          "total": 64,
+          "dropped": 0,
+          "corrupted": 0
+        }
+      },
+      "observationMs": 2845,
+      "cleanup": {
+        "listenersRemoved": true,
+        "endpointTimerCleared": true,
+        "blobRevoked": true,
+        "mediaDetached": true,
+        "holderCleared": true
+      }
+    }
+  ],
+  "errors": [],
+  "cleanup": {
+    "deadlineCleared": true,
+    "page": {
+      "holderAbsent": true
+    },
+    "contextClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "started": "2026-10-02T00:39:20.301Z",
+  "browserVersion": "154.0.8037.59",
+  "profile": "Playwright-owned ephemeral context; no existing profile",
+  "completed": true,
+  "observationTotalMs": 6779,
+  "ended": "2026-10-02T00:39:27.666Z"
+}

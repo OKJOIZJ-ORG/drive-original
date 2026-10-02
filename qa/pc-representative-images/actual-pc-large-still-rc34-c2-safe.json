@@ -1,0 +1,93 @@
+{
+  "schema": "pc-image-observation/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "observerTemplateSHA256": "58096ab9f6061b73486dd59746d8f23ad5afb886bbaa9ce8d2898e75c69858d0",
+  "samplerSHA256": "d296113597b5cd30a0ee7fc90239bbfc07ed1f317dd306b152bd27269b6f8553",
+  "rows": [
+    {
+      "ordinal": 1,
+      "role": "large-still",
+      "animation": "UNKNOWN",
+      "alpha": "UNKNOWN",
+      "delay": "UNKNOWN",
+      "loop": "UNKNOWN",
+      "encodedOracle": "NOT_SUPPLIED",
+      "windows": [
+        {
+          "phase": "card",
+          "samples": [
+            {
+              "elapsedMs": 3132,
+              "pngSha256": "63ae5676d2103d1039b49f8607e7fa1bd7b943a698440dcbae03311ab9e9530d",
+              "paintedPixelSha256": "e3820096cb82366b860b8a4e668453a7aaaf423af03bdf289fa308ea03a79332"
+            },
+            {
+              "elapsedMs": 4198,
+              "pngSha256": "63ae5676d2103d1039b49f8607e7fa1bd7b943a698440dcbae03311ab9e9530d",
+              "paintedPixelSha256": "e3820096cb82366b860b8a4e668453a7aaaf423af03bdf289fa308ea03a79332"
+            }
+          ],
+          "encodedBytes": 174,
+          "distinctPaintedPixels": 1,
+          "observedChangingPixel": false,
+          "observedStablePixel": true,
+          "preciseDelayProven": false,
+          "fullLoopProven": false,
+          "alphaPreservationProven": false,
+          "originalByteIdentityProven": false,
+          "foregroundOwnerFencesPassed": true,
+          "rawPixelsExported": false
+        }
+      ],
+      "beforeMetadata": true
+    }
+  ],
+  "passed": false,
+  "cleanup": {
+    "normalClose": false,
+    "observer": {
+      "listenersOwned": 0,
+      "observerRemoved": true,
+      "timersOwned": 0
+    },
+    "navigationRestored": false,
+    "ownedTransport": {
+      "closed": false,
+      "ownedOnly": true,
+      "scope": "Owned proof and in-memory adapter only; existing user tab retained",
+      "idle": false,
+      "observerRemoved": true,
+      "proofRemoved": true
+    }
+  },
+  "rawIdentifiersExported": false,
+  "failure": "Q3_CDP_EVALUATION_FAILED",
+  "failureSnapshot": {
+    "accountSame": true,
+    "activeObserver": true,
+    "closed": false,
+    "exactSelectedMetadata": false,
+    "foreground": true,
+    "height": 1215,
+    "imageErrorHidden": true,
+    "imageReady": true,
+    "noImageIframeFallback": true,
+    "online": true,
+    "originalMode": true,
+    "retired": false,
+    "sameOwner": false,
+    "selectionCleared": false,
+    "sourceQualified": true,
+    "sourcesCleared": false,
+    "transportVerified": true,
+    "verifiedWrongMimeImage": false,
+    "videoControlsHidden": true,
+    "videoHidden": true,
+    "viewed": true,
+    "width": 831
+  },
+  "elapsedMs": 17890,
+  "qualityAcceptance": "UNKNOWN",
+  "cleanupFailure": true
+}

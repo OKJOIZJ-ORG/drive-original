@@ -1,0 +1,493 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-02T00:14:11.760Z",
+  "producerSha256": "03dd42d615f7d0a693331b81b2d77cb21efd4b3517e3f80f0e4a3b5f06cdae5f",
+  "commonSha256": "c71347f648053cb94d5954257f6be7ecc37ca36760889bacd072b80beac6f783",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "update-initial-admission",
+      "at": "2026-10-02T00:14:19.948Z",
+      "version": "1.22.0-rc.33",
+      "idle": true,
+      "account": true,
+      "writerIdle": true,
+      "visible": true,
+      "controller": true,
+      "absent": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125
+    },
+    {
+      "name": "native-update-banner-input-ready",
+      "at": "2026-10-02T00:14:19.960Z",
+      "exactHit": true
+    },
+    {
+      "name": "native-update-banner-tapped",
+      "at": "2026-10-02T00:14:20.064Z",
+      "exactHit": true
+    },
+    {
+      "name": "update-wait",
+      "at": "2026-10-02T00:14:25.217Z",
+      "version": "1.22.0-rc.34"
+    },
+    {
+      "name": "update-poststate",
+      "at": "2026-10-02T00:14:26.802Z",
+      "version": "1.22.0-rc.34",
+      "idle": true,
+      "account": true,
+      "visible": true,
+      "controller": true,
+      "accountSame": true,
+      "writerSame": true,
+      "projectionSame": true,
+      "cacheSame": true,
+      "trustedClick": true,
+      "trustedPagehide": true
+    },
+    {
+      "name": "update-full-source-proof",
+      "at": "2026-10-02T00:14:27.951Z",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1",
+      "version": "1.22.0-rc.34",
+      "recordedAt": "2026-10-02T00:14:28.302Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 46,
+      "matchedCacheAliases": 47,
+      "shellRootAliasMatched": true,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "update-owned-cleanup",
+      "at": "2026-10-02T00:14:27.959Z",
+      "baselineRemoved": true,
+      "listenersRemoved": true,
+      "proofRemoved": true,
+      "idle": true,
+      "visible": true,
+      "version": "1.22.0-rc.34"
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.33",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "completed": true,
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}

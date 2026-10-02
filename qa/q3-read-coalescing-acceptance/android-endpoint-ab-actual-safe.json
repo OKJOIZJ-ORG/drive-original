@@ -1,0 +1,791 @@
+{
+  "schema": "drive-original.actual-android-acceptance/1",
+  "recordedAt": "2026-10-02T00:47:54.821Z",
+  "producerSha256": "78c6f3b0b8ca999fb474cceb827a0073748ff6d0226d4a8e12c6d3476fc8add9",
+  "commonSha256": "c71347f648053cb94d5954257f6be7ecc37ca36760889bacd072b80beac6f783",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "native-local-play-before",
+      "at": "2026-10-02T00:47:59.361Z",
+      "level": "Q3"
+    },
+    {
+      "name": "native-local-play-after",
+      "at": "2026-10-02T00:47:59.504Z",
+      "level": "Q3"
+    },
+    {
+      "name": "endpoint-case",
+      "at": "2026-10-02T00:48:02.368Z",
+      "level": "Q3",
+      "endedProperty": true,
+      "trustedEnded": true,
+      "sourceEnded": true
+    },
+    {
+      "name": "native-local-play-before",
+      "at": "2026-10-02T00:48:04.680Z",
+      "level": "Q2"
+    },
+    {
+      "name": "native-local-play-after",
+      "at": "2026-10-02T00:48:04.787Z",
+      "level": "Q2"
+    },
+    {
+      "name": "endpoint-case",
+      "at": "2026-10-02T00:48:07.639Z",
+      "level": "Q2",
+      "endedProperty": true,
+      "trustedEnded": true,
+      "sourceEnded": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.34",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "scope": "Same installed Android engine local MSE endpoint A/B; no Drive/source/encoder/acceptance",
+  "templateSha256": "c6c3763ec3ccee71840262cfd63b358867b4399d5190e94006b8cb384ab523f9",
+  "endpointSha256": "beb141ddeb2f420ad7d29f89a633175f76f648ca673a35a1c35ef8c6a0715742",
+  "input": {
+    "bytes": 66640685,
+    "sha256": "13daa94f723a7af036c709892d2640d018f271b4d1c0a5a90fbd37ad99ea5ad2"
+  },
+  "cases": [
+    {
+      "level": "Q3",
+      "admission": {
+        "level": "Q3",
+        "duration": 180,
+        "seek": 178,
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\""
+      },
+      "geometry": {
+        "owned": true,
+        "visible": true,
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 2800.75,
+        "x": 108,
+        "y": 398.23529052734375,
+        "hit": true,
+        "physicalX": 230,
+        "physicalY": 1115
+      },
+      "startedMs": 2348,
+      "result": {
+        "level": "Q3",
+        "events": [
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2318.300000011921
+          },
+          {
+            "type": "seeked",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2318.4000000059605
+          },
+          {
+            "type": "playing",
+            "trusted": true,
+            "time": 178.010537,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2484.2000000029802
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.265038,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2738.800000011921
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.530802,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3004.6000000089407
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.796677,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3270.7000000029802
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.062388,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3536.300000011921
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.327816,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3801.9000000059605
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.593599,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4067.9000000059605
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.858963,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4333.100000008941
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4477.20000000298
+          },
+          {
+            "type": "pause",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4478.4000000059605
+          },
+          {
+            "type": "ended",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4478.9000000059605
+          }
+        ],
+        "sourceEvents": [
+          {
+            "type": "source-ended",
+            "sourceEnd": 180,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4476.5
+          }
+        ],
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\"",
+        "playTrusted": true,
+        "playError": null,
+        "final": {
+          "time": 180,
+          "duration": 180,
+          "ended": true,
+          "paused": true,
+          "rate": 1,
+          "loop": false,
+          "ready": 4,
+          "error": null
+        },
+        "mediaReadyState": "ended",
+        "sourceEnded": true,
+        "quality": {
+          "total": 60,
+          "dropped": 0,
+          "corrupted": 0
+        }
+      },
+      "observationMs": 2947,
+      "cleanup": {
+        "listenersRemoved": true,
+        "endpointTimerCleared": true,
+        "blobRevoked": true,
+        "mediaDetached": true,
+        "holderCleared": true
+      }
+    },
+    {
+      "level": "Q2",
+      "admission": {
+        "level": "Q2",
+        "duration": 180,
+        "seek": 178,
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\""
+      },
+      "geometry": {
+        "owned": true,
+        "visible": true,
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 2800.75,
+        "x": 108,
+        "y": 398.23529052734375,
+        "hit": true,
+        "physicalX": 230,
+        "physicalY": 1115
+      },
+      "startedMs": 7666,
+      "result": {
+        "level": "Q2",
+        "events": [
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2273.4000000059605
+          },
+          {
+            "type": "seeked",
+            "trusted": true,
+            "time": 178,
+            "duration": 180,
+            "ended": false,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2273.5
+          },
+          {
+            "type": "playing",
+            "trusted": true,
+            "time": 178.011908,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2398.7999999970198
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.264374,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2651.4000000059605
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.53018,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 2917.2999999970198
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 178.796003,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3183.2000000029802
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.061396,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3448.6000000089407
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.327154,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3714.2999999970198
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.592682,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 3979.9000000059605
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 179.858364,
+            "duration": 180,
+            "ended": false,
+            "paused": false,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4246
+          },
+          {
+            "type": "timeupdate",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4389.29999999702
+          },
+          {
+            "type": "pause",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4391.79999999702
+          },
+          {
+            "type": "ended",
+            "trusted": true,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4392
+          }
+        ],
+        "sourceEvents": [
+          {
+            "type": "source-ended",
+            "sourceEnd": 180,
+            "time": 180,
+            "duration": 180,
+            "ended": true,
+            "paused": true,
+            "rate": 1,
+            "loop": false,
+            "ready": 4,
+            "error": null,
+            "at": 4390.79999999702
+          }
+        ],
+        "ranges": [
+          [
+            0,
+            180
+          ]
+        ],
+        "mime": "video/mp4; codecs=\"vp09.00.41.08\"",
+        "playTrusted": true,
+        "playError": null,
+        "final": {
+          "time": 180,
+          "duration": 180,
+          "ended": true,
+          "paused": true,
+          "rate": 1,
+          "loop": false,
+          "ready": 4,
+          "error": null
+        },
+        "mediaReadyState": "ended",
+        "sourceEnded": true,
+        "quality": {
+          "total": 60,
+          "dropped": 0,
+          "corrupted": 0
+        }
+      },
+      "observationMs": 2904,
+      "cleanup": {
+        "listenersRemoved": true,
+        "endpointTimerCleared": true,
+        "blobRevoked": true,
+        "mediaDetached": true,
+        "holderCleared": true
+      }
+    }
+  ],
+  "localCleanup": {
+    "deadlineCleared": true,
+    "page": {
+      "holderAbsent": true
+    },
+    "localSessionDetached": true,
+    "ownedTabClosed": true,
+    "candidateForegroundRestored": true,
+    "localCdpDisconnected": true,
+    "localForwardRemoved": true,
+    "ownedReverseRemoved": true,
+    "serverClosed": true
+  },
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "candidateBefore": {
+    "idle": true,
+    "version": "1.22.0-rc.34",
+    "accountPresent": true
+  },
+  "endpointCompleted": true,
+  "candidateAfter": {
+    "idle": true,
+    "version": "1.22.0-rc.34",
+    "accountPresent": true,
+    "visible": true
+  },
+  "observationTotalMs": 10829,
+  "completed": true,
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}
