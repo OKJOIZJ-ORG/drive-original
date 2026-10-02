@@ -8,7 +8,7 @@ Current PC file declared MOV is actually strict188-byte TS (75,947,300B/88 sync 
 
 ## Next first action
 
-PC QA/docs saved in1167efb. Original69 bounded-status adoption completed in qa/rc35-acceptance-adoption/adoption-proposal.json; all original text/IDs/order preserved,60 historical evidence file hashes matched, TR01 actual finite PASS and FM05 affected finite tablet/controlled scope adopted; wholeGoalPassed/productionPassed remain false. current TS cannot substitute tail-index MOV or historical failed tuple/p95. Do not invent cold for TR02/TR03. Next decisive gap is existing same-fixture native-file/MSE color mismatch; distinguish declared/decoded/presentation evidence before fixing the responsible layer. Actual HDR applicability UNKNOWN, original FM06 conditional; performance still needs failure-inclusive sufficient same-condition comparison. Corpus128 consumed/123classified/5unknown/8468unattempted of8596, no full scan.
+Save verified PC QA/docs unit, then adopt the original69 by original criteria/evidence. Read-only reconciliation identifies TR01 actual finite PASS and FM05 affected finite tablet/controlled scope; current TS cannot substitute tail-index MOV or historical failed tuple/p95. Do not invent cold for TR02/TR03. Next decisive gap is existing same-fixture native-file/MSE color mismatch; distinguish declared/decoded/presentation evidence before fixing the responsible layer. Actual HDR applicability UNKNOWN, original FM06 conditional; performance still needs failure-inclusive sufficient same-condition comparison. Corpus128 consumed/123classified/5unknown/8468unattempted of8596, no full scan.
 
 ## Authority and waiting
 

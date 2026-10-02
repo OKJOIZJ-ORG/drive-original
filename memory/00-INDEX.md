@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC35-20261002.md`: exact rc35 delivery, finite PC/Android qualifications and original69 bounded-status adoption; retained failures and remaining color/performance scope.
+
 - `CANDIDATE-RC34-20261002.md`: Q3 reader delivery/package and normal PC/Android
   updates; actual sustained endpoint and retained strict event-oracle failure.
 

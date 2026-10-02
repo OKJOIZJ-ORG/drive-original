@@ -1,0 +1,2477 @@
+{
+  "schema": "rc35-original69-adoption-proposal/1",
+  "createdDate": "2026-10-02",
+  "authority": "Draft only. Root owns adoption; frozen original text/status and historical receipts unchanged.",
+  "rootAdopted": false,
+  "wholeGoalPassed": false,
+  "productionPassed": false,
+  "candidate": {
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "version": "1.22.0-rc.35",
+    "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+    "delivery": "qualified candidate only",
+    "PCNormalUpdate": "qualified",
+    "AndroidAffectedFeature": "FAILED/NOTADOPTED per root current adjudication: three boundedAAC3 attempts interrupted by actualSWreplacement before target; no followupmedia proof"
+  },
+  "frozenInput": {
+    "path": "qa/rc32-acceptance-reconciliation/reconciliation.json",
+    "sha256": "2e167f82f8d856037089b41846a11153d201cc097466b3fd2ec547097c770419"
+  },
+  "immutableSpec": {
+    "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+    "sha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564"
+  },
+  "accounting": {
+    "originalIds": 69,
+    "unchangedControlledRows": 24,
+    "unchangedFiniteRows": 28,
+    "restoredIntegrationRow": 1,
+    "previousOpenRows": 13,
+    "unselectedArchitectures": 2,
+    "userDeferred": 1,
+    "noAggregateCompletionPercentage": true
+  },
+  "evidence": {
+    "B": {
+      "path": "qa/rc21-night-acceptance/rows.json",
+      "frozenSha256": "c58913abeb821ac84126ec1ee4703273bba65e6986990f75fa37dde6c3e963e8",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "P28": {
+      "path": "qa/rc28-finite-acceptance-matrix/review.json",
+      "frozenSha256": "baced6b6df741337156da638a6e6fcde745c4e727d44b1fc9d84aaa8ebdaf0ba",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "P29": {
+      "path": "qa/rc29-finite-acceptance-reconciliation/review.json",
+      "frozenSha256": "2a006e378e83af6ddecf310d3ceb035def6f95909e3d14c14d21ed511bd1bd07",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "A29": {
+      "path": "qa/rc29-finite-acceptance-reconciliation/addendum.json",
+      "frozenSha256": "2a8c5e45dcb7be1ccc1337d699a934ce0507cc5cd7d7b51f860ffa83d469de24",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "P31": {
+      "path": "qa/rc31-acceptance-reconciliation/proposals.json",
+      "frozenSha256": "6cf31f618f1291ce8b9e3680d769ce517253dba33596356dfa4cbf4c4f4a7190",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "UI29": {
+      "path": "qa/rc21-android-night/173-rc29-native-ui-clauses.json",
+      "frozenSha256": "8e76687d0e5362dfa2381c20d0ea89351dd689918359232576877bf5de714a9f",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "PCQuiet29": {
+      "path": "qa/rc29-resume-20261001/actual-pc-layout-sync-safe.json",
+      "frozenSha256": "3f41930dbe68b017c52a6c9b30a353d2b9411b0f96e236d8f2c33e3ecbde25da",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Cookie31": {
+      "path": "qa/rc31-cookie-receipt-attempt4/actual-android-cookie-gate-attempt4-result.json",
+      "frozenSha256": "78b0c0a0c5e93916415054d70e43309f6e33ad5160a61e29301c2b0d937ede13",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Disposable31": {
+      "path": "qa/rc31-disposable-actual/rc31-disposable-completed-safe.json",
+      "frozenSha256": "776c83a50829ba072985404e76e0a5803649fed8371c1541a1ab32314ce0147a",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "GMoved31": {
+      "path": "qa/rc31-disposable-actual/g-moved-safe.json",
+      "frozenSha256": "d845fad9709398d890cb1264cb95418783232b91b3c5c27ce8337cb71d5b42a0",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "GTrashed31": {
+      "path": "qa/rc31-disposable-actual/g-trashed-safe.json",
+      "frozenSha256": "66ed79df8502d04e85862f7054483fd0b89944d82d183f119bd32b6b1ecba7d4",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "GRestored31": {
+      "path": "qa/rc31-disposable-actual/g-restored-safe.json",
+      "frozenSha256": "753f88aa663c4515e65637f571d6dba672c466e0ef2be3175cf0503f81926b19",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "GCleaned31": {
+      "path": "qa/rc31-disposable-actual/g-cleaned-safe.json",
+      "frozenSha256": "805f6cbf5884fd32bf9679172b8085c3aacbc428250393c93b9e5cfa7c4c61cd",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Closure31": {
+      "path": "qa/rc31-disposable-actual/runtime-closure-safe.json",
+      "frozenSha256": "86261ac5db12ca225df104763b19555fea0c8d1e111fe2c4a6db0badca584e2e",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "StateRecord": {
+      "path": "memory/RESUMED-ACCEPTANCE-20261001.md",
+      "frozenSha256": "d36f8782d3da989d3f60ccaa82caa2b134d767be38cdee02cbd1fc0364d90797",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "DisposableRecord": {
+      "path": "memory/DISPOSABLE-UI-RC31-20261001.md",
+      "frozenSha256": "396a25a7d02aeb0c326b8e0d821d807e733ff097852fe5a62198cb52f7f59404",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "State28": {
+      "path": "qa/rc28-resume-20261001/actual-state-current-safe.json",
+      "frozenSha256": "2fa5b073fdf32ae1686818d15a9225d19986a310a538640e5b528a06fb490401",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "RenewalPC28": {
+      "path": "qa/rc28-resume-20261001/actual-pc-natural-safe.json",
+      "frozenSha256": "dc838d5dc6baed5af4570cd5107c3309d4ed1a3ea92361e8111b54eb8c2f89a9",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "RenewalAndroid28": {
+      "path": "qa/rc21-android-night/158-rc28-android-revision66-natural-watch-result.json",
+      "frozenSha256": "03855920453686abb18d84115726d63466a75f54a377d9f04d15e762b057106e",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "RenewalSeekAndroid28": {
+      "path": "qa/rc21-android-night/159-rc28-post66-natural-seek-close-result.json",
+      "frozenSha256": "904284c7dabfecf7be568bf0538b0f46e12b0ded3c5e463f4fff0a2ef83a6b74",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "HomeAndroid28": {
+      "path": "qa/rc21-android-night/150-rc28-original-home-visual-bounds-result.json",
+      "frozenSha256": "bb444bb8a9a02fa6e11c54759a6663e1e6a1d80fbc3358160da9aec0bbe4cf73",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Corpus31": {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst01-safe.json",
+      "frozenSha256": "2d8ba266fdfe868006a580fa7ff0263b3d1aa47bfae9a758a9ec84e58b965f91",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "CorpusFailed31": {
+      "path": "qa/rc31-corpus-actual/rc31-corpus-burst02-safe.json",
+      "frozenSha256": "9cfa3d2e86e6c3a23c3591e0b9fd99f21c715cb8f95ec8e0dd9bd8e7b7fe3eed",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Delivery32": {
+      "path": "qa/candidate-rc32-delivery/results.json",
+      "frozenSha256": "af2c5084e8ac8cc4862749e579cfd2ed20f7ab22d6f12a3be4f787341b6bd0f0",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "PCUpdate32": {
+      "path": "qa/rc32-resume-20261001/rc32-pc-normal-update-safe.json",
+      "frozenSha256": "0f76d8320bba2c055ea89b5c23a874a62716300a03895fc583ab9cf4cd93c01d",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "AndroidUpdate32": {
+      "path": "qa/rc32-resume-20261001/android-normal-update-source-cache-result.json",
+      "frozenSha256": "16e2dc9da3681fd5cb20956cbca841e3c84fb419a33c08bc8bf5e389c33ed565",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "AndroidTS32": {
+      "path": "qa/rc32-ts-device-replay/actual-android-rc32-ts-replay-result.json",
+      "frozenSha256": "9af6452d6f51cbe46e2c78e93e4a9e9fb1966e9b774e0a741cb6466ef7ed2ee6",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Format32": {
+      "path": "qa/rc32-format-acceptance/provenance.json",
+      "frozenSha256": "48a0093365337a7597408c7b3525e53ed47ba9aac3b10d79ab481253e031b2e6",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Q3Prototype": {
+      "path": "memory/Q3-FEASIBILITY-20260930.md",
+      "frozenSha256": "40fc99b2231e15b7166d4b01272ffa697a469ac122b147098e135ba366579b2f",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Spec": {
+      "path": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+      "frozenSha256": "a57c7109a540be09f351acf582e0f9ba6a6a556f92e943a6cb6804ca2576b564",
+      "date": "historical; retained original reference",
+      "source": "Historical source binding retained in referenced evidence, not relabeled rc35",
+      "type": "original frozen evidence/owner reference",
+      "scope": "Preserve original per-row scope",
+      "rootAdopted": false
+    },
+    "Q0Byte": {
+      "path": "qa/rc32-q0-byte-acceptance/actual-android-q0-byte-attempt3-root-qualification-safe.json",
+      "sha256": "3ade7b46dbb4639a0dc831af4491a4dfeccf00a5a695af16fee2c4a0d3ce8e8a",
+      "date": "2026-10-02",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual Android + offline narrow requalification",
+      "scope": "Same immutable attempt3; corrected zero-body successful preflight premise; original failed execution retained; conservative complete traffic envelope, not exact bytes at frame; correction: full original cold-selected-media condition not established by upstream cachefalse/public shell pins alone",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /input hashes and producer bindings in qualification"
+    },
+    "Tail33": {
+      "path": "qa/rc33-tail-index/result.json",
+      "sha256": "af002cca2a98ce01ee8175eaac339803b16dcd628683f41f788aad39b4b15f64",
+      "date": "2026-10-02",
+      "source": "5174485b3c17d047259701bbdd889f9b0740f555/rc33",
+      "type": "controlled native actual-app",
+      "scope": "One generated 16MiB sparse tail MP4, synthetic provider, isolated native Chrome; startup/seek/range/drain; no actual corpus tail claim",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding; producer driver hash captured in result",
+      "observedProducerHashes": {
+        "producerSha256": "64d4ddd98976249a23680c67eb250cea2b798eeecd4427b6b597ddd0f51133f0"
+      }
+    },
+    "PCSeek32": {
+      "path": "qa/rc32-ts-device-replay/actual-pc-rc32-audio-seek-remaining-attempt5-safe.json",
+      "sha256": "d192df2d15c1fd500d769b2263af47624983fa7f60be3bc378ef870b928dc208",
+      "date": "2026-10-02",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual PC",
+      "scope": "Designated exact target;50/90 and native element PCM; physical speaker/full fidelity UNKNOWN",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and observer proof fields",
+      "observedProducerHashes": {
+        "observerSha256": "fd7aa895cbecc93267cd6b3dc727d31c194c70258995ea01a4b6b455f1f06ac1"
+      }
+    },
+    "PCTail32": {
+      "path": "qa/rc32-ts-device-replay/rc32-pc-ts-replay-attempt3-safe.json",
+      "sha256": "21950698e33a6d432e679e3f86b70292eb3f6f0e49abed4295089ab6c543e61e",
+      "date": "2026-10-01",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual PC",
+      "scope": "Startup/nearEOF/reopen/current owner/fresh tuple/cleanup; no replacement of failed whole runs",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding"
+    },
+    "Android10PCM32": {
+      "path": "qa/rc32-ts-device-replay/actual-android-rc32-audio-seek-supplement-result.json",
+      "sha256": "615a0fccec2119d835d3981c20e2204b6ca56edee9176fe6f3724385ca595f9c",
+      "date": "2026-10-02",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual physical Android",
+      "scope": "Same designated target;10% +native PCM and cleanup",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding",
+      "observedProducerHashes": {
+        "producerSha256": "0111dd5c0edf91070022251934b143bd379e77f565707c6eaba594e66ae755cc",
+        "commonSha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286"
+      }
+    },
+    "Android509032": {
+      "path": "qa/rc32-ts-device-replay/actual-android-rc32-audio-seek-remaining-attempt4-safe.json",
+      "sha256": "59244fc5a563636b9ec10684180b601eed6eb05c7b77a7f63cdc981702105d58",
+      "date": "2026-10-02",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual physical Android",
+      "scope": "Qualified50/90/native PCM phases; retain prior failed receipts",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding",
+      "observedProducerHashes": {
+        "producerSha256": "96ba6d390633e3e18f5c802c53cb9f6e7911000cc7d540b70b6c796ad582659d",
+        "commonSha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286"
+      }
+    },
+    "Q2App": {
+      "path": "qa/q1-q2-app-integration/native-retirement-smoke-results.json",
+      "sha256": "6d627e3a9690f2e1a8f8cbf4d26fe5b64df45ab208a59a5c294808840be7ae56",
+      "date": "2026-09-30",
+      "source": "Historical product hashes before/after in receipt; not a rc35 replay",
+      "type": "controlled native actual-app",
+      "scope": "Automatic AC3/EAC3 Q2 seek/end/frame/retirement, native AAC/WebM and drift discrimination",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producer hashes before/after",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerStart",
+          "canonicalPowerShellJsonSha256": "36d25f7b3f27db43b44a17a5b4f551b80e6c17530768f69b9ec88cd7cba9cfa5"
+        },
+        {
+          "jsonPointer": "/producerEnd",
+          "canonicalPowerShellJsonSha256": "36d25f7b3f27db43b44a17a5b4f551b80e6c17530768f69b9ec88cd7cba9cfa5"
+        }
+      ]
+    },
+    "Q2Oracle": {
+      "path": "qa/q2-general-product-integration/oracle-ac3-results.json",
+      "sha256": "d077812e88d25e399968cfe264c4cee546090c37105c66e2639e857e78501df3",
+      "date": "2026-09-29",
+      "source": "Historical source/fixture manifest bound oracle",
+      "type": "independent synthetic encoded/decoded oracle",
+      "scope": "Exact AVC packets/config/pixels/clocks plus transformed audio; no bit-perfect audio claim",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /evidence-manifest.json"
+    },
+    "Q3PC": {
+      "path": "qa/q3-actual-preparation/q3-cua1-pc-finite-qualification-safe.json",
+      "sha256": "48fb37c7012ebb07d6b7563aed7c374180b936bd719487a0ac4973d33f4cf31e",
+      "date": "2026-10-02",
+      "source": "5174485b3c17d047259701bbdd889f9b0740f555/rc33",
+      "type": "actual PC + offline receipt join",
+      "scope": "Same fixture/version/account separate lifetimes; startup50/90 +active cancel; original complete:false preserved",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /input hashes"
+    },
+    "Q3Android": {
+      "path": "qa/q3-actual-preparation/q3-cua5-android-finite-qualification-safe.json",
+      "sha256": "d39e9e62c52466c900d6d3e80b30472a5849716cfebc88d9e03a457ed3499a52",
+      "date": "2026-10-02",
+      "source": "5174485b3c17d047259701bbdd889f9b0740f555/rc33",
+      "type": "actual physical Android + offline qualification",
+      "scope": "Same fixture startup50/90/active cancel/source metadata/cleanup",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /input hashes"
+    },
+    "Q3End34": {
+      "path": "qa/q3-read-coalescing-acceptance/actual-android-read512-c1-summary-safe.json",
+      "sha256": "db83ec7e65cacc6c7970d677e321777c2a73a9b39b75eb570850aa30673f91f7",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual physical Android",
+      "scope": "180s1x/5400pipeline/native ended property/source+MSE completed/cleanup; strict trusted-ended helper remains failed",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /receipt/producer links"
+    },
+    "Images34": {
+      "path": "memory/CANDIDATE-RC34-20261002.md",
+      "sha256": "fdf2aa29fc3ee080717a4d8c77fcb3b044e12b16ff9fe19591f26bfec5d73ed2",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "current evidence owner",
+      "scope": "Exact image result paths and controlled proof reuse; no general image-quality claim",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: lines24-81"
+    },
+    "GIF34": {
+      "path": "qa/pc-representative-images/actual-pc-gif-rc34-c3-safe.json",
+      "sha256": "9875634deb0ccc3f4849f0a275561e80d81cea0675fbf02e144fb412eed8ce0f",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "GIFCard34": {
+      "path": "qa/pc-representative-images/actual-pc-gif-card-rc34-c5-safe.json",
+      "sha256": "7a953655b27e5a0a7b1f1033aa65fe663979e5e9d17f7908cb5a54a1bd8ebe02",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "WebP34": {
+      "path": "qa/pc-representative-images/actual-pc-webp-rc34-c3-safe.json",
+      "sha256": "00d9a1719e936a9a9d598dc69bd6dfc5a6acfcd40c60cada3c8ea7057dcea0d2",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "PNG34": {
+      "path": "qa/pc-representative-images/actual-pc-large-still-rc34-c4-safe.json",
+      "sha256": "154e4d1b305d07ccb63fb5e1c50973649a29c46a97ef37c3cdff37c132eec9dc",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "JPEG34": {
+      "path": "qa/pc-representative-images/actual-pc-jpeg-rc34-c1-safe.json",
+      "sha256": "001c3cb88fb0c7991b3e338c755e364622a63159d6899dec9a5ced25b5ff5672",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "ImageOracle34": {
+      "path": "qa/pc-representative-images/actual-encoded-oracle-rc34-c1-safe.json",
+      "sha256": "941d1d29fdf25b34c0fde42ea35fed0cce98d31c5f92b6d656000563ab8c0b7f",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC + bounded encoded oracle where applicable",
+      "scope": "Normal original image viewer/list/two lifetimes/corrected native crops/tuple/cleanup; opaque GIF/WebP",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer hashes"
+    },
+    "Alpha18": {
+      "path": "qa/rc18-webp-card/results.json",
+      "sha256": "b64fd18de096424b879977c7ac2b6c07b195a38eb031564d00a4b3dbaec3dd50",
+      "date": "2026-09-30",
+      "source": "Historical rc18 exact producers in result",
+      "type": "controlled native actual-app",
+      "scope": "Alpha-hole GIF/WebP96x64 delay250/750 loop0/static card/viewer/close-reopen",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producer provenance",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerStart",
+          "canonicalPowerShellJsonSha256": "d3d56f2ff53adcbb259109d295975e0a91af94e8351afcd237677bb125f3f315"
+        },
+        {
+          "jsonPointer": "/producerEnd",
+          "canonicalPowerShellJsonSha256": "d3d56f2ff53adcbb259109d295975e0a91af94e8351afcd237677bb125f3f315"
+        }
+      ],
+      "observedProducerHashes": {
+        "driverSha256": "92079bcd03d0b03c98b4050f27b3ca68c3ebc5e906fa022e0a450dda4fb5f42d"
+      }
+    },
+    "Image16": {
+      "path": "qa/rc16-image-format/results.json",
+      "sha256": "4b6d8c364bd3222d721874a6f2badb12cc12d98c9bfb383e65266429188d83b4",
+      "date": "2026-09-30",
+      "source": "Historical rc16",
+      "type": "controlled native actual-app",
+      "scope": "Reuse only valid BMP/large PNG/alpha branches;7/8 aggregate and historical failures retained",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producer provenance",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerStart",
+          "canonicalPowerShellJsonSha256": "f5038590bb639d4a0d5d8f3c7fbfd4ce42810a767d15c301c0472c4ef6b1a81b"
+        },
+        {
+          "jsonPointer": "/producerEnd",
+          "canonicalPowerShellJsonSha256": "f5038590bb639d4a0d5d8f3c7fbfd4ce42810a767d15c301c0472c4ef6b1a81b"
+        }
+      ],
+      "observedProducerHashes": {
+        "driverSha256": "aff07f1b2398fa571b51231ba5d28203797c6a8fccefbcb8f3f23ab5858e5c8a"
+      }
+    },
+    "WrongMime20": {
+      "path": "qa/rc20-image-owner-dispatch/post-review-results.json",
+      "sha256": "121b898bb3f507211992eae97b0be15cbf9de933177a50fe9971967aa247a0f9",
+      "date": "2026-09-30",
+      "source": "Historical rc20",
+      "type": "controlled native actual-app",
+      "scope": "Reuse passing wrong-major-MIME image-owner branches only; failed aggregate retained",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producer provenance",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerStart",
+          "canonicalPowerShellJsonSha256": "0f83aba387bddd681cb1a8ef6db603873012784bcd3fe7fa00da2db06aa25600"
+        },
+        {
+          "jsonPointer": "/producerEnd",
+          "canonicalPowerShellJsonSha256": "0f83aba387bddd681cb1a8ef6db603873012784bcd3fe7fa00da2db06aa25600"
+        }
+      ],
+      "observedProducerHashes": {
+        "driverSha256": "cafbff63429e8fdbf3327267bc32d26c21bc7678d15e10c1b33248d294915bdd"
+      }
+    },
+    "Session34": {
+      "path": "qa/q3-actual-preparation/actual-pc-session-reconnect-rc34-safe.json",
+      "sha256": "da4aae3aab7c4adc2bb57c88a26ab3b3fdbb0cf3a88aa0df8db8bad3cfe6a83a",
+      "date": "2026-10-02",
+      "source": "09c61bdc1438df24e4213e348caea745823b5ee1/rc34",
+      "type": "actual PC normal existing-account flow",
+      "scope": "Logout/reconnect sameaccount/fullprojection60favorites170viewed/cleanup; late truncated trace not absence/scope proof",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /sourceCommit"
+    },
+    "CorpusBound": {
+      "path": "qa/rc32-corpus-owner-epoch/pc-epoch2-finalization-safe.json",
+      "sha256": "3241607b15f2e020cf77a1da7e51eee4358b68af0c16dd534fd26db6d5735509",
+      "date": "2026-10-02",
+      "source": "1d79897fd32c569137cab079bfd93107be2ee33f/rc32",
+      "type": "actual bounded corpus finalization",
+      "scope": "8596inventory;128consumed123classified5unknown8468unattempted; disposed owner; no new fullscan prerequisite",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and provenance.epoch-2.json"
+    },
+    "TracksLocal": {
+      "path": "qa/player-track-selection/summary.json",
+      "sha256": "915b04c99020f3e399ee72ebd8e211b6a057ab666961f5e5badefd820e5026e5",
+      "date": "2026-10-02",
+      "source": "Local product producer hashes in each case; candidate35 binding is separate",
+      "type": "controlled native actual-app",
+      "scope": "9 unique cases, selected audio/subtitle/stale-owner/retry/close/shorts; generated6sAAC/tx3g; physical Android PENDING",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /cases/*/producerHashes",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/cases/0/producerHashes",
+          "canonicalPowerShellJsonSha256": "7fed3cc92bde13edaf8945603c39ee7edebac09c2b6a54961ef7482f38f38076"
+        },
+        {
+          "jsonPointer": "/cases/1/producerHashes",
+          "canonicalPowerShellJsonSha256": "36a5f2d1fda2aca11688742d36fc35159778a15a22a785952481324bf9666e95"
+        },
+        {
+          "jsonPointer": "/cases/2/producerHashes",
+          "canonicalPowerShellJsonSha256": "7fed3cc92bde13edaf8945603c39ee7edebac09c2b6a54961ef7482f38f38076"
+        },
+        {
+          "jsonPointer": "/cases/3/producerHashes",
+          "canonicalPowerShellJsonSha256": "25f7f772eaee33030b161fa6facb9cc3acb575f7bf0d3e23ae6dd9cdf8921d2a"
+        },
+        {
+          "jsonPointer": "/cases/4/producerHashes",
+          "canonicalPowerShellJsonSha256": "25f7f772eaee33030b161fa6facb9cc3acb575f7bf0d3e23ae6dd9cdf8921d2a"
+        },
+        {
+          "jsonPointer": "/cases/5/producerHashes",
+          "canonicalPowerShellJsonSha256": "7fed3cc92bde13edaf8945603c39ee7edebac09c2b6a54961ef7482f38f38076"
+        },
+        {
+          "jsonPointer": "/cases/6/producerHashes",
+          "canonicalPowerShellJsonSha256": "25f7f772eaee33030b161fa6facb9cc3acb575f7bf0d3e23ae6dd9cdf8921d2a"
+        },
+        {
+          "jsonPointer": "/cases/7/producerHashes",
+          "canonicalPowerShellJsonSha256": "1a6f8b2c289c91b5884dc18776784d83b034e4d39390818448600290d6b36f4e"
+        },
+        {
+          "jsonPointer": "/cases/8/producerHashes",
+          "canonicalPowerShellJsonSha256": "36a5f2d1fda2aca11688742d36fc35159778a15a22a785952481324bf9666e95"
+        }
+      ]
+    },
+    "Q2SelectionLocal": {
+      "path": "qa/player-track-selection/q2-summary.json",
+      "sha256": "4a23d354251ad2a7dbbf13359f02caa9f45e0edb8b9b50135f513ae8085b4a29",
+      "date": "2026-10-02",
+      "source": "Local exact producerStart/producerEnd",
+      "type": "controlled native actual-app + packet oracle",
+      "scope": "Selected EAC3 stereo48k Q2; AVC packets/rational clocks exact; AC3 not separately selected",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producerStart and /producerEnd",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerStart",
+          "canonicalPowerShellJsonSha256": "dc6c601fccfe34476f947029ab464450a4603fb0eaa7bbd81404cb6b20a04881"
+        },
+        {
+          "jsonPointer": "/producerEnd",
+          "canonicalPowerShellJsonSha256": "dc6c601fccfe34476f947029ab464450a4603fb0eaa7bbd81404cb6b20a04881"
+        }
+      ]
+    },
+    "RotationVFR": {
+      "path": "qa/fm05-controlled-diagnostic/summary.json",
+      "sha256": "98262be02aecff75fae89e8fec90ce39eeb23337f86f8f83b20c83f198e6c10f",
+      "date": "2026-10-02",
+      "source": "Historical exact app/worker producer maps in diagnostic",
+      "type": "controlled native actual-app",
+      "scope": "Reuse rotation and VFR supported-pass branches only; historical multi-audio/subtitle unsupported superseded by TracksLocal",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /app producer binding"
+    },
+    "EndpointLocal": {
+      "path": "qa/player-track-endpoint/summary.json",
+      "sha256": "c3acf6f2f4ecc022b50b5ac543c7a72da81e54dc52604c265d17564c4f2b2b64",
+      "date": "2026-10-02",
+      "source": "Local exact producerBefore/producerAfter",
+      "type": "controlled native actual-app + independent packet/YUV oracle",
+      "scope": "Functional endpoint passes; strict canvas RGBA major delta retained with absent colr/SPS signal flag0; no guessed metadata",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /producerBefore and /producerAfter",
+      "observedProducerMaps": [
+        {
+          "jsonPointer": "/producerBefore",
+          "canonicalPowerShellJsonSha256": "91c84bcad385e2941255cc5c0f8c55a598f113b59439aac6144ab67747f7041e"
+        },
+        {
+          "jsonPointer": "/producerAfter",
+          "canonicalPowerShellJsonSha256": "a14da6455d4adb4cd067f960631851e5bb8e6563a4b7aeb0b0423c34a898f55c"
+        }
+      ]
+    },
+    "Perf31": {
+      "path": "qa/rc31-resume-20261001/actual-pc-full30-performance-safe.json",
+      "sha256": "af79f1a3b33493b04afd04372513ed5f8ca8d7fd7ae445568fd25415e85c85d5",
+      "date": "2026-10-01",
+      "source": "4a484e6f839d2e6c3eb83503acb08147362cb011/rc31",
+      "type": "actual PC historical performance",
+      "scope": "20startup10pausedseek29target/1timeout0unattempted; MOVsample6 exact mapping unavailable; never substituted",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding"
+    },
+    "Delivery35": {
+      "path": "qa/candidate-rc35-delivery/source-readiness.json",
+      "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c",
+      "date": "2026-10-02",
+      "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34/rc35",
+      "type": "candidate deployed source/public/cache/offline proof",
+      "scope": "64public49cache6private404/offline0errors; candidate only",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /sourceCommit and producer/readback links",
+      "observedProducerHashes": {
+        "producerSha256": "09dcbcbf2a54d4c79570518f3f87450a5293fe2162fd4b8196dbac991dbfacba"
+      }
+    },
+    "PCUpdate35": {
+      "path": "qa/candidate-rc35-delivery/pc-normal-update-source-cache-result.json",
+      "sha256": "ae760e37c6e7747fff3e8621841a6ef587b5cf125009879ce9def6144e0ec250",
+      "date": "2026-10-02",
+      "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34/rc35",
+      "type": "actual PC normal update",
+      "scope": "Sameaccount/accountkey/writer/fullprojection/privatecache preserved; no Android affected proof inferred",
+      "rootAdopted": false,
+      "producerBindingLocator": "Evidence-owner locator description, not verified JSON Pointer: /binding and producer proof",
+      "observedProducerHashes": {
+        "producerSha256": "a8c354de9d7a45b32d5a8c6d43975bdd4b3a7d8f5905fa95dc1ec9c08fb40807"
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "QA-TR-01",
+      "original": {
+        "scenario": "큰 정상 MP4, cold cache",
+        "expected": "전체 다운로드 전 Q0 first frame, 정상 진행",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1695,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "partial-byte-before-frame-qualified-cold-condition-unresolved",
+      "evidence": [
+        "P29",
+        "Q0Byte"
+      ],
+      "exactNeededQualification": [
+        "Original TR01 condition is large normalMP4+coldcache, not merely before-whole-file frame.4,607,107,537B Q0 frame/progress and conservative complete upstream envelope are qualified.",
+        "Receipt proves observed upstream GET responses not cache-served; observer arm rejects activeQ0/Q1/mediaBlobUrl/pendingOriginalBuffer/pendingPlay/mediaTransportStarted. It does not separately attest exact selected-media browser/nativeRAM/OPFS cache lineage. sourceCachePinsMatched is public app/SW shell identity, not coldmedia proof.",
+        "Retain cold selected-media condition UNKNOWN until root establishes fresh selected media path/cache provenance using existing captured facts or a distinct bounded condition. No broadbrowsercache erasure requirement invented.",
+        "Historical TR01FiniteScopePassed remains an unchanged receipt assertion and cannot silently expand into full original-row coldcachePASS."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-02",
+      "original": {
+        "scenario": "tail-index MP4/MOV",
+        "expected": "뒤쪽 index 접근 가능, 불필요한 전량 선다운로드 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1696,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled-native",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-controlled-functional-qualified",
+      "evidence": [
+        "P29",
+        "Tail33"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-03",
+      "original": {
+        "scenario": "같은 파일 10/50/90% seek",
+        "expected": "위치·영상·음성 정상, 이전 seek 작업 정리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1697,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-designated-target-qualified",
+      "evidence": [
+        "P29",
+        "PCSeek32",
+        "PCTail32",
+        "Android10PCM32",
+        "Android509032",
+        "AndroidTS32"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-04",
+      "original": {
+        "scenario": "`0-1`, 열린 범위, suffix, 끝바이트",
+        "expected": "상태·헤더·본문 정합성",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1698,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-05",
+      "original": {
+        "scenario": "유효 부분 206 / 잘못된 206 / 416",
+        "expected": "유효 응답 허용, 잘못된 바이트 fail closed, 무한 재시도 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1699,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-06",
+      "original": {
+        "scenario": "Range에 upstream 200",
+        "expected": "가짜 범위 응답 없이 사실대로 처리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1700,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-07",
+      "original": {
+        "scenario": "2 GiB·4 GiB 이상 size/offset",
+        "expected": "overflow·부호 전환·메모리 전량 할당 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1701,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-08",
+      "original": {
+        "scenario": "헤더 무응답/첫바이트 지연/body stall",
+        "expected": "구분된 watchdog, 유한 복구, 취소 가능",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1702,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-09",
+      "original": {
+        "scenario": "닫기·다른 영상·빠른 seek",
+        "expected": "이전 응답이 새 media state를 변경하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1703,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-10",
+      "original": {
+        "scenario": "재생 중 source 변경",
+        "expected": "cache 혼합 금지, 변경 복구",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1704,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Adopted Q0/native/full-original/Q1/Q2 controlled source-change ledger. Successful newest-version playback after user reopen is not inferred or added to the original no-mix/safe-recovery criterion.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-11",
+      "original": {
+        "scenario": "제한 cache/quota",
+        "expected": "비호환 코덱으로 오판하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1705,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-TR-12",
+      "original": {
+        "scenario": "충분히 긴 실제 재생",
+        "expected": "만료 경계 이후 Range/seek·화면 복귀 정상",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1706,
+        "baselineStatus": "blocked"
+      },
+      "originalStatus": "blocked",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28",
+        "RenewalSeekAndroid28",
+        "HomeAndroid28"
+      ],
+      "frozenScope": "Actual PC+Android natural66→67, post-expiry frames/later seek and genuine30s OS Home/return complementary saved clauses; unchanged auth/retirement.",
+      "frozenLimits": "No invented combined expiry-during-background requirement or source32 renewal rerun claim.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28",
+        "RenewalSeekAndroid28",
+        "HomeAndroid28"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-01",
+      "original": {
+        "scenario": "11개 확장자와 실제 codec 조합",
+        "expected": "inventory 누락 없음, 조합별 Q 경로와 검증 상태",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1712,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "bounded-inventory-status-qualified-with-unknowns",
+      "evidence": [
+        "P29",
+        "CorpusBound"
+      ],
+      "exactNeededQualification": [
+        "No full corpus pass. Keep11extension/actual-config route and validation-status matrix, including UNKNOWN/failed/unattempted. Feasible approved budget accepted; no8596probe prerequisite."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-02",
+      "original": {
+        "scenario": "영상/음성은 지원, container만 미지원",
+        "expected": "Q1, 불필요한 영상 변환 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1713,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-designated-Q1-qualified",
+      "evidence": [
+        "P29",
+        "PCSeek32",
+        "PCTail32",
+        "Android509032",
+        "AndroidTS32"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-03",
+      "original": {
+        "scenario": "영상 지원·음성 비호환",
+        "expected": "Q2, 영상 재인코딩 없음·정상 음성",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1714,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "conditional-actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-controlled-Q2-qualified-actual-applicability-unknown",
+      "evidence": [
+        "P29",
+        "Q2App",
+        "Q2Oracle"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-04",
+      "original": {
+        "scenario": "원본 영상 codec 미지원",
+        "expected": "승인된 브라우저/서비스 자원 내 실제 경로·필요 Q3 검증. native 비교를 앱 인수로 계산하지 않음; 미확보 지원은 미완료로 기록",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1715,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "conditional-product",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-Q3-functional-qualified-broader-claims-open",
+      "evidence": [
+        "P29",
+        "Q3PC",
+        "Q3Android",
+        "Q3End34"
+      ],
+      "exactNeededQualification": [
+        "Finite actual sustained endpoint does not require trustedended event; retain failed strict helper receipt.",
+        "Native/GPU totalheap, fullquality/cadence and adopted performance distribution remain UNKNOWN."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-05",
+      "original": {
+        "scenario": "다중 음성·무음·자막·회전·VFR",
+        "expected": "선택과 타이밍·화면비 정상",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1716,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "conditional-actual-or-controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "local-controlled-qualified-affected-Android-failed-not-adopted",
+      "evidence": [
+        "P29",
+        "TracksLocal",
+        "Q2SelectionLocal",
+        "RotationVFR",
+        "EndpointLocal"
+      ],
+      "exactNeededQualification": [
+        "Physical Android affectedfeature proof FAILED/NOTADOPTED: three boundedAAC3 attempts interrupted by actualSWreplacement before target. Preserve localproof; no currentphysicalfeature pass.",
+        "Local controlled producer scope must remain distinct from deployedrc35/actualaccount proof.",
+        "Preserve generated6s AAC/tx3g and selected EAC3 limits; no bitmap/styled subtitle/alltracks/allformats inference."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-06",
+      "original": {
+        "scenario": "실제 HDR/고비트심도 파일 존재 시",
+        "expected": "보존 또는 필요한 변환 명시, SDR을 원본 HDR로 라벨링하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1717,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "conditional-actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "conditional-unknown-no-N-A",
+      "evidence": [
+        "P29",
+        "EndpointLocal"
+      ],
+      "exactNeededQualification": [
+        "Actual HDR/highdepth applicability UNKNOWN, not N/A. If discovered or support claimed, verify preservation or explicit needed transform label.",
+        "Encoded AVC/SPS/colr absence preserved; significant native file-versus-MSE RGBA mismatch remains major/unknown. No full displayed-quality adoption from YUV/packet identity."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-07",
+      "original": {
+        "scenario": "GIF·animated WebP",
+        "expected": "목록 정지, 실제 viewer 애니메이션·alpha·시간 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1718,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-actual-plus-controlled-qualified",
+      "evidence": [
+        "P29",
+        "GIF34",
+        "GIFCard34",
+        "WebP34",
+        "ImageOracle34",
+        "Alpha18"
+      ],
+      "exactNeededQualification": [
+        "Actual samples opaque; alpha/delay/loop rely on explicit controlled proofs. No helper-added physical timestamps or naturalalpha discovery requirement."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-08",
+      "original": {
+        "scenario": "큰 PNG/JPEG/BMP·잘못된 MIME",
+        "expected": "원본 표시/안전 변환, 파일 누락·iframe 영상 fallback 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1719,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual-and-controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-actual-plus-controlled-qualified-actual-BMP-unknown",
+      "evidence": [
+        "P29",
+        "PNG34",
+        "JPEG34",
+        "Image16",
+        "WrongMime20",
+        "Images34"
+      ],
+      "exactNeededQualification": [
+        "Actual BMP remains UNKNOWN; valid controlled BMP/large/wrongMIME branches retained, not aggregate failures promoted."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-09",
+      "original": {
+        "scenario": "손상 또는 불완전 파일",
+        "expected": "원인 분류, 전체 앱 오류/무한 작업 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1720,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Controlled malformed-source acceptance only. Real-corpus coverage is FM01/G5 and cannot be inferred. Original FM09 does not require deliberate real private media corruption.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-FM-10",
+      "original": {
+        "scenario": "파생 HLS 90% seek",
+        "expected": "처음부터 생성 대기 없이 올바른 timeline 접근",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1721,
+        "baselineStatus": "not-applicable"
+      },
+      "originalStatus": "not-applicable",
+      "frozenProposal": "N",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "not-selected-architecture",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "retain-unselected-architecture-exclusion",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [
+        "Derived HLS unselected; reopen if adopted.; architecture exclusion does not classify unknown formats."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-01",
+      "original": {
+        "scenario": "실제 토큰 만료 전후",
+        "expected": "선택한 정상 갱신/명시 재연결, 목록·위치 유지",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1727,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P28",
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "frozenScope": "Actual normal natural-expiry renewal/selection/state retention branch; unchanged source32 credential functions.",
+      "frozenLimits": "Actual Google grant revocation is not credited.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P28",
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-02",
+      "original": {
+        "scenario": "동시 401 다수",
+        "expected": "계정별 한 번의 갱신, 유한 재시도",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1728,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-03",
+      "original": {
+        "scenario": "늦은 401·같은 문자열 새 revision",
+        "expected": "새 credential이 삭제되지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1729,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-04",
+      "original": {
+        "scenario": "실제/가상 다른 계정 선택",
+        "expected": "이전 파일·쓰기·state 격리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1730,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Original1730 explicitly 실제/가상. Real other-account selection is optional branch, not an added requirement.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-05",
+      "original": {
+        "scenario": "권한·scope·quota·network 오류",
+        "expected": "서로 다른 원인으로 처리, 불필요한 logout 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1731,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-06",
+      "original": {
+        "scenario": "third-party cookies blocked",
+        "expected": "앱 원본/파생 경로 정상, Google iframe에 의존하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1732,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "Cookie31",
+        "P31"
+      ],
+      "frozenScope": "Actual31 dedicated-page blocked-third-party-cookie Q1 original-byte+derived playback; no Google iframe.",
+      "frozenLimits": "Q0 cookie coverage UNKNOWN; dormant preview and independent worker override limits retained.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "Cookie31",
+        "P31"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-07",
+      "original": {
+        "scenario": "팝업 취소·콜백 누락·state 오류",
+        "expected": "한 번의 안전한 실패·재시도 가능, 기존 데이터 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1733,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-08",
+      "original": {
+        "scenario": "refresh 응답에 token 필드 일부 없음",
+        "expected": "기존 refresh token 보존, 불완전 응답 분류",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1734,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-09",
+      "original": {
+        "scenario": "브로커 재시작/세션 갱신",
+        "expected": "안전한 세션 복구 또는 명확한 재연결",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1735,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-AU-10",
+      "original": {
+        "scenario": "새 origin/OAuth client 이관",
+        "expected": "기존 state count·tombstone·writer identity 보존 또는 계획된 이관",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1736,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "frozenScope": "Accepted point-in-time full state/candidate-origin/client binding and empty-cache reconstruction; unchanged32 union/auth and actual32 preservation.",
+      "frozenLimits": "Later playback/projection changes do not invalidate completed snapshots; no new grant/client proof invented.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-ST-01",
+      "original": {
+        "scenario": "두 기기 계속 foreground",
+        "expected": "양방향 like/unlike/viewed 수신, 수동 reload/refocus 불필요",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1737,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual PC+physicalAndroid foreground23 proof, exact current state behavior",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-ST-02",
+      "original": {
+        "scenario": "offline edit → 재연결",
+        "expected": "offline 동안 원격 불변, 이후 안전 병합",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1738,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-ST-03",
+      "original": {
+        "scenario": "실패한 영상 open",
+        "expected": "시청 성공 기록으로 잘못 확정되는지 검사, STATE-07 정책 적용",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1739,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-01",
+      "original": {
+        "scenario": "승인된 테스트 파일 휴지통 이동",
+        "expected": "동일 ID의 remote `trashed` 확인",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1745,
+        "baselineStatus": "blocked"
+      },
+      "originalStatus": "blocked",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "frozenScope": "Actual31 ordinary exact2 trash with same-ID fresh API postconditions.",
+      "frozenLimits": "Initial version/admission failures retained; generic writes remain disabled.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-02",
+      "original": {
+        "scenario": "승인된 폴더 이동",
+        "expected": "실제 parents 확인, 요청값 추정 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1746,
+        "baselineStatus": "blocked"
+      },
+      "originalStatus": "blocked",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "frozenScope": "Actual31 ordinary exact2 A→B move with fresh parents, restore toA.",
+      "frozenLimits": "Only approved task-created targets; no original writes.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "Disposable31",
+        "DisposableRecord"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-03",
+      "original": {
+        "scenario": "응답 손실 뒤 remote commit",
+        "expected": "readback으로 confirmed, 중복 위험 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1747,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-04",
+      "original": {
+        "scenario": "요청 전 실패",
+        "expected": "원격 불변, 적합한 failed/pending 처리",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1748,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-05",
+      "original": {
+        "scenario": "부분 성공 뒤 만료·계정 전환",
+        "expected": "파일별 결과 보존, 새 계정 재실행 금지",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1749,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-06",
+      "original": {
+        "scenario": "중복 operationId·payload 변경",
+        "expected": "같은 작업 결과 재사용 또는 충돌 거부",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1750,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-07",
+      "original": {
+        "scenario": "동명 파일·shortcut·공유 드라이브",
+        "expected": "대상 ID/의도 정확, 잘못된 파일 수정 0",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1751,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-08",
+      "original": {
+        "scenario": "readback 404·권한 변화",
+        "expected": "삭제 성공으로 단정하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1752,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-09",
+      "original": {
+        "scenario": "Drive API·웹·G: 비교",
+        "expected": "클라우드 상태와 desktop sync 지연 구별",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1753,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "Disposable31",
+        "GMoved31",
+        "GTrashed31",
+        "GRestored31",
+        "GCleaned31"
+      ],
+      "frozenScope": "Actual31 API+web same IDs/state and G: unique path/74B/MD5 movement/trash/restore/final absence.",
+      "frozenLimits": "G direct cloud ID UNKNOWN, not an original comparison prerequisite; no zero-sync-lag claim.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "Disposable31",
+        "GMoved31",
+        "GTrashed31",
+        "GRestored31",
+        "GCleaned31"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-MU-10",
+      "original": {
+        "scenario": "복구·잔여 test data",
+        "expected": "승인된 pre-state로 복원, 영구 삭제 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1754,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "Disposable31",
+        "Closure31"
+      ],
+      "frozenScope": "Actual31 exact2 restoration then approved recoverable exact4 final cleanup; stable13GET final postconditions.",
+      "frozenLimits": "Exact task-created targets only, protected recovery remains root-owned; no permanent delete.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "Disposable31",
+        "Closure31"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-01",
+      "original": {
+        "scenario": "playing/paused/loaded/seeked",
+        "expected": "상태만으로 chrome reveal 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1760,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "saved controlled/native lifecycle owner plus actual current28 pause/seek state + unchanged29 chrome",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-02",
+      "original": {
+        "scenario": "PC 중앙 움직임 / 하단 진입·이탈",
+        "expected": "중앙 hidden, 하단 reveal, 이탈 후 hide",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1761,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Finite PC clause satisfied; no new Android clause added to this PC row.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-03",
+      "original": {
+        "scenario": "모바일 하단 터치·바깥 dismiss",
+        "expected": "필요한 controls 접근, 화면 방해 최소",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1762,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "UI29"
+      ],
+      "frozenScope": "Actual29 Android playing portrait/landscape and paused bottom reveal/outside-dismiss; exact unchanged32 chrome4+CSS.",
+      "frozenLimits": "Native OS injected tablet input; not human-finger/phone/iOS proof.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "UI29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-04",
+      "original": {
+        "scenario": "fallback/오류/외부 열기 경로",
+        "expected": "닫을 수 없는 별도 아일랜드 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1763,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Saved finite owner/dismissibility proof plus current source inspection. Actual exhausted network induction/physical external-action matrix is not an extra clause in original1763.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-05",
+      "original": {
+        "scenario": "버튼 click 후 Space / Tab button Space",
+        "expected": "각각 playback / native button 동작, 중복 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1764,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Finite trusted browser keyboard clauses satisfied; G5 current device-wide focus remains separately owned.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-06",
+      "original": {
+        "scenario": "VoiceOver·keyboard 진입",
+        "expected": "숨긴 controls에 갇히지 않고 명시 reveal 가능",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1765,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "original explicit keyboard-entry branch saved; VoiceOver user-deferred",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-07",
+      "original": {
+        "scenario": "long press·이동·다중 touch",
+        "expected": "selection/drag/menu 충돌 없이 취소·완료",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1766,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual Android stationaryhold/movement + native OS two contacts/cancel",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-08",
+      "original": {
+        "scenario": "edge back·interior swipe·취소·재입력",
+        "expected": "입력 하나의 owner 하나, ghost/중복 탐색 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1767,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "saved native edge plus current native interior threshold/cancel/reentry",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-09",
+      "original": {
+        "scenario": "세로/가로/fullscreen·native fullscreen",
+        "expected": "safe area·close·seek 접근, 실제 OS 한계 명시",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1768,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual Android28 portrait/OS-landscape/browserfullscreen explicitexit, current29 geometry controlled review",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-UI-10",
+      "original": {
+        "scenario": "정상 sync·원본 준비",
+        "expected": "내부 장문 설명·반복 toast·영구 badge 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1769,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "UI29",
+        "PCQuiet29",
+        "A29"
+      ],
+      "frozenScope": "Actual29 PC/Android preparation and ordinary canonical PATCH200/lastSync with quiet DOM; unchanged32 sync/loading/chrome/CSS.",
+      "frozenLimits": "Bounded normal windows, not all future writes. No extra perpetual UX requirement.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "UI29",
+        "PCQuiet29",
+        "A29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-LF-01",
+      "original": {
+        "scenario": "50회 전환·seek·close",
+        "expected": "decoder/job/listener/버퍼 누적 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1770,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29",
+        "AndroidTS32"
+      ],
+      "frozenScope": "Dated native50 plus changed-layer controlled50, unchanged retirement32, new local cache/epoch/dispose checks and actual32 zero-retained close.",
+      "frozenLimits": "Root reported final742; no new product test rerun/native50/process-memory measurement. Current cache mechanism is not universal latency gain.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29",
+        "AndroidTS32"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SE-01",
+      "original": {
+        "scenario": "임의 fileId·타 계정·path/URL 주입",
+        "expected": "권한 밖 자원 접근 거부",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1771,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SE-02",
+      "original": {
+        "scenario": "로그·public build·process args",
+        "expected": "credential/개인 원본 노출 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1772,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Original owned logging/public-build/process-argv clauses supported by exact source diagnostic redaction tests reused in665, actual owned logs/traces/issuesoff, Git-equal public52/ZIP/private exclusion, and exact candidate deployment public-path argv. No all-history/provider-infrastructure retention claim.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SE-03",
+      "original": {
+        "scenario": "malformed media·storage full",
+        "expected": "제한된 실패, 원본·다른 앱 cache 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1773,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "C",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "controlled",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-dated-controlled-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SW-01",
+      "original": {
+        "scenario": "old/new shell·worker·offline reload",
+        "expected": "호환성 또는 안전한 버전 갱신, API/미디어 캐시 혼입 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1774,
+        "baselineStatus": "passed"
+      },
+      "originalStatus": "passed",
+      "frozenProposal": "S",
+      "frozenEvidence": [
+        "P29",
+        "Delivery32",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "frozenScope": "Restored candidate safe-version/offline contract plus actual32 PC+Android normal update/full-state/cache preservation.",
+      "frozenLimits": "Six failed active replacement aggregates retained. Executing worker script hash unknown; closed-player update is not active-media recovery.",
+      "proposedFiniteStatus": "reuse-restored-contract-plus-candidate35-update",
+      "evidence": [
+        "P29",
+        "Delivery32",
+        "PCUpdate32",
+        "AndroidUpdate32",
+        "Delivery35",
+        "PCUpdate35"
+      ],
+      "exactNeededQualification": [
+        "PC35 normalupdate qualified; Android affectedfeature attempts encountered actualSWreplacement and remainFAILED/NOTADOPTED. Candidate delivery/cache proof is not actualAndroid feature or production acceptance."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-RP-01",
+      "original": {
+        "scenario": "지정 MP4의 같은 실제 ID·버전, PC/iPhone Chrome 탭/PWA 및 Safari 비교",
+        "expected": "최초 실패 계층·선택 경로·first frame/진행·audio/seek·close를 기록. iframe 진입을 성공으로 계산하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1789,
+        "baselineStatus": "blocked"
+      },
+      "originalStatus": "blocked",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual-specific-file-PC-Android",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-designated-PC-Android-qualified-iOS-deferred",
+      "evidence": [
+        "P29",
+        "PCSeek32",
+        "PCTail32",
+        "Android10PCM32",
+        "Android509032",
+        "AndroidTS32"
+      ],
+      "exactNeededQualification": [
+        "iPhoneChrome/PWA/Safari comparison user-deferred underD066; Android substitutes current predeployment unit.",
+        "Physicalspeaker/fullaudiofidelity unknown; native PCM is nativeelement output proof."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-01",
+      "original": {
+        "scenario": "B-auth session과 Google access token 수명 분리",
+        "expected": "access 만료가 앱 상태 삭제로 이어지지 않음. 실제 갱신/철회·재연결 확인",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1790,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "O",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "actual normal renewal/state retention; controlled terminal invalidgrant/revoked-session + reconnect",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "finite-actual-renewal-reconnect-qualified",
+      "evidence": [
+        "P29",
+        "Session34",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "exactNeededQualification": [
+        "Supplemental late CDPtrace is truncated; absence of events or empty scope is not proof. Existing session recovery stands independently."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-02",
+      "original": {
+        "scenario": "두 기기·동시 요청·서버리스 여러 실행 인스턴스",
+        "expected": "실제 single-flight 또는 동등한 안전 조정, revision 원자성·기존 refresh token 보존",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1791,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "frozenScope": "Actual two devices overlapping credential calls same66→67 plus unchanged Durable owner/atomic revision/refresh-preservation controlled proofs.",
+      "frozenLimits": "Equivalent safe coordination criterion; provider execution count and serverless instance IDs UNKNOWN, not extra mandatory gates.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29",
+        "RenewalPC28",
+        "RenewalAndroid28"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-03",
+      "original": {
+        "scenario": "직접 reader용 짧은 credential 전달",
+        "expected": "유효 session/Origin/CSRF·계정 검사, memory/no-store, refresh/client secret 및 로그·public cache 유출 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1792,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Full original reader guards/memory/no-store/secret exclusion supported by unchanged13 controlled owner routes plus actual12 existing-session denials/cookie metadata/direct playback, public52/owned log+argv proof. Actual spoofedOrigin/newgrant is not an extra original clause.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-04",
+      "original": {
+        "scenario": "무료 사용량·저장·CPU·호출·한도 초과 시나리오",
+        "expected": "실제 선택 요금제에서 운영 가능성 증거와 유한 실패. 카드·유료 자동전환 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1793,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Selected actualWorkersFree/no-card, observed real requests/CPU/storage and unchanged bounded owner storage503/provider failure support the original operational finite-limit contract. No paid transition is selected or performed. Real quota exhaustion/hidden disabled-auto-upgrade control is not required; unknown account control visibility stays a limitation.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-05",
+      "original": {
+        "scenario": "iPhone 탭·PWA의 OAuth 진입/callback/앱 복귀",
+        "expected": "실행 문맥별 정상 session. 같은 origin만으로 공유된다고 추정하지 않음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1794,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "D",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "user-deferred-iOS",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "user-deferred-postdeployment",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [
+        "D066: iOS/VoiceOver post-deployment follow-up."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-06",
+      "original": {
+        "scenario": "B-media를 선택한 경우의 Range/streaming/cancel",
+        "expected": "전체 버퍼 없이 bytes·헤더 정합성·한도·보안 충족. 미선택 시 근거 있는 not-applicable",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1795,
+        "baselineStatus": "not-applicable"
+      },
+      "originalStatus": "not-applicable",
+      "frozenProposal": "N",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "not-selected-architecture",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "retain-unselected-architecture-exclusion",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [
+        "B-media relay unselected; directDrive+B-auth; reopen if adopted.; architecture exclusion does not classify unknown formats."
+      ],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-07",
+      "original": {
+        "scenario": "새 client/origin 후보와 기존 appData",
+        "expected": "이관 전후 counts/tombstones/writer identity·원본 state 보존·복구, 잘못된 앱/계정 접근 없음",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1796,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "frozenScope": "Same accepted state preservation/recovery binding as AU10, not a duplicate mandatory fresh migration.",
+      "frozenLimits": "Protected raw recovery is root-owned and not read here.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29",
+        "State28",
+        "StateRecord",
+        "PCUpdate32",
+        "AndroidUpdate32"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    },
+    {
+      "id": "QA-SL-08",
+      "original": {
+        "scenario": "후보 origin의 인가 밖 API/파일/진단 접근·기존 production",
+        "expected": "접근 거부·개인 데이터 비공개·old service 불변. 검증 배포와 운영 교체 구분",
+        "specPath": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md",
+        "specLine": 1797,
+        "baselineStatus": "not-run"
+      },
+      "originalStatus": "not-run",
+      "frozenProposal": "F",
+      "frozenEvidence": [
+        "P29"
+      ],
+      "frozenScope": "Actual anonymous/session/private404 denials plus unchanged exact account/Origin/CSRF/path guards, safe public52 and distinct candidate-only deployment support original authorization/private/old-service-unchanged clauses. No current production promotion, source replacement or absent-interface claim.",
+      "frozenLimits": "Dated scope retained. Current whole-goal, production, universal-device and all-format coverage are not promoted.",
+      "proposedFiniteStatus": "reuse-finite-original-qualified",
+      "evidence": [
+        "P29"
+      ],
+      "exactNeededQualification": [],
+      "rootAdopted": false
+    }
+  ],
+  "nonMatrixGates": {
+    "performance": {
+      "evidence": "Perf31",
+      "historical": "29/30; exact unmapped MOV Q1seek90 timeout15.0281s preserved",
+      "conditions": "Cold/warm UNKNOWN; every route/action/cache cell n<=5; no stable population p95 or samecondition baseline comparison",
+      "originalAuthority": "OBS03:1490 adjustable initial targets,1504 failure-inclusive sufficient repetition/uncertainty;OBS05:1523 sameconditions",
+      "nextDecisive": "One current known-tuple MOV90% diagnostic with source/worker/frame/settlement distinction; cannot repair historical identity or replace failure. Root chooses condition/rationale budget; no30/fullcorpus replay implied."
+    },
+    "color": {
+      "evidence": "EndpointLocal",
+      "status": "major unspecified-color native RGBA difference unresolved; encoded metadata and YUV exact; no quality pass"
+    },
+    "affectedAndroid": "FAILED/NOTADOPTED per root current adjudication: three boundedAAC3 attempts interrupted by actualSWreplacement before target; no followupmedia proof",
+    "corpus": "Full inventory scope with bounded128consumed123classified5unknown8468unattempted; no automatic expansion",
+    "production": "Not adopted/deployed to production; candidate proof separate"
+  },
+  "reviewCorrection": "2026-10-02: preserve original TR01 cold-cache prerequisite; upstream no-cache evidence and publicshell pins not automatically full selected-media coldcache. Android affected adjudication updated from draftingPENDING toFAILED/NOTADOPTED. No original/historical receipt modified."
+}
