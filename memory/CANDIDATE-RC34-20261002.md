@@ -100,3 +100,17 @@ preserved as unadopted; missing-evidence attribution repaired with2 scoped guard
 Functional native state proof remains valid, no product edit/whole replay.
 qa/q3-actual-preparation/actual-pc-session-reconnect-rc34-safe.json owns results;
 private before/after state backups retained, source/network helpers released.
+
+FM05 controlled diagnostic on unchanged rc34 app/SW (generated inputs and mocked
+provider, ephemeral native Chrome only) passes rotation90/VFR default native and
+Q1 display plus10/50/90% source-clock seeks. Independent packet hashes and rational
+duration/PTS/DTS verify original packet copying; display rotation retains the
+original matrix with normal output translation. Multi-AAC and tx3g inputs play
+native default video, but no choice UI exists and Q1 rejects GENERAL_TRACK_LIMIT:
+the original selection criterion is unmet. qa/fm05-controlled-diagnostic/summary.json
+(SHA98262be02aecff75fae89e8fec90ce39eeb23337f86f8f83b20c83f198e6c10f)
+and evidence-manifest.json own the baseline. All app/reader/server/browser owners
+settled. First ffmpeg rotation flag, floating timestamp-rounding and harness enum
+assertion failures are preserved; no real-account/device or full-corpus claim.
+The current uncommitted selected-track implementation is a separate product unit;
+this retained diagnostic does not validate it or change candidate34.

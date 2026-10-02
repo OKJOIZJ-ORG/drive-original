@@ -1,0 +1,14 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),cp=require('node:child_process');
+const out=__dirname,root=path.resolve(out,'../..');
+const report={scope:'Generated media only, no user media or dependencies changed.',commands:[],fixtures:[]};
+function run(command,args){report.commands.push({command,args});return cp.execFileSync(command,args,{cwd:root,encoding:'utf8',maxBuffer:16*1024*1024});}
+const base=path.join(out,'base.mp4');
+run('ffmpeg',['-v','error','-y','-f','lavfi','-i','testsrc2=size=320x180:rate=24:duration=6','-f','lavfi','-i','sine=frequency=440:sample_rate=48000:duration=6','-c:v','libx264','-preset','ultrafast','-crf','20','-g','24','-bf','0','-pix_fmt','yuv420p','-c:a','aac','-ac','2','-movflags','+faststart',base]);
+run('ffmpeg',['-v','error','-y','-display_rotation:v:0','90','-i',base,'-c','copy','-movflags','+faststart',path.join(out,'rotation.mp4')]);
+run('ffmpeg',['-v','error','-y','-i',base,'-vf',"select='if(lt(t,3),not(mod(n,2)),not(mod(n,3)))'",'-fps_mode','vfr','-c:v','libx264','-preset','ultrafast','-crf','20','-g','12','-bf','0','-c:a','copy','-movflags','+faststart',path.join(out,'vfr.mp4')]);
+run('ffmpeg',['-v','error','-y','-i',base,'-f','lavfi','-i','sine=frequency=880:sample_rate=48000:duration=6','-map','0:v','-map','0:a','-map','1:a','-c:v','copy','-c:a','aac','-ac','2','-metadata:s:a:0','language=eng','-metadata:s:a:1','language=kor','-movflags','+faststart',path.join(out,'multiaudio.mp4')]);
+fs.writeFileSync(path.join(out,'generated.srt'),'1\n00:00:00,000 --> 00:00:05,000\nSYNTHETIC SUBTITLE\n');
+run('ffmpeg',['-v','error','-y','-i',base,'-i',path.join(out,'generated.srt'),'-map','0:v','-map','0:a','-map','1:s','-c:v','copy','-c:a','copy','-c:s','mov_text','-movflags','+faststart',path.join(out,'subtitle.mp4')]);
+for(const name of ['rotation','vfr','multiaudio','subtitle']){const file=path.join(out,name+'.mp4'),bytes=fs.readFileSync(file);const probe=JSON.parse(run('ffprobe',['-v','error','-show_streams','-show_format','-show_packets','-show_data_hash','sha256','-of','json',file]));fs.writeFileSync(path.join(out,name+'-input-probe.json'),JSON.stringify(probe,null,2));report.fixtures.push({name,path:path.relative(root,file).replaceAll('\\','/'),bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),streams:probe.streams.map(s=>({codec_type:s.codec_type,codec_name:s.codec_name,width:s.width,height:s.height,sample_aspect_ratio:s.sample_aspect_ratio,avg_frame_rate:s.avg_frame_rate,r_frame_rate:s.r_frame_rate,side_data_list:s.side_data_list})),videoDurations:[...new Set(probe.packets.filter(p=>p.codec_type==='video').map(p=>p.duration_time))]});}
+report.ffmpeg=run('ffmpeg',['-version']).split('\n')[0];fs.writeFileSync(path.join(out,'fixture-provenance.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report.fixtures));

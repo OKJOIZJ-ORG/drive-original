@@ -1,0 +1,201 @@
+{
+  "scope": "Unchanged actual local app/SW/player, generated fixtures and mocked provider only. Own ephemeral headless Chrome profile, no normal profile, no real account/device or production proof.",
+  "appProducersUnchanged": true,
+  "productModified": false,
+  "branches": [
+    {
+      "name": "rotation",
+      "status": "supported-pass",
+      "originalCriterionStatus": "supported-pass",
+      "fixture": {
+        "path": "qa/fm05-controlled-diagnostic/rotation.mp4",
+        "sha256": "9692a188ad2c9512e1e5f60e9d9449c00901aa4de2e1f9614f6ecdff651f92ad",
+        "bytes": 659440
+      },
+      "mode": "original-repackaged",
+      "nativeDimensions": [
+        180,
+        320
+      ],
+      "packagedDimensions": [
+        180,
+        320
+      ],
+      "seeks": [
+        {
+          "target": 0.6,
+          "frameMediaTime": 0.625,
+          "timelineTime": 0.617039
+        },
+        {
+          "target": 3,
+          "frameMediaTime": 2.999999,
+          "timelineTime": 3.003974
+        },
+        {
+          "target": 5.4,
+          "frameMediaTime": 5.416666,
+          "timelineTime": 5.405809
+        }
+      ],
+      "packetOracle": "exact payload, rational duration, constant source clock shift",
+      "trackUI": [],
+      "embeddedNativeTextTracks": 0,
+      "visibleError": {
+        "visible": false,
+        "title": "이 파일을 재생할 수 없습니다",
+        "message": "원본 스트림을 준비하지 못했습니다."
+      },
+      "cleanup": {
+        "settled": true,
+        "hasSource": false,
+        "q1Owner": false,
+        "q0Owner": false
+      }
+    },
+    {
+      "name": "vfr",
+      "status": "supported-pass",
+      "originalCriterionStatus": "supported-pass",
+      "fixture": {
+        "path": "qa/fm05-controlled-diagnostic/vfr.mp4",
+        "sha256": "54f6dcc78866fd79201980c82b61786102b3a431f2279788a3be1b5b2e65d8e5",
+        "bytes": 422522
+      },
+      "mode": "original-repackaged",
+      "nativeDimensions": [
+        320,
+        180
+      ],
+      "packagedDimensions": [
+        320,
+        180
+      ],
+      "seeks": [
+        {
+          "target": 0.6,
+          "frameMediaTime": 0.666666,
+          "timelineTime": 0.637453
+        },
+        {
+          "target": 3,
+          "frameMediaTime": 3.124999,
+          "timelineTime": 3.127336
+        },
+        {
+          "target": 5.4,
+          "frameMediaTime": 5.5,
+          "timelineTime": 5.484157
+        }
+      ],
+      "packetOracle": "exact payload, rational duration, constant source clock shift",
+      "trackUI": [],
+      "embeddedNativeTextTracks": 0,
+      "visibleError": {
+        "visible": false,
+        "title": "이 파일을 재생할 수 없습니다",
+        "message": "원본 스트림을 준비하지 못했습니다."
+      },
+      "cleanup": {
+        "settled": true,
+        "hasSource": false,
+        "q1Owner": false,
+        "q0Owner": false
+      }
+    },
+    {
+      "name": "multiaudio",
+      "status": "explicit-unsupported",
+      "originalCriterionStatus": "explicit-unsupported-and-criterion-unmet",
+      "fixture": {
+        "path": "qa/fm05-controlled-diagnostic/multiaudio.mp4",
+        "sha256": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+        "bytes": 759101
+      },
+      "mode": "original-repackaged",
+      "nativeDimensions": [
+        320,
+        180
+      ],
+      "packagedDimensions": [
+        0,
+        0
+      ],
+      "packetOracle": {
+        "code": "GENERAL_TRACK_LIMIT",
+        "cleanup": {
+          "settled": true
+        }
+      },
+      "trackUI": [],
+      "embeddedNativeTextTracks": 0,
+      "visibleError": {
+        "visible": true,
+        "title": "원본 재생 확인 필요",
+        "message": "원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다."
+      },
+      "cleanup": {
+        "settled": true,
+        "hasSource": false,
+        "q1Owner": false,
+        "q0Owner": false
+      }
+    },
+    {
+      "name": "subtitle",
+      "status": "explicit-unsupported",
+      "originalCriterionStatus": "explicit-unsupported-and-criterion-unmet",
+      "fixture": {
+        "path": "qa/fm05-controlled-diagnostic/subtitle.mp4",
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "bytes": 659966
+      },
+      "mode": "original-repackaged",
+      "nativeDimensions": [
+        320,
+        180
+      ],
+      "packagedDimensions": [
+        0,
+        0
+      ],
+      "packetOracle": {
+        "code": "GENERAL_TRACK_LIMIT",
+        "cleanup": {
+          "settled": true
+        }
+      },
+      "trackUI": [],
+      "embeddedNativeTextTracks": 0,
+      "visibleError": {
+        "visible": true,
+        "title": "원본 재생 확인 필요",
+        "message": "원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다."
+      },
+      "cleanup": {
+        "settled": true,
+        "hasSource": false,
+        "q1Owner": false,
+        "q0Owner": false
+      }
+    }
+  ],
+  "cleanup": {
+    "allBrowsersClosed": true,
+    "allAppOwnersSettled": true,
+    "serversClosed": true,
+    "processObservation": "No chrome.exe with playwright_chromiumdev_profile in its command line after runs. Existing TEMP directories dated Sep26-Oct1 predate this run and were preserved."
+  },
+  "limitations": [
+    "Local headless Chrome plus mocked provider, no Google account/media/device/production acceptance.",
+    "Q1 is invoked explicitly after natural native playback to exercise the existing fallback; this does not prove an organic failure chooses the fallback.",
+    "Rotation/VFR evidence is a bounded six-second generated AVC/AAC sample, not exhaustive formats or physical-device performance.",
+    "Multi-audio and subtitle selection criterion remains unmet; GENERAL_TRACK_LIMIT is an explicit unsupported result, not a selection/timing pass."
+  ],
+  "preservedHarnessFailures": [
+    "fixture-provenance-first-invalid-rotation.json: metadata rotate option failed to emit a matrix; diagnosed before timed browser tests.",
+    "packet-oracle-first-rounding-failure.json: six-decimal ffprobe rounding falsely created two shifts; final oracle compares rational integer clocks.",
+    "packet-oracle-second-matrix-comparison.json: muxer normalizes translation while preserving 90-degree rotation; compare semantic angle and decoded dimensions.",
+    "app-first-enum-assertion-failure.json: wrong expected enum original-transmuxed corrected to existing original-repackaged; already-valid unsupported results reused without replay."
+  ]
+}

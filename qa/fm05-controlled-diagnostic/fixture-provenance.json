@@ -1,0 +1,340 @@
+{
+  "scope": "Generated media only, no user media or dependencies changed.",
+  "commands": [
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-y",
+        "-f",
+        "lavfi",
+        "-i",
+        "testsrc2=size=320x180:rate=24:duration=6",
+        "-f",
+        "lavfi",
+        "-i",
+        "sine=frequency=440:sample_rate=48000:duration=6",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-crf",
+        "20",
+        "-g",
+        "24",
+        "-bf",
+        "0",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-ac",
+        "2",
+        "-movflags",
+        "+faststart",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\base.mp4"
+      ]
+    },
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-y",
+        "-display_rotation:v:0",
+        "90",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\base.mp4",
+        "-c",
+        "copy",
+        "-movflags",
+        "+faststart",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\rotation.mp4"
+      ]
+    },
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-y",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\base.mp4",
+        "-vf",
+        "select='if(lt(t,3),not(mod(n,2)),not(mod(n,3)))'",
+        "-fps_mode",
+        "vfr",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-crf",
+        "20",
+        "-g",
+        "12",
+        "-bf",
+        "0",
+        "-c:a",
+        "copy",
+        "-movflags",
+        "+faststart",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\vfr.mp4"
+      ]
+    },
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-y",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\base.mp4",
+        "-f",
+        "lavfi",
+        "-i",
+        "sine=frequency=880:sample_rate=48000:duration=6",
+        "-map",
+        "0:v",
+        "-map",
+        "0:a",
+        "-map",
+        "1:a",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "aac",
+        "-ac",
+        "2",
+        "-metadata:s:a:0",
+        "language=eng",
+        "-metadata:s:a:1",
+        "language=kor",
+        "-movflags",
+        "+faststart",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\multiaudio.mp4"
+      ]
+    },
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-y",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\base.mp4",
+        "-i",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\generated.srt",
+        "-map",
+        "0:v",
+        "-map",
+        "0:a",
+        "-map",
+        "1:s",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "copy",
+        "-c:s",
+        "mov_text",
+        "-movflags",
+        "+faststart",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\subtitle.mp4"
+      ]
+    },
+    {
+      "command": "ffprobe",
+      "args": [
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-show_packets",
+        "-show_data_hash",
+        "sha256",
+        "-of",
+        "json",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\rotation.mp4"
+      ]
+    },
+    {
+      "command": "ffprobe",
+      "args": [
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-show_packets",
+        "-show_data_hash",
+        "sha256",
+        "-of",
+        "json",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\vfr.mp4"
+      ]
+    },
+    {
+      "command": "ffprobe",
+      "args": [
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-show_packets",
+        "-show_data_hash",
+        "sha256",
+        "-of",
+        "json",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\multiaudio.mp4"
+      ]
+    },
+    {
+      "command": "ffprobe",
+      "args": [
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-show_packets",
+        "-show_data_hash",
+        "sha256",
+        "-of",
+        "json",
+        "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\subtitle.mp4"
+      ]
+    },
+    {
+      "command": "ffmpeg",
+      "args": [
+        "-version"
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "rotation",
+      "path": "qa/fm05-controlled-diagnostic/rotation.mp4",
+      "bytes": 659440,
+      "sha256": "9692a188ad2c9512e1e5f60e9d9449c00901aa4de2e1f9614f6ecdff651f92ad",
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 320,
+          "height": 180,
+          "sample_aspect_ratio": "1:1",
+          "avg_frame_rate": "24/1",
+          "r_frame_rate": "24/1",
+          "side_data_list": [
+            {
+              "side_data_type": "Display Matrix",
+              "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+              "rotation": 90
+            }
+          ]
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "videoDurations": [
+        "0.041667"
+      ]
+    },
+    {
+      "name": "vfr",
+      "path": "qa/fm05-controlled-diagnostic/vfr.mp4",
+      "bytes": 422522,
+      "sha256": "54f6dcc78866fd79201980c82b61786102b3a431f2279788a3be1b5b2e65d8e5",
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 320,
+          "height": 180,
+          "sample_aspect_ratio": "1:1",
+          "avg_frame_rate": "720/71",
+          "r_frame_rate": "24/1"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "videoDurations": [
+        "0.083333",
+        "0.125000",
+        "0.041667"
+      ]
+    },
+    {
+      "name": "multiaudio",
+      "path": "qa/fm05-controlled-diagnostic/multiaudio.mp4",
+      "bytes": 759101,
+      "sha256": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 320,
+          "height": 180,
+          "sample_aspect_ratio": "1:1",
+          "avg_frame_rate": "24/1",
+          "r_frame_rate": "24/1"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "videoDurations": [
+        "0.041667"
+      ]
+    },
+    {
+      "name": "subtitle",
+      "path": "qa/fm05-controlled-diagnostic/subtitle.mp4",
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 320,
+          "height": 180,
+          "sample_aspect_ratio": "1:1",
+          "avg_frame_rate": "24/1",
+          "r_frame_rate": "24/1"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        },
+        {
+          "codec_type": "subtitle",
+          "codec_name": "mov_text",
+          "avg_frame_rate": "0/0",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "videoDurations": [
+        "0.041667"
+      ]
+    }
+  ],
+  "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r"
+}

@@ -1,0 +1,210 @@
+[
+  {
+    "name": "rotation",
+    "passed": false,
+    "result": {
+      "generation": 1,
+      "duration": 6,
+      "sourcePacketOrigin": -0.021333333333333333,
+      "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+      "targetTime": 0,
+      "windowOrigin": -0.021333333333333333,
+      "policy": {
+        "kind": "isobmff-movie-axis",
+        "presentationOrigin": 0,
+        "validPresentationStart": 0,
+        "declaredEnd": 6,
+        "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+        "tracks": [
+          {
+            "id": 1,
+            "leadingEmptySeconds": 0,
+            "contentEntries": 1,
+            "entryCount": 1,
+            "mediaTime": 0,
+            "firstPacketTimestamp": 0
+          },
+          {
+            "id": 2,
+            "leadingEmptySeconds": 0,
+            "contentEntries": 1,
+            "entryCount": 1,
+            "mediaTime": 1024,
+            "firstPacketTimestamp": -0.021333333333333333
+          }
+        ]
+      },
+      "videoCodec": "avc",
+      "audioCodec": "aac",
+      "packets": 427,
+      "outputBytes": 659053,
+      "peakPendingAcks": 1,
+      "peakBufferedPacketBytes": 116498,
+      "admission": {
+        "kind": "iso",
+        "tracks": 2,
+        "samples": [
+          144,
+          283
+        ],
+        "boxes": 45
+      },
+      "muxRetention": {
+        "bytes": 0,
+        "samples": 0,
+        "peakBytes": 127603,
+        "peakSamples": 73
+      },
+      "encodersCreated": 0,
+      "inputFormat": "MP4",
+      "cleanup": {
+        "settled": true
+      },
+      "reads": {
+        "requests": 11,
+        "bytes": 659440,
+        "logicalReads": 293,
+        "cacheHits": 299,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      }
+    },
+    "videoClockShiftNumerators": [
+      "402653184"
+    ],
+    "videoClockShiftDenominator": "18874368000",
+    "audioClockShiftNumerators": [
+      "1572864000"
+    ],
+    "audioClockShiftDenominator": "73728000000",
+    "rotationInput": [
+      {
+        "side_data_type": "Display Matrix",
+        "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+        "rotation": 90
+      }
+    ],
+    "rotationOutput": [
+      {
+        "side_data_type": "Display Matrix",
+        "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0    20971520  1073741824\n",
+        "rotation": 90
+      }
+    ],
+    "failures": [
+      "rotation_metadata_changed"
+    ],
+    "outputSha256": "2b1ceef528a7b17e535a9cd4490fa43dc566f491d5fe842ad182ff4be6988dbb"
+  },
+  {
+    "name": "vfr",
+    "passed": true,
+    "result": {
+      "generation": 1,
+      "duration": 5.916666666666667,
+      "sourcePacketOrigin": -0.021333333333333333,
+      "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+      "targetTime": 0,
+      "windowOrigin": -0.021333333333333333,
+      "policy": {
+        "kind": "isobmff-movie-axis",
+        "presentationOrigin": 0,
+        "validPresentationStart": 0,
+        "declaredEnd": 6,
+        "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+        "tracks": [
+          {
+            "id": 1,
+            "leadingEmptySeconds": 0,
+            "contentEntries": 1,
+            "entryCount": 1,
+            "mediaTime": 0,
+            "firstPacketTimestamp": 0
+          },
+          {
+            "id": 2,
+            "leadingEmptySeconds": 0,
+            "contentEntries": 1,
+            "entryCount": 1,
+            "mediaTime": 1024,
+            "firstPacketTimestamp": -0.021333333333333333
+          }
+        ]
+      },
+      "videoCodec": "avc",
+      "audioCodec": "aac",
+      "packets": 343,
+      "outputBytes": 422671,
+      "peakPendingAcks": 1,
+      "peakBufferedPacketBytes": 100202,
+      "admission": {
+        "kind": "iso",
+        "tracks": 2,
+        "samples": [
+          60,
+          283
+        ],
+        "boxes": 45
+      },
+      "muxRetention": {
+        "bytes": 0,
+        "samples": 0,
+        "peakBytes": 111682,
+        "peakSamples": 88
+      },
+      "encodersCreated": 0,
+      "inputFormat": "MP4",
+      "cleanup": {
+        "settled": true
+      },
+      "reads": {
+        "requests": 7,
+        "bytes": 422522,
+        "logicalReads": 129,
+        "cacheHits": 135,
+        "peakCache": 262144,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      }
+    },
+    "videoClockShiftNumerators": [
+      "402653184"
+    ],
+    "videoClockShiftDenominator": "18874368000",
+    "audioClockShiftNumerators": [
+      "1572864000"
+    ],
+    "audioClockShiftDenominator": "73728000000",
+    "failures": [],
+    "outputSha256": "e97ab6386973ff1601c752ae4f7c9370e9273da2d3a0d42a8fce0b857b482026"
+  },
+  {
+    "name": "multiaudio",
+    "passed": false,
+    "failure": {
+      "code": "GENERAL_TRACK_LIMIT",
+      "cleanup": {
+        "settled": true
+      }
+    },
+    "status": "explicit-unsupported"
+  },
+  {
+    "name": "subtitle",
+    "passed": false,
+    "failure": {
+      "code": "GENERAL_TRACK_LIMIT",
+      "cleanup": {
+        "settled": true
+      }
+    },
+    "status": "explicit-unsupported"
+  }
+]
