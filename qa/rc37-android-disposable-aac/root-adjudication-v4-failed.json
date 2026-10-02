@@ -1,0 +1,68 @@
+{
+  "schema": "rc37-android-aac3-passive-trace-root-adjudication/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "productChanged": false,
+  "actualResult": "actual-39c046fc-8adb-4089-8f17-878d34308084.json",
+  "actualSHA256": "db07e6cabb0310f6bc4023db798b42d30fd0680e6edb99bf639a411b15583787",
+  "rootOperations": "connector-operation-v4-result.json",
+  "rootOperationsSHA256": "44b935446192c114e4655ac4844352f83d53fbb6dc11facc44511400f8eb6488",
+  "verdict": "FAILED_ORIGINAL15S_CURRENT_Q1_FRAME",
+  "qualified": [
+    "current37 physical source/cache ready-idle",
+    "fresh exact generated combined759643 metadata and sha",
+    "current Q0 presented frame",
+    "default2 twoAAC inventory and trusted native change3",
+    "two current worker starts and first window binding",
+    "all actor and root cleanup; fourth generated file recoverably trashed"
+  ],
+  "notQualified": [
+    "current15s AAC3 mapped presented frame",
+    "post-frame tuple/config/final metadata",
+    "Android pixel/YUV/audibility/OS-return/p95",
+    "whole goal/production"
+  ],
+  "observed": {
+    "firstQ1WindowAfterArmMs": 8754,
+    "firstWorkerTerminalAfterArmMs": 13237,
+    "secondSourceGenerationAfterArmMs": 13243,
+    "secondWorkerStartAfterArmMs": 13747,
+    "windowBindingsRejected": 0,
+    "startBindingsRejected": 0,
+    "credentialPendingAtInstall": false,
+    "credentialRevisionChanged": false,
+    "tokenRemainingAtInstallMs": 3209602,
+    "networkCounts": {
+      "requests": 35,
+      "responses": 33,
+      "finished": 29,
+      "failed": 5,
+      "evicted": 0,
+      "pendingEvicted": 0,
+      "nonTargetReassignments": 0,
+      "observerErrors": 0,
+      "pending": 1
+    },
+    "metadataResponses": 24,
+    "metadataMaxMs": 618.2649999973364,
+    "ownedGuardRequests": 18,
+    "oneTagPATCH": true,
+    "oneRecoverableTrashPATCH": true
+  },
+  "limits": {
+    "pageNetworkOnly": true,
+    "allWorkerNetwork": "UNKNOWN",
+    "terminalErrorDetails": "NOT_EXPORTED; cancellation hypothesis follows source launch order",
+    "sourceIntendedColor": "UNKNOWN",
+    "strictRGBA": "PRIOR_DIAGNOSTIC_FAIL_RETAINED"
+  },
+  "causalInference": "The current first source buffers then app snapshot restoration launches source2. Repeated bounded actual-provider metadata/Range round trips add cost; no observed credential wait, HTTP failure status or worker binding rejection explains the deadline. Determine the earliest safe responsible fix before another actual. No unchanged retry/bounds extension or QA-only redeploy.",
+  "cleanupComplete": true,
+  "wholeGoalPassed": false,
+  "productionPassed": false,
+  "localProof": {
+    "newRedirectCase": 1,
+    "prior18CasesReused": true,
+    "prior18RawJSON": "NOT_PRESERVED; original test output and hash retained in tool history; not reconstructed",
+    "currentLocalChecksSHA256": "186401bb0f8b2b0ace7a3a256e55e9631d6a0b5a1ab6137486a9fa6c3fb65a33"
+  }
+}
