@@ -1,0 +1,97 @@
+{
+  "schema": "actual-pc-session-reconnect/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "loggedOut": {
+    "accountKeyCleared": true,
+    "anonymous": true,
+    "connectEnabled": true,
+    "driveIdentityCleared": true,
+    "idle": true,
+    "noPlayer": true,
+    "settingsClosed": true,
+    "tokenCleared": true
+  },
+  "recovered": {
+    "sameAccount": true,
+    "sameProjection": true,
+    "version": "1.22.0-rc.34",
+    "driveWriteSame": true,
+    "appData": true,
+    "idle": true,
+    "noStaleHelpers": true,
+    "favoriteEntries": 60,
+    "viewedEntries": 170,
+    "freshSourceConfirmed": true,
+    "normalNativeFlow": true,
+    "credentialEntryRequired": false,
+    "newConsentRequired": false
+  },
+  "flow": {
+    "requests": {
+      "/api/session/credential": 1
+    },
+    "responses": {
+      "/api/session/credential": [
+        200
+      ]
+    },
+    "networkTruncated": true,
+    "requestedScopesObserved": false,
+    "requestedScopeSetMatchesExistingFullCapabilities": "UNKNOWN",
+    "globalDisconnectObserved": "UNKNOWN",
+    "completeness": "TRUNCATED",
+    "rawExported": false
+  },
+  "cleanup": {
+    "idle": true,
+    "noOwnedHelper": true,
+    "originalTabRetained": true,
+    "proofRemoved": true,
+    "networkObserverDisabled": true
+  },
+  "elapsedMs": 200126,
+  "elapsedScope": "normal logout through root receipt collection; not an auth latency budget",
+  "passed": true,
+  "rawExported": false,
+  "privateStateBackupsRetained": true,
+  "scope": "one browser app session; no global revocation or new grant; prior actual renewal and controlled terminal fault evidence reused",
+  "unadoptedFirstNetworkSummary": {
+    "requests": {
+      "/api/session/credential": 1
+    },
+    "responses": {
+      "/api/session/credential": [
+        200
+      ]
+    },
+    "newRequestedScopes": false,
+    "requestedScopeSetMatchesExistingFullCapabilities": false,
+    "globalDisconnectInvoked": false,
+    "networkTruncated": true,
+    "rawExported": false,
+    "adopted": false,
+    "reason": "late collection had evicted earlier logout/OAuth events; empty scope and absent request are not negative proof"
+  },
+  "rootActions": {
+    "normalLogoutButtonOnce": true,
+    "normalConnectButtonOnce": true,
+    "exactExistingGoogleAccountChosen": true,
+    "globalDisconnectClicked": false,
+    "newConsentPromptSeen": false,
+    "credentialEntryRequired": false
+  },
+  "observerQualification": {
+    "functionalAcceptance": "actual anonymous/cleared local session plus same original account/projection/source after normal reconnect",
+    "supplementalNetwork": "TRUNCATED, full logout/OAuth count/scope UNKNOWN",
+    "toolAttributionRepaired": true,
+    "repairSHA256": "61295f4f6624e508f1b2959e3e42ec595b7d719a3868ddac76f9a8474d6ae956",
+    "localMissingEvidenceGuards": {
+      "passed": 2,
+      "failed": 0,
+      "outputChunk": "355f9f"
+    },
+    "productEdited": false,
+    "wholeProductRerun": false
+  }
+}

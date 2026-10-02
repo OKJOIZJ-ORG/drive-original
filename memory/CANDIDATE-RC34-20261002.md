@@ -89,3 +89,14 @@ Nine scoped guards and independent static review pass; actual job/proof/helper
 released and original tab idle. qa/q3-actual-preparation/actual-disposable-cleanup-rc34-safe.json
 owns the receipt. PC30 failed sample6 exact identity mapping is unavailable;
 its Q1 MOV90% timeout remains unresolved, not replaced by separate MKV successes.
+
+Actual normal one-browser session logout/reconnect passes: anonymous local session,
+token/account cleared, same original account and entire60favorite/170viewed
+projection restored on34 with existing Google chooser, no credential entry/new
+consent prompt. Root never clicked global Disconnect. Late supplemental CDP
+collection was truncated and retains only credential200; earlier logout/OAuth
+request counts/scopes are UNKNOWN. Initial inaccurate missing-event booleans are
+preserved as unadopted; missing-evidence attribution repaired with2 scoped guards.
+Functional native state proof remains valid, no product edit/whole replay.
+qa/q3-actual-preparation/actual-pc-session-reconnect-rc34-safe.json owns results;
+private before/after state backups retained, source/network helpers released.

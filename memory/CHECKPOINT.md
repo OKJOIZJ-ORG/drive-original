@@ -2,9 +2,9 @@
 
 ## The story so far
 
-Whole approved queue remains ACTIVE, branch codex/v2-kickoff-diagnostics, HEAD7221588. Immutable candidate09c61bd/rc34/Worker6858a2cf and106 release/static/SW plus88 focused checks are saved. Android5400frames/180s/1x native endpoint supports finite functional scope; extra strict event receipt stays failed. Reuse prior Q0/TS/PCM/layout/state/finite-Q3/local-quality evidence. Production1.21/e08989a/main/push/general writes and PAUSED automation unchanged.
+Whole approved queue remains ACTIVE, branch codex/v2-kickoff-diagnostics, HEAD36d86db. Immutable candidate09c61bd/rc34/Worker6858a2cf and106 release/static/SW plus88 focused checks are saved. Android5400frames/180s/1x native endpoint supports finite functional scope; extra strict event receipt stays failed. Reuse prior Q0/TS/PCM/layout/state/finite-Q3/local-quality evidence. Production1.21/e08989a/main/push/general writes and PAUSED automation unchanged.
 
-Actual PC GIF/WebP animation and PNG/JPEG card/two-viewer lifetimes have fresh original identity/source/account/API and cleanup receipts with corrected native crops. Controlled alpha/timing/BMP/large-PNG/wrong-MIME evidence is permitted by original EXP03; actual BMP body/path remains unknown. CANDIDATE-RC34-20261002.md owns details. Mixed Q0/Q1 PC30 has29 target frames and one Q1 MOV90% timeout; exact failed-target identity is absent from safe ordinals. Do not infer it from the separate MKV TS target. Exact disposable Q3 file/folder cleanup passes:15 requests/2PATCH/2 fresh trash-confirmed receipts, original fingerprint preserved, private backups retained, helper/proof/job released. One-session logout/reconnect and original69-clause integration remain. No full corpus scan or active player/helper/owned image tab.
+Actual PC GIF/WebP animation and PNG/JPEG card/two-viewer lifetimes have fresh original identity/source/account/API and cleanup receipts with corrected native crops. Controlled alpha/timing/BMP/large-PNG/wrong-MIME evidence is permitted by original EXP03; actual BMP body/path remains unknown. CANDIDATE-RC34-20261002.md owns details. Mixed Q0/Q1 PC30 has29 target frames and one Q1 MOV90% timeout; exact failed-target identity is absent from safe ordinals. Do not infer it from the separate MKV TS target. Exact disposable Q3 file/folder cleanup passes:15 requests/2PATCH/2 fresh trash-confirmed receipts, original fingerprint preserved, private backups retained, helper/proof/job released. One normal browser-session logout/reconnect passes: local anonymous/token/identity cleared, same account and entire60favorite/170viewed projection restored on34 without credential entry/new consent. Late supplemental CDP trace is TRUNCATED; missing counts/scopes UNKNOWN, attribution repaired without product replay. Original69-clause integration and targeted remaining criteria remain. No full corpus scan or active player/helper/owned image tab.
 
 ## Decided
 
@@ -19,7 +19,7 @@ None. Requested official MCP autoConnect returned one candidate page and closed 
 
 ## Next first action
 
-Commit actual-disposable-cleanup-rc34-safe.json and its reviewed/current-bound producer files, then capture same-account state before one normal browser-session logout/reconnect; no revoke/new grants.
+Commit actual-pc-session-reconnect-rc34-safe.json and sparse-network attribution repair, then adopt original clauses against preserved finite actual/controlled evidence and isolate the remaining conditional/performance gap.
 
 ## Tried
 
