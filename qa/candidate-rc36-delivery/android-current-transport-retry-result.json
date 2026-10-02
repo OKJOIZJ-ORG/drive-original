@@ -1,0 +1,88 @@
+{
+  "schema": "actual-android-current36-transport/1",
+  "recordedAt": "2026-10-02T13:49:39.986Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "sourcePhaseReadOnly": true,
+  "authorizedAppOwnedCredentialRetryOnce": true,
+  "noInput": true,
+  "noNavigation": true,
+  "noReload": true,
+  "noManualCredentialFetchOrAppUpdate": true,
+  "noPlayback": true,
+  "priorFailedReceiptSha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+  "producerSha256": "f850476eb4fd20752581f5afe3baaf3bf4230d01ebfcf775338cedb370ccfe3a",
+  "observerSha256": "7e8a96094d662b629520bc79caa6f4e1794d06fb6406a5a7f658488ec7b74dd6",
+  "proofSha256": "a0f54b4bb38c0459a11e4d04a34a1d739df976bc71e70c4156bdba32cb30dd78",
+  "steps": [],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "mcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "completed": false,
+  "failure": "CURRENT_INSPECTION_FAILED",
+  "networkFailures": [],
+  "credentialPostResponses": [],
+  "cleanup": {
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

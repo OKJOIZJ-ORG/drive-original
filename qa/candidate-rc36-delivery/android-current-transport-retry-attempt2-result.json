@@ -1,0 +1,517 @@
+{
+  "schema": "actual-android-current36-transport/1",
+  "recordedAt": "2026-10-02T13:54:54.321Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "sourcePhaseReadOnly": true,
+  "authorizedAppOwnedCredentialRetryOnce": true,
+  "noInput": true,
+  "noNavigation": true,
+  "noReload": true,
+  "noManualCredentialFetchOrAppUpdate": true,
+  "noPlayback": true,
+  "priorFailedReceiptSha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+  "producerSha256": "1407ce79a9a82f41698f323b975554a7b26054f455923f30c6cd742043b23549",
+  "observerSha256": "7e8a96094d662b629520bc79caa6f4e1794d06fb6406a5a7f658488ec7b74dd6",
+  "proofSha256": "a0f54b4bb38c0459a11e4d04a34a1d739df976bc71e70c4156bdba32cb30dd78",
+  "steps": [
+    {
+      "name": "initial current read-only diagnosis",
+      "at": 1790949296260,
+      "navigatorOnline": true,
+      "fetchNative": true,
+      "foreignQAOverridePresent": false,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": false,
+      "setupVisible": true,
+      "authStatus": "auth-unavailable",
+      "accountPresent": false,
+      "accountIdentityPresent": false,
+      "tokenUsable": false,
+      "credentialPending": false,
+      "credentialResponseOK": null,
+      "credentialRetryable": true,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 53709,
+          "durationMs": 13,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 55833,
+          "durationMs": 30,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 3588547,
+          "durationMs": 176,
+          "responseStatus": 403
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": false,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": false,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    },
+    {
+      "name": "root-confirmed canonical route correction",
+      "at": 1790949295923,
+      "rootObservedHEADStatus": 307,
+      "indexLocationIsSameOriginRoot": true,
+      "childHEADPerformed": false,
+      "versionProbeReusedFromPinnedReceipt": true,
+      "remainingFilesRedirectPolicy": "error"
+    },
+    {
+      "name": "current36 source and cache independent of account",
+      "at": 1790949297463,
+      "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+      "version": "1.22.0-rc.36",
+      "accountQualification": "WITHHELD",
+      "publicReadbackComplete": true,
+      "publicReadback": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true,
+          "initialProbeReused": true
+        },
+        {
+          "file": "media/native-color.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "index.html",
+          "matched": true,
+          "canonicalRootAlias": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/native-color.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "cacheDistinct": 50,
+      "cacheWithRootAlias": 51,
+      "rootAliasMatched": true,
+      "currentControllerActivated": true,
+      "noWaiting": true,
+      "noInstalling": true,
+      "rootScope": true,
+      "privateAccountWriterProjectionCacheSnapshotStable": true,
+      "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+      "transition35to36": "UNKNOWN_ALREADY_APPLIED",
+      "noHelperInstalled": true
+    },
+    {
+      "name": "single app-owned credential retry BEFORE invocation",
+      "at": 1790949297474,
+      "noNativeCredentialRetryButton": true,
+      "googleAuthorizationButtonNotUsed": true,
+      "appOwnedFallback": true,
+      "appDeadlineMs": 55000
+    },
+    {
+      "name": "single app-owned retry transport outcome",
+      "at": 1790949298080,
+      "elapsedMs": 605,
+      "connected": true,
+      "authStatus": "online",
+      "credentialPending": false,
+      "postResponses": [
+        {
+          "status": 200,
+          "type": "Fetch",
+          "errorCode": null
+        }
+      ],
+      "networkFailures": []
+    },
+    {
+      "name": "final current state after one app-owned retry",
+      "at": 1790949305288,
+      "navigatorOnline": true,
+      "fetchNative": true,
+      "foreignQAOverridePresent": false,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": true,
+      "setupVisible": false,
+      "authStatus": "online",
+      "accountPresent": true,
+      "accountIdentityPresent": true,
+      "tokenUsable": true,
+      "credentialPending": false,
+      "credentialResponseOK": true,
+      "credentialRetryable": false,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 55833,
+          "durationMs": 30,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 3588547,
+          "durationMs": 176,
+          "responseStatus": 403
+        },
+        {
+          "startMs": 4245489,
+          "durationMs": 571,
+          "responseStatus": 200
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": true,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": true,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "mcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "candidateTargetCount": 1,
+  "nativeVisibilityUnmasked": true,
+  "sourceQualificationPassed": true,
+  "accountQualification": "NORMAL_READY_IDLE_CURRENT_ONLY",
+  "verdict": "SOURCE36_AND_CURRENT_ACCOUNT_READY",
+  "completed": true,
+  "updateTransition": "UNKNOWN_ALREADY_APPLIED",
+  "networkFailures": [],
+  "credentialPostResponses": [
+    {
+      "status": 200,
+      "type": "Fetch",
+      "errorCode": null
+    }
+  ],
+  "cleanup": {
+    "networkListenersRemoved": true,
+    "networkObserverDisabled": true,
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

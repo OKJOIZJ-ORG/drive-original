@@ -1,0 +1,32 @@
+{
+  "source": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "localChecks": {
+    "command": "node --test qa/candidate-rc36-delivery/audit-resume.test.cjs",
+    "exitCode": 0,
+    "passed": 12,
+    "failed": 0
+  },
+  "reusedCurrentVerifiedPrefix": 49,
+  "unchangedPriorDeliveryAssets": 16,
+  "newFullArchiveDownloadsNecessary": false,
+  "routeLengthCheck": "HEAD for unchanged16, then current50 cache+root alias/cold/offline/private404",
+  "unchangedChecks": "Prior committed byte proof/source binding/current Git equality/current successful content-addressed upload",
+  "failedPreviousAttemptRetained": "audit-attempt2-archive-deadline/results.json",
+  "previousPassed": false,
+  "productRedeployed": false,
+  "producers": [
+    {
+      "file": "audit.cjs",
+      "sha256": "15fc89d0d8b59ec7c93ed6a5f090a1a91793876210f24f605d236c3f8e8e7f37"
+    },
+    {
+      "file": "audit-resume.test.cjs",
+      "sha256": "493a1aa9644ebaae1b4576176ebee9352850b61fa3f2a9b10295ab104be8bc3d"
+    },
+    {
+      "file": "verified-download.cjs",
+      "sha256": "4089984977f9a82c7907ac851c82e3367f040bfd11caa2ef3a55228c4ab25732"
+    }
+  ],
+  "recordedAt": "2026-10-02T13:00:00.095421+00:00"
+}

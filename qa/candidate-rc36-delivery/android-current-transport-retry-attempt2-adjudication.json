@@ -1,0 +1,88 @@
+{
+  "schema": "android-current36-source-account-adjudication/1",
+  "recordedAt": "2026-10-02T13:56:49.784Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "version": "1.22.0-rc.36",
+  "actualDevice": {
+    "model": "SM-X800",
+    "android": "16",
+    "chromeMajor": 153
+  },
+  "result": {
+    "file": "android-current-transport-retry-attempt2-result.json",
+    "sha256": "49329fcecc3ee2f06f8e2b8540036a15066430c2bfaee69d54bc0d0316616dc5",
+    "bytes": 14179
+  },
+  "verdict": "CURRENT36_SOURCE_AND_NORMAL_ACCOUNT_QUALIFIED",
+  "source": {
+    "publicReadbackExact": true,
+    "publicFiles": 6,
+    "versionProbeReusedFromPinnedEarlierActualReceipt": true,
+    "indexCanonicalRootAlias": true,
+    "cacheDistinct": 50,
+    "cacheWithRootAlias": 51,
+    "rootAliasMatched": true,
+    "currentControllerActivated": true,
+    "noWaiting": true,
+    "noInstalling": true,
+    "rootScope": true,
+    "privatePreRetryAccountWriterProjectionCacheSnapshotStable": true
+  },
+  "credentialRecovery": {
+    "appOwnedCallCount": 1,
+    "directCredentialPOST": false,
+    "nativeGoogleAuthorizationUsed": false,
+    "elapsedMs": 605,
+    "actualPOSTResponses": [
+      {
+        "status": 200,
+        "type": "Fetch",
+        "errorCode": null
+      }
+    ],
+    "networkFailures": [],
+    "finalAuthStatus": "online",
+    "accountReadyIdle": true,
+    "libraryVisible": true,
+    "setupVisible": false,
+    "tokenUsable": true,
+    "syncPending": false,
+    "accountErrorPresent": false,
+    "bannerVisible": false,
+    "playerClosed": true,
+    "retirementSettled": true,
+    "navigatorOnline": true,
+    "fetchNative": true,
+    "foreignQAOverridePresent": false
+  },
+  "limits": {
+    "transition35to36": "UNKNOWN_ALREADY_APPLIED",
+    "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+    "historicalUnavailableCause": "UNKNOWN_NO_CONTEMPORARY_LOADING_FAILED_RECEIPT",
+    "GETCredential403": "EXPECTED_CSRF_GUARD_NOT_SESSION_DENIAL",
+    "priorCredentialGETAbort": "INTENTIONAL_RESPONSE_BODY_CANCEL",
+    "priorIndexReadFailure": "CANONICAL_INDEX307_ROOT_REDIRECT",
+    "privateIdentityExported": false,
+    "mediaPlaybackTested": false,
+    "newGrantOrLoginRequired": false
+  },
+  "retainedFailures": [
+    "android-update-actual-result.json",
+    "android-current-result.json",
+    "android-current-transport-result.json",
+    "android-current-transport-attempt2-result.json",
+    "android-current-transport-retry-result.json"
+  ],
+  "cleanup": {
+    "networkListenersRemoved": true,
+    "networkObserverDisabled": true,
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

@@ -1,0 +1,23 @@
+{
+  "source": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "command": "node --test qa/candidate-rc36-delivery/audit-resume.test.cjs",
+  "passed": 13,
+  "failed": 0,
+  "exitCode": 0,
+  "currentHEAD": "strong ETag must exactly equal installed Wrangler content hash; Content-Length checked if present",
+  "unchangedAcceptance": "Prior full-byte proof/current Git/deployed immutable asset/current exact content key",
+  "previousLengthFailure": "audit-attempt3-head-length",
+  "originalFailedAttempt2StillFailed": true,
+  "productRedeployed": false,
+  "files": [
+    {
+      "file": "audit.cjs",
+      "sha256": "11147654179b0b5f65d8a5bc9c0937a7351e0ead346c80a6cbdb90ef9dba0258"
+    },
+    {
+      "file": "audit-resume.test.cjs",
+      "sha256": "64c62b08ce70c8b385107a9add8315796dfbc329943f8ef5fbba36f09b14bf46"
+    }
+  ],
+  "recordedAt": "2026-10-02T13:04:41.271066+00:00"
+}

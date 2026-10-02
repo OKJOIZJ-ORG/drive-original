@@ -1,0 +1,676 @@
+{
+  "schema": "candidate-rc36-exact-safe-savepoint/1",
+  "recordedAt": "2026-10-02T14:00:11.539Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "version": "1.22.0-rc.36",
+  "scope": "Existing safe delivery/source/cache/PC/Android receipts and exact producers; no replay, source guard, private input, browser or account action",
+  "files": [
+    {
+      "path": "qa/candidate-rc36-delivery/.gitattributes",
+      "bytes": 8243,
+      "sha256": "0bacef5ebcb8dae4444383f631be115049f471995e42e52c022e2f7c1a913934",
+      "role": "exact-byte-policy"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/README.md",
+      "bytes": 6290,
+      "sha256": "d30963940fac36f3c5bf86e29800128c50b6bcc4d59166da55a022904cb75a00",
+      "role": "scope-and-adjudication"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-baseline.expression.js",
+      "bytes": 3334,
+      "sha256": "01bee3d8aa976d913537372c96503a630e878a84e5dc8b44176d6ef223e4dbab",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-binding.json",
+      "bytes": 7662,
+      "sha256": "86872100a79608cec37049ed2ec2ccc896d509d6edfe7ad88f902fd4f0abe2d9",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-checks.cjs",
+      "bytes": 6825,
+      "sha256": "9a6b70e007d5a4f029a185613bb2325bb854ef677ee1a5568d98973a744169c6",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-adjudication.json",
+      "bytes": 2641,
+      "sha256": "4489d94159aea84a293aef12e02982a4c6974c1d47de14b3b708e0a42efb28c8",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-driver.cjs",
+      "bytes": 8724,
+      "sha256": "35aa8893ae8d774e19f6722881c3e82b54a2cc0c67712ab0369f99bc8eb2fbd7",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-observe.function.js",
+      "bytes": 3423,
+      "sha256": "458d5bd2cf08a5a420eecdb0705144ebb5ed66a2d9de600c1246f812c5cb7a7a",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-proof.function.js",
+      "bytes": 3364,
+      "sha256": "a4826c967511a592e35b90324a016547417d4d821eec843be33110929ce8d1ef",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-result.json",
+      "bytes": 6663,
+      "sha256": "fd11a9e207ae1edb77dc4a374b57888215e341c0ec5310bb08624b54b1b8247a",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-savepoint-manifest.json",
+      "bytes": 1349,
+      "sha256": "e7a094efdcbbde434c0da2433aaa01f086ea0c546ac3de3e1179b8036d6f5478",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-attempt2-checks.cjs",
+      "bytes": 2338,
+      "sha256": "421763a7ac2d9256d287dee85ccde296d1665fb7afb5faca60bffffbbf78e7d2",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-attempt2-driver.cjs",
+      "bytes": 10930,
+      "sha256": "d951d3e786faedacc5fc57d7e13f5daa354928b8756b9ed14308ad24a16b8eef",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-attempt2-preparation-manifest.json",
+      "bytes": 922,
+      "sha256": "866bf3e0e9197ad6057dd17e70d2801b6d931087a3b4f1bfc6607263e34b8464",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-attempt2-prepare.cjs",
+      "bytes": 957,
+      "sha256": "1f9f1dec2f51909a72c6f8012425fd5768c643cefe4a3138b074525ba4129ee0",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-attempt2-result.json",
+      "bytes": 6312,
+      "sha256": "396957785493bc54945a701749f4d42bfaa3f1cc47e9e1f14723244390eec205",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-checks.cjs",
+      "bytes": 2952,
+      "sha256": "3e4ab3940dd47973ae1d4952e47cd6a56c60985cc55cc1bc8d77fc9bde5d9744",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-driver.cjs",
+      "bytes": 10749,
+      "sha256": "981476e6eace03dac40f02f511ea5abc2dab7172a2697f7be9c48c906485c47d",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-observe.function.js",
+      "bytes": 3631,
+      "sha256": "7e8a96094d662b629520bc79caa6f4e1794d06fb6406a5a7f658488ec7b74dd6",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-preparation-manifest.json",
+      "bytes": 1332,
+      "sha256": "9cf26b4ada074dec4e98b8a5458ffecdf9143b9175c49b97c1f4dec339f2c7b6",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-prepare.cjs",
+      "bytes": 7037,
+      "sha256": "eb054e79d95c57aeaf648d97bfbfd8fabae856d131e9e2a8a78c8e696cf4abd9",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-proof.function.js",
+      "bytes": 3510,
+      "sha256": "43fc3391a220d967e53d1ff49cb7c014fe28daa501ce8d781816448035928a55",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-result.json",
+      "bytes": 5133,
+      "sha256": "8ce5b6e19f6fc4ab983c4cdc80d78e0c295168e3fd3dacdbbdb6f95b85db2b6e",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-attempt2-adjudication.json",
+      "bytes": 2780,
+      "sha256": "a9ce6faf1e85f8cce2e24c35e09591fdcc33731295e17b95b7391ed6c9cc0237",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-attempt2-checks.cjs",
+      "bytes": 3674,
+      "sha256": "f17a69b2a0c96fede936194631feb958255ef9a2b69cbbc8ca21530b886373c5",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-attempt2-driver.cjs",
+      "bytes": 12835,
+      "sha256": "1407ce79a9a82f41698f323b975554a7b26054f455923f30c6cd742043b23549",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-attempt2-manifest.json",
+      "bytes": 3184,
+      "sha256": "3cb72865704369ead2542cfee2ee5aa6c200ae588a676b039a43a1faef0dc8b2",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-attempt2-result.json",
+      "bytes": 14179,
+      "sha256": "49329fcecc3ee2f06f8e2b8540036a15066430c2bfaee69d54bc0d0316616dc5",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-driver.cjs",
+      "bytes": 12751,
+      "sha256": "f850476eb4fd20752581f5afe3baaf3bf4230d01ebfcf775338cedb370ccfe3a",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-prepare.cjs",
+      "bytes": 6118,
+      "sha256": "254207314ca56776c19f9d19aae1be89dbc84de6f639497a14a616d1b0dd7c22",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-proof.function.js",
+      "bytes": 3588,
+      "sha256": "a0f54b4bb38c0459a11e4d04a34a1d739df976bc71e70c4156bdba32cb30dd78",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-current-transport-retry-result.json",
+      "bytes": 3149,
+      "sha256": "33942fca4daac726bcd856e63e5ece27175b84034fa977c1952b21ec4463ee6e",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-preparation-manifest.json",
+      "bytes": 2324,
+      "sha256": "a0a725fa60dbef9b09b8968084c6c3ef5d5e16a1072ae7d5d7ae6a32f659c6be",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-prepare.cjs",
+      "bytes": 7013,
+      "sha256": "e0a2b0e0ed3a792103213a14ef33893095c396f07c81347ebd50bc6248ead365",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-proof.expression.js",
+      "bytes": 15735,
+      "sha256": "ac4972b68ccc16e0e178f4e721ed70d714cb479bcd4240d097b805fcdb78fb37",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-update-actual-result.json",
+      "bytes": 7069,
+      "sha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/android-update.cjs",
+      "bytes": 8319,
+      "sha256": "d10cc3bfa4f280c12537d9f55a829ca4adb22cfc4e7e42bd30464cccc78a485d",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt1-memory-block/audit-failure.json",
+      "bytes": 322,
+      "sha256": "fd1693289b876a1a80b725c147479480a67b92d7ebeabbcd652bebf5509e04ff",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt1-memory-block/audit-progress.json",
+      "bytes": 176,
+      "sha256": "252d13ad5ef6896033917a860f0b825565c8561638bf5f5673dc9a5d720025c9",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt1-memory-block/results.json",
+      "bytes": 895,
+      "sha256": "5ebc0b989f7c2bbe57c34d6d177a7f1fe453ddacba86882cb47d2446c2810837",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit-failure.json",
+      "bytes": 322,
+      "sha256": "327673f89fafdb7d61456ebe13bec8771ece8135f30ac0c5640b28b6b9851d8f",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit-memory-recovery.json",
+      "bytes": 218,
+      "sha256": "94cb262aa59e114bc1ff3b4a25766baf8fb174c4f20512556840853fe5e72db8",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit-preparation.json",
+      "bytes": 1803,
+      "sha256": "a834f193db3898e543ca8428f74689bed80a56aab6d974fba631819bec049fd5",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit-progress.json",
+      "bytes": 179,
+      "sha256": "40fb105ec74c6f39c4f9bf6057197c06448031cf6745ed80d962964fdf08eb2b",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit-retry-admission.json",
+      "bytes": 268,
+      "sha256": "c2544711686e2062078288ade7d5655d0d1a91a0d43a805352e8d0eda9b5e5e4",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/audit.cjs",
+      "bytes": 10349,
+      "sha256": "fa1e4084c2d871249d1e7cb84dbf64600a37eeb8176aa1f5d2721352fd4bfb5c",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/preservation.json",
+      "bytes": 1498,
+      "sha256": "69860ba18a18a1f6dcc68fb7b4bf9a23dcae3b1d52a4fea82b318b3782573808",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt2-archive-deadline/results.json",
+      "bytes": 26820,
+      "sha256": "6075d1d3baf4400c88037cc151993c0e5829b8ffa2b3cf8d4a7fe3055f6f05c0",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/audit-failure.json",
+      "bytes": 312,
+      "sha256": "f17100438bf021cc7395da53214c23600c39cd1f9d23a083456b9b1a8adc19aa",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/audit-progress.json",
+      "bytes": 178,
+      "sha256": "5115940f4ff0c6cb4e3a210f7c0ab61e67e28f4c19ae86c96a19a46b8d34fcea",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/audit.cjs",
+      "bytes": 18023,
+      "sha256": "15fc89d0d8b59ec7c93ed6a5f090a1a91793876210f24f605d236c3f8e8e7f37",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/preservation.json",
+      "bytes": 993,
+      "sha256": "ad1288a492f6064f67f7300305d44b40c8381b94ac7321ecd2b60134f7c7fdcf",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/results.json",
+      "bytes": 28060,
+      "sha256": "d9c7305072b359ef3226eab15b2696e40d38b99e6c4bb146642ee5606d9ba3c0",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt3-head-length/route-diagnostic.json",
+      "bytes": 169,
+      "sha256": "cde70aeddddddf6f6a99a0e0dc2a193661ca8e6e626b8420a3a32492917d7f00",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/audit-failure.json",
+      "bytes": 312,
+      "sha256": "94b5153fd77614871a303b072078d84568553a07346f2622891007931cd9f1f8",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/audit-progress.json",
+      "bytes": 178,
+      "sha256": "d211e9efd0fe39c7ac6b9d8be444fbd16ffea60ccbc4d027f4af78b69c97db3c",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/audit.cjs",
+      "bytes": 18982,
+      "sha256": "11147654179b0b5f65d8a5bc9c0937a7351e0ead346c80a6cbdb90ef9dba0258",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/notice-route-diagnostic.json",
+      "bytes": 364,
+      "sha256": "e5f321a2dc7f1c3eec88fe67db56cff1a983fb39e46b946d7dec23cd12bf37bf",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/preservation.json",
+      "bytes": 1092,
+      "sha256": "5da390c3c4e2ebdd61346130b172672e7729ea19682741862672301641b32dc1",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt4-weak-text-etag/results.json",
+      "bytes": 28988,
+      "sha256": "0b420762266139ca1b0a0f826bdcb9d59b1de8a4c0944cd7871bdbea0ed63859",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt5-private-abort/audit-failure.json",
+      "bytes": 299,
+      "sha256": "ceb39b544bd965e7c9f90ed0cd5c560bfd5ebf7d3a4db1c1c6b40f0c9c50f3f8",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt5-private-abort/audit-progress.json",
+      "bytes": 178,
+      "sha256": "6216e2d2dfe9ab2aba79bb2f1c12a125a095333d0c6f4e8d34fc7244c5cefe64",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt5-private-abort/audit.cjs",
+      "bytes": 19088,
+      "sha256": "853db674f6f1ffb192043295cd603a1cbd17ba9f1a626a47b2301963dc66703f",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt5-private-abort/preservation.json",
+      "bytes": 881,
+      "sha256": "6f1bcfc855bf3dd34ec1e075c145e9f87f2c76dbccc83c43ec98bbb119624f7b",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-attempt5-private-abort/results.json",
+      "bytes": 35908,
+      "sha256": "277edaacb32e0a70e97dfed5ae402220e73735ec97420fdf6cb47e54ff9caaeb",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-etag-preparation.json",
+      "bytes": 897,
+      "sha256": "9814380b24f5297e8a1995d634fbd658b0061f0fe01fa82aaf624f2a0cd94a1b",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-memory-recovery.json",
+      "bytes": 218,
+      "sha256": "94cb262aa59e114bc1ff3b4a25766baf8fb174c4f20512556840853fe5e72db8",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-preparation.json",
+      "bytes": 1803,
+      "sha256": "a834f193db3898e543ca8428f74689bed80a56aab6d974fba631819bec049fd5",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-progress.json",
+      "bytes": 181,
+      "sha256": "333201375c13d5f90976754056fb1f4e03c5f2033d3b9d42db9a605594e6efab",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-resume.test.cjs",
+      "bytes": 4549,
+      "sha256": "668f0f8af95e152db543ac9fc0d7d34c6c21187f9c537a4415a9e8340932a44f",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-retry-admission.json",
+      "bytes": 268,
+      "sha256": "c2544711686e2062078288ade7d5655d0d1a91a0d43a805352e8d0eda9b5e5e4",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit-reuse-preparation.json",
+      "bytes": 1207,
+      "sha256": "9cf1168c7e84d16dcf1a48caf9e24cdf5ed2683074920e74d80fd4e84d5850d7",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/audit.cjs",
+      "bytes": 19655,
+      "sha256": "7e5dd9e007c6d616aff1ce2b18fc49198b1de900a7cebf1da2c2a577a65d2cbd",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/build-release.py",
+      "bytes": 3995,
+      "sha256": "cf28321cac76c6a9c63d1706132e6f7d9d80ec5d4266e690a062acea4c73df46",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/delivery-guard-before-array-normalization.cjs",
+      "bytes": 6675,
+      "sha256": "97b21e02e9ea5aa7f815a34cfda1a6a300fa9124f4eb52151314eee0e7f46b2a",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/delivery-guard-before-manifest-normalization.cjs",
+      "bytes": 6687,
+      "sha256": "de3f8dc786934169e0196f0293e7b6231cca3e4243420717f556d6029e034253",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/delivery-guard.cjs",
+      "bytes": 6699,
+      "sha256": "11cf042fd0469d173c5f1f101e8692ec816811a7664d7b2d39deca7fb17a7df7",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/delivery.cjs",
+      "bytes": 12518,
+      "sha256": "af0dc11585e33f99c8a40975cc9f63107bf007d1a3e2ac14e9454286518088da",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/deployment-attempt.json",
+      "bytes": 375,
+      "sha256": "4c9fd44cc922b7a85029bb0762a7da54e109f3f651f727690f00343f7d908f1b",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/deployment.json",
+      "bytes": 11313,
+      "sha256": "d98c004d1a3bfcf357ccb841714983cebefaebc44f8a5aa52e6bb8e035d5763b",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/finalize-diagnostic.json",
+      "bytes": 325,
+      "sha256": "8fafe727eb78f051e98eed24f762b4acb4a4eb9d968f471751744d6b2ae87c2d",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/finalize-diagnostic2.json",
+      "bytes": 1760,
+      "sha256": "d95790c80996c0cb92508593f68ae0d1fdd804609639d4f16828d50283270a78",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/finalize-diagnostic3.json",
+      "bytes": 690,
+      "sha256": "b7d6f1367503ce6f6225273dfa3bb1e56b21fd5262b683db4170747b4f81edac",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/finalize-failure-first-vm-array.json",
+      "bytes": 202,
+      "sha256": "da8f893f6df2c35a063becc50cd66954a9b798cd02a044fa33b4827a3e7c1705",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/finalize-failure-second-vm-manifest.json",
+      "bytes": 202,
+      "sha256": "2e9ce0f12c32394c2c02be0e080f1f1b36a37eb6ec4f5b3233f508b5153b743d",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/guard-array-normalization.json",
+      "bytes": 396,
+      "sha256": "63b05b18275182311a96205c2b6c0942dfb47b6c355f4f9530ac342053963e45",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/guard-manifest-normalization.json",
+      "bytes": 455,
+      "sha256": "f29c137167a4cede6df23812ccff27b581029931f3d770a456815f0c68389b9c",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/guard.test.cjs",
+      "bytes": 5756,
+      "sha256": "ba986441c6309c1d843e7dfafe4948eafb964b642034617fdd3f968638725ab2",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/materialization.json",
+      "bytes": 11025,
+      "sha256": "d2a003f330a7e59bc7e1fada1a786e1933d6a42741c20598b7173a803bbc10e0",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/notice-route-diagnostic.json",
+      "bytes": 364,
+      "sha256": "e5f321a2dc7f1c3eec88fe67db56cff1a983fb39e46b946d7dec23cd12bf37bf",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/package.json",
+      "bytes": 876,
+      "sha256": "5cdccbb366625429ad62108fc18f6e839c947d1c6423209618bcbedf87923ec1",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-current-cleanup.json",
+      "bytes": 434,
+      "sha256": "19a150d59ca141774a47c2f06c2dfd9b7ef4fbeffaaeecced532e39569d5bc9e",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-current-source-cache-result.json",
+      "bytes": 6086,
+      "sha256": "8ce6ddd5c6bbbfad41a36a146ce7232a431d164313e89259ac33326eb51cc049",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-prepare.cjs",
+      "bytes": 3530,
+      "sha256": "f35c79e7e96fc65ebc32e0962b3010bfab88ee7446accf362a2a739f06894e1a",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-rc36-applied.png",
+      "bytes": 11836,
+      "sha256": "16dd8379a5f173ad5afa14685a479b9d81132e25c2a4c58380c1ccdcd7bd3ff7",
+      "role": "safe-version-panel-screenshot"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-source-binding.json",
+      "bytes": 8267,
+      "sha256": "553ddb5a5c62411640192ed6e28eb291d3b5c2d193ebc983a5da45e1e2845216",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-source-proof.expression.js",
+      "bytes": 9701,
+      "sha256": "f585a7d9c0e7d852035c597829a8b65324afd2cd2e1be7150e25098137bb107a",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/pc-update-baseline.expression.js",
+      "bytes": 3223,
+      "sha256": "9a6d64133335a8c406c1b42c10a105fee464d8234f6118c740ba77a73a68faf5",
+      "role": "producer-or-observer"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/readback-attempt.json",
+      "bytes": 211,
+      "sha256": "1ec226a1d98458f4e4020a1811e5565bdea12192d07f2653134fdb0e871716a9",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/redacted-readback.json",
+      "bytes": 1552,
+      "sha256": "deebeb06e8e9f8df7198f2061d06f755b3cc8867b3f101d3e5755ea7e22db0f2",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/results.json",
+      "bytes": 44484,
+      "sha256": "c626bb1435b20e72a2ce71220caa73542a0462fd4f67c4ec559b7658ee5cfd67",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/route-diagnostic.json",
+      "bytes": 169,
+      "sha256": "cde70aeddddddf6f6a99a0e0dc2a193661ca8e6e626b8420a3a32492917d7f00",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/source-readiness.json",
+      "bytes": 12302,
+      "sha256": "0821a574cc4d957abb6cddcadda4665bfd4ce03f4a00168137f36bbfc2c76c62",
+      "role": "safe-evidence-or-binding"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/verified-download.cjs",
+      "bytes": 2395,
+      "sha256": "4089984977f9a82c7907ac851c82e3367f040bfd11caa2ef3a55228c4ab25732",
+      "role": "producer-or-observer"
+    }
+  ],
+  "count": 104,
+  "totalBytes": 617175,
+  "producerCount": 37,
+  "manifestExcludedFromCountAndBytes": true,
+  "explicitExcludes": [
+    {
+      "path": "qa/candidate-rc36-delivery/deployment-private.log",
+      "reason": "Private raw CLI/control-plane/readback; do not stage or export"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/version-readback-private.json",
+      "reason": "Private raw CLI/control-plane/readback; do not stage or export"
+    },
+    {
+      "path": "qa/candidate-rc36-delivery/version-readback-error-private.log",
+      "reason": "Private raw CLI/control-plane/readback; do not stage or export"
+    }
+  ],
+  "otherExcludes": [
+    "Release site and ZIP outside this folder (metadata only retained)",
+    "Private identity/cookies/tokens/Drive media or account data",
+    "Files outside qa/candidate-rc36-delivery"
+  ],
+  "retainedFailures": [
+    "audit-attempt1-memory-block",
+    "audit-attempt2-archive-deadline",
+    "audit-attempt3-head-length",
+    "audit-attempt4-weak-text-etag",
+    "audit-attempt5-private-abort",
+    "finalize-failure-first-vm-array.json",
+    "finalize-failure-second-vm-manifest.json",
+    "finalize-diagnostic.json",
+    "finalize-diagnostic2.json",
+    "finalize-diagnostic3.json",
+    "android-update-actual-result.json",
+    "android-current-result.json",
+    "android-current-transport-result.json",
+    "android-current-transport-attempt2-result.json",
+    "android-current-transport-retry-result.json"
+  ],
+  "unchangedProduct": true,
+  "staged": false,
+  "committed": false
+}

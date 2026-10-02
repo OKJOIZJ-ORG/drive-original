@@ -1,0 +1,85 @@
+{
+  "schema": "android36-update-preparation/1",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "version": "1.22.0-rc.36",
+  "preparationOnly": true,
+  "deviceConnected": false,
+  "actualExecuted": false,
+  "checks": [
+    {
+      "scenario": "pass",
+      "passed": true,
+      "expectedFailure": null,
+      "nativeTapCalls": 1
+    },
+    {
+      "scenario": "untrusted",
+      "passed": true,
+      "expectedFailure": "UPDATE_PRESERVATION_OR_SOURCE",
+      "nativeTapCalls": 1
+    },
+    {
+      "scenario": "drift",
+      "passed": true,
+      "expectedFailure": "UPDATE_PRESERVATION_OR_SOURCE",
+      "nativeTapCalls": 1
+    },
+    {
+      "scenario": "foreign",
+      "passed": true,
+      "expectedFailure": "UPDATE_ADMISSION",
+      "nativeTapCalls": 0
+    },
+    {
+      "scenario": "unsupported",
+      "passed": true,
+      "expectedFailure": "NORMAL_FORCE_FLAG_UNSUPPORTED",
+      "nativeTapCalls": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "android-prepare.cjs",
+      "bytes": 7013,
+      "sha256": "e0a2b0e0ed3a792103213a14ef33893095c396f07c81347ebd50bc6248ead365"
+    },
+    {
+      "file": "android-binding.json",
+      "bytes": 7662,
+      "sha256": "86872100a79608cec37049ed2ec2ccc896d509d6edfe7ad88f902fd4f0abe2d9"
+    },
+    {
+      "file": "android-baseline.expression.js",
+      "bytes": 3334,
+      "sha256": "01bee3d8aa976d913537372c96503a630e878a84e5dc8b44176d6ef223e4dbab"
+    },
+    {
+      "file": "android-proof.expression.js",
+      "bytes": 15735,
+      "sha256": "ac4972b68ccc16e0e178f4e721ed70d714cb479bcd4240d097b805fcdb78fb37"
+    },
+    {
+      "file": "android-update.cjs",
+      "bytes": 8319,
+      "sha256": "d10cc3bfa4f280c12537d9f55a829ca4adb22cfc4e7e42bd30464cccc78a485d"
+    },
+    {
+      "file": "android-checks.cjs",
+      "bytes": 6825,
+      "sha256": "9a6b70e007d5a4f029a185613bb2325bb854ef677ee1a5568d98973a744169c6"
+    }
+  ],
+  "maintainedCommon": {
+    "file": "qa/rc32-ts-device-replay/android-common.cjs",
+    "sha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286"
+  },
+  "bounds": {
+    "wholeUnitMs": 120000,
+    "postClickReloadMs": 60000,
+    "publicGetCount": 6,
+    "publicGetMs": 10000,
+    "cacheDistinct": 50,
+    "cacheWithRootAlias": 51
+  },
+  "executingSWScriptHash": "UNKNOWN_NOT_CAPTURED_BY_PAGE_ONLY_COMMON"
+}

@@ -1,0 +1,205 @@
+{
+  "schema": "actual-android-current36-transport/1",
+  "recordedAt": "2026-10-02T13:43:58.434Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "readOnly": true,
+  "noInput": true,
+  "noNavigation": true,
+  "noReload": true,
+  "noForcedCredentialOrUpdate": true,
+  "noPlayback": true,
+  "priorFailedReceiptSha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+  "producerSha256": "d951d3e786faedacc5fc57d7e13f5daa354928b8756b9ed14308ad24a16b8eef",
+  "observerSha256": "7e8a96094d662b629520bc79caa6f4e1794d06fb6406a5a7f658488ec7b74dd6",
+  "proofSha256": "43fc3391a220d967e53d1ff49cb7c014fe28daa501ce8d781816448035928a55",
+  "steps": [
+    {
+      "name": "initial current read-only diagnosis",
+      "at": 1790948640398,
+      "navigatorOnline": true,
+      "fetchNative": true,
+      "foreignQAOverridePresent": false,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": false,
+      "setupVisible": true,
+      "authStatus": "auth-unavailable",
+      "accountPresent": false,
+      "accountIdentityPresent": false,
+      "tokenUsable": false,
+      "credentialPending": false,
+      "credentialResponseOK": null,
+      "credentialRetryable": true,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 53709,
+          "durationMs": 13,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 55833,
+          "durationMs": 30,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": false,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": false,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    },
+    {
+      "name": "one public GET and nonissuing credential GET transport probes",
+      "at": 1790948640808,
+      "records": [
+        {
+          "kind": "public-version",
+          "status": 200,
+          "type": "basic",
+          "ok": true,
+          "redirected": false,
+          "bytes": 211,
+          "sha256": "473bfe3831e4daefe0c9720558ee8ae387fab432150a320e84c8d53693ed8207"
+        },
+        {
+          "kind": "credential-get",
+          "status": 403,
+          "type": "basic",
+          "ok": false,
+          "redirected": false,
+          "bytes": null,
+          "sha256": null
+        }
+      ],
+      "navigatorOnline": true,
+      "fetchNative": true,
+      "foreignQAOverridePresent": false,
+      "probeAbortTimersCleared": true,
+      "networkFailures": [
+        {
+          "resource": "credential-get",
+          "errorText": "net::ERR_ABORTED",
+          "blockedReason": null,
+          "type": "Fetch",
+          "canceled": true
+        }
+      ]
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "mcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "candidateTargetCount": 1,
+  "nativeVisibilityUnmasked": true,
+  "completed": false,
+  "failure": "CURRENT_SAFE_EVALUATION_FAILED",
+  "networkFailures": [
+    {
+      "resource": "credential-get",
+      "errorText": "net::ERR_ABORTED",
+      "blockedReason": null,
+      "type": "Fetch",
+      "canceled": true
+    },
+    {
+      "resource": "public-index",
+      "errorText": "net::ERR_FAILED",
+      "blockedReason": null,
+      "type": "Fetch",
+      "canceled": false
+    }
+  ],
+  "cleanup": {
+    "networkListenersRemoved": true,
+    "networkObserverDisabled": true,
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

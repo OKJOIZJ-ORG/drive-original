@@ -1,0 +1,69 @@
+{
+  "schema": "android-current36-adjudication/1",
+  "receipt": {
+    "file": "qa/candidate-rc36-delivery/android-current-result.json",
+    "bytes": 6663,
+    "sha256": "fd11a9e207ae1edb77dc4a374b57888215e341c0ec5310bb08624b54b1b8247a"
+  },
+  "verdict": "CURRENT36_AUTH_UNAVAILABLE_NOT_QUALIFIED",
+  "observed": {
+    "uniqueCandidateTarget": true,
+    "version": "1.22.0-rc.36",
+    "nativeVisible": true,
+    "setupVisible": true,
+    "libraryVisible": false,
+    "authStatus": "auth-unavailable",
+    "accountReadyIdle": false,
+    "credentialPending": false,
+    "accountLoading": false,
+    "credentialOutcomeCurrent": true,
+    "credentialRetryable": true,
+    "credentialResponseOK": null,
+    "credentialResourceStatuses": [
+      0,
+      0,
+      0
+    ],
+    "playerClosed": true,
+    "retirementSettled": true,
+    "serviceWorker": {
+      "registrationPresent": true,
+      "active": "activated",
+      "controller": "activated",
+      "waiting": null,
+      "installing": null,
+      "activeIsController": true,
+      "rootScope": true
+    },
+    "bannerHidden": true,
+    "foreignHelpers": false
+  },
+  "qualification": {
+    "currentVersion": "OBSERVED36",
+    "controller": "PASSED_ACTIVATED_CURRENT_ROOT_SCOPE",
+    "account": "NOT_READY",
+    "public6SourceHashes": "NOT_RUN_ACCOUNT_ADMISSION_FAILED",
+    "cache50AndRootAlias": "NOT_RUN_ACCOUNT_ADMISSION_FAILED",
+    "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+    "transition35to36": "UNKNOWN_ALREADY_APPLIED"
+  },
+  "causeAssessment": {
+    "confirmed": "The unique current36 candidate is settled auth-unavailable with no credential/account initialization flight. It is not merely a pending initializer or an identified wrong-origin tab.",
+    "unknown": "Credential resource status0 and null responseOK do not prove HTTP denial, expired login, connectivity failure or a product regression. Exact underlying transport reason not captured.",
+    "nextBoundary": "Readonly transport/source-only discrimination or qualified ordinary same-Google recovery is needed before current account/source acceptance. No login selection, 2FA or new grant screen was reached; a user login boundary is not yet proven."
+  },
+  "noInputOrRetry": true,
+  "noAppOrAccountWrites": true,
+  "priorUpdateFailurePreserved": true,
+  "priorFailedReceiptSha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+  "cleanup": {
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

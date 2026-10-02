@@ -1,0 +1,43 @@
+{
+  "schema": "android-current-transport-preparation/1",
+  "passed": true,
+  "localOnly": true,
+  "checks": [
+    "syntax",
+    "Network observer before probe",
+    "exact known paths/error reduction",
+    "GET only/no update/emulation mutation",
+    "manual redirect no Location",
+    "body cancel and request/event caps",
+    "version initial probe reuse",
+    "account qualification withheld",
+    "cleanup listeners/domain disable"
+  ],
+  "files": [
+    {
+      "file": "android-current-transport-prepare.cjs",
+      "bytes": 7037,
+      "sha256": "eb054e79d95c57aeaf648d97bfbfd8fabae856d131e9e2a8a78c8e696cf4abd9"
+    },
+    {
+      "file": "android-current-transport-observe.function.js",
+      "bytes": 3631,
+      "sha256": "7e8a96094d662b629520bc79caa6f4e1794d06fb6406a5a7f658488ec7b74dd6"
+    },
+    {
+      "file": "android-current-transport-proof.function.js",
+      "bytes": 3510,
+      "sha256": "43fc3391a220d967e53d1ff49cb7c014fe28daa501ce8d781816448035928a55"
+    },
+    {
+      "file": "android-current-transport-driver.cjs",
+      "bytes": 10749,
+      "sha256": "981476e6eace03dac40f02f511ea5abc2dab7172a2697f7be9c48c906485c47d"
+    },
+    {
+      "file": "android-current-transport-checks.cjs",
+      "bytes": 2952,
+      "sha256": "3e4ab3940dd47973ae1d4952e47cd6a56c60985cc55cc1bc8d77fc9bde5d9744"
+    }
+  ]
+}

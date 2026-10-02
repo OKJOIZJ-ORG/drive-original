@@ -1,0 +1,47 @@
+{
+  "source": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "version": "1.22.0-rc.36",
+  "workerVersion": "12fd17ea-0b16-4f14-ada3-0bda639291ec",
+  "passed": false,
+  "priorAuditPassed": false,
+  "verifiedPrefix": 49,
+  "preserved": [
+    {
+      "file": "audit.cjs",
+      "bytes": 10349,
+      "sha256": "fa1e4084c2d871249d1e7cb84dbf64600a37eeb8176aa1f5d2721352fd4bfb5c"
+    },
+    {
+      "file": "results.json",
+      "bytes": 26820,
+      "sha256": "6075d1d3baf4400c88037cc151993c0e5829b8ffa2b3cf8d4a7fe3055f6f05c0"
+    },
+    {
+      "file": "audit-progress.json",
+      "bytes": 179,
+      "sha256": "40fb105ec74c6f39c4f9bf6057197c06448031cf6745ed80d962964fdf08eb2b"
+    },
+    {
+      "file": "audit-failure.json",
+      "bytes": 322,
+      "sha256": "327673f89fafdb7d61456ebe13bec8771ece8135f30ac0c5640b28b6b9851d8f"
+    },
+    {
+      "file": "audit-preparation.json",
+      "bytes": 1803,
+      "sha256": "a834f193db3898e543ca8428f74689bed80a56aab6d974fba631819bec049fd5"
+    },
+    {
+      "file": "audit-memory-recovery.json",
+      "bytes": 218,
+      "sha256": "94cb262aa59e114bc1ff3b4a25766baf8fb174c4f20512556840853fe5e72db8"
+    },
+    {
+      "file": "audit-retry-admission.json",
+      "bytes": 268,
+      "sha256": "c2544711686e2062078288ade7d5655d0d1a91a0d43a805352e8d0eda9b5e5e4"
+    }
+  ],
+  "scope": "Exact failed attempt2 copy before QA producer repair; no retroactive pass",
+  "recordedAt": "2026-10-02T12:27:36.8043049Z"
+}

@@ -1,0 +1,207 @@
+{
+  "schema": "actual-android-current36/1",
+  "recordedAt": "2026-10-02T13:33:45.368Z",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "readOnly": true,
+  "noInput": true,
+  "noNavigation": true,
+  "noReload": true,
+  "noForcedCredentialOrUpdate": true,
+  "noPlayback": true,
+  "priorFailedReceiptSha256": "d5ccd40fbd4ae34a817f68f3288971514bf794937ac38bdbd394692ba5f49858",
+  "producerSha256": "35aa8893ae8d774e19f6722881c3e82b54a2cc0c67712ab0369f99bc8eb2fbd7",
+  "observerSha256": "458d5bd2cf08a5a420eecdb0705144ebb5ed66a2d9de600c1246f812c5cb7a7a",
+  "proofSha256": "a4826c967511a592e35b90324a016547417d4d821eec843be33110929ce8d1ef",
+  "steps": [
+    {
+      "name": "initial current read-only diagnosis",
+      "at": 1790948027335,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": false,
+      "setupVisible": true,
+      "authStatus": "auth-unavailable",
+      "accountPresent": false,
+      "accountIdentityPresent": false,
+      "tokenUsable": false,
+      "credentialPending": false,
+      "credentialResponseOK": null,
+      "credentialRetryable": true,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 53709,
+          "durationMs": 13,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 55833,
+          "durationMs": 30,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": false,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": false,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    },
+    {
+      "name": "settled current account classification",
+      "at": 1790948027335,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": false,
+      "setupVisible": true,
+      "authStatus": "auth-unavailable",
+      "accountPresent": false,
+      "accountIdentityPresent": false,
+      "tokenUsable": false,
+      "credentialPending": false,
+      "credentialResponseOK": null,
+      "credentialRetryable": true,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 53709,
+          "durationMs": 13,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 55833,
+          "durationMs": 30,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": false,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": false,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "mcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "candidateTargetCount": 1,
+  "nativeVisibilityUnmasked": true,
+  "verdict": "AUTH_UNAVAILABLE",
+  "userBoundary": "Ordinary same-account recovery not attempted in this read-only phase; any account selection, 2FA or new grant requires explicit safe target qualification.",
+  "completed": false,
+  "failure": "CURRENT_ACCOUNT_NOT_READY",
+  "cleanup": {
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

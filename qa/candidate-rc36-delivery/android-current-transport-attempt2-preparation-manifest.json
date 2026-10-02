@@ -1,0 +1,30 @@
+{
+  "schema": "android-current-transport-invocation-repair/1",
+  "passed": true,
+  "actualDeviceOrNetworkUsed": false,
+  "checks": [
+    "actual probe expression invoked",
+    "exact2GET calls and receipts",
+    "public body hash",
+    "credential method-validation405 body not retained",
+    "abort timers cleared",
+    "driver receipt guard before source"
+  ],
+  "files": [
+    {
+      "file": "android-current-transport-attempt2-prepare.cjs",
+      "bytes": 957,
+      "sha256": "1f9f1dec2f51909a72c6f8012425fd5768c643cefe4a3138b074525ba4129ee0"
+    },
+    {
+      "file": "android-current-transport-attempt2-driver.cjs",
+      "bytes": 10930,
+      "sha256": "d951d3e786faedacc5fc57d7e13f5daa354928b8756b9ed14308ad24a16b8eef"
+    },
+    {
+      "file": "android-current-transport-attempt2-checks.cjs",
+      "bytes": 2338,
+      "sha256": "421763a7ac2d9256d287dee85ccde296d1665fb7afb5faca60bffffbbf78e7d2"
+    }
+  ]
+}
