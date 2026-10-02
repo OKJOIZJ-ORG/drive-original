@@ -1,0 +1,57 @@
+{
+  "cleanup": {
+    "cleanupFailed": false,
+    "cleanupPending": 0,
+    "pendingCallbacks": 0,
+    "settled": true
+  },
+  "completed": false,
+  "failure": "Q1_SOURCE_HEADERS",
+  "finalSourceCleanup": {
+    "cleanupFailed": false,
+    "cleanupPending": 0,
+    "pendingCallbacks": 0,
+    "settled": true
+  },
+  "mediaInputs": 0,
+  "originalWrite": false,
+  "ownerCurrent": true,
+  "playerUntouched": true,
+  "productChanged": false,
+  "reads": {
+    "bytes": 65536,
+    "cacheHits": 0,
+    "discoveryBytes": 65536,
+    "discoveryRequests": 1,
+    "inFlight": 0,
+    "logicalReads": 0,
+    "peakCache": 0,
+    "peakInFlight": 1,
+    "peakQueued": 1,
+    "requests": 1
+  },
+  "requests": [
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "contentLength": "65536",
+      "contentRange": null,
+      "contentType": "video/mp4",
+      "kind": "range",
+      "range": "bytes=0-65535",
+      "status": 206
+    }
+  ],
+  "schema": "rc36-actual-inventory-diagnostic/1",
+  "selectionRowsLimit": 20
+}

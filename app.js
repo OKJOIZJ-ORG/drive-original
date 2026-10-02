@@ -6191,6 +6191,7 @@ async function openPlayerTracks() {
     metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
     metadataUrl.searchParams.set('supportsAllDrives', 'true');
     const source = await openDriveQ1Source({fileId: file.id, accountKey: account, accountGeneration,
+      allowCorsHiddenRange: true,
       signal: controller.signal, isCurrent: owner.current,
       readMetadata: async ({signal}) => {
         const headers = file.resourceKey ? {'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}`} : {};

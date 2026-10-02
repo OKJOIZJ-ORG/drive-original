@@ -1,0 +1,31 @@
+{
+  "schema": "rc36-color-tool-failure-preservation/1",
+  "failure": "COLOR_BROWSER_EXCEPTION",
+  "initialExceptionCause": "UNKNOWN_NOT_RETAINED",
+  "timedPlaybackStarted": false,
+  "cleanupComplete": true,
+  "files": {
+    "browser.function.js": {
+      "bytes": 8806,
+      "sha256": "fb7bba3e8c17133aecd46f798b406e47dddc01ed92d25857a2ab353cd8686758"
+    },
+    "driver.cjs": {
+      "bytes": 4568,
+      "sha256": "c2242ff63fe22b78e8cde7d5fbfc30a5b3a859484b1987fd96374bb8926e83d3"
+    },
+    "preflight.cjs": {
+      "bytes": 4503,
+      "sha256": "6d116b00ba5d7f67e07d26a7cc5300e5ad964fd38e5f8b5cb19a4da5c1d6f9ce"
+    },
+    "preparation.json": {
+      "bytes": 714,
+      "sha256": "3a78bd6247b8bdf1f8c214ae7e77d627883359cfb61205177ffe2afbf2aa964f"
+    },
+    "actual-pc-result.json": {
+      "bytes": 1398,
+      "sha256": "8ae843eee4cf2e735e674d99686581702edd46eb489bbb8f322d8d717dd4cd55"
+    }
+  },
+  "repair": "Safe allowlisted browser error-code recording; additive20-row metadata limit; no sample produces structured verdict before any timed input",
+  "originalCriteriaChanged": false
+}

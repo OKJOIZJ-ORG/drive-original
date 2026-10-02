@@ -3,7 +3,11 @@
 // content revision. A checksum is metadata evidence, NOT a hash of this range.
 // Authentication, URLs and exact app/account/session ownership stay in callers.
 // readMetadata({signal,phase}) returns Drive JSON; readRange({start,end,range,
-// signal}) returns a same-origin SW Response. abort() returns one shared cleanup
+// signal}) normally returns a same-origin SW Response. Independent direct Drive
+// readers may opt into a CORS-hidden Content-Range only for a real cors206 with
+// exact exposed length. The same pinned size, full body and fresh pre/post
+// metadata checks still apply; an exposed conflicting range is never inferred.
+// abort() returns one shared cleanup
 // Promise: {settled,pendingCallbacks,cleanupPending,cleanupFailed}. Its separate
 // cleanup wall is min(requestTimeoutMs,2000); a false result MUST block starting
 // another transport owner. A failed open carries the same result in error.cleanup.
@@ -64,11 +68,11 @@ export async function openDriveQ1Source(options={}) {
     if(error instanceof SourceError&&error.cleanup)result.cleanup=error.cleanup;throw result;}
 }
 
-async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,isCurrent,signal,requestTimeoutMs=MAX_TIMEOUT}={}) {
+async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,isCurrent,signal,requestTimeoutMs=MAX_TIMEOUT,allowCorsHiddenRange=false}={}) {
   requireThat(text(fileId,512)&&/^[A-Za-z0-9_-]+$/.test(fileId)&&text(accountKey,512)
     &&safe(accountGeneration)&&typeof readMetadata==='function'&&typeof readRange==='function'
     &&typeof isCurrent==='function'&&signalLike(signal)&&Number.isSafeInteger(requestTimeoutMs)
-    &&requestTimeoutMs>0&&requestTimeoutMs<=MAX_TIMEOUT,'OPTIONS');
+    &&requestTimeoutMs>0&&requestTimeoutMs<=MAX_TIMEOUT&&typeof allowCorsHiddenRange==='boolean','OPTIONS');
   let state='opening',failure=null,busy=false,checking=false,epoch=null,identity=null,checksum=null,held=null,latestMetadata=null;
   let retention=null;
   let recovery=null;
@@ -252,7 +256,9 @@ async function open({fileId,accountKey,accountGeneration,readMetadata,readRange,
         }
         requireThat(response?.status===206&&typeof response.headers?.get==='function','HEADERS');
         const header=name=>response.headers.get(name);
-        requireThat(header('Content-Range')===`bytes ${start}-${end}/${identity.size}`
+        const contentRange=header('Content-Range');
+        const hiddenCorsRange=allowCorsHiddenRange&&response.type==='cors'&&contentRange===null;
+        requireThat((contentRange===`bytes ${start}-${end}/${identity.size}`||hiddenCorsRange)
           &&header('Content-Length')===String(length)&&!header('Content-Encoding'),'HEADERS');
         requireThat(typeof response.body?.getReader==='function','BODY');
         owner.reader=response.body.getReader();owner.response=null;

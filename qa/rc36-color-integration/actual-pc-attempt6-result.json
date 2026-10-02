@@ -1,0 +1,47 @@
+{
+  "schema": "rc36-real-account-color-integration/1",
+  "sourceCommit": "d3f78f321a804f582668dde1b7cd3e0f949b24c9",
+  "scope": "One bounded real account source; actual app handlers/native audio select; no cold/OS gesture/p95/pixel equality claim",
+  "originalMediaWrite": false,
+  "productChanged": false,
+  "driverSha256": "ddc2982c062725b25f84752f59c3918c98efbe193b59ccf9c7b0f5b0eaac6c2a",
+  "observerSha256": "19d95ffd849ee7e9f9ab283987f1e6560ea15447c4b320ef74e3e780ae1031d7",
+  "steps": [
+    {
+      "name": "prepared before any timed playback",
+      "at": 1790951645977,
+      "value": {
+        "current36": true,
+        "nativeUIBinding": "ordinary app handlers plus native select",
+        "ownedTimerPolicy": "10s metadata abort; finally clear",
+        "prepared": true,
+        "readOnlyUntilLocateAndOpen": true
+      }
+    },
+    {
+      "name": "ordinary close and owned cleanup",
+      "at": 1790951648503,
+      "value": {
+        "accountIdle": true,
+        "fence": true,
+        "helperAbsent": true,
+        "libraryRoot": true,
+        "playerClosed": true,
+        "privateHolderCleared": true,
+        "q0Absent": true,
+        "q1Absent": true,
+        "q1Retired": true,
+        "queryEmpty": true,
+        "tracksAbsent": true,
+        "tracksRetired": true,
+        "workerFactoryRestored": true,
+        "workerListenersRemoved": true
+      }
+    }
+  ],
+  "completed": false,
+  "failure": "COLOR_HEADER_NOT_ISO",
+  "transportDeadlineObserved": false,
+  "errorName": "Error",
+  "cleanupComplete": true
+}

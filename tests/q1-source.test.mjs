@@ -13,6 +13,38 @@ const options=patch=>({fileId:'test-file',accountKey:'account-1',accountGenerati
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return {promise,resolve,reject};};
 
+const hiddenCorsResponse=(patch={})=>{const r=response(0,9,patch);r.type='cors';r.headers.delete('Content-Range');return r;};
+test('direct cors206 hidden range requires explicit admission and exact length',async()=>{
+  for(const allow of [false,true]){
+    const phases=[];const source=await openDriveQ1Source(options({allowCorsHiddenRange:allow,
+      readMetadata:async({phase})=>{phases.push(phase);return base();},readRange:async()=>hiddenCorsResponse()}));
+    if(allow){assert.deepEqual(await source.read({start:0,end:9}),new Uint8Array(10).fill(7));assert.deepEqual(phases,['open','preflight','postflight']);assert.equal(source.stats().releasedBytes,10);}
+    else{await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_HEADERS/);assert.equal(source.stats().releasedBytes,0);}
+    assert.equal((await source.abort()).settled,true);
+  }
+});
+test('hidden-range admission never overrides visible conflicts, unsafe lengths or non-cors responses',async()=>{
+  for(const patch of [{type:'basic'},{type:'opaque'},{type:undefined},{status:200},
+    {headers:{'Content-Range':'bytes 1-10/1000'}},{headers:{'Content-Range':''}},
+    {headers:{'Content-Length':'9'}},{headers:{'Content-Length':'010'}},{headers:{'Content-Length':''}},
+    {headers:{'Content-Encoding':'gzip'}}]){
+    const source=await openDriveQ1Source(options({allowCorsHiddenRange:true,readRange:async()=>{
+      const r=hiddenCorsResponse();if(Object.hasOwn(patch,'type'))r.type=patch.type;if(patch.status)r.status=patch.status;
+      for(const [k,v]of Object.entries(patch.headers??{}))r.headers.set(k,v);return r;}}));
+    await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_HEADERS/);assert.equal(source.stats().releasedBytes,0);
+    assert.equal((await source.abort()).settled,true);
+  }
+});
+test('hidden cors ranges still reject short/long bodies and postflight content drift before delivery',async()=>{
+  for(const length of [9,11]){
+    const source=await openDriveQ1Source(options({allowCorsHiddenRange:true,readRange:async()=>hiddenCorsResponse({chunks:[new Uint8Array(length)]})}));
+    await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_BODY_LENGTH/);assert.equal(source.stats().releasedBytes,0);assert.equal((await source.abort()).settled,true);
+  }
+  const source=await openDriveQ1Source(options({allowCorsHiddenRange:true,readRange:async()=>hiddenCorsResponse(),
+    readMetadata:async({phase})=>({...base(),headRevisionId:phase==='postflight'?'revision-2':'revision-1'})}));
+  await assert.rejects(source.read({start:0,end:9}),/Q1_SOURCE_CONTENT_DRIFT/);assert.equal(source.stats().releasedBytes,0);assert.equal((await source.abort()).settled,true);
+});
+
 test('only observed Range503 has frozen recovery advice, with no source retry or body delivery',async()=>{
   let reads=0,cancelled=0;
   const source=await openDriveQ1Source(options({readRange:async()=>{

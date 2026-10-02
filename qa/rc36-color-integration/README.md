@@ -1,0 +1,7 @@
+# rc36 actual color integration and inventory diagnosis
+
+Seven finite actual-account attempts are retained without promotion. Attempts2/3 found no eligible source in their single bounded metadata pages; attempt6 rejected a non-ISO header before playback. Attempts5/7 reached current original Q0 frames (6,209ms and3,240ms) but failed ordinary audio inventory before the changed-color path. Initial account-idle cleanup failed; additive recovery receipts pass. Attempt4 omitted the underlying CDP timeout and failed at3s; later drivers use25s. No full-library absence, cold startup, p95, pixel equality, full-file checksum or original write is claimed.
+
+`inventory-diagnostic-result.json` discriminates the small443,834B/5,999ms ISO failure:the product reader rejects actual206 with exact exposed65,536B Content-Length and null CORS-hidden Content-Range. Current ownership, source cleanup and untouched playback pass. This is a product-layer incompatibility; runtime fix proof remains pending a new candidate. The earlier long-video/index-limit hypothesis is unverified.
+
+All files are safe scoped producers or redacted receipts, with no exported file/account/revision IDs, credentials, filenames or media pixels. `savepoint-manifest.json` pins exact evidence bytes; replay requires current source/ownership/deadline admission. Preparing/committing these records does not rerun or authorize production.
