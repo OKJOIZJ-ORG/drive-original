@@ -1,0 +1,6 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),{target}=require('./android-native-select.cjs');
+const node=(text='Generated AAC 3',extra='')=>`<node text="${text}" package="com.android.chrome" enabled="true" bounds="[10,20][100,120]" ${extra}/>`;
+test('exact generated native popup node reduces labels/XML to numeric trusted-input target',()=>{const r=target('<hierarchy>'+node('PRIVATE UNRELATED')+node()+'</hierarchy>','Generated AAC 3',1752,2800);assert.equal(r.available,true);assert.equal(r.x,55);assert.equal(JSON.stringify(r).includes('PRIVATE'),false);assert.equal(JSON.stringify(r).includes('Generated'),false);});
+test('duplicate, different package and outside bounds fail closed',()=>{assert.equal(target(node()+node(),'Generated AAC 3',1752,2800).available,false);assert.equal(target(node().replace('com.android.chrome','other'),'Generated AAC 3',1752,2800).available,false);assert.equal(target(node(),'Generated AAC 3',50,50).available,false);});
+test('HTML entity labels match privately and raw XML limit rejects',()=>{assert.equal(target(node('Generated &amp; AAC 3'),'Generated & AAC 3',1752,2800).available,true);assert.throws(()=>target('x'.repeat(1048577),'Generated AAC 3',1752,2800),/NATIVE_POPUP_ADMISSION/);});

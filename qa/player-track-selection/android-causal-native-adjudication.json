@@ -1,0 +1,355 @@
+{
+  "schema": "drive-original.android-causal-native-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "receipt": {
+    "file": "android-causal-switch-result.json",
+    "bytes": 234567,
+    "sha256": "d1aecc57e51a7c6f4a562d4963c2cbca9c048c6690c894fc35218c451abc81e0",
+    "producerSha256": "61d7fbd64df0a3cc5e806d79e0184d8985aaf9b61c44e29e540ede160d3fe51c"
+  },
+  "diagnosticCompleted": true,
+  "diagnosticCleanupComplete": true,
+  "scope": "Actual Android/nativeADB input, exact localhost source35/generated combined fixture/mockprovider; startup/pause/AAC3 only, not seek/subtitle/full180squeue/audiofidelity/phone/human-finger/realaccount proof.",
+  "stableAdmission": {
+    "stableAdmissionQualified": true,
+    "expectedShellEntries": 50,
+    "observedShellEntries": 50,
+    "exactCanonicalShellPathsAndHashes": true,
+    "automaticUpdateInvocationObserved": true,
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "observationBoundMs": 45000,
+    "originalProducerCompleted": false,
+    "originalProducerFailureRetained": null,
+    "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement",
+    "executingQualified": true,
+    "timerNotStarted": true
+  },
+  "phase": {
+    "startup": {
+      "passed": true,
+      "first": {
+        "elapsedMs": 480,
+        "clock": 0,
+        "distance": 0,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": null
+      },
+      "generation": null,
+      "deadline15Passed": true
+    },
+    "audio3": {
+      "passed": true,
+      "first": {
+        "elapsedMs": 4938,
+        "clock": 0.833333,
+        "distance": 0.00887899999999997,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": 2
+      },
+      "generation": 2,
+      "deadline15Passed": true
+    },
+    "queueBeforeCloseMs": 10721,
+    "mediaBoundMs": 30000,
+    "currentOwnerPipelineSelectedAAC3": true
+  },
+  "observed": {
+    "initialUpdateGeneration": 1,
+    "lastUpdateGeneration": 1,
+    "updateGenerationDelta": 0,
+    "visibilityEvents": [],
+    "controllerEvents": [],
+    "registrationEvents": [
+      {
+        "at": 1790925684450,
+        "type": "observed",
+        "worker": 1,
+        "state": "activated"
+      }
+    ],
+    "allObservedExecutablesMatched": true,
+    "allVersionChecksMatched": true,
+    "workerAliasesObserved": [
+      1
+    ]
+  },
+  "causalEvidence": {
+    "publicRequestObservations": [
+      {
+        "elapsedMs": 146.65519999999924,
+        "cdpTimestampMs": 150550951.41,
+        "file": "/media/revision-pin.js",
+        "initiatorType": "parser",
+        "frames": [],
+        "channel": "page",
+        "worker": null
+      },
+      {
+        "elapsedMs": 314.4937,
+        "cdpTimestampMs": 150551140.024,
+        "file": "/media/revision-pin.js",
+        "initiatorType": "script",
+        "frames": [
+          {
+            "file": "/sw.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 13
+          }
+        ],
+        "channel": "worker",
+        "worker": 1
+      },
+      {
+        "elapsedMs": 358.71309999999994,
+        "cdpTimestampMs": 150551173.67,
+        "file": "/media/revision-pin.js",
+        "initiatorType": "script",
+        "frames": [
+          {
+            "file": "/sw.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 88
+          }
+        ],
+        "channel": "worker",
+        "worker": 1
+      },
+      {
+        "elapsedMs": 368.9973999999993,
+        "cdpTimestampMs": 150551179.989,
+        "file": "/version.json",
+        "initiatorType": "script",
+        "frames": [
+          {
+            "file": "/sw.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 88
+          }
+        ],
+        "channel": "worker",
+        "worker": 1
+      },
+      {
+        "elapsedMs": 998.9634999999998,
+        "cdpTimestampMs": 150551823.709,
+        "file": "/sw.js",
+        "initiatorType": "script",
+        "frames": [],
+        "channel": "page",
+        "worker": null
+      },
+      {
+        "elapsedMs": 2855.721599999999,
+        "cdpTimestampMs": 150553675.271,
+        "file": "/version.json",
+        "initiatorType": "script",
+        "frames": [
+          {
+            "file": "/app.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 1981
+          },
+          {
+            "file": "/app.js",
+            "functionName": "checkForAppUpdate",
+            "lineZeroBased": 1997
+          },
+          {
+            "file": "/app.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 1845
+          }
+        ],
+        "channel": "page",
+        "worker": null
+      },
+      {
+        "elapsedMs": 2855.9915999999994,
+        "cdpTimestampMs": 150553681.024,
+        "file": "/version.json",
+        "initiatorType": "script",
+        "frames": [
+          {
+            "file": "/sw.js",
+            "functionName": "ANONYMOUS",
+            "lineZeroBased": 253
+          }
+        ],
+        "channel": "worker",
+        "worker": 1
+      }
+    ],
+    "wireResponses": [
+      {
+        "elapsedMs": 2855.4597000000003,
+        "file": "/media/revision-pin.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 10050,
+        "representationBytes": 10050,
+        "bodySha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 2945.3592,
+        "file": "/sw.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 72974,
+        "representationBytes": 72974,
+        "bodySha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 2991.5516,
+        "file": "/media/revision-pin.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 10050,
+        "representationBytes": 10050,
+        "bodySha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 3087.4799000000003,
+        "file": "/media/revision-pin.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 10050,
+        "representationBytes": 10050,
+        "bodySha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 3335.1329000000005,
+        "file": "/version.json",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 249,
+        "representationBytes": 249,
+        "bodySha256": "d404d2ee6df94b245cf0b2d753bbd71d6c5dba611bc5818f253e42dcbb3f2bd1",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 3674.4109,
+        "file": "/sw.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 72974,
+        "representationBytes": 72974,
+        "bodySha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 5533.1572,
+        "file": "/version.json",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 249,
+        "representationBytes": 249,
+        "bodySha256": "d404d2ee6df94b245cf0b2d753bbd71d6c5dba611bc5818f253e42dcbb3f2bd1",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 5549.3109,
+        "file": "/sw.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 72974,
+        "representationBytes": 72974,
+        "bodySha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 5562.900100000001,
+        "file": "/media/revision-pin.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 10050,
+        "representationBytes": 10050,
+        "bodySha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 58569.1987,
+        "file": "/sw.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 72974,
+        "representationBytes": 72974,
+        "bodySha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "representationMatched": true
+      },
+      {
+        "elapsedMs": 58580.2009,
+        "file": "/media/revision-pin.js",
+        "method": "GET",
+        "status": 200,
+        "bodyBytes": 10050,
+        "representationBytes": 10050,
+        "bodySha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "representationMatched": true
+      }
+    ],
+    "wireAllGitRepresentationHashesMatched": true,
+    "initialVersionRequestAppInitiatorObserved": true,
+    "additionalSameRepresentationSWAndPinRequests": "Owned server observed later GET responses, but no matching caller initiator was captured. Clock domains differ; no exact phase/causality is inferred from these response rows alone.",
+    "clockDomains": "Page events use Date.now; CDPrequest monotonic timestamps, Nodeprovider elapsed and Nodeserver elapsed have separate baselines. Do not subtract across them.",
+    "snapshotArrays": "Provider/wire arrays remain live producer references through cleanup; their individual monotonic rows describe owned lifetime, not a frozen phase-exclusive list."
+  },
+  "assessment": {
+    "visibilityTriggeredNewCheckConfirmed": false,
+    "actualMediaUpdateGenerationIncreased": false,
+    "newInstallationOrReplacementObserved": false,
+    "earlierV7Cause": "UNKNOWN; priorv7 did not record visibility/updateGeneration/initiator/wire buffers",
+    "runtimeForceFlag": "UNKNOWN; source defaultfalse does not establish runtimevalue",
+    "chromeStoredScriptGraph": "UNKNOWN; wire/executing hash equality is not oldstoredgraph proof",
+    "noReplacementRunDoesNotInvalidatePriorReplacement": true,
+    "noProductChangeJustifiedByThisRun": true,
+    "observationCondition": "Network observations enabled in additive producer; possible timing/observer effects are not discriminated"
+  },
+  "provider": {
+    "requests": 254,
+    "cap": 512,
+    "metadata": 51,
+    "range": 24,
+    "preflights": 76,
+    "mediaBytes": 1979366,
+    "byteCap": 25165824,
+    "errors": []
+  },
+  "unqualified": [
+    "seek2/5.5/2",
+    "subtitle4 automaticcue/clock",
+    "subtitleOff",
+    "full180squeue",
+    "earlierreplacement causaltrigger"
+  ],
+  "cleanup": {
+    "playerRetired": true,
+    "observerStopped": true,
+    "idleObserverStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "externalCleanupDoesNotSubstituteForPlayerRetirement": true,
+  "retirementPassed": true,
+  "retries": false,
+  "productChanged": false,
+  "oldFailuresUnchanged": true
+}

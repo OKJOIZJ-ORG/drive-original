@@ -1,0 +1,42 @@
+{
+  "schema": "drive-original.root-verified-publication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "verifiedByRoot": true,
+  "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+  "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+  "flags": {
+    "authEnabled": true,
+    "diagnosticsEnabled": true,
+    "generalWritesAllowed": false,
+    "freeOnly": true
+  },
+  "receipts": [
+    {
+      "kind": "sourceReadiness",
+      "file": "qa/candidate-rc35-delivery/source-readiness.json",
+      "bytes": 11006,
+      "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+    },
+    {
+      "kind": "deployment",
+      "file": "qa/candidate-rc35-delivery/deployment.json",
+      "bytes": 11152,
+      "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+    },
+    {
+      "kind": "control",
+      "file": "qa/candidate-rc35-delivery/redacted-readback.json",
+      "bytes": 1624,
+      "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+    },
+    {
+      "kind": "publicAudit",
+      "file": "qa/candidate-rc35-delivery/results.json",
+      "bytes": 15875,
+      "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+    }
+  ],
+  "producerSha256": "90f39fe17628d60ae159414de38eff797d486b1929d992e53a25c3b0a6c405fd",
+  "scope": "Root verified same free-candidate cut and delivery; physical device and real-account acceptance remain separate"
+}

@@ -1,0 +1,320 @@
+{
+  "schema": "drive-original.android-stable-v7-native-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "receipt": {
+    "file": "android-actual-stable-v7-tablet-tracks-result.json",
+    "bytes": 186652,
+    "sha256": "8b050a479e0201e573a13a82f963d667584df0f553207c393f6147d7212fdc25",
+    "producerSha256": "0a21736a6da5bfee976adcd1e5af76e5087243fc1f30a341f27af1f526f7a48a"
+  },
+  "actualCompleted": false,
+  "failure": "LIFETIME_CONTROLLER_REPLACED",
+  "scope": "Actual Android tablet/native ADB input; isolated exact localhost source35/generated combined fixture; no real-account/original/phone/human-finger/audio-fidelity claim.",
+  "stableAdmission": {
+    "stableAdmissionQualified": true,
+    "expectedShellEntries": 50,
+    "observedShellEntries": 50,
+    "exactCanonicalShellPathsAndHashes": true,
+    "automaticUpdateInvocationObserved": true,
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "observationBoundMs": 45000,
+    "originalProducerCompleted": false,
+    "originalProducerFailureRetained": null,
+    "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement",
+    "executingQualified": true,
+    "timerNotStarted": true
+  },
+  "observed": {
+    "newInstallationNotDuplicateAttachment": true,
+    "audioArmAt": 1790924606921,
+    "updateFoundAt": 1790924610680,
+    "updateFoundAfterArmMs": 3759,
+    "controllerChangedAt": 1790924611217,
+    "controllerChangeAfterArmMs": 4296,
+    "beforeCloseFailureAt": 1790924611417,
+    "replacementSourceCaptureAt": 1790924626959,
+    "normalCloseReceiptAt": 1790924642205,
+    "captureSavedBeforeNormalClose": true,
+    "selectedAAC3": true,
+    "selectedAAC3TargetFrameConfirmed": false,
+    "selectedAAC3FrameCount": 0,
+    "sourceGenerationAtFailure": 6,
+    "mediaAttemptAtFailure": "worker-updating",
+    "q1AbsentAtFailure": true
+  },
+  "executingSourceEvidence": {
+    "scripts": [
+      {
+        "elapsedMs": 332.41609999999946,
+        "worker": 1,
+        "file": "sw.js",
+        "bytes": 72974,
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "elapsedMs": 332.96779999999944,
+        "worker": 1,
+        "file": "media/revision-pin.js",
+        "bytes": 10050,
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      },
+      {
+        "elapsedMs": 54293.5072,
+        "worker": 2,
+        "file": "sw.js",
+        "bytes": 72974,
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "elapsedMs": 54296.360499999995,
+        "worker": 2,
+        "file": "media/revision-pin.js",
+        "bytes": 10050,
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      }
+    ],
+    "versions": [
+      {
+        "elapsedMs": 1099.5859999999993,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      },
+      {
+        "elapsedMs": 45263.353899999995,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      },
+      {
+        "elapsedMs": 70260.8683,
+        "worker": 1,
+        "version": "UNKNOWN",
+        "versionPresent": null,
+        "versionMatched": null
+      },
+      {
+        "elapsedMs": 70277.53020000001,
+        "worker": 2,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      }
+    ],
+    "workerLifecycle": [
+      {
+        "elapsedMs": 245.32600000000002,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 289.35599999999977,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 289.6947,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 290.0158999999994,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 325.78639999999996,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 326.46199999999953,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 795.1794,
+        "versionAlias": 1,
+        "status": "installed",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.0505999999996,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.4506999999994,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.7133999999996,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54241.803,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54248.5686,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54250.975399999996,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54251.09,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54282.520599999996,
+        "versionAlias": 2,
+        "status": "installing",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54282.661,
+        "versionAlias": 2,
+        "status": "installing",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54833.413,
+        "versionAlias": 2,
+        "status": "installed",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54833.5743,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "stopping"
+      },
+      {
+        "elapsedMs": 54836.2285,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54836.3832,
+        "versionAlias": 1,
+        "status": "redundant",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54836.52559999999,
+        "versionAlias": 2,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54836.8969,
+        "versionAlias": 2,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 55818.3904,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 55821.999899999995,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 56005.3221,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      }
+    ],
+    "allObservedScriptsExactGitBytes": true,
+    "newWorkerVersionExact35": true,
+    "terminatedOldWorkerLateVersion": "UNKNOWN; prior before/after45s VERSION35 checks retained",
+    "pageAndProviderClockDomainsSeparate": true
+  },
+  "failureAdjudication": {
+    "confirmedMechanism": "Same-source/SW-import executable hashes and VERSION remain exact35, yet a second genuine installation activates and replaces current controller; lifetime observer aborts beforeAAC3 frame. App current-owner safety invalidates old Q1/tracks and entersworker-updating. Normal retirement later remains unsettled.",
+    "triggerOfNewInstallation": "UNKNOWN",
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "byteEqualityDoesNotProveNoInstallation": true,
+    "providerCapResponsible": false,
+    "provider": {
+      "requests": 198,
+      "cap": 512,
+      "mediaBytes": 957579,
+      "byteCap": 25165824,
+      "errors": []
+    },
+    "sourcePointers": [
+      "app.js:1691 visible→checkForAppUpdate",
+      "app.js:1829 setup registration",
+      "app.js:1846 initial normal update",
+      "app.js:1854 restartPendingMediaAfterServiceWorkerChange",
+      "app.js:1996 normal registration.update",
+      "app.js:6184 tracks controller fence",
+      "app.js:8583 Q1 controller fence"
+    ],
+    "nextUsefulDiscriminator": "No identical media retry. If root authorizes further diagnosis, preserve passive visibility/updateCheckGeneration/server request fixed-script classification alongside existing real executable worker evidence to distinguish an actual normal update invocation versus browser/instrumentation installation. No suppression/forcedupdate or serving-byte change."
+  },
+  "unexecuted": [
+    "selectedAAC3 targetframe",
+    "seek2/5.5/2 targetframes",
+    "subtitle4 automaticcue/clock",
+    "subtitleOff"
+  ],
+  "cleanup": {
+    "playerRetired": false,
+    "observerStopped": true,
+    "idleObserverStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true,
+    "complete": false,
+    "externalAllPass": true,
+    "playerRetirementPass": false,
+    "externalCleanupDoesNotSubstituteForPlayerRetirement": true
+  },
+  "oldFailuresUnchanged": true,
+  "retried": false,
+  "productChanged": false
+}

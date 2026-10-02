@@ -1,0 +1,171 @@
+{
+  "schema": "drive-original.actual-android-tracks/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "producerSha256": "0d8cea5e73406a6beafab66e2f2f37a66d8b907d16d50e2c46da25953b808bdc",
+  "recordedAt": "2026-10-02T05:51:55.881Z",
+  "scope": "Physical Android tablet Chrome, committed local app/SW and generated combined fixture, exact isolated mock provider. Synthetic prestate; no real-account/library/original-format-wide or phone proof.",
+  "publication": {
+    "publicationVerified": true,
+    "verificationOwner": "root verified normalized receipt attestations; runner checks frozen receipt digests",
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+    "receipts": [
+      {
+        "kind": "sourceReadiness",
+        "bytes": 11006,
+        "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+      },
+      {
+        "kind": "deployment",
+        "bytes": 11152,
+        "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+      },
+      {
+        "kind": "control",
+        "bytes": 1624,
+        "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+      },
+      {
+        "kind": "publicAudit",
+        "bytes": 15875,
+        "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+      }
+    ]
+  },
+  "publicationIndependentlyFetched": false,
+  "viewportOverride": false,
+  "nativeOsInput": true,
+  "humanFingerInput": false,
+  "agentRealAccountReadOrWritten": false,
+  "candidateNavigated": false,
+  "originalMediaMutated": false,
+  "timedPlaybackStarted": false,
+  "preflightOnly": true,
+  "steps": [
+    {
+      "name": "native tablet select input admission",
+      "at": 1790920324838,
+      "value": 2,
+      "changed": false,
+      "trusted": false,
+      "dialogOpen": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16",
+    "physicalWidth": 1752,
+    "physicalHeight": 2800
+  },
+  "toolSchemas": [
+    {
+      "name": "close_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "The ID of the page to close. Call list_pages to list pages."
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "new_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to load in a new page."
+          },
+          "background": {
+            "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
+            "type": "boolean"
+          },
+          "isolatedContext": {
+            "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated (useful for clean-slate testing of cookies and authentication).",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "completed": false,
+  "failure": "NATIVE_SELECT_INPUT_UNQUALIFIED",
+  "cleanup": {
+    "ownedLocalSwCacheRemoved": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true
+}

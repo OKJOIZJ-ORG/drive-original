@@ -1,0 +1,102 @@
+{
+  "schema": "drive-original.android-stable-native-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "receipt": {
+    "file": "android-actual-stable-tablet-tracks-result.json",
+    "bytes": 270434,
+    "sha256": "e18548d607e396911a4fe16838586b4baa25dd9c4a7e64cce61c0292b6bd551a",
+    "producerSha256": "adf84ca653e29eceac233b9948f58270ab089ecd49efe6fa916719d1705e8d1d"
+  },
+  "actualCompleted": false,
+  "failure": "LIFETIME_PROVIDER_ERROR",
+  "scope": "Physical Android tablet/native ADB input; isolated localhost source35 generated combined MP4 and mock provider; no phone/human-finger/audio-fidelity/original-format-wide claim.",
+  "stableAdmission": {
+    "stableAdmissionQualified": true,
+    "expectedShellEntries": 50,
+    "observedShellEntries": 50,
+    "exactCanonicalShellPathsAndHashes": true,
+    "automaticUpdateInvocationObserved": true,
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "observationBoundMs": 45000,
+    "originalProducerCompleted": false,
+    "originalProducerFailureRetained": null,
+    "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement",
+    "executingQualified": true,
+    "timerNotStarted": true
+  },
+  "qualified": {
+    "startupPresentedFrame": true,
+    "startupMs": 507,
+    "selectedAAC3PresentedFrame": true,
+    "selectedAAC3Ms": 4775,
+    "selectedAAC3Generation": 2,
+    "exactSelectedOwnerPipeline": true,
+    "allObservedExecutingScriptHashesMatched": true,
+    "allObservedVersionChecksMatched": true,
+    "noControllerReplacement": true,
+    "directAndSWProviderAdmission": true
+  },
+  "failureAdjudication": {
+    "responsibleLayer": "QA_PROVIDER_REQUEST_BUDGET",
+    "confirmedMechanism": "Frozen provider increments its global intercepted request counter before classifying, rejects requests above256 with PROVIDER_REQUEST_CAP/BlockedByClient; new driver rejects that fixed error and ordinary first seek observed Q1_SOURCE_READ_FAILED.",
+    "limits": {
+      "requests": 256,
+      "mediaBytes": 25165824,
+      "queueMs": 180000
+    },
+    "observed": {
+      "requests": 266,
+      "classifiedAtOrBelowLimit": 256,
+      "local": 101,
+      "metadata": 52,
+      "download": 1,
+      "range": 24,
+      "preflight": 77,
+      "unrelatedBlocked": 1,
+      "capDenied": 10,
+      "mediaBytes": 1979366
+    },
+    "providerErrorsExactlyRequestCap": true,
+    "mediaByteCapNotHit": true,
+    "seek": {
+      "target": 1.9994001382773998,
+      "armAt": 1790924115741,
+      "preInputGeneration": 2,
+      "generationAtFailure": 3,
+      "presentedFrameCount": 0,
+      "firstTargetFrame": null
+    },
+    "productFailureObserved": "Q1_SOURCE_READ_FAILED",
+    "productFailureWithoutHarnessCap": "UNKNOWN",
+    "earlierControllerReplacementRootCause": "UNKNOWN; stable idle admission changed setup condition and selected AAC3 now presented, without replacement."
+  },
+  "unexecuted": [
+    "seek2 target frame",
+    "subtitle4 clock/cue",
+    "seek5.5 target frame/cue absence",
+    "seek2 return/cue restored",
+    "subtitleOff"
+  ],
+  "minimalNextEvidence": "If root authorizes, add a new provider/runner with a finite combined-queue request envelope accounting for observed101 local/77 OPTIONS/52 metadata/24 Range plus remaining seek/caption phases, preserving24MiB/180s/exactorigin-target source gates. Do not alter frozen256-cap producer or retry identically.",
+  "cleanup": {
+    "playerRetired": true,
+    "observerStopped": true,
+    "idleObserverStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true,
+    "complete": true,
+    "externalCleanupDoesNotSubstituteForPlayerRetirement": true
+  },
+  "oldFailuresUnchanged": true,
+  "retried": false,
+  "productChanged": false
+}

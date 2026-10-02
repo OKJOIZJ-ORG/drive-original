@@ -1,0 +1,988 @@
+{
+  "schema": "drive-original.actual-android-idle-admission/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "producerSha256": "d4ac3b35b5f8cbd98ea7dab4fc9a84afd8c2e908c1d15ff27b0436c85b355b03",
+  "recordedAt": "2026-10-02T06:30:33.870Z",
+  "scope": "IDLE45s owned localhost automaticSW setup/update admission only. No media or native input. Physical Android tablet Chrome, committed local app/SW and generated combined fixture, exact isolated mock provider. Synthetic prestate; no real-account/library/original-format-wide or phone proof.",
+  "publication": {
+    "publicationVerified": true,
+    "verificationOwner": "root verified normalized receipt attestations; runner checks frozen receipt digests",
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+    "receipts": [
+      {
+        "kind": "sourceReadiness",
+        "bytes": 11006,
+        "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+      },
+      {
+        "kind": "deployment",
+        "bytes": 11152,
+        "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+      },
+      {
+        "kind": "control",
+        "bytes": 1624,
+        "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+      },
+      {
+        "kind": "publicAudit",
+        "bytes": 15875,
+        "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+      }
+    ]
+  },
+  "publicationIndependentlyFetched": false,
+  "viewportOverride": false,
+  "nativeOsInput": false,
+  "humanFingerInput": false,
+  "agentRealAccountReadOrWritten": false,
+  "candidateNavigated": false,
+  "originalMediaMutated": false,
+  "timedPlaybackStarted": false,
+  "steps": [
+    {
+      "name": "initial owned registration observation",
+      "at": 1790922637271,
+      "evidence": {
+        "clock": "page-performance elapsed ms",
+        "boundMs": 45000,
+        "elapsedMs": 771.8999999761581,
+        "lastChangeMs": 753.5,
+        "latest": {
+          "elapsedMs": 772.0999999940395,
+          "appVersion": "1.22.0-rc.35",
+          "appReady": true,
+          "setupReady": true,
+          "updateGeneration": 0,
+          "controller": 1,
+          "controllerState": "activated",
+          "active": 1,
+          "installing": null,
+          "waiting": null,
+          "activeCurrent": true,
+          "closed": true,
+          "ownersAbsent": true,
+          "visibility": "visible"
+        },
+        "events": [
+          {
+            "elapsedMs": 206.7999999821186,
+            "type": "worker-observed",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 206.7999999821186,
+            "type": "registration-observed",
+            "worker": null,
+            "workerState": null,
+            "controller": null
+          },
+          {
+            "elapsedMs": 729.1999999880791,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "installed",
+            "controller": null
+          },
+          {
+            "elapsedMs": 729.5,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": null
+          },
+          {
+            "elapsedMs": 753.1999999880791,
+            "type": "controllerchange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": 1
+          },
+          {
+            "elapsedMs": 753.5,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activated",
+            "controller": 1
+          }
+        ],
+        "samples": [
+          {
+            "elapsedMs": 11.5,
+            "appVersion": null,
+            "appReady": false,
+            "setupReady": false,
+            "updateGeneration": null,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": null,
+            "ownersAbsent": null,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 121.7999999821186,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": false,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 206.7999999821186,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": 1,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          }
+        ],
+        "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "45s automatic lifecycle observation",
+      "at": 1790922681590,
+      "evidence": {
+        "clock": "page-performance elapsed ms",
+        "boundMs": 45000,
+        "elapsedMs": 45084.39999997616,
+        "lastChangeMs": 2802,
+        "latest": {
+          "elapsedMs": 45084.5,
+          "appVersion": "1.22.0-rc.35",
+          "appReady": true,
+          "setupReady": true,
+          "updateGeneration": 1,
+          "controller": 1,
+          "controllerState": "activated",
+          "active": 1,
+          "installing": null,
+          "waiting": null,
+          "activeCurrent": true,
+          "closed": true,
+          "ownersAbsent": true,
+          "visibility": "visible"
+        },
+        "events": [
+          {
+            "elapsedMs": 206.7999999821186,
+            "type": "worker-observed",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 206.7999999821186,
+            "type": "registration-observed",
+            "worker": null,
+            "workerState": null,
+            "controller": null
+          },
+          {
+            "elapsedMs": 729.1999999880791,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "installed",
+            "controller": null
+          },
+          {
+            "elapsedMs": 729.5,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": null
+          },
+          {
+            "elapsedMs": 753.1999999880791,
+            "type": "controllerchange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": 1
+          },
+          {
+            "elapsedMs": 753.5,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activated",
+            "controller": 1
+          }
+        ],
+        "samples": [
+          {
+            "elapsedMs": 11.5,
+            "appVersion": null,
+            "appReady": false,
+            "setupReady": false,
+            "updateGeneration": null,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": null,
+            "ownersAbsent": null,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 121.7999999821186,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": false,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 206.7999999821186,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": 1,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 803.2999999821186,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": 1,
+            "controllerState": "activated",
+            "active": 1,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": true,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 2802,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 1,
+            "controller": 1,
+            "controllerState": "activated",
+            "active": 1,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": true,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          }
+        ],
+        "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "stable idle admission",
+      "at": 1790922681898,
+      "controllerAliasSameAs45End": true,
+      "appVersion": "1.22.0-rc.35",
+      "registrationActiveCurrent": true,
+      "activated": true,
+      "installing": false,
+      "waiting": false,
+      "updateGeneration": 1,
+      "quietSinceLastChangeMs": 42323.39999997616,
+      "cacheEntries": 50,
+      "cacheAllMatch": true,
+      "cache": [
+        {
+          "file": "/",
+          "matched": true
+        },
+        {
+          "file": "/index.html",
+          "matched": true
+        },
+        {
+          "file": "/styles.css",
+          "matched": true
+        },
+        {
+          "file": "/runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "/app.js",
+          "matched": true
+        },
+        {
+          "file": "/media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "/media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "/media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "/licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "/version.json",
+          "matched": true
+        },
+        {
+          "file": "/manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "/icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "/icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "closed": true,
+      "ownersAbsent": true,
+      "promiseCompletion": "NOT_EXPOSED; bounded normal cycle/idle observation only",
+      "executingQualified": true,
+      "executingScope": "Every observed attached exact-owned-SW target hashed; worker aliases are private-target reductions, not registration IDs",
+      "nativeInputOrPlaybackStarted": false
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16",
+    "physicalWidth": 1752,
+    "physicalHeight": 2800
+  },
+  "toolSchemas": [
+    {
+      "name": "close_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "The ID of the page to close. Call list_pages to list pages."
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "new_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to load in a new page."
+          },
+          "background": {
+            "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
+            "type": "boolean"
+          },
+          "isolatedContext": {
+            "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated (useful for clean-slate testing of cookies and authentication).",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "idleAdmission": {
+    "controllerAliasSameAs45End": true,
+    "appVersion": "1.22.0-rc.35",
+    "registrationActiveCurrent": true,
+    "activated": true,
+    "installing": false,
+    "waiting": false,
+    "updateGeneration": 1,
+    "quietSinceLastChangeMs": 42323.39999997616,
+    "cacheEntries": 50,
+    "cacheAllMatch": true,
+    "cache": [
+      {
+        "file": "/",
+        "matched": true
+      },
+      {
+        "file": "/index.html",
+        "matched": true
+      },
+      {
+        "file": "/styles.css",
+        "matched": true
+      },
+      {
+        "file": "/runtime-config.js",
+        "matched": true
+      },
+      {
+        "file": "/app.js",
+        "matched": true
+      },
+      {
+        "file": "/media/drive-source.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/revision-pin.js",
+        "matched": true
+      },
+      {
+        "file": "/media/ts-player.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/q1-core.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/transmux-worker.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/mux-mp4.min.js",
+        "matched": true
+      },
+      {
+        "file": "/media/mux-LICENSE.txt",
+        "matched": true
+      },
+      {
+        "file": "/media/general-admission.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-tracks.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/subtitle-track.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/subtitle-presentation.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-codec.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-owner.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-pipeline.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-player.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-source.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-timeline.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/general-worker.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/mediabunny-q1.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/mediabunny-q1.LICENSE",
+        "matched": true
+      },
+      {
+        "file": "/media/mediabunny-q1-NOTICE.md",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-runtime.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-adapter.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-worker-client.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-worker.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-codec.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-codec.wasm",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-codec.LICENSE.txt",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-general-pipeline.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/audio-general-worker.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-input.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-pipeline.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-worker.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-codec.mjs",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-codec.wasm",
+        "matched": true
+      },
+      {
+        "file": "/media/video-q3-codec.LICENSE.txt",
+        "matched": true
+      },
+      {
+        "file": "/licenses/index.html",
+        "matched": true
+      },
+      {
+        "file": "/licenses/audio-source-NOTICE.md",
+        "matched": true
+      },
+      {
+        "file": "/version.json",
+        "matched": true
+      },
+      {
+        "file": "/manifest.webmanifest",
+        "matched": true
+      },
+      {
+        "file": "/icons/app-icon.svg",
+        "matched": true
+      },
+      {
+        "file": "/icons/icon-192.png",
+        "matched": true
+      },
+      {
+        "file": "/icons/icon-512.png",
+        "matched": true
+      },
+      {
+        "file": "/icons/maskable-512.png",
+        "matched": true
+      },
+      {
+        "file": "/icons/apple-touch-icon.png",
+        "matched": true
+      }
+    ],
+    "closed": true,
+    "ownersAbsent": true,
+    "promiseCompletion": "NOT_EXPOSED; bounded normal cycle/idle observation only",
+    "executingQualified": true,
+    "executingScope": "Every observed attached exact-owned-SW target hashed; worker aliases are private-target reductions, not registration IDs",
+    "nativeInputOrPlaybackStarted": false
+  },
+  "completed": false,
+  "failure": "IDLE_STABLE_ADMISSION_UNQUALIFIED",
+  "provider": {
+    "executingScripts": [
+      {
+        "elapsedMs": 361.15610000000015,
+        "worker": 1,
+        "file": "sw.js",
+        "bytes": 72974,
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "elapsedMs": 362.3159999999998,
+        "worker": 1,
+        "file": "media/revision-pin.js",
+        "bytes": 10050,
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      }
+    ],
+    "workerVersions": [
+      {
+        "elapsedMs": 922.0933999999997,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      },
+      {
+        "elapsedMs": 45246.0134,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      }
+    ],
+    "workerLifecycle": [
+      {
+        "elapsedMs": 277.3836000000001,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 304.4515999999994,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 305.6871999999994,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 305.90669999999955,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 349.4205000000002,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 349.5572999999995,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 871.6036999999997,
+        "versionAlias": 1,
+        "status": "installed",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 871.7572999999993,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 872.2725,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 873.0560999999998,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "running"
+      }
+    ],
+    "requests": 63,
+    "local": 62,
+    "metadata": 0,
+    "download": 0,
+    "range": 0,
+    "mediaBytes": 0,
+    "preflights": 0,
+    "blocked": 1,
+    "workersReady": 1,
+    "errors": [],
+    "cors": []
+  },
+  "cleanup": {
+    "observerStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true
+}

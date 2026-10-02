@@ -1,0 +1,49 @@
+{
+  "schema": "drive-original.android-normal-v9-budget/1",
+  "observedBaseline": {
+    "receipt": {
+      "file": "android-causal-switch-result.json",
+      "bytes": 234567,
+      "sha256": "d1aecc57e51a7c6f4a562d4963c2cbca9c048c6690c894fc35218c451abc81e0"
+    },
+    "requests": 254,
+    "local": 101,
+    "metadata": 51,
+    "range": 24,
+    "preflight": 76,
+    "download": 1,
+    "unrelatedBlocked": 1
+  },
+  "planned": {
+    "baseline": 254,
+    "seekRebuildCount": 3,
+    "eachRebuildRequests": 192,
+    "logicalReadsAllowedEach": 32,
+    "transportEventsPerLogicalRead": 6,
+    "captionReserve": 128,
+    "localUpdateCleanupReserve": 66,
+    "total": 1024
+  },
+  "interpretation": "Conservative finite planning envelope, not a formally proven network maximum. Exceeding cap fails; no automatic retry/raise.",
+  "secondaryLocalSameFixture": {
+    "receipt": {
+      "file": "second-results.json",
+      "bytes": 269228,
+      "sha256": "18c266fbaf2a5cafac2a6b24bd491f28c2f654fb98ff87e7614182397c745aed"
+    },
+    "case": "combined-audio-subtitle",
+    "fixtureBytes": 759643,
+    "fixtureSha256": "bc831b81953010036a7d931100dfd264fa14d8e22633b6518268f6c6dbfc2e2f",
+    "requests": 123,
+    "range": 38,
+    "metadata": 84,
+    "scope": "Different local UI order and route interception; OPTIONS/local not counted; no native/current-source equivalence claim."
+  },
+  "hardLimits": {
+    "requests": 1024,
+    "mediaBytes": 25165824,
+    "rpcMs": 15000,
+    "mediaMs": 180000,
+    "initialIdleMs": 45000
+  }
+}

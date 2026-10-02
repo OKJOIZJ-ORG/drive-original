@@ -1,0 +1,269 @@
+{
+  "schema": "drive-original.actual-android-tracks/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "producerSha256": "e79c89ecb1cd103d551be123e783a4db3350c7a5eb9bb2a3f51b29653a7489cd",
+  "recordedAt": "2026-10-02T05:55:19.335Z",
+  "scope": "Physical Android tablet Chrome, committed local app/SW and generated combined fixture, exact isolated mock provider. Synthetic prestate; no real-account/library/original-format-wide or phone proof.",
+  "publication": {
+    "publicationVerified": true,
+    "verificationOwner": "root verified normalized receipt attestations; runner checks frozen receipt digests",
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+    "receipts": [
+      {
+        "kind": "sourceReadiness",
+        "bytes": 11006,
+        "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+      },
+      {
+        "kind": "deployment",
+        "bytes": 11152,
+        "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+      },
+      {
+        "kind": "control",
+        "bytes": 1624,
+        "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+      },
+      {
+        "kind": "publicAudit",
+        "bytes": 15875,
+        "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+      }
+    ]
+  },
+  "publicationIndependentlyFetched": false,
+  "viewportOverride": false,
+  "nativeOsInput": true,
+  "humanFingerInput": false,
+  "agentRealAccountReadOrWritten": false,
+  "candidateNavigated": false,
+  "originalMediaMutated": false,
+  "timedPlaybackStarted": false,
+  "preflightOnly": true,
+  "steps": [
+    {
+      "name": "native select popup after settled tap",
+      "at": 1790920522558,
+      "value": 2,
+      "changed": false,
+      "trusted": false,
+      "selectFocused": true
+    },
+    {
+      "name": "owned native popup exact option admission",
+      "at": 1790920525317,
+      "available": true,
+      "matchingOptionNodes": 1,
+      "left": 820,
+      "top": 1399,
+      "right": 1010,
+      "bottom": 1432,
+      "x": 915,
+      "y": 1416,
+      "selected": false,
+      "checked": false,
+      "focused": false,
+      "rawXmlOrLabelsExported": false
+    },
+    {
+      "name": "native tablet select input admission",
+      "at": 1790920526193,
+      "value": 3,
+      "changed": true,
+      "trusted": true,
+      "dialogOpen": true,
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125
+    },
+    {
+      "name": "actual local committed source and physical tablet viewport",
+      "at": 1790920527129,
+      "version": "1.22.0-rc.35",
+      "controllerActivated": true,
+      "sourceFiles": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        }
+      ],
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "chrome": "Chrome/153.0.0.0"
+    },
+    {
+      "name": "nonplaying direct-caption and owned SW Range provider admission",
+      "at": 1790920527474,
+      "metadataStatus": 200,
+      "metadataExactFixture": true,
+      "directStatus": 206,
+      "directBytes": 188,
+      "directSha256": "598e18996bb53aba44fdc9f8cd30bb4d6863a3eba000d0015d23285353dd8c19",
+      "swStatus": 206,
+      "swBytes": 188,
+      "swSha256": "598e18996bb53aba44fdc9f8cd30bb4d6863a3eba000d0015d23285353dd8c19",
+      "playerClosed": true,
+      "pageAndSwProviderReady": true,
+      "metadataDelta": 1,
+      "rangeDelta": 2,
+      "scope": "direct driveFetch plus ownerless SW transport; current Q1 owner is qualified during playback"
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16",
+    "physicalWidth": 1752,
+    "physicalHeight": 2800
+  },
+  "toolSchemas": [
+    {
+      "name": "close_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "The ID of the page to close. Call list_pages to list pages."
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "new_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to load in a new page."
+          },
+          "background": {
+            "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
+            "type": "boolean"
+          },
+          "isolatedContext": {
+            "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated (useful for clean-slate testing of cookies and authentication).",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "providerAndInputAdmission": true,
+  "completed": true,
+  "provider": {
+    "requests": 76,
+    "local": 69,
+    "metadata": 1,
+    "download": 0,
+    "range": 2,
+    "mediaBytes": 376,
+    "preflights": 3,
+    "blocked": 1,
+    "workersReady": 1,
+    "errors": []
+  },
+  "cleanup": {
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true
+}

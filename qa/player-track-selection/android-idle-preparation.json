@@ -1,0 +1,38 @@
+{
+  "schema": "drive-original.android-idle-preparation/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "files": [
+    {
+      "file": "android-idle-admission.cjs",
+      "bytes": 14085,
+      "sha256": "d4ac3b35b5f8cbd98ea7dab4fc9a84afd8c2e908c1d15ff27b0436c85b355b03"
+    },
+    {
+      "file": "android-idle-provider.cjs",
+      "bytes": 10235,
+      "sha256": "1c1a18fa7ff16a881d49859a81ab61e002b063466e07429b58e90f73f56a938d"
+    },
+    {
+      "file": "android-idle-observer.function.js",
+      "bytes": 3966,
+      "sha256": "5bd7699dda75070c13629cc7ef76d76529ec7771f308b70ea135232d1864f86d"
+    },
+    {
+      "file": "android-idle.test.cjs",
+      "bytes": 5771,
+      "sha256": "4d027daa8fab05639a42afbabd933a32d33c7d1c5c115bcd3d41946c7f6266b1"
+    }
+  ],
+  "localTests": {
+    "total": 4,
+    "passed": 4
+  },
+  "syntaxChecks": 4,
+  "actualCalled": false,
+  "boundMs": 45000,
+  "noMediaOrNativeInputOrAccountStateWrites": true,
+  "updatePromiseCompletion": "NOT_EXPOSED; actual normal lifecycle and45s quiescence only",
+  "pageClock": "performance elapsed ms",
+  "executingScriptClock": "Node performance elapsed ms; separate clock domain"
+}

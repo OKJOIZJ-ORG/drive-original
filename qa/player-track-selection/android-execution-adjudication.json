@@ -1,0 +1,180 @@
+{
+  "schema": "drive-original.android-track-switch-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "scope": "Actual physical Android tablet Chrome, native ADB input, generated combined fixture on immutable localhost source/SW; no actual Drive/account or phone/iOS/audio-fidelity proof",
+  "actualResults": [
+    {
+      "file": "android-tablet-preflight-result.json",
+      "outcome": "FAIL native keyboard select",
+      "bytes": 5907,
+      "sha256": "33e6ec7247e388764eb3abb5adc929e708fa8a96b10a60426e2dd28c8ff5fcae"
+    },
+    {
+      "file": "android-tablet-preflight-attempt2-result.json",
+      "outcome": "FAIL native keyboard select despite focused select",
+      "bytes": 6096,
+      "sha256": "1744e4c53644ec0a7e3fa87ea21dbd72fdc085925fb549fbf5d9b905fffbe09e"
+    },
+    {
+      "file": "android-tablet-preflight-attempt3-result.json",
+      "outcome": "PASS exact native popup option, trusted input, direct and SW188-byte generated fixture admission",
+      "bytes": 8390,
+      "sha256": "a845350214571a6ebc93e3087c8168c4d9bfca61938cf5079cd9b53770a9a735"
+    },
+    {
+      "file": "android-actual-tablet-tracks-result.json",
+      "outcome": "FAIL AAC3 frame and Q1 retirement after Q0/native inventory success; subtitle/seek queue not executed",
+      "bytes": 770634,
+      "sha256": "66d3e430c158b373edffe6f298b0194ce410d291214ac5902bcb665f7cc926a2"
+    },
+    {
+      "file": "android-switch-diagnostic-attempt2-result.json",
+      "outcome": "FAIL narrow AAC3 frame/retirement; CORS all allowed; no q1-failed fixed trace",
+      "bytes": 800578,
+      "sha256": "0c2884e6e81d1f06c6bd97b11714609d4a8976b81144612c3142c3de2491d646"
+    },
+    {
+      "file": "android-switch-lifecycle-attempt3-result.json",
+      "outcome": "FAIL narrow AAC3 frame/retirement; controller replacement precedes timeout and cleanup",
+      "bytes": 851429,
+      "sha256": "035637e99a40da1f5405f8bcfb3e42f8c4e0532b54c2f3f085b433c50bd4279e"
+    }
+  ],
+  "audioArmAt": 1790921383293,
+  "frameFailureReceiptAt": 1790921407197,
+  "controllerEventsBeforeCleanup": [
+    {
+      "at": 1790921387317,
+      "sameInitial": false,
+      "activated": false
+    }
+  ],
+  "transitions": [
+    {
+      "at": 1790921383293,
+      "elapsedFromAudioArmMs": 0,
+      "attempt": "range",
+      "sourceGeneration": 2,
+      "generation": null,
+      "q1Present": false,
+      "ready": 4,
+      "q1Retired": true,
+      "errorVisible": false,
+      "tracksCurrent": true,
+      "controllerSameInitial": true,
+      "controllerActivated": true,
+      "q1ControllerSame": false
+    },
+    {
+      "at": 1790921386631,
+      "elapsedFromAudioArmMs": 3338,
+      "attempt": "q1-probing",
+      "sourceGeneration": 3,
+      "generation": null,
+      "q1Present": true,
+      "ready": 4,
+      "q1Retired": true,
+      "errorVisible": false,
+      "tracksCurrent": true,
+      "controllerSameInitial": true,
+      "controllerActivated": true,
+      "q1ControllerSame": true
+    },
+    {
+      "at": 1790921386881,
+      "elapsedFromAudioArmMs": 3588,
+      "attempt": "q1",
+      "sourceGeneration": 5,
+      "generation": 1,
+      "q1Present": true,
+      "ready": 0,
+      "q1Retired": true,
+      "errorVisible": false,
+      "tracksCurrent": true,
+      "controllerSameInitial": true,
+      "controllerActivated": true,
+      "q1ControllerSame": true
+    },
+    {
+      "at": 1790921387381,
+      "elapsedFromAudioArmMs": 4088,
+      "attempt": "worker-updating",
+      "sourceGeneration": 6,
+      "generation": null,
+      "q1Present": false,
+      "ready": null,
+      "q1Retired": false,
+      "errorVisible": false,
+      "tracksCurrent": false,
+      "controllerSameInitial": false,
+      "controllerActivated": false,
+      "q1ControllerSame": false
+    },
+    {
+      "at": 1790921388381,
+      "elapsedFromAudioArmMs": 5088,
+      "attempt": "worker-updating",
+      "sourceGeneration": 6,
+      "generation": null,
+      "q1Present": false,
+      "ready": null,
+      "q1Retired": false,
+      "errorVisible": false,
+      "tracksCurrent": false,
+      "controllerSameInitial": false,
+      "controllerActivated": true,
+      "q1ControllerSame": false
+    },
+    {
+      "at": 1790921388535,
+      "elapsedFromAudioArmMs": 5242,
+      "attempt": "worker-update-required",
+      "sourceGeneration": 6,
+      "generation": null,
+      "q1Present": false,
+      "ready": null,
+      "q1Retired": false,
+      "errorVisible": true,
+      "tracksCurrent": false,
+      "controllerSameInitial": false,
+      "controllerActivated": true,
+      "q1ControllerSame": false
+    }
+  ],
+  "confirmedMechanism": "Current SW controller replacement invalidates Q1 and track-owner fences; app enters worker-updating then worker-update-required. Replacement event precedes timeout receipt by19880ms and first native close.",
+  "responsibleCode": [
+    "app.js:1854 restartPendingMediaAfterServiceWorkerChange",
+    "app.js:8583 current Q1 SW-owner fence",
+    "app.js:6184 track-owner controller fence",
+    "app.js:1996 automatic registration.update"
+  ],
+  "rootCause": "UNKNOWN: initial automatic update/setup versus same-source unexpected replacement has not been discriminated. No product defect or native codec/worker failure attributed.",
+  "provider": {
+    "requests": 198,
+    "mediaBytes": 957579,
+    "workersReady": 2,
+    "errors": [],
+    "corsAllAllowed": true
+  },
+  "cleanup": {
+    "playerRetired": false,
+    "observerStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": false,
+  "externalCleanupComplete": true,
+  "playerRetirementQualified": false,
+  "ownedBrowserDeviceIdle": true,
+  "sourceProductChanged": false,
+  "furtherActualRetriesStarted": false
+}

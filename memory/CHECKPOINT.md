@@ -1,10 +1,14 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 idle worker qualification
+# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 native tracks qualified
 
 ## The story so far
 
 Approved full queue ACTIVE on codex/v2-kickoff-diagnostics, immutable source 2c2b1244bee0f1a5e500318c83c6e126c5124e34. Verified bounded audio/subtitle selection, selected Q2, terminal seek recovery and retained failures are committed; 220 focused app/static/routing/track checks and 17 endpoint checks passed. RC35 owner is memory/CANDIDATE-RC35-20261002.md. Exact metadata/AVC/YUV is preserved, while undeclared-color canvas difference remains UNKNOWN/failed strict oracle. No broad corpus scan.
 
-One free rc35 deployment/readback passed, Worker5976c3f9-ba4f-47a1-955a-06d9748f6302. Delivery64/cache49/sourcearchives9/private4046/offline0errors/readiness/package64 and actual PC34→35 preservation49cache/50aliases/3network PASS; PC helpers removed/owners absent. Partial tool failures/pinned prefixes retained, no redeploy. Android Q0 frame/pause/inventory/nativeAAC3 choice pass, selectedQ1 frame/retirement FAIL. Lifecycle diagnostic confirms controller replacement4024ms afteraudioarm, preceding20s timeout and normalBack; app's safe worker-update-required branch triggers. Initial automatic versus unexpected same-source update UNKNOWN. All external resources closed. Actor now executes exactly one idle-only45s source/update/stability qualification, no media retry. Root original69 draft remains unadopted; TR01 cold lineage was too broadly qualified and is now unresolved. Separate medium agent prepares a concrete cold gate without actual work. No new PC performance playback started; historical MOV90% and unspecified-color/HDR limits remain.
+One free rc35 deployment/readback passed, Worker5976c3f9-ba4f-47a1-955a-06d9748f6302. Delivery64/cache49/sourcearchives9/private4046/offline0errors/readiness/package64 and actual PC34→35 preservation49cache/50aliases/3network PASS; saved in QA/docs-only1d42c40. No redeploy. Normal PC connection responds/authenticated; player/owners/helpers absent, original root/query restored. PC cold preparation stopped before playback because CUA source-worker commands are unsupported and target history is truncated; cold gate remains unqualified. One75MB current MOV was prepared then cleaned before timing; no new MOV playback proof.
+
+Android idle45 proved actual executing sw/revision-pin hashes and VERSION35;49 distinct shell files plus root alias50, with raw count failure retained and adjudicated. Stable v6 qualified startup507ms and exact AAC3 frame4775ms, then QA256 global request cap failed at266; player and external cleanup passed. Cap-only additive v7(512/24MiB/180s) passed5 local guards. Actual v7 failed genuine new SW installation after stable45: installing3759ms/controller replacement4296ms after AACarm, before failure/normal close. Old/new executing sw.js and revision-pin bytes both Git2c2 exact/VERSION35; provider198 requests/errors0. External cleanup all true, player retirement false/overallcleanupfalse retained. Trigger UNKNOWN.
+
+Passive v8 actual startup480ms/AAC3 frame4938ms passed; native interval update-generation delta0, visibility/controller events0 and player/external cleanup all true. This does not establish the v7 trigger. Provider/public-wire arrays were not phase-frozen, so later request timing remains UNKNOWN. Additive v9 fixed that QA snapshot defect, acknowledged force-update=false on the fresh owned target before navigation and passed7 local guards. Actual full native queue PASS: startup453ms/AAC3 4741ms/seek2 1102ms/seek5.5 1003ms/return2 1173ms, all first15s; tx3g4 cue present/absent/restored/Off passed. One exact executing worker throughout, stable45/cache50,450 requests/3,668,471B/errors0,33.953s queue, player and all external cleanup true. Raw android-normal-full-v9-result.json SHA5581cc509a8d5ae44309349fb1bfd6b0be5456e174ad910c3cd2a337f7b5c8b1; actor finalizes compact adjudication/curated savepoint. Earlier v7 cause remains UNKNOWN. Original69 draft unadopted. Cold, color/HDR and historical MOV/performance conditions remain open. Android35 cold driver is ready but preparation only. No broad scan.
 
 ## Decided
 
@@ -17,7 +21,7 @@ None.
 
 ## Next first action
 
-Read qa/player-track-selection/android-idle-admission-result.json when finalized and Android actor's actual executing-SW/source/update/stability adjudication; only then admit stable selected-track playback or fix the confirmed responsible layer.
+Save the verified Android QA unit with exact curated paths. Then inspect the original Android candidate's update banner/current version and perform a normal state-preserving rc35 update if needed (user requested it; no new deployment). Admit the prepared Android35 cold Q0 driver after source/account/root readiness and frozen-driver review. Native synthetic test is fully cleaned/device released; never share device/account state writers concurrently. Preserve earlier v7 failure and UNKNOWN cause.
 
 ## Tried
 

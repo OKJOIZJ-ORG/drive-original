@@ -1,0 +1,47 @@
+function installAndroidTracksDiagnosticObserver(options) {
+  'use strict';
+  const {origin,version,fixtureId}=options;
+  if(location.origin!==origin||APP_VERSION!==version||window.__androidTracksObserver)throw Error('OBSERVER_ADMISSION');
+  const n=x=>Number.isFinite(x)?x:null,phases=[],events=[],diagnostics=[];let phase=null,frameVideo=null,frameId=null,disposed=false,timer=null;
+  const priorSink=window.__driveOriginalMediaTraceSink;if(typeof priorSink==='function')throw Error('DIAGNOSTIC_SINK_ALREADY_OWNED');
+  const knownReasons=new Set(["AUDIO_NATIVE_GATE_UNAVAILABLE","AUDIO_OPUS_END_CLOCK_INVALID","AUDIO_OPUS_END_CONFIG_UNQUALIFIED","GENERAL_AUDIO_PROBE_FAILED","GENERAL_AUDIO_SELECTION_CONTAINER_UNQUALIFIED","GENERAL_AUDIO_SELECTION_MISSING","GENERAL_BOX_COUNT","GENERAL_CANCELLED","GENERAL_CLEANUP_UNCONFIRMED","GENERAL_CODEC_UNQUALIFIED","GENERAL_CONTAINER_UNQUALIFIED","GENERAL_DISCOVERY_LIMIT","GENERAL_EXPANDED_INDEX_LIMIT","GENERAL_FRAGMENTED_INPUT_UNQUALIFIED","GENERAL_IMAGE_CLEANUP_UNSETTLED","GENERAL_IMAGE_HEADER_UNQUALIFIED","GENERAL_INPUT_SPAN_LIMIT","GENERAL_ISO_FEATURE_UNQUALIFIED","GENERAL_MEDIA_ERROR","GENERAL_MEDIA_TIMEOUT","GENERAL_METADATA_LIMIT","GENERAL_MOOV_LIMIT","GENERAL_MSE_UNAVAILABLE","GENERAL_PACKET_LIMIT","GENERAL_PLAYBACK_FAILED","GENERAL_PROBE_CLEANUP_UNSETTLED","GENERAL_SOURCE_CLOSED","GENERAL_TABLE_ENTRIES_LIMIT","GENERAL_TRACK_CLEANUP_UNSETTLED","GENERAL_TRACK_LIMIT","Q0_CAPABILITY_REQUEST","Q0_CAPABILITY_RESPONSE","Q0_OWNER_REQUEST","Q0_OWNER_RESPONSE","Q0_PIN_REQUEST","Q0_PIN_RESPONSE","Q1_CLEANUP_UNCONFIRMED","Q1_RETIRE_REQUEST","Q1_RETIRE_RESPONSE","Q1_SETUP_FAILED","Q1_SOURCE_","Q1_SOURCE_CLEANUP_UNCONFIRMED","Q1_SOURCE_CONCURRENT","Q1_SOURCE_CONTENT_DRIFT","Q1_SOURCE_HTTP_UNAVAILABLE","Q1_SOURCE_IDENTITY_UNAVAILABLE","Q1_SOURCE_OPTIONS","Q1_SOURCE_OWNER_CHECK","Q1_SOURCE_READ_FAILED","Q1_SOURCE_STALE"]);
+  const sink=e=>{if(location.origin!==origin||APP_VERSION!==version||diagnostics.length>=128)return;const stages=['q1-failed','media-error','route-selected','http-error','range-error','body-error','request-cancelled'];if(!stages.includes(e?.stage))return;const reason=typeof e.reason==='string'&&knownReasons.has(e.reason)?e.reason:'UNKNOWN';diagnostics.push({at:Date.now(),stage:e.stage,reason,status:n(e.status),terminal:e.terminal===true,stale:e.stale===true});};window.__driveOriginalMediaTraceSink=sink;
+  const started=Date.now(),account='android-tracks-synthetic-account',auth=()=>state.authAccountKey===account&&state.driveSessionGeneration===1;
+  const stats=()=>q1Playback?.player?.stats?.(),video=()=>getActiveMediaElement();
+  const fence=()=>location.origin===origin&&APP_VERSION===version&&window.__androidTracksMockOwned===true&&state.selected?.id===fixtureId&&auth()&&document.visibilityState==='visible';
+  function sample(){const v=video(),s=stats(),timeline=playerTimeline(),track=playerTracksOwner,mapping=s?.mapping;
+    const absolute=q1Playback?.kind==='general'?q1Playback.player.sourceTime():v?.currentTime;
+    const cues=list=>[...list??[]].slice(0,8).map(c=>({start:n(c.startTime),end:n(c.endTime),syntheticText:c.text==='SYNTHETIC SUBTITLE'}));
+    return{at:Date.now(),fence:fence(),version:APP_VERSION,width:innerWidth,height:innerHeight,dpr:devicePixelRatio,
+      nativeOwnerCurrent:!!v&&isCurrentMediaEvent(v),session:n(state.mediaSession),sourceGeneration:n(mediaSourceGeneration),generation:n(s?.generation),
+      q1Present:!!q1Playback,q0Present:!!q0Playback,route:q1Playback?.kind==='general'?'Q1_GENERAL':q0Playback?'Q0':'OTHER',
+      paused:!!v?.paused,ready:n(v?.readyState),time:n(v?.currentTime),clock:n(timeline.currentTime),duration:n(timeline.duration),absoluteSourceTime:n(absolute),
+      sourceOrigin:n(mapping?.sourceOrigin),clockShift:n(v?.currentTime-absolute),widthVideo:n(v?.videoWidth),heightVideo:n(v?.videoHeight),decoded:n(v?.getVideoPlaybackQuality?.().totalVideoFrames),errorCode:n(v?.error?.code),
+      failure:typeof s?.failure==='string'&&/^[A-Z_]+$/.test(s.failure)?s.failure:null,
+      selectedAudio:n(track?.selectedAudioTrackId),q1SelectedAudio:n(q1Playback?.selectedAudioTrackId),pipelineSelectedAudio:n(s?.pipeline?.selectedAudioTrackId),
+      switching:track?.switching===true,tracksCurrent:track?.current()===true,subtitleSelected:n(track?.subtitles?.selectedTrackId),
+      inventoryAudio:track?.inventory?.audioTracks?.slice(0,8).map(t=>({id:n(t.trackId),codec:t.codec==='aac'?'aac':'other',route:['q1','q2','unqualified'].includes(t.route)?t.route:'other'}))??[],
+      inventorySubtitle:track?.subtitles?.tracks?.slice(0,8).map(t=>({id:n(t.trackId),supported:t.supported===true}))??[],
+      dialogOpen:el.playerTracksDialog.open,audioValue:el.playerAudioTrack.value===''?null:n(Number(el.playerAudioTrack.value)),subtitleValue:el.playerSubtitleTrack.value===''?null:n(Number(el.playerSubtitleTrack.value)),
+      textMode:['disabled','hidden','showing'].includes(playerSubtitleTextTrack?.mode)?playerSubtitleTextTrack.mode:null,cues:cues(playerSubtitleTextTrack?.cues),activeCues:cues(playerSubtitleTextTrack?.activeCues),
+      attempt:['failed','range','q1','q2','native','idle'].includes(state.mediaAttempt)?state.mediaAttempt:'OTHER',errorVisible:el.mediaError?.hidden===false,closed:el.playerSheet.hidden,tracksPresent:!!track,blobPresent:!!state.mediaBlobUrl,srcPresent:!!el.videoPlayer.hasAttribute('src'),
+      q1Retired:q1RetirementResult?.settled===true,tracksRetired:playerTracksRetirementResult?.settled===true};
+  }
+  const event=e=>{if(events.length<128)events.push({type:e.type,at:Date.now(),trusted:e.isTrusted===true});};
+  const names=['loadeddata','playing','pause','seeking','seeked','timeupdate','ended','error'];
+  function detach(){if(frameVideo){if(frameId!==null)frameVideo.cancelVideoFrameCallback?.(frameId);for(const name of names)frameVideo.removeEventListener(name,event);}frameId=null;frameVideo=null;}
+  function attach(){const v=video();if(v===frameVideo)return;detach();if(!v?.requestVideoFrameCallback)return;frameVideo=v;for(const name of names)v.addEventListener(name,event);
+    const callback=(_,m)=>{frameId=null;if(disposed||frameVideo!==v)return;const s=sample(),st=stats(),mapping=st?.mapping,shift=n(mapping?.commonShift-mapping?.sourceOrigin)??0,clock=m.mediaTime+shift;
+      if(phase){const advanced=(q1Playback||q0Playback)!==phase.owner||state.mediaSession!==phase.session||mediaSourceGeneration!==phase.sourceGeneration||st?.generation!==phase.generation;
+        const good=s.fence&&video()===v&&isCurrentMediaEvent(v)&&!q1Playback?.controller?.signal?.aborted&&!st?.disposed&&!s.failure&&m.width>0&&m.height>0&&(!phase.requireAdvance||advanced)&&(!phase.requireAudio3||(s.route==='Q1_GENERAL'&&s.q1SelectedAudio===3));
+        const distance=Math.abs(clock-phase.target),row={elapsedMs:Date.now()-phase.at,clock:n(clock),distance:n(distance),width:n(m.width),height:n(m.height),advanced,good,generation:s.generation};
+        if(phase.frames.length<32)phase.frames.push(row);if(good&&distance<=phase.tolerance&&!phase.first)phase.first=row;
+      }frameId=v.requestVideoFrameCallback(callback);};frameId=v.requestVideoFrameCallback(callback);
+  }
+  function tick(){if(disposed)return;attach();if(phase&&phase.samples.length<64)phase.samples.push(sample());if(Date.now()-started>180000)stop();}
+  function arm(label,{target=0,tolerance=.3,requireAdvance=false,requireAudio3=false}={}){if(disposed||phases.length>=6||!['startup','audio3','seek2','seek5_5','seek2-return'].includes(label)||!Number.isFinite(target)||target<0)throw Error('PHASE_ADMISSION');
+    phase={label,at:Date.now(),target,tolerance:Math.max(.05,Math.min(3,tolerance)),requireAdvance,requireAudio3,owner:q1Playback||q0Playback,session:state.mediaSession,sourceGeneration:mediaSourceGeneration,generation:stats()?.generation,frames:[],samples:[],first:null};phases.push(phase);tick();return{armed:true,label,target};}
+  function read(){tick();return{elapsedMs:Date.now()-started,disposed,latest:sample(),phases:phases.map(({owner,...p})=>p),events,diagnostics,rawIdentifiersExported:false,exactAudioFidelity:'NOT_TESTED',physicalPhoneClaim:false};}
+  function stop(){if(disposed)return{stopped:true};disposed=true;clearInterval(timer);detach();if(window.__driveOriginalMediaTraceSink===sink){if(priorSink===undefined)delete window.__driveOriginalMediaTraceSink;else window.__driveOriginalMediaTraceSink=priorSink;}for(const p of phases)p.owner=null;return{stopped:true,frameRemoved:true,listenersRemoved:true,timerRemoved:true};}
+  timer=setInterval(tick,250);window.__androidTracksObserver=Object.freeze({arm,read,stop});tick();return{installed:true,boundMs:180000,eventCap:128,frameCap:32,sampleCap:64};
+}

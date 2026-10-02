@@ -1,0 +1,294 @@
+{
+  "schema": "drive-original.android-normal-v9-native-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "receipt": {
+    "file": "android-normal-full-v9-result.json",
+    "bytes": 1143661,
+    "sha256": "5581cc509a8d5ae44309349fb1bfd6b0be5456e174ad910c3cd2a337f7b5c8b1",
+    "producerSha256": "42e791b69d8723d27d32e1466ddc4d37287e0fe5a10f7d694b714e431524c864"
+  },
+  "operationalCompleted": true,
+  "strictFirst15FrameQualification": true,
+  "initial15SecondMisses": [],
+  "failedPhaseSteps": [],
+  "diagnosticContinuations": [],
+  "scope": {
+    "device": "Actual physical SM-X800 Android16 Chrome/tablet, native OS ADB input; not human finger",
+    "runtime": "Immutable source35/local mock provider/combined generated759643B fixture; real-account candidate tabs never navigated",
+    "fixtureSha256": "bc831b81953010036a7d931100dfd264fa14d8e22633b6518268f6c6dbfc2e2f",
+    "nativeTabletDialog": "Normal More/Tracks and native exact-option popups; no phone/shorts entry",
+    "mediaQueueMs": 33953,
+    "mediaCeilingMs": 180000,
+    "endurance180sClaim": false
+  },
+  "knownNormalCondition": {
+    "setterAcknowledged": true,
+    "forceUpdateOnPageLoad": false,
+    "ownedFreshPage": true,
+    "ackBeforeNavigation": true,
+    "getterReadback": "NOT_AVAILABLE; setterACK only",
+    "earlierV7Cause": "UNKNOWN; successful explicit normal condition is not a cause attribution"
+  },
+  "stableAdmission": {
+    "stableAdmissionQualified": true,
+    "expectedShellEntries": 50,
+    "observedShellEntries": 50,
+    "exactCanonicalShellPathsAndHashes": true,
+    "automaticUpdateInvocationObserved": true,
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "observationBoundMs": 45000,
+    "originalProducerCompleted": false,
+    "originalProducerFailureRetained": null,
+    "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement",
+    "executingQualified": true,
+    "timerNotStarted": true
+  },
+  "presentedFrames": [
+    {
+      "label": "startup",
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 20000,
+      "target": 0,
+      "tolerance": 3,
+      "first": {
+        "elapsedMs": 453,
+        "clock": 0,
+        "distance": 0,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": null
+      }
+    },
+    {
+      "label": "audio3",
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 20000,
+      "target": 0.883453,
+      "tolerance": 0.6,
+      "first": {
+        "elapsedMs": 4741,
+        "clock": 0.875,
+        "distance": 0.008453000000000044,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": 2
+      }
+    },
+    {
+      "label": "seek2",
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 15000,
+      "target": 1.9994001382773998,
+      "tolerance": 0.25,
+      "first": {
+        "elapsedMs": 1102,
+        "clock": 1.958333,
+        "distance": 0.04106713827739972,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": 3
+      }
+    },
+    {
+      "label": "seek5_5",
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 15000,
+      "target": 5.501499750417651,
+      "tolerance": 0.25,
+      "first": {
+        "elapsedMs": 1003,
+        "clock": 5.5,
+        "distance": 0.0014997504176506027,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": 4
+      }
+    },
+    {
+      "label": "seek2-return",
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 15000,
+      "target": 1.9994001382773998,
+      "tolerance": 0.25,
+      "first": {
+        "elapsedMs": 1173,
+        "clock": 1.958333,
+        "distance": 0.04106713827739972,
+        "width": 320,
+        "height": 180,
+        "advanced": true,
+        "good": true,
+        "generation": 5
+      }
+    }
+  ],
+  "nativeSubtitleChecks": [
+    {
+      "name": "automatic native subtitle clock at2s",
+      "passed": true,
+      "subtitleTrackId": 4,
+      "textMode": "showing",
+      "sourceClock": 1.9994,
+      "clockShift": 0,
+      "cues": [
+        {
+          "start": 0,
+          "end": 5,
+          "syntheticText": true
+        }
+      ],
+      "activeCues": [
+        {
+          "start": 0,
+          "end": 5,
+          "syntheticText": true
+        }
+      ]
+    },
+    {
+      "name": "automatic cue absent past5s",
+      "passed": true,
+      "subtitleTrackId": 4,
+      "textMode": "showing",
+      "sourceClock": 5.501499,
+      "clockShift": 0,
+      "cues": [],
+      "activeCues": []
+    },
+    {
+      "name": "automatic cue restored at2s",
+      "passed": true,
+      "subtitleTrackId": 4,
+      "textMode": "showing",
+      "sourceClock": 1.9994,
+      "clockShift": 0,
+      "cues": [
+        {
+          "start": 0,
+          "end": 5,
+          "syntheticText": true
+        }
+      ],
+      "activeCues": [
+        {
+          "start": 0,
+          "end": 5,
+          "syntheticText": true
+        }
+      ]
+    },
+    {
+      "name": "normal native subtitle Off",
+      "passed": true,
+      "subtitleTrackId": null,
+      "textMode": "disabled",
+      "sourceClock": 1.9994,
+      "clockShift": 0,
+      "cues": [],
+      "activeCues": []
+    }
+  ],
+  "fullFiniteTrackQueueQualified": true,
+  "ownerBeforeClose": {
+    "fence": true,
+    "nativeOwnerCurrent": true,
+    "tracksCurrent": true,
+    "controllerSameInitial": true,
+    "registrationActiveCurrent": true,
+    "route": "Q1_GENERAL",
+    "q1SelectedAudio": 3,
+    "pipelineSelectedAudio": 3,
+    "generation": 5,
+    "paused": true
+  },
+  "lifetime": {
+    "visibilityEvents": [],
+    "controllerEvents": [],
+    "updateGenerationDelta": 0,
+    "observedWorkerAliases": [
+      1
+    ],
+    "allObservedExecutableHashesMatched": true,
+    "allObservedVersionsMatched": true
+  },
+  "phaseEvidence": {
+    "beforeCloseNodeEpochMs": 1790926943079,
+    "clonedReducedArraysBeforeClose": true,
+    "initialClockAlignment": {
+      "name": "read-only device/Node clock alignment",
+      "at": 1790926909136,
+      "nodeBeforeEpochMs": 1790926909132,
+      "deviceEpochMs": 1790926909374,
+      "nodeAfterEpochMs": 1790926909136,
+      "deviceMinusNodeMinMs": 238,
+      "deviceMinusNodeMaxMs": 242,
+      "scope": "Read-only bounded epoch alignment; no clock changes; one-way transport timing remains unknown"
+    },
+    "finalClockAlignment": {
+      "nodeBeforeEpochMs": 1790926943079,
+      "deviceEpochMs": 1790926943327,
+      "nodeAfterEpochMs": 1790926943090,
+      "deviceMinusNodeMinMs": 237,
+      "deviceMinusNodeMaxMs": 248,
+      "scope": "Read-only bounded epoch alignment; no clock changes; one-way transport timing remains unknown"
+    },
+    "deviceClockDiffBounded": true,
+    "fullFinalAggregatesAreSeparateLifetimeEvidence": true
+  },
+  "provider": {
+    "requests": 450,
+    "requestCap": 1024,
+    "local": 128,
+    "metadata": 108,
+    "range": 51,
+    "preflights": 161,
+    "mediaBytes": 3668471,
+    "byteCap": 25165824,
+    "errors": []
+  },
+  "cleanup": {
+    "playerRetired": true,
+    "observerStopped": true,
+    "idleObserverStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true,
+  "playerRetirementPassed": true,
+  "originalCandidateTabsUnchanged": true,
+  "unqualified": [
+    "Exactaudiofidelity",
+    "Original-format-wide playback",
+    "Real-account media",
+    "Q2",
+    "Phone/shortsTracksBtn",
+    "Humanfinger multitouch",
+    "EOF/endurance",
+    "iOS"
+  ],
+  "earlierNegativesPreserved": true,
+  "retried": false,
+  "productChanged": false
+}

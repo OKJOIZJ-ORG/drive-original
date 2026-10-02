@@ -1,0 +1,6172 @@
+{
+  "schema": "drive-original.actual-android-tracks/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "producerSha256": "0a21736a6da5bfee976adcd1e5af76e5087243fc1f30a341f27af1f526f7a48a",
+  "recordedAt": "2026-10-02T07:02:33.317Z",
+  "scope": "Physical Android tablet Chrome, committed local app/SW and generated combined fixture, exact isolated mock provider. Synthetic prestate; no real-account/library/original-format-wide or phone proof.",
+  "publication": {
+    "publicationVerified": true,
+    "verificationOwner": "root verified normalized receipt attestations; runner checks frozen receipt digests",
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+    "receipts": [
+      {
+        "kind": "sourceReadiness",
+        "bytes": 11006,
+        "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+      },
+      {
+        "kind": "deployment",
+        "bytes": 11152,
+        "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+      },
+      {
+        "kind": "control",
+        "bytes": 1624,
+        "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+      },
+      {
+        "kind": "publicAudit",
+        "bytes": 15875,
+        "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+      }
+    ]
+  },
+  "publicationIndependentlyFetched": false,
+  "viewportOverride": false,
+  "nativeOsInput": true,
+  "humanFingerInput": false,
+  "agentRealAccountReadOrWritten": false,
+  "candidateNavigated": false,
+  "originalMediaMutated": false,
+  "timedPlaybackStarted": true,
+  "stableAdmissionBeforeMedia": true,
+  "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+  "steps": [
+    {
+      "name": "reused passed exact native popup path",
+      "at": 1790924556151,
+      "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "receiptSha256": "a845350214571a6ebc93e3087c8168c4d9bfca61938cf5079cd9b53770a9a735",
+      "currentOptionHitTestStillRequired": true
+    },
+    {
+      "name": "actual local committed source and physical tablet viewport",
+      "at": 1790924557250,
+      "version": "1.22.0-rc.35",
+      "controllerActivated": true,
+      "sourceFiles": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        }
+      ],
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125,
+      "chrome": "Chrome/153.0.0.0"
+    },
+    {
+      "name": "initial owned registration observation",
+      "at": 1790924557262,
+      "evidence": {
+        "clock": "page-performance elapsed ms",
+        "boundMs": 45000,
+        "elapsedMs": 949.4000000059605,
+        "lastChangeMs": 702.5,
+        "latest": {
+          "elapsedMs": 949.4000000059605,
+          "appVersion": "1.22.0-rc.35",
+          "appReady": true,
+          "setupReady": true,
+          "updateGeneration": 0,
+          "controller": 1,
+          "controllerState": "activated",
+          "active": 1,
+          "installing": null,
+          "waiting": null,
+          "activeCurrent": true,
+          "closed": true,
+          "ownersAbsent": true,
+          "visibility": "visible"
+        },
+        "events": [
+          {
+            "elapsedMs": 111.59999999403954,
+            "type": "registration-observed",
+            "worker": null,
+            "workerState": null,
+            "controller": null
+          },
+          {
+            "elapsedMs": 185.59999999403954,
+            "type": "worker-observed",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 185.7000000178814,
+            "type": "updatefound",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 656,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "installed",
+            "controller": null
+          },
+          {
+            "elapsedMs": 656.2000000178814,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": null
+          },
+          {
+            "elapsedMs": 680.5,
+            "type": "controllerchange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": 1
+          },
+          {
+            "elapsedMs": 680.8000000119209,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activated",
+            "controller": 1
+          }
+        ],
+        "samples": [
+          {
+            "elapsedMs": 12.300000011920929,
+            "appVersion": null,
+            "appReady": false,
+            "setupReady": false,
+            "updateGeneration": null,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": null,
+            "ownersAbsent": null,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 111.7000000178814,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": false,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 201.5,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": 1,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 702.5,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": 1,
+            "controllerState": "activated",
+            "active": 1,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": true,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          }
+        ],
+        "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "45s automatic lifecycle observation",
+      "at": 1790924601421,
+      "evidence": {
+        "clock": "page-performance elapsed ms",
+        "boundMs": 45000,
+        "elapsedMs": 45102.30000001192,
+        "lastChangeMs": 2702.5,
+        "latest": {
+          "elapsedMs": 45102.5,
+          "appVersion": "1.22.0-rc.35",
+          "appReady": true,
+          "setupReady": true,
+          "updateGeneration": 1,
+          "controller": 1,
+          "controllerState": "activated",
+          "active": 1,
+          "installing": null,
+          "waiting": null,
+          "activeCurrent": true,
+          "closed": true,
+          "ownersAbsent": true,
+          "visibility": "visible"
+        },
+        "events": [
+          {
+            "elapsedMs": 111.59999999403954,
+            "type": "registration-observed",
+            "worker": null,
+            "workerState": null,
+            "controller": null
+          },
+          {
+            "elapsedMs": 185.59999999403954,
+            "type": "worker-observed",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 185.7000000178814,
+            "type": "updatefound",
+            "worker": 1,
+            "workerState": "installing",
+            "controller": null
+          },
+          {
+            "elapsedMs": 656,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "installed",
+            "controller": null
+          },
+          {
+            "elapsedMs": 656.2000000178814,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": null
+          },
+          {
+            "elapsedMs": 680.5,
+            "type": "controllerchange",
+            "worker": 1,
+            "workerState": "activating",
+            "controller": 1
+          },
+          {
+            "elapsedMs": 680.8000000119209,
+            "type": "worker-statechange",
+            "worker": 1,
+            "workerState": "activated",
+            "controller": 1
+          }
+        ],
+        "samples": [
+          {
+            "elapsedMs": 12.300000011920929,
+            "appVersion": null,
+            "appReady": false,
+            "setupReady": false,
+            "updateGeneration": null,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": null,
+            "ownersAbsent": null,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 111.7000000178814,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": false,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 201.5,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": null,
+            "controllerState": null,
+            "active": null,
+            "installing": 1,
+            "waiting": null,
+            "activeCurrent": false,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 702.5,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 0,
+            "controller": 1,
+            "controllerState": "activated",
+            "active": 1,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": true,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          },
+          {
+            "elapsedMs": 2702.5,
+            "appVersion": "1.22.0-rc.35",
+            "appReady": true,
+            "setupReady": true,
+            "updateGeneration": 1,
+            "controller": 1,
+            "controllerState": "activated",
+            "active": 1,
+            "installing": null,
+            "waiting": null,
+            "activeCurrent": true,
+            "closed": true,
+            "ownersAbsent": true,
+            "visibility": "visible"
+          }
+        ],
+        "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "stable automatic update admission",
+      "at": 1790924601635,
+      "controllerAliasSameAs45End": true,
+      "appVersion": "1.22.0-rc.35",
+      "registrationActiveCurrent": true,
+      "activated": true,
+      "installing": false,
+      "waiting": false,
+      "updateGeneration": 1,
+      "quietSinceLastChangeMs": 42439.90000000596,
+      "cacheEntries": 50,
+      "cacheAllMatch": true,
+      "cache": [
+        {
+          "file": "/",
+          "matched": true
+        },
+        {
+          "file": "/runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "/media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "/media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "/media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "/media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "/media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "/licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "/licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "/version.json",
+          "matched": true
+        },
+        {
+          "file": "/manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "/icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "/icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "/icons/apple-touch-icon.png",
+          "matched": true
+        },
+        {
+          "file": "/index.html",
+          "matched": true
+        },
+        {
+          "file": "/app.js",
+          "matched": true
+        },
+        {
+          "file": "/styles.css",
+          "matched": true
+        },
+        {
+          "file": "/media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "/media/general-player.mjs",
+          "matched": true
+        }
+      ],
+      "closed": true,
+      "ownersAbsent": true,
+      "promiseCompletion": "NOT_EXPOSED; bounded normal cycle/idle observation only",
+      "executingQualified": true,
+      "stableAdmissionQualified": true,
+      "expectedShellEntries": 50,
+      "observedShellEntries": 50,
+      "exactCanonicalShellPathsAndHashes": true,
+      "automaticUpdateInvocationObserved": true,
+      "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+      "observationBoundMs": 45000,
+      "originalProducerCompleted": false,
+      "originalProducerFailureRetained": null,
+      "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement"
+    },
+    {
+      "name": "owned passive lifetime observer BEFORE synthetic prestate",
+      "at": 1790924601661,
+      "installed": true,
+      "boundMs": 240000,
+      "timedMediaBoundMs": 180000,
+      "eventCap": 128,
+      "frameCap": 32,
+      "sampleCap": 64
+    },
+    {
+      "name": "nonplaying direct-caption and owned SW Range provider admission",
+      "at": 1790924602029,
+      "metadataStatus": 200,
+      "metadataExactFixture": true,
+      "directStatus": 206,
+      "directBytes": 188,
+      "directSha256": "598e18996bb53aba44fdc9f8cd30bb4d6863a3eba000d0015d23285353dd8c19",
+      "swStatus": 206,
+      "swBytes": 188,
+      "swSha256": "598e18996bb53aba44fdc9f8cd30bb4d6863a3eba000d0015d23285353dd8c19",
+      "playerClosed": true,
+      "pageAndSwProviderReady": true,
+      "metadataDelta": 1,
+      "rangeDelta": 2,
+      "scope": "direct driveFetch plus ownerless SW transport; current Q1 owner is qualified during playback"
+    },
+    {
+      "name": "timed native media queue begins",
+      "at": 1790924602040,
+      "boundMs": 180000,
+      "lifetimeMonitorInstalledBeforePrestate": true
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924602101,
+      "key": "card",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": true,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 20.47058868408203,
+        "top": 457.51470947265625,
+        "width": 186.1764678955078,
+        "height": 237.125,
+        "bottom": 694.6397094726562
+      },
+      "style": {
+        "display": "flex",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": 113.55882263183594,
+      "y": 576.0772094726562,
+      "left": 20.47058868408203,
+      "width": 186.1764678955078,
+      "height": 237.125,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 113.55882263183594,
+          "y": 576.0772094726562,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": false,
+          "hitIsChrome": false,
+          "hitIsModal": false,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "startup presented target frame",
+      "at": 1790924602934,
+      "passed": true,
+      "deadline15Passed": true,
+      "boundMs": 20000,
+      "evidence": {
+        "elapsedMs": 1255,
+        "disposed": false,
+        "latest": {
+          "at": 1790924603145,
+          "fence": true,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": false,
+          "registrationWaiting": false,
+          "controllerSameInitial": true,
+          "controllerActivated": true,
+          "q1ControllerSame": false,
+          "nativeOwnerCurrent": true,
+          "session": 1,
+          "sourceGeneration": 2,
+          "generation": null,
+          "q1Present": false,
+          "q0Present": true,
+          "route": "Q0",
+          "paused": false,
+          "ready": 4,
+          "time": 0.265449,
+          "clock": 0.265449,
+          "duration": 6,
+          "absoluteSourceTime": 0.265449,
+          "sourceOrigin": null,
+          "clockShift": 0,
+          "widthVideo": 320,
+          "heightVideo": 180,
+          "decoded": 11,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": null,
+          "q1SelectedAudio": null,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": false,
+          "subtitleSelected": null,
+          "inventoryAudio": [],
+          "inventorySubtitle": [],
+          "dialogOpen": false,
+          "audioValue": null,
+          "subtitleValue": null,
+          "textMode": null,
+          "cues": [],
+          "activeCues": [],
+          "attempt": "range",
+          "errorVisible": false,
+          "closed": false,
+          "tracksPresent": false,
+          "blobPresent": false,
+          "srcPresent": true,
+          "q1Retired": true,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 777,
+                "clock": 0.208333,
+                "distance": 0.208333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 832,
+                "clock": 0.25,
+                "distance": 0.25,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924603141,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": false,
+                "ready": 4,
+                "time": 0.262051,
+                "clock": 0.262051,
+                "duration": 6,
+                "absoluteSourceTime": 0.262051,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 11,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924603144,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": false,
+                "ready": 4,
+                "time": 0.265449,
+                "clock": 0.265449,
+                "duration": 6,
+                "absoluteSourceTime": 0.265449,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 11,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 6,
+            "sampleCount": 8
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924602969,
+      "key": "ctrlPlayPause",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": false,
+      "paused": false,
+      "available": false,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": true,
+      "rect": {
+        "left": 20,
+        "top": 1131.5294189453125,
+        "width": 44,
+        "height": 44,
+        "bottom": 1175.5294189453125
+      },
+      "style": {
+        "display": "grid",
+        "visibility": "hidden",
+        "pointerEvents": "none",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": null,
+      "y": null,
+      "left": 20,
+      "width": 44,
+      "height": 44,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 42,
+          "y": 1153.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": false,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": false
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924603027,
+      "key": "mediaStage",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": false,
+      "paused": false,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 0,
+        "top": 0,
+        "width": 824.4705810546875,
+        "height": 1191.5294189453125,
+        "bottom": 1191.5294189453125
+      },
+      "style": {
+        "display": "flex",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "relative",
+        "opacity": 1
+      },
+      "x": 412.23529052734375,
+      "y": 595.7647094726562,
+      "left": 0,
+      "width": 824.4705810546875,
+      "height": 1191.5294189453125,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 412.23529052734375,
+          "y": 595.7647094726562,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": true,
+          "hitIsEntry": false,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": false,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 417.03529663085936,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": true,
+          "hitIsEntry": false,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": false,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 238.3058837890625,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": true,
+          "hitIsEntry": false,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": false,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "normal native pause",
+      "at": 1790924603901,
+      "passed": true,
+      "evidence": {
+        "elapsedMs": 2213,
+        "disposed": false,
+        "latest": {
+          "at": 1790924604103,
+          "fence": true,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": false,
+          "registrationWaiting": false,
+          "controllerSameInitial": true,
+          "controllerActivated": true,
+          "q1ControllerSame": false,
+          "nativeOwnerCurrent": true,
+          "session": 1,
+          "sourceGeneration": 2,
+          "generation": null,
+          "q1Present": false,
+          "q0Present": true,
+          "route": "Q0",
+          "paused": true,
+          "ready": 4,
+          "time": 0.836219,
+          "clock": 0.836219,
+          "duration": 6,
+          "absoluteSourceTime": 0.836219,
+          "sourceOrigin": null,
+          "clockShift": 0,
+          "widthVideo": 320,
+          "heightVideo": 180,
+          "decoded": 25,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": null,
+          "q1SelectedAudio": null,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": false,
+          "subtitleSelected": null,
+          "inventoryAudio": [],
+          "inventorySubtitle": [],
+          "dialogOpen": false,
+          "audioValue": null,
+          "subtitleValue": null,
+          "textMode": null,
+          "cues": [],
+          "activeCues": [],
+          "attempt": "range",
+          "errorVisible": false,
+          "closed": false,
+          "tracksPresent": false,
+          "blobPresent": false,
+          "srcPresent": true,
+          "q1Retired": true,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1297,
+                "clock": 0.708333,
+                "distance": 0.708333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1331,
+                "clock": 0.75,
+                "distance": 0.75,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1365,
+                "clock": 0.791667,
+                "distance": 0.791667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1430,
+                "clock": 0.833333,
+                "distance": 0.833333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924604064,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924604103,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 20,
+            "sampleCount": 17
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603305,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603570,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603719,
+            "trusted": true
+          },
+          {
+            "type": "pause",
+            "at": 1790924603720,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924603916,
+      "key": "playerMoreSummary",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": false,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": true,
+      "rect": {
+        "left": 760.4705810546875,
+        "top": 1131.5294189453125,
+        "width": 44,
+        "height": 44,
+        "bottom": 1175.5294189453125
+      },
+      "style": {
+        "display": "grid",
+        "visibility": "hidden",
+        "pointerEvents": "none",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": null,
+      "y": null,
+      "left": 760.4705810546875,
+      "width": 44,
+      "height": 44,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 782.4705810546875,
+          "y": 1153.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": false,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": false
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924603933,
+      "key": "playerControlsEntry",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 0,
+        "top": 1131.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60,
+        "bottom": 1191.5294189453125
+      },
+      "style": {
+        "display": "block",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "absolute",
+        "opacity": 1
+      },
+      "x": 412.23529052734375,
+      "y": 1161.5294189453125,
+      "left": 0,
+      "width": 824.4705810546875,
+      "height": 60,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 412.23529052734375,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 1142.3294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 123.67058715820312,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 700.7999938964844,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 123.67058715820312,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 700.7999938964844,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924603989,
+      "key": "playerControlsEntry",
+      "controlsIdle": true,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": true,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 0,
+        "top": 1131.5294189453125,
+        "width": 824.4705810546875,
+        "height": 60,
+        "bottom": 1191.5294189453125
+      },
+      "style": {
+        "display": "block",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "absolute",
+        "opacity": 1
+      },
+      "x": 412.23529052734375,
+      "y": 1161.5294189453125,
+      "left": 0,
+      "width": 824.4705810546875,
+      "height": 60,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 412.23529052734375,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 412.23529052734375,
+          "y": 1142.3294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 123.67058715820312,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 700.7999938964844,
+          "y": 1180.7294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 123.67058715820312,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        },
+        {
+          "x": 700.7999938964844,
+          "y": 1161.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": true,
+          "hitIsChrome": false,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924604872,
+      "key": "playerMoreSummary",
+      "controlsIdle": false,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": false,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 760.4705810546875,
+        "top": 1131.5294189453125,
+        "width": 44,
+        "height": 44,
+        "bottom": 1175.5294189453125
+      },
+      "style": {
+        "display": "grid",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": 782.4705810546875,
+      "y": 1153.5294189453125,
+      "left": 760.4705810546875,
+      "width": 44,
+      "height": 44,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 782.4705810546875,
+          "y": 1153.5294189453125,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": false,
+          "hitIsChrome": true,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924605745,
+      "key": "ctrlTracks",
+      "controlsIdle": false,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": false,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 512.941162109375,
+        "top": 999.058837890625,
+        "width": 283.058837890625,
+        "height": 38,
+        "bottom": 1037.058837890625
+      },
+      "style": {
+        "display": "flex",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": 654.4705810546875,
+      "y": 1018.058837890625,
+      "left": 512.941162109375,
+      "width": 283.058837890625,
+      "height": 38,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 654.4705810546875,
+          "y": 1018.058837890625,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": false,
+          "hitIsChrome": true,
+          "hitIsModal": true,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "native tablet track inventory",
+      "at": 1790924606615,
+      "passed": true,
+      "evidence": {
+        "elapsedMs": 4906,
+        "disposed": false,
+        "latest": {
+          "at": 1790924606796,
+          "fence": true,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": false,
+          "registrationWaiting": false,
+          "controllerSameInitial": true,
+          "controllerActivated": true,
+          "q1ControllerSame": false,
+          "nativeOwnerCurrent": true,
+          "session": 1,
+          "sourceGeneration": 2,
+          "generation": null,
+          "q1Present": false,
+          "q0Present": true,
+          "route": "Q0",
+          "paused": true,
+          "ready": 4,
+          "time": 0.836219,
+          "clock": 0.836219,
+          "duration": 6,
+          "absoluteSourceTime": 0.836219,
+          "sourceOrigin": null,
+          "clockShift": 0,
+          "widthVideo": 320,
+          "heightVideo": 180,
+          "decoded": 25,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": null,
+          "q1SelectedAudio": null,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": true,
+          "subtitleSelected": null,
+          "inventoryAudio": [
+            {
+              "id": 2,
+              "codec": "aac",
+              "route": "q1"
+            },
+            {
+              "id": 3,
+              "codec": "aac",
+              "route": "q1"
+            }
+          ],
+          "inventorySubtitle": [
+            {
+              "id": 4,
+              "supported": true
+            }
+          ],
+          "dialogOpen": true,
+          "audioValue": 2,
+          "subtitleValue": null,
+          "textMode": "disabled",
+          "cues": [],
+          "activeCues": [],
+          "attempt": "range",
+          "errorVisible": false,
+          "closed": false,
+          "tracksPresent": true,
+          "blobPresent": false,
+          "srcPresent": true,
+          "q1Retired": true,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1297,
+                "clock": 0.708333,
+                "distance": 0.708333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1331,
+                "clock": 0.75,
+                "distance": 0.75,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1365,
+                "clock": 0.791667,
+                "distance": 0.791667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1430,
+                "clock": 0.833333,
+                "distance": 0.833333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606640,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606796,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 20,
+            "sampleCount": 35
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603305,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603570,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603719,
+            "trusted": true
+          },
+          {
+            "type": "pause",
+            "at": 1790924603720,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    },
+    {
+      "name": "fresh native target admission",
+      "at": 1790924606770,
+      "key": "playerAudioTrack",
+      "controlsIdle": false,
+      "viewport": {
+        "width": 824,
+        "height": 1191,
+        "dpr": 2.125,
+        "screenHeight": 1318
+      },
+      "modalScrollTop": 0,
+      "chromeInert": false,
+      "customControlsHidden": false,
+      "paused": true,
+      "available": true,
+      "nodePresent": true,
+      "hiddenAncestor": false,
+      "inertAncestor": false,
+      "rect": {
+        "left": 192.7058868408203,
+        "top": 561,
+        "width": 439.058837890625,
+        "height": 44,
+        "bottom": 605
+      },
+      "style": {
+        "display": "block",
+        "visibility": "visible",
+        "pointerEvents": "auto",
+        "position": "static",
+        "opacity": 1
+      },
+      "x": 412.2353057861328,
+      "y": 583,
+      "left": 192.7058868408203,
+      "width": 439.058837890625,
+      "height": 44,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "screenHeight": 1318,
+      "points": [
+        {
+          "x": 412.2353057861328,
+          "y": 583,
+          "inViewport": true,
+          "hitMatchesTarget": true,
+          "hitIsVideo": false,
+          "hitIsEntry": false,
+          "hitIsChrome": false,
+          "hitIsModal": false,
+          "hitInteractive": true,
+          "usable": true
+        }
+      ],
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "owned native popup exact option admission",
+      "at": 1790924609885,
+      "available": true,
+      "matchingOptionNodes": 1,
+      "left": 429,
+      "top": 1388,
+      "right": 593,
+      "bottom": 1428,
+      "x": 511,
+      "y": 1408,
+      "selected": false,
+      "checked": false,
+      "focused": false,
+      "rawXmlOrLabelsExported": false
+    },
+    {
+      "name": "native select popup exact value",
+      "at": 1790924610946,
+      "passed": true,
+      "evidence": {
+        "elapsedMs": 9232,
+        "disposed": false,
+        "latest": {
+          "at": 1790924611122,
+          "fence": true,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": true,
+          "registrationWaiting": false,
+          "controllerSameInitial": true,
+          "controllerActivated": true,
+          "q1ControllerSame": true,
+          "nativeOwnerCurrent": true,
+          "session": 1,
+          "sourceGeneration": 5,
+          "generation": 1,
+          "q1Present": true,
+          "q0Present": false,
+          "route": "Q1_GENERAL",
+          "paused": true,
+          "ready": 0,
+          "time": 0,
+          "clock": 0,
+          "duration": null,
+          "absoluteSourceTime": 0,
+          "sourceOrigin": null,
+          "clockShift": 0,
+          "widthVideo": 0,
+          "heightVideo": 0,
+          "decoded": 0,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": 3,
+          "q1SelectedAudio": 3,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": true,
+          "subtitleSelected": null,
+          "inventoryAudio": [
+            {
+              "id": 2,
+              "codec": "aac",
+              "route": "q1"
+            },
+            {
+              "id": 3,
+              "codec": "aac",
+              "route": "q1"
+            }
+          ],
+          "inventorySubtitle": [
+            {
+              "id": 4,
+              "supported": true
+            }
+          ],
+          "dialogOpen": false,
+          "audioValue": 3,
+          "subtitleValue": null,
+          "textMode": "disabled",
+          "cues": [],
+          "activeCues": [],
+          "attempt": "q1",
+          "errorVisible": false,
+          "closed": false,
+          "tracksPresent": true,
+          "blobPresent": false,
+          "srcPresent": true,
+          "q1Retired": true,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1297,
+                "clock": 0.708333,
+                "distance": 0.708333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1331,
+                "clock": 0.75,
+                "distance": 0.75,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1365,
+                "clock": 0.791667,
+                "distance": 0.791667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1430,
+                "clock": 0.833333,
+                "distance": 0.833333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606855,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606890,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 20,
+            "sampleCount": 37
+          },
+          {
+            "label": "audio3",
+            "at": 1790924606921,
+            "target": 0.836219,
+            "tolerance": 0.6,
+            "requireAdvance": true,
+            "requireAudio3": true,
+            "session": 1,
+            "sourceGeneration": 2,
+            "frames": [],
+            "samples": [
+              {
+                "at": 1790924606921,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606933,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924610890,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": true,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": true,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 5,
+                "generation": 1,
+                "q1Present": true,
+                "q0Present": false,
+                "route": "Q1_GENERAL",
+                "paused": true,
+                "ready": 0,
+                "time": 0,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": 0,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 0,
+                "heightVideo": 0,
+                "decoded": 0,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": 3,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "q1",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924611122,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": true,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": true,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 5,
+                "generation": 1,
+                "q1Present": true,
+                "q0Present": false,
+                "route": "Q1_GENERAL",
+                "paused": true,
+                "ready": 0,
+                "time": 0,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": 0,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 0,
+                "heightVideo": 0,
+                "decoded": 0,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": 3,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "q1",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": null,
+            "frameCount": 0,
+            "sampleCount": 21
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603305,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603570,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603719,
+            "trusted": true
+          },
+          {
+            "type": "pause",
+            "at": 1790924603720,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924610622,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          },
+          {
+            "at": 1790924610680,
+            "type": "observed",
+            "worker": 2,
+            "state": "installing"
+          },
+          {
+            "at": 1790924610680,
+            "type": "updatefound",
+            "worker": 2,
+            "state": "installing"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    },
+    {
+      "name": "retained actual failure journal BEFORE normal close",
+      "at": 1790924611417,
+      "evidence": {
+        "elapsedMs": 9692,
+        "disposed": false,
+        "latest": {
+          "at": 1790924611582,
+          "fence": true,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": false,
+          "registrationWaiting": false,
+          "controllerSameInitial": false,
+          "controllerActivated": false,
+          "q1ControllerSame": false,
+          "nativeOwnerCurrent": false,
+          "session": 1,
+          "sourceGeneration": 6,
+          "generation": null,
+          "q1Present": false,
+          "q0Present": false,
+          "route": "OTHER",
+          "paused": false,
+          "ready": null,
+          "time": null,
+          "clock": 0,
+          "duration": null,
+          "absoluteSourceTime": null,
+          "sourceOrigin": null,
+          "clockShift": null,
+          "widthVideo": null,
+          "heightVideo": null,
+          "decoded": null,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": 3,
+          "q1SelectedAudio": null,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": false,
+          "subtitleSelected": null,
+          "inventoryAudio": [
+            {
+              "id": 2,
+              "codec": "aac",
+              "route": "q1"
+            },
+            {
+              "id": 3,
+              "codec": "aac",
+              "route": "q1"
+            }
+          ],
+          "inventorySubtitle": [
+            {
+              "id": 4,
+              "supported": true
+            }
+          ],
+          "dialogOpen": false,
+          "audioValue": 3,
+          "subtitleValue": null,
+          "textMode": "disabled",
+          "cues": [],
+          "activeCues": [],
+          "attempt": "worker-updating",
+          "errorVisible": false,
+          "closed": false,
+          "tracksPresent": true,
+          "blobPresent": false,
+          "srcPresent": false,
+          "q1Retired": false,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1297,
+                "clock": 0.708333,
+                "distance": 0.708333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1331,
+                "clock": 0.75,
+                "distance": 0.75,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1365,
+                "clock": 0.791667,
+                "distance": 0.791667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1430,
+                "clock": 0.833333,
+                "distance": 0.833333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606855,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606890,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 20,
+            "sampleCount": 37
+          },
+          {
+            "label": "audio3",
+            "at": 1790924606921,
+            "target": 0.836219,
+            "tolerance": 0.6,
+            "requireAdvance": true,
+            "requireAudio3": true,
+            "session": 1,
+            "sourceGeneration": 2,
+            "frames": [],
+            "samples": [
+              {
+                "at": 1790924606921,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606933,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924611491,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": false,
+                "controllerActivated": false,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 1,
+                "sourceGeneration": 6,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "worker-updating",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": false,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924611581,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": false,
+                "controllerActivated": false,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 1,
+                "sourceGeneration": 6,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "worker-updating",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": false,
+                "tracksRetired": true
+              }
+            ],
+            "first": null,
+            "frameCount": 0,
+            "sampleCount": 26
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603305,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603570,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603719,
+            "trusted": true
+          },
+          {
+            "type": "pause",
+            "at": 1790924603720,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924610622,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [
+          {
+            "at": 1790924611217,
+            "sameInitial": false,
+            "activated": false
+          }
+        ],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          },
+          {
+            "at": 1790924610680,
+            "type": "observed",
+            "worker": 2,
+            "state": "installing"
+          },
+          {
+            "at": 1790924610680,
+            "type": "updatefound",
+            "worker": 2,
+            "state": "installing"
+          },
+          {
+            "at": 1790924611207,
+            "type": "statechange",
+            "worker": 2,
+            "state": "installed"
+          },
+          {
+            "at": 1790924611214,
+            "type": "statechange",
+            "worker": 1,
+            "state": "redundant"
+          },
+          {
+            "at": 1790924611215,
+            "type": "statechange",
+            "worker": 2,
+            "state": "activating"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    },
+    {
+      "name": "executing replacement evidence BEFORE normal close",
+      "at": 1790924626959,
+      "executingScripts": [
+        {
+          "elapsedMs": 332.41609999999946,
+          "worker": 1,
+          "file": "sw.js",
+          "bytes": 72974,
+          "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+          "matched": true
+        },
+        {
+          "elapsedMs": 332.96779999999944,
+          "worker": 1,
+          "file": "media/revision-pin.js",
+          "bytes": 10050,
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "matched": true
+        },
+        {
+          "elapsedMs": 54293.5072,
+          "worker": 2,
+          "file": "sw.js",
+          "bytes": 72974,
+          "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+          "matched": true
+        },
+        {
+          "elapsedMs": 54296.360499999995,
+          "worker": 2,
+          "file": "media/revision-pin.js",
+          "bytes": 10050,
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "matched": true
+        }
+      ],
+      "workerVersions": [
+        {
+          "elapsedMs": 1099.5859999999993,
+          "worker": 1,
+          "version": "1.22.0-rc.35",
+          "versionPresent": true,
+          "versionMatched": true
+        },
+        {
+          "elapsedMs": 45263.353899999995,
+          "worker": 1,
+          "version": "1.22.0-rc.35",
+          "versionPresent": true,
+          "versionMatched": true
+        },
+        {
+          "elapsedMs": 70260.8683,
+          "worker": 1,
+          "version": "UNKNOWN",
+          "versionPresent": null,
+          "versionMatched": null
+        },
+        {
+          "elapsedMs": 70277.53020000001,
+          "worker": 2,
+          "version": "1.22.0-rc.35",
+          "versionPresent": true,
+          "versionMatched": true
+        }
+      ],
+      "workerLifecycle": [
+        {
+          "elapsedMs": 245.32600000000002,
+          "versionAlias": 1,
+          "status": "new",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 289.35599999999977,
+          "versionAlias": 1,
+          "status": "new",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 289.6947,
+          "versionAlias": 1,
+          "status": "new",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 290.0158999999994,
+          "versionAlias": 1,
+          "status": "new",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 325.78639999999996,
+          "versionAlias": 1,
+          "status": "installing",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 326.46199999999953,
+          "versionAlias": 1,
+          "status": "installing",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 795.1794,
+          "versionAlias": 1,
+          "status": "installed",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 797.0505999999996,
+          "versionAlias": 1,
+          "status": "activating",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 797.4506999999994,
+          "versionAlias": 1,
+          "status": "activating",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 797.7133999999996,
+          "versionAlias": 1,
+          "status": "activated",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 54241.803,
+          "versionAlias": 2,
+          "status": "new",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 54248.5686,
+          "versionAlias": 2,
+          "status": "new",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 54250.975399999996,
+          "versionAlias": 2,
+          "status": "new",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 54251.09,
+          "versionAlias": 2,
+          "status": "new",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 54282.520599999996,
+          "versionAlias": 2,
+          "status": "installing",
+          "runningStatus": "starting"
+        },
+        {
+          "elapsedMs": 54282.661,
+          "versionAlias": 2,
+          "status": "installing",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 54833.413,
+          "versionAlias": 2,
+          "status": "installed",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 54833.5743,
+          "versionAlias": 1,
+          "status": "activated",
+          "runningStatus": "stopping"
+        },
+        {
+          "elapsedMs": 54836.2285,
+          "versionAlias": 1,
+          "status": "activated",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 54836.3832,
+          "versionAlias": 1,
+          "status": "redundant",
+          "runningStatus": "stopped"
+        },
+        {
+          "elapsedMs": 54836.52559999999,
+          "versionAlias": 2,
+          "status": "activating",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 54836.8969,
+          "versionAlias": 2,
+          "status": "activating",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 55818.3904,
+          "versionAlias": 2,
+          "status": "activated",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 55821.999899999995,
+          "versionAlias": 2,
+          "status": "activated",
+          "runningStatus": "running"
+        },
+        {
+          "elapsedMs": 56005.3221,
+          "versionAlias": 2,
+          "status": "activated",
+          "runningStatus": "running"
+        }
+      ],
+      "clock": "Node provider elapsed ms; page event timestamps separate",
+      "newSourceIfUnavailable": "UNKNOWN"
+    },
+    {
+      "name": "normal native close and settled owners",
+      "at": 1790924642205,
+      "passed": false,
+      "closed": true,
+      "q0": false,
+      "q1": false,
+      "tracks": false,
+      "blob": false,
+      "src": false,
+      "q1Settled": false,
+      "tracksSettled": true,
+      "cues": 0
+    },
+    {
+      "name": "final bounded journal",
+      "at": 1790924642405,
+      "evidence": {
+        "elapsedMs": 40559,
+        "disposed": false,
+        "latest": {
+          "at": 1790924642449,
+          "fence": false,
+          "version": "1.22.0-rc.35",
+          "width": 824,
+          "height": 1191,
+          "dpr": 2.125,
+          "lifetimeReady": true,
+          "registrationActiveCurrent": true,
+          "registrationInstalling": false,
+          "registrationWaiting": false,
+          "controllerSameInitial": false,
+          "controllerActivated": true,
+          "q1ControllerSame": false,
+          "nativeOwnerCurrent": false,
+          "session": 2,
+          "sourceGeneration": 7,
+          "generation": null,
+          "q1Present": false,
+          "q0Present": false,
+          "route": "OTHER",
+          "paused": false,
+          "ready": null,
+          "time": null,
+          "clock": 0,
+          "duration": null,
+          "absoluteSourceTime": null,
+          "sourceOrigin": null,
+          "clockShift": null,
+          "widthVideo": null,
+          "heightVideo": null,
+          "decoded": null,
+          "errorCode": null,
+          "failure": null,
+          "failureUnknown": false,
+          "selectedAudio": null,
+          "q1SelectedAudio": null,
+          "pipelineSelectedAudio": null,
+          "switching": false,
+          "tracksCurrent": false,
+          "subtitleSelected": null,
+          "inventoryAudio": [],
+          "inventorySubtitle": [],
+          "dialogOpen": false,
+          "audioValue": 3,
+          "subtitleValue": null,
+          "textMode": "disabled",
+          "cues": [],
+          "activeCues": [],
+          "attempt": "idle",
+          "errorVisible": false,
+          "closed": true,
+          "tracksPresent": false,
+          "blobPresent": false,
+          "srcPresent": false,
+          "q1Retired": false,
+          "tracksRetired": true
+        },
+        "phases": [
+          {
+            "label": "startup",
+            "at": 1790924602279,
+            "target": 0,
+            "tolerance": 3,
+            "requireAdvance": false,
+            "requireAudio3": false,
+            "session": 0,
+            "sourceGeneration": 0,
+            "frames": [
+              {
+                "elapsedMs": 515,
+                "clock": 0,
+                "distance": 0,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 548,
+                "clock": 0.083333,
+                "distance": 0.083333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 577,
+                "clock": 0.125,
+                "distance": 0.125,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 638,
+                "clock": 0.166667,
+                "distance": 0.166667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1297,
+                "clock": 0.708333,
+                "distance": 0.708333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1331,
+                "clock": 0.75,
+                "distance": 0.75,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1365,
+                "clock": 0.791667,
+                "distance": 0.791667,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              },
+              {
+                "elapsedMs": 1430,
+                "clock": 0.833333,
+                "distance": 0.833333,
+                "width": 320,
+                "height": 180,
+                "advanced": true,
+                "good": true,
+                "generation": null
+              }
+            ],
+            "samples": [
+              {
+                "at": 1790924602280,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924602307,
+                "fence": false,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 0,
+                "sourceGeneration": 0,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [],
+                "inventorySubtitle": [],
+                "dialogOpen": false,
+                "audioValue": null,
+                "subtitleValue": null,
+                "textMode": null,
+                "cues": [],
+                "activeCues": [],
+                "attempt": "idle",
+                "errorVisible": false,
+                "closed": true,
+                "tracksPresent": false,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606855,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606890,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              }
+            ],
+            "first": {
+              "elapsedMs": 515,
+              "clock": 0,
+              "distance": 0,
+              "width": 320,
+              "height": 180,
+              "advanced": true,
+              "good": true,
+              "generation": null
+            },
+            "frameCount": 20,
+            "sampleCount": 37
+          },
+          {
+            "label": "audio3",
+            "at": 1790924606921,
+            "target": 0.836219,
+            "tolerance": 0.6,
+            "requireAdvance": true,
+            "requireAudio3": true,
+            "session": 1,
+            "sourceGeneration": 2,
+            "frames": [],
+            "samples": [
+              {
+                "at": 1790924606921,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924606933,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": true,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": true,
+                "session": 1,
+                "sourceGeneration": 2,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": true,
+                "route": "Q0",
+                "paused": true,
+                "ready": 4,
+                "time": 0.836219,
+                "clock": 0.836219,
+                "duration": 6,
+                "absoluteSourceTime": 0.836219,
+                "sourceOrigin": null,
+                "clockShift": 0,
+                "widthVideo": 320,
+                "heightVideo": 180,
+                "decoded": 25,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": null,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": true,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": true,
+                "audioValue": 2,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "range",
+                "errorVisible": false,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": true,
+                "q1Retired": true,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924620643,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": false,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 1,
+                "sourceGeneration": 6,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "worker-update-required",
+                "errorVisible": true,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": false,
+                "tracksRetired": true
+              },
+              {
+                "at": 1790924620892,
+                "fence": true,
+                "version": "1.22.0-rc.35",
+                "width": 824,
+                "height": 1191,
+                "dpr": 2.125,
+                "lifetimeReady": true,
+                "registrationActiveCurrent": true,
+                "registrationInstalling": false,
+                "registrationWaiting": false,
+                "controllerSameInitial": false,
+                "controllerActivated": true,
+                "q1ControllerSame": false,
+                "nativeOwnerCurrent": false,
+                "session": 1,
+                "sourceGeneration": 6,
+                "generation": null,
+                "q1Present": false,
+                "q0Present": false,
+                "route": "OTHER",
+                "paused": false,
+                "ready": null,
+                "time": null,
+                "clock": 0,
+                "duration": null,
+                "absoluteSourceTime": null,
+                "sourceOrigin": null,
+                "clockShift": null,
+                "widthVideo": null,
+                "heightVideo": null,
+                "decoded": null,
+                "errorCode": null,
+                "failure": null,
+                "failureUnknown": false,
+                "selectedAudio": 3,
+                "q1SelectedAudio": null,
+                "pipelineSelectedAudio": null,
+                "switching": false,
+                "tracksCurrent": false,
+                "subtitleSelected": null,
+                "inventoryAudio": [
+                  {
+                    "id": 2,
+                    "codec": "aac",
+                    "route": "q1"
+                  },
+                  {
+                    "id": 3,
+                    "codec": "aac",
+                    "route": "q1"
+                  }
+                ],
+                "inventorySubtitle": [
+                  {
+                    "id": 4,
+                    "supported": true
+                  }
+                ],
+                "dialogOpen": false,
+                "audioValue": 3,
+                "subtitleValue": null,
+                "textMode": "disabled",
+                "cues": [],
+                "activeCues": [],
+                "attempt": "worker-update-required",
+                "errorVisible": true,
+                "closed": false,
+                "tracksPresent": true,
+                "blobPresent": false,
+                "srcPresent": false,
+                "q1Retired": false,
+                "tracksRetired": true
+              }
+            ],
+            "first": null,
+            "frameCount": 0,
+            "sampleCount": 64
+          }
+        ],
+        "events": [
+          {
+            "type": "loadeddata",
+            "at": 1790924602784,
+            "trusted": true
+          },
+          {
+            "type": "playing",
+            "at": 1790924602787,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603038,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603305,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603570,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924603719,
+            "trusted": true
+          },
+          {
+            "type": "pause",
+            "at": 1790924603720,
+            "trusted": true
+          },
+          {
+            "type": "timeupdate",
+            "at": 1790924610622,
+            "trusted": true
+          }
+        ],
+        "diagnostics": [
+          {
+            "at": 1790924602497,
+            "stage": "route-selected",
+            "reason": "UNKNOWN",
+            "status": null,
+            "terminal": false,
+            "stale": false
+          }
+        ],
+        "controllerEvents": [
+          {
+            "at": 1790924611217,
+            "sameInitial": false,
+            "activated": false
+          }
+        ],
+        "registrationEvents": [
+          {
+            "at": 1790924601890,
+            "type": "observed",
+            "worker": 1,
+            "state": "activated"
+          },
+          {
+            "at": 1790924610680,
+            "type": "observed",
+            "worker": 2,
+            "state": "installing"
+          },
+          {
+            "at": 1790924610680,
+            "type": "updatefound",
+            "worker": 2,
+            "state": "installing"
+          },
+          {
+            "at": 1790924611207,
+            "type": "statechange",
+            "worker": 2,
+            "state": "installed"
+          },
+          {
+            "at": 1790924611214,
+            "type": "statechange",
+            "worker": 1,
+            "state": "redundant"
+          },
+          {
+            "at": 1790924611215,
+            "type": "statechange",
+            "worker": 2,
+            "state": "activating"
+          },
+          {
+            "at": 1790924612222,
+            "type": "statechange",
+            "worker": 2,
+            "state": "activated"
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "exactAudioFidelity": "NOT_TESTED",
+        "physicalPhoneClaim": false
+      }
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16",
+    "physicalWidth": 1752,
+    "physicalHeight": 2800
+  },
+  "toolSchemas": [
+    {
+      "name": "close_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "The ID of the page to close. Call list_pages to list pages."
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "new_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to load in a new page."
+          },
+          "background": {
+            "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
+            "type": "boolean"
+          },
+          "isolatedContext": {
+            "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated (useful for clean-slate testing of cookies and authentication).",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "stableAdmission": {
+    "stableAdmissionQualified": true,
+    "expectedShellEntries": 50,
+    "observedShellEntries": 50,
+    "exactCanonicalShellPathsAndHashes": true,
+    "automaticUpdateInvocationObserved": true,
+    "automaticUpdatePromiseCompletion": "NOT_EXPOSED",
+    "observationBoundMs": 45000,
+    "originalProducerCompleted": false,
+    "originalProducerFailureRetained": null,
+    "rootCauseOfEarlierReplacement": "UNKNOWN; idle normal startup did not reproduce later replacement",
+    "executingQualified": true,
+    "timerNotStarted": true
+  },
+  "providerAndInputAdmission": true,
+  "completed": false,
+  "failure": "LIFETIME_CONTROLLER_REPLACED",
+  "provider": {
+    "executingScripts": [
+      {
+        "elapsedMs": 332.41609999999946,
+        "worker": 1,
+        "file": "sw.js",
+        "bytes": 72974,
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "elapsedMs": 332.96779999999944,
+        "worker": 1,
+        "file": "media/revision-pin.js",
+        "bytes": 10050,
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      },
+      {
+        "elapsedMs": 54293.5072,
+        "worker": 2,
+        "file": "sw.js",
+        "bytes": 72974,
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "elapsedMs": 54296.360499999995,
+        "worker": 2,
+        "file": "media/revision-pin.js",
+        "bytes": 10050,
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      }
+    ],
+    "workerVersions": [
+      {
+        "elapsedMs": 1099.5859999999993,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      },
+      {
+        "elapsedMs": 45263.353899999995,
+        "worker": 1,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      },
+      {
+        "elapsedMs": 70260.8683,
+        "worker": 1,
+        "version": "UNKNOWN",
+        "versionPresent": null,
+        "versionMatched": null
+      },
+      {
+        "elapsedMs": 70277.53020000001,
+        "worker": 2,
+        "version": "1.22.0-rc.35",
+        "versionPresent": true,
+        "versionMatched": true
+      }
+    ],
+    "workerLifecycle": [
+      {
+        "elapsedMs": 245.32600000000002,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 289.35599999999977,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 289.6947,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 290.0158999999994,
+        "versionAlias": 1,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 325.78639999999996,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 326.46199999999953,
+        "versionAlias": 1,
+        "status": "installing",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 795.1794,
+        "versionAlias": 1,
+        "status": "installed",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.0505999999996,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.4506999999994,
+        "versionAlias": 1,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 797.7133999999996,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54241.803,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54248.5686,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54250.975399999996,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54251.09,
+        "versionAlias": 2,
+        "status": "new",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54282.520599999996,
+        "versionAlias": 2,
+        "status": "installing",
+        "runningStatus": "starting"
+      },
+      {
+        "elapsedMs": 54282.661,
+        "versionAlias": 2,
+        "status": "installing",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54833.413,
+        "versionAlias": 2,
+        "status": "installed",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54833.5743,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "stopping"
+      },
+      {
+        "elapsedMs": 54836.2285,
+        "versionAlias": 1,
+        "status": "activated",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54836.3832,
+        "versionAlias": 1,
+        "status": "redundant",
+        "runningStatus": "stopped"
+      },
+      {
+        "elapsedMs": 54836.52559999999,
+        "versionAlias": 2,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 54836.8969,
+        "versionAlias": 2,
+        "status": "activating",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 55818.3904,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 55821.999899999995,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      },
+      {
+        "elapsedMs": 56005.3221,
+        "versionAlias": 2,
+        "status": "activated",
+        "runningStatus": "running"
+      }
+    ],
+    "requests": 198,
+    "local": 143,
+    "metadata": 18,
+    "download": 1,
+    "range": 8,
+    "mediaBytes": 957579,
+    "preflights": 27,
+    "blocked": 1,
+    "workersReady": 2,
+    "errors": [],
+    "cors": [
+      {
+        "at": 1790924601947,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924601977,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602002,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602302,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602320,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602334,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602368,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602638,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602659,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602679,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602702,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602716,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602746,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924602778,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924605925,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924605944,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924605959,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924605980,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924606030,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924606047,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924606059,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924606082,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924610227,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924610254,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924610277,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924610306,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      },
+      {
+        "at": 1790924610390,
+        "recognized": [
+          "authorization"
+        ],
+        "unknownNames": 0,
+        "allAllowed": true
+      }
+    ]
+  },
+  "cleanup": {
+    "playerRetired": false,
+    "observerStopped": true,
+    "idleObserverStopped": true,
+    "ownedLocalSwCacheRemoved": true,
+    "providerDetached": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": false
+}
