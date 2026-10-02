@@ -1,0 +1,66 @@
+{
+  "completed": true,
+  "finalSourceCleanup": {
+    "cleanupFailed": false,
+    "cleanupPending": 0,
+    "pendingCallbacks": 0,
+    "settled": true
+  },
+  "inventory": {
+    "audioTracks": [],
+    "cleanup": {
+      "cleanupFailed": false,
+      "cleanupPending": 0,
+      "pendingCallbacks": 0,
+      "settled": true
+    },
+    "kind": "unqualified",
+    "reads": {
+      "bytes": 65536,
+      "cacheHits": 3,
+      "discoveryBytes": 65536,
+      "discoveryRequests": 1,
+      "inFlight": 0,
+      "logicalReads": 0,
+      "peakCache": 65536,
+      "peakInFlight": 1,
+      "peakQueued": 1,
+      "requests": 1
+    },
+    "reason": "GENERAL_CODEC_UNQUALIFIED"
+  },
+  "mediaInputs": 0,
+  "originalWrite": false,
+  "ownerCurrent": true,
+  "playerUntouched": true,
+  "productChanged": false,
+  "requests": [
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "kind": "metadata",
+      "status": 200
+    },
+    {
+      "contentLength": "65536",
+      "contentRange": null,
+      "contentType": "video/mp4",
+      "kind": "range",
+      "range": "bytes=0-65535",
+      "status": 206,
+      "type": "cors"
+    },
+    {
+      "kind": "metadata",
+      "status": 200
+    }
+  ],
+  "schema": "rc37-actual-inventory-diagnostic/1",
+  "selectionRowsLimit": 20
+}

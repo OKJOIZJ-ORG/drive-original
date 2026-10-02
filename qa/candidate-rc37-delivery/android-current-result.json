@@ -1,0 +1,532 @@
+{
+  "schema": "actual-android-current37/1",
+  "recordedAt": "2026-10-02T15:39:09.907Z",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "ordinaryNativeUpdatePermitted": true,
+  "noSyntheticClick": true,
+  "noManualReload": true,
+  "noForcedCredentialOrUpdate": true,
+  "noPlayback": true,
+  "producerSha256": "b6353c9c98553569026a4f778d2524a9991d582e9f4c871732c3825edc18774e",
+  "observerSha256": "458d5bd2cf08a5a420eecdb0705144ebb5ed66a2d9de600c1246f812c5cb7a7a",
+  "proofSha256": "c792fe970f761813ac24d3b5853716d093c300bcde6fcdd8cee4ec5b939ac4be",
+  "steps": [
+    {
+      "name": "initial current read-only diagnosis",
+      "at": 1790955559380,
+      "version": "1.22.0-rc.36",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": true,
+      "setupVisible": false,
+      "authStatus": "online",
+      "accountPresent": true,
+      "accountIdentityPresent": true,
+      "tokenUsable": true,
+      "credentialPending": false,
+      "credentialResponseOK": true,
+      "credentialRetryable": false,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 58829,
+          "durationMs": 10,
+          "responseStatus": 0
+        },
+        {
+          "startMs": 3588547,
+          "durationMs": 176,
+          "responseStatus": 403
+        },
+        {
+          "startMs": 4245489,
+          "durationMs": 571,
+          "responseStatus": 200
+        },
+        {
+          "startMs": 5710113,
+          "durationMs": 893,
+          "responseStatus": 200
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": true,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": true,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": true,
+      "targetVersion": "1.22.0-rc.37",
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    },
+    {
+      "name": "ordinary native update target",
+      "at": 1790955559069,
+      "ready": true,
+      "x": 671.8308601379395,
+      "y": 106.94117736816406,
+      "dpr": 2.125,
+      "viewportHeight": 1191,
+      "targetVersion": "1.22.0-rc.37"
+    },
+    {
+      "name": "private hashed normal-update baseline armed",
+      "at": 1790955559087,
+      "beforeVersion": "1.22.0-rc.36",
+      "hashedAccountWriterProjectionCacheSaved": true,
+      "snapshotStable": true,
+      "normalTrustedUpdateClickRequired": true,
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "single ordinary OS-native update tap",
+      "at": 1790955559341,
+      "issued": true
+    },
+    {
+      "name": "trusted update and private preservation",
+      "at": 1790955566163,
+      "account": true,
+      "accountKey": true,
+      "writer": true,
+      "projection": true,
+      "cache": true,
+      "clickedAt": 1790955559658,
+      "pagehideAt": 1790955559870
+    },
+    {
+      "name": "settled current account classification",
+      "at": 1790955566477,
+      "version": "1.22.0-rc.37",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": true,
+      "setupVisible": false,
+      "authStatus": "online",
+      "accountPresent": true,
+      "accountIdentityPresent": true,
+      "tokenUsable": true,
+      "credentialPending": false,
+      "credentialResponseOK": true,
+      "credentialRetryable": false,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 699,
+          "durationMs": 463,
+          "responseStatus": 200
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": true,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": true,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    },
+    {
+      "name": "current37 source cache and private-owner snapshot qualification",
+      "at": 1790955567514,
+      "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+      "version": "1.22.0-rc.37",
+      "accountQualification": "NORMAL_READY_IDLE",
+      "publicReadbackComplete": true,
+      "publicReadback": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "media/native-color.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "index.html",
+          "matched": true,
+          "canonicalRootAlias": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/native-color.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "cacheDistinct": 50,
+      "cacheWithRootAlias": 51,
+      "rootAliasMatched": true,
+      "currentControllerActivated": true,
+      "noWaiting": true,
+      "noInstalling": true,
+      "rootScope": true,
+      "privateAccountWriterProjectionCacheSnapshotStable": true,
+      "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+      "updateGesture": "UNKNOWN_UNLESS_SEPARATE_TRUSTED_RECEIPT",
+      "noHelperInstalled": true
+    },
+    {
+      "name": "final current quiet state",
+      "at": 1790955567857,
+      "version": "1.22.0-rc.37",
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "documentVisible": true,
+      "focused": true,
+      "stateExposed": true,
+      "libraryVisible": true,
+      "setupVisible": false,
+      "authStatus": "online",
+      "accountPresent": true,
+      "accountIdentityPresent": true,
+      "tokenUsable": true,
+      "credentialPending": false,
+      "credentialResponseOK": true,
+      "credentialRetryable": false,
+      "credentialOutcomeCurrent": true,
+      "credentialResources": [
+        {
+          "startMs": 699,
+          "durationMs": 463,
+          "responseStatus": 200
+        }
+      ],
+      "accountLoading": false,
+      "accountLoaded": true,
+      "accountSyncPending": false,
+      "accountStateRefreshBlocked": false,
+      "accountStateErrorPresent": false,
+      "closed": true,
+      "retirementSettled": true,
+      "accountReadyIdle": true,
+      "rootReady": true,
+      "queryEmpty": true,
+      "bannerVisible": false,
+      "targetVersion": null,
+      "foreignHelpers": false,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true,
+        "rootScope": true
+      }
+    }
+  ],
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "mcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "candidateTargetCount": 1,
+  "nativeVisibilityUnmasked": true,
+  "normalForceFlagAcknowledged": true,
+  "updateTransition": "TRUSTED_NATIVE36_TO37",
+  "verdict": "CURRENT37_NORMAL_READY_IDLE",
+  "completed": true,
+  "cleanup": {
+    "ownedUpdateListenersBaselineRemoved": true,
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true
+}

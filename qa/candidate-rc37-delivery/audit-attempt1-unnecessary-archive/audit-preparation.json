@@ -1,0 +1,57 @@
+{
+  "source": "051dc3456f5000b958a18593848769b3687991e5",
+  "version": "1.22.0-rc.37",
+  "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "publicAssets": 65,
+  "shellAssets": 50,
+  "rootCacheAlias": 1,
+  "generalDriveWrites": false,
+  "accountStateWrites": true,
+  "passed": true,
+  "memory": {
+    "freePhysicalKiB": 3474960,
+    "freeVirtualKiB": 17757872,
+    "physicalFloorKiBExclusive": 1048576,
+    "virtualFloorKiBExclusive": 1572864
+  },
+  "browser": {
+    "dependencyPath": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright\\package.json",
+    "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "channel": "chrome",
+    "headless": true,
+    "freshAnonymousContext": true,
+    "persistentProfile": false,
+    "launchPerformed": false
+  },
+  "inputs": [
+    {
+      "file": "audit.cjs",
+      "sha256": "b3ceec604b2a60cdfdbe9dd9a108424fabfb96cef1ba6d853a882924be7cc156"
+    },
+    {
+      "file": "delivery-guard.cjs",
+      "sha256": "e9d22563a9e31b0a7ff1a702277af7ad3a07d026631959d12b62f79746fbb462"
+    },
+    {
+      "file": "verified-download.cjs",
+      "sha256": "4089984977f9a82c7907ac851c82e3367f040bfd11caa2ef3a55228c4ab25732"
+    },
+    {
+      "file": "delivery.cjs",
+      "sha256": "ed234f424cd6ab156d1be036c1b59f96228da7b216987d25b0f01ba73d2c79cc"
+    },
+    {
+      "file": "build-release.py",
+      "sha256": "098d032b3aef59ef01071a310de61bf91ba6b514d7cedbffce0f7f21bb8dfdd9"
+    }
+  ],
+  "downloadBudgets": {
+    "sourceArchiveTotalMs": 600000,
+    "largeCodecTotalMs": 240000,
+    "ordinaryTotalMs": 120000,
+    "noProgressMs": 15000,
+    "readerCleanupMs": 5000
+  },
+  "scope": "Preparation only; no live fetch/browser/device/account/deployment action",
+  "recordedAt": "2026-10-02T14:54:22.794Z"
+}

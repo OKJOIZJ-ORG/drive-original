@@ -1,0 +1,28 @@
+{
+  "actualExecution": false,
+  "binding": {
+    "version": "1.22.0-rc.37",
+    "source": "051dc3456f5000b958a18593848769b3687991e5",
+    "sourceSHA256": {
+      "app.js": "d4bdd710f56fd627a9db7d9e78de36183a8b8fdaa5a6d609a0cf7decb25306ca",
+      "sw.js": "b558181a60b641d085d274a481677f3f428f0a71b755979c12f2079f4c6cfa08",
+      "version.json": "86e39875573df59a7c2bd08c9b956ca3398a41f31d4d5bf07f15529d17cb0033"
+    }
+  },
+  "fixture": {
+    "path": "qa/fm05-controlled-diagnostic/subtitle.mp4",
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+    "md5": "cc7a0da5f6e2b89a9fdee916d259d285"
+  },
+  "fixtureHeaderSHA256": "e8e8e98b9316acba11449c26a947281229bd481b8729fb21d4e34de2d3cded3e",
+  "factorySHA256": "999426f8faf79c1e7aba83142797caaf7dbb60c154eb4acf9634394872b87e23",
+  "factoryBytes": 16192,
+  "producerSHA256": {
+    "disposable-job.mjs": "8eac2c61c61113338cb88d9b939a8d60529b839cfdc7b3cbc6fc892284abf4a7",
+    "disposable-facade.function.js": "0dc336008f97e7ea32b8e873ae341499a8b609260acc93f1f4f00f609f6fc2ac",
+    "disposable-file-input.function.js": "c0ed68c9dd0a0ca237d00282615a615ac44a84fba4158d7d4f4afccfa3f7b299",
+    "disposable-build.cjs": "e355b977aab948ded357dab1450913664913bb9f420d362128adc847a24a53a2"
+  },
+  "contract": "Exactly1 task-created tagged folder +1 immutable video;2 generated IDs/2 POST; persisted intent before POST; GET-only unknown-outcome recovery; exact size/SHA256/MD5 receipt; separately recoverable trash only; no retry; root owns actual execution"
+}

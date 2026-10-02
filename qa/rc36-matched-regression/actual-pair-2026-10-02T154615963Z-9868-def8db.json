@@ -1,0 +1,1644 @@
+{
+  "schema": "drive-original.matched-regression-actual-pair/2",
+  "scope": "One generated six-second AVC/AAC/subtitle fixture. Same installed Chrome binary, fresh isolated contexts, synthetic read-only Drive provider, exact rc35 baseline and pinned candidate public runtime sources.",
+  "fixture": {
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+    "streams": [
+      {
+        "index": 0,
+        "codec": "h264",
+        "type": "video",
+        "width": 320,
+        "height": 180
+      },
+      {
+        "index": 1,
+        "codec": "aac",
+        "type": "audio"
+      },
+      {
+        "index": 2,
+        "codec": "mov_text",
+        "type": "subtitle"
+      }
+    ],
+    "durationSeconds": 6,
+    "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+  },
+  "releases": [
+    {
+      "release": "rc35-baseline",
+      "commit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "fixture": {
+        "bytes": 659966,
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "index": 1,
+            "codec": "aac",
+            "type": "audio"
+          },
+          {
+            "index": 2,
+            "codec": "mov_text",
+            "type": "subtitle"
+          }
+        ],
+        "durationSeconds": 6,
+        "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+      },
+      "phases": [
+        {
+          "name": "cold app and Q0 first native frame",
+          "startedAt": "2026-10-02T15:46:17.008Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "value": {
+            "appVersion": "1.22.0-rc.35",
+            "browserVersion": "154.0.8037.59",
+            "targetTimeline": 0,
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0,
+              "callbackMediaTime": 0,
+              "presentedFrames": 1,
+              "callbackNow": 3564.4,
+              "actionAgeMs": 323.80000001192093,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q0",
+                "target": 0,
+                "targetTimeline": 0,
+                "mappedTargetSource": null,
+                "generation": null,
+                "phase": null,
+                "appends": null,
+                "selectedAudioTrackId": null,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": null,
+                "pipeline": null
+              }
+            },
+            "state": {
+              "attempt": "range",
+              "mode": "original-range",
+              "timeline": {
+                "mapping": false,
+                "duration": 6,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 4,
+                "error": null,
+                "source": "http://127.0.0.1:59312/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0"
+              },
+              "q0Owner": true,
+              "q1Owner": false,
+              "tracksOwner": false,
+              "identity": null,
+              "selectedAudioTrackId": null,
+              "nativeColorObservation": null,
+              "player": null,
+              "workerEvents": [],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.35",
+          "passed": true,
+          "elapsedMs": 3252,
+          "providerDelta": {
+            "requests": 9,
+            "bytes": 661746
+          }
+        },
+        {
+          "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+          "startedAt": "2026-10-02T15:46:20.267Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "passed": false,
+          "error": {
+            "name": "Error",
+            "message": "page.evaluate: Error: CURRENT_PRESENTED_FRAME_TIMEOUT\n    at eval (eval at evaluate (:311:30), <anonymous>:71:37)"
+          },
+          "elapsedMs": 15665,
+          "providerDelta": {
+            "requests": 48,
+            "bytes": 865929
+          }
+        }
+      ],
+      "provider": {
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "POST",
+            "path": "/drive/v3/files/fixture/download",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 238
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-",
+            "status": 206,
+            "bytes": 659966
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-11",
+            "status": 206,
+            "bytes": 12
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-939",
+            "status": 206,
+            "bytes": 940
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          }
+        ],
+        "bytes": 1527675
+      },
+      "pageErrors": [],
+      "cacheMode": "fresh-context-cold",
+      "cleanup": {
+        "q0Owner": false,
+        "q1Owner": false,
+        "tracksOwner": false,
+        "sourceAttached": false,
+        "q1Settled": true,
+        "tracksSettled": true,
+        "totalWorkersCreated": 1,
+        "terminateCalls": 1,
+        "activeOwnedWorkers": 0,
+        "workerEvents": [
+          {
+            "event": "created",
+            "id": 1,
+            "url": "http://127.0.0.1:59312/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 1,
+            "generation": 1,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 1,
+            "generation": 1,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 1
+          }
+        ]
+      },
+      "status": "FAILED_OR_UNQUALIFIED",
+      "browserVersion": "154.0.8037.59",
+      "providerMetadataSha256": "79c825a9108dc05c534b9bad445258db2b45faee6330583b957fe34f334dc44b",
+      "initialContextCookies": 0,
+      "failure": {
+        "name": "Error",
+        "message": "page.evaluate: Error: CURRENT_PRESENTED_FRAME_TIMEOUT\n    at eval (eval at evaluate (:311:30), <anonymous>:71:37)"
+      },
+      "contextClosed": true,
+      "server": {
+        "requests": 88,
+        "bytes": 5580355,
+        "files": {
+          "index.html": 3,
+          "styles.css": 2,
+          "runtime-config.js": 2,
+          "media/revision-pin.js": 5,
+          "app.js": 2,
+          "icons/icon-192.png": 4,
+          "sw.js": 3,
+          "media/drive-source.mjs": 2,
+          "media/ts-player.mjs": 1,
+          "media/q1-core.mjs": 1,
+          "media/transmux-worker.mjs": 1,
+          "media/mux-mp4.min.js": 1,
+          "media/mux-LICENSE.txt": 1,
+          "media/general-admission.mjs": 3,
+          "media/general-tracks.mjs": 3,
+          "media/subtitle-track.mjs": 2,
+          "media/subtitle-presentation.mjs": 2,
+          "media/general-codec.mjs": 3,
+          "media/general-owner.mjs": 2,
+          "media/general-pipeline.mjs": 2,
+          "media/general-player.mjs": 2,
+          "media/general-source.mjs": 3,
+          "media/general-timeline.mjs": 3,
+          "media/general-worker.mjs": 2,
+          "media/mediabunny-q1.mjs": 3,
+          "media/mediabunny-q1.LICENSE": 1,
+          "media/mediabunny-q1-NOTICE.md": 1,
+          "media/audio-runtime.mjs": 3,
+          "media/audio-adapter.mjs": 1,
+          "media/audio-worker-client.mjs": 1,
+          "media/audio-worker.mjs": 1,
+          "media/audio-codec.mjs": 1,
+          "media/audio-codec.wasm": 1,
+          "media/audio-codec.LICENSE.txt": 1,
+          "media/audio-general-pipeline.mjs": 2,
+          "media/audio-general-worker.mjs": 1,
+          "media/video-q3-input.mjs": 1,
+          "media/video-q3-pipeline.mjs": 1,
+          "media/video-q3-worker.mjs": 1,
+          "media/video-q3-codec.mjs": 1,
+          "media/video-q3-codec.wasm": 1,
+          "media/video-q3-codec.LICENSE.txt": 1,
+          "licenses/index.html": 1,
+          "licenses/audio-source-NOTICE.md": 1,
+          "version.json": 2,
+          "manifest.webmanifest": 1,
+          "icons/app-icon.svg": 1,
+          "icons/icon-512.png": 1,
+          "icons/maskable-512.png": 1,
+          "icons/apple-touch-icon.png": 1
+        },
+        "assetHashesMatched": true,
+        "closed": true
+      },
+      "noPageErrors": true
+    },
+    {
+      "release": "candidate",
+      "commit": "051dc3456f5000b958a18593848769b3687991e5",
+      "version": "1.22.0-rc.37",
+      "fixture": {
+        "bytes": 659966,
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "index": 1,
+            "codec": "aac",
+            "type": "audio"
+          },
+          {
+            "index": 2,
+            "codec": "mov_text",
+            "type": "subtitle"
+          }
+        ],
+        "durationSeconds": 6,
+        "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+      },
+      "phases": [
+        {
+          "name": "cold app and Q0 first native frame",
+          "startedAt": "2026-10-02T15:46:36.618Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "value": {
+            "appVersion": "1.22.0-rc.37",
+            "browserVersion": "154.0.8037.59",
+            "targetTimeline": 0.004181,
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0.004181,
+              "callbackMediaTime": 0,
+              "presentedFrames": 1,
+              "callbackNow": 3674.2,
+              "actionAgeMs": 211.6000000089407,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q0",
+                "target": 0,
+                "targetTimeline": 0,
+                "mappedTargetSource": null,
+                "generation": null,
+                "phase": null,
+                "appends": null,
+                "selectedAudioTrackId": null,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": null,
+                "pipeline": null
+              }
+            },
+            "state": {
+              "attempt": "range",
+              "mode": "original-range",
+              "timeline": {
+                "mapping": false,
+                "duration": 6,
+                "currentTime": 0.004181
+              },
+              "video": {
+                "time": 0.004181,
+                "paused": true,
+                "frames": 5,
+                "error": null,
+                "source": "http://127.0.0.1:52604/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0"
+              },
+              "q0Owner": true,
+              "q1Owner": false,
+              "tracksOwner": false,
+              "identity": null,
+              "selectedAudioTrackId": null,
+              "nativeColorObservation": null,
+              "player": null,
+              "workerEvents": [],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.37",
+          "passed": true,
+          "elapsedMs": 3316,
+          "providerDelta": {
+            "requests": 5,
+            "bytes": 660969
+          }
+        },
+        {
+          "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+          "startedAt": "2026-10-02T15:46:39.939Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "passed": false,
+          "error": {
+            "name": "Error",
+            "message": "page.evaluate: Error: CURRENT_PRESENTED_FRAME_TIMEOUT\n    at eval (eval at evaluate (:311:30), <anonymous>:71:37)"
+          },
+          "elapsedMs": 15306,
+          "providerDelta": {
+            "requests": 63,
+            "bytes": 1065354
+          }
+        }
+      ],
+      "provider": {
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "POST",
+            "path": "/drive/v3/files/fixture/download",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 238
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-",
+            "status": 206,
+            "bytes": 659966
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-11",
+            "status": 206,
+            "bytes": 12
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-939",
+            "status": 206,
+            "bytes": 940
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          }
+        ],
+        "bytes": 1726323
+      },
+      "pageErrors": [],
+      "cacheMode": "fresh-context-cold",
+      "cleanup": {
+        "q0Owner": false,
+        "q1Owner": false,
+        "tracksOwner": false,
+        "sourceAttached": false,
+        "q1Settled": true,
+        "tracksSettled": true,
+        "totalWorkersCreated": 2,
+        "terminateCalls": 2,
+        "activeOwnedWorkers": 0,
+        "workerEvents": [
+          {
+            "event": "created",
+            "id": 1,
+            "url": "http://127.0.0.1:52604/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 1,
+            "generation": 1,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 1,
+            "generation": 1,
+            "error": "GENERAL_CANCELLED"
+          },
+          {
+            "event": "terminate-called",
+            "id": 1
+          },
+          {
+            "event": "created",
+            "id": 2,
+            "url": "http://127.0.0.1:52604/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 2,
+            "generation": 2,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 2,
+            "generation": 2,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 2
+          }
+        ]
+      },
+      "status": "FAILED_OR_UNQUALIFIED",
+      "browserVersion": "154.0.8037.59",
+      "providerMetadataSha256": "79c825a9108dc05c534b9bad445258db2b45faee6330583b957fe34f334dc44b",
+      "initialContextCookies": 0,
+      "failure": {
+        "name": "Error",
+        "message": "page.evaluate: Error: CURRENT_PRESENTED_FRAME_TIMEOUT\n    at eval (eval at evaluate (:311:30), <anonymous>:71:37)"
+      },
+      "contextClosed": true,
+      "server": {
+        "requests": 101,
+        "bytes": 6346759,
+        "files": {
+          "index.html": 3,
+          "styles.css": 2,
+          "runtime-config.js": 2,
+          "media/revision-pin.js": 5,
+          "app.js": 2,
+          "icons/icon-192.png": 4,
+          "sw.js": 3,
+          "media/drive-source.mjs": 2,
+          "media/ts-player.mjs": 1,
+          "media/q1-core.mjs": 1,
+          "media/transmux-worker.mjs": 1,
+          "media/mux-mp4.min.js": 1,
+          "media/mux-LICENSE.txt": 1,
+          "media/general-admission.mjs": 4,
+          "media/general-tracks.mjs": 4,
+          "media/subtitle-track.mjs": 2,
+          "media/subtitle-presentation.mjs": 2,
+          "media/general-codec.mjs": 4,
+          "media/native-color.mjs": 4,
+          "media/general-owner.mjs": 2,
+          "media/general-pipeline.mjs": 3,
+          "media/general-player.mjs": 2,
+          "media/general-source.mjs": 4,
+          "media/general-timeline.mjs": 4,
+          "media/general-worker.mjs": 3,
+          "media/mediabunny-q1.mjs": 4,
+          "media/mediabunny-q1.LICENSE": 1,
+          "media/mediabunny-q1-NOTICE.md": 1,
+          "media/audio-runtime.mjs": 4,
+          "media/audio-adapter.mjs": 1,
+          "media/audio-worker-client.mjs": 1,
+          "media/audio-worker.mjs": 1,
+          "media/audio-codec.mjs": 1,
+          "media/audio-codec.wasm": 1,
+          "media/audio-codec.LICENSE.txt": 1,
+          "media/audio-general-pipeline.mjs": 2,
+          "media/audio-general-worker.mjs": 1,
+          "media/video-q3-input.mjs": 1,
+          "media/video-q3-pipeline.mjs": 1,
+          "media/video-q3-worker.mjs": 1,
+          "media/video-q3-codec.mjs": 1,
+          "media/video-q3-codec.wasm": 1,
+          "media/video-q3-codec.LICENSE.txt": 1,
+          "licenses/index.html": 1,
+          "licenses/audio-source-NOTICE.md": 1,
+          "version.json": 2,
+          "manifest.webmanifest": 1,
+          "icons/app-icon.svg": 1,
+          "icons/icon-512.png": 1,
+          "icons/maskable-512.png": 1,
+          "icons/apple-touch-icon.png": 1
+        },
+        "assetHashesMatched": true,
+        "closed": true
+      },
+      "noPageErrors": true
+    }
+  ],
+  "limits": {
+    "fixtureBytesMax": 1048576,
+    "apiBytesMaxPerRelease": 25165824,
+    "apiRequestsMaxPerRelease": 512,
+    "phaseTimeoutMs": 15000,
+    "totalPairTimeoutMs": 60000,
+    "nodeRssMaxBytes": 805306368,
+    "nodeHeapUsedMaxBytes": 268435456
+  },
+  "startedAt": "2026-10-02T15:46:15.963Z",
+  "candidateRef": "051dc3456f5000b958a18593848769b3687991e5",
+  "actualAccount": false,
+  "physicalDevice": false,
+  "normalChromeProfile": false,
+  "production": false,
+  "status": "FAILED_OR_UNQUALIFIED",
+  "resultFile": "actual-pair-2026-10-02T154615963Z-9868-def8db.json",
+  "browserVersion": "154.0.8037.59",
+  "comparison": {
+    "sameFixtureSha": true,
+    "sameBrowser": true,
+    "sameSyntheticMetadata": true,
+    "sameActionSequence": true,
+    "bothCacheCold": true,
+    "sameQ0Target": true,
+    "candidateQ0Q1SameMappedTarget": false,
+    "baselineQ0Tuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "candidateQ0Tuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "candidateQ1NativeTuple": null,
+    "sameQ0NativeTupleAcrossReleases": true,
+    "candidateDerivedColorTuple": null,
+    "candidateMatchesBaselineQ0Tuple": false,
+    "strictRGBA": "NOT_CAPTURED; prior strictRGBAFAIL remains unchanged",
+    "interpretation": "One controlled generated-fixture pair; no p95, broad color, strict RGBA, or production claim."
+  },
+  "adjudication": {
+    "baselineAdmitted": false,
+    "candidateAdmitted": false,
+    "scopedPair": "FAIL_OR_UNQUALIFIED"
+  },
+  "nodeMemory": {
+    "before": {
+      "rss": 118829056,
+      "heapTotal": 74829824,
+      "heapUsed": 46907424,
+      "external": 4139680,
+      "arrayBuffers": 147875
+    },
+    "after": {
+      "rss": 126230528,
+      "heapTotal": 68526080,
+      "heapUsed": 51804952,
+      "external": 7731472,
+      "arrayBuffers": 3727705
+    },
+    "bound": "Node RSS/heap only; Chrome aggregate not sampled"
+  },
+  "ownedBrowserProcessExited": true,
+  "browserClosed": true,
+  "elapsedMs": 39619,
+  "completedAt": "2026-10-02T15:46:55.582Z"
+}

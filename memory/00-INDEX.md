@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `CANDIDATE-RC37-20261003.md`: exact37 delivery/current PC-Android preservation, actual CORS reader qualification, finite controlled matched pair and pending file-URL runtime boundary.
+
 - `CANDIDATE-RC36-20261002.md`: exact rc36 delivery, current normal PC/physical Android source-account qualifications, retained QA failures and remaining color/regression scope.
 
 - `COLOR-INTERPRETATION-20261002.md`: local identity-bound observed SDR output config, final PC/Android tuple and seek proof, retained strict RGBA failure and pixel/HDR limits.

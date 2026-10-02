@@ -1,0 +1,88 @@
+{
+  "schema": "rc37-disposable-color-operation/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "fixtureBytes": 659966,
+  "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "authority": "D050 exact task-created tagged QA folder+video; recoverable trash only",
+  "createdOrSubmitted": false,
+  "privateIdentityExported": false,
+  "steps": [
+    {
+      "name": "file input prepared before provider write",
+      "at": "2026-10-02T15:31:51.545Z",
+      "value": {
+        "automaticUpload": false,
+        "inputLabel": "Color disposable fixture input",
+        "ready": true
+      }
+    },
+    {
+      "name": "file chooser tool rejected before upload",
+      "at": "2026-10-02T15:32:55.709Z",
+      "value": {
+        "failed": true,
+        "code": "CUA_EXTENSION_FILE_URL_ACCESS_DISABLED",
+        "providerRequests": 0,
+        "createdOrSubmitted": false
+      }
+    },
+    {
+      "name": "failed-input cleanup",
+      "at": "2026-10-02T15:32:55.776Z",
+      "value": {
+        "inputHelperAbsent": true,
+        "inputReleased": true,
+        "privateBlobAbsent": true,
+        "privateBlobReleased": true
+      }
+    },
+    {
+      "name": "MCP target profile check",
+      "at": "2026-10-02T15:35:14.150Z",
+      "value": {
+        "managedProfileOnly": true,
+        "currentNormalCandidateAbsent": true,
+        "uploadAttempted": false,
+        "providerRequests": 0,
+        "privateBackupsCreated": false
+      }
+    },
+    {
+      "name": "current PC closed after rejected file choice",
+      "at": "2026-10-02T15:35:14.216Z",
+      "value": {
+        "accountIdle": false,
+        "accountReady": true,
+        "blobAbsent": true,
+        "inputAbsent": true,
+        "playerClosed": true,
+        "q0Absent": true,
+        "q1Absent": true,
+        "sourceCurrent": true,
+        "targetAbsent": true,
+        "tracksAbsent": true
+      }
+    },
+    {
+      "name": "separate bounded account-idle recovery",
+      "at": "2026-10-02T15:35:31.754Z",
+      "value": {
+        "accountIdle": true,
+        "blobAbsent": true,
+        "elapsedMs": 1,
+        "inputAbsent": true,
+        "playerClosed": true,
+        "q0Absent": true,
+        "q1Absent": true,
+        "targetAbsent": true,
+        "tracksAbsent": true
+      }
+    }
+  ],
+  "completed": false,
+  "failure": "TOOL_FILE_URL_ACCESS_DISABLED_BEFORE_PROVIDER",
+  "cleanupComplete": false,
+  "cleanupRecoveryPassed": true,
+  "providerRequests": 0,
+  "createdObjects": 0
+}

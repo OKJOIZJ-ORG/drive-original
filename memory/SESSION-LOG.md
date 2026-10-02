@@ -734,3 +734,7 @@ User released RP-wait: "완전히 끝났습니다. 재개하세요.". Current ca
 ## 2026-10-01 — D071 clean reboot WAIT/local resume preparation
 
 Immediately after D070 resume, user requested clean reboot and use of waitingstate. No secondPCreplay/observer/deeper/device job started. Prepared local REBOOT-RESUME guide: one constant freshCDP/helper scope, exception checks, exacttimed PCsequence/validmetriclabels, safeexport and remaining original69 distinctions. ArchivedD070checkpoint, newwaitinghandoff and goal/index/decision alignedD071. Activechildren inventory onlyroot; formerprefix/curationchildren FINAL. No Chrome/profile/process/cookie/credential/production change or auto-resume created.
+
+## 2026-10-03 — rc37 affected reader and finite evidence closure
+
+CANDIDATE-RC37-20261003.md is the result owner. Scoped CORS defect fixed/reviewed/tested/cut/delivered once; currentPC and normalAndroid36→37 preserve state. Actualreader nowqualifies butselectednaturalcodecdoesnot. Controlled matched8phase pair passes in12992ms after retained tool failures. Restrictedgeneratedfixture uploader9localchecks ready; currentnormalChrome filechooser deniesfileURLaccess beforeanyproviderrequest/object. Inputcleared; originalidlefalse andseparatequietrecovery retained. Pending currentprofile user setting; independent authorizedunits completed, originalwholegoal false andproduction unchanged.

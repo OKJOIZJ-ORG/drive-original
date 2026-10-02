@@ -296,3 +296,13 @@
 # Preserve observed-color producers, retained failures and device receipts exactly.
 /qa/color-path-discriminator/** -text whitespace=cr-at-eol,-blank-at-eol
 /tests/native-color.test.mjs -text whitespace=cr-at-eol
+
+/qa/candidate-rc37-delivery/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+/qa/rc37-color-integration/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+/qa/rc37-color-disposable-preparation/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+/qa/rc37-color-disposable-integration/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+/qa/rc36-matched-regression/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

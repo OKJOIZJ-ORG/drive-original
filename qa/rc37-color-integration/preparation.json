@@ -1,0 +1,30 @@
+{
+  "schema": "rc37-color-integration-preflight/1",
+  "passed": true,
+  "localMockOnly": true,
+  "mockHeaderDigestSubstituted": true,
+  "metadataRequests": 3,
+  "headerRequests": 1,
+  "noPagination": true,
+  "nativeFramesCreated": 2,
+  "nativeFramesClosed": 2,
+  "fullHelperLifecycle": true,
+  "cleanup": true,
+  "files": [
+    {
+      "file": "browser.function.js",
+      "bytes": 11667,
+      "sha256": "b8f9f6064d6830af222f12218d8cac36bb955e7a2df7b0e6652874230030f12a"
+    },
+    {
+      "file": "driver.cjs",
+      "bytes": 5287,
+      "sha256": "68d1da4fa11d9009518a91a7062d6f3e2ae62f40f22d57763cd298c5cd553a20"
+    },
+    {
+      "file": "preflight.cjs",
+      "bytes": 5073,
+      "sha256": "f70b01cb9264b68841933248c08995198e90500590542f3a588b186b3384a931"
+    }
+  ]
+}

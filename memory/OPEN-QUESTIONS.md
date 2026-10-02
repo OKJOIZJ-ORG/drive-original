@@ -114,3 +114,7 @@ Preserve distinct previous/next-video versus frame-step actions and D056.
 Resolution: the responsible layout and duplicate-favorite correction passed five
 local native viewports and actual PC/Android in CANDIDATE-RC29-20261001.md. The
 upper-left third-party speed overlay is separate; no unsupported ownership claim.
+
+## 2026-10-03 — current normal Chrome file chooser runtime boundary
+
+Observed: current ChatGPT filechooser returns file-URL-access-disabled beforegeneratedQAfilecapture/upload; user reported enabling it earlier, actual currentprofile flag UNKNOWN. ExposedChromeMCP currently sees another managed blankprofile. Currentprofile confirmation requested; no grant/bypass/profile migration. CANDIDATE-RC37-20261003.md owns nextsingleactualaccountAAC/colorunit; providerrequests0/objects0 andinputcleanup/separateidle-recovery retained.

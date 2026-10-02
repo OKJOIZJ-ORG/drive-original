@@ -662,3 +662,7 @@ CANDIDATE-RC29-20261001.md owns fixed10f1dd2/Worker22009156 public/cache/cold/of
 ### 2026-10-02 — local observed native SDR interpretation
 
 COLOR-INTERPRETATION-20261002.md and qa/color-path-discriminator/final-adjudication.json own the identity-bound local output-config correction, final generated PC/physical Android tuple/seek/cleanup proof and all retained failures. Strict RGBA remains FAILED; Android unlike-format YUV/pixel fidelity and broad color/HDR remain unqualified. Original acceptance, source declarations/bytes, Q2 gate, published35/production identity and wholeGoalPassedfalse remain unchanged. Next validation delivery is a savepoint; sufficient failure-inclusive performance evidence still remains.
+
+### 2026-10-03 — rc37 actual reader and finite matched comparison
+
+CANDIDATE-RC37-20261003.md owns exact candidate/source/package, current PC/physicalAndroid update-preservation, actualDriveCORS-reader qualification and controlled samecondition rc35→37 nativeSDR/AAC/seek pair. All8 paired phases and cleanup qualify in their finite synthetic scope; no p95/full-quality/current-device playback promotion. Actual-account AAC/color integration is pending a current normal Chrome file-URL runtime boundary before any newDrivecreation. Original69 bounded adoption/strictRGBAFAIL/AndroidYUVUNKNOWN/HDRapplicabilityUNKNOWN/wholeGoalPassedfalse remain. No full-corpus replay or production/main/push/automation action.

@@ -1,0 +1,79 @@
+{
+  "schema": "actual-android-rc37-current-adjudication/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "version": "1.22.0-rc.37",
+  "result": {
+    "path": "qa/candidate-rc37-delivery/android-current-result.json",
+    "bytes": 14703,
+    "sha256": "b61368740f107809dbc68296e5e602159c2e7f517655fbf157097626e7565b75"
+  },
+  "completed": true,
+  "verdict": "NORMAL_NATIVE36_TO37_AND_CURRENT_SOURCE_ACCOUNT_QUALIFIED",
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "update": {
+    "action": "One ordinary OS-native ADB tap on unobscured update banner",
+    "physicalFingerProof": false,
+    "trustedClickObserved": true,
+    "trustedPagehideObserved": true,
+    "pagehideAfterClickMs": 212,
+    "accountPreserved": true,
+    "accountKeyPreserved": true,
+    "writerPreserved": true,
+    "fullProjectionPreserved": true,
+    "privateCachePreserved": true
+  },
+  "source": {
+    "publicFiles": 6,
+    "allPublicHashesMatched": true,
+    "cacheDistinct": 50,
+    "cacheWithRootAlias": 51,
+    "canonicalIndexRootAlias": true,
+    "currentControllerActivated": true,
+    "noWaiting": true,
+    "noInstalling": true,
+    "rootScope": true,
+    "postUpdatePrivateSnapshotStable": true
+  },
+  "account": {
+    "online": true,
+    "loaded": true,
+    "usableToken": true,
+    "readyIdle": true,
+    "syncPending": false,
+    "libraryVisible": true,
+    "setupHidden": true,
+    "updateBannerHidden": true,
+    "playerClosed": true,
+    "retirementSettled": true,
+    "documentVisible": true
+  },
+  "limits": {
+    "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+    "newActualColorProof": false,
+    "independentReaderOptInDeviceProbe": "NOT_PERFORMED",
+    "newAACQualification": false,
+    "mediaPlayback": "NOT_PERFORMED",
+    "newGrantOrManualCredential": false,
+    "originalMediaWrites": false,
+    "productionDeployment": false
+  },
+  "cleanup": {
+    "ownedUpdateListenersBaselineRemoved": true,
+    "cdpDetached": true,
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "noPersistentHelperInstalled": true,
+    "noMediaOrInputOwnerCreated": true
+  },
+  "cleanupComplete": true,
+  "verification": {
+    "localSourceBindingAndSyntaxChecked": true,
+    "actualDeviceExecutions": 1
+  }
+}

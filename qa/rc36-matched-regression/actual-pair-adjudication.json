@@ -1,0 +1,47 @@
+{
+  "schema": "rc37-root-finite-pair-adoption/1",
+  "rootAdopted": true,
+  "receipt": {
+    "path": "qa/rc36-matched-regression/actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+    "sha256": "602eaeb8534ba4ab43cb2ce67db9a165514bad49e2db659bc6c13fb7b1c2a8d2"
+  },
+  "runnerSHA256": "dc113aaf9b00cf4e1793a6e25e3e809be07e73ca786bd7ab4c3b8ff558701772",
+  "exactScope": "One generated fixture/synthetic read-only Drive/Chrome154 fresh contexts; current native SDR tuple/AAC2/two seeks/cleanup. No population or statistical performance assurance",
+  "allEightPhasesPassed": true,
+  "cleanup": true,
+  "phaseMs": [
+    {
+      "release": "rc35-baseline",
+      "ms": [
+        3152,
+        1469,
+        519,
+        366
+      ]
+    },
+    {
+      "release": "candidate",
+      "ms": [
+        3264,
+        1366,
+        527,
+        365
+      ]
+    }
+  ],
+  "independentReadOnlyAudit": "gpt-6-luna/high exact receipt+driver audit; no actionable finding; no rerun",
+  "earlierFailedPairReceipts": [
+    "actual-pair-2026-10-02T154615963Z-9868-def8db.json",
+    "actual-pair-2026-10-02T155102440Z-31664-1a2981.json"
+  ],
+  "retainedLimits": {
+    "actualDrive": false,
+    "actualAccount": false,
+    "physicalDevice": false,
+    "p95": false,
+    "pixelParity": false,
+    "HDR": false,
+    "production": false
+  },
+  "wholeGoalPassed": false
+}
