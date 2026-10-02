@@ -24,3 +24,5 @@ Bounds are one fixture, two releases, four observed phases per release, 15 secon
 
 
 Root admission fixes: eagerly verify the existing Playwright module in preparation, use its documented BrowserServer.close/kill/process lifecycle, and keep each frame-gate rejection awaited without early unhandled process exit. The initial incorrect module path failed before any browser/provider activity and is retained in dependency-command-failure.json; no product/source changes or redeployment.
+
+The separately admitted `series.cjs` now collected the preserved pilot plus19new serial pairs. `series-root-adjudication.json` owns finite20-pair descriptive latency/failure-inclusive bounds and limitations; `series-savepoint-manifest.json` pins allnew producers/preparations/receipts. Actual run completed and fullycleaned; do not repeat `--run` without a new material question. The unchanged single-pair runner and originalprep/pilot remain immutable.

@@ -1,0 +1,4099 @@
+{
+  "schema": "drive-original.matched-regression-actual-pair/2",
+  "scope": "One generated six-second AVC/AAC/subtitle fixture. Same installed Chrome binary, fresh isolated contexts, synthetic read-only Drive provider, exact rc35 baseline and pinned candidate public runtime sources.",
+  "fixture": {
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+    "streams": [
+      {
+        "index": 0,
+        "codec": "h264",
+        "type": "video",
+        "width": 320,
+        "height": 180
+      },
+      {
+        "index": 1,
+        "codec": "aac",
+        "type": "audio"
+      },
+      {
+        "index": 2,
+        "codec": "mov_text",
+        "type": "subtitle"
+      }
+    ],
+    "durationSeconds": 6,
+    "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+  },
+  "driverBinding": {
+    "file": "runner.cjs",
+    "bytes": 44373,
+    "sha256": "dc113aaf9b00cf4e1793a6e25e3e809be07e73ca786bd7ab4c3b8ff558701772"
+  },
+  "dependencyBinding": {
+    "path": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright\\package.json",
+    "sha256": "8bc2ddebe8d9b051b9ecb87d62c6c63877e59d08617f32c3215681ca8bb70998",
+    "available": true,
+    "browserLaunched": false
+  },
+  "releases": [
+    {
+      "release": "rc35-baseline",
+      "commit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "fixture": {
+        "bytes": 659966,
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "index": 1,
+            "codec": "aac",
+            "type": "audio"
+          },
+          {
+            "index": 2,
+            "codec": "mov_text",
+            "type": "subtitle"
+          }
+        ],
+        "durationSeconds": 6,
+        "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+      },
+      "phases": [
+        {
+          "name": "cold app and Q0 first native frame",
+          "startedAt": "2026-10-02T17:48:30.716Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "value": {
+            "appVersion": "1.22.0-rc.35",
+            "browserVersion": "154.0.8037.59",
+            "targetTimeline": 0,
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0,
+              "callbackMediaTime": 0,
+              "presentedFrames": 1,
+              "callbackNow": 3366.1,
+              "actionAgeMs": 271.5,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q0",
+                "target": 0,
+                "targetTimeline": 0,
+                "mappedTargetSource": null,
+                "generation": null,
+                "phase": null,
+                "appends": null,
+                "selectedAudioTrackId": null,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": null,
+                "pipeline": null,
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "range",
+              "mode": "original-range",
+              "timeline": {
+                "mapping": false,
+                "duration": 6,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 4,
+                "error": null,
+                "source": "http://127.0.0.1:53398/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0"
+              },
+              "q0Owner": true,
+              "q1Owner": false,
+              "tracksOwner": false,
+              "identity": null,
+              "selectedAudioTrackId": null,
+              "nativeColorObservation": null,
+              "player": null,
+              "workerEvents": [],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.35",
+          "passed": true,
+          "elapsedMs": 3006,
+          "providerDelta": {
+            "requests": 8,
+            "bytes": 661491
+          }
+        },
+        {
+          "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+          "startedAt": "2026-10-02T17:48:33.730Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "value": {
+            "inventory": {
+              "kind": "iso",
+              "audio": [
+                {
+                  "trackId": 2,
+                  "codec": "aac",
+                  "route": "q1"
+                }
+              ]
+            },
+            "binding": {
+              "fileId": "fixture",
+              "session": 1,
+              "account": "synthetic-account",
+              "accountGeneration": 1,
+              "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+            },
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0.021333,
+              "callbackMediaTime": 0.021333,
+              "presentedFrames": 1,
+              "callbackNow": 4487.1,
+              "actionAgeMs": 771.7000000029802,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "bt709",
+                "primaries": "bt709",
+                "transfer": "bt709"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 0,
+                "targetTimeline": 0,
+                "mappedTargetSource": 0,
+                "generation": 1,
+                "phase": "buffered-to-end",
+                "appends": 8,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 11,
+                  "bytes": 659966,
+                  "activeReads": 0,
+                  "chunks": 8,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 659053,
+                  "packets": 427,
+                  "encodersCreated": 0,
+                  "outputColorObservation": null
+                },
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": {
+                  "sourceOrigin": 0,
+                  "sourceEnd": 6,
+                  "commonShift": -0.021333333333333333,
+                  "targetSource": 0,
+                  "targetElement": 0.021333333333333333,
+                  "timestampOffset": 0,
+                  "audioEnd": null
+                },
+                "duration": 6,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0.021333,
+                "paused": true,
+                "frames": 4,
+                "error": null,
+                "source": "blob:http://127.0.0.1:53398/cfef52a0-13e6-4e7a-8988-8182a3b67137"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": null,
+              "player": {
+                "generation": 1,
+                "phase": "buffered-to-end",
+                "failure": null,
+                "mapping": {
+                  "sourceOrigin": 0,
+                  "sourceEnd": 6,
+                  "commonShift": -0.021333333333333333,
+                  "targetSource": 0,
+                  "targetElement": 0.021333333333333333,
+                  "timestampOffset": 0,
+                  "audioEnd": null
+                },
+                "appends": 8,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 5.994666,
+                "peakRetainedAppendBytes": 659053,
+                "disposed": false,
+                "status": null,
+                "capability": null,
+                "worker": {
+                  "reads": 11,
+                  "bytes": 659966,
+                  "activeReads": 0,
+                  "peakReads": 1,
+                  "chunks": 8,
+                  "acks": 8,
+                  "pendingChunks": 0,
+                  "peakPendingChunks": 1,
+                  "detachedReadBuffers": 11,
+                  "invalidMessages": 0,
+                  "staleRepliesSuppressed": 0,
+                  "pendingWindows": 0,
+                  "terminated": true
+                },
+                "pipeline": {
+                  "generation": 1,
+                  "duration": 6,
+                  "sourcePacketOrigin": -0.021333333333333333,
+                  "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+                  "targetTime": 0,
+                  "windowOrigin": -0.021333333333333333,
+                  "policy": {
+                    "kind": "isobmff-movie-axis",
+                    "presentationOrigin": 0,
+                    "validPresentationStart": 0,
+                    "declaredEnd": 6,
+                    "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                    "tracks": [
+                      {
+                        "id": 1,
+                        "leadingEmptySeconds": 0,
+                        "contentEntries": 1,
+                        "entryCount": 1,
+                        "mediaTime": 0,
+                        "firstPacketTimestamp": 0
+                      },
+                      {
+                        "id": 2,
+                        "leadingEmptySeconds": 0,
+                        "contentEntries": 1,
+                        "entryCount": 1,
+                        "mediaTime": 1024,
+                        "firstPacketTimestamp": -0.021333333333333333
+                      }
+                    ]
+                  },
+                  "selectedAudioTrackId": 2,
+                  "lastVideoFrame": {
+                    "timestamp": 5.958333333333333,
+                    "duration": 0.041666666666666664,
+                    "endTimestamp": 6
+                  },
+                  "videoCodec": "avc",
+                  "audioCodec": "aac",
+                  "packets": 427,
+                  "outputBytes": 659053,
+                  "peakPendingAcks": 1,
+                  "peakBufferedPacketBytes": 132009,
+                  "admission": {
+                    "kind": "iso",
+                    "tracks": 3,
+                    "samples": [
+                      144,
+                      283,
+                      2
+                    ],
+                    "boxes": 64,
+                    "trackInfo": [
+                      {
+                        "trackId": 1,
+                        "codec": "avc1",
+                        "handler": "vide",
+                        "samples": 144,
+                        "reordered": false
+                      },
+                      {
+                        "trackId": 2,
+                        "codec": "mp4a",
+                        "handler": "soun",
+                        "samples": 283,
+                        "reordered": false
+                      },
+                      {
+                        "trackId": 3,
+                        "codec": "tx3g",
+                        "handler": "sbtl",
+                        "samples": 2,
+                        "reordered": false
+                      }
+                    ]
+                  },
+                  "muxRetention": {
+                    "bytes": 0,
+                    "samples": 0,
+                    "peakBytes": 127603,
+                    "peakSamples": 73
+                  },
+                  "encodersCreated": 0,
+                  "inputFormat": "MP4",
+                  "cleanup": {
+                    "settled": true,
+                    "pendingCallbacks": 0,
+                    "cleanupPending": 0,
+                    "cleanupFailed": false
+                  },
+                  "reads": {
+                    "requests": 11,
+                    "bytes": 659966,
+                    "logicalReads": 293,
+                    "cacheHits": 299,
+                    "peakCache": 262144,
+                    "inFlight": 0,
+                    "peakInFlight": 1,
+                    "peakQueued": 1,
+                    "discoveryBytes": 65536,
+                    "discoveryRequests": 1
+                  }
+                },
+                "failureDiagnostic": null
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.35",
+          "passed": true,
+          "elapsedMs": 1359,
+          "providerDelta": {
+            "requests": 48,
+            "bytes": 865929
+          }
+        },
+        {
+          "name": "Q1 seek to 2 seconds",
+          "startedAt": "2026-10-02T17:48:35.090Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "value": {
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 2,
+              "callbackMediaTime": 2,
+              "presentedFrames": 1,
+              "callbackNow": 5180.5,
+              "actionAgeMs": 473.8999999910593,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "bt709",
+                "primaries": "bt709",
+                "transfer": "bt709"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "5f3d6d6867f86fdb184d04af0563af35f62f4619407a90ff48337dc753fb93cf",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 2,
+                "targetTimeline": 2,
+                "mappedTargetSource": 2,
+                "generation": 2,
+                "phase": "buffered-to-end",
+                "appends": 6,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 9,
+                  "bytes": 528894,
+                  "activeReads": 0,
+                  "chunks": 6,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 449274,
+                  "packets": 285,
+                  "encodersCreated": 0,
+                  "outputColorObservation": null
+                },
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": null,
+                "duration": null,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 0,
+                "error": null,
+                "source": "blob:http://127.0.0.1:53398/55a18d36-17f4-404f-8552-c0d4382aa294"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": null,
+              "player": {
+                "generation": 2,
+                "phase": "opening",
+                "failure": null,
+                "mapping": null,
+                "appends": 0,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 0,
+                "peakRetainedAppendBytes": 0,
+                "disposed": false
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                },
+                {
+                  "event": "created",
+                  "id": 2,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.35",
+          "passed": true,
+          "elapsedMs": 493,
+          "providerDelta": {
+            "requests": 28,
+            "bytes": 533739
+          }
+        },
+        {
+          "name": "Q1 seek to terminal frame near 6 seconds",
+          "startedAt": "2026-10-02T17:48:35.584Z",
+          "appVersionBefore": "1.22.0-rc.35",
+          "value": {
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 5.958333,
+              "callbackMediaTime": 5.958333,
+              "presentedFrames": 1,
+              "callbackNow": 5642.9,
+              "actionAgeMs": 307.59999999403954,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "bt709",
+                "primaries": "bt709",
+                "transfer": "bt709"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 5.999999,
+                "targetTimeline": 5.958333,
+                "mappedTargetSource": 5.958333333333333,
+                "generation": 3,
+                "phase": "buffered-to-end",
+                "appends": 3,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 4,
+                  "bytes": 201214,
+                  "activeReads": 0,
+                  "chunks": 3,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 109951,
+                  "packets": 72,
+                  "encodersCreated": 0,
+                  "outputColorObservation": null
+                },
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": null,
+                "duration": null,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 0,
+                "error": null,
+                "source": "blob:http://127.0.0.1:53398/c1714a9c-3efa-4ef9-8f3f-2398e68fae69"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": null,
+              "player": {
+                "generation": 3,
+                "phase": "opening",
+                "failure": null,
+                "mapping": null,
+                "appends": 0,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 0,
+                "peakRetainedAppendBytes": 0,
+                "disposed": false
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                },
+                {
+                  "event": "created",
+                  "id": 2,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 2,
+                  "generation": 2,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 2,
+                  "generation": 2,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 2
+                },
+                {
+                  "event": "created",
+                  "id": 3,
+                  "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.35",
+          "passed": true,
+          "elapsedMs": 322,
+          "providerDelta": {
+            "requests": 13,
+            "bytes": 203509
+          }
+        }
+      ],
+      "provider": {
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "POST",
+            "path": "/drive/v3/files/fixture/download",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 238
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-",
+            "status": 206,
+            "bytes": 659966
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-11",
+            "status": 206,
+            "bytes": 12
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-939",
+            "status": 206,
+            "bytes": 940
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          }
+        ],
+        "bytes": 2264923
+      },
+      "pageErrors": [],
+      "cacheMode": "fresh-context-cold",
+      "cleanup": {
+        "q0Owner": false,
+        "q1Owner": false,
+        "tracksOwner": false,
+        "sourceAttached": false,
+        "q1Settled": true,
+        "tracksSettled": true,
+        "totalWorkersCreated": 3,
+        "terminateCalls": 3,
+        "activeOwnedWorkers": 0,
+        "workerEvents": [
+          {
+            "event": "created",
+            "id": 1,
+            "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 1,
+            "generation": 1,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 1,
+            "generation": 1,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 1
+          },
+          {
+            "event": "created",
+            "id": 2,
+            "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 2,
+            "generation": 2,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 2,
+            "generation": 2,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 2
+          },
+          {
+            "event": "created",
+            "id": 3,
+            "url": "http://127.0.0.1:53398/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 3,
+            "generation": 3,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 3,
+            "generation": 3,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 3
+          }
+        ]
+      },
+      "status": "CLOSED",
+      "browserVersion": "154.0.8037.59",
+      "providerMetadataSha256": "79c825a9108dc05c534b9bad445258db2b45faee6330583b957fe34f334dc44b",
+      "initialContextCookies": 0,
+      "colorComparison": {
+        "q0NativeTuple": {
+          "primaries": "smpte170m",
+          "transfer": "smpte170m",
+          "matrix": "smpte170m",
+          "fullRange": false
+        },
+        "q0MediaTime": 0,
+        "q1MappedNativeTuple": {
+          "primaries": "bt709",
+          "transfer": "bt709",
+          "matrix": "bt709",
+          "fullRange": false
+        },
+        "q1MediaTime": 0.021333,
+        "mappedTimeDeltaSeconds": 0.021333,
+        "sameMappedTarget": true,
+        "sameTuple": false,
+        "q1OutputColorObservation": null,
+        "q1ReportedOutputColorObservation": null,
+        "strictRGBA": "NOT_CAPTURED; prior strictRGBAFAIL remains unchanged",
+        "pixelParityClaim": false
+      },
+      "elapsedMs": 6164,
+      "contextClosed": true,
+      "server": {
+        "requests": 104,
+        "bytes": 6969335,
+        "files": {
+          "index.html": 3,
+          "styles.css": 2,
+          "runtime-config.js": 2,
+          "media/revision-pin.js": 4,
+          "app.js": 2,
+          "icons/icon-192.png": 4,
+          "sw.js": 2,
+          "media/drive-source.mjs": 2,
+          "media/ts-player.mjs": 1,
+          "media/q1-core.mjs": 1,
+          "media/transmux-worker.mjs": 1,
+          "media/mux-mp4.min.js": 1,
+          "media/mux-LICENSE.txt": 1,
+          "media/general-admission.mjs": 5,
+          "media/general-tracks.mjs": 5,
+          "media/subtitle-track.mjs": 2,
+          "media/subtitle-presentation.mjs": 2,
+          "media/general-codec.mjs": 5,
+          "media/general-owner.mjs": 2,
+          "media/general-pipeline.mjs": 4,
+          "media/general-player.mjs": 2,
+          "media/general-source.mjs": 5,
+          "media/general-timeline.mjs": 5,
+          "media/general-worker.mjs": 4,
+          "media/mediabunny-q1.mjs": 5,
+          "media/mediabunny-q1.LICENSE": 1,
+          "media/mediabunny-q1-NOTICE.md": 1,
+          "media/audio-runtime.mjs": 5,
+          "media/audio-adapter.mjs": 1,
+          "media/audio-worker-client.mjs": 1,
+          "media/audio-worker.mjs": 1,
+          "media/audio-codec.mjs": 1,
+          "media/audio-codec.wasm": 1,
+          "media/audio-codec.LICENSE.txt": 1,
+          "media/audio-general-pipeline.mjs": 2,
+          "media/audio-general-worker.mjs": 1,
+          "media/video-q3-input.mjs": 1,
+          "media/video-q3-pipeline.mjs": 1,
+          "media/video-q3-worker.mjs": 1,
+          "media/video-q3-codec.mjs": 1,
+          "media/video-q3-codec.wasm": 1,
+          "media/video-q3-codec.LICENSE.txt": 1,
+          "licenses/index.html": 1,
+          "licenses/audio-source-NOTICE.md": 1,
+          "version.json": 2,
+          "manifest.webmanifest": 1,
+          "icons/app-icon.svg": 1,
+          "icons/icon-512.png": 1,
+          "icons/maskable-512.png": 1,
+          "icons/apple-touch-icon.png": 1
+        },
+        "assetHashesMatched": true,
+        "closed": true
+      },
+      "noPageErrors": true
+    },
+    {
+      "release": "candidate",
+      "commit": "051dc3456f5000b958a18593848769b3687991e5",
+      "version": "1.22.0-rc.37",
+      "fixture": {
+        "bytes": 659966,
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "index": 1,
+            "codec": "aac",
+            "type": "audio"
+          },
+          {
+            "index": 2,
+            "codec": "mov_text",
+            "type": "subtitle"
+          }
+        ],
+        "durationSeconds": 6,
+        "colorDeclaration": "ffprobe reports no color fields; original native SDR interpretation remains the observed Chrome154 evidence"
+      },
+      "phases": [
+        {
+          "name": "cold app and Q0 first native frame",
+          "startedAt": "2026-10-02T17:48:36.577Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "value": {
+            "appVersion": "1.22.0-rc.37",
+            "browserVersion": "154.0.8037.59",
+            "targetTimeline": 0.005725,
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0,
+              "callbackMediaTime": 0,
+              "presentedFrames": 1,
+              "callbackNow": 3126.2,
+              "actionAgeMs": 148.79999999701977,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q0",
+                "target": 0,
+                "targetTimeline": 0,
+                "mappedTargetSource": null,
+                "generation": null,
+                "phase": null,
+                "appends": null,
+                "selectedAudioTrackId": null,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": null,
+                "pipeline": null,
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "range",
+              "mode": "original-range",
+              "timeline": {
+                "mapping": false,
+                "duration": 6,
+                "currentTime": 0.005725
+              },
+              "video": {
+                "time": 0.005725,
+                "paused": true,
+                "frames": 4,
+                "error": null,
+                "source": "http://127.0.0.1:58302/__drive_media/fixture?sourceGeneration=1&mediaOwner=q0"
+              },
+              "q0Owner": true,
+              "q1Owner": false,
+              "tracksOwner": false,
+              "identity": null,
+              "selectedAudioTrackId": null,
+              "nativeColorObservation": null,
+              "player": null,
+              "workerEvents": [],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.37",
+          "passed": true,
+          "elapsedMs": 2776,
+          "providerDelta": {
+            "requests": 5,
+            "bytes": 660969
+          }
+        },
+        {
+          "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+          "startedAt": "2026-10-02T17:48:39.360Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "value": {
+            "inventory": {
+              "kind": "iso",
+              "audio": [
+                {
+                  "trackId": 2,
+                  "codec": "aac",
+                  "route": "q1"
+                }
+              ]
+            },
+            "binding": {
+              "fileId": "fixture",
+              "session": 1,
+              "account": "synthetic-account",
+              "accountGeneration": 1,
+              "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+            },
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 0.005725,
+              "callbackMediaTime": 0,
+              "presentedFrames": 1,
+              "callbackNow": 4040.9,
+              "actionAgeMs": 905.1000000089407,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "7d51fe9e6f22ea69fc6529193dc8b6e0b4c804c670b4607b355305470a852496",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 0.005725,
+                "targetTimeline": 0.005725,
+                "mappedTargetSource": 0.005725,
+                "generation": 2,
+                "phase": "buffered-to-end",
+                "appends": 7,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 11,
+                  "bytes": 659966,
+                  "activeReads": 0,
+                  "chunks": 7,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 658866,
+                  "packets": 426,
+                  "encodersCreated": 0,
+                  "outputColorObservation": {
+                    "basis": "observed-native-frame",
+                    "format": "NV12",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "visibleRect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 320,
+                      "height": 180
+                    },
+                    "colorSpace": {
+                      "primaries": "smpte170m",
+                      "transfer": "smpte170m",
+                      "matrix": "smpte170m",
+                      "fullRange": false
+                    }
+                  }
+                },
+                "callbackCount": 2,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": {
+                  "sourceOrigin": 0,
+                  "sourceEnd": 6,
+                  "commonShift": 0,
+                  "targetSource": 0.005725,
+                  "targetElement": 0.005725,
+                  "timestampOffset": 0,
+                  "audioEnd": null
+                },
+                "duration": 6,
+                "currentTime": 0.005725
+              },
+              "video": {
+                "time": 0.005725,
+                "paused": true,
+                "frames": 4,
+                "error": null,
+                "source": "blob:http://127.0.0.1:58302/0770c474-5f9d-4600-a845-753738397251"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": {
+                "basis": "observed-native-frame",
+                "format": "NV12",
+                "identity": {
+                  "accountKey": "synthetic-account",
+                  "accountGeneration": 1,
+                  "fileId": "fixture",
+                  "headRevisionId": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "codedWidth": 320,
+                "codedHeight": 180,
+                "visibleRect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 320,
+                  "height": 180
+                },
+                "colorSpace": {
+                  "primaries": "smpte170m",
+                  "transfer": "smpte170m",
+                  "matrix": "smpte170m",
+                  "fullRange": false
+                }
+              },
+              "player": {
+                "generation": 2,
+                "phase": "buffered-to-end",
+                "failure": null,
+                "mapping": {
+                  "sourceOrigin": 0,
+                  "sourceEnd": 6,
+                  "commonShift": 0,
+                  "targetSource": 0.005725,
+                  "targetElement": 0.005725,
+                  "timestampOffset": 0,
+                  "audioEnd": null
+                },
+                "appends": 7,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 4.994274,
+                "peakRetainedAppendBytes": 658866,
+                "disposed": false,
+                "status": null,
+                "capability": null,
+                "outputColorObservation": {
+                  "basis": "observed-native-frame",
+                  "format": "NV12",
+                  "codedWidth": 320,
+                  "codedHeight": 180,
+                  "visibleRect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 320,
+                    "height": 180
+                  },
+                  "colorSpace": {
+                    "primaries": "smpte170m",
+                    "transfer": "smpte170m",
+                    "matrix": "smpte170m",
+                    "fullRange": false
+                  }
+                },
+                "worker": {
+                  "reads": 11,
+                  "bytes": 659966,
+                  "activeReads": 0,
+                  "peakReads": 1,
+                  "chunks": 7,
+                  "acks": 7,
+                  "pendingChunks": 0,
+                  "peakPendingChunks": 1,
+                  "detachedReadBuffers": 11,
+                  "invalidMessages": 0,
+                  "staleRepliesSuppressed": 0,
+                  "pendingWindows": 0,
+                  "terminated": true
+                },
+                "pipeline": {
+                  "generation": 2,
+                  "duration": 6,
+                  "sourcePacketOrigin": -0.021333333333333333,
+                  "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+                  "targetTime": 0.005725,
+                  "windowOrigin": 0,
+                  "policy": {
+                    "kind": "isobmff-movie-axis",
+                    "presentationOrigin": 0,
+                    "validPresentationStart": 0,
+                    "declaredEnd": 6,
+                    "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+                    "tracks": [
+                      {
+                        "id": 1,
+                        "leadingEmptySeconds": 0,
+                        "contentEntries": 1,
+                        "entryCount": 1,
+                        "mediaTime": 0,
+                        "firstPacketTimestamp": 0
+                      },
+                      {
+                        "id": 2,
+                        "leadingEmptySeconds": 0,
+                        "contentEntries": 1,
+                        "entryCount": 1,
+                        "mediaTime": 1024,
+                        "firstPacketTimestamp": -0.021333333333333333
+                      }
+                    ]
+                  },
+                  "videoConfig": {
+                    "codec": "avc1.42c00c",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "description": {
+                      "0": 1,
+                      "1": 66,
+                      "2": 192,
+                      "3": 12,
+                      "4": 255,
+                      "5": 225,
+                      "6": 0,
+                      "7": 23,
+                      "8": 103,
+                      "9": 66,
+                      "10": 192,
+                      "11": 12,
+                      "12": 218,
+                      "13": 5,
+                      "14": 6,
+                      "15": 126,
+                      "16": 124,
+                      "17": 4,
+                      "18": 64,
+                      "19": 0,
+                      "20": 0,
+                      "21": 3,
+                      "22": 0,
+                      "23": 64,
+                      "24": 0,
+                      "25": 0,
+                      "26": 12,
+                      "27": 3,
+                      "28": 197,
+                      "29": 10,
+                      "30": 168,
+                      "31": 1,
+                      "32": 0,
+                      "33": 4,
+                      "34": 104,
+                      "35": 206,
+                      "36": 6,
+                      "37": 242
+                    },
+                    "colorSpace": {}
+                  },
+                  "outputVideoConfig": {
+                    "codec": "avc1.42c00c",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "description": {
+                      "0": 1,
+                      "1": 66,
+                      "2": 192,
+                      "3": 12,
+                      "4": 255,
+                      "5": 225,
+                      "6": 0,
+                      "7": 23,
+                      "8": 103,
+                      "9": 66,
+                      "10": 192,
+                      "11": 12,
+                      "12": 218,
+                      "13": 5,
+                      "14": 6,
+                      "15": 126,
+                      "16": 124,
+                      "17": 4,
+                      "18": 64,
+                      "19": 0,
+                      "20": 0,
+                      "21": 3,
+                      "22": 0,
+                      "23": 64,
+                      "24": 0,
+                      "25": 0,
+                      "26": 12,
+                      "27": 3,
+                      "28": 197,
+                      "29": 10,
+                      "30": 168,
+                      "31": 1,
+                      "32": 0,
+                      "33": 4,
+                      "34": 104,
+                      "35": 206,
+                      "36": 6,
+                      "37": 242
+                    },
+                    "colorSpace": {
+                      "primaries": "smpte170m",
+                      "transfer": "smpte170m",
+                      "matrix": "smpte170m",
+                      "fullRange": false
+                    }
+                  },
+                  "outputColorObservation": {
+                    "basis": "observed-native-frame",
+                    "format": "NV12",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "visibleRect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 320,
+                      "height": 180
+                    },
+                    "colorSpace": {
+                      "primaries": "smpte170m",
+                      "transfer": "smpte170m",
+                      "matrix": "smpte170m",
+                      "fullRange": false
+                    }
+                  },
+                  "selectedAudioTrackId": 2,
+                  "lastVideoFrame": {
+                    "timestamp": 5.958333333333333,
+                    "duration": 0.041666666666666664,
+                    "endTimestamp": 6
+                  },
+                  "videoCodec": "avc",
+                  "audioCodec": "aac",
+                  "packets": 426,
+                  "outputBytes": 658866,
+                  "peakPendingAcks": 1,
+                  "peakBufferedPacketBytes": 132009,
+                  "admission": {
+                    "kind": "iso",
+                    "tracks": 3,
+                    "samples": [
+                      144,
+                      283,
+                      2
+                    ],
+                    "boxes": 64,
+                    "trackInfo": [
+                      {
+                        "trackId": 1,
+                        "codec": "avc1",
+                        "handler": "vide",
+                        "samples": 144,
+                        "reordered": false
+                      },
+                      {
+                        "trackId": 2,
+                        "codec": "mp4a",
+                        "handler": "soun",
+                        "samples": 283,
+                        "reordered": false
+                      },
+                      {
+                        "trackId": 3,
+                        "codec": "tx3g",
+                        "handler": "sbtl",
+                        "samples": 2,
+                        "reordered": false
+                      }
+                    ]
+                  },
+                  "muxRetention": {
+                    "bytes": 0,
+                    "samples": 0,
+                    "peakBytes": 127599,
+                    "peakSamples": 73
+                  },
+                  "encodersCreated": 0,
+                  "inputFormat": "MP4",
+                  "cleanup": {
+                    "settled": true,
+                    "pendingCallbacks": 0,
+                    "cleanupPending": 0,
+                    "cleanupFailed": false
+                  },
+                  "reads": {
+                    "requests": 11,
+                    "bytes": 659966,
+                    "logicalReads": 293,
+                    "cacheHits": 299,
+                    "peakCache": 262144,
+                    "inFlight": 0,
+                    "peakInFlight": 1,
+                    "peakQueued": 1,
+                    "discoveryBytes": 65536,
+                    "discoveryRequests": 1
+                  }
+                },
+                "failureDiagnostic": null
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": "GENERAL_CANCELLED"
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                },
+                {
+                  "event": "created",
+                  "id": 2,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 2,
+                  "generation": 2,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 2,
+                  "generation": 2,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 2
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.37",
+          "passed": true,
+          "elapsedMs": 1151,
+          "providerDelta": {
+            "requests": 63,
+            "bytes": 1065354
+          }
+        },
+        {
+          "name": "Q1 seek to 2 seconds",
+          "startedAt": "2026-10-02T17:48:40.511Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "value": {
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 2,
+              "callbackMediaTime": 2,
+              "presentedFrames": 1,
+              "callbackNow": 4618.5,
+              "actionAgeMs": 405.3999999910593,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "5f3d6d6867f86fdb184d04af0563af35f62f4619407a90ff48337dc753fb93cf",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 2,
+                "targetTimeline": 2,
+                "mappedTargetSource": 2,
+                "generation": 3,
+                "phase": "buffered-to-end",
+                "appends": 6,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 9,
+                  "bytes": 528894,
+                  "activeReads": 0,
+                  "chunks": 6,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 449293,
+                  "packets": 285,
+                  "encodersCreated": 0,
+                  "outputColorObservation": {
+                    "basis": "observed-native-frame",
+                    "format": "NV12",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "visibleRect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 320,
+                      "height": 180
+                    },
+                    "colorSpace": {
+                      "primaries": "smpte170m",
+                      "transfer": "smpte170m",
+                      "matrix": "smpte170m",
+                      "fullRange": false
+                    }
+                  }
+                },
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": null,
+                "duration": null,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 0,
+                "error": null,
+                "source": "blob:http://127.0.0.1:58302/b157ce1e-61da-40e3-976a-98f09ea37eaf"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": {
+                "basis": "observed-native-frame",
+                "format": "NV12",
+                "identity": {
+                  "accountKey": "synthetic-account",
+                  "accountGeneration": 1,
+                  "fileId": "fixture",
+                  "headRevisionId": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "codedWidth": 320,
+                "codedHeight": 180,
+                "visibleRect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 320,
+                  "height": 180
+                },
+                "colorSpace": {
+                  "primaries": "smpte170m",
+                  "transfer": "smpte170m",
+                  "matrix": "smpte170m",
+                  "fullRange": false
+                }
+              },
+              "player": {
+                "generation": 3,
+                "phase": "opening",
+                "failure": null,
+                "mapping": null,
+                "appends": 0,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 0,
+                "peakRetainedAppendBytes": 0,
+                "disposed": false
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": "GENERAL_CANCELLED"
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                },
+                {
+                  "event": "created",
+                  "id": 2,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 2,
+                  "generation": 2,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 2,
+                  "generation": 2,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 2
+                },
+                {
+                  "event": "created",
+                  "id": 3,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.37",
+          "passed": true,
+          "elapsedMs": 417,
+          "providerDelta": {
+            "requests": 28,
+            "bytes": 533739
+          }
+        },
+        {
+          "name": "Q1 seek to terminal frame near 6 seconds",
+          "startedAt": "2026-10-02T17:48:40.930Z",
+          "appVersionBefore": "1.22.0-rc.37",
+          "value": {
+            "nativeFrame": {
+              "status": "CAPTURED",
+              "mediaTime": 5.958333,
+              "callbackMediaTime": 5.958333,
+              "presentedFrames": 1,
+              "callbackNow": 5049.8,
+              "actionAgeMs": 296.40000000596046,
+              "format": "NV12",
+              "codedWidth": 320,
+              "codedHeight": 192,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180,
+                "top": 0,
+                "right": 320,
+                "bottom": 180,
+                "left": 0
+              },
+              "colorSpace": {
+                "fullRange": false,
+                "matrix": "smpte170m",
+                "primaries": "smpte170m",
+                "transfer": "smpte170m"
+              },
+              "bytes": 86400,
+              "nativePlaneSha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+              "layout": [
+                {
+                  "offset": 0,
+                  "stride": 320
+                },
+                {
+                  "offset": 57600,
+                  "stride": 320
+                }
+              ],
+              "proof": {
+                "ownerKind": "q1",
+                "target": 5.999999,
+                "targetTimeline": 5.958333,
+                "mappedTargetSource": 5.958333333333333,
+                "generation": 4,
+                "phase": "buffered-to-end",
+                "appends": 3,
+                "selectedAudioTrackId": 2,
+                "presentedFrames": 1,
+                "currentPresentedFrame": true,
+                "ownerLifetimeMatched": true,
+                "identity": {
+                  "fileId": "fixture",
+                  "revision": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "worker": {
+                  "reads": 4,
+                  "bytes": 201214,
+                  "activeReads": 0,
+                  "chunks": 3,
+                  "pendingChunks": 0,
+                  "pendingWindows": 0
+                },
+                "pipeline": {
+                  "selectedAudioTrackId": 2,
+                  "outputBytes": 109970,
+                  "packets": 72,
+                  "encodersCreated": 0,
+                  "outputColorObservation": {
+                    "basis": "observed-native-frame",
+                    "format": "NV12",
+                    "codedWidth": 320,
+                    "codedHeight": 180,
+                    "visibleRect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 320,
+                      "height": 180
+                    },
+                    "colorSpace": {
+                      "primaries": "smpte170m",
+                      "transfer": "smpte170m",
+                      "matrix": "smpte170m",
+                      "fullRange": false
+                    }
+                  }
+                },
+                "callbackCount": 1,
+                "terminalRecheckMayFollowPresentedCallback": true
+              }
+            },
+            "state": {
+              "attempt": "q1",
+              "mode": "original-repackaged",
+              "timeline": {
+                "mapping": null,
+                "duration": null,
+                "currentTime": 0
+              },
+              "video": {
+                "time": 0,
+                "paused": true,
+                "frames": 0,
+                "error": null,
+                "source": "blob:http://127.0.0.1:58302/f9d9ec9d-8986-49c5-aea6-ee1fd44185ce"
+              },
+              "q0Owner": false,
+              "q1Owner": true,
+              "tracksOwner": true,
+              "identity": {
+                "id": "fixture",
+                "revision": "A",
+                "size": "659966",
+                "mimeType": "video/mp4",
+                "modifiedTime": "A",
+                "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+              },
+              "selectedAudioTrackId": 2,
+              "nativeColorObservation": {
+                "basis": "observed-native-frame",
+                "format": "NV12",
+                "identity": {
+                  "accountKey": "synthetic-account",
+                  "accountGeneration": 1,
+                  "fileId": "fixture",
+                  "headRevisionId": "A",
+                  "size": "659966",
+                  "mimeType": "video/mp4",
+                  "modifiedTime": "A",
+                  "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+                },
+                "codedWidth": 320,
+                "codedHeight": 180,
+                "visibleRect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 320,
+                  "height": 180
+                },
+                "colorSpace": {
+                  "primaries": "smpte170m",
+                  "transfer": "smpte170m",
+                  "matrix": "smpte170m",
+                  "fullRange": false
+                }
+              },
+              "player": {
+                "generation": 4,
+                "phase": "opening",
+                "failure": null,
+                "mapping": null,
+                "appends": 0,
+                "removals": 0,
+                "waits": 0,
+                "peakAhead": 0,
+                "peakRetainedAppendBytes": 0,
+                "disposed": false
+              },
+              "workerEvents": [
+                {
+                  "event": "created",
+                  "id": 1,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 1,
+                  "generation": 1,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 1,
+                  "generation": 1,
+                  "error": "GENERAL_CANCELLED"
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 1
+                },
+                {
+                  "event": "created",
+                  "id": 2,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 2,
+                  "generation": 2,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 2,
+                  "generation": 2,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 2
+                },
+                {
+                  "event": "created",
+                  "id": 3,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                },
+                {
+                  "event": "window",
+                  "id": 3,
+                  "generation": 3,
+                  "selectedAudioTrackId": 2
+                },
+                {
+                  "event": "terminal-message",
+                  "id": 3,
+                  "generation": 3,
+                  "error": null
+                },
+                {
+                  "event": "terminate-called",
+                  "id": 3
+                },
+                {
+                  "event": "created",
+                  "id": 4,
+                  "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+                }
+              ],
+              "errorVisible": false
+            }
+          },
+          "appVersionAfter": "1.22.0-rc.37",
+          "passed": true,
+          "elapsedMs": 311,
+          "providerDelta": {
+            "requests": 13,
+            "bytes": 203509
+          }
+        }
+      ],
+      "provider": {
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "POST",
+            "path": "/drive/v3/files/fixture/download",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 238
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-",
+            "status": 206,
+            "bytes": 659966
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-11",
+            "status": 206,
+            "bytes": 12
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture/revisions/A",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-939",
+            "status": 206,
+            "bytes": 940
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=65536-131071",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=131072-196607",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=196608-262143",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=262144-327679",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=327680-393215",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=393216-458751",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=458752-524287",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=0-65535",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=524288-589823",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=589824-655359",
+            "status": 206,
+            "bytes": 65536
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": false,
+            "range": "bytes=655360-659965",
+            "status": 206,
+            "bytes": 4606
+          },
+          {
+            "method": "GET",
+            "path": "/drive/v3/files/fixture",
+            "metadata": true,
+            "range": null,
+            "status": 200,
+            "bytes": 255
+          }
+        ],
+        "bytes": 2463571
+      },
+      "pageErrors": [],
+      "cacheMode": "fresh-context-cold",
+      "cleanup": {
+        "q0Owner": false,
+        "q1Owner": false,
+        "tracksOwner": false,
+        "sourceAttached": false,
+        "q1Settled": true,
+        "tracksSettled": true,
+        "totalWorkersCreated": 4,
+        "terminateCalls": 4,
+        "activeOwnedWorkers": 0,
+        "workerEvents": [
+          {
+            "event": "created",
+            "id": 1,
+            "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 1,
+            "generation": 1,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 1,
+            "generation": 1,
+            "error": "GENERAL_CANCELLED"
+          },
+          {
+            "event": "terminate-called",
+            "id": 1
+          },
+          {
+            "event": "created",
+            "id": 2,
+            "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 2,
+            "generation": 2,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 2,
+            "generation": 2,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 2
+          },
+          {
+            "event": "created",
+            "id": 3,
+            "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 3,
+            "generation": 3,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 3,
+            "generation": 3,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 3
+          },
+          {
+            "event": "created",
+            "id": 4,
+            "url": "http://127.0.0.1:58302/media/general-worker.mjs"
+          },
+          {
+            "event": "window",
+            "id": 4,
+            "generation": 4,
+            "selectedAudioTrackId": 2
+          },
+          {
+            "event": "terminal-message",
+            "id": 4,
+            "generation": 4,
+            "error": null
+          },
+          {
+            "event": "terminate-called",
+            "id": 4
+          }
+        ]
+      },
+      "status": "CLOSED",
+      "browserVersion": "154.0.8037.59",
+      "providerMetadataSha256": "79c825a9108dc05c534b9bad445258db2b45faee6330583b957fe34f334dc44b",
+      "initialContextCookies": 0,
+      "colorComparison": {
+        "q0NativeTuple": {
+          "primaries": "smpte170m",
+          "transfer": "smpte170m",
+          "matrix": "smpte170m",
+          "fullRange": false
+        },
+        "q0MediaTime": 0,
+        "q1MappedNativeTuple": {
+          "primaries": "smpte170m",
+          "transfer": "smpte170m",
+          "matrix": "smpte170m",
+          "fullRange": false
+        },
+        "q1MediaTime": 0.005725,
+        "mappedTimeDeltaSeconds": 0.005725,
+        "sameMappedTarget": true,
+        "sameTuple": true,
+        "q1OutputColorObservation": {
+          "basis": "observed-native-frame",
+          "format": "NV12",
+          "identity": {
+            "accountKey": "synthetic-account",
+            "accountGeneration": 1,
+            "fileId": "fixture",
+            "headRevisionId": "A",
+            "size": "659966",
+            "mimeType": "video/mp4",
+            "modifiedTime": "A",
+            "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+          },
+          "codedWidth": 320,
+          "codedHeight": 180,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180
+          },
+          "colorSpace": {
+            "primaries": "smpte170m",
+            "transfer": "smpte170m",
+            "matrix": "smpte170m",
+            "fullRange": false
+          }
+        },
+        "q1ReportedOutputColorObservation": {
+          "basis": "observed-native-frame",
+          "format": "NV12",
+          "codedWidth": 320,
+          "codedHeight": 180,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180
+          },
+          "colorSpace": {
+            "primaries": "smpte170m",
+            "transfer": "smpte170m",
+            "matrix": "smpte170m",
+            "fullRange": false
+          }
+        },
+        "strictRGBA": "NOT_CAPTURED; prior strictRGBAFAIL remains unchanged",
+        "pixelParityClaim": false
+      },
+      "elapsedMs": 11499,
+      "contextClosed": true,
+      "server": {
+        "requests": 119,
+        "bytes": 7748205,
+        "files": {
+          "index.html": 3,
+          "styles.css": 2,
+          "runtime-config.js": 2,
+          "media/revision-pin.js": 4,
+          "app.js": 2,
+          "icons/icon-192.png": 4,
+          "sw.js": 2,
+          "media/drive-source.mjs": 2,
+          "media/ts-player.mjs": 1,
+          "media/q1-core.mjs": 1,
+          "media/transmux-worker.mjs": 1,
+          "media/mux-mp4.min.js": 1,
+          "media/mux-LICENSE.txt": 1,
+          "media/general-admission.mjs": 6,
+          "media/general-tracks.mjs": 6,
+          "media/subtitle-track.mjs": 2,
+          "media/subtitle-presentation.mjs": 2,
+          "media/general-codec.mjs": 6,
+          "media/native-color.mjs": 6,
+          "media/general-owner.mjs": 2,
+          "media/general-pipeline.mjs": 5,
+          "media/general-player.mjs": 2,
+          "media/general-source.mjs": 6,
+          "media/general-timeline.mjs": 6,
+          "media/general-worker.mjs": 5,
+          "media/mediabunny-q1.mjs": 6,
+          "media/mediabunny-q1.LICENSE": 1,
+          "media/mediabunny-q1-NOTICE.md": 1,
+          "media/audio-runtime.mjs": 6,
+          "media/audio-adapter.mjs": 1,
+          "media/audio-worker-client.mjs": 1,
+          "media/audio-worker.mjs": 1,
+          "media/audio-codec.mjs": 1,
+          "media/audio-codec.wasm": 1,
+          "media/audio-codec.LICENSE.txt": 1,
+          "media/audio-general-pipeline.mjs": 2,
+          "media/audio-general-worker.mjs": 1,
+          "media/video-q3-input.mjs": 1,
+          "media/video-q3-pipeline.mjs": 1,
+          "media/video-q3-worker.mjs": 1,
+          "media/video-q3-codec.mjs": 1,
+          "media/video-q3-codec.wasm": 1,
+          "media/video-q3-codec.LICENSE.txt": 1,
+          "licenses/index.html": 1,
+          "licenses/audio-source-NOTICE.md": 1,
+          "version.json": 2,
+          "manifest.webmanifest": 1,
+          "icons/app-icon.svg": 1,
+          "icons/icon-512.png": 1,
+          "icons/maskable-512.png": 1,
+          "icons/apple-touch-icon.png": 1
+        },
+        "assetHashesMatched": true,
+        "closed": true
+      },
+      "noPageErrors": true
+    }
+  ],
+  "limits": {
+    "fixtureBytesMax": 1048576,
+    "apiBytesMaxPerRelease": 25165824,
+    "apiRequestsMaxPerRelease": 512,
+    "phaseTimeoutMs": 15000,
+    "totalPairTimeoutMs": 60000,
+    "nodeRssMaxBytes": 805306368,
+    "nodeHeapUsedMaxBytes": 268435456
+  },
+  "startedAt": "2026-10-02T17:48:29.743Z",
+  "candidateRef": "051dc3456f5000b958a18593848769b3687991e5",
+  "actualAccount": false,
+  "physicalDevice": false,
+  "normalChromeProfile": false,
+  "production": false,
+  "status": "COMPLETE_SCOPED",
+  "resultFile": "actual-pair-2026-10-02T174829743Z-6636-f17670.json",
+  "browserVersion": "154.0.8037.59",
+  "comparison": {
+    "sameFixtureSha": true,
+    "sameBrowser": true,
+    "sameSyntheticMetadata": true,
+    "sameActionSequence": true,
+    "bothCacheCold": true,
+    "sameQ0Target": true,
+    "candidateQ0Q1SameMappedTarget": true,
+    "baselineQ0Tuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "candidateQ0Tuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "candidateQ1NativeTuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "sameQ0NativeTupleAcrossReleases": true,
+    "candidateDerivedColorTuple": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "candidateMatchesBaselineQ0Tuple": true,
+    "strictRGBA": "NOT_CAPTURED; prior strictRGBAFAIL remains unchanged",
+    "interpretation": "One controlled generated-fixture pair; no p95, broad color, strict RGBA, or production claim."
+  },
+  "adjudication": {
+    "baselineAdmitted": true,
+    "candidateAdmitted": true,
+    "scopedPair": "PASS_SCOPED_COLOR_TUPLE_AND_SEEK_ONLY"
+  },
+  "nodeMemory": {
+    "before": {
+      "rss": 119328768,
+      "heapTotal": 74829824,
+      "heapUsed": 47673336,
+      "external": 4139680,
+      "arrayBuffers": 147875
+    },
+    "after": {
+      "rss": 199368704,
+      "heapTotal": 120168448,
+      "heapUsed": 76300576,
+      "external": 33902291,
+      "arrayBuffers": 29898524
+    },
+    "bound": "Node RSS/heap only; Chrome aggregate not sampled"
+  },
+  "ownedBrowserProcessExited": true,
+  "browserClosed": true,
+  "elapsedMs": 11798,
+  "completedAt": "2026-10-02T17:48:41.541Z"
+}

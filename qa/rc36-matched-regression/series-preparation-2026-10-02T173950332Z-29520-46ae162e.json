@@ -1,0 +1,69 @@
+{
+  "schema": "drive-original.matched-series-preparation/1",
+  "preparedAt": "2026-10-02T17:39:50.332Z",
+  "actualExecuted": false,
+  "browserLaunched": false,
+  "accountOrDeviceUsed": false,
+  "bindings": {
+    "pilot": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+      "bytes": 125683,
+      "sha256": "602eaeb8534ba4ab43cb2ce67db9a165514bad49e2db659bc6c13fb7b1c2a8d2"
+    },
+    "runner": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\runner.cjs",
+      "bytes": 44373,
+      "sha256": "dc113aaf9b00cf4e1793a6e25e3e809be07e73ca786bd7ab4c3b8ff558701772"
+    },
+    "preparation": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\preparation-result.json",
+      "bytes": 31932,
+      "sha256": "b283a465f47e9a0ce5214b9e21e5c591d673e7a30cd0324d6575fe9998555084"
+    },
+    "fixture": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\subtitle.mp4",
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "playwright": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright\\package.json",
+      "bytes": 1359,
+      "sha256": "8bc2ddebe8d9b051b9ecb87d62c6c63877e59d08617f32c3215681ca8bb70998"
+    },
+    "playwrightCore": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright-core\\package.json",
+      "bytes": 876,
+      "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b"
+    },
+    "series": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\series.cjs",
+      "sha256": "8ad53cf869f05d4eccbb244da9d64c51a61c5f955fdc9699c070b55302b6142d"
+    }
+  },
+  "targetAttempts": 20,
+  "preservedPilot": "actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+  "newPairs": 19,
+  "exactChildCommand": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "runner.cjs",
+    "--run",
+    "--candidate",
+    "051dc3456f5000b958a18593848769b3687991e5"
+  ],
+  "limits": {
+    "outerPairMs": 80000,
+    "runnerPairMs": 60000,
+    "stdoutAndStderrBytes": 16384,
+    "maximumSerialRuntimeMs": 1558000,
+    "simultaneousChildren": 1
+  },
+  "stopRule": "Stop on the first timeout, nonzero exit, missing/ambiguous receipt, failed qualification or unconfirmed cleanup. Never retry or replace; remaining attempts are unattempted.",
+  "limitations": [
+    "Finite generated six-second AVC/AAC/subtitle fixture and synthetic read-only provider only; no real Drive/account, physical device, production, strict RGBA, broad color, broad goal, or population p95 guarantee.",
+    "Fixed rc35-before-rc37 order is unchanged; order bias, process scheduling and thermal drift are uncontrolled. Historical pilot predates the 19 new pairs.",
+    "Each release has a fresh-context cold cache. Seeks reuse that current context and are warm session seeks, not broad warm-resume evidence.",
+    "Qualified-sample empirical median/p95 are descriptive. Failed and timeout attempts remain in counts and records; they are not silently removed or replaced.",
+    "Bootstrap intervals condition on observed qualified pairs and an IID resampling assumption that fixed order, drift and the historical pilot may violate; they do not establish statistical certainty."
+  ],
+  "verification": "Fixed binding and pilot qualification PASS; no Chrome launch or new actual pair."
+}

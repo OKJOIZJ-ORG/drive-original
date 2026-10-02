@@ -1,0 +1,65 @@
+{
+  "schema": "rc37-controlled-distribution-root-adjudication/1",
+  "result": {
+    "file": "series-result-2026-10-02T174446442Z-23080-c2805da0.json",
+    "sha256": "10021170adebf06db418a8fa5d3e3648bc9b5b0a2107fa99f1d06626f829a551"
+  },
+  "originalPilotImmutable": {
+    "file": "actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+    "sha256": "602eaeb8534ba4ab43cb2ce67db9a165514bad49e2db659bc6c13fb7b1c2a8d2"
+  },
+  "actualNewPairs": 19,
+  "samplePairs": 20,
+  "failures": 0,
+  "timeouts": 0,
+  "unattempted": 0,
+  "batchElapsedMs": 235187,
+  "allContextServerOwnedBrowserExitConfirmed": true,
+  "rootWrapperExitCode": 0,
+  "lockAbsent": true,
+  "localMockChecks": {
+    "reported": 10,
+    "actor": "gpt-6.1-sol medium",
+    "scope": "deterministic preparation/spawn/timeout/lock/failurebounds; no actualbrowser"
+  },
+  "independentReview": "gpt-6.1-sol medium: adopt finite OBS03/OBS05 generated fixture regression evidence; no more identical repetition needed",
+  "adoptedScope": "Same generated6s AVC/AAC fixture, Chrome154, cold isolatedcontexts, syntheticreadonlyprovider;20paired distributions/currentframes/tuple/seeks/fullcleanup",
+  "empiricalP95Ms": [
+    {
+      "name": "cold app and Q0 first native frame",
+      "baseline": 3152,
+      "candidate": 2934
+    },
+    {
+      "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+      "baseline": 1500,
+      "candidate": 1307
+    },
+    {
+      "name": "Q1 seek to 2 seconds",
+      "baseline": 519,
+      "candidate": 527
+    },
+    {
+      "name": "Q1 seek to terminal frame near 6 seconds",
+      "baseline": 366,
+      "candidate": 365
+    }
+  ],
+  "regressionVerdict": "No substantial latency regression observed within these conditions; 2s seek p95+8ms and seek paired intervals include0; do not claim all phases improved",
+  "syntheticProviderBytesIncludingPilot": 94897305,
+  "maximumObservedAfterNodeRssBytes": 207851520,
+  "conditionsAndLimits": [
+    "Finite generated six-second AVC/AAC/subtitle fixture and synthetic read-only provider only; no real Drive/account, physical device, production, strict RGBA, broad color, broad goal, or population p95 guarantee.",
+    "Fixed rc35-before-rc37 order is unchanged; order bias, process scheduling and thermal drift are uncontrolled. Historical pilot predates the 19 new pairs.",
+    "Each release has a fresh-context cold cache. Seeks reuse that current context and are warm session seeks, not broad warm-resume evidence.",
+    "Qualified-sample empirical median/p95 are descriptive. Failed and timeout attempts remain in counts and records; they are not silently removed or replaced.",
+    "Bootstrap intervals condition on observed qualified pairs and an IID resampling assumption that fixed order, drift and the historical pilot may violate; they do not establish statistical certainty.",
+    "Node after-RSS observations are not browser peak memory/battery proof",
+    "Historical/current realDrive timings stay separately owned; this is not actualDrive/device distribution"
+  ],
+  "wholeGoalPassed": false,
+  "productionPassed": false,
+  "productChanged": false,
+  "candidateRedeployed": false
+}

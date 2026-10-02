@@ -1,0 +1,1262 @@
+{
+  "schema": "drive-original.matched-series/1",
+  "status": "COMPLETE_CONTROLLED_DISTRIBUTION",
+  "startedAt": "2026-10-02T17:44:46.445Z",
+  "bindings": {
+    "pilot": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+      "bytes": 125683,
+      "sha256": "602eaeb8534ba4ab43cb2ce67db9a165514bad49e2db659bc6c13fb7b1c2a8d2"
+    },
+    "runner": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\runner.cjs",
+      "bytes": 44373,
+      "sha256": "dc113aaf9b00cf4e1793a6e25e3e809be07e73ca786bd7ab4c3b8ff558701772"
+    },
+    "preparation": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\preparation-result.json",
+      "bytes": 31932,
+      "sha256": "b283a465f47e9a0ce5214b9e21e5c591d673e7a30cd0324d6575fe9998555084"
+    },
+    "fixture": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\subtitle.mp4",
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "playwright": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright\\package.json",
+      "bytes": 1359,
+      "sha256": "8bc2ddebe8d9b051b9ecb87d62c6c63877e59d08617f32c3215681ca8bb70998"
+    },
+    "playwrightCore": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\node_modules\\playwright-core\\package.json",
+      "bytes": 876,
+      "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b"
+    },
+    "series": {
+      "file": "C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\series.cjs",
+      "sha256": "6f3bd491654b5131cebf386e56f4c29bf32060e5fdf4d5a3ad432909017ed015"
+    }
+  },
+  "targetAttempts": 20,
+  "limitations": [
+    "Finite generated six-second AVC/AAC/subtitle fixture and synthetic read-only provider only; no real Drive/account, physical device, production, strict RGBA, broad color, broad goal, or population p95 guarantee.",
+    "Fixed rc35-before-rc37 order is unchanged; order bias, process scheduling and thermal drift are uncontrolled. Historical pilot predates the 19 new pairs.",
+    "Each release has a fresh-context cold cache. Seeks reuse that current context and are warm session seeks, not broad warm-resume evidence.",
+    "Qualified-sample empirical median/p95 are descriptive. Failed and timeout attempts remain in counts and records; they are not silently removed or replaced.",
+    "Bootstrap intervals condition on observed qualified pairs and an IID resampling assumption that fixed order, drift and the historical pilot may violate; they do not establish statistical certainty."
+  ],
+  "attempts": [
+    {
+      "number": 1,
+      "state": "QUALIFIED",
+      "historicalPilot": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T155324878Z-22080-d5efaf.json",
+          "sha256": "602eaeb8534ba4ab43cb2ce67db9a165514bad49e2db659bc6c13fb7b1c2a8d2"
+        }
+      ],
+      "phaseElapsedMs": [
+        [
+          3152,
+          1469,
+          519,
+          366
+        ],
+        [
+          3264,
+          1366,
+          527,
+          365
+        ]
+      ],
+      "startedAt": "2026-10-02T15:53:24.878Z",
+      "elapsedMs": 12992
+    },
+    {
+      "number": 2,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:44:46.447Z",
+      "childPid": 6624,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 13097,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174446915Z-6624-e6c405.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 130,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174446915Z-6624-e6c405.json",
+          "sha256": "224da6b2d919bcffaeaa4e303b44b04fdbce108d38b1417ccbc29ef5eac78e25"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3116,
+          1500,
+          422,
+          266
+        ],
+        [
+          2934,
+          1149,
+          396,
+          281
+        ]
+      ]
+    },
+    {
+      "number": 3,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:44:59.566Z",
+      "childPid": 26292,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12763,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174500042Z-26292-4afa77.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174500042Z-26292-4afa77.json",
+          "sha256": "55db9ca4a914096ca0d78977317300599044241fcc8df8ea6677234c17c81cec"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3219,
+          1151,
+          414,
+          269
+        ],
+        [
+          2819,
+          1290,
+          541,
+          367
+        ]
+      ]
+    },
+    {
+      "number": 4,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:45:12.373Z",
+      "childPid": 12056,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12166,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174512828Z-12056-97e59c.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174512828Z-12056-97e59c.json",
+          "sha256": "66710be6603ea3416ba722ef72a60f598c0bf737eafcf82905c924b7acfabef2"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2942,
+          1317,
+          468,
+          337
+        ],
+        [
+          2761,
+          1180,
+          396,
+          305
+        ]
+      ]
+    },
+    {
+      "number": 5,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:45:24.600Z",
+      "childPid": 18520,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12255,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174525061Z-18520-0dc1d5.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174525061Z-18520-0dc1d5.json",
+          "sha256": "123433dbe9622346e4a37429a8ebd5691da126a4311bac686a503c4db6f46f33"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3078,
+          1193,
+          467,
+          318
+        ],
+        [
+          2795,
+          1224,
+          439,
+          303
+        ]
+      ]
+    },
+    {
+      "number": 6,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:45:36.917Z",
+      "childPid": 16244,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 11994,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174537383Z-16244-7dc3ed.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174537383Z-16244-7dc3ed.json",
+          "sha256": "b73279055a9b62fc73f0b5a44a44fac5469127569540739d01664a6d63c69f5b"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2977,
+          1355,
+          436,
+          288
+        ],
+        [
+          2765,
+          1126,
+          379,
+          310
+        ]
+      ]
+    },
+    {
+      "number": 7,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:45:48.982Z",
+      "childPid": 24600,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12303,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174549456Z-24600-a48710.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174549456Z-24600-a48710.json",
+          "sha256": "dd9d4f330f75cda8c635f7d627c146eed3393f230db9d10a53daa3b9c4af7775"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3007,
+          1323,
+          439,
+          325
+        ],
+        [
+          2805,
+          1253,
+          468,
+          297
+        ]
+      ]
+    },
+    {
+      "number": 8,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:46:01.364Z",
+      "childPid": 21724,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12171,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174601881Z-21724-e26585.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174601881Z-21724-e26585.json",
+          "sha256": "a781fc9b7900560fc87c1b20491c80e676d071f23d4084c3129c9f893fce6801"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2963,
+          1404,
+          460,
+          303
+        ],
+        [
+          2722,
+          1132,
+          396,
+          281
+        ]
+      ]
+    },
+    {
+      "number": 9,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:46:13.611Z",
+      "childPid": 16484,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12087,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174614079Z-16484-afd1c7.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174614079Z-16484-afd1c7.json",
+          "sha256": "2a8402082d6c20c46b9b0192f83a13c5f4e5bcde33eadbd3b82a61c8ad301ee9"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2890,
+          1196,
+          478,
+          289
+        ],
+        [
+          2837,
+          1307,
+          419,
+          291
+        ]
+      ]
+    },
+    {
+      "number": 10,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:46:25.774Z",
+      "childPid": 29976,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12466,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174626238Z-29976-01c717.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174626238Z-29976-01c717.json",
+          "sha256": "7c7081cdbe7c2b1f0e4921157beb86274678f4ad32ad3324722afba1bc0ff7df"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3021,
+          1526,
+          481,
+          338
+        ],
+        [
+          2795,
+          1173,
+          408,
+          298
+        ]
+      ]
+    },
+    {
+      "number": 11,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:46:38.317Z",
+      "childPid": 13552,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12183,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174638790Z-13552-1b74b4.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174638790Z-13552-1b74b4.json",
+          "sha256": "ae036331f28ea946191627a360d341bc35fd0ad99d5dbed576d74d510c5d013c"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3016,
+          1307,
+          428,
+          289
+        ],
+        [
+          2795,
+          1229,
+          428,
+          287
+        ]
+      ]
+    },
+    {
+      "number": 12,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:46:50.583Z",
+      "childPid": 5156,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12147,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174651046Z-5156-da9194.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 130,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174651046Z-5156-da9194.json",
+          "sha256": "7820951ff2fffa54e5c65c83156fd268bf0dfe883a09e9f07c348b24a245e5dc"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2987,
+          1190,
+          433,
+          277
+        ],
+        [
+          2903,
+          1277,
+          395,
+          319
+        ]
+      ]
+    },
+    {
+      "number": 13,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:47:02.811Z",
+      "childPid": 13780,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12039,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174703277Z-13780-8a0357.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174703277Z-13780-8a0357.json",
+          "sha256": "60df0817c277c14538ea742a3f373324ed2d6fb6ec1af8492064fcbf0d80c95f"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2976,
+          1136,
+          432,
+          296
+        ],
+        [
+          2851,
+          1222,
+          410,
+          319
+        ]
+      ]
+    },
+    {
+      "number": 14,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:47:14.933Z",
+      "childPid": 16548,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12293,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174715402Z-16548-a6a53e.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174715402Z-16548-a6a53e.json",
+          "sha256": "5c3da0f05a8a23f184962c6a4b7823f9736de61f303cfd36b2b6f136224414fc"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2989,
+          1288,
+          440,
+          298
+        ],
+        [
+          2922,
+          1192,
+          460,
+          315
+        ]
+      ]
+    },
+    {
+      "number": 15,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:47:27.319Z",
+      "childPid": 15584,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12304,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174727812Z-15584-7453b4.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174727812Z-15584-7453b4.json",
+          "sha256": "571795982b97563b4bfd9109009b0fd8769abc276ed2cbe4bf35cd90073d154b"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2997,
+          1382,
+          508,
+          322
+        ],
+        [
+          2815,
+          1165,
+          417,
+          292
+        ]
+      ]
+    },
+    {
+      "number": 16,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:47:39.735Z",
+      "childPid": 30740,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 11989,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174740207Z-30740-177e7c.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174740207Z-30740-177e7c.json",
+          "sha256": "26b6587f668e57a4e93590c44800a82acd61c0a871951f6d75b02314c6345520"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3024,
+          1332,
+          435,
+          299
+        ],
+        [
+          2750,
+          1083,
+          396,
+          281
+        ]
+      ]
+    },
+    {
+      "number": 17,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:47:51.824Z",
+      "childPid": 30188,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12440,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174752343Z-30188-e447d8.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174752343Z-30188-e447d8.json",
+          "sha256": "4cc6bf2f34a68e7245fe3e8b9a7ff68f1fbb6e96733c9a4a4d7128681e6e3f9a"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3085,
+          1391,
+          417,
+          319
+        ],
+        [
+          2813,
+          1216,
+          440,
+          322
+        ]
+      ]
+    },
+    {
+      "number": 18,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:48:04.381Z",
+      "childPid": 26444,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12513,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174804875Z-26444-f543c5.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174804875Z-26444-f543c5.json",
+          "sha256": "332123f3acfae63eca6ad2b871182b66d99026a77926a5eed71ed9416a56487c"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2992,
+          1331,
+          466,
+          374
+        ],
+        [
+          2824,
+          1189,
+          509,
+          338
+        ]
+      ]
+    },
+    {
+      "number": 19,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:48:17.002Z",
+      "childPid": 15076,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12141,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174817520Z-15076-565210.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 131,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174817520Z-15076-565210.json",
+          "sha256": "775c7cda03b774ac6b7700e5208239ee352aafea1b37766940b7147249c5a5c5"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          2949,
+          1194,
+          541,
+          321
+        ],
+        [
+          2839,
+          1139,
+          447,
+          289
+        ]
+      ]
+    },
+    {
+      "number": 20,
+      "state": "QUALIFIED",
+      "startedAt": "2026-10-02T17:48:29.260Z",
+      "childPid": 6636,
+      "childCommand": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "runner.cjs",
+        "--run",
+        "--candidate",
+        "051dc3456f5000b958a18593848769b3687991e5"
+      ],
+      "elapsedMs": 12251,
+      "exitCode": 0,
+      "signal": null,
+      "output": "COMPLETE_SCOPED C:\\extensions\\Drive-Original\\source\\qa\\rc36-matched-regression\\actual-pair-2026-10-02T174829743Z-6636-f17670.json\n",
+      "outputTruncated": false,
+      "outputBytesObserved": 130,
+      "outerTimeout": false,
+      "childExitObserved": true,
+      "cleanupConfirmed": true,
+      "receiptReferences": [
+        {
+          "file": "actual-pair-2026-10-02T174829743Z-6636-f17670.json",
+          "sha256": "8e7c25f2d3113579ae6d6257202584d1611817180e58dd25a219ba6bcd2b53e8"
+        }
+      ],
+      "runnerStatus": "COMPLETE_SCOPED",
+      "runnerFailure": null,
+      "phaseElapsedMs": [
+        [
+          3006,
+          1359,
+          493,
+          322
+        ],
+        [
+          2776,
+          1151,
+          417,
+          311
+        ]
+      ]
+    }
+  ],
+  "statistics": {
+    "counts": {
+      "target": 20,
+      "attempted": 20,
+      "qualified": 20,
+      "failedOrUnqualified": 0,
+      "timeouts": 0,
+      "inProgress": 0,
+      "unattempted": 0
+    },
+    "quantileMethod": "Empirical p95: nearest rank ceil(0.95*n); median: middle or mean of two middle values. Qualified pairs only; counts include failures/timeouts.",
+    "phases": [
+      {
+        "name": "cold app and Q0 first native frame",
+        "baseline": {
+          "n": 20,
+          "medianMs": 3001.5,
+          "empiricalP95Ms": 3152
+        },
+        "candidate": {
+          "n": 20,
+          "medianMs": 2814,
+          "empiricalP95Ms": 2934
+        },
+        "failureInclusive": {
+          "terminalAttemptedPairs": 20,
+          "admittedFinitePairs": 20,
+          "unknownOrCensoredPairs": 0,
+          "excludedUnattemptedPairs": 0,
+          "excludedStartedPairs": 0,
+          "method": "Sensitivity/gate quantile bounds over all terminal attempted pairs: admitted pair supplies measured duration; each failed/unqualified/spawn/timeout pair supplies unknown/censored duration, bounded by 0 and +Infinity. These endpoints are not physical latency imputations. Any measured partial phase in an unqualified pair remains unadmitted. Same empirical median/p95 definition as qualified descriptions.",
+          "baseline": {
+            "median": {
+              "lowerMs": 3001.5,
+              "upperMs": 3001.5,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 3152,
+              "upperMs": 3152,
+              "upperStatus": "FINITE"
+            }
+          },
+          "candidate": {
+            "median": {
+              "lowerMs": 2814,
+              "upperMs": 2814,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 2934,
+              "upperMs": 2934,
+              "upperStatus": "FINITE"
+            }
+          }
+        },
+        "pairedDelta": {
+          "direction": "candidate minus baseline",
+          "observationsMs": [
+            112,
+            -182,
+            -400,
+            -181,
+            -283,
+            -212,
+            -202,
+            -241,
+            -53,
+            -226,
+            -221,
+            -84,
+            -125,
+            -67,
+            -182,
+            -274,
+            -272,
+            -168,
+            -110,
+            -230
+          ],
+          "meanMs": -180.05,
+          "medianMs": -192,
+          "interval": {
+            "method": "Deterministic paired bootstrap percentile 2.5%–97.5%; 5000 resamples, xorshift32 seed 0x50305; conditional IID sensitivity only.",
+            "meanDeltaMs": [
+              -224.55,
+              -131.85
+            ],
+            "medianDeltaMs": [
+              -228,
+              -146.5
+            ]
+          }
+        }
+      },
+      {
+        "name": "normal track menu, AAC 2 selection, and current Q1 frame",
+        "baseline": {
+          "n": 20,
+          "medianMs": 1327,
+          "empiricalP95Ms": 1500
+        },
+        "candidate": {
+          "n": 20,
+          "medianMs": 1190.5,
+          "empiricalP95Ms": 1307
+        },
+        "failureInclusive": {
+          "terminalAttemptedPairs": 20,
+          "admittedFinitePairs": 20,
+          "unknownOrCensoredPairs": 0,
+          "excludedUnattemptedPairs": 0,
+          "excludedStartedPairs": 0,
+          "method": "Sensitivity/gate quantile bounds over all terminal attempted pairs: admitted pair supplies measured duration; each failed/unqualified/spawn/timeout pair supplies unknown/censored duration, bounded by 0 and +Infinity. These endpoints are not physical latency imputations. Any measured partial phase in an unqualified pair remains unadmitted. Same empirical median/p95 definition as qualified descriptions.",
+          "baseline": {
+            "median": {
+              "lowerMs": 1327,
+              "upperMs": 1327,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 1500,
+              "upperMs": 1500,
+              "upperStatus": "FINITE"
+            }
+          },
+          "candidate": {
+            "median": {
+              "lowerMs": 1190.5,
+              "upperMs": 1190.5,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 1307,
+              "upperMs": 1307,
+              "upperStatus": "FINITE"
+            }
+          }
+        },
+        "pairedDelta": {
+          "direction": "candidate minus baseline",
+          "observationsMs": [
+            -103,
+            -351,
+            139,
+            -137,
+            31,
+            -229,
+            -70,
+            -272,
+            111,
+            -353,
+            -78,
+            87,
+            86,
+            -96,
+            -217,
+            -249,
+            -175,
+            -142,
+            -55,
+            -208
+          ],
+          "meanMs": -114.05,
+          "medianMs": -120,
+          "interval": {
+            "method": "Deterministic paired bootstrap percentile 2.5%–97.5%; 5000 resamples, xorshift32 seed 0x50305; conditional IID sensitivity only.",
+            "meanDeltaMs": [
+              -175.25,
+              -52.35
+            ],
+            "medianDeltaMs": [
+              -212.5,
+              -62.5
+            ]
+          }
+        }
+      },
+      {
+        "name": "Q1 seek to 2 seconds",
+        "baseline": {
+          "n": 20,
+          "medianMs": 450,
+          "empiricalP95Ms": 519
+        },
+        "candidate": {
+          "n": 20,
+          "medianMs": 418,
+          "empiricalP95Ms": 527
+        },
+        "failureInclusive": {
+          "terminalAttemptedPairs": 20,
+          "admittedFinitePairs": 20,
+          "unknownOrCensoredPairs": 0,
+          "excludedUnattemptedPairs": 0,
+          "excludedStartedPairs": 0,
+          "method": "Sensitivity/gate quantile bounds over all terminal attempted pairs: admitted pair supplies measured duration; each failed/unqualified/spawn/timeout pair supplies unknown/censored duration, bounded by 0 and +Infinity. These endpoints are not physical latency imputations. Any measured partial phase in an unqualified pair remains unadmitted. Same empirical median/p95 definition as qualified descriptions.",
+          "baseline": {
+            "median": {
+              "lowerMs": 450,
+              "upperMs": 450,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 519,
+              "upperMs": 519,
+              "upperStatus": "FINITE"
+            }
+          },
+          "candidate": {
+            "median": {
+              "lowerMs": 418,
+              "upperMs": 418,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 527,
+              "upperMs": 527,
+              "upperStatus": "FINITE"
+            }
+          }
+        },
+        "pairedDelta": {
+          "direction": "candidate minus baseline",
+          "observationsMs": [
+            8,
+            -26,
+            127,
+            -72,
+            -28,
+            -57,
+            29,
+            -64,
+            -59,
+            -73,
+            0,
+            -38,
+            -22,
+            20,
+            -91,
+            -39,
+            23,
+            43,
+            -94,
+            -76
+          ],
+          "meanMs": -24.45,
+          "medianMs": -33,
+          "interval": {
+            "method": "Deterministic paired bootstrap percentile 2.5%–97.5%; 5000 resamples, xorshift32 seed 0x50305; conditional IID sensitivity only.",
+            "meanDeltaMs": [
+              -46.55,
+              0.4
+            ],
+            "medianDeltaMs": [
+              -61.5,
+              4
+            ]
+          }
+        }
+      },
+      {
+        "name": "Q1 seek to terminal frame near 6 seconds",
+        "baseline": {
+          "n": 20,
+          "medianMs": 310.5,
+          "empiricalP95Ms": 366
+        },
+        "candidate": {
+          "n": 20,
+          "medianMs": 304,
+          "empiricalP95Ms": 365
+        },
+        "failureInclusive": {
+          "terminalAttemptedPairs": 20,
+          "admittedFinitePairs": 20,
+          "unknownOrCensoredPairs": 0,
+          "excludedUnattemptedPairs": 0,
+          "excludedStartedPairs": 0,
+          "method": "Sensitivity/gate quantile bounds over all terminal attempted pairs: admitted pair supplies measured duration; each failed/unqualified/spawn/timeout pair supplies unknown/censored duration, bounded by 0 and +Infinity. These endpoints are not physical latency imputations. Any measured partial phase in an unqualified pair remains unadmitted. Same empirical median/p95 definition as qualified descriptions.",
+          "baseline": {
+            "median": {
+              "lowerMs": 310.5,
+              "upperMs": 310.5,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 366,
+              "upperMs": 366,
+              "upperStatus": "FINITE"
+            }
+          },
+          "candidate": {
+            "median": {
+              "lowerMs": 304,
+              "upperMs": 304,
+              "upperStatus": "FINITE"
+            },
+            "empiricalP95": {
+              "lowerMs": 365,
+              "upperMs": 365,
+              "upperStatus": "FINITE"
+            }
+          }
+        },
+        "pairedDelta": {
+          "direction": "candidate minus baseline",
+          "observationsMs": [
+            -1,
+            15,
+            98,
+            -32,
+            -15,
+            22,
+            -28,
+            -22,
+            2,
+            -40,
+            -2,
+            42,
+            23,
+            17,
+            -30,
+            -18,
+            3,
+            -36,
+            -32,
+            -11
+          ],
+          "meanMs": -2.25,
+          "medianMs": -6.5,
+          "interval": {
+            "method": "Deterministic paired bootstrap percentile 2.5%–97.5%; 5000 resamples, xorshift32 seed 0x50305; conditional IID sensitivity only.",
+            "meanDeltaMs": [
+              -15,
+              13.35
+            ],
+            "medianDeltaMs": [
+              -25,
+              9
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "completedAt": "2026-10-02T17:48:41.632Z"
+}
