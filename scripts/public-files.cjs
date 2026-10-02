@@ -5,7 +5,7 @@ module.exports=Object.freeze([
   'icons/app-icon.svg','icons/icon-192.png','icons/icon-512.png','icons/maskable-512.png','icons/apple-touch-icon.png',
   'media/drive-source.mjs','media/revision-pin.js','media/ts-player.mjs','media/q1-core.mjs',
   'media/transmux-worker.mjs','media/mux-mp4.min.js','media/mux-LICENSE.txt',
-  'media/general-admission.mjs','media/general-codec.mjs','media/general-owner.mjs',
+  'media/general-admission.mjs','media/general-codec.mjs','media/general-owner.mjs','media/native-color.mjs',
   'media/general-tracks.mjs','media/subtitle-track.mjs','media/subtitle-presentation.mjs',
   'media/general-pipeline.mjs','media/general-player.mjs','media/general-source.mjs',
   'media/general-timeline.mjs','media/general-worker.mjs',

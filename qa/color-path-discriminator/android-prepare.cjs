@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const here=__dirname;
+let s=fs.readFileSync(path.join(here,'observed-player.function.js'),'utf8');
+function replace(a,b){if(!s.includes(a))throw Error('PREPARATION_ANCHOR_MISSING');s=s.replace(a,b);}
+replace("userAgent:navigator.userAgent,startedAt", "chrome:navigator.userAgent.match(/Chrome\\/[\\d.]+/)?.[0],viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},startedAt");
+replace("let player;", "let player,ownerActive=true;");
+replace(",png:canvas.toDataURL()", "");
+replace("report.observation=observation;", "report.observation={basis:observation.basis,format:observation.format,codedWidth:observation.codedWidth,codedHeight:observation.codedHeight,visibleRect:observation.visibleRect,colorSpace:observation.colorSpace,identityQualified:true,currentQualified:true};");
+replace("isCurrent:()=>true", "isCurrent:()=>ownerActive&&location.origin===ownedOrigin");
+replace("const identity={fileId", "const ownedOrigin=location.origin;const identity={fileId");
+replace("if(!record.active)throw Error('Q1_SOURCE_STALE');", "if(!record.active||!ownerActive||location.origin!==ownedOrigin)throw Error('Q1_SOURCE_STALE');");
+replace("if(b.length!==end-start+1)", "if(!record.active||!ownerActive||location.origin!==ownedOrigin)throw Error('Q1_SOURCE_STALE');if(b.length!==end-start+1)");
+const chunkStart=s.indexOf("        if(m.kind==='chunk')"),chunkEnd=s.indexOf("        if(m.kind==='terminal')",chunkStart);if(chunkStart<0||chunkEnd<0)throw Error('CHUNK_ANCHOR');s=s.slice(0,chunkStart)+s.slice(chunkEnd);
+const outputStart=s.indexOf("      const list=chunks.get(stats.generation)"),outputEnd=s.indexOf("      report.runs.push(result);",outputStart);if(outputStart<0||outputEnd<0)throw Error('OUTPUT_ANCHOR');s=s.slice(0,outputStart)+s.slice(outputEnd);
+replace("if(stats.failure||result.comparison&&Object.values(result.comparison).some(v=>v!==true))throw Error('COLOR_PARITY_FAILED');", "result.generationQualified=stats.generation===report.runs.length&&stats.pipeline?.selectedAudioTrackId===2&&stats.pipeline?.encodersCreated===0;result.sourceDeclarationAbsent=!stats.pipeline?.videoConfig?.colorSpace||Object.values(stats.pipeline.videoConfig.colorSpace).every(v=>v==null);result.observedOutputQualified=stats.outputColorObservation?.basis==='observed-native-frame'&&JSON.stringify(stats.outputColorObservation.colorSpace)===JSON.stringify(report.observation.colorSpace);if(result.comparison&&!result.comparison.rgbaExact)report.strictRgbaFailure='COLOR_RGBA_PARITY_FAILED';if(stats.failure||!result.generationQualified||!result.sourceDeclarationAbsent||!result.observedOutputQualified||result.comparison&&['nativeLayoutExact','nativePlanesExact','colorSpaceExact'].some(k=>result.comparison[k]!==true))throw Error('COLOR_INTERPRETATION_UNQUALIFIED');");
+replace("report.observedPass=true;", "report.observedPass=true;report.strictRgbaPass=!report.strictRgbaFailure;");
+replace("const cleanup=await player?.dispose()", "ownerActive=false;const cleanup=await player?.dispose()");
+replace("observedPass:report.observedPass===true,failure", "observedPass:report.observedPass===true,strictRgbaPass:report.strictRgbaPass===true,strictRgbaFailure:report.strictRgbaFailure||null,failure");
+fs.writeFileSync(path.join(here,'android-color-observer.function.js'),s);

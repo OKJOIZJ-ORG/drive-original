@@ -1,0 +1,164 @@
+{
+  "schema": "native-file-mse-color-path/1",
+  "scope": "Exact existing generated fixture and prior copied-video remux. No account, original-media, product or production mutation.",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "startedAt": 1790937586969,
+  "cases": [
+    {
+      "label": "original-file",
+      "frame": {
+        "mediaTime": 5.958333,
+        "presentedFrames": 1,
+        "width": 320,
+        "height": 180
+      },
+      "elementTime": 5.999999,
+      "duration": 6,
+      "decodedFrames": 24,
+      "format": "NV12",
+      "timestamp": 5958333,
+      "codedWidth": 320,
+      "codedHeight": 180,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180,
+        "top": 0,
+        "right": 320,
+        "bottom": 180,
+        "left": 0
+      },
+      "displayWidth": 320,
+      "displayHeight": 180,
+      "colorSpace": {
+        "fullRange": false,
+        "matrix": "smpte170m",
+        "primaries": "smpte170m",
+        "transfer": "smpte170m"
+      },
+      "nativePlanes": {
+        "bytes": 86400,
+        "sha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+        "layout": [
+          {
+            "offset": 0,
+            "stride": 320
+          },
+          {
+            "offset": 57600,
+            "stride": 320
+          }
+        ],
+        "formatConversionRequested": false
+      },
+      "canvas": {
+        "width": 320,
+        "height": 180,
+        "attributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": true
+        },
+        "sha256": "aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4"
+      }
+    },
+    {
+      "label": "copied-remux-file",
+      "frame": {
+        "mediaTime": 0.966333,
+        "presentedFrames": 1,
+        "width": 320,
+        "height": 180
+      },
+      "elementTime": 1.007999,
+      "duration": 1.016,
+      "decodedFrames": 24,
+      "format": "NV12",
+      "timestamp": 966333,
+      "codedWidth": 320,
+      "codedHeight": 180,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180,
+        "top": 0,
+        "right": 320,
+        "bottom": 180,
+        "left": 0
+      },
+      "displayWidth": 320,
+      "displayHeight": 180,
+      "colorSpace": {
+        "fullRange": false,
+        "matrix": "smpte170m",
+        "primaries": "smpte170m",
+        "transfer": "smpte170m"
+      },
+      "nativePlanes": {
+        "bytes": 86400,
+        "sha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+        "layout": [
+          {
+            "offset": 0,
+            "stride": 320
+          },
+          {
+            "offset": 57600,
+            "stride": 320
+          }
+        ],
+        "formatConversionRequested": false
+      },
+      "canvas": {
+        "width": 320,
+        "height": 180,
+        "attributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": true
+        },
+        "sha256": "aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4"
+      }
+    }
+  ],
+  "cleanup": {
+    "callbacksEmpty": true,
+    "timersEmpty": true,
+    "allSourcesRemoved": true,
+    "objectUrlsRevoked": 1
+  },
+  "failure": "COLOR_LAST_FRAME_DEADLINE",
+  "errorName": "Error",
+  "completedAt": 1790937602444,
+  "binding": {
+    "/source.mp4": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "/remux.mp4": {
+      "bytes": 109951,
+      "sha256": "201fde313145d2907a060eddc3c09418e662d01b62e50635b01d77f5feff1fdd"
+    },
+    "/runner.js": {
+      "bytes": 7712,
+      "sha256": "2c1c44a0a212e8bb9ce6ce0a9ed6a8794783a5bfb9ede482bbd73d559eeb3122"
+    }
+  },
+  "server": {
+    "requests": 7,
+    "servedBytes": 887580,
+    "failedBound": false
+  }
+}

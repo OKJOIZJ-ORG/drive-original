@@ -1,15 +1,18 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 finite PC/Android qualification
+# Checkpoint — ACTIVE D074 — local observed SDR unit verified
 
-## Current state
+## The story so far
+Approved queue remains ACTIVE on codex/v2-kickoff-diagnostics; pre-savepoint HEAD49bce40. Local identity-bound observed SDR output-config correction verified: final managedPC last→2s→last and physical Android fresh2→successorlast preserve tuple/targets/zero video encoders/cleanup. COLOR-INTERPRETATION-20261002.md and qa/color-path-discriminator/final-adjudication.json own scope; savepoint-manifest.json pins72 exact QA files and29+29 current producers. Source configs/packets/declared metadata and Q2 gate retained. Published35/2c2b124 and production1.21/e08989a unchanged.
 
-Approved whole queue ACTIVE on codex/v2-kickoff-diagnostics. Runtime immutable2c2b1244bee0f1a5e500318c83c6e126c5124e34/1.22.0-rc.35; free Worker5976c3f9 published. Delivery64/cache49/aliases50/package, ordinary PC34→35 preservation, generated-fixture actual Android v9 AAC3/tx3g4/seek/Off and finite actual Android TR01 pass. Prior failures remain; no runtime changes/redeployment for QA repairs. Details belong to CANDIDATE-RC35-20261002.md and exact adjudications.
+Strict RGBA still FAILED. PC residual25channels/max2 is located at browser resource presentation; particular shader/GPU mechanism UNKNOWN. Android I420 versus RGBA makes raw YUV equality UNKNOWN; old NOT_QUALIFIED remains, new predeclared tuple scenario is only propagation/seek proof. All owned browser/device/server resources cleaned. Read-only current Android35 bannerhidden/no waiting/installing confirms no pending update. No account/corpus/media mutation, grant, automation, production or broad-p95/fidelity claim.
 
-Current PC file declared MOV is actually strict188-byte TS (75,947,300B/88 sync packets). Actual attempt4 Q1_TS startup14354ms/90%seek11386ms/current generation2/frame target error0.007867s passed initial15s; fresh metadata/source/account fences, normal close/retirement/all helpers/root/query restoration passed. qa/rc35-acceptance-adoption/pc-mov-adjudication.json owns verdict; raw SHA4789284019b6e4ae78b6068950fc8b110d20653b9fab86d47306210968deddf9. Attempts1/2 before-input tool errors, attempt3 startup11961ms/UI failure/originalcleanupfalse and separate successful recovery remain. Original strict observer unchanged; additive8 VM/3 driver guards pass. PC normal browser3/tab275140556 is closed/root/empty query, all owned helpers absent.
+## Decided
+D074 original acceptance remains. Observed native YUV SDR is exact-lifetime evidence, not recovered source color or a resolution default. Retain strict failures and all broad color/HDR/performance limits. iOS deferred byD066; automation PAUSED. Valid prior original69 finite-status adoption is reused; wholeGoalPassed/productionPassedfalse.
+
+## Waiting on the user
+None. Production/main/push/new grants/permanent deletion remain separate. Shared account/player/corpus writers serial; generated controlled tests cleaned.
 
 ## Next first action
+Save the verified local color unit, then use the existing exact-source candidate delivery workflow for rc36; validate only new public/helper/version delivery and normal update before remaining performance acceptance.
 
-PC QA/docs saved in1167efb. Original69 bounded-status adoption completed in qa/rc35-acceptance-adoption/adoption-proposal.json; all original text/IDs/order preserved,60 historical evidence file hashes matched, TR01 actual finite PASS and FM05 affected finite tablet/controlled scope adopted; wholeGoalPassed/productionPassed remain false. current TS cannot substitute tail-index MOV or historical failed tuple/p95. Do not invent cold for TR02/TR03. Next decisive gap is existing same-fixture native-file/MSE color mismatch; distinguish declared/decoded/presentation evidence before fixing the responsible layer. Actual HDR applicability UNKNOWN, original FM06 conditional; performance still needs failure-inclusive sufficient same-condition comparison. Corpus128 consumed/123classified/5unknown/8468unattempted of8596, no full scan.
-
-## Authority and waiting
-
-None waiting. D074 allows free candidate/local commits/real PC and Android; iOS deferred by D066. Production1.21/e08989a/main/push/new grants/permanent deletion/generalwritesfalse/automationPAUSED remain separate. Never run account/playback/corpus writers concurrently. Continue through original acceptance; commits/candidates/partial passes do not end the queue.
+## Tried
+Exclusive EOS observer timeout, AAC3 subtitle-ID input failure and MCP filePath denial are preserved. Old strict-RGBA and Android unlike-format-YUV predicates never promoted to PASS. New Android initial2→last scenario addresses only previously unrun tuple retention. Savepoint collector fixture-field mismatch corrected before any result write; no product rerun. Historical servers are snapshots, not instructions to replay unchanged failed conditions.

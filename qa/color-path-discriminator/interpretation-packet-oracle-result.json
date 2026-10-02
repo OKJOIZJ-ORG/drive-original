@@ -1,0 +1,163 @@
+{
+  "schema": "observed-color-independent-packet-oracle/1",
+  "sourceSHA256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "outputSHA256": "da73f3bb914bbf85323bd0b0f07dec69f83cb988a6c3ab94eac9fbc2da4c94fe",
+  "tools": {
+    "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r",
+    "ffprobe": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers\r"
+  },
+  "copiedVideoPackets": 24,
+  "encodedPacketsExact": true,
+  "avccExtradataExact": true,
+  "rationalPacketDurationsExact": true,
+  "ptsDtsConstantShiftExact": true,
+  "shift": {
+    "numerator": "-94220845056",
+    "denominator": "18874368000"
+  },
+  "sourceDeclaredColor": {
+    "color_range": null,
+    "color_space": null,
+    "color_transfer": null,
+    "color_primaries": null
+  },
+  "outputDerivedObservedColor": {
+    "color_range": "tv",
+    "color_space": "smpte170m",
+    "color_transfer": "smpte170m",
+    "color_primaries": "smpte170m"
+  },
+  "outputColorProvenance": "Actual same-source native VideoFrame observation, not original declared metadata or inferred intended color.",
+  "lastDecodedYUV420P": {
+    "sourceBytes": 86400,
+    "sourceSHA256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c",
+    "outputSHA256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c",
+    "exact": true
+  },
+  "actualNativeNV12AndColorSpaceExact": true,
+  "strictRGBAParityPassed": false,
+  "retainedStrictFailure": null,
+  "productProducersUnchanged": [
+    {
+      "path": "/media/drive-source.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/ts-player.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/q1-core.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/transmux-worker.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-admission.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-codec.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-owner.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/native-color.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-tracks.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/subtitle-track.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/subtitle-presentation.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-pipeline.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-player.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-source.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-timeline.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/general-worker.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/mediabunny-q1.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-runtime.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-adapter.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-worker-client.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-worker.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-codec.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-general-pipeline.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/audio-general-worker.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/video-q3-input.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/video-q3-pipeline.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/video-q3-worker.mjs",
+      "exact": true
+    },
+    {
+      "path": "/media/video-q3-codec.mjs",
+      "exact": true
+    },
+    {
+      "path": "/runner.js",
+      "exact": true
+    }
+  ],
+  "originalMediaMutated": false,
+  "limits": [
+    "Generated SDR fixture and isolated Chrome154; no actual account/Android/HDR claim",
+    "Absent source colr is retained in original configuration; output adds explicitly derived observed display metadata"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "same-last-frame-file-MSE-color-adjudication/1",
+  "sourceSHA256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "remuxSHA256": "201fde313145d2907a060eddc3c09418e662d01b62e50635b01d77f5feff1fdd",
+  "allNativeNV12PlanesExact": true,
+  "sourceAndCopiedFileRGBAExact": true,
+  "actualFileColorSpace": {
+    "fullRange": false,
+    "matrix": "smpte170m",
+    "primaries": "smpte170m",
+    "transfer": "smpte170m"
+  },
+  "actualMSEColorSpace": {
+    "fullRange": false,
+    "matrix": "bt709",
+    "primaries": "bt709",
+    "transfer": "bt709"
+  },
+  "comparison": {
+    "differentChannels": 107264,
+    "maxChannelDelta": 40,
+    "meanAbsoluteChannelDelta": 8.449375,
+    "psnr": 24.745606248751688,
+    "exact": false
+  },
+  "observedCause": "Same packet and pixel planes; file route smpte170m versus identical remux MSE bt709. Chrome154 interpreted color defaults differ, source metadata remains unspecified.",
+  "sourceIntendedColorSpace": "UNKNOWN",
+  "strictOriginalRGBAFailure": "RETAINED",
+  "productChanged": false,
+  "accountOrMediaMutated": false,
+  "limits": [
+    "No automatic new source colr/matrix declaration",
+    "Current Chromium main revision is not installed-browser identity",
+    "One generated SDR fixture; no actual HDR/FM06 or universal-browser inference"
+  ],
+  "retainedToolFailures": [
+    "MCP output path denied before run; verified runStartedfalse/video0",
+    "Initial strict full run MSE exclusive-end target timeout; file cases preserved and reused",
+    "First MSE-only target equaled actual1.007999 exclusive end; no frame before15s; cleanuptrue; corrected to independently pinned last packet .966333"
+  ],
+  "producerBindings": [
+    {
+      "file": "browser.function.js",
+      "sha256": "2c1c44a0a212e8bb9ce6ce0a9ed6a8794783a5bfb9ede482bbd73d559eeb3122"
+    },
+    {
+      "file": "mse-only-v1.function.js",
+      "sha256": "55351756221fc8439ead1aaf4dff9c5cd042c7e27547ece683cd0b637b3f155a"
+    },
+    {
+      "file": "mse-only.function.js",
+      "sha256": "e91c7fce9a5fa08eea110374b4c794e9de71981e34d2741739216b8feaa6ed01"
+    }
+  ],
+  "externalCleanup": {
+    "ownedMcpPage4Closed": true,
+    "originalPage3Preserved": true,
+    "qaServers24580_17588_26080StoppedAfterExactOwnerChecks": true
+  },
+  "primarySource": {
+    "chromiumMainRevision": "879151764c5e5aefd7a4af8c5eb43d57bd490727",
+    "fileDemuxFallback": "https://github.com/chromium/chromium/blob/879151764c5e5aefd7a4af8c5eb43d57bd490727/media/ffmpeg/ffmpeg_common.cc#L717",
+    "mseMP4Fallback": "https://github.com/chromium/chromium/blob/879151764c5e5aefd7a4af8c5eb43d57bd490727/media/formats/mp4/mp4_stream_parser.cc#L822",
+    "observationContract": "https://www.w3.org/TR/webcodecs/#dom-videoframe-videoframe",
+    "actualVersusSource": "Actual Chrome154 color-space difference corroborates current-source policy; no installed revision equivalence claim"
+  }
+}

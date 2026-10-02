@@ -293,3 +293,6 @@
 # Preserve the final blank line in these already-executed geometry producers.
 /qa/rc35-cold-q0/android-native-geometry-attempt1-producer.cjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 /qa/rc35-cold-q0/android-native-geometry-run.cjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+# Preserve observed-color producers, retained failures and device receipts exactly.
+/qa/color-path-discriminator/** -text whitespace=cr-at-eol,-blank-at-eol
+/tests/native-color.test.mjs -text whitespace=cr-at-eol

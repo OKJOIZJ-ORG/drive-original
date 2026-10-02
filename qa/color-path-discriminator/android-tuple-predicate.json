@@ -1,0 +1,13 @@
+{
+  "schema": "android-controlled-tuple-predicate/1",
+  "scope": "tuple-propagation-and-seek",
+  "fixtureBytes": 659966,
+  "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+  "required": ["source videoConfig four color fields absent", "outputVideoConfig tuple equals actual observation", "outputColorObservation tuple equals actual observation", "presented output frame reported tuple equals actual observation", "visible 320x180", "selected AAC2", "zero encoders", "current source and serial generation1/2", "mapped RVFC distance <=15ms", "previous reader and worker retired before next presented generation", "all final owners/resources settled"],
+  "sequence": ["initial2 fresh-owner setup", "successor-last at5.999999/packet5.958333333333333"],
+  "diagnosticsExcludedFromPass": ["strict canvas RGBA equality", "cross-format native visible YUV equality"],
+  "limitations": ["No pixel fidelity or interpretation equivalence claim", "No app UI or physical finger proof", "Prior strict failed receipt unchanged"],
+  "bounds": {"frameMs":15000,"overallMs":90000,"requests":512,"transportBytes":16777216},
+  "noRetry": true
+}

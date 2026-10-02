@@ -1,0 +1,106 @@
+{
+  "schema": "same-remux-MSE-color-only/1",
+  "priorFileCasesReused": true,
+  "expectedPacketPTS": 0.9663333333333334,
+  "capturePolicy": "Capture actual last seek RVFC; compare native pixel-plane hash with previously pinned exact last decoded packet. Do not presume file and MSE presentation clock coincide.",
+  "beforeSeek": {
+    "duration": 1.007999,
+    "readyState": 4,
+    "buffered": [
+      [
+        0,
+        1.007999
+      ]
+    ]
+  },
+  "seekAdmission": {
+    "target": 0.9663333333333334,
+    "packetPTSProvenance": "previous independent exact copied last packet",
+    "strictlyInsideBuffered": true
+  },
+  "seekState": {
+    "trusted": true
+  },
+  "frame": {
+    "mediaTime": 0.966333,
+    "presentedFrames": 2,
+    "width": 320,
+    "height": 180
+  },
+  "elementTime": 0.966333,
+  "format": "NV12",
+  "timestamp": 966333,
+  "visibleRect": {
+    "x": 0,
+    "y": 0,
+    "width": 320,
+    "height": 180,
+    "top": 0,
+    "right": 320,
+    "bottom": 180,
+    "left": 0
+  },
+  "colorSpace": {
+    "fullRange": false,
+    "matrix": "bt709",
+    "primaries": "bt709",
+    "transfer": "bt709"
+  },
+  "nativePlanes": {
+    "bytes": 86400,
+    "layout": [
+      {
+        "offset": 0,
+        "stride": 320
+      },
+      {
+        "offset": 57600,
+        "stride": 320
+      }
+    ],
+    "formatConversionRequested": false,
+    "sha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012"
+  },
+  "canvas": {
+    "width": 320,
+    "height": 180,
+    "attributes": {
+      "alpha": true,
+      "colorSpace": "srgb",
+      "colorType": "unorm8",
+      "desynchronized": false,
+      "toneMapping": {
+        "mode": "standard"
+      },
+      "willReadFrequently": true
+    },
+    "sha256": "e8c0d11f6ddd51834baec33168d3e0a6d523904446f6608538a490d48a9bf5f8"
+  },
+  "observed": true,
+  "cleanup": {
+    "callbackRemoved": true,
+    "timerRemoved": true,
+    "videoFrameClosed": true,
+    "sourceRemoved": true,
+    "objectUrlRevoked": true
+  },
+  "binding": {
+    "/source.mp4": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "/remux.mp4": {
+      "bytes": 109951,
+      "sha256": "201fde313145d2907a060eddc3c09418e662d01b62e50635b01d77f5feff1fdd"
+    },
+    "/runner.js": {
+      "bytes": 4465,
+      "sha256": "e91c7fce9a5fa08eea110374b4c794e9de71981e34d2741739216b8feaa6ed01"
+    }
+  },
+  "server": {
+    "requests": 5,
+    "servedBytes": 114416,
+    "failedBound": false
+  }
+}

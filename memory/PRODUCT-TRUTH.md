@@ -252,3 +252,7 @@ Verifiedsource/current21 integration: visible safe reload guidance replaces sile
 ## Fixed candidate21 and actual normal startup — 2026-09-30
 
 Confirmed3ebd97d/Workerb1021a42/624stableNode/52public/40cache/source26/six/ZIP delivery. Actual sameexistingaccount normalUIreload cache hashes matchGit; knownfolder458/currentTSnativeframe/ready4/loadingfalse/trustedpause/settledclose pass. Six full controller-replacement/reload/reopen chains remainfailed andcauseunknown; no wholeSW01/REL02/uninterruptedexpiry/device/corpus/security/observability/production acceptance. CANDIDATE-RC21-20260930.md owns scope.
+
+## 2026-10-02 — local observed SDR output config, separate from published35
+
+Implemented/verified scoped local generated-fixture behavior: same-lifetime native YUV SDR observation qualifies only an entirely undeclared source's derived Q1 output config, preserving original packets/config and declared metadata. Managed-PC and physical Android serial-seek tuple propagation/target/cleanup proof is owned by COLOR-INTERPRETATION-20261002.md. Strict RGBA FAILED; Android visible-YUV/pixel fidelity UNKNOWN/NOT_QUALIFIED, HDR/high-bit and whole-goal/production remain unqualified. No deployed behavior claim.

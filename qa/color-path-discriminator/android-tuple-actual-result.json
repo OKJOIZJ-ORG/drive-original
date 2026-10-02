@@ -1,0 +1,1671 @@
+{
+  "schema": "actual-android-tuple-propagation/1",
+  "scope": "Physical Android Chrome; generated local fixture and working-tree module buffers. Programmatic tuple propagation/serial seek only, not pixel fidelity, native finger or app UI, no candidate/account state reads or writes.",
+  "startedAt": "2026-10-02T11:44:09.622Z",
+  "fixture": {
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+  },
+  "producerSha256": "10a7d2e50de9f47b80aa2298051dac98545ad86c1bbc36fb3812e011d390512f",
+  "predeclaredPredicate": {
+    "schema": "android-controlled-tuple-predicate/1",
+    "scope": "tuple-propagation-and-seek",
+    "fixtureBytes": 659966,
+    "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+    "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+    "required": [
+      "source videoConfig four color fields absent",
+      "outputVideoConfig tuple equals actual observation",
+      "outputColorObservation tuple equals actual observation",
+      "presented output frame reported tuple equals actual observation",
+      "visible 320x180",
+      "selected AAC2",
+      "zero encoders",
+      "current source and serial generation1/2",
+      "mapped RVFC distance <=15ms",
+      "previous reader and worker retired before next presented generation",
+      "all final owners/resources settled"
+    ],
+    "sequence": [
+      "initial2 fresh-owner setup",
+      "successor-last at5.999999/packet5.958333333333333"
+    ],
+    "diagnosticsExcludedFromPass": [
+      "strict canvas RGBA equality",
+      "cross-format native visible YUV equality"
+    ],
+    "limitations": [
+      "No pixel fidelity or interpretation equivalence claim",
+      "No app UI or physical finger proof",
+      "Prior strict failed receipt unchanged"
+    ],
+    "bounds": {
+      "frameMs": 15000,
+      "overallMs": 90000,
+      "requests": 512,
+      "transportBytes": 16777216
+    },
+    "noRetry": true
+  },
+  "binding": {
+    "predicate": {
+      "schema": "android-controlled-tuple-predicate/1",
+      "scope": "tuple-propagation-and-seek",
+      "fixtureBytes": 659966,
+      "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+      "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+      "required": [
+        "source videoConfig four color fields absent",
+        "outputVideoConfig tuple equals actual observation",
+        "outputColorObservation tuple equals actual observation",
+        "presented output frame reported tuple equals actual observation",
+        "visible 320x180",
+        "selected AAC2",
+        "zero encoders",
+        "current source and serial generation1/2",
+        "mapped RVFC distance <=15ms",
+        "previous reader and worker retired before next presented generation",
+        "all final owners/resources settled"
+      ],
+      "sequence": [
+        "initial2 fresh-owner setup",
+        "successor-last at5.999999/packet5.958333333333333"
+      ],
+      "diagnosticsExcludedFromPass": [
+        "strict canvas RGBA equality",
+        "cross-format native visible YUV equality"
+      ],
+      "limitations": [
+        "No pixel fidelity or interpretation equivalence claim",
+        "No app UI or physical finger proof",
+        "Prior strict failed receipt unchanged"
+      ],
+      "bounds": {
+        "frameMs": 15000,
+        "overallMs": 90000,
+        "requests": 512,
+        "transportBytes": 16777216
+      },
+      "noRetry": true
+    },
+    "source": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "selectedAudioTrackId": 2,
+    "sourceDeclaration": "ABSENT",
+    "servedWorkingTree": true,
+    "producers": [
+      {
+        "path": "/media/drive-source.mjs",
+        "bytes": 18497,
+        "sha256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a"
+      },
+      {
+        "path": "/media/ts-player.mjs",
+        "bytes": 17574,
+        "sha256": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705"
+      },
+      {
+        "path": "/media/q1-core.mjs",
+        "bytes": 51834,
+        "sha256": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a"
+      },
+      {
+        "path": "/media/transmux-worker.mjs",
+        "bytes": 42568,
+        "sha256": "3962b20bf6f36e831bc0a3296cbdd65a9225b20b70250f3060cb62ddc4aaf444"
+      },
+      {
+        "path": "/media/general-admission.mjs",
+        "bytes": 6335,
+        "sha256": "635cfc5fd95e37c7892bf6ee2972a672914b404061719685811d4dd3dd32ddc8"
+      },
+      {
+        "path": "/media/general-codec.mjs",
+        "bytes": 1666,
+        "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+      },
+      {
+        "path": "/media/general-owner.mjs",
+        "bytes": 6992,
+        "sha256": "c0ce9caf535c273323bb6b431db8aee20b76cd3d7b27dbef850c4be770c03b8c"
+      },
+      {
+        "path": "/media/native-color.mjs",
+        "bytes": 5595,
+        "sha256": "d1aef25067a3dd853accdf1b9999a73f531d814a181ff727c67fa91509b2e87f"
+      },
+      {
+        "path": "/media/general-tracks.mjs",
+        "bytes": 5621,
+        "sha256": "d6d076412001dcd9dc91b64b08cd1b45f747aa0dc48e767e7238d61f6bfbba03"
+      },
+      {
+        "path": "/media/subtitle-track.mjs",
+        "bytes": 15498,
+        "sha256": "f60a4f9b40b1a9669cd783ee158dee5eb729ebf0db17838963a4eef595d1e80a"
+      },
+      {
+        "path": "/media/subtitle-presentation.mjs",
+        "bytes": 2708,
+        "sha256": "eff2881ddd216f0584bd83e05403544caad0a7bbec7d37ee3545e1ce06a4bb39"
+      },
+      {
+        "path": "/media/general-pipeline.mjs",
+        "bytes": 11088,
+        "sha256": "b894bbcecb40104b30fafac2d367ba40fd73ba8ea15cf856d10bf6cb3b9d4c5d"
+      },
+      {
+        "path": "/media/general-player.mjs",
+        "bytes": 22015,
+        "sha256": "05a245a4ba49afc55848eaf4df978931098d7da3c45215634f1d92681189dd3f"
+      },
+      {
+        "path": "/media/general-source.mjs",
+        "bytes": 4046,
+        "sha256": "41939eb14c45de1b9e8fc6309b09229067a910e8fb296b4c31b37709d582a06c"
+      },
+      {
+        "path": "/media/general-timeline.mjs",
+        "bytes": 6090,
+        "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+      },
+      {
+        "path": "/media/general-worker.mjs",
+        "bytes": 3588,
+        "sha256": "1d0a1f80ecadc0e9050977bb909ef95e64b3de519fcb1314f40cdc9c180cf418"
+      },
+      {
+        "path": "/media/mediabunny-q1.mjs",
+        "bytes": 686739,
+        "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+      },
+      {
+        "path": "/media/audio-runtime.mjs",
+        "bytes": 11482,
+        "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+      },
+      {
+        "path": "/media/audio-adapter.mjs",
+        "bytes": 2790,
+        "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+      },
+      {
+        "path": "/media/audio-worker-client.mjs",
+        "bytes": 6213,
+        "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+      },
+      {
+        "path": "/media/audio-worker.mjs",
+        "bytes": 3268,
+        "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+      },
+      {
+        "path": "/media/audio-codec.mjs",
+        "bytes": 15193,
+        "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+      },
+      {
+        "path": "/media/audio-general-pipeline.mjs",
+        "bytes": 18445,
+        "sha256": "eb32ba0cc5faaafc9e25d1a5d00669c916d50be36ab598e0114fd0803e389f4d"
+      },
+      {
+        "path": "/media/audio-general-worker.mjs",
+        "bytes": 3754,
+        "sha256": "c11226a335741ec94508f7e6c5d3c880db25fe1ade1ff84e66391b6dc3c7aa27"
+      },
+      {
+        "path": "/media/video-q3-input.mjs",
+        "bytes": 9977,
+        "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99"
+      },
+      {
+        "path": "/media/video-q3-pipeline.mjs",
+        "bytes": 10378,
+        "sha256": "48d79c781be5f1ce930e687048e1812369d726000b4b398793484b350dc2be53"
+      },
+      {
+        "path": "/media/video-q3-worker.mjs",
+        "bytes": 3389,
+        "sha256": "0f5ccb4dd33749079f942c2fa9b736477356c2a1e5a1b332aabfac217d467aad"
+      },
+      {
+        "path": "/media/video-q3-codec.mjs",
+        "bytes": 13112,
+        "sha256": "32561bdedaf8e1d83d18dde4eed56f3be078bff3c80bc0873134d14d53a34bc5"
+      },
+      {
+        "path": "/runner.js",
+        "bytes": 11960,
+        "sha256": "637d9fb685ae583501c55c61801a91cbee8f98c87df1aec7029b961e452a900a"
+      }
+    ]
+  },
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "toolSchemas": [
+    {
+      "name": "close_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "The ID of the page to close. Call list_pages to list pages."
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "new_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to load in a new page."
+          },
+          "background": {
+            "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
+            "type": "boolean"
+          },
+          "isolatedContext": {
+            "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated (useful for clean-slate testing of cookies and authentication).",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "capability": {
+    "chrome": "Chrome/153.0.0.0",
+    "videoFrame": true,
+    "rvfc": true,
+    "mediaSource": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "visibility": "visible",
+    "serviceWorkerControlled": false
+  },
+  "summary": {
+    "observedPass": true,
+    "strictRgbaPass": false,
+    "strictRgbaFailure": "COLOR_RGBA_PARITY_FAILED",
+    "failure": null,
+    "runs": [
+      {
+        "label": "initial2-fresh-owner-setup",
+        "elapsedMs": 439,
+        "generation": 1,
+        "comparison": null
+      },
+      {
+        "label": "successor-last-frame",
+        "elapsedMs": 385,
+        "generation": 2,
+        "comparison": {
+          "rgbaExact": false,
+          "nativeLayoutExact": false,
+          "nativePlanesExact": false,
+          "colorSpaceExact": true
+        }
+      }
+    ],
+    "cleanup": {
+      "player": {
+        "settled": true,
+        "source": {
+          "settled": true
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "callbacksEmpty": true,
+      "timersEmpty": true,
+      "listenersEmpty": true,
+      "sourcesRemoved": true,
+      "allWorkersTerminated": true,
+      "allReadersClosed": true
+    }
+  },
+  "observation": {
+    "schema": "android-tuple-propagation-and-seek/1",
+    "scope": "Actual Android generated fixture; native observed color tuple propagation and serial seek only. No pixel fidelity equivalence. Initial2 is fresh-owner setup then successor last-frame, generations1/2.",
+    "chrome": "Chrome/153.0.0.0",
+    "viewport": {
+      "width": 824,
+      "height": 1191,
+      "dpr": 2.125
+    },
+    "startedAt": 1790941452470,
+    "runs": [
+      {
+        "label": "initial2-fresh-owner-setup",
+        "target": 2,
+        "packetPTS": 2,
+        "elapsedMs": 439,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 2,
+          "targetElement": 2,
+          "timestampOffset": 1.984,
+          "audioEnd": null
+        },
+        "stats": {
+          "generation": 1,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 2,
+            "targetElement": 2,
+            "timestampOffset": 1.984,
+            "audioEnd": null
+          },
+          "appends": 6,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 3.9946659999999996,
+          "peakRetainedAppendBytes": 449293,
+          "disposed": true,
+          "status": null,
+          "capability": null,
+          "outputColorObservation": {
+            "basis": "observed-native-frame",
+            "format": "I420",
+            "codedWidth": 320,
+            "codedHeight": 194,
+            "visibleRect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 180
+            },
+            "colorSpace": {
+              "primaries": "smpte170m",
+              "transfer": "smpte170m",
+              "matrix": "smpte170m",
+              "fullRange": false
+            }
+          },
+          "worker": {
+            "reads": 9,
+            "bytes": 528894,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 6,
+            "acks": 6,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 9,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 1,
+            "duration": 6,
+            "sourcePacketOrigin": -0.021333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 2,
+            "windowOrigin": 1.984,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 1024,
+                  "firstPacketTimestamp": -0.021333333333333333
+                }
+              ]
+            },
+            "videoConfig": {
+              "codec": "avc1.42c00c",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "description": {
+                "0": 1,
+                "1": 66,
+                "2": 192,
+                "3": 12,
+                "4": 255,
+                "5": 225,
+                "6": 0,
+                "7": 23,
+                "8": 103,
+                "9": 66,
+                "10": 192,
+                "11": 12,
+                "12": 218,
+                "13": 5,
+                "14": 6,
+                "15": 126,
+                "16": 124,
+                "17": 4,
+                "18": 64,
+                "19": 0,
+                "20": 0,
+                "21": 3,
+                "22": 0,
+                "23": 64,
+                "24": 0,
+                "25": 0,
+                "26": 12,
+                "27": 3,
+                "28": 197,
+                "29": 10,
+                "30": 168,
+                "31": 1,
+                "32": 0,
+                "33": 4,
+                "34": 104,
+                "35": 206,
+                "36": 6,
+                "37": 242
+              },
+              "colorSpace": {}
+            },
+            "outputVideoConfig": {
+              "codec": "avc1.42c00c",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "description": {
+                "0": 1,
+                "1": 66,
+                "2": 192,
+                "3": 12,
+                "4": 255,
+                "5": 225,
+                "6": 0,
+                "7": 23,
+                "8": 103,
+                "9": 66,
+                "10": 192,
+                "11": 12,
+                "12": 218,
+                "13": 5,
+                "14": 6,
+                "15": 126,
+                "16": 124,
+                "17": 4,
+                "18": 64,
+                "19": 0,
+                "20": 0,
+                "21": 3,
+                "22": 0,
+                "23": 64,
+                "24": 0,
+                "25": 0,
+                "26": 12,
+                "27": 3,
+                "28": 197,
+                "29": 10,
+                "30": 168,
+                "31": 1,
+                "32": 0,
+                "33": 4,
+                "34": 104,
+                "35": 206,
+                "36": 6,
+                "37": 242
+              },
+              "colorSpace": {
+                "primaries": "smpte170m",
+                "transfer": "smpte170m",
+                "matrix": "smpte170m",
+                "fullRange": false
+              }
+            },
+            "outputColorObservation": {
+              "basis": "observed-native-frame",
+              "format": "I420",
+              "codedWidth": 320,
+              "codedHeight": 194,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180
+              },
+              "colorSpace": {
+                "primaries": "smpte170m",
+                "transfer": "smpte170m",
+                "matrix": "smpte170m",
+                "fullRange": false
+              }
+            },
+            "selectedAudioTrackId": 2,
+            "lastVideoFrame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "videoCodec": "avc",
+            "audioCodec": "aac",
+            "packets": 285,
+            "outputBytes": 449293,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 131090,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                283,
+                2
+              ],
+              "boxes": 64,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "mp4a",
+                  "handler": "soun",
+                  "samples": 283,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "tx3g",
+                  "handler": "sbtl",
+                  "samples": 2,
+                  "reordered": false
+                }
+              ]
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 127603,
+              "peakSamples": 73
+            },
+            "encodersCreated": 0,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true
+            },
+            "reads": {
+              "requests": 9,
+              "bytes": 528894,
+              "logicalReads": 198,
+              "cacheHits": 203,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 131072,
+              "discoveryRequests": 2
+            }
+          },
+          "failureDiagnostic": null,
+          "cleanup": {
+            "settled": true,
+            "source": {
+              "settled": true
+            },
+            "worker": {
+              "settled": true,
+              "originalSourceSettled": true,
+              "consumersSettled": true,
+              "activeReads": 0,
+              "pendingChunks": 0,
+              "pendingWindows": 0,
+              "workerTerminated": true
+            }
+          }
+        },
+        "image": {
+          "frame": {
+            "mediaTime": 2,
+            "presentedFrames": 1
+          },
+          "elementTime": 2,
+          "format": "RGBA",
+          "codedWidth": 320,
+          "codedHeight": 192,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180,
+            "top": 0,
+            "right": 320,
+            "bottom": 180,
+            "left": 0
+          },
+          "colorSpace": {
+            "fullRange": false,
+            "matrix": "smpte170m",
+            "primaries": "smpte170m",
+            "transfer": "smpte170m"
+          },
+          "nativePlanes": {
+            "sha256": "58c6a03cf96f99c590d5880a1f66809d756262c979695007a821472c936ccd44",
+            "bytes": 230400,
+            "layout": [
+              {
+                "offset": 0,
+                "stride": 1280
+              }
+            ],
+            "formatConversionRequested": false
+          },
+          "canvas": {
+            "sha256": "c791ba632f05cac2f91d4fdb84a54206de65fe528f3b94f006f939bec9e81ba2",
+            "width": 320,
+            "height": 180,
+            "attributes": {
+              "alpha": true,
+              "colorSpace": "srgb",
+              "colorType": "unorm8",
+              "desynchronized": false,
+              "toneMapping": {
+                "mode": "standard"
+              },
+              "willReadFrequently": true
+            }
+          }
+        },
+        "comparison": null,
+        "generationQualified": true,
+        "sourceDeclarationAbsent": true,
+        "observedOutputQualified": true,
+        "outputConfigTupleExact": true,
+        "outputObservationTupleExact": true,
+        "presentedTupleExact": true,
+        "visibleGeometryExact": true,
+        "mappedTargetDistanceMs": 0,
+        "previousOwnersRetired": true,
+        "unlikeFormatVisibleYUV": "UNKNOWN",
+        "tuplePropagationPass": true
+      },
+      {
+        "label": "successor-last-frame",
+        "target": 5.999999,
+        "packetPTS": 5.958333333333333,
+        "elapsedMs": 385,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "timestampOffset": 4.992,
+          "audioEnd": null,
+          "endpoint": {
+            "requestedSource": 5.999999,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "frame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "bufferedRange": [
+              4.992,
+              5.999999
+            ],
+            "reason": "terminal-original-frame"
+          }
+        },
+        "stats": {
+          "generation": 2,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6,
+            "commonShift": 0,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "timestampOffset": 4.992,
+            "audioEnd": null,
+            "endpoint": {
+              "requestedSource": 5.999999,
+              "targetSource": 5.958333333333333,
+              "targetElement": 5.958333333333333,
+              "frame": {
+                "timestamp": 5.958333333333333,
+                "duration": 0.041666666666666664,
+                "endTimestamp": 6
+              },
+              "bufferedRange": [
+                4.992,
+                5.999999
+              ],
+              "reason": "terminal-original-frame"
+            }
+          },
+          "appends": 3,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 0,
+          "peakRetainedAppendBytes": 109970,
+          "disposed": true,
+          "status": null,
+          "capability": null,
+          "outputColorObservation": {
+            "basis": "observed-native-frame",
+            "format": "I420",
+            "codedWidth": 320,
+            "codedHeight": 194,
+            "visibleRect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 180
+            },
+            "colorSpace": {
+              "primaries": "smpte170m",
+              "transfer": "smpte170m",
+              "matrix": "smpte170m",
+              "fullRange": false
+            }
+          },
+          "worker": {
+            "reads": 4,
+            "bytes": 201214,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 3,
+            "acks": 3,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 4,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 2,
+            "duration": 6,
+            "sourcePacketOrigin": -0.021333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 5.999999,
+            "windowOrigin": 4.992,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 2,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 1024,
+                  "firstPacketTimestamp": -0.021333333333333333
+                }
+              ]
+            },
+            "videoConfig": {
+              "codec": "avc1.42c00c",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "description": {
+                "0": 1,
+                "1": 66,
+                "2": 192,
+                "3": 12,
+                "4": 255,
+                "5": 225,
+                "6": 0,
+                "7": 23,
+                "8": 103,
+                "9": 66,
+                "10": 192,
+                "11": 12,
+                "12": 218,
+                "13": 5,
+                "14": 6,
+                "15": 126,
+                "16": 124,
+                "17": 4,
+                "18": 64,
+                "19": 0,
+                "20": 0,
+                "21": 3,
+                "22": 0,
+                "23": 64,
+                "24": 0,
+                "25": 0,
+                "26": 12,
+                "27": 3,
+                "28": 197,
+                "29": 10,
+                "30": 168,
+                "31": 1,
+                "32": 0,
+                "33": 4,
+                "34": 104,
+                "35": 206,
+                "36": 6,
+                "37": 242
+              },
+              "colorSpace": {}
+            },
+            "outputVideoConfig": {
+              "codec": "avc1.42c00c",
+              "codedWidth": 320,
+              "codedHeight": 180,
+              "description": {
+                "0": 1,
+                "1": 66,
+                "2": 192,
+                "3": 12,
+                "4": 255,
+                "5": 225,
+                "6": 0,
+                "7": 23,
+                "8": 103,
+                "9": 66,
+                "10": 192,
+                "11": 12,
+                "12": 218,
+                "13": 5,
+                "14": 6,
+                "15": 126,
+                "16": 124,
+                "17": 4,
+                "18": 64,
+                "19": 0,
+                "20": 0,
+                "21": 3,
+                "22": 0,
+                "23": 64,
+                "24": 0,
+                "25": 0,
+                "26": 12,
+                "27": 3,
+                "28": 197,
+                "29": 10,
+                "30": 168,
+                "31": 1,
+                "32": 0,
+                "33": 4,
+                "34": 104,
+                "35": 206,
+                "36": 6,
+                "37": 242
+              },
+              "colorSpace": {
+                "primaries": "smpte170m",
+                "transfer": "smpte170m",
+                "matrix": "smpte170m",
+                "fullRange": false
+              }
+            },
+            "outputColorObservation": {
+              "basis": "observed-native-frame",
+              "format": "I420",
+              "codedWidth": 320,
+              "codedHeight": 194,
+              "visibleRect": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 180
+              },
+              "colorSpace": {
+                "primaries": "smpte170m",
+                "transfer": "smpte170m",
+                "matrix": "smpte170m",
+                "fullRange": false
+              }
+            },
+            "selectedAudioTrackId": 2,
+            "lastVideoFrame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "videoCodec": "avc",
+            "audioCodec": "aac",
+            "packets": 72,
+            "outputBytes": 109970,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 72770,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                283,
+                2
+              ],
+              "boxes": 64,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "mp4a",
+                  "handler": "soun",
+                  "samples": 283,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "tx3g",
+                  "handler": "sbtl",
+                  "samples": 2,
+                  "reordered": false
+                }
+              ]
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 108247,
+              "peakSamples": 72
+            },
+            "encodersCreated": 0,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true
+            },
+            "reads": {
+              "requests": 4,
+              "bytes": 201214,
+              "logicalReads": 54,
+              "cacheHits": 59,
+              "peakCache": 201214,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 131072,
+              "discoveryRequests": 2
+            }
+          },
+          "failureDiagnostic": null,
+          "cleanup": {
+            "settled": true,
+            "source": {
+              "settled": true
+            },
+            "worker": {
+              "settled": true,
+              "originalSourceSettled": true,
+              "consumersSettled": true,
+              "activeReads": 0,
+              "pendingChunks": 0,
+              "pendingWindows": 0,
+              "workerTerminated": true
+            }
+          }
+        },
+        "image": {
+          "frame": {
+            "mediaTime": 5.958333,
+            "presentedFrames": 1
+          },
+          "elementTime": 5.958333,
+          "format": "RGBA",
+          "codedWidth": 320,
+          "codedHeight": 192,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180,
+            "top": 0,
+            "right": 320,
+            "bottom": 180,
+            "left": 0
+          },
+          "colorSpace": {
+            "fullRange": false,
+            "matrix": "smpte170m",
+            "primaries": "smpte170m",
+            "transfer": "smpte170m"
+          },
+          "nativePlanes": {
+            "sha256": "3e948af07f0a5d9c91f72170d47546743e26143967976ee55b6968c8c7d19f46",
+            "bytes": 230400,
+            "layout": [
+              {
+                "offset": 0,
+                "stride": 1280
+              }
+            ],
+            "formatConversionRequested": false
+          },
+          "canvas": {
+            "sha256": "202015199fb07a24dc68b7e2b463ce8d3db0701f7a9251715bad6425c9652b42",
+            "width": 320,
+            "height": 180,
+            "attributes": {
+              "alpha": true,
+              "colorSpace": "srgb",
+              "colorType": "unorm8",
+              "desynchronized": false,
+              "toneMapping": {
+                "mode": "standard"
+              },
+              "willReadFrequently": true
+            }
+          }
+        },
+        "comparison": {
+          "rgbaExact": false,
+          "nativeLayoutExact": false,
+          "nativePlanesExact": false,
+          "colorSpaceExact": true
+        },
+        "generationQualified": true,
+        "sourceDeclarationAbsent": true,
+        "observedOutputQualified": true,
+        "outputConfigTupleExact": true,
+        "outputObservationTupleExact": true,
+        "presentedTupleExact": true,
+        "visibleGeometryExact": true,
+        "mappedTargetDistanceMs": 0.000333333333379926,
+        "previousOwnersRetired": true,
+        "unlikeFormatVisibleYUV": "UNKNOWN",
+        "tuplePropagationPass": true
+      }
+    ],
+    "sources": [
+      {
+        "reads": 9,
+        "bytes": 528894,
+        "activeReads": 0,
+        "aborts": 1,
+        "active": false
+      },
+      {
+        "reads": 4,
+        "bytes": 201214,
+        "activeReads": 0,
+        "aborts": 1,
+        "active": false
+      }
+    ],
+    "workers": [
+      {
+        "created": true,
+        "terminated": true,
+        "outputColorObservation": {
+          "basis": "observed-native-frame",
+          "format": "I420",
+          "codedWidth": 320,
+          "codedHeight": 194,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180
+          },
+          "colorSpace": {
+            "primaries": "smpte170m",
+            "transfer": "smpte170m",
+            "matrix": "smpte170m",
+            "fullRange": false
+          }
+        },
+        "terminal": {
+          "generation": 1,
+          "outputColorObservation": {
+            "basis": "observed-native-frame",
+            "format": "I420",
+            "codedWidth": 320,
+            "codedHeight": 194,
+            "visibleRect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 180
+            },
+            "colorSpace": {
+              "primaries": "smpte170m",
+              "transfer": "smpte170m",
+              "matrix": "smpte170m",
+              "fullRange": false
+            }
+          },
+          "encodersCreated": 0,
+          "cleanup": {
+            "settled": true
+          }
+        }
+      },
+      {
+        "created": true,
+        "terminated": true,
+        "outputColorObservation": {
+          "basis": "observed-native-frame",
+          "format": "I420",
+          "codedWidth": 320,
+          "codedHeight": 194,
+          "visibleRect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 180
+          },
+          "colorSpace": {
+            "primaries": "smpte170m",
+            "transfer": "smpte170m",
+            "matrix": "smpte170m",
+            "fullRange": false
+          }
+        },
+        "terminal": {
+          "generation": 2,
+          "outputColorObservation": {
+            "basis": "observed-native-frame",
+            "format": "I420",
+            "codedWidth": 320,
+            "codedHeight": 194,
+            "visibleRect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 180
+            },
+            "colorSpace": {
+              "primaries": "smpte170m",
+              "transfer": "smpte170m",
+              "matrix": "smpte170m",
+              "fullRange": false
+            }
+          },
+          "encodersCreated": 0,
+          "cleanup": {
+            "settled": true
+          }
+        }
+      }
+    ],
+    "cleanup": {
+      "player": {
+        "settled": true,
+        "source": {
+          "settled": true
+        },
+        "worker": {
+          "settled": true,
+          "originalSourceSettled": true,
+          "consumersSettled": true,
+          "activeReads": 0,
+          "pendingChunks": 0,
+          "pendingWindows": 0,
+          "workerTerminated": true
+        }
+      },
+      "callbacksEmpty": true,
+      "timersEmpty": true,
+      "listenersEmpty": true,
+      "sourcesRemoved": true,
+      "allWorkersTerminated": true,
+      "allReadersClosed": true
+    },
+    "binding": {
+      "predicate": {
+        "schema": "android-controlled-tuple-predicate/1",
+        "scope": "tuple-propagation-and-seek",
+        "fixtureBytes": 659966,
+        "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+        "required": [
+          "source videoConfig four color fields absent",
+          "outputVideoConfig tuple equals actual observation",
+          "outputColorObservation tuple equals actual observation",
+          "presented output frame reported tuple equals actual observation",
+          "visible 320x180",
+          "selected AAC2",
+          "zero encoders",
+          "current source and serial generation1/2",
+          "mapped RVFC distance <=15ms",
+          "previous reader and worker retired before next presented generation",
+          "all final owners/resources settled"
+        ],
+        "sequence": [
+          "initial2 fresh-owner setup",
+          "successor-last at5.999999/packet5.958333333333333"
+        ],
+        "diagnosticsExcludedFromPass": [
+          "strict canvas RGBA equality",
+          "cross-format native visible YUV equality"
+        ],
+        "limitations": [
+          "No pixel fidelity or interpretation equivalence claim",
+          "No app UI or physical finger proof",
+          "Prior strict failed receipt unchanged"
+        ],
+        "bounds": {
+          "frameMs": 15000,
+          "overallMs": 90000,
+          "requests": 512,
+          "transportBytes": 16777216
+        },
+        "noRetry": true
+      },
+      "source": {
+        "bytes": 659966,
+        "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+      },
+      "selectedAudioTrackId": 2,
+      "sourceDeclaration": "ABSENT",
+      "servedWorkingTree": true,
+      "producers": [
+        {
+          "path": "/media/drive-source.mjs",
+          "bytes": 18497,
+          "sha256": "cc625c3fd930a224e6eed7bd48fbd6d4b827f4c02ceed1f2409c9c6c85bf6c5a"
+        },
+        {
+          "path": "/media/ts-player.mjs",
+          "bytes": 17574,
+          "sha256": "1a3e037464fa8bdcef3a7831d78d20d256f14fcb404d80a3b5250f1907ac6705"
+        },
+        {
+          "path": "/media/q1-core.mjs",
+          "bytes": 51834,
+          "sha256": "2cbd017339c2261eca161f013588b3e0106ba33888b1c78bff8ceb806ade126a"
+        },
+        {
+          "path": "/media/transmux-worker.mjs",
+          "bytes": 42568,
+          "sha256": "3962b20bf6f36e831bc0a3296cbdd65a9225b20b70250f3060cb62ddc4aaf444"
+        },
+        {
+          "path": "/media/general-admission.mjs",
+          "bytes": 6335,
+          "sha256": "635cfc5fd95e37c7892bf6ee2972a672914b404061719685811d4dd3dd32ddc8"
+        },
+        {
+          "path": "/media/general-codec.mjs",
+          "bytes": 1666,
+          "sha256": "dd87804c4a4a17ae4806003b240790ddb3a080cd23c39baf67e020e7eeb94f3f"
+        },
+        {
+          "path": "/media/general-owner.mjs",
+          "bytes": 6992,
+          "sha256": "c0ce9caf535c273323bb6b431db8aee20b76cd3d7b27dbef850c4be770c03b8c"
+        },
+        {
+          "path": "/media/native-color.mjs",
+          "bytes": 5595,
+          "sha256": "d1aef25067a3dd853accdf1b9999a73f531d814a181ff727c67fa91509b2e87f"
+        },
+        {
+          "path": "/media/general-tracks.mjs",
+          "bytes": 5621,
+          "sha256": "d6d076412001dcd9dc91b64b08cd1b45f747aa0dc48e767e7238d61f6bfbba03"
+        },
+        {
+          "path": "/media/subtitle-track.mjs",
+          "bytes": 15498,
+          "sha256": "f60a4f9b40b1a9669cd783ee158dee5eb729ebf0db17838963a4eef595d1e80a"
+        },
+        {
+          "path": "/media/subtitle-presentation.mjs",
+          "bytes": 2708,
+          "sha256": "eff2881ddd216f0584bd83e05403544caad0a7bbec7d37ee3545e1ce06a4bb39"
+        },
+        {
+          "path": "/media/general-pipeline.mjs",
+          "bytes": 11088,
+          "sha256": "b894bbcecb40104b30fafac2d367ba40fd73ba8ea15cf856d10bf6cb3b9d4c5d"
+        },
+        {
+          "path": "/media/general-player.mjs",
+          "bytes": 22015,
+          "sha256": "05a245a4ba49afc55848eaf4df978931098d7da3c45215634f1d92681189dd3f"
+        },
+        {
+          "path": "/media/general-source.mjs",
+          "bytes": 4046,
+          "sha256": "41939eb14c45de1b9e8fc6309b09229067a910e8fb296b4c31b37709d582a06c"
+        },
+        {
+          "path": "/media/general-timeline.mjs",
+          "bytes": 6090,
+          "sha256": "20f2947af3c05d832d0478d1cee2422012f0cf6629b1526a78e05fa5dd79ad79"
+        },
+        {
+          "path": "/media/general-worker.mjs",
+          "bytes": 3588,
+          "sha256": "1d0a1f80ecadc0e9050977bb909ef95e64b3de519fcb1314f40cdc9c180cf418"
+        },
+        {
+          "path": "/media/mediabunny-q1.mjs",
+          "bytes": 686739,
+          "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd"
+        },
+        {
+          "path": "/media/audio-runtime.mjs",
+          "bytes": 11482,
+          "sha256": "08775db14f62bfe161eed0ba1e825733f13c1f8d02fd1619469408278cc1c543"
+        },
+        {
+          "path": "/media/audio-adapter.mjs",
+          "bytes": 2790,
+          "sha256": "63cf5387292e68072f9fafb2a6f487129741dd8017dc732c9cbd4b003a3e60e8"
+        },
+        {
+          "path": "/media/audio-worker-client.mjs",
+          "bytes": 6213,
+          "sha256": "1e434015b155e3fbbe1797db464c1bdb6d2db555cb719c0a53c4051e5839b572"
+        },
+        {
+          "path": "/media/audio-worker.mjs",
+          "bytes": 3268,
+          "sha256": "b2ce2eade84095d0ddf0d523c920904d86bf52fef30a9e6ef31d599350081850"
+        },
+        {
+          "path": "/media/audio-codec.mjs",
+          "bytes": 15193,
+          "sha256": "1dde4d17f442adb281a8864dcfaaf8515d21cbdc53cd262122238eab9e7ac431"
+        },
+        {
+          "path": "/media/audio-general-pipeline.mjs",
+          "bytes": 18445,
+          "sha256": "eb32ba0cc5faaafc9e25d1a5d00669c916d50be36ab598e0114fd0803e389f4d"
+        },
+        {
+          "path": "/media/audio-general-worker.mjs",
+          "bytes": 3754,
+          "sha256": "c11226a335741ec94508f7e6c5d3c880db25fe1ade1ff84e66391b6dc3c7aa27"
+        },
+        {
+          "path": "/media/video-q3-input.mjs",
+          "bytes": 9977,
+          "sha256": "88384daf1cdae5d8120e9321a8a67a99c0dedc9d298ac2dd62dcd428f2965b99"
+        },
+        {
+          "path": "/media/video-q3-pipeline.mjs",
+          "bytes": 10378,
+          "sha256": "48d79c781be5f1ce930e687048e1812369d726000b4b398793484b350dc2be53"
+        },
+        {
+          "path": "/media/video-q3-worker.mjs",
+          "bytes": 3389,
+          "sha256": "0f5ccb4dd33749079f942c2fa9b736477356c2a1e5a1b332aabfac217d467aad"
+        },
+        {
+          "path": "/media/video-q3-codec.mjs",
+          "bytes": 13112,
+          "sha256": "32561bdedaf8e1d83d18dde4eed56f3be078bff3c80bc0873134d14d53a34bc5"
+        },
+        {
+          "path": "/runner.js",
+          "bytes": 11960,
+          "sha256": "637d9fb685ae583501c55c61801a91cbee8f98c87df1aec7029b961e452a900a"
+        }
+      ]
+    },
+    "predeclaredPredicate": {
+      "schema": "android-controlled-tuple-predicate/1",
+      "scope": "tuple-propagation-and-seek",
+      "fixtureBytes": 659966,
+      "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+      "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+      "required": [
+        "source videoConfig four color fields absent",
+        "outputVideoConfig tuple equals actual observation",
+        "outputColorObservation tuple equals actual observation",
+        "presented output frame reported tuple equals actual observation",
+        "visible 320x180",
+        "selected AAC2",
+        "zero encoders",
+        "current source and serial generation1/2",
+        "mapped RVFC distance <=15ms",
+        "previous reader and worker retired before next presented generation",
+        "all final owners/resources settled"
+      ],
+      "sequence": [
+        "initial2 fresh-owner setup",
+        "successor-last at5.999999/packet5.958333333333333"
+      ],
+      "diagnosticsExcludedFromPass": [
+        "strict canvas RGBA equality",
+        "cross-format native visible YUV equality"
+      ],
+      "limitations": [
+        "No pixel fidelity or interpretation equivalence claim",
+        "No app UI or physical finger proof",
+        "Prior strict failed receipt unchanged"
+      ],
+      "bounds": {
+        "frameMs": 15000,
+        "overallMs": 90000,
+        "requests": 512,
+        "transportBytes": 16777216
+      },
+      "noRetry": true
+    },
+    "native": {
+      "frame": {
+        "mediaTime": 5.958333,
+        "presentedFrames": 1
+      },
+      "elementTime": 5.999999,
+      "format": "I420",
+      "codedWidth": 320,
+      "codedHeight": 194,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180,
+        "top": 0,
+        "right": 320,
+        "bottom": 180,
+        "left": 0
+      },
+      "colorSpace": {
+        "fullRange": false,
+        "matrix": "smpte170m",
+        "primaries": "smpte170m",
+        "transfer": "smpte170m"
+      },
+      "nativePlanes": {
+        "sha256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c",
+        "bytes": 86400,
+        "layout": [
+          {
+            "offset": 0,
+            "stride": 320
+          },
+          {
+            "offset": 57600,
+            "stride": 160
+          },
+          {
+            "offset": 72000,
+            "stride": 160
+          }
+        ],
+        "formatConversionRequested": false
+      },
+      "canvas": {
+        "sha256": "ad76d03f4f2d30b12e0498511f29b056c76f785db808510644ce5778c84cdff7",
+        "width": 320,
+        "height": 180,
+        "attributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": true
+        }
+      }
+    },
+    "observation": {
+      "basis": "observed-native-frame",
+      "format": "I420",
+      "codedWidth": 320,
+      "codedHeight": 194,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180
+      },
+      "colorSpace": {
+        "primaries": "smpte170m",
+        "transfer": "smpte170m",
+        "matrix": "smpte170m",
+        "fullRange": false
+      },
+      "identityQualified": true,
+      "currentQualified": true
+    },
+    "strictRgbaFailure": "COLOR_RGBA_PARITY_FAILED",
+    "observedPass": true,
+    "tuplePropagationPass": true,
+    "strictRgbaPass": false,
+    "completedAt": 1790941453475
+  },
+  "completed": true,
+  "strictRgbaPass": false,
+  "failure": null,
+  "finalOwnedPage": {
+    "playerCleanup": null,
+    "hasMediaSource": false,
+    "ownedVideoCount": 2
+  },
+  "loadedProducerBindingStable": true,
+  "server": {
+    "requests": 42,
+    "servedBytes": 3056814,
+    "failedBound": false,
+    "unexpectedPath": 0,
+    "requestCap": 512,
+    "byteCap": 16777216
+  },
+  "cleanup": {
+    "mediaSourcesRemoved": true,
+    "playerRetired": true,
+    "browserCallbacksEmpty": true,
+    "workersReadersRetired": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true,
+  "completedAt": "2026-10-02T11:44:13.277Z"
+}

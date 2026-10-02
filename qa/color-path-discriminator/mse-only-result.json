@@ -1,0 +1,44 @@
+{
+  "schema": "same-remux-MSE-color-only/1",
+  "priorFileCasesReused": true,
+  "expectedPacketPTS": 0.9663333333333334,
+  "capturePolicy": "Capture actual last seek RVFC; compare native pixel-plane hash with previously pinned exact last decoded packet. Do not presume file and MSE presentation clock coincide.",
+  "beforeSeek": {
+    "duration": 1.007999,
+    "readyState": 4,
+    "buffered": [
+      [
+        0,
+        1.007999
+      ]
+    ]
+  },
+  "failure": "COLOR_MSE_FRAME_DEADLINE",
+  "errorName": "Error",
+  "cleanup": {
+    "callbackRemoved": true,
+    "timerRemoved": true,
+    "videoFrameClosed": true,
+    "sourceRemoved": true,
+    "objectUrlRevoked": true
+  },
+  "binding": {
+    "/source.mp4": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "/remux.mp4": {
+      "bytes": 109951,
+      "sha256": "201fde313145d2907a060eddc3c09418e662d01b62e50635b01d77f5feff1fdd"
+    },
+    "/runner.js": {
+      "bytes": 4080,
+      "sha256": "55351756221fc8439ead1aaf4dff9c5cd042c7e27547ece683cd0b637b3f155a"
+    }
+  },
+  "server": {
+    "requests": 5,
+    "servedBytes": 114031,
+    "failedBound": false
+  }
+}

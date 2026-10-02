@@ -1,0 +1,311 @@
+{
+  "schema": "native-resource-normalized-yuv-rendering/1",
+  "scope": "Only saved generated source and copied observed-color output, no pipeline/account/media mutation.",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "cases": [
+    {
+      "label": "file",
+      "frame": {
+        "mediaTime": 5.958333
+      },
+      "format": "NV12",
+      "codedWidth": 320,
+      "codedHeight": 180,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180,
+        "top": 0,
+        "right": 320,
+        "bottom": 180,
+        "left": 0
+      },
+      "displayWidth": 320,
+      "displayHeight": 180,
+      "colorSpace": {
+        "fullRange": false,
+        "matrix": "smpte170m",
+        "primaries": "smpte170m",
+        "transfer": "smpte170m"
+      },
+      "nativePlanes": {
+        "bytes": 86400,
+        "sha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+        "layout": [
+          {
+            "offset": 0,
+            "stride": 320
+          },
+          {
+            "offset": 57600,
+            "stride": 320
+          }
+        ],
+        "formatConversionRequested": false
+      },
+      "normalized": {
+        "format": "NV12",
+        "codedWidth": 320,
+        "codedHeight": 180,
+        "colorSpace": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        }
+      },
+      "views": [
+        {
+          "label": "file-video",
+          "sha256": "aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        },
+        {
+          "label": "file-frame",
+          "sha256": "aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        },
+        {
+          "label": "file-normalized",
+          "sha256": "ad76d03f4f2d30b12e0498511f29b056c76f785db808510644ce5778c84cdff7",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "mse",
+      "frame": {
+        "mediaTime": 0.966333
+      },
+      "format": "NV12",
+      "codedWidth": 320,
+      "codedHeight": 192,
+      "visibleRect": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 180,
+        "top": 0,
+        "right": 320,
+        "bottom": 180,
+        "left": 0
+      },
+      "displayWidth": 320,
+      "displayHeight": 180,
+      "colorSpace": {
+        "fullRange": false,
+        "matrix": "smpte170m",
+        "primaries": "smpte170m",
+        "transfer": "smpte170m"
+      },
+      "nativePlanes": {
+        "bytes": 86400,
+        "sha256": "048bca59016e0c87f7011be8042e81e9d688ad78150a53f0e8f4308f74d5f012",
+        "layout": [
+          {
+            "offset": 0,
+            "stride": 320
+          },
+          {
+            "offset": 57600,
+            "stride": 320
+          }
+        ],
+        "formatConversionRequested": false
+      },
+      "normalized": {
+        "format": "NV12",
+        "codedWidth": 320,
+        "codedHeight": 180,
+        "colorSpace": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        }
+      },
+      "views": [
+        {
+          "label": "mse-video",
+          "sha256": "5dcb2f9ea115f96733765d1aa17529480de84749f462416d52cbf20b0063aaf2",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        },
+        {
+          "label": "mse-frame",
+          "sha256": "5dcb2f9ea115f96733765d1aa17529480de84749f462416d52cbf20b0063aaf2",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        },
+        {
+          "label": "mse-normalized",
+          "sha256": "ad76d03f4f2d30b12e0498511f29b056c76f785db808510644ce5778c84cdff7",
+          "width": 320,
+          "height": 180,
+          "attributes": {
+            "alpha": true,
+            "colorSpace": "srgb",
+            "colorType": "unorm8",
+            "desynchronized": false,
+            "toneMapping": {
+              "mode": "standard"
+            },
+            "willReadFrequently": true
+          }
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "a": "file-video",
+      "b": "mse-video",
+      "qualified": true,
+      "exact": false,
+      "differentChannels": 25,
+      "maxChannelDelta": 2,
+      "meanAbsoluteChannelDelta": 0.0002199074074074074,
+      "psnr": 82.44444125026897
+    },
+    {
+      "a": "file-frame",
+      "b": "mse-frame",
+      "qualified": true,
+      "exact": false,
+      "differentChannels": 25,
+      "maxChannelDelta": 2,
+      "meanAbsoluteChannelDelta": 0.0002199074074074074,
+      "psnr": 82.44444125026897
+    },
+    {
+      "a": "file-normalized",
+      "b": "mse-normalized",
+      "qualified": true,
+      "exact": true,
+      "differentChannels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0,
+      "psnr": null
+    },
+    {
+      "a": "file-video",
+      "b": "file-frame",
+      "qualified": true,
+      "exact": true,
+      "differentChannels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0,
+      "psnr": null
+    },
+    {
+      "a": "mse-video",
+      "b": "mse-frame",
+      "qualified": true,
+      "exact": true,
+      "differentChannels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0,
+      "psnr": null
+    },
+    {
+      "a": "file-video",
+      "b": "file-normalized",
+      "qualified": true,
+      "exact": false,
+      "differentChannels": 63063,
+      "maxChannelDelta": 190,
+      "meanAbsoluteChannelDelta": 3.5939467592592593,
+      "psnr": 25.829114202124607
+    },
+    {
+      "a": "mse-video",
+      "b": "mse-normalized",
+      "qualified": true,
+      "exact": false,
+      "differentChannels": 63072,
+      "maxChannelDelta": 190,
+      "meanAbsoluteChannelDelta": 3.5941087962962963,
+      "psnr": 25.829122190634763
+    }
+  ],
+  "cleanup": {
+    "callbacksEmpty": true,
+    "timersEmpty": true,
+    "listenersEmpty": true,
+    "sourcesRemoved": true,
+    "urlsRevoked": 1
+  },
+  "observed": true,
+  "binding": {
+    "/source.mp4": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "/remux.mp4": {
+      "bytes": 109970,
+      "sha256": "aaa69bd684572e738f5bfb74a8756ec95b614c7c240204056fc55f2ded16a91f"
+    },
+    "/runner.js": {
+      "bytes": 6754,
+      "sha256": "33e73be05d9f07298c36aa5d9023b4d2facbb46547f5790f3f39f0ee541b7a7b"
+    }
+  },
+  "server": {
+    "requests": 6,
+    "servedBytes": 776690
+  }
+}

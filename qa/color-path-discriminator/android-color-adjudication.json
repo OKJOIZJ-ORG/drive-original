@@ -1,0 +1,110 @@
+{
+  "schema": "actual-android-controlled-color-adjudication/1",
+  "receipt": {
+    "file": "qa\\color-path-discriminator\\android-color-actual-result.json",
+    "bytes": 32980,
+    "sha256": "01158c1589510ecd0fcf5937a7c9ad1a13eac3a24eb4360e39c7fc77ce1b474e"
+  },
+  "scope": "Actual physical Android tablet Chrome; controlled generated local source and programmatic createGeneralPlayer/seek. No real-account candidate changes, no phone/human-finger/app-UI evidence.",
+  "sourceBinding": {
+    "workingTreeBuffers": true,
+    "loadedProducerBindingStable": true,
+    "fixture": {
+      "bytes": 659966,
+      "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+    },
+    "selectedAudioTrackId": 2,
+    "observedSourceDeclarationAbsent": true
+  },
+  "observed": {
+    "actualLastFramePresented": true,
+    "lastPacketPTS": 5.958333333333333,
+    "rvfcTime": 5.958333,
+    "requestedSourceTime": 5.999999,
+    "endpointTarget": 5.958333333333333,
+    "elapsedMs": 526,
+    "sourceGeneration": 1,
+    "currentGenerationQualified": true,
+    "selectedAACTrack": 2,
+    "encodersCreated": 0,
+    "pipelineFailure": null,
+    "phase": "buffered-to-end",
+    "originalFrameFormat": "I420",
+    "outputFrameFormat": "RGBA",
+    "originalCodedSurface": [
+      320,
+      194
+    ],
+    "outputCodedSurface": [
+      320,
+      192
+    ],
+    "originalVisible": [
+      320,
+      180
+    ],
+    "outputVisible": [
+      320,
+      180
+    ],
+    "originalObservedColor": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "outputColor": {
+      "fullRange": false,
+      "matrix": "smpte170m",
+      "primaries": "smpte170m",
+      "transfer": "smpte170m"
+    },
+    "colorTupleExact": true,
+    "outputDerivedObservationQualified": true
+  },
+  "qualification": {
+    "strictRGBA": "FAILED",
+    "strictFailure": "COLOR_RGBA_PARITY_FAILED",
+    "strictCanvasHashesExact": false,
+    "visibleYUVEquivalence": "UNKNOWN_DIFFERENT_NATIVE_REPRESENTATIONS",
+    "rawReceiptPlaneBooleansPreserved": true,
+    "interpretationWholeUnit": "NOT_QUALIFIED",
+    "sourceAbsentAndOutputObservationTuple": "PASSED",
+    "sameSourceLastFrameTarget": "PASSED",
+    "seek2": "NOT_RUN_AFTER_FAILURE",
+    "lastFrameReturn": "NOT_RUN_AFTER_FAILURE"
+  },
+  "causeAssessment": {
+    "confirmed": "Native I420 and output RGBA VideoFrame representations differ. RGBA canvas hashes differ despite exact observed color tuple and same original last-packet target.",
+    "unsupportedInference": "No actual native-YUV mismatch can be concluded across the different formats. No GPU/shader/padding mechanism, Android improvement amount, or pixel fidelity claim is established.",
+    "nextEvidence": "A separately authorized representation discriminator would be needed to compare equivalent native YUV surfaces or normalized controlled resources. No identical-condition retry performed."
+  },
+  "transport": {
+    "requests": 23,
+    "servedBytes": 1784446,
+    "failedBound": false,
+    "unexpectedPath": 0,
+    "requestCap": 512,
+    "byteCap": 16777216
+  },
+  "cleanup": {
+    "mediaSourcesRemoved": true,
+    "playerRetired": true,
+    "browserCallbacksEmpty": true,
+    "workersReadersRetired": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true,
+  "originalTabsPreserved": true,
+  "allBrowserCallbacksCleared": true,
+  "originalMediaMutated": false,
+  "accountReadOrWritten": false,
+  "candidateNavigated": false
+}

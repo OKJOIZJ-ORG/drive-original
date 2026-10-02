@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `COLOR-INTERPRETATION-20261002.md`: local identity-bound observed SDR output config, final PC/Android tuple and seek proof, retained strict RGBA failure and pixel/HDR limits.
+
 - `CANDIDATE-RC35-20261002.md`: exact rc35 delivery, finite PC/Android qualifications and original69 bounded-status adoption; retained failures and remaining color/performance scope.
 
 - `CANDIDATE-RC34-20261002.md`: Q3 reader delivery/package and normal PC/Android

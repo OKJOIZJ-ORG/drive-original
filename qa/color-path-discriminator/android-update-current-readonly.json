@@ -1,0 +1,91 @@
+{
+  "schema": "android-update-readonly/1",
+  "recordedAt": "2026-10-02T11:40:14.992Z",
+  "readOnly": true,
+  "noNavigation": true,
+  "noReload": true,
+  "noUpdateCheck": true,
+  "noAccountOrMediaRead": true,
+  "tabs": [
+    {
+      "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+      "appVersion": "1.22.0-rc.35",
+      "bannerActuallyVisible": false,
+      "bannerUpdateButtonActuallyVisible": false,
+      "applyUpdateButtonActuallyVisible": false,
+      "targetVersion": null,
+      "serviceWorker": {
+        "registrationPresent": true,
+        "active": "activated",
+        "controller": "activated",
+        "waiting": null,
+        "installing": null,
+        "activeIsController": true
+      },
+      "playerOpen": false,
+      "originKind": "candidate"
+    }
+  ],
+  "authorizedDeviceCount": 1,
+  "maintainedMcpReadTools": [
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "completed": true,
+  "cleanup": {
+    "allTabsPreserved": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true
+  },
+  "cleanupComplete": true
+}

@@ -1,0 +1,177 @@
+{
+  "schema": "observed-native-color-local-unit/1",
+  "source": {
+    "file": "qa/fm05-controlled-diagnostic/subtitle.mp4",
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+  },
+  "finalNativeColorHelper": {
+    "file": "media/native-color.mjs",
+    "bytes": 5595,
+    "sha256": "d1aef25067a3dd853accdf1b9999a73f531d814a181ff727c67fa91509b2e87f"
+  },
+  "productChangedLocally": true,
+  "deployed": false,
+  "version": "published rc35 remains unchanged",
+  "scopedLocalUnit": "qualified for a local commit and validation-candidate delivery; original broad color/HDR/device fidelity remains unqualified",
+  "confirmedCause": "Exact copied AVC and decoded visible NV12; unspecified source is interpreted smpte170m by native file and bt709 by MSE in observed Chrome154.",
+  "intervention": "Use a complete same-lifetime native 8-bit YUV SDR observation only for an entirely undeclared source. Preserve original config/packets and attach a separate derived output config.",
+  "sourceIntendedColor": "UNKNOWN",
+  "managedPC": {
+    "receipt": {
+      "file": "qa/color-path-discriminator/interpretation-player-result.json",
+      "bytes": 43588,
+      "sha256": "36ca313840ed64321e70d771c5ea2d4bd420578db91f51e3d397c3a855d21448"
+    },
+    "generations": [
+      {
+        "label": "last-frame",
+        "generation": 1,
+        "elapsedMs": 182
+      },
+      {
+        "label": "back-seek",
+        "generation": 2,
+        "elapsedMs": 153
+      },
+      {
+        "label": "last-frame-return",
+        "generation": 3,
+        "elapsedMs": 149
+      }
+    ],
+    "copiedPacketsAndClocks": "EXACT",
+    "lastDecodedYUV": "EXACT",
+    "sameLastNativeNV12AndTuple": "EXACT",
+    "middleSeekPixelReference": "NOT_ESTABLISHED",
+    "strictRGBA": "FAILED_RETAINED"
+  },
+  "residual": {
+    "receipt": {
+      "file": "qa/color-path-discriminator/normalized-resource-result.json",
+      "bytes": 8074,
+      "sha256": "4362db32e51aa3cd3bbbca4ca249861c51efd6f0db1e814ece9c5426b1667f61"
+    },
+    "originalResources": {
+      "a": "file-video",
+      "b": "mse-video",
+      "qualified": true,
+      "exact": false,
+      "differentChannels": 25,
+      "maxChannelDelta": 2,
+      "meanAbsoluteChannelDelta": 0.0002199074074074074,
+      "psnr": 82.44444125026897
+    },
+    "commonResourceDiagnostic": {
+      "a": "file-normalized",
+      "b": "mse-normalized",
+      "qualified": true,
+      "exact": true,
+      "differentChannels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0,
+      "psnr": null
+    },
+    "interpretation": "Residual located at browser resource presentation. The particular GPU/shader/padding mechanism is UNKNOWN. Normalized resources differ greatly from originals and are not a product renderer or fidelity proof."
+  },
+  "physicalAndroid": {
+    "receipt": {
+      "file": "qa/color-path-discriminator/android-tuple-actual-result.json",
+      "bytes": 51972,
+      "sha256": "616a9a0a5cd464a1cf744b2a9799a8db23dc466436c54e6e86b1fe01ed746373"
+    },
+    "phases": [
+      {
+        "label": "initial2-fresh-owner-setup",
+        "generation": 1,
+        "elapsedMs": 439,
+        "targetDistanceMs": 0
+      },
+      {
+        "label": "successor-last-frame",
+        "generation": 2,
+        "elapsedMs": 385,
+        "targetDistanceMs": 0.000333333333379926
+      }
+    ],
+    "observedTuplePropagationAndSerialSeek": "PASS_SCOPED",
+    "pixelFidelity": "NOT_QUALIFIED",
+    "strictRGBA": "FAILED_RETAINED",
+    "visibleYUV": "UNKNOWN_I420_VS_RGBA",
+    "priorFailedReceipt": {
+      "file": "qa/color-path-discriminator/android-color-actual-result.json",
+      "bytes": 32980,
+      "sha256": "01158c1589510ecd0fcf5937a7c9ad1a13eac3a24eb4360e39c7fc77ce1b474e"
+    },
+    "priorFailedPredicate": "UNCHANGED_NOT_QUALIFIED"
+  },
+  "currentAndroidUpdate": {
+    "receipt": {
+      "file": "qa/color-path-discriminator/android-update-current-readonly.json",
+      "bytes": 3004,
+      "sha256": "d764f828f3a29f5c2ef8730c131dc6793b03edbdeafd155bb22c646cc1627719"
+    },
+    "candidateVersion": "1.22.0-rc.35",
+    "pending": false,
+    "bannerVisible": false,
+    "readOnly": true
+  },
+  "checks": [
+    {
+      "command": "node --test tests/app.test.js tests/static.test.js tests/general-app-routing.test.js",
+      "passed": 214,
+      "owner": "root",
+      "log": "qa/color-path-discriminator/app-static-checks.txt"
+    },
+    {
+      "command": "node --test tests/general-q1.test.mjs tests/general-retention.test.mjs tests/general-q2-end.test.mjs tests/general-source-policy.test.mjs tests/general-selected-audio.test.mjs tests/general-audio-probe.test.mjs tests/audio-compat-general.mjs tests/audio-compat-lifecycle.mjs",
+      "passed": 83,
+      "owner": "delegated pipeline owner report; no root rerun"
+    },
+    {
+      "command": "node --test tests/native-color.test.mjs tests/player-tracks-app.test.js",
+      "passed": 22,
+      "owner": "root before additive Q3 negative-gate test",
+      "log": "qa/color-path-discriminator/final-color-checks.txt"
+    },
+    {
+      "command": "node --test tests/video-q3.test.mjs tests/video-q3-app.test.js",
+      "passed": 23,
+      "owner": "root",
+      "log": "qa/color-path-discriminator/q3-related-checks.txt"
+    },
+    {
+      "command": "node --test --test-name-pattern='Q3 worker accepts shared identity' tests/native-color.test.mjs",
+      "passed": 1,
+      "owner": "root; actual Node Q3 worker unsupported-capability/cleanup gate, not browser playback",
+      "log": "qa/color-path-discriminator/q3-shared-worker-check.txt"
+    }
+  ],
+  "preservedFailures": [
+    "Exclusive EOS observer timeout and MCP filePath denial before execution",
+    "AAC3 was subtitle3: GENERAL_AUDIO_SELECTION_MISSING; corrected input AAC2, no retro pass",
+    "Strict PC RGBA failure after propagation remains; old strict oracle rejected a missing pass field after payload checks",
+    "Android unlike-frame YUV predicate NOT_QUALIFIED and strict RGBA failure remain unchanged",
+    "Savepoint collector first run stopped before writing: Android color and tuple manifests use different fixture field names; explicit field mapping corrected without product rerun"
+  ],
+  "cleanup": {
+    "allOwnedPlayersReadersWorkersCallbacksTimersSourcesSettled": true,
+    "rootOwnedMcpPages4to8Closed": true,
+    "rootOriginalPage3Preserved": true,
+    "rootServers24580_17588_26080_29040_6156_16864_9204StoppedAfterExactOwnerChecks": true,
+    "androidOwnedTabsForwardReverseServerClosed": true,
+    "originalAccountCandidateTabsUnchanged": true
+  },
+  "acceptance": {
+    "wholeGoalPassed": false,
+    "productionPassed": false,
+    "FM06_HDR": "UNKNOWN",
+    "performanceDistribution": "OPEN; historical failures retained, no p95 assertion",
+    "limitations": [
+      "Generated fixture only; actual account/app UI color switching not established",
+      "Only same-lifetime supported native YUV SDR capture; no metadata guess, converted-RGB, high-bit or HDR fallback",
+      "Historical server snapshots are not replay commands; only final receipts have current producer equality",
+      "No new runtime deployment/account/media write, grant, automation or production change"
+    ]
+  }
+}

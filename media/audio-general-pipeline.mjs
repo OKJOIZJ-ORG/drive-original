@@ -5,6 +5,7 @@ import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
 import { resolveTimelinePolicy } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
+import { resolveObservedNativeOutputColor } from './native-color.mjs';
 import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
 
 import {createAudioRuntime, observeAudioCompatibility, observeNativeFileSupport, AUDIO_OUTPUT_STATUS} from './audio-runtime.mjs';
@@ -48,7 +49,7 @@ export async function probePinnedGeneralAudio(source, {signal, isCurrent = () =>
 // Q2: copy encoded AVC; decode only unsupported AC3/EAC3 stereo 48 kHz.
 // One enclosing Worker owns this job, its WASM heap and native Opus encoder.
 export async function streamGeneralQ2({ source, generation = 1, isCurrent = () => true,
-  signal, selectedAudioTrackId,
+  signal, selectedAudioTrackId, nativeColorObservation,
   targetTime = 0, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
@@ -103,8 +104,9 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
     const sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
     const policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
     rpc.check();
+    const {outputVideoConfig, outputColorObservation} = resolveObservedNativeOutputColor(videoConfig, nativeColorObservation, source.identity);
     windowInfo = { generation, selectedAudioTrackId:audio.id, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp,
-      sourceEndTimestamp: policy?.declaredEnd ?? duration, policy, videoConfig, videoCodec: video.codec,
+      sourceEndTimestamp: policy?.declaredEnd ?? duration, policy, videoConfig, outputVideoConfig, outputColorObservation, videoCodec: video.codec,
       audioCodec: 'opus', inputAudioCodec: audio.codec, status: AUDIO_OUTPUT_STATUS, capability };
     phase = 'decoder-open';
     session = runtime.createSession(audioConfig, {generation, sourceStart: audioPacket.timestamp,
@@ -191,7 +193,7 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
       onPacket({ track, packet, sourcePacket, outputTimestamp: copied.timestamp, windowOrigin });
       if (useVideo) {
         phase = 'video-mux';
-        await videoSource.add(copied, videoFirst ? { decoderConfig: videoConfig } : undefined); videoFirst = false;
+        await videoSource.add(copied, videoFirst ? { decoderConfig: outputVideoConfig } : undefined); videoFirst = false;
         videoPacket = await videoSink.getNextPacket(sourcePacket, { verifyKeyPackets: true });
       } else {
         phase = 'audio-decode';
@@ -211,7 +213,7 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
     await output.finalize(); rpc.check();if(encoderFailure)throw encoderFailure;
     if(!windowSent||prefixBytes) throw new Error('AUDIO_FINAL_CONFIG_REQUIRED');
     readyResult = { generation, duration, sourcePacketOrigin, durationSemantics: 'source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll', targetTime, windowOrigin,
-      policy: policy || null,
+      policy: policy || null, videoConfig, outputVideoConfig, outputColorObservation,
       selectedAudioTrackId:audio.id, videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
       peakPendingAcks: peakAcks, peakBufferedPacketBytes, admission, muxRetention: output._muxer.q1Retention, encodersCreated: 1, videoEncodersCreated: 0, status:AUDIO_OUTPUT_STATUS, capability, finalAudioConfig, peakPrefixBytes, inputFormat: (await input.getFormat()).name };
   } catch (error) {

@@ -105,9 +105,12 @@ authority, actual account/format/expiry/state/security criteria remain.
 
 ## 2026-10-01 — user PC player screenshot defect
 
-OPEN: actual PC stage fills the viewport but video/chrome both shift upward,
+RESOLVED (candidate29 evidence): actual PC stage fills the viewport but video/chrome both shift upward,
 leaving a large blank lower region; favorite control appears twice. Source28
 geometry1536×639.2 shows shared -137.6px offset. Scroll/focus/overflow is a
 testable hypothesis, not confirmed cause. Upper-left1.0x ownership unknown.
 Root owns integration; qa/rc29-pc-player-layout owns local reproduction/fix.
 Preserve distinct previous/next-video versus frame-step actions and D056.
+Resolution: the responsible layout and duplicate-favorite correction passed five
+local native viewports and actual PC/Android in CANDIDATE-RC29-20261001.md. The
+upper-left third-party speed overlay is separate; no unsupported ownership claim.

@@ -1,6 +1,8 @@
 {
-  "distributionReady": true,
-  "blockingDistributionRequirements": [],
+  "distributionReady": false,
+  "blockingDistributionRequirements": [
+    "Verify same-candidate public source, runtime and notice delivery before asserting distribution readiness."
+  ],
   "sourceRightsReview": "memory/Q2-SOURCE-PUBLICATION-20260929.md",
   "correspondingSource": {
     "archiveManifest": {
@@ -27,11 +29,15 @@
       },
       {
         "path": "media/audio-general-pipeline.mjs",
-        "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+        "sha256": "eb32ba0cc5faaafc9e25d1a5d00669c916d50be36ab598e0114fd0803e389f4d"
       },
       {
         "path": "media/audio-general-worker.mjs",
-        "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+        "sha256": "c11226a335741ec94508f7e6c5d3c880db25fe1ade1ff84e66391b6dc3c7aa27"
+      },
+      {
+        "path": "media/native-color.mjs",
+        "sha256": "d1aef25067a3dd853accdf1b9999a73f531d814a181ff727c67fa91509b2e87f"
       }
     ]
   },
@@ -148,37 +154,19 @@
     },
     {
       "path": "scripts/build-audio-compat.cjs",
-      "sha256": "e6a74370e680c0d3a66d82a4fd8631a56be57c8a931bc949f9dd14ef47c268f0"
+      "sha256": "2f9b714cb1feee9bbb651a8d512b3682d8a7cddb477e34a50cf7e602f4074133"
     },
     {
       "path": "media/audio-general-pipeline.mjs",
-      "sha256": "d190c83bb93a3a07853c4466783985e75f6369704fc23e80082b60b56fc1e2db"
+      "sha256": "eb32ba0cc5faaafc9e25d1a5d00669c916d50be36ab598e0114fd0803e389f4d"
     },
     {
       "path": "media/audio-general-worker.mjs",
-      "sha256": "15d792e9cae0b8018b0ea35bbcd8bea256909af516fefa3e941f64e2f2f06526"
+      "sha256": "c11226a335741ec94508f7e6c5d3c880db25fe1ade1ff84e66391b6dc3c7aa27"
+    },
+    {
+      "path": "media/native-color.mjs",
+      "sha256": "d1aef25067a3dd853accdf1b9999a73f531d814a181ff727c67fa91509b2e87f"
     }
-  ],
-  "distributionEvidence": {
-    "sourceCommit": "944f00607cf05e586b1c88e2876dd796ce114e82",
-    "workerVersion": "99252c7f-a276-4a21-bfc2-f7d9e8f0adec",
-    "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
-    "deliveryReport": {
-      "path": "qa/candidate-rc28-delivery/results.json",
-      "sha256": "a527a0a792c92807eecca9a4351219b73c23704bf548826acdcde12b9e9f8816"
-    },
-    "deploymentRecord": {
-      "path": "qa/candidate-rc28-delivery/deployment.json",
-      "sha256": "41101abfa7276ce9e8a89466c68443e12267a3b68036666d3b405b0e8a7de7b4"
-    },
-    "controlPlaneRecord": {
-      "path": "qa/candidate-rc28-delivery/redacted-readback.json",
-      "sha256": "42142ee9641ec4603097d7bb7f86d1b3b5f76bb11fa9ff26583b29ad9c1157e5"
-    },
-    "auditProducer": {
-      "path": "qa/candidate-delivery-audit.cjs",
-      "sha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
-    },
-    "scope": "Technical same-candidate runtime/notice/preferred-source delivery only; no production, patent, device or broad-format qualification"
-  }
+  ]
 }

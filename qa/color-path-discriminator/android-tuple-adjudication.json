@@ -1,0 +1,193 @@
+{
+  "schema": "android-tuple-adjudication/1",
+  "receipt": {
+    "file": "qa/color-path-discriminator/android-tuple-actual-result.json",
+    "bytes": 51972,
+    "sha256": "616a9a0a5cd464a1cf744b2a9799a8db23dc466436c54e6e86b1fe01ed746373"
+  },
+  "qualified": "PASS_SCOPED_TUPLE_PROPAGATION_AND_SERIAL_SEEK_ONLY",
+  "predeclaredPredicate": {
+    "schema": "android-controlled-tuple-predicate/1",
+    "scope": "tuple-propagation-and-seek",
+    "fixtureBytes": 659966,
+    "fixtureSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+    "nativeObservation": "Qualified actual I420 SDR with complete current synthetic account/content/checksum identity",
+    "required": [
+      "source videoConfig four color fields absent",
+      "outputVideoConfig tuple equals actual observation",
+      "outputColorObservation tuple equals actual observation",
+      "presented output frame reported tuple equals actual observation",
+      "visible 320x180",
+      "selected AAC2",
+      "zero encoders",
+      "current source and serial generation1/2",
+      "mapped RVFC distance <=15ms",
+      "previous reader and worker retired before next presented generation",
+      "all final owners/resources settled"
+    ],
+    "sequence": [
+      "initial2 fresh-owner setup",
+      "successor-last at5.999999/packet5.958333333333333"
+    ],
+    "diagnosticsExcludedFromPass": [
+      "strict canvas RGBA equality",
+      "cross-format native visible YUV equality"
+    ],
+    "limitations": [
+      "No pixel fidelity or interpretation equivalence claim",
+      "No app UI or physical finger proof",
+      "Prior strict failed receipt unchanged"
+    ],
+    "bounds": {
+      "frameMs": 15000,
+      "overallMs": 90000,
+      "requests": 512,
+      "transportBytes": 16777216
+    },
+    "noRetry": true
+  },
+  "actualPhysicalTablet": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16"
+  },
+  "viewport": {
+    "chrome": "Chrome/153.0.0.0",
+    "videoFrame": true,
+    "rvfc": true,
+    "mediaSource": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "visibility": "visible",
+    "serviceWorkerControlled": false
+  },
+  "sourceWorkingTreeBuffers": true,
+  "loadedProducerBindingStable": true,
+  "fixture": {
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+  },
+  "observedNative": {
+    "format": "I420",
+    "colorSpace": {
+      "primaries": "smpte170m",
+      "transfer": "smpte170m",
+      "matrix": "smpte170m",
+      "fullRange": false
+    },
+    "visible": [
+      320,
+      180
+    ]
+  },
+  "phases": [
+    {
+      "label": "initial2-fresh-owner-setup",
+      "generation": 1,
+      "elapsedMs": 439,
+      "sourceRequested": 2,
+      "mappedSource": 2,
+      "mappedElement": 2,
+      "commonShift": 0,
+      "actualPresentedMediaTime": 2,
+      "targetDistanceMs": 0,
+      "passed": true,
+      "sourceFourColorFieldsAbsent": true,
+      "outputConfigTupleExact": true,
+      "outputObservationTupleExact": true,
+      "presentedTupleExact": true,
+      "currentGenerationQualified": true,
+      "previousOwnersRetired": true,
+      "visibleGeometryExact": true,
+      "selectedAAC": 2,
+      "encodersCreated": 0,
+      "failure": null,
+      "endpoint": null
+    },
+    {
+      "label": "successor-last-frame",
+      "generation": 2,
+      "elapsedMs": 385,
+      "sourceRequested": 5.999999,
+      "mappedSource": 5.958333333333333,
+      "mappedElement": 5.958333333333333,
+      "commonShift": 0,
+      "actualPresentedMediaTime": 5.958333,
+      "targetDistanceMs": 0.000333333333379926,
+      "passed": true,
+      "sourceFourColorFieldsAbsent": true,
+      "outputConfigTupleExact": true,
+      "outputObservationTupleExact": true,
+      "presentedTupleExact": true,
+      "currentGenerationQualified": true,
+      "previousOwnersRetired": true,
+      "visibleGeometryExact": true,
+      "selectedAAC": 2,
+      "encodersCreated": 0,
+      "failure": null,
+      "endpoint": {
+        "requestedSource": 5.999999,
+        "targetSource": 5.958333333333333,
+        "targetElement": 5.958333333333333,
+        "frame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "bufferedRange": [
+          4.992,
+          5.999999
+        ],
+        "reason": "terminal-original-frame"
+      }
+    }
+  ],
+  "strictDiagnostics": {
+    "strictRGBA": "FAILED",
+    "failure": "COLOR_RGBA_PARITY_FAILED",
+    "sameLastCanvasHashesExact": false,
+    "originalFrameFormat": "I420",
+    "outputFrameFormats": [
+      "RGBA",
+      "RGBA"
+    ],
+    "crossFormatVisibleYUV": "UNKNOWN",
+    "pixelFidelity": "NOT_QUALIFIED",
+    "excludedFromTuplePass": true
+  },
+  "limits": {
+    "controlledGeneratedFixtureOnly": true,
+    "programmaticPlayerSeek": true,
+    "humanFingerInput": false,
+    "appUI": false,
+    "production": false,
+    "broadColorFormats": false,
+    "noPriorFailureReclassification": true,
+    "noIdenticalConditionRetry": true,
+    "noAccountOrCandidateChanges": true
+  },
+  "transport": {
+    "requests": 42,
+    "servedBytes": 3056814,
+    "failedBound": false,
+    "unexpectedPath": 0,
+    "requestCap": 512,
+    "byteCap": 16777216
+  },
+  "cleanup": {
+    "mediaSourcesRemoved": true,
+    "playerRetired": true,
+    "browserCallbacksEmpty": true,
+    "workersReadersRetired": true,
+    "cdpDetached": true,
+    "ownedTabClosed": true,
+    "originalTabsUnchanged": true,
+    "browserDisconnected": true,
+    "mcpClosed": true,
+    "forwardRemoved": true,
+    "reverseRemoved": true,
+    "serverClosed": true
+  },
+  "cleanupComplete": true
+}

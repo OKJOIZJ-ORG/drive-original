@@ -5,11 +5,12 @@ import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
 import { resolveTimelinePolicy } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
+import { resolveObservedNativeOutputColor } from './native-color.mjs';
 import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
 
 // Pure packet-copy slice. No Decoder/Encoder, Conversion, Blob or full input.
 export async function streamGeneralQ1({ source, generation = 1, isCurrent = () => true,
-  signal, selectedAudioTrackId,
+  signal, selectedAudioTrackId, nativeColorObservation,
   targetTime = 0, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
@@ -54,8 +55,9 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     const sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
     const policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
     rpc.check();
+    const {outputVideoConfig, outputColorObservation} = resolveObservedNativeOutputColor(videoConfig, nativeColorObservation, source.identity);
     await onWindow({ generation, selectedAudioTrackId:audio?.id??null, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp, sourceEndTimestamp: policy?.declaredEnd ?? duration, policy,
-      videoConfig, audioConfig, videoCodec: video.codec, audioCodec: audio?.codec ?? null });
+      videoConfig, outputVideoConfig, outputColorObservation, audioConfig, videoCodec: video.codec, audioCodec: audio?.codec ?? null });
     rpc.check();
     const videoSource = new EncodedVideoPacketSource(video.codec);
     const audioSource = audio && new EncodedAudioPacketSource(audio.codec);
@@ -112,7 +114,7 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
       const copied = packet.clone({ timestamp: packet.timestamp - windowOrigin, sideData: { ...packet.sideData, q1Dts: packet.sideData.q1Dts - windowOrigin } });
       onPacket({ track, packet, sourcePacket, outputTimestamp: copied.timestamp, windowOrigin });
       if (useVideo) {
-        await videoSource.add(copied, videoFirst ? { decoderConfig: videoConfig } : undefined); videoFirst = false;
+        await videoSource.add(copied, videoFirst ? { decoderConfig: outputVideoConfig } : undefined); videoFirst = false;
         videoPacket = await videoSink.getNextPacket(sourcePacket, { verifyKeyPackets: true });
       } else {
         await audioSource.add(copied, audioFirst ? { decoderConfig: audioConfig } : undefined); audioFirst = false;
@@ -122,7 +124,7 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     }
     await output.finalize(); rpc.check();
     readyResult = { generation, duration, sourcePacketOrigin, durationSemantics: 'source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll', targetTime, windowOrigin,
-      policy: policy || null,
+      policy: policy || null, videoConfig, outputVideoConfig, outputColorObservation,
       selectedAudioTrackId:audio?.id??null, lastVideoFrame, videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
       peakPendingAcks: peakAcks, peakBufferedPacketBytes, admission, muxRetention: output._muxer.q1Retention, encodersCreated: 0, inputFormat: (await input.getFormat()).name };
   } catch (error) { failure = error; }

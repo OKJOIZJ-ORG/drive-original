@@ -6177,7 +6177,8 @@ async function openPlayerTracks() {
   const owner = {file, session, account, accountGeneration, controller, source: null,
     subtitles: null, presentation: null, cleanupOk: true,
     identity: activeAudio?.routeIdentity ? {...activeAudio.routeIdentity} : null,
-    selectedAudioTrackId: activeAudio?.selectedAudioTrackId};
+    selectedAudioTrackId: activeAudio?.selectedAudioTrackId,
+    nativeColorObservation: activeAudio?.nativeColorObservation || null};
   owner.current = () => playerTracksOwner === owner && !controller.signal.aborted
     && state.selected?.id === file.id && state.mediaSession === session
     && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration
@@ -6287,6 +6288,25 @@ async function openPlayerTracks() {
   await owner.loading;
 }
 
+async function observePinnedNativePlayerColor(file, session) {
+  const native = q0Playback, pin = q0PinnedSource, video = el.videoPlayer;
+  const current = () => Boolean(native && pin && pin.descriptor?.fileId === file.id
+    && session === state.mediaSession && native.session === session
+    && isCurrentQ0Playback(native, file.id, native.swGeneration)
+    && navigator.serviceWorker?.controller === native.swController && q0PinnedSource === pin
+    && video === el.videoPlayer && !video.hidden && isCurrentMediaEvent(video)
+    && hasVerifiedOriginalTransport() && state.mediaDecodeVerified === true
+    && video.currentSrc === buildPinnedMediaUrl(file));
+  if (typeof globalThis.VideoFrame !== 'function' || !current()) return null;
+  try {
+    const {observeNativeFrameColor} = await import('./media/native-color.mjs');
+    if (!current()) return null;
+    // This records the native resource's observed interpretation, never a
+    // guessed declaration about the original. The frame is closed immediately.
+    return observeNativeFrameColor({video, identity: pin.descriptor, isCurrent: current});
+  } catch (_) { return null; }
+}
+
 async function selectPlayerAudioTrack() {
   const owner = playerTracksOwner, trackId = Number(el.playerAudioTrack.value);
   if (!owner?.current() || owner.switching || !owner.cleanupOk) return;
@@ -6299,12 +6319,16 @@ async function selectPlayerAudioTrack() {
   if (el.playerTracksDialog.open) el.playerTracksDialog.close();
   // Cancel old Q1 before constructing its successor; no live-owner overwrite.
   try {
+    const observed = await observePinnedNativePlayerColor(owner.file, owner.session);
+    if (!owner.current()) return;
+    if (observed) owner.nativeColorObservation = observed;
     const old = q1Playback; q1Playback = null;
     const retired = await (old ? retireQ1Playback(old) : q1Retirement);
     if (!owner.current()) return;
     if (!retired.settled) throw new Error('GENERAL_CLEANUP_UNCONFIRMED');
     const started = await tryOriginalTsPlayback(owner.file, owner.session, {general: true, audioCompatibility: track.route === 'q2',
-      selectedAudioTrackId: trackId, expectedIdentity: owner.identity, snapshotOverride: snapshot});
+      selectedAudioTrackId: trackId, expectedIdentity: owner.identity, snapshotOverride: snapshot,
+      nativeColorObservation: owner.nativeColorObservation});
     if (!started) throw new Error('GENERAL_MSE_UNAVAILABLE');
   } catch (_) {
     if (owner.current()) {
@@ -8562,6 +8586,7 @@ async function presentPinnedOriginalImage(owner, pin, mimeType) {
 
 async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, videoCompatibility = false, nativeVideoRejected = false, snapshotOverride = null,
   selectedAudioTrackId = playerTracksOwner?.current() ? playerTracksOwner.selectedAudioTrackId : undefined,
+  nativeColorObservation = playerTracksOwner?.current() ? playerTracksOwner.nativeColorObservation : null,
   expectedIdentity = playerTracksOwner?.current() ? playerTracksOwner.identity : null } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
   nativeVideoRejected ||= general && !audioCompatibility && !videoCompatibility
@@ -8573,7 +8598,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
   let setupFinished;
   const previousRetirement = q1Retirement;
   const owner = { player: null, controller, cleanupOk: true, requiresSwReadiness: true,
-    selectedAudioTrackId, audioCompatibility,
+    selectedAudioTrackId, audioCompatibility, nativeColorObservation,
     fileId: file.id, session, account, accountGeneration,
     swController: navigator.serviceWorker?.controller, swGeneration: mediaSourceGeneration,
     setupDone: new Promise(resolve => { setupFinished = resolve; }) };
@@ -8700,7 +8725,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) el.videoPlayer.playbackRate = snapshot.playbackRate;
     }
     owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
-      ...(!ts ? {selectedAudioTrackId} : {}),
+      ...(!ts ? {selectedAudioTrackId, nativeColorObservation} : {}),
       ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
       ...(videoCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/video-q3-worker.mjs', location.href), { type: 'module' }) } : {}),
       initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,

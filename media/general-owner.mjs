@@ -1,6 +1,7 @@
+import { qualifyNativeColorObservation } from './native-color.mjs';
 const requireThat = (condition, code) => { if (!condition) throw new Error(`WORKER_${code}`); };
 export function startGeneralWorker({ source, generation, isCurrent = () => true, signal,
-  onWindow = () => {}, onChunk, targetTime = 0, endTime = Infinity, limits = {}, selectedAudioTrackId,
+  onWindow = () => {}, onChunk, targetTime = 0, endTime = Infinity, limits = {}, selectedAudioTrackId, nativeColorObservation,
   timelinePolicy = true, workerFactory = url => new Worker(url, { type: 'module' }) }) {
   requireThat(source?.identity && typeof onChunk === 'function' && Number.isSafeInteger(generation) && generation > 0, 'OPTIONS');
   const worker = workerFactory(new URL('./general-worker.mjs', import.meta.url));
@@ -12,7 +13,8 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
   const current = () => active && !signal?.aborted && isCurrent();
   const consumersSettled = () => metrics.pendingChunks === 0 && metrics.pendingWindows === 0;
   const notifyConsumerDrain = () => { if (consumersSettled()) consumerDrain?.(); };
-  const reply = (id, value, error, transfer = []) => worker.postMessage({ kind: 'reply', generation, id, value, error }, transfer);
+  const reply = (id, value, error, transfer = [], identity) => worker.postMessage({ kind: 'reply', generation, id, value, error,
+    ...(identity ? {identity} : {}) }, transfer);
   async function finish(payload) {
     if (terminal) return; terminal = true; active = false; consumers.abort(); clearTimeout(stopTimer); signal?.removeEventListener('abort', cancel);
     const originalCleanup = await abortSource();
@@ -47,7 +49,7 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
         let bytes; try { bytes = await source.read({ start, end }); } finally { metrics.activeReads--; }
         requireThat(current(), 'STALE_GENERATION'); requireThat(bytes instanceof Uint8Array && bytes.length === end - start + 1, 'READ_BODY');
         const owned = bytes.byteOffset === 0 && bytes.byteLength === bytes.buffer.byteLength ? bytes : bytes.slice();
-        metrics.reads++; metrics.bytes += owned.byteLength; reply(message.id, owned.buffer, null, [owned.buffer]);
+        metrics.reads++; metrics.bytes += owned.byteLength; reply(message.id, owned.buffer, null, [owned.buffer], source.identity);
         requireThat(owned.buffer.byteLength === 0, 'READ_TRANSFER_OWNERSHIP'); metrics.detachedReadBuffers++; return;
       }
       if (message.kind === 'window') {
@@ -79,7 +81,8 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
     worker.on('error', () => { void finish({ error: { message: 'WORKER_RUNTIME_ERROR' } }); });
   }
   signal?.addEventListener('abort', cancel, { once: true });
-  worker.postMessage({ kind: 'start', generation, identity: source.identity, targetTime, endTime, limits, timelinePolicy, selectedAudioTrackId });
+  worker.postMessage({ kind: 'start', generation, identity: source.identity, targetTime, endTime, limits, timelinePolicy, selectedAudioTrackId,
+    nativeColorObservation: qualifyNativeColorObservation(nativeColorObservation, source.identity) });
   if (signal?.aborted) void cancel();
   return { done, cancel, metrics };
 }

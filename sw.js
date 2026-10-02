@@ -30,6 +30,7 @@ const SHELL_FILES = [
   './media/subtitle-track.mjs',
   './media/subtitle-presentation.mjs',
   './media/general-codec.mjs',
+  './media/native-color.mjs',
   './media/general-owner.mjs',
   './media/general-pipeline.mjs',
   './media/general-player.mjs',

@@ -1,0 +1,41 @@
+{
+  "schema": "android-color-preparation/1",
+  "checksPassed": true,
+  "checks": [
+    "observer syntax",
+    "no image/identity export",
+    "independent strictRGBA and interpretation predicates",
+    "current generation/source checks",
+    "exact fixture/hash/module binding",
+    "qualified188byteRange",
+    "512 request cap",
+    "16MiB byte cap"
+  ],
+  "files": [
+    {
+      "file": "android-prepare.cjs",
+      "bytes": 3348,
+      "sha256": "d25f663d95ce3f333bfabc24cf18dd42869eff6fac223bb6975826cde477cfd8"
+    },
+    {
+      "file": "android-color-observer.function.js",
+      "bytes": 10736,
+      "sha256": "644634daaf58d337e09b2c8ce046d3c9c4ac05dc9e4b2e612ac99dfea2a86107"
+    },
+    {
+      "file": "android-color-server.cjs",
+      "bytes": 3280,
+      "sha256": "da1ace24832044053dbe82dbc5f32325240dfea1cd725517cc65a3317d65b1bd"
+    },
+    {
+      "file": "android-color-driver.cjs",
+      "bytes": 8837,
+      "sha256": "e39b7e2188a7af839b78a04950a99d48cabe16805674d1e99380a3a983fdf0d7"
+    },
+    {
+      "file": "android-color-checks.cjs",
+      "bytes": 2604,
+      "sha256": "5fff4cbd8d483dc7e7612fbb0f246eb64ab9bee667bf4bfa5951e90f2c4e2ffa"
+    }
+  ]
+}

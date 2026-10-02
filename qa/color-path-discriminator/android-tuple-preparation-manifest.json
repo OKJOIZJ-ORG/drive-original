@@ -1,0 +1,45 @@
+{
+  "schema": "android-tuple-preparation/1",
+  "checksPassed": true,
+  "checks": [
+    "observer syntax",
+    "two serial generations",
+    "tuple/output/owner/distance guards",
+    "strict and unlike-format exclusions retained",
+    "current identity no export",
+    "literal predeclared predicate bound",
+    "runtime module buffers stable"
+  ],
+  "files": [
+    {
+      "file": "android-tuple-prepare.cjs",
+      "bytes": 4618,
+      "sha256": "8519ff28834dbebc37d7c60d7638456c4db1a7a5092c67bca46f77a36cc50ed4"
+    },
+    {
+      "file": "android-tuple-predicate.json",
+      "bytes": 1277,
+      "sha256": "b94b2fbaad8a83d7a2e052b856dac216ff74253938bf57c9a309246a6fe2f37f"
+    },
+    {
+      "file": "android-tuple-observer.function.js",
+      "bytes": 11960,
+      "sha256": "637d9fb685ae583501c55c61801a91cbee8f98c87df1aec7029b961e452a900a"
+    },
+    {
+      "file": "android-tuple-server.cjs",
+      "bytes": 3371,
+      "sha256": "b809ce1a648ab730ab6b0a4f48a406eac900aab09b761fff1685a5e83ab0e804"
+    },
+    {
+      "file": "android-tuple-driver.cjs",
+      "bytes": 8924,
+      "sha256": "10a7d2e50de9f47b80aa2298051dac98545ad86c1bbc36fb3812e011d390512f"
+    },
+    {
+      "file": "android-tuple-checks.cjs",
+      "bytes": 2581,
+      "sha256": "b4eeaf966ad0c16a81c2c3dc7d25f2bcadca4622bac04c264558f54a0d7757a1"
+    }
+  ]
+}

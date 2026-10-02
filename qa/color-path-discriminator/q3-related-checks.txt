@@ -1,0 +1,31 @@
+✔ Q3 never carries the original-quality label before or after verified presentation (23.9764ms)
+✔ Q1 retirement joins pending Q3 probe cleanup before allowing a successor: true (4.4515ms)
+✔ Q1 retirement joins pending Q3 probe cleanup before allowing a successor: false (7.3551ms)
+✔ retired Q3 probe rejection remains a sticky unresolved source barrier (5.7342ms)
+✔ coarse movie clocks cannot admit a clipped edit as an original timeline (4.1428ms)
+✔ identity duration permits only sub-picture movie-tick rounding and rejects coarse nonidentity (3.1169ms)
+✔ movie, track and edit must agree on the same rounded duration (1.348ms)
+✔ large uint32 clock products retain exact identity and reject a complete movie tick (1.4604ms)
+✔ bounded actual MPEG4 ISO tables map each original sample and keyframe without full-media hydration (9.3436ms)
+✔ Q3 rejects HDR color before packet decoding (0.8748ms)
+✔ Q3 rejects non-square SAR before packet decoding (0.6746ms)
+✔ Q3 rejects rotation before packet decoding (0.4668ms)
+✔ Q3 rejects expanded sample count before packet decoding (0.442ms)
+✔ Q3 rejects reordered profile before packet decoding (0.422ms)
+✔ B VOP, changed configuration and multiple frames never map to one original picture (0.2838ms)
+✔ Q3 requires actual native rejection plus exact unsupported decoder and supported output (1.1033ms)
+✔ Q3 capability cancellation interrupts a never-settling API without later encoder query (1.3638ms)
+✔ planned high-rate VP9 output queries the matching level without resizing original video (1.1245ms)
+✔ sparse larger-than4GiB ISO admission reads bounded original metadata and skips the declared mdat extent (0.7759ms)
+✔ optional Q2 admission cannot stop native Q0 merely because its video codec is outside Q2 (3.6444ms)
+✔ Q3 probe rejects uncertain source cleanup and does not qualify transport failure (1.6232ms)
+✔ Q3 rejected source abort carries an explicit unsettled cleanup verdict to app retirement (2.1918ms)
+✔ product WASM actually decodes all72 original pictures and verifies metadata/EAGAIN/end drain (36.0199ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 227.1351

@@ -83,17 +83,91 @@ test('reopened track inventory seeds the active selected audio only within its c
       playerTracksRetirement=new Promise(()=>{});
       q1Playback={fileId:'fixture',session:2,account:'auth',accountGeneration:7,
         swController:navigator.serviceWorker.controller,swGeneration:4,controller:new AbortController(),
-        selectedAudioTrackId:3,routeIdentity:{headRevisionId:'A'}};`);
+        selectedAudioTrackId:3,routeIdentity:{headRevisionId:'A'},nativeColorObservation:{basis:'observed-native-frame'}};`);
     return c;
   };
   const c = make(); run(c, 'void openPlayerTracks()');
   assert.equal(run(c, 'playerTracksOwner.selectedAudioTrackId'), 3);
   assert.equal(run(c, 'playerTracksOwner.identity.headRevisionId'), 'A');
   assert.equal(run(c, 'playerTracksOwner.identity === q1Playback.routeIdentity'), false);
+  assert.equal(run(c, 'playerTracksOwner.nativeColorObservation === q1Playback.nativeColorObservation'), true);
   for (const stale of ["q1Playback.fileId='other'", 'q1Playback.session++', "q1Playback.account='other'",
     'q1Playback.accountGeneration++', 'q1Playback.swController={}', 'q1Playback.swGeneration++', 'q1Playback.controller.abort()']) {
     const other = make(); run(other, stale); run(other, 'void openPlayerTracks()');
     assert.equal(run(other, 'playerTracksOwner.selectedAudioTrackId'), undefined, stale);
     assert.equal(run(other, 'playerTracksOwner.identity'), null, stale);
+    assert.equal(run(other, 'playerTracksOwner.nativeColorObservation'), null, stale);
   }
+});
+
+test('audio switch observes native color before retirement and carries it to the selected successor', async () => {
+  const c = nativeChoice();
+  run(c, `globalThis.order=[];globalThis.color={basis:'observed-native-frame'};
+    observePinnedNativePlayerColor=async()=>{order.push('observe');return color;};
+    q1Playback={};retireQ1Playback=async()=>{order.push('retire');return {settled:true};};
+    tryOriginalTsPlayback=async(file,session,options)=>{order.push('start');chosen=options;return true;};`);
+  await run(c, 'selectPlayerAudioTrack()');
+  assert.deepEqual(Array.from(c.order), ['observe', 'retire', 'start']);
+  assert.equal(c.chosen.nativeColorObservation, c.color);
+});
+
+test('stale switch while native color observation loads cannot retire or start a successor', async () => {
+  const c = nativeChoice();
+  run(c, `globalThis.release=null;globalThis.alive=true;globalThis.retired=0;
+    playerTracksOwner.current=()=>alive;observePinnedNativePlayerColor=()=>new Promise(r=>release=r);
+    q1Playback={};retireQ1Playback=async()=>{retired++;return {settled:true};};`);
+  const switching = run(c, 'selectPlayerAudioTrack()');
+  run(c, 'alive=false;release({basis:"observed-native-frame"})');
+  await switching;
+  assert.equal(c.retired, 0); assert.equal(c.chosen, null);
+  assert.equal(run(c, 'playerTracksOwner.switching'), false);
+});
+
+test('unavailable observation keeps the already qualified same-lifetime observation', async () => {
+  const c = nativeChoice();
+  run(c, `globalThis.color={basis:'observed-native-frame'};playerTracksOwner.nativeColorObservation=color;
+    observePinnedNativePlayerColor=async()=>null;`);
+  await run(c, 'selectPlayerAudioTrack()');
+  assert.equal(c.chosen.nativeColorObservation, c.color);
+});
+
+function nativeColorFixture() {
+  const c = fixture.exports();
+  c.VideoFrame = function() {};
+  const app = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+  const observe = app.slice(app.indexOf('async function observePinnedNativePlayerColor('),
+    app.indexOf('\nasync function selectPlayerAudioTrack('))
+    .replace("import('./media/native-color.mjs')", 'fakeColorModule');
+  c.fakeColorModule = {observeNativeFrameColor: ({identity, isCurrent}) => {
+    c.captures++; assert.equal(isCurrent(), true); return {basis:'observed-native-frame',identity};
+  }};
+  c.captures = 0; run(c, observe);
+  run(c, `state.selected={id:'fixture'};state.mediaSession=2;state.authAccountKey='a';state.driveSessionGeneration=7;
+    state.mediaTransportVerified=true;state.mediaPlaybackMode=PLAYBACK_MODE.RANGE;state.mediaDecodeVerified=true;
+    navigator.serviceWorker={controller:{}};mediaSourceGeneration=4;
+    q0PinnedSource={descriptor:{fileId:'fixture'}};
+    q0Playback={fileId:'fixture',session:2,account:'a',accountGeneration:7,swGeneration:4,
+      swController:navigator.serviceWorker.controller,controller:new AbortController()};
+    el.videoPlayer={hidden:false,dataset:{mediaSession:'2'},currentSrc:buildPinnedMediaUrl(state.selected)};`);
+  return c;
+}
+
+test('native color read uses the live pinned original only and rechecks after module loading', async () => {
+  const c = nativeColorFixture();
+  assert.equal((await run(c, 'observePinnedNativePlayerColor(state.selected,2)')).basis, 'observed-native-frame');
+  assert.equal(c.captures, 1);
+  for (const stale of ['q0Playback.controller.abort()', 'q0Playback.session++', 'mediaSourceGeneration++',
+    "state.authAccountKey='other'", 'state.driveSessionGeneration++', 'navigator.serviceWorker.controller={}',
+    "q0PinnedSource.descriptor.fileId='other'", 'el.videoPlayer.hidden=true', 'el.videoPlayer.dataset.mediaSession="1"',
+    'state.mediaTransportVerified=false', 'state.mediaDecodeVerified=false', 'el.videoPlayer.currentSrc="blob:other"',
+    'globalThis.VideoFrame=undefined']) {
+    const other = nativeColorFixture(); run(other, stale);
+    assert.equal(await run(other, 'observePinnedNativePlayerColor(state.selected,2)'), null, stale);
+    assert.equal(other.captures, 0, stale);
+  }
+  const late = nativeColorFixture(); let release;
+  late.fakeColorModule = new Promise(r => {release=r;});
+  const reading = run(late, 'observePinnedNativePlayerColor(state.selected,2)');
+  run(late, 'q0PinnedSource={descriptor:{fileId:"fixture"}}');
+  release(c.fakeColorModule); assert.equal(await reading, null); assert.equal(late.captures, 0);
 });
