@@ -1,0 +1,34 @@
+{
+  "schema": "native-capture-local-checks/1",
+  "checks": [
+    {
+      "chunk": "9eea37",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "chunk": "0ec430",
+      "passed": 5,
+      "total": 6,
+      "failure": "test asserted rejection at a value within the intended one-pixel rounding tolerance"
+    },
+    {
+      "chunk": "2aa77b",
+      "passed": 2,
+      "total": 2,
+      "scope": "affected native-footprint/transform guards after corrected test value"
+    },
+    {
+      "chunk": "3d5eb0",
+      "passed": 5,
+      "total": 5,
+      "scope": "native/binding/metadata/safe-cleanup guards after card-only observation option"
+    }
+  ],
+  "passingSixGuardCoverage": true,
+  "productChanged": false,
+  "productChecksRepeated": false,
+  "productRedeployed": false,
+  "fullViewportImagesRetained": false,
+  "rawPixelsExported": false
+}

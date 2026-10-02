@@ -29,18 +29,21 @@ function input(p){
 }
 const tuple=t=>JSON.stringify(['id','name','size','mimeType','modifiedTime','version','headRevisionId','sha256Checksum','md5Checksum'].map(k=>t[k]??null).concat([Array.isArray(t.parents)?[...t.parents].sort():null]));
 function compare(t,m){demand(m?.trashed===false&&m.capabilities?.canDownload===true&&tuple(t)===tuple(m),'FRESH_METADATA_MISMATCH');return true;}
-async function run({transport,binding:bound,privateInput,output,totalMs=180000}){
+async function run({transport,binding:bound,privateInput,output,totalMs=180000,cardOnly=false}){
  const b=binding(bound),p=input(privateInput),source=observer(b);demand(totalMs>0&&totalMs<=180000,'TOTAL_BOUND');
+ demand(typeof transport.readPNG==='function','PNG_DECODER_REQUIRED');
  for(const k of ['evaluate','prepareTarget','openCard','closePlayer','captureCrop','readMetadata','restoreNavigation','closeOwned'])demand(typeof transport[k]==='function','TRANSPORT_CONTRACT');
  // wx reservation precedes any actual activity; raw private inputs never enter the receipt.
- const fd=fs.openSync(output,'wx'),r={schema:'pc-image-observation/1',sourceCommit:b.sourceCommit,version:b.version,observerTemplateSHA256:OBS,samplerSHA256:SAMPLE,rows:[],passed:false,cleanup:{},rawIdentifiersExported:false};
+ const nativeSamplerPath=path.join(__dirname,'native-painted-sampler.cjs');
+ demand(typeof cardOnly==='boolean','OBSERVATION_SCOPE');
+ const fd=fs.openSync(output,'wx'),r={schema:'pc-image-observation/1',observationScope:cardOnly?'card only; viewer evidence retained separately':'card and two viewer lifetimes',sourceCommit:b.sourceCommit,version:b.version,observerTemplateSHA256:OBS,samplerTemplateSHA256:SAMPLE,samplerSHA256:hash(fs.readFileSync(nativeSamplerPath)),rows:[],passed:false,cleanup:{},rawIdentifiersExported:false};
  const start=performance.now(),controller=new AbortController();let timer=setTimeout(()=>controller.abort(),totalMs),installed=false;
  const call=async work=>{demand(!controller.signal.aborted&&performance.now()-start<totalMs,'TOTAL_BOUND');let timeout;try{return await Promise.race([Promise.resolve().then(()=>work(controller.signal)),new Promise((_,reject)=>{timeout=setTimeout(()=>reject(Error('TOTAL_BOUND')),Math.max(1,totalMs-(performance.now()-start)));})]);}finally{clearTimeout(timeout);}};
  const evaluate=s=>call(signal=>transport.evaluate(s,{signal,privateExpression:true}));
  const snap=()=>evaluate('window.__pcImageObservation.snapshot()');
  const close=async()=>{await call(signal=>transport.closePlayer({signal,normalInputOnly:true}));const until=performance.now()+5000;while(performance.now()<until){const v=await snap();if(v.closed&&v.selectionCleared&&v.sourcesCleared&&v.retired)return v;await new Promise(z=>setTimeout(z,100));}throw Error('CLOSE_UNSETTLED');};
  try{
-  const {samplePainted}=require(samplerPath);
+  const {samplePainted}=require(nativeSamplerPath);
   for(let i=0;i<p.targets.length;i++){
    const t=p.targets[i],row={ordinal:i+1,role:t.role,animation:'UNKNOWN',alpha:'UNKNOWN',delay:'UNKNOWN',loop:'UNKNOWN',encodedOracle:'NOT_SUPPLIED',windows:[]};r.rows.push(row);
    const prepared=await call(signal=>transport.prepareTarget(t,{signal,normalInputOnly:true}));demand(prepared?.normalUi===true&&prepared.exactTarget===true,'NORMAL_TARGET_REQUIRED');
@@ -52,11 +55,11 @@ async function run({transport,binding:bound,privateInput,output,totalMs=180000})
    row.selectedMetadataScope='Exact card id/name/size/type/modifiedTime/parents; complete API revision/checksum tuple checked separately before/after';
    await evaluate('('+source+')('+JSON.stringify({account:p.account,target:cardTarget})+')');installed=true;
    const budget={sampleCount:0,encodedBytes:0};
-   const sample=async(phase,durationMs,maxSamples)=>samplePainted({phase,durationMs,maxSamples,budget,readFence:()=>evaluate('window.__pcImageObservation.fence('+JSON.stringify(phase)+')'),capture:opts=>call(signal=>transport.captureCrop({...opts,signal,croppedOnly:true,save:false}))});
+   const sample=async(phase,durationMs,maxSamples)=>samplePainted({phase,durationMs,maxSamples,budget,readPNG:transport.readPNG,readFence:()=>evaluate('window.__pcImageObservation.fence('+JSON.stringify(phase)+')'),capture:opts=>call(signal=>transport.captureCrop({...opts,signal,croppedOnly:true,save:false}))});
    // The extension capture protocol can exceed sub-second windows. Preserve
    // the sampler's8s ceiling and require two independently fenced crops.
    row.windows.push(await sample('card',8000,2));
-   for(let life=0;life<2;life++){
+   for(let life=0;life<(cardOnly?0:2);life++){
     const opened=await call(signal=>transport.openCard(t,{signal,normalInputOnly:true}));demand(opened?.normalCard===true&&opened.exactTarget===true,'NORMAL_CARD_REQUIRED');
     const until=performance.now()+15000;let v;do{v=await snap();if(v.imageReady&&v.sameOwner)break; // arm establishes this explicit new lifetime only after normal decode.
      if(v.imageReady){await evaluate('window.__pcImageObservation.arm()');v=await snap();break;}await new Promise(z=>setTimeout(z,100));}while(performance.now()<until);

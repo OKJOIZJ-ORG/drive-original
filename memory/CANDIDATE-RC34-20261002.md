@@ -12,9 +12,42 @@ Actual PC representative PNG: the largest of71 normally loaded images is
 2,013,106B/831x1215, not a whole-library largest/quality claim. Fresh complete
 API identity/revision/checksum before/after, exact thin card identity, same
 source/account, normal open/close/reopen, original transport, hidden video controls,
-six stable fenced1px crops and all owned cleanup/navigation restoration pass
+all owned cleanup/navigation restoration pass
 (`qa/pc-representative-images/actual-pc-large-still-rc34-c3-safe.json`,25.569s).
 Earlier sub-second capture deadline, API-versus-card representation mismatch and
 omitted auto-hidden-controls reveal are preserved as QA failures; corrected
 four local guards pass. No product edit or delivery repeat followed these tool
-repairs. Full image quality, alpha/delay/loop and GIF/WebP remain distinct.
+repairs. Its six painted-crop locations are provisional after the subsequent
+viewport/page-coordinate defect was found; lifecycle/API/source evidence remains
+valid. Full image quality and alpha/delay/loop remain distinct.
+
+Actual PC GIF and animated WebP now have checksum-equal original-byte encoded
+oracles and normal open/close/reopen receipts on the same rc34 source/account.
+GIF:2,059,056B/270x390/39frames/50ms/loop0. WebP:935,290B/262x326/90frames/100ms/loop0.
+Both contain no transparent frame, so neither qualifies alpha-bearing input.
+`qa/pc-representative-images/actual-encoded-oracle-rc34-c1-safe.json` owns exact
+encoded structure; c3 viewer receipts own two observed changing native crops per
+lifetime, original transport and cleanup. These do not prove exact physical
+display cadence or an entire displayed loop.
+
+The maintained QA sampler translates the viewport fence to page coordinates and
+records native DPR/physical dimensions. Cropped CDP calls still timed out after
+one successful preflight. Two ordinary native-viewport captures responded;
+the adapter now crops that bounded PNG in memory, discards the full image, charges
+all captured bytes against8MiB/12capture limits and retains only tiny-region hashes.
+This explicitly replaces the frozen preparation's cropped-request-only method;
+the historical producer and failed receipts are preserved, not edited. Current
+Puppeteer also uses page-space clipping and default scale1
+([official implementation](https://github.com/puppeteer/puppeteer/blob/main/packages/puppeteer-core/src/cdp/Page.ts)).
+WebP c3 passes27.819s/6crops/815,580wireB with a static card and both changing viewers.
+GIF c3 passes29.219s/6crops/953,298B for viewer lifetimes; its initial card includes
+a thumbnail/compositor transition and supplies no settled-static verdict. A
+separate ready-canvas/two-paint-frame/initial-compositor preflight plus card-only
+c5 proves the settled sampled card stable:7.168s,3totalcrops/367,127B including
+preflight. No live card IMG; all helpers/navigation/owned tabs cleaned and original
+user tab retained. c4 also retains its inconclusive card change.
+
+Six local guards have valid passing evidence across the scoped runs; the first
+viewport-dimension rejection test used a value within the intended rounding
+tolerance, then was corrected and the affected guards rerun. No product edit,
+full product-suite replay or candidate deployment followed these QA repairs.

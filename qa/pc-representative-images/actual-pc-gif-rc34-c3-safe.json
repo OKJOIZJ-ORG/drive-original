@@ -1,0 +1,473 @@
+{
+  "schema": "pc-image-observation/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "observerTemplateSHA256": "58096ab9f6061b73486dd59746d8f23ad5afb886bbaa9ce8d2898e75c69858d0",
+  "samplerTemplateSHA256": "d296113597b5cd30a0ee7fc90239bbfc07ed1f317dd306b152bd27269b6f8553",
+  "samplerSHA256": "cd67e9a54efa27c689247d688aa3eda7ec00be75375ce53036b3c4cfe83e9c7d",
+  "rows": [
+    {
+      "ordinal": 1,
+      "role": "gif",
+      "animation": "SAMPLED_VISIBLE_CHANGE",
+      "alpha": "UNKNOWN",
+      "delay": "UNKNOWN",
+      "loop": "UNKNOWN",
+      "encodedOracle": "NOT_SUPPLIED",
+      "windows": [
+        {
+          "phase": "card",
+          "samples": [
+            {
+              "elapsedMs": 2084,
+              "pngSha256": "3eb4a75c215f4dc22e3b88ebb73e31b467bd49ba7ba02ae1b2997305d4d7c17d",
+              "sourcePNGsha256": "bae5a54afb6ad72421409c93d0c32dcf8a027fd6d3763c180ec6d5356ca07727",
+              "sourceEncodedBytes": 60425,
+              "paintedCropRGBAsha256": "f6a73d377321c639a678b39a597f3cebfe4b53c294b58a05f48cd9e2169a76d6",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 299,
+                  "y": 355,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 299,
+                  "y": 385.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1525.5999755859375,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 373,
+                  "y": 443,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            },
+            {
+              "elapsedMs": 4476,
+              "pngSha256": "b1cba5d503d9d247c30facb96546de3facab480ffb1bc50805586c3a038eeac4",
+              "sourcePNGsha256": "4b19778a47c2d8bb22e0200459a3c4e1a6105782d3643b183d3a317849c6c657",
+              "sourceEncodedBytes": 116476,
+              "paintedCropRGBAsha256": "e35f10cd365ecd1e38292c6ece9f97242227a9cfc343e5216500d1c6688916a3",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 299,
+                  "y": 355,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 299,
+                  "y": 385.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1525.5999755859375,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 373,
+                  "y": 443,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            }
+          ],
+          "encodedBytes": 176901,
+          "distinctPaintedCrops": 2,
+          "observedChangingPixel": true,
+          "observedStablePixel": false,
+          "measurement": "native physical RGBA region for one CSS pixel; page-offset transform fenced",
+          "preciseDelayProven": false,
+          "fullLoopProven": false,
+          "alphaPreservationProven": false,
+          "originalByteIdentityProven": false,
+          "foregroundOwnerFencesPassed": true,
+          "rawPixelsExported": false
+        },
+        {
+          "phase": "viewer",
+          "samples": [
+            {
+              "elapsedMs": 372,
+              "pngSha256": "ccef7d7620d331b4bc5072e73a27d0136b80446ce78a3ed615e5d318be4fa2bb",
+              "sourcePNGsha256": "8dcc2a30de8d1baf26ee59a495cae03390c5c7b3982e6d67dd2c157677a3229c",
+              "sourceEncodedBytes": 185823,
+              "paintedCropRGBAsha256": "1bd3cf6b6d295e117697c2a1def2134c5e7abd5f5e718d1021e30234bd4e2c6f",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 768,
+                  "y": 319,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 768,
+                  "y": 349.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1536,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 960,
+                  "y": 398,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            },
+            {
+              "elapsedMs": 4985,
+              "pngSha256": "67eff55aad5c71b038888e9f7201b87873aa64e85ad8f56641faa892b0f50ebe",
+              "sourcePNGsha256": "42e1e4b84b607e747137a357b1459381b203446d024af8619f2f156a2b181214",
+              "sourceEncodedBytes": 184855,
+              "paintedCropRGBAsha256": "19e9950aa1c1a52b0b8362ee44e213cb352e52df1807fe1f733f38d4f9663400",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 768,
+                  "y": 319,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 768,
+                  "y": 349.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1536,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 960,
+                  "y": 398,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            }
+          ],
+          "encodedBytes": 370678,
+          "distinctPaintedCrops": 2,
+          "observedChangingPixel": true,
+          "observedStablePixel": false,
+          "measurement": "native physical RGBA region for one CSS pixel; page-offset transform fenced",
+          "preciseDelayProven": false,
+          "fullLoopProven": false,
+          "alphaPreservationProven": false,
+          "originalByteIdentityProven": false,
+          "foregroundOwnerFencesPassed": true,
+          "rawPixelsExported": false
+        },
+        {
+          "phase": "viewer",
+          "samples": [
+            {
+              "elapsedMs": 1078,
+              "pngSha256": "1687500c2e657db6aa087ba013ea2c33adf6ce55e15131650e209633bb6dc056",
+              "sourcePNGsha256": "d9f623e88717bec35082653aeeef7a3b8b0326227bbccf5f31455fe7469c54be",
+              "sourceEncodedBytes": 187074,
+              "paintedCropRGBAsha256": "41e1d7cee0bba57702a4737bafb918b5cf74b68e5e92c253cef14730f7c22cc2",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 768,
+                  "y": 319,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 768,
+                  "y": 349.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1536,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 960,
+                  "y": 398,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            },
+            {
+              "elapsedMs": 4525,
+              "pngSha256": "31063bc8bd55b259f28f7f735f10251be9f733967458a763777f599ef3b28f29",
+              "sourcePNGsha256": "63d9c7199207fe7a91565cec14efc8ed59100dd2b9c1c3c0873cc10f65a7eba0",
+              "sourceEncodedBytes": 218645,
+              "paintedCropRGBAsha256": "92b9ec1d76cb4b945ea6bc2c32d237aafaf8871cfb476c60a6c3fd8aebb27a5b",
+              "nativeWidth": 2,
+              "nativeHeight": 2,
+              "geometry": {
+                "schema": "native-crop-geometry/1",
+                "viewportClip": {
+                  "x": 768,
+                  "y": 319,
+                  "width": 1,
+                  "height": 1
+                },
+                "pageClip": {
+                  "x": 768,
+                  "y": 349.3999996185303,
+                  "width": 1,
+                  "height": 1,
+                  "scale": 1
+                },
+                "viewport": {
+                  "pageX": 0,
+                  "pageY": 30.399999618530273,
+                  "width": 1536,
+                  "height": 639.2000122070312
+                },
+                "dpr": 1.25,
+                "minPixels": 1,
+                "maxPixels": 3,
+                "capturePath": "native viewport PNG, discarded after memory-only crop",
+                "nativeRect": {
+                  "x": 960,
+                  "y": 398,
+                  "width": 2,
+                  "height": 2
+                },
+                "nativeViewport": {
+                  "width": 1920,
+                  "height": 799
+                }
+              }
+            }
+          ],
+          "encodedBytes": 405719,
+          "distinctPaintedCrops": 2,
+          "observedChangingPixel": true,
+          "observedStablePixel": false,
+          "measurement": "native physical RGBA region for one CSS pixel; page-offset transform fenced",
+          "preciseDelayProven": false,
+          "fullLoopProven": false,
+          "alphaPreservationProven": false,
+          "originalByteIdentityProven": false,
+          "foregroundOwnerFencesPassed": true,
+          "rawPixelsExported": false
+        }
+      ],
+      "beforeMetadata": true,
+      "selectedMetadataScope": "Exact card id/name/size/type/modifiedTime/parents; complete API revision/checksum tuple checked separately before/after",
+      "lifetime1": {
+        "accountSame": true,
+        "activeObserver": true,
+        "closed": false,
+        "exactSelectedMetadata": true,
+        "foreground": true,
+        "height": 390,
+        "imageErrorHidden": true,
+        "imageReady": true,
+        "noImageIframeFallback": true,
+        "online": true,
+        "originalMode": true,
+        "retired": false,
+        "sameOwner": true,
+        "selectionCleared": false,
+        "sourceQualified": true,
+        "sourcesCleared": false,
+        "transportVerified": true,
+        "verifiedWrongMimeImage": false,
+        "videoControlsHidden": true,
+        "videoHidden": true,
+        "viewed": true,
+        "width": 270,
+        "close": {
+          "accountSame": true,
+          "activeObserver": true,
+          "closed": true,
+          "exactSelectedMetadata": false,
+          "foreground": true,
+          "height": 0,
+          "imageErrorHidden": true,
+          "imageReady": false,
+          "noImageIframeFallback": true,
+          "online": true,
+          "originalMode": false,
+          "retired": true,
+          "sameOwner": false,
+          "selectionCleared": true,
+          "sourceQualified": true,
+          "sourcesCleared": true,
+          "transportVerified": false,
+          "verifiedWrongMimeImage": false,
+          "videoControlsHidden": true,
+          "videoHidden": true,
+          "viewed": true,
+          "width": 0
+        }
+      },
+      "lifetime2": {
+        "accountSame": true,
+        "activeObserver": true,
+        "closed": false,
+        "exactSelectedMetadata": true,
+        "foreground": true,
+        "height": 390,
+        "imageErrorHidden": true,
+        "imageReady": true,
+        "noImageIframeFallback": true,
+        "online": true,
+        "originalMode": true,
+        "retired": false,
+        "sameOwner": true,
+        "selectionCleared": false,
+        "sourceQualified": true,
+        "sourcesCleared": false,
+        "transportVerified": true,
+        "verifiedWrongMimeImage": false,
+        "videoControlsHidden": true,
+        "videoHidden": true,
+        "viewed": true,
+        "width": 270,
+        "close": {
+          "accountSame": true,
+          "activeObserver": true,
+          "closed": true,
+          "exactSelectedMetadata": false,
+          "foreground": true,
+          "height": 0,
+          "imageErrorHidden": true,
+          "imageReady": false,
+          "noImageIframeFallback": true,
+          "online": true,
+          "originalMode": false,
+          "retired": true,
+          "sameOwner": false,
+          "selectionCleared": true,
+          "sourceQualified": true,
+          "sourcesCleared": true,
+          "transportVerified": false,
+          "verifiedWrongMimeImage": false,
+          "videoControlsHidden": true,
+          "videoHidden": true,
+          "viewed": true,
+          "width": 0
+        }
+      },
+      "afterMetadata": true,
+      "sampleCount": 6,
+      "encodedBytes": 953298,
+      "staticList": "UNKNOWN",
+      "disposed": {
+        "listenersOwned": 0,
+        "observerRemoved": true,
+        "timersOwned": 0
+      }
+    }
+  ],
+  "passed": true,
+  "cleanup": {
+    "normalClose": {
+      "closed": true,
+      "retired": true,
+      "sourcesCleared": true
+    },
+    "observer": {
+      "observerRemoved": true
+    },
+    "navigationRestored": {
+      "restored": true,
+      "normalUi": true
+    },
+    "ownedTransport": {
+      "closed": true,
+      "ownedOnly": true,
+      "ownedTabClosed": true,
+      "originalUserTabKept": true,
+      "idle": true,
+      "observerRemoved": true,
+      "proofRemoved": true
+    }
+  },
+  "rawIdentifiersExported": false,
+  "elapsedMs": 29219,
+  "qualityAcceptance": "UNKNOWN"
+}

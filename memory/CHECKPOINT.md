@@ -1,33 +1,31 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 actual read512-c1
+# Checkpoint — ACTIVE D074 — 2026-10-02 PC native image unit verified
 
 ## The story so far
 
-Whole approved queue remains ACTIVE. Branch codex/v2-kickoff-diagnostics, HEAD218f899 before this completed-unit savepoint. Q3-only 512KiB read/cache coalescing has88 focused passes. Actual Android read512-c1 processed5400/5400 pictures and played180s at1x to native ended=true/currentTime=duration180; the strict observer captured no trusted ended event and failed EOF_SUSTAINED_NATIVE_EOF_BOUND. Original MEDIA06/09/CORPUS06/QA-FM04 require real sustained playback/resources, not that additional event oracle. Functional sustained endpoint is supported by combined frames/clock/source/MSE/native-state/fresh-owner/cleanup evidence; strict receipt stays failed and full resource/quality acceptance remains separate. Q3-PRODUCT-20261002.md owns the adjudication; no unchanged180s replay.
+Whole approved queue remains ACTIVE. Branch codex/v2-kickoff-diagnostics, HEADdcdbafa. Candidate09c61bd/1.22.0-rc.34/Worker6858a2cf delivery,106 release/static/SW checks,88 focused Q3 checks and actual PC/Android normal update are saved. Production1.21/e08989a and automation PAUSED. Q3-PRODUCT-20261002.md owns actual Android5400frames/180s/1x/native-ended functional endpoint adjudication; strict trusted-ended receipt remains failed. Reuse prior Q0/TS/PCM/layout/state/finite-Q3/local-quality evidence; no unchanged playback rerun or full corpus scan.
 
-Deployed candidate is source09c61bd/rc34/Worker6858a2cf. CANDIDATE-RC34-20261002.md owns61public/46cache/9archive/6private404/cold-offline/package/readback proof;106 release/shell/SW checks pass. Android EOF proof binder UUID mistake is fixed (four focused guards) and bound to exact rc34 readiness. Existing PC/Android Q0, TS/PCM/layout/state, finite Q3 and local5400frame output proofs remain valid. Production1.21/e08989a and automation PAUSED.
+PNG normal open/close/reopen and fresh API/account/source/cleanup passed and were committed. New original-byte oracle identifies opaque GIF39frames/50ms/infinite-loop and WebP90frames/100ms/infinite-loop, with exact original checksums and fresh metadata. GIF actual lifecycle passed; WebP card crop timed out before opening. Native crop location evidence is now provisional: observer gives viewport coordinates but raw Page capture uses page coordinates; existing DPR scaling also caused timeouts. Same original PC tab works at scroll0, and page-offset/native-scale capture responds fast with2x2 physical PNG. Maintained sampler/adapter now uses bounded native viewport PNG in memory, records DPR/offset/physical crop and counts all captured bytes. WebP c3 viewer/static-list/cleanup passes; GIF c3 viewer plus ready-canvas/compositor/card-only c5 settled static-list pass. Failed/inconclusive c1/c2/c4 remain. Historical PNG painted locations stay provisional. Encoded structure is preserved, but alpha-bearing input and precise physical timing/loop/full-quality remain unqualified. CANDIDATE-RC34-20261002.md owns details.
 
-PC and physical Android normal banner updates33→34 preserve account/writer/projection/cache and verify the same source. All actual players/observers/resource samplers/transports are idle. One exact disposable180s fixture/QA folder remains for final recoverable-trash cleanup; private ledgers/target remain only in qa/v2-state-recovery-backup. Do not upload again. Root normal PC tab275140031 returned to its original navigation: representative PNG2,013,106B/831x1215 normal open/close/reopen, same-source/account, completeAPI metadata before/after, six fenced painted crops and cleanup pass (`qa/pc-representative-images/actual-pc-large-still-rc34-c3-safe.json`). This is largest among71loaded images only; full quality/alpha/animation remain unknown. Tool deadline/thin-card/hidden-controls failures and recovery are preserved; product unchanged. No full corpus scan (128consumed/123classified/5unknown/8468unattempted).
+All players, observers and owned image tabs are closed; original normal tab275140031 is root/scrollY639.2 with no owned helper. One exact180s disposable Q3 file/folder remains for final recoverable trash. Private targets/original image bytes stay in qa/v2-state-recovery-backup. No competing account/device writer; independent original-criteria audit finished.
 
 ## Decided
 
-- D050/D074 authorize exact disposable fixture, PC/physical Android, code/local commits and free candidate delivery. No production/main/push/new grants/permanent delete.
-- Q3 encoder/geometry/color/clock/ACK logic is unchanged. Probe/Q1/Q2 keep64KiB/256KiB defaults; only sustained Q3 uses512KiB. Retained cache is not total/native heap.
-- Reuse valid checks; actual account/playback/state units stay sequential. Independent local/PC preparation may run in parallel. iOS remains postdeployment.
+- D050/D074 allow exact disposable fixture, real PC/Android, code/local commits and free candidate. Production/main/push/new grants/permanent deletion need separate authority; iOS is deferred.
+- Original finite functional criteria do not require the extra trusted-ended oracle. Keep its failed receipt and separate resource/quality limits.
+- Do not broadly rewrite to functional programming. Resolve shared-state ownership and the responsible failing layer; consolidate tools/docs and reuse valid evidence.
+- Native crop proof must record page-coordinate conversion and DPR footprint, not label a2x2 native capture as raw1x1. No product deployment for a QA repair.
 
 ## Waiting on the user
 
-None. Earlier Chrome Allow request is stale; intended normal-profile CUA was established.
+None. Intended normal Chrome profile is connected. Stop only at an actual login/2FA or publication boundary.
 
 ## Next first action
 
-Save the completed actual EOF/image evidence and QA-only repairs, then continue the remaining original-ID session/performance/representative-format/integration clauses using valid prior evidence. Independent read-only reconciliation is active; no shared account writer runs concurrently. A narrow actual-app near-tail event observation is optional causal evidence, not a prerequisite invented for the original sustained endpoint. iOS remains postdeployment; production/main/push require separate authority.
+Save this verified QA/image unit, then continue PNG/JPEG/BMP/alpha applicability and only missing representative observations, exact disposable cleanup before one-session reconnect, failure-inclusive performance adjudication and original69-clause adoption/integration. Reuse completed original-byte/physical-device/controlled proofs; no new framework, full scan or unchanged whole-suite replay. Independent read-only alpha/timing/performance audit is active; no competing account writer.
 
 ## Tried
 
-- Actual Android EOF300s reached70.967s/endedfalse; failed evidence and cleanup retained, no bound extension.
-- Direct Android Drive preflight206 failed exposed-header contract before byte admission; no unchanged retry.
-- Owned normal-profile MCP list_pages180s timed out before admission and was closed; configured MCP had no candidate tab. CUA intended existing tab succeeded.
-- Localhost code bridge timed out with0requests and was stopped; direct local fs/SHA loading succeeded.
-- First rc34 local release check found hardcoded rc33 and default spec-count parsing; both corrected, explicit TAP106/106 passed.
-- UUID/semantic-version binder check was wrong; QA-only fix/four guards passed, no product redeploy for that repair.
-- Actual read512-c1 strict event receipt failed despite native180s/1x/ended property. Frozen observer ownership guards4/4 and desktop/sameAndroid isolated endpoint A/B both deliver trusted ended; neither confirms an actual-runtime cause. All owned cleanup passed.
+- Android direct Drive header preflight failed before admission; strict300s EOF receipt failed despite functional endpoint; evidence preserved.
+- GIF c1 and WebP c1 card crop CAPTURE_DEADLINE; all owned cleanup/navigation passed. GIF c2 normal lifecycle passed, precise crop coordinates provisional.
+- High-level tab screenshot is JPEG, rejected by frozen PNG sampler. No blind retry.
+- Raw1x1/scale1/DPR at nonzero scroll timed out; same target scroll0 capture succeeded. Device-aligned page-offset/default-scale capture returned native2x2PNG fast but frozen sampler rejected dimension. Fix QA coordinate/DPR contract before another actual run.
