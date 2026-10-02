@@ -1,0 +1,253 @@
+{
+  "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "base": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "passed": false,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 52202,
+      "gitEqual": true
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "gitEqual": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 531038,
+      "gitEqual": true
+    },
+    {
+      "file": "styles.css",
+      "bytes": 85128,
+      "gitEqual": true
+    },
+    {
+      "file": "sw.js",
+      "bytes": 72974,
+      "gitEqual": true
+    },
+    {
+      "file": "version.json",
+      "bytes": 249,
+      "gitEqual": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "gitEqual": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "gitEqual": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 18497,
+      "gitEqual": true
+    },
+    {
+      "file": "media/revision-pin.js",
+      "bytes": 10050,
+      "gitEqual": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 17574,
+      "gitEqual": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 51834,
+      "gitEqual": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42568,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "bytes": 6335,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "bytes": 1666,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "bytes": 6736,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-tracks.mjs",
+      "bytes": 5621,
+      "gitEqual": true
+    },
+    {
+      "file": "media/subtitle-track.mjs",
+      "bytes": 15498,
+      "gitEqual": true
+    },
+    {
+      "file": "media/subtitle-presentation.mjs",
+      "bytes": 2708,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "bytes": 10744,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-player.mjs",
+      "bytes": 21909,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-source.mjs",
+      "bytes": 4046,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "bytes": 6090,
+      "gitEqual": true
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "bytes": 3279,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "bytes": 686739,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "bytes": 16726,
+      "gitEqual": true
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "bytes": 2955,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "bytes": 18099,
+      "gitEqual": true
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "bytes": 3443,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-input.mjs",
+      "bytes": 9977,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-pipeline.mjs",
+      "bytes": 10378,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-worker.mjs",
+      "bytes": 3344,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-codec.mjs",
+      "bytes": 13110,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-codec.wasm",
+      "bytes": 614556,
+      "gitEqual": true
+    },
+    {
+      "file": "media/video-q3-codec.LICENSE.txt",
+      "bytes": 55828,
+      "gitEqual": true
+    }
+  ],
+  "privateRoutes": [],
+  "scope": "Public delivery and fresh unauthenticated Chrome shell only; no actual Drive/media/device acceptance",
+  "currentStep": "public:licenses/video-q3-source.tgz",
+  "error": "The operation was aborted due to timeout",
+  "recordedAt": "2026-10-02T05:25:12.476Z"
+}

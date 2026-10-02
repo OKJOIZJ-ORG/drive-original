@@ -1,20 +1,15 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 verified track unit before rc35
+# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 idle worker qualification
 
 ## The story so far
 
-Approved full queue ACTIVE on codex/v2-kickoff-diagnostics, HEADf64f583 (immutable FM05 baseline preserved). Candidate09c61bd/rc34/Worker6858a2cf unchanged; images/exact fixture cleanup/same-account session restoration committed. RC34 owner holds receipts. Original69-clause adoption and historical unmapped Q1 MOV90% timeout remain; no full corpus scan.
+Approved full queue ACTIVE on codex/v2-kickoff-diagnostics, immutable source 2c2b1244bee0f1a5e500318c83c6e126c5124e34. Verified bounded audio/subtitle selection, selected Q2, terminal seek recovery and retained failures are committed; 220 focused app/static/routing/track checks and 17 endpoint checks passed. RC35 owner is memory/CANDIDATE-RC35-20261002.md. Exact metadata/AVC/YUV is preserved, while undeclared-color canvas difference remains UNKNOWN/failed strict oracle. No broad corpus scan.
 
-Working product now has bounded8-track admission/aggregate limits, exact selectedAAC/Q2 track ID propagation, tx3g source-clock reader and reusable nativeTextTrack, lazy native desktop/mobile selection dialog and lifecycle barriers. Public allowlist adds3 modules (63 assets); version still34 locally, DO NOT deploy until verified/version cut. Lowerselectedaudio9,subtitle30,presentation5,appownership5 pass; earlier214app/static/routing pass needs finalchanged-cut check. Controlled actual-app native3 selection/seeks then2paused/3playing and combined tx3g4 across Q1 switches pass. Independent stale-file/session inventory, exactmissing999 refusal and padded pendingcue close pass; all owners/browsers/server cleaned. First native→Q1 selection TypeError was fixed by joining q1Retirement with no oldowner; defaultnativeTextTrack explicitlyoff. Preserved failures/results under qa/player-track-selection.
-
-Q1 endpoint now records the actual last copied presentation frame and only substitutes it for a terminal request outside the exclusive native buffer. Native exact6/paused5.999999/backseek2/autoplay-natural-end at1000ms and4reader abort-once cleanup pass;17focused checks. Same24video packet payload/rationalclock and last decoded YUV exact. Strict canvasRGBA differs materially for absent declared color; retained FAILURE/UNKNOWN, not a pixel pass or guessed matrix fix. Audio agent only inspecting absent colr/SPS metadata; no further product edits.
-
-Nine unique controlled actual-app cases plus one discriminating Q2 selection case pass across retained producer phases (37producer hashes, not public asset counts). Q2 defaultAC3 ID2→selectedEAC3 ID3 gives native frames/backseek/pausedstate and exact144copiedvideo packets with Opus48kstereo audio. Retry picker3/actual3 and allcleanup pass. Latest220app/static/routing/track guards and version35 static20 pass. Final review narrowed endpoint guard to reject targets beyond actual lastvideo frameend, including exactmovieend;17checks pass, final general-player046a4cdef65abbf7e442747db9006ae86e190453e87e0703fcd847dbce70775a. Earlier positive native6s proofs remain scoped to their originalhash and unchangedpositive predicate. Root curates/commits rc35/public63 then one free candidate publish. Androidauthorized1/SM-X800/Android16 responds; actor prepares executable owned localhost combined-fixture runner only, tablet desktopdialog bydefault. No actual account/device writer/helper active; normal Chrome tab275140556 reconnected/idle.
+One free rc35 deployment/readback passed, Worker5976c3f9-ba4f-47a1-955a-06d9748f6302. Delivery64/cache49/sourcearchives9/private4046/offline0errors/readiness/package64 and actual PC34→35 preservation49cache/50aliases/3network PASS; PC helpers removed/owners absent. Partial tool failures/pinned prefixes retained, no redeploy. Android Q0 frame/pause/inventory/nativeAAC3 choice pass, selectedQ1 frame/retirement FAIL. Lifecycle diagnostic confirms controller replacement4024ms afteraudioarm, preceding20s timeout and normalBack; app's safe worker-update-required branch triggers. Initial automatic versus unexpected same-source update UNKNOWN. All external resources closed. Actor now executes exactly one idle-only45s source/update/stability qualification, no media retry. Root original69 draft remains unadopted; TR01 cold lineage was too broadly qualified and is now unresolved. Separate medium agent prepares a concrete cold gate without actual work. No new PC performance playback started; historical MOV90% and unspecified-color/HDR limits remain.
 
 ## Decided
 
-- D050/D074 permit exact disposable fixture, real PC/Android, local commits/free candidate. Production/main/push/new grants/permanent deletion separate; iOS deferred, automation PAUSED.
-- Preserve original payload/clock/language; explicit unsupported/error never silently chooses another audio. Metadata probes lazy; caption reader independently fenced and directly boundedRange so Q1 seek retirement cannot cancel it.
-- Generated FM05 inputs permitted by EXP03; controlled native Chrome is not physicalAndroid/real-account proof. Tool failures repaired atQA only; passing independent checks reused.
+- D050/D074 permit exact disposable fixture, real PC/Android, local commits/free candidate; production/main/push/new grants/permanent deletion separate. iOS deferred; automation PAUSED.
+- Reuse valid unchanged receipts. Tool-only changes do not trigger product deployment or whole suite. Caption/track failures remain explicit; no guessed color matrix.
 
 ## Waiting on the user
 
@@ -22,13 +17,12 @@ None.
 
 ## Next first action
 
-Finish color metadata adjudication without guessing, review/curate the verified unit and stage exact task paths, version rc35/public63 cut, then one candidate publish/readback/package and affected physical Android qualification. Reuse unchanged acceptance receipts; historical Q1 MOV90% timeout remains censored/unmapped.
+Read qa/player-track-selection/android-idle-admission-result.json when finalized and Android actor's actual executing-SW/source/update/stability adjudication; only then admit stable selected-track playback or fix the confirmed responsible layer.
 
 ## Tried
 
-- Native→Q1 selection awaited undefined oldowner cleanup; fixed joining shared retirement, added2 regression guards.
-- ExactEOF Q1 source5.999999 had no native presentable target; terminal copied-frame repair now passes native endpoint/backseek/natural-end, interior gaps still refuse.
-- Retry restored actual selectedAAC3 but picker displayed2; exact active-lifetime identity/choice seeding now verified, no cross-account/session inheritance.
-- Pendingcue gate was inside64KiB discovery cache; generated padded-mdat fixture with unchanged tx3g packet/timing now proves actual pendingRange cancellation.
-- Mobile idle controls are hidden; resetControlsTimer is not reveal. QA must use intended keyboard #playerControlsEntry.
-- HistoricalPC30 timeout identity unavailable; separate MKV or ISO MOV header cannot substitute.
+- First delivery audit timed out on licenses/video-q3-source.tgz after48 successful Git-equal entries; prefix and raw failure retained, browser never launched.
+- First resume reached59 successes then part004 total120s at6.98MB; cleanup rejected because its HTTP stream was aborted. Preserve primary deadline, accept settled rejection/release reader; actual HTTP abort regression passes. Large-file cap240s is based on observed progress, not an identical retry.
+- Inline PowerShell/Node quoting failed to create resume files; dependent module calls also failed without an audit start. Replaced with literal patched preparation and checked sequential execution.
+- rc34 read-only preflight referenced rc35-only playerTracksOwner; typeof guard fixed QA, no product mutation.
+- Earlier native→Q1 null-owner, retry-picker identity, pendingcue gate and terminal-frame gap defects were fixed and validated in the committed unit. Strict undeclared-color RGBA identity is not claimed.

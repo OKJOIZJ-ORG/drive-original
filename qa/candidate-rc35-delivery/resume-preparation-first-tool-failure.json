@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "classification": "QA_SHELL_QUOTING_PREPARATION_FAILURE",
+  "productMutation": false,
+  "auditStarted": false,
+  "stages": [
+    "POWERSHELL_PARSE_ERROR",
+    "MISSING_RESUME_MODULE_SYNTAX",
+    "MISSING_RESUME_MODULE_RUN",
+    "QA_NEWLINE_MATCH_PREPARATION"
+  ],
+  "correction": "Literal file patch, normalized producer newline matching and checked preparation before dependent execution"
+}

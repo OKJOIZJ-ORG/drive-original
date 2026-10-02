@@ -1,0 +1,402 @@
+{
+  "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "base": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "passed": false,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 52202,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "runtime-config.js",
+      "bytes": 300,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 531038,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "styles.css",
+      "bytes": 85128,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "sw.js",
+      "bytes": 72974,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "version.json",
+      "bytes": 249,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 639,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "icons/app-icon.svg",
+      "bytes": 443,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "icons/icon-192.png",
+      "bytes": 707,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "icons/icon-512.png",
+      "bytes": 2091,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "icons/maskable-512.png",
+      "bytes": 2068,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "bytes": 656,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/drive-source.mjs",
+      "bytes": 18497,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/revision-pin.js",
+      "bytes": 10050,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/ts-player.mjs",
+      "bytes": 17574,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/q1-core.mjs",
+      "bytes": 51834,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/transmux-worker.mjs",
+      "bytes": 42568,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/mux-mp4.min.js",
+      "bytes": 85985,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/mux-LICENSE.txt",
+      "bytes": 11342,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-admission.mjs",
+      "bytes": 6335,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-codec.mjs",
+      "bytes": 1666,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-owner.mjs",
+      "bytes": 6736,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-tracks.mjs",
+      "bytes": 5621,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/subtitle-track.mjs",
+      "bytes": 15498,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/subtitle-presentation.mjs",
+      "bytes": 2708,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-pipeline.mjs",
+      "bytes": 10744,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-player.mjs",
+      "bytes": 21909,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-source.mjs",
+      "bytes": 4046,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-timeline.mjs",
+      "bytes": 6090,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/general-worker.mjs",
+      "bytes": 3279,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/mediabunny-q1.mjs",
+      "bytes": 686739,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/mediabunny-q1.LICENSE",
+      "bytes": 16726,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/mediabunny-q1-NOTICE.md",
+      "bytes": 2955,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-runtime.mjs",
+      "bytes": 11482,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-adapter.mjs",
+      "bytes": 2790,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-worker-client.mjs",
+      "bytes": 6213,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-worker.mjs",
+      "bytes": 3268,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-codec.mjs",
+      "bytes": 15193,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-codec.wasm",
+      "bytes": 502740,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-codec.LICENSE.txt",
+      "bytes": 71576,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-general-pipeline.mjs",
+      "bytes": 18099,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/audio-general-worker.mjs",
+      "bytes": 3443,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-input.mjs",
+      "bytes": 9977,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-pipeline.mjs",
+      "bytes": 10378,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-worker.mjs",
+      "bytes": 3344,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-codec.mjs",
+      "bytes": 13110,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-codec.wasm",
+      "bytes": 614556,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "media/video-q3-codec.LICENSE.txt",
+      "bytes": 55828,
+      "gitEqual": true,
+      "reused": true
+    },
+    {
+      "file": "licenses/video-q3-source.tgz",
+      "bytes": 1749920,
+      "elapsedMs": 9160,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/video-q3-source-NOTICE.md",
+      "bytes": 2690,
+      "elapsedMs": 1426,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/video-q3-source-manifest.json",
+      "bytes": 4774,
+      "elapsedMs": 334,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/index.html",
+      "bytes": 5933,
+      "elapsedMs": 607,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/mediabunny-q1-preferred-source.tgz",
+      "bytes": 457141,
+      "elapsedMs": 1703,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-NOTICE.md",
+      "bytes": 4212,
+      "elapsedMs": 303,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-manifest.json",
+      "bytes": 8661,
+      "elapsedMs": 592,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-reconstruct.cjs",
+      "bytes": 958,
+      "elapsedMs": 296,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part001",
+      "bytes": 8388608,
+      "elapsedMs": 8271,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part002",
+      "bytes": 8388608,
+      "elapsedMs": 2744,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    },
+    {
+      "file": "licenses/audio-source-v1.tar.gz.part003",
+      "bytes": 8388608,
+      "elapsedMs": 6304,
+      "totalBudgetMs": 120000,
+      "noProgressBudgetMs": 15000,
+      "gitEqual": true
+    }
+  ],
+  "privateRoutes": [],
+  "producerSha256": "3e94e93004a7fe5b909e295eb3e00317eb97f94bfcef1a557ddf15838ff63956",
+  "downloadProducerSha256": "614d59836efdfa87d84000e468d078c03513e3be99654e8b3d0955f06ce2b2b8",
+  "reusedPublicPrefix": {
+    "path": "qa/candidate-rc35-delivery/results-first-partial.json",
+    "sha256": "9148bff5627c150c908f112aa80baf98a6ba88012e99dd00d68cfaf3e83a9394",
+    "count": 48,
+    "originalProducerSha256": "dab8cb033cb0da882db14a8875714e6245c920ba78c0cddf418a5a6da507b41a"
+  },
+  "scope": "Public delivery and fresh unauthenticated Chrome shell only; no actual Drive/media/device acceptance",
+  "currentStep": "public:licenses/audio-source-v1.tar.gz.part004",
+  "downloadFailure": {
+    "bytesRead": 6984064,
+    "expectedBytes": 8388608,
+    "elapsedMs": 120021
+  },
+  "error": "DELIVERY_CLEANUP_UNSETTLED",
+  "recordedAt": "2026-10-02T05:43:59.165Z"
+}

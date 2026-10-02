@@ -1,0 +1,10 @@
+{
+  "classification": "QA canonical newline comparison defect; product unchanged",
+  "phases": [
+    {"phase": 1, "reason": ".gitattributes working CRLF vs canonical Git LF", "stagingStarted": false},
+    {"phase": 2, "reason": "document working CRLF vs canonical Git LF", "stagingStarted": true, "onlyOwnedPathsStaged": true}
+  ],
+  "correction": "Use canonical Git filters for text documents and unchanged attributes; retain exact raw-byte verification for -text QA evidence. Permit only existing owned staged paths on recovery.",
+  "productTestsRepeated": false,
+  "deploymentRepeated": false
+}

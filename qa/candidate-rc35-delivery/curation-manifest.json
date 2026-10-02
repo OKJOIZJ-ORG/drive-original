@@ -1,0 +1,260 @@
+{
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "worker": "5976c3f9-ba4f-47a1-955a-06d9748f6302",
+  "publicScopeUnchanged": true,
+  "passingDelivery": true,
+  "passingNormalPCUpdate": true,
+  "privateReferenceCount": 7,
+  "privateReferenceMatches": 0,
+  "privateExcluded": [
+    "deployment-private.log",
+    "version-readback-private.json",
+    "version-readback-error-private.log"
+  ],
+  "failedDownloadProducerRecoveredExactly": true,
+  "files": [
+    {
+      "file": "qa/candidate-rc35-delivery/attest-android-publication.cjs",
+      "bytes": 3012,
+      "sha256": "90f39fe17628d60ae159414de38eff797d486b1929d992e53a25c3b0a6c405fd"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-memory-guard-first.json",
+      "bytes": 462,
+      "sha256": "ecf0869b220364bf9804cf79d1ab14be88d72d24a30732bedad4f0bbcea5589b"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-memory-guard-second.json",
+      "bytes": 462,
+      "sha256": "f27c3fa3a7ddbac79331c971efb136801e0dc010fc6994c25c221d5939d3dbd3"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-memory-guard.json",
+      "bytes": 462,
+      "sha256": "302932942c7e9a0ef0908423f6aef560a5c446b0c4634f5fca07bd2af84ba63f"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-output-first-partial.log",
+      "bytes": 157,
+      "sha256": "a19f9a162208ae43a1b343d65e9e0f1b0a14fb73be87196765151ab076ddcc82"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-output-second-partial.log",
+      "bytes": 1281,
+      "sha256": "43750ec25f88d7e9658fa6474a4113e586f5a68e4e632a334fe61e78023919ba"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-output.log",
+      "bytes": 575,
+      "sha256": "554375354105b8e5fe59b606fc9dd5701e019d6e1090fbdb812b857171caf4cc"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-progress.json",
+      "bytes": 128,
+      "sha256": "d6ff494b21820698946d14b83546252220c372730e4c333104991b1d75b1af58"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/audit-with-memory-guard.cjs",
+      "bytes": 2318,
+      "sha256": "3c262161bb02f6f387fbd7ef4a7e3d80a104a55507a6f0faacffc2b4981e32bc"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/build-release.py",
+      "bytes": 3995,
+      "sha256": "fb0b0ffd273424396cc3a442d2de1906af618dc9334cddeef68ebbe31b393464"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/delivery-guard.cjs",
+      "bytes": 5259,
+      "sha256": "fa73130091a59c40b28155c2239c0cfd4c972d21b0e090eb52d1bd63c4b2a19f"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/deploy-candidate.cjs",
+      "bytes": 1752,
+      "sha256": "f1af8bd302aaa2af527e358bbd2407da61810131c233902519239d44eeba2ff2"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/deployment.json",
+      "bytes": 11152,
+      "sha256": "bb13ef4aab99c482c90f4deee4b25f18637aecca1f90c3be60eef3fbfaef06e7"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/finalize-source-readiness.cjs",
+      "bytes": 5542,
+      "sha256": "09dcbcbf2a54d4c79570518f3f87450a5293fe2162fd4b8196dbac991dbfacba"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/materialization.json",
+      "bytes": 10910,
+      "sha256": "b5232525cf053da8697f277d3e13bd80e367ca3885678eec5362c1fc75d8a8e1"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/materialize-candidate.cjs",
+      "bytes": 1207,
+      "sha256": "11760967702fdcc0182d033fe6bd7f0a332f58e00ca53d9a6a69cd0c14214e82"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/package.json",
+      "bytes": 876,
+      "sha256": "2e60f37296ed90a35cb6dae3847c87444c3d36ab71c7c3589064e2f3d8d7f3aa"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-normal-update-cleanup.json",
+      "bytes": 167,
+      "sha256": "dff2517e91f9770354d5a7922dccda24613c3737638153027021943af4e1792a"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-normal-update-source-cache-result.json",
+      "bytes": 4696,
+      "sha256": "ae760e37c6e7747fff3e8621841a6ef587b5cf125009879ce9def6144e0ec250"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-source-binding.json",
+      "bytes": 7531,
+      "sha256": "6f0f51129ceee03e614e905bd2f1f220d6ba1a7002769bd882cf141b5c2da422"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-source-proof.expression.js",
+      "bytes": 9591,
+      "sha256": "a8c354de9d7a45b32d5a8c6d43975bdd4b3a7d8f5905fa95dc1ec9c08fb40807"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-update-baseline-actual.json",
+      "bytes": 249,
+      "sha256": "5b7b7e8d0f4500d0995be4e55eded5fff9ccf6a0049849c4628dc22a773b6b30"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-update-baseline.expression.js",
+      "bytes": 3002,
+      "sha256": "637ca2e157c291fa03bc40a0131439abb1975facd364a29c59ac6ae972a08824"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/pc-update-preflight-first-tool-failure.json",
+      "bytes": 256,
+      "sha256": "d582d12e40525e1496285f35b036b3a75343f7aa869a0bdadc5f5b04fe4baec2"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/prepare-pc-update.cjs",
+      "bytes": 2698,
+      "sha256": "176128f59bea59a3fa75026df47c5ed00d46a89bd4d9e07816804fc438f4f372"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/prepare-resume-audit.cjs",
+      "bytes": 9546,
+      "sha256": "d5dbbd6376b25cc42183fa557ff700c27d06c75672b8a3d5877a1bf56b2bec7f"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/readback-candidate.cjs",
+      "bytes": 1076,
+      "sha256": "cd81cd220fa17228cfe4fc66e7761901b3dda070558b899eba9ba66a84b645d9"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/redact-readback.cjs",
+      "bytes": 2129,
+      "sha256": "b88818251e4823d18f91d2062d3b3ee066ca5e7449d71ce54f09c17a08d1c914"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/redacted-readback.json",
+      "bytes": 1624,
+      "sha256": "3b9ccdeeb4b7aed4c696d39beee4257fe034719dd6e1c5b14b717d272cb73e9e"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/results-first-partial.json",
+      "bytes": 5209,
+      "sha256": "9148bff5627c150c908f112aa80baf98a6ba88012e99dd00d68cfaf3e83a9394"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/results-second-partial.json",
+      "bytes": 9066,
+      "sha256": "a1fe26f4b4bbfd2d5a4f5c563e5439a3bd13b9318212f022d9bd39d14e36a2ac"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/results.json",
+      "bytes": 15875,
+      "sha256": "d7d013c957ea2b2c0dfc21e619346d019f1d87da993f27c5faeaa98db4bae3d0"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/resume-audit-with-memory-guard-second.cjs",
+      "bytes": 2346,
+      "sha256": "1d8b7eae502350450d8d3267416c502f9ea52292804d9c95368b2a7fa33c6374"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/resume-audit-with-memory-guard.cjs",
+      "bytes": 2339,
+      "sha256": "3cb2034004020442f8e74327b599eb34adef897f62c22227facb5c3616127403"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/resume-delivery-audit-second.cjs",
+      "bytes": 7681,
+      "sha256": "4e889e88a52e2cd19753730886141a8567d7df60ccde8ee5bf0f2fbfc6a3e524"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/resume-delivery-audit.cjs",
+      "bytes": 7002,
+      "sha256": "3e94e93004a7fe5b909e295eb3e00317eb97f94bfcef1a557ddf15838ff63956"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/resume-preparation-first-tool-failure.json",
+      "bytes": 415,
+      "sha256": "29f1df38ea5c9e917498ae1cb4a81b948d6ece808b07fe90d450e2f156a14e38"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/source-readiness.json",
+      "bytes": 11006,
+      "sha256": "09a18c417270fa2d4ada6656e8a3b7cba497e09eec5acfbce0f70f2da648749c"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/verified-download.cjs",
+      "bytes": 2395,
+      "sha256": "4089984977f9a82c7907ac851c82e3367f040bfd11caa2ef3a55228c4ab25732"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/verified-download-first-phase.cjs",
+      "bytes": 2224,
+      "sha256": "614d59836efdfa87d84000e468d078c03513e3be99654e8b3d0955f06ce2b2b8"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/verified-download.test.cjs",
+      "bytes": 2829,
+      "sha256": "79f869f5d84b0084320bdef763bbd95608b5490994fac1b8f66887e0dbba022d"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/curate-delivery-savepoint.cjs",
+      "bytes": 5290,
+      "sha256": "c0380250c395a77d0e2d10e9447db78e2fa54cf8760db2d916fa36e9d96203f5"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/stage-delivery-savepoint.cjs",
+      "bytes": 1865,
+      "sha256": "497c8240598fc0aa2e1d818884bff1ce0de48086ec67261680174458f6be4a1f"
+    },
+    {
+      "file": "qa/candidate-rc35-delivery/stage-savepoint-tool-failures.json",
+      "bytes": 598,
+      "sha256": "75d97b9fb8dd9e954b6188740908f39f808da71ca4fb608be6efd62ec5573a99"
+    },
+    {
+      "file": "memory/CANDIDATE-RC35-20261002.md",
+      "bytes": 6682,
+      "sha256": "2397453c89ffce692a56ea626affff1f15529d481c93bf7c75043f24b720e94e"
+    },
+    {
+      "file": "memory/CHECKPOINT.md",
+      "bytes": 3305,
+      "sha256": "96ef8a1dee6b0061d6490d93f6b7bbf47e6c2066b89e41ad67904a5716d12d0f"
+    },
+    {
+      "file": "memory/goal/commercial-player-stability.md",
+      "bytes": 112480,
+      "sha256": "6fa60f24681521a421eb4155473b75bb3316613ba29bab637fbb8040027c0e5d"
+    },
+    {
+      "file": "memory/checkpoints/20261002-1439-rc35-delivery.md",
+      "bytes": 4781,
+      "sha256": "fb9c9b8a99028f9451b4021e418688344f4bbde81181e275f31e5d54f69494e0"
+    }
+  ],
+  "producerSha256": "c0380250c395a77d0e2d10e9447db78e2fa54cf8760db2d916fa36e9d96203f5",
+  "scope": "Exact passing delivery and normal PC update savepoint; affected Android/player/color/performance/whole-goal proof remains separate"
+}
