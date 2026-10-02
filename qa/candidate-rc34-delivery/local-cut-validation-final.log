@@ -1,0 +1,646 @@
+TAP version 13
+# Subtest: shell cache normalizes versioned asset URLs but excludes version checks and sibling routes
+ok 1 - shell cache normalizes versioned asset URLs but excludes version checks and sibling routes
+  ---
+  duration_ms: 22.517
+  type: 'test'
+  ...
+# Subtest: offline first launch resolves canonical preinstalled assets
+ok 2 - offline first launch resolves canonical preinstalled assets
+  ---
+  duration_ms: 4.9037
+  type: 'test'
+  ...
+# Subtest: cache quota errors do not discard valid network bytes
+ok 3 - cache quota errors do not discard valid network bytes
+  ---
+  duration_ms: 4.846
+  type: 'test'
+  ...
+# Subtest: temporary server failures use the owned cached shell instead of an error document
+ok 4 - temporary server failures use the owned cached shell instead of an error document
+  ---
+  duration_ms: 1.7622
+  type: 'test'
+  ...
+# Subtest: public deployment allowlist excludes internal memory, workflows and test fixtures
+ok 5 - public deployment allowlist excludes internal memory, workflows and test fixtures
+  ---
+  duration_ms: 3.4405
+  type: 'test'
+  ...
+# Subtest: corresponding-source downloads remain public but never enter the runtime cache
+ok 6 - corresponding-source downloads remain public but never enter the runtime cache
+  ---
+  duration_ms: 6.3783
+  type: 'test'
+  ...
+# Subtest: candidate deployment runs committed-asset materialization before publication
+ok 7 - candidate deployment runs committed-asset materialization before publication
+  ---
+  duration_ms: 0.4541
+  type: 'test'
+  ...
+# Subtest: committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output
+ok 8 - committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output
+  ---
+  duration_ms: 5.7082
+  type: 'test'
+  ...
+# Subtest: dirty/untracked public, governing scripts and worker source/config reject before any write
+ok 9 - dirty/untracked public, governing scripts and worker source/config reject before any write
+  ---
+  duration_ms: 4.4031
+  type: 'test'
+  ...
+# Subtest: an allowlisted asset missing from captured HEAD rejects even when ignored by Git status
+ok 10 - an allowlisted asset missing from captured HEAD rejects even when ignored by Git status
+  ---
+  duration_ms: 1.4413
+  type: 'test'
+  ...
+# Subtest: a public change hidden by Git status still fails normalized blob provenance
+ok 11 - a public change hidden by Git status still fails normalized blob provenance
+  ---
+  duration_ms: 1.5691
+  type: 'test'
+  ...
+# Subtest: extra/missing artifact files and unexpected empty directories reject before any write
+ok 12 - extra/missing artifact files and unexpected empty directories reject before any write
+  ---
+  duration_ms: 6.124
+  type: 'test'
+  ...
+# Subtest: linked output roots, directories/files, hardlinks and linked publication source are refused
+ok 13 - linked output roots, directories/files, hardlinks and linked publication source are refused
+  ---
+  duration_ms: 9.2598
+  type: 'test'
+  ...
+# Subtest: a changed HEAD after fixed blobs were read prevents the first output write
+ok 14 - a changed HEAD after fixed blobs were read prevents the first output write
+  ---
+  duration_ms: 2.2655
+  type: 'test'
+  ...
+# Subtest: an output path replaced between inspection and open is refused before truncation
+ok 15 - an output path replaced between inspection and open is refused before truncation
+  ---
+  duration_ms: 1.9167
+  type: 'test'
+  ...
+# Subtest: HEAD/public changes or output contamination during writing prevent successful release completion
+ok 16 - HEAD/public changes or output contamination during writing prevent successful release completion
+  ---
+  duration_ms: 9.3955
+  type: 'test'
+  ...
+# Subtest: release version is synchronized across runtime, shell, HTML, and metadata
+ok 17 - release version is synchronized across runtime, shell, HTML, and metadata
+  ---
+  duration_ms: 4.3867
+  type: 'test'
+  ...
+# Subtest: authentication setup feedback is a polite atomic live region
+ok 18 - authentication setup feedback is a polite atomic live region
+  ---
+  duration_ms: 0.5829
+  type: 'test'
+  ...
+# Subtest: first paint cannot restart OAuth while the existing session is still being recovered
+ok 19 - first paint cannot restart OAuth while the existing session is still being recovered
+  ---
+  duration_ms: 0.4992
+  type: 'test'
+  ...
+# Subtest: every bound element ID exists once in index.html
+ok 20 - every bound element ID exists once in index.html
+  ---
+  duration_ms: 3.0246
+  type: 'test'
+  ...
+# Subtest: manifest icons and service-worker shell assets exist
+ok 21 - manifest icons and service-worker shell assets exist
+  ---
+  duration_ms: 2.7831
+  type: 'test'
+  ...
+# Subtest: brand surfaces use the canonical rounded navy icon with the restored blue dot
+ok 22 - brand surfaces use the canonical rounded navy icon with the restored blue dot
+  ---
+  duration_ms: 3.6338
+  type: 'test'
+  ...
+# Subtest: resource keys remain raw in the service-worker header
+ok 23 - resource keys remain raw in the service-worker header
+  ---
+  duration_ms: 0.3914
+  type: 'test'
+  ...
+# Subtest: privacy documentation and shell use the same-origin memory-only credential contract
+ok 24 - privacy documentation and shell use the same-origin memory-only credential contract
+  ---
+  duration_ms: 4.9222
+  type: 'test'
+  ...
+# Subtest: Q1 public bundles match their exact source manifest and offline shell
+ok 25 - Q1 public bundles match their exact source manifest and offline shell
+  ---
+  duration_ms: 13.607
+  type: 'test'
+  ...
+# Subtest: tail-index MP4 QA seed is small, immutable and keeps moov behind mdat
+ok 26 - tail-index MP4 QA seed is small, immutable and keeps moov behind mdat
+  ---
+  duration_ms: 0.9777
+  type: 'test'
+  ...
+# Subtest: faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat
+ok 27 - faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat
+  ---
+  duration_ms: 0.8023
+  type: 'test'
+  ...
+# Subtest: seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat
+ok 28 - seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat
+  ---
+  duration_ms: 5.9394
+  type: 'test'
+  ...
+# Subtest: candidate runtime config is loaded before app code and fails closed for Drive writes
+ok 29 - candidate runtime config is loaded before app code and fails closed for Drive writes
+  ---
+  duration_ms: 2.1797
+  type: 'test'
+  ...
+# Subtest: player controls, in-app preview, and selection toolbar remain bound in the shell
+ok 30 - player controls, in-app preview, and selection toolbar remain bound in the shell
+  ---
+  duration_ms: 4.0377
+  type: 'test'
+  ...
+# Subtest: account-synced favorites and viewed history are wired into the existing library and player surfaces
+ok 31 - account-synced favorites and viewed history are wired into the existing library and player surfaces
+  ---
+  duration_ms: 4.0754
+  type: 'test'
+  ...
+# Subtest: mobile overflow actions stack above the trigger and favorite feedback is visually icon-only
+ok 32 - mobile overflow actions stack above the trigger and favorite feedback is visually icon-only
+  ---
+  duration_ms: 2.682
+  type: 'test'
+  ...
+# Subtest: video adaptively chooses exact-original transport and exhausts original paths before compatibility playback
+ok 33 - video adaptively chooses exact-original transport and exhausts original paths before compatibility playback
+  ---
+  duration_ms: 5.3935
+  type: 'test'
+  ...
+# Subtest: playback quality starts unverified and documents only evidence-backed original labels
+ok 34 - playback quality starts unverified and documents only evidence-backed original labels
+  ---
+  duration_ms: 5.0039
+  type: 'test'
+  ...
+# Subtest: player chrome hides as one mobile layer and high-frequency motion stays transform based
+ok 35 - player chrome hides as one mobile layer and high-frequency motion stays transform based
+  ---
+  duration_ms: 4.0227
+  type: 'test'
+  ...
+# Subtest: mobile shell preserves zoom and high-contrast metadata labels
+ok 36 - mobile shell preserves zoom and high-contrast metadata labels
+  ---
+  duration_ms: 0.9604
+  type: 'test'
+  ...
+# Subtest: 401 refresh retries once with identical Range/resource key and fresh authorization
+ok 37 - 401 refresh retries once with identical Range/resource key and fresh authorization
+  ---
+  duration_ms: 36.5421
+  type: 'test'
+  ...
+# Subtest: Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache
+ok 38 - Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache
+  ---
+  duration_ms: 7.9048
+  type: 'test'
+  ...
+# Subtest: Q1 media cannot substitute a cached token for a missing affirmative owner response
+ok 39 - Q1 media cannot substitute a cached token for a missing affirmative owner response
+  ---
+  duration_ms: 1.8176
+  type: 'test'
+  ...
+# Subtest: an old page affirmative Q1 token reply without retirement capability cannot start upstream transport
+ok 40 - an old page affirmative Q1 token reply without retirement capability cannot start upstream transport
+  ---
+  duration_ms: 1.8908
+  type: 'test'
+  ...
+# Subtest: Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned
+ok 41 - Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned
+  ---
+  duration_ms: 19.1977
+  type: 'test'
+  ...
+# Subtest: concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client
+ok 42 - concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client
+  ---
+  duration_ms: 4.1953
+  type: 'test'
+  ...
+# Subtest: successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay
+ok 43 - successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay
+  ---
+  duration_ms: 5.4058
+  type: 'test'
+  ...
+# Subtest: Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations
+ok 44 - Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations
+  ---
+  duration_ms: 5.971
+  type: 'test'
+  ...
+# Subtest: Q1 retirement cancels an owner/token await without cancelling any shared page credential operation
+ok 45 - Q1 retirement cancels an owner/token await without cancelling any shared page credential operation
+  ---
+  duration_ms: 2.9046
+  type: 'test'
+  ...
+# Subtest: Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation
+ok 46 - Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation
+  ---
+  duration_ms: 5.1025
+  type: 'test'
+  ...
+# Subtest: Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success
+ok 47 - Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success
+  ---
+  duration_ms: 2.357
+  type: 'test'
+  ...
+# Subtest: Q1 retirement is client and generation scoped and cannot cancel newer media
+ok 48 - Q1 retirement is client and generation scoped and cannot cancel newer media
+  ---
+  duration_ms: 3.1398
+  type: 'test'
+  ...
+# Subtest: Q1 retirement cannot acknowledge failed body cancellation or its later resolution
+ok 49 - Q1 retirement cannot acknowledge failed body cancellation or its later resolution
+  ---
+  duration_ms: 4.3772
+  type: 'test'
+  ...
+# Subtest: acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay
+ok 50 - acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay
+  ---
+  duration_ms: 2.0567
+  type: 'test'
+  ...
+# Subtest: credentials and CLEAR_TOKEN are scoped to the source client
+ok 51 - credentials and CLEAR_TOKEN are scoped to the source client
+  ---
+  duration_ms: 2.5767
+  type: 'test'
+  ...
+# Subtest: stale and conflicting credential revisions cannot replace the newest client credential
+ok 52 - stale and conflicting credential revisions cannot replace the newest client credential
+  ---
+  duration_ms: 1.6859
+  type: 'test'
+  ...
+# Subtest: old account-generation SET and CLEAR messages are ignored
+ok 53 - old account-generation SET and CLEAR messages are ignored
+  ---
+  duration_ms: 1.5393
+  type: 'test'
+  ...
+# Subtest: worker restart resolves only the requesting client and requires the correlated response
+ok 54 - worker restart resolves only the requesting client and requires the correlated response
+  ---
+  duration_ms: 1.4061
+  type: 'test'
+  ...
+# Subtest: missing client identity fails closed without borrowing another client token
+ok 55 - missing client identity fails closed without borrowing another client token
+  ---
+  duration_ms: 1.0013
+  type: 'test'
+  ...
+# Subtest: media fixtures carry account generation and reject malformed source generations
+ok 56 - media fixtures carry account generation and reject malformed source generations
+  ---
+  duration_ms: 7.2731
+  type: 'test'
+  ...
+# Subtest: unsafe or malformed media ranges are rejected before credential and Drive access
+ok 57 - unsafe or malformed media ranges are rejected before credential and Drive access
+  ---
+  duration_ms: 8.6859
+  type: 'test'
+  ...
+# Subtest: media requests without Range remain valid and never synthesize an upstream Range header
+ok 58 - media requests without Range remain valid and never synthesize an upstream Range header
+  ---
+  duration_ms: 2.2564
+  type: 'test'
+  ...
+# Subtest: 2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies
+ok 59 - 2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies
+  ---
+  duration_ms: 14.7348
+  type: 'test'
+  ...
+# Subtest: large hidden full-span HEAD ranges are proven without allocating their bodies
+ok 60 - large hidden full-span HEAD ranges are proven without allocating their bodies
+  ---
+  duration_ms: 6.7573
+  type: 'test'
+  ...
+# Subtest: a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation
+ok 61 - a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation
+  ---
+  duration_ms: 2.0214
+  type: 'test'
+  ...
+# Subtest: a 4 GiB EOF request preserves one structured 416 without a success status
+ok 62 - a 4 GiB EOF request preserves one structured 416 without a success status
+  ---
+  duration_ms: 1.612
+  type: 'test'
+  ...
+# Subtest: a Range request answered with 200 is reported as original sequential playback without synthetic range support
+ok 63 - a Range request answered with 200 is reported as original sequential playback without synthetic range support
+  ---
+  duration_ms: 1.8916
+  type: 'test'
+  ...
+# Subtest: a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length
+ok 64 - a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length
+  ---
+  duration_ms: 1.5869
+  type: 'test'
+  ...
+# Subtest: hidden Content-Range reconstruction supports open-ended and suffix ranges
+ok 65 - hidden Content-Range reconstruction supports open-ended and suffix ranges
+  ---
+  duration_ms: 2.5123
+  type: 'test'
+  ...
+# Subtest: hidden range reconstruction handles file edges and rejects unsafe numeric evidence
+ok 66 - hidden range reconstruction handles file edges and rejects unsafe numeric evidence
+  ---
+  duration_ms: 0.949
+  type: 'test'
+  ...
+# Subtest: a hidden valid 206 HEAD range is reconstructed without adding a body
+ok 67 - a hidden valid 206 HEAD range is reconstructed without adding a body
+  ---
+  duration_ms: 1.3451
+  type: 'test'
+  ...
+# Subtest: a visible mismatched or unprovable hidden Content-Range on 206 fails closed
+ok 68 - a visible mismatched or unprovable hidden Content-Range on 206 fails closed
+  ---
+  duration_ms: 8.5966
+  type: 'test'
+  ...
+# Subtest: open-ended and suffix byte ranges accept valid contained 206 responses
+ok 69 - open-ended and suffix byte ranges accept valid contained 206 responses
+  ---
+  duration_ms: 4.7404
+  type: 'test'
+  ...
+# Subtest: 416 preserves the unsatisfied size and reports structured range metadata
+ok 70 - 416 preserves the unsatisfied size and reports structured range metadata
+  ---
+  duration_ms: 2.196
+  type: 'test'
+  ...
+# Subtest: error status, JSON MIME and reasons survive and notify only the requesting window
+ok 71 - error status, JSON MIME and reasons survive and notify only the requesting window
+  ---
+  duration_ms: 7.3207
+  type: 'test'
+  ...
+# Subtest: failed refresh does not retry the rejected token
+ok 72 - failed refresh does not retry the rejected token
+  ---
+  duration_ms: 3.7431
+  type: 'test'
+  ...
+# Subtest: a rejected token is replayed once when the same token arrives at a higher revision
+ok 73 - a rejected token is replayed once when the same token arrives at a higher revision
+  ---
+  duration_ms: 2.4925
+  type: 'test'
+  ...
+# Subtest: 403 rate limits are classified separately and preserve Retry-After timing
+ok 74 - 403 rate limits are classified separately and preserve Retry-After timing
+  ---
+  duration_ms: 2.0119
+  type: 'test'
+  ...
+# Subtest: aborting a media request aborts upstream and emits no false server/auth failure
+ok 75 - aborting a media request aborts upstream and emits no false server/auth failure
+  ---
+  duration_ms: 1.7551
+  type: 'test'
+  ...
+# Subtest: upstream headers timeout is finite and distinct from caller cancellation
+ok 76 - upstream headers timeout is finite and distinct from caller cancellation
+  ---
+  duration_ms: 7.7509
+  type: 'test'
+  ...
+# Subtest: first-byte timeout starts on downstream demand and reports one classified failure
+ok 77 - first-byte timeout starts on downstream demand and reports one classified failure
+  ---
+  duration_ms: 3.6464
+  type: 'test'
+  ...
+# Subtest: first-byte stream failure waits for the classified client notification lifetime
+ok 78 - first-byte stream failure waits for the classified client notification lifetime
+  ---
+  duration_ms: 2.154
+  type: 'test'
+  ...
+# Subtest: first-byte timeout atomically wins over later bytes, caller abort and consumer cancel
+ok 79 - first-byte timeout atomically wins over later bytes, caller abort and consumer cancel
+  ---
+  duration_ms: 4.5636
+  type: 'test'
+  ...
+# Subtest: first-byte protection remains active when diagnostic tracing is off
+ok 80 - first-byte protection remains active when diagnostic tracing is off
+  ---
+  duration_ms: 1.5738
+  type: 'test'
+  ...
+# Subtest: a positive first chunk clears the first-byte deadline without aborting upstream
+ok 81 - a positive first chunk clears the first-byte deadline without aborting upstream
+  ---
+  duration_ms: 2.0971
+  type: 'test'
+  ...
+# Subtest: body no-progress timeout exists only while downstream is waiting after the first byte
+ok 82 - body no-progress timeout exists only while downstream is waiting after the first byte
+  ---
+  duration_ms: 2.039
+  type: 'test'
+  ...
+# Subtest: positive body chunks clear and renew the no-progress deadline while empty chunks do not
+ok 83 - positive body chunks clear and renew the no-progress deadline while empty chunks do not
+  ---
+  duration_ms: 3.7501
+  type: 'test'
+  ...
+# Subtest: body no-progress timeout atomically wins over later bytes, caller abort and consumer cancel
+ok 84 - body no-progress timeout atomically wins over later bytes, caller abort and consumer cancel
+  ---
+  duration_ms: 6.0899
+  type: 'test'
+  ...
+# Subtest: body no-progress failure waits for the classified client notification lifetime
+ok 85 - body no-progress failure waits for the classified client notification lifetime
+  ---
+  duration_ms: 1.7485
+  type: 'test'
+  ...
+# Subtest: body no-progress protection remains active when diagnostic tracing is off
+ok 86 - body no-progress protection remains active when diagnostic tracing is off
+  ---
+  duration_ms: 1.9637
+  type: 'test'
+  ...
+# Subtest: body terminal outcomes beat a captured stale no-progress callback
+ok 87 - body terminal outcomes beat a captured stale no-progress callback
+  ---
+  duration_ms: 10.6051
+  type: 'test'
+  ...
+# Subtest: an empty chunk is not a first byte and cannot disarm the deadline
+ok 88 - an empty chunk is not a first byte and cannot disarm the deadline
+  ---
+  duration_ms: 1.8325
+  type: 'test'
+  ...
+# Subtest: consumer cancellation before the first byte clears the deadline without a proxy failure
+ok 89 - consumer cancellation before the first byte clears the deadline without a proxy failure
+  ---
+  duration_ms: 1.8735
+  type: 'test'
+  ...
+# Subtest: truncated 206 EOF is a body-length error, never a first-byte timeout
+ok 90 - truncated 206 EOF is a body-length error, never a first-byte timeout
+  ---
+  duration_ms: 1.9478
+  type: 'test'
+  ...
+# Subtest: an oversized 206 chunk is rejected before any byte reaches the consumer
+ok 91 - an oversized 206 chunk is rejected before any byte reaches the consumer
+  ---
+  duration_ms: 2.2982
+  type: 'test'
+  ...
+# Subtest: non-OK response bodies release caller abort linkage after EOF and bodyless HEAD
+ok 92 - non-OK response bodies release caller abort linkage after EOF and bodyless HEAD
+  ---
+  duration_ms: 3.5096
+  type: 'test'
+  ...
+# Subtest: non-OK body finalizer releases exactly once on consumer cancel and upstream error
+ok 93 - non-OK body finalizer releases exactly once on consumer cancel and upstream error
+  ---
+  duration_ms: 1.7025
+  type: 'test'
+  ...
+# Subtest: caller cancellation remains linked to the upstream body after headers arrive
+ok 94 - caller cancellation remains linked to the upstream body after headers arrive
+  ---
+  duration_ms: 1.6744
+  type: 'test'
+  ...
+# Subtest: abort while waiting for a token closes the request without an auth notification
+ok 95 - abort while waiting for a token closes the request without an auth notification
+  ---
+  duration_ms: 1.1637
+  type: 'test'
+  ...
+# Subtest: CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials
+ok 96 - CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials
+  ---
+  duration_ms: 1.0761
+  type: 'test'
+  ...
+# Subtest: a late CLEAR_TOKEN cannot erase a newer credential revision
+ok 97 - a late CLEAR_TOKEN cannot erase a newer credential revision
+  ---
+  duration_ms: 1.2793
+  type: 'test'
+  ...
+# Subtest: HEAD remains bodyless and network failures are not exposed or cached
+ok 98 - HEAD remains bodyless and network failures are not exposed or cached
+  ---
+  duration_ms: 2.0065
+  type: 'test'
+  ...
+# Subtest: opt-in media trace correlates credential, headers, first byte and body completion without secrets
+ok 99 - opt-in media trace correlates credential, headers, first byte and body completion without secrets
+  ---
+  duration_ms: 4.688
+  type: 'test'
+  ...
+# Subtest: opt-in media trace distinguishes a missing credential from a rejected upstream credential
+ok 100 - opt-in media trace distinguishes a missing credential from a rejected upstream credential
+  ---
+  duration_ms: 4.5869
+  type: 'test'
+  ...
+# Subtest: opt-in media trace records cancellation without converting it into an HTTP failure
+ok 101 - opt-in media trace records cancellation without converting it into an HTTP failure
+  ---
+  duration_ms: 1.8412
+  type: 'test'
+  ...
+# Subtest: opt-in response-body cancellation propagates upstream after headers and first byte
+ok 102 - opt-in response-body cancellation propagates upstream after headers and first byte
+  ---
+  duration_ms: 1.8525
+  type: 'test'
+  ...
+# Subtest: shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact
+ok 103 - shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact
+  ---
+  duration_ms: 4.8274
+  type: 'test'
+  ...
+# Subtest: shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch
+ok 104 - shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch
+  ---
+  duration_ms: 6.8423
+  type: 'test'
+  ...
+# Subtest: shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry
+ok 105 - shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry
+  ---
+  duration_ms: 2.1609
+  type: 'test'
+  ...
+# Subtest: shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles
+ok 106 - shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles
+  ---
+  duration_ms: 2.5573
+  type: 'test'
+  ...
+1..106
+# tests 106
+# suites 0
+# pass 106
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 395.1535

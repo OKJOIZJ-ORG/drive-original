@@ -275,3 +275,7 @@
 # Preserve hash-bound local output oracle and controlled-tail raw producers.
 /qa/q3-full-output-quality/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/rc33-tail-index/** -text whitespace=cr-at-eol,-blank-at-eol
+
+# Preserve fixed-template release and reader acceptance proof bytes.
+/qa/candidate-rc34-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/q3-read-coalescing-acceptance/** -text whitespace=cr-at-eol,-blank-at-eol

@@ -1,0 +1,138 @@
+✔ shell cache normalizes versioned asset URLs but excludes version checks and sibling routes (23.0998ms)
+✔ offline first launch resolves canonical preinstalled assets (4.557ms)
+✔ cache quota errors do not discard valid network bytes (3.566ms)
+✔ temporary server failures use the owned cached shell instead of an error document (1.806ms)
+✔ public deployment allowlist excludes internal memory, workflows and test fixtures (5.3954ms)
+✔ corresponding-source downloads remain public but never enter the runtime cache (9.4187ms)
+✔ candidate deployment runs committed-asset materialization before publication (1.1681ms)
+✔ committed public bytes replace CRLF/prebuild bytes while unrelated nonpublic preparations stay outside output (4.6513ms)
+✔ dirty/untracked public, governing scripts and worker source/config reject before any write (3.6681ms)
+✔ an allowlisted asset missing from captured HEAD rejects even when ignored by Git status (2.4298ms)
+✔ a public change hidden by Git status still fails normalized blob provenance (1.989ms)
+✔ extra/missing artifact files and unexpected empty directories reject before any write (5.6718ms)
+✔ linked output roots, directories/files, hardlinks and linked publication source are refused (9.1671ms)
+✔ a changed HEAD after fixed blobs were read prevents the first output write (2.8739ms)
+✔ an output path replaced between inspection and open is refused before truncation (2.2134ms)
+✔ HEAD/public changes or output contamination during writing prevent successful release completion (6.8586ms)
+✖ release version is synchronized across runtime, shell, HTML, and metadata (7.6894ms)
+✔ authentication setup feedback is a polite atomic live region (0.687ms)
+✔ first paint cannot restart OAuth while the existing session is still being recovered (0.4902ms)
+✔ every bound element ID exists once in index.html (3.2918ms)
+✔ manifest icons and service-worker shell assets exist (6.783ms)
+✔ brand surfaces use the canonical rounded navy icon with the restored blue dot (6.2742ms)
+✔ resource keys remain raw in the service-worker header (0.4648ms)
+✔ privacy documentation and shell use the same-origin memory-only credential contract (6.2522ms)
+✔ Q1 public bundles match their exact source manifest and offline shell (17.3097ms)
+✔ tail-index MP4 QA seed is small, immutable and keeps moov behind mdat (2.2381ms)
+✔ faststart MP4 QA seed is small, immutable and keeps moov ahead of mdat (2.2737ms)
+✔ seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat (11.5231ms)
+✔ candidate runtime config is loaded before app code and fails closed for Drive writes (4.4262ms)
+✔ player controls, in-app preview, and selection toolbar remain bound in the shell (3.1912ms)
+✔ account-synced favorites and viewed history are wired into the existing library and player surfaces (3.7637ms)
+✔ mobile overflow actions stack above the trigger and favorite feedback is visually icon-only (4.1925ms)
+✔ video adaptively chooses exact-original transport and exhausts original paths before compatibility playback (8.4181ms)
+✔ playback quality starts unverified and documents only evidence-backed original labels (3.4627ms)
+✔ player chrome hides as one mobile layer and high-frequency motion stays transform based (4.0946ms)
+✔ mobile shell preserves zoom and high-contrast metadata labels (1.003ms)
+✔ 401 refresh retries once with identical Range/resource key and fresh authorization (35.3455ms)
+✔ Q1 401 replay requires its current media lease even when SET_TOKEN already advanced the account cache (5.5848ms)
+✔ Q1 media cannot substitute a cached token for a missing affirmative owner response (2.3028ms)
+✔ an old page affirmative Q1 token reply without retirement capability cannot start upstream transport (2.4296ms)
+✔ Q1 rejected-body cleanup failures terminate without refresh and fence later reads even if the old response is abandoned (18.5218ms)
+✔ concurrent Q1 cleanup success cannot erase another pending or failed cleanup for the same client (3.2418ms)
+✔ successful Q1 rejected-body cleanup releases its fence and preserves one fresh same-Range replay (2.7968ms)
+✔ Q1 retirement observes full EOF or actual cancellation, closes its ports and fences late old generations (7.7574ms)
+✔ Q1 retirement cancels an owner/token await without cancelling any shared page credential operation (2.441ms)
+✔ Q1 query-only retirement terminates an outstanding downstream read before acknowledging cancellation (3.3945ms)
+✔ Q1 retirement tracks before headers and a late ignored-abort callback cannot turn bounded failure into success (2.3266ms)
+✔ Q1 retirement is client and generation scoped and cannot cancel newer media (3.3792ms)
+✔ Q1 retirement cannot acknowledge failed body cancellation or its later resolution (4.2819ms)
+✔ acknowledgeAbuse reaches Drive only after explicit opt-in and survives an auth replay (1.9133ms)
+✔ credentials and CLEAR_TOKEN are scoped to the source client (2.0257ms)
+✔ stale and conflicting credential revisions cannot replace the newest client credential (1.3485ms)
+✔ old account-generation SET and CLEAR messages are ignored (1.3861ms)
+✔ worker restart resolves only the requesting client and requires the correlated response (1.3867ms)
+✔ missing client identity fails closed without borrowing another client token (1.2002ms)
+✔ media fixtures carry account generation and reject malformed source generations (7.7099ms)
+✔ unsafe or malformed media ranges are rejected before credential and Drive access (7.4774ms)
+✔ media requests without Range remain valid and never synthesize an upstream Range header (1.8048ms)
+✔ 2 GiB and 4 GiB byte boundaries preserve exact Range arithmetic with tiny bodies (11.7551ms)
+✔ large hidden full-span HEAD ranges are proven without allocating their bodies (7.0367ms)
+✔ a hidden 4 GiB GET streams a tiny prefix and classifies truncated EOF without whole-file allocation (2.1804ms)
+✔ a 4 GiB EOF request preserves one structured 416 without a success status (2.3393ms)
+✔ a Range request answered with 200 is reported as original sequential playback without synthetic range support (1.7047ms)
+✔ a CORS-hidden Content-Range is reconstructed from known size and matching Content-Length (1.6861ms)
+✔ hidden Content-Range reconstruction supports open-ended and suffix ranges (2.4836ms)
+✔ hidden range reconstruction handles file edges and rejects unsafe numeric evidence (0.9714ms)
+✔ a hidden valid 206 HEAD range is reconstructed without adding a body (1.8019ms)
+✔ a visible mismatched or unprovable hidden Content-Range on 206 fails closed (9.7315ms)
+✔ open-ended and suffix byte ranges accept valid contained 206 responses (5.1602ms)
+✔ 416 preserves the unsatisfied size and reports structured range metadata (2.7754ms)
+✔ error status, JSON MIME and reasons survive and notify only the requesting window (29.5206ms)
+✔ failed refresh does not retry the rejected token (5.8634ms)
+✔ a rejected token is replayed once when the same token arrives at a higher revision (4.9415ms)
+✔ 403 rate limits are classified separately and preserve Retry-After timing (2.5309ms)
+✔ aborting a media request aborts upstream and emits no false server/auth failure (1.9761ms)
+✔ upstream headers timeout is finite and distinct from caller cancellation (8.6178ms)
+✔ first-byte timeout starts on downstream demand and reports one classified failure (3.6931ms)
+✔ first-byte stream failure waits for the classified client notification lifetime (2.5173ms)
+✔ first-byte timeout atomically wins over later bytes, caller abort and consumer cancel (7.449ms)
+✔ first-byte protection remains active when diagnostic tracing is off (2.102ms)
+✔ a positive first chunk clears the first-byte deadline without aborting upstream (2.5532ms)
+✔ body no-progress timeout exists only while downstream is waiting after the first byte (3.1401ms)
+✔ positive body chunks clear and renew the no-progress deadline while empty chunks do not (2.707ms)
+✔ body no-progress timeout atomically wins over later bytes, caller abort and consumer cancel (6.0757ms)
+✔ body no-progress failure waits for the classified client notification lifetime (2.475ms)
+✔ body no-progress protection remains active when diagnostic tracing is off (3.2528ms)
+✔ body terminal outcomes beat a captured stale no-progress callback (11.1515ms)
+✔ an empty chunk is not a first byte and cannot disarm the deadline (2.4632ms)
+✔ consumer cancellation before the first byte clears the deadline without a proxy failure (2.9014ms)
+✔ truncated 206 EOF is a body-length error, never a first-byte timeout (5.3009ms)
+✔ an oversized 206 chunk is rejected before any byte reaches the consumer (2.6019ms)
+✔ non-OK response bodies release caller abort linkage after EOF and bodyless HEAD (3.0956ms)
+✔ non-OK body finalizer releases exactly once on consumer cancel and upstream error (2.047ms)
+✔ caller cancellation remains linked to the upstream body after headers arrive (5.1623ms)
+✔ abort while waiting for a token closes the request without an auth notification (2.0132ms)
+✔ CLEAR_TOKEN cancels pending token replies so a late callback cannot restore credentials (1.9904ms)
+✔ a late CLEAR_TOKEN cannot erase a newer credential revision (2.1475ms)
+✔ HEAD remains bodyless and network failures are not exposed or cached (3.2708ms)
+✔ opt-in media trace correlates credential, headers, first byte and body completion without secrets (10.3652ms)
+✔ opt-in media trace distinguishes a missing credential from a rejected upstream credential (4.9931ms)
+✔ opt-in media trace records cancellation without converting it into an HTTP failure (3.1614ms)
+✔ opt-in response-body cancellation propagates upstream after headers and first byte (3.4028ms)
+✔ shell refresh batches the authoritative complete shell, coalesces clients, and leaves credentials and media fences intact (6.1246ms)
+✔ shell refresh rejects foreign, sibling-prefix, non-window and inactive owners before any cache batch (7.8429ms)
+✔ shell refresh network failure retains the prior atomic cache batch and permits a later explicit retry (4.8091ms)
+✔ shell refresh timeout aborts its network requests and prevents overlapping work until the old batch settles (4.8988ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 105
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 476.4086
+
+✖ failing tests:
+
+test at tests\static.test.js:38:1
+✖ release version is synchronized across runtime, shell, HTML, and metadata (7.6894ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '1.22.0-rc.34'
+  - '1.22.0-rc.33'
+                ^
+  
+      at TestContext.<anonymous> (C:\extensions\Drive-Original\source\tests\static.test.js:45:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1.22.0-rc.34',
+    expected: '1.22.0-rc.33',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

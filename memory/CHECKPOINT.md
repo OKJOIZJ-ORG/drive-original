@@ -1,46 +1,32 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 08:25 KST
+# Checkpoint — ACTIVE D074 — 2026-10-02 09:04 KST
 
 ## The story so far
 
-Whole approved queue ACTIVE; whole implementation plan is not done. Branch codex/v2-kickoff-diagnostics, base HEAD c8bf265. Immutable deployed runtime5174485/rc33/Workerfaed24df; production1.21/e08989a and automation PAUSED. Delivery, normal PC/Android update, Q0 TR01, designated TS/PCM/layout/state, finite PC/Android Q3 and controlled TR02 evidence remain valid. Complete local180s output quality is committed37a573a (all5400frames); raw-byte attributes fixed separately e7bebba. Sustained Android failure/recovery and focused QA close repair are committed b403a3f. No full corpus scan or passed-check replay. Sustained Android EOF remains failed; normal-path scalar diagnostic now observes dominant read waiting, not encoder/ACK waiting. Metadata versus Range sub-time remains unknown; Q3-PRODUCT-20261002.md owns exact evidence.
+Whole approved queue remains ACTIVE. Branch codex/v2-kickoff-diagnostics, HEAD3921b39: Q3-only 512KiB read/cache coalescing committed after88 focused passes. Actual Android normal-path timing showed dominant read waiting (349frames/read45.267s/flush2.632s/ACK0.047s); metadata-versus-Range split and actual improvement remain unknown. Q3-PRODUCT-20261002.md owns the evidence. Sustained Android EOF previously failed at300s; no unchanged retry.
 
-One exact disposable folder+18,075,476B/180s silent MPEG4SP fixture was created once (2POST/6requests); server SHA/MD5/size and fresh two-pass capture pass. Private ledger backups c42f.../c6b06... and target2604... remain in qa/v2-state-recovery-backup. Input/uploader released; target retained for Android and final exact recoverable-trash cleanup. Do not create/upload again. PC playback/observer closed; resource sessions62229/9318 exited0 with45/33 samples,0failed and owned subprocess/timer cleanup. CUA browser3/tab275140031 and original recovery facade still hold this fixture; no production or original-media changes.
+Deployed candidate remains source5174485/rc33/Workerfaed24df. rc34 identity is local only;106 release/shell/SW checks pass. Eight fixed delivery templates derive with retained guards; no rc34 binding or deployment yet. Android EOF preparation has a QA UUID-versus-semantic-version bug being repaired before use. Existing PC/Android Q0, TS/PCM/layout/state, finite Q3 and local5400frame output proofs remain valid. Production1.21/e08989a and automation PAUSED.
 
-Actual EOF eof-cua2 preserved failure before observer stop: ~70.967s source progress across257.187s native-frame wall span, current owner/source/account retained, no seek/pause/rate/loop/fence failure; ended/source/worker completion absent. Native frame gap max5.859s. At300s actor stopped; no retry or bound extension. Main-label visibility missed some observations, so no full EOF/pixel/performance pass. Resource66samples/0primary-memory failures and all sampler/transport cleanup confirmed. Device-wide counters have attribution limits; owner Q3 document holds details.
-
-Earlier EOF cleanup failed native close and was recovered with exact fresh source/account/revision fences. The focused close repair is now exercised by native-phase1: fresh native entry/close, settled player/source, fresh after200, restored Worker descriptor, closed ports, revoked Blobs and cleared helpers/native transport all confirmed. Android/PC players, observers and resource samplers are idle. Child quality task reviews the proposed Q3-only read-coalescing bounds without accessing shared state.
+All actual players, observers, resource samplers and owned Android transports are idle. One exact disposable180s fixture/QA folder remains for EOF and final recoverable-trash cleanup; private ledgers/target remain only in qa/v2-state-recovery-backup. Do not upload again. PC read-only image discovery found loaded0/images0/folderStack0; its abstract driver still lacks a real admitted adapter/private capsule and is not actual acceptance. No full corpus scan (128consumed/123classified/5unknown/8468unattempted).
 
 ## Decided
 
-Latest actual Android cua4 remains unqualified: the sole90s paused frame missed
-observation fences through hidden transition labels. Actor-only control upkeep
-repair12/12 changed conditions; cua5 then passed. All actual playback/observers/
-samplers/owned Android sessions currently closed. Controlled native-app TR02
-also passes exact517:16MiB sparse tail MP4/completed32KiB tailRange/startup+
-fresh80%seek/163851B delivered through close/five cleanup guards. Synthetic
-auth/source scope only; original tail-access/no-unnecessary-whole-transfer
-clause adopted in CANDIDATE-RC33-20261002.md. QA failures preserved; product
-and candidate delivery unchanged.
-
-- D050/D074 existing authorization: exact disposable fixture, PC/physical Android, code/local commits/free non-destructive candidate work. No production/push/new grant/permanent delete.
-- Original Q06/MEDIA04/TR08/CORE06/FM04 permit reuse across current source/account/target/revision fenced lifetimes; preserve partial flags and qualify only observed clauses.
-- Fix QA-only defects without new product deployment. Corpus final128/123/5/8468; no expanded scan. iOS remains postdeployment.
+- D050/D074 authorize exact disposable fixture, PC/physical Android, code/local commits and free candidate delivery. No production/main/push/new grants/permanent delete.
+- Q3 encoder/geometry/color/clock/ACK logic is unchanged. Probe/Q1/Q2 keep64KiB/256KiB defaults; only sustained Q3 uses512KiB. Retained cache is not total/native heap.
+- Reuse valid checks; actual account/playback/state units stay sequential. Independent local/PC preparation may run in parallel. iOS remains postdeployment.
 
 ## Waiting on the user
 
-None. The earlier Chrome Allow request is stale; CUA established the intended existing normal profile.
+None. Earlier Chrome Allow request is stale; intended normal-profile CUA was established.
 
 ## Next first action
 
-Implement and locally verify bounded Q3-only read coalescing with the existing fresh source fences; the clean native-phase1 diagnostic observes349frames/read45.267s/flush2.632s/ACK0.047s, while metadata-versus-Range RPC time stays unknown. Then run changed-condition Android sustained acceptance. Preserve prior finite/local-quality/delivery proofs and failed direct preflight; do not replay unchanged checks, upload another fixture or scan the corpus. Next priorities remain representative formats/images, session reconnect, failure-inclusive performance and final exact disposable cleanup. Production/main/push need separate authorization; iOS remains postdeployment.
+Review and commit the already-tested rc34 identity plus fixed-template delivery preparation, then bind that immutable40SHA with qa/candidate-rc34-delivery/bind-source.cjs and perform candidate delivery once; repair the Android proof binder before same-fixture bounded EOF/resources.
 
 ## Tried
 
-- Owned normal-profile MCP session5374 list_pages180s timed out before admission; closed. Configured MCP has no candidate tab. CUA existing browser3/CDP succeeded; no repeated connection approval.
-- Localhost code bridge timed out with0requests; server stopped/port closed. Direct local fs/SHA loading succeeded; no browser permission change.
-- PC attempt1 observer checked collapsed detail badge0x0; repaired to visible main rail,12 focused guards. Original787919B failure retained.
-- Resource sampler pathname-owner failure retained; new wx-owned descriptor writer passes6 guards and later actual runs cleanly.
-- PC attempt2 completed startup/50%/90% but close was inactive; root delayed export beyond360s TOTAL_BOUND, save failed OBSERVER_ALREADY_STOPPED. Preserve complete:false; narrowly supplement active cancel (observed true), without repeating the seek unit or weakening bounds.
-
-- Android caller overwrote self-registering API; guard now rejects reserved script destinations, separate admission holder preserves cleanup API (2local guards). Normal idle page reload confirmed old helpers gone.
-- Android manual timed owner420s expired while studying controls. Observer360s auto-stopped; safe partial evidence/cleanup retained. Automate fresh geometry, native inputs, phase polls/export/finally before next attempt; no unchanged retry.
+- Actual Android EOF300s reached70.967s/endedfalse; failed evidence and cleanup retained, no bound extension.
+- Direct Android Drive preflight206 failed exposed-header contract before byte admission; no unchanged retry.
+- Owned normal-profile MCP list_pages180s timed out before admission and was closed; configured MCP had no candidate tab. CUA intended existing tab succeeded.
+- Localhost code bridge timed out with0requests and was stopped; direct local fs/SHA loading succeeded.
+- First rc34 local release check found hardcoded rc33 and default spec-count parsing; both corrected, explicit TAP106/106 passed.
+- UUID/semantic-version binder check was wrong; QA-only fix/test in progress, no product redeploy for that repair.

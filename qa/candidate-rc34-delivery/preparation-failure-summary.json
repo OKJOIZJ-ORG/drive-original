@@ -1,0 +1,13 @@
+{
+  "scope": "LOCAL_UNDEPLOYED_CANDIDATE_PREPARATION",
+  "firstCutOutput": "local-cut-validation.log",
+  "firstCutRecord": "local-cut-validation.json",
+  "observedTests": 106,
+  "observedPassed": 105,
+  "observedFailed": 1,
+  "productPreparationFailure": "Release identity still rc33 in HTML and fixed version assertion after app/SW/metadata were rc34",
+  "toolSummaryFailure": "First reducer expected TAP prefixes; default spec reporter used info prefixes, so counts were -1",
+  "correction": "Synchronize six HTML identity values and fixed assertion; explicitly select TAP reporter for subsequent summary",
+  "candidateRedeployed": false,
+  "androidReplayed": false
+}
