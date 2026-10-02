@@ -1,0 +1,90 @@
+{
+  "schema": "drive-original.q3-read-coalescing-preparation/1",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "version": "1.22.0-rc.34",
+  "deliveryProof": {
+    "file": "qa/candidate-rc34-delivery/source-readiness.json",
+    "sha256": "63982a6c690f96b011c0daf533e0bce59f5d23718ef62fb0f4aab7be75be54af",
+    "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+    "version": "1.22.0-rc.34",
+    "workerVersion": "6858a2cf-65ef-4887-81be-a65ffd55be92",
+    "passed": true,
+    "deploymentRecord": {
+      "path": "qa/candidate-rc34-delivery/deployment.json",
+      "sha256": "33ab06f80638ed5efb46755c2d86f45897da29d8aba4146c490f0f9063f28178"
+    },
+    "controlPlaneRecord": {
+      "path": "qa/candidate-rc34-delivery/redacted-readback.json",
+      "sha256": "7956e0a23db2d85db0244e76bcada7431212c4235241cc22f74a379b91515ae1"
+    }
+  },
+  "templatePins": {
+    "android-q3-actor.cjs": "116ff013cf771002bbea0e2fa2a70e448ec533ff46bcd38f1455a9de0bf5443a",
+    "android-q3-eof-actor.cjs": "506adeb3b1213a23dcda13063bd5b7dcb70f4d5d0873c331be5cdbb76374298a",
+    "android-common33.cjs": "a1cfbd89e922158a43fd6f3e9a09869057c5df4a1c514ff078cebd519337637f",
+    "eof-observer.function.js": "2825c5efeec6e972cd3e4990ac3091d94d9b990f06f99f3b5fbef83664c10941",
+    "source-proof.expression.js": "fdd71db2cc76e36921db9c2bb512183ea2f8ad70d4302d094276551884b57954",
+    "observer.expression.js": "c2f8df2f7e29da5d93bac064d81236a96d0338f85724c62bcb703c7055d05f5e",
+    "pc-seek-targets33.expression.js": "145a0533560cf6e37eb1c9a56f3cc85d97a5e88dc71cb7c209dfd8c09dbf1e9a",
+    "resource-watch.cjs": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd",
+    "binding-observer.json": "21d64ac825efdbf0dfec5e9cfcb9a2cd1d02064aea8aac2294abcb5249ada1aa"
+  },
+  "privateInputRead": false,
+  "actualOperationPerformed": false,
+  "actionMs": 300000,
+  "cleanupEndMs": 345000,
+  "fullOutputQuality": "NOT_QUALIFIED",
+  "nativeRetainedHeap": "UNKNOWN",
+  "files": [
+    {
+      "file": "binding-observer.json",
+      "bytes": 8187,
+      "sha256": "9553c75156ff6de2f1bfd899272ae700e4b82c0fa0a084f5bdf3166fc0261a69"
+    },
+    {
+      "file": "source-proof.expression.js",
+      "bytes": 15307,
+      "sha256": "9be0c5d5910a80d171ea6353f4165c5523c782bfb3efeb09a3fbb9d22260e55e"
+    },
+    {
+      "file": "observer.expression.js",
+      "bytes": 30967,
+      "sha256": "d6d580af7a308233ac5263d25aa6b980e7ce0473fe665ce39db47bd8daf0ea59"
+    },
+    {
+      "file": "android-common33.cjs",
+      "bytes": 8913,
+      "sha256": "c71347f648053cb94d5954257f6be7ecc37ca36760889bacd072b80beac6f783"
+    },
+    {
+      "file": "pc-seek-targets33.expression.js",
+      "bytes": 8570,
+      "sha256": "08e8dd51626d99342aeada0c31d17acb2dc1649185423ac0e2c07c2ebbe79c76"
+    },
+    {
+      "file": "eof-observer.function.js",
+      "bytes": 15732,
+      "sha256": "df9000db5f1670f5d7fe67f65baca427f610fdafa8994a46976b424e640f3854"
+    },
+    {
+      "file": "resource-watch.cjs",
+      "bytes": 12698,
+      "sha256": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd"
+    },
+    {
+      "file": "android-q3-actor.cjs",
+      "bytes": 31229,
+      "sha256": "f23515ade91f8f5bac2dc0d6b5dc7102c9adc30cc96b1f28776d2a9bd4165af8"
+    },
+    {
+      "file": "android-q3-eof-actor.cjs",
+      "bytes": 18818,
+      "sha256": "229205d4aad2b4a3252de99ef450c4523aa11ef6c990e78aa0198fd11489660d"
+    },
+    {
+      "file": "observer-manifest.json",
+      "bytes": 2644,
+      "sha256": "e4d7ded77c07c637734bbb615f427c1dea242e2b69f886a80caf0d94f4c58a39"
+    }
+  ]
+}

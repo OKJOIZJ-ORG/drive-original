@@ -1,0 +1,29 @@
+{
+  "schema": "drive-original.q3-read-coalescing-binder-first-failure/1",
+  "scope": "LOCAL_SCHEMA_REVIEW_ONLY_NO_ACTUAL_BIND",
+  "priorFiles": {
+    "bind.cjs": "def6604e024d92b6ac5a75812f13e562f7f39ce2d53fdc6f969777dd7c72a604",
+    "bind.test.cjs": "3b62fd68380853aa245ca0e18af5d88dc823e25c96e4fb2a3c6273dd5272a596"
+  },
+  "priorLocalChecksSha256": "d1199b2b2476ca18dfd66f4811f897f77f10024ffbf72ac79b06358aa18257ff",
+  "priorTests": {
+    "command": "node --test qa/q3-read-coalescing-acceptance/bind.test.cjs",
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "binderAndGeneratedProducerSyntaxPassed": true,
+    "generatedExpressionsParsePassed": true
+  },
+  "oldPredicate": "r.workerVersion!==version",
+  "canonicalRc33ReadinessSha256": "8ada45799876e19b12324ae46a4cfa31032dd39001474f6f483b2b0e7c076096",
+  "canonicalRc33WorkerVersion": "faed24df-fa79-4195-9395-759f61dbabc1",
+  "owningWorkerFields": [
+    "distributionEvidence.workerVersion",
+    "SHA-pinned deploymentRecord.workerVersion",
+    "SHA-pinned controlPlaneRecord.workerVersion"
+  ],
+  "localFailureReproduced": true,
+  "cause": "Cloudflare Worker UUID incorrectly compared with semantic application version; prior negative-only delivery tests missed valid canonical case",
+  "actualBindingPerformed": false,
+  "deviceDriveBrowserAccess": false
+}

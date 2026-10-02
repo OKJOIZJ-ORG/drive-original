@@ -1,0 +1,73 @@
+{
+  "schema": "drive-original.q3-read-coalescing-local-checks/1",
+  "scope": "LOCAL_FROZEN_TEMPLATE_AND_DECLARED_MOCK_GIT_BINDING_CHECKS_ONLY",
+  "actualBrowserAndroidDriveAccess": false,
+  "privateInputRead": false,
+  "productModified": false,
+  "historicalRc33FilesModified": false,
+  "futureRc34DeliveryProofCreatedOrAdopted": false,
+  "bindingPerformed": false,
+  "commitPerformed": false,
+  "files": {
+    "bind.cjs": "706a9ea0a094b7e7b78d5f4df5d79f94e40644973f6785948dd23173942fc1e7",
+    "bind.test.cjs": "8233832c171211798b241da219a9732d1977e36ffb3da57a4a93b6359e188118"
+  },
+  "templatePins": {
+    "android-q3-actor.cjs": "116ff013cf771002bbea0e2fa2a70e448ec533ff46bcd38f1455a9de0bf5443a",
+    "android-q3-eof-actor.cjs": "506adeb3b1213a23dcda13063bd5b7dcb70f4d5d0873c331be5cdbb76374298a",
+    "android-common33.cjs": "a1cfbd89e922158a43fd6f3e9a09869057c5df4a1c514ff078cebd519337637f",
+    "eof-observer.function.js": "2825c5efeec6e972cd3e4990ac3091d94d9b990f06f99f3b5fbef83664c10941",
+    "source-proof.expression.js": "fdd71db2cc76e36921db9c2bb512183ea2f8ad70d4302d094276551884b57954",
+    "observer.expression.js": "c2f8df2f7e29da5d93bac064d81236a96d0338f85724c62bcb703c7055d05f5e",
+    "pc-seek-targets33.expression.js": "145a0533560cf6e37eb1c9a56f3cc85d97a5e88dc71cb7c209dfd8c09dbf1e9a",
+    "resource-watch.cjs": "5f533f7fe33d54a0134a3ca27e3d11900361d48d7082f523e17c1f1f85f8acbd",
+    "binding-observer.json": "21d64ac825efdbf0dfec5e9cfcb9a2cd1d02064aea8aac2294abcb5249ada1aa"
+  },
+  "tests": {
+    "command": "node --test qa/q3-read-coalescing-acceptance/bind.test.cjs",
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "binderAndGeneratedProducerSyntaxPassed": true,
+    "generatedExpressionsParsePassed": true
+  },
+  "guards": [
+    "Explicit40hex FULL_SOURCE and exact1.22.0-rc.34; symbolicHEAD, shortSHA and rc33 refused",
+    "Exact frozen9template bytes; entire46file committedcache plus5freshnetwork assets rebound; fixture unchanged",
+    "Canonical root delivery proof SHA+passed+sourceCommit+version+workerVersion/public61/cache46 fields required; only invalid proof mocks tested",
+    "Canonical readiness semantic version separately checked; Cloudflare UUID equals same-source distributionEvidence plus its SHA-pinned deployment/control records; positive canonical-UUID and wrong/missing/other-source cases tested only in memory",
+    "Generated transport/base/observer/EOF hashes linked; resource watcher copied exactly; existing output refuses overwrite"
+  ],
+  "bindCommand": "node qa/q3-read-coalescing-acceptance/bind.cjs --bind <FULL_SOURCE> 1.22.0-rc.34 qa/candidate-rc34-delivery/source-readiness.json <DELIVERY_PROOF_SHA256>",
+  "planAfterBinding": "node qa/q3-read-coalescing-acceptance/android-q3-eof-actor.cjs --plan <new-safe-label>",
+  "resourceAfterBinding": "node qa/q3-read-coalescing-acceptance/resource-watch.cjs --execute android actual-android-q3-eof-resources-<new-safe-label>-safe.json 350",
+  "rootOnlyRunAfterReady": "node qa/q3-read-coalescing-acceptance/android-q3-eof-actor.cjs --execute <new-safe-label>",
+  "remainingPrerequisite": "Root supplies immutable rc34 FULL_SOURCE/version plus completed source-readiness SHA with same-source pinned deployment/control records; actual binding and EOF are root-only",
+  "limits": {
+    "actionMs": 300000,
+    "cleanupEndMs": 345000,
+    "resourcesReadyRequiredBeforeActor": true,
+    "original180sExactFixture": true,
+    "replaySeeks": false,
+    "fullOutputQuality": "NOT_QUALIFIED",
+    "literalSourceByteOffsetAtFileSize": "UNKNOWN",
+    "nativeRetainedHeap": "UNKNOWN",
+    "resourceAttribution": "NamedmainChrome PSS and device/battery/thermal scopes retained; GPU/nativeheap attribution UNKNOWN"
+  },
+  "originalFailure": {
+    "file": "binder-worker-identity-first-failure-safe.json",
+    "sha256": "f1b245d7019b4230592d93fb91dc8217168325fd8aa96e7f6b79ffb377c8b574",
+    "originalProducerSha256": "def6604e024d92b6ac5a75812f13e562f7f39ce2d53fdc6f969777dd7c72a604",
+    "cause": "Worker UUID wrongly compared with application version; prior negative-only checks missed valid canonical readiness"
+  },
+  "deliveryIdentityFix": {
+    "actualRc33SchemaInspected": true,
+    "owningFields": [
+      "distributionEvidence.workerVersion",
+      "deploymentRecord SHA-pinned workerVersion/source",
+      "controlPlaneRecord SHA-pinned workerVersion/source"
+    ],
+    "mockPositiveNoDiskProof": true,
+    "actualRc34BindingOrProofAdoption": false
+  }
+}
