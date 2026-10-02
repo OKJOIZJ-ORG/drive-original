@@ -1,0 +1,37 @@
+{
+  "schema": "drive-original.rc37-retained-native-session/1",
+  "sessionId": "526b41fc-8540-4a06-9372-d6cd1fb849e3",
+  "startedAt": "2026-10-02T16:48:59.020Z",
+  "producerSHA256": "9e7c26641399a3a062d6bf9e40ade8f5595c484bb5a00a6acf3ccd829a20cc3c",
+  "source": "051dc3456f5000b958a18593848769b3687991e5",
+  "version": "1.22.0-rc.37",
+  "approvalConnectionsStarted": 1,
+  "connectionRetained": true,
+  "connectDeadlineMs": 12000,
+  "approvalRpcDeadlineMs": 60000,
+  "operationRpcDeadlineMs": 25000,
+  "fixtureBytes": 659966,
+  "fixtureSHA256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "scripts": {
+    "proof": "72dff52bd5d99e2bbb5feaf86391d8341df8b0b98b2e967970101349e7912bf0",
+    "factory": "999426f8faf79c1e7aba83142797caaf7dbb60c154eb4acf9634394872b87e23",
+    "facade": "0dc336008f97e7ea32b8e873ae341499a8b609260acc93f1f4f00f609f6fc2ac",
+    "input": "c0ed68c9dd0a0ca237d00282615a615ac44a84fba4158d7d4f4afccfa3f7b299"
+  },
+  "steps": [
+    {
+      "name": "one browser permission request pending",
+      "at": "2026-10-02T16:48:59.872Z",
+      "value": {
+        "connectionOpen": true
+      }
+    }
+  ],
+  "productChanged": false,
+  "originalMediaWrite": false,
+  "completed": false,
+  "failure": "NATIVE_TOOL_OR_CONNECTION_FAILED",
+  "clientClosed": true,
+  "ownedMcpProcessExited": true,
+  "finishedAt": "2026-10-02T16:50:01.899Z"
+}

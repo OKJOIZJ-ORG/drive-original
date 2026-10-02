@@ -1,0 +1,25 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const file=path.join(__dirname,'connector-file-guard.function.js'),code=fs.readFileSync(file,'utf8');
+const run='b8026a8e-33fa-47ae-b288-907af81293cb';
+function mock(fault){
+ const calls=[],storage=new Map(),controller={state:'activated'},signal=new AbortController();
+ let meta={id:'qa_created_video_id',name:'DriveOriginal-QA-'+run+'-test-video-1',mimeType:'video/mp4',ownedByMe:true,trashed:false,parents:['qa_root_id'],version:'1',headRevisionId:'qa_revision_id',modifiedTime:'2026-10-03T00:00:00Z',size:'659966',md5Checksum:'cc7a0da5f6e2b89a9fdee916d259d285',sha256Checksum:'d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037',capabilities:{canTrash:true,canDownload:true}};
+ if(fault==='checksum')meta.sha256Checksum='0'.repeat(64);
+ const input={run,id:meta.id,root:{id:'qa_root_id'},owner:{account:'qa_account',key:'qa_key',auth:1,data:2}};
+ const ctx={APP_VERSION:'1.22.0-rc.37',DRIVE_MUTATIONS_ENABLED:false,state:{accountId:'qa_account',authAccountKey:'qa_key',authGeneration:1,driveSessionGeneration:2,token:'local-mock-token',tokenRevision:3,expiresAt:Date.now()+60000,accountStateAbortController:signal,authStatus:'online',selected:null},navigator:{serviceWorker:{controller},onLine:true},document:{visibilityState:'visible'},hasUsableToken:()=>true,hasAuthCapability:()=>true,el:{playerSheet:{hidden:true}},q0Playback:null,q1Playback:null,q1RetirementResult:{settled:true},playerTracksRetirementResult:{settled:true},URLSearchParams,AbortController,AbortSignal,setTimeout,clearTimeout,TextDecoder,Uint8Array,localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)}};
+ ctx.window=ctx;ctx.__resumeSwProof={get:()=>({sourceCommit:'051dc3456f5000b958a18593848769b3687991e5',controller})};
+ ctx.fetch=async(url,options)=>{assert.equal(new URL(url).pathname,'/drive/v3/files/qa_created_video_id');assert.equal(options.credentials,'omit');assert.equal(options.redirect,'error');assert.equal(options.headers.Authorization,'Bearer local-mock-token');calls.push(options.method);if(options.method==='PATCH'){const body=JSON.parse(options.body);if(body.appProperties)meta={...meta,appProperties:body.appProperties,version:String(Number(meta.version)+1)};else{assert.deepEqual(body,{trashed:true});meta={...meta,trashed:true,version:String(Number(meta.version)+1)};}if((fault==='tagUnknown'&&body.appProperties)||(fault==='trashUnknown'&&body.trashed))throw Error('LOCAL_MOCK_RESPONSE_UNKNOWN');}return new Response(JSON.stringify(meta));};
+ const context=vm.createContext(ctx),install=vm.runInContext('('+code+')',context);install(input);
+ return{ctx,calls,storage,install,input,api:ctx.__connectorFile37};
+}
+(async()=>{
+ const normal=mock();assert.equal((await normal.api.tag()).passed,true);assert.equal((await normal.api.target()).installed,true);assert.equal((await normal.api.trash()).passed,true);assert.equal((await normal.api.readback()).trashed,true);assert.equal(normal.calls.filter(x=>x==='PATCH').length,2);assert.throws(()=>{normal.api.clear();normal.install(normal.input);},/EXISTING_RUN/);
+ const drift=mock('checksum');await assert.rejects(drift.api.tag(),/EXACT_CREATED_FILE/);assert.equal(drift.calls.includes('PATCH'),false);
+ const concurrent=mock();const first=concurrent.api.tag();await assert.rejects(concurrent.api.tag(),/OPERATION_CONSUMED/);await first;assert.equal(concurrent.calls.filter(x=>x==='PATCH').length,1);
+ const tag=mock('tagUnknown');await assert.rejects(tag.api.tag(),/RESPONSE_UNKNOWN/);await assert.rejects(tag.api.tag(),/OPERATION_CONSUMED/);assert.equal((await tag.api.readback()).trashed,false);assert.equal((await tag.api.trash()).passed,true);assert.equal(tag.calls.filter(x=>x==='PATCH').length,2);
+ const trash=mock('trashUnknown');await trash.api.tag();await assert.rejects(trash.api.trash(),/RESPONSE_UNKNOWN/);await assert.rejects(trash.api.trash(),/TRASH_ADMISSION/);assert.equal((await trash.api.readback()).trashed,true);assert.equal(trash.calls.filter(x=>x==='PATCH').length,2);
+ const owner=mock();owner.ctx.state.authGeneration++;await assert.rejects(owner.api.tag(),/OWNER_OR_BUDGET/);assert.equal(owner.calls.length,0);
+ const result={schema:'drive-original.connector-guard-preflight/1',passed:true,localMockOnly:true,cases:6,checks:['exact one tag and one recoverable trash','same run reinstall rejected','checksum drift blocks every write','concurrent tag latch','uncertain tag GET capture no PATCH retry','uncertain trash GET readback no PATCH retry','owner drift blocks provider calls'],producerSHA256:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),guardSHA256:crypto.createHash('sha256').update(code).digest('hex'),actualProviderRequests:0};
+ fs.writeFileSync(path.join(__dirname,'connector-guard-preparation.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+})().catch(e=>{console.error(e.stack);process.exitCode=1;});

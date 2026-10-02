@@ -1,0 +1,390 @@
+{
+  "schema": "drive-original.rc37-connector-exact-fixture/1",
+  "startedAt": "2026-10-02T17:11:11.056Z",
+  "run": "3e9d2897-f893-4b2b-a04b-058e9f7c91a8",
+  "source": "051dc3456f5000b958a18593848769b3687991e5",
+  "existingBrowserConnectionReused": true,
+  "newChromeApprovalRequests": 0,
+  "scope": "one standalone exact generated video; disposable only; no folder required",
+  "fixtureBytes": 659966,
+  "fixtureSHA256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "guardSHA256": "d7da929f2250994643f18630e206f103c6e9db4c57300bf45caca730c6766557",
+  "steps": [
+    {
+      "name": "fresh source proof before connector submission",
+      "at": "2026-10-02T17:11:13.539Z",
+      "value": {
+        "baselineRemoved": false,
+        "cache": [
+          {
+            "file": "index.html",
+            "matched": true
+          },
+          {
+            "file": "styles.css",
+            "matched": true
+          },
+          {
+            "file": "runtime-config.js",
+            "matched": true
+          },
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "media/drive-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/revision-pin.js",
+            "matched": true
+          },
+          {
+            "file": "media/ts-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/q1-core.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/transmux-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mux-mp4.min.js",
+            "matched": true
+          },
+          {
+            "file": "media/mux-LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/general-admission.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-tracks.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-track.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-presentation.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/native-color.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-owner.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-timeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.LICENSE",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "media/audio-runtime.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-adapter.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker-client.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-input.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "licenses/index.html",
+            "matched": true
+          },
+          {
+            "file": "licenses/audio-source-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "manifest.webmanifest",
+            "matched": true
+          },
+          {
+            "file": "icons/app-icon.svg",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-192.png",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/maskable-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/apple-touch-icon.png",
+            "matched": true
+          }
+        ],
+        "controllerActivated": true,
+        "executingWorkerScriptHashKnown": false,
+        "matchedCache": 50,
+        "matchedCacheAliases": 51,
+        "network": [
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "sw.js",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          }
+        ],
+        "preserved": null,
+        "privateIdentityExported": false,
+        "recordedAt": "2026-10-02T17:11:13.537Z",
+        "rootScope": true,
+        "shellRootAliasMatched": true,
+        "source": "051dc3456f5000b958a18593848769b3687991e5",
+        "sourceProofInstalled": true,
+        "version": "1.22.0-rc.37"
+      }
+    },
+    {
+      "name": "one connector upload sent intent before submission",
+      "at": "2026-10-02T17:13:13.847Z",
+      "value": {
+        "bytes": 659966,
+        "fixtureSHA256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "guardMockCases": 7,
+        "noRetry": true,
+        "privateSubmittedIntentSaved": true
+      }
+    },
+    {
+      "name": "connector exact new file acknowledged",
+      "at": "2026-10-02T17:14:56.056Z",
+      "value": {
+        "createdFiles": 1,
+        "exactNameAndParent": true,
+        "privateCreatedReplySaved": true
+      }
+    },
+    {
+      "name": "current account guard admission",
+      "at": "2026-10-02T17:14:56.115Z",
+      "value": {
+        "actualRequestDeadlineMs": 10000,
+        "bodyCharsMaximum": 65536,
+        "createdFileOnly": true,
+        "oneTagAndOneTrashMaximum": true,
+        "prepared": true
+      }
+    },
+    {
+      "name": "new QA file tag and remote checksum ownership readback",
+      "at": "2026-10-02T17:14:58.792Z",
+      "value": {
+        "bytes": 659966,
+        "checksumMatches": true,
+        "ownedByCurrentAccount": true,
+        "passed": true,
+        "requests": 5,
+        "taggedCreatedFileOnly": true
+      }
+    },
+    {
+      "name": "private tag recovery backup",
+      "at": "2026-10-02T17:14:58.822Z",
+      "value": {
+        "savedPrivately": true,
+        "bytes": 3646,
+        "sha256": "f5a80974bf2422b47f35bf09921d3b407a2c06c2c7039098adfedc25ff6ee107"
+      }
+    },
+    {
+      "name": "fresh actual target installed",
+      "at": "2026-10-02T17:14:59.819Z",
+      "value": {
+        "checksumMatches": true,
+        "freshMetadata": true,
+        "installed": true
+      }
+    },
+    {
+      "name": "actual same-account normal app AAC color integration",
+      "at": "2026-10-02T17:15:38.378Z",
+      "value": {
+        "completed": false,
+        "integrationPassed": false,
+        "failure": "COLOR_TOOL_OR_PRODUCT_EXCEPTION",
+        "cleanupComplete": false,
+        "resultSha256": "3b5b039fb01c45c4b6789f21ff17bc179e63f23a65beb51aeee144baa2495116"
+      }
+    },
+    {
+      "name": "fully awaited driver with phase diagnostics",
+      "at": "2026-10-02T17:23:43.250Z",
+      "value": {
+        "completed": true,
+        "integrationPassed": true,
+        "failure": null,
+        "cleanupComplete": true,
+        "resultSha256": "d9238d5b8cda41d0eac63a0e3b858c8b502344a8b5166c30dd87b07568351557"
+      }
+    },
+    {
+      "name": "private backup before recoverable trash",
+      "at": "2026-10-02T17:24:08.042Z",
+      "value": {
+        "savedPrivately": true,
+        "bytes": 3646,
+        "sha256": "ca84bdb084202cacf03c6ee034f453f9dc5cda96d953bb88033d4ab25454c64c"
+      }
+    },
+    {
+      "name": "same exact generated file recoverably trashed",
+      "at": "2026-10-02T17:24:10.805Z",
+      "value": {
+        "originalBytesUnchanged": true,
+        "passed": true,
+        "requests": 12,
+        "trashed": true
+      }
+    },
+    {
+      "name": "private confirmed-trash ledger backup",
+      "at": "2026-10-02T17:24:10.828Z",
+      "value": {
+        "savedPrivately": true,
+        "bytes": 4806,
+        "sha256": "111b52c8479a180adbf48b2bd478ad1bfea60da76b232dfac1c1c4a3d47b976a"
+      }
+    },
+    {
+      "name": "guard and target release",
+      "at": "2026-10-02T17:24:10.852Z",
+      "value": {
+        "durableLedgerRetained": true,
+        "guardReleased": true,
+        "targetReleased": true
+      }
+    },
+    {
+      "name": "final closed idle ownership cleanup",
+      "at": "2026-10-02T17:24:10.897Z",
+      "value": {
+        "accountIdle": true,
+        "guardAbsent": true,
+        "holderAbsent": true,
+        "observerAbsent": true,
+        "ownersAbsent": true,
+        "playerClosed": true,
+        "ready": true,
+        "retired": true,
+        "sourceProofAbsent": true
+      }
+    }
+  ],
+  "completed": true,
+  "providerWriteSubmitted": true,
+  "originalMediaWrite": false,
+  "cleanupComplete": true,
+  "oneStandaloneFileOnly": true,
+  "createdFolders": 0
+}

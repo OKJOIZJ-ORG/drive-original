@@ -1,0 +1,509 @@
+{
+  "schema": "rc37-disposable-real-account-color-integration/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "scope": "One exact generated disposable fixture uploaded to actual Drive; actual app handlers/native audio select; no cold/OS gesture/p95/pixel equality claim",
+  "originalMediaWrite": false,
+  "productChanged": false,
+  "driverSha256": "530753b7f66ebb582366a679bcc60e054d40a298ec367209da77b9b5b094874a",
+  "observerSha256": "84024d61c9074e2fb1585b29a5266c16ff675b8cf474f78926172ea1a1aff90a",
+  "steps": [
+    {
+      "name": "prepared before any timed playback",
+      "at": 1790961798794,
+      "value": {
+        "current37": true,
+        "nativeUIBinding": "ordinary app handlers plus native select",
+        "ownedTimerPolicy": "10s metadata abort; finally clear",
+        "prepared": true,
+        "readOnlyUntilLocateAndOpen": true
+      }
+    },
+    {
+      "name": "bounded actual-source selection before playback",
+      "at": 1790961800531,
+      "value": {
+        "boundedMetadataRows": 1,
+        "bytes": 659966,
+        "checksumPresent": true,
+        "durationMs": 6000,
+        "eligible": true,
+        "header": {
+          "bytes": 16384,
+          "isoMp4": true,
+          "sha256": "e8e8e98b9316acba11449c26a947281229bd481b8729fb21d4e34de2d3cded3e",
+          "status": 206
+        },
+        "nextPageFollowed": false,
+        "privateIdentityExported": false,
+        "revisionPresent": true
+      }
+    },
+    {
+      "name": "actual app open handler BEFORE first frame",
+      "at": 1790961800580,
+      "value": {
+        "accountIdle": true,
+        "attempt": "range",
+        "audioOptions": [],
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": null,
+        "dialog": false,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "generation": null,
+        "height": 0,
+        "mappedPresentedMediaTime": null,
+        "observationIdentityMatches": false,
+        "observationTuple": null,
+        "observed": false,
+        "observedFormat": null,
+        "outputBytes": null,
+        "outputObservation": false,
+        "outputTuple": null,
+        "packets": null,
+        "paused": false,
+        "peakPacketBytes": null,
+        "phase": null,
+        "pipelineAudio": null,
+        "q0": true,
+        "q1": false,
+        "q1Retired": true,
+        "ready": 0,
+        "selectedAudio": null,
+        "sourceColor": null,
+        "sourceConfigPreserved": null,
+        "statsReady": false,
+        "switching": false,
+        "tracksCleanup": false,
+        "tracksCurrent": false,
+        "tracksRetired": true,
+        "transport": false,
+        "verified": false,
+        "version": "1.22.0-rc.37",
+        "width": 0,
+        "windowMetadataOnly": false
+      }
+    },
+    {
+      "name": "Q0 current decoded frame",
+      "at": 1790961803004,
+      "value": {
+        "accountIdle": true,
+        "attempt": "range",
+        "audioOptions": [],
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": null,
+        "dialog": false,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "generation": null,
+        "height": 180,
+        "mappedPresentedMediaTime": 0,
+        "observationIdentityMatches": false,
+        "observationTuple": null,
+        "observed": false,
+        "observedFormat": null,
+        "outputBytes": null,
+        "outputObservation": false,
+        "outputTuple": null,
+        "packets": null,
+        "paused": false,
+        "peakPacketBytes": null,
+        "phase": null,
+        "pipelineAudio": null,
+        "q0": true,
+        "q1": false,
+        "q1Retired": true,
+        "ready": 4,
+        "selectedAudio": null,
+        "sourceColor": null,
+        "sourceConfigPreserved": null,
+        "statsReady": false,
+        "switching": false,
+        "tracksCleanup": false,
+        "tracksCurrent": false,
+        "tracksRetired": true,
+        "transport": true,
+        "verified": true,
+        "version": "1.22.0-rc.37",
+        "width": 320,
+        "windowMetadataOnly": false,
+        "elapsedMs": 2423
+      }
+    },
+    {
+      "name": "current native color before audio selection",
+      "at": 1790961803076,
+      "value": {
+        "codedHeight": 180,
+        "codedWidth": 320,
+        "colorSpace": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "format": "NV12",
+        "frameClosed": true,
+        "visibleHeight": 180,
+        "visibleWidth": 320
+      }
+    },
+    {
+      "name": "actual current track inventory after settled normal handler",
+      "at": 1790961808387,
+      "value": {
+        "accountIdle": false,
+        "attempt": "range",
+        "audioOptions": [
+          {
+            "codec": "aac",
+            "id": 2,
+            "route": "q1"
+          }
+        ],
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": null,
+        "dialog": true,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "generation": null,
+        "height": 180,
+        "mappedPresentedMediaTime": 0.041667,
+        "observationIdentityMatches": false,
+        "observationTuple": null,
+        "observed": false,
+        "observedFormat": null,
+        "outputBytes": null,
+        "outputObservation": false,
+        "outputTuple": null,
+        "packets": null,
+        "paused": true,
+        "peakPacketBytes": null,
+        "phase": null,
+        "pipelineAudio": null,
+        "q0": true,
+        "q1": false,
+        "q1Retired": true,
+        "ready": 4,
+        "selectedAudio": null,
+        "sourceColor": null,
+        "sourceConfigPreserved": null,
+        "statsReady": false,
+        "switching": false,
+        "tracksCleanup": true,
+        "tracksCurrent": true,
+        "tracksRetired": true,
+        "transport": true,
+        "verified": true,
+        "version": "1.22.0-rc.37",
+        "width": 320,
+        "windowMetadataOnly": false
+      }
+    },
+    {
+      "name": "native audio selection BEFORE change",
+      "at": 1790961808388,
+      "value": {
+        "trackId": 2,
+        "initialDeadlineMs": 15000
+      }
+    },
+    {
+      "name": "selected-audio current first frame",
+      "at": 1790961822559,
+      "value": {
+        "accountIdle": true,
+        "attempt": "q1",
+        "audioOptions": [
+          {
+            "codec": "aac",
+            "id": 2,
+            "route": "q1"
+          }
+        ],
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "dialog": false,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "generation": 2,
+        "height": 180,
+        "mappedPresentedMediaTime": 0,
+        "observationIdentityMatches": false,
+        "observationTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "observed": true,
+        "observedFormat": "NV12",
+        "outputBytes": null,
+        "outputObservation": true,
+        "outputTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "packets": null,
+        "paused": true,
+        "peakPacketBytes": null,
+        "phase": "ready",
+        "pipelineAudio": 2,
+        "q0": false,
+        "q1": true,
+        "q1Retired": true,
+        "ready": 4,
+        "selectedAudio": 2,
+        "sourceColor": {
+          "fullRange": null,
+          "matrix": null,
+          "primaries": null,
+          "transfer": null
+        },
+        "sourceConfigPreserved": true,
+        "statsReady": true,
+        "switching": false,
+        "tracksCleanup": true,
+        "tracksCurrent": true,
+        "tracksRetired": true,
+        "transport": true,
+        "verified": true,
+        "version": "1.22.0-rc.37",
+        "width": 320,
+        "windowMetadataOnly": true,
+        "elapsedMs": 14005
+      }
+    },
+    {
+      "name": "current source window config",
+      "at": 1790961822603,
+      "value": {
+        "accountIdle": true,
+        "attempt": "q1",
+        "audioOptions": [
+          {
+            "codec": "aac",
+            "id": 2,
+            "route": "q1"
+          }
+        ],
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "dialog": false,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "generation": 2,
+        "height": 180,
+        "mappedPresentedMediaTime": 0,
+        "observationIdentityMatches": false,
+        "observationTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "observed": true,
+        "observedFormat": "NV12",
+        "outputBytes": null,
+        "outputObservation": true,
+        "outputTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "packets": null,
+        "paused": true,
+        "peakPacketBytes": null,
+        "phase": "ready",
+        "pipelineAudio": 2,
+        "q0": false,
+        "q1": true,
+        "q1Retired": true,
+        "ready": 4,
+        "selectedAudio": 2,
+        "sourceColor": {
+          "fullRange": null,
+          "matrix": null,
+          "primaries": null,
+          "transfer": null
+        },
+        "sourceConfigPreserved": true,
+        "statsReady": true,
+        "switching": false,
+        "tracksCleanup": true,
+        "tracksCurrent": true,
+        "tracksRetired": true,
+        "transport": true,
+        "verified": true,
+        "version": "1.22.0-rc.37",
+        "width": 320,
+        "windowMetadataOnly": true,
+        "elapsedMs": 43
+      }
+    },
+    {
+      "name": "actual changed-color branch verdict",
+      "at": 1790961823100,
+      "value": {
+        "accountIdle": true,
+        "attempt": "q1",
+        "audioOptions": [
+          {
+            "codec": "aac",
+            "id": 2,
+            "route": "q1"
+          }
+        ],
+        "capturedTupleMatches": true,
+        "closed": false,
+        "current": true,
+        "currentMediaEvent": true,
+        "derivedColor": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "derivedTupleMatches": true,
+        "dialog": false,
+        "encoders": null,
+        "error": null,
+        "failure": null,
+        "fence": true,
+        "frameTupleMatches": true,
+        "generation": 2,
+        "height": 180,
+        "mappedPresentedMediaTime": 0,
+        "nativeFormat": "NV12",
+        "nativeTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "observationIdentityMatches": false,
+        "observationTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "observed": true,
+        "observedFormat": "NV12",
+        "originalMetadataUnchanged": true,
+        "outputBytes": null,
+        "outputFrameTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "outputObservation": true,
+        "outputTuple": {
+          "fullRange": false,
+          "matrix": "smpte170m",
+          "primaries": "smpte170m",
+          "transfer": "smpte170m"
+        },
+        "packets": null,
+        "paused": true,
+        "peakPacketBytes": null,
+        "phase": "ready",
+        "pipelineAudio": 2,
+        "q0": false,
+        "q1": true,
+        "q1Retired": true,
+        "ready": 4,
+        "selectedAudio": 2,
+        "sourceColor": {
+          "fullRange": null,
+          "matrix": null,
+          "primaries": null,
+          "transfer": null
+        },
+        "sourceConfigPreserved": true,
+        "statsReady": true,
+        "switching": false,
+        "tracksCleanup": true,
+        "tracksCurrent": true,
+        "tracksRetired": true,
+        "transport": true,
+        "verified": true,
+        "version": "1.22.0-rc.37",
+        "width": 320,
+        "windowMetadataOnly": true
+      }
+    },
+    {
+      "name": "qualified generated QA frame screenshot",
+      "at": 1790961823165,
+      "value": {
+        "bytes": 33694,
+        "sha256": "d9c5e75b78ea7e8e8153ecd3c2c5918917db209e57c081c938f042e1dd26b0b9"
+      }
+    },
+    {
+      "name": "ordinary close and owned cleanup",
+      "at": 1790961823246,
+      "value": {
+        "accountIdle": true,
+        "fence": true,
+        "helperAbsent": true,
+        "libraryRoot": true,
+        "playerClosed": true,
+        "privateHolderCleared": true,
+        "q0Absent": true,
+        "q1Absent": true,
+        "q1Retired": true,
+        "queryEmpty": true,
+        "tracksAbsent": true,
+        "tracksRetired": true,
+        "workerFactoryRestored": true,
+        "workerListenersRemoved": true
+      }
+    }
+  ],
+  "resultFile": "actual-pc-v2-result.json",
+  "activeOperation": "cleanup",
+  "integrationPassed": true,
+  "declaredSourcePreservation": true,
+  "encodersCreated": "UNKNOWN_WINDOW_ONLY",
+  "copiedPacketAndClockProof": "REUSED_QUALIFIED_CONTROLLED_ALGORITHM_NOT_NEW_ACTUAL_FULL_FILE_ORACLE",
+  "pixelEquality": "NOT_TESTED_EXISTING_STRICT_FAILURE_RETAINED",
+  "completed": true,
+  "cleanupComplete": true
+}

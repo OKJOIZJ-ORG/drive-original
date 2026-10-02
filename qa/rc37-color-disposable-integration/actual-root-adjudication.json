@@ -1,0 +1,44 @@
+{
+  "schema": "rc37-disposable-actual-root-adjudication/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "productChanged": false,
+  "candidateRedeployed": false,
+  "newChromeApprovalRequests": 0,
+  "sameExistingNormalChromeConnection": true,
+  "realAccountGeneratedFixtureOnly": true,
+  "createdFiles": 1,
+  "createdFolders": 0,
+  "originalMediaWrite": false,
+  "integration": "QUALIFIED_FINITE_CURRENT_NATIVE_SDR_AAC_TUPLE_AND_METADATA_ONLY",
+  "firstFailurePreserved": {
+    "file": "actual-pc-result.json",
+    "sha256": "3b5b039fb01c45c4b6789f21ff17bc179e63f23a65beb51aeee144baa2495116",
+    "cleanup": "originalfalse preserved; separate direct awaited cleanup all15 true",
+    "cause": "UNKNOWN; unawaited CUA lifetime is hypothesis only"
+  },
+  "actualDriver": {
+    "file": "actual-pc-v2-result.json",
+    "sha256": "d9238d5b8cda41d0eac63a0e3b858c8b502344a8b5166c30dd87b07568351557",
+    "completed": true,
+    "cleanupComplete": true
+  },
+  "providerAndFinalCleanup": {
+    "file": "connector-actual-operation-result.json",
+    "sha256": "27509362d18a47ced3d8bf67c583202f34cf1470b309e4d6887d88d7e4436df5",
+    "completed": true,
+    "recoverablyTrashed": true,
+    "guardRequests": 12,
+    "finalCleanupComplete": true,
+    "privateLedgers": "backed up under ignored qa/v2-state-recovery-backup; durable run ledger retained"
+  },
+  "independentReview": "gpt-6.1-sol medium: receipt/producer hashes and immutable first failure match; no blocker; limits retained",
+  "limits": [
+    "observationIdentityMatches false; no separate equality claim",
+    "actual encodersCreated UNKNOWN_WINDOW_ONLY; controlled zero-encoder proof reused only in its original scope",
+    "window config metadata observed; executing worker hash UNKNOWN",
+    "strictRGBA FAIL remains diagnostic; AndroidYUV UNKNOWN; HDR applicability UNKNOWN",
+    "single generated file; no new original natural format, full-file packet/clock oracle, seek/audio audibility, OS return, cold/performance p95 or whole-goal/production pass"
+  ],
+  "wholeGoalPassed": false,
+  "productionPassed": false
+}
