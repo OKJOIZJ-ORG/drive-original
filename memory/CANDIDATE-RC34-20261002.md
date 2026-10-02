@@ -51,3 +51,31 @@ Six local guards have valid passing evidence across the scoped runs; the first
 viewport-dimension rejection test used a value within the intended rounding
 tolerance, then was corrected and the affected guards rerun. No product edit,
 full product-suite replay or candidate deployment followed these QA repairs.
+
+FM08 followup: actual JPEG1,308,426B/2048x1536 (largest within261 normally
+loaded JPEGs under the16MiB preparation limit) passes26.130s/6stable native
+crops/7,314,620capturedB, fresh complete metadata, original route, two normal
+viewer lifetimes and owned cleanup. PNG c4 corrects the provisional capture
+portion on the same2,013,106B/831x1215 representative:27.618s/6stable native
+crops/3,864,334B, same normal/API/source/cleanup fences. Historical receipts
+stay preserved. Full original payloads or viewport images were not retained.
+
+User closed/reopened Chrome between these units and explicitly requested
+reconnection. Official MCP autoConnect was authorized, returned one candidate
+page, and closed its temporary client; the normal extension tab was rebound to
+fresh CDP. Same account/rc34/online/idle and no stale helper were confirmed;
+image observer/source proof were rebuilt before PNG c4. Old browser proxy
+listed no tabs despite current inventory; current cua.getTab succeeded. A new
+tab's initial10s preparation bound expired before its normal account restore;
+no actual test started. Its later ready state was inspected before continuing.
+
+BMP seed identity matches the fresh API; absent list revision/checksum fields
+were representation differences, not media drift. Six bounded ancestor-only
+metadata reads reached a provider root without matching prepared visible roots.
+No BMP body/native observation occurred; actual format/path remains unknown.
+Reuse controlled rc16 BMP/4096x2048 PNG, rc18 alpha-hole/250-750ms/loop0
+animation and rc20 corrected wrong-major-MIME image-owner proofs only within
+their recorded scope. Original EXP03 permits controlled hard cases; original
+FM07/MEDIA07 does not add an exact physical-frame timestamp oracle or require
+natural-corpus alpha discovery. Actual opaque examples plus unchanged native
+original rendering and controlled alpha/timing proofs remain distinguished.
