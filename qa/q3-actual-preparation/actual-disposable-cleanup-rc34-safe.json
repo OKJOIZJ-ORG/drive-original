@@ -1,0 +1,75 @@
+{
+  "schema": "q3-exact-disposable-cleanup/1",
+  "version": "1.22.0-rc.34",
+  "sourceCommit": "09c61bdc1438df24e4213e348caea745823b5ee1",
+  "admission": {
+    "preflightRequests": 0,
+    "preflightWrites": 0,
+    "rawExported": false,
+    "source": "09c61bdc1438df24e4213e348caea745823b5ee1",
+    "sourceRebound": true,
+    "started": true,
+    "version": "1.22.0-rc.34"
+  },
+  "summary": {
+    "cleanupError": false,
+    "done": true,
+    "jobCleared": true,
+    "privateExportError": false,
+    "result": {
+      "captureStable": false,
+      "code": null,
+      "created": 2,
+      "done": true,
+      "genericUpstreamCleanup": "unknown",
+      "lastHTTPStatus": null,
+      "ownedCleanupSettled": true,
+      "passed": true,
+      "planned": 2,
+      "privateRecoveryRetained": true,
+      "rawExported": false,
+      "requests": 15,
+      "responseBytes": 10747,
+      "sourceBound": true,
+      "submitted": 2,
+      "writes": 2
+    }
+  },
+  "readback": {
+    "planned": 2,
+    "created": 2,
+    "status": "cleanup-confirmed",
+    "allExactTrashed": true,
+    "immutableFixturePreserved": true,
+    "videoOriginalFingerprintMatches": true,
+    "patchSubmitted": 2,
+    "newPatchTrashConfirmed": 2,
+    "noPermanentDelete": true,
+    "noNewCreateSinceRebind": true
+  },
+  "cleanup": {
+    "helperRemoved": true,
+    "idle": true,
+    "jobReleased": true,
+    "originalTabRetained": true,
+    "sourceProofRemoved": true
+  },
+  "elapsedMs": 57079,
+  "independentReview": "no material blocker in scoped static/synthetic review; actual execution by root",
+  "localChecks": {
+    "passed": 9,
+    "failed": 0,
+    "receipt": "disposable-cleanup-rc34-local-checks-safe.json"
+  },
+  "producerSHA256": {
+    "disposable-source-rebind.cjs": "6ad85209fbf0e869c9fe0cf8c42d125502c7fe67e8eb1abe0a15b2802ee123a0",
+    "disposable-source-rebind.test.cjs": "18f89436f4b9e80152c6bb84ae9811974e933de67c12b1acd7b441b438ef3e5c",
+    "disposable-cleanup-rc34-factory.expression.js": "5dab02051b41c990afb0a984a165992bc7c85af8d9f3b39876878f8e5b1c0677",
+    "disposable-cleanup-rc34-facade.function.js": "7dd980c189070a497bbdd5eabc22cec6212b204cb1d654d84fe19faddd33e8cd",
+    "disposable-cleanup-rc34-binding.json": "bd5940d5a73cb211fc4ca5988c887f55bf8e5eead6260e8328e746b90fabef02",
+    "disposable-cleanup-rc34-start.function.js": "fd7c45be0b6b6dcc7a30c2b6d0601d81431994997bc4fdc0c9005eabd25f318e"
+  },
+  "rawExported": false,
+  "privateRecoveryRetained": true,
+  "elapsedScope": "admission through host receipt persistence; not provider-only latency"
+}

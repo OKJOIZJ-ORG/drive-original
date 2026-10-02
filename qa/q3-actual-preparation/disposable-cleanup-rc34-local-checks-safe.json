@@ -1,0 +1,29 @@
+{
+  "schema": "q3-disposable-cleanup-local/1",
+  "actualProviderExecution": false,
+  "command": "node --test qa/q3-actual-preparation/disposable-source-rebind.test.cjs",
+  "exitCode": 0,
+  "tests": 9,
+  "passed": 9,
+  "failed": 0,
+  "outputChunk": "27248c",
+  "review": {
+    "scope": "rebind/factory/facade",
+    "materialFinding": false,
+    "requiredExecutorGuard": "synchronous source/account and exact raw reserved texts before persist",
+    "implemented": true
+  },
+  "producerSHA256": {
+    "disposable-source-rebind.cjs": "6ad85209fbf0e869c9fe0cf8c42d125502c7fe67e8eb1abe0a15b2802ee123a0",
+    "disposable-source-rebind.test.cjs": "18f89436f4b9e80152c6bb84ae9811974e933de67c12b1acd7b441b438ef3e5c",
+    "disposable-cleanup-rc34-factory.expression.js": "5dab02051b41c990afb0a984a165992bc7c85af8d9f3b39876878f8e5b1c0677",
+    "disposable-cleanup-rc34-facade.function.js": "7dd980c189070a497bbdd5eabc22cec6212b204cb1d654d84fe19faddd33e8cd",
+    "disposable-cleanup-rc34-binding.json": "bd5940d5a73cb211fc4ca5988c887f55bf8e5eead6260e8328e746b90fabef02",
+    "disposable-cleanup-rc34-start.function.js": "fd7c45be0b6b6dcc7a30c2b6d0601d81431994997bc4fdc0c9005eabd25f318e"
+  },
+  "oldFactoryUnchanged": true,
+  "uploadAllowedByFacade": false,
+  "permanentDeleteAllowed": false,
+  "providerWrites": 0,
+  "rawExported": false
+}

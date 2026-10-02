@@ -79,3 +79,13 @@ their recorded scope. Original EXP03 permits controlled hard cases; original
 FM07/MEDIA07 does not add an exact physical-frame timestamp oracle or require
 natural-corpus alpha discovery. Actual opaque examples plus unchanged native
 original rendering and controlled alpha/timing proofs remain distinguished.
+
+Exact D050 disposable cleanup is complete on the same source/account:15 bounded
+metadata requests including2 PATCHes, both exact objects freshly read trashed,
+video size/SHA/MD5 unchanged, private recovery records retained; no reupload or
+permanent delete. Source33 ledger was adapted only in its reserved binding,
+audit event and pointer source after constructor/source/account/raw-text fences.
+Nine scoped guards and independent static review pass; actual job/proof/helper
+released and original tab idle. qa/q3-actual-preparation/actual-disposable-cleanup-rc34-safe.json
+owns the receipt. PC30 failed sample6 exact identity mapping is unavailable;
+its Q1 MOV90% timeout remains unresolved, not replaced by separate MKV successes.
