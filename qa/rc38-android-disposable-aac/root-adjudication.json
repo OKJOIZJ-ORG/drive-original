@@ -1,0 +1,195 @@
+{
+  "schema": "rc38-root-affected-acceptance-adjudication/1",
+  "runtimeSource": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "version": "1.22.0-rc.38",
+  "workerVersion": "8f0a21d7-45bb-4164-910e-b4e66db0f52a",
+  "approvedCandidateQueueComplete": true,
+  "candidateReadyForG6Decision": true,
+  "wholeGoalPassed": false,
+  "productionPassed": false,
+  "originalMediaWrites": false,
+  "canonicalProducersUnchanged": true,
+  "productRedeployedForQAFix": false,
+  "evidence": [
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-10e4c860-26d1-40c0-8dd0-c52df4b2af81.json",
+      "sha256": "34d13f921a3b20e3b80acc9b7108df67937177eb02939e136c4bcb7acf22206a"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-pc-v2-6890d9a6-db35-4929-86f5-aa3472d767c6.json",
+      "sha256": "c353c1cc503d1e945ff33b55aebb472cc170854eb5f8c7640f57e1cc848cd155"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/final-root-cleanup.json",
+      "sha256": "43cfc122c07e68bf2dadf032a40d14ce598ebe116a6b7b94bd6a42a1ace59052"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-operation-result.json",
+      "sha256": "a42df6a8b18d0a9b52bb189220967a75ba26492ee9f3b7b36a631e25b63a0668"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-operation-v2-result.json",
+      "sha256": "dffbc2487eee3fcab6817ab05c23ca364e9ee970f6e6a36100162d0f6d1444c8"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/preparation-frame-qualified.json",
+      "sha256": "4344e5179360681a8ca5511d45af82c1435544f6f8324e8ad763bf3c697cacba"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-frame-qualified-preparation.json",
+      "sha256": "96bd548d850d1a079342f7f749f9a96d92ba8033b13ffcda88cd44c18d6b9b76"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-actor-frame-qualified-literal.cua.js",
+      "sha256": "4c35017bbd902231a1095dcc621c7f3850a63f167a636fad9f9666f2dcf3abff"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-normal-update-source-cache-result.json",
+      "sha256": "0a569a3066f464884e791a395d8a09c41e89f8fcccdbd47414deb10029e9c08b"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-update-attempt.json",
+      "sha256": "bade3b095ab42de3d8716e100031e5c7cdbbf862f5b2059796acf836ac6be304"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-result.json",
+      "sha256": "801648dc9b62afcebb062cba3b43bfc2a01417930a6d0255d4a9793a5c2835c7"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/delivery-root-adjudication.json",
+      "sha256": "fee9353d510adec2e47b61bf05312e6d3fba0967694ffc37ae31b0173766e864"
+    }
+  ],
+  "affected": {
+    "android": {
+      "snapshotTime": 0.354422,
+      "frame": 0.333333,
+      "frameMs": 13307,
+      "qualificationMs": 13389,
+      "generation": 1,
+      "initialWorkers": 1,
+      "tuple": true,
+      "sourceConfig": true,
+      "metadata": true,
+      "input": "OS-native trusted distinct AAC3 on physical SM-X800 Android16 Chrome153",
+      "nativeFormat": "I420",
+      "presentedFormat": "RGBA"
+    },
+    "pc": {
+      "snapshotTime": 1.378326,
+      "frame": 1.374999,
+      "frameMs": 10199,
+      "qualificationMs": 10216,
+      "generation": 1,
+      "initialWorkers": 1,
+      "tuple": true,
+      "sourceConfig": true,
+      "metadata": true,
+      "input": "Normal CUA controlled selectOption distinct AAC3; isTrusted=false, physicalNativeInput=false",
+      "nativeFormat": "NV12",
+      "presentedFormat": "NV12"
+    }
+  },
+  "retainedFailures": [
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-pc-08ee68c9-53eb-42f4-8dca-72a892e2fdb7.json",
+      "sha256": "1da6aac8fa42ab81cfd92b62c770174387e45a3b46c13fade5680d2b4fb2a339",
+      "cause": "Root delayed ordinary pause while finding controls; short fixture reached6s. Current target5.999999 vs last PTS5.958333 failed original endpoint predicate. New interior ordinary pause is a changed preparation condition.",
+      "oldVerdict": "FAILED_NOT_PROMOTED"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-464c4c6d-9f20-42e3-8812-996ced2dba3a.json",
+      "sha256": "3e3f5450e4eff18285404bde76ecb0c20eb48bece8f831fa2c6287ba98d5e37c",
+      "cause": "QA frame interval direction reversed; single paused QA callback preceded app verified publication by38ms. Source target/generation/worker were correct.",
+      "oldVerdict": "FAILED_NOT_PROMOTED"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-preflight-refusal-string-code.json",
+      "sha256": "e0466f08f1d98c46247cf338f62b9fb038cb2a68f9c6cf7e050283eee3706223",
+      "cause": "CUA string code generation denied before actor/input; literal actual source saved before invocation."
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/root-adjudication-preflight-refusal.json",
+      "sha256": "b15c80233955f36b3fdee98c8ebd4a39873a18a830cb19a480b15c5b0b05fc5d",
+      "cause": "Root all-fields predicate incorrectly included null/timestamp provenance. Exact5 preservation boolean fields checked; clickedAt/pagehideAt remain UNKNOWN, not PASS."
+    }
+  ],
+  "qaRepair": {
+    "androidHelper": {
+      "file": "qa/rc38-android-disposable-aac/browser-frame-qualified.function.js",
+      "sha256": "c8cb069da9e53c98b8ff00319fb59f5dd5564555035a3b6a5459e9b4fde5d31c"
+    },
+    "pcHelper": {
+      "file": "qa/rc38-android-disposable-aac/pc-browser-frame-qualified.function.js",
+      "sha256": "ecd697e20250c5eb77ed62240999eb59ebe80e40318f68df31db29fe4409ef83"
+    },
+    "driver": {
+      "file": "qa/rc38-android-disposable-aac/driver-frame-qualified.cjs",
+      "sha256": "13a8cf084e900d57d27f29a07455be8b45ebc4c60e1b109c02bad69493d32fb9"
+    },
+    "mock": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.mock.cjs",
+      "sha256": "5069904f1f310c77c7e3bd35b48f4c531b9797cd29d433f45be0ebf7a1db9104"
+    },
+    "tests": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.test.cjs",
+      "sha256": "df9823f15bbb5e81e07d988c54ec1449ce2790e21755467d3e5f365bd375d153"
+    },
+    "localValidation": "Independent implementer reported21/21 focused cases; original raw stdout not retained as a new JSON test receipt. Actual new device/PC receipts independently qualified here.",
+    "bounds": "Frame capture and same-current owner/session/source/gen verified publication both within ORIGINAL15s; metadata10s/RPC25s/overall180s+cleanup40s unchanged; no extra seek/play or product deployment."
+  },
+  "update": {
+    "pc": "Current source/cache/controller and exact5 private state preservation qualified; click/pagehide trusted gesture UNKNOWN, attempt.completed=false retained; no repeat update.",
+    "android": "Trusted native37-to38 and private state5/current6sources/cache51/cleanup qualified"
+  },
+  "originalEvidenceReused": [
+    {
+      "file": "qa/rc35-acceptance-adoption/adoption-proposal.json",
+      "sha256": "221bb1c46b8d81edc584bc80424516f0b22182baa693f63aa0a5c4002224847e"
+    },
+    {
+      "file": "qa/rc36-matched-regression/series-result-2026-10-02T174446442Z-23080-c2805da0.json",
+      "sha256": "10021170adebf06db418a8fa5d3e3648bc9b5b0a2107fa99f1d06626f829a551"
+    },
+    {
+      "file": "qa/rc38-normalized-position-native/actual-routing-rc38.json",
+      "sha256": "81f67b8ed9472b7eef7d625df1288afebdb3335cc92e874f4b6cfffcae810d71"
+    },
+    {
+      "file": "memory/CANDIDATE-RC37-20261003.md",
+      "sha256": "be96409d09557e9d1703bfede780f0fbf1a63f1686bd58e784a6a911357e449a"
+    }
+  ],
+  "scopeLimits": {
+    "originalIds": 69,
+    "all69Pass": false,
+    "noCompletionPercentage": true,
+    "corpus": {
+      "inventory": 8596,
+      "consumed": 128,
+      "classified": 123,
+      "unknown": 5,
+      "unattempted": 8468
+    },
+    "controlled20": "Historical rc35-to37 synthetic/read-only finite distribution; not current38 provider/device p95.",
+    "strictRGBA": "Retained diagnostic FAIL25/172800 channels,max2,PSNR82.44; no strict zero rule in originalQ04/G5/22.2.",
+    "unverified": "Source-intended color,Android visible YUV/HDR/high-depth applicability,broader format/device coverage,audibility,executing worker bytes and real-provider populationp95 remain UNKNOWN; no N/A or universal-support promotion."
+  },
+  "gates": {
+    "G3": "CURRENT_AFFECTED_RUNTIME_QUALIFIED_WITH_RETAINED_HISTORICAL_LIMITS",
+    "G4": "FINITE_INTEGRATION_AND_CLEANUP_QUALIFIED",
+    "G5": "ACTUAL_GOOGLE_ANDROID_WITH_IOS_USER_DEFERRED_D066",
+    "G6": "PENDING_SEPARATE_MAIN_PUSH_PRODUCTION_AUTHORIZATION",
+    "G7": "ORIGINAL_TEN_ITEM_OWNER_REPORT_CHECKPOINT_GOAL_COMPLETE"
+  },
+  "next": "Concrete G6 decision; on approval review full branch diff and applicable checks, main/push/production and served proof; iOS remains postdeployment user-deferred.",
+  "completedAt": "2026-10-02T20:51:30.596Z",
+  "independentReview": {
+    "model": "gpt-6.1-sol",
+    "effort": "medium",
+    "scope": "Current finite candidate report/adjudications and18 hash-bound inputs",
+    "materialBlockers": 0,
+    "finiteCandidateReadyForG6": true,
+    "sourceUnchanged": true
+  }
+}

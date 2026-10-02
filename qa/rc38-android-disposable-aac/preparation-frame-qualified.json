@@ -1,0 +1,176 @@
+{
+  "schema": "rc38-android-actual-aac3-frame-qualified-preparation/1",
+  "qaVariant": "paused-frame-interval-settlement-v1",
+  "canonicalPreparationSHA256": "0237d25ab0dacf3f49d7719a2f9c795b34535c541055461b281be12a3a924a71",
+  "canonicalProducers": {
+    "driver": {
+      "file": "qa/rc38-android-disposable-aac/driver.cjs",
+      "sha256": "3114ae04fd6c160933595f7a875b5e0cc722683d15fbe14fb4d384918556a629"
+    },
+    "preflight": {
+      "file": "qa/rc38-android-disposable-aac/preflight.test.cjs",
+      "sha256": "e4c38a0f8e15473fdf2f519590b147cb505ab3b8b07e8359bec05449cbfe2d86"
+    },
+    "snapshotPreflight": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-focused.test.cjs",
+      "sha256": "9d0eee041d5d9fbdefc6d282c13f6f1588263a99aafd4b5702c67bb6e7568811"
+    },
+    "snapshotMocks": {
+      "file": "qa/rc38-android-disposable-aac/snapshot.mock.cjs",
+      "sha256": "154e73811822c53804792cfcf73da343a1bb8ee0f054dc9f58915015a63ddd75"
+    },
+    "pcHelper": {
+      "file": "qa/rc38-android-disposable-aac/pc-browser.function.js",
+      "sha256": "c6039d90b82cce0e4927ea6854908873b472aa6066b8b102f9ffca39ae40886b"
+    },
+    "helper": {
+      "file": "qa/rc38-android-disposable-aac/browser.function.js",
+      "sha256": "361364beba5bd8cb207b82756656aaea4f7229ce8936a20e92d678602d01e9bd"
+    },
+    "guard": {
+      "file": "qa/rc38-android-disposable-aac/connector-file-guard.function.js",
+      "sha256": "b175b8774dc1d5b35b4427803249d1c445229b14cdadd6f2a8b706652613047e"
+    },
+    "guardPreflight": {
+      "file": "qa/rc38-android-disposable-aac/connector-guard-preflight.cjs",
+      "sha256": "91975a44893223cb8cf18dc84dfc7df71c473c6623dc96774a8b6f6560b84067"
+    },
+    "sourceBindingModule": {
+      "file": "qa/candidate-rc38-delivery/source-binding.cjs",
+      "sha256": "5aa260d53027a532c98154af813d33967e0b60877bb095f42135e71f888f958b"
+    },
+    "priorPassiveReceipt": {
+      "file": "qa/rc37-android-disposable-aac/local-checks.json",
+      "sha256": "186401bb0f8b2b0ace7a3a256e55e9631d6a0b5a1ab6137486a9fa6c3fb65a33"
+    },
+    "observe": {
+      "file": "qa/candidate-rc38-delivery/android-current-observe.function.js",
+      "sha256": "11ed22c5b2c289b6b4adc9fbf94ab0e16376b17da8f10479ffb12c6b1e2e3c9b"
+    },
+    "proof": {
+      "file": "qa/candidate-rc38-delivery/android-current-proof.function.js",
+      "sha256": "375f4c4ab782968776b5487a98b5eb487a7f0052ed0b16f89e6e9e96311a09ca"
+    },
+    "binding": {
+      "file": "qa/candidate-rc38-delivery/android-current-binding.json",
+      "sha256": "daf3ab284876d74c5d284d0dbecddfd150a89f3aed3ac313c85cafa57c6c75e7"
+    },
+    "readiness": {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
+    "geometry": {
+      "file": "qa/player-track-selection/android-native-target.function.js",
+      "sha256": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c"
+    },
+    "popup": {
+      "file": "qa/player-track-selection/android-native-select.cjs",
+      "sha256": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+    },
+    "runtimeBinding": {
+      "file": "qa/candidate-rc38-delivery/source-binding.json",
+      "sha256": "643fb8df490df2189079105cf44a693ac8be252df1b8775687557f32204236b5"
+    }
+  },
+  "sourceCommit": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "version": "1.22.0-rc.38",
+  "prepared": true,
+  "runtimeBound": true,
+  "actualEligible": true,
+  "actualExecution": false,
+  "fixture": {
+    "file": "qa/player-track-selection/combined.mp4",
+    "bytes": 759643,
+    "sha256": "bc831b81953010036a7d931100dfd264fa14d8e22633b6518268f6c6dbfc2e2f",
+    "md5": "4a49dfa52d67d5b4b391fe9bb7f836ae",
+    "initialAudioTrackId": 2,
+    "selectedAudioTrackId": 3
+  },
+  "privateInputCreated": false,
+  "accountMutationsOwnedByRoot": true,
+  "sourceCacheProofReused": true,
+  "nativeSelectReused": "physical-v9",
+  "rpcDeadlineMs": 25000,
+  "metadataAbortMs": 10000,
+  "initialFrameMs": 15000,
+  "overallMs": 180000,
+  "cleanupMs": 40000,
+  "passiveTrace": {
+    "verdictChanged": false,
+    "pageTransitionRows": 128,
+    "networkRows": 128,
+    "networkPending": 64,
+    "coverage": "EXACT_PAGE_TARGET_ONLY_ALL_WORKER_NETWORK_UNKNOWN",
+    "rawURLsHeadersBodiesIdentitiesExported": false
+  },
+  "producers": {
+    "driver": {
+      "file": "qa/rc38-android-disposable-aac/driver-frame-qualified.cjs",
+      "sha256": "13a8cf084e900d57d27f29a07455be8b45ebc4c60e1b109c02bad69493d32fb9"
+    },
+    "preflight": {
+      "file": "qa/rc38-android-disposable-aac/preflight.test.cjs",
+      "sha256": "e4c38a0f8e15473fdf2f519590b147cb505ab3b8b07e8359bec05449cbfe2d86"
+    },
+    "snapshotPreflight": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.test.cjs",
+      "sha256": "df9823f15bbb5e81e07d988c54ec1449ce2790e21755467d3e5f365bd375d153"
+    },
+    "snapshotMocks": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.mock.cjs",
+      "sha256": "5069904f1f310c77c7e3bd35b48f4c531b9797cd29d433f45be0ebf7a1db9104"
+    },
+    "pcHelper": {
+      "file": "qa/rc38-android-disposable-aac/pc-browser-frame-qualified.function.js",
+      "sha256": "ecd697e20250c5eb77ed62240999eb59ebe80e40318f68df31db29fe4409ef83"
+    },
+    "helper": {
+      "file": "qa/rc38-android-disposable-aac/browser-frame-qualified.function.js",
+      "sha256": "c8cb069da9e53c98b8ff00319fb59f5dd5564555035a3b6a5459e9b4fde5d31c"
+    },
+    "guard": {
+      "file": "qa/rc38-android-disposable-aac/connector-file-guard.function.js",
+      "sha256": "b175b8774dc1d5b35b4427803249d1c445229b14cdadd6f2a8b706652613047e"
+    },
+    "guardPreflight": {
+      "file": "qa/rc38-android-disposable-aac/connector-guard-preflight.cjs",
+      "sha256": "91975a44893223cb8cf18dc84dfc7df71c473c6623dc96774a8b6f6560b84067"
+    },
+    "sourceBindingModule": {
+      "file": "qa/candidate-rc38-delivery/source-binding.cjs",
+      "sha256": "5aa260d53027a532c98154af813d33967e0b60877bb095f42135e71f888f958b"
+    },
+    "priorPassiveReceipt": {
+      "file": "qa/rc37-android-disposable-aac/local-checks.json",
+      "sha256": "186401bb0f8b2b0ace7a3a256e55e9631d6a0b5a1ab6137486a9fa6c3fb65a33"
+    },
+    "observe": {
+      "file": "qa/candidate-rc38-delivery/android-current-observe.function.js",
+      "sha256": "11ed22c5b2c289b6b4adc9fbf94ab0e16376b17da8f10479ffb12c6b1e2e3c9b"
+    },
+    "proof": {
+      "file": "qa/candidate-rc38-delivery/android-current-proof.function.js",
+      "sha256": "375f4c4ab782968776b5487a98b5eb487a7f0052ed0b16f89e6e9e96311a09ca"
+    },
+    "binding": {
+      "file": "qa/candidate-rc38-delivery/android-current-binding.json",
+      "sha256": "daf3ab284876d74c5d284d0dbecddfd150a89f3aed3ac313c85cafa57c6c75e7"
+    },
+    "readiness": {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
+    "geometry": {
+      "file": "qa/player-track-selection/android-native-target.function.js",
+      "sha256": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c"
+    },
+    "popup": {
+      "file": "qa/player-track-selection/android-native-select.cjs",
+      "sha256": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+    },
+    "runtimeBinding": {
+      "file": "qa/candidate-rc38-delivery/source-binding.json",
+      "sha256": "643fb8df490df2189079105cf44a693ac8be252df1b8775687557f32204236b5"
+    }
+  }
+}

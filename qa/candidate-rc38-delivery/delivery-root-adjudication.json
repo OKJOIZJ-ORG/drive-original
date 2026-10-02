@@ -1,0 +1,77 @@
+{
+  "schema": "rc38-root-delivery-adjudication/1",
+  "runtimeSource": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "version": "1.22.0-rc.38",
+  "workerVersion": "8f0a21d7-45bb-4164-910e-b4e66db0f52a",
+  "candidateUrl": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/",
+  "passed": true,
+  "productionPassed": false,
+  "canonicalProducerUnchanged": true,
+  "productRedeployedForToolRepair": false,
+  "requestCondition": {
+    "file": "qa/candidate-rc38-delivery/identity-head-condition.json",
+    "sha256": "ac487d86522b5b30c7c8e5a78c578b9ac5b923bec43e8ecf2a72e4e01c61f962",
+    "preload": {
+      "file": "qa/candidate-rc38-delivery/identity-head-preload.cjs",
+      "sha256": "a9707cf249af1073503b8ba845beebe408f9291143720bc28bfe09d73246413e"
+    },
+    "effect": "Exact allowed public WASM/source-archive HEAD only uses Accept-Encoding identity; strong ETag comparison and optional known length are unchanged; all non-target/GET requests delegate unchanged.",
+    "why": "Default compressed HEAD produced weak ETag despite exact current content key; identity diagnostic established strong ETag. The separate length/encoding diagnostic refusal was not resolved or used as a required gate."
+  },
+  "retainedFailure": {
+    "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/results.json",
+    "sha256": "7cc67ae867cc4ecbd8cb5ed3831cf5d3b65b08ea01f76291a4d02b0c9df45efa",
+    "cause": "Compressed-representation weak ETag rejected by existing strong-identity metadata gate",
+    "cleanup": {
+      "contextClosed": true,
+      "browserClosed": true,
+      "heartbeatCleared": true,
+      "downloadsSettled": true,
+      "privateResponsesSettled": true,
+      "passed": true
+    },
+    "failedPrefixReuse": "39 verified rows reused under exact source/deployment/producer/lifetime/preservation qualification; old FAIL not promoted"
+  },
+  "preflightRefusal": {
+    "file": "qa/candidate-rc38-delivery/audit-preflight-refusal-identity/adjudication.json",
+    "sha256": "ff4a7ff5df4742b0bddf3494078ffddc8b165db17c9266d587d207a3cb1970fa"
+  },
+  "evidence": [
+    {
+      "file": "qa/candidate-rc38-delivery/deployment.json",
+      "sha256": "d22c5fb38bc05e575527cba445311e1d6c288a20678358ef1f5ad8b47fc101ac"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/redacted-readback.json",
+      "sha256": "e13bacba7372ea377f9fc3bba8dda36586139a7810d5bb5db6318809e09629e2"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/package.json",
+      "sha256": "1260df6a604e18a78f8014f324a6b01267dbfa3be70cedd559a539957eb27c49"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/results.json",
+      "sha256": "a62583e26b77c9261627f5f9d8a0088a6e0f7c201b75d0dd8d5b0dc755aab839"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/preservation.json",
+      "sha256": "23352dc61cf4d2aee09cc06c0828e33f43c1fb679cf7e2724fdd6b409cb22c1f"
+    }
+  ],
+  "scope": {
+    "publicAssets": 65,
+    "cacheAssets": 50,
+    "cacheWithRoot": 51,
+    "uncachedArchives": 9,
+    "private404": 6,
+    "coldOffline": true,
+    "wholeSourceArchiveDownload": "Changed Q3 source archive only; eight unchanged archives reuse exact old complete bytes/current Git/content-address/fresh strong ETag.",
+    "audioBuildDistributionReady": false,
+    "executingSWBytes": "UNKNOWN"
+  },
+  "completedAt": "2026-10-02T20:49:45.666Z"
+}

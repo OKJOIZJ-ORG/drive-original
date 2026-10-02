@@ -1,0 +1,28 @@
+{
+  "preserved": [
+    {
+      "file": "results.json",
+      "bytes": 29570,
+      "sha256": "7cc67ae867cc4ecbd8cb5ed3831cf5d3b65b08ea01f76291a4d02b0c9df45efa"
+    },
+    {
+      "file": "audit-progress.json",
+      "bytes": 178,
+      "sha256": "caf795fb6b84967445867457e41d6260c75a6dbcf4d94a756c696bbbf9956c0c"
+    },
+    {
+      "file": "audit-preparation.json",
+      "bytes": 5755,
+      "sha256": "99cd60a5fc1a40a971a2eb3f41d96d0ae6561dbf3563768e5c03b30725165a7c"
+    },
+    {
+      "file": "audit.cjs",
+      "bytes": 25851,
+      "sha256": "bcf5992b6d3754fa77206b928745d607baa7d22d3df3f9101e4a3db4e9105b73"
+    }
+  ],
+  "failure": "Compressed WASM weak ETag mismatched strict current-content-address gate",
+  "changedCondition": "Explicit identity HEAD yielded matching strong ETag; diagnostic extra Content-Length/encoding condition was not established and is not required by the canonical verifier",
+  "canonicalVerifierChanged": false,
+  "productRedeployed": false
+}

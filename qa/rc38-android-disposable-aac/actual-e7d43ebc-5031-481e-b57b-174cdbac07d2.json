@@ -1,0 +1,412 @@
+{
+  "schema": "rc38-physical-android-actual-aac/1",
+  "mode": "--admit",
+  "startedAt": "2026-10-02T20:18:06.815Z",
+  "sourceCommit": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "version": "1.22.0-rc.38",
+  "productChanged": false,
+  "providerFileMutations": false,
+  "originalMediaWrites": false,
+  "normalAppViewedState": "MAY_PERSIST_FOR_THIS_QA_FILE_ONLY_NO_SNAPSHOT_RESTORE",
+  "nativeOSInput": false,
+  "humanFingerInput": false,
+  "producerSHA256": "3114ae04fd6c160933595f7a875b5e0cc722683d15fbe14fb4d384918556a629",
+  "binding": {
+    "driver": {
+      "file": "qa/rc38-android-disposable-aac/driver.cjs",
+      "sha256": "3114ae04fd6c160933595f7a875b5e0cc722683d15fbe14fb4d384918556a629"
+    },
+    "preflight": {
+      "file": "qa/rc38-android-disposable-aac/preflight.test.cjs",
+      "sha256": "e4c38a0f8e15473fdf2f519590b147cb505ab3b8b07e8359bec05449cbfe2d86"
+    },
+    "snapshotPreflight": {
+      "file": "qa/rc38-android-disposable-aac/snapshot-focused.test.cjs",
+      "sha256": "9d0eee041d5d9fbdefc6d282c13f6f1588263a99aafd4b5702c67bb6e7568811"
+    },
+    "snapshotMocks": {
+      "file": "qa/rc38-android-disposable-aac/snapshot.mock.cjs",
+      "sha256": "154e73811822c53804792cfcf73da343a1bb8ee0f054dc9f58915015a63ddd75"
+    },
+    "pcHelper": {
+      "file": "qa/rc38-android-disposable-aac/pc-browser.function.js",
+      "sha256": "c6039d90b82cce0e4927ea6854908873b472aa6066b8b102f9ffca39ae40886b"
+    },
+    "helper": {
+      "file": "qa/rc38-android-disposable-aac/browser.function.js",
+      "sha256": "361364beba5bd8cb207b82756656aaea4f7229ce8936a20e92d678602d01e9bd"
+    },
+    "guard": {
+      "file": "qa/rc38-android-disposable-aac/connector-file-guard.function.js",
+      "sha256": "b175b8774dc1d5b35b4427803249d1c445229b14cdadd6f2a8b706652613047e"
+    },
+    "guardPreflight": {
+      "file": "qa/rc38-android-disposable-aac/connector-guard-preflight.cjs",
+      "sha256": "91975a44893223cb8cf18dc84dfc7df71c473c6623dc96774a8b6f6560b84067"
+    },
+    "sourceBindingModule": {
+      "file": "qa/candidate-rc38-delivery/source-binding.cjs",
+      "sha256": "5aa260d53027a532c98154af813d33967e0b60877bb095f42135e71f888f958b"
+    },
+    "priorPassiveReceipt": {
+      "file": "qa/rc37-android-disposable-aac/local-checks.json",
+      "sha256": "186401bb0f8b2b0ace7a3a256e55e9631d6a0b5a1ab6137486a9fa6c3fb65a33"
+    },
+    "observe": {
+      "file": "qa/candidate-rc38-delivery/android-current-observe.function.js",
+      "sha256": "11ed22c5b2c289b6b4adc9fbf94ab0e16376b17da8f10479ffb12c6b1e2e3c9b"
+    },
+    "proof": {
+      "file": "qa/candidate-rc38-delivery/android-current-proof.function.js",
+      "sha256": "375f4c4ab782968776b5487a98b5eb487a7f0052ed0b16f89e6e9e96311a09ca"
+    },
+    "binding": {
+      "file": "qa/candidate-rc38-delivery/android-current-binding.json",
+      "sha256": "daf3ab284876d74c5d284d0dbecddfd150a89f3aed3ac313c85cafa57c6c75e7"
+    },
+    "readiness": {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
+    "geometry": {
+      "file": "qa/player-track-selection/android-native-target.function.js",
+      "sha256": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c"
+    },
+    "popup": {
+      "file": "qa/player-track-selection/android-native-select.cjs",
+      "sha256": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+    },
+    "runtimeBinding": {
+      "file": "qa/candidate-rc38-delivery/source-binding.json",
+      "sha256": "643fb8df490df2189079105cf44a693ac8be252df1b8775687557f32204236b5"
+    }
+  },
+  "steps": [
+    {
+      "name": "fresh current ready idle",
+      "at": 1790972287323,
+      "value": {
+        "version": "1.22.0-rc.38",
+        "origin": "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev",
+        "at": 1790972287626,
+        "documentVisible": true,
+        "focused": true,
+        "stateExposed": true,
+        "libraryVisible": true,
+        "setupVisible": false,
+        "authStatus": "online",
+        "accountPresent": true,
+        "accountIdentityPresent": true,
+        "tokenUsable": true,
+        "credentialPending": false,
+        "credentialResponseOK": true,
+        "credentialRetryable": false,
+        "credentialOutcomeCurrent": true,
+        "credentialResources": [
+          {
+            "startMs": 980,
+            "durationMs": 332,
+            "responseStatus": 200
+          }
+        ],
+        "accountLoading": false,
+        "accountLoaded": true,
+        "accountSyncPending": false,
+        "accountStateRefreshBlocked": false,
+        "accountStateErrorPresent": false,
+        "closed": true,
+        "retirementSettled": true,
+        "accountReadyIdle": true,
+        "rootReady": true,
+        "queryEmpty": true,
+        "bannerVisible": false,
+        "targetVersion": null,
+        "foreignHelpers": false,
+        "serviceWorker": {
+          "registrationPresent": true,
+          "active": "activated",
+          "controller": "activated",
+          "waiting": null,
+          "installing": null,
+          "activeIsController": true,
+          "rootScope": true
+        }
+      }
+    },
+    {
+      "name": "fresh current38 source cache controller proof",
+      "at": 1790972289126,
+      "value": {
+        "sourceCommit": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+        "version": "1.22.0-rc.38",
+        "accountQualification": "NORMAL_READY_IDLE",
+        "publicReadbackComplete": true,
+        "publicReadback": [
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "sw.js",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "media/native-color.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/revision-pin.js",
+            "matched": true
+          },
+          {
+            "file": "index.html",
+            "matched": true,
+            "canonicalRootAlias": true
+          }
+        ],
+        "cache": [
+          {
+            "file": "index.html",
+            "matched": true
+          },
+          {
+            "file": "styles.css",
+            "matched": true
+          },
+          {
+            "file": "runtime-config.js",
+            "matched": true
+          },
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "media/drive-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/revision-pin.js",
+            "matched": true
+          },
+          {
+            "file": "media/ts-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/q1-core.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/transmux-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mux-mp4.min.js",
+            "matched": true
+          },
+          {
+            "file": "media/mux-LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/general-admission.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-tracks.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-track.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-presentation.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/native-color.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-owner.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-timeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.LICENSE",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "media/audio-runtime.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-adapter.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker-client.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-input.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "licenses/index.html",
+            "matched": true
+          },
+          {
+            "file": "licenses/audio-source-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "manifest.webmanifest",
+            "matched": true
+          },
+          {
+            "file": "icons/app-icon.svg",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-192.png",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/maskable-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/apple-touch-icon.png",
+            "matched": true
+          }
+        ],
+        "cacheDistinct": 50,
+        "cacheWithRootAlias": 51,
+        "rootAliasMatched": true,
+        "currentControllerActivated": true,
+        "noWaiting": true,
+        "noInstalling": true,
+        "rootScope": true,
+        "privateAccountWriterProjectionCacheSnapshotStable": true,
+        "executingSWBytes": "UNKNOWN_NOT_CAPTURED",
+        "updateGesture": "UNKNOWN_UNLESS_SEPARATE_TRUSTED_RECEIPT",
+        "noHelperInstalled": true
+      }
+    }
+  ],
+  "scope": "ONE root-created actual Drive generated759643B6s AVC/AAC file; current tuple/config/metadata only; no pixel/YUV/p95/encoder-count/full-goal claim",
+  "device": {
+    "authorized": 1,
+    "model": "SM-X800",
+    "android": "16",
+    "physicalWidth": 1752,
+    "physicalHeight": 2800,
+    "serialExported": false,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "completed": true,
+  "verdict": "CURRENT38_PHYSICAL_READY_IDLE_ONLY",
+  "cleanup": {
+    "noMediaHelperInstalled": true,
+    "noNetworkObserverInstalled": true,
+    "noOwnedPopupXML": true,
+    "originalTabPreserved": true,
+    "exactCDPSocketClosed": true,
+    "exactForwardRemoved": true,
+    "nodePrivateContextCleared": true,
+    "noMCPProcessCreated": true,
+    "noTabCreatedOrClosed": true
+  },
+  "cleanupComplete": true,
+  "completedAt": "2026-10-02T20:18:09.216Z"
+}

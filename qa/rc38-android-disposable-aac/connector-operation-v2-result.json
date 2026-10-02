@@ -1,0 +1,83 @@
+{
+  "schema": "rc38-connector-disposable-file-operation-v2/1",
+  "sourceCommit": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "version": "1.22.0-rc.38",
+  "run": "f1225907-a37c-4928-8524-8dc1ab95201d",
+  "createdOnlyTaggedFixture": true,
+  "originalMediaWrites": false,
+  "uploadAttempts": 1,
+  "priorRunRecoverablyTrashed": true,
+  "steps": [
+    {
+      "name": "install exact created file root guard",
+      "at": 1790973461689,
+      "value": {
+        "actualRequestDeadlineMs": 10000,
+        "bodyCharsMaximum": 65536,
+        "createdFileOnly": true,
+        "oneTagAndOneTrashMaximum": true,
+        "prepared": true
+      }
+    },
+    {
+      "name": "stable new metadata readback",
+      "at": 1790973462607,
+      "value": {
+        "checksumMatches": true,
+        "passed": true,
+        "requests": 2,
+        "trashed": false
+      }
+    },
+    {
+      "name": "one exact generated QA tag and stable readback",
+      "at": 1790973477127,
+      "value": {
+        "bytes": 759643,
+        "checksumMatches": true,
+        "ownedByCurrentAccount": true,
+        "passed": true,
+        "requests": 7,
+        "taggedCreatedFileOnly": true
+      }
+    },
+    {
+      "name": "stable exact playback target",
+      "at": 1790973478015,
+      "value": {
+        "checksumMatches": true,
+        "freshMetadata": true,
+        "installed": true
+      }
+    },
+    {
+      "name": "all PC and physical owners retired: stable readback then one recoverable trash",
+      "at": 1790973868846,
+      "value": {
+        "before": {
+          "checksumMatches": true,
+          "passed": true,
+          "requests": 11,
+          "trashed": false
+        },
+        "trash": {
+          "originalBytesUnchanged": true,
+          "passed": true,
+          "requests": 16,
+          "trashed": true
+        }
+      }
+    },
+    {
+      "name": "release captured root file credential and target",
+      "at": 1790973868914,
+      "value": {
+        "durableLedgerRetained": true,
+        "guardReleased": true,
+        "targetReleased": true
+      }
+    }
+  ],
+  "generatedFileRecoverablyTrashed": true,
+  "allMediaActorsRetired": true
+}

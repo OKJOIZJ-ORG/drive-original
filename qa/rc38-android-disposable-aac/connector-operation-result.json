@@ -1,0 +1,69 @@
+{
+  "schema": "rc38-root-generated-file-operation/1",
+  "source": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "run": "08ee68c9-53eb-42f4-8dca-72a892e2fdb7",
+  "steps": [
+    {
+      "label": "mature full metadata readback before one tag",
+      "value": {
+        "checksumMatches": true,
+        "passed": true,
+        "requests": 2,
+        "trashed": false
+      },
+      "at": "2026-10-02T20:21:31.421Z"
+    },
+    {
+      "label": "one exact QA tag with full stable readback",
+      "value": {
+        "bytes": 759643,
+        "checksumMatches": true,
+        "ownedByCurrentAccount": true,
+        "passed": true,
+        "requests": 7,
+        "taggedCreatedFileOnly": true
+      },
+      "at": "2026-10-02T20:21:56.640Z"
+    },
+    {
+      "label": "fresh exact generated target context",
+      "value": {
+        "checksumMatches": true,
+        "freshMetadata": true,
+        "installed": true
+      },
+      "at": "2026-10-02T20:21:57.526Z"
+    },
+    {
+      "name": "after PC and physical owners retired: fresh readback and one recoverable trash",
+      "at": 1790973304048,
+      "value": {
+        "before": {
+          "checksumMatches": true,
+          "passed": true,
+          "requests": 11,
+          "trashed": false
+        },
+        "trash": {
+          "originalBytesUnchanged": true,
+          "passed": true,
+          "requests": 16,
+          "trashed": true
+        }
+      }
+    },
+    {
+      "name": "release captured one-file root owners",
+      "at": 1790973320046,
+      "value": {
+        "durableLedgerRetained": true,
+        "guardReleased": true,
+        "targetReleased": true
+      }
+    }
+  ],
+  "knownUploadAcknowledged": true,
+  "noDuplicatePOST": true,
+  "generatedFileRecoverablyTrashed": true,
+  "allMediaActorsRetired": true
+}

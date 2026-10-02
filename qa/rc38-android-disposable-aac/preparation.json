@@ -1,10 +1,10 @@
 {
   "schema": "rc38-android-actual-aac3-preparation/1",
-  "sourceCommit": "UNKNOWN",
+  "sourceCommit": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
   "version": "1.22.0-rc.38",
   "prepared": true,
-  "runtimeBound": false,
-  "actualEligible": false,
+  "runtimeBound": true,
+  "actualEligible": true,
   "actualExecution": false,
   "fixture": {
     "file": "qa/player-track-selection/combined.mp4",
@@ -80,6 +80,14 @@
       "file": "qa/candidate-rc38-delivery/android-current-proof.function.js",
       "sha256": "375f4c4ab782968776b5487a98b5eb487a7f0052ed0b16f89e6e9e96311a09ca"
     },
+    "binding": {
+      "file": "qa/candidate-rc38-delivery/android-current-binding.json",
+      "sha256": "daf3ab284876d74c5d284d0dbecddfd150a89f3aed3ac313c85cafa57c6c75e7"
+    },
+    "readiness": {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
     "geometry": {
       "file": "qa/player-track-selection/android-native-target.function.js",
       "sha256": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c"
@@ -87,6 +95,10 @@
     "popup": {
       "file": "qa/player-track-selection/android-native-select.cjs",
       "sha256": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+    },
+    "runtimeBinding": {
+      "file": "qa/candidate-rc38-delivery/source-binding.json",
+      "sha256": "643fb8df490df2189079105cf44a693ac8be252df1b8775687557f32204236b5"
     }
   }
 }

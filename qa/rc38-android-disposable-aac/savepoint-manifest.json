@@ -1,0 +1,248 @@
+{
+  "schema": "rc38-owned-safe-savepoint/1",
+  "runtimeSource": "a9b2609528954c162cfcf40276aa0bd92c11d7de",
+  "branch": "codex/v2-kickoff-diagnostics",
+  "version": "1.22.0-rc.38",
+  "workerVersion": "8f0a21d7-45bb-4164-910e-b4e66db0f52a",
+  "privateLiteralScanPassed": true,
+  "scannedTextFiles": 57,
+  "rootReceiptReferencesMatched": true,
+  "publicWorkerInputsClean": true,
+  "files": [
+    {
+      "file": "memory/CANDIDATE-RC38-20261003.md",
+      "sha256": "8d330f6aa25318d921cc059d082cf9c37d1e0ced7626664d69fa8335b16a3c70"
+    },
+    {
+      "file": "memory/CHECKPOINT.md",
+      "sha256": "0a688b9b598175db558a23370a8cac9954bd23d530ef2621ede1c0fc844b7727"
+    },
+    {
+      "file": "memory/goal/commercial-player-stability.md",
+      "sha256": "d01dd852703d6acdc771f35d1bd769f0647d7e0b8c29795977dba2f9e3c6ef94"
+    },
+    {
+      "file": "memory/checkpoints/20261003-0535-rc38-local-accepted.md",
+      "sha256": "2ab75321e3f571e4560fec398e05ab830d4c263e48471f8595b63eb1d36f81fe"
+    },
+    {
+      "file": "memory/checkpoints/20261003-0558-rc38-deployed-before-final-acceptance.md",
+      "sha256": "cdb1479c741db21512b58d2d7587faab20469a6ea390e5c82e0e42742dd3ed32"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/source-binding.json",
+      "sha256": "643fb8df490df2189079105cf44a693ac8be252df1b8775687557f32204236b5"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/materialization.json",
+      "sha256": "fc7cca571a600e16a778f925fdd90f500ce2590f65ebbea4d09c8a7137b1b99d"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/package.json",
+      "sha256": "1260df6a604e18a78f8014f324a6b01267dbfa3be70cedd559a539957eb27c49"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/deployment-attempt.json",
+      "sha256": "8e3779d6e80944379b0768fa74832565a80ec2bde90dade1441f22e218b02b32"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/deployment.json",
+      "sha256": "d22c5fb38bc05e575527cba445311e1d6c288a20678358ef1f5ad8b47fc101ac"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/readback-attempt.json",
+      "sha256": "e79495b3cc14669c7db9ad962c883b9143829965d6ee216e68c1ba8526333b69"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/redacted-readback.json",
+      "sha256": "e13bacba7372ea377f9fc3bba8dda36586139a7810d5bb5db6318809e09629e2"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-progress.json",
+      "sha256": "88b4eb841671d060edcb4421afff08c2ba1fa9821079f591968b0f36bbe3edec"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/results.json",
+      "sha256": "a62583e26b77c9261627f5f9d8a0088a6e0f7c201b75d0dd8d5b0dc755aab839"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/source-readiness.json",
+      "sha256": "4a00467de5e3c3428d786e8730cad1e6dc443b48b1e95b75e2f6d0eb5a67ddc3"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-source-binding.json",
+      "sha256": "308f6990accf2da5379a69b122a51c0a29c91145f8a2132256c14eac03b43843"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-source-proof.expression.js",
+      "sha256": "f11e28eaa832415c4abe1f117e9dda7ed91b09e8028a33186e779ac7e92b41c0"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-update-baseline.expression.js",
+      "sha256": "cc245718166d46c094b7d2a934cb6c87c3f80b090ae5aaba1c0ce60ade60f75d"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-baseline-result.json",
+      "sha256": "40f771fc38f906ed4877cf4aa93055d7c2fa7993696d5151adf102d11905c2f7"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-update-attempt.json",
+      "sha256": "bade3b095ab42de3d8716e100031e5c7cdbbf862f5b2059796acf836ac6be304"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-normal-update-source-cache-result.json",
+      "sha256": "0a569a3066f464884e791a395d8a09c41e89f8fcccdbd47414deb10029e9c08b"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-binding.json",
+      "sha256": "daf3ab284876d74c5d284d0dbecddfd150a89f3aed3ac313c85cafa57c6c75e7"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-update-baseline.expression.js",
+      "sha256": "dadddc69a07d48a0101e7c87d637627f2a1ceacf9de220b1108584dc4934cde4"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-result.json",
+      "sha256": "801648dc9b62afcebb062cba3b43bfc2a01417930a6d0255d4a9793a5c2835c7"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/identity-head-preload.cjs",
+      "sha256": "a9707cf249af1073503b8ba845beebe408f9291143720bc28bfe09d73246413e"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/identity-head-condition.json",
+      "sha256": "ac487d86522b5b30c7c8e5a78c578b9ac5b923bec43e8ecf2a72e4e01c61f962"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/delivery-root-adjudication.json",
+      "sha256": "fee9353d510adec2e47b61bf05312e6d3fba0967694ffc37ae31b0173766e864"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/results.json",
+      "sha256": "7cc67ae867cc4ecbd8cb5ed3831cf5d3b65b08ea01f76291a4d02b0c9df45efa"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/audit-progress.json",
+      "sha256": "caf795fb6b84967445867457e41d6260c75a6dbcf4d94a756c696bbbf9956c0c"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/audit-preparation.json",
+      "sha256": "99cd60a5fc1a40a971a2eb3f41d96d0ae6561dbf3563768e5c03b30725165a7c"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/audit.cjs",
+      "sha256": "bcf5992b6d3754fa77206b928745d607baa7d22d3df3f9101e4a3db4e9105b73"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/preservation.json",
+      "sha256": "23352dc61cf4d2aee09cc06c0828e33f43c1fb679cf7e2724fdd6b409cb22c1f"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-attempt4-weak-text-etag/audit-failure.json",
+      "sha256": "d922883a061a8fc35c1504021af483679e2f700a997085e2c5fd002d39c64a29"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-preflight-refusal-identity/reported-refusal.json",
+      "sha256": "627b0e9e6c46f37f6721d2f506bd85ae76367929905191d2dd147f02f9821e41"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-preflight-refusal-identity/identity-head-condition.json",
+      "sha256": "543bbf63a89aa919deead92bf06745a398205a469b6ea9a971d62fa4ac230412"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit-preflight-refusal-identity/adjudication.json",
+      "sha256": "ff4a7ff5df4742b0bddf3494078ffddc8b165db17c9266d587d207a3cb1970fa"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/preparation.json",
+      "sha256": "0237d25ab0dacf3f49d7719a2f9c795b34535c541055461b281be12a3a924a71"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-e7d43ebc-5031-481e-b57b-174cdbac07d2.json",
+      "sha256": "1e2061272857173844c60beb0402e85847e85a431bf89d13cc19d236df65747c"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-pc-08ee68c9-53eb-42f4-8dca-72a892e2fdb7.json",
+      "sha256": "1da6aac8fa42ab81cfd92b62c770174387e45a3b46c13fade5680d2b4fb2a339"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-464c4c6d-9f20-42e3-8812-996ced2dba3a.json",
+      "sha256": "3e3f5450e4eff18285404bde76ecb0c20eb48bece8f831fa2c6287ba98d5e37c"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-10e4c860-26d1-40c0-8dd0-c52df4b2af81.json",
+      "sha256": "34d13f921a3b20e3b80acc9b7108df67937177eb02939e136c4bcb7acf22206a"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-pc-v2-6890d9a6-db35-4929-86f5-aa3472d767c6.json",
+      "sha256": "c353c1cc503d1e945ff33b55aebb472cc170854eb5f8c7640f57e1cc848cd155"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/actual-pc-v2-6890d9a6-db35-4929-86f5-aa3472d767c6.png",
+      "sha256": "f2b97a6562c689f3028c335d34895c5fc5ce9ee101c54f2b3dea396ac23db19e"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-operation-result.json",
+      "sha256": "a42df6a8b18d0a9b52bb189220967a75ba26492ee9f3b7b36a631e25b63a0668"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-operation-v2-result.json",
+      "sha256": "dffbc2487eee3fcab6817ab05c23ca364e9ee970f6e6a36100162d0f6d1444c8"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/final-root-cleanup.json",
+      "sha256": "43cfc122c07e68bf2dadf032a40d14ce598ebe116a6b7b94bd6a42a1ace59052"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/browser-frame-qualified.function.js",
+      "sha256": "c8cb069da9e53c98b8ff00319fb59f5dd5564555035a3b6a5459e9b4fde5d31c"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-browser-frame-qualified.function.js",
+      "sha256": "ecd697e20250c5eb77ed62240999eb59ebe80e40318f68df31db29fe4409ef83"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/driver-frame-qualified.cjs",
+      "sha256": "13a8cf084e900d57d27f29a07455be8b45ebc4c60e1b109c02bad69493d32fb9"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/preparation-frame-qualified.json",
+      "sha256": "4344e5179360681a8ca5511d45af82c1435544f6f8324e8ad763bf3c697cacba"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.test.cjs",
+      "sha256": "df9823f15bbb5e81e07d988c54ec1449ce2790e21755467d3e5f365bd375d153"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/snapshot-frame-qualified.mock.cjs",
+      "sha256": "5069904f1f310c77c7e3bd35b48f4c531b9797cd29d433f45be0ebf7a1db9104"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-actor-frame-qualified.cua.js",
+      "sha256": "8e81b5adc15ce4e7610b1805f08fff0abdd2a81612d66176b4a958d283012af9"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-actor-frame-qualified-literal.cua.js",
+      "sha256": "4c35017bbd902231a1095dcc621c7f3850a63f167a636fad9f9666f2dcf3abff"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-frame-qualified-preparation.json",
+      "sha256": "96bd548d850d1a079342f7f749f9a96d92ba8033b13ffcda88cd44c18d6b9b76"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-preflight-refusal-string-code.json",
+      "sha256": "e0466f08f1d98c46247cf338f62b9fb038cb2a68f9c6cf7e050283eee3706223"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/root-adjudication-preflight-refusal.json",
+      "sha256": "b15c80233955f36b3fdee98c8ebd4a39873a18a830cb19a480b15c5b0b05fc5d"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/root-adjudication.json",
+      "sha256": "e1a58c072a082ed49e7d052aa8476553ebf3b81c2780c453a10b32d9165f63f6"
+    }
+  ],
+  "excluded": "Private contexts/ledgers/CLI logs, retired duplicate evidence and untouched canonical producers; release ZIP remains preserved in workspace distribution.",
+  "wholeGoalPassed": false,
+  "productionPassed": false
+}
