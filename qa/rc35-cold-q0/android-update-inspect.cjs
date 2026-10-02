@@ -1,0 +1,31 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),Module=require('node:module');
+const old=path.resolve(__dirname,'../rc32-ts-device-replay/android-common.cjs');
+const bytes=fs.readFileSync(old),sha=crypto.createHash('sha256').update(bytes).digest('hex');
+if(sha!=='c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286')throw Error('COMMON_PIN');
+const needle="safe.version!=='1.22.0-rc.32'";
+const source=bytes.toString();if(source.split(needle).length!==2)throw Error('ADMISSION_DERIVATION');
+const m=new Module(old,module);m.filename=old;m.paths=Module._nodeModulePaths(path.dirname(old));
+m._compile(source.replace(needle,"!['1.22.0-rc.34','1.22.0-rc.35'].includes(safe.version)"),old);
+if(process.argv[2]!=='--inspect')throw Error('EXPLICIT_INSPECT_REQUIRED');
+const output='../rc35-cold-q0/android-update-inspection-safe.json';
+if(fs.existsSync(path.resolve(path.dirname(old),output)))throw Error('NO_OVERWRITE');
+m.exports(__filename,output,async c=>{
+  await c.unmaskNativeVisibility();await c.releaseMcpForNativeLifecycle();
+  const result=await c.evaluateNative(`async()=>{
+    const controller=navigator.serviceWorker.controller;
+    const reg=await navigator.serviceWorker.getRegistration();
+    const selected=!!state.selected,q0=!!q0Playback,q1=!!q1Playback;
+    const tracks=typeof playerTracksOwner!=='undefined'&&!!playerTracksOwner;
+    const sync=!!state.accountStateSyncPromise||!!state.accountStateSyncTimer||!!state.accountStateSyncRetryTimer;
+    const loading=!!state.accountStateLoadingPromise||!!state.accountIdentityPending;
+    const hash=async x=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(x)))),v=>v.toString(16).padStart(2,'0')).join('');
+    const before=[state.accountId,state.authAccountKey,state.accountStateWriterId,state.accountMediaState,localStorage.getItem(accountStateCacheKey(state.accountId))];
+    const hashes=await Promise.all(before.map(hash));
+    const after=[state.accountId,state.authAccountKey,state.accountStateWriterId,state.accountMediaState,localStorage.getItem(accountStateCacheKey(state.accountId))];
+    const banner=el.updateBannerText?.textContent?.match(/v?(\\d+\\.\\d+\\.\\d+(?:-rc\\.\\d+)?)/)?.[1]||null;
+    return {version:APP_VERSION,foreground:document.visibilityState==='visible',focused:document.hasFocus(),controllerActivated:controller?.state==='activated',controllerPathExpected:!!controller&&new URL(controller.scriptURL).pathname==='/sw.js',registrationActiveMatchesController:!!reg&&reg.active===controller,waiting:!!reg?.waiting,installing:!!reg?.installing,bannerVisible:!!el.updateBanner&&!el.updateBanner.hidden,bannerTargetVersion:banner,updateButtonVisible:!!el.bannerUpdateButton&&!el.bannerUpdateButton.hidden,closed:!selected&&!q0&&!q1&&!tracks,retirementSettled:q1RetirementResult?.settled===true,owners:{selected,q0,q1,tracks,accountSyncPending:sync,accountLoadingPending:loading},online:state.authStatus==='online',accountLoaded:!!state.accountStateLoaded,tokenUsable:hasUsableToken(),libraryVisible:!el.libraryView.hidden,rootReady:state.currentFolderId==='root',queryEmpty:!String(state.query||'').trim(),hashes:{account:hashes[0],accountKey:hashes[1],writer:hashes[2],projection:hashes[3],privateCache:hashes[4]},snapshotStable:before.every((v,i)=>JSON.stringify(v)===JSON.stringify(after[i])),updateExecuted:false,rawIdentifiersExported:false};
+  }`);
+  result.readOnlyAdmissionReady=result.foreground&&result.closed&&result.retirementSettled&&result.online&&result.accountLoaded&&result.tokenUsable&&!result.owners.accountSyncPending&&!result.owners.accountLoadingPending&&result.snapshotStable;
+  c.step('read-only-update-admission',result);
+});

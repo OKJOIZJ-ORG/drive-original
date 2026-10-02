@@ -1,0 +1,36 @@
+{
+  "schema": "android35-cold-q0-binding/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "sourceSHA256": {
+    "app.js": "9ac7721678df680a5a269de69f10ded87934c19794fd30ccd49ec42eed7f9e94",
+    "sw.js": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+    "version.json": "d404d2ee6df94b245cf0b2d753bbd71d6c5dba611bc5818f253e42dcbb3f2bd1"
+  },
+  "shellExpectedCount": 49,
+  "shellWithRootAlias": 50,
+  "publicFileCount": 64,
+  "frozenHelpers": {
+    "qa/rc32-q0-byte-acceptance/android.cjs": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+    "qa/rc32-q0-byte-acceptance/observer.function.js": "f3e319dd17f51c34810c6faf0b5c07971d4952a635f7eb7058d65a59d0deeaf5",
+    "qa/rc32-q0-byte-acceptance/worker-network.cjs": "eef6797137d90db460ec1f746fa2d17489e0262b2d0b893894903be0b9fcffc1",
+    "qa/rc32-ts-device-replay/android-common.cjs": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+    "qa/rc32-ts-device-replay/android-replay.cjs": "a4bc2d94a8fbb6ca51391c8e2e0434c4d33c1bddb13cbdef6cef0bf111430fd3",
+    "qa/rc32-ts-device-replay/native-ui-target-v3.function.js": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+    "qa/rc32-ts-device-replay/native-folder-target.function.js": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a",
+    "qa/candidate-rc35-delivery/pc-source-proof.expression.js": "a8c354de9d7a45b32d5a8c6d43975bdd4b3a7d8f5905fa95dc1ec9c08fb40807",
+    "qa/candidate-rc35-delivery/pc-source-binding.json": "6f0f51129ceee03e614e905bd2f1f220d6ba1a7002769bd882cf141b5c2da422",
+    "qa/rc35-acceptance-adoption/pc-cold-admission.cjs": "7d3931779d66d0d9425600cdda3e31c9200ab9f916e642b56077b2eb2a0ff425"
+  },
+  "expectedScripts": [
+    {
+      "file": "sw.js",
+      "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730"
+    },
+    {
+      "file": "media/revision-pin.js",
+      "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008"
+    }
+  ],
+  "scope": "Original TR01 large normal MP4 cold selected-media; candidate35 only; runtime private input; no actual execution on import"
+}

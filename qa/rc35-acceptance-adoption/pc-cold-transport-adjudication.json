@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "classification": "PC browser transport cannot yet provide required independent source-worker observation",
+  "connectionVerified": true,
+  "normalCandidateAuthenticated": true,
+  "playerClosedOwnersEmpty": true,
+  "timedPlaybackStarted": false,
+  "cacheFlagMutated": false,
+  "productChanged": false,
+  "failures": [
+    {"operation": "import local CJS through node_repl import", "reason": "only JS/MJS direct import supported", "resolved": "node:module createRequire loads exact existing helper"},
+    {"operation": "Target.getTargets", "reason": "raw CDP transport explicitly unsupported"},
+    {"operation": "Target.setAutoAttach", "reason": "raw CDP transport explicitly unsupported"},
+    {"operation": "bounded attached-target event history", "reason": "no records with truncated=true; existence remains UNKNOWN"}
+  ],
+  "decision": "No timed playback or weaker cold claim. Evaluate existing supported physical Android source-worker driver as same-unit fallback; retain ordinary PC connection and prior passing evidence.",
+  "rawIdentifiersExported": false,
+  "wholeGoalPassed": false
+}

@@ -1,0 +1,113 @@
+{
+  "schema": "drive-original.android35-update-savepoint/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "files": [
+    {
+      "path": "qa/rc35-cold-q0/android-update-inspect.cjs",
+      "bytes": 3760,
+      "sha256": "7a2852661594935f0bb602702cf6e7018fb1edf871f3136403cb29d15241dfdf"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-baseline.expression.js",
+      "bytes": 3203,
+      "sha256": "44c85a725ed14255f1a8f00c1d6bd51a249bf6159122ff2ca43ce247cdd7d0bd"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-source-proof.expression.js",
+      "bytes": 9607,
+      "sha256": "b3083590371fa99d7fbb95449fa16e09ca70a2ffd26568c1c13464720aa30ba7"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-inspection-safe.json",
+      "bytes": 8808,
+      "sha256": "bc71746a7318bdb306c07840660e768fecf1f8497afefed4d27d2cac1a7fd9c8"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-execute-attempt1.cjs",
+      "bytes": 6374,
+      "sha256": "aa1647a559a964d7a4bd4f3ec31f293655704cbc92cae53bb72d4e9801ca0bf9"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-actual-safe.json",
+      "bytes": 7598,
+      "sha256": "775193aef436080194e5910a59d21891e25a07e7bcf122ba7cecadfebfef30e0"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-execute-attempt2.cjs",
+      "bytes": 6509,
+      "sha256": "fbe158f3439dad9fd0566373584895897b9fe9a830e4f8f038567fbbf41e3f08"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-actual-attempt2-safe.json",
+      "bytes": 8547,
+      "sha256": "2d77904dd0fdde2df73c104d048dcc1e573f826e2b5d3901c706f31369b0e23f"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-execute.cjs",
+      "bytes": 7660,
+      "sha256": "b513a59003ef57558636cdb4d6d0a43250ec65ad6d56f4685e360c4b50f3b332"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-actual-attempt3-safe.json",
+      "bytes": 8293,
+      "sha256": "d534c67f41309159f6a3ff10bfc7cf0b29744caaebfa8a8b89c156d2e31aeadb"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-qualify.cjs",
+      "bytes": 5041,
+      "sha256": "aa5f946f9e9a98a008c04790bee52317fb9e6e260bb4dca2d2130b35a7649a8b"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-qualified-state-safe.json",
+      "bytes": 14498,
+      "sha256": "d07d2c2296ef9a72ebf67a60056f453ffb84e59b51f137cb8764ba37bdad78d9"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android-update-adjudication.json",
+      "bytes": 1310,
+      "sha256": "cd749d0f89284860045ea33b1e4a60401ff0f186992d99caa7cafa3ad174363a"
+    },
+    {
+      "path": "qa/rc35-cold-q0/android.cjs",
+      "bytes": 21631,
+      "sha256": "e69d3de3bab06469280878c3614d6f2521698c755a64ece10300417f7bc2ef1c"
+    },
+    {
+      "path": "qa/rc35-cold-q0/worker.cjs",
+      "bytes": 5576,
+      "sha256": "d5fa5243542c44b0a7f1aeb5c1687d1167063770aac44383dea7697271be1005"
+    },
+    {
+      "path": "qa/rc35-cold-q0/binding.json",
+      "bytes": 2179,
+      "sha256": "232df277068778335bc27ce178addee69adfa664a30d85426349da3d15d30608"
+    },
+    {
+      "path": "qa/rc35-cold-q0/guards.test.cjs",
+      "bytes": 5359,
+      "sha256": "3b4b2b4e766478bd549c4e92b07b3499d563c4ed69f5f8e8cb5fdc86210951fb"
+    },
+    {
+      "path": "qa/rc35-acceptance-adoption/pc-cold-admission.cjs",
+      "bytes": 12312,
+      "sha256": "7d3931779d66d0d9425600cdda3e31c9200ab9f916e642b56077b2eb2a0ff425"
+    },
+    {
+      "path": "qa/rc35-acceptance-adoption/pc-cold-guards.test.cjs",
+      "bytes": 5776,
+      "sha256": "4cae26d6a02a0521a161c9b1352a60e11cb86cb5ee7817b391b03ce147080194"
+    },
+    {
+      "path": "qa/rc35-acceptance-adoption/pc-cold-transport-adjudication.json",
+      "bytes": 1189,
+      "sha256": "2bc4ecc610e48c1dc484093244594c47666f67defd16bf8154b0e44cd9fc6ab7"
+    }
+  ],
+  "totalBytes": 145230,
+  "excluded": [
+    "duplicate stdout records",
+    "protected log",
+    "rejected CUA adapter"
+  ],
+  "preparedColdScope": "Read-only qualifier imports these prepared dependencies; frozen6 Android/7 PC guard passes reused. No actual cold qualification."
+}

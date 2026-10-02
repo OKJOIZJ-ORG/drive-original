@@ -1,0 +1,43 @@
+{
+  "schema": "drive-original.android35-update-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "observedSourceAndAccountStatePreservation": true,
+  "strictNormalTrustedUpdateAcceptance": "NOT_QUALIFIED",
+  "trustedClickAndPagehide": "UNKNOWN; attempt2 failure cleanup discarded baseline",
+  "negativeReceipts": [
+    "android-update-actual-safe.json",
+    "android-update-actual-attempt2-safe.json",
+    "android-update-actual-attempt3-safe.json"
+  ],
+  "currentReceipt": "android-update-qualified-state-safe.json",
+  "currentReceiptSha256": "d07d2c2296ef9a72ebf67a60056f453ffb84e59b51f137cb8764ba37bdad78d9",
+  "currentSource": {
+    "networkHashes": 3,
+    "cacheFiles": 49,
+    "aliases": 50,
+    "activatedCurrentRegistration": true
+  },
+  "preserved": [
+    "account",
+    "accountKey",
+    "writer",
+    "projection",
+    "privateCache"
+  ],
+  "currentUi": {
+    "root": true,
+    "queryEmpty": true,
+    "bannerHidden": true,
+    "ownersAbsent": true
+  },
+  "currentQualificationInputIssued": false,
+  "cleanupComplete": true,
+  "productChanged": false,
+  "candidateDeployed": false,
+  "unresolved": [
+    "Earlier update click/timing provenance",
+    "Cold selected-media qualification",
+    "Small-target bottomanchored OS geometry"
+  ]
+}
