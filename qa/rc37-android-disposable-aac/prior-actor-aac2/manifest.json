@@ -1,0 +1,47 @@
+{
+  "schema": "rc37-android-aac2-prior-actor/1",
+  "createdAt": "2026-10-02T18:32:57.566Z",
+  "copied": [
+    {
+      "file": "driver.cjs",
+      "bytes": 20011,
+      "sha256": "9739944c2cdb5fc469da5c2d43277bb2d12e188a38da033bc4052292dfbb60f1"
+    },
+    {
+      "file": "browser.function.js",
+      "bytes": 18159,
+      "sha256": "b42f558696bdb1362ec7ff2e6acf19b5c79459e91864a950750dad4ea4dca228"
+    },
+    {
+      "file": "preflight.test.cjs",
+      "bytes": 13410,
+      "sha256": "8a987de180b394487c76a0071b066915e38f6fadd95639572d7f3fae28fdac54"
+    },
+    {
+      "file": "preparation.json",
+      "bytes": 2085,
+      "sha256": "fd0df42a82a068c9ee85fb9210b0c928bcb80a2208ad85a107bb717c012a6c24"
+    },
+    {
+      "file": "local-checks.json",
+      "bytes": 1926,
+      "sha256": "f44a3ce28e93c424b10b795c479f9d82e3960fbc95ffd2517d7bc09abed2a905"
+    },
+    {
+      "file": "README.md",
+      "bytes": 6479,
+      "sha256": "e34e7476f8d0a867b10b50fe9f7b815ec3fb16e783eea6490c9ce57646f1659a"
+    }
+  ],
+  "immutableReceipts": [
+    {
+      "file": "../actual-234d26a8-5a75-4b65-be44-88a93a2d2bea.json",
+      "sha256": "e98d18eea6640009e431ea6af48edc881b56b78dfe70173f08067f468e391206"
+    },
+    {
+      "file": "../actual-20899c65-b10b-48a6-bddb-f6caa95772bd.json",
+      "sha256": "0e1750dd725b711c7f3fa8b0ff9efd9c403dc962c37e879204f4d0e508373986"
+    }
+  ],
+  "reason": "Preserve exact actors for metadata refusal and already-default AAC2 no-change failures before AAC3 preparation."
+}

@@ -1,0 +1,408 @@
+{
+  "schema": "rc37-android-connector-operations/2",
+  "runId": "50c98db4-b5c1-4506-b655-fa72d4d19504",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "productChanged": false,
+  "originalMediaChanged": false,
+  "newChromeApprovals": 0,
+  "previousFailureResult": "actual-234d26a8-5a75-4b65-be44-88a93a2d2bea.json",
+  "steps": [
+    {
+      "name": "different known new run after complete first failure cleanup",
+      "at": "2026-10-02T18:26:47.343Z",
+      "value": {
+        "oldGeneratedFileRecoverablyTrashed": true,
+        "oldHelperAndGuardReleased": true,
+        "originalFailureImmutable": true,
+        "newFileMaximum": 1,
+        "noUnknownPOSTReplay": true,
+        "contextArchivePreserved": true,
+        "preconditions": {
+          "guardAbsent": true,
+          "idle": true,
+          "margin": true,
+          "same": true,
+          "sourceProofAbsent": true
+        },
+        "conditionChanged": "full canonical metadata stable across separate observed samples before actual context use",
+        "actorAndProductUnchanged": true
+      }
+    },
+    {
+      "name": "fresh v2 admission and connector acknowledge",
+      "at": "2026-10-02T18:27:59.655Z",
+      "value": {
+        "admissionResult": "actual-3e4ce1a1-aefc-42a0-996f-f3c92e8ddbf4.json",
+        "oneNewGeneratedFile": true,
+        "noDuplicatePOST": true
+      }
+    },
+    {
+      "name": "fresh current PC source controller cache guard",
+      "at": "2026-10-02T18:28:00.705Z",
+      "value": {
+        "baselineRemoved": false,
+        "cache": [
+          {
+            "file": "index.html",
+            "matched": true
+          },
+          {
+            "file": "styles.css",
+            "matched": true
+          },
+          {
+            "file": "runtime-config.js",
+            "matched": true
+          },
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "media/drive-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/revision-pin.js",
+            "matched": true
+          },
+          {
+            "file": "media/ts-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/q1-core.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/transmux-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mux-mp4.min.js",
+            "matched": true
+          },
+          {
+            "file": "media/mux-LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/general-admission.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-tracks.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-track.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/subtitle-presentation.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/native-color.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-owner.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-player.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-source.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-timeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1.LICENSE",
+            "matched": true
+          },
+          {
+            "file": "media/mediabunny-q1-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "media/audio-runtime.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-adapter.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker-client.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/audio-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/audio-general-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-input.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-pipeline.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-worker.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.mjs",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.wasm",
+            "matched": true
+          },
+          {
+            "file": "media/video-q3-codec.LICENSE.txt",
+            "matched": true
+          },
+          {
+            "file": "licenses/index.html",
+            "matched": true
+          },
+          {
+            "file": "licenses/audio-source-NOTICE.md",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          },
+          {
+            "file": "manifest.webmanifest",
+            "matched": true
+          },
+          {
+            "file": "icons/app-icon.svg",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-192.png",
+            "matched": true
+          },
+          {
+            "file": "icons/icon-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/maskable-512.png",
+            "matched": true
+          },
+          {
+            "file": "icons/apple-touch-icon.png",
+            "matched": true
+          }
+        ],
+        "controllerActivated": true,
+        "executingWorkerScriptHashKnown": false,
+        "matchedCache": 50,
+        "matchedCacheAliases": 51,
+        "network": [
+          {
+            "file": "app.js",
+            "matched": true
+          },
+          {
+            "file": "sw.js",
+            "matched": true
+          },
+          {
+            "file": "version.json",
+            "matched": true
+          }
+        ],
+        "preserved": null,
+        "privateIdentityExported": false,
+        "recordedAt": "2026-10-02T18:28:00.702Z",
+        "rootScope": true,
+        "shellRootAliasMatched": true,
+        "source": "051dc3456f5000b958a18593848769b3687991e5",
+        "sourceProofInstalled": true,
+        "version": "1.22.0-rc.37"
+      }
+    },
+    {
+      "name": "install exact v2 created file guard",
+      "at": "2026-10-02T18:28:00.741Z",
+      "value": {
+        "actualRequestDeadlineMs": 10000,
+        "bodyCharsMaximum": 65536,
+        "createdFileOnly": true,
+        "oneTagAndOneTrashMaximum": true,
+        "prepared": true
+      }
+    },
+    {
+      "name": "one exact v2 generated file tag stable readback",
+      "at": "2026-10-02T18:28:03.517Z",
+      "value": {
+        "bytes": 659966,
+        "checksumMatches": true,
+        "ownedByCurrentAccount": true,
+        "passed": true,
+        "requests": 5,
+        "taggedCreatedFileOnly": true
+      }
+    },
+    {
+      "name": "bounded metadata settlement before actual context",
+      "at": "2026-10-02T18:28:13.521Z",
+      "value": {
+        "minimumStableObservedMs": 6131,
+        "requests": 13,
+        "samples": [
+          {
+            "at": 1790965684455,
+            "checksumExact": true,
+            "index": 1,
+            "unchangedFromPrevious": false
+          },
+          {
+            "at": 1790965687388,
+            "checksumExact": true,
+            "index": 2,
+            "unchangedFromPrevious": true
+          },
+          {
+            "at": 1790965690317,
+            "checksumExact": true,
+            "index": 3,
+            "unchangedFromPrevious": true
+          },
+          {
+            "at": 1790965693519,
+            "checksumExact": true,
+            "index": 4,
+            "unchangedFromPrevious": true
+          }
+        ],
+        "threeConsecutiveSamplesStable": true
+      }
+    },
+    {
+      "name": "exact settled private baseline handed to Android",
+      "at": "2026-10-02T18:28:13.554Z",
+      "value": {
+        "fullMetadataExactAcrossLastThreeSamples": true,
+        "metadataStableWindowMs": 6131,
+        "tokenNotExported": true
+      }
+    },
+    {
+      "name": "native input attempt stopped with failure preserved",
+      "at": "2026-10-02T18:31:03.481Z",
+      "value": {
+        "result": "actual-20899c65-b10b-48a6-bddb-f6caa95772bd.json",
+        "Q0CurrentFramePassed": true,
+        "Q1PresentedFramePassed": false,
+        "failure": "AAC_PHASE_BOUND",
+        "selectedOptionAlreadyDefaultBeforeInput": true,
+        "trustedChangeObserved": false,
+        "productErrorObserved": false,
+        "actorCleanupComplete": true
+      }
+    },
+    {
+      "name": "fresh GET immediately followed by one exact recoverable trash",
+      "at": "2026-10-02T18:31:07.659Z",
+      "value": {
+        "fresh": {
+          "checksumMatches": true,
+          "passed": true,
+          "requests": 15,
+          "trashed": false
+        },
+        "trashed": {
+          "originalBytesUnchanged": true,
+          "passed": true,
+          "requests": 20,
+          "trashed": true
+        }
+      }
+    },
+    {
+      "name": "clear exact guard and target",
+      "at": "2026-10-02T18:31:07.706Z",
+      "value": {
+        "durableLedgerRetained": true,
+        "guardReleased": true,
+        "targetReleased": true
+      }
+    },
+    {
+      "name": "remove source proof and verify root idle",
+      "at": "2026-10-02T18:31:07.735Z",
+      "value": {
+        "accountReadyIdle": true,
+        "closed": true,
+        "guardAbsent": true,
+        "sourceProofAbsent": true,
+        "targetAbsent": true
+      }
+    },
+    {
+      "name": "second attempt fully retired",
+      "at": "2026-10-02T18:31:07.736Z",
+      "value": {
+        "untrashedGeneratedFiles": 0,
+        "trashSubmittedOnce": true,
+        "tagSubmittedOnce": true,
+        "requests": 20
+      }
+    }
+  ],
+  "cleanupComplete": true,
+  "integrationPassed": false,
+  "failedNativeInputWitnessRetained": true
+}

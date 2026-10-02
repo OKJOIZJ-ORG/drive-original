@@ -1,0 +1,54 @@
+{
+  "schema": "rc37-android-actual-aac-preparation/1",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "version": "1.22.0-rc.37",
+  "prepared": true,
+  "actualExecution": false,
+  "privateInputCreated": false,
+  "accountMutationsOwnedByRoot": true,
+  "sourceCacheProofReused": true,
+  "nativeSelectReused": "physical-v9",
+  "rpcDeadlineMs": 25000,
+  "metadataAbortMs": 10000,
+  "initialFrameMs": 15000,
+  "overallMs": 180000,
+  "cleanupMs": 40000,
+  "producers": {
+    "driver": {
+      "file": "qa/rc37-android-disposable-aac/driver.cjs",
+      "sha256": "9739944c2cdb5fc469da5c2d43277bb2d12e188a38da033bc4052292dfbb60f1"
+    },
+    "preflight": {
+      "file": "qa/rc37-android-disposable-aac/preflight.test.cjs",
+      "sha256": "8a987de180b394487c76a0071b066915e38f6fadd95639572d7f3fae28fdac54"
+    },
+    "helper": {
+      "file": "qa/rc37-android-disposable-aac/browser.function.js",
+      "sha256": "b42f558696bdb1362ec7ff2e6acf19b5c79459e91864a950750dad4ea4dca228"
+    },
+    "observe": {
+      "file": "qa/candidate-rc37-delivery/android-current-observe.function.js",
+      "sha256": "458d5bd2cf08a5a420eecdb0705144ebb5ed66a2d9de600c1246f812c5cb7a7a"
+    },
+    "proof": {
+      "file": "qa/candidate-rc37-delivery/android-current-proof.function.js",
+      "sha256": "c792fe970f761813ac24d3b5853716d093c300bcde6fcdd8cee4ec5b939ac4be"
+    },
+    "binding": {
+      "file": "qa/candidate-rc37-delivery/android-current-binding.json",
+      "sha256": "ade8b85152a3e39869c5810c9c39507d7f6c7e97ae1b740352675f64ee83f11c"
+    },
+    "readiness": {
+      "file": "qa/candidate-rc37-delivery/source-readiness.json",
+      "sha256": "19e588c4714fd6deccf8d538e5570522323a656271db734ed623606ea76a3d06"
+    },
+    "geometry": {
+      "file": "qa/player-track-selection/android-native-target.function.js",
+      "sha256": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c"
+    },
+    "popup": {
+      "file": "qa/player-track-selection/android-native-select.cjs",
+      "sha256": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "drive-original.connector-guard-preflight/1",
+  "passed": true,
+  "localMockOnly": true,
+  "cases": 7,
+  "checks": [
+    "exact one tag and one recoverable trash",
+    "same run reinstall rejected",
+    "checksum drift blocks every write",
+    "concurrent tag latch",
+    "uncertain tag GET capture no PATCH retry",
+    "uncertain trash GET readback no PATCH retry",
+    "owner drift blocks provider calls",
+    "unapplied uncertain tag still permits exact disposable trash"
+  ],
+  "producerSHA256": "afd96978141f2365bacdf2fcf449a0e46bd369478c5b0248e4f6af6ff1ff9d65",
+  "guardSHA256": "f8404b11788bb9b5ced044a951c3e6ebb96cf871bac72c728676293f2feb9015",
+  "actualProviderRequests": 0
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "rc37-android-actual-aac3-local-checks/1",
+  "actualExecution": false,
+  "deviceConnectionAttempted": false,
+  "providerCalls": 0,
+  "privateInputCreated": false,
+  "productChanges": false,
+  "checks": {
+    "focusedNodeVMTests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "connectorGuardPreflight": {
+      "passed": true,
+      "reportedCases": 7,
+      "actualProviderRequests": 0
+    },
+    "syntax": {
+      "driver": true,
+      "helper": true,
+      "guard": true,
+      "guardPreflight": true
+    },
+    "fixtureFingerprint": {
+      "file": "qa/player-track-selection/combined.mp4",
+      "bytes": 759643,
+      "sha256": "bc831b81953010036a7d931100dfd264fa14d8e22633b6518268f6c6dbfc2e2f",
+      "md5": "4a49dfa52d67d5b4b391fe9bb7f836ae",
+      "initialAudioTrackId": 2,
+      "selectedAudioTrackId": 3
+    },
+    "existingCurrent37BindingAndReadiness": true,
+    "freshPreparationManifest": true,
+    "noChildTrackedChanges": true,
+    "otherTrackedPathsObserved": [
+      "memory/CANDIDATE-RC37-20261003.md",
+      "memory/CHECKPOINT.md"
+    ]
+  },
+  "regressions": {
+    "initialInput": "exactly AAC tracks2/3, inventory default2, actual UIvalue2, selected alternate null",
+    "negativeChange2": true,
+    "untrustedChange3Refused": true,
+    "trustedChange3": true,
+    "sameAccountGETTurnover": [
+      "playback owner",
+      "source generation",
+      "pipeline generation",
+      "selected AAC track"
+    ],
+    "monotonicDeadline": [
+      "read expiry",
+      "callback expiry",
+      "timer expiry",
+      "callback-entry-to-read boundary"
+    ],
+    "expiredEligibilityDeniesInput": true,
+    "exactOwnerCleanupAfterExpiry": true,
+    "guardConstantsOnlyDiff": true,
+    "archivedActorsMatchFailedReceiptProducers": true
+  },
+  "firstFailureAndroidGETBody": "UNKNOWN_NOT_RETAINED",
+  "priorActorManifestSHA256": "a7d01722cce3c009f2b22a1cc6d6c037a1c1835b52dd1b345554146a2c5187de",
+  "guardPreflightReceiptSHA256": "038b7c1dd5ba689229f7ec2274dcb86e01f1c4126de19972baedbcdd082ead52",
+  "preparationSHA256": "eac31cfc346e3498e3e68ea5bd1dd650fe55159cf5066664e1881bcc5146c3d6",
+  "finalProducerSHA256": {
+    "driver": "411408c28b8a222ef679510203b413eaa745a7f19e3e1c16516d1f01f0c58ee2",
+    "preflight": "41da47e1a820e6b6e05344d468327a5d1a1e587315083db2ad54fa29001bae05",
+    "helper": "a60bfbb9299994e992f178dd33693d786c01a1d09024c4d6f2b2cb28093f8fa6",
+    "guard": "f8404b11788bb9b5ced044a951c3e6ebb96cf871bac72c728676293f2feb9015",
+    "guardPreflight": "afd96978141f2365bacdf2fcf449a0e46bd369478c5b0248e4f6af6ff1ff9d65",
+    "observe": "458d5bd2cf08a5a420eecdb0705144ebb5ed66a2d9de600c1246f812c5cb7a7a",
+    "proof": "c792fe970f761813ac24d3b5853716d093c300bcde6fcdd8cee4ec5b939ac4be",
+    "binding": "ade8b85152a3e39869c5810c9c39507d7f6c7e97ae1b740352675f64ee83f11c",
+    "readiness": "19e588c4714fd6deccf8d538e5570522323a656271db734ed623606ea76a3d06",
+    "geometry": "0639e25aa59bef27e1d9a3b90724cebd736637c020e6c5e9231ed32ef0cc7f7c",
+    "popup": "d456615f4a926fba8384ba4701dfd4e0d9805952907df7f54d3660f5a1971802"
+  },
+  "readmeSHA256": "a9e480ebe797aba4b844a59999d368b50c9aa993c9880bc9ea471fc6caf94ffc",
+  "scope": "Current combined fixture/AAC3 local VM/static QA preparation only. No actual Drive, physical-device, native OS input or production proof for this variant."
+}

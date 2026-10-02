@@ -1,0 +1,114 @@
+'use strict';
+// No connection, ADB, private context read or device input occurs on import/preparation.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process');
+const here=__dirname,root=path.resolve(here,'../..'),qa=path.dirname(here),delivery=path.join(qa,'candidate-rc37-delivery');
+const adb=path.resolve(root,'../maintenance/tools/scrcpy-v4.1/scrcpy-win64-v4.1/adb.exe'),privateRoot=path.join(qa,'v2-state-recovery-backup');
+const PRIVATE_INPUT=path.join(privateRoot,'rc37-android-created-context-private.json'),SOURCE='051dc3456f5000b958a18593848769b3687991e5';
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),wait=ms=>new Promise(r=>setTimeout(r,ms));
+const bounded=(p,ms,code)=>{let t;return Promise.race([p,new Promise((_,reject)=>t=setTimeout(()=>reject(Error(code)),ms))]).finally(()=>clearTimeout(t));};
+function safeFailure(e,operation){return {operation,code:/^(?:AAC|CURRENT|CDP|ADB|NATIVE)_[A-Z0-9_]+$/.test(e?.message)?e.message:'AAC_TOOL_OR_PRODUCT_EXCEPTION',
+  errorName:['Error','TypeError','ReferenceError','AbortError','TimeoutError'].includes(e?.name)?e.name:'UNKNOWN',messageSHA256:sha(Buffer.from(String(e?.message||''))),
+  timeoutObserved:/timeout|timed out|deadline|bound/i.test(e?.message||''),connectionObserved:/closed|disconnected|context|connection/i.test(e?.message||'')};}
+function validateInput(v){if(v?.schema!=='rc37-android-exact-created-context/1'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(v.qaRunId||'')
+  ||typeof v.account?.accountId!=='string'||!v.account.accountId||!v.metadata||Object.keys(v).some(k=>!['schema','account','metadata','qaRunId'].includes(k))
+  ||Object.keys(v.account).some(k=>k!=='accountId')||v.metadata.appProperties?.qaRun!==v.qaRunId||v.metadata.appProperties?.qaRole!=='test-video-1'
+  ||v.metadata.appProperties?.qaFixtureSHA256!=='d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037')throw Error('AAC_PRIVATE_CONTEXT_SHAPE');return v;}
+function preparation(){const files={driver:__filename,preflight:path.join(here,'preflight.test.cjs'),helper:path.join(here,'browser.function.js'),observe:path.join(delivery,'android-current-observe.function.js'),proof:path.join(delivery,'android-current-proof.function.js'),
+  binding:path.join(delivery,'android-current-binding.json'),readiness:path.join(delivery,'source-readiness.json'),geometry:path.join(qa,'player-track-selection/android-native-target.function.js'),popup:path.join(qa,'player-track-selection/android-native-select.cjs')};
+  const text={};for(const[k,file]of Object.entries(files))text[k]=fs.readFileSync(file,'utf8');for(const k of ['helper','observe','proof','geometry'])new Function('return ('+text[k]+')');
+  const binding=JSON.parse(text.binding),ready=JSON.parse(text.readiness);if(binding.sourceCommit!==SOURCE||binding.version!=='1.22.0-rc.37'||!binding.publicationVerified
+    ||binding.readinessSHA256!==sha(Buffer.from(text.readiness))||!ready.passed||ready.sourceCommit!==SOURCE||ready.version!==binding.version||binding.cache.length!==50)throw Error('AAC_DELIVERY_BINDING');
+  const manifest={schema:'rc37-android-actual-aac-preparation/1',sourceCommit:SOURCE,version:binding.version,prepared:true,actualExecution:false,
+    privateInputCreated:false,accountMutationsOwnedByRoot:true,sourceCacheProofReused:true,nativeSelectReused:'physical-v9',rpcDeadlineMs:25000,metadataAbortMs:10000,initialFrameMs:15000,overallMs:180000,cleanupMs:40000,
+    producers:Object.fromEntries(Object.entries(files).map(([key,file])=>[key,{file:path.relative(root,file).replaceAll('\\','/'),sha256:sha(fs.readFileSync(file))}]))};
+  return {files,text,binding,manifest};}
+function quiet(v){return v?.version==='1.22.0-rc.37'&&v.accountReadyIdle&&v.closed&&v.retirementSettled&&v.documentVisible&&v.libraryVisible&&v.rootReady&&v.queryEmpty&&!v.bannerVisible&&!v.foreignHelpers
+  &&v.serviceWorker?.active==='activated'&&v.serviceWorker.activeIsController&&!v.serviceWorker.waiting&&!v.serviceWorker.installing&&v.serviceWorker.rootScope;}
+async function socket(url){const ws=new WebSocket(url),pending=new Map();let next=0,closed=false;
+  const rejectAll=()=>{closed=true;for(const r of pending.values()){clearTimeout(r.timer);r.reject(Error('CDP_CONNECTION_CLOSED'));}pending.clear();};
+  const message=e=>{let r;try{r=JSON.parse(e.data);}catch{return;}const p=pending.get(r.id);if(!p)return;pending.delete(r.id);clearTimeout(p.timer);if(r.error)p.reject(Error('CDP_PROTOCOL_ERROR'));else p.resolve(r.result);};
+  ws.addEventListener('message',message);ws.addEventListener('close',rejectAll);ws.addEventListener('error',rejectAll);
+  try{await bounded(new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',()=>reject(Error('CDP_CONNECT_ERROR')),{once:true});}),10000,'CDP_CONNECT_BOUND');}
+  catch(e){ws.close();throw e;}
+  return {send(method,params={}){if(closed)throw Error('CDP_CONNECTION_CLOSED');const id=++next;return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{pending.delete(id);reject(Error('CDP_RPC_BOUND'));},25000);pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params}));});},
+    async close(){if(ws.readyState===WebSocket.CLOSED){rejectAll();return true;}const done=new Promise(resolve=>ws.addEventListener('close',resolve,{once:true}));ws.close();try{await bounded(done,5000,'CDP_CLOSE_BOUND');return true;}finally{rejectAll();ws.removeEventListener('message',message);ws.removeEventListener('close',rejectAll);ws.removeEventListener('error',rejectAll);}}};}
+async function run(mode,resultName){if(!['--admit','--run'].includes(mode))throw Error('AAC_EXPLICIT_ACTION_REQUIRED');if(!/^actual-[0-9a-f]{8}-[0-9a-f-]{27}\.json$/.test(resultName||''))throw Error('AAC_UNIQUE_RESULT_REQUIRED');
+  const prep=preparation(),out=path.join(here,resultName),nativeSelect=require(prep.files.popup),started=Date.now(),until=started+180000;
+  const reviewed=JSON.parse(fs.readFileSync(path.join(here,'preparation.json'),'utf8'));
+  if(JSON.stringify(reviewed)!==JSON.stringify(prep.manifest))throw Error('AAC_PREPARATION_CHANGED');
+  const report={schema:'rc37-physical-android-actual-aac/1',mode,startedAt:new Date().toISOString(),sourceCommit:SOURCE,version:prep.binding.version,
+    productChanged:false,providerFileMutations:false,originalMediaWrites:false,normalAppViewedState:'MAY_PERSIST_FOR_THIS_QA_FILE_ONLY_NO_SNAPSHOT_RESTORE',nativeOSInput:mode==='--run',humanFingerInput:false,producerSHA256:sha(fs.readFileSync(__filename)),binding:prep.manifest.producers,
+    steps:[],scope:'ONE root-created actual Drive generated659966B6s AVC/AAC file; current tuple/config/metadata only; no pixel/YUV/p95/encoder-count/full-goal claim'};
+  fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+  let input,serial,forward,cdp,owned=false,operation='initial preparation',initialTarget,deviceTemp=null,cleanupEnd=null;const cleanup={};
+  const save=()=>fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n'),step=(name,value)=>{operation=name;report.steps.push({name,at:Date.now(),value});save();};
+  const within=()=>{if(Date.now()>=until)throw Error('AAC_OVERALL_BOUND');};
+  const remaining=max=>Math.max(1,Math.min(max,(cleanupEnd??until)-Date.now()));
+  const cmd=args=>{const r=spawnSync(adb,args,{encoding:'utf8',windowsHide:true,timeout:remaining(10000),maxBuffer:1024*1024});if(r.error)throw r.error;if(r.status!==0)throw Error('ADB_COMMAND_FAILED');return r.stdout.trim();};
+  const native=args=>{within();return cmd(['-s',serial,'shell','input',...args]);};
+  async function targets(){const ac=new AbortController(),t=setTimeout(()=>ac.abort(),remaining(10000));try{const r=await fetch('http://127.0.0.1:'+forward+'/json/list',{signal:ac.signal});if(!r.ok)throw Error('CDP_TARGET_HTTP');const text=await r.text();if(text.length>1048576)throw Error('CDP_TARGET_BOUND');return JSON.parse(text);}finally{clearTimeout(t);}}
+  const retain=e=>{const bytes=Buffer.from(JSON.stringify({operation,name:e?.name,message:e?.message,stack:e?.stack,exceptionDetails:e?.exceptionDetails})+'\n');if(bytes.length>131072)throw Error('AAC_EXCEPTION_RECEIPT_BOUND');
+    fs.writeFileSync(path.join(privateRoot,'rc37-android-'+crypto.randomUUID()+'-exception-private.json'),bytes,{flag:'wx'});return {privateExceptionSaved:true,bytes:bytes.length,sha256:sha(bytes)};};
+  const rpc=async expression=>{const r=await bounded(cdp.send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true}),remaining(25000),'AAC_RPC_OR_GLOBAL_BOUND');if(r.exceptionDetails){const description=r.exceptionDetails.exception?.description||'',code=description.split('\n')[0].match(/^(?:Error|TypeError|ReferenceError): ((?:AAC|CURRENT|NATIVE)_[A-Z0-9_]+)$/)?.[1];const e=Error(code||'AAC_BROWSER_EXCEPTION');e.exceptionDetails=r.exceptionDetails;throw e;}return r.result.value;};
+  const call=name=>rpc('window.__rc37AndroidActualAAC.'+name+'()');
+  async function poll(label,predicate,ms,cleanupOnly=false){const end=Math.min(Date.now()+ms,cleanupOnly?Date.now()+ms:until);let r;do{if(!cleanupOnly)within();r=await call(cleanupOnly?'closed':'read');
+    if(!cleanupOnly&&(!r.fence||r.error||r.failed))throw Error('AAC_LIFETIME_OR_MEDIA_FAILURE');if(predicate(r)){step(label,r);return r;}await wait(100);}while(Date.now()<end);step(label+' deadline',r);throw Error('AAC_PHASE_BOUND');}
+  const geometry=key=>rpc('('+prep.text.geometry+')('+JSON.stringify(key)+')');
+  function point(g){const {physicalWidth:w,physicalHeight:h}=report.device;if(!g.available||![g.x,g.y,g.dpr,g.viewportHeight,g.viewport?.width].every(Number.isFinite)||Math.abs(g.viewport.width*g.dpr-w)>3)throw Error('NATIVE_GEOMETRY');
+    const x=Math.round(g.x*g.dpr),y=Math.round(h-g.viewportHeight*g.dpr+g.y*g.dpr);if(x<0||x>=w||y<0||y>=h)throw Error('NATIVE_POINT_OUTSIDE');return {x,y};}
+  async function tap(key){const r=await call('read');if(!r.current||!r.routeCurrent||!r.fence)throw Error('AAC_NATIVE_OWNER');const g=await geometry(key),p=point(g);const last=await call('read');if(!last.current||!last.routeCurrent||!last.fence)throw Error('AAC_NATIVE_OWNER');native(['tap',String(p.x),String(p.y)]);await wait(150);}
+  async function controls(){let g=await geometry('playerMoreSummary');if(g.available)return;g=await geometry('playerControlsEntry');if(!g.available&&!g.controlsIdle){await tap('mediaStage');g=await geometry('playerControlsEntry');}if(!g.available)throw Error('NATIVE_ENTRY_UNAVAILABLE');await tap('playerControlsEntry');}
+  async function normalClose(){const r=await call('read');if(r.closed)return;if(!r.cleanupCurrent)throw Error('AAC_CLEANUP_OWNER_CHANGED');if(r.dialog){const g=await geometry('playerTracksClose'),p=point(g);cmd(['-s',serial,'shell','input','tap',String(p.x),String(p.y)]);await wait(150);}
+    const current=await call('read');if(!current.cleanupCurrent)throw Error('AAC_CLEANUP_OWNER_CHANGED');cmd(['-s',serial,'shell','input','keyevent','KEYCODE_BACK']);}
+  try{
+    if(mode==='--run'){const stat=fs.statSync(PRIVATE_INPUT);if(!stat.isFile()||stat.size>65536)throw Error('AAC_PRIVATE_CONTEXT_BOUND');input=validateInput(JSON.parse(fs.readFileSync(PRIVATE_INPUT,'utf8')));}
+    const rows=cmd(['devices','-l']).split(/\r?\n/).filter(x=>/^\S+\s+device(?:\s|$)/.test(x));if(rows.length!==1)throw Error('ADB_AUTHORIZED_DEVICE_COUNT');serial=rows[0].split(/\s+/)[0];
+    const model=cmd(['-s',serial,'shell','getprop','ro.product.model']),android=cmd(['-s',serial,'shell','getprop','ro.build.version.release']);if(model!=='SM-X800'||android!=='16')throw Error('ADB_DEVICE_IDENTITY');
+    const size=cmd(['-s',serial,'shell','wm','size']).match(/Physical size:\s*(\d+)x(\d+)/);if(!size)throw Error('ADB_PHYSICAL_SIZE');report.device={authorized:1,model,android,physicalWidth:Number(size[1]),physicalHeight:Number(size[2]),serialExported:false};
+    forward=Number(cmd(['-s',serial,'forward','tcp:0','localabstract:chrome_devtools_remote']));if(!Number.isSafeInteger(forward)||forward<1||forward>65535)throw Error('ADB_FORWARD_RESPONSE');
+    const selected=(await targets()).filter(x=>{try{return x.type==='page'&&new URL(x.url).origin===prep.binding.origin;}catch{return false;}});if(selected.length!==1)throw Error('CDP_EXACT_CURRENT_TARGET_COUNT');initialTarget=selected[0];
+    const socketURL=new URL(initialTarget.webSocketDebuggerUrl);if(socketURL.hostname!=='127.0.0.1'||Number(socketURL.port)!==forward||socketURL.protocol!=='ws:')throw Error('CDP_LOCAL_SOCKET_TARGET');
+    cdp=await socket(socketURL.href);const chrome=await rpc('navigator.userAgent.match(/Chrome\\/[\\d.]+/)?.[0]');if(!/^Chrome\/153\./.test(chrome||''))throw Error('AAC_CHROME_VERSION');report.device.chrome=chrome;
+    let current=await rpc('('+prep.text.observe+')()');step('fresh current ready idle',current);if(!quiet(current))throw Error('AAC_CURRENT_QUIET');
+    const source=await rpc('('+prep.text.proof+')('+JSON.stringify(prep.binding)+')');step('fresh current37 source cache controller proof',source);
+    current=await rpc('('+prep.text.observe+')()');if(!quiet(current)||await rpc('!!window.__rc37AndroidActualAAC||!!window.__rc37DisposableColor||!!window.__colorActualTarget37'))throw Error('AAC_POST_SOURCE_QUIET');
+    if(mode==='--admit'){report.completed=true;report.verdict='CURRENT37_PHYSICAL_READY_IDLE_ONLY';return report;}
+    // A root-created context is consumed once. No rerun under a fresh result name.
+    fs.writeFileSync(path.join(privateRoot,'rc37-android-'+input.qaRunId+'-consumed-private.json'),JSON.stringify({result:resultName,consumedAt:new Date().toISOString()})+'\n',{flag:'wx'});
+    operation='install exact private context and observers';owned=true;step(operation,await rpc('('+prep.text.helper+')('+JSON.stringify(input)+')'));input=null;
+    step('fresh exact root metadata before playback',await call('locate'));step('ordinary app open',await call('open'));
+    await poll('Q0 current presented frame',r=>r.current&&r.routeCurrent&&r.q0&&r.q0Pinned&&r.verified&&r.transport&&r.phases.find(p=>p.label==='q0')?.first?.good,15000);
+    await controls();if(!(await call('read')).paused)await tap('ctrlPlayPause');await poll('native ordinary pause',r=>r.paused,3000);
+    step('closed native VideoFrame tuple',await call('captureNative'));
+    await controls();await tap('playerMoreSummary');await tap('ctrlTracks');await poll('ordinary current AAC2 inventory',r=>r.dialog&&r.tracksCurrent&&r.tracksCleanup&&!r.switching&&r.audioOptions.some(t=>t.id===2&&t.codec==='aac'&&t.route==='q1'),12000);
+    // Arm successor frame before any selection input. Native label/XML never exported.
+    step('AAC2 presented-frame observer armed',await call('selectionReady'));const selectionStart=Date.now();await tap('playerAudioTrack');
+    const expected=await rpc('(()=>{const s=el.playerAudioTrack,o=[...s.options].filter(x=>x.value==="2"&&!x.disabled);if(o.length!==1)throw Error("AAC_OPTION_EXACT");return o[0].textContent;})()');
+    deviceTemp='/data/local/tmp/drive-original-select-owned-'+crypto.randomUUID()+'.xml';let raw;try{cmd(['-s',serial,'shell','uiautomator','dump',deviceTemp]);raw=cmd(['-s',serial,'exec-out','cat',deviceTemp]);const option=nativeSelect.target(raw,expected,report.device.physicalWidth,report.device.physicalHeight);
+      if(!option.available)throw Error('NATIVE_POPUP_OPTION_UNCONFIRMED');const r=await call('read');if(!r.current||!r.routeCurrent||!r.dialog||!r.fence)throw Error('AAC_NATIVE_POPUP_OWNER');native(['tap',String(option.x),String(option.y)]);step('one exact OS-native AAC2 option',{issued:true,matchingOptionNodes:option.matchingOptionNodes,rawXmlOrLabelsExported:false});}
+    finally{raw=null;cmd(['-s',serial,'shell','rm',deviceTemp]);deviceTemp=null;}
+    await poll('current Q1 AAC2 presented frame',r=>r.current&&r.routeCurrent&&r.q1General&&!r.q0&&!r.switching&&r.verified&&r.transport&&r.phases.find(p=>p.label==='aac2')?.first?.good,Math.max(1,15000-(Date.now()-selectionStart)));
+    await poll('current generation source window config',r=>r.statsReady&&r.pipelineAudio===2&&r.currentWorkerWindow&&r.workerIdentityCurrent,15000);
+    const value=await call('verify');step('current AAC2 tuple source config and original metadata',value);
+    report.integrationPassed=value.tuplePass&&value.originalMetadataUnchanged&&value.sourceConfigPreserved&&value.visibleGeometry&&value.trustedAAC2Change&&value.pipelineAudio===2;
+    report.encoderCount=value.encoders===null?'UNKNOWN_WINDOW_ONLY':value.encoders;report.pixelEquality='NOT_TESTED';report.unlikeFormatVisibleYUV='UNKNOWN';report.p95='NOT_TESTED';report.wholeGoalPassed=false;
+    if(!report.integrationPassed)throw Error('AAC_TUPLE_CONFIG_METADATA_UNQUALIFIED');report.completed=true;report.verdict='FINITE_CURRENT_ACTUAL_AAC2_TUPLE_CONFIG_METADATA_ONLY';
+  }catch(e){report.completed=false;report.mainFailure=safeFailure(e,operation);try{report.privateFailureReceipt=retain(e);}catch(receipt){report.privateFailureSaveFailed=safeFailure(receipt,'private exception receipt');}}
+  finally{cleanupEnd=Date.now()+40000;
+    if(owned&&cdp){try{const helperPresent=await rpc('!!window.__rc37AndroidActualAAC');if(!helperPresent){const idle=await rpc('('+prep.text.observe+')()');cleanup.failedInstallLeftNoHelperOrMedia=quiet(idle);}
+      else{await bounded(normalClose(),Math.max(1,cleanupEnd-Date.now()),'AAC_NORMAL_CLOSE_BOUND');await bounded(poll('ordinary Back settled media owners',r=>Object.values(r).every(v=>v===true),15000,true),Math.max(1,cleanupEnd-Date.now()),'AAC_RETIREMENT_BOUND');
+        const value=await bounded(call('stop'),Math.max(1,cleanupEnd-Date.now()),'AAC_HELPER_STOP_BOUND');step('owned helper cleanup',value);cleanup.mediaAndHelper=Object.values(value).every(v=>v===true);
+        cleanup.finalCurrentReadyIdle=quiet(await rpc('('+prep.text.observe+')()'));}
+      }catch(e){cleanup.mediaAndHelper=false;report.cleanupFailure=safeFailure(e,'ordinary close and helper cleanup');try{report.privateCleanupFailureReceipt=retain(e);}catch{report.privateCleanupFailureSaved=false;}}}
+    else cleanup.noMediaHelperInstalled=true;
+    if(deviceTemp){try{cmd(['-s',serial,'shell','rm',deviceTemp]);cleanup.ownedPopupXMLRemoved=true;}catch{cleanup.ownedPopupXMLRemoved=false;}}
+    else cleanup.noOwnedPopupXML=true;
+    if(initialTarget&&forward){try{const last=(await targets()).find(x=>x.id===initialTarget.id);cleanup.originalTabPreserved=!!last&&last.url===initialTarget.url;}catch{cleanup.originalTabPreserved=false;}}else cleanup.noOriginalTabChanged=true;
+    if(cdp){try{cleanup.exactCDPSocketClosed=await bounded(cdp.close(),remaining(5000),'AAC_SOCKET_CLEANUP_BOUND');}catch{cleanup.exactCDPSocketClosed=false;}}else cleanup.noCDPSocketCreated=true;
+    if(forward){try{cmd(['-s',serial,'forward','--remove','tcp:'+forward]);cleanup.exactForwardRemoved=true;}catch{cleanup.exactForwardRemoved=false;}}else cleanup.noForwardCreated=true;
+    input=null;cleanup.nodePrivateContextCleared=true;cleanup.noMCPProcessCreated=true;cleanup.noTabCreatedOrClosed=true;report.cleanup=cleanup;report.cleanupComplete=Object.values(cleanup).every(v=>v===true);report.completed=report.completed===true&&report.cleanupComplete;report.completedAt=new Date().toISOString();save();}
+  return report;
+}
+module.exports={preparation,run,validateInput,quiet,safeFailure,socket,PRIVATE_INPUT};
+if(require.main===module){if(process.argv[2]==='--prepare'){const p=preparation();fs.writeFileSync(path.join(here,'preparation.json'),JSON.stringify(p.manifest,null,2)+'\n');console.log(JSON.stringify({prepared:true,actualExecution:false,privateInputCreated:false,sourceCommit:SOURCE}));}
+  else run(process.argv[2],process.argv[3]).then(r=>{console.log(JSON.stringify({completed:r.completed,verdict:r.verdict??null,mainFailure:r.mainFailure??null,cleanupComplete:r.cleanupComplete}));if(!r.completed)process.exitCode=1;}).catch(e=>{console.error(JSON.stringify(safeFailure(e,'before reserved run')));process.exitCode=1;});}

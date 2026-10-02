@@ -1,0 +1,83 @@
+{
+  "schema": "rc37-android-failed-root-adjudication/3",
+  "sourceCommit": "051dc3456f5000b958a18593848769b3687991e5",
+  "version": "1.22.0-rc.37",
+  "productOrCandidateChanged": false,
+  "wholeGoalPassed": false,
+  "productionPassed": false,
+  "candidateAcceptanceComplete": false,
+  "qualified": {
+    "currentPhysicalSourceCacheReadyIdle": true,
+    "actualMetadataAndChecksumAdmission": true,
+    "Q0CurrentFrame": true,
+    "initialDefault2TwoAACInventory": true,
+    "distinctOSNativeTrustedChange3": true,
+    "currentGeneralQ1Selected3": true
+  },
+  "notQualified": {
+    "Q1CurrentPresentedFrame": true,
+    "sourceWindowConfig": true,
+    "outputTuple": true,
+    "postPlaybackOriginalMetadata": true
+  },
+  "mainFailure": {
+    "operation": "current Q1 AAC3 presented frame deadline",
+    "code": "AAC_PHASE_BOUND",
+    "errorName": "Error",
+    "messageSHA256": "101fd973dddf89235896fcc433c237172550e15b963b06ee6bcf460c0d0fabe5",
+    "timeoutObserved": true,
+    "connectionObserved": false
+  },
+  "diagnosis": "UNRESOLVED_PRODUCT_PIPELINE_OR_OBSERVER; saved frame/generation/start ordering investigation next; no unchanged retry",
+  "scope": "one physicalSM-X800 Android16 Chrome153 current37 actualDrive generated combined fixture; no broadformat/YUV/pixel/encoder/p95/wholegoal claim",
+  "cleanup": {
+    "threeDifferentKnownCreatedQAObjectsRecoverablyTrashed": true,
+    "perObjectTagAndTrashMaximumOne": true,
+    "allActorCleanups": true,
+    "allRootGuardsSourceProofsTargetsReleased": true,
+    "noUntrashedCreatedObject": true,
+    "noOriginalMediaChanged": true,
+    "privateLedgerBackupsIgnored": true,
+    "normalViewedStateMayPersistForSecondAndThirdQAFile": true
+  },
+  "firstFailureAndroidMetadataGETBody": "UNKNOWN_NOT_RETAINED",
+  "immutableFailureFiles": [
+    "actual-234d26a8-5a75-4b65-be44-88a93a2d2bea.json",
+    "actual-20899c65-b10b-48a6-bddb-f6caa95772bd.json",
+    "actual-a8143339-5b8e-40aa-afe8-d796936e2699.json"
+  ],
+  "newChromeApprovalRequests": 0,
+  "verification": {
+    "localVM": 11,
+    "guardMockCases": 7,
+    "syntaxChecks": 4,
+    "independentPreflightClear": true,
+    "actualV3Passed": false
+  },
+  "evidenceFiles": [
+    {
+      "file": "qa/rc37-android-disposable-aac/preparation.json",
+      "sha256": "eac31cfc346e3498e3e68ea5bd1dd650fe55159cf5066664e1881bcc5146c3d6"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/local-checks.json",
+      "sha256": "7a5e115adb48e2465c2e49460dcd47fff054bbbdb8c2e0a5166f4046a83c9ccb"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/connector-operation-result.json",
+      "sha256": "6cefda2bf3d732f5f185614da211184bfd43fcb321db0c53d59fe66f7035d682"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/connector-operation-v2-result.json",
+      "sha256": "8a6a7f03b8880addf1f16cf8110663f4c9db6e59de5590e5b2efb1d8e4072aaa"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/connector-operation-v3-result.json",
+      "sha256": "d62eb9242dffa908c8cc5d2abd5f87cb2b7c074cbe84dd479fcde37ff873a5ea"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/actual-a8143339-5b8e-40aa-afe8-d796936e2699.json",
+      "sha256": "93516cf81b976fa177bd88ddacbb9d05ae4bfbc3657cd2a7ec4aaec321f71b80"
+    }
+  ]
+}

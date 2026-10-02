@@ -1,16 +1,16 @@
-# Checkpoint — ACTIVE D074 — rc37 realPC AAC and finite20-pair distribution complete
+# Checkpoint — ACTIVE D074 — Android actual Q1 startup diagnosis
 
 ## The story so far
-Runtime051dc3456f5000b958a18593848769b3687991e5/rc37/freeWorker94ce4b79-405b-44f9-bb84-c8337c2b43ae unchanged; production1.21/e08989a unchanged. CANDIDATE-RC37-20261003.md owns delivery/cache/source/package/actualreader/PC+Android updates/controlledpair and new actual-account generated Q0→nativeAAC2/Q1 tuple/sourceconfig/metadata PASS. Exactlyone connector-created QAfile/no folder recoverablytrashed/readback/privateledgerbackup/fullowner/helper cleanup PASS. Existing Chrome connection maintained; no extra approval. Finite20-pair OBS03/OBS05 distribution nowqualifies with fullcleanup: pilot+19new,0fail/timeout/unattempted, no productredeploy. Originalcriteria review says strictRGBAzero is not binding; diagnosticFAIL/AndroidYUVUNKNOWN/HDRapplicabilityUNKNOWN/realprovider-device distribution limits remain. Original69bounded adoption and prior valid evidence reused.
+Runtime051dc345/rc37 and production1.21/e08989a unchanged. HEAD81a929b owns completed actualPC/20pair units. Current37 physical source/cache/idle, actual exactmetadata/sha, currentQ0/default2/twoAAC inventory and trustednativechange3/currentgeneralQ1 selected3 qualify. V3 actual-a8143339 fails15s currentQ1frame: one12916ms unqualifiedframe/source8/gen2, deadline ready0/paused/verifiedfalse/transportfalse/no pipewindow/no error. All3 createdQA filesrecoverablytrashed and actor/root helper/socket/forward cleanup complete. CANDIDATE-RC37 owner + qa/rc37-android-disposable-aac/root-adjudication-v3-failed.json own evidence.
 
 ## Decided
-D074 remains ACTIVE; savepoints do not finish the goal. No originalmedia mutation, product redeploy, main/push/production/newgrant/permanentdelete/automationrestart. Do not repeat completed actualfixture/delivery/pair/69rows/corpus. First failed receipt remains immutable; direct awaited cleanup and v2success are separate evidence.
+D074 ACTIVE. No unchanged retry, no pass inflation, no product redeploy for QA changes. Allfailedreceipts/producers preserved. No originals/main/push/production/newgrant/permanentdelete/automationrestart.
 
 ## Waiting on the user
-None for current connection or completed disposable unit. G6 production remains separate after original acceptance is adjudicated.
+None for current connection/candidate work. G6 production remains separate after actual candidate acceptance.
 
 ## Next first action
-Review qa/rc37-android-disposable-aac actor/preparation when ready; current authorizedSM-X800 exists. After exactsource/account/currentframe/cleanup/nativeinput/resultsave proof is fullyprepared, create exactlyone distinct generatedQA file via the proven connector/currentPCguard path, run ONLY one currentAndroid37 actualDrive/AAC witness, then recoverabletrash/readback/privatebackup/fullcleanup. Do not rerun completedPCfixture or20pairseries.
+Get read-only diagnosis from gpt_6_1_sol_high_android_rc37_actual_aac (product/startup/paused/recovery path) and medium_retained_native_session_review (observer Worker binding/qualification). Inspect saved actual-a8143339 and exact current source; distinguish product vs tool before any fix or next bounded actual unit. Previous failures fully retired. Do not replay PC/series/corpus; preserve15s original bound unless evidence identifies different decisive check.
 
 ## Tried
-Chooser still denies fileURL; setting stateUNKNOWN, policy-denied Chrome settings not bypassed. Nativeconnection/session failures closed; no unchanged retry. Dedicated Drive connector + sameapp freshreadback resolved upload path without settings/grants/profilechange. Early driver generic exception beforeplayback/cleanupfalse retained; direct awaited15true cleanup then phase-diagnostic fully awaited v2passed24.6s, causeUNKNOWN. No untrashed newQAobject or active owner remains.
+Firstmetadata mismatch beforeopen/exactfailedGETbodyUNKNOWN, laterPCversion-onlydelta/sameheadrev+sha. SecondonlyAAC2 alreadydefault so nativeinput hadnochange; QAfix uses maintained twoAAC combined and distinct3 with11VM/7guardmock/4syntax and independentclear. V3 correctnativechange startsQ1 butframe qualification fails. No actual unit currentlyrunning.
