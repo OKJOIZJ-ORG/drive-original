@@ -1,0 +1,164 @@
+{
+  "schema": "rc35-android-cold-tr01-adjudication/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "productChanged": false,
+  "deploymentRepeated": false,
+  "device": {
+    "model": "SM-X800",
+    "android": "16",
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "receipt": {
+    "file": "actual-android-rc35-cold-q0-cdp-attempt7-safe.json",
+    "sha256": "ded31fdd6324dd014a7028551d8d9e88935232acd62625a1197b67a2d6caa760",
+    "producer": "android-cdp-ui.cjs",
+    "sha256Producer": "dd778a33abdf2345fbe8090046e6eafcaf3dae352034cb552d5dc23c4594dd3c"
+  },
+  "originalCriterion": {
+    "id": "QA-TR-01",
+    "source": "memory/specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md:1695",
+    "scenario": "큰 정상 MP4, cold cache",
+    "expected": "전체 다운로드 전 Q0 first frame, 정상 진행"
+  },
+  "verdict": "PASS_FINITE_ACTUAL_ANDROID",
+  "firstFrame": {
+    "at": 1790934170098,
+    "elapsedMs": 3815,
+    "mediaTime": 0,
+    "width": 1920,
+    "height": 1080,
+    "currentOwner": true
+  },
+  "progressFrame": {
+    "at": 1790934170462,
+    "elapsedMs": 4179,
+    "mediaTime": 0.254572,
+    "width": 1920,
+    "height": 1080,
+    "currentOwner": true
+  },
+  "cold": {
+    "freshDocument": true,
+    "nativeEmptyAtAdmission": true,
+    "appOwnedBufferEmptyAtAdmission": true,
+    "routeObserved": true,
+    "current": true,
+    "polls": 67,
+    "failure": null,
+    "disposed": false,
+    "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "version": "1.22.0-rc.35",
+    "rawIdentifiersExported": false,
+    "opfsDiskEmpty": "NOT_CLAIMED",
+    "scope": "operational selected-media no-local-byte-reuse; requires complete source-worker network qualification"
+  },
+  "setup": {
+    "name": "bounded current Q0 auxiliary setup join before normal Back",
+    "at": "2026-10-02T09:42:52.320Z",
+    "settled": true,
+    "sameCurrentQ0": true,
+    "cleanupOk": true,
+    "qualified": true,
+    "maxMs": 25000,
+    "sourceOrPlaybackMutated": false
+  },
+  "sourceWorker": {
+    "name": "executing actual SW and revision-pin bytes",
+    "at": "2026-10-02T09:42:45.925Z",
+    "actualWorkerScriptBytesMatched": true,
+    "scripts": [
+      {
+        "file": "sw.js",
+        "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "matched": true
+      },
+      {
+        "file": "media/revision-pin.js",
+        "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+        "matched": true
+      }
+    ],
+    "rawScriptExported": false
+  },
+  "transfer": {
+    "fileBytes": 4607107537,
+    "actualBodyBytes": 90308620,
+    "completePostCloseEnvelope": 90322862,
+    "allGETsQualified": true,
+    "allPreflightsQualified": true,
+    "requestCount": 3,
+    "live": 0,
+    "completeChunkObservation": true,
+    "completionReasons": {
+      "liveRequests": false,
+      "unfinishedPreflight": false,
+      "missingResponse": false,
+      "missingData": false,
+      "encodedBelowBody": false,
+      "compressed": false
+    },
+    "strictAssessment": {
+      "qualified": true,
+      "reason": null,
+      "clearedReasons": [],
+      "actualBodyBytes": 90308620,
+      "postCloseTrafficEnvelope": 90322862,
+      "exactBodyAtFrame": "UNKNOWN"
+    },
+    "swReaderTrace": {
+      "starts": 3,
+      "requestCount": 3,
+      "terminalCount": 2,
+      "finalReaderBytes": 32374796,
+      "overflow": false,
+      "rawIdentifiersExported": false
+    }
+  },
+  "cleanup": {
+    "player": {
+      "name": "normal Back and retirement",
+      "at": "2026-10-02T09:42:52.728Z",
+      "closed": true,
+      "retired": true,
+      "q0": false,
+      "q1": false
+    },
+    "ownedCleanupComplete": true,
+    "mcpClosed": true,
+    "nativeSessionDetached": true,
+    "nativeConnectionDisconnected": true,
+    "forwardRemoved": true
+  },
+  "localGuards": {
+    "count": 16,
+    "passed": 16,
+    "files": [
+      "cdp-ui.test.cjs",
+      "bounded-header.test.cjs",
+      "preclose-setup.test.cjs",
+      "initial-native-state.test.cjs"
+    ]
+  },
+  "retainedFailures": "android-cdp-ui-derivation.json; exact original frozen producer/helper and every safe receipt retained",
+  "interpretation": "Bounded setup join before Back resolves this trial cancellation-observation gap without changing product or strict gates; attempt5 stays NOT_QUALIFIED. Its exact causal timing is not retrospectively established.",
+  "limits": [
+    "One exact real-account normal ISO MP4 on physical SM-X800; not a video corpus scan",
+    "Chrome trusted CDP CSS mouse/keyboard input and Android Back; not a human finger or OS-coordinate-tap claim",
+    "Operational selected-media no-local-byte-reuse; no OPFS-disk-empty or exact-body-at-frame claim",
+    "TR02, historical failed MOV identity, population performance p95, display-color/HDR and entire goal remain separate"
+  ],
+  "independentReadOnlyReview": {
+    "verdict": "No finite original TR01 blocker",
+    "receiptHashMatched": true,
+    "frozenPriorGateHashesMatched": true,
+    "existingPureNetworkAssessment": {
+      "qualified": true,
+      "clearedReasons": [],
+      "actualBodyBytes": 90308620,
+      "postCloseTrafficEnvelope": 90322862
+    },
+    "deviceOrProductActions": false,
+    "causeClaim": "supports close-timing hypothesis, does not retrospectively prove attempt5 causal order"
+  }
+}

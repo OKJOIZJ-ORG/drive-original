@@ -1,0 +1,1488 @@
+{
+  "schema": "actual-android-rc35-cold-q0-cdp-ui/1",
+  "recordedAt": "2026-10-02T09:32:04.064Z",
+  "producerSha256": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+  "commonSha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "local immutable measurement binding",
+      "at": "2026-10-02T09:32:05.674Z",
+      "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "sourceSHA256": {
+        "app.js": "9ac7721678df680a5a269de69f10ded87934c19794fd30ccd49ec42eed7f9e94",
+        "sw.js": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "version.json": "d404d2ee6df94b245cf0b2d753bbd71d6c5dba611bc5818f253e42dcbb3f2bd1"
+      },
+      "files": {
+        "android.cjs": "e69d3de3bab06469280878c3614d6f2521698c755a64ece10300417f7bc2ef1c",
+        "android-cdp-ui.cjs": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+        "cdp-ui.cjs": "31f4a4de2145416c9d24917d783c6b293f8efc80b40681dfcd8fdec81a1225f1",
+        "bounded-header.cjs": "62618902e9c7c1c9941c8ccf3a3fb1e8012c584d188d50a4ff900f348ed7e9ad",
+        "worker.cjs": "d5fa5243542c44b0a7f1aeb5c1687d1167063770aac44383dea7697271be1005",
+        "binding.json": "232df277068778335bc27ce178addee69adfa664a30d85426349da3d15d30608"
+      },
+      "frozenHelpersSHA256": {
+        "qa/rc32-q0-byte-acceptance/android.cjs": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+        "qa/rc32-q0-byte-acceptance/observer.function.js": "f3e319dd17f51c34810c6faf0b5c07971d4952a635f7eb7058d65a59d0deeaf5",
+        "qa/rc32-q0-byte-acceptance/worker-network.cjs": "eef6797137d90db460ec1f746fa2d17489e0262b2d0b893894903be0b9fcffc1",
+        "qa/rc32-ts-device-replay/android-common.cjs": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+        "qa/rc32-ts-device-replay/android-replay.cjs": "a4bc2d94a8fbb6ca51391c8e2e0434c4d33c1bddb13cbdef6cef0bf111430fd3",
+        "qa/rc32-ts-device-replay/native-ui-target-v3.function.js": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+        "qa/rc32-ts-device-replay/native-folder-target.function.js": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a",
+        "qa/candidate-rc35-delivery/pc-source-proof.expression.js": "a8c354de9d7a45b32d5a8c6d43975bdd4b3a7d8f5905fa95dc1ec9c08fb40807",
+        "qa/candidate-rc35-delivery/pc-source-binding.json": "6f0f51129ceee03e614e905bd2f1f220d6ba1a7002769bd882cf141b5c2da422",
+        "qa/rc35-acceptance-adoption/pc-cold-admission.cjs": "7d3931779d66d0d9425600cdda3e31c9200ab9f916e642b56077b2eb2a0ff425"
+      },
+      "commonDerivation": "exact frozen32 common with one environment-version literal32→35 only",
+      "claim": "validated206-range upper bound OR complete noncompressed post-close source-worker traffic envelope with exact SW start/request agreement and independent CDP terminals; not exact body-at-frame",
+      "actualRequests": 0,
+      "inputPath": "Chrome CDP trusted CSS mouse and keyboard; Android OS Back; no coordinate OS-tap claim"
+    },
+    {
+      "name": "source35 public/cache/controller proof",
+      "at": "2026-10-02T09:32:08.929Z",
+      "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "recordedAt": "2026-10-02T09:32:09.232Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 49,
+      "matchedCacheAliases": 50,
+      "shellRootAliasMatched": true,
+      "preserved": null,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "baselineRemoved": false,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "protected exact target installed",
+      "at": "2026-10-02T09:32:08.937Z",
+      "privateTargetInstalled": true
+    },
+    {
+      "name": "header metadata before",
+      "at": 1790933529850,
+      "label": "before",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "independent bounded header CDP range qualification",
+      "at": "2026-10-02T09:32:10.476Z",
+      "requests": 1,
+      "preflightRequests": 1,
+      "unexpectedRequests": 0,
+      "responses": 1,
+      "requestRangeExact": true,
+      "status": 206,
+      "rangeExact": true,
+      "lengthExact": true,
+      "rawHeadersExported": false,
+      "pageProof": {
+        "normalIsoMp4": true,
+        "bytes": 16384,
+        "headerSHA256": "f66b3a77948c9cd388eb7f85a9b858023c5bea9ddfdd2a4db38af0825ed50741",
+        "pageRangeVisible": false,
+        "rangeMatched": false,
+        "requiresIndependentCdpRange": true,
+        "sourceRevisionPinned": true,
+        "rawHeaderExported": false,
+        "performedBeforeFreshReload": true
+      },
+      "observations": [
+        {
+          "method": "GET",
+          "type": "Fetch",
+          "initiator": "script",
+          "preflightRequestedGet": false,
+          "preflightRequestedAuthorization": false
+        },
+        {
+          "method": "OPTIONS",
+          "type": "Other",
+          "initiator": "preflight",
+          "preflightRequestedGet": true,
+          "preflightRequestedAuthorization": true
+        }
+      ],
+      "qualified": true
+    },
+    {
+      "name": "owned header observer cleanup",
+      "at": "2026-10-02T09:32:10.484Z",
+      "listenersRemoved": true,
+      "privateRequestCorrelationCleared": true,
+      "ownedPageNetworkDisabled": true
+    },
+    {
+      "name": "bounded actual original ISO header",
+      "at": "2026-10-02T09:32:10.485Z",
+      "normalIsoMp4": true,
+      "bytes": 16384,
+      "headerSHA256": "f66b3a77948c9cd388eb7f85a9b858023c5bea9ddfdd2a4db38af0825ed50741",
+      "pageRangeVisible": false,
+      "rangeMatched": true,
+      "requiresIndependentCdpRange": false,
+      "sourceRevisionPinned": true,
+      "rawHeaderExported": false,
+      "performedBeforeFreshReload": true,
+      "independentCdpRangeMatched": true
+    },
+    {
+      "name": "header metadata after",
+      "at": 1790933531390,
+      "label": "after",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "fresh owned page target cache bypass",
+      "at": "2026-10-02T09:32:11.110Z",
+      "acknowledged": true,
+      "priorNativeAppByteOwnersEmpty": true
+    },
+    {
+      "name": "fresh document source35 proof",
+      "at": "2026-10-02T09:32:33.319Z",
+      "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "recordedAt": "2026-10-02T09:32:33.623Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 49,
+      "matchedCacheAliases": 50,
+      "shellRootAliasMatched": true,
+      "preserved": null,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "baselineRemoved": false,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "fresh reload same native document",
+      "at": "2026-10-02T09:32:33.319Z",
+      "freshTimeOrigin": true,
+      "priorProofDestroyedByNormalReload": true
+    },
+    {
+      "name": "bounded normal folder/Chrome CDP search preparation",
+      "at": "2026-10-02T09:32:37.308Z",
+      "found": true,
+      "querySame": true,
+      "loading": false
+    },
+    {
+      "name": "prepared normal card admission",
+      "at": "2026-10-02T09:32:37.314Z",
+      "found": true,
+      "loading": false,
+      "folderSame": true,
+      "closed": true
+    },
+    {
+      "name": "Q0 bounded observer installed",
+      "at": "2026-10-02T09:32:37.321Z",
+      "installed": true,
+      "observerOnly": true
+    },
+    {
+      "name": "fresh before metadata",
+      "at": 1790933558153,
+      "label": "before",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "executing actual SW and revision-pin bytes",
+      "at": "2026-10-02T09:32:38.037Z",
+      "actualWorkerScriptBytesMatched": true,
+      "scripts": [
+        {
+          "file": "sw.js",
+          "sha256": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "sha256": "6550cbed08542607cdf7720b17a18de7eeae01015296afdabb59d9b8f6169008",
+          "matched": true
+        }
+      ],
+      "rawScriptExported": false
+    },
+    {
+      "name": "sole source-worker Network enabled",
+      "at": "2026-10-02T09:32:38.039Z",
+      "attached": true,
+      "bodyRead": false,
+      "targetScopedCacheBypass": true
+    },
+    {
+      "name": "passive exact card input observer",
+      "at": "2026-10-02T09:32:38.069Z",
+      "passiveListenerInstalled": true,
+      "rawIdentifiersExported": false
+    },
+    {
+      "name": "cold admission installed",
+      "at": "2026-10-02T09:32:38.083Z",
+      "freshDocument": true,
+      "nativeEmptyAtAdmission": true,
+      "appOwnedBufferEmptyAtAdmission": true,
+      "routeObserved": false,
+      "current": true,
+      "polls": 0,
+      "failure": null,
+      "disposed": false,
+      "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "rawIdentifiersExported": false,
+      "opfsDiskEmpty": "NOT_CLAIMED",
+      "scope": "operational selected-media no-local-byte-reuse; requires complete source-worker network qualification"
+    },
+    {
+      "name": "Q0 first frame arm",
+      "at": "2026-10-02T09:32:38.091Z",
+      "armed": true,
+      "maxMs": 70000
+    },
+    {
+      "name": "trusted exact normal card input",
+      "at": "2026-10-02T09:32:38.164Z",
+      "observed": true,
+      "trusted": true,
+      "exactCard": true,
+      "pointMatched": true,
+      "count": 1
+    },
+    {
+      "name": "first current Q0 frame and contemporaneous source-worker reduction",
+      "at": "2026-10-02T09:32:41.903Z",
+      "frame": {
+        "at": 1790933562135,
+        "elapsedMs": 3738,
+        "mediaTime": 0,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "network": {
+        "requestCount": 1,
+        "live": 1,
+        "overflow": false,
+        "unqualified": false,
+        "rejectionReasons": {},
+        "methodCounts": {
+          "get": 1,
+          "options": 1,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 1,
+          "allQualified": true,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": true
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": true,
+          "unfinishedPreflight": false,
+          "missingResponse": false,
+          "missingData": false,
+          "encodedBelowBody": false,
+          "compressed": false
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 26642240,
+        "wireChunkBytes": 26646388,
+        "postCloseTrafficEnvelope": 26646388,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 26642240,
+            "wireBytes": 26646388,
+            "finishedWireBytes": null,
+            "dataEvents": 559,
+            "terminal": false,
+            "canceled": false,
+            "cache": false,
+            "identityEncoding": true
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      },
+      "exactAtFrameByteClaim": false
+    },
+    {
+      "name": "bounded Q0 frame/progress result",
+      "at": "2026-10-02T09:32:42.221Z",
+      "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "disposed": false,
+      "current": true,
+      "firstFrame": {
+        "at": 1790933562135,
+        "elapsedMs": 3738,
+        "mediaTime": 0,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "progressFrame": {
+        "at": 1790933562476,
+        "elapsedMs": 4079,
+        "mediaTime": 0.254572,
+        "width": 1920,
+        "height": 1080,
+        "currentOwner": true
+      },
+      "failure": null,
+      "polls": 0,
+      "metadata": [
+        {
+          "label": "before",
+          "at": 1790933558153,
+          "status": 200,
+          "qualified": true,
+          "bytes": 545
+        }
+      ],
+      "swReaderTrace": {
+        "starts": 1,
+        "requestCount": 1,
+        "terminalCount": 0,
+        "finalReaderBytes": 31850496,
+        "overflow": false,
+        "rawIdentifiersExported": false
+      },
+      "actualPlaybackCount": 1,
+      "rawIdentifiersExported": false,
+      "route": "Q0"
+    },
+    {
+      "name": "qualified cold observation interval",
+      "at": "2026-10-02T09:32:42.226Z",
+      "admission": {
+        "freshDocument": true,
+        "nativeEmptyAtAdmission": true,
+        "appOwnedBufferEmptyAtAdmission": true,
+        "routeObserved": true,
+        "current": true,
+        "polls": 65,
+        "failure": null,
+        "disposed": false,
+        "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+        "version": "1.22.0-rc.35",
+        "rawIdentifiersExported": false,
+        "opfsDiskEmpty": "NOT_CLAIMED",
+        "scope": "operational selected-media no-local-byte-reuse; requires complete source-worker network qualification"
+      },
+      "cleanup": {
+        "disposed": true,
+        "timerRemoved": true,
+        "deadlineRemoved": true,
+        "privateOwnerReleased": true
+      }
+    },
+    {
+      "name": "normal Back and retirement",
+      "at": "2026-10-02T09:32:42.563Z",
+      "closed": true,
+      "retired": true,
+      "q0": false,
+      "q1": false
+    },
+    {
+      "name": "post-close conservative upstream transfer envelope",
+      "at": "2026-10-02T09:32:52.606Z",
+      "network": {
+        "requestCount": 2,
+        "live": 0,
+        "overflow": false,
+        "unqualified": false,
+        "rejectionReasons": {},
+        "methodCounts": {
+          "get": 2,
+          "options": 2,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 2,
+          "allQualified": false,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": true
+            },
+            {
+              "ordinal": 2,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 0,
+              "status": null,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 0,
+              "finished": false,
+              "finishedWireBytes": null,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": false,
+          "unfinishedPreflight": true,
+          "missingResponse": true,
+          "missingData": true,
+          "encodedBelowBody": false,
+          "compressed": true
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 41208614,
+        "wireChunkBytes": 41215030,
+        "postCloseTrafficEnvelope": 41215030,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 41208614,
+            "wireBytes": 41215030,
+            "finishedWireBytes": null,
+            "dataEvents": 735,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": true
+          },
+          {
+            "ordinal": 2,
+            "status": null,
+            "rangeValid": true,
+            "rangeLength": 12,
+            "start": 0,
+            "end": 11,
+            "openStart": null,
+            "contentValid": false,
+            "responseValid": false,
+            "bodyBytes": 0,
+            "wireBytes": 0,
+            "finishedWireBytes": null,
+            "dataEvents": 0,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": false
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      },
+      "swReaderTrace": {
+        "starts": 2,
+        "requestCount": 2,
+        "terminalCount": 1,
+        "finalReaderBytes": 31850496,
+        "overflow": false,
+        "rawIdentifiersExported": false
+      }
+    },
+    {
+      "name": "same source-worker target after terminal drain",
+      "at": "2026-10-02T09:32:52.619Z",
+      "sameWorkerTarget": true
+    },
+    {
+      "name": "fresh after metadata",
+      "at": 1790933573579,
+      "label": "after",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "final stable activated registration",
+      "at": "2026-10-02T09:32:53.283Z",
+      "activeMatches": true,
+      "noWaiting": true,
+      "noInstalling": true
+    },
+    {
+      "name": "original TR01 cold and transfer qualification",
+      "at": "2026-10-02T09:32:53.291Z",
+      "qualified": false,
+      "network": {
+        "qualified": false,
+        "reason": "PREFLIGHT_RECORD",
+        "clearedReasons": []
+      },
+      "scope": "operational selected-media cold original-Q0 path; complete conservative post-close transfer envelope; no diskempty/exact-byte-at-frame/physicalaudio claim"
+    },
+    {
+      "name": "TR01 finite scope result",
+      "at": "2026-10-02T09:32:53.292Z",
+      "passed": false,
+      "fileBytes": 4607107537,
+      "rangeTransferUpperBound": null,
+      "postCloseTrafficEnvelope": 41215030,
+      "firstFrameBeforeWholeDownload": false,
+      "exactAtFrameBodyBytes": "UNKNOWN",
+      "operationalColdAdmissionQualified": false,
+      "opfsDiskEmpty": "NOT_CLAIMED",
+      "TR02": "NOT_TESTED",
+      "wholeGoalPassed": false
+    },
+    {
+      "name": "failure trusted input evidence",
+      "at": "2026-10-02T09:32:53.300Z",
+      "observed": true,
+      "trusted": true,
+      "exactCard": true,
+      "pointMatched": true,
+      "count": 1
+    },
+    {
+      "name": "failure live safe evidence",
+      "at": "2026-10-02T09:32:53.315Z",
+      "observer": {
+        "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+        "version": "1.22.0-rc.35",
+        "disposed": false,
+        "current": true,
+        "firstFrame": {
+          "at": 1790933562135,
+          "elapsedMs": 3738,
+          "mediaTime": 0,
+          "width": 1920,
+          "height": 1080,
+          "currentOwner": true
+        },
+        "progressFrame": {
+          "at": 1790933562476,
+          "elapsedMs": 4079,
+          "mediaTime": 0.254572,
+          "width": 1920,
+          "height": 1080,
+          "currentOwner": true
+        },
+        "failure": null,
+        "polls": 0,
+        "metadata": [
+          {
+            "label": "before",
+            "at": 1790933558153,
+            "status": 200,
+            "qualified": true,
+            "bytes": 545
+          },
+          {
+            "label": "after",
+            "at": 1790933573579,
+            "status": 200,
+            "qualified": true,
+            "bytes": 545
+          }
+        ],
+        "swReaderTrace": {
+          "starts": 2,
+          "requestCount": 2,
+          "terminalCount": 1,
+          "finalReaderBytes": 31850496,
+          "overflow": false,
+          "rawIdentifiersExported": false
+        },
+        "actualPlaybackCount": 1,
+        "rawIdentifiersExported": false,
+        "route": "Q0"
+      },
+      "network": {
+        "requestCount": 2,
+        "live": 0,
+        "overflow": false,
+        "unqualified": false,
+        "rejectionReasons": {},
+        "methodCounts": {
+          "get": 2,
+          "options": 2,
+          "other": 0
+        },
+        "preflight": {
+          "requestCount": 2,
+          "allQualified": false,
+          "rows": [
+            {
+              "ordinal": 1,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 1,
+              "status": 200,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 1,
+              "finished": true,
+              "finishedWireBytes": 0,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": true
+            },
+            {
+              "ordinal": 2,
+              "typePreflight": true,
+              "requestedMethodGet": true,
+              "zeroPostData": true,
+              "responseCount": 0,
+              "status": null,
+              "bodyBytes": 0,
+              "wireBytes": 0,
+              "terminalCount": 0,
+              "finished": false,
+              "finishedWireBytes": null,
+              "invalidCounter": false,
+              "requestValid": true,
+              "qualified": false
+            }
+          ]
+        },
+        "completionReasons": {
+          "liveRequests": false,
+          "unfinishedPreflight": true,
+          "missingResponse": true,
+          "missingData": true,
+          "encodedBelowBody": false,
+          "compressed": true
+        },
+        "sourceWorker": true,
+        "actualBodyBytes": 41208614,
+        "wireChunkBytes": 41215030,
+        "postCloseTrafficEnvelope": 41215030,
+        "completeChunkObservation": false,
+        "all206RangeUpperBound": null,
+        "rows": [
+          {
+            "ordinal": 1,
+            "status": 206,
+            "rangeValid": false,
+            "rangeLength": null,
+            "start": null,
+            "end": null,
+            "openStart": 0,
+            "contentValid": false,
+            "responseValid": true,
+            "bodyBytes": 41208614,
+            "wireBytes": 41215030,
+            "finishedWireBytes": null,
+            "dataEvents": 735,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": true
+          },
+          {
+            "ordinal": 2,
+            "status": null,
+            "rangeValid": true,
+            "rangeLength": 12,
+            "start": 0,
+            "end": 11,
+            "openStart": null,
+            "contentValid": false,
+            "responseValid": false,
+            "bodyBytes": 0,
+            "wireBytes": 0,
+            "finishedWireBytes": null,
+            "dataEvents": 0,
+            "terminal": true,
+            "canceled": true,
+            "cache": false,
+            "identityEncoding": false
+          }
+        ],
+        "rawIdentifiersExported": false,
+        "responseBodyRead": false
+      },
+      "coldAdmission": {
+        "freshDocument": true,
+        "nativeEmptyAtAdmission": true,
+        "appOwnedBufferEmptyAtAdmission": true,
+        "routeObserved": true,
+        "current": true,
+        "polls": 65,
+        "failure": null,
+        "disposed": true,
+        "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+        "version": "1.22.0-rc.35",
+        "rawIdentifiersExported": false,
+        "opfsDiskEmpty": "NOT_CLAIMED",
+        "scope": "operational selected-media no-local-byte-reuse; requires complete source-worker network qualification"
+      }
+    },
+    {
+      "name": "owned source-worker observer cleanup",
+      "at": "2026-10-02T09:32:53.331Z",
+      "disposed": true,
+      "ownedWorkerNetworkDisabled": true,
+      "ownedWorkerDetached": true,
+      "listenerRemoved": true,
+      "pendingCleared": true,
+      "privateCorrelationCleared": true
+    },
+    {
+      "name": "owned cold gate cleanup",
+      "at": "2026-10-02T09:32:53.339Z",
+      "disposed": true,
+      "timerRemoved": true,
+      "deadlineRemoved": true,
+      "privateOwnerReleased": true
+    },
+    {
+      "name": "owned cache flag restoration",
+      "at": "2026-10-02T09:32:53.352Z",
+      "disposed": true,
+      "cacheRestoredToOwnedSessionDefault": true,
+      "ownedPageNetworkDisabled": true
+    },
+    {
+      "name": "owned RVFC/timer cleanup",
+      "at": "2026-10-02T09:32:53.360Z",
+      "disposed": true,
+      "frameCallbackRemoved": true,
+      "timerRemoved": true,
+      "traceSinkRemoved": true,
+      "privateTraceKeysCleared": true
+    },
+    {
+      "name": "normal Back settled original folder restoration",
+      "at": "2026-10-02T09:32:53.911Z",
+      "folderSame": true,
+      "loading": false
+    },
+    {
+      "name": "owned target/proof restoration",
+      "at": "2026-10-02T09:32:53.924Z",
+      "targetRemoved": true,
+      "proofRestored": true,
+      "folderSame": true,
+      "querySame": true
+    },
+    {
+      "name": "owned trusted card input cleanup",
+      "at": "2026-10-02T09:32:53.933Z",
+      "listenerRemoved": true,
+      "snapshot": {
+        "observed": true,
+        "trusted": true,
+        "exactCard": true,
+        "pointMatched": true,
+        "count": 1
+      }
+    },
+    {
+      "name": "owned additional native CDP/forward cleanup",
+      "at": "2026-10-02T09:32:54.015Z",
+      "disposed": true,
+      "ownedPageDetached": true,
+      "ownedBrowserSessionDetached": true,
+      "ownedConnectionDisconnected": true,
+      "ownedForwardRemoved": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.35",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "workBoundMs": 180000,
+  "preparationBoundMs": 360000,
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "primaryFailure": "Q0_BYTES_UNQUALIFIED",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "TR01FiniteScopePassed": false,
+  "coldConditionScope": "operational selected-media no-local-byte-reuse; no diskempty claim",
+  "cleanupComplete": true,
+  "actualUnitMs": 15932,
+  "preparationMs": 32410,
+  "originalMediaReadOnly": true,
+  "completed": false,
+  "failure": "Q0_BYTES_UNQUALIFIED",
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}

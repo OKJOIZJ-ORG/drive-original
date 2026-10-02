@@ -1,0 +1,192 @@
+{
+  "schema": "android-cold-cdp-input-derivation/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "productChanged": false,
+  "original": {
+    "file": "android.cjs",
+    "sha256": "e69d3de3bab06469280878c3614d6f2521698c755a64ece10300417f7bc2ef1c"
+  },
+  "derived": {
+    "file": "android-cdp-ui.cjs",
+    "sha256": "dd778a33abdf2345fbe8090046e6eafcaf3dae352034cb552d5dc23c4594dd3c"
+  },
+  "helper": {
+    "file": "cdp-ui.cjs",
+    "sha256": "31f4a4de2145416c9d24917d783c6b293f8efc80b40681dfcd8fdec81a1225f1"
+  },
+  "changes": [
+    "scope",
+    "helper",
+    "producerBinding",
+    "inputProvenance",
+    "ownership",
+    "cssInputRegion",
+    "schema",
+    "prepLabel",
+    "cardAdmission",
+    "cardInput",
+    "failureEvidence",
+    "cleanup",
+    "reuse existing native connection after ordinary reload; own page session resets focus=false without replacing common transport",
+    "header-phase metadata uses frozen observer permitted before/after labels in its separate pre-reload lifetime",
+    "prepare the same owned page CDP before bounded header; exact independent CDP header proof; reuse session through fresh reload"
+  ],
+  "acceptanceGatesUnchanged": [
+    "cold selected-media no-local-byte-reuse",
+    "exact executing SW and revision-pin",
+    "RVFC startup/progress and ownership",
+    "fresh pinned metadata and original header",
+    "independent source-worker CDP traffic bound and terminal agreement",
+    "normal Back/retirement/folder/query/cache/helper/transport cleanup"
+  ],
+  "inputClaim": "trusted Chrome CDP mouse/keyboard in physical browser; no Android OS coordinate tap or human finger claim",
+  "localGuards": {
+    "file": "cdp-ui.test.cjs",
+    "sha256": "81a131c9cbee261800dd3e21e13a156cb2a65c38cb3c99362f6f6e041a2d88e2",
+    "count": 6,
+    "passed": 6,
+    "retainedPreparationFailure": {
+      "type": "local static assertion used viewport instead of actual finalViewport identifier",
+      "deviceInput": false,
+      "productChanged": false,
+      "correctedAssertionOnly": true
+    }
+  },
+  "retainedActualFailures": [
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt1-safe.json",
+      "sha256": "3f30eb3abf658f4e13bace13a9e358ceabe45872f7d3ad4f49023b05a68b7b13",
+      "producer": "android-cdp-attempt1-producer.cjs",
+      "producerSHA256": "8e3a2d97c15eee738beaea47487a31bb9a0b3a30c3535bf536367f11143eca2c",
+      "cause": "Frozen metadata API accepts before/after only; inherited original preparation used header-before/header-after",
+      "timerStarted": false,
+      "inputIssued": false,
+      "cleanupComplete": true,
+      "productChanged": false
+    },
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt2-safe.json",
+      "sha256": "c377e3f8209fda5650d64899cea3adae3beeaaf2ca3a90114e509efc691dd38e",
+      "producer": "android-cdp-attempt2-producer.cjs",
+      "producerSHA256": "d44a57989fd1fb9566355c9b061ee7047713e0409551d0267aca9fa17b7dca13",
+      "cause": "Actual header diagnostic proved HTTP206/Content-Length16384 but page Content-Range invisible",
+      "diagnostic": "android-header-diagnostic-safe.json",
+      "diagnosticSHA256": "7af88fe5dc7a22868067573985c216a2b43daba55f809413f4d401201dcf8bb5",
+      "timerStarted": false,
+      "inputIssued": false,
+      "cleanupComplete": true,
+      "productChanged": false
+    },
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt3-safe.json",
+      "sha256": "94201d8e6192882a8ae143c9b68149901671a80d9bb6b15be6593ea762e62fa8",
+      "producer": "android-cdp-attempt3-producer.cjs",
+      "producerSHA256": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+      "headerObserver": "bounded-header-attempt3.cjs",
+      "headerObserverSHA256": "c959f3ad01efa55c8178de468d564343de1cab3430c806837ad5abee6859b85f",
+      "cause": "Two same-URL Network request events rejected; method/type of extra event was not retained and remains UNKNOWN in this receipt",
+      "changedCondition": "count actual GET separately from explicit OPTIONS Preflight, reject every unexpected method, preserve safe counts",
+      "timerStarted": false,
+      "inputIssued": false,
+      "cleanupComplete": true,
+      "productChanged": false
+    },
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt4-safe.json",
+      "sha256": "53d74203a097b0986d0dddb4ed9cf717c834f2b3438a4286e1bf6c0696c2d5b4",
+      "producer": "android-cdp-attempt3-producer.cjs",
+      "producerSHA256": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+      "headerObserver": "bounded-header-attempt4.cjs",
+      "headerObserverSHA256": "beafb55dcf3941b4535d62fe6f12d4933c8dc9117e20a3f5ad54d867a066304a",
+      "cause": "One GET qualified exact range; one unexpected request was not classified",
+      "diagnostic": "android-header-cdp-diagnostic-safe.json",
+      "diagnosticSHA256": "1bf1e2362a30fb2c34ed0e85097556e293f365a48086b0681d578fdf80e81dc5",
+      "diagnosticHelper": "bounded-header-diagnostic-producer.cjs",
+      "diagnosticHelperSHA256": "2a285053a2c6baebd7ecbf480c049898830c85d3291b15b3b483b8d5e3f5e376",
+      "confirmedDiagnostic": {
+        "method": "OPTIONS",
+        "type": "Other",
+        "initiator": "preflight",
+        "requestedGet": true,
+        "requestedAuthorization": true,
+        "normalIsoMp4": true,
+        "headerBytes": 16384
+      },
+      "timerStarted": false,
+      "inputIssued": false,
+      "cleanupComplete": true,
+      "productChanged": false
+    },
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt5-safe.json",
+      "sha256": "bd81f9d3feada9f3ef372425517632fcdf966d38add64bc1f946a03e764ae2b3",
+      "producer": "android-cdp-attempt3-producer.cjs",
+      "producerSHA256": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+      "headerObserverSHA256": "62618902e9c7c1c9941c8ccf3a3fb1e8012c584d188d50a4ff900f348ed7e9ad",
+      "cause": "PREFLIGHT_RECORD: immediate Back after4079ms progress; final GET2 Range0-11 cancelled without response/data and OPTIONS2 without terminal",
+      "firstFrameMs": 3738,
+      "progressFrameMs": 4079,
+      "postCloseObservedEnvelope": 41215030,
+      "TR01": "NOT_QUALIFIED",
+      "cleanupComplete": true,
+      "changedCondition": "bounded same-owner setup promise settlement before normal Back; no weakening or retrospective pass"
+    },
+    {
+      "file": "actual-android-rc35-cold-q0-cdp-attempt6-safe.json",
+      "sha256": "018d39861e6a91cbf66e90e6bd5f3f72e3b69f6ea763291318e0531355554c22",
+      "producer": "android-cdp-attempt6-producer.cjs",
+      "producerSHA256": "520f3e945f37ef456cc50f883ae3352f0330dbee3629b975279d91f3975ed456",
+      "cause": "COLD_PRIOR_OWNER_NOT_EMPTY before actual timer",
+      "diagnostic": "android-idle-diagnostic-safe.json",
+      "diagnosticSHA256": "bcf668733e860ead3acdbde59f06a6f936ee30f21f3327d9911b97158b22f6d2",
+      "confirmedDiagnostic": {
+        "allOwnersEmpty": true,
+        "allBuffersEmpty": true,
+        "retirement": true,
+        "nativeNoSrc": true,
+        "currentSrcPresent": true,
+        "readyState": 0,
+        "networkState": 0,
+        "buffered": 0
+      },
+      "timerStarted": false,
+      "inputIssued": false,
+      "cleanupComplete": true,
+      "changedCondition": "ordinary preparation reload solely under strict closed/stale-currentSrc guard, then original pristine cache bypass fresh document"
+    }
+  ],
+  "headerObserver": {
+    "file": "bounded-header.cjs",
+    "sha256": "62618902e9c7c1c9941c8ccf3a3fb1e8012c584d188d50a4ff900f348ed7e9ad",
+    "claim": "Page bounded body plus independent full CDP exact request Range/status/Content-Range/Content-Length; invisible CORS header alone never passes",
+    "localGuards": {
+      "file": "bounded-header.test.cjs",
+      "sha256": "31b6818302673c4039230f933318905451ce7676a9cc068fde9cd4bed7575c65",
+      "passed": 5,
+      "count": 5
+    }
+  },
+  "precloseSetup": {
+    "file": "preclose-setup.cjs",
+    "sha256": "a97534818fc71115cb6a67f180655b72716630de56d308069d40de60061d152c",
+    "maxMs": 25000,
+    "localGuards": {
+      "file": "preclose-setup.test.cjs",
+      "sha256": "3c082b81693938faf61426f362ea7c02680455ec471d3df1dbc534b2f6432816",
+      "count": 3,
+      "passed": 3
+    },
+    "claim": "Join same existing current Q0 setup promise before Back; no new source/state mutations; strict prior cold/source/byte/cleanup gates unchanged"
+  },
+  "initialNativeState": {
+    "file": "initial-native-state.cjs",
+    "sha256": "1992ce425f0324b4ba4446cc8ab9bbc7688b8a93d7f20f1e612d872b76091988",
+    "localGuards": {
+      "file": "initial-native-state.test.cjs",
+      "sha256": "b741df1fec62889d10c88002635d51cf8d82e065c9bdefa70025952fa2cdb06b",
+      "count": 2,
+      "passed": 2
+    },
+    "claim": "Only observed closed/retired/buffer-empty stale currentSrc gets ordinary preparation reload; original strict nativeEmpty and second cache-bypassed fresh document unchanged"
+  }
+}

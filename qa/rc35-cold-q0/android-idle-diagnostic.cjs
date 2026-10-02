@@ -1,0 +1,6 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),cold=require('../rc35-acceptance-adoption/pc-cold-admission.cjs');
+const output='android-idle-diagnostic-safe.json';if(process.argv[2]!=='--execute-read-only'||fs.existsSync(path.join(__dirname,output)))throw Error('IDLE_DIAGNOSTIC_EXECUTION_REQUIRED');
+require('./android.cjs').common35()(__filename,'../rc35-cold-q0/'+output,async c=>{await c.unmaskNativeVisibility();await c.releaseMcpForNativeLifecycle();
+ c.step('post-close idle flags',await c.evaluateNative('()=>({idle:('+cold.idleSnapshot.toString()+')(),q0:!!q0Playback,q1:!!q1Playback,pin:!!q0PinnedSource,control:!!q0ControlWait,tracks:!!playerTracksOwner,retirement:q1RetirementResult?.settled===true,tracksRetirement:playerTracksRetirementResult?.settled===true,native:{hasSrc:!!el.videoPlayer.getAttribute("src"),currentSrc:!!el.videoPlayer.currentSrc,srcObject:!!el.videoPlayer.srcObject,sourceCount:el.videoPlayer.querySelectorAll("source").length,readyState:el.videoPlayer.readyState,networkState:el.videoPlayer.networkState,buffered:el.videoPlayer.buffered.length},root:state.currentFolderId==="root",queryEmpty:el.searchInput.value==="",rawIdentifiersExported:false})'));
+});

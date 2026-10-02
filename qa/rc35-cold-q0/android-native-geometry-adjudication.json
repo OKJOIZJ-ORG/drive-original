@@ -1,0 +1,76 @@
+{
+  "schema": "android-native-geometry-adjudication/1",
+  "source": {
+    "file": "app.js",
+    "rootDefinitionLines": "3214-3225",
+    "renderLines": "4047-4058",
+    "rootLabel": "내 드라이브",
+    "finding": "buildBreadcrumbItems returns only the root crumb at root. renderBreadcrumb creates the last/current crumb as span and creates prior crumbs as buttons. The requested root label therefore is not a button.",
+    "attemptedSelector": "#folderNav button with exact text 내 드라이브",
+    "conclusion": "The native-button target premise is invalid for the current root. This is a static source finding; no UIAutomator XML was collected. Attempt2's aggregate prestate receipt does not identify which individual condition failed, so that runtime member remains unknown."
+  },
+  "actual": {
+    "device": "SM-X800",
+    "android": "16",
+    "chrome": "153.0.0.0",
+    "sourceVersion": "1.22.0-rc.35",
+    "candidateSourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "initialViewportCss": "824x1191",
+    "devicePixelRatio": 2.125,
+    "physicalScreen": "1752x2800",
+    "nativeButtonBounds": "NOT_READ",
+    "bottomGapPx": "UNKNOWN",
+    "trustedHit": "NOT_QUALIFIED",
+    "nativeInputIssued": false,
+    "ownedTransportCleanup": {
+      "attempt1": "PASS",
+      "attempt2": "PASS"
+    }
+  },
+  "attempts": [
+    {
+      "producer": "android-native-geometry-attempt1-producer.cjs",
+      "producerSha256": "fc12e6b003490afa646fa82e4b56d4f9369a9bc663a9c36434014b1470a65323",
+      "result": "android-native-geometry-actual.json",
+      "resultSha256": "4b6341098c56b8b0f6551eb465c8549bd786833d5bacacdd2f96157b758298f6",
+      "outcome": "PRE_INPUT_TOOL_FAILURE",
+      "failure": "NATIVE_SAFE_EVALUATION_FAILED",
+      "actualInputIssued": false
+    },
+    {
+      "producer": "android-native-geometry-run.cjs",
+      "producerSha256": "aa9d409759b7aeb0f7b61250593aacde3bd1e4e28ea116bd5945bbc4a97c73c3",
+      "result": "android-native-geometry-actual-attempt2.json",
+      "resultSha256": "1cc0c61cdf1263456a250ff562ba27579d7d27180e560e6c377f1cfbf83bf5ba",
+      "outcome": "PRE_INPUT_TARGET_ADMISSION_FAILED",
+      "failure": "GEOMETRY_PRESTATE_NOT_READY",
+      "actualInputIssued": false
+    }
+  ],
+  "localGuards": {
+    "count": 5,
+    "passed": 5,
+    "testFile": "android-native-geometry.test.cjs",
+    "testFileSha256": "5c8558f307d0c59d1e90ed5289f9aeb7d6a642854912846b0e9ef48e705da7ae",
+    "scope": [
+      "rendered browser function syntax",
+      "strict physical-screen parsing",
+      "nonzero top-origin transform with zero and positive bottom gaps",
+      "native/DOM scale, uniqueness and physical-bounds rejection",
+      "gap/origin/untrusted/out-of-point rejection"
+    ],
+    "trustedDeviceHitClaim": false
+  },
+  "minimalSavepoint": {
+    "fileCountIncludingThisAdjudication": 7,
+    "files": [
+      {"path":"qa/rc35-cold-q0/android-native-geometry.cjs","sha256":"19a3fb301642d9788a2b84bc2c17eaae3866363c3e6e1e9b1dc3c2ac94b7d15e"},
+      {"path":"qa/rc35-cold-q0/android-native-geometry.test.cjs","sha256":"5c8558f307d0c59d1e90ed5289f9aeb7d6a642854912846b0e9ef48e705da7ae"},
+      {"path":"qa/rc35-cold-q0/android-native-geometry-run.cjs","sha256":"aa9d409759b7aeb0f7b61250593aacde3bd1e4e28ea116bd5945bbc4a97c73c3"},
+      {"path":"qa/rc35-cold-q0/android-native-geometry-attempt1-producer.cjs","sha256":"fc12e6b003490afa646fa82e4b56d4f9369a9bc663a9c36434014b1470a65323"},
+      {"path":"qa/rc35-cold-q0/android-native-geometry-actual.json","sha256":"4b6341098c56b8b0f6551eb465c8549bd786833d5bacacdd2f96157b758298f6"},
+      {"path":"qa/rc35-cold-q0/android-native-geometry-actual-attempt2.json","sha256":"1cc0c61cdf1263456a250ff562ba27579d7d27180e560e6c377f1cfbf83bf5ba"}
+    ]
+  },
+  "nextActionBoundary": "Use the authorized Chrome DevTools UI input path for cold qualification. This Android geometry calibration is closed without a tap; no retry or root-button target should be inferred."
+}

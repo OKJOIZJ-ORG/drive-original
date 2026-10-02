@@ -1,0 +1,592 @@
+{
+  "schema": "actual-android-rc35-cold-q0-cdp-ui/1",
+  "recordedAt": "2026-10-02T09:27:01.303Z",
+  "producerSha256": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+  "commonSha256": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+  "rawIdentifiersExported": false,
+  "settingsChanged": false,
+  "originalMediaMutated": false,
+  "productionChanged": false,
+  "steps": [
+    {
+      "name": "local immutable measurement binding",
+      "at": "2026-10-02T09:27:02.868Z",
+      "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "sourceSHA256": {
+        "app.js": "9ac7721678df680a5a269de69f10ded87934c19794fd30ccd49ec42eed7f9e94",
+        "sw.js": "70a22a4b1250b87d6975204464cf3795bfc3a78583a8153e37bc7aae3552f730",
+        "version.json": "d404d2ee6df94b245cf0b2d753bbd71d6c5dba611bc5818f253e42dcbb3f2bd1"
+      },
+      "files": {
+        "android.cjs": "e69d3de3bab06469280878c3614d6f2521698c755a64ece10300417f7bc2ef1c",
+        "android-cdp-ui.cjs": "eb3d11674d9d960cca07c2e3ce00aeaab45914ba4b35a47f0dde17e6feef6e51",
+        "cdp-ui.cjs": "31f4a4de2145416c9d24917d783c6b293f8efc80b40681dfcd8fdec81a1225f1",
+        "bounded-header.cjs": "c959f3ad01efa55c8178de468d564343de1cab3430c806837ad5abee6859b85f",
+        "worker.cjs": "d5fa5243542c44b0a7f1aeb5c1687d1167063770aac44383dea7697271be1005",
+        "binding.json": "232df277068778335bc27ce178addee69adfa664a30d85426349da3d15d30608"
+      },
+      "frozenHelpersSHA256": {
+        "qa/rc32-q0-byte-acceptance/android.cjs": "b2fb4906ebfe17169b4cc949d064a305e2b1031fc614ad1854a9c3972de3050e",
+        "qa/rc32-q0-byte-acceptance/observer.function.js": "f3e319dd17f51c34810c6faf0b5c07971d4952a635f7eb7058d65a59d0deeaf5",
+        "qa/rc32-q0-byte-acceptance/worker-network.cjs": "eef6797137d90db460ec1f746fa2d17489e0262b2d0b893894903be0b9fcffc1",
+        "qa/rc32-ts-device-replay/android-common.cjs": "c6822041c663495142b71356db26caed3270722dafa6d37a449713a659cc1286",
+        "qa/rc32-ts-device-replay/android-replay.cjs": "a4bc2d94a8fbb6ca51391c8e2e0434c4d33c1bddb13cbdef6cef0bf111430fd3",
+        "qa/rc32-ts-device-replay/native-ui-target-v3.function.js": "0e2af51d9c2234a4f81b447474838ef61954addf2b9618426c6442faa023d73e",
+        "qa/rc32-ts-device-replay/native-folder-target.function.js": "81e82da0e87d32a847da90ffb927c715d537ffc9e79e31606314161f8b2a775a",
+        "qa/candidate-rc35-delivery/pc-source-proof.expression.js": "a8c354de9d7a45b32d5a8c6d43975bdd4b3a7d8f5905fa95dc1ec9c08fb40807",
+        "qa/candidate-rc35-delivery/pc-source-binding.json": "6f0f51129ceee03e614e905bd2f1f220d6ba1a7002769bd882cf141b5c2da422",
+        "qa/rc35-acceptance-adoption/pc-cold-admission.cjs": "7d3931779d66d0d9425600cdda3e31c9200ab9f916e642b56077b2eb2a0ff425"
+      },
+      "commonDerivation": "exact frozen32 common with one environment-version literal32→35 only",
+      "claim": "validated206-range upper bound OR complete noncompressed post-close source-worker traffic envelope with exact SW start/request agreement and independent CDP terminals; not exact body-at-frame",
+      "actualRequests": 0,
+      "inputPath": "Chrome CDP trusted CSS mouse and keyboard; Android OS Back; no coordinate OS-tap claim"
+    },
+    {
+      "name": "source35 public/cache/controller proof",
+      "at": "2026-10-02T09:27:05.132Z",
+      "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+      "version": "1.22.0-rc.35",
+      "recordedAt": "2026-10-02T09:27:05.434Z",
+      "controllerActivated": true,
+      "rootScope": true,
+      "network": [
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "sw.js",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        }
+      ],
+      "cache": [
+        {
+          "file": "index.html",
+          "matched": true
+        },
+        {
+          "file": "styles.css",
+          "matched": true
+        },
+        {
+          "file": "runtime-config.js",
+          "matched": true
+        },
+        {
+          "file": "app.js",
+          "matched": true
+        },
+        {
+          "file": "media/drive-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/revision-pin.js",
+          "matched": true
+        },
+        {
+          "file": "media/ts-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/q1-core.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/transmux-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mux-mp4.min.js",
+          "matched": true
+        },
+        {
+          "file": "media/mux-LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/general-admission.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-tracks.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-track.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/subtitle-presentation.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-owner.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-player.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-source.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-timeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1.LICENSE",
+          "matched": true
+        },
+        {
+          "file": "media/mediabunny-q1-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "media/audio-runtime.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-adapter.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker-client.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/audio-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/audio-general-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-input.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-pipeline.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-worker.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.mjs",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.wasm",
+          "matched": true
+        },
+        {
+          "file": "media/video-q3-codec.LICENSE.txt",
+          "matched": true
+        },
+        {
+          "file": "licenses/index.html",
+          "matched": true
+        },
+        {
+          "file": "licenses/audio-source-NOTICE.md",
+          "matched": true
+        },
+        {
+          "file": "version.json",
+          "matched": true
+        },
+        {
+          "file": "manifest.webmanifest",
+          "matched": true
+        },
+        {
+          "file": "icons/app-icon.svg",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-192.png",
+          "matched": true
+        },
+        {
+          "file": "icons/icon-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/maskable-512.png",
+          "matched": true
+        },
+        {
+          "file": "icons/apple-touch-icon.png",
+          "matched": true
+        }
+      ],
+      "matchedCache": 49,
+      "matchedCacheAliases": 50,
+      "shellRootAliasMatched": true,
+      "preserved": null,
+      "executingWorkerScriptHashKnown": false,
+      "sourceProofInstalled": true,
+      "baselineRemoved": false,
+      "privateIdentityExported": false
+    },
+    {
+      "name": "protected exact target installed",
+      "at": "2026-10-02T09:27:05.136Z",
+      "privateTargetInstalled": true
+    },
+    {
+      "name": "header metadata before",
+      "at": 1790933226027,
+      "label": "before",
+      "status": 200,
+      "qualified": true,
+      "bytes": 545
+    },
+    {
+      "name": "independent bounded header CDP range qualification",
+      "at": "2026-10-02T09:27:06.727Z",
+      "requests": 2,
+      "responses": 1,
+      "requestRangeExact": true,
+      "status": 206,
+      "rangeExact": true,
+      "lengthExact": true,
+      "rawHeadersExported": false,
+      "qualified": false
+    },
+    {
+      "name": "owned header observer cleanup",
+      "at": "2026-10-02T09:27:06.732Z",
+      "listenersRemoved": true,
+      "privateRequestCorrelationCleared": true,
+      "ownedPageNetworkDisabled": true
+    },
+    {
+      "name": "failure live safe evidence",
+      "at": "2026-10-02T09:27:06.739Z",
+      "observer": {
+        "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+        "version": "1.22.0-rc.35",
+        "disposed": false,
+        "current": true,
+        "firstFrame": null,
+        "progressFrame": null,
+        "failure": null,
+        "polls": 0,
+        "metadata": [
+          {
+            "label": "before",
+            "at": 1790933226027,
+            "status": 200,
+            "qualified": true,
+            "bytes": 545
+          }
+        ],
+        "swReaderTrace": {
+          "starts": 0,
+          "requestCount": 0,
+          "terminalCount": 0,
+          "finalReaderBytes": 0,
+          "overflow": false,
+          "rawIdentifiersExported": false
+        },
+        "actualPlaybackCount": 0,
+        "rawIdentifiersExported": false,
+        "route": "NOT_YET_Q0"
+      },
+      "network": null,
+      "coldAdmission": null
+    },
+    {
+      "name": "owned RVFC/timer cleanup",
+      "at": "2026-10-02T09:27:06.744Z",
+      "disposed": true,
+      "frameCallbackRemoved": true,
+      "timerRemoved": true,
+      "traceSinkRemoved": true,
+      "privateTraceKeysCleared": true
+    },
+    {
+      "name": "normal Back settled original folder restoration",
+      "at": "2026-10-02T09:27:06.749Z",
+      "folderSame": true,
+      "loading": false
+    },
+    {
+      "name": "owned target/proof restoration",
+      "at": "2026-10-02T09:27:06.758Z",
+      "targetRemoved": true,
+      "proofRestored": true,
+      "folderSame": true,
+      "querySame": true
+    },
+    {
+      "name": "owned additional native CDP/forward cleanup",
+      "at": "2026-10-02T09:27:06.818Z",
+      "disposed": true,
+      "ownedPageDetached": true,
+      "ownedBrowserSessionDetached": true,
+      "ownedConnectionDisconnected": true,
+      "ownedForwardRemoved": true
+    }
+  ],
+  "authorizedDevices": 1,
+  "model": "SM-X800",
+  "android": "16",
+  "physicalScreen": "Physical size: 1752x2800",
+  "toolSchemas": [
+    {
+      "name": "click",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "uid": {
+            "type": "string",
+            "description": "The uid of an element on the page from the page content snapshot"
+          },
+          "dblClick": {
+            "description": "Set to true for double clicks. Default is false.",
+            "type": "boolean"
+          },
+          "includeSnapshot": {
+            "description": "Whether to include a snapshot in the response. Default is false.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "uid"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "evaluate_script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "function": {
+            "type": "string",
+            "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() => document.title` or `async () => await fetch(\"example.com\")`.\nExample with arguments: `(el) => el.innerText`\n"
+          },
+          "args": {
+            "description": "An optional list of arguments to pass to the function.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The uid of an element on the page from the page content snapshot"
+            }
+          },
+          "filePath": {
+            "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
+            "type": "string"
+          },
+          "dialogAction": {
+            "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+            "type": "string"
+          },
+          "waitForStableDom": {
+            "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pageId",
+          "function"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_pages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "navigate_page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "type": {
+            "description": "Navigate the page by URL, back or forward in history, or reload.",
+            "type": "string",
+            "enum": [
+              "url",
+              "back",
+              "forward",
+              "reload"
+            ]
+          },
+          "url": {
+            "description": "Target URL (only type=url)",
+            "type": "string"
+          },
+          "ignoreCache": {
+            "description": "Whether to ignore cache on reload.",
+            "type": "boolean"
+          },
+          "handleBeforeUnload": {
+            "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
+            "type": "string",
+            "enum": [
+              "accept",
+              "dismiss"
+            ]
+          },
+          "initScript": {
+            "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
+            "type": "string"
+          },
+          "timeout": {
+            "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageId": {
+            "type": "number",
+            "description": "Targets a specific page by ID."
+          },
+          "format": {
+            "default": "png",
+            "description": "Type of format to save the screenshot as. Default is \"png\"",
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg",
+              "webp"
+            ]
+          },
+          "quality": {
+            "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "uid": {
+            "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
+            "type": "string"
+          },
+          "fullPage": {
+            "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
+            "type": "boolean"
+          },
+          "filePath": {
+            "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pageId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "environment": {
+    "expectedOrigin": true,
+    "version": "1.22.0-rc.35",
+    "library": true,
+    "accountPresent": true,
+    "controller": true,
+    "width": 824,
+    "height": 1191,
+    "dpr": 2.125,
+    "chrome": "Chrome/153.0.0.0"
+  },
+  "workBoundMs": 180000,
+  "preparationBoundMs": 360000,
+  "focusEmulationRemoved": true,
+  "focusRemovalReason": "Official MCP1.10.1 McpPage.init unconditionally calls emulateFocusedPage(true); native OS visibility needs false",
+  "ownedMcpClosed": true,
+  "mcpDetachedBeforeHome": true,
+  "primaryFailure": "COLD_HEADER_CDP_RANGE",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "TR01FiniteScopePassed": false,
+  "coldConditionScope": "operational selected-media no-local-byte-reuse; no diskempty claim",
+  "cleanupComplete": true,
+  "actualUnitMs": 0,
+  "preparationMs": 3953,
+  "originalMediaReadOnly": true,
+  "completed": false,
+  "failure": "COLD_HEADER_CDP_RANGE",
+  "ownedNativeSessionDetached": true,
+  "ownedNativeCdpDisconnected": true,
+  "ownedForwardRemoved": true
+}
