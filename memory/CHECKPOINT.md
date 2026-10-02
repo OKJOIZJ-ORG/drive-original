@@ -1,36 +1,15 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 native tracks qualified
+# Checkpoint — ACTIVE D074 — 2026-10-02 rc35 finite PC/Android qualification
 
-## The story so far
+## Current state
 
-Approved full queue ACTIVE on codex/v2-kickoff-diagnostics, immutable source 2c2b1244bee0f1a5e500318c83c6e126c5124e34. Verified bounded audio/subtitle selection, selected Q2, terminal seek recovery and retained failures are committed; 220 focused app/static/routing/track checks and 17 endpoint checks passed. RC35 owner is memory/CANDIDATE-RC35-20261002.md. Exact metadata/AVC/YUV is preserved, while undeclared-color canvas difference remains UNKNOWN/failed strict oracle. No broad corpus scan.
+Approved whole queue ACTIVE on codex/v2-kickoff-diagnostics. Runtime immutable2c2b1244bee0f1a5e500318c83c6e126c5124e34/1.22.0-rc.35; free Worker5976c3f9 published. Delivery64/cache49/aliases50/package, ordinary PC34→35 preservation, generated-fixture actual Android v9 AAC3/tx3g4/seek/Off and finite actual Android TR01 pass. Prior failures remain; no runtime changes/redeployment for QA repairs. Details belong to CANDIDATE-RC35-20261002.md and exact adjudications.
 
-One free rc35 deployment/readback passed, Worker5976c3f9-ba4f-47a1-955a-06d9748f6302. Delivery64/cache49/sourcearchives9/private4046/offline0errors/readiness/package64 and actual PC34→35 preservation49cache/50aliases/3network PASS; saved in QA/docs-only1d42c40. No redeploy. Normal PC connection responds/authenticated; player/owners/helpers absent, original root/query restored. PC cold preparation stopped before playback because CUA source-worker commands are unsupported and target history is truncated; cold gate remains unqualified. One75MB current MOV was prepared then cleaned before timing; no new MOV playback proof.
-
-Android idle45 proved actual executing sw/revision-pin hashes and VERSION35;49 distinct shell files plus root alias50, with raw count failure retained and adjudicated. Stable v6 qualified startup507ms and exact AAC3 frame4775ms, then QA256 global request cap failed at266; player and external cleanup passed. Cap-only additive v7(512/24MiB/180s) passed5 local guards. Actual v7 failed genuine new SW installation after stable45: installing3759ms/controller replacement4296ms after AACarm, before failure/normal close. Old/new executing sw.js and revision-pin bytes both Git2c2 exact/VERSION35; provider198 requests/errors0. External cleanup all true, player retirement false/overallcleanupfalse retained. Trigger UNKNOWN.
-
-Passive v8 actual startup480ms/AAC3 frame4938ms passed; native interval update-generation delta0, visibility/controller events0 and player/external cleanup all true. This does not establish the v7 trigger. Provider/public-wire arrays were not phase-frozen, so later request timing remains UNKNOWN. Additive v9 fixed that QA snapshot defect, acknowledged force-update=false on the fresh owned target before navigation and passed7 local guards. Actual full native queue PASS: startup453ms/AAC3 4741ms/seek2 1102ms/seek5.5 1003ms/return2 1173ms, all first15s; tx3g4 cue present/absent/restored/Off passed. One exact executing worker throughout, stable45/cache50,450 requests/3,668,471B/errors0,33.953s queue, player and all external cleanup true. Raw android-normal-full-v9-result.json SHA5581cc509a8d5ae44309349fb1bfd6b0be5456e174ad910c3cd2a337f7b5c8b1; saved in QA/docs-only1d4c7a2. Earlier v7 cause remains UNKNOWN. Original69 draft unadopted. Color/HDR and historical MOV/performance conditions remain open; current finite Android TR01 qualification follows below. No broad scan.
-
-## Decided
-
-- D050/D074 permit exact disposable fixture, real PC/Android, local commits/free candidate; production/main/push/new grants/permanent deletion separate. iOS deferred; automation PAUSED.
-- Reuse valid unchanged receipts. Tool-only changes do not trigger product deployment or whole suite. Caption/track failures remain explicit; no guessed color matrix.
-
-## Waiting on the user
-
-None.
+Current PC file declared MOV is actually strict188-byte TS (75,947,300B/88 sync packets). Actual attempt4 Q1_TS startup14354ms/90%seek11386ms/current generation2/frame target error0.007867s passed initial15s; fresh metadata/source/account fences, normal close/retirement/all helpers/root/query restoration passed. qa/rc35-acceptance-adoption/pc-mov-adjudication.json owns verdict; raw SHA4789284019b6e4ae78b6068950fc8b110d20653b9fab86d47306210968deddf9. Attempts1/2 before-input tool errors, attempt3 startup11961ms/UI failure/originalcleanupfalse and separate successful recovery remain. Original strict observer unchanged; additive8 VM/3 driver guards pass. PC normal browser3/tab275140556 is closed/root/empty query, all owned helpers absent.
 
 ## Next first action
 
-Actual Android original source/account35 preservation was saved in e80a3e8; update click/timing remains UNKNOWN. Native geometry calibration is closed without input: requested current root is a span, not a button; two negatives/all cleanup retained. Chrome CDP ordinary input on actual Android is now qualified by exact trusted card event; no OS-coordinate/finger claim.
+Save verified PC QA/docs unit, then adopt the original69 by original criteria/evidence. Read-only reconciliation identifies TR01 actual finite PASS and FM05 affected finite tablet/controlled scope; current TS cannot substitute tail-index MOV or historical failed tuple/p95. Do not invent cold for TR02/TR03. Next decisive gap is existing same-fixture native-file/MSE color mismatch; distinguish declared/decoded/presentation evidence before fixing the responsible layer. Actual HDR applicability UNKNOWN, original FM06 conditional; performance still needs failure-inclusive sufficient same-condition comparison. Corpus128 consumed/123classified/5unknown/8468unattempted of8596, no full scan.
 
-Original QA-TR-01 is PASS for the same4,607,107,537B normal ISO MP4 on physical SM-X800: exact2 executing source hashes/source2c2/35, fresh native/app-buffer-empty document/cache bypassACK, first3815ms/progress4179ms/current Q0; same owner setupDone settled before normal Back. All3 GET206/3 OPTIONS complete qualification and no rejection/overflow/drift; full post-close envelope90,322,862B<whole, original SWstarts/requestcount3 agree, normal retirement/all owned cleanup/root/query/proof restored. qa/rc35-cold-q0/android-cold-tr01-adjudication.json owns verdict; raw attempt7 SHA ded31fdd6324dd014a7028551d8d9e88935232acd62625a1197b67a2d6caa760. Six earlier attempts and isolated diagnostics remain: metadata-label error, CORS-hidden header, request-kind classifier, immediate-Back cancellation gap and closed native stale currentSrc admission. All cleanup true, no product change/redeploy. Original strict cold/source/byte gates unchanged;16 focused QA guards pass. Attempt5 retains first3738ms/progress4079ms but strict PREFLIGHT_RECORD failure; no retrospective PASS or definite trigger inference.
+## Authority and waiting
 
-Save this QA/docs unit then finish the prepared75MB current PC MOV startup/90%seek/cleanup unit sequentially. It does not replace historical unmapped MOV90% failure/p95. Adopt original69 by exact original evidence; resolve remaining color/HDR/performance as required, preserving iOS/production/general-write/automation boundaries. No full corpus replay or duplicate deployment. Never share account/device writers concurrently.
-
-## Tried
-
-- First delivery audit timed out on licenses/video-q3-source.tgz after48 successful Git-equal entries; prefix and raw failure retained, browser never launched.
-- First resume reached59 successes then part004 total120s at6.98MB; cleanup rejected because its HTTP stream was aborted. Preserve primary deadline, accept settled rejection/release reader; actual HTTP abort regression passes. Large-file cap240s is based on observed progress, not an identical retry.
-- Inline PowerShell/Node quoting failed to create resume files; dependent module calls also failed without an audit start. Replaced with literal patched preparation and checked sequential execution.
-- rc34 read-only preflight referenced rc35-only playerTracksOwner; typeof guard fixed QA, no product mutation.
-- Earlier native→Q1 null-owner, retry-picker identity, pendingcue gate and terminal-frame gap defects were fixed and validated in the committed unit. Strict undeclared-color RGBA identity is not claimed.
+None waiting. D074 allows free candidate/local commits/real PC and Android; iOS deferred by D066. Production1.21/e08989a/main/push/new grants/permanent deletion/generalwritesfalse/automationPAUSED remain separate. Never run account/playback/corpus writers concurrently. Continue through original acceptance; commits/candidates/partial passes do not end the queue.

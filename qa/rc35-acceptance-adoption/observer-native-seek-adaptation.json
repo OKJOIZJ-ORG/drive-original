@@ -1,0 +1,52 @@
+{
+  "schema": "rc35-native-q0-seek-observer-adaptation/1",
+  "createdDate": "2026-10-02",
+  "status": "LOCAL_VM_QUALIFIED_ACTUAL_PC_PENDING",
+  "scope": {
+    "ordinaryPcUiStartupAnd90PercentSeek": "PENDING_ROOT_RUN",
+    "actualPcObserverExecution": "UNKNOWN",
+    "coldPath": "UNKNOWN",
+    "sourceWorkerExecutingBytes": "UNKNOWN",
+    "historicalFailedTuple": "UNKNOWN",
+    "p95": "UNKNOWN",
+    "production": "NOT_TESTED"
+  },
+  "source": {
+    "commit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+    "frozenObserver": "qa/rc31-passive-latency-partition-v2/observer.function.js",
+    "frozenObserverSha256": "52c19a294e599c836a537580f6b6d9b77b0bbbf89d2f17da91f982eed171c494",
+    "appReview": "onSeekPointerDown -> beginPointerSeek -> setPlayerCurrentTime -> beginMediaSeekIntent; native seeking advances mediaSeekGeneration and trusted seeked is emitted without requiring owner/session/source/pipeline replacement"
+  },
+  "adaptation": {
+    "observer": "qa/rc35-acceptance-adoption/observer-native-seek.function.js",
+    "observerSha256": "638a93e6aa99c02d03132961fdd7418f1cb5a182becb6f7076e0d00cb9fb78d6",
+    "tests": "qa/rc35-acceptance-adoption/observer-native-seek.test.cjs",
+    "testsSha256": "a1fa1f4a3f1f6acb843e84a818aacab8902374f9d1112e3f6d41bbb30fcef87c",
+    "actualScope": "UNKNOWN",
+    "q0Seek90Rule": "Requires same Q0 owner/video/session/source, current media fence, a strictly later app seek generation, and trusted seeking plus seeked events after arm at the requested target; frame must independently meet the existing tolerance and current-source/account fences.",
+    "q1Rule": "Retains the frozen owner/session/source/pipeline generation-advance route.",
+    "retainedContracts": [
+      "metadata-before/after readback",
+      "source and account pinning",
+      "selected-file and fresh-metadata fences",
+      "current decoded-frame and dimensions checks",
+      "target tolerance",
+      "first-15-second target-frame guard",
+      "bounded observer events, frames, phases, and lifetime"
+    ]
+  },
+  "verification": {
+    "command": "node --test qa/rc35-acceptance-adoption/observer-native-seek.test.cjs",
+    "result": "8 passed",
+    "cases": [
+      "observer parses and original observer bytes remain unchanged",
+      "adaptation binds exact source and test bytes while actual evidence stays unknown",
+      "same-owner native Q0 later seek epoch with trusted event pair qualifies",
+      "missing later epoch rejected",
+      "stale/untrusted seek provenance rejected",
+      "foreign Q0 owner rejected",
+      "Q1 route still requires pipeline generation advance",
+      "guard/fence/tolerance contracts retained"
+    ]
+  }
+}

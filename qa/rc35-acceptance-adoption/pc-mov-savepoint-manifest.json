@@ -1,0 +1,98 @@
+{
+  "schema": "rc35-pc-mov-savepoint/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "scope": "finite current misnamed-MOV actualTS; failures preserved; no runtime/media/production change",
+  "files": [
+    {
+      "file": "qa/rc35-acceptance-adoption/observer-native-seek.function.js",
+      "bytes": 17474,
+      "sha256": "638a93e6aa99c02d03132961fdd7418f1cb5a182becb6f7076e0d00cb9fb78d6"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/observer-native-seek.test.cjs",
+      "bytes": 8192,
+      "sha256": "a1fa1f4a3f1f6acb843e84a818aacab8902374f9d1112e3f6d41bbb30fcef87c"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/observer-native-seek-adaptation.json",
+      "bytes": 2671,
+      "sha256": "ec8301da14da4f2897c4b0f45e6affbf1905530861e6fb1c142a739a63746908"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-driver.cjs",
+      "bytes": 11909,
+      "sha256": "0d1a681a1ee35030f72a4d6b67b1521fd8bcb01d11f8ac916b0f6f335b7c3fac"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-driver-v1.cjs",
+      "bytes": 11057,
+      "sha256": "acf45fe63525bd92b05ad0feaade47ab7ae26483485189e6120b166eee33e3bb"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-driver-v2.cjs",
+      "bytes": 11199,
+      "sha256": "0b742a8a52544d1261284921ad6937a819222c48c8e72056da61ccdb441e1e1c"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-driver.test.cjs",
+      "bytes": 3043,
+      "sha256": "dfe6acaf23b050fe4d11408723d61f88c460831cfef3e21198f52966dd29e4f9"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-header-inspection.function.js",
+      "bytes": 2583,
+      "sha256": "d6e1cb6d5b16044dc37f41ad91ceee512083a4c66a589091df34f84aa5a48282"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-header-inspection-v1.function.js",
+      "bytes": 2279,
+      "sha256": "79a7cdb4dca3b80acf1eb9d52cb2adc53c31b5005873152e799c727a967b3973"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-header-inspection-safe.json",
+      "bytes": 522,
+      "sha256": "8dede6f402112dc8b7f52083b8a0ac4077751bab8ac9256021846b75a2238a34"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-transport-inspection-safe.json",
+      "bytes": 828,
+      "sha256": "c38bf0062a4fa7ed7ca01dce347fbc88d50deb42e339f9a5461bf302cdc4fe59"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-actual-attempt1-safe.json",
+      "bytes": 10797,
+      "sha256": "b9930cfea2872d8aa06bca4fdd0902293149b48115d80dcf9cd850ac9ed3f998"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-actual-attempt2-safe.json",
+      "bytes": 8059,
+      "sha256": "59adc5fa8808bbc496f875203b585b587ac854970fc6a1c4af6571ec8840cca9"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-actual-attempt3-safe.json",
+      "bytes": 530599,
+      "sha256": "7b5c18a244e415f3d8baeb884dc26e6192c3c452186316b60738edd825bd8236"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-actual-attempt4-safe.json",
+      "bytes": 831461,
+      "sha256": "4789284019b6e4ae78b6068950fc8b110d20653b9fab86d47306210968deddf9"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-attempt3-cleanup-recovery-safe.json",
+      "bytes": 924,
+      "sha256": "ab8765e8c8285f2cda3225cb2a9b9c5ed1121b528932716aca3b3104aa0c4a02"
+    },
+    {
+      "file": "qa/rc35-acceptance-adoption/pc-mov-adjudication.json",
+      "bytes": 2828,
+      "sha256": "c83c3bd63272d27db0f1e6d15748e2e071dcc072020c73a3ad46a54ab6f52758"
+    }
+  ],
+  "checks": {
+    "originalObserverUnchanged": true,
+    "producerVersionsFrozen": true,
+    "focusedObserverChecks": 8,
+    "focusedDriverChecks": 3
+  }
+}

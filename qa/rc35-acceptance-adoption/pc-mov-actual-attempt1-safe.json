@@ -1,0 +1,388 @@
+{
+  "schema": "rc35-current-known-PC-MOV-actual/1",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "fileBytes": 75947300,
+  "rawIdentifiersExported": false,
+  "producerSHA256": "acf45fe63525bd92b05ad0feaade47ab7ae26483485189e6120b166eee33e3bb",
+  "observerSHA256": "638a93e6aa99c02d03132961fdd7418f1cb5a182becb6f7076e0d00cb9fb78d6",
+  "inputHelperSHA256": "31f4a4de2145416c9d24917d783c6b293f8efc80b40681dfcd8fdec81a1225f1",
+  "scope": "One current known ISO MOV startup/90-percent seek; historical failed tuple/cold condition/executing SW script bytes/p95 UNKNOWN",
+  "steps": [
+    {
+      "name": "host preparation read-only exception corrected before context",
+      "at": 1790935726714,
+      "evidence": {
+        "error": "readFileSync unavailable on existing fs-promises module",
+        "correction": "await readFile",
+        "inputOrClockStarted": false
+      }
+    },
+    {
+      "name": "preparation source admission and ownership",
+      "at": 1790935726715,
+      "evidence": {
+        "source": {
+          "baselineRemoved": false,
+          "cache": [
+            {
+              "file": "index.html",
+              "matched": true
+            },
+            {
+              "file": "styles.css",
+              "matched": true
+            },
+            {
+              "file": "runtime-config.js",
+              "matched": true
+            },
+            {
+              "file": "app.js",
+              "matched": true
+            },
+            {
+              "file": "media/drive-source.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/revision-pin.js",
+              "matched": true
+            },
+            {
+              "file": "media/ts-player.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/q1-core.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/transmux-worker.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/mux-mp4.min.js",
+              "matched": true
+            },
+            {
+              "file": "media/mux-LICENSE.txt",
+              "matched": true
+            },
+            {
+              "file": "media/general-admission.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-tracks.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/subtitle-track.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/subtitle-presentation.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-codec.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-owner.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-pipeline.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-player.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-source.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-timeline.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/general-worker.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/mediabunny-q1.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/mediabunny-q1.LICENSE",
+              "matched": true
+            },
+            {
+              "file": "media/mediabunny-q1-NOTICE.md",
+              "matched": true
+            },
+            {
+              "file": "media/audio-runtime.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-adapter.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-worker-client.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-worker.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-codec.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-codec.wasm",
+              "matched": true
+            },
+            {
+              "file": "media/audio-codec.LICENSE.txt",
+              "matched": true
+            },
+            {
+              "file": "media/audio-general-pipeline.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/audio-general-worker.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-input.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-pipeline.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-worker.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-codec.mjs",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-codec.wasm",
+              "matched": true
+            },
+            {
+              "file": "media/video-q3-codec.LICENSE.txt",
+              "matched": true
+            },
+            {
+              "file": "licenses/index.html",
+              "matched": true
+            },
+            {
+              "file": "licenses/audio-source-NOTICE.md",
+              "matched": true
+            },
+            {
+              "file": "version.json",
+              "matched": true
+            },
+            {
+              "file": "manifest.webmanifest",
+              "matched": true
+            },
+            {
+              "file": "icons/app-icon.svg",
+              "matched": true
+            },
+            {
+              "file": "icons/icon-192.png",
+              "matched": true
+            },
+            {
+              "file": "icons/icon-512.png",
+              "matched": true
+            },
+            {
+              "file": "icons/maskable-512.png",
+              "matched": true
+            },
+            {
+              "file": "icons/apple-touch-icon.png",
+              "matched": true
+            }
+          ],
+          "controllerActivated": true,
+          "executingWorkerScriptHashKnown": false,
+          "matchedCache": 49,
+          "matchedCacheAliases": 50,
+          "network": [
+            {
+              "file": "app.js",
+              "matched": true
+            },
+            {
+              "file": "sw.js",
+              "matched": true
+            },
+            {
+              "file": "version.json",
+              "matched": true
+            }
+          ],
+          "preserved": null,
+          "privateIdentityExported": false,
+          "recordedAt": "2026-10-02T10:01:30.553Z",
+          "rootScope": true,
+          "shellRootAliasMatched": true,
+          "source": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+          "sourceProofInstalled": true,
+          "version": "1.22.0-rc.35"
+        },
+        "holderOwned": true,
+        "proofOwned": true,
+        "queryReady": true,
+        "folderSettled": true
+      }
+    },
+    {
+      "name": "observer installation",
+      "at": 1790935726793,
+      "evidence": {
+        "accountSame": true,
+        "boundedMs": 360000,
+        "eventLimit": 128,
+        "frameLimitPerPhase": 96,
+        "installed": true,
+        "observerOnly": true,
+        "phaseLimit": 3,
+        "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+        "sourceSame": true,
+        "targetPrivate": true,
+        "version": "1.22.0-rc.35"
+      }
+    },
+    {
+      "name": "fresh before metadata",
+      "at": 1790935727356,
+      "evidence": {
+        "accountSame": true,
+        "at": 1790935727353,
+        "canDownload": true,
+        "freshRevisionChecksumSame": true,
+        "label": "before",
+        "notTrashed": true,
+        "sameExactTarget": true,
+        "sourceSame": true,
+        "stableMetadataSame": true,
+        "status": 200
+      }
+    },
+    {
+      "name": "bounded original ISO MOV header and independent CDP range",
+      "at": 1790935752147,
+      "evidence": {
+        "page": {
+          "bytes": 16384,
+          "headerSHA256": "06c20d1f3779fad3ce1fda3d329038a95dea56e032f6f8fda5e2a7fc49a3d0aa",
+          "normalIsoMovie": false,
+          "pageRangeVisible": false,
+          "performedBeforeFreshReload": true,
+          "rangeMatched": false,
+          "rawHeaderExported": false,
+          "requiresIndependentCdpRange": true,
+          "sourceRevisionPinned": true
+        },
+        "requests": 1,
+        "responses": 1,
+        "status": 206,
+        "rangeExact": true,
+        "lengthExact": true,
+        "truncated": false,
+        "qualified": false,
+        "rawHeadersExported": false
+      }
+    },
+    {
+      "name": "owned header Network domain cleanup",
+      "at": 1790935752170,
+      "evidence": {
+        "ownedNetworkDisabled": true
+      }
+    },
+    {
+      "name": "normal close and all-owner retirement",
+      "at": 1790935752212,
+      "evidence": {
+        "appBuffersEmpty": true,
+        "closed": true,
+        "ownersEmpty": true,
+        "retired": true,
+        "selectedEmpty": true
+      }
+    },
+    {
+      "name": "fresh after metadata",
+      "at": 1790935752771,
+      "evidence": {
+        "accountSame": true,
+        "at": 1790935752769,
+        "canDownload": true,
+        "freshRevisionChecksumSame": true,
+        "label": "after",
+        "notTrashed": true,
+        "sameExactTarget": true,
+        "sourceSame": true,
+        "stableMetadataSame": true,
+        "status": 200
+      }
+    },
+    {
+      "name": "owned passive frame/interval/listener cleanup",
+      "at": 1790935752793,
+      "evidence": {
+        "disposed": true,
+        "frameCallbackRemoved": true,
+        "mediaListenersRemoved": true,
+        "phases": 0,
+        "reason": "OWNER_STOP",
+        "removed": true
+      }
+    },
+    {
+      "name": "normal folder/query restoration",
+      "at": 1790935753592,
+      "evidence": {
+        "loading": false,
+        "queryEmpty": true,
+        "root": true
+      }
+    },
+    {
+      "name": "owned private holder/source proof cleanup",
+      "at": 1790935753641,
+      "evidence": {
+        "inputAbsent": true,
+        "observerAbsent": true,
+        "proofAbsent": true,
+        "targetAbsent": true
+      }
+    }
+  ],
+  "timedPlaybackStarted": false,
+  "originalMediaMutated": false,
+  "productChanged": false,
+  "productionChanged": false,
+  "failure": "MOV_HEADER_CDP_UNQUALIFIED",
+  "cleanupComplete": true
+}

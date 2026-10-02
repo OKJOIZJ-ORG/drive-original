@@ -1,0 +1,58 @@
+{
+  "schema": "rc35-current-PC-misnamed-MOV-adjudication/1",
+  "status": "FINITE_CURRENT_TARGET_PASS",
+  "sourceCommit": "2c2b1244bee0f1a5e500318c83c6e126c5124e34",
+  "version": "1.22.0-rc.35",
+  "actualReceipt": "pc-mov-actual-attempt4-safe.json",
+  "actualReceiptSHA256": "4789284019b6e4ae78b6068950fc8b110d20653b9fab86d47306210968deddf9",
+  "target": {
+    "bytes": 75947300,
+    "declaredMime": "video/quicktime",
+    "actualContent": "188-byte MPEG-TS",
+    "boundedHeaderBytes": 16384,
+    "consecutiveSyncPackets": 88,
+    "headerSHA256": "06c20d1f3779fad3ce1fda3d329038a95dea56e032f6f8fda5e2a7fc49a3d0aa",
+    "rawIdentityExported": false,
+    "originalMediaMutated": false
+  },
+  "observed": {
+    "ordinaryTrustedExactCardCount": 1,
+    "actualRoute": "Q1_TS",
+    "startupInitial15FrameMs": 14354,
+    "seek90Initial15FrameMs": 11386,
+    "seek90Generation": 2,
+    "seek90SourceTime": 1109.921333,
+    "seek90TargetDistanceSeconds": 0.007867000000032931,
+    "frameWidth": 360,
+    "frameHeight": 640,
+    "currentSourceAccountMetadataFencesPassed": true,
+    "freshBeforeAndAfterMetadataPassed": true,
+    "normalCloseAndOwnerRetirementPassed": true,
+    "ownedHelpersRemoved": true,
+    "originalRootEmptyQueryRestored": true
+  },
+  "evidenceReuse": {
+    "header": "attempt3 strict TS body plus independent exact GET206/Content-Range/Length, same freshly read revision/checksum before attempt4",
+    "unchangedProductChecks": "reuse previously passing rc35 checks; no product change or redeployment",
+    "originalObserver": "unchanged 52c19a294e599c836a537580f6b6d9b77b0bbbf89d2f17da91f982eed171c494",
+    "additiveObserver": "638a93e6aa99c02d03132961fdd7418f1cb5a182becb6f7076e0d00cb9fb78d6",
+    "localChecks": "8 observer VM tests and 3 host driver guards passed; Q1 generation advance remains required"
+  },
+  "retainedFailures": [
+    "attempt1: before playback, false ISO MOV premise rejected actual TS; strict Range passed; cleanup true",
+    "attempt2: before playback, root preparation referenced nonexistent el.mediaGrid; cleanup true",
+    "attempt3: startup11961ms/current Q1_TS passed; UI operation failed before seek90; exact exception UNKNOWN; original cleanup false",
+    "attempt3 cleanup recovery: raw CDP key unsupported before input, listener removed; ordinary reveal/close and root/query restoration then passed; original failure receipt unchanged"
+  ],
+  "limits": {
+    "historicalUnmappedMOV90PercentTimeout": "RETAINED_FAILURE_NOT_SUBSTITUTED",
+    "historicalTupleIdentity": "UNKNOWN",
+    "coldOrWarm": "UNKNOWN",
+    "executingWorkerScriptBytes": "UNKNOWN",
+    "p95": "NOT_ESTABLISHED",
+    "full10_50_90SeekAcceptance": "NOT_ESTABLISHED_BY_THIS_TWO_PHASE_UNIT",
+    "universalFormatDeviceColorFidelity": "NOT_CLAIMED",
+    "production": "UNCHANGED",
+    "wholeGoal": "ACTIVE"
+  }
+}

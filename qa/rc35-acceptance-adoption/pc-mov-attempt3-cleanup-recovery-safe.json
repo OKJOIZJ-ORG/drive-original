@@ -1,0 +1,41 @@
+{
+  "schema": "pc-mov-attempt3-cleanup-recovery/1",
+  "originalCleanupComplete": false,
+  "originalFailure": "MOV_OPERATION_FAILED",
+  "steps": [
+    {
+      "name": "raw CDP key recovery rejected before input",
+      "evidence": {
+        "supported": false,
+        "keyInputOccurred": false
+      }
+    },
+    {
+      "name": "recovery key listener removal",
+      "evidence": {
+        "listenerRemoved": true,
+        "seen": null
+      }
+    },
+    {
+      "name": "ordinary reveal and close buttons with retirement",
+      "evidence": {
+        "appBuffersEmpty": true,
+        "closed": true,
+        "ownersEmpty": true,
+        "retired": true,
+        "selectedEmpty": true
+      }
+    },
+    {
+      "name": "normal root/query restoration",
+      "evidence": {
+        "closed": true,
+        "helpersAbsent": true,
+        "queryEmpty": true,
+        "root": true
+      }
+    }
+  ],
+  "cleanupComplete": true
+}
