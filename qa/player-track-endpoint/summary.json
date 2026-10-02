@@ -1,0 +1,196 @@
+{
+  "scope": "Local generated AVC/AAC/tx3g fixture and native ephemeral headless Chrome. No account/device/user profile/cloud writes.",
+  "status": "endpoint-functional-pass; strict-canvas-RGBA-failure-retained",
+  "sourceChanges": [
+    "media/general-player.mjs",
+    "media/general-pipeline.mjs"
+  ],
+  "focusedTest": "node --test tests/general-endpoint.test.mjs tests/general-selected-audio.test.mjs tests/general-q2-end.test.mjs",
+  "focusedCounts": {
+    "passed": 17,
+    "failed": 0
+  },
+  "producerBefore": {
+    "media/general-player.mjs": "ad1686dac4360346cbc21689cc8027bb013cef728b6d46cf077c2f6726c4048e",
+    "media/general-pipeline.mjs": "2c2969ecbe18f32b6ca98873a00f23d3f2d2bb1404a743955451ee3cb51ff97a",
+    "media/general-owner.mjs": "a1b509bc14fcf091672ab32b8a00f4e43ac11ec97c4d2c78c181527d3131661b",
+    "media/general-worker.mjs": "e9ff3e8a6fc06aebd07ac69cdf9081e386ccf51efc0fa47b136af93a2a5f2e23"
+  },
+  "producerAfter": {
+    "media/general-player.mjs": "1423f4c7e543738332463f4e4d675bd0c835531631979ee28e89e067181e1aef",
+    "media/general-pipeline.mjs": "3127191a346de98fecd9981e63405c72519726ad79db3a733ed4b1d47ae7cd5c",
+    "media/general-owner.mjs": "a1b509bc14fcf091672ab32b8a00f4e43ac11ec97c4d2c78c181527d3131661b",
+    "media/general-worker.mjs": "e9ff3e8a6fc06aebd07ac69cdf9081e386ccf51efc0fa47b136af93a2a5f2e23"
+  },
+  "baseline": {
+    "targetSource": 5.999999,
+    "nativeBufferedEnd": 5.999999,
+    "error": "GENERAL_NO_PRESENTABLE_TARGET"
+  },
+  "endpoint": {
+    "requested": 5.999999,
+    "sourceTarget": 5.958333333333333,
+    "lastCopiedFrame": {
+      "timestamp": 5.958333333333333,
+      "duration": 0.041666666666666664,
+      "endTimestamp": 6
+    },
+    "paused": true,
+    "readyState": 4,
+    "exactSourceEndRequested": 6,
+    "backseek": 2,
+    "autoplayPlayingEvents": 1,
+    "autoplayNaturalEnded": true,
+    "cleanupSettled": true,
+    "sourceReaders": 4,
+    "allSourceReadersAbortedOnce": true,
+    "browserClosed": true,
+    "serverClosed": true,
+    "producersUnchanged": true,
+    "autoplayPausedAtNaturalEnd": true,
+    "autoplayObservedAfterMs": 1000
+  },
+  "independentOracle": {
+    "copiedPacketCount": 24,
+    "payloadHashExact": true,
+    "rationalPacketDurationsExact": true,
+    "ptsDtsClockShift": {
+      "numerator": "-94220845056",
+      "denominator": "18874368000"
+    },
+    "decodedLastYuvExact": true,
+    "decodedLastYuvSha256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c",
+    "canvas": {
+      "differentPixels": 57429,
+      "totalPixels": 57600,
+      "differentChannels": 107264,
+      "maxChannelDelta": 40,
+      "meanAbsoluteChannelDelta": 8.449375,
+      "mse": 218.0317476851852,
+      "psnr": 24.745606248751688,
+      "exact": false
+    }
+  },
+  "limit": "Source and Q1 have absent declared color fields. Same RVFC PTS/dimensions, copied packet and decoded YUV are confirmed. Native file vs MSE canvas RGB differs significantly; BT601/BT709 reference preference suggests different unspecified-color conversion paths, with exact cause unverified. No color behavior was changed; no real account/device/production proof.",
+  "files": {
+    "autoplay-window-back-frame.png": {
+      "bytes": 27246,
+      "sha256": "1f3baa35a12a4199e5a296eef22fcb56231a6236d1eff04a3561846e9cbe3429"
+    },
+    "autoplay-window-exact-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "autoplay-window-native-frame.png": {
+      "bytes": 39484,
+      "sha256": "c6114253d9d15af9228b9af5b539e6ed03a3ff018dfd20b3b95aa1f9cd0ff916"
+    },
+    "autoplay-window-q1-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "autoplay-window-results.json": {
+      "bytes": 68257,
+      "sha256": "84d27b3c652945d861e924dd32548af40912c701e5d35e9c3a584f0538f02b5b"
+    },
+    "baseline-native.png": {
+      "bytes": 6710,
+      "sha256": "89e5eefc62ae2669551ed4a9112e59596eac9f652e96d0c30a3c7ebe6b8530e0"
+    },
+    "baseline-results.json": {
+      "bytes": 12667,
+      "sha256": "068c7fc558b65a7613939d975a2a30fa903e39f3b777c20ef88a0f399add483a"
+    },
+    "color-header-oracle-results.json": {
+      "bytes": 4842,
+      "sha256": "86d737f3329f8d03a2eb57df69742001995033b80d9711c60ec988533b8829fa"
+    },
+    "color-header-oracle.cjs": {
+      "bytes": 5330,
+      "sha256": "7e42c0d0091743afa56824482e4fbbad2d2215cc498191ae1077d83b44105862"
+    },
+    "discriminator-back-frame.png": {
+      "bytes": 27246,
+      "sha256": "1f3baa35a12a4199e5a296eef22fcb56231a6236d1eff04a3561846e9cbe3429"
+    },
+    "discriminator-exact-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "discriminator-native-frame.png": {
+      "bytes": 39484,
+      "sha256": "c6114253d9d15af9228b9af5b539e6ed03a3ff018dfd20b3b95aa1f9cd0ff916"
+    },
+    "discriminator-q1-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "discriminator-results.json": {
+      "bytes": 50704,
+      "sha256": "e9d3ed1eb9126428de0ca2c3bf6d55382adbc896b941309ab607afe295cc653e"
+    },
+    "final-endpoint-back-frame.png": {
+      "bytes": 27246,
+      "sha256": "1f3baa35a12a4199e5a296eef22fcb56231a6236d1eff04a3561846e9cbe3429"
+    },
+    "final-endpoint-exact-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "final-endpoint-native-frame.png": {
+      "bytes": 39484,
+      "sha256": "c6114253d9d15af9228b9af5b539e6ed03a3ff018dfd20b3b95aa1f9cd0ff916"
+    },
+    "final-endpoint-q1-frame.png": {
+      "bytes": 35522,
+      "sha256": "e46ec9a4b9b87307bb19d092c15fc33af8604154314c64f43fee84d364e83886"
+    },
+    "final-endpoint-results.json": {
+      "bytes": 68256,
+      "sha256": "ad54051210349a3033f3c02a05df7b94a7ec1909ccf68c4f6b5046179ec83552"
+    },
+    "fixed-native.png": {
+      "bytes": 6524,
+      "sha256": "0adfe5e9bfc970e2c69a49f7d3e58fae9fcad8164ed7f94873aa46f25e6c500b"
+    },
+    "fixed-q1-output.mp4": {
+      "bytes": 109951,
+      "sha256": "201fde313145d2907a060eddc3c09418e662d01b62e50635b01d77f5feff1fdd"
+    },
+    "fixed-results.json": {
+      "bytes": 51228,
+      "sha256": "41c1866269a060942e35dc685200ba75079ad7d42e9b9740fe475afe9d8922da"
+    },
+    "native-endpoint.cjs": {
+      "bytes": 10918,
+      "sha256": "5b8c34f9759d5fe3dff0abf6f39deae58032e44b9e072af2e64a50f33535f336"
+    },
+    "packet-frame-oracle-results.json": {
+      "bytes": 5989,
+      "sha256": "4edd496907d279c249d00c76398e2de8a0da7f9cf4ed36bc18326be2a182e2a1"
+    },
+    "packet-frame-oracle.cjs": {
+      "bytes": 3791,
+      "sha256": "14fcb320566ae3835ce258784017364b85c12c9ce382fd28d8401ff536a6d6fe"
+    },
+    "q1-header-trace.txt": {
+      "bytes": 15326,
+      "sha256": "b05e96c2f938894be6a7c17fbce0ff8cda3142732627353acd569e716ffb2e96"
+    },
+    "source-header-trace.txt": {
+      "bytes": 84931,
+      "sha256": "f99b321a16811cf84fdde3f7623dc541d3296b0cebec36df3618a9a141948909"
+    }
+  },
+  "latestNativeProof": "autoplay-window-results.json",
+  "evidenceCorrection": "The earlier final-endpoint-results80ms observation had endedfalse. Autoplay playing-to-natural-ended is confirmed separately at1000ms inautoplay-window-results, with no additional product change.",
+  "colorMetadataEvidence": "color-header-oracle-results.json",
+  "colorMetadata": {
+    "sourceAndOutputColrAbsent": true,
+    "sourceAndOutputSpsVideoSignalTypeFlag": 0,
+    "spsColourDescriptionAbsent": true,
+    "avcCAndSpsBytesExact": true,
+    "writerOmitsColrWhenAllColorFieldsAbsent": true,
+    "noGuessedDefaultMatrixWritten": true
+  }
+}

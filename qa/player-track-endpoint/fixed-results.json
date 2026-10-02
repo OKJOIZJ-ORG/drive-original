@@ -1,0 +1,2081 @@
+{
+  "scope": "Local generated AVC/AAC/tx3g fixture and native ephemeral headless Chrome. No account/device/user profile/cloud writes.",
+  "run": "fixed",
+  "fixture": {
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+  },
+  "producerStart": {
+    "media/general-player.mjs": "ec3fcd5c6c196a6e45fa134d65cf5c55f703c43f3a00b022f4a7fc7db59c4e4e",
+    "media/general-pipeline.mjs": "3127191a346de98fecd9981e63405c72519726ad79db3a733ed4b1d47ae7cd5c",
+    "media/general-owner.mjs": "a1b509bc14fcf091672ab32b8a00f4e43ac11ec97c4d2c78c181527d3131661b",
+    "media/general-worker.mjs": "e9ff3e8a6fc06aebd07ac69cdf9081e386ccf51efc0fa47b136af93a2a5f2e23"
+  },
+  "serverClosed": true,
+  "browserClosed": true,
+  "browserVersion": "154.0.8037.59",
+  "pageErrors": [],
+  "result": {
+    "nativeEnd": {
+      "time": 5.999999,
+      "duration": 6,
+      "frames": [
+        {
+          "expectedDisplayTime": 163.6,
+          "height": 180,
+          "mediaTime": 0,
+          "presentationTime": 163.6,
+          "presentedFrames": 1,
+          "processingDuration": 0.002,
+          "width": 320,
+          "elementTime": 0
+        },
+        {
+          "expectedDisplayTime": 184.7,
+          "height": 180,
+          "mediaTime": 5.958333,
+          "presentationTime": 184.7,
+          "presentedFrames": 2,
+          "processingDuration": 0.0003,
+          "width": 320,
+          "elementTime": 5.999999
+        }
+      ],
+      "pixels": {
+        "width": 320,
+        "height": 180,
+        "sha256": "aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4"
+      }
+    },
+    "end": {
+      "ready": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 5.958333333333333,
+        "targetElement": 5.958333333333333,
+        "timestampOffset": 4.992,
+        "audioEnd": null,
+        "endpoint": {
+          "requestedSource": 5.999999,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "frame": {
+            "timestamp": 5.958333333333333,
+            "duration": 0.041666666666666664,
+            "endTimestamp": 6
+          },
+          "bufferedRange": [
+            4.992,
+            5.999999
+          ],
+          "reason": "terminal-original-frame"
+        }
+      },
+      "stats": {
+        "generation": 1,
+        "phase": "buffered-to-end",
+        "failure": null,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "timestampOffset": 4.992,
+          "audioEnd": null,
+          "endpoint": {
+            "requestedSource": 5.999999,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "frame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "bufferedRange": [
+              4.992,
+              5.999999
+            ],
+            "reason": "terminal-original-frame"
+          }
+        },
+        "appends": 3,
+        "removals": 0,
+        "waits": 0,
+        "peakAhead": 0,
+        "peakRetainedAppendBytes": 109951,
+        "disposed": true,
+        "status": null,
+        "capability": null,
+        "worker": {
+          "reads": 4,
+          "bytes": 201214,
+          "activeReads": 0,
+          "peakReads": 1,
+          "chunks": 3,
+          "acks": 3,
+          "pendingChunks": 0,
+          "peakPendingChunks": 1,
+          "detachedReadBuffers": 4,
+          "invalidMessages": 0,
+          "staleRepliesSuppressed": 0,
+          "pendingWindows": 0,
+          "terminated": true
+        },
+        "pipeline": {
+          "generation": 1,
+          "duration": 6,
+          "sourcePacketOrigin": -0.021333333333333333,
+          "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+          "targetTime": 5.999999,
+          "windowOrigin": 4.992,
+          "policy": {
+            "kind": "isobmff-movie-axis",
+            "presentationOrigin": 0,
+            "validPresentationStart": 0,
+            "declaredEnd": 6,
+            "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+            "tracks": [
+              {
+                "id": 1,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 0,
+                "firstPacketTimestamp": 0
+              },
+              {
+                "id": 2,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 1024,
+                "firstPacketTimestamp": -0.021333333333333333
+              }
+            ]
+          },
+          "selectedAudioTrackId": 2,
+          "lastVideoFrame": {
+            "timestamp": 5.958333333333333,
+            "duration": 0.041666666666666664,
+            "endTimestamp": 6
+          },
+          "videoCodec": "avc",
+          "audioCodec": "aac",
+          "packets": 72,
+          "outputBytes": 109951,
+          "peakPendingAcks": 1,
+          "peakBufferedPacketBytes": 72770,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              283,
+              2
+            ],
+            "boxes": 64,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "mp4a",
+                "handler": "soun",
+                "samples": 283,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "tx3g",
+                "handler": "sbtl",
+                "samples": 2,
+                "reordered": false
+              }
+            ]
+          },
+          "muxRetention": {
+            "bytes": 0,
+            "samples": 0,
+            "peakBytes": 108247,
+            "peakSamples": 72
+          },
+          "encodersCreated": 0,
+          "inputFormat": "MP4",
+          "cleanup": {
+            "settled": true
+          },
+          "reads": {
+            "requests": 4,
+            "bytes": 201214,
+            "logicalReads": 54,
+            "cacheHits": 59,
+            "peakCache": 201214,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 131072,
+            "discoveryRequests": 2
+          }
+        },
+        "failureDiagnostic": null,
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "observed": {
+        "stage": "end-result",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      "frames": [
+        {
+          "expectedDisplayTime": 540.8,
+          "height": 180,
+          "mediaTime": 5.958333,
+          "presentationTime": 540.8,
+          "presentedFrames": 1,
+          "processingDuration": 0.0006,
+          "width": 320,
+          "elementTime": 5.958333
+        }
+      ],
+      "pixels": {
+        "width": 320,
+        "height": 180,
+        "sha256": "e8c0d11f6ddd51834baec33168d3e0a6d523904446f6608538a490d48a9bf5f8"
+      }
+    },
+    "back": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 2,
+        "targetElement": 2,
+        "timestampOffset": 1.984,
+        "audioEnd": null
+      },
+      "stats": {
+        "generation": 2,
+        "phase": "buffered-to-end",
+        "failure": null,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 2,
+          "targetElement": 2,
+          "timestampOffset": 1.984,
+          "audioEnd": null
+        },
+        "appends": 6,
+        "removals": 0,
+        "waits": 0,
+        "peakAhead": 3.9946659999999996,
+        "peakRetainedAppendBytes": 449274,
+        "disposed": true,
+        "status": null,
+        "capability": null,
+        "worker": {
+          "reads": 9,
+          "bytes": 528894,
+          "activeReads": 0,
+          "peakReads": 1,
+          "chunks": 6,
+          "acks": 6,
+          "pendingChunks": 0,
+          "peakPendingChunks": 1,
+          "detachedReadBuffers": 9,
+          "invalidMessages": 0,
+          "staleRepliesSuppressed": 0,
+          "pendingWindows": 0,
+          "terminated": true
+        },
+        "pipeline": {
+          "generation": 2,
+          "duration": 6,
+          "sourcePacketOrigin": -0.021333333333333333,
+          "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+          "targetTime": 2,
+          "windowOrigin": 1.984,
+          "policy": {
+            "kind": "isobmff-movie-axis",
+            "presentationOrigin": 0,
+            "validPresentationStart": 0,
+            "declaredEnd": 6,
+            "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+            "tracks": [
+              {
+                "id": 1,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 0,
+                "firstPacketTimestamp": 0
+              },
+              {
+                "id": 2,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 1024,
+                "firstPacketTimestamp": -0.021333333333333333
+              }
+            ]
+          },
+          "selectedAudioTrackId": 2,
+          "lastVideoFrame": {
+            "timestamp": 5.958333333333333,
+            "duration": 0.041666666666666664,
+            "endTimestamp": 6
+          },
+          "videoCodec": "avc",
+          "audioCodec": "aac",
+          "packets": 285,
+          "outputBytes": 449274,
+          "peakPendingAcks": 1,
+          "peakBufferedPacketBytes": 131090,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              283,
+              2
+            ],
+            "boxes": 64,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "mp4a",
+                "handler": "soun",
+                "samples": 283,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "tx3g",
+                "handler": "sbtl",
+                "samples": 2,
+                "reordered": false
+              }
+            ]
+          },
+          "muxRetention": {
+            "bytes": 0,
+            "samples": 0,
+            "peakBytes": 127603,
+            "peakSamples": 73
+          },
+          "encodersCreated": 0,
+          "inputFormat": "MP4",
+          "cleanup": {
+            "settled": true
+          },
+          "reads": {
+            "requests": 9,
+            "bytes": 528894,
+            "logicalReads": 198,
+            "cacheHits": 203,
+            "peakCache": 262144,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 131072,
+            "discoveryRequests": 2
+          }
+        },
+        "failureDiagnostic": null,
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "observed": {
+        "stage": "backseek",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      "pixels": {
+        "width": 320,
+        "height": 180,
+        "sha256": "4761c531f88ebc21b6f114ad16059d6b21fdb1a4dab01ad47d20fb07208c9273"
+      }
+    },
+    "exact": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 5.958333333333333,
+        "targetElement": 5.958333333333333,
+        "timestampOffset": 4.992,
+        "audioEnd": null,
+        "endpoint": {
+          "requestedSource": 6,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "frame": {
+            "timestamp": 5.958333333333333,
+            "duration": 0.041666666666666664,
+            "endTimestamp": 6
+          },
+          "bufferedRange": [
+            4.992,
+            5.999999
+          ],
+          "reason": "terminal-original-frame"
+        }
+      },
+      "stats": {
+        "generation": 3,
+        "phase": "buffered-to-end",
+        "failure": null,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "timestampOffset": 4.992,
+          "audioEnd": null,
+          "endpoint": {
+            "requestedSource": 6,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "frame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "bufferedRange": [
+              4.992,
+              5.999999
+            ],
+            "reason": "terminal-original-frame"
+          }
+        },
+        "appends": 3,
+        "removals": 0,
+        "waits": 0,
+        "peakAhead": 0,
+        "peakRetainedAppendBytes": 109951,
+        "disposed": true,
+        "status": null,
+        "capability": null,
+        "worker": {
+          "reads": 4,
+          "bytes": 201214,
+          "activeReads": 0,
+          "peakReads": 1,
+          "chunks": 3,
+          "acks": 3,
+          "pendingChunks": 0,
+          "peakPendingChunks": 1,
+          "detachedReadBuffers": 4,
+          "invalidMessages": 0,
+          "staleRepliesSuppressed": 0,
+          "pendingWindows": 0,
+          "terminated": true
+        },
+        "pipeline": {
+          "generation": 3,
+          "duration": 6,
+          "sourcePacketOrigin": -0.021333333333333333,
+          "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+          "targetTime": 6,
+          "windowOrigin": 4.992,
+          "policy": {
+            "kind": "isobmff-movie-axis",
+            "presentationOrigin": 0,
+            "validPresentationStart": 0,
+            "declaredEnd": 6,
+            "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+            "tracks": [
+              {
+                "id": 1,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 0,
+                "firstPacketTimestamp": 0
+              },
+              {
+                "id": 2,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 1024,
+                "firstPacketTimestamp": -0.021333333333333333
+              }
+            ]
+          },
+          "selectedAudioTrackId": 2,
+          "lastVideoFrame": {
+            "timestamp": 5.958333333333333,
+            "duration": 0.041666666666666664,
+            "endTimestamp": 6
+          },
+          "videoCodec": "avc",
+          "audioCodec": "aac",
+          "packets": 72,
+          "outputBytes": 109951,
+          "peakPendingAcks": 1,
+          "peakBufferedPacketBytes": 72770,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              283,
+              2
+            ],
+            "boxes": 64,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "mp4a",
+                "handler": "soun",
+                "samples": 283,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "tx3g",
+                "handler": "sbtl",
+                "samples": 2,
+                "reordered": false
+              }
+            ]
+          },
+          "muxRetention": {
+            "bytes": 0,
+            "samples": 0,
+            "peakBytes": 108247,
+            "peakSamples": 72
+          },
+          "encodersCreated": 0,
+          "inputFormat": "MP4",
+          "cleanup": {
+            "settled": true
+          },
+          "reads": {
+            "requests": 4,
+            "bytes": 201214,
+            "logicalReads": 54,
+            "cacheHits": 59,
+            "peakCache": 201214,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 131072,
+            "discoveryRequests": 2
+          }
+        },
+        "failureDiagnostic": null,
+        "cleanup": {
+          "settled": true,
+          "source": {
+            "settled": true
+          },
+          "worker": {
+            "settled": true,
+            "originalSourceSettled": true,
+            "consumersSettled": true,
+            "activeReads": 0,
+            "pendingChunks": 0,
+            "pendingWindows": 0,
+            "workerTerminated": true
+          }
+        }
+      },
+      "observed": {
+        "stage": "exact-source-end",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      "frames": [
+        {
+          "expectedDisplayTime": 540.8,
+          "height": 180,
+          "mediaTime": 5.958333,
+          "presentationTime": 540.8,
+          "presentedFrames": 1,
+          "processingDuration": 0.0006,
+          "width": 320,
+          "elementTime": 5.958333
+        },
+        {
+          "expectedDisplayTime": 779.2,
+          "height": 180,
+          "mediaTime": 2,
+          "presentationTime": 779.2,
+          "presentedFrames": 1,
+          "processingDuration": 0.0104,
+          "width": 320,
+          "elementTime": 2
+        },
+        {
+          "expectedDisplayTime": 1009.1,
+          "height": 180,
+          "mediaTime": 5.958333,
+          "presentationTime": 1009.1,
+          "presentedFrames": 1,
+          "processingDuration": 0.0008,
+          "width": 320,
+          "elementTime": 5.958333
+        }
+      ],
+      "pixels": {
+        "width": 320,
+        "height": 180,
+        "sha256": "e8c0d11f6ddd51834baec33168d3e0a6d523904446f6608538a490d48a9bf5f8"
+      }
+    },
+    "history": [
+      {
+        "stage": "event-starting",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": null,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": []
+      },
+      {
+        "stage": "event-mapping",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.994666
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.994666
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "before-endOfStream",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "after-endOfStream",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered-to-end",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-starting",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": null,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          }
+        ]
+      },
+      {
+        "stage": "event-mapping",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            1.984,
+            2.986666
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    2.986666
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 2,
+        "readyState": 1,
+        "seeking": true,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            1.984,
+            3.989333
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    3.989333
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 2,
+        "readyState": 1,
+        "seeking": true,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            1.984,
+            4.991999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    4.991999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 2,
+        "videoBuffered": [
+          [
+            1.984,
+            4.991999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    4.991999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.994666
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.994666
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "before-endOfStream",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "after-endOfStream",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered-to-end",
+        "time": 2,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 4,
+        "videoBuffered": [
+          [
+            1.984,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    1.984,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 1.984,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-starting",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": null,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          }
+        ]
+      },
+      {
+        "stage": "event-mapping",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 0,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.994666
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.994666
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "updateend",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "before-endOfStream",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 6,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "open",
+            "duration": 6,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "after-endOfStream",
+        "time": 0,
+        "readyState": 1,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 0,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": "event-buffered-to-end",
+        "time": 5.958333,
+        "readyState": 4,
+        "seeking": false,
+        "paused": true,
+        "duration": 5.999999,
+        "frames": 1,
+        "videoBuffered": [
+          [
+            4.992,
+            5.999999
+          ]
+        ],
+        "mse": [
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "closed",
+            "duration": null,
+            "buffers": []
+          },
+          {
+            "readyState": "ended",
+            "duration": 5.999999,
+            "buffers": [
+              {
+                "ranges": [
+                  [
+                    4.992,
+                    5.999999
+                  ]
+                ],
+                "timestampOffset": 4.992,
+                "appendWindowStart": 0,
+                "appendWindowEnd": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "type": "starting",
+        "generation": 1,
+        "time": 5.999999
+      },
+      {
+        "type": "mapping",
+        "generation": 1,
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 5.999999,
+        "targetElement": 5.999999,
+        "timestampOffset": 4.992,
+        "audioEnd": null,
+        "status": null,
+        "capability": null
+      },
+      {
+        "type": "buffered",
+        "generation": 1,
+        "time": 5.958333333333333,
+        "duration": 6,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "timestampOffset": 4.992,
+          "audioEnd": null,
+          "endpoint": {
+            "requestedSource": 5.999999,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "frame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "bufferedRange": [
+              4.992,
+              5.999999
+            ],
+            "reason": "terminal-original-frame"
+          }
+        }
+      },
+      {
+        "type": "buffered-to-end",
+        "generation": 1
+      },
+      {
+        "type": "starting",
+        "generation": 2,
+        "time": 2
+      },
+      {
+        "type": "mapping",
+        "generation": 2,
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 2,
+        "targetElement": 2,
+        "timestampOffset": 1.984,
+        "audioEnd": null,
+        "status": null,
+        "capability": null
+      },
+      {
+        "type": "buffered",
+        "generation": 2,
+        "time": 2,
+        "duration": 6,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 2,
+          "targetElement": 2,
+          "timestampOffset": 1.984,
+          "audioEnd": null
+        }
+      },
+      {
+        "type": "buffered-to-end",
+        "generation": 2
+      },
+      {
+        "type": "starting",
+        "generation": 3,
+        "time": 6
+      },
+      {
+        "type": "mapping",
+        "generation": 3,
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 6,
+        "targetElement": 6,
+        "timestampOffset": 4.992,
+        "audioEnd": null,
+        "status": null,
+        "capability": null
+      },
+      {
+        "type": "buffered",
+        "generation": 3,
+        "time": 5.958333333333333,
+        "duration": 6,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6,
+          "commonShift": 0,
+          "targetSource": 5.958333333333333,
+          "targetElement": 5.958333333333333,
+          "timestampOffset": 4.992,
+          "audioEnd": null,
+          "endpoint": {
+            "requestedSource": 6,
+            "targetSource": 5.958333333333333,
+            "targetElement": 5.958333333333333,
+            "frame": {
+              "timestamp": 5.958333333333333,
+              "duration": 0.041666666666666664,
+              "endTimestamp": 6
+            },
+            "bufferedRange": [
+              4.992,
+              5.999999
+            ],
+            "reason": "terminal-original-frame"
+          }
+        }
+      },
+      {
+        "type": "buffered-to-end",
+        "generation": 3
+      }
+    ],
+    "sources": [
+      {
+        "reads": [
+          [
+            0,
+            65535
+          ],
+          [
+            524288,
+            589823
+          ],
+          [
+            589824,
+            655359
+          ],
+          [
+            655360,
+            659965
+          ]
+        ],
+        "aborts": 1,
+        "active": false
+      },
+      {
+        "reads": [
+          [
+            0,
+            65535
+          ],
+          [
+            196608,
+            262143
+          ],
+          [
+            262144,
+            327679
+          ],
+          [
+            327680,
+            393215
+          ],
+          [
+            393216,
+            458751
+          ],
+          [
+            458752,
+            524287
+          ],
+          [
+            524288,
+            589823
+          ],
+          [
+            589824,
+            655359
+          ],
+          [
+            655360,
+            659965
+          ]
+        ],
+        "aborts": 1,
+        "active": false
+      },
+      {
+        "reads": [
+          [
+            0,
+            65535
+          ],
+          [
+            524288,
+            589823
+          ],
+          [
+            589824,
+            655359
+          ],
+          [
+            655360,
+            659965
+          ]
+        ],
+        "aborts": 1,
+        "active": false
+      }
+    ],
+    "cleanup": {
+      "settled": true,
+      "source": {
+        "settled": true
+      },
+      "worker": {
+        "settled": true,
+        "originalSourceSettled": true,
+        "consumersSettled": true,
+        "activeReads": 0,
+        "pendingChunks": 0,
+        "pendingWindows": 0,
+        "workerTerminated": true
+      }
+    },
+    "final": {
+      "hasSource": false,
+      "nativeHasSource": false
+    }
+  },
+  "failure": {
+    "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'e8c0d11f6ddd51834baec33168d3e0a6d523904446f6608538a490d48a9bf5f8'\n- 'aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4'\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'e8c0d11f6ddd51834baec33168d3e0a6d523904446f6608538a490d48a9bf5f8'\n- 'aa10b41b0be60bd83de6dd1d25a3548c619297b7141d18f63c904c771ff096c4'\n\n    at C:\\extensions\\Drive-Original\\source\\qa\\player-track-endpoint\\native-endpoint.cjs:48:78"
+  }
+}

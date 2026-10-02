@@ -1,0 +1,215 @@
+{
+  "scope": "Independent FFprobe packet/time and FFmpeg decoded YUV oracle; explicit RGB matrices are a discriminator, not a new color contract.",
+  "tools": {
+    "ffmpeg": "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers\r",
+    "ffprobe": "ffprobe version 9.0.1-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers\r"
+  },
+  "copiedPacketCount": 24,
+  "ptsDtsClockShift": {
+    "numerator": "-94220845056",
+    "denominator": "18874368000"
+  },
+  "rationalPacketDurationsExact": true,
+  "lastSourcePacket": {
+    "codec_type": "video",
+    "stream_index": 0,
+    "pts": 73216,
+    "pts_time": "5.958333",
+    "dts": 73216,
+    "dts_time": "5.958333",
+    "duration": 512,
+    "duration_time": "0.041667",
+    "size": "3072",
+    "pos": "656508",
+    "flags": "___",
+    "data_hash": "SHA256:3e85c0bd2ce245c49badf406523a4fd9fb5d7b6b69e8f3e9f3e7ffc0c0d5a502"
+  },
+  "lastOutputPacket": {
+    "codec_type": "video",
+    "stream_index": 0,
+    "pts": 1484288,
+    "pts_time": "0.966333",
+    "dts": 1484288,
+    "dts_time": "0.966333",
+    "duration": 64000,
+    "duration_time": "0.041667",
+    "size": "3072",
+    "pos": "90676",
+    "flags": "___",
+    "data_hash": "SHA256:3e85c0bd2ce245c49badf406523a4fd9fb5d7b6b69e8f3e9f3e7ffc0c0d5a502"
+  },
+  "sourceVideo": {
+    "index": 0,
+    "codec_name": "h264",
+    "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+    "profile": "Constrained Baseline",
+    "codec_type": "video",
+    "codec_tag_string": "avc1",
+    "codec_tag": "0x31637661",
+    "mime_codec_string": "avc1.42c00c",
+    "width": 320,
+    "height": 180,
+    "coded_width": 320,
+    "coded_height": 180,
+    "has_b_frames": 0,
+    "sample_aspect_ratio": "1:1",
+    "display_aspect_ratio": "16:9",
+    "pix_fmt": "yuv420p",
+    "level": 12,
+    "chroma_location": "left",
+    "field_order": "progressive",
+    "is_avc": "true",
+    "nal_length_size": "4",
+    "id": "0x1",
+    "r_frame_rate": "24/1",
+    "avg_frame_rate": "24/1",
+    "time_base": "1/12288",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 73728,
+    "duration": "6.000000",
+    "bit_rate": "744934",
+    "bits_per_raw_sample": "8",
+    "nb_frames": "144",
+    "nb_read_packets": "144",
+    "extradata_size": 38,
+    "extradata_hash": "SHA256:dcfa13fa0d4dbae8c51efe106415681c275d43daf192a1a2c1c9f8dd9e3304f9",
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0,
+      "multilayer": 0
+    },
+    "tags": {
+      "language": "und",
+      "handler_name": "VideoHandler",
+      "encoder": "Lavc63.1.101 libx264"
+    }
+  },
+  "outputVideo": {
+    "index": 0,
+    "codec_name": "h264",
+    "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+    "profile": "Constrained Baseline",
+    "codec_type": "video",
+    "codec_tag_string": "avc1",
+    "codec_tag": "0x31637661",
+    "mime_codec_string": "avc1.42c00c",
+    "width": 320,
+    "height": 180,
+    "coded_width": 320,
+    "coded_height": 180,
+    "has_b_frames": 0,
+    "sample_aspect_ratio": "1:1",
+    "display_aspect_ratio": "16:9",
+    "pix_fmt": "yuv420p",
+    "level": 12,
+    "chroma_location": "left",
+    "field_order": "progressive",
+    "is_avc": "true",
+    "nal_length_size": "4",
+    "id": "0x1",
+    "r_frame_rate": "24/1",
+    "avg_frame_rate": "24/1",
+    "time_base": "1/1536000",
+    "start_pts": 12288,
+    "start_time": "0.008000",
+    "duration_ts": 1548288,
+    "duration": "1.008000",
+    "bit_rate": "737216",
+    "bits_per_raw_sample": "8",
+    "nb_read_packets": "24",
+    "extradata_size": 38,
+    "extradata_hash": "SHA256:dcfa13fa0d4dbae8c51efe106415681c275d43daf192a1a2c1c9f8dd9e3304f9",
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0,
+      "multilayer": 0
+    },
+    "tags": {
+      "creation_time": "2026-10-02T04:40:54.000000Z",
+      "language": "und",
+      "handler_name": "MediabunnyVideoHandler",
+      "encoder": "Mediabunny"
+    }
+  },
+  "sourceDecodedYuv": {
+    "bytes": 86400,
+    "sha256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c"
+  },
+  "outputDecodedYuv": {
+    "bytes": 86400,
+    "sha256": "3088df3cfcc64a012d855270b67a6b30c7602dd1fc1c3d5ddb225b52046e358c"
+  },
+  "originalPacketHashPreserved": true,
+  "decodedFrameExact": true,
+  "canvasDifference": {
+    "differentChannels": 107264,
+    "maxChannelDelta": 40,
+    "meanAbsoluteChannelDelta": 8.449375,
+    "psnr": 24.745606248751688
+  },
+  "matrix": [
+    {
+      "name": "bt601",
+      "native": {
+        "differentChannels": 95831,
+        "maxChannelDelta": 191,
+        "meanAbsoluteChannelDelta": 3.7902893518518517,
+        "psnr": 25.78219556136636
+      },
+      "q1": {
+        "differentChannels": 113824,
+        "maxChannelDelta": 190,
+        "meanAbsoluteChannelDelta": 10.851585648148149,
+        "psnr": 22.370792697987394
+      }
+    },
+    {
+      "name": "bt709",
+      "native": {
+        "differentChannels": 107432,
+        "maxChannelDelta": 193,
+        "meanAbsoluteChannelDelta": 10.631197916666666,
+        "psnr": 22.394275968872176
+      },
+      "q1": {
+        "differentChannels": 73767,
+        "maxChannelDelta": 192,
+        "meanAbsoluteChannelDelta": 3.3258275462962965,
+        "psnr": 26.41510469509267
+      }
+    }
+  ]
+}

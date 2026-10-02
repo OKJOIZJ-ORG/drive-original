@@ -1,0 +1,2605 @@
+{
+  "name": "selected-audio-retry",
+  "passed": false,
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "POST",
+      "path": "/drive/v3/files/fixture/download",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-11"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-939"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=65536-131071"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=131072-196607"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=196608-262143"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=262144-327679"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=327680-393215"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=393216-458751"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=458752-524287"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=524288-589823"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=589824-655359"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=655360-720895"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=720896-759100"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=65536-131071"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=131072-196607"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=196608-262143"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=262144-327679"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=327680-393215"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=393216-458751"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=458752-524287"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=524288-589823"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=589824-655359"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=655360-720895"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=720896-759100"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-939"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=65536-131071"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=131072-196607"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=196608-262143"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=262144-327679"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=65536-131071"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=131072-196607"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=196608-262143"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=262144-327679"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=327680-393215"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=393216-458751"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=458752-524287"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=524288-589823"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=589824-655359"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=655360-720895"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=720896-759100"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    }
+  ],
+  "fixture": {
+    "path": "qa/fm05-controlled-diagnostic/multiaudio.mp4",
+    "bytes": 759101,
+    "sha256": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9"
+  },
+  "native": {
+    "attempt": "range",
+    "mode": "original-range",
+    "timeline": {
+      "mapping": false,
+      "duration": 6,
+      "currentTime": 0
+    },
+    "session": 1,
+    "video": {
+      "time": 0,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0,
+          6
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "tracks": null,
+    "dialog": {
+      "open": false,
+      "audioValue": "",
+      "status": "음성·자막 목록을 확인합니다.",
+      "audio": [
+        {
+          "value": "",
+          "text": "현재 원본 음성",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [],
+    "trace": []
+  },
+  "selected": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "timeline": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": -0.021333333333333333,
+        "targetSource": 0,
+        "targetElement": 0.021333333333333333,
+        "timestampOffset": 0,
+        "audioEnd": null
+      },
+      "duration": 6,
+      "currentTime": 0
+    },
+    "session": 1,
+    "video": {
+      "time": 0.021333,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0,
+          6.021333
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "q1OwnerSelected": 3,
+    "stats": {
+      "generation": 1,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": -0.021333333333333333,
+        "targetSource": 0,
+        "targetElement": 0.021333333333333333,
+        "timestampOffset": 0,
+        "audioEnd": null
+      },
+      "appends": 8,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 5.994666,
+      "peakRetainedAppendBytes": 659129,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 12,
+        "bytes": 759101,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 8,
+        "acks": 8,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 12,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 1,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 0,
+        "windowOrigin": -0.021333333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 3,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "selectedAudioTrackId": 3,
+        "lastVideoFrame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 427,
+        "outputBytes": 659129,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 116509,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 127609,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 759101,
+          "logicalReads": 293,
+          "cacheHits": 299,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "tracks": {
+      "current": true,
+      "selectedAudioTrackId": 3,
+      "identity": {
+        "accountKey": "account",
+        "accountGeneration": 1,
+        "fileId": "fixture",
+        "headRevisionId": "A",
+        "size": "759101",
+        "mimeType": "video/mp4",
+        "modifiedTime": "A",
+        "canDownload": true,
+        "trashed": false,
+        "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+        "version": null
+      },
+      "inventory": {
+        "kind": "iso",
+        "audioTracks": [
+          {
+            "trackId": 2,
+            "language": "eng",
+            "label": "eng (2)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          },
+          {
+            "trackId": 3,
+            "language": "kor",
+            "label": "kor (3)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          }
+        ],
+        "defaultAudioTrackId": 2,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "759101",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+          "version": null
+        },
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 4,
+          "cacheHits": 7,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "source": false,
+      "switching": false
+    },
+    "dialog": {
+      "open": false,
+      "audioValue": "3",
+      "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "eng (2) · aac",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "kor (3) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      }
+    ],
+    "trace": []
+  },
+  "beforeRetry": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "timeline": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "duration": 6,
+      "currentTime": 1.5
+    },
+    "session": 1,
+    "video": {
+      "time": 1.5,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0.981333,
+          5.999999
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "q1OwnerSelected": 3,
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "appends": 7,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 4.494666,
+      "peakRetainedAppendBytes": 554651,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 12,
+        "bytes": 759101,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 7,
+        "acks": 7,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 12,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 1.5,
+        "windowOrigin": 0.9813333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 3,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "selectedAudioTrackId": 3,
+        "lastVideoFrame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 356,
+        "outputBytes": 554651,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 115705,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 127609,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 759101,
+          "logicalReads": 245,
+          "cacheHits": 251,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 196608,
+          "discoveryRequests": 3
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "tracks": {
+      "current": true,
+      "selectedAudioTrackId": 3,
+      "identity": {
+        "accountKey": "account",
+        "accountGeneration": 1,
+        "fileId": "fixture",
+        "headRevisionId": "A",
+        "size": "759101",
+        "mimeType": "video/mp4",
+        "modifiedTime": "A",
+        "canDownload": true,
+        "trashed": false,
+        "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+        "version": null
+      },
+      "inventory": {
+        "kind": "iso",
+        "audioTracks": [
+          {
+            "trackId": 2,
+            "language": "eng",
+            "label": "eng (2)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          },
+          {
+            "trackId": 3,
+            "language": "kor",
+            "label": "kor (3)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          }
+        ],
+        "defaultAudioTrackId": 2,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "759101",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+          "version": null
+        },
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 4,
+          "cacheHits": 7,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "source": false,
+      "switching": false
+    },
+    "dialog": {
+      "open": false,
+      "audioValue": "3",
+      "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "eng (2) · aac",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "kor (3) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      }
+    ],
+    "trace": []
+  },
+  "retried": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "timeline": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "duration": 6,
+      "currentTime": 1.5
+    },
+    "session": 2,
+    "video": {
+      "time": 1.5,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0.981333,
+          5.999999
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "q1OwnerSelected": 3,
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "appends": 7,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 4.494666,
+      "peakRetainedAppendBytes": 554651,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 12,
+        "bytes": 759101,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 7,
+        "acks": 7,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 12,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 1.5,
+        "windowOrigin": 0.9813333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 3,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "selectedAudioTrackId": 3,
+        "lastVideoFrame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 356,
+        "outputBytes": 554651,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 115705,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 127609,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 759101,
+          "logicalReads": 245,
+          "cacheHits": 251,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 196608,
+          "discoveryRequests": 3
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "tracks": null,
+    "dialog": {
+      "open": false,
+      "audioValue": "3",
+      "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "eng (2) · aac",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "kor (3) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "error": "GENERAL_CANCELLED"
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      }
+    ],
+    "trace": []
+  },
+  "reopened": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "timeline": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "duration": 6,
+      "currentTime": 1.5
+    },
+    "session": 2,
+    "video": {
+      "time": 1.5,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0.981333,
+          5.999999
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "q1OwnerSelected": 3,
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "appends": 7,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 4.494666,
+      "peakRetainedAppendBytes": 554651,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 12,
+        "bytes": 759101,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 7,
+        "acks": 7,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 12,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 1.5,
+        "windowOrigin": 0.9813333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 3,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "selectedAudioTrackId": 3,
+        "lastVideoFrame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 356,
+        "outputBytes": 554651,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 115705,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 127609,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 759101,
+          "logicalReads": 245,
+          "cacheHits": 251,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 196608,
+          "discoveryRequests": 3
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "tracks": {
+      "current": true,
+      "identity": {
+        "accountKey": "account",
+        "accountGeneration": 1,
+        "fileId": "fixture",
+        "headRevisionId": "A",
+        "size": "759101",
+        "mimeType": "video/mp4",
+        "modifiedTime": "A",
+        "canDownload": true,
+        "trashed": false,
+        "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+        "version": null
+      },
+      "inventory": {
+        "kind": "iso",
+        "audioTracks": [
+          {
+            "trackId": 2,
+            "language": "eng",
+            "label": "eng (2)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          },
+          {
+            "trackId": 3,
+            "language": "kor",
+            "label": "kor (3)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          }
+        ],
+        "defaultAudioTrackId": 2,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "759101",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+          "version": null
+        },
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 4,
+          "cacheHits": 7,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "source": false
+    },
+    "dialog": {
+      "open": true,
+      "audioValue": "2",
+      "status": "선택 가능한 텍스트 자막이 없습니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "eng (2) · aac",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "kor (3) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "error": "GENERAL_CANCELLED"
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      }
+    ],
+    "trace": []
+  },
+  "failure": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly equal:\n\n'2' !== '3'\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'2' !== '3'\n\n    at C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:31:749\n    at async runCase (C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:22:1926)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:31:1"
+  },
+  "failureSnapshot": {
+    "attempt": "q1",
+    "mode": "original-repackaged",
+    "timeline": {
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "duration": 6,
+      "currentTime": 1.5
+    },
+    "session": 2,
+    "video": {
+      "time": 1.5,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0.981333,
+          5.999999
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "q1OwnerSelected": 3,
+    "stats": {
+      "generation": 2,
+      "phase": "buffered-to-end",
+      "failure": null,
+      "mapping": {
+        "sourceOrigin": 0,
+        "sourceEnd": 6,
+        "commonShift": 0,
+        "targetSource": 1.5,
+        "targetElement": 1.5,
+        "timestampOffset": 0.9813333333333333,
+        "audioEnd": null
+      },
+      "appends": 7,
+      "removals": 0,
+      "waits": 0,
+      "peakAhead": 4.494666,
+      "peakRetainedAppendBytes": 554651,
+      "disposed": false,
+      "status": null,
+      "capability": null,
+      "worker": {
+        "reads": 12,
+        "bytes": 759101,
+        "activeReads": 0,
+        "peakReads": 1,
+        "chunks": 7,
+        "acks": 7,
+        "pendingChunks": 0,
+        "peakPendingChunks": 1,
+        "detachedReadBuffers": 12,
+        "invalidMessages": 0,
+        "staleRepliesSuppressed": 0,
+        "pendingWindows": 0,
+        "terminated": true
+      },
+      "pipeline": {
+        "generation": 2,
+        "duration": 6,
+        "sourcePacketOrigin": -0.021333333333333333,
+        "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+        "targetTime": 1.5,
+        "windowOrigin": 0.9813333333333333,
+        "policy": {
+          "kind": "isobmff-movie-axis",
+          "presentationOrigin": 0,
+          "validPresentationStart": 0,
+          "declaredEnd": 6,
+          "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+          "tracks": [
+            {
+              "id": 1,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 0,
+              "firstPacketTimestamp": 0
+            },
+            {
+              "id": 3,
+              "leadingEmptySeconds": 0,
+              "contentEntries": 1,
+              "entryCount": 1,
+              "mediaTime": 1024,
+              "firstPacketTimestamp": -0.021333333333333333
+            }
+          ]
+        },
+        "selectedAudioTrackId": 3,
+        "lastVideoFrame": {
+          "timestamp": 5.958333333333333,
+          "duration": 0.041666666666666664,
+          "endTimestamp": 6
+        },
+        "videoCodec": "avc",
+        "audioCodec": "aac",
+        "packets": 356,
+        "outputBytes": 554651,
+        "peakPendingAcks": 1,
+        "peakBufferedPacketBytes": 115705,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "muxRetention": {
+          "bytes": 0,
+          "samples": 0,
+          "peakBytes": 127609,
+          "peakSamples": 73
+        },
+        "encodersCreated": 0,
+        "inputFormat": "MP4",
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 12,
+          "bytes": 759101,
+          "logicalReads": 245,
+          "cacheHits": 251,
+          "peakCache": 262144,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 196608,
+          "discoveryRequests": 3
+        }
+      },
+      "failureDiagnostic": null
+    },
+    "tracks": {
+      "current": true,
+      "identity": {
+        "accountKey": "account",
+        "accountGeneration": 1,
+        "fileId": "fixture",
+        "headRevisionId": "A",
+        "size": "759101",
+        "mimeType": "video/mp4",
+        "modifiedTime": "A",
+        "canDownload": true,
+        "trashed": false,
+        "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+        "version": null
+      },
+      "inventory": {
+        "kind": "iso",
+        "audioTracks": [
+          {
+            "trackId": 2,
+            "language": "eng",
+            "label": "eng (2)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          },
+          {
+            "trackId": 3,
+            "language": "kor",
+            "label": "kor (3)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          }
+        ],
+        "defaultAudioTrackId": 2,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            283
+          ],
+          "boxes": 66,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            }
+          ]
+        },
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "759101",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9",
+          "version": null
+        },
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 4,
+          "cacheHits": 7,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "source": false
+    },
+    "dialog": {
+      "open": true,
+      "audioValue": "2",
+      "status": "선택 가능한 텍스트 자막이 없습니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "eng (2) · aac",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "kor (3) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "start",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 1,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 1,
+        "error": "GENERAL_CANCELLED"
+      },
+      {
+        "kind": "start",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "window",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      },
+      {
+        "kind": "terminal",
+        "generation": 2,
+        "selectedAudioTrackId": 3
+      }
+    ],
+    "trace": []
+  }
+}

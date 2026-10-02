@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),cp=require('node:child_process'),crypto=require('node:crypto');
+const input=path.resolve(__dirname,'../fm05-controlled-diagnostic/subtitle.mp4'),output=path.join(__dirname,'pendingcue.mp4');
+const original=fs.readFileSync(input),out=Buffer.from(original);
+function boxes(start,end){const a=[];for(let p=start;p<end;){const n=out.readUInt32BE(p),t=out.toString('ascii',p+4,p+8);assert.ok(n>=8&&p+n<=end);a.push({p,n,t,body:p+8,end:p+n});p+=n;}return a;}
+const moov=boxes(0,out.length).find(b=>b.t==='moov');let stco,stsz;
+for(const trak of boxes(moov.body,moov.end).filter(b=>b.t==='trak')){const mdia=boxes(trak.body,trak.end).find(b=>b.t==='mdia'),children=boxes(mdia.body,mdia.end),hdlr=children.find(b=>b.t==='hdlr');if(out.toString('ascii',hdlr.body+8,hdlr.body+12)!=='sbtl')continue;const minf=children.find(b=>b.t==='minf'),stbl=boxes(minf.body,minf.end).find(b=>b.t==='stbl'),tables=boxes(stbl.body,stbl.end);stco=tables.find(b=>b.t==='stco');stsz=tables.find(b=>b.t==='stsz');}
+assert.ok(stco&&stsz);const count=out.readUInt32BE(stco.body+4);assert.equal(count,2);assert.equal(out.readUInt32BE(stsz.body+4),0);assert.equal(out.readUInt32BE(stsz.body+8),count);
+const pad=131072,parts=[],chunks=[];let cursor=original.length+8+pad;
+for(let i=0;i<count;i++){const oldOffset=out.readUInt32BE(stco.body+8+i*4),length=out.readUInt32BE(stsz.body+12+i*4);parts.push(original.subarray(oldOffset,oldOffset+length));chunks.push({oldOffset,newOffset:cursor,length,sha256:crypto.createHash('sha256').update(parts.at(-1)).digest('hex')});out.writeUInt32BE(cursor,stco.body+8+i*4);cursor+=length;}
+const mdat=Buffer.alloc(8+pad+parts.reduce((n,b)=>n+b.length,0));mdat.writeUInt32BE(mdat.length,0);mdat.write('mdat',4);let p=8+pad;for(const part of parts){part.copy(mdat,p);p+=part.length;}const bytes=Buffer.concat([out,mdat]);fs.writeFileSync(output,bytes);
+const probeArgs=['-v','error','-select_streams','s','-show_packets','-show_data_hash','sha256','-of','json'],sourceProbe=JSON.parse(cp.execFileSync('ffprobe',[...probeArgs,input],{encoding:'utf8'})),probe=JSON.parse(cp.execFileSync('ffprobe',[...probeArgs,output],{encoding:'utf8'}));
+assert.equal(probe.packets[0].pts_time,'0.000000');assert.equal(probe.packets[0].duration_time,'5.000000');assert.equal(probe.packets[0].data_hash,sourceProbe.packets[0].data_hash);
+fs.writeFileSync(path.join(__dirname,'pendingcue-provenance.json'),JSON.stringify({input,path:output,method:'Generated fixture only: append second mdat with131072 zero padding, copy unchanged subtitle sample bytes, repoint subtitle stco only; original video/audio bytes and clocks untouched.',inputSha256:crypto.createHash('sha256').update(original).digest('hex'),sha256:crypto.createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,chunks,sourceProbe,probe},null,2));
+console.log('pendingcue',bytes.length,crypto.createHash('sha256').update(bytes).digest('hex'));

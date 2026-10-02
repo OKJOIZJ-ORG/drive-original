@@ -5,6 +5,7 @@ import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
 import { resolveTimelinePolicy } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
+import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
 
 import {createAudioRuntime, observeAudioCompatibility, observeNativeFileSupport, AUDIO_OUTPUT_STATUS} from './audio-runtime.mjs';
 // Main-thread admission after Q0 has pinned the exact revision. This inspects
@@ -47,14 +48,14 @@ export async function probePinnedGeneralAudio(source, {signal, isCurrent = () =>
 // Q2: copy encoded AVC; decode only unsupported AC3/EAC3 stereo 48 kHz.
 // One enclosing Worker owns this job, its WASM heap and native Opus encoder.
 export async function streamGeneralQ2({ source, generation = 1, isCurrent = () => true,
-  signal,
+  signal, selectedAudioTrackId,
   targetTime = 0, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
   if (endTime !== Infinity) throw new Error('GENERAL_TRIM_UNQUALIFIED');
   const rpc = createGeneralSource(source, { isCurrent, signal, ...limits });
   let admission;
-  try { admission = await admitGeneralInput(rpc, {audioCodecs:['ac-3','ec-3']}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
+  try { validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
   const policyRpc = {metrics:{...rpc.metrics,generation,size:rpc.size},request:({start,end})=>rpc.request(start,end)};
   const input = new Input({ source: rpc.custom, formats: [MP4, QTFF, MPEG_TS] });
   const runtime = createAudioRuntime();
@@ -74,10 +75,10 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
     if (!Number.isSafeInteger(maxOutputChunk) || maxOutputChunk <= 0 || maxOutputChunk > 256 * 1024)
       throw new Error('GENERAL_OUTPUT_CHUNK_LIMIT');
     const video = await input.getPrimaryVideoTrack(); rpc.check();
-    const audio = await input.getPrimaryAudioTrack(); rpc.check();
+    const audio = await resolveGeneralAudioTrack(input, admission, selectedAudioTrackId); rpc.check();
     if (!video) throw new Error('GENERAL_VIDEO_REQUIRED');
     if (admission.kind !== 'iso' || video.codec !== 'avc' || !audio || !['ac3','eac3'].includes(audio.codec)) throw new Error('GENERAL_CODEC_UNQUALIFIED');
-    if ((await input.getVideoTracks()).length !== 1 || (await input.getAudioTracks()).length > 1) throw new Error('GENERAL_TRACKS_UNQUALIFIED');
+    if ((await input.getVideoTracks()).length !== 1) throw new Error('GENERAL_TRACKS_UNQUALIFIED');
     const duration = await video.computeDuration(); rpc.check();
     phase = 'packets';
     const videoSink = new EncodedPacketSink(video), audioSink = audio && new EncodedPacketSink(audio);
@@ -102,7 +103,7 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
     const sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
     const policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
     rpc.check();
-    windowInfo = { generation, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp,
+    windowInfo = { generation, selectedAudioTrackId:audio.id, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp,
       sourceEndTimestamp: policy?.declaredEnd ?? duration, policy, videoConfig, videoCodec: video.codec,
       audioCodec: 'opus', inputAudioCodec: audio.codec, status: AUDIO_OUTPUT_STATUS, capability };
     phase = 'decoder-open';
@@ -211,7 +212,7 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
     if(!windowSent||prefixBytes) throw new Error('AUDIO_FINAL_CONFIG_REQUIRED');
     readyResult = { generation, duration, sourcePacketOrigin, durationSemantics: 'source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll', targetTime, windowOrigin,
       policy: policy || null,
-      videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
+      selectedAudioTrackId:audio.id, videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
       peakPendingAcks: peakAcks, peakBufferedPacketBytes, admission, muxRetention: output._muxer.q1Retention, encodersCreated: 1, videoEncodersCreated: 0, status:AUDIO_OUTPUT_STATUS, capability, finalAudioConfig, peakPrefixBytes, inputFormat: (await input.getFormat()).name };
   } catch (error) {
     failure = error;

@@ -30,7 +30,7 @@ listen(async message => {
   try {
     result = await streamGeneralQ1({ source: proxy, generation, signal: controller.signal,
       isCurrent: () => !controller.signal.aborted,
-      targetTime: message.targetTime, endTime: message.endTime, limits: message.limits,
+      targetTime: message.targetTime, endTime: message.endTime, limits: message.limits, selectedAudioTrackId:message.selectedAudioTrackId,
       timelinePolicy: message.timelinePolicy, 
       onWindow: value => request('window', { value }),
       onChunk: ({ bytes, position, batchSize, batchEnd }) => request('chunk', { buffer: bytes.buffer, position, batchSize, batchEnd }, [bytes.buffer]) });

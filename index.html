@@ -23,10 +23,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.22.0-rc.34">
-  <script src="./runtime-config.js?v=1.22.0-rc.34"></script>
-  <script src="./media/revision-pin.js?v=1.22.0-rc.34" defer></script>
-  <script src="./app.js?v=1.22.0-rc.34" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=1.22.0-rc.35">
+  <script src="./runtime-config.js?v=1.22.0-rc.35"></script>
+  <script src="./media/revision-pin.js?v=1.22.0-rc.35" defer></script>
+  <script src="./app.js?v=1.22.0-rc.35" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -321,6 +321,7 @@
         <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
         <div class="mobile-shorts-overlay" id="mobileShortsOverlay">
           <div class="shorts-expand-row" id="shortsExpandRow">
+            <button class="shorts-chip" id="shortsTracksBtn" type="button"><span>음성·자막</span></button>
             <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               <span>삭제</span>
@@ -476,6 +477,7 @@
                     <span id="mediaFileSizeType">—</span>
                     <p id="codecNote">Drive 원본 파일 전송 여부를 확인하는 중입니다.</p>
                   </div>
+                  <button class="player-more-action" id="ctrlTracks" type="button">음성·자막</button>
                   <button class="player-more-action" id="ctrlMove" type="button">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
                     <span>폴더로 이동</span>
@@ -527,7 +529,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.22.0-rc.34</span>
+            <span class="version-badge" id="settingsAppVersion">v1.22.0-rc.35</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -583,13 +585,29 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.22.0-rc.34</span>
+          <span id="appVersion">v1.22.0-rc.35</span>
         </div>
       </div>
     </form>
   </dialog>
 
   <!-- Delete Confirm Dialog -->
+  <dialog class="app-dialog" id="playerTracksDialog" aria-labelledby="playerTracksTitle">
+    <div class="dialog-box">
+      <div class="dialog-top">
+        <h2 id="playerTracksTitle">음성·자막</h2>
+        <button class="secondary-button" id="playerTracksClose" type="button">닫기</button>
+      </div>
+      <div class="dialog-content">
+        <label for="playerAudioTrack">음성</label>
+        <select id="playerAudioTrack" aria-describedby="playerTracksStatus" disabled><option value="">현재 원본 음성</option></select>
+        <label for="playerSubtitleTrack">자막</label>
+        <select id="playerSubtitleTrack" aria-describedby="playerTracksStatus" disabled><option value="">끔</option></select>
+        <p class="dialog-text subtle" id="playerTracksStatus" role="status">음성·자막 목록을 확인합니다.</p>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="app-dialog" id="deleteDialog" aria-labelledby="deleteDialogTitle" aria-describedby="deleteFileName">
     <form method="dialog" class="dialog-box">
       <div class="dialog-top">

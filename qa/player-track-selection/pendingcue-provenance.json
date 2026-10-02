@@ -1,0 +1,58 @@
+{
+  "input": "C:\\extensions\\Drive-Original\\source\\qa\\fm05-controlled-diagnostic\\subtitle.mp4",
+  "path": "C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\pendingcue.mp4",
+  "method": "Generated fixture only: append second mdat with131072 zero padding, copy unchanged subtitle sample bytes, repoint subtitle stco only; original video/audio bytes and clocks untouched.",
+  "inputSha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+  "sha256": "de032e427fe2208bf312d556b1d3e52f5f649b4df94263314af42bec2205fcca",
+  "bytes": 791068,
+  "chunks": [
+    {
+      "oldOffset": 14172,
+      "newOffset": 791046,
+      "length": 20,
+      "sha256": "cc828943e588338f0ceb67ea69bc143f717ac601aaa7d06c1b5052eb30112c9a"
+    },
+    {
+      "oldOffset": 659964,
+      "newOffset": 791066,
+      "length": 2,
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    }
+  ],
+  "sourceProbe": {
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 2,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 5000000,
+        "duration_time": "5.000000",
+        "size": "20",
+        "pos": "14172",
+        "flags": "K__",
+        "data_hash": "SHA256:cc828943e588338f0ceb67ea69bc143f717ac601aaa7d06c1b5052eb30112c9a"
+      }
+    ]
+  },
+  "probe": {
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 2,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 5000000,
+        "duration_time": "5.000000",
+        "size": "20",
+        "pos": "791046",
+        "flags": "K__",
+        "data_hash": "SHA256:cc828943e588338f0ceb67ea69bc143f717ac601aaa7d06c1b5052eb30112c9a"
+      }
+    ]
+  }
+}

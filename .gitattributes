@@ -280,3 +280,11 @@
 /qa/candidate-rc34-delivery/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/q3-read-coalescing-acceptance/** -text whitespace=cr-at-eol,-blank-at-eol
 /qa/pc-representative-images/** -text whitespace=cr-at-eol,-blank-at-eol
+
+# Preserve the exact bounded track/caption producers and their native receipts.
+/media/subtitle-* -text whitespace=cr-at-eol
+/tests/subtitle-* -text whitespace=cr-at-eol
+/tests/player-tracks-app.test.js -text whitespace=cr-at-eol
+/qa/player-track-selection/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/player-track-endpoint/** -text whitespace=cr-at-eol,-blank-at-eol
+/qa/candidate-rc35-delivery/** -text whitespace=cr-at-eol,-blank-at-eol

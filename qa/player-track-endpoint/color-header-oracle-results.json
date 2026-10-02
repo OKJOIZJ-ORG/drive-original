@@ -1,0 +1,111 @@
+{
+  "scope": "Exact container sample-entry child traversal and independent FFmpeg AVC SPS trace. No guessed matrix or product edit.",
+  "sourceMetadata": [
+    {
+      "sampleEntry": "avc1",
+      "extensions": [
+        "avcC",
+        "pasp",
+        "btrt"
+      ],
+      "colrDeclarations": [],
+      "avcC": {
+        "bytes": 38,
+        "sha256": "dcfa13fa0d4dbae8c51efe106415681c275d43daf192a1a2c1c9f8dd9e3304f9"
+      },
+      "sps": [
+        {
+          "bytes": 23,
+          "sha256": "f77498e253227ffef11ec467676fec4939eaa68ae0c4e9a426438a906adc865e",
+          "hex": "6742c00cda05067e7c0440000003004000000c03c50aa8"
+        }
+      ]
+    }
+  ],
+  "outputMetadata": [
+    {
+      "sampleEntry": "avc1",
+      "extensions": [
+        "avcC"
+      ],
+      "colrDeclarations": [],
+      "avcC": {
+        "bytes": 38,
+        "sha256": "dcfa13fa0d4dbae8c51efe106415681c275d43daf192a1a2c1c9f8dd9e3304f9"
+      },
+      "sps": [
+        {
+          "bytes": 23,
+          "sha256": "f77498e253227ffef11ec467676fec4939eaa68ae0c4e9a426438a906adc865e",
+          "hex": "6742c00cda05067e7c0440000003004000000c03c50aa8"
+        }
+      ]
+    }
+  ],
+  "sourceSpsFields": {
+    "profile_idc": [
+      66
+    ],
+    "chroma_format_idc": [],
+    "bit_depth_luma_minus8": [],
+    "bit_depth_chroma_minus8": [],
+    "vui_parameters_present_flag": [
+      1
+    ],
+    "aspect_ratio_info_present_flag": [
+      1
+    ],
+    "video_signal_type_present_flag": [
+      0
+    ],
+    "video_full_range_flag": [],
+    "colour_description_present_flag": [],
+    "colour_primaries": [],
+    "transfer_characteristics": [],
+    "matrix_coefficients": []
+  },
+  "outputSpsFields": {
+    "profile_idc": [
+      66
+    ],
+    "chroma_format_idc": [],
+    "bit_depth_luma_minus8": [],
+    "bit_depth_chroma_minus8": [],
+    "vui_parameters_present_flag": [
+      1
+    ],
+    "aspect_ratio_info_present_flag": [
+      1
+    ],
+    "video_signal_type_present_flag": [
+      0
+    ],
+    "video_full_range_flag": [],
+    "colour_description_present_flag": [],
+    "colour_primaries": [],
+    "transfer_characteristics": [],
+    "matrix_coefficients": []
+  },
+  "avcCAndSpsBytesExact": true,
+  "noContainerColrDeclaration": true,
+  "noSpsVideoSignalTypeDeclaration": true,
+  "noSpsColorDescriptionDeclaration": true,
+  "writerBundle": {
+    "path": "media/mediabunny-q1.mjs",
+    "sha256": "4ee8a826604206e169e4a7f9100cda1e4e54fadddf69f92df8ffa2b1bedd15cd",
+    "colrContexts": [
+      {
+        "codeUnitOffset": 112257,
+        "context": "le:c,level:u,tier:d,bitDepth:k,monochrome:g,chromaSubsamplingX:p,chromaSubsamplingY:b,chromaSamplePosition:y,videoFullRangeFlag:w?.videoFullRangeFlag??0,colourPrimaries:w?.colourPrimaries??2,transferCharacteristics:w?.transferCharacteristics??2,matrixCoefficients:w?.matrixCoefficients??2}}break;case\"colr\":{let s=this.currentTrack;if(!s)break;h(s.info?.type===\"video\");let o=ae(e,4);if(o!==\"nclx\"&&o!==\"nclc\")break;let c=he(e),u=he(e),l=he(e),d;o===\"nclx\"&&(d=!!(U(e)&128)),s.info.colorSpace={primaries:it[c],transfer:nt[u],matrix:at[l],fullRange:d}}break;case\"pasp\":{let s=this.currentTrack;if(!s)break;h(s.info?.type===\"video\");let o=R(e),c=R(e);s"
+      },
+      {
+        "codeUnitOffset": 471615,
+        "context": "_u(e)]),_u=i=>i.avgBitrate===0&&i.maxBitrate===0?null:L(\"btrt\",[_(0),_(i.maxBitrate),_(i.avgBitrate)]),wh=i=>i.info.pixelAspectRatio.num===i.info.pixelAspectRatio.den?null:L(\"pasp\",[_(i.info.pixelAspectRatio.num),_(i.info.pixelAspectRatio.den)]),Sh=i=>{let e=i.info.decoderConfig.colorSpace;return L(\"colr\",[oe(i.muxer.isQuickTime?\"nclc\":\"nclx\"),H(e?.primaries!=null?Tt[e.primaries]:2),H(e?.transfer!=null?wt[e.transfer]:2),H(e?.matrix!=null?St[e.matrix]:2),i.muxer.isQuickTime?[]:ye((e?.fullRange?1:0)<<7)])},Ah=i=>i.info.decoderConfig&&L(\"avcC\",[...X(i.info.decoderConfig.description)]),xh=i=>i.info.decoderConfig&&L(\"hvcC\",[...X(i.info.decoderConf"
+      }
+    ],
+    "writerGuardContext": "Aa=i=>!i||i.primaries==null&&i.transfer==null&&i.matrix==null&&i.fullRange==null,xa={primaries:void 0,transfer:void 0,matrix:void 0,fullRange:void 0},rr=i=>i instanceof A",
+    "writerCallContext": "urce._codec]?.(e)??null,wh(e),Aa(e.info.decoderConfig.colorSpace)?null:Sh(e),_u(e)]),_u=i=>i.avgBitrate===0&&i",
+    "interpretation": "When all color fields are absent, Aa returns true and the sample-entry writer omits colr. For a partial explicit color configuration, Sh fills other fields with ISO unspecified code2; it does not inject BT709 into this absent-color fixture."
+  },
+  "conclusion": "This fixture declares neither ISO colr nor SPS video-signal/color-description fields. Q1 preserves avcC/SPS bytes and also emits no colr. Native canvas rendering differs; assigning a matrix from that difference would be an inference, not original metadata preservation."
+}

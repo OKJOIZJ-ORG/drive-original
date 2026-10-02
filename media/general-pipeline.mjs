@@ -5,17 +5,18 @@ import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
 import { resolveTimelinePolicy } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
+import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
 
 // Pure packet-copy slice. No Decoder/Encoder, Conversion, Blob or full input.
 export async function streamGeneralQ1({ source, generation = 1, isCurrent = () => true,
-  signal,
+  signal, selectedAudioTrackId,
   targetTime = 0, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
   if (endTime !== Infinity) throw new Error('GENERAL_TRIM_UNQUALIFIED');
   const rpc = createGeneralSource(source, { isCurrent, signal, ...limits });
   let admission;
-  try { admission = await admitGeneralInput(rpc); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
+  try { validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
   const policyRpc = {metrics:{...rpc.metrics,generation,size:rpc.size},request:({start,end})=>rpc.request(start,end)};
   const input = new Input({ source: rpc.custom, formats: [MP4, QTFF, MPEG_TS] });
   let output, outputPosition = 0, outputBytes = 0, pendingAcks = 0, peakAcks = 0, packets = 0;
@@ -23,7 +24,7 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
   
   const maxOutputChunk = limits.maxOutputChunk ?? 256 * 1024;
   const maxBufferedPacketBytes = limits.maxBufferedPacketBytes ?? 4 * 1024 * 1024;
-  let bufferedPacketBytes = 0, peakBufferedPacketBytes = 0;
+  let bufferedPacketBytes = 0, peakBufferedPacketBytes = 0, lastVideoFrame = null;
   function acknowledgement(promise) {
     return new Promise((resolve,reject)=>{const abort=()=>{signal?.removeEventListener('abort',abort);reject(new Error('GENERAL_ACK_CANCELLED'));};signal?.addEventListener('abort',abort,{once:true});Promise.resolve(promise).then(value=>{signal?.removeEventListener('abort',abort);resolve(value);},error=>{signal?.removeEventListener('abort',abort);reject(error);});if(signal?.aborted)abort();});
   }
@@ -32,10 +33,10 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     if (!Number.isSafeInteger(maxOutputChunk) || maxOutputChunk <= 0 || maxOutputChunk > 256 * 1024)
       throw new Error('GENERAL_OUTPUT_CHUNK_LIMIT');
     const video = await input.getPrimaryVideoTrack(); rpc.check();
-    const audio = await input.getPrimaryAudioTrack(); rpc.check();
+    const audio = await resolveGeneralAudioTrack(input, admission, selectedAudioTrackId); rpc.check();
     if (!video) throw new Error('GENERAL_VIDEO_REQUIRED');
     if (video.codec !== 'avc' || (audio && audio.codec !== 'aac')) throw new Error('GENERAL_CODEC_UNQUALIFIED');
-    if ((await input.getVideoTracks()).length !== 1 || (await input.getAudioTracks()).length > 1) throw new Error('GENERAL_TRACKS_UNQUALIFIED');
+    if ((await input.getVideoTracks()).length !== 1) throw new Error('GENERAL_TRACKS_UNQUALIFIED');
     const duration = await video.computeDuration(); rpc.check();
     const videoSink = new EncodedPacketSink(video), audioSink = audio && new EncodedPacketSink(audio);
     let videoPacket = await videoSink.getKeyPacket(targetTime, { verifyKeyPackets: true });
@@ -53,7 +54,7 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     const sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
     const policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
     rpc.check();
-    await onWindow({ generation, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp, sourceEndTimestamp: policy?.declaredEnd ?? duration, policy,
+    await onWindow({ generation, selectedAudioTrackId:audio?.id??null, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp, sourceEndTimestamp: policy?.declaredEnd ?? duration, policy,
       videoConfig, audioConfig, videoCodec: video.codec, audioCodec: audio?.codec ?? null });
     rpc.check();
     const videoSource = new EncodedVideoPacketSource(video.codec);
@@ -99,6 +100,11 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
       packets++;
       if (packet.data.length > 2 * 1024 * 1024) throw new Error('GENERAL_PACKET_LIMIT');
       if (useVideo) guardVideo(packet);
+      // Constant-size terminal presentation evidence from admitted original
+      // packets. Decode order may differ from presentation order (B-frames).
+      if (useVideo && packet.timestamp < (policy?.declaredEnd ?? duration)
+          && (!lastVideoFrame || packet.timestamp > lastVideoFrame.timestamp))
+        lastVideoFrame = {timestamp:packet.timestamp,duration:packet.duration,endTimestamp:packet.timestamp+packet.duration};
       bufferedPacketBytes += packet.data.length;
       peakBufferedPacketBytes = Math.max(peakBufferedPacketBytes, bufferedPacketBytes);
       if (bufferedPacketBytes > maxBufferedPacketBytes) throw new Error('GENERAL_PACKET_BUFFER_LIMIT');
@@ -117,7 +123,7 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     await output.finalize(); rpc.check();
     readyResult = { generation, duration, sourcePacketOrigin, durationSemantics: 'source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll', targetTime, windowOrigin,
       policy: policy || null,
-      videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
+      selectedAudioTrackId:audio?.id??null, lastVideoFrame, videoCodec: video.codec, audioCodec: audio?.codec ?? null, packets, outputBytes,
       peakPendingAcks: peakAcks, peakBufferedPacketBytes, admission, muxRetention: output._muxer.q1Retention, encodersCreated: 0, inputFormat: (await input.getFormat()).name };
   } catch (error) { failure = error; }
   finally {

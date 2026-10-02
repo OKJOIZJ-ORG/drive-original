@@ -1,0 +1,175 @@
+{
+  "name": "shorts-track-dialog",
+  "passed": false,
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "POST",
+      "path": "/drive/v3/files/fixture/download",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-11"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    }
+  ],
+  "fixture": {
+    "path": "qa/fm05-controlled-diagnostic/multiaudio.mp4",
+    "bytes": 759101,
+    "sha256": "9567e0e2ec0d7c55ddb405f5a25282e581f637ecbc0632468a4d60e6403ecab9"
+  },
+  "native": {
+    "attempt": "range",
+    "mode": "original-range",
+    "timeline": {
+      "mapping": false,
+      "duration": 6,
+      "currentTime": 0
+    },
+    "session": 1,
+    "video": {
+      "time": 0,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0,
+          6
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "tracks": null,
+    "dialog": {
+      "open": false,
+      "status": "음성·자막 목록을 확인합니다.",
+      "audio": [
+        {
+          "value": "",
+          "text": "현재 원본 음성",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [],
+    "trace": []
+  },
+  "failure": {
+    "name": "TimeoutError",
+    "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#shortsMoreBtn')\u001b[22m\n\u001b[2m    - locator resolved to <button title=\"더보기\" type=\"button\" aria-label=\"더보기\" id=\"shortsMoreBtn\" aria-expanded=\"false\" class=\"shorts-chip more\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+    "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#shortsMoreBtn')\u001b[22m\n\u001b[2m    - locator resolved to <button title=\"더보기\" type=\"button\" aria-label=\"더보기\" id=\"shortsMoreBtn\" aria-expanded=\"false\" class=\"shorts-chip more\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:31:191\n    at async runCase (C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:22:1701)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:31:1"
+  },
+  "failureSnapshot": {
+    "attempt": "range",
+    "mode": "original-range",
+    "timeline": {
+      "mapping": false,
+      "duration": 6,
+      "currentTime": 0
+    },
+    "session": 1,
+    "video": {
+      "time": 0,
+      "paused": true,
+      "readyState": 4,
+      "buffered": [
+        [
+          0,
+          6
+        ]
+      ],
+      "frames": 4,
+      "error": null
+    },
+    "tracks": null,
+    "dialog": {
+      "open": false,
+      "status": "음성·자막 목록을 확인합니다.",
+      "audio": [
+        {
+          "value": "",
+          "text": "현재 원본 음성",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [],
+    "trace": []
+  }
+}

@@ -1,4 +1,4 @@
-const VERSION = '1.22.0-rc.34';
+const VERSION = '1.22.0-rc.35';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const SHELL_REFRESH_PROTOCOL = 'drive-original-shell-refresh-v1';
 const SHELL_REFRESH_TIMEOUT_MS = 15000;
@@ -26,6 +26,9 @@ const SHELL_FILES = [
   './media/mux-mp4.min.js',
   './media/mux-LICENSE.txt',
   './media/general-admission.mjs',
+  './media/general-tracks.mjs',
+  './media/subtitle-track.mjs',
+  './media/subtitle-presentation.mjs',
   './media/general-codec.mjs',
   './media/general-owner.mjs',
   './media/general-pipeline.mjs',

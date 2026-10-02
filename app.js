@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.34';
+const APP_VERSION = '1.22.0-rc.35';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -660,6 +660,10 @@ let mediaSeekSettledGeneration = 0;
 let mediaSourceGeneration = 0;
 let initialMediaRouteGeneration = 0;
 let q1Playback = null;
+let playerTracksOwner = null;
+let playerTracksRetirement = Promise.resolve({settled: true});
+let playerTracksRetirementResult = {settled: true};
+let playerSubtitleTextTrack = null;
 let q3Choice = null;
 let q0Playback = null;
 let q0ControlWait = null;
@@ -1305,6 +1309,8 @@ function bindElements() {
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown', 'playerMoreMenu',
+    'ctrlTracks', 'shortsTracksBtn', 'playerTracksDialog', 'playerTracksClose',
+    'playerAudioTrack', 'playerSubtitleTrack', 'playerTracksStatus',
     'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'videoCompatButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
@@ -1479,6 +1485,20 @@ function bindEvents() {
   if (el.playerMoreMenu) el.playerMoreMenu.addEventListener('toggle', () => {
     isPlayerMoreOpen = el.playerMoreMenu.open;
     resetControlsTimer();
+  });
+  [el.ctrlTracks, el.shortsTracksBtn].forEach(button => button?.addEventListener('click', event => {
+    event.stopPropagation(); void openPlayerTracks();
+  }));
+  el.playerTracksClose?.addEventListener('click', () => el.playerTracksDialog.close());
+  el.playerAudioTrack?.addEventListener('change', () => void selectPlayerAudioTrack());
+  el.playerSubtitleTrack?.addEventListener('change', () => {
+    const owner = playerTracksOwner;
+    if (!owner?.current() || !owner.presentation) return;
+    try {
+      owner.presentation.select(el.playerSubtitleTrack.value === '' ? null : Number(el.playerSubtitleTrack.value));
+      el.playerTracksStatus.textContent = el.playerSubtitleTrack.value
+        ? '텍스트 자막을 표시합니다. 원본 글꼴·꾸밈·배치는 적용하지 않습니다.' : '자막을 껐습니다.';
+    } catch (_) { el.playerTracksStatus.textContent = '선택한 자막을 표시하지 못했습니다.'; }
   });
   if (el.speedButtons) {
     el.speedButtons.forEach((btn) => {
@@ -1707,7 +1727,7 @@ function bindEvents() {
     }
   });
   el.videoPlayer.addEventListener('timeupdate', (event) => {
-    if (isCurrentMediaEvent(event.currentTarget)) onVideoTimeUpdate();
+    if (isCurrentMediaEvent(event.currentTarget)) { onVideoTimeUpdate(); refreshPlayerSubtitles(); }
   });
   el.videoPlayer.addEventListener('progress', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) onVideoProgressUpdate();
@@ -1729,7 +1749,9 @@ function bindEvents() {
   el.videoPlayer.addEventListener('seeking', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
     observeNativeMediaSeeking(event.currentTarget);
+    playerTracksOwner?.presentation?.clear();
   });
+  el.videoPlayer.addEventListener('seeked', refreshPlayerSubtitles);
   el.videoPlayer.addEventListener('seeked', handleVideoSeeked);
   el.videoPlayer.addEventListener('play', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
@@ -6112,6 +6134,189 @@ function playerTimeline(video = el.videoPlayer) {
   return { mapping, duration, currentTime: Math.max(0, Math.min(Number.isFinite(duration) ? duration : Infinity, raw || 0)) };
 }
 
+function retirePlayerTracks() {
+  const owner = playerTracksOwner;
+  playerTracksOwner = null;
+  if (el.playerTracksDialog?.open) el.playerTracksDialog.close();
+  if (!owner) return playerTracksRetirement;
+  owner.controller.abort();
+  owner.presentation?.clear();
+  const retirement = (async () => {
+    const results = [];
+    if (owner.source) results.push(await owner.source.abort());
+    if (owner.presentation) results.push(await owner.presentation.dispose());
+    else if (owner.subtitles) results.push(await owner.subtitles.dispose());
+    await owner.loading;
+    return {settled: owner.cleanupOk && results.every(result => result?.settled === true)};
+  })().catch(() => ({settled: false}));
+  playerTracksRetirement = retirement;
+  playerTracksRetirementResult = null;
+  void retirement.then(result => { if (playerTracksRetirement === retirement) playerTracksRetirementResult = result; });
+  return playerTracksRetirement;
+}
+
+function refreshPlayerSubtitles() { void playerTracksOwner?.presentation?.update(); }
+
+async function openPlayerTracks() {
+  if (!state.selected || el.videoPlayer.hidden || el.playerSheet.hidden) return;
+  if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+  collapseShortsExpand();
+  el.playerTracksDialog.showModal();
+  if (playerTracksOwner?.current()) return;
+  el.playerAudioTrack.replaceChildren(new Option('현재 원본 음성', ''));
+  el.playerSubtitleTrack.replaceChildren(new Option('끔', ''));
+  el.playerAudioTrack.disabled = el.playerSubtitleTrack.disabled = true;
+  el.playerTracksStatus.textContent = '음성·자막 목록을 확인하는 중입니다.';
+  const file = state.selected, session = state.mediaSession, account = state.authAccountKey;
+  const accountGeneration = state.driveSessionGeneration, swController = navigator.serviceWorker?.controller;
+  const controller = new AbortController();
+  const activeAudio = q1Playback?.fileId === file.id && q1Playback.session === session
+    && q1Playback.account === account && q1Playback.accountGeneration === accountGeneration
+    && q1Playback.swController === swController && q1Playback.swGeneration === mediaSourceGeneration
+    && !q1Playback.controller.signal.aborted ? q1Playback : null;
+  const owner = {file, session, account, accountGeneration, controller, source: null,
+    subtitles: null, presentation: null, cleanupOk: true,
+    identity: activeAudio?.routeIdentity ? {...activeAudio.routeIdentity} : null,
+    selectedAudioTrackId: activeAudio?.selectedAudioTrackId};
+  owner.current = () => playerTracksOwner === owner && !controller.signal.aborted
+    && state.selected?.id === file.id && state.mediaSession === session
+    && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration
+    && navigator.serviceWorker?.controller === swController && !el.playerSheet.hidden;
+  playerTracksOwner = owner;
+  const readIdentity = async () => {
+    const {openDriveQ1Source} = await import('./media/drive-source.mjs');
+    if (!owner.current()) throw new Error('Q1_SOURCE_STALE');
+    const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
+    metadataUrl.searchParams.set('supportsAllDrives', 'true');
+    const source = await openDriveQ1Source({fileId: file.id, accountKey: account, accountGeneration,
+      signal: controller.signal, isCurrent: owner.current,
+      readMetadata: async ({signal}) => {
+        const headers = file.resourceKey ? {'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}`} : {};
+        return (await driveFetch(metadataUrl.href, {signal, headers})).json();
+      },
+      // This independent metadata/caption reader must survive a Q1 seek's SW
+      // generation retirement without sharing or retiring its playback source.
+      readRange: ({range, signal}) => {
+        const url = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+        url.searchParams.set('alt', 'media'); url.searchParams.set('supportsAllDrives', 'true');
+        return driveFetch(url.href, {signal, driveNoRetry: true, driveMaxRateAttempts: 1,
+          headers: {Range: range, ...(file.resourceKey ? {'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}`} : {})}});
+      }
+    });
+    const expected = owner.identity || q0PinnedSource?.descriptor;
+    if (expected && ['headRevisionId', 'size', 'mimeType', 'modifiedTime']
+      .some(key => source.identity[key] !== expected[key])
+      || expected?.sha256Checksum && source.identity.sha256Checksum !== expected.sha256Checksum) {
+      const cleanup = await source.abort(); owner.cleanupOk &&= cleanup.settled;
+      throw new Error('Q1_SOURCE_CONTENT_DRIFT');
+    }
+    owner.identity ||= {...source.identity};
+    return source;
+  };
+  owner.loading = (async () => {
+    try {
+      const retired = await playerTracksRetirement;
+      if (!owner.current()) return;
+      if (!retired.settled) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
+      const {probePinnedGeneralTracks} = await import('./media/general-tracks.mjs');
+      owner.source = await readIdentity();
+      owner.inventory = await probePinnedGeneralTracks(owner.source, {signal: controller.signal, isCurrent: owner.current});
+      owner.identity = {...owner.inventory.identity};
+      owner.cleanupOk &&= owner.inventory.cleanup?.settled === true;
+      owner.source = null;
+      if (!owner.current()) return;
+      if (!owner.cleanupOk) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
+      el.playerAudioTrack.replaceChildren();
+      for (const track of owner.inventory.audioTracks) {
+        const option = new Option(`${track.label} · ${track.codec}${track.route === 'unqualified' ? ' · 선택 지원 안 됨' : ''}`, String(track.trackId));
+        option.disabled = track.route === 'unqualified';
+        el.playerAudioTrack.append(option);
+      }
+      if (!owner.inventory.audioTracks.length) el.playerAudioTrack.append(new Option('선택 가능한 음성 없음', ''));
+      else {
+        if (owner.selectedAudioTrackId !== undefined && !owner.inventory.audioTracks.some(track => track.trackId === owner.selectedAudioTrackId))
+          throw new Error('GENERAL_AUDIO_SELECTION_MISSING');
+        el.playerAudioTrack.value = String(owner.selectedAudioTrackId ?? owner.inventory.defaultAudioTrackId);
+      }
+      el.playerAudioTrack.disabled = !owner.inventory.audioTracks.some(track => track.route !== 'unqualified');
+      if (owner.inventory.kind !== 'iso') {
+        el.playerTracksStatus.textContent = '이 원본 형식의 음성·자막 선택을 지원하지 않습니다.';
+        return;
+      }
+      const [{createPinnedSubtitleTrack}, {createSubtitlePresentation}] = await Promise.all([
+        import('./media/subtitle-track.mjs'), import('./media/subtitle-presentation.mjs')]);
+      owner.source = await readIdentity();
+      owner.subtitles = await createPinnedSubtitleTrack(owner.source, {signal: controller.signal, isCurrent: owner.current});
+      owner.source = null;
+      if (!owner.current()) { owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; return; }
+      for (const track of owner.subtitles.tracks) {
+        const option = new Option(`${track.label || track.language || '자막'} (${track.trackId})${track.supported ? '' : ' · 선택 지원 안 됨'}`, String(track.trackId));
+        option.disabled = !track.supported; el.playerSubtitleTrack.append(option);
+      }
+      el.playerSubtitleTrack.disabled = !owner.subtitles.tracks.some(track => track.supported);
+      if (el.playerSubtitleTrack.disabled) {
+        owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; owner.subtitles = null;
+      } else {
+        if (typeof el.videoPlayer.addTextTrack !== 'function' || typeof globalThis.VTTCue !== 'function') {
+          owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; owner.subtitles = null;
+          el.playerSubtitleTrack.disabled = true;
+          el.playerTracksStatus.textContent = '이 브라우저는 선택한 텍스트 자막 표시를 지원하지 않습니다.';
+          return;
+        }
+        playerSubtitleTextTrack ||= el.videoPlayer.addTextTrack('subtitles', '선택한 자막');
+        playerSubtitleTextTrack.mode = 'disabled';
+        owner.presentation = createSubtitlePresentation({reader: owner.subtitles, textTrack: playerSubtitleTextTrack,
+          isCurrent: owner.current, getClock: () => {
+            const mapping = q1Playback?.kind === 'general' && q1Playback.player?.stats()?.mapping;
+            return {ready: !el.videoPlayer.hidden && state.mediaTransportVerified && (!q1Playback || !!mapping),
+              sourceTime: mapping ? q1Playback.player.sourceTime() : el.videoPlayer.currentTime,
+              elementTime: el.videoPlayer.currentTime};
+          }, onError: () => {
+            if (owner.current()) el.playerTracksStatus.textContent = '선택한 자막 읽기가 중단됐습니다. 다른 음성으로 전환하지 않습니다.';
+          }});
+      }
+      el.playerTracksStatus.textContent = owner.subtitles
+        ? '음성은 선택한 언어를 유지합니다. 자막은 텍스트만 표시합니다.' : '선택 가능한 텍스트 자막이 없습니다.';
+    } catch (error) {
+      if (error?.cleanup?.settled === false) owner.cleanupOk = false;
+      if (owner.source) { owner.cleanupOk &&= (await owner.source.abort()).settled; owner.source = null; }
+      if (owner.current()) el.playerTracksStatus.textContent = '이 파일의 음성·자막 목록을 안전하게 확인하지 못했습니다.';
+    }
+  })();
+  await owner.loading;
+}
+
+async function selectPlayerAudioTrack() {
+  const owner = playerTracksOwner, trackId = Number(el.playerAudioTrack.value);
+  if (!owner?.current() || owner.switching || !owner.cleanupOk) return;
+  const track = owner.inventory?.audioTracks.find(item => item.trackId === trackId && item.route !== 'unqualified');
+  if (!track) return;
+  const snapshot = capturePlaybackSnapshot();
+  owner.selectedAudioTrackId = trackId; owner.switching = true;
+  el.playerAudioTrack.disabled = true;
+  el.playerTracksStatus.textContent = '선택한 음성으로 전환하는 중입니다.';
+  if (el.playerTracksDialog.open) el.playerTracksDialog.close();
+  // Cancel old Q1 before constructing its successor; no live-owner overwrite.
+  try {
+    const old = q1Playback; q1Playback = null;
+    const retired = await (old ? retireQ1Playback(old) : q1Retirement);
+    if (!owner.current()) return;
+    if (!retired.settled) throw new Error('GENERAL_CLEANUP_UNCONFIRMED');
+    const started = await tryOriginalTsPlayback(owner.file, owner.session, {general: true, audioCompatibility: track.route === 'q2',
+      selectedAudioTrackId: trackId, expectedIdentity: owner.identity, snapshotOverride: snapshot});
+    if (!started) throw new Error('GENERAL_MSE_UNAVAILABLE');
+  } catch (_) {
+    if (owner.current()) {
+      state.mediaAttempt = 'failed';
+      showMediaError('선택한 음성으로 안전하게 전환하지 못했습니다. 다른 언어로 대체하지 않습니다.', {showRetry: false});
+    }
+  } finally {
+    owner.switching = false;
+    if (owner.current()) el.playerAudioTrack.disabled = !owner.cleanupOk;
+  }
+}
+
 function setPlayerCurrentTime(video, targetTime, origin = 'app') {
   if (!video || video.hidden || !isCurrentMediaEvent(video)) return false;
   const { duration, currentTime, mapping } = playerTimeline(video);
@@ -7771,6 +7976,8 @@ function setNativeVideoActionsAvailable(available) {
   if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !enabled;
   updateFrameStepVisibility(enabled && Boolean(el.videoPlayer?.paused));
   if (el.shortsRotateBtn) el.shortsRotateBtn.hidden = !enabled;
+  if (el.ctrlTracks) el.ctrlTracks.hidden = !enabled;
+  if (el.shortsTracksBtn) el.shortsTracksBtn.hidden = !enabled;
 }
 
 function suspendBackgroundThumbnailImages() {
@@ -7814,7 +8021,12 @@ function capturePlaybackSnapshot() {
     muted: Boolean(video.muted),
     playbackRate: Number.isFinite(video.playbackRate) ? video.playbackRate : 1,
     fullscreen: Boolean(document.fullscreenElement || document.webkitFullscreenElement),
-    decoded: state.mediaDecodeVerified === true
+    decoded: state.mediaDecodeVerified === true,
+    ...(q1Playback?.selectedAudioTrackId !== undefined ? {
+      selectedAudioTrackId: q1Playback.selectedAudioTrackId,
+      audioCompatibility: q1Playback.audioCompatibility,
+      audioIdentity: q1Playback.routeIdentity
+    } : {})
   };
 }
 
@@ -7964,10 +8176,18 @@ async function startInitialOriginalPlayback(file, kind, session) {
   // already known. An unnecessary microtask would cancel an immediate play()
   // made by the caller when the later native load() resets the element.
   const retired = q1RetirementResult || await q1Retirement;
+  const tracksRetired = playerTracksRetirementResult || await playerTracksRetirement;
   if (!current()) return;
-  if (!retired.settled) {
+  if (!retired.settled || !tracksRetired.settled) {
     state.mediaAttempt = 'failed';
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    return;
+  }
+  const chosenSnapshot = state.resumePosition?.fileId === file.id ? state.resumePosition.snapshot : null;
+  if (kind === 'video' && chosenSnapshot?.selectedAudioTrackId !== undefined) {
+    await tryOriginalTsPlayback(file, session, {general: true, initial: true,
+      selectedAudioTrackId: chosenSnapshot.selectedAudioTrackId, audioCompatibility: chosenSnapshot.audioCompatibility === true,
+      expectedIdentity: chosenSnapshot.audioIdentity, snapshotOverride: chosenSnapshot});
     return;
   }
   if (shouldProbeOriginalTs(file, kind)) {
@@ -7988,14 +8208,14 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
   if (!file || state.selected?.id !== file.id || state.mediaSession !== session) return false;
   if (q1Playback) { const prior = q1Playback; q1Playback = null; retireQ1Playback(prior); }
   retireQ0Playback();
-  if (!q1RetirementResult) {
+  if (!q1RetirementResult || !playerTracksRetirementResult) {
     const accountGeneration = state.driveSessionGeneration;
-    void q1Retirement.then(() => {
+    void Promise.all([q1Retirement, playerTracksRetirement]).then(() => {
       if (accountGeneration === state.driveSessionGeneration) startOriginalRangePlayback(file, kind, session, message);
     });
     return true;
   }
-  if (!q1RetirementResult.settled) {
+  if (!q1RetirementResult.settled || !playerTracksRetirementResult.settled) {
     showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
     return false;
   }
@@ -8340,7 +8560,9 @@ async function presentPinnedOriginalImage(owner, pin, mimeType) {
   }
 }
 
-async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, videoCompatibility = false, nativeVideoRejected = false, snapshotOverride = null } = {}) {
+async function tryOriginalTsPlayback(file, session, { initial = false, general = false, audioCompatibility = false, videoCompatibility = false, nativeVideoRejected = false, snapshotOverride = null,
+  selectedAudioTrackId = playerTracksOwner?.current() ? playerTracksOwner.selectedAudioTrackId : undefined,
+  expectedIdentity = playerTracksOwner?.current() ? playerTracksOwner.identity : null } = {}) {
   if (!(globalThis.MediaSource || globalThis.ManagedMediaSource) || !globalThis.Worker) return false;
   nativeVideoRejected ||= general && !audioCompatibility && !videoCompatibility
     && state.mediaTransportVerified===true && el.videoPlayer.error?.code===4;
@@ -8351,6 +8573,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
   let setupFinished;
   const previousRetirement = q1Retirement;
   const owner = { player: null, controller, cleanupOk: true, requiresSwReadiness: true,
+    selectedAudioTrackId, audioCompatibility,
     fileId: file.id, session, account, accountGeneration,
     swController: navigator.serviceWorker?.controller, swGeneration: mediaSourceGeneration,
     setupDone: new Promise(resolve => { setupFinished = resolve; }) };
@@ -8389,8 +8612,9 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
   };
   try {
     const retired = await previousRetirement;
+    const tracksRetired = await playerTracksRetirement;
     if (!current()) return true;
-    if (!retired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
+    if (!retired.settled || !tracksRetired.settled) throw new Error('Q1_CLEANUP_UNCONFIRMED');
     // Retirement makes the previous generation permanently unavailable in SW.
     mediaSourceGeneration += 1;
     owner.swGeneration = mediaSourceGeneration;
@@ -8421,6 +8645,12 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
         const cleanup = await source.abort();
         throw Object.assign(new Error('Q1_SOURCE_CONTENT_DRIFT'), { cleanup });
       }
+      if (expectedIdentity && (['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime','canDownload','trashed']
+        .some(key => source.identity[key] !== expectedIdentity[key])
+        || expectedIdentity.sha256Checksum && source.identity.sha256Checksum !== expectedIdentity.sha256Checksum)) {
+        const cleanup = await source.abort();
+        throw Object.assign(new Error('Q1_SOURCE_CONTENT_DRIFT'), {cleanup});
+      }
       // A new generation may not silently switch revisions after admission.
       // files.version remains a metadata counter, not a content-only fence.
       if (routeIdentity && (['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime','canDownload','trashed']
@@ -8443,8 +8673,10 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     if (!current()) return true;
     const ts = Number(sniff.identity.size) % 188 === 0 && head.length >= 188 * 5
       && [0,188,376,564,752].every(offset => head[offset] === 0x47);
+    if (ts && selectedAudioTrackId !== undefined) throw new Error('GENERAL_AUDIO_SELECTION_CONTAINER_UNQUALIFIED');
     if (!ts && !general) return resumeNative();
     routeIdentity = sniff.identity;
+    owner.routeIdentity = routeIdentity;
     const createPlayer = ts
       ? (await import('./media/ts-player.mjs')).createTsPlayer
       : (await import('./media/general-player.mjs')).createGeneralPlayer;
@@ -8468,6 +8700,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) el.videoPlayer.playbackRate = snapshot.playbackRate;
     }
     owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
+      ...(!ts ? {selectedAudioTrackId} : {}),
       ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
       ...(videoCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/video-q3-worker.mjs', location.href), { type: 'module' }) } : {}),
       initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
@@ -8491,22 +8724,26 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
           }
           state.mediaTransportVerified = true; state.mediaTransportStarted = true;
           state.pendingPlay = false;
+          if (playerTracksOwner?.current() && selectedAudioTrackId !== undefined) {
+            el.playerTracksStatus.textContent = '선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.';
+          }
           el.codecNote.textContent = videoCompatibility
             ? '원본 크기와 프레임 순서를 유지한 VP9 호환 변환입니다. 영상은 무손실이 아니며 이 기기의 장시간 품질·성능은 별도 확인이 필요합니다.'
             : owner.audioTransformed
             ? '영상 원본 스트림을 유지하고 음성을 Opus로 호환 변환합니다. 음성은 무손실이 아닙니다.'
             : '원본 영상·음성 스트림을 재인코딩 없이 재포장합니다. 실제 표시와 탐색은 별도로 확인합니다.';
-          updateQualityDisplay(); beginVideoFrameSampling(); syncMediaFrameWatchdog();
+          updateQualityDisplay(); beginVideoFrameSampling(); syncMediaFrameWatchdog(); refreshPlayerSubtitles();
         } else if (event.type === 'mapping') {
           owner.audioTransformed = event.status?.bitPerfectAudio === false;
           if (event.status?.level === 'Q3') state.mediaPlaybackMode = PLAYBACK_MODE.VIDEO_COMPATIBILITY;
           if (owner.audioTransformed) state.mediaPlaybackMode = PLAYBACK_MODE.AUDIO_COMPATIBILITY;
           updateQualityDisplay();
+          refreshPlayerSubtitles();
         } else if (event.type === 'source-ended') {
           updateVideoProgress();
         } else if (event.type === 'gesture-required') showPlayerFeedback('화면을 눌러 재생');
         else if (event.type === 'error') {
-          if (!ts && general && !audioCompatibility && !videoCompatibility && event.code === 'GENERAL_CODEC_UNQUALIFIED') {
+          if (selectedAudioTrackId === undefined && !ts && general && !audioCompatibility && !videoCompatibility && event.code === 'GENERAL_CODEC_UNQUALIFIED') {
             // Only codec admission can probe the independently qualified Q2 worker.
             // No transport, permission, identity, cleanup or decode failure enters it.
             const routeGeneration = initialMediaRouteGeneration;
@@ -10998,7 +11235,7 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
 
 function retryMedia() {
   if (!state.selected) return;
-  if (state.mediaAttempt === 'worker-update-required' || q1RetirementResult?.settled === false) {
+  if (state.mediaAttempt === 'worker-update-required' || q1RetirementResult?.settled === false || playerTracksRetirementResult?.settled === false) {
     window.location.reload();
     return;
   }
@@ -11010,6 +11247,8 @@ function retryMedia() {
     });
     return;
   }
+  const snapshot = capturePlaybackSnapshot();
+  if (snapshot?.selectedAudioTrackId !== undefined) state.resumePosition = {fileId: state.selected.id, time: snapshot.time, snapshot};
   openMediaSource(state.selected);
 }
 
@@ -11057,6 +11296,7 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  playerTracksOwner?.presentation?.clear();
   q3Choice=null;
   if(el.videoCompatButton)el.videoCompatButton.hidden=true;
   q0ControlWait?.controller.abort();
@@ -11095,6 +11335,7 @@ function clearDirectMediaSources() {
 }
 
 function resetMediaElements() {
+  void retirePlayerTracks();
   q0PinnedSource = null;
   verifiedOriginalImage = null;
   mediaViewObservation = null;

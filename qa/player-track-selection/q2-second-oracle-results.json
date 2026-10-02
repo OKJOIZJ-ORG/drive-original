@@ -1,0 +1,3130 @@
+{
+  "scope": "Independent ffprobe packet oracle for captured actual selected-Q2 worker output. Original video payload/rational clock copied; EAC3 ID3 transformed to lossy Opus, no rendered RGB/physical-audio claim.",
+  "passed": true,
+  "input": {
+    "sha256": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+    "video": {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+      "profile": "High",
+      "codec_type": "video",
+      "codec_tag_string": "avc1",
+      "codec_tag": "0x31637661",
+      "mime_codec_string": "avc1.64000c",
+      "width": 320,
+      "height": 180,
+      "coded_width": 320,
+      "coded_height": 180,
+      "has_b_frames": 0,
+      "sample_aspect_ratio": "1:1",
+      "display_aspect_ratio": "16:9",
+      "pix_fmt": "yuv420p",
+      "level": 12,
+      "color_range": "tv",
+      "color_space": "bt709",
+      "chroma_location": "left",
+      "field_order": "progressive",
+      "is_avc": "true",
+      "nal_length_size": "4",
+      "id": "0x1",
+      "r_frame_rate": "24/1",
+      "avg_frame_rate": "24/1",
+      "time_base": "1/12288",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 73728,
+      "duration": "6.000000",
+      "bit_rate": "263642",
+      "bits_per_raw_sample": "8",
+      "nb_frames": "144",
+      "nb_read_packets": "144",
+      "extradata_size": 50,
+      "extradata_hash": "SHA256:63d1279c6d8f479f25a2754657129a5790921d0712379cceff3c0e32f9a3bb5e",
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      },
+      "tags": {
+        "language": "und",
+        "handler_name": "VideoHandler",
+        "encoder": "Lavc63.1.101 libx264"
+      }
+    },
+    "audioTracks": [
+      {
+        "index": 1,
+        "codec_name": "ac3",
+        "codec_long_name": "ATSC A/52A (AC-3)",
+        "codec_type": "audio",
+        "codec_tag_string": "ac-3",
+        "codec_tag": "0x332d6361",
+        "mime_codec_string": "ac-3",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 256,
+        "dmix_mode": "0",
+        "ltrt_cmixlev": "0.000000",
+        "ltrt_surmixlev": "0.000000",
+        "loro_cmixlev": "0.000000",
+        "loro_surmixlev": "0.000000",
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 288512,
+        "duration": "6.010667",
+        "bit_rate": "384000",
+        "nb_frames": "188",
+        "nb_read_packets": "188",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "eng",
+          "handler_name": "SoundHandler"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "Audio Service Type",
+            "service_type": 0
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "codec_name": "eac3",
+        "codec_long_name": "ATSC A/52B (AC-3, E-AC-3)",
+        "codec_type": "audio",
+        "codec_tag_string": "ec-3",
+        "codec_tag": "0x332d6365",
+        "mime_codec_string": "ec-3",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 256,
+        "dmix_mode": "0",
+        "ltrt_cmixlev": "0.000000",
+        "ltrt_surmixlev": "0.000000",
+        "loro_cmixlev": "0.000000",
+        "loro_surmixlev": "0.000000",
+        "id": "0x3",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 288512,
+        "duration": "6.010667",
+        "bit_rate": "640000",
+        "nb_frames": "188",
+        "nb_read_packets": "188",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "kor",
+          "handler_name": "SoundHandler"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "Audio Service Type",
+            "service_type": 0
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "sha256": "aed25889704d0220640c8dfac29fd3a4763de1ebc85fa3e6715c66b9c29db6f1",
+    "video": {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+      "profile": "High",
+      "codec_type": "video",
+      "codec_tag_string": "avc1",
+      "codec_tag": "0x31637661",
+      "mime_codec_string": "avc1.64000c",
+      "width": 320,
+      "height": 180,
+      "coded_width": 320,
+      "coded_height": 180,
+      "has_b_frames": 0,
+      "sample_aspect_ratio": "1:1",
+      "display_aspect_ratio": "16:9",
+      "pix_fmt": "yuv420p",
+      "level": 12,
+      "color_range": "tv",
+      "color_space": "bt709",
+      "chroma_location": "left",
+      "field_order": "progressive",
+      "is_avc": "true",
+      "nal_length_size": "4",
+      "id": "0x1",
+      "r_frame_rate": "24/1",
+      "avg_frame_rate": "24/1",
+      "time_base": "1/1536000",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 9216000,
+      "duration": "6.000000",
+      "bit_rate": "263643",
+      "bits_per_raw_sample": "8",
+      "nb_read_packets": "144",
+      "extradata_size": 50,
+      "extradata_hash": "SHA256:63d1279c6d8f479f25a2754657129a5790921d0712379cceff3c0e32f9a3bb5e",
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      },
+      "tags": {
+        "creation_time": "2026-10-02T05:11:18.000000Z",
+        "language": "und",
+        "handler_name": "MediabunnyVideoHandler",
+        "encoder": "Mediabunny"
+      }
+    },
+    "audio": {
+      "index": 1,
+      "codec_name": "opus",
+      "codec_long_name": "Opus (Opus Interactive Audio Codec)",
+      "codec_type": "audio",
+      "codec_tag_string": "Opus",
+      "codec_tag": "0x7375704f",
+      "mime_codec_string": "opus",
+      "sample_fmt": "fltp",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "bits_per_sample": 0,
+      "initial_padding": 312,
+      "id": "0x2",
+      "r_frame_rate": "0/0",
+      "avg_frame_rate": "0/0",
+      "time_base": "1/1536000",
+      "start_pts": -8192,
+      "start_time": "-0.005333",
+      "duration_ts": 9277440,
+      "duration": "6.040000",
+      "bit_rate": "321460",
+      "nb_read_packets": "302",
+      "extradata_size": 19,
+      "extradata_hash": "SHA256:e1ca6670203e4713d51d3768e199ca5bf1f8e3740a28a2d378feafdf8b6429c6",
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      },
+      "tags": {
+        "creation_time": "2026-10-02T05:11:18.000000Z",
+        "language": "kor",
+        "handler_name": "MediabunnySoundHandler"
+      }
+    }
+  },
+  "videoPackets": 144,
+  "packetChecks": {
+    "payloadSha": true,
+    "packetSize": true,
+    "rationalPts": true,
+    "rationalDts": true,
+    "rationalDuration": true
+  },
+  "lastVideoPacket": {
+    "input": {
+      "codec_type": "video",
+      "stream_index": 0,
+      "pts": 73216,
+      "pts_time": "5.958333",
+      "dts": 73216,
+      "dts_time": "5.958333",
+      "duration": 512,
+      "duration_time": "0.041667",
+      "size": "949",
+      "pos": "967195",
+      "flags": "___",
+      "data_hash": "SHA256:eb38d0804f85bf15728a95a763fd8714db22294d28b4b19c6e503926c1a93bac"
+    },
+    "output": {
+      "codec_type": "video",
+      "stream_index": 0,
+      "pts": 9152000,
+      "pts_time": "5.958333",
+      "dts": 9152000,
+      "dts_time": "5.958333",
+      "duration": 64000,
+      "duration_time": "0.041667",
+      "size": "949",
+      "pos": "401926",
+      "flags": "___",
+      "data_hash": "SHA256:eb38d0804f85bf15728a95a763fd8714db22294d28b4b19c6e503926c1a93bac"
+    }
+  },
+  "actualApp": {
+    "name": "q2-selected-eac3",
+    "passed": true,
+    "errors": [],
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "POST",
+        "path": "/drive/v3/files/fixture/download",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture/revisions/A",
+        "media": true,
+        "range": "bytes=0-"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture/revisions/A",
+        "media": true,
+        "range": "bytes=0-11"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture/revisions/A",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-939"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=65536-131071"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=131072-196607"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=196608-262143"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=65536-131071"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=131072-196607"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=196608-262143"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=262144-327679"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=327680-393215"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=393216-458751"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=458752-524287"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=524288-589823"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=589824-655359"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=655360-720895"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=720896-786431"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=786432-851967"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=851968-917503"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=917504-972239"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=589824-655359"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=655360-720895"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=720896-786431"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=786432-851967"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=851968-917503"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=917504-972239"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=0-65535"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=131072-196607"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=196608-262143"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=262144-327679"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=327680-393215"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=393216-458751"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=458752-524287"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=524288-589823"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=589824-655359"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=655360-720895"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=720896-786431"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=786432-851967"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=851968-917503"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": true,
+        "range": "bytes=917504-972239"
+      },
+      {
+        "method": "GET",
+        "path": "/drive/v3/files/fixture",
+        "media": false
+      }
+    ],
+    "fixture": {
+      "path": "qa/player-track-selection/q2-dual-audio.mp4",
+      "bytes": 972240,
+      "sha256": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64"
+    },
+    "native": {
+      "attempt": "range",
+      "mode": "original-range",
+      "timeline": {
+        "mapping": false,
+        "duration": 6.010667,
+        "currentTime": 0.151359
+      },
+      "session": 1,
+      "video": {
+        "time": 0.151359,
+        "paused": true,
+        "readyState": 4,
+        "buffered": [
+          [
+            0,
+            6.010667
+          ]
+        ],
+        "frames": 8,
+        "error": null
+      },
+      "tracks": null,
+      "dialog": {
+        "open": false,
+        "audioValue": "",
+        "status": "음성·자막 목록을 확인합니다.",
+        "audio": [
+          {
+            "value": "",
+            "text": "현재 원본 음성",
+            "disabled": false
+          }
+        ],
+        "subtitle": [
+          {
+            "value": "",
+            "text": "끔",
+            "disabled": false
+          }
+        ]
+      },
+      "textTrack": null,
+      "errorUI": {
+        "visible": false,
+        "title": "이 파일을 재생할 수 없습니다",
+        "message": "원본 스트림을 준비하지 못했습니다."
+      },
+      "worker": [],
+      "trace": []
+    },
+    "startupWorkerCount": 0,
+    "capabilities": {
+      "videoConfig": {
+        "codec": "avc1.64000c",
+        "codedWidth": 320,
+        "codedHeight": 180,
+        "description": {
+          "0": 1,
+          "1": 100,
+          "2": 0,
+          "3": 12,
+          "4": 255,
+          "5": 225,
+          "6": 0,
+          "7": 29,
+          "8": 103,
+          "9": 100,
+          "10": 0,
+          "11": 12,
+          "12": 172,
+          "13": 178,
+          "14": 2,
+          "15": 131,
+          "16": 63,
+          "17": 62,
+          "18": 2,
+          "19": 212,
+          "20": 8,
+          "21": 8,
+          "22": 5,
+          "23": 0,
+          "24": 0,
+          "25": 3,
+          "26": 0,
+          "27": 1,
+          "28": 0,
+          "29": 0,
+          "30": 3,
+          "31": 0,
+          "32": 48,
+          "33": 15,
+          "34": 20,
+          "35": 42,
+          "36": 72,
+          "37": 1,
+          "38": 0,
+          "39": 6,
+          "40": 104,
+          "41": 235,
+          "42": 195,
+          "43": 203,
+          "44": 34,
+          "45": 192,
+          "46": 253,
+          "47": 248,
+          "48": 248,
+          "49": 0
+        },
+        "colorSpace": {
+          "matrix": "bt709",
+          "fullRange": false
+        }
+      },
+      "tracks": [
+        {
+          "trackId": 2,
+          "config": {
+            "codec": "ac-3",
+            "numberOfChannels": 2,
+            "sampleRate": 48000
+          },
+          "nativeFile": {
+            "supported": false,
+            "authority": "html-can-play-type",
+            "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+            "answer": ""
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        },
+        {
+          "trackId": 3,
+          "config": {
+            "codec": "ec-3",
+            "numberOfChannels": 2,
+            "sampleRate": 48000
+          },
+          "nativeFile": {
+            "supported": false,
+            "authority": "html-can-play-type",
+            "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+            "answer": ""
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          }
+        }
+      ]
+    },
+    "inventory": {
+      "attempt": "range",
+      "mode": "original-range",
+      "timeline": {
+        "mapping": false,
+        "duration": 6.010667,
+        "currentTime": 0.151359
+      },
+      "session": 1,
+      "video": {
+        "time": 0.151359,
+        "paused": true,
+        "readyState": 4,
+        "buffered": [
+          [
+            0,
+            6.010667
+          ]
+        ],
+        "frames": 8,
+        "error": null
+      },
+      "tracks": {
+        "current": true,
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "972240",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+          "version": null
+        },
+        "inventory": {
+          "kind": "iso",
+          "audioTracks": [
+            {
+              "trackId": 2,
+              "language": "eng",
+              "label": "eng (2)",
+              "codec": "ac3",
+              "route": "q2",
+              "reason": "qualified-ac3-eac3",
+              "capability": {
+                "eligible": true,
+                "nativeInputSupported": false,
+                "opusEncoderSupported": true,
+                "mseSupported": true,
+                "outputConfig": {
+                  "codec": "opus",
+                  "numberOfChannels": 2,
+                  "sampleRate": 48000,
+                  "bitrate": 320000
+                },
+                "status": {
+                  "level": "Q2",
+                  "video": "original-encoded-copy",
+                  "audio": "lossy-transformed",
+                  "codec": "opus",
+                  "bitrate": 320000,
+                  "bitPerfectAudio": false
+                }
+              },
+              "nativeFile": {
+                "supported": false,
+                "authority": "html-can-play-type",
+                "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+                "answer": ""
+              }
+            },
+            {
+              "trackId": 3,
+              "language": "kor",
+              "label": "kor (3)",
+              "codec": "eac3",
+              "route": "q2",
+              "reason": "qualified-ac3-eac3",
+              "capability": {
+                "eligible": true,
+                "nativeInputSupported": false,
+                "opusEncoderSupported": true,
+                "mseSupported": true,
+                "outputConfig": {
+                  "codec": "opus",
+                  "numberOfChannels": 2,
+                  "sampleRate": 48000,
+                  "bitrate": 320000
+                },
+                "status": {
+                  "level": "Q2",
+                  "video": "original-encoded-copy",
+                  "audio": "lossy-transformed",
+                  "codec": "opus",
+                  "bitrate": 320000,
+                  "bitPerfectAudio": false
+                }
+              },
+              "nativeFile": {
+                "supported": false,
+                "authority": "html-can-play-type",
+                "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+                "answer": ""
+              }
+            }
+          ],
+          "defaultAudioTrackId": 3,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              188,
+              188
+            ],
+            "boxes": 62,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "ac-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "ec-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              }
+            ]
+          },
+          "identity": {
+            "accountKey": "account",
+            "accountGeneration": 1,
+            "fileId": "fixture",
+            "headRevisionId": "A",
+            "size": "972240",
+            "mimeType": "video/mp4",
+            "modifiedTime": "A",
+            "canDownload": true,
+            "trashed": false,
+            "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+            "version": null
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "reads": {
+            "requests": 1,
+            "bytes": 65536,
+            "logicalReads": 4,
+            "cacheHits": 7,
+            "peakCache": 65536,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 65536,
+            "discoveryRequests": 1
+          }
+        },
+        "source": false
+      },
+      "dialog": {
+        "open": true,
+        "audioValue": "3",
+        "status": "선택 가능한 텍스트 자막이 없습니다.",
+        "audio": [
+          {
+            "value": "2",
+            "text": "eng (2) · ac3",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "text": "kor (3) · eac3",
+            "disabled": false
+          }
+        ],
+        "subtitle": [
+          {
+            "value": "",
+            "text": "끔",
+            "disabled": false
+          }
+        ]
+      },
+      "textTrack": null,
+      "errorUI": {
+        "visible": false,
+        "title": "이 파일을 재생할 수 없습니다",
+        "message": "원본 스트림을 준비하지 못했습니다."
+      },
+      "worker": [],
+      "trace": []
+    },
+    "chosen": {
+      "attempt": "q1",
+      "mode": "original-video-audio-compatible",
+      "timeline": {
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6.010666666666666,
+          "commonShift": 0,
+          "targetSource": 0.151359,
+          "targetElement": 0.151359,
+          "timestampOffset": 0,
+          "audioEnd": {
+            "preSkip": 312,
+            "sampleRate": 48000,
+            "appendWindowEnd": 6.017166666666666
+          }
+        },
+        "duration": 6.010666666666666,
+        "currentTime": 0.151359
+      },
+      "session": 1,
+      "video": {
+        "time": 0.151359,
+        "paused": true,
+        "readyState": 4,
+        "buffered": [
+          [
+            0,
+            6.017166
+          ]
+        ],
+        "frames": 4,
+        "error": null
+      },
+      "q1OwnerSelected": 3,
+      "stats": {
+        "generation": 2,
+        "phase": "buffered-to-end",
+        "failure": null,
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6.010666666666666,
+          "commonShift": 0,
+          "targetSource": 0.151359,
+          "targetElement": 0.151359,
+          "timestampOffset": 0,
+          "audioEnd": {
+            "preSkip": 312,
+            "sampleRate": 48000,
+            "appendWindowEnd": 6.017166666666666
+          }
+        },
+        "appends": 8,
+        "removals": 0,
+        "waits": 0,
+        "peakAhead": 5.84864,
+        "peakRetainedAppendBytes": 443834,
+        "disposed": false,
+        "status": {
+          "level": "Q2",
+          "video": "original-encoded-copy",
+          "audio": "lossy-transformed",
+          "codec": "opus",
+          "bitrate": 320000,
+          "bitPerfectAudio": false
+        },
+        "capability": {
+          "eligible": true,
+          "nativeInputSupported": false,
+          "opusEncoderSupported": true,
+          "mseSupported": true,
+          "outputConfig": {
+            "codec": "opus",
+            "numberOfChannels": 2,
+            "sampleRate": 48000,
+            "bitrate": 320000
+          },
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          }
+        },
+        "worker": {
+          "reads": 15,
+          "bytes": 972240,
+          "activeReads": 0,
+          "peakReads": 1,
+          "chunks": 8,
+          "acks": 8,
+          "pendingChunks": 0,
+          "peakPendingChunks": 1,
+          "detachedReadBuffers": 15,
+          "invalidMessages": 0,
+          "staleRepliesSuppressed": 0,
+          "pendingWindows": 0,
+          "terminated": true
+        },
+        "pipeline": {
+          "generation": 2,
+          "duration": 6,
+          "sourcePacketOrigin": -0.005333333333333333,
+          "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+          "targetTime": 0.151359,
+          "windowOrigin": 0,
+          "policy": {
+            "kind": "isobmff-movie-axis",
+            "presentationOrigin": 0,
+            "validPresentationStart": 0,
+            "declaredEnd": 6.010666666666666,
+            "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+            "tracks": [
+              {
+                "id": 1,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 0,
+                "firstPacketTimestamp": 0
+              },
+              {
+                "id": 3,
+                "leadingEmptySeconds": 0,
+                "contentEntries": 1,
+                "entryCount": 1,
+                "mediaTime": 256,
+                "firstPacketTimestamp": -0.005333333333333333
+              }
+            ]
+          },
+          "selectedAudioTrackId": 3,
+          "videoCodec": "avc",
+          "audioCodec": "eac3",
+          "packets": 332,
+          "outputBytes": 443834,
+          "peakPendingAcks": 1,
+          "peakBufferedPacketBytes": 139953,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              188,
+              188
+            ],
+            "boxes": 62,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "ac-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "ec-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              }
+            ]
+          },
+          "muxRetention": {
+            "bytes": 0,
+            "samples": 0,
+            "peakBytes": 91473,
+            "peakSamples": 83
+          },
+          "encodersCreated": 1,
+          "videoEncodersCreated": 0,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "finalAudioConfig": {
+            "codec": "opus",
+            "description": {
+              "0": 79,
+              "1": 112,
+              "2": 117,
+              "3": 115,
+              "4": 72,
+              "5": 101,
+              "6": 97,
+              "7": 100,
+              "8": 1,
+              "9": 2,
+              "10": 56,
+              "11": 1,
+              "12": 128,
+              "13": 187,
+              "14": 0,
+              "15": 0,
+              "16": 0,
+              "17": 0,
+              "18": 0
+            },
+            "numberOfChannels": 2,
+            "sampleRate": 48000
+          },
+          "peakPrefixBytes": 28,
+          "inputFormat": "MP4",
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "reads": {
+            "requests": 15,
+            "bytes": 972240,
+            "logicalReads": 292,
+            "cacheHits": 298,
+            "peakCache": 262144,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 65536,
+            "discoveryRequests": 1
+          },
+          "audioCleanup": {
+            "settled": true,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "moduleLoading": false
+          },
+          "audioMetrics": {
+            "opened": 1,
+            "closed": 1,
+            "liveContexts": 0,
+            "pendingOpens": 0,
+            "inFlightDecode": 0,
+            "decodedPackets": 188,
+            "decodedFrames": 288768,
+            "transferredPcmBytes": 2310144,
+            "failures": 0,
+            "peakPacketBytes": 2560,
+            "peakPcmBytes": 12288,
+            "peakHeapBytes": 33554432,
+            "moduleLoading": false,
+            "heapBytes": 33554432
+          }
+        },
+        "failureDiagnostic": null
+      },
+      "tracks": {
+        "current": true,
+        "selectedAudioTrackId": 3,
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "972240",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+          "version": null
+        },
+        "inventory": {
+          "kind": "iso",
+          "audioTracks": [
+            {
+              "trackId": 2,
+              "language": "eng",
+              "label": "eng (2)",
+              "codec": "ac3",
+              "route": "q2",
+              "reason": "qualified-ac3-eac3",
+              "capability": {
+                "eligible": true,
+                "nativeInputSupported": false,
+                "opusEncoderSupported": true,
+                "mseSupported": true,
+                "outputConfig": {
+                  "codec": "opus",
+                  "numberOfChannels": 2,
+                  "sampleRate": 48000,
+                  "bitrate": 320000
+                },
+                "status": {
+                  "level": "Q2",
+                  "video": "original-encoded-copy",
+                  "audio": "lossy-transformed",
+                  "codec": "opus",
+                  "bitrate": 320000,
+                  "bitPerfectAudio": false
+                }
+              },
+              "nativeFile": {
+                "supported": false,
+                "authority": "html-can-play-type",
+                "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+                "answer": ""
+              }
+            },
+            {
+              "trackId": 3,
+              "language": "kor",
+              "label": "kor (3)",
+              "codec": "eac3",
+              "route": "q2",
+              "reason": "qualified-ac3-eac3",
+              "capability": {
+                "eligible": true,
+                "nativeInputSupported": false,
+                "opusEncoderSupported": true,
+                "mseSupported": true,
+                "outputConfig": {
+                  "codec": "opus",
+                  "numberOfChannels": 2,
+                  "sampleRate": 48000,
+                  "bitrate": 320000
+                },
+                "status": {
+                  "level": "Q2",
+                  "video": "original-encoded-copy",
+                  "audio": "lossy-transformed",
+                  "codec": "opus",
+                  "bitrate": 320000,
+                  "bitPerfectAudio": false
+                }
+              },
+              "nativeFile": {
+                "supported": false,
+                "authority": "html-can-play-type",
+                "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+                "answer": ""
+              }
+            }
+          ],
+          "defaultAudioTrackId": 3,
+          "admission": {
+            "kind": "iso",
+            "tracks": 3,
+            "samples": [
+              144,
+              188,
+              188
+            ],
+            "boxes": 62,
+            "trackInfo": [
+              {
+                "trackId": 1,
+                "codec": "avc1",
+                "handler": "vide",
+                "samples": 144,
+                "reordered": false
+              },
+              {
+                "trackId": 2,
+                "codec": "ac-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              },
+              {
+                "trackId": 3,
+                "codec": "ec-3",
+                "handler": "soun",
+                "samples": 188,
+                "reordered": false
+              }
+            ]
+          },
+          "identity": {
+            "accountKey": "account",
+            "accountGeneration": 1,
+            "fileId": "fixture",
+            "headRevisionId": "A",
+            "size": "972240",
+            "mimeType": "video/mp4",
+            "modifiedTime": "A",
+            "canDownload": true,
+            "trashed": false,
+            "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+            "version": null
+          },
+          "cleanup": {
+            "settled": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false
+          },
+          "reads": {
+            "requests": 1,
+            "bytes": 65536,
+            "logicalReads": 4,
+            "cacheHits": 7,
+            "peakCache": 65536,
+            "inFlight": 0,
+            "peakInFlight": 1,
+            "peakQueued": 1,
+            "discoveryBytes": 65536,
+            "discoveryRequests": 1
+          }
+        },
+        "source": false,
+        "switching": false
+      },
+      "dialog": {
+        "open": false,
+        "audioValue": "3",
+        "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+        "audio": [
+          {
+            "value": "2",
+            "text": "eng (2) · ac3",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "text": "kor (3) · eac3",
+            "disabled": false
+          }
+        ],
+        "subtitle": [
+          {
+            "value": "",
+            "text": "끔",
+            "disabled": false
+          }
+        ]
+      },
+      "textTrack": null,
+      "errorUI": {
+        "visible": false,
+        "title": "이 파일을 재생할 수 없습니다",
+        "message": "원본 스트림을 준비하지 못했습니다."
+      },
+      "worker": [
+        {
+          "kind": "start",
+          "generation": 1,
+          "selectedAudioTrackId": 3
+        },
+        {
+          "kind": "window",
+          "generation": 1,
+          "selectedAudioTrackId": 3
+        },
+        {
+          "kind": "terminal",
+          "generation": 1,
+          "error": "GENERAL_CANCELLED"
+        },
+        {
+          "kind": "start",
+          "generation": 2,
+          "selectedAudioTrackId": 3
+        },
+        {
+          "kind": "window",
+          "generation": 2,
+          "selectedAudioTrackId": 3
+        },
+        {
+          "kind": "terminal",
+          "generation": 2,
+          "selectedAudioTrackId": 3
+        }
+      ],
+      "trace": []
+    },
+    "initialOutput": {
+      "path": "qa/player-track-selection/q2-initial-output.mp4",
+      "generation": 2,
+      "bytes": 443834,
+      "sha256": "aed25889704d0220640c8dfac29fd3a4763de1ebc85fa3e6715c66b9c29db6f1"
+    },
+    "seeks": [
+      {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.010666666666666,
+            "commonShift": 0,
+            "targetSource": 4.5,
+            "targetElement": 4.5,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.017166666666666
+            }
+          },
+          "duration": 6.010666666666666,
+          "currentTime": 4.5
+        },
+        "session": 1,
+        "video": {
+          "time": 4.5,
+          "paused": true,
+          "readyState": 4,
+          "buffered": [
+            [
+              3.994666,
+              6.017166
+            ]
+          ],
+          "frames": 4,
+          "error": null
+        },
+        "q1OwnerSelected": 3,
+        "stats": {
+          "generation": 3,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.010666666666666,
+            "commonShift": 0,
+            "targetSource": 4.5,
+            "targetElement": 4.5,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.017166666666666
+            }
+          },
+          "appends": 4,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 1.4999989999999999,
+          "peakRetainedAppendBytes": 148313,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 7,
+            "bytes": 447952,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 4,
+            "acks": 4,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 7,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 3,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 4.5,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6.010666666666666,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 3,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "selectedAudioTrackId": 3,
+            "videoCodec": "avc",
+            "audioCodec": "eac3",
+            "packets": 111,
+            "outputBytes": 148313,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 140140,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                188,
+                188
+              ],
+              "boxes": 62,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "ac-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "ec-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                }
+              ]
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 85312,
+              "peakSamples": 81
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 7,
+              "bytes": 447952,
+              "logicalReads": 101,
+              "cacheHits": 106,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 196608,
+              "discoveryRequests": 3
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 63,
+              "decodedFrames": 96768,
+              "transferredPcmBytes": 774144,
+              "failures": 0,
+              "peakPacketBytes": 2560,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "tracks": {
+          "current": true,
+          "selectedAudioTrackId": 3,
+          "identity": {
+            "accountKey": "account",
+            "accountGeneration": 1,
+            "fileId": "fixture",
+            "headRevisionId": "A",
+            "size": "972240",
+            "mimeType": "video/mp4",
+            "modifiedTime": "A",
+            "canDownload": true,
+            "trashed": false,
+            "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+            "version": null
+          },
+          "inventory": {
+            "kind": "iso",
+            "audioTracks": [
+              {
+                "trackId": 2,
+                "language": "eng",
+                "label": "eng (2)",
+                "codec": "ac3",
+                "route": "q2",
+                "reason": "qualified-ac3-eac3",
+                "capability": {
+                  "eligible": true,
+                  "nativeInputSupported": false,
+                  "opusEncoderSupported": true,
+                  "mseSupported": true,
+                  "outputConfig": {
+                    "codec": "opus",
+                    "numberOfChannels": 2,
+                    "sampleRate": 48000,
+                    "bitrate": 320000
+                  },
+                  "status": {
+                    "level": "Q2",
+                    "video": "original-encoded-copy",
+                    "audio": "lossy-transformed",
+                    "codec": "opus",
+                    "bitrate": 320000,
+                    "bitPerfectAudio": false
+                  }
+                },
+                "nativeFile": {
+                  "supported": false,
+                  "authority": "html-can-play-type",
+                  "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+                  "answer": ""
+                }
+              },
+              {
+                "trackId": 3,
+                "language": "kor",
+                "label": "kor (3)",
+                "codec": "eac3",
+                "route": "q2",
+                "reason": "qualified-ac3-eac3",
+                "capability": {
+                  "eligible": true,
+                  "nativeInputSupported": false,
+                  "opusEncoderSupported": true,
+                  "mseSupported": true,
+                  "outputConfig": {
+                    "codec": "opus",
+                    "numberOfChannels": 2,
+                    "sampleRate": 48000,
+                    "bitrate": 320000
+                  },
+                  "status": {
+                    "level": "Q2",
+                    "video": "original-encoded-copy",
+                    "audio": "lossy-transformed",
+                    "codec": "opus",
+                    "bitrate": 320000,
+                    "bitPerfectAudio": false
+                  }
+                },
+                "nativeFile": {
+                  "supported": false,
+                  "authority": "html-can-play-type",
+                  "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+                  "answer": ""
+                }
+              }
+            ],
+            "defaultAudioTrackId": 3,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                188,
+                188
+              ],
+              "boxes": 62,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "ac-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "ec-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                }
+              ]
+            },
+            "identity": {
+              "accountKey": "account",
+              "accountGeneration": 1,
+              "fileId": "fixture",
+              "headRevisionId": "A",
+              "size": "972240",
+              "mimeType": "video/mp4",
+              "modifiedTime": "A",
+              "canDownload": true,
+              "trashed": false,
+              "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+              "version": null
+            },
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 1,
+              "bytes": 65536,
+              "logicalReads": 4,
+              "cacheHits": 7,
+              "peakCache": 65536,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            }
+          },
+          "source": false,
+          "switching": false
+        },
+        "dialog": {
+          "open": false,
+          "audioValue": "3",
+          "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+          "audio": [
+            {
+              "value": "2",
+              "text": "eng (2) · ac3",
+              "disabled": false
+            },
+            {
+              "value": "3",
+              "text": "kor (3) · eac3",
+              "disabled": false
+            }
+          ],
+          "subtitle": [
+            {
+              "value": "",
+              "text": "끔",
+              "disabled": false
+            }
+          ]
+        },
+        "textTrack": null,
+        "errorUI": {
+          "visible": false,
+          "title": "이 파일을 재생할 수 없습니다",
+          "message": "원본 스트림을 준비하지 못했습니다."
+        },
+        "worker": [
+          {
+            "kind": "start",
+            "generation": 1,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 1,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 1,
+            "error": "GENERAL_CANCELLED"
+          },
+          {
+            "kind": "start",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "start",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          }
+        ],
+        "trace": []
+      },
+      {
+        "attempt": "q1",
+        "mode": "original-video-audio-compatible",
+        "timeline": {
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.010666666666666,
+            "commonShift": 0,
+            "targetSource": 1.5,
+            "targetElement": 1.5,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.017166666666666
+            }
+          },
+          "duration": 6.010666666666666,
+          "currentTime": 1.5
+        },
+        "session": 1,
+        "video": {
+          "time": 1.5,
+          "paused": true,
+          "readyState": 4,
+          "buffered": [
+            [
+              0.986666,
+              6.017166
+            ]
+          ],
+          "frames": 4,
+          "error": null
+        },
+        "q1OwnerSelected": 3,
+        "stats": {
+          "generation": 4,
+          "phase": "buffered-to-end",
+          "failure": null,
+          "mapping": {
+            "sourceOrigin": 0,
+            "sourceEnd": 6.010666666666666,
+            "commonShift": 0,
+            "targetSource": 1.5,
+            "targetElement": 1.5,
+            "timestampOffset": 0,
+            "audioEnd": {
+              "preSkip": 312,
+              "sampleRate": 48000,
+              "appendWindowEnd": 6.017166666666666
+            }
+          },
+          "appends": 7,
+          "removals": 0,
+          "waits": 0,
+          "peakAhead": 4.499999,
+          "peakRetainedAppendBytes": 371806,
+          "disposed": false,
+          "status": {
+            "level": "Q2",
+            "video": "original-encoded-copy",
+            "audio": "lossy-transformed",
+            "codec": "opus",
+            "bitrate": 320000,
+            "bitPerfectAudio": false
+          },
+          "capability": {
+            "eligible": true,
+            "nativeInputSupported": false,
+            "opusEncoderSupported": true,
+            "mseSupported": true,
+            "outputConfig": {
+              "codec": "opus",
+              "numberOfChannels": 2,
+              "sampleRate": 48000,
+              "bitrate": 320000
+            },
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            }
+          },
+          "worker": {
+            "reads": 14,
+            "bytes": 906704,
+            "activeReads": 0,
+            "peakReads": 1,
+            "chunks": 7,
+            "acks": 7,
+            "pendingChunks": 0,
+            "peakPendingChunks": 1,
+            "detachedReadBuffers": 14,
+            "invalidMessages": 0,
+            "staleRepliesSuppressed": 0,
+            "pendingWindows": 0,
+            "terminated": true
+          },
+          "pipeline": {
+            "generation": 4,
+            "duration": 6,
+            "sourcePacketOrigin": -0.005333333333333333,
+            "durationSemantics": "source-clock last video end timestamp; integration must resolve presentation origin separately from AAC preroll",
+            "targetTime": 1.5,
+            "windowOrigin": 0,
+            "policy": {
+              "kind": "isobmff-movie-axis",
+              "presentationOrigin": 0,
+              "validPresentationStart": 0,
+              "declaredEnd": 6.010666666666666,
+              "authority": "bounded original mvhd and selected-track elst bytes; leading-empty + one unit-rate content edit",
+              "tracks": [
+                {
+                  "id": 1,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 0,
+                  "firstPacketTimestamp": 0
+                },
+                {
+                  "id": 3,
+                  "leadingEmptySeconds": 0,
+                  "contentEntries": 1,
+                  "entryCount": 1,
+                  "mediaTime": 256,
+                  "firstPacketTimestamp": -0.005333333333333333
+                }
+              ]
+            },
+            "selectedAudioTrackId": 3,
+            "videoCodec": "avc",
+            "audioCodec": "eac3",
+            "packets": 277,
+            "outputBytes": 371806,
+            "peakPendingAcks": 1,
+            "peakBufferedPacketBytes": 158954,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                188,
+                188
+              ],
+              "boxes": 62,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "ac-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "ec-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                }
+              ]
+            },
+            "muxRetention": {
+              "bytes": 0,
+              "samples": 0,
+              "peakBytes": 91473,
+              "peakSamples": 83
+            },
+            "encodersCreated": 1,
+            "videoEncodersCreated": 0,
+            "status": {
+              "level": "Q2",
+              "video": "original-encoded-copy",
+              "audio": "lossy-transformed",
+              "codec": "opus",
+              "bitrate": 320000,
+              "bitPerfectAudio": false
+            },
+            "capability": {
+              "eligible": true,
+              "nativeInputSupported": false,
+              "opusEncoderSupported": true,
+              "mseSupported": true,
+              "outputConfig": {
+                "codec": "opus",
+                "numberOfChannels": 2,
+                "sampleRate": 48000,
+                "bitrate": 320000
+              },
+              "status": {
+                "level": "Q2",
+                "video": "original-encoded-copy",
+                "audio": "lossy-transformed",
+                "codec": "opus",
+                "bitrate": 320000,
+                "bitPerfectAudio": false
+              }
+            },
+            "finalAudioConfig": {
+              "codec": "opus",
+              "description": {
+                "0": 79,
+                "1": 112,
+                "2": 117,
+                "3": 115,
+                "4": 72,
+                "5": 101,
+                "6": 97,
+                "7": 100,
+                "8": 1,
+                "9": 2,
+                "10": 56,
+                "11": 1,
+                "12": 128,
+                "13": 187,
+                "14": 0,
+                "15": 0,
+                "16": 0,
+                "17": 0,
+                "18": 0
+              },
+              "numberOfChannels": 2,
+              "sampleRate": 48000
+            },
+            "peakPrefixBytes": 28,
+            "inputFormat": "MP4",
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 14,
+              "bytes": 906704,
+              "logicalReads": 245,
+              "cacheHits": 250,
+              "peakCache": 262144,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 131072,
+              "discoveryRequests": 2
+            },
+            "audioCleanup": {
+              "settled": true,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "moduleLoading": false
+            },
+            "audioMetrics": {
+              "opened": 1,
+              "closed": 1,
+              "liveContexts": 0,
+              "pendingOpens": 0,
+              "inFlightDecode": 0,
+              "decodedPackets": 157,
+              "decodedFrames": 241152,
+              "transferredPcmBytes": 1929216,
+              "failures": 0,
+              "peakPacketBytes": 2560,
+              "peakPcmBytes": 12288,
+              "peakHeapBytes": 33554432,
+              "moduleLoading": false,
+              "heapBytes": 33554432
+            }
+          },
+          "failureDiagnostic": null
+        },
+        "tracks": {
+          "current": true,
+          "selectedAudioTrackId": 3,
+          "identity": {
+            "accountKey": "account",
+            "accountGeneration": 1,
+            "fileId": "fixture",
+            "headRevisionId": "A",
+            "size": "972240",
+            "mimeType": "video/mp4",
+            "modifiedTime": "A",
+            "canDownload": true,
+            "trashed": false,
+            "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+            "version": null
+          },
+          "inventory": {
+            "kind": "iso",
+            "audioTracks": [
+              {
+                "trackId": 2,
+                "language": "eng",
+                "label": "eng (2)",
+                "codec": "ac3",
+                "route": "q2",
+                "reason": "qualified-ac3-eac3",
+                "capability": {
+                  "eligible": true,
+                  "nativeInputSupported": false,
+                  "opusEncoderSupported": true,
+                  "mseSupported": true,
+                  "outputConfig": {
+                    "codec": "opus",
+                    "numberOfChannels": 2,
+                    "sampleRate": 48000,
+                    "bitrate": 320000
+                  },
+                  "status": {
+                    "level": "Q2",
+                    "video": "original-encoded-copy",
+                    "audio": "lossy-transformed",
+                    "codec": "opus",
+                    "bitrate": 320000,
+                    "bitPerfectAudio": false
+                  }
+                },
+                "nativeFile": {
+                  "supported": false,
+                  "authority": "html-can-play-type",
+                  "contentType": "video/mp4; codecs=\"avc1.64000c,ac-3\"",
+                  "answer": ""
+                }
+              },
+              {
+                "trackId": 3,
+                "language": "kor",
+                "label": "kor (3)",
+                "codec": "eac3",
+                "route": "q2",
+                "reason": "qualified-ac3-eac3",
+                "capability": {
+                  "eligible": true,
+                  "nativeInputSupported": false,
+                  "opusEncoderSupported": true,
+                  "mseSupported": true,
+                  "outputConfig": {
+                    "codec": "opus",
+                    "numberOfChannels": 2,
+                    "sampleRate": 48000,
+                    "bitrate": 320000
+                  },
+                  "status": {
+                    "level": "Q2",
+                    "video": "original-encoded-copy",
+                    "audio": "lossy-transformed",
+                    "codec": "opus",
+                    "bitrate": 320000,
+                    "bitPerfectAudio": false
+                  }
+                },
+                "nativeFile": {
+                  "supported": false,
+                  "authority": "html-can-play-type",
+                  "contentType": "video/mp4; codecs=\"avc1.64000c,ec-3\"",
+                  "answer": ""
+                }
+              }
+            ],
+            "defaultAudioTrackId": 3,
+            "admission": {
+              "kind": "iso",
+              "tracks": 3,
+              "samples": [
+                144,
+                188,
+                188
+              ],
+              "boxes": 62,
+              "trackInfo": [
+                {
+                  "trackId": 1,
+                  "codec": "avc1",
+                  "handler": "vide",
+                  "samples": 144,
+                  "reordered": false
+                },
+                {
+                  "trackId": 2,
+                  "codec": "ac-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                },
+                {
+                  "trackId": 3,
+                  "codec": "ec-3",
+                  "handler": "soun",
+                  "samples": 188,
+                  "reordered": false
+                }
+              ]
+            },
+            "identity": {
+              "accountKey": "account",
+              "accountGeneration": 1,
+              "fileId": "fixture",
+              "headRevisionId": "A",
+              "size": "972240",
+              "mimeType": "video/mp4",
+              "modifiedTime": "A",
+              "canDownload": true,
+              "trashed": false,
+              "sha256Checksum": "4c47563aa4970e7c270e8b9e8eacf169222fb7f094d4c57c5b6ddf5f8a47fc64",
+              "version": null
+            },
+            "cleanup": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            },
+            "reads": {
+              "requests": 1,
+              "bytes": 65536,
+              "logicalReads": 4,
+              "cacheHits": 7,
+              "peakCache": 65536,
+              "inFlight": 0,
+              "peakInFlight": 1,
+              "peakQueued": 1,
+              "discoveryBytes": 65536,
+              "discoveryRequests": 1
+            }
+          },
+          "source": false,
+          "switching": false
+        },
+        "dialog": {
+          "open": false,
+          "audioValue": "3",
+          "status": "선택한 음성을 유지해 재생합니다. 자막은 텍스트만 표시합니다.",
+          "audio": [
+            {
+              "value": "2",
+              "text": "eng (2) · ac3",
+              "disabled": false
+            },
+            {
+              "value": "3",
+              "text": "kor (3) · eac3",
+              "disabled": false
+            }
+          ],
+          "subtitle": [
+            {
+              "value": "",
+              "text": "끔",
+              "disabled": false
+            }
+          ]
+        },
+        "textTrack": null,
+        "errorUI": {
+          "visible": false,
+          "title": "이 파일을 재생할 수 없습니다",
+          "message": "원본 스트림을 준비하지 못했습니다."
+        },
+        "worker": [
+          {
+            "kind": "start",
+            "generation": 1,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 1,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 1,
+            "error": "GENERAL_CANCELLED"
+          },
+          {
+            "kind": "start",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 2,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "start",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 3,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "start",
+            "generation": 4,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "window",
+            "generation": 4,
+            "selectedAudioTrackId": 3
+          },
+          {
+            "kind": "terminal",
+            "generation": 4,
+            "selectedAudioTrackId": 3
+          }
+        ],
+        "trace": []
+      }
+    ],
+    "backseekNativeFrame": {
+      "mediaTime": 1.541666,
+      "presentedFrames": 2,
+      "width": 320,
+      "height": 180,
+      "timeline": {
+        "mapping": {
+          "sourceOrigin": 0,
+          "sourceEnd": 6.010666666666666,
+          "commonShift": 0,
+          "targetSource": 1.5,
+          "targetElement": 1.5,
+          "timestampOffset": 0,
+          "audioEnd": {
+            "preSkip": 312,
+            "sampleRate": 48000,
+            "appendWindowEnd": 6.017166666666666
+          }
+        },
+        "duration": 6.010666666666666,
+        "currentTime": 1.54873
+      }
+    },
+    "status": "controlled-Q2-selection-pass",
+    "cleanup": {
+      "q1Settled": true,
+      "tracksSettled": true,
+      "hasSource": false,
+      "tracksOwner": false,
+      "q1Owner": false,
+      "q0Owner": false,
+      "textCues": 0
+    },
+    "browserClosed": true
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "name": "pending-cue-close",
+  "passed": false,
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "POST",
+      "path": "/drive/v3/files/fixture/download",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-11"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture/revisions/A",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": true,
+      "range": "bytes=0-65535"
+    },
+    {
+      "method": "GET",
+      "path": "/drive/v3/files/fixture",
+      "media": false
+    }
+  ],
+  "fixture": {
+    "path": "qa/fm05-controlled-diagnostic/subtitle.mp4",
+    "bytes": 659966,
+    "sha256": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037"
+  },
+  "native": {
+    "attempt": "range",
+    "mode": "original-range",
+    "timeline": {
+      "mapping": false,
+      "duration": 6,
+      "currentTime": 0
+    },
+    "session": 1,
+    "video": {
+      "time": 0,
+      "paused": true,
+      "readyState": 4,
+      "frames": 4,
+      "error": null
+    },
+    "tracks": null,
+    "dialog": {
+      "open": false,
+      "status": "음성·자막 목록을 확인합니다.",
+      "audio": [
+        {
+          "value": "",
+          "text": "현재 원본 음성",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": null,
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [],
+    "trace": []
+  },
+  "failure": {
+    "name": "Error",
+    "message": "QA_GATE_TIMEOUT",
+    "stack": "Error: QA_GATE_TIMEOUT\n    at Object.wait (C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:22:1596)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:30:217\n    at async runCase (C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:22:1701)\n    at async C:\\extensions\\Drive-Original\\source\\qa\\player-track-selection\\acceptance.cjs:30:1"
+  },
+  "failureSnapshot": {
+    "attempt": "range",
+    "mode": "original-range",
+    "timeline": {
+      "mapping": false,
+      "duration": 6,
+      "currentTime": 2
+    },
+    "session": 1,
+    "video": {
+      "time": 2,
+      "paused": true,
+      "readyState": 4,
+      "frames": 8,
+      "error": null
+    },
+    "tracks": {
+      "current": true,
+      "identity": {
+        "accountKey": "account",
+        "accountGeneration": 1,
+        "fileId": "fixture",
+        "headRevisionId": "A",
+        "size": "659966",
+        "mimeType": "video/mp4",
+        "modifiedTime": "A",
+        "canDownload": true,
+        "trashed": false,
+        "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+        "version": null
+      },
+      "inventory": {
+        "kind": "iso",
+        "audioTracks": [
+          {
+            "trackId": 2,
+            "language": "und",
+            "label": "Audio (2)",
+            "codec": "aac",
+            "route": "q1",
+            "reason": "qualified-aac-copy"
+          }
+        ],
+        "defaultAudioTrackId": 2,
+        "admission": {
+          "kind": "iso",
+          "tracks": 3,
+          "samples": [
+            144,
+            283,
+            2
+          ],
+          "boxes": 64,
+          "trackInfo": [
+            {
+              "trackId": 1,
+              "codec": "avc1",
+              "handler": "vide",
+              "samples": 144,
+              "reordered": false
+            },
+            {
+              "trackId": 2,
+              "codec": "mp4a",
+              "handler": "soun",
+              "samples": 283,
+              "reordered": false
+            },
+            {
+              "trackId": 3,
+              "codec": "tx3g",
+              "handler": "sbtl",
+              "samples": 2,
+              "reordered": false
+            }
+          ]
+        },
+        "identity": {
+          "accountKey": "account",
+          "accountGeneration": 1,
+          "fileId": "fixture",
+          "headRevisionId": "A",
+          "size": "659966",
+          "mimeType": "video/mp4",
+          "modifiedTime": "A",
+          "canDownload": true,
+          "trashed": false,
+          "sha256Checksum": "d9a1cc3f12a7a3b3a91f408e59da8e1f9b8dfb2e4ec26dd8d969cedc27893037",
+          "version": null
+        },
+        "cleanup": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        },
+        "reads": {
+          "requests": 1,
+          "bytes": 65536,
+          "logicalReads": 4,
+          "cacheHits": 7,
+          "peakCache": 65536,
+          "inFlight": 0,
+          "peakInFlight": 1,
+          "peakQueued": 1,
+          "discoveryBytes": 65536,
+          "discoveryRequests": 1
+        }
+      },
+      "subtitleSelected": 3,
+      "subtitleMetrics": {
+        "requests": 1,
+        "bytes": 65536,
+        "logicalReads": 0,
+        "cacheHits": 5,
+        "peakCache": 65536,
+        "inFlight": 0,
+        "peakInFlight": 1,
+        "peakQueued": 1,
+        "discoveryBytes": 65536,
+        "discoveryRequests": 1
+      },
+      "source": false
+    },
+    "dialog": {
+      "open": true,
+      "status": "텍스트 자막을 표시합니다. 원본 글꼴·꾸밈·배치는 적용하지 않습니다.",
+      "audio": [
+        {
+          "value": "2",
+          "text": "Audio (2) · aac",
+          "disabled": false
+        }
+      ],
+      "subtitle": [
+        {
+          "value": "",
+          "text": "끔",
+          "disabled": false
+        },
+        {
+          "value": "3",
+          "text": "und (3)",
+          "disabled": false
+        }
+      ]
+    },
+    "textTrack": {
+      "mode": "showing",
+      "cues": [
+        {
+          "start": 0,
+          "end": 5,
+          "text": "SYNTHETIC SUBTITLE"
+        }
+      ],
+      "active": [
+        {
+          "start": 0,
+          "end": 5,
+          "text": "SYNTHETIC SUBTITLE"
+        }
+      ]
+    },
+    "errorUI": {
+      "visible": false,
+      "title": "이 파일을 재생할 수 없습니다",
+      "message": "원본 스트림을 준비하지 못했습니다."
+    },
+    "worker": [],
+    "trace": []
+  }
+}

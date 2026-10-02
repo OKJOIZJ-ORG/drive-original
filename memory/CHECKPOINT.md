@@ -1,30 +1,34 @@
-# Checkpoint — ACTIVE D074 — 2026-10-02 PC images and reconnect
+# Checkpoint — ACTIVE D074 — 2026-10-02 verified track unit before rc35
 
 ## The story so far
 
-Whole approved queue remains ACTIVE, branch codex/v2-kickoff-diagnostics, HEAD36d86db. Immutable candidate09c61bd/rc34/Worker6858a2cf and106 release/static/SW plus88 focused checks are saved. Android5400frames/180s/1x native endpoint supports finite functional scope; extra strict event receipt stays failed. Reuse prior Q0/TS/PCM/layout/state/finite-Q3/local-quality evidence. Production1.21/e08989a/main/push/general writes and PAUSED automation unchanged.
+Approved full queue ACTIVE on codex/v2-kickoff-diagnostics, HEADf64f583 (immutable FM05 baseline preserved). Candidate09c61bd/rc34/Worker6858a2cf unchanged; images/exact fixture cleanup/same-account session restoration committed. RC34 owner holds receipts. Original69-clause adoption and historical unmapped Q1 MOV90% timeout remain; no full corpus scan.
 
-Actual PC GIF/WebP animation and PNG/JPEG card/two-viewer lifetimes have fresh original identity/source/account/API and cleanup receipts with corrected native crops. Controlled alpha/timing/BMP/large-PNG/wrong-MIME evidence is permitted by original EXP03; actual BMP body/path remains unknown. CANDIDATE-RC34-20261002.md owns details. Mixed Q0/Q1 PC30 has29 target frames and one Q1 MOV90% timeout; exact failed-target identity is absent from safe ordinals. Do not infer it from the separate MKV TS target. Exact disposable Q3 file/folder cleanup passes:15 requests/2PATCH/2 fresh trash-confirmed receipts, original fingerprint preserved, private backups retained, helper/proof/job released. One normal browser-session logout/reconnect passes: local anonymous/token/identity cleared, same account and entire60favorite/170viewed projection restored on34 without credential entry/new consent. Late supplemental CDP trace is TRUNCATED; missing counts/scopes UNKNOWN, attribution repaired without product replay. Original69-clause integration and targeted remaining criteria remain. No full corpus scan or active player/helper/owned image tab.
+Working product now has bounded8-track admission/aggregate limits, exact selectedAAC/Q2 track ID propagation, tx3g source-clock reader and reusable nativeTextTrack, lazy native desktop/mobile selection dialog and lifecycle barriers. Public allowlist adds3 modules (63 assets); version still34 locally, DO NOT deploy until verified/version cut. Lowerselectedaudio9,subtitle30,presentation5,appownership5 pass; earlier214app/static/routing pass needs finalchanged-cut check. Controlled actual-app native3 selection/seeks then2paused/3playing and combined tx3g4 across Q1 switches pass. Independent stale-file/session inventory, exactmissing999 refusal and padded pendingcue close pass; all owners/browsers/server cleaned. First native→Q1 selection TypeError was fixed by joining q1Retirement with no oldowner; defaultnativeTextTrack explicitlyoff. Preserved failures/results under qa/player-track-selection.
+
+Q1 endpoint now records the actual last copied presentation frame and only substitutes it for a terminal request outside the exclusive native buffer. Native exact6/paused5.999999/backseek2/autoplay-natural-end at1000ms and4reader abort-once cleanup pass;17focused checks. Same24video packet payload/rationalclock and last decoded YUV exact. Strict canvasRGBA differs materially for absent declared color; retained FAILURE/UNKNOWN, not a pixel pass or guessed matrix fix. Audio agent only inspecting absent colr/SPS metadata; no further product edits.
+
+Nine unique controlled actual-app cases plus one discriminating Q2 selection case pass across retained producer phases (37producer hashes, not public asset counts). Q2 defaultAC3 ID2→selectedEAC3 ID3 gives native frames/backseek/pausedstate and exact144copiedvideo packets with Opus48kstereo audio. Retry picker3/actual3 and allcleanup pass. Latest220app/static/routing/track guards and version35 static20 pass. Final review narrowed endpoint guard to reject targets beyond actual lastvideo frameend, including exactmovieend;17checks pass, final general-player046a4cdef65abbf7e442747db9006ae86e190453e87e0703fcd847dbce70775a. Earlier positive native6s proofs remain scoped to their originalhash and unchangedpositive predicate. Root curates/commits rc35/public63 then one free candidate publish. Androidauthorized1/SM-X800/Android16 responds; actor prepares executable owned localhost combined-fixture runner only, tablet desktopdialog bydefault. No actual account/device writer/helper active; normal Chrome tab275140556 reconnected/idle.
 
 ## Decided
 
-- D050/D074 allow exact disposable fixture, real PC/Android, local commits and free candidate. Production/main/push/new grants/permanent deletion need separate authority; iOS deferred.
-- Extra trusted-ended and exact physical animation timestamp oracles do not extend original finite criteria; preserve failures/limits.
-- Fix shared-state ownership and the responsible failing layer; no broad functional rewrite or product redeploy for QA repair.
-- Native capture retains tiny-region hashes, charges all source bytes and records physical DPR geometry; historical failures stay preserved.
+- D050/D074 permit exact disposable fixture, real PC/Android, local commits/free candidate. Production/main/push/new grants/permanent deletion separate; iOS deferred, automation PAUSED.
+- Preserve original payload/clock/language; explicit unsupported/error never silently chooses another audio. Metadata probes lazy; caption reader independently fenced and directly boundedRange so Q1 seek retirement cannot cancel it.
+- Generated FM05 inputs permitted by EXP03; controlled native Chrome is not physicalAndroid/real-account proof. Tool failures repaired atQA only; passing independent checks reused.
 
 ## Waiting on the user
 
-None. Requested official MCP autoConnect returned one candidate page and closed its temporary client. Fresh extension tab275140556/CDP/source34/account/online/idle was rebound. Old q3Browser proxy is stale: use current cua APIs with browser3 and mutable pcResumeRoot.
+None.
 
 ## Next first action
 
-Commit actual-pc-session-reconnect-rc34-safe.json and sparse-network attribution repair, then adopt original clauses against preserved finite actual/controlled evidence and isolate the remaining conditional/performance gap.
+Finish color metadata adjudication without guessing, review/curate the verified unit and stage exact task paths, version rc35/public63 cut, then one candidate publish/readback/package and affected physical Android qualification. Reuse unchanged acceptance receipts; historical Q1 MOV90% timeout remains censored/unmapped.
 
 ## Tried
 
-- Strict Android300s trusted-event receipt failed despite native functional endpoint; preserved.
-- Raw cropped CDP requests timed out; bounded native viewport capture/crop repaired QA, all source bytes counted.
-- GIF thumbnail/compositor transition had no static verdict; settled-card c5 passed separately, inconclusive receipts preserved.
-- High-level screenshot returned JPEG and stale browser proxy listed no tabs; native PNG and fresh cua.getTab work.
-- BMP thin/full metadata differed in absent revision fields; identity matched, six ancestor reads found no prepared root path, no body read.
+- Native→Q1 selection awaited undefined oldowner cleanup; fixed joining shared retirement, added2 regression guards.
+- ExactEOF Q1 source5.999999 had no native presentable target; terminal copied-frame repair now passes native endpoint/backseek/natural-end, interior gaps still refuse.
+- Retry restored actual selectedAAC3 but picker displayed2; exact active-lifetime identity/choice seeding now verified, no cross-account/session inheritance.
+- Pendingcue gate was inside64KiB discovery cache; generated padded-mdat fixture with unchanged tx3g packet/timing now proves actual pendingRange cancellation.
+- Mobile idle controls are hidden; resetControlsTimer is not reveal. QA must use intended keyboard #playerControlsEntry.
+- HistoricalPC30 timeout identity unavailable; separate MKV or ISO MOV header cannot substitute.

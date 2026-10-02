@@ -1,6 +1,6 @@
 const requireThat = (condition, code) => { if (!condition) throw new Error(`WORKER_${code}`); };
 export function startGeneralWorker({ source, generation, isCurrent = () => true, signal,
-  onWindow = () => {}, onChunk, targetTime = 0, endTime = Infinity, limits = {},
+  onWindow = () => {}, onChunk, targetTime = 0, endTime = Infinity, limits = {}, selectedAudioTrackId,
   timelinePolicy = true, workerFactory = url => new Worker(url, { type: 'module' }) }) {
   requireThat(source?.identity && typeof onChunk === 'function' && Number.isSafeInteger(generation) && generation > 0, 'OPTIONS');
   const worker = workerFactory(new URL('./general-worker.mjs', import.meta.url));
@@ -79,7 +79,7 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
     worker.on('error', () => { void finish({ error: { message: 'WORKER_RUNTIME_ERROR' } }); });
   }
   signal?.addEventListener('abort', cancel, { once: true });
-  worker.postMessage({ kind: 'start', generation, identity: source.identity, targetTime, endTime, limits, timelinePolicy });
+  worker.postMessage({ kind: 'start', generation, identity: source.identity, targetTime, endTime, limits, timelinePolicy, selectedAudioTrackId });
   if (signal?.aborted) void cancel();
   return { done, cancel, metrics };
 }

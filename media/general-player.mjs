@@ -50,9 +50,24 @@ export function resolveGeneralAudioEnd(window,mapping){
  if(!Number.isFinite(appendWindowEnd)||appendWindowEnd<=0)throw new Error('AUDIO_OPUS_END_CLOCK_INVALID');
  return Object.freeze({preSkip,sampleRate:config.sampleRate,appendWindowEnd});
 }
+// An ended native buffer can round its final endpoint below the exact source
+// clock. Display the original last frame only when that specific frame is
+// retained and the requested time is no later than that frame's original end.
+// This never invents a valid clock in an interior gap or chooses an earlier RAP.
+export function resolveGeneralEndpointTarget(mapping,lastVideoFrame,buffered){
+ const {targetSource,commonShift,sourceEnd}=mapping,frame=lastVideoFrame;
+ if(!frame||![targetSource,commonShift,sourceEnd,frame.timestamp,frame.duration,frame.endTimestamp].every(Number.isFinite)
+  ||frame.duration<=0||frame.endTimestamp!==frame.timestamp+frame.duration||frame.timestamp>=sourceEnd||frame.timestamp<mapping.sourceOrigin
+  ||targetSource<frame.timestamp||targetSource>sourceEnd
+  ||targetSource>frame.endTimestamp)return null;
+ const element=frame.timestamp-commonShift,range=buffered.find(([a,b])=>a<=element&&element<b);
+ if(!range||buffered.some(([a,b])=>a<=mapping.targetElement&&mapping.targetElement<b))return null;
+ return {requestedSource:targetSource,targetSource:frame.timestamp,targetElement:element,
+  frame:{...frame},bufferedRange:[...range],reason:'terminal-original-frame'};
+}
 // All public seek values are original source-clock seconds. `mapping` provides
 // the common element/source/movie translation for the app's existing controls.
-export function createGeneralPlayer({video,openSource,isCurrent,onEvent=()=>{},initialTime=0,autoplay=false,workerFactory}={}){
+export function createGeneralPlayer({video,openSource,isCurrent,onEvent=()=>{},initialTime=0,autoplay=false,workerFactory,selectedAudioTrackId}={}){
  demand(video&&typeof openSource==='function'&&typeof isCurrent==='function','OPTIONS');const MS=globalThis.MediaSource;demand(MS,'MSE_UNAVAILABLE');
  let serial=0,latest,closed=false,blocked=false,baseline,checksum;const originalRemote=video.disableRemotePlayback;
  const bind=identity=>{if(baseline){demand(SAME.every(k=>baseline[k]===identity[k]),'CONTENT_CHANGED');if(checksum)demand(checksum===identity.sha256Checksum,'CONTENT_CHANGED');}else baseline={...identity};checksum||=identity.sha256Checksum;};
@@ -91,11 +106,13 @@ export function createGeneralPlayer({video,openSource,isCurrent,onEvent=()=>{},i
   run.completion=(async()=>{try{const prior=await previous;check();demand(!blocked&&prior?.settled!==false,'CLEANUP_UNCONFIRMED');emit('starting',{time:target});opening=Promise.resolve(openSource({signal:controller.signal})).then(value=>{reader=value;return value;});await opening;opening=null;check();bind(reader.identity);
    media=new MS();media.addEventListener('sourceclose',sourceClosed);video.addEventListener('error',mediaError);video.addEventListener('seeking',nativeSeek);for(const n of endEvents)video.addEventListener(n,enforceSourceEnd);url=URL.createObjectURL(media);await wait(media,'sourceopen',()=>{video.src=url;video.load();});check();
    const source={get identity(){return reader.identity;},async read(range){const bytes=await reader.read(range);check();bind(reader.identity);return bytes;},abort:()=>reader.abort()};
-   job=startGeneralWorker({source,generation:id,isCurrent:current,signal:controller.signal,workerFactory,targetTime:target,
-    onWindow(w){check();const sourceOrigin=w.policy?.presentationOrigin??w.sourcePacketOrigin,commonShift=Math.min(sourceOrigin,w.windowOrigin),targetSource=Math.max(target,w.policy?.validPresentationStart??sourceOrigin,w.videoStartTimestamp);mapping={sourceOrigin,sourceEnd:w.sourceEndTimestamp,commonShift,targetSource,targetElement:targetSource-commonShift,timestampOffset:w.windowOrigin-commonShift};demand(Number.isFinite(mapping.sourceEnd)&&targetSource<mapping.sourceEnd,'TARGET_OUTSIDE');
+   job=startGeneralWorker({source,generation:id,isCurrent:current,signal:controller.signal,workerFactory,targetTime:target,selectedAudioTrackId,
+    onWindow(w){check();const sourceOrigin=w.policy?.presentationOrigin??w.sourcePacketOrigin,commonShift=Math.min(sourceOrigin,w.windowOrigin),targetSource=Math.max(target,w.policy?.validPresentationStart??sourceOrigin,w.videoStartTimestamp);mapping={sourceOrigin,sourceEnd:w.sourceEndTimestamp,commonShift,targetSource,targetElement:targetSource-commonShift,timestampOffset:w.windowOrigin-commonShift};const copiedQ1=!w.status&&w.videoCodec==='avc'&&(!w.audioCodec||w.audioCodec==='aac');demand(Number.isFinite(mapping.sourceEnd)&&(targetSource<mapping.sourceEnd||(copiedQ1&&targetSource===mapping.sourceEnd)),'TARGET_OUTSIDE');
      const mime=`video/mp4; codecs="${[w.videoConfig.codec,w.audioConfig?.codec].filter(Boolean).join(',')}"`;demand(MS.isTypeSupported(mime),'CODEC_UNAVAILABLE');mapping.audioEnd=resolveGeneralAudioEnd(w,mapping);sb=media.addSourceBuffer(mime);sb.timestampOffset=mapping.timestampOffset;if(mapping.audioEnd)sb.appendWindowEnd=mapping.audioEnd.appendWindowEnd;media.duration=mapping.audioEnd?.appendWindowEnd??mapping.sourceEnd-commonShift;state.mapping=mapping;state.status=w.status??null;state.capability=w.capability??null;state.phase='buffering';emit('mapping',{...mapping,status:state.status,capability:state.capability});
     },async onChunk({bytes,batchEnd,batchSize,signal}){check();if(!batchBytes)await admit(batchSize??bytes.length);check();demand(!signal.aborted&&!sb.updating,'APPEND_OWNER');batchBytes+=bytes.length;demand(batchBytes<=8*1024*1024,'OUTPUT_BATCH_LIMIT');let finished;appendDrain=new Promise(r=>finished=r);try{await wait(sb,'updateend',()=>sb.appendBuffer(bytes));}finally{finished();}check();rapIndex.push(bytes);state.appends++;if(batchEnd){const end=ranges().at(-1)?.[1]??mapping.targetElement;credits.push({end,bytes:batchBytes});held+=batchBytes;batchBytes=0;demand(credits.length<=512,'APPEND_INDEX_LIMIT');state.peakRetainedAppendBytes=Math.max(state.peakRetainedAppendBytes,held);}position();}
-   });const terminal=await job.done;check();state.worker=terminal.metrics;state.pipeline=terminal.result;state.failureDiagnostic=safeDiagnostic(terminal.error?.diagnostic);demand(terminal.transportCleanup?.settled===true,'CLEANUP_UNCONFIRMED');if(terminal.error)throw new Error(terminal.error.message);demand(!sb.updating&&batchBytes===0,'APPEND_UNSETTLED');rapIndex.finish();media.endOfStream();position();demand(positionTask,'NO_PRESENTABLE_TARGET');await positionTask;check();state.phase='buffered-to-end';emit('buffered-to-end');
+   });const terminal=await job.done;check();state.worker=terminal.metrics;state.pipeline=terminal.result;state.failureDiagnostic=safeDiagnostic(terminal.error?.diagnostic);demand(terminal.transportCleanup?.settled===true,'CLEANUP_UNCONFIRMED');if(terminal.error)throw new Error(terminal.error.message);demand(!sb.updating&&batchBytes===0,'APPEND_UNSETTLED');rapIndex.finish();media.endOfStream();
+   if(!positionTask&&terminal.result?.videoCodec==='avc'&&terminal.result?.encodersCreated===0){const endpoint=resolveGeneralEndpointTarget(mapping,terminal.result.lastVideoFrame,ranges());if(endpoint){mapping.endpoint=endpoint;mapping.targetSource=endpoint.targetSource;mapping.targetElement=endpoint.targetElement;}}
+   position();demand(positionTask,'NO_PRESENTABLE_TARGET');await positionTask;check();state.phase='buffered-to-end';emit('buffered-to-end');
   }catch(e){if(e.cleanup)openCleanup=e.cleanup;if(current())fail(e);else if(state.phase!=='failed')state.phase='cancelled';}return state;})();return run;
  }
  const player={ready:null,seek(seconds,{autoplay=!video.paused}={}){return launch(seconds,autoplay).ready;},dispose(){closed=true;serial++;return latest?.dispose();},stats(){return latest?.state??null;},completion(){return latest?.completion;},sourceTime(){const m=latest?.state.mapping;return Math.min(m?.sourceEnd??Infinity,video.currentTime+(m?.commonShift??0));}};
