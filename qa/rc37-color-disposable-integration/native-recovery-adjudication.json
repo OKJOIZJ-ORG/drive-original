@@ -1,0 +1,52 @@
+{
+  "schema": "drive-original.rc37-runtime-boundary/1",
+  "observedAt": "2026-10-02T16:20:47.092Z",
+  "candidateVersion": "1.22.0-rc.37",
+  "nativeProbeAttempt1": {
+    "receipt": "native-normal-profile-probe-result.json",
+    "completed": false,
+    "normalCandidateCount": 0,
+    "profileAbsence": "UNKNOWN",
+    "reason": "Original parser recognizes URL-only rows; installed MCP may include titles. Raw listing was not retained; cause is not confirmed."
+  },
+  "nativeProbeAttempt2": {
+    "receipt": "native-normal-profile-probe-v2-result.json",
+    "completed": false,
+    "errorClass": "McpError",
+    "normalConnectionOrPermission": "UNQUALIFIED",
+    "configuredRpcDeadlineMs": 25000,
+    "elapsedMs": 27881,
+    "cleanupComplete": true
+  },
+  "parserChecks": {
+    "urlOnly": true,
+    "titleAndURL": true,
+    "otherOriginRejected": true
+  },
+  "chromeSettingsAccess": {
+    "unsupportedVisibilityOptionRejected": true,
+    "directURLRejectedByBrowserSecurityPolicy": true,
+    "blockedProtocol": "chrome:",
+    "manualCurrentProfileFileURLSetting": "PENDING",
+    "noWorkaroundAttempted": true
+  },
+  "providerRequests": 0,
+  "uploadedFiles": 0,
+  "createdDriveObjects": 0,
+  "productBytesChanged": false,
+  "candidateRedeployed": false,
+  "postProbePC": {
+    "creatorAbsent": true,
+    "fixtureBlobAbsent": true,
+    "fixtureInputAbsent": true,
+    "observerAbsent": true,
+    "readyIdle": true,
+    "sourceProofAbsent": true,
+    "targetAbsent": true,
+    "version": "1.22.0-rc.37"
+  },
+  "originalFailedReceiptsPreserved": true,
+  "existingCandidateTabPreserved": true,
+  "wholeGoalPassed": false,
+  "productionPassed": false
+}

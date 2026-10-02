@@ -738,3 +738,7 @@ Immediately after D070 resume, user requested clean reboot and use of waitingsta
 ## 2026-10-03 — rc37 affected reader and finite evidence closure
 
 CANDIDATE-RC37-20261003.md is the result owner. Scoped CORS defect fixed/reviewed/tested/cut/delivered once; currentPC and normalAndroid36→37 preserve state. Actualreader nowqualifies butselectednaturalcodecdoesnot. Controlled matched8phase pair passes in12992ms after retained tool failures. Restrictedgeneratedfixture uploader9localchecks ready; currentnormalChrome filechooser deniesfileURLaccess beforeanyproviderrequest/object. Inputcleared; originalidlefalse andseparatequietrecovery retained. Pending currentprofile user setting; independent authorizedunits completed, originalwholegoal false andproduction unchanged.
+
+## 2026-10-03 — bounded native recovery boundary
+
+After d7943f8, two short read-only native connection attempts retained failures/producer hashes; title-aware parsing repair passed3cases before the second attempt. Both owned MCP processes closed/exited; normal-profile connection remains unqualified. DirectChrome settings URL was denied by browser security policy, with no workaround. No upload/providerrequest/object/productchange/redeployment. Existing PC37 tab remains readyidle and all helpers absent; current manual setting question remains pending. Result owner CANDIDATE-RC37-20261003.md and native-recovery-adjudication.json hold the discriminating evidence; original requirements and wholeGoalPassedfalse remain.
