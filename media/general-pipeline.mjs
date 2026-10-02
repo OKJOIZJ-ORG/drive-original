@@ -3,7 +3,7 @@ import { Input, MP4, QTFF, MPEG_TS, EncodedPacketSink,
   StreamTarget } from './mediabunny-q1.mjs';
 import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
-import { resolveTimelinePolicy } from './general-timeline.mjs';
+import { resolveTimelinePolicy, validateInitialPresentationTime, resolveInitialPresentationTime } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
 import { resolveObservedNativeOutputColor } from './native-color.mjs';
 import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
@@ -11,13 +11,13 @@ import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSele
 // Pure packet-copy slice. No Decoder/Encoder, Conversion, Blob or full input.
 export async function streamGeneralQ1({ source, generation = 1, isCurrent = () => true,
   signal, selectedAudioTrackId, nativeColorObservation,
-  targetTime = 0, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
+  targetTime = 0, initialPresentationTime, endTime = Infinity, onChunk, onPacket = () => {}, onWindow = () => {}, limits = {},
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
   if (endTime !== Infinity) throw new Error('GENERAL_TRIM_UNQUALIFIED');
   const rpc = createGeneralSource(source, { isCurrent, signal, ...limits });
   let admission;
-  try { validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
+  try { validateInitialPresentationTime(initialPresentationTime, targetTime); validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
   const policyRpc = {metrics:{...rpc.metrics,generation,size:rpc.size},request:({start,end})=>rpc.request(start,end)};
   const input = new Input({ source: rpc.custom, formats: [MP4, QTFF, MPEG_TS] });
   let output, outputPosition = 0, outputBytes = 0, pendingAcks = 0, peakAcks = 0, packets = 0;
@@ -39,24 +39,35 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     if (video.codec !== 'avc' || (audio && audio.codec !== 'aac')) throw new Error('GENERAL_CODEC_UNQUALIFIED');
     if ((await input.getVideoTracks()).length !== 1) throw new Error('GENERAL_TRACKS_UNQUALIFIED');
     const duration = await video.computeDuration(); rpc.check();
+    let sourcePacketOrigin, policy;
+    // Resolve a movie-relative initial snapshot on the selected tracks before
+    // choosing the RAP. Ordinary seeks keep their absolute source clock.
+    if (initialPresentationTime !== undefined) {
+      sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
+      policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
+      rpc.check();
+      targetTime = resolveInitialPresentationTime(initialPresentationTime, {sourceOrigin:policy?.presentationOrigin ?? sourcePacketOrigin, sourceEnd:policy?.declaredEnd ?? duration}, targetTime);
+    }
     const videoSink = new EncodedPacketSink(video), audioSink = audio && new EncodedPacketSink(audio);
     let videoPacket = await videoSink.getKeyPacket(targetTime, { verifyKeyPackets: true });
     videoPacket ||= await videoSink.getFirstKeyPacket({ verifyKeyPackets: true }); rpc.check();
     if (!videoPacket) throw new Error('GENERAL_KEYFRAME_MISSING');
     // At full-start retain a real leading audio stream. Arbitrary seeks start
     // its packet window at the selected video RAP on the same source clock.
-    let audioPacket = audioSink && (targetTime === 0 ? await audioSink.getFirstPacket() : await audioSink.getPacket(videoPacket.timestamp));
+    let audioPacket = audioSink && ((initialPresentationTime === undefined ? targetTime === 0 : initialPresentationTime === 0) ? await audioSink.getFirstPacket() : await audioSink.getPacket(videoPacket.timestamp));
     if (audioSink && !audioPacket) audioPacket = await audioSink.getFirstPacket();
     rpc.check();
     const windowOrigin = Math.min(videoPacket.timestamp, audioPacket?.timestamp ?? Infinity);
     const videoConfig = await video.getDecoderConfig(), audioConfig = audio && await audio.getDecoderConfig();
     const guardVideo = createAvcPacketGuard(videoConfig, admission.kind === 'iso');
     if (audioConfig && (audioConfig.codec !== 'mp4a.40.2' || ![44100, 48000].includes(audioConfig.sampleRate) || ![1, 2].includes(audioConfig.numberOfChannels))) throw new Error('GENERAL_AUDIO_CONFIG_UNQUALIFIED');
-    const sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
-    const policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
+    if (initialPresentationTime === undefined) {
+      sourcePacketOrigin = await input.getFirstTimestamp([video, audio].filter(Boolean));
+      policy = timelinePolicy && (await input.getFormat()) !== MPEG_TS && await resolveTimelinePolicy(policyRpc, input, [video, audio].filter(Boolean));
+    }
     rpc.check();
     const {outputVideoConfig, outputColorObservation} = resolveObservedNativeOutputColor(videoConfig, nativeColorObservation, source.identity);
-    await onWindow({ generation, selectedAudioTrackId:audio?.id??null, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp, sourceEndTimestamp: policy?.declaredEnd ?? duration, policy,
+    await onWindow({ generation, ...(initialPresentationTime !== undefined ? {initialSourceTime:targetTime} : {}), selectedAudioTrackId:audio?.id??null, sourcePacketOrigin, windowOrigin, videoStartTimestamp: videoPacket.timestamp, sourceEndTimestamp: policy?.declaredEnd ?? duration, policy,
       videoConfig, outputVideoConfig, outputColorObservation, audioConfig, videoCodec: video.codec, audioCodec: audio?.codec ?? null });
     rpc.check();
     const videoSource = new EncodedVideoPacketSource(video.codec);

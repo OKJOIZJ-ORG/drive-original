@@ -4,6 +4,30 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),test
 const fixtureModule={exports:{}};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname,'app.test.js'),'utf8').split('\ntest(')[0]+'\nmodule.exports=loadAppContext;', {require,__dirname,module:fixtureModule,AbortController,Blob,DOMException,Headers,Map,Math,Promise,Response,Set,URL,URLSearchParams,clearInterval,clearTimeout,console,fetch,performance,setInterval,setTimeout});
 const run=(c,s)=>vm.runInContext(s,c);
+// Execute the actual player construction/event branch with only player and UI
+// boundaries replaced. The changed positive snapshot must never seek again.
+const appSource=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
+const initialPlayerBranch=appSource.slice(appSource.indexOf('    owner.player = createPlayer('),appSource.indexOf('    owner.player.ready.catch',appSource.indexOf('    owner.player = createPlayer(')));
+for(const [name,ts,time,paused,pendingPlay,resume,expectedPlay] of [
+ ['paused positive general',false,.75,true,false,false,false],
+ ['playing positive general',false,.75,false,false,false,true],
+ ['pending play overrides positive paused resume',false,.75,true,true,true,true],
+ ['paused positive resume',false,.75,true,false,true,false],
+ ['zero paused resume keeps its existing intent',false,0,true,true,true,false],
+ ['TS retains absolute initial snapshot',true,3,true,false,false,false]
+])test('initial snapshot/player integration: '+name,()=>{
+ const c=fixtureModule.exports();Object.assign(c,{ts,snapshot:{time,paused},resume:resume?{snapshot:{time,paused}}:null});
+ run(c,`globalThis.owner={};globalThis.selectedAudioTrackId=3;globalThis.nativeColorObservation=null;
+  globalThis.audioCompatibility=false;globalThis.videoCompatibility=false;globalThis.openSource=()=>{};
+  globalThis.current=()=>true;globalThis.seeks=0;globalThis.frames=0;globalThis.subtitles=0;
+  globalThis.createPlayer=options=>{globalThis.playerOptions=options;return {ready:Promise.resolve(),seek(){seeks++;return Promise.resolve();}};};
+  el.videoPlayer={};el.codecNote={};state.pendingPlay=${pendingPlay};
+  updateQualityDisplay=syncMediaFrameWatchdog=()=>{};beginVideoFrameSampling=()=>frames++;refreshPlayerSubtitles=()=>subtitles++;`);
+ run(c,initialPlayerBranch);assert.equal(c.playerOptions.autoplay,expectedPlay);assert.equal(c.playerOptions.initialTime,ts?time:0);
+ assert.equal(c.playerOptions.initialPresentationTime,!ts&&time>0?time:undefined);if(!ts)assert.equal(c.playerOptions.selectedAudioTrackId,3);
+ c.playerOptions.onEvent({type:'buffered',mapping:{sourceOrigin:2,sourceEnd:8},generation:1});
+ assert.equal(c.seeks,0);assert.equal(c.frames,1);assert.equal(c.subtitles,1);assert.equal(run(c,'state.mediaTransportVerified'),true);assert.equal(run(c,'state.pendingPlay'),false);
+});
 function gate(){const c=fixtureModule.exports(),events=new Set(),requests=[],ports=[],deadlines=[];
  c.MessageChannel=class{constructor(){const p={onmessage:null,closed:false,close(){this.closed=true;}};this.port1=p;this.port2={reply:data=>p.onmessage?.({data}),close(){}};ports.push(p);}};
  const worker=()=>({postMessage(data,[port]){requests.push({data,port,worker:this});}});

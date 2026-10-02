@@ -1,0 +1,8 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),root=path.resolve(__dirname,'../..'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const dirs=['qa/candidate-rc38-delivery','qa/rc38-android-disposable-aac'];
+if(fs.existsSync(path.join(__dirname,'source-binding.json')))throw Error('RC38_BOUND_PREPARATION_IMMUTABLE');
+const producers=dirs.flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(name=>/\.(cjs|js|py|md)$/.test(name)).map(name=>{const file=dir+'/'+name;return{file,sha256:sha(fs.readFileSync(path.join(root,file)))};}));
+const prior=['qa/candidate-rc37-delivery/results.json','qa/candidate-rc37-delivery/source-readiness.json','qa/rc37-android-disposable-aac/local-checks.json','qa/rc37-android-disposable-aac/preparation.json'].map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))}));
+const record={schema:'rc38-unbound-tool-preparation/1',version:'1.22.0-rc.38',sourceCommit:'UNKNOWN',runtimeBound:false,actualExecution:false,producers,priorEvidence:prior,reuse:'Unchanged contracts/receipts only; no copied runtime/deployment/device qualification. Base18 raw mock output not retained; receipt hash only.',bounds:{frameMs:15000,metadataMs:10000,rpcMs:25000,mainMs:180000,cleanupMs:40000},required:{publicAssets:65,cacheAssets:50,cacheIncludingRoot:51,sourceArchives:9,private404:6,bindings:11}};
+fs.writeFileSync(path.join(__dirname,'preparation.json'),JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify({prepared:true,runtimeBound:false,sourceCommit:'UNKNOWN',actualExecution:false,producers:producers.length}));

@@ -1,4 +1,5 @@
 import {createGeneralSource} from './general-source.mjs';
+import {validateInitialPresentationTime,resolveInitialPresentationTime} from './general-timeline.mjs';
 import {readQ3Input,inspectQ3Packet,Q3_LIMITS} from './video-q3-input.mjs';
 import {Output,Mp4OutputFormat,StreamTarget,EncodedVideoPacketSource,EncodedPacket} from './mediabunny-q1.mjs';
 const demand=(condition,code)=>{if(!condition)throw new Error(`Q3_${code}`);};
@@ -21,13 +22,15 @@ export async function probePinnedQ3Video(source,{signal,isCurrent=()=>true,scope
 }
 // Worker-only packet decoder -> native encoder -> bounded fragmented MP4.
 // Original source clocks live in JS, never in the prototype bridge's int PTS.
-export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>true,targetTime=0,endTime=Infinity,onChunk,onWindow=()=>{},limits={},
+export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>true,targetTime=0,initialPresentationTime,endTime=Infinity,onChunk,onWindow=()=>{},limits={},
  loadModule=async()=> (await import('./video-q3-codec.mjs')).default(),scope=globalThis}){
  demand(typeof onChunk==='function'&&Number.isFinite(targetTime)&&targetTime>=0&&endTime===Infinity,'OPTIONS');
  const rpc=createGeneralSource(source,{signal,isCurrent,...limits,blockSize:524288,maxCacheSize:524288});let m,decoder=0,extra=0,packet=0,raw=0,encoder,output,failure,result,encodeError,pendingEncoded,expectedTimestamp;
  const metrics={decoded:0,encoded:0,peakHeapBytes:0,peakEncoderQueue:0,peakMuxBytes:0,peakMuxSamples:0,outputBytes:0,peakPendingAcks:0,closed:false};
  try{
-  const input=await readQ3Input(rpc);rpc.check();demand(targetTime<input.duration,'TARGET_OUTSIDE');
+  validateInitialPresentationTime(initialPresentationTime,targetTime);
+  const input=await readQ3Input(rpc);rpc.check();
+  targetTime=resolveInitialPresentationTime(initialPresentationTime,{sourceOrigin:0,sourceEnd:input.duration},targetTime);demand(targetTime<input.duration,'TARGET_OUTSIDE');
   const capability=await observeQ3Capability(input,{scope,signal,nativeRejected:true});rpc.check();demand(capability.eligible,'CAPABILITY_UNAVAILABLE');
   m=await loadModule();rpc.check();demand(m.HEAPU8.buffer.byteLength<=67108864,'HEAP_LIMIT');
   extra=m._malloc(input.extradata.length);demand(extra,'ALLOC');m.HEAPU8.set(input.extradata,extra);decoder=m._q3_open(extra,input.extradata.length);demand(decoder,'DECODER_INIT');
@@ -38,7 +41,7 @@ export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>
   const target=new StreamTarget(new WritableStream({async write({data,position:offset}){
    rpc.check();demand(offset===position&&data.length<=8388608&&Number.isSafeInteger(position+data.length),'OUTPUT_LIMIT');position+=data.length;metrics.outputBytes=position;
    if(!finalConfig){demand(headerBytes+data.length<=65536,'ENCODER_CONFIG_REQUIRED');bufferedHeaders.push({data:data.slice(),offset});headerBytes+=data.length;return;}
-   if(!windowSent){await onWindow({generation,sourcePacketOrigin:0,windowOrigin:0,videoStartTimestamp:input.packets[start].timestamp,sourceEndTimestamp:input.duration,videoConfig:finalConfig,videoCodec:'vp9',audioCodec:null,status:Q3_STATUS,capability});rpc.check();windowSent=true;}
+   if(!windowSent){await onWindow({generation,...(initialPresentationTime!==undefined?{initialSourceTime:targetTime}:{}),sourcePacketOrigin:0,windowOrigin:0,videoStartTimestamp:input.packets[start].timestamp,sourceEndTimestamp:input.duration,videoConfig:finalConfig,videoCodec:'vp9',audioCodec:null,status:Q3_STATUS,capability});rpc.check();windowSent=true;}
    for(const header of bufferedHeaders)await dispatch(header.data,header.offset);bufferedHeaders.length=0;headerBytes=0;await dispatch(data,offset);
   }},{highWaterMark:1}));
   output=new Output({format:new Mp4OutputFormat({fastStart:'fragmented',minimumFragmentDuration:1}),target});
@@ -76,5 +79,5 @@ export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>
   if(m){if(decoder)m._q3_close(decoder);for(const p of [extra,packet,raw])if(p)m._free(p);}metrics.closed=true;
   const cleanup=await rpc.cleanup();if(!cleanup.settled&&!failure)failure=new Error('Q3_SOURCE_CLEANUP_UNSETTLED');if(failure){failure.cleanup=cleanup;failure.reads=rpc.metrics;}if(result){result.cleanup=cleanup;result.reads=rpc.metrics;}
  }
- if(failure){if(!/^(?:GENERAL|Q3)_[A-Z0-9_]+$/.test(failure.message))failure=Object.assign(new Error('Q3_PIPELINE_FAILED'),{cleanup:failure.cleanup,reads:failure.reads});throw failure;}return result;
+ if(failure){if(!/^(?:GENERAL|Q3|TIMING)_[A-Z0-9_]+$/.test(failure.message))failure=Object.assign(new Error('Q3_PIPELINE_FAILED'),{cleanup:failure.cleanup,reads:failure.reads});throw failure;}return result;
 }

@@ -1,0 +1,191 @@
+{
+  "schema": "rc38-unbound-tool-local-checks/1",
+  "actualExecution": false,
+  "providerRequests": 0,
+  "deviceConnectionAttempted": false,
+  "runtimeSource": "UNKNOWN",
+  "sourceBindingCreated": false,
+  "checks": {
+    "newFocusedUnboundAndProducerBindingMocks": {
+      "passed": 4,
+      "failed": 0
+    },
+    "allNewJSAndCJSsyntax": true,
+    "buildReleasePythonAST": true,
+    "imports": [
+      "delivery-guard",
+      "audit",
+      "verified-download",
+      "source-binding",
+      "actor-driver"
+    ],
+    "prior19": "Reused receipt only: prior base18 raw JSON mock bytes not retained; prior focused redirect result included in local-checks receipt.",
+    "priorGuardAndNative": "Unchanged contract/procedure receipts reused; no rerun or current-device proof",
+    "retiredRC37UUIDRefusal": "Static added refusal before device handling; no private ledger inspected",
+    "newSnapshotSingleInitialGenerationMocks": {
+      "passed": 8,
+      "failed": 0,
+      "actualRuntimeExecuted": false,
+      "cases": [
+        "origin0",
+        "nonzero origin",
+        "clamp",
+        "wrong bootstrap0",
+        "generation2",
+        "extra worker",
+        "frame beyond24fps",
+        "nonpositive/preinput drift"
+      ],
+      "old19ScopeUnchanged": true
+    },
+    "changedHelperDriverAndMocksSyntax": true,
+    "changedAndUnchangedArchiveMocks": {
+      "passed": 3,
+      "failed": 0,
+      "liveTransfers": 0,
+      "cases": [
+        "one changed/eight unchanged",
+        "finite multiple changes/addition/stale binding refusal",
+        "changed current bytes versus old bytes with reader cleanup"
+      ]
+    },
+    "changedArchiveAuditSyntax": true,
+    "pcControlledChangeMocks": {
+      "passed": 2,
+      "failed": 0,
+      "actualExecution": false,
+      "cases": [
+        "untrusted normal change3/current positive paused snapshot",
+        "captured-position drift rejected"
+      ],
+      "androidHelperUnchanged": true
+    },
+    "pcHelperDriverMockAndFocusedSyntax": true
+  },
+  "producers": [
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-driver.cjs",
+      "sha256": "6c37d9731863ddc37034edfad59687b4c8df8a36059f1c52e87ffd15ec5b41ae"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-observe.function.js",
+      "sha256": "11ed22c5b2c289b6b4adc9fbf94ab0e16376b17da8f10479ffb12c6b1e2e3c9b"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-prepare.cjs",
+      "sha256": "666153a3e354ae95e656406a620a25a06ac5bbac1bb4738474fed56fa4613709"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-current-proof.function.js",
+      "sha256": "375f4c4ab782968776b5487a98b5eb487a7f0052ed0b16f89e6e9e96311a09ca"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/android-update-baseline.template.js",
+      "sha256": "dadddc69a07d48a0101e7c87d637627f2a1ceacf9de220b1108584dc4934cde4"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/archive-plan.test.cjs",
+      "sha256": "4c1efde8f508a344e4f4c4779c8d78a8012f4cba24bbf30f33cf30eecb7f812b"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/audit.cjs",
+      "sha256": "bcf5992b6d3754fa77206b928745d607baa7d22d3df3f9101e4a3db4e9105b73"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/build-release.py",
+      "sha256": "cd8376c05113747c36ac2e82540d26f0b6b4accfa08f0634b5c7707352c6c638"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/delivery-guard.cjs",
+      "sha256": "27275528905b85460e656e912d9ab7e49d39af178b1e421c05260f70ccba79d7"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/delivery.cjs",
+      "sha256": "a2772b602ddc241ff5da396e0cf4533ce4e0837f3abbecb182f18bd0c0d1d81a"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-prepare.cjs",
+      "sha256": "1050608582e027bffd9bc730f32844e9a5e3b1133efadb1f332f8c5cfa5280ee"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-source-proof.function.js",
+      "sha256": "0b5d5e1dc2d9e769b2d27159f5220b2169b4e3e327a3b77ff289ac112a7f3922"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/pc-update-baseline.template.js",
+      "sha256": "cc245718166d46c094b7d2a934cb6c87c3f80b090ae5aaba1c0ce60ade60f75d"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/prepare.cjs",
+      "sha256": "18368b5e72133dde4cfa5199d6aa94035b06599ef368af1b3124c4a80959071f"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/README.md",
+      "sha256": "939664d26ccecb7e182ac2a8a9ef3605862dc1fd1eada50c382061b298c50693"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/source-binding.cjs",
+      "sha256": "5aa260d53027a532c98154af813d33967e0b60877bb095f42135e71f888f958b"
+    },
+    {
+      "file": "qa/candidate-rc38-delivery/verified-download.cjs",
+      "sha256": "4089984977f9a82c7907ac851c82e3367f040bfd11caa2ef3a55228c4ab25732"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/browser.function.js",
+      "sha256": "361364beba5bd8cb207b82756656aaea4f7229ce8936a20e92d678602d01e9bd"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-file-guard.function.js",
+      "sha256": "b175b8774dc1d5b35b4427803249d1c445229b14cdadd6f2a8b706652613047e"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/connector-guard-preflight.cjs",
+      "sha256": "91975a44893223cb8cf18dc84dfc7df71c473c6623dc96774a8b6f6560b84067"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/driver.cjs",
+      "sha256": "3114ae04fd6c160933595f7a875b5e0cc722683d15fbe14fb4d384918556a629"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/pc-browser.function.js",
+      "sha256": "c6039d90b82cce0e4927ea6854908873b472aa6066b8b102f9ffca39ae40886b"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/preflight.test.cjs",
+      "sha256": "e4c38a0f8e15473fdf2f519590b147cb505ab3b8b07e8359bec05449cbfe2d86"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/README.md",
+      "sha256": "f8f2e8d690d7d540eac8a2fc484fc8bcc8fcecce2862b3c6e49ef32f3a156772"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/snapshot-focused.test.cjs",
+      "sha256": "9d0eee041d5d9fbdefc6d282c13f6f1588263a99aafd4b5702c67bb6e7568811"
+    },
+    {
+      "file": "qa/rc38-android-disposable-aac/snapshot.mock.cjs",
+      "sha256": "154e73811822c53804792cfcf73da343a1bb8ee0f054dc9f58915015a63ddd75"
+    }
+  ],
+  "priorEvidence": [
+    {
+      "file": "qa/candidate-rc37-delivery/results.json",
+      "sha256": "0ae7d44c90aebc53344d081ede2d574bc9e8020c6e0e626fcecce782d06b6b22"
+    },
+    {
+      "file": "qa/candidate-rc37-delivery/source-readiness.json",
+      "sha256": "19e588c4714fd6deccf8d538e5570522323a656271db734ed623606ea76a3d06"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/local-checks.json",
+      "sha256": "186401bb0f8b2b0ace7a3a256e55e9631d6a0b5a1ab6137486a9fa6c3fb65a33"
+    },
+    {
+      "file": "qa/rc37-android-disposable-aac/preparation.json",
+      "sha256": "d5a229605625f64f735df3615dd2d5cc8fc83c974ff4601b9ad35aaef3344768"
+    }
+  ],
+  "preparationSHA256": "5885b13ab6f09a97275bdcf7bd8ee6d88b33d07dacb9158e241bfb025f07d4e5",
+  "actorPreparationSHA256": "067421d3d80d133c420f585303bd0b640dd6fb0700611eab6d74364e7700055a"
+}

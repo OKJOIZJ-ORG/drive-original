@@ -306,3 +306,8 @@
 /qa/rc37-color-disposable-integration/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 
 /qa/rc36-matched-regression/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+# Preserve exact rc38 preparation, failures and native/delivery proof bytes.
+/qa/candidate-rc38-delivery/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+/qa/rc38-android-disposable-aac/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+/qa/rc38-normalized-position-native/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

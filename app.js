@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.0-rc.37';
+const APP_VERSION = '1.22.0-rc.38';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -8730,7 +8730,8 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
       ...(videoCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/video-q3-worker.mjs', location.href), { type: 'module' }) } : {}),
       initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
-      autoplay: !ts && snapshot?.time > 0 ? false
+      ...(!ts && snapshot?.time > 0 ? {initialPresentationTime: snapshot.time} : {}),
+      autoplay: !ts && snapshot?.time > 0 ? state.pendingPlay || snapshot.paused === false
         : resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
       onEvent(event) {
         if (!current()) return;
@@ -8742,12 +8743,6 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
           state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
           showMediaLoading(videoCompatibility ? '영상 호환 변환 준비 중' : '원본 스트림 재포장 준비 중'); updateQualityDisplay();
         } else if (event.type === 'buffered') {
-          if (!ts && !owner.restoredPosition && snapshot?.time > 0 && event.mapping) {
-            owner.restoredPosition = true;
-            const target = Math.min(event.mapping.sourceEnd - 0.000001, event.mapping.sourceOrigin + snapshot.time);
-            owner.player.seek(target, { autoplay: state.pendingPlay || snapshot.paused === false }).catch(() => {});
-            return;
-          }
           state.mediaTransportVerified = true; state.mediaTransportStarted = true;
           state.pendingPlay = false;
           if (playerTracksOwner?.current() && selectedAudioTrackId !== undefined) {

@@ -1,0 +1,26 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),{mock,nativeDefaultInventory,tuple}=require('./snapshot.mock.cjs');
+// Expected targets are independent fixed examples, rather than calling the
+// implementation's target resolver. The frozen input is the mock's Q0 clock.
+const cases=[
+ {name:'origin0 positive paused snapshot',snapshot:.5,origin:0,end:6,target:.5,frame:.5,pass:true},
+ {name:'nonzero origin retains normalized snapshot',snapshot:.75,origin:10,end:16,target:10.75,frame:.75,pass:true},
+ {name:'clamped endpoint keeps positive input',snapshot:7,origin:10,end:16,target:15.999999,frame:5.999999,pass:true},
+ {name:'bootstrap zero is rejected despite valid tuple',snapshot:.5,origin:0,end:6,target:0,frame:0,pass:false},
+ {name:'second generation cannot qualify matching target',snapshot:.5,origin:0,end:6,target:.5,frame:.5,generation:2,pass:false},
+ {name:'extra bound worker cannot qualify',snapshot:.5,origin:0,end:6,target:.5,frame:.5,extra:true,pass:false},
+ {name:'frame beyond one original24fps interval cannot qualify',snapshot:.5,origin:0,end:6,target:.5,frame:.6,pass:false}
+];
+for(const c of cases)test(c.name,async()=>{const m=mock();await m.install();const h=m.ctx.window.__rc38AndroidActualAAC;await h.locate();h.open();m.frame();h.captureNative();nativeDefaultInventory(m);m.ctx.el.playerTracksDialog.open=true;m.ctx.el.videoPlayer.currentTime=c.snapshot;
+ const armed=h.selectionReady();assert.equal(armed.snapshotTime,c.snapshot);m.ctx.el.playerAudioTrack.value='3';m.change(true);const worker=m.successor();m.ctx.el.playerTracksDialog.open=false;m.ctx.el.playerAudioTrack.value='3';m.ctx.state.lastPresentedMediaTime=c.frame;
+ m.ctx.q1Playback.player={stats:()=>({generation:c.generation??1,mapping:{sourceOrigin:c.origin,sourceEnd:c.end,targetSource:c.target,targetElement:c.target-c.origin,commonShift:c.origin},outputColorObservation:{basis:'observed-native-frame',colorSpace:tuple}})};
+ let extra;if(c.extra){extra=new m.ctx.window.Worker('/media/general-worker.mjs');extra.postMessage({kind:'start',generation:1,identity:{...m.metadata}});}
+ m.frame(c.frame);const r=h.read();assert.equal(r.initialPosition.expectedTarget,c.name.startsWith('clamped')?15.999999:c.origin+c.snapshot);assert.equal(r.initialPosition.snapshotTime,c.snapshot);assert.equal(r.initialPosition.passed,c.pass);assert.equal(r.phases[1].frames.at(-1).good,c.pass);
+ if(c.pass){const v=await h.verify();assert.equal(v.initialPosition.passed,true);assert.equal(v.originalMetadataUnchanged,true);assert.equal(v.tuplePass,true);}else await assert.rejects(h.verify(),/AAC_VERIFY_/);
+ worker.terminate();extra?.terminate();m.close();assert.equal(Object.values(h.stop()).every(v=>v===true),true);});
+test('snapshot must be positive and position stable before native input',async()=>{const m=mock();await m.install();const h=m.ctx.window.__rc38AndroidActualAAC;await h.locate();h.open();m.frame();h.captureNative();nativeDefaultInventory(m);m.ctx.el.playerTracksDialog.open=true;m.ctx.el.videoPlayer.currentTime=0;assert.throws(()=>h.selectionReady(),/POSITIVE_PAUSED_SNAPSHOT_REQUIRED/);
+ m.ctx.el.videoPlayer.currentTime=.5;h.selectionReady();assert.equal(h.preInputCheck().snapshotPositionStable,true);m.ctx.el.videoPlayer.currentTime=.6;assert.throws(()=>h.preInputCheck(),/SNAPSHOT_PREINPUT_DRIFT/);m.close();h.stop();});
+for(const drift of [false,true])test('PC controlled untrusted change3 '+(drift?'rejects captured-position drift':'qualifies exact positive paused snapshot'),async()=>{const m=mock({pc:true});await m.install();const h=m.ctx.window.__rc38PcActualAAC;assert.equal(m.ctx.window.__rc38AndroidActualAAC,undefined);await h.locate();h.open();m.frame();h.captureNative();nativeDefaultInventory(m);m.ctx.el.playerTracksDialog.open=true;m.ctx.el.videoPlayer.currentTime=.5;
+ assert.equal(h.selectionReady().snapshotTime,.5);h.preInputCheck();if(drift)m.ctx.el.videoPlayer.currentTime=.6;m.ctx.el.playerAudioTrack.value='3';m.change(false);const worker=m.successor();m.ctx.el.playerTracksDialog.open=false;m.ctx.el.playerAudioTrack.value='3';m.ctx.state.lastPresentedMediaTime=.5;
+ m.ctx.q1Playback.player={stats:()=>({generation:1,mapping:{sourceOrigin:0,sourceEnd:6,targetSource:.5,targetElement:.5,commonShift:0},outputColorObservation:{basis:'observed-native-frame',colorSpace:tuple}})};m.frame(.5);const r=h.read();assert.equal(r.physicalNativeInput,false);assert.equal(r.trustedAAC3Change,false);assert.equal(r.controlledPCSelection,!drift);assert.equal(r.phases[1].frames.at(-1).good,!drift);
+ if(drift)await assert.rejects(h.verify(),/AAC_VERIFY_/);else{const result=await h.verify();assert.equal(result.controlledPCSelection,true);assert.equal(result.trustedAAC3Change,false);assert.equal(result.physicalNativeInput,false);assert.equal(result.initialPosition.passed,true);assert.equal(result.tuplePass,true);}worker.terminate();m.close();assert.equal(Object.values(h.stop()).every(v=>v===true),true);});

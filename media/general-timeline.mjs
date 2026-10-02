@@ -1,5 +1,16 @@
 import { MP4, QTFF, MATROSKA, WEBM } from './mediabunny-q1.mjs';
 const demand = (condition, code) => { if (!condition) throw new Error(`TIMING_${code}`); };
+// Only initial movie-relative snapshots use this option. Public seeks remain
+// absolute source-clock values, and cannot be combined with this option.
+export function validateInitialPresentationTime(value, targetTime = 0) {
+  demand(value === undefined || Number.isFinite(value) && value >= 0 && targetTime === 0, 'INITIAL_POSITION_INVALID');
+}
+export function resolveInitialPresentationTime(value, {sourceOrigin, sourceEnd}, targetTime = 0) {
+  validateInitialPresentationTime(value, targetTime);
+  if (value === undefined) return targetTime;
+  demand(Number.isFinite(sourceOrigin) && Number.isFinite(sourceEnd) && sourceEnd - 0.000001 >= sourceOrigin, 'INITIAL_POSITION_OUTSIDE');
+  return Math.min(sourceEnd - 0.000001, sourceOrigin + value);
+}
 const view = bytes => new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 const u32 = (bytes, offset) => view(bytes).getUint32(offset);
 const integer64 = (bytes, offset, signed = false) => {
