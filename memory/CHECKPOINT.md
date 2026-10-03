@@ -1,4 +1,4 @@
-# Checkpoint — playback/portrait repair locally verified; production1.22.0 unchanged — 2026-10-03
+# Checkpoint — D078 approved1.22.1 promotion in progress — 2026-10-03
 
 ## The story so far
 
@@ -10,11 +10,11 @@ D077 makes portrait-first layout, central pause and no double-click zoom the cur
 
 ## Waiting on the user
 
-New repair's main/push/production promotion requires user approval after the concrete local commit/preview. Independent original BMP/resource/update investigation remains authorized. Physical iPhone finger gestures, landscape menu touch scrolling and VoiceOver are not qualified by the inspector; do not invent a new pre-release device gate. Owned loopback9234 bridge remains available, final player/planner/CSS/global/socket cleanup passes.
+D078 explicitly grants the new1.22.1 main/push/production promotion. No additional approval is pending for that unit. Independent original BMP/resource/update work remains authorized but is serialized after deployment verification. Physical finger/landscape scrolling/VoiceOver remains unqualified. Owned loopback9234 bridge is available and Safari player/planner/CSS/global cleanup passes.
 
 ## Next first action
 
-Check the new1.22.1 production-approval answer; if granted, promote the reviewed branch and deploy releases/Drive-Original-v1.22.1-d0bdde5-worker assets using Wrangler --assets, then qualify served/current Safari bytes without repeating unrelated acceptance. While pending, identify the one actual BMP from existing private representative metadata and prepare its bounded discriminator. All repair agents are complete, no actual test is running.
+Fast-forward reviewed codex/playback-ux-repair to main and push; run qa/playback-repair/production.cjs prepare, deploy/readback/verify --execute once, then the prepared MCP isolated cold/cache/offline and connected Safari1.22.1 witness. Inspect production-*-attempt/deployment receipts before any restarted action; never redeploy merely for a verifier defect. All repair/release reviewers are complete; current public65 equals d0bdde5 and existing backend/config is unchanged.
 
 ## Tried
 

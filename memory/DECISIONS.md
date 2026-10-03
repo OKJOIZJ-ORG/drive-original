@@ -538,3 +538,4 @@ sweep: current release preparation and checkpoint aligned to approved G6 promoti
 main 병합·원격 push·기존 workers.dev 운영판 교체의 구체적인1.22.1 승인 질문에 사용자는 "일단 반영승인."이라고 답했다. 로컬 수정1d3b992와 공개 runtime d0bdde5/65개 Git-equal ZIP 및 배포 폴더를 보존하고, 검토된 branch를 main에 반영·push한 뒤 동일 Worker/origin/backend/config/secrets에 배포하고 실제 served/cache/Safari 결과와 유지보수 기록을 마무리한다. D077의 새 운영 승인 대기를 해소하며 기존 구현 요구는 유지한다.
 
 완료된1.22.0·legacy Pages·원본 명세 증거를 조건 변화 없이 재실행하지 않는다. 원본 미디어·새 grant·결제·영구삭제·자동화 재개 권한은 추가하지 않는다. 배포 후 실패하면 정확한 증거와 정리/복구를 우선하며 미검증 항목을 통과 처리하지 않는다.
+sweep: checkpoint approval/next action aligned D078; local immutable package and prior production/acceptance evidence retained (2026-10-03).
