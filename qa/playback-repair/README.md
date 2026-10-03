@@ -92,3 +92,20 @@ or CSS, original planner restored, scale1, remote object released/socket closed.
 Physical iPhone finger gestures/landscape menu scrolling, sound audibility and
 all-favorites playback remain unqualified. Original-spec acceptance gaps remain
 in `memory/RELEASE-1.22.0.md`; this repair does not replace or close that matrix.
+
+## Local1.22.1 release preparation
+
+Repair savepoint1d3b992 qualifies the behavior above. The release unit changes
+only shell/cache/asset-query version metadata to1.22.1 and the version assertion.
+The gesture/layout/media receipts retain their exact pre-version hashes; the
+behavior and media bytes are reused, not relabelled as a new device run.
+
+`release-local-checks.json` binds final public inputs. Its new full880-test run
+passed879; the one remaining assertion still pinned1.22.0. That assertion was
+updated, focused static20 passed, and the unchanged full suite was not rerun.
+The failure log and pre-resolution receipt remain locally retained by hash.
+`build-local-package.py FIXED_SOURCE_SHA` packages exactly the committed public
+allowlist and independently compares every ZIP entry to its Git blob. The ZIP
+and `_site` are prepared locally; no merge/push/deployment follows without the
+new production approval. Existing Worker configuration and legacy Pages are
+unchanged. `local-package.json` owns the final source/file/hash when produced.
