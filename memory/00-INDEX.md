@@ -11,7 +11,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `SESSION-LOG.md` | What happened, per working session | Append, dated |
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
-| `HANDOFF.md` | Single-use instructions after an explicit pause; currently absent | Consume/delete on resume |
+| `HANDOFF.md` | Single-use instructions after D080 explicit stop; verification list remains in QA owner | Consume/delete on explicit resume |
 | `REBOOT-RESUME-20261001.md` | Fresh browser/helper binding and continuous PC replay after the clean reboot | Local preparation only; resume on direct user instruction |
 | `NIGHT-ENVIRONMENT-20260930.md` | Historical PC/Android preparation and dated D076 actual iPhone Safari tooling readiness/commands | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |

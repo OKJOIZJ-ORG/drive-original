@@ -545,3 +545,9 @@ sweep: checkpoint approval/next action aligned D078; local immutable package and
 사용자는 "노션 릴리즈는 그냥 빼자. 노션 페이지 삭제하고"라고 명시했다. 진행 중인 Notion 릴리즈 갱신을 중단하고, 이미 확인한 canonical “Drive Original — 유지보수” 페이지 cde9b849-3a7f-473f-9915-e948b1e6defe를 휴지통으로 삭제했다. 로컬 ntn으로 삭제 후 다시 조회해 in_trash=true를 확인했다. 릴리즈 기록과 배포 파일은 현재 Git 저장소·workspace releases가 소유하며 Notion 갱신/첨부/검증은 더 이상 완료 조건이 아니다. 기존 Notion 관련 기록은 역사로 보존한다.
 
 D078 운영 반영과 기존 원본 명세의 남은 인수·비용·권한·자동화 경계는 유지한다. 다른 Notion 페이지나 계정 설정 삭제, 영구 삭제·자동화 재개 권한으로 확대하지 않는다. 중단된 업로드의 실제 상태와 도구 정리는 qa/playback-repair/notion-deletion.json에 기록한다.
+
+## D-080 · 현재 UI 거절, 작업 종료 및 내일 수동 재개 — 2026-10-04 (User-confirmed; suspends current execution)
+
+사용자는 현재 UI를 거절하며 다른 Astra 세션에서 이어갈 뜻과 아이폰 연결 유지를 말한 직후, "아니다 걍 닫아. 검증 목록만 남겨두고. 내일하게."라고 변경했다. 최신 지시를 따라 새 검사·구현·조사·외부 반영을 중단하고, 검증 목록과 현재 파일·배포·실패·정리 상태만 저장한다. 소유한9234검사 브리지와 검사 브라우저 탭을 닫았으며 물리 USB와 사용자 Safari 탭은 변경하지 않았다. 내일이라는 말로 자동 재개·예약·다른 세션 메시지를 생성하지 않는다.
+
+1.22.1 운영/한정된 재생·DOM 검증은 유지되지만 현재 UI의 시각적 수용은 완료되지 않았다. 실제 손가락/BMP/Q2Q3지속 자원/실계정 활성 SW 교체와 원래 조건부 인수는 남는다. qa/playback-repair/README.md의 목록과 CHECKPOINT/HANDOFF가 재개 지점을 소유하며 직접 재개 지시까지 WAIT한다. D079의 Notion 삭제·릴리즈 폐기와 기존 권한 경계는 유지한다.

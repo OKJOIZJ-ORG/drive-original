@@ -31,6 +31,42 @@ owns current publication identity; original-spec acceptance remains open.
   writes; owned helpers/upload processes are gone. Incomplete server staging is
   unknown and no further release upload was attempted.
 
+## Verification queue after explicit user stop — 2026-10-04
+
+The user rejected the current UI's appearance and stopped work until tomorrow.
+Geometry/event tests do not establish visual acceptance. No new execution starts
+until a direct resume instruction. Production1.22.1 and its finite proof above
+remain, with no automatic rollback/redeployment.
+
+1. Reproduce the user's portrait shorts, main header, PC card-entry and mobile
+   long-press selection complaints; judge actual visual proportions and touch
+   behavior, not only44px/bounds. UI redesign is still required by the user.
+2. Actual finger central-only pause/outside no-pause, double-tap no zoom,
+   swipe/multi-touch/cancellation and portrait/landscape menu use. Existing trusted
+   Chrome/synthetic events and Safari DOM geometry remain narrower proof.
+3. Real BMP under the original account/root/file/version: lookup/decode/display/
+   close. BMP-only metadata input threw an unclassified page exception; original
+   failure retained. Later Safari target disappeared and remaining target timed
+   out at Runtime.enable before actor execution. Re-list/rebind after reconnect;
+   do not reuse stale target IDs or claim a BMP product failure.
+4. Actual PC/Android sustained Q2/Q3 processing/resources and cleanup against
+   original MEDIA06/09/OBS04 limits, with source/input/observer/budget/cleanup
+   prepared before one representative run. Android currently disconnected.
+5. QA-SW01 actual-account active Q1 controller replacement → safe recovery notice/
+   transfer fence → reload → same-file frame → settled close. Retain the six
+   historical failures, but don't label them an established current product
+   defect: exact rc21 bytes passed local native CDP-provider continuity after
+   changing the QA transport. Actual account/device full chain is still unproved.
+   Evidence: ../rc21-controller-continuity-night/README.md:3-11,42 and
+   ../rc21-controller-change/README.md:15-31. No six-run/full-suite replay.
+
+Conditional codec/HDR/high-depth/source fidelity, audibility and deferred
+VoiceOver/standalone scopes stay as originally recorded. Passed serving/cache,
+two deployed Safari witnesses and unchanged product checks need no routine rerun.
+Owned loopback9234 bridge and inspection browser tab are closed. Source bridge
+tool preserves private exception detail for the next run; syntax only checked,
+no new device execution. USB hardware/Safari user tabs are not modified.
+
 ## Findings and responsible changes
 
 | Before | After | Why |

@@ -1,23 +1,21 @@
-# Checkpoint — D0781.22.1 qualified / D079 Notion removed — 2026-10-03 23:59
+# Checkpoint — WAIT D080; verification queue saved — 2026-10-04
 
 ## The story so far
 
-Observed: main e4c963e pushed;1.22.1 public runtime d0bdde5 deployed once to existing workers.dev, Worker bf47cfd4-a626-43df-86f4-ab3d4a647ceb. All11bindings preserved, public65/cache51 qualified, anonymous401/private6routes404 and controlled offline reload pass. Actual connected Safari normally updated, same13favorites restored; deployed MP4/MOV60/83frames, both midpoint seeks and portrait12targets44px/hit/bounds pass without temporary modules. Owned requests/pages/socket/object/player cleaned. qa/playback-repair owns receipts, retained tool failures and exact65-entry ZIP. Full880 run879pass plus repaired static20pass is adjudicated, not a fresh880/880 run. Original-spec BMP/resource/update gates remain open.
+Observed:1.22.1 runtime d0bdde5/Workerbf47cfd4 published; main789a0e8 pushed. Public65/cache51/11bindings, offline and actual Safari two MP4/MOV witnesses/seeks/portrait DOM geometry pass in limited scope. User rejects current visual UI; those checks are not visual acceptance. D079 Notion deletion refetched; releases stay local/Git. Current codex/remaining-acceptance-tools holds private-error diagnostic retention plus stop/list records; no product change/deployment. qa/playback-repair/README.md owns tomorrow's list. Original acceptance remains open.
 
 ## Decided
 
-D077 makes portrait-first layout, central pause and no double-click zoom the current UX requirements; older broader pause/fullscreen gesture behavior is superseded. The user and decoded frame confirm apparent system playback buttons were recorded inside the witness video. D075 was the completed1.22.0 promotion, not standing authority for a new release. D076 tooling remains available; D066 native finger/VoiceOver limits and original remaining matrix in RELEASE-1.22.0.md remain. No full-video scan, original mutation, newgrant/payment/permanentdelete/automationrestart.
-D079 cancels Notion releases; canonical maintenance page trashed/refetched in_trash=true. Owned upload timed out before content/attachment writes and its processes are gone; server incomplete staging unknown. Git and workspace releases now own release records/packages.
+D080 latest close-work/list-only/tomorrow stops execution and supersedes the preceding keep-iPhone-inspection request. Owned9234bridge PID1260 terminated after owner validation; listener absent, inspection tab closed. USB hardware/user Safari tabs unchanged. No scheduling or other-thread message. D079 Notion requirement removed; D077 central/nozoom remains, current UI rejected.
 
 ## Waiting on the user
 
-D078 explicitly grants the new1.22.1 main/push/production promotion. No additional approval is pending for that unit. Independent original BMP/resource/update work remains authorized but is serialized after deployment verification. Physical finger/landscape scrolling/VoiceOver remains unqualified. Owned loopback9234 bridge is available and Safari player/planner/CSS/global cleanup passes.
+Direct resume instruction. Actual Android connection and an awake operating iPhone inspector target are unavailable; reconnect only when resuming. No approval needed again for completed D078 promotion. Do not start autonomous work tomorrow from this record.
 
 ## Next first action
 
-Review/stage only current release records and sanitized qa/playback-repair receipts, commit/push with public runtime unchanged; diagnose the retained actual-bmp-find page exception before retrying metadata. Do not redeploy or resume Notion: production-deployment/production-served-final/production-browser-final and actual Safari proof already pass.
+On explicit resume, read qa/playback-repair/README.md Verification queue after explicit user stop, inspect Git branch/status and connect fresh device targets; prioritize rejected portrait/selection/player visual UI. Do not repeat completed deployment/cache/playback or resume Notion.
 
 ## Tried
 
-Safari interception failed; use byte-bound temporary modules, not unchanged retries. MOV handler/reference and central→bottom delayed pause repaired with discriminating proof. A second Safari target required explicit binding. Materializer refused Drive upload staging hardlinks before writes; preserve aliases and use the exact Git-blob ZIP/new owned assets directory, not a guard bypass or unchanged retry. Six historical active-update failures remain separate; no wholecorpus/prior843/20pair replay. Original release integrity is not whole-spec completion.
-Serving oracle: redirected license HTML has no ETag, empty .nojekyll HEAD stalled; fullGET and only missing assets completed without redeployment. Initial Chrome offline online flag lagged; actual no-store request blocked and controlled reload qualify. Safari witness attempted before favorite view was restored; retained tool exception, normal favorite filter restored13 before successful bounded replay.
+BMP-only metadata threw an unclassified page exception; diagnostic target later disappeared, remaining target Runtime.enable timed out before execution. Private originals remain, not BMP failure/pass. Inspector now saves full exception detail only inside private workspace evidence folder; syntax checked, actual diagnostic behavior not qualified. Historical six update aggregates differ; unchanged rc21 later passed native CDP-provider continuity, while actual-account active chain remains unqualified. No unchanged six-run/full-corpus replay.

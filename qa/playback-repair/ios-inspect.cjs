@@ -44,7 +44,13 @@ function call(method, params={}, cleanup=false) {
     const expression=fs.readFileSync(expressionPath,'utf8').trim();
     const response=await call('Runtime.callFunctionOn',{objectId,
       functionDeclaration:`function(){return (${expression});}`,returnByValue:true,awaitPromise:true,userGesture:true});
-    if(response.wasThrown||response.exceptionDetails)throw new Error('Page evaluation exception');
+    if(response.wasThrown||response.exceptionDetails){
+      result.evaluationException={className:response.result?.className||null,type:response.result?.type||null};
+      const privateRoot=path.resolve(__dirname,'../../../maintenance/tools/playback-repair');
+      if(path.resolve(resultPath).toLowerCase().startsWith((privateRoot+path.sep).toLowerCase()))
+        result.privateExceptionDescription=response.result?.description||response.exceptionDetails?.text||null;
+      throw new Error('Page evaluation exception');
+    }
     if(!Object.hasOwn(response.result||{},'value'))throw new Error('Missing serializable result');
     result.value=response.result.value; result.status='PASS';
     if(screenshotPath){const shot=await call('Page.captureScreenshot',{format:'png'});const bytes=Buffer.from(shot.data,'base64');
