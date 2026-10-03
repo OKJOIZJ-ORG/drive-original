@@ -1,6 +1,6 @@
-# Drive Original 1.22.0 — approved release queue complete — 2026-10-03
+# Drive Original 1.22.0 — production released; original acceptance remains open — 2026-10-03
 
-Observed: D075's remaining main integration, remote push, production deployment, legacy entrypoint and distribution are complete. This closes the approved finite queue; conditional quality/device limits below remain explicit. [Original ten-item reconciliation](CANDIDATE-RC38-20261003.md) preserves the implementation and BUG01–08 evidence without relabelling old results.
+Observed: D075's main integration, remote push, production deployment, legacy entrypoint and distribution are complete. The original specification still has incomplete actual acceptance; release receipt integrity does not close those requirements. The earlier “approved queue complete” wording is superseded by the original-spec audit below. [Original ten-item reconciliation](CANDIDATE-RC38-20261003.md) preserves the implementation and BUG01–08 evidence without relabelling old results.
 
 ## Published identity
 
@@ -38,3 +38,19 @@ All timed verification requests, isolated contexts, sockets and owned processes 
 D066 defers physical iPhone Chrome/Safari/standalone/VoiceOver to post-deployment follow-up. Strict RGBA diagnosticFAIL and source-intended color/GPU/AndroidYUV/HDR/high-depth/physical audibility/executing-worker-byte and real-provider populationp95 UNKNOWNs remain in the candidate result owner. Original69bounded statuses are not69PASS; inventory/probes are not whole-video playback. No universal format, fidelity or reliability claim is made. The legacy installed app may need opening/installing the operating origin; old origin data/permissions are preserved, not claimed copied.
 
 [Final bound adjudication](../qa/release-1.22.0/final-adjudication.json) owns release receipt hashes and completion boundaries. iOS is a deferred follow-up, not an unfinished approved pre-release gate.
+
+## Original-spec reconciliation — 2026-10-03
+
+The user asked specifically about unfinished design/plan requirements. Root and an independent read-only review checked the immutable specification against the original69 adoption and later rc36–38 evidence. Production promotion remains qualified; the broader approved implementation/acceptance queue cannot be labelled complete.
+
+| Original requirement | Remaining discriminator / status |
+|---|---|
+| CORPUS-04 / QA-FM-08 (spec1059/1719) | Actual BMP is UNKNOWN despite controlled BMP coverage. Identify the one real priority BMP under current account/root/file/version and qualify bounded original viewer decode/display/close. |
+| MEDIA-06 / MEDIA-09 / OBS-04 (1002/1019/1506) | Browser Q2/Q3 functionality, seeks/cancellation and cleanup have finite proof, but actual-device sustained processing/memory/thermal resource qualification is incomplete. Plan one bounded representative with observer/budget/cleanup prepared; do not infer device resources from NodeRSS. |
+| QA-SW-01 (1774) | Normal closed-player update/offline preservation is qualified. Six historical active replacement→reload→reopen failures and their cause remain unresolved; current operational failure is not established. Compare the exact failed condition with current safe-version/retirement contract, then one targeted current reproduction if still relevant. No six-run/full-suite replay prerequisite. |
+| QA-FM-03/04/06 / Q-04 | Actual incompatible audio/video applicability and HDR/high-depth existence remain conditionalUNKNOWN. Inspect relevant representative metadata first; if applicable, qualify the exact route and preservation/label. Existing Q2/Q3 implementation is not missing; zero-RGBA is not an original acceptance rule. |
+| D066 / QA-SL-05 and iOS portions of RP01/UI06/20.7 | Physical iPhone Chrome/Safari/standalone/VoiceOver explicitly deferred to post-deployment. Android is not iOS proof. |
+
+CORPUS-06 permits unprobed denominators within an agreed budget;128consumed/123classified/5UNKNOWN/8468unattempted is a bounded record, not an automatic all-video playback requirement. OBS03/05's20representative controlled pairs are already complete; real-provider populationp95 is an unestablished claim, not a newly imposed whole-corpus gate. Derived HLS and B-media were not selected and are not unfinished implementation. StrictRGBA diagnosticFAIL, audibility and source-intended color limits stay explicit.
+
+The goal backlog's old IN_PROGRESS/PARTIAL/BLOCKED cells were dated evidence, including obsolete release blockers. Its current status map is reconciled with this audit; original results remain preserved. Current return state is ACTIVE remaining acceptance, with production finished. No device/media action or redeployment occurred in this read-only audit.

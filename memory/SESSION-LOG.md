@@ -754,3 +754,7 @@ Prepared QA-only wrapper with10mock checks/independentreview, then exact19new se
 ## 2026-10-03 — D075 operating1.22.0 release complete
 
 Reviewed full branch and mode integration,843checks; main fast-forwarded/pushed54e786f, one same-originWorkerdeploymente70754c7, exact serving/cold/offline/auth/private/control/cleanup proof. Public-only legacyPages20d864c built/success and actual navigation verified;65-entryGit-equalZIP saved. RELEASE-1.22.0.md owns receipts/failures/boundaries; immutable rc38 actualPC/physicalAndroid evidence reused. Old workflow remains disabled, automationPAUSED, no originalmedia/newgrant/payment/forcedmigration. Tool-only output-root/DOM/screenshot/store failures retained without productredeploy. Approved queue complete; iOSD066 and conditionalUNKNOWNs explicit.
+
+## 2026-10-03 — original-spec completion correction
+
+User questioned unfinished design/plan items. Direct immutable-spec and independent read-only audit found actualBMP, sustained actual-device Q2/Q3 resource qualification and historical active-update failure adjudication open. Release integrity unchanged; broad queue-complete claim corrected to ACTIVE remaining acceptance. Existing goal status cells reconciled, no new plan, tests/media/device/production actions or fullcorpus replay. RELEASE-1.22.0.md owns remaining matrix, checkpoint nextBMP discriminator. iOSD066 and conditional applicability remain explicit.

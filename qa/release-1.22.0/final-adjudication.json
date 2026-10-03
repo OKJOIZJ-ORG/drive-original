@@ -1,8 +1,8 @@
 {
-  "approvedQueueComplete": true,
+  "approvedQueueComplete": false,
   "G6Passed": true,
   "G7ReportComplete": true,
-  "completionScope": "User-approved finite implementation/release queue. Original conditional UNKNOWNs and diagnostic FAIL remain; no universal acceptance or population claim.",
+  "completionScope": "D075 main/push/production/legacy entrypoint/distribution complete. Original approved acceptance remains open; release evidence is not whole-plan completion.",
   "source": "54e786f499c4496259bdb6e066e9626381cbe376",
   "version": "1.22.0",
   "workerVersion": "e70754c7-d201-47ba-b7c4-43a0dd673732",
@@ -137,5 +137,60 @@
       "sha256": "6ff9057d7550093ec6384c8e57a1e09fea6d300f23e60af72759bf4f5f5957f2"
     }
   ],
-  "recordedAt": "2026-10-03T06:38:20.161198+00:00"
+  "recordedAt": "2026-10-03T06:38:20.161198+00:00",
+  "supersededCompletionClaim": {
+    "approvedQueueComplete": true,
+    "qaDocsSavepoint": "e36270263e66e95ea40726b871b2598d060640a2",
+    "reason": "Release receipt review did not establish every original-spec acceptance requirement; subsequent direct original-spec audit found remaining actual clauses."
+  },
+  "productionReleaseComplete": true,
+  "originalSpecAcceptanceComplete": false,
+  "remainingOriginalRequirements": [
+    {
+      "id": "QA-FM-08 / CORPUS-04",
+      "status": "ACTUAL_BMP_UNKNOWN",
+      "specLines": [
+        1059,
+        1719
+      ]
+    },
+    {
+      "id": "MEDIA-06 / MEDIA-09 / OBS-04",
+      "status": "ACTUAL_DEVICE_SUSTAINED_RESOURCE_QUALIFICATION_INCOMPLETE",
+      "specLines": [
+        1002,
+        1019,
+        1506
+      ]
+    },
+    {
+      "id": "QA-SW-01",
+      "status": "HISTORICAL_ACTIVE_UPDATE_FAILURE_CONDITION_UNRESOLVED; no current failure established",
+      "specLines": [
+        1774
+      ]
+    }
+  ],
+  "conditionalOriginalRequirements": [
+    "QA-FM-03/04 actual incompatible-codec applicability",
+    "QA-FM-06 actualHDR/highdepth existence/preservation",
+    "Q-04 source-intended color and device fidelity limits"
+  ],
+  "notNewMandatoryGates": [
+    "All8596videos playback/probe",
+    "Repeat qualified20controlledpairs or demand universal real-provider populationp95",
+    "ZeroRGBAdiagnostic as invented hard gate",
+    "Unselected HLS/B-media"
+  ],
+  "originalSpecReview": {
+    "rootReviewed": true,
+    "independentAgent": "gpt_6_1_sol_medium_production_release_review",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "medium",
+    "releaseReceiptsStillQualified": true,
+    "fullPlanCompletion": false,
+    "goalStatusReconciled": true,
+    "newTestsOrDeployments": false,
+    "recordedAt": "2026-10-03T06:50:42.739937+00:00"
+  }
 }

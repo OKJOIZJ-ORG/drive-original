@@ -122,3 +122,7 @@ RESOLVED for the actual-account fixture workflow (2026-10-03): filechooser still
 ## 2026-10-03 — D075 closes concrete G6 production boundary
 
 RESOLVED: the direct continuation following the explicit remaining main/push/production request authorizes that phase; source54e786f/operating1.22.0/Workere70754c7 and legacyPages20d864c are published and verified. RELEASE-1.22.0.md owns final evidence. No pre-release user-input gate remains. D066 physicaliPhone follow-up and original conditionalUNKNOWNs remain open in their original scope; this resolution does not close unrelated historical questions or create universal evidence.
+
+## 2026-10-03 — original-spec acceptance remains open after release
+
+Current BMP QA-FM08 actual proof is UNKNOWN; next prepare one current identity-bound read-only header/viewer/close witness. MEDIA06/09 actual-device sustained Q2/Q3 memory/thermal/processing qualification incomplete; representative bounded actor/observer/cleanup must be prepared first. QA-SW01 historical active replacement failures remain unresolved; compare current safe-version contract before targeted reproduction, with no current production failure claim. RELEASE-1.22.0.md owns exact matrix and limits. Controlled20pairs complete, corpus-budget omissions are not an all-video replay requirement, conditional HDR/codecs UNKNOWN and iOSD066 deferred. Earlier resolved G6 authority/deployment is not reopened.

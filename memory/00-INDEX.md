@@ -17,7 +17,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |
 | `goal/drive-scale-stability.md` | Canonical structure and evidence for the completed large-library stability goal | Version cuts; never silently overwrite superseded structure |
-| `goal/commercial-player-stability.md` | Canonical structure and finite completion evidence for the commercial-grade player and library goal | Update evidence and gates in place; never weaken acceptance criteria silently |
+| `goal/commercial-player-stability.md` | Canonical structure and current remaining original acceptance for the commercial-grade player and library goal | Update evidence and gates in place; never weaken acceptance criteria silently |
 | `specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md` | Active integrated v3.0 product specification and execution protocol | Preserve byte-for-byte; progress remains owned by the goal and checkpoint |
 
 ## Operating principles
@@ -30,7 +30,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `RELEASE-1.22.0.md`: D075 approved main/push/production complete; source54e786f/Workere70754c7, legacy Pages handoff20d864c,843checks, served65/cache51 and verified public ZIP. Finite evidence and iOS follow-up limits retained.
+- `RELEASE-1.22.0.md`: D075 main/push/production complete; source54e786f/Workere70754c7, legacy Pages handoff20d864c,843checks, served65/cache51 and verified ZIP. Original-spec audit keeps actualBMP, sustained device resources and historical active-update failures open, with conditional formats and deferred iOS separated.
 
 - `CANDIDATE-RC38-20261003.md`: completed finite candidate, original22.3 ten-item report, bounded nativeQ2/Q3 and exact current PC/physicalAndroid AAC3 proof. Historical candidate identities remain immutable; current production owner RELEASE-1.22.0.md.
 
