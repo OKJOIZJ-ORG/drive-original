@@ -26,10 +26,16 @@ assert not git('status', '--porcelain=v1', '--', *files), 'PUBLIC_INPUTS_NOT_COM
 blobs = {name: git('show', SOURCE + ':' + name) for name in files}
 blobs['.nojekyll'] = b''
 assert json.loads(blobs['version.json'])['version'] == VERSION
-assert all(hashlib.sha256(blobs[p]).hexdigest() == value for p, value in checks['inputs'].items())
+for name, value in checks['inputs'].items():
+    raw = (ROOT / name).read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == value, 'CHECKED_WORKTREE_CHANGED'
+    assert raw.replace(b'\r\n', b'\n') == blobs[name].replace(b'\r\n', b'\n'), 'CHECKED_GIT_INPUT_CHANGED'
+canonical_hashes = {n: hashlib.sha256(b).hexdigest() for n, b in blobs.items()}
 output = ROOT.parent / 'releases' / ('Drive-Original-v' + VERSION + '-' + SOURCE[:7] + '.zip')
 assert output.parent.resolve() == (ROOT.parent / 'releases').resolve() and output.parent.is_dir()
 assert not output.exists() and not (QA / 'local-package.json').exists(), 'NO_PACKAGE_OVERWRITE'
+snapshot = output.parent / (output.stem + '-worker')
+assert not snapshot.exists() and snapshot.parent.resolve() == output.parent.resolve()
 buffer = io.BytesIO()
 with zipfile.ZipFile(buffer, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     for name, data in sorted(blobs.items()):
@@ -45,12 +51,21 @@ with zipfile.ZipFile(output) as archive:
     assert len(archive.infolist()) == len(blobs) == 65
     assert set(archive.namelist()) == set(blobs)
     assert all(archive.read(name) == data for name, data in blobs.items())
+snapshot.mkdir()
+for name, data in blobs.items():
+    destination = snapshot / name
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open('xb') as handle:
+        handle.write(data)
+assert all((snapshot / name).read_bytes() == data for name, data in blobs.items())
 assert git('rev-parse', 'HEAD').decode().strip() == SOURCE, 'SOURCE_CHANGED_DURING_PACKAGE'
 receipt = {
     'passed': True, 'source': SOURCE, 'version': VERSION, 'path': str(output),
     'entries':65, 'bytes':output.stat().st_size,
     'sha256':hashlib.sha256(output.read_bytes()).hexdigest(),
     'everyPublicEntryEqualsGitBlob':True, 'privateEntries':0,
+    'workerAssetsPath':str(snapshot), 'workerAssetsEqualGitBlobs':True,
+    'publicGitSha256':canonical_hashes,
     'producerSha256':hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(),
     'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
     'deployment':False, 'scope':'Local public runtime/corresponding-source package only; requires existing same-origin authentication backend.'

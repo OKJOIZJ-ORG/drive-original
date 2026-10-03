@@ -2,7 +2,7 @@
 
 ## The story so far
 
-Observed: D077's new iPhone playback and portrait-first UX repair is locally qualified on codex/playback-ux-repair, based on f495163. Fixed Safari vendor syntax, valid QuickTime admission, central-only pause/no double-click zoom and compact PC/mobile controls. Actual connected Safari with temporary local modules: two MP4 witnesses plus one MOV decode; two midpoint seeks; portrait44px/hit/viewport geometry passes. Local eight-size UI and trusted Chrome event checks pass. Full879 run had877pass/two obsolete CSS assertions; updated static20pass and final cancellation repair27pass, no fresh whole-suite claim. qa/playback-repair owns details, retained failures, hashes and cleanup. No original media changed. Production1.22.0/source54e786f/Workere70754c7 and its prior release proof remain unchanged; this repair has not been merged/pushed/deployed.
+Observed: D077 repair saved1d3b992; local1.22.1 runtime d0bdde54fe007c5f8a3b2751edcf20f15911c02e prepared with65 Git-equal ZIP/assets in workspace releases. Safari syntax/valid MOV admission, central pause/no zoom and compact PC/mobile controls are qualified by actual Safari three witnesses/two seeks/portrait geometry plus local eight-size layout/trusted Chrome events. Final880 run879pass, stale version assertion repaired/static20pass; earlier failures remain retained. qa/playback-repair owns exact hashes, package, limits and cleanup. Production1.22.0/source54e786f/Workere70754c7 is unchanged; no merge/push/deployment or original media change.
 
 ## Decided
 
@@ -14,8 +14,8 @@ New repair's main/push/production promotion requires user approval after the con
 
 ## Next first action
 
-Show the local branch's git HEAD and qa/playback-repair/README.md plus portrait/PC previews; ask for the new production promotion, then continue the separate original BMP discriminator while any answer is pending. All repair agents are complete, no actual test is running.
+Check the new1.22.1 production-approval answer; if granted, promote the reviewed branch and deploy releases/Drive-Original-v1.22.1-d0bdde5-worker assets using Wrangler --assets, then qualify served/current Safari bytes without repeating unrelated acceptance. While pending, identify the one actual BMP from existing private representative metadata and prepare its bounded discriminator. All repair agents are complete, no actual test is running.
 
 ## Tried
 
-Safari response interception failed (unsupported Network/abort/SW cache bypass); it was disabled without cache mutation. Use byte-bound temporary module substitution, not another unchanged interception attempt. MOV handler/reference failures and central→bottom-entry delayed pause have discriminating repairs/tests; preserve earlier failed receipts. A second operating Safari tab required explicit current target binding, not closing either tab. Six historical active worker-replacement failures remain separately unresolved; do not replay wholecorpus/prior843/20pairs. Original release integrity is not original-spec completion.
+Safari interception failed; use byte-bound temporary modules, not unchanged retries. MOV handler/reference and central→bottom delayed pause repaired with discriminating proof. A second Safari target required explicit binding. Materializer refused Drive upload staging hardlinks before writes; preserve aliases and use the exact Git-blob ZIP/new owned assets directory, not a guard bypass or unchanged retry. Six historical active-update failures remain separate; no wholecorpus/prior843/20pair replay. Original release integrity is not whole-spec completion.

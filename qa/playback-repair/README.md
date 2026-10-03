@@ -106,6 +106,17 @@ updated, focused static20 passed, and the unchanged full suite was not rerun.
 The failure log and pre-resolution receipt remain locally retained by hash.
 `build-local-package.py FIXED_SOURCE_SHA` packages exactly the committed public
 allowlist and independently compares every ZIP entry to its Git blob. The ZIP
-and `_site` are prepared locally; no merge/push/deployment follows without the
+and a separate immutable Worker asset folder are prepared locally; no merge/push/deployment follows without the
 new production approval. Existing Worker configuration and legacy Pages are
-unchanged. `local-package.json` owns the final source/file/hash when produced.
+unchanged. `local-package.json` owns source d0bdde54fe007c5f8a3b2751edcf20f15911c02e,
+65 Git-equal entries and ZIP SHA71c58c75. The sibling `-worker` folder contains
+the same65 Git-equal files and is ready for Wrangler's supported `--assets`
+directory override, preserving the current backend/origin.
+
+The usual materializer refused nine public inputs with nlink2 before writes.
+Read-only hardlink inventory identified Drive's `.tmp.driveupload` staging
+aliases; those aliases were not modified or removed. The package instead reads
+immutable Git blobs and writes a new owned output folder. The materializer guard
+was not weakened/retried; `_site` is not this release. Checked worktree/Git bytes
+differ only by permitted version.json CRLF normalization; canonical hashes are
+explicitly recorded in the package receipt.
