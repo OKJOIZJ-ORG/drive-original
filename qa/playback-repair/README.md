@@ -1,7 +1,35 @@
 # Playback and portrait UX repair — 2026-10-03
 
-`results.json` owns this local repair's combined evidence and limits. Operating
-1.22.0 is unchanged. This branch has not been merged, pushed or deployed.
+`results.json` preserves the initial local repair's evidence and limits. Under
+D078, main e4c963e was integrated/pushed and immutable public runtime d0bdde5
+deployed as1.22.1 once, Worker bf47cfd4-a626-43df-86f4-ab3d4a647ceb. The same
+operating origin and11bindings are preserved. [Release record](../../memory/RELEASE-1.22.1.md)
+owns current publication identity; original-spec acceptance remains open.
+
+## Production qualification
+
+- `production-deployment.json`/`production-readback.json`: completed publication
+  and exact existing11binding preservation. No new secret/grant or media mutation.
+- `production-served-final.json`: all65assets qualified,6private404 routes and
+  anonymous401/no-store. Redirected HTML lacked ETag and empty-marker HEAD
+  stalled; original failed receipts remain. Full bodies and only unqualified
+  files completed the proof without redeployment or repeating52/64qualified files.
+- `production-browser-final.json`: retained cache51byte comparison plus blocked
+  no-store request and controlled offline1.22.1reload. Initial online-flag oracle
+  lag remains in `production-browser.json`; owned pages and override cleaned.
+- `production-safari.json`: actual normal update/login/13favorite restoration,
+  deployed MP4/MOV60/83frames, exact midpoint seeks and portrait12targets44px
+  hit/bounds pass, no temporary modules/CSS. Witness preparation before opening
+  favorite filter caused an input exception; raw failure retained and corrected
+  before replay. Player/observer/object/socket cleanup passes. Physical finger,
+  VoiceOver, audibility and native landscape scrolling remain unqualified.
+- `release-local-checks.json`: versioned880run879pass/one stale version assertion;
+  assertion repaired and static20pass. This resolves that run without a fresh
+  whole880/880 claim. Existing behavioral proofs remain scoped below.
+- `notion-deletion.json`: D079 removed Notion release maintenance; canonical page
+  trash was refetched. Interrupted upload timed out before content/attachment
+  writes; owned helpers/upload processes are gone. Incomplete server staging is
+  unknown and no further release upload was attempted.
 
 ## Findings and responsible changes
 

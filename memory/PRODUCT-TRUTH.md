@@ -2,7 +2,15 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
-## Current operating release — 1.22.0 (2026-10-03)
+## Current operating release — 1.22.1 (2026-10-03)
+
+- `operational`: D078 approved main e4c963e integration/push and immutable runtime d0bdde5 delivery to the preserved Worker origin; Worker bf47cfd4-a626-43df-86f4-ab3d4a647ceb, all11bindings preserved. qa/playback-repair/production-deployment.json and production-readback.json own the observed deployment.
+- `verified serving`: public65 assets qualified, cache51 Git-equal, private6routes404, anonymous401/no-store and controlled offline reload with a blocked no-store network probe. Retained tool-oracle failures were repaired without product redeployment. Evidence: qa/playback-repair/production-served-final.json and production-browser-final.json, including their retained predecessor receipts.
+- `verified actual Safari`: operating1.22.1 normal update preserved login and normal favorites filter restored13items. Two prior-risk MP4/MOV witnesses produced60/83frames, ready4/nativeerror0 and exact midpoint seeks; original-range transport/decode flags true, no temporary module/CSS substitution. Portrait440x796 twelve44px targets all hit intended controls and remain inside viewport; scale1/touchActionnone. Cleanup passes. Evidence: qa/playback-repair/production-safari.json. Physical finger/VoiceOver/audibility/native landscape scrolling and all-favorites playback are not proved.
+- `verified local repair/distribution`: Safari17/ES2022 lowering preserves pinned source/disposal behavior; valid self-contained QuickTime handler/alis structure admits while external references fail closed. Central-only pause, no double-click zoom and compact selection/player UI use retained trusted Chrome gesture/eight-size layout proofs.65-entry/56,805,892B public ZIP SHA71c58c7573a50e8c0de8f53a4bb218e20d7cc6e522320816519d6adbb94c67a1 equals runtime Git blobs. Final880 run879pass plus the repaired stale assertion/static20pass is adjudicated, not a fresh880/880 run. qa/playback-repair owns exact scope/hashes.
+- `original acceptance open`: actualBMP, sustained actual-device Q2/Q3 resources and historical active-update failure adjudication remain, with conditional codecs/HDR and deferred iOS scopes separated. RELEASE-1.22.0.md's original-spec matrix remains valid; release completion does not close it. Legacy Pages handoff remains unchanged and points to the same Worker origin.
+
+## Historical operating release — 1.22.0 (2026-10-03)
 
 - `operational`: source54e786f499c4496259bdb6e066e9626381cbe376/Workere70754c7-d201-47ba-b7c4-43a0dd673732 serves1.22.0 at the preserved Worker origin. Main integrated/pushed; runtime production flags enabled, auth retained, diagnostics/observability disabled, same11bindings/namespace/secrets/client. Evidence: qa/release-1.22.0/readback.json and served.json.
 - `verified serving`:65public assets qualified,51fresh cache entries Git-equal,9archives uncached and qualified using retained exact bytes plus fresh strong ETags;6private routes404, anonymous credential POST401/no-store, controlled cold/offline1.22.0/pageerrors0, owned cleanup passed. No live account mutation during release verification.

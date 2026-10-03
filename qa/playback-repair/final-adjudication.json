@@ -1,0 +1,97 @@
+{
+  "passed": true,
+  "decisions": [
+    "D078",
+    "D079"
+  ],
+  "version": "1.22.1",
+  "mainIntegration": "e4c963e517e5d259f53a6a290832a794477b7e3e",
+  "runtimeSource": "d0bdde54fe007c5f8a3b2751edcf20f15911c02e",
+  "workerVersion": "bf47cfd4-a626-43df-86f4-ab3d4a647ceb",
+  "publicRuntimeUnchangedAfterRecords": true,
+  "publicAssets": 65,
+  "cacheItems": 51,
+  "bindings": 11,
+  "actualSafariWitnesses": 2,
+  "actualSafariSeeks": 2,
+  "actualPortraitTargets": 12,
+  "notionReleaseRequirementRemoved": true,
+  "notionPageTrashRefetched": true,
+  "originalSpecAcceptanceComplete": false,
+  "retainedFailures": [
+    "Redirected HTML missing ETag",
+    "Empty marker HEAD timeout",
+    "Initial offline flag lag",
+    "Safari witness missing prepared favorites",
+    "Notion upload180s timeout; incomplete staging unknown"
+  ],
+  "receipts": [
+    {
+      "file": "local-package.json",
+      "sha256": "18a807a0fa93d038d2424b085e5086472b59fe33a6875117c571df45f930eb4b"
+    },
+    {
+      "file": "release-local-checks.json",
+      "sha256": "51056ab0f7f599bd465f86781b52f750ad32fd937de12694b77d22a7979b5ecc"
+    },
+    {
+      "file": "production-preparation.json",
+      "sha256": "59b7452f6fcc547c5b5e924041ca288f9dd70b11a5eb937bae56555fa6abd4f3"
+    },
+    {
+      "file": "production-deployment.json",
+      "sha256": "4767055abd02d6660f7e7f7dd5e682566e4ee01dc017df04b180c7d9c27d049f"
+    },
+    {
+      "file": "production-readback.json",
+      "sha256": "727c6b9e553c1038b8dc4c0d5e943ba201a8892d196f7ace611fb7b94b398f50"
+    },
+    {
+      "file": "production-served.json",
+      "sha256": "cf07bc0116a4180cee15ded73be979ca66e6e92da7127cc2239a6a170d2b1c5b"
+    },
+    {
+      "file": "production-served-completed.json",
+      "sha256": "0c26c47faa82a7ce2d7c2bdebf0c49b3110a2bca2650269822046f68363e1dc2"
+    },
+    {
+      "file": "production-served-final.json",
+      "sha256": "07bae427408db8dbff871f3c431256aa52c4b5aea0c78ec26e326a07a08aff49"
+    },
+    {
+      "file": "production-browser.json",
+      "sha256": "558aee4984f2399d82f41494332c3c2722702eeea246cb335bec4b69a5b5a59c"
+    },
+    {
+      "file": "production-browser-final.json",
+      "sha256": "a097375a0f5a647712dced11fa6651f4c14337b21650434f0eb5b0aa4f32d1fc"
+    },
+    {
+      "file": "production-safari.json",
+      "sha256": "e5ee0da54afaf637a4c993e7776f9a2cd99101adcc945e1bb8d5f3aef554af9d"
+    },
+    {
+      "file": "notion-deletion.json",
+      "sha256": "f55a8d32f151afb356b70618b7732952d4a0e1c8d9cf3344f9fdef455e2e6b74"
+    }
+  ],
+  "privateDeletionEvidence": [
+    {
+      "file": "notion-delete-before-private.json",
+      "sha256": "46bf9a2af08fc6eaee52d9b9e16c8ef572e826c8d3fd488c4314b9930241c531"
+    },
+    {
+      "file": "notion-delete-after-private.json",
+      "sha256": "d6ea31bb3c172a81db6693aa8b443118b5312ec30bd1b0fc5c929ab2a71482e7"
+    },
+    {
+      "file": "notion-attempts-private.json",
+      "sha256": "579e48191430c234bf5ee11cf0b9d8afca6118aefda45a92a0b5dd040c237d8d"
+    },
+    {
+      "file": "notion-failure-private.json",
+      "sha256": "211af21c54addde140ae29025eeff37088ef8e4271a59ae302d55f3b0ae73023"
+    }
+  ],
+  "recordedAt": "2026-10-03T15:00:20.800Z"
+}

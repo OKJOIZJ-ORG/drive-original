@@ -539,3 +539,9 @@ main 병합·원격 push·기존 workers.dev 운영판 교체의 구체적인1.2
 
 완료된1.22.0·legacy Pages·원본 명세 증거를 조건 변화 없이 재실행하지 않는다. 원본 미디어·새 grant·결제·영구삭제·자동화 재개 권한은 추가하지 않는다. 배포 후 실패하면 정확한 증거와 정리/복구를 우선하며 미검증 항목을 통과 처리하지 않는다.
 sweep: checkpoint approval/next action aligned D078; local immutable package and prior production/acceptance evidence retained (2026-10-03).
+
+## D-079 · Notion 릴리즈 폐기 및 기존 유지보수 페이지 삭제 — 2026-10-03 (User-confirmed; supersedes D043 Notion release requirement)
+
+사용자는 "노션 릴리즈는 그냥 빼자. 노션 페이지 삭제하고"라고 명시했다. 진행 중인 Notion 릴리즈 갱신을 중단하고, 이미 확인한 canonical “Drive Original — 유지보수” 페이지 cde9b849-3a7f-473f-9915-e948b1e6defe를 휴지통으로 삭제했다. 로컬 ntn으로 삭제 후 다시 조회해 in_trash=true를 확인했다. 릴리즈 기록과 배포 파일은 현재 Git 저장소·workspace releases가 소유하며 Notion 갱신/첨부/검증은 더 이상 완료 조건이 아니다. 기존 Notion 관련 기록은 역사로 보존한다.
+
+D078 운영 반영과 기존 원본 명세의 남은 인수·비용·권한·자동화 경계는 유지한다. 다른 Notion 페이지나 계정 설정 삭제, 영구 삭제·자동화 재개 권한으로 확대하지 않는다. 중단된 업로드의 실제 상태와 도구 정리는 qa/playback-repair/notion-deletion.json에 기록한다.

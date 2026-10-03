@@ -1,5 +1,11 @@
 # SESSION LOG — append, dated
 
+## 2026-10-03 — D0781.22.1 promotion / D079 Notion removal
+
+Observed: reviewed main e4c963e pushed, immutable public d0bdde5 deployed once as Workerbf47cfd4; existing11bindings preserved. QA playback-repair owns65served/cache51/private6/anonymous401/offline and actual normally updated Safari MP4/MOV60/83frames/two exact seeks/portrait12targets44px proof, failed tool inputs/oracles and cleanup. No temporary production modules, original mutation or full-video scan. Final880run879pass + repaired static20pass remains adjudicated. Original BMP/resource/update gates remain open.
+
+User explicitly canceled Notion releases and requested page deletion. Owned child stopped; upload180sETIMEDOUT preceded all page-content/attachment writes; process counts0, server incomplete staging unknown. Canonical page trashed through ntn and refetched in_trash=true; D079 supersedes current Notion requirement. Local/Git release ownership updated; earlier histories retained. One bounded BMP-only metadata helper threw a page exception before a usable result; raw failure and object/socket cleanup retained privately, not accepted as BMP proof.
+
 ## 2026-08-23
 
 - Read the Notion maintenance page, every project text file, binary asset metadata/previews, and the existing D-001–D-028 decision ledger.

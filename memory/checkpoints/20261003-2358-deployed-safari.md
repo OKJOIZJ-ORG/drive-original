@@ -1,4 +1,4 @@
-# Checkpoint — D0781.22.1 qualified / D079 Notion removed — 2026-10-03 23:59
+# Checkpoint — D0781.22.1 deployed and actual Safari passed — 2026-10-03 23:46
 
 ## The story so far
 
@@ -7,7 +7,6 @@ Observed: main e4c963e pushed;1.22.1 public runtime d0bdde5 deployed once to exi
 ## Decided
 
 D077 makes portrait-first layout, central pause and no double-click zoom the current UX requirements; older broader pause/fullscreen gesture behavior is superseded. The user and decoded frame confirm apparent system playback buttons were recorded inside the witness video. D075 was the completed1.22.0 promotion, not standing authority for a new release. D076 tooling remains available; D066 native finger/VoiceOver limits and original remaining matrix in RELEASE-1.22.0.md remain. No full-video scan, original mutation, newgrant/payment/permanentdelete/automationrestart.
-D079 cancels Notion releases; canonical maintenance page trashed/refetched in_trash=true. Owned upload timed out before content/attachment writes and its processes are gone; server incomplete staging unknown. Git and workspace releases now own release records/packages.
 
 ## Waiting on the user
 
@@ -15,7 +14,7 @@ D078 explicitly grants the new1.22.1 main/push/production promotion. No addition
 
 ## Next first action
 
-Review/stage only current release records and sanitized qa/playback-repair receipts, commit/push with public runtime unchanged; diagnose the retained actual-bmp-find page exception before retrying metadata. Do not redeploy or resume Notion: production-deployment/production-served-final/production-browser-final and actual Safari proof already pass.
+Inspect maintenance/tools/playback-repair/notion-before-private.json and update only its existing current release/package owners through ntn, refetch and byte-verify attachment; then commit release records and continue original BMP/resource/update gates. Do not redeploy: production-deployment/production-served-final/production-browser-final and actual Safari proof already pass.
 
 ## Tried
 

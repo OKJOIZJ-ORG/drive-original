@@ -41,7 +41,7 @@ async function verify(){
  save('production-verification-attempt.json',{source:p.source,workerVersion:d.workerVersion,limits:p.limits,startedAt:new Date().toISOString()});
  try{
   for(let i=0;i<p.assets.length;i+=4){const outcomes=await Promise.allSettled(p.assets.slice(i,i+4).map(async a=>{
-   const bytes=a.file==='.nojekyll'?Buffer.alloc(0):blob(p.source,a.file),old=prior.assets.find(x=>x.file===a.file),reuse=!!old?.gitEqual&&old.sha256===a.sha256&&old.bytes===a.bytes;
+   const bytes=a.file==='.nojekyll'?Buffer.alloc(0):blob(p.source,a.file),old=prior.assets.find(x=>x.file===a.file),reuse=!a.file.endsWith('.html')&&a.file!=='.nojekyll'&&!!old?.gitEqual&&old.sha256===a.sha256&&old.bytes===a.bytes;
    const result=await request(base+a.file+'?repair='+Date.now(),reuse?{method:'HEAD',headers:{'Accept-Encoding':'identity'}}:{});assert.equal(result.response.status,200);
    if(reuse){assert.equal(result.response.headers.get('etag'),'"'+key(bytes,a.file)+'"');const size=result.response.headers.get('content-length');if(size!==null)assert.equal(size,String(a.bytes));}else assert(result.bytes.equals(bytes));
    return{...a,status:200,method:reuse?'HEAD':'GET',gitEqual:true,reused:reuse,byteProof:reuse?'prior-full-byte/Git-hash/fresh-strong-content-address':'fresh-full-byte'};

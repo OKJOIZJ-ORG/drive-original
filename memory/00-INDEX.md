@@ -30,7 +30,9 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `../qa/playback-repair/README.md` and `results.json`: D077 local portrait-first UI/gesture repair and actual temporary-patched Safari MP4/MOV evidence, retained failures/cleanup. New production promotion is pending; original release/acceptance matrix remains separate. Local UI, gesture and corresponding-source subreceipts are linked from this owner.
+- `../qa/playback-repair/README.md` and `results.json`: D077 local repair plus D0781.22.1 served/cache/actual operating Safari evidence, retained failures/cleanup and exact ZIP. D079 removes Notion releases; its page deletion is refetched. Original acceptance remains separate.
+
+- `RELEASE-1.22.1.md`: D078 main/push/Worker1.22.1 complete, public runtime d0bdde5/Workerbf47cfd4, actual Safari two witnesses/seeks/portrait geometry and original acceptance limits; D079 local/Git release ownership.
 
 - `RELEASE-1.22.0.md`: D075 main/push/production complete; source54e786f/Workere70754c7, legacy Pages handoff20d864c,843checks, served65/cache51 and verified ZIP. Original-spec audit keeps actualBMP, sustained device resources and historical active-update failures open, with conditional formats and deferred iOS separated.
 

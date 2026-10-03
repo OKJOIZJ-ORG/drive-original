@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "coldEvidence": "production-browser.json",
+  "reusedQualifiedCacheItems": 51,
+  "probe": {
+    "version": "1.22.1",
+    "controlled": true,
+    "navigatorOnLine": false,
+    "probe": {
+      "blocked": true,
+      "name": "TypeError"
+    }
+  },
+  "offlineReload": {
+    "version": "1.22.1",
+    "controlled": true,
+    "accountPresent": false
+  },
+  "cleanup": {
+    "networkOverrideReset": true,
+    "ownedPageClosed": true
+  },
+  "retainedToolFailure": "Initial offline reload returned online=true before flag transition; original receipt retained. Discriminating no-store request blocked plus controlled reload now pass. No product change/redeployment.",
+  "observedAt": "2026-10-03T14:41:11.724Z"
+}
