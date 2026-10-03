@@ -1,0 +1,24 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), cp = require('node:child_process'), crypto = require('node:crypto'), assert = require('node:assert/strict');
+const root = path.resolve(__dirname, '../..'), git = args => cp.execFileSync('git', args, { cwd: root, maxBuffer: 128 * 1024 * 1024 });
+const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const head = git(['rev-parse', 'HEAD']).toString().trim(), base = git(['rev-parse', 'main']).toString().trim();
+const files = require('../../scripts/public-files.cjs');
+const previous = JSON.parse(fs.readFileSync(path.join(root, 'qa/candidate-rc38-delivery/source-readiness.json')));
+assert(previous.passed && previous.sourceCommit === 'a9b2609528954c162cfcf40276aa0bd92c11d7de');
+const publicAssets = files.map(file => { const oid = git(['hash-object','-w',`--path=${file}`,'--',file]).toString().trim(); const bytes = git(['cat-file','blob',oid]); return { file, bytes: bytes.length, sha256: sha(bytes), changedFromRc38: !bytes.equals(git(['show', `${previous.sourceCommit}:${file}`])) }; });
+assert.deepEqual(publicAssets.filter(row => row.changedFromRc38).map(row => row.file).sort(), ['app.js','index.html','runtime-config.js','sw.js','version.json']);
+const all = git(['ls-tree','-r','-l','-z',head]).toString().split('\0').filter(Boolean).map(row => { const m=/^\d+ blob ([a-f0-9]+)\s+(\d+)\t(.+)$/.exec(row); assert(m); return {oid:m[1],bytes:Number(m[2]),file:m[3]}; });
+const objects = git(['rev-list','--objects',`${base}..${head}`]).toString().split('\n').filter(Boolean).map(row=>row.split(' ')[0]);
+const metadata = cp.execFileSync('git',['cat-file','--batch-check=%(objectname) %(objecttype) %(objectsize)'],{cwd:root,input:objects.join('\n')+'\n',maxBuffer:128*1024*1024}).toString().trim().split('\n').map(row=>{const [oid,type,size]=row.split(' ');return{oid,type,bytes:Number(size)};});
+assert(metadata.every(row => row.type !== 'blob' || row.bytes < 100*1024*1024), 'GITHUB_OVERSIZE_HISTORY_BLOB');
+const patterns = /(?<![A-Za-z0-9_])(?:ya29\.[A-Za-z0-9_.-]{20,}|1\/\/[A-Za-z0-9_-]{30,}|GOCSPX-[A-Za-z0-9_-]{12,}|gh[pousr]_[A-Za-z0-9]{30,}|sk-(?:proj-)?[A-Za-z0-9_-]{25,}|AIza[A-Za-z0-9_-]{30,})/g;
+const blobs = metadata.filter(row=>row.type==='blob' && row.bytes < 25*1024*1024); let textBlobs=0; const findings=[];
+const batch=cp.spawnSync('git',['cat-file','--batch'],{cwd:root,input:blobs.map(row=>row.oid).join('\n')+'\n',maxBuffer:768*1024*1024});
+assert.equal(batch.status,0); const data=batch.stdout; let offset=0;
+for(const row of blobs){const end=data.indexOf(10,offset), header=data.subarray(offset,end).toString();assert(header.startsWith(row.oid+' blob '));offset=end+1;const bytes=data.subarray(offset,offset+row.bytes);offset+=row.bytes+1;if(bytes.includes(0))continue;textBlobs++;const content=bytes.toString('utf8');const matches=[...content.matchAll(patterns)].map(m=>({type:m[0].startsWith('sk-')?'sk':m[0].split(/[._-]/)[0],length:m[0].length,sha256:sha(Buffer.from(m[0])),precedingCharacter:content[m.index-1]||null}));if(matches.length)findings.push({oid:row.oid,file:all.find(x=>x.oid===row.oid)?.file||'HISTORICAL_BLOB',matches});}
+if(findings.length){fs.writeFileSync(path.join(__dirname,'history-scan-findings.json'),JSON.stringify({passed:false,textBlobs,findings,secretsPrinted:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({findingFiles:findings.map(row=>({file:row.file,types:[...new Set(row.matches.map(x=>x.type))],preceding:[...new Set(row.matches.map(x=>x.precedingCharacter))]}))}));}
+assert.equal(findings.length,0,'CREDENTIAL_LITERAL_IN_UNPUSHED_HISTORY');
+const summary={passed:true,recordedAt:new Date().toISOString(),head,base,priorRuntime:previous.sourceCommit,publicAssets,publicCount:files.length+1,changedPublic:5,mediaUnchanged:true,historyObjects:metadata.length,textBlobsScanned:textBlobs,credentialLiteralFindings:0,over100MiB:0,trackedFiles:all.length,largestBlob:Math.max(...all.map(row=>row.bytes)),noPrivateIgnoredInputsPublished:true,scope:'New branch history literal credential/oversize scan; finite candidate core/source reuse, not a complete privacy classification or behavioral proof',producerSha256:sha(fs.readFileSync(__filename))};
+fs.writeFileSync(path.join(__dirname,'preflight.json'),JSON.stringify(summary,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({...summary,publicAssets:undefined}));

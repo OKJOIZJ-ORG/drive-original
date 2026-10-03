@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.0-rc.38');
+  assert.equal(metadata.version, '1.22.0');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -175,7 +175,8 @@ test('Q1 public bundles match their exact source manifest and offline shell', ()
   }
   assert.equal(publicFiles.some(file => /(?:qa\/|build\.json|entry\.mjs|memory\/|\.env)/.test(file)), false);
   assert.match(read('scripts/build-pages.cjs'), /require\('\.\/public-files\.cjs'\)/);
-  assert.match(read('scripts/publish-pages.cjs'), /require\('\.\/public-files\.cjs'\)/);
+  assert.match(read('scripts/publish-pages.cjs'), /require\('\.\/pages-public-tree\.cjs'\)/);
+  assert.match(read('scripts/publish-pages.cjs'), /CURRENT_WORKER_SERVING_PROOF_REQUIRED/);
 });
 
 test('tail-index MP4 QA seed is small, immutable and keeps moov behind mdat', () => {
@@ -240,13 +241,15 @@ test('seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat'
   ]);
 });
 
-test('candidate runtime config is loaded before app code and fails closed for Drive writes', () => {
+test('production runtime config precedes app code without bypassing permission ownership', () => {
   const app = read('app.js');
   const html = read('index.html');
   const runtime = read('runtime-config.js');
   const worker = read('sw.js');
   assert.ok(html.indexOf('runtime-config.js') < html.indexOf('app.js'));
-  assert.match(runtime, /driveMutationsEnabled:\s*false/);
+  assert.match(runtime, /candidate:\s*false/);
+  assert.match(runtime, /driveMutationsEnabled:\s*true/);
+  assert.match(app, /globalThis\.__DRIVE_ORIGINAL_RUNTIME__\?\.driveMutationsEnabled === true/);
   assert.match(app, /DRIVE_MUTATIONS_ENABLED/);
   assert.match(app, /candidate_read_only/);
   assert.match(worker, /'\.\/runtime-config\.js'/);

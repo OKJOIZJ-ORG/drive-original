@@ -1,39 +1,25 @@
 'use strict';
-// Publish an explicit public tree through GitHub Pages' branch deployment.
-// No workflow-file permission is required. Source and audit history stay on main.
-const fs = require('node:fs');
-const path = require('node:path');
-const { execFileSync } = require('node:child_process');
+// Publish the legacy public entrypoint only AFTER the same-origin Worker is
+// verified. No repository export, force push, workflow enabling or auth change.
+const fs = require('node:fs'), path = require('node:path'), cp = require('node:child_process');
+const { publicTree, legacyEntries } = require('./pages-public-tree.cjs');
 const root = path.resolve(__dirname, '..');
-const git = (args, options = {}) => execFileSync('git', args, { cwd: root, encoding: 'utf8', ...options }).trim();
-const runNode = (args) => execFileSync(process.execPath, args, { cwd: root, stdio: 'inherit' });
-if (git(['status', '--porcelain']).length) throw new Error('Commit or preserve all source changes before publishing.');
-runNode(['--check', 'app.js']);
-runNode(['--check', 'sw.js']);
-runNode(['--test', '--test-concurrency=1', ...fs.readdirSync(path.join(root, 'tests')).filter(name => /\.test\.m?js$/.test(name)).map(name => `tests/${name}`)]);
+const git = (args, options = {}) => cp.execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, ...options }).trim();
+const args = process.argv.slice(2);
+if (args.length !== 2 || args[0] !== '--legacy-handoff' || args[1] !== '--execute') throw Error('LEGACY_HANDOFF_EXPLICIT_EXECUTION_REQUIRED');
+if (git(['status', '--porcelain']).length || git(['branch', '--show-current']) !== 'main') throw Error('CLEAN_REVIEWED_MAIN_REQUIRED');
 const source = git(['rev-parse', 'HEAD']);
-const version = JSON.parse(git(['show', `${source}:version.json`])).version;
-const publicFiles = require('./public-files.cjs');
-const rootEntries = [], iconEntries = [], mediaEntries = [];
-for (const file of publicFiles) {
-  const oid = git(['rev-parse', `${source}:${file}`]);
-  const entry = `100644 blob ${oid}\t${path.posix.basename(file)}\n`;
-  (file.startsWith('icons/') ? iconEntries : file.startsWith('media/') ? mediaEntries : rootEntries).push(entry);
-}
-const icons = git(['mktree'], { input: iconEntries.join('') });
-const media = git(['mktree'], { input: mediaEntries.join('') });
-const empty = git(['hash-object', '-w', '--stdin'], { input: '' });
-rootEntries.push(`040000 tree ${icons}\ticons\n`, `040000 tree ${media}\tmedia\n`, `100644 blob ${empty}\t.nojekyll\n`);
-const tree = git(['mktree'], { input: rootEntries.join('') });
-const existing = git(['ls-remote', '--heads', 'origin', 'gh-pages']).split(/\s+/)[0];
-let parent = null;
-if (/^[a-f0-9]{40}$/.test(existing)) {
-  git(['fetch', 'origin', 'gh-pages']);
-  parent = git(['rev-parse', 'FETCH_HEAD']);
-}
-const commit = git(['commit-tree', tree, ...(parent ? ['-p', parent] : [])], {
-  input: `deploy: Drive Original v${version}\n\nSource: ${source}\nVerified public shell only; ${publicFiles.length + 1} files; syntax and regression gate passed.\n`
-});
-// Normal fast-forward push: never overwrite unrelated deployment history.
+const proof = JSON.parse(fs.readFileSync(path.join(root, 'qa/release-1.22.0/served.json')));
+if (!proof.passed || proof.source !== source || proof.version !== '1.22.0'
+  || proof.base !== 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/'
+  || proof.productionMode !== true || proof.publicAssets !== 65 || !proof.cleanup?.passed) throw Error('CURRENT_WORKER_SERVING_PROOF_REQUIRED');
+const entries = legacyEntries(source, git);
+entries.push({ file: '.nojekyll', oid: git(['hash-object', '-w', '--stdin'], { input: '' }) });
+const tree = publicTree(entries, git);
+const parent = git(['ls-remote', '--heads', 'origin', 'gh-pages']).split(/\s+/)[0];
+if (!/^[a-f0-9]{40}$/.test(parent)) throw Error('KNOWN_LEGACY_PAGES_PARENT_REQUIRED');
+git(['fetch', 'origin', 'gh-pages']);
+if (git(['rev-parse', 'FETCH_HEAD']) !== parent) throw Error('LEGACY_REMOTE_CHANGED');
+const commit = git(['commit-tree', tree, '-p', parent], { input: `deploy: Drive Original 1.22.0 legacy entrypoint\n\nSource: ${source}\nVerified same-origin Worker: ${proof.workerVersion}\nPublic handoff only; ${entries.length} files.\n` });
 git(['push', 'origin', `${commit}:refs/heads/gh-pages`]);
-console.log(JSON.stringify({ version, sourceCommit: source, deploymentCommit: commit, publicFiles: publicFiles.length + 1 }, null, 2));
+console.log(JSON.stringify({ source, version: '1.22.0', deploymentCommit: commit, previousDeploymentCommit: parent, publicFiles: entries.length }));

@@ -1,7 +1,7 @@
-// Candidate gate: ordinary Drive files remain read-only. Verified own appData
-// state writes use a separate, account/writer-scoped transport capability.
+// Production mode. Account, grant, revision and verified-result ownership still
+// govern every Drive operation; this flag does not grant Google permissions.
 globalThis.__DRIVE_ORIGINAL_RUNTIME__ = Object.freeze({
-  candidate: true,
-  driveMutationsEnabled: false,
+  candidate: false,
+  driveMutationsEnabled: true,
   accountStateWritesEnabled: true
 });

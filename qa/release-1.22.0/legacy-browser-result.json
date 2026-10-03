@@ -1,0 +1,35 @@
+{
+  "scope": "Synthetic localhost old1.21 real SW to current handoff; isolated Chrome; external exact target mocked without network; no account/device/installed PWA proof",
+  "startedAt": "2026-10-03T06:00:43.130Z",
+  "passed": true,
+  "checks": {
+    "onlineExactDestination": true,
+    "existingWindowNotNavigated": true,
+    "newWorkerWaitsForExistingWindow": true,
+    "storageAndCachesPreserved": true,
+    "naturalActivation": true,
+    "offlineHandoffAndNoRedirect": true
+  },
+  "cleanup": {
+    "contextClosed": true,
+    "connectionClosed": true,
+    "ownedProcessExited": true,
+    "serverClosed": true
+  },
+  "browser": "154.0.8037.93",
+  "preserved": {
+    "local": "preserved",
+    "idb": "preserved",
+    "caches": [
+      "drive-original-shell-1.21.0",
+      "unrelated-canary",
+      "drive-original-handoff-1.22.0"
+    ],
+    "unrelated": "preserved"
+  },
+  "producersStable": true,
+  "finishedAt": "2026-10-03T06:00:49.515Z",
+  "externalRequests": [
+    "https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev/"
+  ]
+}

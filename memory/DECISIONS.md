@@ -512,3 +512,11 @@ sweep: reboot resume guide, checkpoint/handoff, goal execution header and sessio
 완료된 제품·외부 작업과 유효한 실제 증거를 반복하지 않는다. 기존 PC+Android 현재 인수/iOS 배포 후 순서와 원본·비용·권한·운영 경계는 유지한다. main/push/production/새 grant/결제/영구삭제/자동화 재개 권한은 추가하지 않는다. 통상 Chrome 조작은 직접 진행하며 실제 로그인/2FA/브라우저 승인 등 사용자 조작 경계만 도움을 요청한다.
 
 sweep: checkpoint and goal execution header aligned ACTIVE D074; departure cleanup and partial scale preparation remain preserved, no old JSON import/current coverage addition.
+
+## D-075 · 검증된 후보의 최종 운영 반영 진행 — 2026-10-03 (User-confirmed in the G6 approval context)
+
+검증된 후보 구현·PC·Android 검사·정리가 완료됐고 남은 항목이 main 병합·push·운영 배포이며 별도 G6 승인을 받으면 진행한다고 명시한 직후, 사용자는 "이어서 끝까지 ㄱㄱ."라고 다시 지시했다. 이 직접 후속 지시는 구체적으로 제시한 남은 G6 운영 반영을 진행하라는 승인으로 적용한다. 후보 a9b2609/rc38과 QA 저장점 cc59733을 보존하고, 전체 의도된 변경 검토·비례하는 운영 모드 검사·main 병합·원격 push·운영 served proof·최종 기록까지 완료한다. 이전 포괄적 재개 지시만을 이 권한의 근거로 삼지는 않는다.
+
+이미 검증된 무료 동일-origin Worker의 hostname/OAuth/DO/secrets를 유지한다. GitHub Pages는 이전 주소의 공개 전용 연결 페이지로 전환하며 재생 중인 창을 강제로 이동시키거나 이전 origin의 설정·미동기화 상태·캐시를 삭제하지 않는다. 원본 미디어 수정/영구삭제·새 grant·결제·자동화 재개는 추가하지 않는다. D066의 iOS 배포 후 검사와 유한 증거/UNKNOWN 경계를 유지한다.
+
+sweep: current release preparation and checkpoint aligned to approved G6 promotion; immutable candidate evidence retained (2026-10-03).

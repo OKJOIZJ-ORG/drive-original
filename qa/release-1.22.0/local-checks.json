@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "tests": 843,
+  "failures": 0,
+  "testLogSha256": "22109704afc54192ffc9a97eb00b7f01fda750ee71f174e7f7d7837d757dfe96",
+  "legacyBrowserSha256": "a4aef3deab6b07c327274fbcf9fae0e0f563aa0dc9629196517c550558fbbd36",
+  "historyScanSha256": "6e8965aaf888215a6418cbae2f759ea5e7f1bcc0c2a637a93d8b4879c881725b",
+  "syntaxPassed": true,
+  "diffPassed": true,
+  "inputs": [
+    {
+      "file": "app.js",
+      "sha256": "f5718c9b3397581195b8b0f296e6ab3ed2cc94070ea0be61fb8b6bd39fffb117"
+    },
+    {
+      "file": "sw.js",
+      "sha256": "3abd1b298cb3681fc830c4536cb926ac1a94bc1adb3ee20ab59f4abd71f95754"
+    },
+    {
+      "file": "index.html",
+      "sha256": "4dd57a94f3a2f501921d507fc2bb2e9cacd08e9ae7c048148955b5f7f743e8dc"
+    },
+    {
+      "file": "version.json",
+      "sha256": "ff01506d9f152e216bb6b4899cb265d32eb63fa35c3100eba8d5e80e78b40513"
+    },
+    {
+      "file": "runtime-config.js",
+      "sha256": "9883be2c016b9f0a98163df03553b0ee17ef0613ea45137c8502760ab3609882"
+    },
+    {
+      "file": "worker/wrangler.jsonc",
+      "sha256": "74040f297fce72bf1973148b99ef8aea1712eb290ad22d49ee8e0f5de68c6e04"
+    },
+    {
+      "file": "scripts/publish-pages.cjs",
+      "sha256": "6fefc09854e30f115f8765fcc6e134096e7d6c8601e5e95ad10b68271a4a8637"
+    },
+    {
+      "file": "scripts/pages-public-tree.cjs",
+      "sha256": "e3a3b10667251c31e958e963bd96f8f58e54415a92521d8a0de1516c35dfaae9"
+    },
+    {
+      "file": "deployment/legacy-pages/index.html",
+      "sha256": "068506595576965651a4829aaecda0c1b1cfe959044cf71657b8f02d9f64b6b3"
+    },
+    {
+      "file": "deployment/legacy-pages/handoff.js",
+      "sha256": "94f00c74c5453f5848f9abc3dae4b691c87d93f7d1917cb293339d8ac85ad371"
+    },
+    {
+      "file": "deployment/legacy-pages/sw.js",
+      "sha256": "db5658e92231448affcfe9c6dd094d06b111d0c5c052b9b5b2e91ce1f2f241e6"
+    },
+    {
+      "file": "deployment/legacy-pages/version.json",
+      "sha256": "b874a135353ac7ec36bdac27dbed6ec7a16e3d0b8af28639a92787929f96d081"
+    },
+    {
+      "file": "tests/static.test.js",
+      "sha256": "783dbc57dbb1b61c9cec158d9dd7f9a92ca710ae5e37128df6fbb9a4a2cc476b"
+    },
+    {
+      "file": "tests/shell.test.js",
+      "sha256": "8a37469a5946b9961f60caa3a594c664a01832ffa3c4927d74cdf46f856cf7f5"
+    },
+    {
+      "file": "tests/cloudflare-auth-worker.test.mjs",
+      "sha256": "88f482ab5e479347e1d938b22701beb3d901ab4ad73511f32d5126754f6a3ed0"
+    },
+    {
+      "file": "tests/mutations.test.js",
+      "sha256": "d232d90b1061fd88111421a928df9d620d856234891651f3c33387ad5ce4c53e"
+    },
+    {
+      "file": "tests/pages-public-tree.test.js",
+      "sha256": "bd9473fe03aa3bd526620e8c87ba429ad589245803f61ed60339f09c3bec592d"
+    }
+  ],
+  "independentReview": {
+    "model": "gpt-6.1-sol",
+    "effort": "medium",
+    "materialBlockers": 0,
+    "fixesBeforeExecution": [
+      "real anonymous credential route",
+      "same-source receipt guards",
+      "remaining finite browser budget"
+    ]
+  },
+  "recordedAt": "2026-10-03T06:13:38.050Z"
+}

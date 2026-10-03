@@ -49,8 +49,8 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   assert(copies.includes(path.join('media','revision-pin.js')));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');
-  assert.match(publish,/runNode\(\['--test'/);assert.match(publish,/refs\/heads\/gh-pages/);
-  assert.match(publish,/publicFiles = require\('\.\/public-files\.cjs'\)/);assert.doesNotMatch(publish,/--force/);
+  assert.match(publish,/CURRENT_WORKER_SERVING_PROOF_REQUIRED/);assert.match(publish,/refs\/heads\/gh-pages/);
+  assert.match(publish,/legacyEntries\(source, git\)/);assert.doesNotMatch(publish,/--force/);
 });
 test('corresponding-source downloads remain public but never enter the runtime cache',()=>{
   const publicFiles=require('../scripts/public-files.cjs');

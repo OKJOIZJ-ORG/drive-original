@@ -5,10 +5,10 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-function client(storage = new Map(), locks = new Map()) {
+function client(storage = new Map(), locks = new Map(), runtime = { driveMutationsEnabled: true }) {
   const c = { AbortController, Blob, DOMException, Headers, Map, Math, Promise, Response, Set, URL, URLSearchParams,
     console, performance, fetch, setTimeout, clearTimeout, setInterval, clearInterval,
-    __DRIVE_ORIGINAL_RUNTIME__: { driveMutationsEnabled: true },
+    __DRIVE_ORIGINAL_RUNTIME__: runtime,
     location: { href: 'https://fixture.test/', origin: 'https://fixture.test', pathname: '/', search: '' },
     navigator: { onLine: true, locks: { async request(key, fn) {
       const prior = locks.get(key) || Promise.resolve();
@@ -65,6 +65,27 @@ function remote(c, { patch = 'apply', readback = 'ok' } = {}) {
   };
   return { item, calls, patches: () => calls.filter(call => call.method === 'PATCH') };
 }
+
+test('published production mode permits verified canonical writes while readonly grants remain denied', async () => {
+  const mode = {};
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../runtime-config.js'), 'utf8'), mode);
+  const c = client(new Map(), new Map(), mode.__DRIVE_ORIGINAL_RUNTIME__); const r = remote(c);
+  await c.run('trashDriveFile(item)');
+  assert.equal(r.patches().length, 1);
+  assert.equal(c.entries()[0].state, 'confirmed');
+  const readonly = client(new Map(), new Map(), mode.__DRIVE_ORIGINAL_RUNTIME__); const denied = remote(readonly);
+  readonly.run('state.authCapabilities.driveWrite=false');
+  await assert.rejects(readonly.run('trashDriveFile(item)'));
+  assert.equal(denied.patches().length, 0);
+});
+
+test('missing runtime and retained candidate mode still fail closed before remote mutation', async () => {
+  for (const mode of [{}, { candidate: true, driveMutationsEnabled: false, accountStateWritesEnabled: true }]) {
+    const c = client(new Map(), new Map(), mode); const r = remote(c);
+    await assert.rejects(c.run('trashDriveFile(item)'));
+    assert.equal(r.patches().length, 0);
+  }
+});
 
 test('trash response parse failure never substitutes for an independent GET', async () => {
   const c = client(); const r = remote(c, { patch: 'malformed', readback: '404' });

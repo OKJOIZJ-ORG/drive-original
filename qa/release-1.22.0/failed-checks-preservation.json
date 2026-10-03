@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "original": "focused-tests.log",
+      "compressed": "focused-tests.log.gz",
+      "originalBytes": 15437,
+      "sha256": "de7b0aa1c19ecef3b303acefeadfa732bb3761d4f3ca46477ca39fe00f6eb097",
+      "gzipSHA256": "1d0541082e04533d91e5acf5e7f3e05cd0df69f0f3569454973aff5efb448a4f",
+      "exactRoundtrip": true
+    },
+    {
+      "original": "release-tests.log",
+      "compressed": "release-tests.log.gz",
+      "originalBytes": 89554,
+      "sha256": "2d8f5bf10a92b7aad8853edd20bf43407172f6aa4e0537ce24b65b8078a3b6d0",
+      "gzipSHA256": "2f8a4468e5f6ee76ebbec4803691d3edefade09ae6106766fb197560823b4205",
+      "exactRoundtrip": true
+    }
+  ],
+  "reason": "Preserve unmodified failed stdout including trailing whitespace as binary evidence"
+}

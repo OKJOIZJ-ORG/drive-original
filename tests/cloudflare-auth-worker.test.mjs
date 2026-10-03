@@ -23,11 +23,11 @@ const env = {
   AUTH_OBJECTS: { idFromName() {}, get() {} },
 };
 
-test('checked-in candidate enables auth at the exact public origin while Drive writes remain disabled', () => {
+test('production retains the verified auth origin and disables optional diagnostic logging', () => {
   const config = JSON.parse(fs.readFileSync(new URL('../worker/wrangler.jsonc', import.meta.url), 'utf8'));
   assert.equal(config.vars.AUTH_ENABLED, 'true');
-  assert.equal(config.vars.AUTH_DIAGNOSTICS, 'true');
-  assert.equal(config.vars.CANDIDATE_DRIVE_WRITES_ENABLED, 'false');
+  assert.equal(config.vars.AUTH_DIAGNOSTICS, 'false');
+  assert.equal(config.vars.CANDIDATE_DRIVE_WRITES_ENABLED, 'true');
   assert.equal(config.vars.PUBLIC_ORIGIN, 'https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev');
   assert.match(config.vars.GOOGLE_CLIENT_ID, /^\d+-[a-z0-9]+\.apps\.googleusercontent\.com$/u);
   assert.equal(config.preview_urls, false);
