@@ -11,13 +11,13 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `SESSION-LOG.md` | What happened, per working session | Append, dated |
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
-| `HANDOFF.md` | Single-use instructions after an explicit pause | Consume/delete on resume; D-068 currently ACTIVE |
+| `HANDOFF.md` | Single-use instructions after an explicit pause; currently absent | Consume/delete on resume |
 | `REBOOT-RESUME-20261001.md` | Fresh browser/helper binding and continuous PC replay after the clean reboot | Local preparation only; resume on direct user instruction |
 | `NIGHT-ENVIRONMENT-20260930.md` | Environment-only PC/Android readiness and explicit nighttime resume procedure | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |
 | `goal/drive-scale-stability.md` | Canonical structure and evidence for the completed large-library stability goal | Version cuts; never silently overwrite superseded structure |
-| `goal/commercial-player-stability.md` | Canonical structure and evidence for the active commercial-grade player and library goal | Update evidence and gates in place; never weaken acceptance criteria silently |
+| `goal/commercial-player-stability.md` | Canonical structure and finite completion evidence for the commercial-grade player and library goal | Update evidence and gates in place; never weaken acceptance criteria silently |
 | `specs/Drive-Original_Sol-Ultra_Implementation-Pack_v3.0_2026-09-19.md` | Active integrated v3.0 product specification and execution protocol | Preserve byte-for-byte; progress remains owned by the goal and checkpoint |
 
 ## Operating principles
@@ -30,7 +30,9 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `CANDIDATE-RC38-20261003.md`: initial-position fix, bounded Q2/Q3 native qualification and pending exact candidate/actual PC-Android proof.
+- `RELEASE-1.22.0.md`: D075 approved main/push/production complete; source54e786f/Workere70754c7, legacy Pages handoff20d864c,843checks, served65/cache51 and verified public ZIP. Finite evidence and iOS follow-up limits retained.
+
+- `CANDIDATE-RC38-20261003.md`: completed finite candidate, original22.3 ten-item report, bounded nativeQ2/Q3 and exact current PC/physicalAndroid AAC3 proof. Historical candidate identities remain immutable; current production owner RELEASE-1.22.0.md.
 
 - `CANDIDATE-RC37-20261003.md`: exact37 delivery/current PC-Android preservation, actual CORS reader qualification, finite controlled matched pair and pending file-URL runtime boundary.
 

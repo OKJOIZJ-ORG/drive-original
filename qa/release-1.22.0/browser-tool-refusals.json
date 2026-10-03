@@ -1,0 +1,10 @@
+{
+  "productChanged": false,
+  "productRedeployedForToolFailure": false,
+  "failures": [
+    {"tool": "Chrome MCP output file saving", "cause": "Configured tool roots still refer to previous workspace", "recovery": "Inline observed result recorded using actual workspace file tools; no symlink or configuration bypass"},
+    {"tool": "cua read-only DOM evaluate", "cause": "navigator unavailable in DOM-only proxy", "recovery": "DOM-only version/library fields; no account-state or service-worker claim from this observation"},
+    {"tool": "Optional Chrome MCP screenshot", "cause": "Did not return before exec cell60 was explicitly terminated", "screenshotProduced": false, "requiredAcceptanceGate": false, "unchangedRetry": false, "browserMutation": false},
+    {"tool": "functions store retrieval", "cause": "Terminated exec did not retain pending store; next attempt refused with NAVIGATION_PROOF_MISSING before any edit", "recovery": "Exact already observed inline navigation output transcribed; no navigation/release-check repetition"}
+  ]
+}

@@ -118,3 +118,7 @@ upper-left third-party speed overlay is separate; no unsupported ownership claim
 ## 2026-10-03 — current normal Chrome file chooser runtime boundary
 
 RESOLVED for the actual-account fixture workflow (2026-10-03): filechooser still reports fileURL denied and the flag itself is UNKNOWN; settings security-policy denial and native failures remain. Same existing normal connection worked without another approval. Dedicated Google Drive connector matched current app email/root and created one generated file; current app independently checked ownership/SHA/MD5, then real Q0→AAC2/Q1 tuple+metadata verification and recoverable trash/readback/full cleanup passed. Private ledgers are ignored. No setting bypass/newgrant/profile migration/product redeploy. CANDIDATE-RC37-20261003.md owns exact evidence/limits; no further user action is pending for this resolved unit.
+
+## 2026-10-03 — D075 closes concrete G6 production boundary
+
+RESOLVED: the direct continuation following the explicit remaining main/push/production request authorizes that phase; source54e786f/operating1.22.0/Workere70754c7 and legacyPages20d864c are published and verified. RELEASE-1.22.0.md owns final evidence. No pre-release user-input gate remains. D066 physicaliPhone follow-up and original conditionalUNKNOWNs remain open in their original scope; this resolution does not close unrelated historical questions or create universal evidence.

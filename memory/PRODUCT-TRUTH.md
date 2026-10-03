@@ -2,6 +2,14 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
+## Current operating release — 1.22.0 (2026-10-03)
+
+- `operational`: source54e786f499c4496259bdb6e066e9626381cbe376/Workere70754c7-d201-47ba-b7c4-43a0dd673732 serves1.22.0 at the preserved Worker origin. Main integrated/pushed; runtime production flags enabled, auth retained, diagnostics/observability disabled, same11bindings/namespace/secrets/client. Evidence: qa/release-1.22.0/readback.json and served.json.
+- `verified serving`:65public assets qualified,51fresh cache entries Git-equal,9archives uncached and qualified using retained exact bytes plus fresh strong ETags;6private routes404, anonymous credential POST401/no-store, controlled cold/offline1.22.0/pageerrors0, owned cleanup passed. No live account mutation during release verification.
+- `operational legacy entrypoint`: Pages20d864c1d9ceea3d5a24c9cca97b6de57216cb68 built/Actions37102639695success;11public assets exact and3private404. Actual managed anonymous Chrome reaches operating1.22.0. Normal Chrome DOM showsv1.22.0/library; that fresh inspection tab is closed. Evidence: legacy-serving.json, pages-deployment.json, legacy-navigation.json, pc-ui-result.json. This DOM observation is not account preservation/device/playback proof.
+- `verified locally`:843/843 integration checks and6transition/storage/offline scenarios pass. Public ZIP65entries/56,806,974B SHA256df7d7ef513e80d3ac2a350e76c82e810bfd1dc8b36a9f3bd5020280af925d095 equals published public Git blobs and contains0private extras. Evidence: local-checks.json, legacy-browser-result.json, package.json.
+- `scope`:only5version/mode shell assets changed from rc38; media/decoder/source archives unchanged. Existing finite actual PC/physicalAndroid and normal-app write evidence reused, not re-executed. D066 physicaliOS is deferred. StrictRGBA diagnosticFAIL and conditional sourcecolor/GPU/AndroidYUV/HDR/highdepth/audibility/executing-worker/populationp95 UNKNOWNs remain, with no69PASS/universalformat/fidelity/reliability claim. Legacy origin storage/permissions retained; complete unsynced cross-origin migration and automatic installed-app migration are not established. RELEASE-1.22.0.md owns current details; old release entries below are historical.
+
 ## Implemented
 
 - `verified 2026-08-23`: Media list rendering keeps the complete population in memory while mounting no more than 240 cards. Evidence: `tests/app.test.js` G-drive-scale test (9,788 items) and desktop/mobile browser smoke.
