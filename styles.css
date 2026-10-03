@@ -753,13 +753,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 }
 
 /* ==========================================================================
-   LIBRARY VIEW — APPLE LARGE TITLE & INSET GROUPED VAULT
+   LIBRARY VIEW — COMPACT HEADER & INSET GROUPED VAULT
    ========================================================================== */
 
 .library-view {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 20px max(20px, var(--safe-right)) 80px max(20px, var(--safe-left));
+  padding: 16px max(20px, var(--safe-right)) 80px max(20px, var(--safe-left));
 }
 
 /* iOS 18 Large Title Header */
@@ -768,15 +768,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   padding-top: 4px;
 }
 
 .header-left h1 {
-  font-size: 34px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.035em;
-  line-height: 41px;
+  line-height: 32px;
   color: var(--label-primary);
 }
 
@@ -792,7 +792,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -807,7 +807,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .crumb {
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  background: var(--system-fill-quaternary);
+  background: transparent;
   font-size: 13px;
   font-weight: 500;
   color: var(--system-blue);
@@ -818,8 +818,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .crumb:active { transform: scale(0.96); }
 
 .crumb.current {
-  background: var(--system-fill-tertiary);
-  color: var(--label-primary);
+  color: var(--label-secondary);
   font-weight: 600;
 }
 
@@ -832,12 +831,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: var(--radius-lg);
+  gap: 6px;
+  padding: 6px;
+  border-radius: 12px;
   background: var(--system-bg-secondary);
   border: var(--hairline-border);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 
@@ -1445,6 +1444,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   flex-direction: column;
   background: #000000;
   overflow: hidden;
+  touch-action: manipulation;
 }
 
 /* Chrome visibility is owned by the single bottom wrapper, not each child. */
@@ -1790,7 +1790,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   position: absolute;
   right: 0;
   bottom: calc(100% + 10px);
-  width: min(300px, calc(100vw - 40px));
+  width: min(260px, calc(100vw - 40px));
+  max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 164px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 8px;
   border: var(--hairline-border);
   border-radius: var(--radius-md);
@@ -2524,19 +2527,18 @@ dialog::backdrop {
   position: sticky;
   top: calc(60px + var(--safe-top));
   z-index: 42;
-  min-height: 52px;
-  margin: 0 0 16px;
-  padding: 8px 10px 8px 14px;
-  display: flex;
+  min-height: 44px;
+  margin: 0 0 12px;
+  padding: 5px 6px 5px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   border: var(--hairline-border);
-  border-radius: var(--radius-lg);
+  border-radius: 12px;
   background: rgba(28, 28, 30, 0.88);
-  backdrop-filter: var(--blur-thin);
-  -webkit-backdrop-filter: var(--blur-thin);
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .selection-summary {
@@ -2547,7 +2549,7 @@ dialog::backdrop {
 
 .selection-summary strong {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -2560,9 +2562,21 @@ dialog::backdrop {
 }
 
 .selection-actions .compact {
-  min-height: 34px;
-  padding-inline: 11px;
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 8px;
   white-space: nowrap;
+}
+
+.selection-toolbar #selectionCancelBtn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  color: var(--label-secondary);
 }
 
 .selection-actions button:disabled {
@@ -2940,7 +2954,7 @@ dialog {
 
 /* ==========================================================================
    MOBILE ENVIRONMENT SPECIFIC OVERRIDES (<= 768px)
-   Restoring v1.12.1 Mobile Shorts UI + Fixing Toolbar flexbox
+   Compact library controls; the full-bleed player is scoped separately below.
    ========================================================================== */
 
 @media (max-width: 768px) {
@@ -2954,12 +2968,12 @@ dialog {
   }
 
   .library-view {
-    padding: 16px max(16px, var(--safe-right)) 80px max(16px, var(--safe-left));
+    padding: 12px max(12px, var(--safe-right)) 80px max(12px, var(--safe-left));
   }
 
   .header-left h1 {
-    font-size: 28px;
-    line-height: 34px;
+    font-size: 24px;
+    line-height: 30px;
   }
 
   /* Fixed Symmetric Mobile Toolbar */
@@ -2967,8 +2981,8 @@ dialog {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr) minmax(56px, .62fr);
     align-items: stretch;
-    gap: 8px;
-    padding: 10px;
+    gap: 6px;
+    padding: 6px;
   }
 
   .toolbar .search-box,
@@ -2990,35 +3004,45 @@ dialog {
 
   .selection-toolbar {
     top: calc(58px + var(--safe-top));
-    margin-bottom: 12px;
-    padding: 9px 10px 9px 12px;
-    border-radius: var(--radius-md);
-    gap: 8px;
-    flex-wrap: wrap;
+    padding: 6px;
+    grid-template-columns: minmax(0, 1fr) auto 44px;
+    gap: 4px 6px;
+  }
+
+  .selection-summary { padding-inline-start: 6px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .selection-summary span { display: none; }
+  .selection-toolbar #selectionCancelBtn {
+    grid-column: 3;
+    grid-row: 1;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 10px;
   }
 
   .selection-actions {
+    grid-column: 2;
+    grid-row: 1;
     gap: 4px;
-    flex-wrap: wrap;
   }
 
   .selection-actions .compact {
-    min-height: 38px;
-    padding-inline: 9px;
+    min-width: 44px;
+    min-height: 44px;
+    padding-inline: 8px;
     font-size: 12px;
   }
 
   .selection-actions #selectionSelectAllBtn {
-    max-width: 92px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   .file-card-select-check {
     top: 6px;
     right: 6px;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
   }
 
   .search-box {
@@ -3035,7 +3059,7 @@ dialog {
   .segmented {
     width: 100%;
     display: flex;
-    height: 44px;
+    height: 48px;
   }
 
   .segmented button {
@@ -3043,7 +3067,7 @@ dialog {
     text-align: center;
     padding: 5px 0;
     white-space: nowrap;
-    min-height: 40px;
+    min-height: 44px;
   }
 
   .file-grid {
@@ -3058,9 +3082,11 @@ dialog {
   .file-card-title {
     font-size: 12px;
   }
+}
 
+@media (max-width: 768px), (pointer: coarse) and (max-height: 600px) {
   /* ========================================================================
-     EXACT v1.12.1 FULL-BLEED 100dvh SHORTS MOBILE PLAYER UI
+     FULL-BLEED 100dvh SHORTS PLAYER — PORTRAIT & TOUCH LANDSCAPE
      ======================================================================== */
 
   .player-sheet {
@@ -3220,7 +3246,8 @@ dialog {
   .shorts-bottom-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: flex-end;
+    gap: 6px;
     pointer-events: none;
   }
 
@@ -3231,11 +3258,11 @@ dialog {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    height: 32px;
+    height: 44px;
     min-width: 44px;
     min-height: 44px;
     padding: 0 11px;
-    border-radius: var(--radius-pill);
+    border-radius: 12px;
     background: rgba(9, 11, 16, 0.55);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -3248,19 +3275,19 @@ dialog {
   }
 
   .shorts-chip:active {
-    transform: scale(0.93);
+    transform: scale(0.97);
   }
 
   .shorts-chip svg {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
   }
 
   .shorts-chip.more,
   .shorts-chip.icon {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     padding: 0;
   }
 
@@ -3290,29 +3317,41 @@ dialog {
   .shorts-expand-row {
     position: absolute;
     left: auto;
-    right: 16px;
-    bottom: calc(var(--safe-bottom) + 84px);
+    right: 0;
+    bottom: calc(100% + 58px);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 8px;
+    gap: 4px;
+    width: 168px;
     opacity: 0;
     transform: translateY(8px);
     transform-origin: bottom right;
-    max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 156px);
+    max-height: min(360px, calc(100dvh - var(--safe-top) - var(--safe-bottom) - 184px));
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    padding: 4px;
+    padding: 6px;
+    border-radius: 14px;
+    border: var(--hairline-border);
+    background: rgba(20, 20, 22, .96);
     visibility: hidden;
     pointer-events: none;
     transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s linear 240ms;
-    scrollbar-width: none;
+    scrollbar-width: thin;
   }
 
-  .shorts-expand-row::-webkit-scrollbar {
-    display: none;
+  .shorts-expand-row .shorts-chip {
+    width: 100%;
+    justify-content: flex-start;
+    min-height: 44px;
+    border-radius: 9px;
+    border-color: transparent;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
+  .shorts-expand-row .shorts-chip.icon { justify-content: center; }
 
   .mobile-shorts-overlay.expanded .shorts-expand-row {
     opacity: 1;
@@ -3330,10 +3369,10 @@ dialog {
   /* Wider invisible touch target for the shorts progress seek */
   .mobile-shorts-progress-track {
     width: 100%;
-    height: 16px;
+    height: 44px;
     background: transparent;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     padding-bottom: 0;
     position: relative;
     pointer-events: auto;
@@ -3378,16 +3417,7 @@ dialog {
   }
 
   .mobile-shorts-title {
-    flex: 1;
-    min-width: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    pointer-events: auto;
+    display: none; /* The shared title above the actions retains full width. */
   }
 
   /* Hide desktop custom video controls completely on mobile */
@@ -3671,11 +3701,13 @@ dialog {
   z-index: 24;
   left: 0;
   right: 0;
+  width: min(1040px, 100%);
+  margin-inline: auto;
   bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 38px max(20px, var(--safe-right)) max(12px, var(--safe-bottom)) max(20px, var(--safe-left));
+  padding: 28px max(16px, var(--safe-right)) max(10px, var(--safe-bottom)) max(16px, var(--safe-left));
   color: #fff;
   background: linear-gradient(transparent, rgba(0, 0, 0, .58) 35%, rgba(0, 0, 0, .86));
   /* Focus must work synchronously in the same Tab event. Animate paint only. */
@@ -3717,6 +3749,16 @@ dialog {
 .player-chrome .player-title-box { flex: 1; min-width: 0; }
 .player-chrome .player-title-box h2 { font-size: 14px; }
 .player-chrome .player-ctrl-btn { box-shadow: none; }
+.player-chrome .player-topbar-actions .player-ctrl-btn { border-radius: 10px; }
+.player-chrome .controls-left, .player-chrome .controls-right { gap: 6px; }
+.player-chrome .custom-video-controls .player-ctrl-btn { width: 34px; height: 34px; border-radius: 10px; }
+.player-chrome .custom-video-controls .player-ctrl-btn.text-btn {
+  width: auto;
+  min-width: 44px;
+  padding-inline: 8px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
 /* Video has its favorite action in the transport row; images retain the
    topbar action because their video transport is hidden. */
 .player-chrome:has(.custom-video-controls:not([hidden])) #topbarFavoriteBtn {
@@ -3735,8 +3777,8 @@ dialog {
   user-select: none;
   -webkit-touch-callout: none;
 }
-@media (max-width: 600px) {
-  .player-chrome { padding: 28px max(14px, var(--safe-right)) max(12px, var(--safe-bottom)) max(14px, var(--safe-left)); gap: 6px; }
+@media (max-width: 768px), (pointer: coarse) and (max-height: 600px) {
+  .player-chrome { padding: 20px max(12px, var(--safe-right)) max(6px, var(--safe-bottom)) max(12px, var(--safe-left)); gap: 4px; }
   .player-chrome .mobile-shorts-overlay {
     position: relative;
     inset: auto;
@@ -3746,8 +3788,17 @@ dialog {
     transform: none !important;
   }
   .player-chrome .player-topbar { padding: 0; }
-  .player-chrome .stream-badge-row { max-width: 100%; box-shadow: none; }
-  .player-chrome .player-title-box { overflow: hidden; }
+  .player-chrome .stream-badge-row { max-width: 100%; box-shadow: none; background: transparent; border: 0; padding: 0; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .player-chrome .player-title-box { overflow: hidden; align-items: flex-start; gap: 3px; }
+  .player-chrome .player-title-box h2 { display: block; width: 100%; font-size: 13px; line-height: 18px; }
+  .player-chrome .player-topbar-actions #closePlayerButton { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 12px; }
+  .player-chrome .mobile-shorts-overlay { gap: 0; }
+}
+
+@media (pointer: coarse) {
+  .file-card-favorite { width: 44px; height: 44px; top: 6px; right: 6px; }
+  .file-card-favorite svg { width: 19px; height: 19px; }
+  .library-header #refreshButton, .crumb { min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .player-chrome { transition: none; }

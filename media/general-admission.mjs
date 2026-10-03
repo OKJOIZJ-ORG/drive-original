@@ -7,17 +7,19 @@ export const GENERAL_LIMITS=Object.freeze({moovBytes:4*1024*1024,tableSamplesPer
 // Read every allocation-driving count before constructing the library Input.
 // A small run-length table can otherwise expand to billions of objects.
 export function inspectGeneralMoov(bytes,{audioCodecs=["mp4a"]}={}){demand(Array.isArray(audioCodecs)&&audioCodecs.length>0&&audioCodecs.every(c=>["mp4a","ac-3","ec-3"].includes(c)),"AUDIO_ADMISSION_OPTIONS");demand(bytes.length<=GENERAL_LIMITS.moovBytes,'MOOV_LIMIT');let boxes=0,tracks=0;const samples=[],entries={};
- function walk(start,end,depth,track){demand(depth<=8,'BOX_DEPTH');for(let p=start;p<end;){demand(p+8<=end,'BOX_HEADER');let n=u32(bytes,p),h=8;if(n===1){demand(p+16<=end,'BOX_HEADER');n=integer64(bytes,p+8);h=16;}else if(n===0)n=end-p;demand(n>=h&&p+n<=end,'BOX_BOUNDS');demand(++boxes<=GENERAL_LIMITS.boxes,'BOX_COUNT');const t=type(bytes,p),body=p+h,limit=p+n;
+ function walk(start,end,depth,track,parent){demand(depth<=8,'BOX_DEPTH');for(let p=start;p<end;){demand(p+8<=end,'BOX_HEADER');let n=u32(bytes,p),h=8;if(n===1){demand(p+16<=end,'BOX_HEADER');n=integer64(bytes,p+8);h=16;}else if(n===0)n=end-p;demand(n>=h&&p+n<=end,'BOX_BOUNDS');demand(++boxes<=GENERAL_LIMITS.boxes,'BOX_COUNT');const t=type(bytes,p),body=p+h,limit=p+n;
   if(['mvex','moof','sinf','senc','saiz','saio','cmov'].includes(t))fail('ISO_FEATURE_UNQUALIFIED');
-  if(t==='trak'){demand(++tracks<=GENERAL_LIMITS.tracks,'TRACK_LIMIT');track={stts:null,ctts:null,stsz:null,stsd:false,dref:false,trackId:null,handler:null,codec:null,reordered:false,seen:new Set()};samples.push(track);walk(body,limit,depth+1,track);}
-  else if(['moov','mdia','minf','stbl','edts','dinf'].includes(t))walk(body,limit,depth+1,track);
+  if(t==='trak'){demand(++tracks<=GENERAL_LIMITS.tracks,'TRACK_LIMIT');track={stts:null,ctts:null,stsz:null,stsd:false,dref:false,trackId:null,handler:null,codec:null,reordered:false,seen:new Set()};samples.push(track);walk(body,limit,depth+1,track,'trak');}
+  else if(['moov','mdia','minf','stbl','edts','dinf'].includes(t))walk(body,limit,depth+1,track,t);
   else if(t==='tkhd'){
    demand(track&&track.trackId===null&&body+4<=limit&&[0,1].includes(bytes[body]),'TRACK_ID');const at=body+(bytes[body]===1?20:12);demand(at+4<=limit,'TRACK_ID');track.trackId=u32(bytes,at);demand(track.trackId>0,'TRACK_ID');
   }
-  else if(t==='hdlr'&&track){demand(track.handler===null&&body+12<=limit,'TRACK_HANDLER');track.handler=type(bytes,body+4);}
+  // QuickTime minf may also contain a data handler. Only mdia owns the media type.
+  else if(t==='hdlr'&&track&&parent==='mdia'){demand(track.handler===null&&body+12<=limit,'TRACK_HANDLER');track.handler=type(bytes,body+4);}
   else if(t==='dref'){
    demand(track&&body+20===limit&&!track.dref,'DATA_REFERENCE');
-   demand(u32(bytes,body+4)===1&&u32(bytes,body+8)===12&&type(bytes,body+8)==='url '&&u32(bytes,body+16)===1,'EXTERNAL_REFERENCE_UNQUALIFIED');track.dref=true;
+   // Both references must be the empty, version-0 self-contained form (flag 1).
+   demand(u32(bytes,body+4)===1&&u32(bytes,body+8)===12&&['url ','alis'].includes(type(bytes,body+8))&&u32(bytes,body+16)===1,'EXTERNAL_REFERENCE_UNQUALIFIED');track.dref=true;
   }
   else if(t==='stsd'){
    demand(track&&!track.stsd&&body+16<=limit&&u32(bytes,body+4)===1,'SAMPLE_DESCRIPTION_UNQUALIFIED');

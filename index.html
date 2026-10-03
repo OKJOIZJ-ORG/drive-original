@@ -210,13 +210,13 @@
       <div class="selection-toolbar" id="selectionToolbar" role="toolbar" aria-label="선택한 파일 작업" hidden>
         <div class="selection-summary" aria-live="polite"><strong id="selectionCountText">0개</strong><span> 선택</span></div>
         <div class="selection-actions">
-          <button class="secondary-button compact" id="selectionSelectAllBtn" type="button">표시 항목 전체</button>
+          <button class="secondary-button compact" id="selectionSelectAllBtn" type="button" aria-label="표시 항목 전체 선택">전체 선택</button>
           <button class="secondary-button compact" id="selectionMoveBtn" type="button" disabled>이동</button>
           <button class="danger-text-button compact" id="selectionDeleteBtn" type="button" disabled>휴지통</button>
-          <button class="icon-button compact" id="selectionCancelBtn" type="button" aria-label="선택 취소" title="선택 취소">
-            <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
         </div>
+        <button class="icon-button compact" id="selectionCancelBtn" type="button" aria-label="선택 취소" title="선택 취소">
+          <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <div class="library-status" id="libraryStatus" role="status" aria-live="polite"></div>
@@ -324,17 +324,17 @@
             <button class="shorts-chip" id="shortsTracksBtn" type="button"><span>음성·자막</span></button>
             <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              <span>삭제</span>
+              <span>휴지통</span>
             </button>
             <button class="shorts-chip" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
               <span>이동</span>
             </button>
-            <button class="shorts-chip icon" id="shortsFramePrev" type="button" aria-label="1프레임 뒤로" title="1프레임 뒤로" hidden>
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg>
+            <button class="shorts-chip" id="shortsFramePrev" type="button" aria-label="1프레임 뒤로" title="1프레임 뒤로" hidden>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg><span>이전 프레임</span>
             </button>
-            <button class="shorts-chip icon" id="shortsFrameNext" type="button" aria-label="1프레임 앞으로" title="1프레임 앞으로" hidden>
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
+            <button class="shorts-chip" id="shortsFrameNext" type="button" aria-label="1프레임 앞으로" title="1프레임 앞으로" hidden>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg><span>다음 프레임</span>
             </button>
             <button class="shorts-chip" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>

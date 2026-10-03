@@ -1,0 +1,3411 @@
+{
+  "phase": "before",
+  "baselineRef": "f495163bedba49f7b031ee39c100c83a1c911475",
+  "hashes": {
+    "app.js": "f5718c9b3397581195b8b0f296e6ab3ed2cc94070ea0be61fb8b6bd39fffb117",
+    "styles.css": "ece285c21deb0afb32cc937192a32f7d8f2d636ba05ab9e8d33d2b8c8b0452cc",
+    "index.html": "4dd57a94f3a2f501921d507fc2bb2e9cacd08e9ae7c048148955b5f7f743e8dc"
+  },
+  "producerSHA256": "3c189a0a9304b463ca268b51cde147c95e43faf06df2000e52dc36a17b72b35c",
+  "proof": "Local actual-app DOM with synthetic catalog/poster. No account, media fetch, physical-device, or production proof.",
+  "rows": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "mobile": false,
+      "library": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "documentWidth": 1920,
+        "toolbar": {
+          "x": 410,
+          "y": 200.84375,
+          "width": 1100,
+          "height": 54,
+          "top": 200.84375,
+          "right": 1510,
+          "bottom": 254.84375,
+          "left": 410
+        },
+        "selection": {
+          "x": 410,
+          "y": 270.84375,
+          "width": 1100,
+          "height": 52.84375,
+          "top": 270.84375,
+          "right": 1510,
+          "bottom": 323.6875,
+          "left": 410
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 421,
+              "y": 209.84375,
+              "width": 437.09375,
+              "height": 36,
+              "top": 209.84375,
+              "right": 858.09375,
+              "bottom": 245.84375,
+              "left": 421
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 870.09375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 923.84375,
+              "bottom": 242.265625,
+              "left": 870.09375
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 923.84375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 977.59375,
+              "bottom": 242.265625,
+              "left": 923.84375
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 977.59375,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 1044.21875,
+              "bottom": 242.265625,
+              "left": 977.59375
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 1044.21875,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 1110.84375,
+              "bottom": 242.265625,
+              "left": 1044.21875
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 1122.84375,
+              "y": 209.84375,
+              "width": 134.15625,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1257,
+              "bottom": 245.84375,
+              "left": 1122.84375
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 1267,
+              "y": 209.84375,
+              "width": 148,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1415,
+              "bottom": 245.84375,
+              "left": 1267
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 1425,
+              "y": 209.84375,
+              "width": 74,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1499,
+              "bottom": 245.84375,
+              "left": 1425
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 1238.140625,
+              "y": 280.265625,
+              "width": 106.109375,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1344.25,
+              "bottom": 314.265625,
+              "left": 1238.140625
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 1350.25,
+              "y": 280.265625,
+              "width": 47.75,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1398,
+              "bottom": 314.265625,
+              "left": 1350.25
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 1404,
+              "y": 279.84375,
+              "width": 61,
+              "height": 34.84375,
+              "top": 279.84375,
+              "right": 1465,
+              "bottom": 314.6875,
+              "left": 1404
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 1471,
+              "y": 280.265625,
+              "width": 28,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1499,
+              "bottom": 314.265625,
+              "left": 1471
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 542.328125,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 574.328125,
+            "bottom": 520.28125,
+            "left": 542.328125
+          },
+          {
+            "x": 727.65625,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 759.65625,
+            "bottom": 520.28125,
+            "left": 727.65625
+          },
+          {
+            "x": 912.984375,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 944.984375,
+            "bottom": 520.28125,
+            "left": 912.984375
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 909.3125,
+          "width": 1920,
+          "height": 170.6875,
+          "top": 909.3125,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "title": {
+          "x": 20,
+          "y": 972.25,
+          "width": 1700,
+          "height": 20,
+          "top": 972.25,
+          "right": 1720,
+          "bottom": 992.25,
+          "left": 20
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "controls": [
+          {
+            "id": "topbarPrevBtn",
+            "rect": {
+              "x": 1732,
+              "y": 951.78125,
+              "width": 36,
+              "height": 36,
+              "top": 951.78125,
+              "right": 1768,
+              "bottom": 987.78125,
+              "left": 1732
+            }
+          },
+          {
+            "id": "topbarRandomBtn",
+            "rect": {
+              "x": 1776,
+              "y": 951.78125,
+              "width": 36,
+              "height": 36,
+              "top": 951.78125,
+              "right": 1812,
+              "bottom": 987.78125,
+              "left": 1776
+            }
+          },
+          {
+            "id": "topbarNextBtn",
+            "rect": {
+              "x": 1820,
+              "y": 951.78125,
+              "width": 36,
+              "height": 36,
+              "top": 951.78125,
+              "right": 1856,
+              "bottom": 987.78125,
+              "left": 1820
+            }
+          },
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 1864,
+              "y": 951.78125,
+              "width": 36,
+              "height": 36,
+              "top": 951.78125,
+              "right": 1900,
+              "bottom": 987.78125,
+              "left": 1864
+            }
+          },
+          {
+            "id": "seekBarContainer",
+            "rect": {
+              "x": 20,
+              "y": 1000.25,
+              "width": 1880,
+              "height": 18,
+              "top": 1000.25,
+              "right": 1900,
+              "bottom": 1018.25,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlPlayPause",
+            "rect": {
+              "x": 20,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 54,
+              "bottom": 1063.125,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlRewind",
+            "rect": {
+              "x": 62,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 96,
+              "bottom": 1063.125,
+              "left": 62
+            }
+          },
+          {
+            "id": "ctrlFramePrev",
+            "rect": {
+              "x": 104,
+              "y": 1031.125,
+              "width": 30,
+              "height": 30,
+              "top": 1031.125,
+              "right": 134,
+              "bottom": 1061.125,
+              "left": 104
+            }
+          },
+          {
+            "id": "ctrlFrameNext",
+            "rect": {
+              "x": 142,
+              "y": 1031.125,
+              "width": 30,
+              "height": 30,
+              "top": 1031.125,
+              "right": 172,
+              "bottom": 1061.125,
+              "left": 142
+            }
+          },
+          {
+            "id": "ctrlForward",
+            "rect": {
+              "x": 180,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 214,
+              "bottom": 1063.125,
+              "left": 180
+            }
+          },
+          {
+            "id": "ctrlMute",
+            "rect": {
+              "x": 222,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 256,
+              "bottom": 1063.125,
+              "left": 222
+            }
+          },
+          {
+            "id": "ctrlFavorite",
+            "rect": {
+              "x": 1698,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 1732,
+              "bottom": 1063.125,
+              "left": 1698
+            }
+          },
+          {
+            "id": "ctrlSpeedButton",
+            "rect": {
+              "x": 1740,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 1774,
+              "bottom": 1063.125,
+              "left": 1740
+            }
+          },
+          {
+            "id": "ctrlPip",
+            "rect": {
+              "x": 1782,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 1816,
+              "bottom": 1063.125,
+              "left": 1782
+            }
+          },
+          {
+            "id": "ctrlFullscreen",
+            "rect": {
+              "x": 1824,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 1858,
+              "bottom": 1063.125,
+              "left": 1824
+            }
+          },
+          {
+            "id": "",
+            "rect": {
+              "x": 1866,
+              "y": 1029.125,
+              "width": 34,
+              "height": 34,
+              "top": 1029.125,
+              "right": 1900,
+              "bottom": 1063.125,
+              "left": 1866
+            }
+          },
+          {
+            "id": "ctrlTracks",
+            "rect": {
+              "x": 1609,
+              "y": 930.125,
+              "width": 282,
+              "height": 38,
+              "top": 930.125,
+              "right": 1891,
+              "bottom": 968.125,
+              "left": 1609
+            }
+          },
+          {
+            "id": "ctrlMove",
+            "rect": {
+              "x": 1609,
+              "y": 968.125,
+              "width": 282,
+              "height": 38,
+              "top": 968.125,
+              "right": 1891,
+              "bottom": 1006.125,
+              "left": 1609
+            }
+          },
+          {
+            "id": "ctrlDelete",
+            "rect": {
+              "x": 1609,
+              "y": 1006.125,
+              "width": 282,
+              "height": 38,
+              "top": 1006.125,
+              "right": 1891,
+              "bottom": 1044.125,
+              "left": 1609
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 1600,
+        "y": 814.953125,
+        "width": 300,
+        "height": 204.171875
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 887.3125,
+          "width": 1920,
+          "height": 192.6875,
+          "top": 887.3125,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "mobile": false,
+      "library": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "documentWidth": 1440,
+        "toolbar": {
+          "x": 170,
+          "y": 200.84375,
+          "width": 1100,
+          "height": 54,
+          "top": 200.84375,
+          "right": 1270,
+          "bottom": 254.84375,
+          "left": 170
+        },
+        "selection": {
+          "x": 170,
+          "y": 270.84375,
+          "width": 1100,
+          "height": 52.84375,
+          "top": 270.84375,
+          "right": 1270,
+          "bottom": 323.6875,
+          "left": 170
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 181,
+              "y": 209.84375,
+              "width": 437.09375,
+              "height": 36,
+              "top": 209.84375,
+              "right": 618.09375,
+              "bottom": 245.84375,
+              "left": 181
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 630.09375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 683.84375,
+              "bottom": 242.265625,
+              "left": 630.09375
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 683.84375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 737.59375,
+              "bottom": 242.265625,
+              "left": 683.84375
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 737.59375,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 804.21875,
+              "bottom": 242.265625,
+              "left": 737.59375
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 804.21875,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 870.84375,
+              "bottom": 242.265625,
+              "left": 804.21875
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 882.84375,
+              "y": 209.84375,
+              "width": 134.15625,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1017,
+              "bottom": 245.84375,
+              "left": 882.84375
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 1027,
+              "y": 209.84375,
+              "width": 148,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1175,
+              "bottom": 245.84375,
+              "left": 1027
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 1185,
+              "y": 209.84375,
+              "width": 74,
+              "height": 36,
+              "top": 209.84375,
+              "right": 1259,
+              "bottom": 245.84375,
+              "left": 1185
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 998.140625,
+              "y": 280.265625,
+              "width": 106.109375,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1104.25,
+              "bottom": 314.265625,
+              "left": 998.140625
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 1110.25,
+              "y": 280.265625,
+              "width": 47.75,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1158,
+              "bottom": 314.265625,
+              "left": 1110.25
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 1164,
+              "y": 279.84375,
+              "width": 61,
+              "height": 34.84375,
+              "top": 279.84375,
+              "right": 1225,
+              "bottom": 314.6875,
+              "left": 1164
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 1231,
+              "y": 280.265625,
+              "width": 28,
+              "height": 34,
+              "top": 280.265625,
+              "right": 1259,
+              "bottom": 314.265625,
+              "left": 1231
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 302.328125,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 334.328125,
+            "bottom": 520.28125,
+            "left": 302.328125
+          },
+          {
+            "x": 487.65625,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 519.65625,
+            "bottom": 520.28125,
+            "left": 487.65625
+          },
+          {
+            "x": 672.984375,
+            "y": 488.28125,
+            "width": 32,
+            "height": 32,
+            "top": 488.28125,
+            "right": 704.984375,
+            "bottom": 520.28125,
+            "left": 672.984375
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 729.3125,
+          "width": 1440,
+          "height": 170.6875,
+          "top": 729.3125,
+          "right": 1440,
+          "bottom": 900,
+          "left": 0
+        },
+        "title": {
+          "x": 20,
+          "y": 792.25,
+          "width": 1220,
+          "height": 20,
+          "top": 792.25,
+          "right": 1240,
+          "bottom": 812.25,
+          "left": 20
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "controls": [
+          {
+            "id": "topbarPrevBtn",
+            "rect": {
+              "x": 1252,
+              "y": 771.78125,
+              "width": 36,
+              "height": 36,
+              "top": 771.78125,
+              "right": 1288,
+              "bottom": 807.78125,
+              "left": 1252
+            }
+          },
+          {
+            "id": "topbarRandomBtn",
+            "rect": {
+              "x": 1296,
+              "y": 771.78125,
+              "width": 36,
+              "height": 36,
+              "top": 771.78125,
+              "right": 1332,
+              "bottom": 807.78125,
+              "left": 1296
+            }
+          },
+          {
+            "id": "topbarNextBtn",
+            "rect": {
+              "x": 1340,
+              "y": 771.78125,
+              "width": 36,
+              "height": 36,
+              "top": 771.78125,
+              "right": 1376,
+              "bottom": 807.78125,
+              "left": 1340
+            }
+          },
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 1384,
+              "y": 771.78125,
+              "width": 36,
+              "height": 36,
+              "top": 771.78125,
+              "right": 1420,
+              "bottom": 807.78125,
+              "left": 1384
+            }
+          },
+          {
+            "id": "seekBarContainer",
+            "rect": {
+              "x": 20,
+              "y": 820.25,
+              "width": 1400,
+              "height": 18,
+              "top": 820.25,
+              "right": 1420,
+              "bottom": 838.25,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlPlayPause",
+            "rect": {
+              "x": 20,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 54,
+              "bottom": 883.125,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlRewind",
+            "rect": {
+              "x": 62,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 96,
+              "bottom": 883.125,
+              "left": 62
+            }
+          },
+          {
+            "id": "ctrlFramePrev",
+            "rect": {
+              "x": 104,
+              "y": 851.125,
+              "width": 30,
+              "height": 30,
+              "top": 851.125,
+              "right": 134,
+              "bottom": 881.125,
+              "left": 104
+            }
+          },
+          {
+            "id": "ctrlFrameNext",
+            "rect": {
+              "x": 142,
+              "y": 851.125,
+              "width": 30,
+              "height": 30,
+              "top": 851.125,
+              "right": 172,
+              "bottom": 881.125,
+              "left": 142
+            }
+          },
+          {
+            "id": "ctrlForward",
+            "rect": {
+              "x": 180,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 214,
+              "bottom": 883.125,
+              "left": 180
+            }
+          },
+          {
+            "id": "ctrlMute",
+            "rect": {
+              "x": 222,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 256,
+              "bottom": 883.125,
+              "left": 222
+            }
+          },
+          {
+            "id": "ctrlFavorite",
+            "rect": {
+              "x": 1218,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 1252,
+              "bottom": 883.125,
+              "left": 1218
+            }
+          },
+          {
+            "id": "ctrlSpeedButton",
+            "rect": {
+              "x": 1260,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 1294,
+              "bottom": 883.125,
+              "left": 1260
+            }
+          },
+          {
+            "id": "ctrlPip",
+            "rect": {
+              "x": 1302,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 1336,
+              "bottom": 883.125,
+              "left": 1302
+            }
+          },
+          {
+            "id": "ctrlFullscreen",
+            "rect": {
+              "x": 1344,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 1378,
+              "bottom": 883.125,
+              "left": 1344
+            }
+          },
+          {
+            "id": "",
+            "rect": {
+              "x": 1386,
+              "y": 849.125,
+              "width": 34,
+              "height": 34,
+              "top": 849.125,
+              "right": 1420,
+              "bottom": 883.125,
+              "left": 1386
+            }
+          },
+          {
+            "id": "ctrlTracks",
+            "rect": {
+              "x": 1129,
+              "y": 750.125,
+              "width": 282,
+              "height": 38,
+              "top": 750.125,
+              "right": 1411,
+              "bottom": 788.125,
+              "left": 1129
+            }
+          },
+          {
+            "id": "ctrlMove",
+            "rect": {
+              "x": 1129,
+              "y": 788.125,
+              "width": 282,
+              "height": 38,
+              "top": 788.125,
+              "right": 1411,
+              "bottom": 826.125,
+              "left": 1129
+            }
+          },
+          {
+            "id": "ctrlDelete",
+            "rect": {
+              "x": 1129,
+              "y": 826.125,
+              "width": 282,
+              "height": 38,
+              "top": 826.125,
+              "right": 1411,
+              "bottom": 864.125,
+              "left": 1129
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 1120,
+        "y": 634.953125,
+        "width": 300,
+        "height": 204.171875
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 707.3125,
+          "width": 1440,
+          "height": 192.6875,
+          "top": 707.3125,
+          "right": 1440,
+          "bottom": 900,
+          "left": 0
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 440,
+      "height": 796,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 440,
+          "height": 796
+        },
+        "documentWidth": 440,
+        "toolbar": {
+          "x": 16,
+          "y": 189.84375,
+          "width": 408,
+          "height": 170,
+          "top": 189.84375,
+          "right": 424,
+          "bottom": 359.84375,
+          "left": 16
+        },
+        "selection": {
+          "x": 16,
+          "y": 375.84375,
+          "width": 408,
+          "height": 58,
+          "top": 375.84375,
+          "right": 424,
+          "bottom": 433.84375,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 27,
+              "y": 200.84375,
+              "width": 386,
+              "height": 44,
+              "top": 200.84375,
+              "right": 413,
+              "bottom": 244.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 29,
+              "y": 254.84375,
+              "width": 95.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 124.5,
+              "bottom": 294.84375,
+              "left": 29
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 124.5,
+              "y": 254.84375,
+              "width": 95.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 220,
+              "bottom": 294.84375,
+              "left": 124.5
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 220,
+              "y": 254.84375,
+              "width": 95.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 315.5,
+              "bottom": 294.84375,
+              "left": 220
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 315.5,
+              "y": 254.84375,
+              "width": 95.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 411,
+              "bottom": 294.84375,
+              "left": 315.5
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 27,
+              "y": 304.84375,
+              "width": 148.25,
+              "height": 44,
+              "top": 304.84375,
+              "right": 175.25,
+              "bottom": 348.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 183.25,
+              "y": 304.84375,
+              "width": 141.8125,
+              "height": 44,
+              "top": 304.84375,
+              "right": 325.0625,
+              "bottom": 348.84375,
+              "left": 183.25
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 333.0625,
+              "y": 304.84375,
+              "width": 79.9375,
+              "height": 44,
+              "top": 304.84375,
+              "right": 413,
+              "bottom": 348.84375,
+              "left": 333.0625
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 169.234375,
+              "y": 385.84375,
+              "width": 92,
+              "height": 38,
+              "top": 385.84375,
+              "right": 261.234375,
+              "bottom": 423.84375,
+              "left": 169.234375
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 265.234375,
+              "y": 385.84375,
+              "width": 41.765625,
+              "height": 38,
+              "top": 385.84375,
+              "right": 307,
+              "bottom": 423.84375,
+              "left": 265.234375
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 311,
+              "y": 385.84375,
+              "width": 54,
+              "height": 38,
+              "top": 385.84375,
+              "right": 365,
+              "bottom": 423.84375,
+              "left": 311
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 369,
+              "y": 385.84375,
+              "width": 44,
+              "height": 38,
+              "top": 385.84375,
+              "right": 413,
+              "bottom": 423.84375,
+              "left": 369
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 175.41250610351562,
+            "y": 595.5726928710938,
+            "width": 31.68402099609375,
+            "height": 31.68402099609375,
+            "top": 595.5726928710938,
+            "right": 207.09652709960938,
+            "bottom": 627.2567138671875,
+            "left": 175.41250610351562
+          },
+          {
+            "x": 383,
+            "y": 594.4375,
+            "width": 32,
+            "height": 32,
+            "top": 594.4375,
+            "right": 415,
+            "bottom": 626.4375,
+            "left": 383
+          },
+          {
+            "x": 176,
+            "y": 848.375,
+            "width": 32,
+            "height": 32,
+            "top": 848.375,
+            "right": 208,
+            "bottom": 880.375,
+            "left": 176
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 638,
+          "width": 440,
+          "height": 158,
+          "top": 638,
+          "right": 440,
+          "bottom": 796,
+          "left": 0
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 768,
+          "width": 412,
+          "height": 16,
+          "top": 768,
+          "right": 426,
+          "bottom": 784,
+          "left": 14
+        },
+        "controls": [
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 382,
+              "y": 666,
+              "width": 44,
+              "height": 44,
+              "top": 666,
+              "right": 426,
+              "bottom": 710,
+              "left": 382
+            }
+          },
+          {
+            "id": "shortsFavoriteBtn",
+            "rect": {
+              "x": 226,
+              "y": 716,
+              "width": 44,
+              "height": 44,
+              "top": 716,
+              "right": 270,
+              "bottom": 760,
+              "left": 226
+            }
+          },
+          {
+            "id": "shortsRotateBtn",
+            "rect": {
+              "x": 278,
+              "y": 716,
+              "width": 44,
+              "height": 44,
+              "top": 716,
+              "right": 322,
+              "bottom": 760,
+              "left": 278
+            }
+          },
+          {
+            "id": "shortsFullscreenBtn",
+            "rect": {
+              "x": 330,
+              "y": 716,
+              "width": 44,
+              "height": 44,
+              "top": 716,
+              "right": 374,
+              "bottom": 760,
+              "left": 330
+            }
+          },
+          {
+            "id": "shortsMoreBtn",
+            "rect": {
+              "x": 382,
+              "y": 716,
+              "width": 44,
+              "height": 44,
+              "top": 716,
+              "right": 426,
+              "bottom": 760,
+              "left": 382
+            }
+          },
+          {
+            "id": "mobileShortsProgressTrack",
+            "rect": {
+              "x": 14,
+              "y": 768,
+              "width": 412,
+              "height": 16,
+              "top": 768,
+              "right": 426,
+              "bottom": 784,
+              "left": 14
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 326.5,
+        "y": 336,
+        "width": 83.5,
+        "height": 364
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 616,
+          "width": 440,
+          "height": 180,
+          "top": 616,
+          "right": 440,
+          "bottom": 796,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 746,
+          "width": 412,
+          "height": 16,
+          "top": 746,
+          "right": 426,
+          "bottom": 762,
+          "left": 14
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "documentWidth": 390,
+        "toolbar": {
+          "x": 16,
+          "y": 189.84375,
+          "width": 358,
+          "height": 170,
+          "top": 189.84375,
+          "right": 374,
+          "bottom": 359.84375,
+          "left": 16
+        },
+        "selection": {
+          "x": 16,
+          "y": 375.84375,
+          "width": 358,
+          "height": 58,
+          "top": 375.84375,
+          "right": 374,
+          "bottom": 433.84375,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 27,
+              "y": 200.84375,
+              "width": 336,
+              "height": 44,
+              "top": 200.84375,
+              "right": 363,
+              "bottom": 244.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 29,
+              "y": 254.84375,
+              "width": 83,
+              "height": 40,
+              "top": 254.84375,
+              "right": 112,
+              "bottom": 294.84375,
+              "left": 29
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 112,
+              "y": 254.84375,
+              "width": 83,
+              "height": 40,
+              "top": 254.84375,
+              "right": 195,
+              "bottom": 294.84375,
+              "left": 112
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 195,
+              "y": 254.84375,
+              "width": 83,
+              "height": 40,
+              "top": 254.84375,
+              "right": 278,
+              "bottom": 294.84375,
+              "left": 195
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 278,
+              "y": 254.84375,
+              "width": 83,
+              "height": 40,
+              "top": 254.84375,
+              "right": 361,
+              "bottom": 294.84375,
+              "left": 278
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 27,
+              "y": 304.84375,
+              "width": 128.21875,
+              "height": 44,
+              "top": 304.84375,
+              "right": 155.21875,
+              "bottom": 348.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 163.21875,
+              "y": 304.84375,
+              "width": 122.640625,
+              "height": 44,
+              "top": 304.84375,
+              "right": 285.859375,
+              "bottom": 348.84375,
+              "left": 163.21875
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 293.859375,
+              "y": 304.84375,
+              "width": 69.140625,
+              "height": 44,
+              "top": 304.84375,
+              "right": 363,
+              "bottom": 348.84375,
+              "left": 293.859375
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 119.234375,
+              "y": 385.84375,
+              "width": 92,
+              "height": 38,
+              "top": 385.84375,
+              "right": 211.234375,
+              "bottom": 423.84375,
+              "left": 119.234375
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 215.234375,
+              "y": 385.84375,
+              "width": 41.765625,
+              "height": 38,
+              "top": 385.84375,
+              "right": 257,
+              "bottom": 423.84375,
+              "left": 215.234375
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 261,
+              "y": 385.84375,
+              "width": 54,
+              "height": 38,
+              "top": 385.84375,
+              "right": 315,
+              "bottom": 423.84375,
+              "left": 261
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 319,
+              "y": 385.84375,
+              "width": 44,
+              "height": 38,
+              "top": 385.84375,
+              "right": 363,
+              "bottom": 423.84375,
+              "left": 319
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 150.53460693359375,
+            "y": 595.4521484375,
+            "width": 31.683151245117188,
+            "height": 31.68310546875,
+            "top": 595.4521484375,
+            "right": 182.21775817871094,
+            "bottom": 627.13525390625,
+            "left": 150.53460693359375
+          },
+          {
+            "x": 333,
+            "y": 594.4375,
+            "width": 32,
+            "height": 32,
+            "top": 594.4375,
+            "right": 365,
+            "bottom": 626.4375,
+            "left": 333
+          },
+          {
+            "x": 151,
+            "y": 823.375,
+            "width": 32,
+            "height": 32,
+            "top": 823.375,
+            "right": 183,
+            "bottom": 855.375,
+            "left": 151
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 686,
+          "width": 390,
+          "height": 158,
+          "top": 686,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 816,
+          "width": 362,
+          "height": 16,
+          "top": 816,
+          "right": 376,
+          "bottom": 832,
+          "left": 14
+        },
+        "controls": [
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 332,
+              "y": 714,
+              "width": 44,
+              "height": 44,
+              "top": 714,
+              "right": 376,
+              "bottom": 758,
+              "left": 332
+            }
+          },
+          {
+            "id": "shortsFavoriteBtn",
+            "rect": {
+              "x": 176,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "top": 764,
+              "right": 220,
+              "bottom": 808,
+              "left": 176
+            }
+          },
+          {
+            "id": "shortsRotateBtn",
+            "rect": {
+              "x": 228,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "top": 764,
+              "right": 272,
+              "bottom": 808,
+              "left": 228
+            }
+          },
+          {
+            "id": "shortsFullscreenBtn",
+            "rect": {
+              "x": 280,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "top": 764,
+              "right": 324,
+              "bottom": 808,
+              "left": 280
+            }
+          },
+          {
+            "id": "shortsMoreBtn",
+            "rect": {
+              "x": 332,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "top": 764,
+              "right": 376,
+              "bottom": 808,
+              "left": 332
+            }
+          },
+          {
+            "id": "mobileShortsProgressTrack",
+            "rect": {
+              "x": 14,
+              "y": 816,
+              "width": 362,
+              "height": 16,
+              "top": 816,
+              "right": 376,
+              "bottom": 832,
+              "left": 14
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 276.5,
+        "y": 384,
+        "width": 83.5,
+        "height": 364
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 664,
+          "width": 390,
+          "height": 180,
+          "top": 664,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 794,
+          "width": 362,
+          "height": 16,
+          "top": 794,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 360,
+          "height": 640
+        },
+        "documentWidth": 360,
+        "toolbar": {
+          "x": 16,
+          "y": 189.84375,
+          "width": 328,
+          "height": 170,
+          "top": 189.84375,
+          "right": 344,
+          "bottom": 359.84375,
+          "left": 16
+        },
+        "selection": {
+          "x": 16,
+          "y": 375.84375,
+          "width": 328,
+          "height": 87.75,
+          "top": 375.84375,
+          "right": 344,
+          "bottom": 463.59375,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 27,
+              "y": 200.84375,
+              "width": 306,
+              "height": 44,
+              "top": 200.84375,
+              "right": 333,
+              "bottom": 244.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 29,
+              "y": 254.84375,
+              "width": 75.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 104.5,
+              "bottom": 294.84375,
+              "left": 29
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 104.5,
+              "y": 254.84375,
+              "width": 75.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 180,
+              "bottom": 294.84375,
+              "left": 104.5
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 180,
+              "y": 254.84375,
+              "width": 75.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 255.5,
+              "bottom": 294.84375,
+              "left": 180
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 255.5,
+              "y": 254.84375,
+              "width": 75.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 331,
+              "bottom": 294.84375,
+              "left": 255.5
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 27,
+              "y": 304.84375,
+              "width": 118.046875,
+              "height": 44,
+              "top": 304.84375,
+              "right": 145.046875,
+              "bottom": 348.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 153.046875,
+              "y": 304.84375,
+              "width": 123.953125,
+              "height": 44,
+              "top": 304.84375,
+              "right": 277,
+              "bottom": 348.84375,
+              "left": 153.046875
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 285,
+              "y": 304.84375,
+              "width": 48,
+              "height": 44,
+              "top": 304.84375,
+              "right": 333,
+              "bottom": 348.84375,
+              "left": 285
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 29,
+              "y": 415.59375,
+              "width": 92,
+              "height": 38,
+              "top": 415.59375,
+              "right": 121,
+              "bottom": 453.59375,
+              "left": 29
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 125,
+              "y": 415.59375,
+              "width": 41.765625,
+              "height": 38,
+              "top": 415.59375,
+              "right": 166.765625,
+              "bottom": 453.59375,
+              "left": 125
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 170.765625,
+              "y": 415.59375,
+              "width": 54,
+              "height": 38,
+              "top": 415.59375,
+              "right": 224.765625,
+              "bottom": 453.59375,
+              "left": 170.765625
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 228.765625,
+              "y": 415.59375,
+              "width": 44,
+              "height": 38,
+              "top": 415.59375,
+              "right": 272.765625,
+              "bottom": 453.59375,
+              "left": 228.765625
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 135.62132263183594,
+            "y": 625.0979614257812,
+            "width": 31.693222045898438,
+            "height": 31.6932373046875,
+            "top": 625.0979614257812,
+            "right": 167.31454467773438,
+            "bottom": 656.7911987304688,
+            "left": 135.62132263183594
+          },
+          {
+            "x": 303,
+            "y": 624.1875,
+            "width": 32,
+            "height": 32,
+            "top": 624.1875,
+            "right": 335,
+            "bottom": 656.1875,
+            "left": 303
+          },
+          {
+            "x": 136,
+            "y": 838.125,
+            "width": 32,
+            "height": 32,
+            "top": 838.125,
+            "right": 168,
+            "bottom": 870.125,
+            "left": 136
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 482,
+          "width": 360,
+          "height": 158,
+          "top": 482,
+          "right": 360,
+          "bottom": 640,
+          "left": 0
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 612,
+          "width": 332,
+          "height": 16,
+          "top": 612,
+          "right": 346,
+          "bottom": 628,
+          "left": 14
+        },
+        "controls": [
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 302,
+              "y": 510,
+              "width": 44,
+              "height": 44,
+              "top": 510,
+              "right": 346,
+              "bottom": 554,
+              "left": 302
+            }
+          },
+          {
+            "id": "shortsFavoriteBtn",
+            "rect": {
+              "x": 155,
+              "y": 560,
+              "width": 44,
+              "height": 44,
+              "top": 560,
+              "right": 199,
+              "bottom": 604,
+              "left": 155
+            }
+          },
+          {
+            "id": "shortsRotateBtn",
+            "rect": {
+              "x": 204,
+              "y": 560,
+              "width": 44,
+              "height": 44,
+              "top": 560,
+              "right": 248,
+              "bottom": 604,
+              "left": 204
+            }
+          },
+          {
+            "id": "shortsFullscreenBtn",
+            "rect": {
+              "x": 253,
+              "y": 560,
+              "width": 44,
+              "height": 44,
+              "top": 560,
+              "right": 297,
+              "bottom": 604,
+              "left": 253
+            }
+          },
+          {
+            "id": "shortsMoreBtn",
+            "rect": {
+              "x": 302,
+              "y": 560,
+              "width": 44,
+              "height": 44,
+              "top": 560,
+              "right": 346,
+              "bottom": 604,
+              "left": 302
+            }
+          },
+          {
+            "id": "mobileShortsProgressTrack",
+            "rect": {
+              "x": 14,
+              "y": 612,
+              "width": 332,
+              "height": 16,
+              "top": 612,
+              "right": 346,
+              "bottom": 628,
+              "left": 14
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 246.5,
+        "y": 180,
+        "width": 83.5,
+        "height": 364
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 460,
+          "width": 360,
+          "height": 180,
+          "top": 460,
+          "right": 360,
+          "bottom": 640,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 590,
+          "width": 332,
+          "height": 16,
+          "top": 590,
+          "right": 346,
+          "bottom": 606,
+          "left": 14
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 320,
+          "height": 568
+        },
+        "documentWidth": 320,
+        "toolbar": {
+          "x": 16,
+          "y": 189.84375,
+          "width": 288,
+          "height": 170,
+          "top": 189.84375,
+          "right": 304,
+          "bottom": 359.84375,
+          "left": 16
+        },
+        "selection": {
+          "x": 16,
+          "y": 375.84375,
+          "width": 288,
+          "height": 87.75,
+          "top": 375.84375,
+          "right": 304,
+          "bottom": 463.59375,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 27,
+              "y": 200.84375,
+              "width": 266,
+              "height": 44,
+              "top": 200.84375,
+              "right": 293,
+              "bottom": 244.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 29,
+              "y": 254.84375,
+              "width": 65.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 94.5,
+              "bottom": 294.84375,
+              "left": 29
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 94.5,
+              "y": 254.84375,
+              "width": 65.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 160,
+              "bottom": 294.84375,
+              "left": 94.5
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 160,
+              "y": 254.84375,
+              "width": 65.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 225.5,
+              "bottom": 294.84375,
+              "left": 160
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 225.5,
+              "y": 254.84375,
+              "width": 65.5,
+              "height": 40,
+              "top": 254.84375,
+              "right": 291,
+              "bottom": 294.84375,
+              "left": 225.5
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 27,
+              "y": 304.84375,
+              "width": 98.53125,
+              "height": 44,
+              "top": 304.84375,
+              "right": 125.53125,
+              "bottom": 348.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 133.53125,
+              "y": 304.84375,
+              "width": 103.46875,
+              "height": 44,
+              "top": 304.84375,
+              "right": 237,
+              "bottom": 348.84375,
+              "left": 133.53125
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 245,
+              "y": 304.84375,
+              "width": 48,
+              "height": 44,
+              "top": 304.84375,
+              "right": 293,
+              "bottom": 348.84375,
+              "left": 245
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 29,
+              "y": 415.59375,
+              "width": 92,
+              "height": 38,
+              "top": 415.59375,
+              "right": 121,
+              "bottom": 453.59375,
+              "left": 29
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 125,
+              "y": 415.59375,
+              "width": 41.765625,
+              "height": 38,
+              "top": 415.59375,
+              "right": 166.765625,
+              "bottom": 453.59375,
+              "left": 125
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 170.765625,
+              "y": 415.59375,
+              "width": 54,
+              "height": 38,
+              "top": 415.59375,
+              "right": 224.765625,
+              "bottom": 453.59375,
+              "left": 170.765625
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 228.765625,
+              "y": 415.59375,
+              "width": 44,
+              "height": 38,
+              "top": 415.59375,
+              "right": 272.765625,
+              "bottom": 453.59375,
+              "left": 228.765625
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 115.99327087402344,
+            "y": 624.2069091796875,
+            "width": 31.992706298828125,
+            "height": 31.99267578125,
+            "top": 624.2069091796875,
+            "right": 147.98597717285156,
+            "bottom": 656.1995849609375,
+            "left": 115.99327087402344
+          },
+          {
+            "x": 263,
+            "y": 624.1875,
+            "width": 32,
+            "height": 32,
+            "top": 624.1875,
+            "right": 295,
+            "bottom": 656.1875,
+            "left": 263
+          },
+          {
+            "x": 116,
+            "y": 818.125,
+            "width": 32,
+            "height": 32,
+            "top": 818.125,
+            "right": 148,
+            "bottom": 850.125,
+            "left": 116
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 410,
+          "width": 320,
+          "height": 158,
+          "top": 410,
+          "right": 320,
+          "bottom": 568,
+          "left": 0
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 540,
+          "width": 292,
+          "height": 16,
+          "top": 540,
+          "right": 306,
+          "bottom": 556,
+          "left": 14
+        },
+        "controls": [
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 262,
+              "y": 438,
+              "width": 44,
+              "height": 44,
+              "top": 438,
+              "right": 306,
+              "bottom": 482,
+              "left": 262
+            }
+          },
+          {
+            "id": "shortsFavoriteBtn",
+            "rect": {
+              "x": 115,
+              "y": 488,
+              "width": 44,
+              "height": 44,
+              "top": 488,
+              "right": 159,
+              "bottom": 532,
+              "left": 115
+            }
+          },
+          {
+            "id": "shortsRotateBtn",
+            "rect": {
+              "x": 164,
+              "y": 488,
+              "width": 44,
+              "height": 44,
+              "top": 488,
+              "right": 208,
+              "bottom": 532,
+              "left": 164
+            }
+          },
+          {
+            "id": "shortsFullscreenBtn",
+            "rect": {
+              "x": 213,
+              "y": 488,
+              "width": 44,
+              "height": 44,
+              "top": 488,
+              "right": 257,
+              "bottom": 532,
+              "left": 213
+            }
+          },
+          {
+            "id": "shortsMoreBtn",
+            "rect": {
+              "x": 262,
+              "y": 488,
+              "width": 44,
+              "height": 44,
+              "top": 488,
+              "right": 306,
+              "bottom": 532,
+              "left": 262
+            }
+          },
+          {
+            "id": "mobileShortsProgressTrack",
+            "rect": {
+              "x": 14,
+              "y": 540,
+              "width": 292,
+              "height": 16,
+              "top": 540,
+              "right": 306,
+              "bottom": 556,
+              "left": 14
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 206.5,
+        "y": 108,
+        "width": 83.5,
+        "height": 364
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 388,
+          "width": 320,
+          "height": 180,
+          "top": 388,
+          "right": 320,
+          "bottom": 568,
+          "left": 0
+        },
+        "progress": {
+          "x": 14,
+          "y": 518,
+          "width": 292,
+          "height": 16,
+          "top": 518,
+          "right": 306,
+          "bottom": 534,
+          "left": 14
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 667,
+          "height": 375
+        },
+        "documentWidth": 667,
+        "toolbar": {
+          "x": 16,
+          "y": 189.84375,
+          "width": 635,
+          "height": 170,
+          "top": 189.84375,
+          "right": 651,
+          "bottom": 359.84375,
+          "left": 16
+        },
+        "selection": {
+          "x": 16,
+          "y": 375.84375,
+          "width": 635,
+          "height": 58,
+          "top": 375.84375,
+          "right": 651,
+          "bottom": 433.84375,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 27,
+              "y": 200.84375,
+              "width": 613,
+              "height": 44,
+              "top": 200.84375,
+              "right": 640,
+              "bottom": 244.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 29,
+              "y": 254.84375,
+              "width": 152.25,
+              "height": 40,
+              "top": 254.84375,
+              "right": 181.25,
+              "bottom": 294.84375,
+              "left": 29
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 181.25,
+              "y": 254.84375,
+              "width": 152.25,
+              "height": 40,
+              "top": 254.84375,
+              "right": 333.5,
+              "bottom": 294.84375,
+              "left": 181.25
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 333.5,
+              "y": 254.84375,
+              "width": 152.25,
+              "height": 40,
+              "top": 254.84375,
+              "right": 485.75,
+              "bottom": 294.84375,
+              "left": 333.5
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 485.75,
+              "y": 254.84375,
+              "width": 152.25,
+              "height": 40,
+              "top": 254.84375,
+              "right": 638,
+              "bottom": 294.84375,
+              "left": 485.75
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 27,
+              "y": 304.84375,
+              "width": 239.203125,
+              "height": 44,
+              "top": 304.84375,
+              "right": 266.203125,
+              "bottom": 348.84375,
+              "left": 27
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 274.203125,
+              "y": 304.84375,
+              "width": 228.828125,
+              "height": 44,
+              "top": 304.84375,
+              "right": 503.03125,
+              "bottom": 348.84375,
+              "left": 274.203125
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 511.03125,
+              "y": 304.84375,
+              "width": 128.96875,
+              "height": 44,
+              "top": 304.84375,
+              "right": 640,
+              "bottom": 348.84375,
+              "left": 511.03125
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 396.234375,
+              "y": 385.84375,
+              "width": 92,
+              "height": 38,
+              "top": 385.84375,
+              "right": 488.234375,
+              "bottom": 423.84375,
+              "left": 396.234375
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 492.234375,
+              "y": 385.84375,
+              "width": 41.765625,
+              "height": 38,
+              "top": 385.84375,
+              "right": 534,
+              "bottom": 423.84375,
+              "left": 492.234375
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 538,
+              "y": 385.84375,
+              "width": 54,
+              "height": 38,
+              "top": 385.84375,
+              "right": 592,
+              "bottom": 423.84375,
+              "left": 538
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 596,
+              "y": 385.84375,
+              "width": 44,
+              "height": 38,
+              "top": 385.84375,
+              "right": 640,
+              "bottom": 423.84375,
+              "left": 596
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 182.05819702148438,
+            "y": 595.5636596679688,
+            "width": 31.69537353515625,
+            "height": 31.69537353515625,
+            "top": 595.5636596679688,
+            "right": 213.75357055664062,
+            "bottom": 627.259033203125,
+            "left": 182.05819702148438
+          },
+          {
+            "x": 396.328125,
+            "y": 594.4375,
+            "width": 32,
+            "height": 32,
+            "top": 594.4375,
+            "right": 428.328125,
+            "bottom": 626.4375,
+            "left": 396.328125
+          },
+          {
+            "x": 610,
+            "y": 594.4375,
+            "width": 32,
+            "height": 32,
+            "top": 594.4375,
+            "right": 642,
+            "bottom": 626.4375,
+            "left": 610
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 281,
+          "width": 667,
+          "height": 94,
+          "top": 281,
+          "right": 667,
+          "bottom": 375,
+          "left": 0
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "progress": {
+          "x": 16,
+          "y": 347,
+          "width": 635,
+          "height": 16,
+          "top": 347,
+          "right": 651,
+          "bottom": 363,
+          "left": 16
+        },
+        "controls": [
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 603,
+              "y": 319,
+              "width": 44,
+              "height": 44,
+              "top": 319,
+              "right": 647,
+              "bottom": 363,
+              "left": 603
+            }
+          },
+          {
+            "id": "shortsFavoriteBtn",
+            "rect": {
+              "x": 451,
+              "y": 295,
+              "width": 44,
+              "height": 44,
+              "top": 295,
+              "right": 495,
+              "bottom": 339,
+              "left": 451
+            }
+          },
+          {
+            "id": "shortsRotateBtn",
+            "rect": {
+              "x": 503,
+              "y": 295,
+              "width": 44,
+              "height": 44,
+              "top": 295,
+              "right": 547,
+              "bottom": 339,
+              "left": 503
+            }
+          },
+          {
+            "id": "shortsFullscreenBtn",
+            "rect": {
+              "x": 555,
+              "y": 295,
+              "width": 44,
+              "height": 44,
+              "top": 295,
+              "right": 599,
+              "bottom": 339,
+              "left": 555
+            }
+          },
+          {
+            "id": "shortsMoreBtn",
+            "rect": {
+              "x": 607,
+              "y": 295,
+              "width": 44,
+              "height": 44,
+              "top": 295,
+              "right": 651,
+              "bottom": 339,
+              "left": 607
+            }
+          },
+          {
+            "id": "mobileShortsProgressTrack",
+            "rect": {
+              "x": 16,
+              "y": 347,
+              "width": 635,
+              "height": 16,
+              "top": 347,
+              "right": 651,
+              "bottom": 363,
+              "left": 16
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 567.5,
+        "y": 72,
+        "width": 83.5,
+        "height": 219
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 259,
+          "width": 667,
+          "height": 116,
+          "top": 259,
+          "right": 667,
+          "bottom": 375,
+          "left": 0
+        },
+        "progress": {
+          "x": 16,
+          "y": 313,
+          "width": 635,
+          "height": 16,
+          "top": 313,
+          "right": 651,
+          "bottom": 329,
+          "left": 16
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mobile": true,
+      "library": {
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "documentWidth": 844,
+        "toolbar": {
+          "x": 20,
+          "y": 200.84375,
+          "width": 804,
+          "height": 100,
+          "top": 200.84375,
+          "right": 824,
+          "bottom": 300.84375,
+          "left": 20
+        },
+        "selection": {
+          "x": 20,
+          "y": 316.84375,
+          "width": 804,
+          "height": 52.84375,
+          "top": 316.84375,
+          "right": 824,
+          "bottom": 369.6875,
+          "left": 20
+        },
+        "controls": [
+          {
+            "id": "searchInput",
+            "rect": {
+              "x": 31,
+              "y": 209.84375,
+              "width": 225.09375,
+              "height": 36,
+              "top": 209.84375,
+              "right": 256.09375,
+              "bottom": 245.84375,
+              "left": 31
+            }
+          },
+          {
+            "id": "all",
+            "rect": {
+              "x": 268.09375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 321.84375,
+              "bottom": 242.265625,
+              "left": 268.09375
+            }
+          },
+          {
+            "id": "video",
+            "rect": {
+              "x": 321.84375,
+              "y": 213.421875,
+              "width": 53.75,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 375.59375,
+              "bottom": 242.265625,
+              "left": 321.84375
+            }
+          },
+          {
+            "id": "image",
+            "rect": {
+              "x": 375.59375,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 442.21875,
+              "bottom": 242.265625,
+              "left": 375.59375
+            }
+          },
+          {
+            "id": "favorites",
+            "rect": {
+              "x": 442.21875,
+              "y": 213.421875,
+              "width": 66.625,
+              "height": 28.84375,
+              "top": 213.421875,
+              "right": 508.84375,
+              "bottom": 242.265625,
+              "left": 442.21875
+            }
+          },
+          {
+            "id": "deepScanToggle",
+            "rect": {
+              "x": 520.84375,
+              "y": 209.84375,
+              "width": 134.15625,
+              "height": 36,
+              "top": 209.84375,
+              "right": 655,
+              "bottom": 245.84375,
+              "left": 520.84375
+            }
+          },
+          {
+            "id": "sortSelect",
+            "rect": {
+              "x": 665,
+              "y": 209.84375,
+              "width": 148,
+              "height": 36,
+              "top": 209.84375,
+              "right": 813,
+              "bottom": 245.84375,
+              "left": 665
+            }
+          },
+          {
+            "id": "selectionModeButton",
+            "rect": {
+              "x": 31,
+              "y": 255.84375,
+              "width": 74,
+              "height": 36,
+              "top": 255.84375,
+              "right": 105,
+              "bottom": 291.84375,
+              "left": 31
+            }
+          },
+          {
+            "id": "selectionSelectAllBtn",
+            "rect": {
+              "x": 536.140625,
+              "y": 326.265625,
+              "width": 106.109375,
+              "height": 34,
+              "top": 326.265625,
+              "right": 642.25,
+              "bottom": 360.265625,
+              "left": 536.140625
+            }
+          },
+          {
+            "id": "selectionMoveBtn",
+            "rect": {
+              "x": 648.25,
+              "y": 326.265625,
+              "width": 47.75,
+              "height": 34,
+              "top": 326.265625,
+              "right": 696,
+              "bottom": 360.265625,
+              "left": 648.25
+            }
+          },
+          {
+            "id": "selectionDeleteBtn",
+            "rect": {
+              "x": 702,
+              "y": 325.84375,
+              "width": 61,
+              "height": 34.84375,
+              "top": 325.84375,
+              "right": 763,
+              "bottom": 360.6875,
+              "left": 702
+            }
+          },
+          {
+            "id": "selectionCancelBtn",
+            "rect": {
+              "x": 769,
+              "y": 326.265625,
+              "width": 44,
+              "height": 34,
+              "top": 326.265625,
+              "right": 813,
+              "bottom": 360.265625,
+              "left": 769
+            }
+          }
+        ],
+        "cards": [
+          {
+            "x": 170.45545959472656,
+            "y": 535.394775390625,
+            "width": 31.68316650390625,
+            "height": 31.68316650390625,
+            "top": 535.394775390625,
+            "right": 202.1386260986328,
+            "bottom": 567.0779418945312,
+            "left": 170.45545959472656
+          },
+          {
+            "x": 375,
+            "y": 534.28125,
+            "width": 32,
+            "height": 32,
+            "top": 534.28125,
+            "right": 407,
+            "bottom": 566.28125,
+            "left": 375
+          },
+          {
+            "x": 579,
+            "y": 534.28125,
+            "width": 32,
+            "height": 32,
+            "top": 534.28125,
+            "right": 611,
+            "bottom": 566.28125,
+            "left": 579
+          }
+        ]
+      },
+      "player": {
+        "chrome": {
+          "x": 0,
+          "y": 219.0625,
+          "width": 844,
+          "height": 170.9375,
+          "top": 219.0625,
+          "right": 844,
+          "bottom": 390,
+          "left": 0
+        },
+        "title": {
+          "x": 20,
+          "y": 282,
+          "width": 592,
+          "height": 20,
+          "top": 282,
+          "right": 612,
+          "bottom": 302,
+          "left": 20
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "controls": [
+          {
+            "id": "topbarPrevBtn",
+            "rect": {
+              "x": 624,
+              "y": 257.53125,
+              "width": 44,
+              "height": 44,
+              "top": 257.53125,
+              "right": 668,
+              "bottom": 301.53125,
+              "left": 624
+            }
+          },
+          {
+            "id": "topbarRandomBtn",
+            "rect": {
+              "x": 676,
+              "y": 257.53125,
+              "width": 44,
+              "height": 44,
+              "top": 257.53125,
+              "right": 720,
+              "bottom": 301.53125,
+              "left": 676
+            }
+          },
+          {
+            "id": "topbarNextBtn",
+            "rect": {
+              "x": 728,
+              "y": 257.53125,
+              "width": 44,
+              "height": 44,
+              "top": 257.53125,
+              "right": 772,
+              "bottom": 301.53125,
+              "left": 728
+            }
+          },
+          {
+            "id": "closePlayerButton",
+            "rect": {
+              "x": 780,
+              "y": 257.53125,
+              "width": 44,
+              "height": 44,
+              "top": 257.53125,
+              "right": 824,
+              "bottom": 301.53125,
+              "left": 780
+            }
+          },
+          {
+            "id": "seekBarContainer",
+            "rect": {
+              "x": 20,
+              "y": 310,
+              "width": 804,
+              "height": 18,
+              "top": 310,
+              "right": 824,
+              "bottom": 328,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlPlayPause",
+            "rect": {
+              "x": 20,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 64,
+              "bottom": 378,
+              "left": 20
+            }
+          },
+          {
+            "id": "ctrlRewind",
+            "rect": {
+              "x": 72,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 116,
+              "bottom": 378,
+              "left": 72
+            }
+          },
+          {
+            "id": "ctrlFramePrev",
+            "rect": {
+              "x": 124,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 168,
+              "bottom": 378,
+              "left": 124
+            }
+          },
+          {
+            "id": "ctrlFrameNext",
+            "rect": {
+              "x": 176,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 220,
+              "bottom": 378,
+              "left": 176
+            }
+          },
+          {
+            "id": "ctrlForward",
+            "rect": {
+              "x": 228,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 272,
+              "bottom": 378,
+              "left": 228
+            }
+          },
+          {
+            "id": "ctrlMute",
+            "rect": {
+              "x": 280,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 324,
+              "bottom": 378,
+              "left": 280
+            }
+          },
+          {
+            "id": "ctrlFavorite",
+            "rect": {
+              "x": 624,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 668,
+              "bottom": 378,
+              "left": 624
+            }
+          },
+          {
+            "id": "ctrlSpeedButton",
+            "rect": {
+              "x": 676,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 720,
+              "bottom": 378,
+              "left": 676
+            }
+          },
+          {
+            "id": "ctrlFullscreen",
+            "rect": {
+              "x": 728,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 772,
+              "bottom": 378,
+              "left": 728
+            }
+          },
+          {
+            "id": "",
+            "rect": {
+              "x": 780,
+              "y": 334,
+              "width": 44,
+              "height": 44,
+              "top": 334,
+              "right": 824,
+              "bottom": 378,
+              "left": 780
+            }
+          },
+          {
+            "id": "ctrlTracks",
+            "rect": {
+              "x": 533,
+              "y": 245,
+              "width": 282,
+              "height": 38,
+              "top": 245,
+              "right": 815,
+              "bottom": 283,
+              "left": 533
+            }
+          },
+          {
+            "id": "ctrlMove",
+            "rect": {
+              "x": 533,
+              "y": 283,
+              "width": 282,
+              "height": 38,
+              "top": 283,
+              "right": 815,
+              "bottom": 321,
+              "left": 533
+            }
+          },
+          {
+            "id": "ctrlDelete",
+            "rect": {
+              "x": 533,
+              "y": 321,
+              "width": 282,
+              "height": 38,
+              "top": 321,
+              "right": 815,
+              "bottom": 359,
+              "left": 533
+            }
+          }
+        ]
+      },
+      "menu": {
+        "x": 524,
+        "y": 119.828125,
+        "width": 300,
+        "height": 204.171875
+      },
+      "safeArea": {
+        "chrome": {
+          "x": 0,
+          "y": 197.0625,
+          "width": 844,
+          "height": 192.9375,
+          "top": 197.0625,
+          "right": 844,
+          "bottom": 390,
+          "left": 0
+        },
+        "progress": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "errors": []
+    }
+  ]
+}

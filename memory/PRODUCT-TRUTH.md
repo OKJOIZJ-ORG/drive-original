@@ -259,6 +259,10 @@ Confirmed892722c/Worker553d8644 public52/cache40/source26/six/exactZIP/605Node d
 
 Verifiedsource/current21 integration: visible safe reload guidance replaces silent cancellation when a capturedQ1SWisreplaced; false cleanup barrier remains.19+5focused/624stableNode andseparate21current-owner native TS/frame/settledclose pass. Six real syntheticSWreplacement→reload→reopen aggregates remainfailed; no full updatecontinuity/device/account/corpus/production claim. WORKER-UPDATE-RECOVERY-20260930.md owns scope.
 
+## 2026-10-03 — local portrait/playback repair, production unchanged
+
+Observed connected iPhone Safari with temporary byte-bound local modules: MP4/MOV witnesses decode original-range frames and two midpoint seeks settle; portrait control geometry qualifies. Local source implements central-only pause, no double-click zoom/fullscreen and compact PC/mobile controls; local trusted Chrome events and responsive DOM qualification pass in their finite scope. No deployed behavior, all-favorites, native finger or sound-audibility claim. [qa/playback-repair/README.md](../qa/playback-repair/README.md) owns exact evidence, failure adjudication, hashes and restored cleanup. Operating1.22.0 remains unchanged.
+
 ## Fixed candidate21 and actual normal startup — 2026-09-30
 
 Confirmed3ebd97d/Workerb1021a42/624stableNode/52public/40cache/source26/six/ZIP delivery. Actual sameexistingaccount normalUIreload cache hashes matchGit; knownfolder458/currentTSnativeframe/ready4/loadingfalse/trustedpause/settledclose pass. Six full controller-replacement/reload/reopen chains remainfailed andcauseunknown; no wholeSW01/REL02/uninterruptedexpiry/device/corpus/security/observability/production acceptance. CANDIDATE-RC21-20260930.md owns scope.

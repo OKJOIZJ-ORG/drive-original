@@ -1708,12 +1708,13 @@ test('shorts deck exhausts unseen account media before watched candidates', () =
   assert.equal(deck.above[1], 'b');
 });
 
-test('double-tap reserves only narrow video edges for seek and likes everywhere else', () => {
+test('double-tap reserves narrow lateral video edges for seek and the central zone for likes', () => {
   const context = loadAppContext();
-  assert.equal(run(context, 'resolveMediaDoubleTapAction(10, 0, 400, true)'), 'seek-backward');
-  assert.equal(run(context, 'resolveMediaDoubleTapAction(390, 0, 400, true)'), 'seek-forward');
+  assert.equal(run(context, "resolveMediaDoubleTapAction(10, 0, 400, true, 'left')"), 'seek-backward');
+  assert.equal(run(context, "resolveMediaDoubleTapAction(390, 0, 400, true, 'right')"), 'seek-forward');
   assert.equal(run(context, 'resolveMediaDoubleTapAction(120, 0, 400, true)'), 'favorite');
-  assert.equal(run(context, 'resolveMediaDoubleTapAction(10, 0, 400, false)'), 'favorite');
+  assert.equal(run(context, "resolveMediaDoubleTapAction(10, 0, 400, false, 'left')"), null);
+  assert.equal(run(context, "resolveMediaDoubleTapAction(200, 0, 400, true, 'top')"), null);
 });
 
 test('mobile tap pairs toggle favorites once per pair and consume the gesture', () => {

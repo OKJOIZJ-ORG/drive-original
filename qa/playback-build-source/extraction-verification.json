@@ -1,0 +1,40 @@
+{
+  "recordedAt": "2026-10-03T13:12:58.999Z",
+  "scope": "Local corresponding-source packaging and fresh extraction only; no account, device, publication or deployment proof.",
+  "archive": {
+    "path": "licenses/mediabunny-q1-preferred-source.tgz",
+    "sha256": "a1b9f7411b8e08e3fa073fd5fb3df98905997125c23c356e791b4de52549b2df",
+    "bytes": 457532,
+    "files": 82,
+    "runtime": {
+      "path": "media/mediabunny-q1.mjs",
+      "sha256": "1186a32058faa2dff1c867623b3c2e2f9100ff620a26cae594e800a1f623141e",
+      "bytes": 688206
+    },
+    "sourceCoverage": {
+      "upstreamSrcFiles": 66,
+      "modifiedFiles": 8,
+      "sharedFiles": 5,
+      "unmodifiedSourceMatchesPinnedArchive": true,
+      "allModifiedSourceMatchesManifest": true
+    },
+    "buildTarget": [
+      "es2022",
+      "safari17"
+    ],
+    "deterministicHeaders": true
+  },
+  "rebuild": {
+    "passed": true,
+    "runtimeSha256": "1186a32058faa2dff1c867623b3c2e2f9100ff620a26cae594e800a1f623141e",
+    "runtimeBytes": 688206,
+    "checkedSourceFiles": 81,
+    "preferredSourceVersion": "mediabunny-1.60.0-drive-original-q1",
+    "buildTarget": [
+      "es2022",
+      "safari17"
+    ],
+    "buildToolBinarySha256": "25ada918ce6f8bd4d9f6ee1dff59ba5985197df6123f2cb468f06c102c074949"
+  },
+  "directExtractedSourceRebuildMatchedTestedRuntime": true
+}

@@ -197,12 +197,12 @@ function isGifFile(file) {
   return /\.gif$/i.test(String(file.name || ''));
 }
 
-function resolveMediaDoubleTapAction(clientX, stageLeft, stageWidth, isVideo) {
+function resolveMediaDoubleTapAction(clientX, stageLeft, stageWidth, isVideo, zone = 'center') {
   const width = Math.max(1, Number(stageWidth) || 1);
   const normalizedX = (Number(clientX) - (Number(stageLeft) || 0)) / width;
-  if (isVideo && normalizedX <= 0.18) return 'seek-backward';
-  if (isVideo && normalizedX >= 0.82) return 'seek-forward';
-  return 'favorite';
+  if (isVideo && zone === 'left' && normalizedX <= 0.18) return 'seek-backward';
+  if (isVideo && zone === 'right' && normalizedX >= 0.82) return 'seek-forward';
+  return zone === 'center' ? 'favorite' : null;
 }
 
 function createEmptyAccountMediaState() {
@@ -1453,11 +1453,9 @@ function bindEvents() {
 
   document.addEventListener('fullscreenchange', updateFullscreenUI);
   document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
-  el.mediaStage.addEventListener('dblclick', (event) => {
-    if (event.target.tagName !== 'BUTTON' && !event.target.closest('.custom-video-controls')) {
-      toggleFullscreen();
-    }
-  });
+  // The tap recognizer owns pairs; fullscreen has its explicit control.
+  // Cancel native double-click defaults without changing the media scale.
+  el.mediaStage.addEventListener('dblclick', (event) => event.preventDefault());
   el.mediaStage.addEventListener('click', onMediaStageClick);
   document.addEventListener('keydown', handlePlayerKeyboard);
 
@@ -7008,23 +7006,14 @@ function onShortsProgressPointerDown(event) {
 
 function onMediaStageClick(event) {
   const target = event.target;
-  if (
-    target.closest('.custom-video-controls') ||
-    target.closest('.stage-center-btn') ||
-    target.closest('.media-error') ||
-    target.closest('.media-loading') ||
-    target.closest('button, a, summary, [role="slider"], .mobile-shorts-overlay')
-  ) {
+  if (isPlayerGestureControl(target)) {
+    cancelPendingStageTap();
     return;
   }
-  if (isPlayerBottomActivation(event.clientX, event.clientY)) return;
+  if (isPlayerBottomActivation(event.clientX, event.clientY)) { cancelPendingStageTap(); return; }
   if (isMobileDevice() && event.sourceCapabilities?.firesTouchEvents !== false
-    && isReservedBackStart(event.clientX)) return;
-  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
-  if (!el.playerModal.classList.contains('controls-idle')) { setPlayerChromeVisible(false); return; }
-  if (isVideo) {
-    togglePlayPause();
-  }
+    && isReservedBackStart(event.clientX)) { cancelPendingStageTap(); return; }
+  handleStageTap(event.clientX, event.clientY);
 }
 
 function toggleFullscreen() {
@@ -7556,11 +7545,27 @@ let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
 let isTouchActive = false;
+let touchContactId = null;
+let touchSession = null;
 let lockedAxis = null;
 let lastTapTime = 0;
 let lastTapX = 0;
 let lastTapY = 0;
+let lastTapZone = null;
 let singleTapTimer = null;
+
+function isPlayerGestureControl(target) {
+  return Boolean(target?.closest?.('.player-chrome, .custom-video-controls, .mobile-shorts-overlay, .seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider-wrap, .stage-center-btn, .media-error, .media-loading, button, a, input, select, textarea, summary, [role="button"], [role="slider"]'));
+}
+
+function cancelPendingStageTap() {
+  clearTimeout(singleTapTimer);
+  singleTapTimer = null;
+  lastTapTime = 0;
+  lastTapX = 0;
+  lastTapY = 0;
+  lastTapZone = null;
+}
 
 function trackSwipeCommit(navigationPromise) {
   swipeCommitPending = true;
@@ -7574,9 +7579,10 @@ function trackSwipeCommit(navigationPromise) {
 
 function getTapZone(clientX, clientY) {
   const rect = el.mediaStage.getBoundingClientRect();
-  if (!rect.width || !rect.height) return 'center';
+  if (!rect.width || !rect.height) return null;
   const nx = (clientX - rect.left) / rect.width;
   const ny = (clientY - rect.top) / rect.height;
+  if (!Number.isFinite(nx) || !Number.isFinite(ny) || nx < 0 || nx > 1 || ny < 0 || ny > 1) return null;
   if (nx >= 0.3 && nx <= 0.7 && ny >= 0.3 && ny <= 0.7) return 'center';
   const edgeX = nx < 0.5 ? nx : 1 - nx;
   const edgeY = ny < 0.5 ? ny : 1 - ny;
@@ -7603,11 +7609,13 @@ function handleStageTap(clientX, clientY) {
   const dismissChrome = Boolean(el.playerModal && !el.playerModal.classList.contains('controls-idle'));
   const now = Date.now();
   const zone = getTapZone(clientX, clientY);
-  const isDoubleTap = (now - lastTapTime < 320)
+  if (!zone) { cancelPendingStageTap(); return; }
+  const isDoubleTap = lastTapTime > 0 && zone === lastTapZone && (now - lastTapTime < 320)
     && Math.hypot(clientX - lastTapX, clientY - lastTapY) <= 48;
   lastTapTime = now;
   lastTapX = clientX;
   lastTapY = clientY;
+  lastTapZone = zone;
 
   if (isDoubleTap) {
     if (singleTapTimer) {
@@ -7616,33 +7624,29 @@ function handleStageTap(clientX, clientY) {
     }
     // Consume the pair. A third rapid tap starts a new gesture instead of
     // chaining against the second tap and toggling the favorite repeatedly.
-    lastTapTime = 0;
-    lastTapX = 0;
-    lastTapY = 0;
+    cancelPendingStageTap();
     const rect = el.mediaStage.getBoundingClientRect();
-    const doubleTapAction = resolveMediaDoubleTapAction(clientX, rect.left, rect.width, !el.videoPlayer?.hidden);
-    // Preserve the established ±10s shortcut only in the narrow outer edges;
-    // the rest of the media surface follows the familiar double-tap-to-like pattern.
+    const doubleTapAction = resolveMediaDoubleTapAction(clientX, rect.left, rect.width, !el.videoPlayer?.hidden, zone);
+    // Center likes, lateral edges seek. Top/bottom contacts do neither.
     if (doubleTapAction === 'seek-backward' || doubleTapAction === 'seek-forward') {
       const seekZone = doubleTapAction === 'seek-backward' ? 'left' : 'right';
       seekRelative(seekZone === 'left' ? -10 : 10);
       flashSeekHint(seekZone);
-    } else {
+    } else if (doubleTapAction === 'favorite') {
       toggleFavoriteForSelected({ showFeedback: true });
       navigator.vibrate?.(10);
     }
     return;
   }
 
-  // Any non-control surface can receive the second tap, so defer the single
-  // tap action by only the recognition window. A visible layer is dismissed
-  // without changing playback; the hidden media surface toggles playback.
+  // Only the central 2D region owns pause/play. Chrome dismissal remains
+  // independent of playback, including when a visible layer covers the stage.
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
     if (session !== state.mediaSession || el.playerSheet?.hidden) return;
     if (dismissChrome) setPlayerChromeVisible(false);
-    else togglePlayPause();
+    else if (zone === 'center' && el.videoPlayer && !el.videoPlayer.hidden) togglePlayPause();
   }, 320);
 }
 
@@ -7651,6 +7655,9 @@ function setupTouchGestures() {
   if (!modal) return;
 
   modal.addEventListener('touchstart', (e) => {
+    // Controls retain their native click/seek handling and cannot inherit a
+    // preceding stage contact or its deferred pause action.
+    if (isPlayerGestureControl(e.target)) { cancelActiveTouchGesture(); return; }
     // Reservation happens before either recognizer locks intent. Even a
     // cancelled OS/back gesture cannot be reinterpreted as previous video.
     if (e.touches.length === 1 && isReservedBackStart(e.touches[0].clientX)) {
@@ -7662,9 +7669,10 @@ function setupTouchGestures() {
       revealPlayerChrome({touch:true});
       return;
     }
-    if (state.mediaAttempt.startsWith('drive-preview')) return;
+    if (state.mediaAttempt.startsWith('drive-preview')) { cancelActiveTouchGesture(); return; }
     if (mediaTransitionCommitting || swipeCommitPending) {
-      e.preventDefault();
+      cancelActiveTouchGesture();
+      if (e.cancelable) e.preventDefault();
       return;
     }
     if (e.touches.length !== 1) {
@@ -7672,13 +7680,16 @@ function setupTouchGestures() {
       return;
     }
     if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
-    // Don't hijack interaction on buttons, sliders, or seekbar
-    if (e.target.closest('.seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider, .volume-slider-wrap, button, input, select, summary')) return;
+    if (el.mediaStage?.contains && !el.mediaStage.contains(e.target)) { cancelActiveTouchGesture(); return; }
 
     // Reserve this media contact before the intent threshold. If its first
     // move is smaller than 12px, Chrome can otherwise make later moves
     // uncancelable before our axis recognizer gets a chance to own the drag.
     e.preventDefault();
+    // A second contact may still become a double tap, but cannot let the first
+    // tap timer fire while this contact is being held or dragged.
+    clearTimeout(singleTapTimer);
+    singleTapTimer = null;
     clearMediaTransition();
     const activeEl = getActiveMediaElement();
     if (activeEl) {
@@ -7691,6 +7702,8 @@ function setupTouchGestures() {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
+    touchContactId = e.touches[0].identifier ?? null;
+    touchSession = state.mediaSession;
     swipeStageWidth = el.mediaStage?.clientWidth || window.innerWidth || 400;
     swipeStageHeight = el.mediaStage?.clientHeight || window.innerHeight || 600;
     isTouchActive = true;
@@ -7702,13 +7715,15 @@ function setupTouchGestures() {
 
   modal.addEventListener('touchmove', (e) => {
     if (!isTouchActive) return;
+    if (touchSession !== state.mediaSession) { cancelActiveTouchGesture(); return; }
     if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
-    if (e.touches.length !== 1) {
+    if (e.touches.length !== 1 || (touchContactId !== null && e.touches[0].identifier !== touchContactId)) {
       cancelActiveTouchGesture();
       return;
     }
     const rawX = e.touches[0].clientX - touchStartX;
     const rawY = e.touches[0].clientY - touchStartY;
+    if (Math.hypot(rawX, rawY) >= 10) cancelPendingStageTap();
     
     // Lock only after a deliberate, clearly dominant direction emerges.
     if (lockedAxis === null) {
@@ -7716,16 +7731,12 @@ function setupTouchGestures() {
       const absY = Math.abs(rawY);
       if (Math.hypot(absX, absY) >= 12) {
         if (absX >= Math.max(1, absY) * 1.25) {
-          clearTimeout(singleTapTimer);
-          singleTapTimer = null;
-          lastTapTime = 0;
+          cancelPendingStageTap();
           lockedAxis = 'x';
           swipeGestureDirection = rawX < 0 ? 'left' : 'right';
           swipeGestureTargetId = resolveSwipeTarget(swipeGestureDirection)?.id || null;
         } else if (absY >= Math.max(1, absX) * 1.25) {
-          clearTimeout(singleTapTimer);
-          singleTapTimer = null;
-          lastTapTime = 0;
+          cancelPendingStageTap();
           lockedAxis = 'y';
           swipeGestureDirection = rawY < 0 ? 'up' : 'down';
           swipeGestureAwaitingPopulation = !hasCompletePlaybackPopulation();
@@ -7779,8 +7790,15 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchend', (e) => {
-    if (!isTouchActive || e.changedTouches.length !== 1) return;
+    if (!isTouchActive) return;
+    if (e.cancelable === false || touchSession !== state.mediaSession || e.changedTouches.length !== 1
+      || (touchContactId !== null && e.changedTouches[0].identifier !== touchContactId)) {
+      cancelActiveTouchGesture(); return;
+    }
+    e.preventDefault();
     isTouchActive = false;
+    touchContactId = null;
+    touchSession = null;
     el.mediaStage?.classList.remove('is-dragging');
 
     const activeEl = getActiveMediaElement();
@@ -7789,7 +7807,7 @@ function setupTouchGestures() {
     const elapsed = Math.max(1, Date.now() - touchStartTime);
 
     // Tap (no axis locked, short duration, minimal movement) — shorts-style
-    // double-tap seek on edges, single tap toggles playback. preventDefault
+    // double-tap seek on edges, central single tap toggles playback. preventDefault
     // stops the synthetic click so onMediaStageClick never double-fires.
     if (lockedAxis === null && elapsed < 300 && Math.abs(rawDiffX) < 10 && Math.abs(rawDiffY) < 10) {
       e.preventDefault();
@@ -7823,6 +7841,7 @@ function setupTouchGestures() {
     } else {
       snapBackSpring(activeEl);
     }
+    cancelPendingStageTap();
     lockedAxis = null;
     swipeGestureDirection = null;
     swipeGestureTargetId = null;
@@ -7833,8 +7852,11 @@ function setupTouchGestures() {
 }
 
 function cancelActiveTouchGesture() {
+  cancelPendingStageTap();
   if (!isTouchActive) return;
   isTouchActive = false;
+  touchContactId = null;
+  touchSession = null;
   lockedAxis = null;
   swipeGestureDirection = null;
   swipeGestureTargetId = null;

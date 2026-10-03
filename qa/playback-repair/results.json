@@ -1,0 +1,350 @@
+{
+  "recordedAt": "2026-10-03T13:49:22.669Z",
+  "baselineRef": "f495163bedba49f7b031ee39c100c83a1c911475",
+  "branch": "codex/playback-ux-repair",
+  "result": "LOCAL_REPAIR_QUALIFIED",
+  "productionDeployment": false,
+  "originalSpecAcceptanceComplete": false,
+  "hashes": {
+    "app.js": "46015788e55f31e09d6918aee1aa8a26e12ec418e9f6ac6dd826e2c6373f7f48",
+    "index.html": "d51e18d803799a82ca4e8e4db71f5175c0a38646eb0c09e0703fc44fb1d436c5",
+    "styles.css": "37bdeeb685ef98b5cea2ea3540845daf97b0ce2647a6534f30cf2a5596dc44de",
+    "media/general-admission.mjs": "336f5e2e2dc5e81cd3139068a145f0a6ab57a6ac1e54a0f7a986de6e750af10a",
+    "media/mediabunny-q1.mjs": "1186a32058faa2dff1c867623b3c2e2f9100ff620a26cae594e800a1f623141e",
+    "media/mediabunny-q1-build.json": "b9fc12c50314c20f551184fff3bb231ad2f92b9d99ad576aae55741761380141",
+    "licenses/mediabunny-q1-preferred-source.tgz": "a1b9f7411b8e08e3fa073fd5fb3df98905997125c23c356e791b4de52549b2df"
+  },
+  "actualSafari": {
+    "operatingVersion": "1.22.0",
+    "device": "iPhone17,2",
+    "os": "iOS27",
+    "method": "Temporary local module substitution on the connected operating Safari tab; no deployment or SW cache modification.",
+    "favoritesLoaded": 13,
+    "inspectedDistinctVideos": 3,
+    "fullFavoritesPlaybackScan": false,
+    "baseline": {
+      "favoriteIndex": 0,
+      "frames": 0,
+      "error": "GENERAL_AUDIO_PROBE_FAILED",
+      "cause": "Vendor SyntaxError: Unexpected identifier 'T'; unlowered using declaration."
+    },
+    "witnesses": [
+      {
+        "favoriteIndex": 0,
+        "mime": "video/mp4",
+        "size": 67552142,
+        "frames": 3,
+        "readyState": 4,
+        "time": 0.17358154166504391,
+        "transport": true,
+        "decode": true,
+        "nativeError": 0,
+        "midpointSeek": "NOT_RUN"
+      },
+      {
+        "favoriteIndex": 1,
+        "mime": "video/mp4",
+        "size": 5623048,
+        "frames": 18,
+        "time": 0.6119244283340646,
+        "readyState": 4,
+        "errorCode": 0,
+        "transport": true,
+        "decode": true,
+        "seek": {
+          "target": 23.783333333333335,
+          "current": 23.783333333333335,
+          "seeking": false,
+          "generation": 1,
+          "issued": true
+        }
+      },
+      {
+        "favoriteIndex": 10,
+        "mime": "video/quicktime",
+        "size": 15811023,
+        "frames": 86,
+        "time": 2.1289719183342934,
+        "readyState": 4,
+        "errorCode": 0,
+        "transport": true,
+        "decode": true,
+        "seek": {
+          "target": 5.004166666666666,
+          "current": 5.004166666666666,
+          "seeking": false,
+          "generation": 2,
+          "issued": true
+        },
+        "dataReferences": [
+          {
+            "type": "alis",
+            "flags": 1
+          }
+        ],
+        "probeFailure": null
+      }
+    ],
+    "portrait": {
+      "viewport": [
+        440,
+        836
+      ],
+      "visibleTargets": 12,
+      "allTargets44": true,
+      "allHitCenters": true,
+      "allInViewport": true,
+      "touchAction": "none",
+      "nativeControls": false,
+      "presentation": "inline"
+    },
+    "recordedSystemControls": {
+      "videoFrameSize": [
+        828,
+        1792
+      ],
+      "originalFrameContainsControls": true,
+      "userConfirmed": true,
+      "appOverlayDuplicate": false
+    },
+    "nativeTouchQualified": false,
+    "soundAudibilityQualified": false,
+    "finalCleanup": {
+      "observedAt": "2026-10-03T13:39:54.466Z",
+      "playerClosed": true,
+      "temporaryKeys": [],
+      "plannerRestored": true,
+      "localCssAbsent": true,
+      "nativeControls": false,
+      "scale": 1,
+      "cleanupVerified": true,
+      "objectReleased": true,
+      "socketClosed": true
+    }
+  },
+  "localUI": {
+    "proof": "Local actual-app DOM with synthetic catalog/poster. No account, media fetch, physical-device, or production proof.",
+    "hashes": {
+      "app.js": "52a012f072527f6eea663b06df15a4ad231bc7b02084b5bf7a66a26493db1f11",
+      "styles.css": "37bdeeb685ef98b5cea2ea3540845daf97b0ce2647a6534f30cf2a5596dc44de",
+      "index.html": "d51e18d803799a82ca4e8e4db71f5175c0a38646eb0c09e0703fc44fb1d436c5"
+    },
+    "viewports": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "mobile": false,
+        "selectionHeight": 44,
+        "errors": []
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "mobile": false,
+        "selectionHeight": 44,
+        "errors": []
+      },
+      {
+        "width": 440,
+        "height": 796,
+        "mobile": true,
+        "selectionHeight": 58,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "mobile": true,
+        "selectionHeight": 58,
+        "errors": []
+      },
+      {
+        "width": 360,
+        "height": 640,
+        "mobile": true,
+        "selectionHeight": 58,
+        "errors": []
+      },
+      {
+        "width": 320,
+        "height": 568,
+        "mobile": true,
+        "selectionHeight": 58,
+        "errors": []
+      },
+      {
+        "width": 667,
+        "height": 375,
+        "mobile": true,
+        "selectionHeight": 58,
+        "errors": []
+      },
+      {
+        "width": 844,
+        "height": 390,
+        "mobile": true,
+        "selectionHeight": 44,
+        "errors": []
+      }
+    ],
+    "passed": true,
+    "physicalLandscapeTouchScrollQualified": false
+  },
+  "gestures": {
+    "proof": "Isolated local Chrome actual trusted mouse and emulated touch events. Native local MP4 pause/play. Synthetic favorite and frozen navigation callback. No account, Drive, production, physical Android or iPhone proof.",
+    "hashes": {
+      "app.js": "46015788e55f31e09d6918aee1aa8a26e12ec418e9f6ac6dd826e2c6373f7f48",
+      "styles.css": "37bdeeb685ef98b5cea2ea3540845daf97b0ce2647a6534f30cf2a5596dc44de",
+      "index.html": "d51e18d803799a82ca4e8e4db71f5175c0a38646eb0c09e0703fc44fb1d436c5"
+    },
+    "profiles": [
+      {
+        "mobile": false,
+        "errors": []
+      },
+      {
+        "mobile": true,
+        "errors": []
+      }
+    ],
+    "passed": true,
+    "scopeNote": "Final app/HTML/CSS bytes match the trusted event receipt. Earlier UI layout receipt differs only in the subsequent app event cancellation repair, which does not alter its layout."
+  },
+  "tests": {
+    "fullRun": {
+      "total": 879,
+      "passed": 877,
+      "failed": 2,
+      "durationMs": 8972.7654,
+      "rawLogSha256": "d7bd7397b9c39543b4d01dc78759f78cd3a752eb0fecb4a2a40932e9f82bbb43",
+      "failures": [
+        "old absolute mobile overflow anchor assertion",
+        "old max-height CSS spelling assertion"
+      ]
+    },
+    "resolution": {
+      "productChangesAfterFullRun": "One central-tap cancellation repair on bottom activation and reserved-back mouse paths",
+      "staticAssertionsUpdatedToCurrentOwnerGeometry": true,
+      "focusedStatic": {
+        "passed": 20,
+        "failed": 0
+      },
+      "focusedFinalGestureAndImmersive": {
+        "passed": 27,
+        "failed": 0
+      },
+      "finalTrustedChromeGestureRunPassed": true,
+      "newFullSuiteRerun": false
+    },
+    "scopedChecks": {
+      "gestureAgent": 207,
+      "sourceBuildAgent": 59,
+      "safariSyntaxDisposal": 2,
+      "quickTimeReferenceAndHandler": 8
+    },
+    "note": "Scoped counts overlap the full run; do not add them. Two obsolete CSS-shape assertions were repaired and their 20-test suite passed. One later behavioral repair was reproduced and its 27 related tests plus trusted Chrome event run passed; no fresh whole-suite pass claim."
+  },
+  "build": {
+    "recordedAt": "2026-10-03T13:12:58.999Z",
+    "scope": "Local corresponding-source packaging and fresh extraction only; no account, device, publication or deployment proof.",
+    "archive": {
+      "path": "licenses/mediabunny-q1-preferred-source.tgz",
+      "sha256": "a1b9f7411b8e08e3fa073fd5fb3df98905997125c23c356e791b4de52549b2df",
+      "bytes": 457532,
+      "files": 82,
+      "runtime": {
+        "path": "media/mediabunny-q1.mjs",
+        "sha256": "1186a32058faa2dff1c867623b3c2e2f9100ff620a26cae594e800a1f623141e",
+        "bytes": 688206
+      },
+      "sourceCoverage": {
+        "upstreamSrcFiles": 66,
+        "modifiedFiles": 8,
+        "sharedFiles": 5,
+        "unmodifiedSourceMatchesPinnedArchive": true,
+        "allModifiedSourceMatchesManifest": true
+      },
+      "buildTarget": [
+        "es2022",
+        "safari17"
+      ],
+      "deterministicHeaders": true
+    },
+    "rebuild": {
+      "passed": true,
+      "runtimeSha256": "1186a32058faa2dff1c867623b3c2e2f9100ff620a26cae594e800a1f623141e",
+      "runtimeBytes": 688206,
+      "checkedSourceFiles": 81,
+      "preferredSourceVersion": "mediabunny-1.60.0-drive-original-q1",
+      "buildTarget": [
+        "es2022",
+        "safari17"
+      ],
+      "buildToolBinarySha256": "25ada918ce6f8bd4d9f6ee1dff59ba5985197df6123f2cb468f06c102c074949"
+    },
+    "directExtractedSourceRebuildMatchedTestedRuntime": true
+  },
+  "retainedFailures": [
+    {
+      "stage": "Safari vendor import",
+      "kind": "PRODUCT",
+      "code": "SyntaxError",
+      "resolution": "Lower newer syntax at the build layer; actual MP4 first frames follow."
+    },
+    {
+      "stage": "MOV handler",
+      "kind": "PRODUCT",
+      "code": "GENERAL_TRACK_HANDLER",
+      "resolution": "mdia owns media handler; minf data handler is not a duplicate."
+    },
+    {
+      "stage": "MOV data reference",
+      "kind": "PRODUCT",
+      "code": "GENERAL_EXTERNAL_REFERENCE_UNQUALIFIED",
+      "resolution": "Accept only the exact empty, version-0 self-contained alis form as well as url; external and malformed references remain rejected."
+    },
+    {
+      "stage": "Safari response interception",
+      "kind": "TOOL",
+      "code": "missing Network domain / abort / SW cache bypassed interception",
+      "resolution": "Fetch disabled and caches preserved; replaced with byte-bound local module substitution, no same-condition retry."
+    },
+    {
+      "stage": "native UI inspection",
+      "kind": "TOOL",
+      "code": "undefined QA property",
+      "resolution": "Read actual video DOM properties; final inline/controls=false and decoded source-frame evidence."
+    },
+    {
+      "stage": "source frame capture",
+      "kind": "TOOL",
+      "code": "ambiguous operating tab",
+      "resolution": "Explicit known target binding before the successful read; no tab closed."
+    },
+    {
+      "stage": "central click then bottom entry",
+      "kind": "PRODUCT",
+      "code": "deferred central pause executed after chrome opened",
+      "resolution": "Discriminating baseline test pauses=1 versus expected0; both early-return paths cancel the pending tap. Final related27 and trusted Chrome run pass, owned browser/context/server closed."
+    }
+  ],
+  "rawEvidence": {
+    "privateDirectory": "maintenance/tools/playback-repair",
+    "receipts": {
+      "favorite0-before.json": "8043040815cec5107738aae3fe85a5bfac67cfd3bf55aa46860185fcf2508fbc",
+      "favorite0-fixed.json": "609768afeb890bca0bff2f1dc901767b518fb1be02cc8c81b55b327f0c326480",
+      "favorite-variants-fixed.json": "c23dd2a71351570bfea6cb8b5ed083b6158d8009b93c7ee5f2e48f2964183a52",
+      "favorite10-selfref.json": "98a4991666696cf6d58b046933856f159b7274965c1a19e2f974557cfb9de304",
+      "ui-mode-fixed.json": "4109696a15d54c2ba16eaeac7981af1f989f22611330ee574e4348520c8081ca",
+      "frame-fixed-bound.json": "ad0ce4c3998ee1c577797a7670dfe714282ceb3a02e1e1b174f5547e6668cdc8",
+      "final-cleanup.json": "65b3fa918c36980d12e12e7bb0f3b7618f5583f1731886fb7e008f1bae58867f"
+    },
+    "privateImagesExcluded": true,
+    "identitiesNamesURLsAndCredentialsExcluded": true
+  },
+  "remainingBoundaries": [
+    "New main/push/production permission before deployment",
+    "Physical iPhone finger gestures and landscape menu scrolling",
+    "No claim that every favorite or every original-spec clause passed; existing actual BMP, sustained-device Q2/Q3 and historical active-update adjudication remain separately owned."
+  ]
+}
