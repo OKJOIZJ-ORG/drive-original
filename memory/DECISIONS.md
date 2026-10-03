@@ -520,3 +520,9 @@ sweep: checkpoint and goal execution header aligned ACTIVE D074; departure clean
 이미 검증된 무료 동일-origin Worker의 hostname/OAuth/DO/secrets를 유지한다. GitHub Pages는 이전 주소의 공개 전용 연결 페이지로 전환하며 재생 중인 창을 강제로 이동시키거나 이전 origin의 설정·미동기화 상태·캐시를 삭제하지 않는다. 원본 미디어 수정/영구삭제·새 grant·결제·자동화 재개는 추가하지 않는다. D066의 iOS 배포 후 검사와 유한 증거/UNKNOWN 경계를 유지한다.
 
 sweep: current release preparation and checkpoint aligned to approved G6 promotion; immutable candidate evidence retained (2026-10-03).
+
+## D-076 · 연결된 아이폰 Safari 검사 환경 구성 — 2026-10-03 (User-confirmed)
+
+사용자는 아이폰 USB 연결 후 Safari 웹 검사 경로 설명에 "ㅇㅇ 구성해."라고 명시했다. 이어 Safari 운영 주소를 열었다고 직접 확인했다. 이 요청에 따라 무료 로컬 검사 도구와 Apple USB 통신 구성, 실제 연결·안전한 도구 동작 확인을 진행한다. 이는 검사 환경 구성 승인이고 전체 iOS 제품 인수 완료나 iOS 시스템 화면·권한창 직접 제어를 뜻하지 않는다. D066의 배포 후 iOS/VoiceOver 인수와 기존 남은 원본 명세 항목은 유지한다.
+
+도구 선택·설치와 실패/성공 판정은 Codex 구현 결과이며 사용자가 특정 도구 설계를 확정한 결정으로 기록하지 않는다. NIGHT-ENVIRONMENT-20260930.md의 2026-10-03 부록과 qa/ios-webinspector/setup-result.json이 실제 준비 결과를 소유한다. 제품 배포·계정/원본 미디어 변경·새 Google grant·결제·자동화 재개는 이번 구성에 포함하지 않는다.

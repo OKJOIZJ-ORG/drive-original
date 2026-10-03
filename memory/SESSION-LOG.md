@@ -758,3 +758,7 @@ Reviewed full branch and mode integration,843checks; main fast-forwarded/pushed5
 ## 2026-10-03 — original-spec completion correction
 
 User questioned unfinished design/plan items. Direct immutable-spec and independent read-only audit found actualBMP, sustained actual-device Q2/Q3 resource qualification and historical active-update failure adjudication open. Release integrity unchanged; broad queue-complete claim corrected to ACTIVE remaining acceptance. Existing goal status cells reconciled, no new plan, tests/media/device/production actions or fullcorpus replay. RELEASE-1.22.0.md owns remaining matrix, checkpoint nextBMP discriminator. iOSD066 and conditional applicability remain explicit.
+
+## 2026-10-03 — D076 iPhone Safari inspection environment ready
+
+Configured approved USB Safari inspection, selected existing Python3.12 after retained3.14 wheel failure, installed Apple-signed USB support, and proved actual iPhone27.0 operating1.22.0 readback/control/capture/cleanup plus owned stop/restart without repeat consent. Maintained helper/evidence owner qa/ios-webinspector; NIGHT-ENVIRONMENT dated appendix owns commands and limitations. Synthetic input/iframe/promise failures retained, no product/iOS-native acceptance promotion, media/account operations or deployment. Registered loopback9234 bridge remains available; current original acceptance/BMP next action preserved.

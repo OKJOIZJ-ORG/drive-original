@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "observedAt": "2026-10-03T12:35:27.015901+00:00",
+  "scope": "iPhone Safari inspection environment only",
+  "python": {
+    "version": "3.12.14",
+    "environment": "maintenance/tools/ios-webinspector/venv312",
+    "pymobiledevice3": "11.20.2",
+    "pipCheck": "PASS"
+  },
+  "appleUsbDriver": {
+    "name": "Apple Mobile Device Support",
+    "version": "20.0.0.35",
+    "msiBytes": 34402304,
+    "msiSHA256": "b4ce042947e9d72c0d7eb2d0d719408d45c932694ee0920680db0dc638d79adb",
+    "signature": "Valid / Apple Inc.",
+    "service": "Running"
+  },
+  "device": {
+    "class": "iPhone",
+    "productType": "iPhone17,2",
+    "ios": "27.0",
+    "transport": "USB",
+    "connectedUsbDevices": 1
+  },
+  "bridge": {
+    "listen": "127.0.0.1:9234",
+    "browser": "Safari",
+    "udidBound": true,
+    "ownedStartStatusStopRestart": "PASS",
+    "additionalConsentForRestart": false,
+    "leftRunning": true,
+    "pidAndArguments": "private maintenance receipt"
+  },
+  "controlReceipt": "control-result.json",
+  "controlReceiptSHA256": "eba200c22aecfc441faab084970aa3141b4350e41b7a15d2601a3e9ef6b316a6",
+  "limits": {
+    "systemUiOrNativeTouchQualified": false,
+    "VoiceOverQualified": false,
+    "iPhoneProductAcceptanceQualified": false,
+    "thirdPartyAppWebViewsQualified": false,
+    "iframeInputQualified": false
+  },
+  "failedEvidence": [
+    {
+      "receipt": "control-failed-iframe.json",
+      "adjudication": "Tool probe lacked Page/Runtime domain initialization; both iframe control observations failed."
+    },
+    {
+      "receipt": "control-failed-iframe-enabled.json",
+      "adjudication": "Click reached iframe after domain enable; keyboard did not. Test omitted user-gesture emulation; iframe input remains unqualified. Final proof only claims top-document input."
+    },
+    {
+      "receipt": "control-failed-promise-readback.json",
+      "adjudication": "Raw Runtime.evaluate did not await asynchronous fetch; empty promise serialization is a tool failure, not HTTP/version product proof. Runtime.callFunctionOn with awaitPromise fixed the readback."
+    }
+  ],
+  "otherFailure": "Python3.14 full installation lacked pylzss/lzfse wheels and required MSVC; raw install log retained privately. Existing Python3.12 Windows wheels succeeded.",
+  "privacy": "No device identifiers, pair records, account state, media filenames, raw browser logs or screenshots committed.",
+  "productSourceChanged": false,
+  "productRedeployed": false,
+  "originalAcceptanceComplete": false,
+  "optionalCleanup": {
+    "status": "POLICY_BLOCKED_RETAINED",
+    "targets": "generated failed3.14 environment and downloaded installer/cab",
+    "readinessAffected": false
+  }
+}

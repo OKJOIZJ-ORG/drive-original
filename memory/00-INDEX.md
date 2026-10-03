@@ -13,7 +13,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
 | `HANDOFF.md` | Single-use instructions after an explicit pause; currently absent | Consume/delete on resume |
 | `REBOOT-RESUME-20261001.md` | Fresh browser/helper binding and continuous PC replay after the clean reboot | Local preparation only; resume on direct user instruction |
-| `NIGHT-ENVIRONMENT-20260930.md` | Environment-only PC/Android readiness and explicit nighttime resume procedure | Update verified preparation state; no implied product execution or wakeup |
+| `NIGHT-ENVIRONMENT-20260930.md` | Historical PC/Android preparation and dated D076 actual iPhone Safari tooling readiness/commands | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
 | `architecture/` | Evidence-backed architecture adoption records | Append a new record; supersede rather than rewrite an adopted decision |
 | `goal/drive-scale-stability.md` | Canonical structure and evidence for the completed large-library stability goal | Version cuts; never silently overwrite superseded structure |
