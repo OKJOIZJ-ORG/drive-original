@@ -585,3 +585,11 @@ sweep: current work resumed on codex/responsive-player-redesign; current checkpo
 Observed: 기존 Wrangler 인증을 사용한 Cloudflare 조회에서 jbs/jyw 모두 HTTP403/code10031 unavailable. jbs-drive/jbs-original/jyw-drive는 HTTP404/code10032 available but not configured. 이는 조회 시점의 가용성이고 예약·주소 변경·배포 성공이 아니다. 기존 운영 주소, Worker, OAuth 설정, 공개 소스는 변경하지 않았다. 사용 가능한 대체 이름의 사용자 선택을 요청했다.
 
 sweep: current checkpoint and session log aligned to address-name blocker; historical release addresses retained, runtime config unchanged (2026-10-04).
+
+→ name-selection blocker resolved by D-086 (2026-10-04).
+
+## D-086 · drive-original.jyw-drive.workers.dev 확정 — 2026-10-04 (User-confirmed)
+
+사용자는 사용 가능 여부 조회와 대체 주소 질문에 "drive-original.jyw-drive.workers.dev로 변경"이라고 명시했다. D085의 이름 선택 대기를 해소하고 이 정확한 주소로 필요한 원격 Worker/계정 이름·Google 로그인 허용 주소·운영 연결을 변경·배포·검증한다. 같은 앱의 기존 계정·인증 데이터와 비밀키는 보존하며 새 접근 권한·결제·원본 미디어 변경·Notion·자동화 재개는 포함하지 않는다.
+
+실제 가용성·수정 방식·데이터 이전·로그인·재생 결과는 이번 주소 변경 기록이 소유한다. 선택 확정은 성공 증거가 아니며, 이전 workers.dev 주소에 설치한 앱/쿠키/로컬 상태가 자동으로 이전된다고 가정하지 않는다.
